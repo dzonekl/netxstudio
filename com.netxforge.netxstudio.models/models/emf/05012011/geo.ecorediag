@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_lPfHsCMFEeCQi51EpJD5Aw" type="EcoreTools" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_lPw0gCMFEeCQi51EpJD5Aw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_lPypsCMFEeCQi51EpJD5Aw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_lPzQwCMFEeCQi51EpJD5Aw" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_lP4JQCMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Country/countryCode"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP4JQSMFEeCQi51EpJD5Aw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lP4wUCMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Country/name"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP4wUSMFEeCQi51EpJD5Aw"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_lPzQwSMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_lPzQwiMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_lPzQwyMFEeCQi51EpJD5Aw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_lPzQxCMFEeCQi51EpJD5Aw" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_lPzQxSMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_lPzQxiMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_lPzQxyMFEeCQi51EpJD5Aw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_lPw0gSMFEeCQi51EpJD5Aw" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="geo.ecore#//Country"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lPw0giMFEeCQi51EpJD5Aw" x="45" y="396"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_lP4wUiMFEeCQi51EpJD5Aw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_lP5XYCMFEeCQi51EpJD5Aw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_lP5XYSMFEeCQi51EpJD5Aw" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_lP6lgyMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Room/name"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP6lhCMFEeCQi51EpJD5Aw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lP6lhSMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Room/shape"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP6lhiMFEeCQi51EpJD5Aw"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_lP5XYiMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_lP5XYyMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_lP5XZCMFEeCQi51EpJD5Aw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_lP5XZSMFEeCQi51EpJD5Aw" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_lP6lgCMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_lP6lgSMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_lP6lgiMFEeCQi51EpJD5Aw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_lP4wUyMFEeCQi51EpJD5Aw" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="geo.ecore#//Room"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lP4wVCMFEeCQi51EpJD5Aw" x="54" y="27"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_lP7MkCMFEeCQi51EpJD5Aw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_lP7MkyMFEeCQi51EpJD5Aw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_lP7MlCMFEeCQi51EpJD5Aw" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_lP7zpCMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Site/area"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP7zpSMFEeCQi51EpJD5Aw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lP7zpiMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Site/city"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP7zpyMFEeCQi51EpJD5Aw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lP8asCMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Site/housenumber"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP8asSMFEeCQi51EpJD5Aw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lP8asiMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Site/latitude"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP8asyMFEeCQi51EpJD5Aw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lP8atCMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Site/longitude"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP8atSMFEeCQi51EpJD5Aw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lP8atiMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Site/name"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP8atyMFEeCQi51EpJD5Aw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lP9BwCMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Site/postalcode"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP9BwSMFEeCQi51EpJD5Aw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lP9BwiMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Site/region"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP9BwyMFEeCQi51EpJD5Aw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_lP9BxCMFEeCQi51EpJD5Aw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="geo.ecore#//Site/sreet"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_lP9BxSMFEeCQi51EpJD5Aw"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_lP7MlSMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_lP7MliMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_lP7MlyMFEeCQi51EpJD5Aw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_lP7zoCMFEeCQi51EpJD5Aw" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_lP7zoSMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_lP7zoiMFEeCQi51EpJD5Aw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_lP7zoyMFEeCQi51EpJD5Aw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_lP7MkSMFEeCQi51EpJD5Aw" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="geo.ecore#//Site"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lP7MkiMFEeCQi51EpJD5Aw" x="45" y="153"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_lPfHsSMFEeCQi51EpJD5Aw"/>
+  <element xmi:type="ecore:EPackage" href="geo.ecore#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_lP_eAiMFEeCQi51EpJD5Aw" type="3002" source="_lPw0gCMFEeCQi51EpJD5Aw" target="_lP7MkCMFEeCQi51EpJD5Aw">
+    <children xmi:type="notation:Node" xmi:id="_lQAFECMFEeCQi51EpJD5Aw" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_lQAFESMFEeCQi51EpJD5Aw" x="-10" y="-20"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_lQAFEiMFEeCQi51EpJD5Aw" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_lQAFEyMFEeCQi51EpJD5Aw" x="-1" y="14"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_lP_eAyMFEeCQi51EpJD5Aw" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_lP_eBCMFEeCQi51EpJD5Aw" fontColor="4210752" fontName="Lucida Grande" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="geo.ecore#//Country/sites"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_lP_eBSMFEeCQi51EpJD5Aw" points="[0, 0, 0, 60]$[0, -60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_lRkyYCMFEeCQi51EpJD5Aw" id="(0.4961832061068702,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_lRkyYSMFEeCQi51EpJD5Aw" id="(0.5,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_lQAFFCMFEeCQi51EpJD5Aw" type="3002" source="_lP7MkCMFEeCQi51EpJD5Aw" target="_lP4wUiMFEeCQi51EpJD5Aw">
+    <children xmi:type="notation:Node" xmi:id="_lQAFGCMFEeCQi51EpJD5Aw" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_lQAFGSMFEeCQi51EpJD5Aw" x="-15" y="-32"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_lQAsICMFEeCQi51EpJD5Aw" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_lQAsISMFEeCQi51EpJD5Aw" x="-6" y="25"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_lQAFFSMFEeCQi51EpJD5Aw" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_lQAFFiMFEeCQi51EpJD5Aw" fontColor="4210752" fontName="Lucida Grande" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="geo.ecore#//Site/rooms"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_lQAFFyMFEeCQi51EpJD5Aw" points="[0, 0, 0, 60]$[0, -60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_lRkLUCMFEeCQi51EpJD5Aw" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_lRkLUSMFEeCQi51EpJD5Aw" id="(0.5,1.0)"/>
+  </edges>
+</notation:Diagram>

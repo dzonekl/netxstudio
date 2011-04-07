@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/25102010/metrics"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:gen="http://www.netxforge.com/25102010/generics" xmlns:net="http://www.netxforge.com/25102010/networks"
+
+	id="metrics" targetNamespace="http://www.netxforge.com/25102010/metrics"
+	ecore:package="com.netxforge.metrics">
+	<xs:import schemaLocation="generics.xsd"
+		namespace="http://www.netxforge.com/25102010/generics"></xs:import>
+	<xs:import schemaLocation="networks.xsd"
+		namespace="http://www.netxforge.com/25102010/networks"></xs:import>
+
+	<xs:annotation>
+		<xs:documentation>
+			multi columned metrics.
+			Used as external source. 
+		</xs:documentation>
+	</xs:annotation>
+
+	<!--_______________________ -->
+	<!-- METRIC LIBRARY -->
+	<!--_______________________ -->
+	<xs:complexType name="MetricLibrary">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricSources"
+				type="MetricSource" />
+		</xs:sequence>
+		<xs:attribute name="Name" type="gen:Name100"/>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- METRIC SOURCE -->
+	<!--_______________________ -->
+
+	<xs:complexType name="MetricSource">
+		<xs:annotation>
+			<xs:documentation>The source of the metric. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ecore:reference="net:Metric" ecore:opposite="MetricSource" minOccurs="0"
+				maxOccurs="unbounded" name="MetricRefs" type="xs:anyURI" />
+		</xs:sequence>
+		<xs:attribute name="Name" type="gen:Name100">
+			<xs:annotation>
+				<xs:documentation>
+					For an RDMS, this is the DB name, for a file it's just a name.
+					the Location provides the exact path to the file. 
+			</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Metrickind" type="MetricKind" />
+		<xs:attribute name="MetricLocation" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>a URI representation of the location
+					additional information like login/password can be appended to the URI.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MappingFile" type="xs:anyURI" >
+			<xs:annotation>
+				<xs:documentation>Will not be persisted in the DB, but would use a .properties file for now. </xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="LastContact" type="xs:dateTime" />
+		<xs:attribute name="LastPurge" type="xs:dateTime" />
+	</xs:complexType>
+
+	<xs:simpleType name="MetricKind">
+		<xs:annotation>
+			<xs:documentation>The metric kind, is an enumerated
+				value which
+				determines if the source of this
+				metric will be either from a file,
+				or RDMS based import.
+				Support file types.Note the Location scheme
+				(URI scheme) could also derive
+				the location.
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FILE" />
+			<xs:enumeration value="RDMS" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	
+</xs:schema>

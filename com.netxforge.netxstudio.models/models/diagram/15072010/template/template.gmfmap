@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmfmap:Mapping xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:gmfmap="http://www.eclipse.org/gmf/2008/mappings"
+    xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
+  <nodes>
+    <containmentFeature
+        href="networks.ecore#//Network/elements"/>
+    <ownedChild>
+      <domainMetaElement
+          href="networks.ecore#//Element"/>
+      <domainInitializer
+          xsi:type="gmfmap:FeatureSeqInitializer">
+        <initializers
+            xsi:type="gmfmap:FeatureValueSpec">
+          <feature
+              xsi:type="ecore:EAttribute"
+              href="networks.ecore#//Element/abstract"/>
+          <value
+              body="true"/>
+        </initializers>
+      </domainInitializer>
+      <labelMappings
+          xsi:type="gmfmap:FeatureLabelMapping">
+        <diagramLabel
+            href="template.gmfgraph#FunctionName"/>
+        <features
+            href="networks.ecore#//Element/functionName"/>
+      </labelMappings>
+      <tool
+          xsi:type="gmftool:CreationTool"
+          href="template.gmftool#//@palette/@tools.0/@tools.0"/>
+      <diagramNode
+          href="template.gmfgraph#Function"/>
+    </ownedChild>
+  </nodes>
+  <links>
+    <domainMetaElement
+        href="networks.ecore#//Relationship"/>
+    <labelMappings
+        xsi:type="gmfmap:FeatureLabelMapping">
+      <diagramLabel
+          href="template.gmfgraph#ReferenceInterface"/>
+      <features
+          href="networks.ecore#//Relationship/name"/>
+    </labelMappings>
+    <containmentFeature
+        href="networks.ecore#//Network/relationships"/>
+    <tool
+        xsi:type="gmftool:CreationTool"
+        href="template.gmftool#//@palette/@tools.0/@tools.1"/>
+    <diagramLink
+        href="template.gmfgraph#Relationship"/>
+    <sourceMetaFeature
+        xsi:type="ecore:EReference"
+        href="networks.ecore#//Relationship/element1Ref"/>
+    <linkMetaFeature
+        xsi:type="ecore:EReference"
+        href="networks.ecore#//Relationship/element2Ref"/>
+  </links>
+  <diagram>
+    <diagramCanvas
+        href="template.gmfgraph#Template"/>
+    <domainModel
+        href="netxstudio.ecore#/"/>
+    <domainMetaElement
+        href="networks.ecore#//Network"/>
+    <palette
+        href="template.gmftool#//@palette"/>
+  </diagram>
+  <audits
+      id="com.netxforge.netxstudio.audit.container.template"
+      name="Template Audits"
+      description="Set of rules for the template diagram">
+    <audits
+        name="Name should be set"
+        description="Name should be set"
+        id="com.netxforge.netxstudio.audit.rule.element_name"
+        useInLiveMode="true"
+        message="Set the name dude! ">
+      <rule
+          body="self.name &lt;> ''"/>
+      <target
+          xsi:type="gmfmap:DomainElementTarget">
+        <element
+            href="networks.ecore#//Relationship"/>
+      </target>
+    </audits>
+  </audits>
+  <metrics>
+    <metrics
+        name="Number of sub functions"
+        description="The number of sub-functions for this function. "
+        key="NOF"
+        lowLimit="0.0">
+      <rule
+          body="self.elements->size()"/>
+      <target
+          xsi:type="gmfmap:DomainElementTarget">
+        <element
+            href="networks.ecore#//Element"/>
+      </target>
+    </metrics>
+  </metrics>
+</gmfmap:Mapping>

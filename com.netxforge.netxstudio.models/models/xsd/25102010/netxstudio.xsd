@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/25102010/netxstudio"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:services="http://www.netxforge.com/25102010/services"
+	xmlns:networks="http://www.netxforge.com/25102010/networks" xmlns:gen="http://www.netxforge.com/25102010/generics"
+	xmlns:metrics="http://www.netxforge.com/25102010/metrics" id="NetXStudio"
+	targetNamespace="http://www.netxforge.com/25102010/netxstudio"
+	ecore:package="com.netxforge.netxstudio">
+	<xs:import schemaLocation="networks.xsd"
+		namespace="http://www.netxforge.com/25102010/networks">
+	</xs:import>
+	<xs:import schemaLocation="serviceTMNL.xsd"
+		namespace="http://www.netxforge.com/25102010/services"></xs:import>
+	<xs:import schemaLocation="generics.xsd"
+		namespace="http://www.netxforge.com/25102010/generics"></xs:import>
+	<xs:import schemaLocation="metrics.xsd"
+		namespace="http://www.netxforge.com/25102010/metrics"></xs:import>
+	<xs:import schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xsd"
+		namespace="http://www.eclipse.org/emf/2002/Ecore"></xs:import>
+	<xs:annotation>
+		<xs:documentation>
+			Network Data schema Copyright 2008 The schema uses
+			ecore
+			references syntax, but should easily map into an SQL schema.
+			The
+			ecore
+			references, are mapped into ORM specific DLL (See
+			Hibernate or
+			other
+			ORM). Most tables have an ID field, which
+			could actually be
+			removed.
+			the Original intent is the use of
+			an ID column, as a reference
+			identifier. EMF/Hibernate
+			however uses a custom mechanism.
+
+			Don't use
+			the word "Item", as this is appended to the Object
+			name in the EMF
+			edit model.
+		</xs:documentation>
+	</xs:annotation>
+
+	<!--_______________________ -->
+	<!-- LIBRARY -->
+	<!--_______________________ -->
+
+	<xs:complexType name="Library">
+		<xs:annotation>
+			<xs:appinfo source="http://www.eclipse.org/emf/2002/Ecore"
+				ecore:key="operations">
+				<operation name="test" type="xs:int">
+
+
+				</operation>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Networks"
+				type="networks:Network" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions"
+				type="networks:Function" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments"
+				type="networks:Equipment" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Metrics"
+				type="networks:Metric" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Parameters"
+				type="networks:Parameter" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Protocols"
+				type="networks:Protocol" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Companies"
+				type="networks:Company" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Tolerances"
+				type="networks:Tolerance" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Expressions"
+				type="networks:Expression" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Users"
+				type="networks:User" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Rooms"
+				type="networks:Room" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Countries"
+				type="networks:Country">
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Sites"
+				type="networks:Site">
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Units"
+				type="networks:Unit">
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Services"
+				type="services:RFSService">
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Versions"
+				type="networks:Meta" />
+			<xs:element maxOccurs="unbounded" minOccurs="0"
+				name="MetricSources" type="metrics:MetricSource">
+			</xs:element>
+		</xs:sequence>
+
+		<xs:attribute default="Library name" name="Name" type="gen:Name100" />
+		<xs:attribute default="0.1" name="Version" type="xs:double" />
+		<xs:attribute default="Library description" name="Description"
+			type="gen:Description2000" />
+	</xs:complexType>
+</xs:schema>

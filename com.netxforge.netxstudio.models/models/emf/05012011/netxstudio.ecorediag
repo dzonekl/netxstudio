@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_2ByBMCL6EeCIscbKAWqF6g" type="EcoreTools" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_2B1EgCL6EeCIscbKAWqF6g" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_2B1rkCL6EeCIscbKAWqF6g" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_2B1rkSL6EeCIscbKAWqF6g" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_2B1rkiL6EeCIscbKAWqF6g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_2B1rkyL6EeCIscbKAWqF6g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_2B1rlCL6EeCIscbKAWqF6g"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_2B1rlSL6EeCIscbKAWqF6g" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_2B1rliL6EeCIscbKAWqF6g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_2B1rlyL6EeCIscbKAWqF6g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_2B1rmCL6EeCIscbKAWqF6g"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_2B1EgSL6EeCIscbKAWqF6g" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="netxstudio.ecore#//Netxstudio"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2B1EgiL6EeCIscbKAWqF6g"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_2CM38CL6EeCIscbKAWqF6g" type="1003">
+    <children xmi:type="notation:Node" xmi:id="_2CNfASL6EeCIscbKAWqF6g" type="4007"/>
+    <children xmi:type="notation:Node" xmi:id="_2CNfAiL6EeCIscbKAWqF6g" type="5007">
+      <children xmi:type="notation:Node" xmi:id="_2COGECL6EeCIscbKAWqF6g" type="2007">
+        <element xmi:type="ecore:EStringToStringMapEntry" href="netxstudio.ecore#//%http:%2F%2Fwww.eclipse.org%2Femf%2F2002%2FGenModel%/@details.0"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_2COGESL6EeCIscbKAWqF6g"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_2CNfAyL6EeCIscbKAWqF6g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_2CNfBCL6EeCIscbKAWqF6g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_2CNfBSL6EeCIscbKAWqF6g"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_2CM38SL6EeCIscbKAWqF6g" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="14668776" lineColor="4210752"/>
+    <element xmi:type="ecore:EAnnotation" href="netxstudio.ecore#//%http:%2F%2Fwww.eclipse.org%2Femf%2F2002%2FGenModel%"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2CNfACL6EeCIscbKAWqF6g" x="162"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_2COGEiL6EeCIscbKAWqF6g" type="1003">
+    <children xmi:type="notation:Node" xmi:id="_2COGFSL6EeCIscbKAWqF6g" type="4007"/>
+    <children xmi:type="notation:Node" xmi:id="_2COGFiL6EeCIscbKAWqF6g" type="5007">
+      <children xmi:type="notation:Node" xmi:id="_2COtICL6EeCIscbKAWqF6g" type="2007">
+        <element xmi:type="ecore:EStringToStringMapEntry" href="netxstudio.ecore#//%http:%2F%2Fwww.eclipse.org%2Femf%2F2002%2FEcore%/@details.0"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_2COtISL6EeCIscbKAWqF6g"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_2COtIiL6EeCIscbKAWqF6g" type="2007">
+        <element xmi:type="ecore:EStringToStringMapEntry" href="netxstudio.ecore#//%http:%2F%2Fwww.eclipse.org%2Femf%2F2002%2FEcore%/@details.1"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_2COtIyL6EeCIscbKAWqF6g"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_2CPUMCL6EeCIscbKAWqF6g" type="2007">
+        <element xmi:type="ecore:EStringToStringMapEntry" href="netxstudio.ecore#//%http:%2F%2Fwww.eclipse.org%2Femf%2F2002%2FEcore%/@details.2"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_2CPUMSL6EeCIscbKAWqF6g"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_2COGFyL6EeCIscbKAWqF6g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_2COGGCL6EeCIscbKAWqF6g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_2COGGSL6EeCIscbKAWqF6g"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_2COGEyL6EeCIscbKAWqF6g" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="14668776" lineColor="4210752"/>
+    <element xmi:type="ecore:EAnnotation" href="netxstudio.ecore#//%http:%2F%2Fwww.eclipse.org%2Femf%2F2002%2FEcore%"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2COGFCL6EeCIscbKAWqF6g" x="479"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_2ByBMSL6EeCIscbKAWqF6g"/>
+  <element xmi:type="ecore:EPackage" href="netxstudio.ecore#/"/>
+</notation:Diagram>

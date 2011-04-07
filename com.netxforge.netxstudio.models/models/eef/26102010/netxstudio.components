@@ -1,0 +1,1816 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eef-components="http://www.eclipse.org/emf/eef/components/1.0.0" xmlns:eef-views="http://www.eclipse.org/emf/eef/views/1.0.0">
+  <eef-components:PropertiesEditionContext xmi:id="_uK-OAOG0Ed-iHq09SJYA5g" documentation="Edition Context for services GenPackage">
+    <categories xmi:id="_uK-OAeG0Ed-iHq09SJYA5g" name="services">
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OAuG0Ed-iHq09SJYA5g" name="CFSService" views="_uK_cXuG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OA-G0Ed-iHq09SJYA5g" name="serviceContracts" views="_uK_cYOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceContracts"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OBOG0Ed-iHq09SJYA5g" name="services" views="_uK_cYeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/services"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OBeG0Ed-iHq09SJYA5g" name="mostTopService" views="_uK_cYuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/mostTopService"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OBuG0Ed-iHq09SJYA5g" name="serviceCategory" views="_uK_cY-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceCategory"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OB-G0Ed-iHq09SJYA5g" name="serviceCharacterCommon" views="_uK_cZOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceCharacterCommon"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OCOG0Ed-iHq09SJYA5g" name="serviceClass" views="_uK_cZeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceClass"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OCeG0Ed-iHq09SJYA5g" name="serviceKind" views="_uK_cZuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceKind"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OCuG0Ed-iHq09SJYA5g" name="serviceSupport1" views="_uK_cZ-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceSupport1"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OC-G0Ed-iHq09SJYA5g" name="ssDomain" views="_uK_caOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/ssDomain"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-ODOG0Ed-iHq09SJYA5g" name="elements" views="_uK_caeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//CFSService/elements"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-ODeG0Ed-iHq09SJYA5g" name="provider" views="_uK_cauG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//CFSService/provider"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-ODuG0Ed-iHq09SJYA5g" name="scenario" views="_uK_ca-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//CFSService/scenario"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//CFSService"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OD-G0Ed-iHq09SJYA5g" name="CIID" views="_uK_cbOG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OEOG0Ed-iHq09SJYA5g" name="commonCIID" views="_uK_cbuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//CIID/commonCIID"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OEeG0Ed-iHq09SJYA5g" name="localCIID" views="_uK_cb-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//CIID/localCIID"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//CIID"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OEuG0Ed-iHq09SJYA5g" name="RFSService" views="_uK_ccOG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OE-G0Ed-iHq09SJYA5g" name="serviceContracts" views="_uK_ccuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceContracts"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OFOG0Ed-iHq09SJYA5g" name="services" views="_uK_cc-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/services"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OFeG0Ed-iHq09SJYA5g" name="mostTopService" views="_uK_cdOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/mostTopService"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OFuG0Ed-iHq09SJYA5g" name="serviceCategory" views="_uK_cdeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceCategory"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OF-G0Ed-iHq09SJYA5g" name="serviceCharacterCommon" views="_uK_cduG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceCharacterCommon"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OGOG0Ed-iHq09SJYA5g" name="serviceClass" views="_uK_cd-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceClass"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OGeG0Ed-iHq09SJYA5g" name="serviceKind" views="_uK_ceOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceKind"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OGuG0Ed-iHq09SJYA5g" name="serviceSupport1" views="_uK_ceeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceSupport1"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OG-G0Ed-iHq09SJYA5g" name="ssDomain" views="_uK_ceuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/ssDomain"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OHOG0Ed-iHq09SJYA5g" name="elements" views="_uK_ce-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//RFSService/elements"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OHeG0Ed-iHq09SJYA5g" name="functionalCategory" views="_uK_cfOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//RFSService/functionalCategory"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OHuG0Ed-iHq09SJYA5g" name="location" views="_uK_cfeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//RFSService/location"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//RFSService"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OH-G0Ed-iHq09SJYA5g" name="Service" views="_uK_cfuG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OIOG0Ed-iHq09SJYA5g" name="serviceContracts" views="_uK_cgOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceContracts"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OIeG0Ed-iHq09SJYA5g" name="services" views="_uK_cgeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/services"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OIuG0Ed-iHq09SJYA5g" name="mostTopService" views="_uK_cguG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/mostTopService"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OI-G0Ed-iHq09SJYA5g" name="serviceCategory" views="_uK_cg-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceCategory"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OJOG0Ed-iHq09SJYA5g" name="serviceCharacterCommon" views="_uK_chOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceCharacterCommon"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OJeG0Ed-iHq09SJYA5g" name="serviceClass" views="_uK_cheG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceClass"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OJuG0Ed-iHq09SJYA5g" name="serviceKind" views="_uK_chuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceKind"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OJ-G0Ed-iHq09SJYA5g" name="serviceSupport1" views="_uK_ch-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/serviceSupport1"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OKOG0Ed-iHq09SJYA5g" name="ssDomain" views="_uK_ciOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service/ssDomain"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//Service"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OKeG0Ed-iHq09SJYA5g" name="ServiceAdditional" views="_uK_cieG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OKuG0Ed-iHq09SJYA5g" name="costCenter" views="_uK_ci-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceAdditional/costCenter"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OK-G0Ed-iHq09SJYA5g" name="history" views="_uK_cjOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceAdditional/history"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OLOG0Ed-iHq09SJYA5g" name="kpi" views="_uK_cjeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceAdditional/kpi"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OLeG0Ed-iHq09SJYA5g" name="lifeCycleState" views="_uK_cjuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceAdditional/lifeCycleState"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OLuG0Ed-iHq09SJYA5g" name="link" views="_uK_cj-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceAdditional/link"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OL-G0Ed-iHq09SJYA5g" name="report" views="_uK_ckOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceAdditional/report"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OMOG0Ed-iHq09SJYA5g" name="usageState" views="_uK_ckeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceAdditional/usageState"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceAdditional"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OMeG0Ed-iHq09SJYA5g" name="ServiceContract" views="_uK_ckuG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OMuG0Ed-iHq09SJYA5g" name="oLA" views="_uK_clOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceContract/oLA"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OM-G0Ed-iHq09SJYA5g" name="sLA" views="_uK_cleG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceContract/sLA"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-ONOG0Ed-iHq09SJYA5g" name="uC" views="_uK_cluG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceContract/uC"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-ONeG0Ed-iHq09SJYA5g" name="wLA" views="_uK_cl-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceContract/wLA"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceContract"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-ONuG0Ed-iHq09SJYA5g" name="ServiceDescription" views="_uK_cmOG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-ON-G0Ed-iHq09SJYA5g" name="serviceDescriptionCommon" views="_uK_cmuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceDescription/serviceDescriptionCommon"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OOOG0Ed-iHq09SJYA5g" name="serviceDescriptionNational" views="_uK_cm-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceDescription/serviceDescriptionNational"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceDescription"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OOeG0Ed-iHq09SJYA5g" name="ServiceIncidentMgt" views="_uK_cnOG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OOuG0Ed-iHq09SJYA5g" name="businessImpact" views="_uK_cnuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceIncidentMgt/businessImpact"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OO-G0Ed-iHq09SJYA5g" name="maintenance" views="_uK_cn-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceIncidentMgt/maintenance"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OPOG0Ed-iHq09SJYA5g" name="maintenanceWindow" views="_uK_coOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceIncidentMgt/maintenanceWindow"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OPeG0Ed-iHq09SJYA5g" name="monitoring" views="_uK_coeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceIncidentMgt/monitoring"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceIncidentMgt"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OPuG0Ed-iHq09SJYA5g" name="ServiceInterrest" views="_uK_couG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OP-G0Ed-iHq09SJYA5g" name="contactUnit" views="_uK_cpOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceInterrest/contactUnit"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OQOG0Ed-iHq09SJYA5g" name="interrestKind" views="_uK_cpeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceInterrest/interrestKind"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceInterrest"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OQeG0Ed-iHq09SJYA5g" name="ServiceName" views="_uK_cpuG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OQuG0Ed-iHq09SJYA5g" name="alias" views="_uK_cqOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceName/alias"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OQ-G0Ed-iHq09SJYA5g" name="identifier" views="_uK_cqeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceName/identifier"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OROG0Ed-iHq09SJYA5g" name="index" views="_uK_cquG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceName/index"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OReG0Ed-iHq09SJYA5g" name="name" views="_uK_cq-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceName/name"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceName"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-ORuG0Ed-iHq09SJYA5g" name="ServiceProfile" views="_uK_crOG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OR-G0Ed-iHq09SJYA5g" name="serviceParameters" views="_uK_cruG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceProfile/serviceParameters"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OSOG0Ed-iHq09SJYA5g" name="name" views="_uK_cr-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceProfile/name"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceProfile"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OSeG0Ed-iHq09SJYA5g" name="ServiceSecurityMgt" views="_uK_csOG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OSuG0Ed-iHq09SJYA5g" name="drPlanContact" views="_uLADMeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceSecurityMgt/drPlanContact"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OS-G0Ed-iHq09SJYA5g" name="drPlanRepository" views="_uLADMuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceSecurityMgt/drPlanRepository"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OTOG0Ed-iHq09SJYA5g" name="drRecoveryPlan" views="_uLADM-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceSecurityMgt/drRecoveryPlan"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OTeG0Ed-iHq09SJYA5g" name="securityRating" views="_uLADNOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceSecurityMgt/securityRating"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceSecurityMgt"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-OTuG0Ed-iHq09SJYA5g" name="ServiceSupport" views="_uLADNeG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OT-G0Ed-iHq09SJYA5g" name="supportDays" views="_uLADN-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceSupport/supportDays"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-OUOG0Ed-iHq09SJYA5g" name="supportHours" views="_uLADOOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceSupport/supportHours"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/services.ecore#//ServiceSupport"/>
+      </bindings>
+    </categories>
+    <model href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.genmodel#//services"/>
+  </eef-components:PropertiesEditionContext>
+  <eef-components:PropertiesEditionContext xmi:id="_uK-OUeG0Ed-iHq09SJYA5g" documentation="Edition Context for generics GenPackage">
+    <categories xmi:id="_uK-1EOG0Ed-iHq09SJYA5g" name="generics">
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1EeG0Ed-iHq09SJYA5g" name="DateTimeRange" views="_uLADO-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1EuG0Ed-iHq09SJYA5g" name="begin" views="_uLADPeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//DateTimeRange/begin"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1E-G0Ed-iHq09SJYA5g" name="end" views="_uLADPuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//DateTimeRange/end"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//DateTimeRange"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1FOG0Ed-iHq09SJYA5g" name="DiagramInfo" views="_uLADP-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1FeG0Ed-iHq09SJYA5g" name="diagramKind" views="_uLADQeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//DiagramInfo/diagramKind"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1FuG0Ed-iHq09SJYA5g" name="location" views="_uLADQuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//DiagramInfo/location"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//DiagramInfo"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1F-G0Ed-iHq09SJYA5g" name="MultiImage" views="_uLADQ-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1GOG0Ed-iHq09SJYA5g" name="obj16" views="_uLADReG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//MultiImage/obj16"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1GeG0Ed-iHq09SJYA5g" name="obj32" views="_uLADRuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//MultiImage/obj32"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1GuG0Ed-iHq09SJYA5g" name="obj48" views="_uLADR-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//MultiImage/obj48"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1G-G0Ed-iHq09SJYA5g" name="obj96" views="_uLADSOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//MultiImage/obj96"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1HOG0Ed-iHq09SJYA5g" name="obj128" views="_uLADSeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//MultiImage/obj128"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//MultiImage"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1HeG0Ed-iHq09SJYA5g" name="Value" views="_uLADSuG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1HuG0Ed-iHq09SJYA5g" name="timeStamp" views="_uLADTOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//Value/timeStamp"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1H-G0Ed-iHq09SJYA5g" name="value" views="_uLADTeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//Value/value"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/generics.ecore#//Value"/>
+      </bindings>
+    </categories>
+    <model href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.genmodel#//generics"/>
+  </eef-components:PropertiesEditionContext>
+  <eef-components:PropertiesEditionContext xmi:id="_uK-1IOG0Ed-iHq09SJYA5g" documentation="Edition Context for networks GenPackage">
+    <categories xmi:id="_uK-1IeG0Ed-iHq09SJYA5g" name="networks">
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1IuG0Ed-iHq09SJYA5g" name="Company" views="_uLADUOG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1I-G0Ed-iHq09SJYA5g" name="name" views="_uLADUuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Company/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1JOG0Ed-iHq09SJYA5g" name="rSSurl" views="_uLADU-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Company/rSSurl"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1JeG0Ed-iHq09SJYA5g" name="shortName" views="_uLADVOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Company/shortName"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1JuG0Ed-iHq09SJYA5g" name="symbol" views="_uLADVeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Company/symbol"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1J-G0Ed-iHq09SJYA5g" name="website" views="_uLADVuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Company/website"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Company"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1KOG0Ed-iHq09SJYA5g" name="Country" views="_uLADV-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1KeG0Ed-iHq09SJYA5g" name="countryCode" views="_uLADWeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Country/countryCode"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1KuG0Ed-iHq09SJYA5g" name="name" views="_uLADWuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Country/name"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Country"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1K-G0Ed-iHq09SJYA5g" name="Equipment" views="_uLADW-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1LOG0Ed-iHq09SJYA5g" name="diagrams" views="_uLADXeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/diagrams"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1LeG0Ed-iHq09SJYA5g" name="equipmentResources" views="_uLADXuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/equipmentResources"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1LuG0Ed-iHq09SJYA5g" name="products" views="_uLADX-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/products"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1L-G0Ed-iHq09SJYA5g" name="equipmentMetricRefs" views="_uLADYOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/equipmentMetricRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1MOG0Ed-iHq09SJYA5g" name="equipmentExpressionRefs" views="_uLADYeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/equipmentExpressionRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1MeG0Ed-iHq09SJYA5g" name="toleranceRefs" views="_uLADYuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/toleranceRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1MuG0Ed-iHq09SJYA5g" name="protocolRefs" views="_uLADY-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/protocolRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1M-G0Ed-iHq09SJYA5g" name="parameterRefs" views="_uLADZOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/parameterRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1NOG0Ed-iHq09SJYA5g" name="description" views="_uLADZeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/description"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1NeG0Ed-iHq09SJYA5g" name="equipmentCode" views="_uLADZuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/equipmentCode"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1NuG0Ed-iHq09SJYA5g" name="equipmentName" views="_uLADZ-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/equipmentName"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1N-G0Ed-iHq09SJYA5g" name="manufacturerRef" views="_uLADaOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/manufacturerRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1OOG0Ed-iHq09SJYA5g" name="position" views="_uLADaeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/position"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1OeG0Ed-iHq09SJYA5g" name="redundancy" views="_uLADauG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment/redundancy"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Equipment"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1OuG0Ed-iHq09SJYA5g" name="EquipmentRelationship" views="_uLADa-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1O-G0Ed-iHq09SJYA5g" name="abstract" views="_uLADbeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/abstract"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1POG0Ed-iHq09SJYA5g" name="maxConnections" views="_uLADbuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/maxConnections"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1PeG0Ed-iHq09SJYA5g" name="name" views="_uLADb-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1PuG0Ed-iHq09SJYA5g" name="payload" views="_uLADcOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/payload"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1P-G0Ed-iHq09SJYA5g" name="protocolRef" views="_uLADceG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/protocolRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1QOG0Ed-iHq09SJYA5g" name="requireConnection" views="_uLADcuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/requireConnection"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1QeG0Ed-iHq09SJYA5g" name="equipment1Ref" views="_uLADc-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//EquipmentRelationship/equipment1Ref"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1QuG0Ed-iHq09SJYA5g" name="equipment2Ref" views="_uLADdOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//EquipmentRelationship/equipment2Ref"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//EquipmentRelationship"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1Q-G0Ed-iHq09SJYA5g" name="Expression" views="_uLADdeG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1ROG0Ed-iHq09SJYA5g" name="expressionLines" views="_uLADd-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Expression/expressionLines"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1ReG0Ed-iHq09SJYA5g" name="equipmentRefs" views="_uLADeOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Expression/equipmentRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1RuG0Ed-iHq09SJYA5g" name="functionRefs" views="_uLADeeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Expression/functionRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1R-G0Ed-iHq09SJYA5g" name="name" views="_uLADeuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Expression/name"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Expression"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1SOG0Ed-iHq09SJYA5g" name="Function" views="_uLADe-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1SeG0Ed-iHq09SJYA5g" name="functionDiagrams" views="_uLADfeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function/functionDiagrams"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1S-G0Ed-iHq09SJYA5g" name="functionResources" views="_uLADf-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function/functionResources"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1TOG0Ed-iHq09SJYA5g" name="functionMetricRefs" views="_uLADgOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function/functionMetricRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1TeG0Ed-iHq09SJYA5g" name="functionExpressionRefs" views="_uLADgeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function/functionExpressionRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1TuG0Ed-iHq09SJYA5g" name="toleranceRefs" views="_uLADguG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function/toleranceRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1T-G0Ed-iHq09SJYA5g" name="protocolRefs" views="_uLADg-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function/protocolRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1UOG0Ed-iHq09SJYA5g" name="parameterRefs" views="_uLADhOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function/parameterRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1UeG0Ed-iHq09SJYA5g" name="bodyRef" views="_uLADheG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function/bodyRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1UuG0Ed-iHq09SJYA5g" name="functionDescription" views="_uLADhuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function/functionDescription"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1U-G0Ed-iHq09SJYA5g" name="functionName" views="_uLADh-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function/functionName"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Function"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1VOG0Ed-iHq09SJYA5g" name="FunctionRelationship" views="_uLADiOG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1VeG0Ed-iHq09SJYA5g" name="abstract" views="_uLADiuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/abstract"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1VuG0Ed-iHq09SJYA5g" name="maxConnections" views="_uLADi-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/maxConnections"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1V-G0Ed-iHq09SJYA5g" name="name" views="_uLADjOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1WOG0Ed-iHq09SJYA5g" name="payload" views="_uLADjeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/payload"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1WeG0Ed-iHq09SJYA5g" name="protocolRef" views="_uLADjuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/protocolRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1WuG0Ed-iHq09SJYA5g" name="requireConnection" views="_uLADj-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/requireConnection"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1W-G0Ed-iHq09SJYA5g" name="function1Ref" views="_uLADkOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//FunctionRelationship/function1Ref"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1XOG0Ed-iHq09SJYA5g" name="function2Ref" views="_uLADkeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//FunctionRelationship/function2Ref"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//FunctionRelationship"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1XeG0Ed-iHq09SJYA5g" name="Message" views="_uLADkuG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1XuG0Ed-iHq09SJYA5g" name="name" views="_uLADlOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Message/name"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Message"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1X-G0Ed-iHq09SJYA5g" name="Meta" views="_uLADleG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1YOG0Ed-iHq09SJYA5g" name="description" views="_uLADl-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Meta/description"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1YeG0Ed-iHq09SJYA5g" name="version" views="_uLADmOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Meta/version"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Meta"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1YuG0Ed-iHq09SJYA5g" name="Metric" views="_uLADmeG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1Y-G0Ed-iHq09SJYA5g" name="measurementSource" views="_uLADm-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Metric/measurementSource"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1ZOG0Ed-iHq09SJYA5g" name="metric" views="_uLADnOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Metric/metric"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1ZeG0Ed-iHq09SJYA5g" name="description" views="_uLADneG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Metric/description"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1ZuG0Ed-iHq09SJYA5g" name="measurementKind" views="_uLADnuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Metric/measurementKind"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1Z-G0Ed-iHq09SJYA5g" name="measurementPoint" views="_uLADn-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Metric/measurementPoint"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1aOG0Ed-iHq09SJYA5g" name="metricCalculation" views="_uLADoOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Metric/metricCalculation"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1aeG0Ed-iHq09SJYA5g" name="name" views="_uLADoeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Metric/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1auG0Ed-iHq09SJYA5g" name="unitRef" views="_uLADouG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Metric/unitRef"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Metric"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1a-G0Ed-iHq09SJYA5g" name="Network" views="_uLADo-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1bOG0Ed-iHq09SJYA5g" name="diagrams" views="_uLADpeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/diagrams"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1beG0Ed-iHq09SJYA5g" name="nodes" views="_uLADpuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/nodes"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1b-G0Ed-iHq09SJYA5g" name="createdByRef" views="_uLADqOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/createdByRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1cOG0Ed-iHq09SJYA5g" name="createdDate" views="_uLADqeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/createdDate"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1ceG0Ed-iHq09SJYA5g" name="description" views="_uLADquG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/description"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1cuG0Ed-iHq09SJYA5g" name="endDate" views="_uLADq-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/endDate"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1c-G0Ed-iHq09SJYA5g" name="name" views="_uLADrOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1dOG0Ed-iHq09SJYA5g" name="parentRef" views="_uLADreG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/parentRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1deG0Ed-iHq09SJYA5g" name="phaseNetworkRef" views="_uLADruG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/phaseNetworkRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1duG0Ed-iHq09SJYA5g" name="startDate" views="_uLADr-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/startDate"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1d-G0Ed-iHq09SJYA5g" name="template" views="_uLADsOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network/template"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Network"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1eOG0Ed-iHq09SJYA5g" name="NetXResource" views="_uLADseG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1eeG0Ed-iHq09SJYA5g" name="values" views="_uLADs-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//NetXResource/values"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1euG0Ed-iHq09SJYA5g" name="calcName" views="_uLADtOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//NetXResource/calcName"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1e-G0Ed-iHq09SJYA5g" name="calculatedData" views="_uLADteG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//NetXResource/calculatedData"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1fOG0Ed-iHq09SJYA5g" name="detailDisplay" views="_uLADtuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//NetXResource/detailDisplay"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1feG0Ed-iHq09SJYA5g" name="longName" views="_uLADt-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//NetXResource/longName"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1fuG0Ed-iHq09SJYA5g" name="shortName" views="_uLADuOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//NetXResource/shortName"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1f-G0Ed-iHq09SJYA5g" name="summaryDisplay" views="_uLADueG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//NetXResource/summaryDisplay"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1gOG0Ed-iHq09SJYA5g" name="unitRef" views="_uLADuuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//NetXResource/unitRef"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//NetXResource"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1geG0Ed-iHq09SJYA5g" name="Node" views="_uLADu-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1guG0Ed-iHq09SJYA5g" name="constructionDate" views="_uLADveG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Node/constructionDate"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1g-G0Ed-iHq09SJYA5g" name="createdByRef" views="_uLADvuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Node/createdByRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1hOG0Ed-iHq09SJYA5g" name="inServiceDate" views="_uLADv-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Node/inServiceDate"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1heG0Ed-iHq09SJYA5g" name="nodeID" views="_uLADwOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Node/nodeID"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1huG0Ed-iHq09SJYA5g" name="originalEquipmentRef" views="_uLADweG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Node/originalEquipmentRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1h-G0Ed-iHq09SJYA5g" name="originalFunctionRef" views="_uLAqQOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Node/originalFunctionRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1iOG0Ed-iHq09SJYA5g" name="outOfServiceDate" views="_uLAqQeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Node/outOfServiceDate"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1ieG0Ed-iHq09SJYA5g" name="plannedDate" views="_uLAqQuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Node/plannedDate"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1iuG0Ed-iHq09SJYA5g" name="roomRef" views="_uLAqQ-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Node/roomRef"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Node"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1i-G0Ed-iHq09SJYA5g" name="Parameter" views="_uLAqROG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1jOG0Ed-iHq09SJYA5g" name="elementRefs" views="_uLAqRuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Parameter/elementRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1jeG0Ed-iHq09SJYA5g" name="description" views="_uLAqR-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Parameter/description"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1juG0Ed-iHq09SJYA5g" name="name" views="_uLAqSOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Parameter/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1j-G0Ed-iHq09SJYA5g" name="state" views="_uLAqSeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Parameter/state"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1kOG0Ed-iHq09SJYA5g" name="value" views="_uLAqSuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Parameter/value"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Parameter"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1keG0Ed-iHq09SJYA5g" name="Procedure" views="_uLAqS-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1kuG0Ed-iHq09SJYA5g" name="name" views="_uLAqTeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Procedure/name"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Procedure"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1k-G0Ed-iHq09SJYA5g" name="ProductInfo" views="_uLAqTuG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1lOG0Ed-iHq09SJYA5g" name="availableDate" views="_uLAqUOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//ProductInfo/availableDate"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1leG0Ed-iHq09SJYA5g" name="endOfSalesDate" views="_uLAqUeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//ProductInfo/endOfSalesDate"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1luG0Ed-iHq09SJYA5g" name="endOfSupportDate" views="_uLAqUuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//ProductInfo/endOfSupportDate"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1l-G0Ed-iHq09SJYA5g" name="productCode" views="_uLAqU-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//ProductInfo/productCode"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1mOG0Ed-iHq09SJYA5g" name="salesCode" views="_uLAqVOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//ProductInfo/salesCode"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1meG0Ed-iHq09SJYA5g" name="underDevelopmentDate" views="_uLAqVeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//ProductInfo/underDevelopmentDate"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//ProductInfo"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1muG0Ed-iHq09SJYA5g" name="Protocol" views="_uLAqVuG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1m-G0Ed-iHq09SJYA5g" name="procedures" views="_uLAqWOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Protocol/procedures"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1nOG0Ed-iHq09SJYA5g" name="functionRefs" views="_uLAqWeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Protocol/functionRefs"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1neG0Ed-iHq09SJYA5g" name="bodyRef" views="_uLAqWuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Protocol/bodyRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1nuG0Ed-iHq09SJYA5g" name="description" views="_uLAqW-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Protocol/description"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1n-G0Ed-iHq09SJYA5g" name="name" views="_uLAqXOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Protocol/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1oOG0Ed-iHq09SJYA5g" name="oSI" views="_uLAqXeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Protocol/oSI"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1oeG0Ed-iHq09SJYA5g" name="specification" views="_uLAqXuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Protocol/specification"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Protocol"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK-1ouG0Ed-iHq09SJYA5g" name="Relationship" views="_uLAqX-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1o-G0Ed-iHq09SJYA5g" name="abstract" views="_uLAqYeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/abstract"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK-1pOG0Ed-iHq09SJYA5g" name="maxConnections" views="_uLAqYuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/maxConnections"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cIOG0Ed-iHq09SJYA5g" name="name" views="_uLAqY-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cIeG0Ed-iHq09SJYA5g" name="payload" views="_uLAqZOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/payload"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cIuG0Ed-iHq09SJYA5g" name="protocolRef" views="_uLAqZeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/protocolRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cI-G0Ed-iHq09SJYA5g" name="requireConnection" views="_uLAqZuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship/requireConnection"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Relationship"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK_cJOG0Ed-iHq09SJYA5g" name="Room" views="_uLAqZ-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cJeG0Ed-iHq09SJYA5g" name="name" views="_uLAqaeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Room/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cJuG0Ed-iHq09SJYA5g" name="shape" views="_uLAqauG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Room/shape"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cJ-G0Ed-iHq09SJYA5g" name="siteRef" views="_uLAqa-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Room/siteRef"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Room"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK_cKOG0Ed-iHq09SJYA5g" name="Site" views="_uLAqbOG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cKeG0Ed-iHq09SJYA5g" name="area" views="_uLAqbuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site/area"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cKuG0Ed-iHq09SJYA5g" name="city" views="_uLAqb-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site/city"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cK-G0Ed-iHq09SJYA5g" name="countryRef" views="_uLAqcOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site/countryRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cLOG0Ed-iHq09SJYA5g" name="housenumber" views="_uLAqceG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site/housenumber"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cLeG0Ed-iHq09SJYA5g" name="latitude" views="_uLAqcuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site/latitude"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cLuG0Ed-iHq09SJYA5g" name="longitude" views="_uLAqc-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site/longitude"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cL-G0Ed-iHq09SJYA5g" name="name" views="_uLAqdOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cMOG0Ed-iHq09SJYA5g" name="postalcode" views="_uLAqdeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site/postalcode"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cMeG0Ed-iHq09SJYA5g" name="region" views="_uLAqduG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site/region"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cMuG0Ed-iHq09SJYA5g" name="sreet" views="_uLAqd-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site/sreet"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Site"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK_cM-G0Ed-iHq09SJYA5g" name="Tolerance" views="_uLAqeOG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cNOG0Ed-iHq09SJYA5g" name="errorAction" views="_uLAqeuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Tolerance/errorAction"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cNeG0Ed-iHq09SJYA5g" name="expression" views="_uLAqe-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Tolerance/expression"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cNuG0Ed-iHq09SJYA5g" name="name" views="_uLAqfOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Tolerance/name"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Tolerance"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK_cN-G0Ed-iHq09SJYA5g" name="Unit" views="_uLAqfeG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cOOG0Ed-iHq09SJYA5g" name="code" views="_uLAqf-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Unit/code"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cOeG0Ed-iHq09SJYA5g" name="description" views="_uLAqgOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Unit/description"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cOuG0Ed-iHq09SJYA5g" name="name" views="_uLAqgeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Unit/name"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//Unit"/>
+      </bindings>
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK_cO-G0Ed-iHq09SJYA5g" name="User" views="_uLAqguG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cPOG0Ed-iHq09SJYA5g" name="companyRef" views="_uLAqhOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//User/companyRef"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cPeG0Ed-iHq09SJYA5g" name="email" views="_uLAqheG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//User/email"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cPuG0Ed-iHq09SJYA5g" name="firstName" views="_uLAqhuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//User/firstName"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cP-G0Ed-iHq09SJYA5g" name="lastName" views="_uLAqh-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//User/lastName"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cQOG0Ed-iHq09SJYA5g" name="password" views="_uLAqiOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//User/password"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/networks.ecore#//User"/>
+      </bindings>
+    </categories>
+    <model href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.genmodel#//networks"/>
+  </eef-components:PropertiesEditionContext>
+  <eef-components:PropertiesEditionContext xmi:id="_uK_cQeG0Ed-iHq09SJYA5g" documentation="Edition Context for metrics GenPackage">
+    <categories xmi:id="_uK_cQuG0Ed-iHq09SJYA5g" name="metrics">
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK_cQ-G0Ed-iHq09SJYA5g" name="MetricSource" views="_uLAqi-G0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cROG0Ed-iHq09SJYA5g" name="metricValues" views="_uLAqjeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/metrics.ecore#//MetricSource/metricValues"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cReG0Ed-iHq09SJYA5g" name="lastContact" views="_uLAqjuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/metrics.ecore#//MetricSource/lastContact"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cRuG0Ed-iHq09SJYA5g" name="lastPurge" views="_uLAqj-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/metrics.ecore#//MetricSource/lastPurge"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cR-G0Ed-iHq09SJYA5g" name="location" views="_uLAqkOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/metrics.ecore#//MetricSource/location"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cSOG0Ed-iHq09SJYA5g" name="metrickind" views="_uLAqkeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/metrics.ecore#//MetricSource/metrickind"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cSeG0Ed-iHq09SJYA5g" name="name" views="_uLAqkuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/metrics.ecore#//MetricSource/name"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/metrics.ecore#//MetricSource"/>
+      </bindings>
+    </categories>
+    <model href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.genmodel#//metrics"/>
+  </eef-components:PropertiesEditionContext>
+  <eef-components:PropertiesEditionContext xmi:id="_uK_cSuG0Ed-iHq09SJYA5g" documentation="Edition Context for netxstudio GenPackage">
+    <categories xmi:id="_uK_cS-G0Ed-iHq09SJYA5g" name="netxstudio">
+      <bindings xsi:type="eef-components:PropertiesEditionComponent" xmi:id="_uK_cTOG0Ed-iHq09SJYA5g" name="Library" views="_uLAqleG0Ed-iHq09SJYA5g">
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cTeG0Ed-iHq09SJYA5g" name="networks" views="_uLAql-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/networks"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cTuG0Ed-iHq09SJYA5g" name="metrics" views="_uLAqmOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/metrics"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cT-G0Ed-iHq09SJYA5g" name="parameters" views="_uLAqmeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/parameters"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cUOG0Ed-iHq09SJYA5g" name="companies" views="_uLAqmuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/companies"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cUeG0Ed-iHq09SJYA5g" name="tolerances" views="_uLAqm-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/tolerances"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cUuG0Ed-iHq09SJYA5g" name="users" views="_uLAqnOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/users"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cU-G0Ed-iHq09SJYA5g" name="rooms" views="_uLAqneG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/rooms"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cVOG0Ed-iHq09SJYA5g" name="countries" views="_uLAqnuG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/countries"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cVeG0Ed-iHq09SJYA5g" name="sites" views="_uLAqn-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/sites"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cVuG0Ed-iHq09SJYA5g" name="units" views="_uLAqoOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/units"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cV-G0Ed-iHq09SJYA5g" name="services" views="_uLAqoeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/services"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cWOG0Ed-iHq09SJYA5g" name="versions" views="_uLAqouG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EReference" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/versions"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cWeG0Ed-iHq09SJYA5g" name="description" views="_uLAqo-G0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/description"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cWuG0Ed-iHq09SJYA5g" name="name" views="_uLAqpOG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/name"/>
+        </properties>
+        <properties xsi:type="eef-components:PropertiesEditionElement" xmi:id="_uK_cW-G0Ed-iHq09SJYA5g" name="version" views="_uLAqpeG0Ed-iHq09SJYA5g">
+          <model xsi:type="ecore:EAttribute" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library/version"/>
+        </properties>
+        <model xsi:type="ecore:EClass" href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.ecore#//Library"/>
+      </bindings>
+    </categories>
+    <model href="file:/Users/dzonekl/Documents/Spaces/netxstudio.gen4/com.netxforge.netxstudio.models/models/emf/netxstudio.genmodel#//netxstudio"/>
+  </eef-components:PropertiesEditionContext>
+  <eef-views:ViewsRepository xmi:id="_uK_cXOG0Ed-iHq09SJYA5g" documentation="Views repository for services GenPackage" name="services">
+    <RepositoryKind>SWT</RepositoryKind>
+    <RepositoryKind>Form</RepositoryKind>
+    <categories xmi:id="_uK_cXeG0Ed-iHq09SJYA5g" name="services">
+      <views xmi:id="_uK_cXuG0Ed-iHq09SJYA5g" name="CFSService">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_cX-G0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cYOG0Ed-iHq09SJYA5g" name="serviceContracts">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cYeG0Ed-iHq09SJYA5g" name="services">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cYuG0Ed-iHq09SJYA5g" name="mostTopService">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cY-G0Ed-iHq09SJYA5g" name="serviceCategory">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cZOG0Ed-iHq09SJYA5g" name="serviceCharacterCommon">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cZeG0Ed-iHq09SJYA5g" name="serviceClass">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cZuG0Ed-iHq09SJYA5g" name="serviceKind">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cZ-G0Ed-iHq09SJYA5g" name="serviceSupport1">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_caOG0Ed-iHq09SJYA5g" name="ssDomain">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_caeG0Ed-iHq09SJYA5g" name="elements">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cauG0Ed-iHq09SJYA5g" name="provider">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ca-G0Ed-iHq09SJYA5g" name="scenario">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_cbOG0Ed-iHq09SJYA5g" name="CIID">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_cbeG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cbuG0Ed-iHq09SJYA5g" name="commonCIID">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cb-G0Ed-iHq09SJYA5g" name="localCIID">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_ccOG0Ed-iHq09SJYA5g" name="RFSService">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_cceG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ccuG0Ed-iHq09SJYA5g" name="serviceContracts">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cc-G0Ed-iHq09SJYA5g" name="services">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cdOG0Ed-iHq09SJYA5g" name="mostTopService">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cdeG0Ed-iHq09SJYA5g" name="serviceCategory">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cduG0Ed-iHq09SJYA5g" name="serviceCharacterCommon">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cd-G0Ed-iHq09SJYA5g" name="serviceClass">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ceOG0Ed-iHq09SJYA5g" name="serviceKind">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ceeG0Ed-iHq09SJYA5g" name="serviceSupport1">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ceuG0Ed-iHq09SJYA5g" name="ssDomain">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ce-G0Ed-iHq09SJYA5g" name="elements">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cfOG0Ed-iHq09SJYA5g" name="functionalCategory">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cfeG0Ed-iHq09SJYA5g" name="location">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_cfuG0Ed-iHq09SJYA5g" name="Service">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_cf-G0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cgOG0Ed-iHq09SJYA5g" name="serviceContracts">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cgeG0Ed-iHq09SJYA5g" name="services">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cguG0Ed-iHq09SJYA5g" name="mostTopService">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cg-G0Ed-iHq09SJYA5g" name="serviceCategory">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_chOG0Ed-iHq09SJYA5g" name="serviceCharacterCommon">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cheG0Ed-iHq09SJYA5g" name="serviceClass">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_chuG0Ed-iHq09SJYA5g" name="serviceKind">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ch-G0Ed-iHq09SJYA5g" name="serviceSupport1">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ciOG0Ed-iHq09SJYA5g" name="ssDomain">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_cieG0Ed-iHq09SJYA5g" name="ServiceAdditional">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_ciuG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ci-G0Ed-iHq09SJYA5g" name="costCenter">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cjOG0Ed-iHq09SJYA5g" name="history">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cjeG0Ed-iHq09SJYA5g" name="kpi">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cjuG0Ed-iHq09SJYA5g" name="lifeCycleState">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cj-G0Ed-iHq09SJYA5g" name="link">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ckOG0Ed-iHq09SJYA5g" name="report">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_ckeG0Ed-iHq09SJYA5g" name="usageState">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_ckuG0Ed-iHq09SJYA5g" name="ServiceContract">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_ck-G0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_clOG0Ed-iHq09SJYA5g" name="oLA">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cleG0Ed-iHq09SJYA5g" name="sLA">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cluG0Ed-iHq09SJYA5g" name="uC">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cl-G0Ed-iHq09SJYA5g" name="wLA">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_cmOG0Ed-iHq09SJYA5g" name="ServiceDescription">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_cmeG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cmuG0Ed-iHq09SJYA5g" name="serviceDescriptionCommon">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cm-G0Ed-iHq09SJYA5g" name="serviceDescriptionNational">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_cnOG0Ed-iHq09SJYA5g" name="ServiceIncidentMgt">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_cneG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cnuG0Ed-iHq09SJYA5g" name="businessImpact">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cn-G0Ed-iHq09SJYA5g" name="maintenance">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_coOG0Ed-iHq09SJYA5g" name="maintenanceWindow">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_coeG0Ed-iHq09SJYA5g" name="monitoring">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_couG0Ed-iHq09SJYA5g" name="ServiceInterrest">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_co-G0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cpOG0Ed-iHq09SJYA5g" name="contactUnit">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cpeG0Ed-iHq09SJYA5g" name="interrestKind">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_cpuG0Ed-iHq09SJYA5g" name="ServiceName">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_cp-G0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cqOG0Ed-iHq09SJYA5g" name="alias">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cqeG0Ed-iHq09SJYA5g" name="identifier">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cquG0Ed-iHq09SJYA5g" name="index">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cq-G0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_crOG0Ed-iHq09SJYA5g" name="ServiceProfile">
+        <elements xsi:type="eef-views:Container" xmi:id="_uK_creG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cruG0Ed-iHq09SJYA5g" name="serviceParameters">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uK_cr-G0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uK_csOG0Ed-iHq09SJYA5g" name="ServiceSecurityMgt">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADMOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADMeG0Ed-iHq09SJYA5g" name="drPlanContact">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADMuG0Ed-iHq09SJYA5g" name="drPlanRepository">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADM-G0Ed-iHq09SJYA5g" name="drRecoveryPlan">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADNOG0Ed-iHq09SJYA5g" name="securityRating">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADNeG0Ed-iHq09SJYA5g" name="ServiceSupport">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADNuG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADN-G0Ed-iHq09SJYA5g" name="supportDays">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADOOG0Ed-iHq09SJYA5g" name="supportHours">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+    </categories>
+  </eef-views:ViewsRepository>
+  <eef-views:ViewsRepository xmi:id="_uLADOeG0Ed-iHq09SJYA5g" documentation="Views repository for generics GenPackage" name="generics">
+    <RepositoryKind>SWT</RepositoryKind>
+    <RepositoryKind>Form</RepositoryKind>
+    <categories xmi:id="_uLADOuG0Ed-iHq09SJYA5g" name="generics">
+      <views xmi:id="_uLADO-G0Ed-iHq09SJYA5g" name="DateTimeRange">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADPOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADPeG0Ed-iHq09SJYA5g" name="begin">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADPuG0Ed-iHq09SJYA5g" name="end">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADP-G0Ed-iHq09SJYA5g" name="DiagramInfo">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADQOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADQeG0Ed-iHq09SJYA5g" name="diagramKind">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADQuG0Ed-iHq09SJYA5g" name="location">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADQ-G0Ed-iHq09SJYA5g" name="MultiImage">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADROG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADReG0Ed-iHq09SJYA5g" name="obj16">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADRuG0Ed-iHq09SJYA5g" name="obj32">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADR-G0Ed-iHq09SJYA5g" name="obj48">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADSOG0Ed-iHq09SJYA5g" name="obj96">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADSeG0Ed-iHq09SJYA5g" name="obj128">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADSuG0Ed-iHq09SJYA5g" name="Value">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADS-G0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADTOG0Ed-iHq09SJYA5g" name="timeStamp">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADTeG0Ed-iHq09SJYA5g" name="value">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+    </categories>
+  </eef-views:ViewsRepository>
+  <eef-views:ViewsRepository xmi:id="_uLADTuG0Ed-iHq09SJYA5g" documentation="Views repository for networks GenPackage" name="networks">
+    <RepositoryKind>SWT</RepositoryKind>
+    <RepositoryKind>Form</RepositoryKind>
+    <categories xmi:id="_uLADT-G0Ed-iHq09SJYA5g" name="networks">
+      <views xmi:id="_uLADUOG0Ed-iHq09SJYA5g" name="Company">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADUeG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADUuG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADU-G0Ed-iHq09SJYA5g" name="rSSurl">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADVOG0Ed-iHq09SJYA5g" name="shortName">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADVeG0Ed-iHq09SJYA5g" name="symbol">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADVuG0Ed-iHq09SJYA5g" name="website">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADV-G0Ed-iHq09SJYA5g" name="Country">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADWOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADWeG0Ed-iHq09SJYA5g" name="countryCode">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADWuG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADW-G0Ed-iHq09SJYA5g" name="Equipment">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADXOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADXeG0Ed-iHq09SJYA5g" name="diagrams">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADXuG0Ed-iHq09SJYA5g" name="equipmentResources">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADX-G0Ed-iHq09SJYA5g" name="products">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADYOG0Ed-iHq09SJYA5g" name="equipmentMetricRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADYeG0Ed-iHq09SJYA5g" name="equipmentExpressionRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADYuG0Ed-iHq09SJYA5g" name="toleranceRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADY-G0Ed-iHq09SJYA5g" name="protocolRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADZOG0Ed-iHq09SJYA5g" name="parameterRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADZeG0Ed-iHq09SJYA5g" name="description">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADZuG0Ed-iHq09SJYA5g" name="equipmentCode">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADZ-G0Ed-iHq09SJYA5g" name="equipmentName">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADaOG0Ed-iHq09SJYA5g" name="manufacturerRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADaeG0Ed-iHq09SJYA5g" name="position">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADauG0Ed-iHq09SJYA5g" name="redundancy">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADa-G0Ed-iHq09SJYA5g" name="EquipmentRelationship">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADbOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADbeG0Ed-iHq09SJYA5g" name="abstract">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADbuG0Ed-iHq09SJYA5g" name="maxConnections">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADb-G0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADcOG0Ed-iHq09SJYA5g" name="payload">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADceG0Ed-iHq09SJYA5g" name="protocolRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADcuG0Ed-iHq09SJYA5g" name="requireConnection">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADc-G0Ed-iHq09SJYA5g" name="equipment1Ref">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADdOG0Ed-iHq09SJYA5g" name="equipment2Ref">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADdeG0Ed-iHq09SJYA5g" name="Expression">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADduG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADd-G0Ed-iHq09SJYA5g" name="expressionLines">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.3"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADeOG0Ed-iHq09SJYA5g" name="equipmentRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADeeG0Ed-iHq09SJYA5g" name="functionRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADeuG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADe-G0Ed-iHq09SJYA5g" name="Function">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADfOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADfeG0Ed-iHq09SJYA5g" name="functionDiagrams">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADf-G0Ed-iHq09SJYA5g" name="functionResources">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADgOG0Ed-iHq09SJYA5g" name="functionMetricRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADgeG0Ed-iHq09SJYA5g" name="functionExpressionRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADguG0Ed-iHq09SJYA5g" name="toleranceRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADg-G0Ed-iHq09SJYA5g" name="protocolRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADhOG0Ed-iHq09SJYA5g" name="parameterRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADheG0Ed-iHq09SJYA5g" name="bodyRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADhuG0Ed-iHq09SJYA5g" name="functionDescription">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADh-G0Ed-iHq09SJYA5g" name="functionName">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADiOG0Ed-iHq09SJYA5g" name="FunctionRelationship">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADieG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADiuG0Ed-iHq09SJYA5g" name="abstract">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADi-G0Ed-iHq09SJYA5g" name="maxConnections">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADjOG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADjeG0Ed-iHq09SJYA5g" name="payload">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADjuG0Ed-iHq09SJYA5g" name="protocolRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADj-G0Ed-iHq09SJYA5g" name="requireConnection">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADkOG0Ed-iHq09SJYA5g" name="function1Ref">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADkeG0Ed-iHq09SJYA5g" name="function2Ref">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADkuG0Ed-iHq09SJYA5g" name="Message">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADk-G0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADlOG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADleG0Ed-iHq09SJYA5g" name="Meta">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADluG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADl-G0Ed-iHq09SJYA5g" name="description">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADmOG0Ed-iHq09SJYA5g" name="version">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADmeG0Ed-iHq09SJYA5g" name="Metric">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADmuG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADm-G0Ed-iHq09SJYA5g" name="measurementSource">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADnOG0Ed-iHq09SJYA5g" name="metric">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADneG0Ed-iHq09SJYA5g" name="description">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADnuG0Ed-iHq09SJYA5g" name="measurementKind">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADn-G0Ed-iHq09SJYA5g" name="measurementPoint">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADoOG0Ed-iHq09SJYA5g" name="metricCalculation">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADoeG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADouG0Ed-iHq09SJYA5g" name="unitRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADo-G0Ed-iHq09SJYA5g" name="Network">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADpOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADpeG0Ed-iHq09SJYA5g" name="diagrams">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADpuG0Ed-iHq09SJYA5g" name="nodes">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADqOG0Ed-iHq09SJYA5g" name="createdByRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADqeG0Ed-iHq09SJYA5g" name="createdDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADquG0Ed-iHq09SJYA5g" name="description">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADq-G0Ed-iHq09SJYA5g" name="endDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADrOG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADreG0Ed-iHq09SJYA5g" name="parentRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADruG0Ed-iHq09SJYA5g" name="phaseNetworkRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADr-G0Ed-iHq09SJYA5g" name="startDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADsOG0Ed-iHq09SJYA5g" name="template">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADseG0Ed-iHq09SJYA5g" name="NetXResource">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADsuG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADs-G0Ed-iHq09SJYA5g" name="values">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.3"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADtOG0Ed-iHq09SJYA5g" name="calcName">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADteG0Ed-iHq09SJYA5g" name="calculatedData">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADtuG0Ed-iHq09SJYA5g" name="detailDisplay">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADt-G0Ed-iHq09SJYA5g" name="longName">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADuOG0Ed-iHq09SJYA5g" name="shortName">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADueG0Ed-iHq09SJYA5g" name="summaryDisplay">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADuuG0Ed-iHq09SJYA5g" name="unitRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLADu-G0Ed-iHq09SJYA5g" name="Node">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLADvOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADveG0Ed-iHq09SJYA5g" name="constructionDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADvuG0Ed-iHq09SJYA5g" name="createdByRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADv-G0Ed-iHq09SJYA5g" name="inServiceDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADwOG0Ed-iHq09SJYA5g" name="nodeID">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLADweG0Ed-iHq09SJYA5g" name="originalEquipmentRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqQOG0Ed-iHq09SJYA5g" name="originalFunctionRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqQeG0Ed-iHq09SJYA5g" name="outOfServiceDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqQuG0Ed-iHq09SJYA5g" name="plannedDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqQ-G0Ed-iHq09SJYA5g" name="roomRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLAqROG0Ed-iHq09SJYA5g" name="Parameter">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqReG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqRuG0Ed-iHq09SJYA5g" name="elementRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqR-G0Ed-iHq09SJYA5g" name="description">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqSOG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqSeG0Ed-iHq09SJYA5g" name="state">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqSuG0Ed-iHq09SJYA5g" name="value">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLAqS-G0Ed-iHq09SJYA5g" name="Procedure">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqTOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqTeG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLAqTuG0Ed-iHq09SJYA5g" name="ProductInfo">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqT-G0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqUOG0Ed-iHq09SJYA5g" name="availableDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqUeG0Ed-iHq09SJYA5g" name="endOfSalesDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqUuG0Ed-iHq09SJYA5g" name="endOfSupportDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqU-G0Ed-iHq09SJYA5g" name="productCode">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqVOG0Ed-iHq09SJYA5g" name="salesCode">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqVeG0Ed-iHq09SJYA5g" name="underDevelopmentDate">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLAqVuG0Ed-iHq09SJYA5g" name="Protocol">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqV-G0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqWOG0Ed-iHq09SJYA5g" name="procedures">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqWeG0Ed-iHq09SJYA5g" name="functionRefs">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqWuG0Ed-iHq09SJYA5g" name="bodyRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqW-G0Ed-iHq09SJYA5g" name="description">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqXOG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqXeG0Ed-iHq09SJYA5g" name="oSI">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqXuG0Ed-iHq09SJYA5g" name="specification">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLAqX-G0Ed-iHq09SJYA5g" name="Relationship">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqYOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqYeG0Ed-iHq09SJYA5g" name="abstract">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqYuG0Ed-iHq09SJYA5g" name="maxConnections">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqY-G0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqZOG0Ed-iHq09SJYA5g" name="payload">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqZeG0Ed-iHq09SJYA5g" name="protocolRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqZuG0Ed-iHq09SJYA5g" name="requireConnection">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.1"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLAqZ-G0Ed-iHq09SJYA5g" name="Room">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqaOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqaeG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqauG0Ed-iHq09SJYA5g" name="shape">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqa-G0Ed-iHq09SJYA5g" name="siteRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLAqbOG0Ed-iHq09SJYA5g" name="Site">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqbeG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqbuG0Ed-iHq09SJYA5g" name="area">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqb-G0Ed-iHq09SJYA5g" name="city">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqcOG0Ed-iHq09SJYA5g" name="countryRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqceG0Ed-iHq09SJYA5g" name="housenumber">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqcuG0Ed-iHq09SJYA5g" name="latitude">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqc-G0Ed-iHq09SJYA5g" name="longitude">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqdOG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqdeG0Ed-iHq09SJYA5g" name="postalcode">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqduG0Ed-iHq09SJYA5g" name="region">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqd-G0Ed-iHq09SJYA5g" name="sreet">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLAqeOG0Ed-iHq09SJYA5g" name="Tolerance">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqeeG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqeuG0Ed-iHq09SJYA5g" name="errorAction">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.2"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqe-G0Ed-iHq09SJYA5g" name="expression">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqfOG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLAqfeG0Ed-iHq09SJYA5g" name="Unit">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqfuG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqf-G0Ed-iHq09SJYA5g" name="code">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqgOG0Ed-iHq09SJYA5g" name="description">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqgeG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+      <views xmi:id="_uLAqguG0Ed-iHq09SJYA5g" name="User">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqg-G0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqhOG0Ed-iHq09SJYA5g" name="companyRef">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqheG0Ed-iHq09SJYA5g" name="email">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqhuG0Ed-iHq09SJYA5g" name="firstName">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqh-G0Ed-iHq09SJYA5g" name="lastName">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqiOG0Ed-iHq09SJYA5g" name="password">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+    </categories>
+  </eef-views:ViewsRepository>
+  <eef-views:ViewsRepository xmi:id="_uLAqieG0Ed-iHq09SJYA5g" documentation="Views repository for metrics GenPackage" name="metrics">
+    <RepositoryKind>SWT</RepositoryKind>
+    <RepositoryKind>Form</RepositoryKind>
+    <categories xmi:id="_uLAqiuG0Ed-iHq09SJYA5g" name="metrics">
+      <views xmi:id="_uLAqi-G0Ed-iHq09SJYA5g" name="MetricSource">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqjOG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqjeG0Ed-iHq09SJYA5g" name="metricValues">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.8"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqjuG0Ed-iHq09SJYA5g" name="lastContact">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqj-G0Ed-iHq09SJYA5g" name="lastPurge">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqkOG0Ed-iHq09SJYA5g" name="location">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqkeG0Ed-iHq09SJYA5g" name="metrickind">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqkuG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+    </categories>
+  </eef-views:ViewsRepository>
+  <eef-views:ViewsRepository xmi:id="_uLAqk-G0Ed-iHq09SJYA5g" documentation="Views repository for netxstudio GenPackage" name="netxstudio">
+    <RepositoryKind>SWT</RepositoryKind>
+    <RepositoryKind>Form</RepositoryKind>
+    <categories xmi:id="_uLAqlOG0Ed-iHq09SJYA5g" name="netxstudio">
+      <views xmi:id="_uLAqleG0Ed-iHq09SJYA5g" name="Library">
+        <elements xsi:type="eef-views:Container" xmi:id="_uLAqluG0Ed-iHq09SJYA5g" name="properties">
+          <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.4"/>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAql-G0Ed-iHq09SJYA5g" name="networks">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqmOG0Ed-iHq09SJYA5g" name="metrics">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqmeG0Ed-iHq09SJYA5g" name="parameters">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqmuG0Ed-iHq09SJYA5g" name="companies">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqm-G0Ed-iHq09SJYA5g" name="tolerances">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqnOG0Ed-iHq09SJYA5g" name="users">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqneG0Ed-iHq09SJYA5g" name="rooms">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqnuG0Ed-iHq09SJYA5g" name="countries">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqn-G0Ed-iHq09SJYA5g" name="sites">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqoOG0Ed-iHq09SJYA5g" name="units">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqoeG0Ed-iHq09SJYA5g" name="services">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqouG0Ed-iHq09SJYA5g" name="versions">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/EMFProperties.toolkits#//@widgets.7"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqo-G0Ed-iHq09SJYA5g" name="description">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqpOG0Ed-iHq09SJYA5g" name="name">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+          <elements xsi:type="eef-views:ElementEditor" xmi:id="_uLAqpeG0Ed-iHq09SJYA5g" name="version">
+            <representation href="platform:/plugin/org.eclipse.emf.eef.views/std/SWT.toolkits#//@widgets.0"/>
+          </elements>
+        </elements>
+      </views>
+    </categories>
+  </eef-views:ViewsRepository>
+</xmi:XMI>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/15072010/generics"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	id="generics" targetNamespace="http://www.netxforge.com/15072010/generics"
+	ecore:package="com.netxforge.generics">
+	<xs:annotation>
+		<xs:documentation>
+			Generic types
+		</xs:documentation>
+	</xs:annotation>
+
+	<!--_______________________ -->
+	<!-- GENERIC TYPES -->
+	<!--_______________________ -->
+
+	<xs:complexType name="MultiImage">
+		<xs:annotation>
+			<xs:documentation>An
+				image representation of the model, The URI is
+				relative to the
+				executing plugins icon folder (TODO, could be
+				absolute URI if
+				needed)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="0" name="obj16" type="xs:anyURI" />
+			<xs:element minOccurs="0" name="obj32" type="xs:anyURI" />
+			<xs:element minOccurs="0" name="obj48" type="xs:anyURI" />
+			<xs:element minOccurs="0" name="obj96" type="xs:anyURI" />
+			<xs:element minOccurs="0" name="obj128" type="xs:anyURI" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Name100">
+		<xs:annotation>
+			<xs:documentation>A name type of 100 chars.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Description2000">
+		<xs:annotation>
+			<xs:documentation>A description type of 2000 chars</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2000" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LiteralReference">
+		<xs:annotation>
+			<xs:documentation>A literal which represents a reference
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="200" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LiteralReferenceShort">
+		<xs:annotation>
+			<xs:documentation>A literal which represents a reference
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20" />
+		</xs:restriction>
+	</xs:simpleType>
+<!--  TODO Remove later, remodelled using a feature map	
+	<xs:simpleType ecore:enum="false" name="ResourceKind">
+		<xs:annotation>
+			<xs:documentation>The resource kind, is an enumerated
+				value which
+				determines if the value of this
+				resource will be either calculated by
+				the
+				calculation scripts, or will it be determined
+				from an imported
+				value. 
+</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Calculated" />
+			<xs:enumeration value="Imported" />
+			<xs:enumeration value="Measured" />
+		</xs:restriction>
+	</xs:simpleType>
+ -->	
+	<xs:simpleType name="Unit">
+		<xs:annotation>
+			<xs:documentation>The Unit, is a two character string
+				which demarks
+				the resource unit for
+				displaying purposes. (The Unit as such is not
+				interpreted).
+				Units can be freely defined (Not implied
+				by
+				enumeration). 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ExpressionLine">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1000" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="DateTimeRange">
+	<xs:annotation>
+				<xs:documentation>Validation should apply:
+Begin &lt; End
+Begin.Year  End.Year &gt; 1970
+				</xs:documentation>
+			</xs:annotation>
+		<xs:attribute name="Begin" type="xs:dateTime"/>
+		<xs:attribute name="End" type="xs:dateTime">
+			</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="DiagramInfo">
+		<xs:attribute name="Location" type="xs:anyURI" />
+		<xs:attribute name="DiagramKind">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="template" />
+					<xs:enumeration value="design" />
+					<xs:enumeration value="wiring" />
+					<xs:enumeration value="function" />
+					<xs:enumeration value="equipment" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<!--_____________________________ -->
+	<!--| VALUE 					| -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Value">
+		<xs:annotation>
+			<xs:documentation>
+				The resource value and for when this value applies. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Value" type="xs:double" />
+		<xs:attribute name="TimeStamp" type="xs:dateTime" />
+	</xs:complexType>
+	
+</xs:schema>

@@ -1,0 +1,873 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/15072010/networks" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gen="http://www.netxforge.com/15072010/generics" xmlns:metrics="http://www.netxforge.com/15072010/metrics" xmlns:xs="http://www.w3.org/2001/XMLSchema" ecore:package="com.netxforge.networks" id="networks" targetNamespace="http://www.netxforge.com/15072010/networks">
+	<xs:import namespace="http://www.netxforge.com/15072010/generics" schemaLocation="generics.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/15072010/metrics" schemaLocation="metrics.xsd"/>
+	<xs:annotation>
+		<xs:documentation>
+
+			Network Data schema Copyright 2008 The schema uses
+			ecore
+			references syntax, but should easily map into an SQL schema.
+			The
+			ecore
+			references, are mapped into ORM specific DLL (See
+			Hibernate or
+			other
+			ORM. EMF/Hibernate
+			however uses a custom mechanism.
+
+			Don't use
+			the
+			word
+			"Item", as this is appended to the Object
+			name in the EMF
+			edit
+			model.
+		</xs:documentation>
+		<xs:appinfo ecore:key="validationDelegates" source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="settingDelegates" source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="invocationDelegates" source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+	</xs:annotation>
+
+	<!--_______________________ -->
+	<!-- META -->
+	<!--_______________________ -->
+
+	<xs:complexType name="Meta">
+		<xs:annotation>
+			<xs:documentation>
+				Contains meta information about this model file.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Author" type="User" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute ecore:id="true" name="Version" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The version of the Networks model file.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Description" type="gen:Description2000">
+			<xs:annotation>
+				<xs:documentation>
+					The description of this version
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- NETWORK -->
+	<!--_______________________ -->
+
+	<xs:complexType name="Network">
+		<xs:annotation>
+			<xs:documentation>
+				The Network class is used for several purposes 1)
+				It is
+				a used a template containing abstract elements and helps
+				to
+				build the allowed relationships.
+
+				2)
+
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!-- Contained -->
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Diagrams" type="gen:DiagramInfo"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Nodes" type="Node"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Relationships" type="Relationship"/>
+		</xs:sequence>
+		<xs:attribute ecore:reference="Network" name="ParentRef" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>
+					Nesting of a network is used to create network
+					fragments
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute ecore:reference="Network" name="PhaseNetworkRef" type="xs:anyURI"/>
+		<xs:attribute ecore:reference="User" name="CreatedByRef" type="xs:anyURI"/>
+		<xs:attribute name="CreatedDate" type="xs:dateTime"/>
+		<xs:attribute default="name" ecore:id="true" name="Name" type="gen:Name100"/>
+		<xs:attribute name="Description" type="gen:Description2000">
+			<xs:annotation>
+				<xs:documentation>
+					The description of the network model. Free text
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="StartDate" type="xs:dateTime"/>
+		<xs:attribute name="EndDate" type="xs:dateTime"/>
+		<xs:attribute name="Template" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>
+					An abstract network (Or Template) consists of
+					Elements with no Equipment resources defined and a
+					single function
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<!--_______________ -->
+	<!-- NODE -->
+	<!--_______________ -->
+
+	<xs:complexType name="Node">
+		<xs:annotation>
+			<xs:documentation>
+			</xs:documentation>
+			<xs:appinfo ecore:key="constraints" source="http://www.eclipse.org/emf/2002/Ecore">ValidNodeID</xs:appinfo>
+			<xs:appinfo ecore:key="ValidNodeID" source="http://www.eclipse.org/emf/2002/Ecore/OCL">not self.nodeID.oclIsUndefined()</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Function">
+				<xs:sequence>
+					<!-- Contained -->
+					<!-- Non-Contained -->
+					<!-- OCL Derived features -->
+				</xs:sequence>
+				<xs:attribute name="NodeID" type="gen:Name100">
+					<xs:annotation>
+						<xs:documentation>
+							Format is:
+							[Location][Nodetype_abbreviation][Sequencenumber]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="User" name="CreatedByRef" type="xs:anyURI">
+				</xs:attribute>
+				<xs:attribute ecore:reference="Room" name="RoomRef" type="xs:anyURI">
+				</xs:attribute>
+				<!-- Life cycle dates in the network -->
+				<xs:attribute name="PlannedDate" type="xs:dateTime"/>
+				<xs:attribute name="ConstructionDate" type="xs:dateTime"/>
+				<xs:attribute name="InServiceDate" type="xs:dateTime"/>
+				<xs:attribute name="OutOfServiceDate" type="xs:dateTime"/>
+				<xs:attribute ecore:reference="Function" name="LibraryRef" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>
+						When an equipment is in a network plan, this field
+						marks the original Element we were copied
+						(duplicated) from. It can
+						also never be abstract.
+					</xs:documentation>
+				</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<!--_______________ -->
+	<!-- FUNCTION -->
+	<!--_______________ -->
+
+	<xs:complexType name="Function">
+		<xs:annotation>
+			<xs:documentation>
+				It is
+				used to define the abstract element and nested
+				element of a function.
+
+				Abstract elements (Or SW functions) can be
+				linked to HW
+				physical elements which produce a certain
+				capability/capacity. It means an equipment resource in
+				an element
+				needs to be associated with the SW resources.
+				The initial
+				implementation on links on the root Element.
+				(So all child resources
+				can be used by the equipment
+				calculations).
+
+				Abstract Elements
+				-----------------
+
+				When defined as an abstract element, the element
+				only
+				has resources which are generic and not associated with
+				a
+				physical Element. So this could be for example an
+				Ethernet Function,
+				with a Bandwidth resource.
+			</xs:documentation>
+			<xs:appinfo ecore:key="constraints" source="http://www.eclipse.org/emf/2002/Ecore">ValidFunctionName</xs:appinfo>
+			<xs:appinfo ecore:key="ValidFunctionName" source="http://www.eclipse.org/emf/2002/Ecore/OCL">not self.functionName.oclIsUndefined()</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Equipment">
+				<xs:sequence>
+					<!-- Contained -->
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="FunctionDiagrams" type="gen:DiagramInfo"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Relationships" type="Relationship"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions" type="Function">
+						<xs:annotation>
+							<xs:documentation>
+								This allows us to nest elements.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="FunctionResources" type="NetXResource">
+						<xs:annotation>
+							<xs:documentation>
+								A contained element resource.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<!-- Non-Contained -->
+					
+					<xs:element ecore:reference="Metric" maxOccurs="unbounded" minOccurs="0" name="FunctionMetricRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>
+								A non-contained element metric.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:opposite="FunctionRefs" ecore:reference="Expression" maxOccurs="unbounded" minOccurs="0" name="FunctionExpressionRefs" type="xs:anyURI"/>
+					<xs:element ecore:reference="Tolerance" maxOccurs="unbounded" minOccurs="0" name="ToleranceRefs" type="xs:anyURI"/>
+					<xs:element ecore:reference="Protocol" maxOccurs="unbounded" minOccurs="0" name="ProtocolRefs" type="xs:anyURI"/>
+					<xs:element ecore:reference="Parameter" maxOccurs="unbounded" minOccurs="0" name="ParameterRefs" type="xs:anyURI"/>
+
+					<!-- OCL Derived features -->
+					<xs:element ecore:derived="true" ecore:reference="NetXResource" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllFunctionResources" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>OCL derived feature: Retrieves all resources
+							</xs:documentation>
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(functions).functionResources-&gt;asOrderedSet()
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+
+					<xs:element ecore:derived="true" ecore:reference="Function" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllFunctions" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>OCL derived feature: Retrieve all functions
+							</xs:documentation>
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(functions)-&gt;asOrderedSet()</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute ecore:reference="Company" name="BodyRef" type="xs:anyURI"/>
+				<xs:attribute name="FunctionDescription" type="gen:Description2000"/>
+				<xs:attribute name="FunctionName" type="gen:Name100"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________ -->
+	<!-- EQUIPMENT -->
+	<!--_______________ -->
+
+	<xs:complexType name="Equipment">
+		<xs:annotation>
+			<xs:documentation>
+				It is used to define the
+				library physical equipment
+				(non-abstract)
+				and it's
+				nested sub elements
+
+
+				Library Physical Elements.
+				--------------------------
+
+				A physical element is
+				always copied from
+				an
+				abstract
+				element (Or multiple abstract
+				elements). As it's a copy,
+				the
+				element inherits the abstract
+				resources, but can be
+				extended with
+				physical resources and an
+				expression. (The
+				expression translates a
+				physical resource value into
+				an
+				abstract resource value).
+
+				The
+				following
+				fields have to be set. -
+				ProductCode -
+				SalesCode - Various
+				equipment
+				dates. (Under development,
+				Available, End of Sales, End of
+				Support). -
+				Hardware
+				should be set to
+				true for HW, for SW features HW
+				is
+				false. -
+				Element Resources should
+				be set. - Equipment
+				Calculations
+				are set.
+
+				All
+				other fields should NOT
+				be set.
+
+				The Editor is a tree
+				based editor.
+				Which allows to
+				create a
+				library of physical elements
+				and place
+				physical
+				elements in a hierachy
+				to create equipment.
+
+				We
+				shall always add
+				some physical resources to an
+				element being height,
+				width, depth and
+				weight. TODO
+				Physical resource
+				are 3Dimensional. See
+				how a 3D format
+				could be used to translate to an
+				equipment resource.
+
+
+				Network Physical
+				Elements
+				-------------------------
+
+				A physical
+				element in a Network is a
+				copy of
+				a physical
+				element, but with the
+				Network reference set and some
+				additional fields. - The SystemID
+				needs to be set. -
+				Various
+				deployment status dates. (Construction,
+				InService, OutOfService). -
+				Resource values are
+				calculated based on
+				the associated calculations.
+
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<!-- Contained -->
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Diagrams" type="gen:DiagramInfo"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments" type="Equipment">
+				<xs:annotation>
+					<xs:documentation>
+						This allows us to nest equipments.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element> 
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="EquipmentResources" type="NetXResource">
+				<xs:annotation>
+					<xs:documentation>
+						A contained equipment resource.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<!-- Non-Contained -->
+			<xs:element ecore:reference="Metric" maxOccurs="unbounded" minOccurs="0" name="EquipmentMetricRefs" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>
+						A contained equipment metric.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ecore:opposite="EquipmentRefs" ecore:reference="Expression" maxOccurs="unbounded" minOccurs="0" name="EquipmentExpressionRefs" type="xs:anyURI"/>
+
+			<!-- OCL Derived features -->
+			<xs:element ecore:derived="true" ecore:reference="NetXResource" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllEquipmentResources" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>OCL derived feature: Retrieves all resources
+					</xs:documentation>
+					<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(equipments).equipmentResources-&gt;asOrderedSet()
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element ecore:derived="true" ecore:reference="Equipment" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllEquipments" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>OCL derived feature: Retrieve all elements with
+						a
+						non-empty product code.
+						These are </xs:documentation>
+					<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(equipments)-&gt;asOrderedSet()</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		
+		<xs:attribute ecore:reference="Company" name="ManufacturerRef" type="xs:anyURI"/>
+		<xs:attribute name="Description" type="gen:Description2000"/>
+		<xs:attribute name="EquipmentName" type="gen:Name100">
+			<xs:annotation>
+				<xs:documentation>The instance name of an equipment.</xs:documentation>
+			</xs:annotation>
+    </xs:attribute>
+		<xs:attribute name="EquipmentCode" type="gen:Name100"/>
+		<xs:attribute name="ProductCode" type="gen:Name100"/>
+		<xs:attribute name="SalesCode" type="gen:Name100"/>
+		<xs:attribute name="Position" type="gen:Name100"/>
+
+		<!-- Equipment Life cycle dates -->
+		<xs:attribute name="UnderDevelopmentDate" type="xs:dateTime"/>
+		<xs:attribute name="AvailableDate" type="xs:dateTime"/>
+		<xs:attribute name="EndOfSalesDate" type="xs:dateTime"/>
+		<xs:attribute name="EndOfSupportDate" type="xs:dateTime"/>
+	</xs:complexType>
+
+	<!-- ___________________________ -->
+	<!--| USER | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="User">
+		<xs:attribute ecore:reference="Company" name="CompanyRef" type="xs:anyURI"/>
+		<xs:attribute name="FirstName" type="gen:Name100"/>
+		<xs:attribute name="LastName" type="gen:Name100"/>
+		<xs:attribute name="Email" type="xs:string"/>
+		<xs:attribute name="Password" type="xs:string"/>
+	</xs:complexType>
+
+
+	<!-- ___________________________ -->
+	<!--| RELATIONSHIP | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Relationship">
+		<xs:attribute name="Abstract" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>
+					A relationship is defined abstract when both
+					related
+					elements are abstract. It is used in a Template to
+					define a
+					relationship between two functional
+					entities. When abstract, the
+					relationship should
+					have a name corresponding to the reference names
+					in
+					the applicable specification of the Template.
+
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute ecore:reference="Function" name="Function1Ref" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>
+					A relationship exists between two elements
+					(Function
+					or Equipment).
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute ecore:reference="Function" name="Function2Ref" type="xs:anyURI"/>
+		<xs:attribute ecore:id="true" name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="RequireConnection" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>
+					This indicates a mandatory connection. (The
+					element
+					can't be an orphan).
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MaxConnections" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>
+					The maximum number of relationships which can
+					exist
+					between these two functions (Elements) and
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Payload">
+			<xs:annotation>
+				<xs:documentation>
+					The payload type defines the kind of relationship.
+					The enumerated values provide an additional marking
+					for the payload
+					of the relationship. The payload is
+					actually implicit to the
+					applicable protocol on the
+					relationship.
+
+					For example: two functions
+					connected with protocol
+					BSSMAP, would imply a Traffic and Signaling
+					payload.
+
+					TODO: Consider removing this feature.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Traffic"/>
+					<xs:enumeration value="Signaling"/>
+					<xs:enumeration value="Power"/>
+					<xs:enumeration value="Management"/>
+					<xs:enumeration value="Synchronization="/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute ecore:reference="Protocol" name="ProtocolRef" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>
+					The protocol reference, is actually not on the
+					relationship, rather more implicit by two functions
+					which have a
+					relationship and a protocol each.
+
+					Consider removing this feature.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| PROTOCOL | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Protocol">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Procedures" type="Procedure"/>
+			<xs:element ecore:opposite="ProtocolRefs" ecore:reference="Function" maxOccurs="unbounded" minOccurs="0" name="FunctionRefs" type="xs:anyURI"/>
+		</xs:sequence>
+		<xs:attribute ecore:reference="Company" name="BodyRef" type="xs:anyURI"/>
+		<xs:attribute name="OSI" type="xs:int"/>
+		<xs:attribute ecore:id="true" name="Name" type="gen:Name100"/>
+		<xs:attribute name="Description" type="gen:Description2000"/>
+		<xs:attribute name="Specification" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The specification could be: IETF=&gt; RFC 1234, ITU-T
+					Q.711, 3GPP ....
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| MESSAGE | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Message">
+		<xs:attribute ecore:id="true" name="Name" type="gen:Name100"/>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| PROCEDURE | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Procedure">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a sequence of messages which combined is
+				the
+				procedure
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute ecore:id="true" name="Name" type="gen:Name100"/>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| RESOURCE | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="NetXResource">
+		<xs:sequence>
+			<xs:choice ecore:name="Values" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						A contained resource value. There could be
+						various types of values: Note: Abstract
+						elements(Functions) should
+						not have resource
+						values. Values only apply to real elements.
+
+						-
+						Historical usage values. Historical values are
+						emperic values
+						retrieved from the real network.
+						Note: Historical values should
+						have a timestamp.
+
+						- Capacity values. Capacity values are
+						calculated
+						for real equipment resources.
+						Capacity values are sometimes
+						dynamic. Dynamic
+						capacities vary based on the usage pattern.
+						(Traffic profile). The Equipment calculations
+						can be used to
+						determine a resource capacity
+						value, but sometimes the value is
+						determined by
+						the vendor and will be provided as is.
+
+						- Projected
+						usage values. Projected usage values
+						are calculated based on the
+						provided usage
+						pattern. (How the equipment is connected in the
+						network and the traffic and procedures it
+						handles).
+					</xs:documentation>
+				</xs:annotation>
+				<!-- TODO, we need multiple metric ranges which are a selection from the metric
+				this could be Busy Hour per day, or week or all values in a day etc... the 
+				timestamp provides indication -->
+				<xs:element name="MetricValues" type="gen:Value"/>
+				<xs:element name="CapacityValues" type="gen:Value"/>
+				<xs:element name="ForecastValues" type="gen:Value"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute ecore:id="true" name="ShortName" type="gen:Name100"/>
+		<xs:attribute name="CalcName" type="gen:Name100"/>
+		<xs:attribute name="LongName" type="gen:Description2000"/>
+		<xs:attribute default="true" name="CalculatedData" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>
+					TODO, determine if this is still needed as we have
+					also the resource kind. (Which has option
+					calculated).
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<!--  TODO Remove later 
+		<xs:attribute name="ValueSource" type="gen:ResourceKind" />
+		-->
+		<xs:attribute ecore:reference="Unit" name="UnitRef" type="xs:anyURI"/>
+		
+		<xs:attribute name="SummaryDisplay" type="xs:boolean"/>
+		<xs:attribute name="DetailDisplay" type="xs:boolean"/>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| METRIC | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Metric">
+		<xs:annotation>
+			<xs:documentation>
+				A metric is a reference to a metric definition on an
+				equipment
+				which can provide the value for a resource
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MeasurementSource" type="metrics:MetricSource"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Metric" type="Metric">
+				<xs:annotation>
+					<xs:documentation>Nesting of Metric objects allow for the creation of formula's which are composed of child metrics. 
+A Composed Metric can use the child Metric's in the field MetricCalculation. </xs:documentation>
+				</xs:annotation>
+      </xs:element>
+		</xs:sequence>
+		
+		<xs:attribute ecore:id="true" name="Name" type="gen:Name100"/>
+		<xs:attribute name="Description" type="gen:Description2000"/>
+		<xs:attribute ecore:reference="Unit" name="UnitRef" type="xs:anyURI"/>
+		<xs:attribute name="MeasurementPoint" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Describes textually at which point in a procedure
+					the measurement takes place. This could also be more tightly
+					connected to the defined procedures</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MeasurementKind" type="xs:string"/>
+		<xs:attribute name="MetricCalculation" type="gen:ExpressionLine"/>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| TOLERANCE | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Tolerance">
+		<xs:attribute name="Name" type="gen:Name100"/>
+		<xs:attribute name="Expression" type="gen:ExpressionLine"/>
+		<xs:attribute name="ErrorAction">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="RED"/>
+					<xs:enumeration value="AMBER"/>
+					<xs:enumeration value="GREEN"/>
+					<xs:enumeration value="YELLOW"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+
+	<!--_____________________________ -->
+	<!--| PARAMETER | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Parameter">
+		<xs:sequence>
+			<xs:element ecore:opposite="ParameterRefs" ecore:reference="Element" maxOccurs="unbounded" minOccurs="0" name="ElementRefs" type="xs:anyURI"/>
+		</xs:sequence>
+		<xs:attribute ecore:id="true" name="Name" type="gen:Name100"/>
+		<xs:attribute name="Description" type="gen:Description2000"/>
+		<xs:attribute name="State">
+			<!-- remove ecore:enum = flase -->
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Read Only"/>
+					<xs:enumeration value="Modifiable"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Value" type="xs:double"/>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| UNIT | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Unit">
+		<xs:annotation>
+			<xs:documentation>A unit like Erlang, Subs or any other metric
+				defined. It's used for metrics and resources
+				It has a Name, a
+				description and a Code (two characters)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Name" type="gen:Name100"/>
+		<xs:attribute name="Description" type="gen:Description2000"/>
+		<xs:attribute ecore:id="true" name="Code" type="gen:Unit"/>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| COMPANY | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Company">
+		<xs:annotation>
+			<xs:documentation>
+				Companies can be commercial vendors of equipment
+				Telecommunication Service Providers or other
+				institutions i.e.
+				industry cooperation bodies to promote
+				usage of standards
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute ecore:id="true" name="Name" type="gen:Name100">
+			<xs:annotation>
+				<xs:documentation>
+					The name of the manufacturer
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ShortName" type="gen:Name100">
+			<xs:annotation>
+				<xs:documentation>
+					The name of the manufacturer
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<!-- TODO, find the specifications of financial symbols. -->
+		<xs:attribute name="Symbol" type="gen:Name100">
+			<xs:annotation>
+				<xs:documentation>
+					The financial symbol.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Website" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>
+					The website of this Manufacturer
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="RSSurl" type="xs:anyURI"/>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| EXPRESSION | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Expression">
+		<xs:sequence>
+			<!--  Contained -->
+			<xs:element name="ExpressionLines" maxOccurs="unbounded" minOccurs="0" type="gen:ExpressionLine"/>	
+			<!--  Non-Contained -->
+			<xs:element ecore:opposite="EquipmentExpressionRefs" ecore:reference="Equipment" maxOccurs="unbounded" minOccurs="0" name="EquipmentRefs" type="xs:anyURI"/>
+			<xs:element ecore:opposite="FunctionExpressionRefs" ecore:reference="Function" maxOccurs="unbounded" minOccurs="0" name="FunctionRefs" type="xs:anyURI"/>
+		</xs:sequence>
+		<xs:attribute ecore:id="true" name="Name" type="gen:Name100"/>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| ROOM | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Room">
+		<xs:attribute ecore:reference="Site" name="SiteRef" type="xs:anyURI">
+		</xs:attribute>
+
+		<xs:attribute ecore:id="true" name="Name" type="gen:Name100"/>
+		<xs:attribute name="Shape" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					A room shape is a polygon. As GMF could associate
+					a
+					visual, and store it in the graphical metamodel, not
+					sure we should
+					model shape here.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+
+	<!--_____________________________ -->
+	<!--| SITE | -->
+	<!--|___________________________| -->
+	<xs:complexType name="Site">
+		<xs:attribute ecore:reference="Country" name="CountryRef" type="xs:anyURI"/>
+		<xs:attribute ecore:id="true" name="Name" type="gen:Name100"/>
+		<xs:attribute name="Longitude" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					See
+
+					http://en.wikipedia.org/wiki/Geographic_coordinates
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Latitude" type="xs:string"/>
+		<xs:attribute name="Sreet" type="xs:string"/>
+		<xs:attribute name="Housenumber" type="xs:string"/>
+		<xs:attribute name="Postalcode" type="xs:string"/>
+		<xs:attribute name="City" type="xs:string"/>
+		<xs:attribute name="Area" type="xs:string"/>
+		<xs:attribute name="Region" type="xs:string"/>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| COUNTRY | -->
+	<!--|___________________________| -->
+	<xs:complexType name="Country">
+		<xs:attribute ecore:id="true" name="Name" type="gen:Name100"/>
+		<xs:attribute name="CountryCode" type="xs:string">
+		</xs:attribute>
+	</xs:complexType>
+
+
+</xs:schema>

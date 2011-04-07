@@ -1,0 +1,19 @@
+New: 
+
+- Create a new plugin com.netxforge.netxstudio.eef
+- Add a src-gen folder.
+- Add a dependency to com.netxforge.netxstudio.emf.edit
+- Add a dependency to org.eclipse.emf.eef.runtime
+- Follow the instructions of Updating. 
+
+
+Updating: 
+
+- EEF doesn't allow to reload the domain model. 
+- So create a new domain model. park the old one in a folder named with the creation date. 
+- Delete the architecture. 
+- Set the plugin path and src base path.
+
+
+Plugin.xml
+

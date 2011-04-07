@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/05012011/operators"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" 
+	xmlns:gen="http://www.netxforge.com/05012011/generics"
+	xmlns:metrics="http://www.netxforge.com/05012011/metrics" 
+	xmlns:library="http://www.netxforge.com/05012011/library"
+	xmlns:geo="http://www.netxforge.com/05012011/geo"
+	xmlns:services="http://www.netxforge.com/05012011/services"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	ecore:package="com.netxforge.operators" id="operators"
+	targetNamespace="http://www.netxforge.com/05012011/operators" >
+    <xs:import namespace="http://www.netxforge.com/05012011/generics"
+		schemaLocation="generics.xsd" />
+	<xs:import namespace="http://www.netxforge.com/05012011/metrics"
+		schemaLocation="metrics.xsd" />
+	<xs:import namespace="http://www.netxforge.com/05012011/library"
+		schemaLocation="library.xsd" />
+	<xs:import namespace="http://www.netxforge.com/05012011/geo"
+		schemaLocation="geo.xsd" />
+	<xs:import schemaLocation="services.xsd"
+		namespace="http://www.netxforge.com/05012011/services"/>	
+	<xs:annotation>
+		<xs:documentation>
+
+			Network Data schema Copyright 2008 The schema uses
+			ecore
+			references syntax, but should easily map into an SQL schema.
+			The
+			ecore
+			references, are mapped into ORM specific DLL (See
+			Hibernate or
+			other
+			ORM. EMF/Hibernate
+			however uses a custom mechanism.
+
+			Don't use
+			the
+			word
+			"Item", as this is appended to the Object
+			name in the EMF
+			edit
+			model.
+			
+			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
+			
+		</xs:documentation>
+		<xs:appinfo ecore:key="validationDelegates"
+			source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="settingDelegates"
+			source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="invocationDelegates"
+			source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+	</xs:annotation>
+	
+	
+	<!--_______________________ -->
+	<!-- WAREHOUSE -->
+	<!--_______________________ -->
+	<xs:complexType name="Warehouse">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of  a wharehouse .
+A Warehouse can have nodes and loose pieces of equipment in storage. When a piece of equipment is taken out
+of service (See Lifecycle) it can be stored in the wharehouse.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!-- Contained -->
+				
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Nodes"
+				type="Node" >
+				<xs:annotation>
+					<xs:documentation>The Nodes reference, contains 0 or more Node types.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments"
+				type="xs:string" >
+				<xs:annotation>
+					<xs:documentation>The Equipments reference, contains 0 or more Equipment types.</xs:documentation>
+				</xs:annotation></xs:element>	
+		</xs:sequence>
+		<xs:attribute default="name" name="Name" type="gen:Name255" >
+			<xs:annotation>
+				<xs:documentation>The Name attribute holds the name of the network.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Description" type="gen:Description2000">
+			<xs:annotation>
+				<xs:documentation>The Description attribute holds the description of the network.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<!--_______________________ -->
+	<!-- NETWORK -->
+	<!--_______________________ -->
+	<xs:complexType name="Network">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of a real telecommunications network or part of a network.
+A Network type can have a parent Network. It also can contain nodes and relationships. A Network can have different phases 
+which represents how the network evolves over time. The start and end date of the network provide reference on the period for which a phase applies.
+applies. Network phases are also linked together. 
+
+Examples: 
+1. A "Core Network" is defined which holds Nodes belonging to the "Core Network". Relationships are also stored
+in this network.
+1. A "Core Network" has 2 phases, each covering 1 calendar year.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!-- Contained -->
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Diagrams"
+				type="gen:DiagramInfo" >
+				<xs:annotation>
+					<xs:documentation>The Diagrams reference, contains 0 or more DiagramInfo types.</xs:documentation>
+				</xs:annotation></xs:element>
+				
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Nodes"
+				type="Node" >
+				<xs:annotation>
+					<xs:documentation>The Nodes reference, contains 0 or more Node types.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Networks"
+				type="Network" >
+				<xs:annotation>
+					<xs:documentation>The Networks reference, contains 0 or more Network types.
+These are sub networks.</xs:documentation>
+				</xs:annotation></xs:element>
+				
+			<xs:element maxOccurs="unbounded" minOccurs="0"
+				name="FunctionRelationships" type="FunctionRelationship" >
+				<xs:annotation>
+					<xs:documentation>The FunctionRelationships reference, contains 0 or more FunctionRelationship types.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0"
+				name="EquipmentRelationships" type="EquipmentRelationship" >
+				<xs:annotation>
+					<xs:documentation>The EquipmentRelationships reference, contains 0 or more EquipmentRelationship types.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0"
+				name="MetricSources" type="metrics:MetricSource">
+                <xs:annotation>
+                	<xs:documentation>The MetricSources reference, contains 0 or more MetricSource types</xs:documentation>
+                </xs:annotation>
+			</xs:element>	
+		</xs:sequence>
+		<xs:attribute ecore:reference="gen:Person" name="CreatedByRef"
+			type="xs:anyURI" >
+			<xs:annotation>
+				<xs:documentation>The CreatedByRef references, refers to the User type.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="CreatedDate" type="xs:dateTime" >
+			<xs:annotation>
+				<xs:documentation>The CreatedDate attribute is populated with the actual creation date of the Network.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute default="name" name="Name" type="gen:Name255" >
+			<xs:annotation>
+				<xs:documentation>The Name attribute holds the name of the network.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Description" type="gen:Description2000">
+			<xs:annotation>
+				<xs:documentation>The Description attribute holds the description of the network.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<!--_______________ -->
+	<!-- NODE -->
+	<!--_______________ -->
+
+	<xs:complexType name="Node">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of a real telecommunications Node. This is also often referred
+to as a Network Element.  A Node type is a real instance of a vendor equipment with functions. 
+
+A Node, has a unique ID, it has a lifecycle. It is also placed in a Room.
+
+Examples: 
+1. The AMSSGSN, is the ID of the Amsterdam SGSN Node.</xs:documentation>
+
+			<xs:appinfo ecore:key="constraints"
+				source="http://www.eclipse.org/emf/2002/Ecore">
+				ValidNodeID
+			</xs:appinfo>
+			<xs:appinfo ecore:key="ValidNodeID"
+				source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+				not self.nodeID.oclIsUndefined()
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<!-- Contained -->
+			<xs:element name="Lifecycle" type="gen:Lifecycle" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The Lifecycle reference, contains 0 or 1 Lifecycle types.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions"
+				type="library:Function" >
+				<xs:annotation>
+					<xs:documentation>The Functions reference, contains 0 or more Function types.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments"
+				type="library:Equipment" >
+				<xs:annotation>
+					<xs:documentation>The Equipments reference, contains 0 or more Equipment types.</xs:documentation>
+				</xs:annotation></xs:element>
+
+			<!-- Non-Contained -->
+			<!-- OCL Derived features -->
+		</xs:sequence>
+		<xs:attribute name="NodeID" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The NodeID attribute holds a unique identifier for the node. 
+It is according to guidelines for so-called Configuration Items (CI). 
+
+Example:
+[Location][Nodetype_abbreviation][Sequencenumber]
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute ecore:reference="gen:Person" name="CreatedByRef"
+			type="xs:anyURI" >
+			<xs:annotation>
+				<xs:documentation>The CreatedByRef references, refers to the User type.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute ecore:reference="geo:Room" name="RoomRef" type="xs:anyURI" >
+			<xs:annotation>
+				<xs:documentation>The RoomRef reference, refers to a Room type.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute ecore:reference="library:Function" name="OriginalFunctionRef"
+			type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>The OriginalFunctionRef reference, refers to the original Function type from the library.					</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute ecore:reference="library:Equipment" name="OriginalEquipmentRef"
+			type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>The OriginalEquipmentRef reference, refers to the original Equipment type from the library.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<!-- ___________________________ -->
+	<!--| FUNCTION RELATIONSHIP | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="FunctionRelationship">
+        <xs:annotation>
+        	<xs:documentation>A type representing the basic information points of a function relationship. (Also known as a Logical Connection).
+The FunctionRelationship type extends the Relationship type and contains references to a first and second function.
+
+Examples:
+1. A Relationship between two functions representing a logical connection.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+			<xs:extension base="Relationship">
+				<xs:attribute ecore:reference="library:Function" name="Function1Ref"
+					type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The Function1Ref reference, references 1 function type.
+
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="library:Function" name="Function2Ref"
+					type="xs:anyURI" >
+					<xs:annotation>
+						<xs:documentation>The Function2Ref reference, references 1 function type.</xs:documentation>
+					</xs:annotation></xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- ___________________________ -->
+	<!--| EQUIPMENT RELATIONSHIP | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="EquipmentRelationship">
+        <xs:annotation>
+        	<xs:documentation>A type representing the basic information points of an equipment relationship. (Also known as a Physical Connection).
+The EquipmentRelationship type extends the Relationship type and contains references to a first and second equipment.
+
+Examples:
+1. A Relationship between two Equipment representing a connection. 
+
+</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+			<xs:extension base="Relationship">
+				<xs:attribute ecore:reference="library:Equipment" name="Equipment1Ref"
+					type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The Equipment1Ref reference, references 1 Equipment type.
+</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="library:Equipment" name="Equipment2Ref"
+					type="xs:anyURI" >
+					<xs:annotation>
+						<xs:documentation>The Equipment2Ref reference, references 1 Equipment type.</xs:documentation>
+					</xs:annotation></xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- ___________________________ -->
+	<!--| RELATIONSHIP | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Relationship">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of a Relationship. This is also often referred to as a Connection or Link. 
+Both Function and Equipment Relationship extend on this Base type. It holds both ends of the Node.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="NodeID1Ref" ecore:reference="Node"
+			type="xs:anyURI" >
+			<xs:annotation>
+				<xs:documentation>The NodeID1Ref attribute, references a Node type.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="NodeID2Ref" ecore:reference="Node"
+			type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>The NodeID1Ref attribute, references a Node type.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Name" type="xs:string" use="required" >
+			<xs:annotation>
+				<xs:documentation>The Name attribute holds a name used for presentation.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute ecore:reference="library:Protocol" name="ProtocolRef"
+			type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>The ProtocolRef reference, refers to 0 or 1 Protocol type.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<!-- ___________________________ -->
+	<!--| OPERATOR | -->
+	<!--|___________________________| -->
+	
+	<xs:complexType name="Operator">
+		<xs:annotation>
+			<xs:documentation>A type representing the information points of a telecommunications Operator. It contains various aspects like the network(s)
+, the Wharehouse(s), the services etc...			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Company">
+				<xs:sequence>
+					<xs:element name="Networks" type="Network" maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The Networks reference, contains 0 or more Network type</xs:documentation>
+						</xs:annotation></xs:element>
+					<xs:element name="Warehouses" type="Warehouse" maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The Wharehouses reference, contains 0 or more Wharehouse type</xs:documentation>
+						</xs:annotation></xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Services"
+						type="services:Service">
+		                <xs:annotation>
+		                	<xs:documentation>The Services reference, contains 0 or more Service type.</xs:documentation>
+		                </xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ServiceUsers"
+						type="services:ServiceUser">
+		                <xs:annotation>
+		                	<xs:documentation>The ServiceUsers reference, contains 0 or more ServiceUser type.</xs:documentation>
+		                </xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ResourceExpansions"
+						type="ResourceExpansion">
+		                <xs:annotation>
+		                	<xs:documentation>The Services reference, contains 0 or more Service type.</xs:documentation>
+		                </xs:annotation>
+					</xs:element>	
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ExpansionExperiences"
+						type="ExpansionExperience">
+		                <xs:annotation>
+		                	<xs:documentation>The ExpansionExperiences reference, contains 0 or more ExpansionExperience type.</xs:documentation>
+		                </xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- ___________________________ -->
+	<!--| RESOURCEEXPANSION | -->
+	<!--|___________________________| -->
+	<xs:complexType name="ResourceExpansion">
+		<xs:annotation>
+			<xs:documentation>A type representing an expansion of the network. It references either node(s) or equipment(s).
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ecore:reference="Node" name="NodeRefs" type="xs:anyURI" maxOccurs="unbounded" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Node reference, references 1 or more Node types.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element ecore:reference="library:Equipment" name="EquipmentRefs" type="xs:anyURI" maxOccurs="unbounded" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Equipment reference, references 1 or more Equipment types.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element ecore:reference="library:Function" name="FunctionRefs" type="xs:anyURI" maxOccurs="unbounded" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Function reference, references 1 or more Function types.</xs:documentation>
+				</xs:annotation></xs:element>
+				
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ___________________________ -->
+	<!--| RESOURCEFORECAST | -->
+	<!--|___________________________| -->
+	<xs:complexType name="ResourceForecast">
+		<xs:annotation>
+			<xs:documentation>A type representing a resource forecast run. The resources in the Nodes will contain the forecast values, this type however hold the 
+			time markers which result from the forecast.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Markers" type="Marker" maxOccurs="unbounded" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Markers reference, contains 0 or more Marker types.</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- ___________________________ -->
+	<!--| RESOURCEMONITOR | -->
+	<!--|___________________________| -->
+	<xs:complexType name="ResourceMonitor">
+		<xs:annotation>
+			<xs:documentation>A type representing a resource monitoring run. The resources in the Nodes will contain the monitoring values, 
+this object however holds the time markers which result from the monitoring.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Markers" type="Marker" maxOccurs="unbounded" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Markers reference, contains 0 or more Marker types.</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+		
+	<!-- ___________________________ -->
+	<!--| EXPANSIONEXPERIENCE | -->
+	<!--|___________________________| -->
+	<xs:complexType name="ExpansionExperience">
+		<xs:annotation>
+			<xs:documentation>A type representing the gained experience on expending an equipment.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ecore:reference="library:Equipment" name="EquipmentRef"
+				type="xs:anyURI" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                	<xs:documentation>The EquipmentRef reference, references the 0 or 1 Equipment type, for which this duration applies.</xs:documentation>
+                </xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Duration" type="gen:ExpansionDuration">
+			<xs:annotation>
+				<xs:documentation>The Duration attribute, holds the typical duration for the expansion of an Equipment. </xs:documentation>
+			</xs:annotation></xs:attribute>
+	</xs:complexType>
+	
+	<!--_____________________________ -->
+	<!--| MARKER 					| -->
+	<!--|___________________________| -->
+	<xs:complexType name="Marker">
+		<xs:annotation>
+			<xs:documentation>
+				A type representing a resource marker. The marker references a value and an Equipment or Function.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EquipmentRef" type="xs:anyURI"
+				ecore:reference="library:Equipment" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                	<xs:documentation>The EquipmentRef reference, references 0 or 1 Equipment types.</xs:documentation>
+                </xs:annotation>
+			</xs:element>
+			<xs:element name="FunctionRef" type="xs:anyURI"
+				ecore:reference="library:Function" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                	<xs:documentation>The FunctionRef reference, references 0 or 1 Function types.</xs:documentation>
+                </xs:annotation>
+			</xs:element>
+			<xs:element ecore:reference="gen:Value" name="MarkerValueRef" type="xs:anyURI" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The MarkerValue reference, references 0 or 1 MarkerValue type</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+		<xs:attribute name="Kind" type="MarkerKind">
+			<xs:annotation>
+				<xs:documentation>The Kind attribute holds the kind of Marker this Marker is. (See MarkerKind). </xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Description" type="gen:Description2000">
+			<xs:annotation>
+				<xs:documentation>The Description attribute holds the description for this marker.</xs:documentation>
+			</xs:annotation></xs:attribute>
+	</xs:complexType>
+			
+	<!--_____________________________ -->
+	<!--| MARKERKIND 					| -->
+	<!--|___________________________| -->		
+	<xs:simpleType name="MarkerKind">
+        <xs:annotation>
+        	<xs:documentation>A type representing the kinds of possible markers which could apply on a resource value
+</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+			<xs:enumeration value="value"></xs:enumeration>
+			<xs:enumeration value="INTERNAL_EVENT"></xs:enumeration>
+			<xs:enumeration value="EXTERNAL_EVENT"></xs:enumeration>
+			<xs:enumeration value="ACTION_NEEDED"></xs:enumeration>
+			<xs:enumeration value="THRESHOLD_REACHED"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

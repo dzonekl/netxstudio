@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/15072010/metrics"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:gen="http://www.netxforge.com/15072010/generics"
+	id="metrics" targetNamespace="http://www.netxforge.com/15072010/metrics"
+	ecore:package="com.netxforge.metrics">
+	<xs:import schemaLocation="generics.xsd"
+		namespace="http://www.netxforge.com/15072010/generics"></xs:import>
+	<xs:annotation>
+		<xs:documentation>
+			multi columned metrics. 
+			Used as external source. 
+		</xs:documentation>
+	</xs:annotation>
+
+	<!--_______________________ -->
+	<!-- METRICS TYPES -->
+	<!--_______________________ -->
+
+	<xs:complexType name="MetricSource">
+		<xs:annotation>
+			<xs:documentation>The source of the metric. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ecore:reference="gen:Value" minOccurs="0" maxOccurs="unbounded" name="metricValues" type="xs:anyURI" />
+		</xs:sequence>
+		<xs:attribute name="Name" type="gen:Name100">
+		<xs:annotation>
+			<xs:documentation> 
+				For an RDMS, this is the DB name, for a file it's just a name. 
+				the Location provides the exact path to the file. 
+			</xs:documentation>
+		</xs:annotation>	
+		</xs:attribute>
+		<xs:attribute name="Metrickind" type="MetricKind"/>
+		<xs:attribute name="Location" type="xs:anyURI">
+		<xs:annotation>
+			<xs:documentation>a URI representation of the location
+				additional information like login/password can be appended to the URI.				
+			</xs:documentation>
+		</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="LastContact" type="xs:dateTime"/>
+		<xs:attribute name="LastPurge" type="xs:dateTime"/>
+	</xs:complexType>
+	
+	<xs:simpleType ecore:enum="false" name="MetricKind">
+		<xs:annotation>
+			<xs:documentation>The metric kind, is an enumerated
+				value which
+				determines if the source of this
+				metric will be either from a file, or RDMS based import.
+				Support file types.Note the Location scheme (URI scheme) could also derive 
+				the location.
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FILE" />
+			<xs:enumeration value="RDMS" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

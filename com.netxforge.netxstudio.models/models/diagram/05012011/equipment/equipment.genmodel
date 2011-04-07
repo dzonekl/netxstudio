@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.netxforge.netxstudio.models/src/"
+    modelPluginID="com.netxforge.netxstudio.models" modelName="Library" copyrightFields="false">
+  <genPackages prefix="Library" basePackage="com.netxforge.netxstudio.models" resource="XML"
+      disposableProviderFactory="true" ecorePackage="../../../emf/05012011/library.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="../../../emf/05012011/library.ecore#//LevelType">
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//LevelType/RED"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//LevelType/AMBER"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//LevelType/GREEN"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//LevelType/YELLOW"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="../../../emf/05012011/library.ecore#//OSIType">
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//OSIType/Application"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//OSIType/Presentation"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//OSIType/Session"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//OSIType/Transport"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//OSIType/Network"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//OSIType/DataLink"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//OSIType/Physiscal"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="../../../emf/05012011/library.ecore#//RedundancyType">
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//RedundancyType/n"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//RedundancyType/n1"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//RedundancyType/_11"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="../../../emf/05012011/library.ecore#//StateType">
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//StateType/ACTIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//StateType/STANDBY"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//StateType/IDLE"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//StateType/DEFECT"/>
+      <genEnumLiterals ecoreEnumLiteral="../../../emf/05012011/library.ecore#//StateType/RESERVED"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="../../../emf/05012011/library.ecore#//LevelTypeObject"/>
+    <genDataTypes ecoreDataType="../../../emf/05012011/library.ecore#//OSITypeObject"/>
+    <genDataTypes ecoreDataType="../../../emf/05012011/library.ecore#//RedundancyTypeObject"/>
+    <genDataTypes ecoreDataType="../../../emf/05012011/library.ecore#//StateTypeObject"/>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Equipment">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/lifecycle"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/diagrams"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/equipments"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/equipmentGroups"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/equipmentResources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/equipmentMetricRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/equipmentRelationshipRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/equipmentExpressionRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/toleranceRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/protocolRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/parameterRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/allEquipmentResources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/allEquipments"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Equipment/icons"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Equipment/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Equipment/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Equipment/equipmentCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Equipment/equipmentName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Equipment/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Equipment/redundancy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Equipment/state"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//EquipmentGroup">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//EquipmentGroup/diagrams"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//EquipmentGroup/equipmentGroupResources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//EquipmentGroup/expressionRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//EquipmentGroup/equipmentRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//EquipmentGroup/parameterRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//EquipmentGroup/allEquipmentResources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//EquipmentGroup/allEquipments"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//EquipmentGroup/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//EquipmentGroup/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//EquipmentGroup/name"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Expression">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Expression/expressionLines"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Expression/equipmentRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Expression/functionRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Expression/equipmentGroupRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Expression/serviceProfileRefs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Expression/name"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Function">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/diagrams"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/icons"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/functions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/functionResources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/functionMetricRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/functionRelationshipRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/functionExpressionRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/toleranceRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/protocolRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/parameterRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/allFunctionResources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Function/allFunctions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Function/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Function/functionName"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Library">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Library/functions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Library/nodeTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Library/equipments"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Library/metrics"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Library/parameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Library/protocols"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Library/tolerances"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Library/expressions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Library/units"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Library/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Library/name"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Message">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Message/name"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Meta">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Meta/author"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Meta/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Meta/version"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//NetXResource">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//NetXResource/metricValueRanges"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//NetXResource/capacityValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//NetXResource/forecastCapacityValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//NetXResource/forecastValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//NetXResource/trendedValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//NetXResource/detailDisplay"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//NetXResource/expressionName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//NetXResource/longName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//NetXResource/shortName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//NetXResource/summaryDisplay"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//NetXResource/unitRef"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//NodeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//NodeType/functions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//NodeType/equipments"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Parameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Parameter/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Parameter/expressionName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Parameter/modifiable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Parameter/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Parameter/value"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Procedure">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Procedure/messages"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Procedure/name"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//ProductInfo">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//ProductInfo/equipmentRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//ProductInfo/licensedFunctionRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//ProductInfo/nodeTypeRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//ProductInfo/availableDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//ProductInfo/endOfSalesDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//ProductInfo/endOfSupportDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//ProductInfo/productCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//ProductInfo/salesCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//ProductInfo/underDevelopmentDate"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Protocol">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Protocol/procedures"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Protocol/bodyRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Protocol/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Protocol/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Protocol/oSI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Protocol/specification"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Tolerance">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Tolerance/expression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Tolerance/level"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Tolerance/name"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Unit">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Unit/icons"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Unit/code"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Unit/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../../emf/05012011/library.ecore#//Unit/name"/>
+    </genClasses>
+    <genClasses ecoreClass="../../../emf/05012011/library.ecore#//Vendor">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../../emf/05012011/library.ecore#//Vendor/products"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

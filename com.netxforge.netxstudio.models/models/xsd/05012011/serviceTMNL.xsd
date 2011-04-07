@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/05012011/services"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" id="services"
+	xmlns:gen="http://www.netxforge.com/05012011/generics"
+	targetNamespace="http://www.netxforge.com/05012011/services" 
+	xmlns:networks="http://www.netxforge.com/05012011/networks"
+	ecore:package="com.netxforge.services">
+	<xs:import schemaLocation="generics.xsd"
+		namespace="http://www.netxforge.com/05012011/generics">
+	</xs:import>
+	<xs:import schemaLocation="networks.xsd" namespace="http://www.netxforge.com/05012011/networks"></xs:import>
+	<xs:annotation>
+		<xs:documentation>
+			T-Mobile Int'l Service definition
+			See Int'l document on Service definitions for TMobile. 
+			- Rev 0.1 
+					- Additional information not detailed (KPI's etc...) 
+					- Comarch Service not defined. 
+		</xs:documentation>
+	</xs:annotation>
+
+	<!--_______________________-->
+	<!--  SERVICE DEFINITION   -->
+	<!--_______________________-->
+
+	<xs:complexType name="ServiceName">
+        <xs:annotation>
+        	<xs:documentation>A type representing the service name</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>
+					name for the service
+
+					Example:
+
+					TMUK_T-ZONES-PORTAL (See Service Naming Rules)
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="alias" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>Internal name for the service (as the service is
+					known internal; e.g.: project name)
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="identifier" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>
+					The additional identifier should be used if other
+					differentiation attributes will be needed as
+					provider, Most Top Service and Scenario. There is no
+					standardized definition about the content of this
+					part of the name. Usage will be optional.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="index" type="xs:int"></xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="RFSService">
+        <xs:annotation>
+        	<xs:documentation>A type representing a Resource Facing Service.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+			<xs:extension base="Service">
+				<xs:sequence>
+					<xs:element name="Nodes"
+						ecore:reference="networks:Node" type="xs:anyURI" minOccurs="0"
+						maxOccurs="unbounded">
+					</xs:element>
+					<xs:element name="ServiceProfile" type="ServiceProfile" minOccurs="0" maxOccurs="1"/>	
+				</xs:sequence>
+				<xs:attribute name="Location" type="xs:string"></xs:attribute>
+				<xs:attribute name="functionalCategory"
+					type="xs:string">
+				</xs:attribute>
+				
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+		
+	<xs:complexType name="CFSService">
+        <xs:annotation>
+        	<xs:documentation>A type representing a Customer Facing Service. .</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+			<xs:extension base="Service">
+				<xs:attribute name="Provider" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+Provider of the service
+
+Example: 
+
+AT ..... T-Mobile Austria
+AT-TR ..... tele.ring Austria
+CZ ..... T-Mobile Czech Republic
+DE ..... T-Mobile Germany</xs:documentation>
+					</xs:annotation></xs:attribute>
+									<xs:attribute name="Scenario" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+SMS Mobile 2 Mobile
+						</xs:documentation>
+					</xs:annotation></xs:attribute>
+					
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	
+	<xs:complexType name="ServiceProfile">
+        <xs:annotation>
+        	<xs:documentation>The Service profile can be generic for the service
+or location specific. The profile contains service 
+parameters which drive the utilization of resources on elements tight to this 
+service. 
+</xs:documentation>
+
+        </xs:annotation>
+        <xs:sequence>
+        	<xs:element name="ServiceParameters" minOccurs="0" maxOccurs="unbounded" type="networks:Parameter"/>
+        </xs:sequence>
+        <xs:attribute name="Name" type="gen:Name255"></xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="ServiceUser">
+        <xs:annotation>
+        	<xs:documentation>A type representing a ServiceUser. A ServiceUser is a user of a service, which 
+        	impacts the consumption of resources when using a service.  
+        	
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+        <xs:choice ecore:name="Values" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						
+						-
+						
+
+						- Capacity values. Capacity values are
+						calculated
+						for real equipment resources.
+						Capacity values are sometimes
+						dynamic. Dynamic
+						capacities vary based on the usage pattern.
+						(Traffic profile). The Equipment calculations
+						can be used to
+						determine a resource capacity
+						value, but sometimes the value is
+						determined by
+						the vendor and will be provided as is.
+
+						- Projected
+						usage values. Projected usage values
+						are calculated based on the
+						provided usage
+						pattern. (How the equipment is connected in the
+						network and the traffic and procedures it
+						handles).
+					</xs:documentation>
+				</xs:annotation>
+				<!-- TODO, we need multiple metric ranges which are a selection from 
+					the metric this could be Busy Hour per day, or week or all values in a day 
+					etc... the timestamp provides indication -->
+				<xs:element name="UserValues" type="gen:Value" >
+					<xs:annotation>
+						<xs:documentation>The MetricValues reference, contains measured usage values. Metric values are
+emperic values retrieved from the real network.</xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="CapacityValues" type="gen:Value" >
+					<xs:annotation>
+						<xs:documentation>The CapacityValues reference, contains capacity values. Capacity values are
+populated with expressions, imported or entered manually. </xs:documentation>
+					</xs:annotation></xs:element>
+				<xs:element name="ForecastValues" type="gen:Value" >
+					<xs:annotation>
+						<xs:documentation>The ForecastValues reference, contains forecast values. Forecast values are
+populated with expressions, imported or entered manually. </xs:documentation>
+					</xs:annotation></xs:element>
+			</xs:choice>
+        </xs:sequence>
+        <xs:attribute name="Name" type="gen:Name255"></xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="Service">
+        <xs:annotation>
+        	<xs:documentation>A type representing a service.  A Service has a name, a Description, a Category and other information</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+        	<xs:element name="ServiceName" type="ServiceName"
+        		minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The ServiceName reference, contains 0 or 1
+        				ServiceName type.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="ServiceDescription" minOccurs="0"
+        		maxOccurs="1" type="ServiceDescription">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The ServiceDescription reference, contains 0 or
+        				1 ServiceDescription type.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="ServiceSecurityMgt"
+        		type="ServiceSecurityMgt" minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The ServiceSecurityMgt reference, contains 0 or
+        				1 ServiceSecurityMagt type.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="ServiceIncidentMgt"
+        		type="ServiceIncidentMgt" minOccurs="0" maxOccurs="1">
+        	</xs:element>
+        	<xs:element name="CIID" minOccurs="0" maxOccurs="1"
+        		type="CI-ID">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The CIID reference, contains 0 or 1 CI-ID type.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="ServiceInterrest" type="ServiceInterrest"
+        		minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The ServiceInterrest reference, contains 0 or 1
+        				ServiceInterrest type.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="ServiceContracts" type="ServiceContract"
+        		minOccurs="0" maxOccurs="unbounded">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The ServiceContract reference, contains 0 or
+        				more ServiceContract types.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="ServiceSupport" type="ServiceSupport"
+        		minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The ServiceSupport reference, contains 0 or 1
+        				ServiceSupport type.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="ServiceMisc" type="ServiceAdditional"
+        		minOccurs="0" maxOccurs="1">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The ServiceMisc reference, contains 0 or 1
+        				ServiceMisc type.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="Services" type="Service" minOccurs="0"
+        		maxOccurs="unbounded">
+        		<xs:annotation>
+        			<xs:documentation>
+        				The Services reference, contains 0 or more
+        				Service types.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="ServiceUsers" type="xs:string"></xs:element>
+        </xs:sequence>
+        <xs:attribute name="MostTopService" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>The MostTopService attribute defines, if this is the top service, in the service hierachy.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="ServiceKind">
+            <xs:annotation>
+            	<xs:documentation>The ServiceKind attribute defines, if the service is Customer or Resource facing.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="RFS"></xs:enumeration>
+					<xs:enumeration value="CFS"></xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ServiceCharacterCommon" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>
+					If the service is defined as a common service a
+					character has to be choosen to define it as a
+					common service.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ServiceCategory" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>
+					CI Group / OM Service Group (Service Category) The
+					Service Category is used for a logical cluster of
+					the service
+
+					Voice/Telephony (peer to peer) Voice and Video
+					conferencing (multi peer) Content delivery Data
+					delivery Messaging Customer Self Administration
+					Customer Care Administration
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ServiceSupportDomain" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>Responsible team of CI's (can be different to CI group)
+
+Example:
+1. ESOC - Hosted Solution IT NT
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ServiceSupport" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Defines the supporting hours of the service. In
+which timeframe is Incident Management taking place
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ServiceClass">
+			<xs:annotation>
+				<xs:documentation>Offered classes of provided service:
+Gold/Silver/Bronze This is implicite the business
+priority
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Gold"></xs:enumeration>
+					<xs:enumeration value="Silver"></xs:enumeration>
+					<xs:enumeration value="Bronze"></xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="CI-ID">
+        <xs:annotation>
+        	<xs:documentation>A type representing a Configuration Item Identifier.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="localCI_ID" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>
+					Unique identifier indicator in local CMS (CI-ID)
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CommonCI_ID" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>
+					Unique number indicator in international CMS
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+
+	<xs:complexType name="ServiceDescription">
+		<xs:attribute name="serviceDescriptionNational"
+			type="gen:Description2000">
+			<xs:annotation>
+				<xs:documentation>
+					Description of the Service and the functionality.
+					Language: first language
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ServiceDescriptionCommon"
+			type="gen:Description2000">
+			<xs:annotation>
+				<xs:documentation>
+					Description of the Service and the functionality.
+					Language: EN
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="ServiceSupport">
+		<xs:attribute name="supportDays" type="xs:string"></xs:attribute>
+		<xs:attribute name="supportHours" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="ServiceInterrest">
+		<xs:annotation>
+			<xs:documentation>
+				Gives the Unit, which is interested in Interest type
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="ContactUnit" type="xs:string"></xs:attribute>
+		<xs:attribute name="InterrestKind">
+			<xs:annotation>
+				<xs:documentation>
+					For which category is the contact interested in
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Escallation"></xs:enumeration>
+					<xs:enumeration value="Reporting"></xs:enumeration>
+					<xs:enumeration value="Sales Management"></xs:enumeration>
+					<xs:enumeration value="Product Management"></xs:enumeration>
+					<xs:enumeration value="Financial Management"></xs:enumeration>
+					<xs:enumeration value="Service Management"></xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="ServiceSecurityMgt">
+		<xs:attribute name="securityRating">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="High"></xs:enumeration>
+					<xs:enumeration value="Medium"></xs:enumeration>
+					<xs:enumeration value="Low"></xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="DrRecoveryPlan" type="xs:boolean"></xs:attribute>
+		<xs:attribute name="DrPlanRepository" type="xs:anyURI">
+		</xs:attribute>
+		<xs:attribute name="DrPlanContact" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="ServiceIncidentMgt">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Monitoring" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Service Monitoring System, from where data are taken
+					for avaialbility reports and or alarming
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="BusinessImpact" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Impact for business for service breakdown
+
+
+					Example: 100.000 customers
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="MaintenanceWindow" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Typical maintenance window for given product.
+					Detailed agreements see SLA / OLA
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Maintenance">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="1st line Maintenance"></xs:enumeration>
+					<xs:enumeration value="2nd line Maintenance"></xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="ServiceContract">
+        <xs:annotation>
+        	<xs:documentation>A type representing the type of service contract.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="SLA" type="xs:string"></xs:attribute>
+		<xs:attribute name="OLA" type="xs:string"></xs:attribute>
+		<xs:attribute name="WLA" type="xs:string"></xs:attribute>
+		<xs:attribute name="UC" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="ServiceAdditional">
+        <xs:annotation>
+        	<xs:documentation>A type representing additional information about the service. 
+A ServiceAdditional type includes the CostCenter, some history, KPI's etc...</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="CostCenter" type="xs:string"></xs:attribute>
+		<xs:attribute name="History" type="xs:string"></xs:attribute>
+		<xs:attribute name="KPI" type="xs:string"></xs:attribute>
+		<xs:attribute name="UsageState">
+			<xs:annotation>
+				<xs:documentation>
+					Status of the CI belonging the usage: Assigned,
+					reserved, free, disabled
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Assigned"></xs:enumeration>
+					<xs:enumeration value="Reserved"></xs:enumeration>
+					<xs:enumeration value="Free"></xs:enumeration>
+					<xs:enumeration value="Disabled"></xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="LifeCycleState">
+			<xs:annotation>
+				<xs:documentation>
+					Shows the current lifecyclestate of the CI:
+					Planned/Active/Removed
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Planned"></xs:enumeration>
+					<xs:enumeration value="Active"></xs:enumeration>
+					<xs:enumeration value="Removed"></xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Link" type="xs:anyURI"></xs:attribute>
+		<xs:attribute name="Report" type="xs:string"></xs:attribute>
+	</xs:complexType>
+</xs:schema>

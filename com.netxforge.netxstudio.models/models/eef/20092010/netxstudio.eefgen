@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ASCII"?>
+<eef-gen:EEFGenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:eef-gen="http://www.eclipse.org/emf/eef/generation/1.0.0" genDirectory="/com.netxforge.netxstudio.eef/src-gen">
+  <editionContexts basePackage="com.netxforge.netxstudio" descriptorsContributorID="" descriptorsGenericPropertiesViews="true">
+    <PropertiesEditionContext href="netxstudio.components#_eiJLsMQrEd-lCoQcsE8dxg"/>
+  </editionContexts>
+  <editionContexts basePackage="com.netxforge.netxstudio" descriptorsGenericPropertiesViews="true">
+    <PropertiesEditionContext href="netxstudio.components#_eiJy2cQrEd-lCoQcsE8dxg"/>
+  </editionContexts>
+  <editionContexts basePackage="com.netxforge.netxstudio" descriptorsGenericPropertiesViews="true">
+    <PropertiesEditionContext href="netxstudio.components#_eiJy6sQrEd-lCoQcsE8dxg"/>
+  </editionContexts>
+  <editionContexts basePackage="com.netxforge.netxstudio" descriptorsGenericPropertiesViews="true">
+    <PropertiesEditionContext href="netxstudio.components#_eiKaEsQrEd-lCoQcsE8dxg"/>
+  </editionContexts>
+  <editionContexts basePackage="com.netxforge.netxstudio" descriptorsGenericPropertiesViews="true">
+    <PropertiesEditionContext href="netxstudio.components#_eiKaG8QrEd-lCoQcsE8dxg"/>
+  </editionContexts>
+  <viewsRepositories basePackage="com.netxforge.netxstudio.services" swtViews="true" formViews="true">
+    <viewsRepository href="netxstudio.components#_eiKaKsQrEd-lCoQcsE8dxg"/>
+  </viewsRepositories>
+  <viewsRepositories basePackage="com.netxforge.netxstudio.generics" swtViews="true" formViews="true">
+    <viewsRepository href="netxstudio.components#_eiLBBcQrEd-lCoQcsE8dxg"/>
+  </viewsRepositories>
+  <viewsRepositories basePackage="com.netxforge.netxstudio.networks" swtViews="true" formViews="true">
+    <viewsRepository href="netxstudio.components#_eiLBGsQrEd-lCoQcsE8dxg"/>
+  </viewsRepositories>
+  <viewsRepositories basePackage="com.netxforge.netxstudio.metrics" swtViews="true" formViews="true">
+    <viewsRepository href="netxstudio.components#_eiLoWsQrEd-lCoQcsE8dxg"/>
+  </viewsRepositories>
+  <viewsRepositories basePackage="com.netxforge.netxstudio.netxstudio" swtViews="true" formViews="true">
+    <viewsRepository href="netxstudio.components#_eiLoZMQrEd-lCoQcsE8dxg"/>
+  </viewsRepositories>
+</eef-gen:EEFGenModel>

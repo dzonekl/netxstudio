@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmftool:ToolRegistry xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
+  <palette
+      title="Equipment Tools">
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Cabinets">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Cabinet"/>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Subracks">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Subrack"/>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Boards">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Board"
+          description=""/>
+    </tools>
+  </palette>
+</gmftool:ToolRegistry>

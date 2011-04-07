@@ -1,0 +1,40 @@
+- Using ID. When using ID's:  
+	* EMF's uses relative references with #[name]
+	* IF the ID attribute is empty, conflicts will arise in validation. 
+	* ID's can't have spaces. 
+	* ID's will conflict with other class ID's which are named the same. 
+ 
+
+- Relationships. 
+	- Relationship identifiers are very different depending the reference interface.
+	How to map them to the correct function/equipment. Now as a ref we use a function or equipment. 
+	DONE - We introduced two volatile references to NodeID's. Note, that the target function or equipment ref of a relationship
+	might be dangling, if we don't know so much about the target Node. (We would simply hook it to the root function of the Node). 
+	
+	
+		- Relationship needs to be also referencable to equipment.  This happens in the case, the association is tighed
+	to a HW board. In Huawei, this would be the Subrack/Slot/Port position, in NSN there is a thing called LGA. 
+	
+	- Relationships, are created in unidirectional fashion. 
+	
+- Redundancy, boards should be active/standy. 
+Redundancy schema are constraints: 
+
+n+1 implies one of a set is standby. 
+1+1 implies one of a pair is standby
+2n implies equal active and standby in a set.
+
+- How to initialize an object and it's features? 
+
+- How to automaticly count. (Use OCL?). 
+DONE, Experimental count() feature on equipment. 
+
+- How to contraint which and how many board is allowed in a Node configuration. 
+- Tight to SW levels  
+- Available slots? 
+- Features.
+- Fix capacity can drive the HW types in combination with SW level. 
+
+- Element Maximum value, should be used to check against expression results. 
+- Process: forecasting should report max. expandable node capacity (SW+HW). 
+

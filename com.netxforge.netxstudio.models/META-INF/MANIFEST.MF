@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: NetXStudio Meta Models
+Bundle-SymbolicName: com.netxforge.netxstudio.models;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: NetXForge
+Require-Bundle: org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

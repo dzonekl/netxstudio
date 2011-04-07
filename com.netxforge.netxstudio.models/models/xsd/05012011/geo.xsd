@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/05012011/geo"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gen="http://www.netxforge.com/05012011/generics"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	ecore:package="com.netxforge.geo" id="geo"
+	targetNamespace="http://www.netxforge.com/05012011/geo">
+	<xs:import namespace="http://www.netxforge.com/05012011/generics"
+		schemaLocation="generics.xsd" />
+	<xs:annotation>
+		<xs:documentation>
+
+			Network Data schema Copyright 2008 The schema uses
+			ecore
+			references syntax, but should easily map into an SQL schema.
+			The
+			ecore
+			references, are mapped into ORM specific DLL (See
+			Hibernate or
+			other
+			ORM. EMF/Hibernate
+			however uses a custom mechanism.
+
+			Don't use
+			the
+			word
+			"Item", as this is appended to the Object
+			name in the EMF
+			edit
+			model.
+			
+			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
+			
+		</xs:documentation>
+		<xs:appinfo ecore:key="validationDelegates"
+			source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="settingDelegates"
+			source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="invocationDelegates"
+			source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+	</xs:annotation>
+
+	<!--_____________________________ -->
+	<!--| ROOM | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Room">
+        <xs:annotation>
+        	<xs:documentation>A type representing the basic information points of a real physical room. A room is part of a Site.</xs:documentation>
+        </xs:annotation>
+
+
+		<xs:attribute name="Name" type="gen:Name255" >
+			<xs:annotation>
+				<xs:documentation>The Name attribute holds a name used for presentation.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Shape" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>THIS ATTRIBUTE SHOULD NOT BE CONSIDERED FOR NOW.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+
+	<!--_____________________________ -->
+	<!--| SITE | -->
+	<!--|___________________________| -->
+	<xs:complexType name="Site">
+        <xs:annotation>
+        	<xs:documentation>A type representing the basic information points of a real physical site. A Site is part of a country.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+			<xs:element name="Rooms" type="Room" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The Room reference, contains 0 or more rooms</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+		<xs:attribute name="Name" type="gen:Name255" >
+			<xs:annotation>
+				<xs:documentation>The Name attribute holds a name used for presentation.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Longitude" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Longitude attribute holds the longitude of the site geo location.
+
+See: http://en.wikipedia.org/wiki/Geographic_coordinates
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Latitude" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>The Latitude attribute holds the latitude of the site geo location.
+
+See: http://en.wikipedia.org/wiki/Geographic_coordinates
+				</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Sreet" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>The Street attribute holds the street name of the site</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Housenumber" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>The Housenumber attribute holds the house or building number of the site</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Postalcode" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>The Postalcode attribute holds the postal code of the site</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="City" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>The City attribute holds the city/town name of the site</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Area" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>The Area attribute holds the area name of the site</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Region" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>The region attribute holds the area name of the site</xs:documentation>
+			</xs:annotation></xs:attribute>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| COUNTRY | -->
+	<!--|___________________________| -->
+	<xs:complexType name="Country">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of a real Country. A Country is used for all geographical
+related functions like maps, timezones etc...
+
+Examples: 1. The Country type is used to determine the timezone and normalize incoming and outgoing timestamps
+on metric or other values.
+
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Sites" type="Site" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The Sites reference, contains 0 or more Site types.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element name="Icons" type="gen:MultiImage" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Images reference, contains 0 or one MultiImage type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>	
+		</xs:sequence>
+		<xs:attribute name="Name" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The Name attribute should be according to ISO
+definitions in:
+
+
+http://www.iso.org/iso/english_country_names_and_code_elements
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CountryCode" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The CountryCode attribute should be according to ISO
+definitions in:
+
+
+http://www.iso.org/iso/english_country_names_and_code_elements
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+
+	</xs:complexType>
+</xs:schema>

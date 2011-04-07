@@ -1,0 +1,55 @@
+import gmfgen;
+import ecore;
+import genmodel;
+
+extension org::eclipse::xtend::util::stdlib::io;
+
+// transforms the given GMFGenModel
+List[emf::EObject] transform(List[emf::EObject] gmfGenModelContents) :
+   let contents = gmfGenModelContents.eAllContents.addAll(gmfGenModelContents) :
+    contents.internalTransform() ->
+   gmfGenModelContents;
+
+internalTransform(GenEditorGenerator this) :
+    setDiagramFileExtension("template_diagram") ->
+    setDomainFileExtension("template") ->
+    setDynamicTemplates(true) ->
+    setTemplateDirectory("com.netxforge.z.gmf.runtime.extensions/templates-3.5/sharedED") ->
+    setModelID("template") ->
+    setPackageNamePrefix("com.netxforge.z.template.diagram");
+
+internalTransform(GenPlugin this) :
+    setID("com.netxforge.z.template.diagram") ->
+    requiredPlugins.add("com.netxforge.d") ->
+    requiredPlugins.add("com.netxforge.d.db") ->
+    requiredPlugins.add("com.netxforge.z.gmf.runtime.extensions") ->
+    setVersion("1.0.0") ->
+    setProvider("NetXForge") ->
+    setName("Netxstudio Template Plugin") ->
+    setPrintingEnabled(true);
+
+internalTransform(GenDiagram this):
+    setValidationEnabled(true) ->
+    setValidationDecorators(true) ->
+    setLiveValidationUIFeedback(true) ->
+    
+	setValidationProviderPriority(ProviderPriority::Medium) ->
+	setValidationDecoratorProviderPriority(ProviderPriority::Medium) ->
+	// setMarkerNavigationProviderPriority(ProviderPriority::Medium) ->
+	
+    setCreationWizardCategoryID("com.netxforge.d.category") ->
+    setVisualID(1000) ->
+    setEditingDomainID("com.netxforge.d.netxstudio.domains.shared"); //->
+//    containsShortcutsTo.add("Classes") ->
+//    shortcutsProvidedFor.add("Classes");
+// uncomment the above two lines to prepare activation of drag and drop for model elements 
+
+// uncomment the two lines below to apply list layout to a specific compartment
+//internalTransform(GenCompartment this) :
+//	(this.editPartClassName == "ClassOperationCompartmentEditPart") ? setListLayout(true) : null;
+	
+internalTransform(emf::EObject o) :
+    {};
+
+String trim(String this, int numChars) :
+    subString(0, this.length - numChars);

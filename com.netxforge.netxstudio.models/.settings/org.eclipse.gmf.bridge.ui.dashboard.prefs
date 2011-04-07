@@ -1,0 +1,8 @@
+#Thu Mar 10 14:40:46 CET 2011
+eclipse.preferences.version=1
+gmf_dashboard/domainGenerationModel=platform\:/resource/com.netxforge.netxstudio.models/models/emf/05012011/netxstudio.genmodel
+gmf_dashboard/domainModel=platform\:/resource/com.netxforge.netxstudio.models/models/emf/05012011/library.ecore
+gmf_dashboard/generationModel=platform\:/resource/com.netxforge.netxstudio.models/models/diagram/05012011/equipment/equipment.gmfgen
+gmf_dashboard/graphicalDefinitionModel=platform\:/resource/com.netxforge.netxstudio.models/models/diagram/05012011/equipment/equipment.gmfgraph
+gmf_dashboard/mappingModel=platform\:/resource/com.netxforge.netxstudio.models/models/diagram/05012011/equipment/equipment.gmfmap
+gmf_dashboard/toolingDefinitionModel=platform\:/resource/com.netxforge.netxstudio.models/models/diagram/05012011/equipment/equipment.gmftool

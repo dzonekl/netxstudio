@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<eef-gen:EEFGenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:eef-gen="http://www.eclipse.org/emf/eef/generation/1.0.0" genDirectory="/com.netxforge.netxstudio.eef/src-gen">
+  <editionContexts basePackage="com.netxforge.netxstudio" descriptorsGenericPropertiesViews="true">
+    <PropertiesEditionContext href="netxstudio.components#_xZ41YbnFEd-JgqORiCR91w"/>
+  </editionContexts>
+  <editionContexts basePackage="com.netxforge.netxstudio" descriptorsGenericPropertiesViews="true">
+    <PropertiesEditionContext href="netxstudio.components#_xZ5csrnFEd-JgqORiCR91w"/>
+  </editionContexts>
+  <editionContexts basePackage="com.netxforge.netxstudio" descriptorsGenericPropertiesViews="true">
+    <PropertiesEditionContext href="netxstudio.components#_xZ5cwLnFEd-JgqORiCR91w"/>
+  </editionContexts>
+  <editionContexts basePackage="com.netxforge.netxstudio" descriptorsGenericPropertiesViews="true">
+    <PropertiesEditionContext href="netxstudio.components#_xZ6qubnFEd-JgqORiCR91w"/>
+  </editionContexts>
+  <viewsRepositories basePackage="com.netxforge.netxstudio.services" swtViews="true" formViews="true">
+    <viewsRepository href="netxstudio.components#_xZ6qyLnFEd-JgqORiCR91w"/>
+  </viewsRepositories>
+  <viewsRepositories basePackage="com.netxforge.netxstudio.generics" swtViews="true" formViews="true">
+    <viewsRepository href="netxstudio.components#_xZ7Rw7nFEd-JgqORiCR91w"/>
+  </viewsRepositories>
+  <viewsRepositories basePackage="com.netxforge.netxstudio.networks" swtViews="true" formViews="true">
+    <viewsRepository href="netxstudio.components#_xZ7R1LnFEd-JgqORiCR91w"/>
+  </viewsRepositories>
+  <viewsRepositories basePackage="com.netxforge.netxstudio.netxstudio" swtViews="true" formViews="true">
+    <viewsRepository href="netxstudio.components#_xZ8f4bnFEd-JgqORiCR91w"/>
+  </viewsRepositories>
+</eef-gen:EEFGenModel>
