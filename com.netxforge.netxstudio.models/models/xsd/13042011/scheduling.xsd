@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/13042011/metrics"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:services="http://www.netxforge.com/13042011/services"
+	id="metrics" targetNamespace="http://www.netxforge.com/13042011/metrics"
+	ecore:package="com.netxforge.metrics">
+    <xs:import schemaLocation="generics.xsd"
+		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
+	<xs:import schemaLocation="services.xsd"
+		namespace="http://www.netxforge.com/13042011/services">
+		<xs:annotation>
+			<xs:documentation>TODO, SEE if BPMN2 can offer a scheduling model</xs:documentation>
+		</xs:annotation></xs:import>
+	<xs:complexType name="Scheduling">
+		<xs:sequence>
+			<xs:element name="Jobs" type="Job"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--_____________________________ -->
+	<!--| JOB 						| -->
+	<!--|___________________________| -->
+	<xs:complexType name="Job">
+		<xs:sequence>
+			<xs:element name="JobExecution" type="xs:dateTime" maxOccurs="unbounded" minOccurs="0"></xs:element>
+			<xs:element name="JobKind" type="JobKinds" maxOccurs="1" minOccurs="0"></xs:element>
+		</xs:sequence>
+		<xs:attribute name="Start" type="xs:date"></xs:attribute>
+		<xs:attribute name="Name" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| JOBKINDS 					| -->
+	<!--|___________________________| -->
+	<xs:simpleType name="JobKinds">
+        <xs:annotation>
+        	<xs:documentation>A type representing a type of Job. 
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+			<xs:enumeration value="Resource Monitoring"></xs:enumeration>
+			<xs:enumeration value="Service Monitoring"></xs:enumeration>
+			<xs:enumeration value="Metric data retention"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

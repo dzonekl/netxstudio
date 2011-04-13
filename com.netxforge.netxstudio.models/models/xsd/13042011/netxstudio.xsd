@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/13042011/netxstudio"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:services="http://www.netxforge.com/13042011/services"
+	xmlns:operators="http://www.netxforge.com/13042011/operators" 
+	xmlns:gen="http://www.netxforge.com/13042011/generics"
+	xmlns:metrics="http://www.netxforge.com/13042011/metrics"
+	xmlns:geo="http://www.netxforge.com/13042011/geo" 
+	xmlns:library="http://www.netxforge.com/13042011/library"
+	id="NetXStudio"
+	targetNamespace="http://www.netxforge.com/13042011/netxstudio"
+	ecore:package="com.netxforge.netxstudio">
+	<xs:import schemaLocation="operators.xsd"
+		namespace="http://www.netxforge.com/13042011/operators">
+	</xs:import>
+	<xs:import schemaLocation="generics.xsd"
+		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
+	<xs:import schemaLocation="metrics.xsd"
+		namespace="http://www.netxforge.com/13042011/metrics"></xs:import>
+	<xs:import schemaLocation="geo.xsd"
+		namespace="http://www.netxforge.com/13042011/geo"></xs:import>
+	<xs:import schemaLocation="library.xsd"
+		namespace="http://www.netxforge.com/13042011/library"></xs:import>
+		
+	<xs:import schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xsd"
+		namespace="http://www.eclipse.org/emf/2002/Ecore"></xs:import>
+	<xs:annotation>
+		<xs:documentation>
+			Network Data schema Copyright 2008 The schema uses
+			ecore
+			references syntax, but should easily map into an SQL schema.
+			The
+			ecore
+			references, are mapped into ORM specific DLL (See
+			Hibernate or
+			other
+			ORM). Most tables have an ID field, which
+			could actually be
+			removed.
+			the Original intent is the use of
+			an ID column, as a reference
+			identifier. EMF/Hibernate
+			however uses a custom mechanism.
+
+			Don't use
+			the word "Item", as this is appended to the Object
+			name in the EMF
+			edit model.
+		</xs:documentation>
+	</xs:annotation>
+
+	<!--_______________________ -->
+	<!-- NETXSTUDIO -->
+	<!--_______________________ -->
+
+	<xs:complexType name="Netxstudio">
+		<xs:annotation>
+			<xs:appinfo source="http://www.eclipse.org/emf/2002/Ecore"
+				ecore:key="operations">
+				<operation name="test" type="xs:int">
+				</operation>
+			</xs:appinfo>
+			<xs:documentation>Netxstudio is a container which groups all main other types. It is the root object.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Operators"
+				type="operators:Operator" >
+				<xs:annotation>
+					<xs:documentation>The Operators reference, contains 0 or more Operator type.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Libraries"
+				type="library:Library" >
+				<xs:annotation>
+					<xs:documentation>The Libraries reference, contains 0 or more Library type.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Companies"
+				type="gen:Company" >
+				<xs:annotation>
+					<xs:documentation>The Companies reference, contains 0 or more Company type.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Vendors"
+				type="library:Vendor" >
+				<xs:annotation>
+					<xs:documentation>The Companies reference, contains 0 or more Company type.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Users"
+				type="gen:Person" >
+				<xs:annotation>
+					<xs:documentation>The Users reference, contains 0 or more User type.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Countries"
+				type="geo:Country">
+                <xs:annotation>
+                	<xs:documentation>The Countries reference, contains 0 or more Country type.</xs:documentation>
+                </xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

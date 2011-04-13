@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/13042011/generics"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	id="generics" targetNamespace="http://www.netxforge.com/13042011/generics"
+	ecore:package="com.netxforge.generics">
+	<!--_____________________________ -->
+	<!--| COMPANY | -->
+	<!--|___________________________| -->
+	<xs:complexType name="Company">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points of a real company. 
+A Company can be a commercial vendor of equipment, a telecommunication service provider or other
+institution i.e. industry cooperation bodies to promote usage of standards. It is required to organise objects
+by Company.
+
+Examples: 
+1. The company type is used to organize reports like an expansion Bill of Quantity by vendor. 
+2. The company type is used in a UI widget to show equipments from a certain company. 
+3. The company type is used in a UI widget to show protocols from a certain standardisation body. 
+4. The company type is used in a UI widget to show RSS feed news from a certain company.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Icons" type="MultiImage" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Images reference, contains 0 or one MultiImage type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Name" type="Name255">
+			<xs:annotation>
+				<xs:documentation>The Name attribute is a free form text.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ShortName" type="Name255">
+			<xs:annotation>
+				<xs:documentation>The ShortName attribute is a free form text, but should generally be kept short (3 characters).
+
+Examples: 1. The ShortName is used in UI widgets where space is limited.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Symbol" type="Name255">
+			<xs:annotation>
+				<xs:documentation>The financial Symbol or ticker attribute, is according to financial market ticker definitions.
+
+Examples: 1. The Symbol type can be used to lookup financial information of a Company.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Website" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>The Website attribute should contain the main web URL of the website. It should be according to
+
+http://en.wikipedia.org/wiki/Uniform_Resource_Locator
+
+Examples: 1. http://www.ietf.org
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="RSSurl" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>The RSSurl attribute should contain a URL to a so-called RSS feed. 
+
+The RSS format is defined here: http://en.wikipedia.org/wiki/RSS
+
+Examples: 
+1. The following URL is an RSS URL: http://isoc.org/wp/ietfjournal/?feed=rss2
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<!-- ___________________________ -->
+	<!--| USER | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="Person">
+        <xs:annotation>
+        	<xs:documentation>A type representing the basic information points of a User in the context of using the application.
+The Email attribute is also the login identifier.
+ 
+</xs:documentation>
+        </xs:annotation>
+        <xs:attribute ecore:reference="Company" name="CompanyRef"
+			type="xs:anyURI" >
+        	<xs:annotation>
+        		<xs:documentation>The CompanyRef reference, refers to 0 or 1 Company type.</xs:documentation>
+        	</xs:annotation></xs:attribute>
+		<xs:attribute name="FirstName" type="Name255" >
+			<xs:annotation>
+				<xs:documentation>The FirstName attribute holds the first name of the user.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="LastName" type="Name255" >
+			<xs:annotation>
+				<xs:documentation>The LastName attribute holds the last name of the user.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Email" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>The Email attribute hols the email address of the user. It is according to regex: 
+
+^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Password" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>The Password attribute holds the password of the user.</xs:documentation>
+			</xs:annotation></xs:attribute>
+	</xs:complexType>
+	
+	<!--_______________________ -->
+	<!-- MULTIIMAGE -->
+	<!--_______________________ -->
+	<xs:complexType name="MultiImage">
+		<xs:annotation>
+			<xs:documentation>A type representing an image. The image can be specified for various sizes from 16x16 upto 128x128.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="0" name="obj16" type="xs:anyURI" >
+				<xs:annotation>
+					<xs:documentation>The obj16 attribute, refers to a 16x16 URI of type png or gif.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element minOccurs="0" name="obj32" type="xs:anyURI" >
+				<xs:annotation>
+					<xs:documentation>The obj32 attribute, refers to a 32x32 URI of type png or gif.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element minOccurs="0" name="obj48" type="xs:anyURI" >
+				<xs:annotation>
+					<xs:documentation>The obj48 attribute, refers to a 48x48 URI of type png or gif.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element minOccurs="0" name="obj96" type="xs:anyURI" >
+				<xs:annotation>
+					<xs:documentation>The obj96 attribute, refers to a 96x96 URI of type png or gif.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element minOccurs="0" name="obj128" type="xs:anyURI" >
+				<xs:annotation>
+					<xs:documentation>The obj128 attribute, refers to a 128x128 URI of type png or gif.</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--_______________________ -->
+	<!-- NAME TYPE -->
+	<!--_______________________ -->
+	
+	<xs:simpleType name="Name255">
+		<xs:annotation>
+			<xs:documentation>A name type of 255 chars.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="255" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!--_______________________ -->
+	<!-- DESCRIPTION TYPE -->
+	<!--_______________________ -->
+	
+	<xs:simpleType name="Description2000">
+		<xs:annotation>
+			<xs:documentation>A description type of 2000 chars</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2000" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	<!--_______________________ -->
+	<!-- META -->
+	<!--_______________________ -->
+
+	<xs:complexType name="Meta">
+		<xs:annotation>
+			<xs:documentation>A type representing meta information about this model.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ecore:reference="Person" name="Author" type="xs:anyURI" minOccurs="0"
+				maxOccurs="1" >
+				<xs:annotation>
+					<xs:documentation>The Author reference, references 1 User type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Version" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Version attribute holds the version of this datamodel.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Description" type="Description2000">
+			<xs:annotation>
+				<xs:documentation>The Description attribute holds the description of this datamodel.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<!--_______________________ -->
+	<!-- LIFECYCLE TYPE -->
+	<!--_______________________ -->
+	<xs:complexType name="Lifecycle">
+		<xs:annotation>
+			<xs:documentation>A type representing the lifecycle.</xs:documentation>
+		</xs:annotation>
+		<!-- Life cycle dates in the network -->
+		<xs:attribute name="PlannedDate" type="xs:dateTime" >
+			<xs:annotation>
+				<xs:documentation>The PlannedDate attribute holds the date and time when planned.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="ConstructionDate" type="xs:dateTime" >
+			<xs:annotation>
+				<xs:documentation>The ConstructionDate attribute holds the date and time when constructed.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="InServiceDate" type="xs:dateTime" >
+			<xs:annotation>
+				<xs:documentation>The InServiceDate attribute holds the date and time when brought into service.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="OutOfServiceDate" type="xs:dateTime" >
+			<xs:annotation>
+				<xs:documentation>The OutOfServiceDate attribute holds the date and time when out of service.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Proposed" type="xs:dateTime" >
+			<xs:annotation>
+				<xs:documentation>The Proposed attribute holds the date and time when proposed.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="Unit">
+		<xs:annotation>
+			<xs:documentation>A type representing a Unit as in a measurement unit. The Unit, is a three character string
+which demarks the resource unit for displaying purposes. (The Unit as such is not interpreted).
+Units can be freely defined (Not implied by enumeration). 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="3" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ExpressionLine">
+        <xs:annotation>
+        	<xs:documentation>A type representing an expression. 
+See NetXScript specification</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+			<xs:maxLength value="1000" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!--_____________________________ -->
+	<!--| EXPANSIONDURATION 		| -->
+	<!--|___________________________| -->
+	<xs:simpleType name="ExpansionDuration">
+        <xs:annotation>
+        	<xs:documentation>A type representing a duration indication used to determine when an expansion should be initiated
+
+Quick less than 6 weeksShort less than 3 monthsMedium less than 9 monthsLong  less than 18 months</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+			<xs:enumeration value="QUICK"></xs:enumeration>
+			<xs:enumeration value="SHORT"></xs:enumeration>
+			<xs:enumeration value="MEDIUM"></xs:enumeration>
+			<xs:enumeration value="LONG"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!--_______________________ -->
+	<!-- DATETIME RANGE -->
+	<!--_______________________ -->
+	
+	<xs:complexType name="DateTimeRange">
+	<xs:annotation>
+		<xs:documentation>A type representing the basic information point for a DateTime Range or a period.
+A range with a start and end timestamp.</xs:documentation>
+	</xs:annotation>
+	<xs:attribute name="Begin" type="xs:dateTime">
+		<xs:annotation>
+			<xs:documentation>The Begin attribute holds the starting date time of the range.</xs:documentation>
+		</xs:annotation></xs:attribute>
+		<xs:attribute name="End" type="xs:dateTime">
+            <xs:annotation>
+            	<xs:documentation>The End attribute holds the end date time of the range.</xs:documentation>
+            </xs:annotation>
+		</xs:attribute>
+	</xs:complexType>	
+	
+	<!--_______________________ -->
+	<!-- DIAGRAMINFO	 -->
+	<!--_______________________ -->
+
+	<xs:complexType name="DiagramInfo">
+        <xs:annotation>
+        	<xs:documentation>A type representing the basic information point Diagram.
+It consists of a location (Where the diagram is stored), and the type of diagram.
+Diagrams can be attached to various objects, to visual the object relations.
+
+The Diagram model is expected to be a Notation model, which refers to the NetXStudio model.
+</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="Location" type="xs:anyURI" >
+        	<xs:annotation>
+        		<xs:documentation>The Location attribute holds a reference to the location where the diagram is stored. </xs:documentation>
+        	</xs:annotation></xs:attribute>
+		<xs:attribute name="DiagramKind">
+            <xs:annotation>
+            	<xs:documentation>The DiagramKind attribute holds a reference to the kind of diagram, to open the correct editor.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="NETWORK" />
+					<xs:enumeration value="FUNCTION" />
+					<xs:enumeration value="EQUIPMENT" />
+					<xs:enumeration value="NODE" />
+					<xs:enumeration value="WIRING" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<!--_____________________________ -->
+	<!--| VALUE 					| -->
+	<!--|___________________________| -->
+	<xs:complexType name="Value">
+		<xs:annotation>
+			<xs:documentation>A type representing a numeric value and a timestamp</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Value" type="xs:double" >
+			<xs:annotation>
+				<xs:documentation>The Value attribute holds the numeric value</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="TimeStamp" type="xs:dateTime" >
+			<xs:annotation>
+				<xs:documentation>The TimeStamp attribute holds the time date for which the value applies.</xs:documentation>
+			</xs:annotation></xs:attribute>
+	</xs:complexType>
+</xs:schema>

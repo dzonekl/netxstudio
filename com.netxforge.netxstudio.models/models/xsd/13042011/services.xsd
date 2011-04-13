@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.netxforge.com/13042011/services"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	id="services" 
+	xmlns:gen="http://www.netxforge.com/13042011/generics"
+	xmlns:library="http://www.netxforge.com/13042011/library"
+	targetNamespace="http://www.netxforge.com/13042011/services"
+	xmlns:operators="http://www.netxforge.com/13042011/operators"
+	ecore:package="com.netxforge.services">
+	<xs:import schemaLocation="generics.xsd"
+		namespace="http://www.netxforge.com/13042011/generics">
+	</xs:import>
+	<xs:import schemaLocation="library.xsd"
+		namespace="http://www.netxforge.com/13042011/library">
+	</xs:import>
+	<xs:import schemaLocation="operators.xsd"
+		namespace="http://www.netxforge.com/13042011/operators"></xs:import>
+	<xs:annotation>
+		<xs:documentation>
+		</xs:documentation>
+	</xs:annotation>
+
+	<!--_______________________ -->
+	<!-- RFSSERVICE -->
+	<!--_______________________ -->
+	<xs:complexType name="RFSService">
+		<xs:annotation>
+			<xs:documentation>A type representing a Resource Facing Service.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Service">
+				<xs:sequence>
+					<xs:element name="Nodes" ecore:reference="networks:Node"
+						type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                        	<xs:documentation>The Nodes reference, references 0 or more Node types</xs:documentation>
+                        </xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="Tolerance" maxOccurs="unbounded"
+						minOccurs="0" name="ToleranceRefs" type="xs:anyURI" >
+						<xs:annotation>
+							<xs:documentation>The ToleranceRefs reference, refers to 0 or more Tolerance types.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="functionalCategory" type="xs:string">
+                    <xs:annotation>
+                    	<xs:documentation>The functionalCategory attribute holds the category of the service.</xs:documentation>
+                    </xs:annotation>
+				</xs:attribute>
+
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- CFSERVICE -->
+	<!--_______________________ -->
+	<xs:complexType name="CFSService">
+		<xs:annotation>
+			<xs:documentation>A type representing a Customer Facing Service.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Service">
+				<xs:attribute name="Provider" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The Provider attributes holds the entity responsible for providing the service.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Scenario" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The Scenario attribute, holds a scenario for the service. 
+
+Examples:
+1. SMS Mobile 2 Mobile
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- SERVICEPROFILE -->
+	<!--_______________________ -->
+	<xs:complexType name="ServiceProfile">
+		<xs:annotation>
+			<xs:documentation>A type representing the profile of a service. The Service profile can be generic for the service or location specific. 
+The profile contains service parameters which drive the utilization of resources on elements tight to this
+service.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ProfileResources" minOccurs="0"
+				maxOccurs="unbounded" type="library:NetXResource" >
+				<xs:annotation>
+					<xs:documentation>The ProfileResource reference, contains 0 or more Resource types.</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+		<xs:attribute name="Name" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The  Name attribute holds the name of the ServiceProfile.</xs:documentation>
+			</xs:annotation></xs:attribute>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- SERVICEFORECAST -->
+	<!--_______________________ -->
+
+	<xs:complexType name="ServiceForecast">
+		<xs:annotation>
+			<xs:documentation>A type representing a ServiceForecast. A ServiceForecast is a forecast of a service, which 
+impacts the consumption of resources when using a service. The Forecast applies to a period, and contains Service forecast users.
+The forecast also has a name and a revision</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Period" type="gen:DateTimeRange" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Period reference, contains 0 or 1 DatetimeRange types.
+				</xs:documentation>
+				</xs:annotation>
+			</xs:element>		
+			<xs:element name="ServiceForecastUsers" type="ServiceForecastUsers" maxOccurs="unbounded" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The ServiceUser reference, contains 0 or more ServiceForecastUsers type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="ResourceForecasts"
+						type="operators:ResourceForecast">
+				<xs:annotation>
+					<xs:documentation>The ResourceForcasts reference, contains 0 or more ResourceForcast type.</xs:documentation>
+		    	</xs:annotation>
+			</xs:element>			
+		</xs:sequence>
+		<xs:attribute name="Name" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The Name attribute holds the name of the ServiceForecast.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Revision" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The Revision attribute holds the revision of this forecast.</xs:documentation>
+			</xs:annotation></xs:attribute>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- SERVICEMONITOR -->
+	<!--_______________________ -->
+	<xs:complexType name="ServiceMonitor">
+		<xs:annotation>
+			<xs:documentation>A type representing a ServiceMonitor. A ServiceMonitoris a monitoring run for a service, which 
+has consumed resources. The Monitor applies to a period. The monitor has a name and a revision.
+
+The Monitor can be seen as a window covering a period, for the service, and underlying resources.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Period" type="gen:DateTimeRange" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Period reference, contains 0 or 1 DatetimeRange types.
+				</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="ResourceMonitors"
+						type="operators:ResourceMonitor">
+		    	<xs:annotation>
+		            <xs:documentation>The ResourceMonitors reference, contains 0 or more ResourceForcast type.</xs:documentation>
+		        </xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Name" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The Name attribute holds the name of the ServiceMonitor.</xs:documentation>
+			</xs:annotation></xs:attribute>
+		<xs:attribute name="Revision" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The Revision attribute holds the revision of this monitor.</xs:documentation>
+			</xs:annotation></xs:attribute>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- SERVICEFORECASTUSERS -->
+	<!--_______________________ -->
+	<xs:complexType name="ServiceForecastUsers">
+		<xs:annotation>
+			<xs:documentation>A type representing a ServiceForecastUser. A ServiceForecastUser is a user of a service, which
+is forecasted over time. It has values and references a ServiceUser.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="UserValues" type="gen:Value" maxOccurs="unbounded" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The UserValues reference, contains expected service user values for a service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ecore:reference="ServiceUser" name="ServiceUserRef" type="xs:anyURI" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The ServiceUser reference, references 0 or 1 ServiceUser type.</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!--_______________________ -->
+	<!-- SERVICEUSER 			-->
+	<!--_______________________ -->
+	<xs:complexType name="ServiceUser">
+		<xs:annotation>
+			<xs:documentation>A type representing a ServiceUser. A ServiceUser is a user of a service, which impacts the consumption of
+resources when using a service. A ServiceUser has a profile, and a name. 
+
+Examples: 
+1. A Service user postpaid subscriber is defined. It's profile is a postpaid subscriber profile with several
+values for. 				
+				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+		<xs:element name="ServiceProfile" type="ServiceProfile"
+						minOccurs="0" maxOccurs="1" >
+			<xs:annotation>
+				<xs:documentation>The ServiceProfile reference, contains 0 or 1 ServiceProfile type.</xs:documentation>
+			</xs:annotation></xs:element>
+			<xs:element ecore:opposite="ServiceProfileExpressionRefs"
+				ecore:reference="library:Expression" maxOccurs="unbounded" minOccurs="0"
+				name="ExpressionRefs" type="xs:anyURI" >
+				<xs:annotation>
+					<xs:documentation>The ExpressionRefs reference, refers to 0 or more Expression types.
+			</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+		<xs:attribute name="Name" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The Name attribute holds the name of the ServiceUser.</xs:documentation>
+			</xs:annotation></xs:attribute>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- SERVICE 				-->
+	<!--_______________________ -->
+	<xs:complexType name="Service">
+		<xs:annotation>
+			<xs:documentation>A type representing a service. A Service has a name, a Description, a Category and other information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CIID" minOccurs="0" maxOccurs="unbounded"
+				type="CI-ID">
+				<xs:annotation>
+					<xs:documentation>
+						The CIID reference, contains 0 or more CI-ID
+						type. This is to map capacity management with
+						other processes in the Service Assurance domain.
+						(Incident, Problem and Change management).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Services" type="Service" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						The Services reference, contains 0 or more
+						Service types.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServiceForecasts" type="ServiceForecast"
+				maxOccurs="unbounded" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The ServiceForecasts reference, contains 0 or
+						more ServiceForecast types.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServiceMonitors" type="ServiceMonitor"
+				maxOccurs="unbounded" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The ServiceMonitors reference, contains 0 or
+						more ServiceMonitor types.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ecore:reference="ServiceUser"
+				name="ServiceUserRefs" type="xs:anyURI" maxOccurs="unbounded"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						The ServiceUserRefs reference, references 0 or
+						more ServiceUserRef types.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element name="ServiceDistribution" type="ServiceDistribution" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The ServiceDistrubution reference, contains 0 or 1 ServiceDistribution type</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+		<xs:attribute name="ServiceDescription" type="gen:Description2000">
+			<xs:annotation>
+				<xs:documentation>The ServiceDescription attribute, holds the Description of the service.
+        			</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>		
+		<xs:attribute name="ServiceName" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The ServiceName attribute, holds the name of the service.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+
+		<xs:attribute name="ServiceCategory" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>CI Group / OM Service Group (Service Category) The Service Category is used for a logical cluster of
+the service
+
+Examples: 
+1. Voice/Telephony (peer to peer) 
+2. Voice and Video conferencing (multi peer) 
+3. Content delivery Data delivery Messaging 
+4. Customer Self Administration
+5. Customer Care Administration</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ServiceClass">
+			<xs:annotation>
+				<xs:documentation>Offered classes of provided service: Gold/Silver/Bronze This is implicite the business priority
+				</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Gold"></xs:enumeration>
+					<xs:enumeration value="Silver"></xs:enumeration>
+					<xs:enumeration value="Bronze"></xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="CI-ID">
+		<xs:annotation>
+			<xs:documentation>A type representing a Configuration Item (CI) Identifier.
+The CI is used within Configuration Management to identify a configuration item.
+It can be used as an identifier to correlate objects to legacy systems.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="localCI_ID" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The LocalCI_ID attribute holds a Unique identifier indicator in a local CMS (CI-ID)
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CommonCI_ID" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The CommonCI_ID attribute holds a Unique number indicator in international CMS
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- SERVICEDISTRIBUTION	-->
+	<!--_______________________ -->
+
+	<xs:complexType name="ServiceDistribution">
+        <xs:annotation>
+        	<xs:documentation>A type representing how the service is distributed across the Nodes. 
+How the service is distributed over network depends on various factors. 
+
+1. Geographical spread of the service. 
+2. Service distribution mechanism implemented for functions. 
+3. Overall network conditions i.e. load or specific node conditions, and measures for overload. 
+
+The service distribution is derived from the node resources. The service distribution contains therefor the definition
+of "service resources" and expressions to populate these resources. (The expression is expected to add node resource values together 
+and store the result in the defined Service Resource )
+
+TODO, The distribution should be organized by Function in order to present it as such. As the resource, is likely a copy of the 
+a Function resource, we could perhaps keep a reference to the node Function, from which the service resource is derived through the 
+expression. Another option, is to resolve the Function, from the resource name, but this would require additional lookups.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence><xs:element name="ServiceResources" minOccurs="0"
+				maxOccurs="unbounded" type="library:NetXResource" >
+				<xs:annotation>
+					<xs:documentation>The ServiceResource reference, contains 0 or more Resource types.</xs:documentation>
+				</xs:annotation></xs:element>
+				<xs:element ecore:opposite="ServiceDistributionExpressionRefs"
+				ecore:reference="library:Expression" maxOccurs="unbounded" minOccurs="0"
+				name="ExpressionRefs" type="xs:anyURI" >
+				<xs:annotation>
+					<xs:documentation>The ServiceDistributionExpressionRefs reference, refers to 0 or more Expression types.
+			</xs:documentation>
+				</xs:annotation></xs:element></xs:sequence>
+	</xs:complexType>
+</xs:schema>
