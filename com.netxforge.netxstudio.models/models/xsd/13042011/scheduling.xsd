@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns="http://www.netxforge.com/13042011/metrics"
+<xs:schema xmlns="http://www.netxforge.com/13042011/scheduling"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:services="http://www.netxforge.com/13042011/services"
-	id="metrics" targetNamespace="http://www.netxforge.com/13042011/metrics"
-	ecore:package="com.netxforge.metrics">
+	id="scheduling" targetNamespace="http://www.netxforge.com/13042011/scheduling"
+	ecore:package="com.netxforge.netxstudio.scheduling">
     <xs:import schemaLocation="generics.xsd"
 		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
 	<xs:import schemaLocation="services.xsd"
@@ -27,6 +27,7 @@
 		</xs:sequence>
 		<xs:attribute name="Start" type="xs:date"></xs:attribute>
 		<xs:attribute name="Name" type="xs:string"></xs:attribute>
+		<!-- TODO, We need some kind of Job status like Active etc... -->
 	</xs:complexType>
 
 	<!--_____________________________ -->

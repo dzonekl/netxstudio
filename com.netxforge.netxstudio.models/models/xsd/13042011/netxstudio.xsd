@@ -7,6 +7,7 @@
 	xmlns:metrics="http://www.netxforge.com/13042011/metrics"
 	xmlns:geo="http://www.netxforge.com/13042011/geo" 
 	xmlns:library="http://www.netxforge.com/13042011/library"
+	xmlns:scheduling="http://www.netxforge.com/13042011/scheduling"
 	id="NetXStudio"
 	targetNamespace="http://www.netxforge.com/13042011/netxstudio"
 	ecore:package="com.netxforge.netxstudio">
@@ -21,7 +22,8 @@
 		namespace="http://www.netxforge.com/13042011/geo"></xs:import>
 	<xs:import schemaLocation="library.xsd"
 		namespace="http://www.netxforge.com/13042011/library"></xs:import>
-		
+	<xs:import schemaLocation="scheduling.xsd"
+		namespace="http://www.netxforge.com/13042011/scheduling"></xs:import>	
 	<xs:import schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xsd"
 		namespace="http://www.eclipse.org/emf/2002/Ecore"></xs:import>
 	<xs:annotation>
@@ -94,6 +96,13 @@
                 	<xs:documentation>The Countries reference, contains 0 or more Country type.</xs:documentation>
                 </xs:annotation>
 			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Jobs"
+				type="scheduling:Job">
+                <xs:annotation>
+                	<xs:documentation>The Jobs reference, contains 0 or more Job type.</xs:documentation>
+                </xs:annotation>
+			</xs:element>
+			
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>

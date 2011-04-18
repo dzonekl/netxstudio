@@ -7,7 +7,7 @@
 	xmlns:operators="http://www.netxforge.com/13042011/operators"
 	xmlns:protocols="http://www.netxforge.com/13042011/protocols"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	ecore:package="com.netxforge.library" id="library"
+	ecore:package="com.netxforge.netxstudio.library" id="library"
 	targetNamespace="http://www.netxforge.com/13042011/library">
 	<xs:import namespace="http://www.netxforge.com/13042011/generics"
 		schemaLocation="generics.xsd" />

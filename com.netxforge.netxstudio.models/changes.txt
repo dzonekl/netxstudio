@@ -1,9 +1,0 @@
-Log for changes in provided GMF templates:
-======================================
-
-Change: xpt->plugin->manifest.xpt 
-Description: We don't use the platform navigator resources, so we need to change the generation of the 
-dependencies in manifest.xpt. 
-
-Change: xpt->editor->Editor.xpt
-Description: We override the default platform explorer with our own. 

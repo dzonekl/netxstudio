@@ -7,7 +7,7 @@
 	xmlns:library="http://www.netxforge.com/13042011/library"
 	targetNamespace="http://www.netxforge.com/13042011/services"
 	xmlns:operators="http://www.netxforge.com/13042011/operators"
-	ecore:package="com.netxforge.services">
+	ecore:package="com.netxforge.netxstudio.services">
 	<xs:import schemaLocation="generics.xsd"
 		namespace="http://www.netxforge.com/13042011/generics">
 	</xs:import>

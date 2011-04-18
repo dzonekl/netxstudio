@@ -3,7 +3,7 @@
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:operators="http://www.netxforge.com/13042011/operators"
 	id="metrics" targetNamespace="http://www.netxforge.com/13042011/metrics"
-	ecore:package="com.netxforge.metrics">
+	ecore:package="com.netxforge.netxstudio.metrics">
     <xs:import schemaLocation="generics.xsd"
 		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
 	<xs:import schemaLocation="operators.xsd"
@@ -163,11 +163,8 @@ Multiple identifiers can be defined, the mapping will succeed if all identificat
 		<xs:complexContent>
 			<xs:extension base="Mapping">
 				<xs:sequence>
-					<xs:element name="ColumnHeaders" type="xs:string" maxOccurs="unbounded" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The ColumnHeaders reference, contains 0 or more textual expected header names.
-Note: that if the corresponding ColumnDataKind is a Metric, the column header will be interpreted as the name of the Metric.</xs:documentation>
-						</xs:annotation></xs:element>
+					<xs:element name="MappingColumns" type="MappingXLSColumn" maxOccurs="unbounded" minOccurs="0">
+						</xs:element>
 					<xs:element name="ColumnDataKind" type="DataKind" maxOccurs="unbounded" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The ColumnDataKind reference, contains 0 or more DataKind types. The DataKind is either an Identifer or a Value.</xs:documentation>
@@ -389,5 +386,24 @@ It is expected the metric loading or derived values will consider the hints, on 
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="MappingXLSColumn">
+		<xs:sequence>
+			<xs:element name="DataType" type="DataKind" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The ColumnDataKind reference, contains 1 DataKind type. The DataKind is either an Identifer or a Value.</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
+		<xs:attribute name="ColumnName" type="xs:string">
+		<xs:annotation>
+				<xs:documentation>The ColumnName attribute, is a textual expected header names.
+Note: that if the corresponding ColumnDataKind is a Metric, the column header will be interpreted as the name of the Metric.</xs:documentation>
+		</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ColumnRow" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>The ColumnRow attributes overrides (per column) the row number of the expected header row. </xs:documentation>
+			</xs:annotation></xs:attribute>
 	</xs:complexType>
 </xs:schema>

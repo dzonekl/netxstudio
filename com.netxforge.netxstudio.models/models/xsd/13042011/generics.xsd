@@ -2,7 +2,7 @@
 <xs:schema xmlns="http://www.netxforge.com/13042011/generics"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	id="generics" targetNamespace="http://www.netxforge.com/13042011/generics"
-	ecore:package="com.netxforge.generics">
+	ecore:package="com.netxforge.netxstudio.generics">
 	<!--_____________________________ -->
 	<!--| COMPANY | -->
 	<!--|___________________________| -->
@@ -72,7 +72,16 @@ Examples:
 	</xs:complexType>
 	
 	<!-- ___________________________ -->
-	<!--| USER | -->
+	<!--| ROLE	 					| -->
+	<!--|___________________________| -->
+	
+	<xs:complexType name="Role">
+		<xs:attribute name="Name" type="Name255"></xs:attribute>
+	</xs:complexType>
+	
+
+	<!-- ___________________________ -->
+	<!--| PERSON | -->
 	<!--|___________________________| -->
 
 	<xs:complexType name="Person">
@@ -87,18 +96,21 @@ The Email attribute is also the login identifier.
         	<xs:annotation>
         		<xs:documentation>The CompanyRef reference, refers to 0 or 1 Company type.</xs:documentation>
         	</xs:annotation></xs:attribute>
+		<xs:attribute name="Login" type="Name255" >
+			<xs:annotation>
+				<xs:documentation>The Login attribute holds the login ID of the person.</xs:documentation>
+		</xs:annotation></xs:attribute>
 		<xs:attribute name="FirstName" type="Name255" >
 			<xs:annotation>
-				<xs:documentation>The FirstName attribute holds the first name of the user.</xs:documentation>
+				<xs:documentation>The FirstName attribute holds the first name of the person.</xs:documentation>
 			</xs:annotation></xs:attribute>
 		<xs:attribute name="LastName" type="Name255" >
 			<xs:annotation>
-				<xs:documentation>The LastName attribute holds the last name of the user.</xs:documentation>
+				<xs:documentation>The LastName attribute holds the last name of the person.</xs:documentation>
 			</xs:annotation></xs:attribute>
 		<xs:attribute name="Email" type="xs:string" >
 			<xs:annotation>
 				<xs:documentation>The Email attribute hols the email address of the user. It is according to regex: 
-
 ^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$</xs:documentation>
 			</xs:annotation></xs:attribute>
 		<xs:attribute name="Password" type="xs:string" >

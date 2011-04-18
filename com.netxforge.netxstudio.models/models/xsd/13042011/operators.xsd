@@ -7,7 +7,7 @@
 	xmlns:geo="http://www.netxforge.com/13042011/geo"
 	xmlns:services="http://www.netxforge.com/13042011/services"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	ecore:package="com.netxforge.operators" id="operators"
+	ecore:package="com.netxforge.netxstudio.operators" id="operators"
 	targetNamespace="http://www.netxforge.com/13042011/operators" >
     <xs:import namespace="http://www.netxforge.com/13042011/generics"
 		schemaLocation="generics.xsd" />

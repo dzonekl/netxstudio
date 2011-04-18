@@ -2,7 +2,7 @@
 <xs:schema xmlns="http://www.netxforge.com/13042011/geo"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gen="http://www.netxforge.com/13042011/generics"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	ecore:package="com.netxforge.geo" id="geo"
+	ecore:package="com.netxforge.netxstudio.geo" id="geo"
 	targetNamespace="http://www.netxforge.com/13042011/geo">
 	<xs:import namespace="http://www.netxforge.com/13042011/generics"
 		schemaLocation="generics.xsd" />
