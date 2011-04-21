@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Screens Demo RCP
+Bundle-SymbolicName: com.netxforge.netxstudio.screens.rcp; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.netxforge.netxstudio.screens.rcp.internal.Activator
+Bundle-Vendor: NetXForge
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.netxforge.netxstudio.screens;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

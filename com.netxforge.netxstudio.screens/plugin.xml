@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="com.netxforge.netxstudio.screens.demo.DemoViewPartSelector"
+            id="com.netxforge.netxstudio.screens.demo.DemoViewPartSelector"
+            name="Selecto">
+      </view>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="ScreensEditor"
+            default="true"
+            class="com.netxforge.netxstudio.screens.demo.ScreensEditor"
+            id="com.netxforge.netxstudio.screens.demo.editor">
+      </editor>
+   </extension>
+   
+</plugin>
