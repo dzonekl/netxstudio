@@ -29,7 +29,7 @@ Examples:
 			<xs:element maxOccurs="unbounded" minOccurs="0"
 				name="Metrics" type="Metric">
 				<xs:annotation>
-					<xs:documentation>The Metrics references, contains 0 or more Metric types.
+					<xs:documentation>The Metrics reference, contains 0 or more Metric types.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -365,12 +365,6 @@ It is expected the metric loading or derived values will consider the hints, on 
 					<xs:documentation>The MetricValue reference, contains 0 or more Value types</xs:documentation>
 				</xs:annotation></xs:element>
 		</xs:sequence>
-		<xs:attribute name="Name" type="gen:Name255">
-			<xs:annotation>
-				<xs:documentation>The Name attribute holds the name of the metricvaluerange.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
 		<xs:attribute name="PeriodHint" type="xs:int">
 			<xs:annotation>
 				<xs:documentation>The PeriodHint attribute, holds a hint for the metric period between each metric value in minutes.</xs:documentation>

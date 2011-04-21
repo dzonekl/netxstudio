@@ -85,40 +85,67 @@ Examples:
 	<!--|___________________________| -->
 
 	<xs:complexType name="Person">
-        <xs:annotation>
-        	<xs:documentation>A type representing the basic information points of a User in the context of using the application.
-The Email attribute is also the login identifier.
- 
-</xs:documentation>
-        </xs:annotation>
-        <xs:attribute ecore:reference="Company" name="CompanyRef"
-			type="xs:anyURI" >
-        	<xs:annotation>
-        		<xs:documentation>The CompanyRef reference, refers to 0 or 1 Company type.</xs:documentation>
-        	</xs:annotation></xs:attribute>
-		<xs:attribute name="Login" type="Name255" >
+		<xs:annotation>
+			<xs:documentation>
+				A type representing the basic information points of a
+				User in the context of using the application. The Email
+				attribute is also the login identifier.
+
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute ecore:reference="Company" name="CompanyRef"
+			type="xs:anyURI">
 			<xs:annotation>
-				<xs:documentation>The Login attribute holds the login ID of the person.</xs:documentation>
-		</xs:annotation></xs:attribute>
-		<xs:attribute name="FirstName" type="Name255" >
+				<xs:documentation>
+					The CompanyRef reference, refers to 0 or 1 Company
+					type.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Login" type="Name255">
 			<xs:annotation>
-				<xs:documentation>The FirstName attribute holds the first name of the person.</xs:documentation>
-			</xs:annotation></xs:attribute>
-		<xs:attribute name="LastName" type="Name255" >
+				<xs:documentation>
+					The Login attribute holds the login ID of the
+					person.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="FirstName" type="Name255">
 			<xs:annotation>
-				<xs:documentation>The LastName attribute holds the last name of the person.</xs:documentation>
-			</xs:annotation></xs:attribute>
-		<xs:attribute name="Email" type="xs:string" >
+				<xs:documentation>
+					The FirstName attribute holds the first name of the
+					person.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="LastName" type="Name255">
 			<xs:annotation>
-				<xs:documentation>The Email attribute hols the email address of the user. It is according to regex: 
-^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$</xs:documentation>
-			</xs:annotation></xs:attribute>
-		<xs:attribute name="Password" type="xs:string" >
+				<xs:documentation>
+					The LastName attribute holds the last name of the
+					person.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Email" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>The Password attribute holds the password of the user.</xs:documentation>
-			</xs:annotation></xs:attribute>
+				<xs:documentation>
+					The Email attribute hols the email address of the
+					user. It is according to regex:
+					^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Password" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The Password attribute holds the password of the
+					user.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Active" type="xs:boolean"></xs:attribute>
 	</xs:complexType>
-	
+
 	<!--_______________________ -->
 	<!-- MULTIIMAGE -->
 	<!--_______________________ -->

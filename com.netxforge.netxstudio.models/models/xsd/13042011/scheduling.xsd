@@ -25,8 +25,10 @@
 			<xs:element name="JobExecution" type="xs:dateTime" maxOccurs="unbounded" minOccurs="0"></xs:element>
 			<xs:element name="JobKind" type="JobKinds" maxOccurs="1" minOccurs="0"></xs:element>
 		</xs:sequence>
-		<xs:attribute name="Start" type="xs:date"></xs:attribute>
+		<xs:attribute name="Started" type="xs:dateTime"></xs:attribute>
+		<xs:attribute name="Ended" type="xs:dateTime"></xs:attribute>
 		<xs:attribute name="Name" type="xs:string"></xs:attribute>
+		<xs:attribute name="CurrentlyActive" type="xs:boolean"></xs:attribute>
 		<!-- TODO, We need some kind of Job status like Active etc... -->
 	</xs:complexType>
 
@@ -44,4 +46,5 @@
 			<xs:enumeration value="Metric data retention"></xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
+	
 </xs:schema>
