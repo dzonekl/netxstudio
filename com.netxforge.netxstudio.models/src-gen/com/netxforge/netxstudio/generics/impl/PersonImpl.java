@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.generics.impl.PersonImpl#isActive <em>Active</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.impl.PersonImpl#getCompanyRef <em>Company Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.impl.PersonImpl#getEmail <em>Email</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.impl.PersonImpl#getFirstName <em>First Name</em>}</li>
@@ -49,6 +50,35 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * @generated
  */
 public class PersonImpl extends EObjectImpl implements Person {
+	/**
+	 * The default value of the '{@link #isActive() <em>Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isActive()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ACTIVE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isActive() <em>Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isActive()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean active = ACTIVE_EDEFAULT;
+
+	/**
+	 * This is true if the Active attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean activeESet;
+
 	/**
 	 * The cached value of the '{@link #getCompanyRef() <em>Company Ref</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -176,6 +206,52 @@ public class PersonImpl extends EObjectImpl implements Person {
 	@Override
 	protected EClass eStaticClass() {
 		return GenericsPackage.Literals.PERSON;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setActive(boolean newActive) {
+		boolean oldActive = active;
+		active = newActive;
+		boolean oldActiveESet = activeESet;
+		activeESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GenericsPackage.PERSON__ACTIVE, oldActive, active, !oldActiveESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetActive() {
+		boolean oldActive = active;
+		boolean oldActiveESet = activeESet;
+		active = ACTIVE_EDEFAULT;
+		activeESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, GenericsPackage.PERSON__ACTIVE, oldActive, ACTIVE_EDEFAULT, oldActiveESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetActive() {
+		return activeESet;
 	}
 
 	/**
@@ -329,6 +405,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case GenericsPackage.PERSON__ACTIVE:
+				return isActive();
 			case GenericsPackage.PERSON__COMPANY_REF:
 				if (resolve) return getCompanyRef();
 				return basicGetCompanyRef();
@@ -354,6 +432,9 @@ public class PersonImpl extends EObjectImpl implements Person {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case GenericsPackage.PERSON__ACTIVE:
+				setActive((Boolean)newValue);
+				return;
 			case GenericsPackage.PERSON__COMPANY_REF:
 				setCompanyRef((Company)newValue);
 				return;
@@ -384,6 +465,9 @@ public class PersonImpl extends EObjectImpl implements Person {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case GenericsPackage.PERSON__ACTIVE:
+				unsetActive();
+				return;
 			case GenericsPackage.PERSON__COMPANY_REF:
 				setCompanyRef((Company)null);
 				return;
@@ -414,6 +498,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case GenericsPackage.PERSON__ACTIVE:
+				return isSetActive();
 			case GenericsPackage.PERSON__COMPANY_REF:
 				return companyRef != null;
 			case GenericsPackage.PERSON__EMAIL:
@@ -440,7 +526,9 @@ public class PersonImpl extends EObjectImpl implements Person {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (email: ");
+		result.append(" (active: ");
+		if (activeESet) result.append(active); else result.append("<unset>");
+		result.append(", email: ");
 		result.append(email);
 		result.append(", firstName: ");
 		result.append(firstName);

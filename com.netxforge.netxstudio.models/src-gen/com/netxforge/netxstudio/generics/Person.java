@@ -26,15 +26,18 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a User in the context of using the application.
- * The Email attribute is also the login identifier.
- *  
  * 
+ * 				A type representing the basic information points of a
+ * 				User in the context of using the application. The Email
+ * 				attribute is also the login identifier.
+ * 
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.generics.Person#isActive <em>Active</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.Person#getCompanyRef <em>Company Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.Person#getEmail <em>Email</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.Person#getFirstName <em>First Name</em>}</li>
@@ -50,11 +53,68 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Person extends EObject {
 	/**
+	 * Returns the value of the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Active</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Active</em>' attribute.
+	 * @see #isSetActive()
+	 * @see #unsetActive()
+	 * @see #setActive(boolean)
+	 * @see com.netxforge.netxstudio.generics.GenericsPackage#getPerson_Active()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='attribute' name='Active'"
+	 * @generated
+	 */
+	boolean isActive();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.generics.Person#isActive <em>Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Active</em>' attribute.
+	 * @see #isSetActive()
+	 * @see #unsetActive()
+	 * @see #isActive()
+	 * @generated
+	 */
+	void setActive(boolean value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.generics.Person#isActive <em>Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetActive()
+	 * @see #isActive()
+	 * @see #setActive(boolean)
+	 * @generated
+	 */
+	void unsetActive();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.generics.Person#isActive <em>Active</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Active</em>' attribute is set.
+	 * @see #unsetActive()
+	 * @see #isActive()
+	 * @see #setActive(boolean)
+	 * @generated
+	 */
+	boolean isSetActive();
+
+	/**
 	 * Returns the value of the '<em><b>Company Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The CompanyRef reference, refers to 0 or 1 Company type.
+	 * 
+	 * 					The CompanyRef reference, refers to 0 or 1 Company
+	 * 					type.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Company Ref</em>' reference.
 	 * @see #setCompanyRef(Company)
@@ -79,8 +139,11 @@ public interface Person extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Email attribute hols the email address of the user. It is according to regex: 
-	 * ^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$
+	 * 
+	 * 					The Email attribute hols the email address of the
+	 * 					user. It is according to regex:
+	 * 					^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Email</em>' attribute.
 	 * @see #setEmail(String)
@@ -106,7 +169,10 @@ public interface Person extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The FirstName attribute holds the first name of the person.
+	 * 
+	 * 					The FirstName attribute holds the first name of the
+	 * 					person.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>First Name</em>' attribute.
 	 * @see #setFirstName(String)
@@ -132,7 +198,10 @@ public interface Person extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The LastName attribute holds the last name of the person.
+	 * 
+	 * 					The LastName attribute holds the last name of the
+	 * 					person.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Last Name</em>' attribute.
 	 * @see #setLastName(String)
@@ -158,7 +227,10 @@ public interface Person extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Login attribute holds the login ID of the person.
+	 * 
+	 * 					The Login attribute holds the login ID of the
+	 * 					person.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Login</em>' attribute.
 	 * @see #setLogin(String)
@@ -184,7 +256,10 @@ public interface Person extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Password attribute holds the password of the user.
+	 * 
+	 * 					The Password attribute holds the password of the
+	 * 					user.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Password</em>' attribute.
 	 * @see #setPassword(String)

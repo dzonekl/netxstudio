@@ -64,7 +64,7 @@ public interface Metric extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Metrics references, contains 0 or more Metric types.
+	 * The Metrics reference, contains 0 or more Metric types.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metrics</em>' containment reference list.

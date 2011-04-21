@@ -635,22 +635,13 @@ public interface MetricsPackage extends EPackage {
 	int METRIC_VALUE_RANGE__KIND_HINT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METRIC_VALUE_RANGE__NAME = 2;
-
-	/**
 	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_VALUE_RANGE__PERIOD_HINT = 3;
+	int METRIC_VALUE_RANGE__PERIOD_HINT = 2;
 
 	/**
 	 * The number of structural features of the '<em>Metric Value Range</em>' class.
@@ -659,7 +650,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_VALUE_RANGE_FEATURE_COUNT = 4;
+	int METRIC_VALUE_RANGE_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl <em>Value Data Kind</em>}' class.
@@ -1211,17 +1202,6 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getMetricValueRange_KindHint();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MetricValueRange#getName()
-	 * @see #getMetricValueRange()
-	 * @generated
-	 */
-	EAttribute getMetricValueRange_Name();
-
-	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getPeriodHint <em>Period Hint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1710,14 +1690,6 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute METRIC_VALUE_RANGE__KIND_HINT = eINSTANCE.getMetricValueRange_KindHint();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute METRIC_VALUE_RANGE__NAME = eINSTANCE.getMetricValueRange_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>Period Hint</b></em>' attribute feature.

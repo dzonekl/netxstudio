@@ -155,22 +155,40 @@ public interface SchedulingPackage extends EPackage {
 	int JOB__JOB_KIND = 1;
 
 	/**
+	 * The feature id for the '<em><b>Currently Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOB__CURRENTLY_ACTIVE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Ended</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOB__ENDED = 3;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JOB__NAME = 2;
+	int JOB__NAME = 4;
 
 	/**
-	 * The feature id for the '<em><b>Start</b></em>' attribute.
+	 * The feature id for the '<em><b>Started</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JOB__START = 3;
+	int JOB__STARTED = 5;
 
 	/**
 	 * The number of structural features of the '<em>Job</em>' class.
@@ -179,7 +197,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB_FEATURE_COUNT = 4;
+	int JOB_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.SchedulingImpl <em>Scheduling</em>}' class.
@@ -263,6 +281,28 @@ public interface SchedulingPackage extends EPackage {
 	EAttribute getJob_JobKind();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#isCurrentlyActive <em>Currently Active</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Currently Active</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.Job#isCurrentlyActive()
+	 * @see #getJob()
+	 * @generated
+	 */
+	EAttribute getJob_CurrentlyActive();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#getEnded <em>Ended</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ended</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.Job#getEnded()
+	 * @see #getJob()
+	 * @generated
+	 */
+	EAttribute getJob_Ended();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -274,15 +314,15 @@ public interface SchedulingPackage extends EPackage {
 	EAttribute getJob_Name();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#getStart <em>Start</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#getStarted <em>Started</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Start</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.Job#getStart()
+	 * @return the meta object for the attribute '<em>Started</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.Job#getStarted()
 	 * @see #getJob()
 	 * @generated
 	 */
-	EAttribute getJob_Start();
+	EAttribute getJob_Started();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.Scheduling <em>Scheduling</em>}'.
@@ -376,6 +416,22 @@ public interface SchedulingPackage extends EPackage {
 		EAttribute JOB__JOB_KIND = eINSTANCE.getJob_JobKind();
 
 		/**
+		 * The meta object literal for the '<em><b>Currently Active</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute JOB__CURRENTLY_ACTIVE = eINSTANCE.getJob_CurrentlyActive();
+
+		/**
+		 * The meta object literal for the '<em><b>Ended</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute JOB__ENDED = eINSTANCE.getJob_Ended();
+
+		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -384,12 +440,12 @@ public interface SchedulingPackage extends EPackage {
 		EAttribute JOB__NAME = eINSTANCE.getJob_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Start</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Started</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute JOB__START = eINSTANCE.getJob_Start();
+		EAttribute JOB__STARTED = eINSTANCE.getJob_Started();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.SchedulingImpl <em>Scheduling</em>}' class.

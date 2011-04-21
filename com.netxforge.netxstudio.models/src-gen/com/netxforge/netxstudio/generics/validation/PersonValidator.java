@@ -17,6 +17,8 @@ import com.netxforge.netxstudio.generics.Company;
 public interface PersonValidator {
 	boolean validate();
 
+	boolean validateActive(boolean value);
+
 	boolean validateCompanyRef(Company value);
 	boolean validateEmail(String value);
 	boolean validateFirstName(String value);

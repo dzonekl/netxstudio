@@ -23,6 +23,12 @@ public interface JobValidator {
 
 	boolean validateJobExecution(EList<XMLGregorianCalendar> value);
 	boolean validateJobKind(JobKinds value);
+	boolean validateCurrentlyActive(boolean value);
+
+	boolean validateEnded(XMLGregorianCalendar value);
+
 	boolean validateName(String value);
+	boolean validateStarted(XMLGregorianCalendar value);
+
 	boolean validateStart(XMLGregorianCalendar value);
 }

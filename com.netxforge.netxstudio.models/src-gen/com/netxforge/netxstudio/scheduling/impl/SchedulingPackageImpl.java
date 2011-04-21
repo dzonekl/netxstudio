@@ -226,7 +226,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJob_Name() {
+	public EAttribute getJob_CurrentlyActive() {
 		return (EAttribute)jobEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -235,8 +235,26 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJob_Start() {
+	public EAttribute getJob_Ended() {
 		return (EAttribute)jobEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getJob_Name() {
+		return (EAttribute)jobEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getJob_Started() {
+		return (EAttribute)jobEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -306,8 +324,10 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		jobEClass = createEClass(JOB);
 		createEAttribute(jobEClass, JOB__JOB_EXECUTION);
 		createEAttribute(jobEClass, JOB__JOB_KIND);
+		createEAttribute(jobEClass, JOB__CURRENTLY_ACTIVE);
+		createEAttribute(jobEClass, JOB__ENDED);
 		createEAttribute(jobEClass, JOB__NAME);
-		createEAttribute(jobEClass, JOB__START);
+		createEAttribute(jobEClass, JOB__STARTED);
 
 		schedulingEClass = createEClass(SCHEDULING);
 		createEReference(schedulingEClass, SCHEDULING__JOBS);
@@ -355,8 +375,10 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		initEClass(jobEClass, Job.class, "Job", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getJob_JobExecution(), theXMLTypePackage.getDateTime(), "jobExecution", null, 0, -1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJob_JobKind(), this.getJobKinds(), "jobKind", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getJob_CurrentlyActive(), theXMLTypePackage.getBoolean(), "currentlyActive", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getJob_Ended(), theXMLTypePackage.getDateTime(), "ended", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJob_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJob_Start(), theXMLTypePackage.getDate(), "start", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getJob_Started(), theXMLTypePackage.getDateTime(), "started", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(schedulingEClass, Scheduling.class, "Scheduling", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getScheduling_Jobs(), this.getJob(), null, "jobs", null, 1, 1, Scheduling.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -395,7 +417,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });										
+		   });												
 	}
 
 	/**
@@ -428,6 +450,20 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "name", "JobKind"
 		   });		
 		addAnnotation
+		  (getJob_CurrentlyActive(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "CurrentlyActive"
+		   });		
+		addAnnotation
+		  (getJob_Ended(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Ended"
+		   });		
+		addAnnotation
 		  (getJob_Name(), 
 		   source, 
 		   new String[] {
@@ -435,11 +471,11 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "name", "Name"
 		   });		
 		addAnnotation
-		  (getJob_Start(), 
+		  (getJob_Started(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
-			 "name", "Start"
+			 "name", "Started"
 		   });			
 		addAnnotation
 		  (jobKindsEEnum, 

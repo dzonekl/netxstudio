@@ -580,8 +580,17 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getPerson_Active() {
+		return (EAttribute)personEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getPerson_CompanyRef() {
-		return (EReference)personEClass.getEStructuralFeatures().get(0);
+		return (EReference)personEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -590,15 +599,6 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * @generated
 	 */
 	public EAttribute getPerson_Email() {
-		return (EAttribute)personEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getPerson_FirstName() {
 		return (EAttribute)personEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -607,7 +607,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_LastName() {
+	public EAttribute getPerson_FirstName() {
 		return (EAttribute)personEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -616,7 +616,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_Login() {
+	public EAttribute getPerson_LastName() {
 		return (EAttribute)personEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -625,8 +625,17 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_Password() {
+	public EAttribute getPerson_Login() {
 		return (EAttribute)personEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPerson_Password() {
+		return (EAttribute)personEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -810,6 +819,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		createEAttribute(multiImageEClass, MULTI_IMAGE__OBJ128);
 
 		personEClass = createEClass(PERSON);
+		createEAttribute(personEClass, PERSON__ACTIVE);
 		createEReference(personEClass, PERSON__COMPANY_REF);
 		createEAttribute(personEClass, PERSON__EMAIL);
 		createEAttribute(personEClass, PERSON__FIRST_NAME);
@@ -906,6 +916,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		initEAttribute(getMultiImage_Obj128(), theXMLTypePackage.getAnyURI(), "obj128", null, 0, 1, MultiImage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(personEClass, Person.class, "Person", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPerson_Active(), theXMLTypePackage.getBoolean(), "active", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPerson_CompanyRef(), this.getCompany(), null, "companyRef", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPerson_Email(), theXMLTypePackage.getString(), "email", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPerson_FirstName(), this.getName255(), "firstName", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1217,6 +1228,13 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		   new String[] {
 			 "name", "Person",
 			 "kind", "empty"
+		   });		
+		addAnnotation
+		  (getPerson_Active(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Active"
 		   });			
 		addAnnotation
 		  (getPerson_CompanyRef(), 

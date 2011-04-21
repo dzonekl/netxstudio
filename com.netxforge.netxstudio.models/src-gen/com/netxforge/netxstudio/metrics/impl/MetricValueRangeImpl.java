@@ -49,7 +49,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl#getMetricValues <em>Metric Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl#getKindHint <em>Kind Hint</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl#getPeriodHint <em>Period Hint</em>}</li>
  * </ul>
  * </p>
@@ -95,26 +94,6 @@ public class MetricValueRangeImpl extends EObjectImpl implements MetricValueRang
 	 * @ordered
 	 */
 	protected boolean kindHintESet;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getPeriodHint() <em>Period Hint</em>}' attribute.
@@ -227,27 +206,6 @@ public class MetricValueRangeImpl extends EObjectImpl implements MetricValueRang
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.METRIC_VALUE_RANGE__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public int getPeriodHint() {
 		return periodHint;
 	}
@@ -315,8 +273,6 @@ public class MetricValueRangeImpl extends EObjectImpl implements MetricValueRang
 				return getMetricValues();
 			case MetricsPackage.METRIC_VALUE_RANGE__KIND_HINT:
 				return getKindHint();
-			case MetricsPackage.METRIC_VALUE_RANGE__NAME:
-				return getName();
 			case MetricsPackage.METRIC_VALUE_RANGE__PERIOD_HINT:
 				return getPeriodHint();
 		}
@@ -339,9 +295,6 @@ public class MetricValueRangeImpl extends EObjectImpl implements MetricValueRang
 			case MetricsPackage.METRIC_VALUE_RANGE__KIND_HINT:
 				setKindHint((KindHintType)newValue);
 				return;
-			case MetricsPackage.METRIC_VALUE_RANGE__NAME:
-				setName((String)newValue);
-				return;
 			case MetricsPackage.METRIC_VALUE_RANGE__PERIOD_HINT:
 				setPeriodHint((Integer)newValue);
 				return;
@@ -363,9 +316,6 @@ public class MetricValueRangeImpl extends EObjectImpl implements MetricValueRang
 			case MetricsPackage.METRIC_VALUE_RANGE__KIND_HINT:
 				unsetKindHint();
 				return;
-			case MetricsPackage.METRIC_VALUE_RANGE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
 			case MetricsPackage.METRIC_VALUE_RANGE__PERIOD_HINT:
 				unsetPeriodHint();
 				return;
@@ -385,8 +335,6 @@ public class MetricValueRangeImpl extends EObjectImpl implements MetricValueRang
 				return metricValues != null && !metricValues.isEmpty();
 			case MetricsPackage.METRIC_VALUE_RANGE__KIND_HINT:
 				return isSetKindHint();
-			case MetricsPackage.METRIC_VALUE_RANGE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case MetricsPackage.METRIC_VALUE_RANGE__PERIOD_HINT:
 				return isSetPeriodHint();
 		}
@@ -405,8 +353,6 @@ public class MetricValueRangeImpl extends EObjectImpl implements MetricValueRang
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (kindHint: ");
 		if (kindHintESet) result.append(kindHint); else result.append("<unset>");
-		result.append(", name: ");
-		result.append(name);
 		result.append(", periodHint: ");
 		if (periodHintESet) result.append(periodHint); else result.append("<unset>");
 		result.append(')');

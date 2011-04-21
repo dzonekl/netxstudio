@@ -118,6 +118,7 @@ Package generics <http://www.netxforge.com/13042011/generics>
     Attribute obj128 : AnyURI
 
   Class Person
+    Attribute active : Boolean
     Reference companyRef : Company
     Attribute email : String
     Attribute firstName : Name255
@@ -366,7 +367,6 @@ Package metrics <http://www.netxforge.com/13042011/metrics>
   Class MetricValueRange
     Reference metricValues : Value<<0..*>>
     Attribute kindHint : KindHintType
-    Attribute name : Name255
     Attribute periodHint : Int
 
   Class ValueDataKind -> DataKind
@@ -530,8 +530,10 @@ Package scheduling <http://www.netxforge.com/13042011/scheduling>
   Class Job
     Attribute jobExecution : DateTime<<0..*>>
     Attribute jobKind : JobKinds
+    Attribute currentlyActive : Boolean
+    Attribute ended : DateTime
     Attribute name : String
-    Attribute start : Date
+    Attribute started : DateTime
 
   Class Scheduling
     Reference jobs : Job<<1..1>>

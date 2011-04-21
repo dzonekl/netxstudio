@@ -42,7 +42,6 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricValueRange#getMetricValues <em>Metric Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricValueRange#getKindHint <em>Kind Hint</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.MetricValueRange#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricValueRange#getPeriodHint <em>Period Hint</em>}</li>
  * </ul>
  * </p>
@@ -123,33 +122,6 @@ public interface MetricValueRange extends EObject {
 	 * @generated
 	 */
 	boolean isSetKindHint();
-
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The Name attribute holds the name of the metricvaluerange.
-	 * 				
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetricValueRange_Name()
-	 * @model dataType="com.netxforge.netxstudio.generics.Name255"
-	 *        extendedMetaData="kind='attribute' name='Name'"
-	 * @generated
-	 */
-	String getName();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-	void setName(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Period Hint</b></em>' attribute.

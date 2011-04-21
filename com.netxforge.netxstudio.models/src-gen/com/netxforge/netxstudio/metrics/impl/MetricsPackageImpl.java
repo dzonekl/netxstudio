@@ -712,17 +712,8 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMetricValueRange_Name() {
-		return (EAttribute)metricValueRangeEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getMetricValueRange_PeriodHint() {
-		return (EAttribute)metricValueRangeEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)metricValueRangeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -880,7 +871,6 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		metricValueRangeEClass = createEClass(METRIC_VALUE_RANGE);
 		createEReference(metricValueRangeEClass, METRIC_VALUE_RANGE__METRIC_VALUES);
 		createEAttribute(metricValueRangeEClass, METRIC_VALUE_RANGE__KIND_HINT);
-		createEAttribute(metricValueRangeEClass, METRIC_VALUE_RANGE__NAME);
 		createEAttribute(metricValueRangeEClass, METRIC_VALUE_RANGE__PERIOD_HINT);
 
 		valueDataKindEClass = createEClass(VALUE_DATA_KIND);
@@ -992,7 +982,6 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEClass(metricValueRangeEClass, MetricValueRange.class, "MetricValueRange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricValueRange_MetricValues(), theGenericsPackage.getValue(), null, "metricValues", null, 0, -1, MetricValueRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetricValueRange_KindHint(), this.getKindHintType(), "kindHint", null, 0, 1, MetricValueRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMetricValueRange_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, MetricValueRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetricValueRange_PeriodHint(), theXMLTypePackage.getInt(), "periodHint", null, 0, 1, MetricValueRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(valueDataKindEClass, ValueDataKind.class, "ValueDataKind", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1043,7 +1032,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																		
+		   });																																																																																																
 	}
 
 	/**
@@ -1367,13 +1356,6 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "KindHint"
-		   });			
-		addAnnotation
-		  (getMetricValueRange_Name(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Name"
 		   });			
 		addAnnotation
 		  (getMetricValueRange_PeriodHint(), 

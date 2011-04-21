@@ -34,8 +34,10 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getJobExecution <em>Job Execution</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getJobKind <em>Job Kind</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.Job#isCurrentlyActive <em>Currently Active</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getEnded <em>Ended</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getStart <em>Start</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getStarted <em>Started</em>}</li>
  * </ul>
  * </p>
  *
@@ -119,6 +121,87 @@ public interface Job extends EObject {
 	boolean isSetJobKind();
 
 	/**
+	 * Returns the value of the '<em><b>Currently Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Currently Active</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Currently Active</em>' attribute.
+	 * @see #isSetCurrentlyActive()
+	 * @see #unsetCurrentlyActive()
+	 * @see #setCurrentlyActive(boolean)
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob_CurrentlyActive()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='attribute' name='CurrentlyActive'"
+	 * @generated
+	 */
+	boolean isCurrentlyActive();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#isCurrentlyActive <em>Currently Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Currently Active</em>' attribute.
+	 * @see #isSetCurrentlyActive()
+	 * @see #unsetCurrentlyActive()
+	 * @see #isCurrentlyActive()
+	 * @generated
+	 */
+	void setCurrentlyActive(boolean value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#isCurrentlyActive <em>Currently Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetCurrentlyActive()
+	 * @see #isCurrentlyActive()
+	 * @see #setCurrentlyActive(boolean)
+	 * @generated
+	 */
+	void unsetCurrentlyActive();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.scheduling.Job#isCurrentlyActive <em>Currently Active</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Currently Active</em>' attribute is set.
+	 * @see #unsetCurrentlyActive()
+	 * @see #isCurrentlyActive()
+	 * @see #setCurrentlyActive(boolean)
+	 * @generated
+	 */
+	boolean isSetCurrentlyActive();
+
+	/**
+	 * Returns the value of the '<em><b>Ended</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ended</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ended</em>' attribute.
+	 * @see #setEnded(XMLGregorianCalendar)
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob_Ended()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
+	 *        extendedMetaData="kind='attribute' name='Ended'"
+	 * @generated
+	 */
+	XMLGregorianCalendar getEnded();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#getEnded <em>Ended</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ended</em>' attribute.
+	 * @see #getEnded()
+	 * @generated
+	 */
+	void setEnded(XMLGregorianCalendar value);
+
+	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -146,30 +229,30 @@ public interface Job extends EObject {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Start</b></em>' attribute.
+	 * Returns the value of the '<em><b>Started</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Start</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Started</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Start</em>' attribute.
-	 * @see #setStart(XMLGregorianCalendar)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob_Start()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.Date"
-	 *        extendedMetaData="kind='attribute' name='Start'"
+	 * @return the value of the '<em>Started</em>' attribute.
+	 * @see #setStarted(XMLGregorianCalendar)
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob_Started()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
+	 *        extendedMetaData="kind='attribute' name='Started'"
 	 * @generated
 	 */
-	XMLGregorianCalendar getStart();
+	XMLGregorianCalendar getStarted();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#getStart <em>Start</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#getStarted <em>Started</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Start</em>' attribute.
-	 * @see #getStart()
+	 * @param value the new value of the '<em>Started</em>' attribute.
+	 * @see #getStarted()
 	 * @generated
 	 */
-	void setStart(XMLGregorianCalendar value);
+	void setStarted(XMLGregorianCalendar value);
 
 } // Job
