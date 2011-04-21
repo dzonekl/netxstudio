@@ -78,6 +78,7 @@ public class PersonItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addActivePropertyDescriptor(object);
 			addCompanyRefPropertyDescriptor(object);
 			addEmailPropertyDescriptor(object);
 			addFirstNamePropertyDescriptor(object);
@@ -86,6 +87,28 @@ public class PersonItemProvider
 			addPasswordPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Active feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addActivePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Person_active_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Person_active_feature", "_UI_Person_type"),
+				 GenericsPackage.Literals.PERSON__ACTIVE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -257,6 +280,7 @@ public class PersonItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Person.class)) {
+			case GenericsPackage.PERSON__ACTIVE:
 			case GenericsPackage.PERSON__EMAIL:
 			case GenericsPackage.PERSON__FIRST_NAME:
 			case GenericsPackage.PERSON__LAST_NAME:

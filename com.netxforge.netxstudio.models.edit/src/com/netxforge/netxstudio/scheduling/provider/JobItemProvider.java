@@ -80,8 +80,10 @@ public class JobItemProvider
 
 			addJobExecutionPropertyDescriptor(object);
 			addJobKindPropertyDescriptor(object);
+			addCurrentlyActivePropertyDescriptor(object);
+			addEndedPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
-			addStartPropertyDescriptor(object);
+			addStartedPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -131,6 +133,50 @@ public class JobItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Currently Active feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCurrentlyActivePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Job_currentlyActive_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Job_currentlyActive_feature", "_UI_Job_type"),
+				 SchedulingPackage.Literals.JOB__CURRENTLY_ACTIVE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Ended feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addEndedPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Job_ended_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Job_ended_feature", "_UI_Job_type"),
+				 SchedulingPackage.Literals.JOB__ENDED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This adds a property descriptor for the Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -153,19 +199,19 @@ public class JobItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Start feature.
+	 * This adds a property descriptor for the Started feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addStartPropertyDescriptor(Object object) {
+	protected void addStartedPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Job_start_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Job_start_feature", "_UI_Job_type"),
-				 SchedulingPackage.Literals.JOB__START,
+				 getString("_UI_Job_started_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Job_started_feature", "_UI_Job_type"),
+				 SchedulingPackage.Literals.JOB__STARTED,
 				 true,
 				 false,
 				 false,
@@ -213,8 +259,10 @@ public class JobItemProvider
 		switch (notification.getFeatureID(Job.class)) {
 			case SchedulingPackage.JOB__JOB_EXECUTION:
 			case SchedulingPackage.JOB__JOB_KIND:
+			case SchedulingPackage.JOB__CURRENTLY_ACTIVE:
+			case SchedulingPackage.JOB__ENDED:
 			case SchedulingPackage.JOB__NAME:
-			case SchedulingPackage.JOB__START:
+			case SchedulingPackage.JOB__STARTED:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

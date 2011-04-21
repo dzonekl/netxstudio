@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.metrics.provider;
 
 import com.netxforge.netxstudio.generics.GenericsFactory;
 
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 
@@ -83,7 +84,6 @@ public class MetricValueRangeItemProvider
 			super.getPropertyDescriptors(object);
 
 			addKindHintPropertyDescriptor(object);
-			addNamePropertyDescriptor(object);
 			addPeriodHintPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -103,28 +103,6 @@ public class MetricValueRangeItemProvider
 				 getString("_UI_MetricValueRange_kindHint_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_MetricValueRange_kindHint_feature", "_UI_MetricValueRange_type"),
 				 MetricsPackage.Literals.METRIC_VALUE_RANGE__KIND_HINT,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_MetricValueRange_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MetricValueRange_name_feature", "_UI_MetricValueRange_type"),
-				 MetricsPackage.Literals.METRIC_VALUE_RANGE__NAME,
 				 true,
 				 false,
 				 false,
@@ -204,7 +182,8 @@ public class MetricValueRangeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((MetricValueRange)object).getName();
+		KindHintType labelValue = ((MetricValueRange)object).getKindHint();
+		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
 			getString("_UI_MetricValueRange_type") :
 			getString("_UI_MetricValueRange_type") + " " + label;
@@ -223,7 +202,6 @@ public class MetricValueRangeItemProvider
 
 		switch (notification.getFeatureID(MetricValueRange.class)) {
 			case MetricsPackage.METRIC_VALUE_RANGE__KIND_HINT:
-			case MetricsPackage.METRIC_VALUE_RANGE__NAME:
 			case MetricsPackage.METRIC_VALUE_RANGE__PERIOD_HINT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
