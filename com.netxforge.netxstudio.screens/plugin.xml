@@ -6,7 +6,7 @@
       <view
             class="com.netxforge.netxstudio.screens.demo.DemoViewPartSelector"
             id="com.netxforge.netxstudio.screens.demo.DemoViewPartSelector"
-            name="Selecto">
+            name="Selector">
       </view>
    </extension>
    
