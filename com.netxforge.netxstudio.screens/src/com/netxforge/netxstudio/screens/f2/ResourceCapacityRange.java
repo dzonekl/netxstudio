@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f4;
+package com.netxforge.netxstudio.screens.f2;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,23 +32,19 @@ import org.swtchart.IAxisTick;
 import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
 
-public class MetricValueRange extends Composite {
+public class ResourceCapacityRange extends Composite {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Text txtInterval;
-	private Text txtType;
-	private Text txtStart;
-	private Text txtEnd;
+	private Text txtNewText;
+	private Text txtNewText_1;
 	private Chart chart;
-
 	/**
 	 * Create the composite.
-	 * 
 	 * @param parent
 	 * @param style
 	 */
 	@SuppressWarnings("unused")
-	public MetricValueRange(Composite parent, int style) {
+	public ResourceCapacityRange(Composite parent, int style) {
 		super(parent, SWT.BORDER);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -62,7 +58,7 @@ public class MetricValueRange extends Composite {
 		Form frmFunction = toolkit.createForm(this);
 		frmFunction.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmFunction);
-		frmFunction.setText("Metric Value Range");
+		frmFunction.setText("Resource Capacity Range");
 		frmFunction.getBody().setLayout(new FormLayout());
 
 		FormText formText = toolkit
@@ -75,14 +71,14 @@ public class MetricValueRange extends Composite {
 		formText.setLayoutData(fd_formText);
 		toolkit.paintBordersFor(formText);
 		formText.setText(
-				"<form><p>A Metric value range is automaticly created by the <b>M</b>etric <b>C</b>ollection <b>E</b>ngine. The interval is determined from the time interval between timestamps. The BH/AVG is TODO, how?</p></form>",
+				"<form><p>The resource capacity value is derived from an expression, constituting the capacity from the installed HW , usage profile etc... The range shows these values over time.</p></form>",
 				true, false);
 
 		Section sctnInfo = toolkit.createSection(frmFunction.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnInfo = new FormData();
 		fd_sctnInfo.top = new FormAttachment(formText, 15);
-		fd_sctnInfo.bottom = new FormAttachment(0, 145);
+		fd_sctnInfo.bottom = new FormAttachment(0, 150);
 		fd_sctnInfo.right = new FormAttachment(100, -12);
 		fd_sctnInfo.left = new FormAttachment(0, 12);
 		sctnInfo.setLayoutData(fd_sctnInfo);
@@ -92,40 +88,24 @@ public class MetricValueRange extends Composite {
 		Composite composite = toolkit.createComposite(sctnInfo, SWT.NONE);
 		toolkit.paintBordersFor(composite);
 		sctnInfo.setClient(composite);
-		composite.setLayout(new GridLayout(4, false));
+		composite.setLayout(new GridLayout(2, false));
 
-		Label lblPeriod = toolkit.createLabel(composite, "Interval (min):",
-				SWT.NONE);
-		lblPeriod.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-
-		txtInterval = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
-		txtInterval.setText("");
-
-		Label lblStartsOn = toolkit.createLabel(composite, "Start Timestamp",
+		Label lblStartsOn = toolkit.createLabel(composite, "Starts On:",
 				SWT.NONE);
 		lblStartsOn.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		txtStart = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
-		txtStart.setText("");
-		txtStart.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
+		txtNewText = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
+		txtNewText.setText("");
+		txtNewText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
 
-		Label lblType = toolkit.createLabel(composite, "Type (AVG / BH):",
-				SWT.NONE);
-		lblType.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1));
-
-		txtType = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
-		txtType.setText("");
-
-		Label lblEndsOn = toolkit.createLabel(composite, "End Timestamp", SWT.NONE);
+		Label lblEndsOn = toolkit.createLabel(composite, "Ends On:", SWT.NONE);
 		lblEndsOn.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		txtEnd = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
-		txtEnd.setText("");
+		txtNewText_1 = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
+		txtNewText_1.setText("");
 
 		Section sctnPeriod = toolkit.createSection(frmFunction.getBody(),
 				Section.EXPANDED | Section.TREE_NODE | Section.TITLE_BAR);
@@ -136,7 +116,7 @@ public class MetricValueRange extends Composite {
 		fd_sctnPeriod.left = new FormAttachment(sctnInfo, 0, SWT.LEFT);
 		sctnPeriod.setLayoutData(fd_sctnPeriod);
 		toolkit.paintBordersFor(sctnPeriod);
-		sctnPeriod.setText("Show Metric Values:");
+		sctnPeriod.setText("Show Capacity Values:");
 
 		Composite composite_2 = toolkit.createComposite(sctnPeriod, SWT.NONE);
 		toolkit.paintBordersFor(composite_2);
@@ -266,6 +246,8 @@ public class MetricValueRange extends Composite {
 		// create line series
 		ILineSeries lineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "line series");
+		lineSeries.enableStep(true);
+		
 		IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
 		// ILineSeries xLineSeries = (ILineSeries) chart.getSeriesSet()
 		// .createSeries(ISeries.SeriesType.LINE, "X line series");
@@ -314,12 +296,10 @@ public class MetricValueRange extends Composite {
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 		
-
-
-
 	}
 
 	public Chart getChart() {
 		return chart;
 	}
+
 }

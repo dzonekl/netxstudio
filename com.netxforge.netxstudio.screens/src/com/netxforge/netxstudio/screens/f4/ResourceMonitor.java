@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.f4;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,24 +23,28 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.swtchart.Chart;
+import org.swtchart.IAxis.Position;
 import org.swtchart.IAxisTick;
+import org.swtchart.IBarSeries;
 import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
+import org.swtchart.LineStyle;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.widgets.TableItem;
 
-public class MetricValueRange extends Composite {
+public class ResourceMonitor extends Composite {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Text txtInterval;
-	private Text txtType;
-	private Text txtStart;
-	private Text txtEnd;
 	private Chart chart;
+	private Table table;
 
 	/**
 	 * Create the composite.
@@ -48,7 +53,7 @@ public class MetricValueRange extends Composite {
 	 * @param style
 	 */
 	@SuppressWarnings("unused")
-	public MetricValueRange(Composite parent, int style) {
+	public ResourceMonitor(Composite parent, int style) {
 		super(parent, SWT.BORDER);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -62,7 +67,7 @@ public class MetricValueRange extends Composite {
 		Form frmFunction = toolkit.createForm(this);
 		frmFunction.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmFunction);
-		frmFunction.setText("Metric Value Range");
+		frmFunction.setText("Resource Monitor <Res.Name>");
 		frmFunction.getBody().setLayout(new FormLayout());
 
 		FormText formText = toolkit
@@ -75,68 +80,19 @@ public class MetricValueRange extends Composite {
 		formText.setLayoutData(fd_formText);
 		toolkit.paintBordersFor(formText);
 		formText.setText(
-				"<form><p>A Metric value range is automaticly created by the <b>M</b>etric <b>C</b>ollection <b>E</b>ngine. The interval is determined from the time interval between timestamps. The BH/AVG is TODO, how?</p></form>",
+				"<form><p>A Resource Monitor maps, capacity with utilization from metrics, and applies markers where needed.</p></form>",
 				true, false);
-
-		Section sctnInfo = toolkit.createSection(frmFunction.getBody(),
-				Section.EXPANDED | Section.TITLE_BAR);
-		FormData fd_sctnInfo = new FormData();
-		fd_sctnInfo.top = new FormAttachment(formText, 15);
-		fd_sctnInfo.bottom = new FormAttachment(0, 145);
-		fd_sctnInfo.right = new FormAttachment(100, -12);
-		fd_sctnInfo.left = new FormAttachment(0, 12);
-		sctnInfo.setLayoutData(fd_sctnInfo);
-		toolkit.paintBordersFor(sctnInfo);
-		sctnInfo.setText("Info");
-
-		Composite composite = toolkit.createComposite(sctnInfo, SWT.NONE);
-		toolkit.paintBordersFor(composite);
-		sctnInfo.setClient(composite);
-		composite.setLayout(new GridLayout(4, false));
-
-		Label lblPeriod = toolkit.createLabel(composite, "Interval (min):",
-				SWT.NONE);
-		lblPeriod.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-
-		txtInterval = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
-		txtInterval.setText("");
-
-		Label lblStartsOn = toolkit.createLabel(composite, "Start Timestamp",
-				SWT.NONE);
-		lblStartsOn.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-
-		txtStart = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
-		txtStart.setText("");
-		txtStart.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1));
-
-		Label lblType = toolkit.createLabel(composite, "Type (AVG / BH):",
-				SWT.NONE);
-		lblType.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1));
-
-		txtType = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
-		txtType.setText("");
-
-		Label lblEndsOn = toolkit.createLabel(composite, "End Timestamp", SWT.NONE);
-		lblEndsOn.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-
-		txtEnd = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
-		txtEnd.setText("");
 
 		Section sctnPeriod = toolkit.createSection(frmFunction.getBody(),
 				Section.EXPANDED | Section.TREE_NODE | Section.TITLE_BAR);
 		FormData fd_sctnPeriod = new FormData();
-		fd_sctnPeriod.bottom = new FormAttachment(100, -12);
+		fd_sctnPeriod.bottom = new FormAttachment(100, -165);
 		fd_sctnPeriod.right = new FormAttachment(100, -12);
-		fd_sctnPeriod.top = new FormAttachment(sctnInfo, 12);
-		fd_sctnPeriod.left = new FormAttachment(sctnInfo, 0, SWT.LEFT);
+		fd_sctnPeriod.top = new FormAttachment(formText, 12);
+		fd_sctnPeriod.left = new FormAttachment(0, 12);
 		sctnPeriod.setLayoutData(fd_sctnPeriod);
 		toolkit.paintBordersFor(sctnPeriod);
-		sctnPeriod.setText("Show Metric Values:");
+		sctnPeriod.setText("Monitor Period");
 
 		Composite composite_2 = toolkit.createComposite(sctnPeriod, SWT.NONE);
 		toolkit.paintBordersFor(composite_2);
@@ -239,6 +195,8 @@ public class MetricValueRange extends Composite {
 		int ticks = 30;
 		List<Date> dates = new ArrayList<Date>();
 		double[] ySeries = new double[ticks];
+
+		// Dummy Series settings.
 		for (int i = 0; i < ticks; i++) {
 			// x
 			ts += (1000 * 60) * 15;
@@ -247,36 +205,89 @@ public class MetricValueRange extends Composite {
 			v += 1;
 			ySeries[i] = v;
 		}
-
 		Date[] xSeries = new Date[ticks];
 		dates.toArray(xSeries);
-		new Label(composite_2, SWT.NONE);
 
+		v = 20;
+		double[] yCapSeries = new double[ticks];
+		
+		for (int i = 0; i < ticks; i++) {
+
+			if (i % 5 == 0)
+				v += 5;
+			yCapSeries[i] = v;
+		}
+		
+		double[] yUtilSeries = new double[ticks];
+		for (int i = 0; i < ticks; i++) {
+			yUtilSeries[i] = (ySeries[i] / yCapSeries[i]);
+		}
+		
+		double[] yToleranceSeries = new double[ticks];
+		for (int i = 0; i < ticks; i++) {
+			yToleranceSeries[i] = 0.9;
+		}
+		
+		new Label(composite_2, SWT.NONE);
 		chart = new Chart(composite_2, SWT.NONE);
 		chart.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
-
 		chart.setBackground(Display.getDefault()
 				.getSystemColor(SWT.COLOR_WHITE));
 
 		chart.getTitle().setVisible(false);
-
+		
 		chart.getAxisSet().getXAxis(0).getTitle().setText("Time stamps");
-		chart.getAxisSet().getYAxis(0).getTitle().setText("Value");
-
-		// create line series
-		ILineSeries lineSeries = (ILineSeries) chart.getSeriesSet()
-				.createSeries(ISeries.SeriesType.LINE, "line series");
 		IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
-		// ILineSeries xLineSeries = (ILineSeries) chart.getSeriesSet()
-		// .createSeries(ISeries.SeriesType.LINE, "X line series");
-		lineSeries.setXDateSeries(xSeries); // xSeries is an array of
-											// java.util.Date
 		xTick.setTickMarkStepHint(20);
-
 		DateFormat format = new SimpleDateFormat("HH:mm");
 		xTick.setFormat(format);
 		
-		lineSeries.setYSeries(ySeries);
+		chart.getAxisSet().getYAxis(0).getTitle().setText("Value");
+		
+		int utilAxisID = chart.getAxisSet().createYAxis();
+		chart.getAxisSet().getYAxis(utilAxisID).setPosition(Position.Secondary);
+		chart.getAxisSet().getYAxis(utilAxisID).getTitle().setText("Utilization (%)");
+		chart.getAxisSet().getYAxis(utilAxisID).getTitle().setForeground(Display.getDefault()
+				.getSystemColor(SWT.COLOR_BLACK));
+		chart.getAxisSet().getYAxis(utilAxisID).getGrid().setStyle(LineStyle.DASHDOT);
+		chart.getAxisSet().getYAxis(utilAxisID).getTick().setForeground(Display.getDefault()
+				.getSystemColor(SWT.COLOR_BLACK));
+		chart.getAxisSet().getYAxis(utilAxisID).getTick().setFormat(NumberFormat.getPercentInstance());
+		
+		// create line series
+		ILineSeries metricLineSeries = (ILineSeries) chart.getSeriesSet()
+				.createSeries(ISeries.SeriesType.LINE, "Metric");
+		metricLineSeries.setXDateSeries(xSeries);
+		metricLineSeries.setYSeries(ySeries);
+		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
+		
+		ILineSeries capLineSeries = (ILineSeries) chart.getSeriesSet()
+				.createSeries(ISeries.SeriesType.LINE, "Capacity");
+		capLineSeries.setYSeries(yCapSeries);
+		capLineSeries.setXDateSeries(xSeries);
+		capLineSeries.enableStep(true);
+		capLineSeries.setLineColor(Display.getDefault().getSystemColor(
+				SWT.COLOR_DARK_YELLOW));
+		capLineSeries.setSymbolType(ILineSeries.PlotSymbolType.NONE);
+		
+		IBarSeries utilLineSeries = (IBarSeries) chart.getSeriesSet()
+				.createSeries(ISeries.SeriesType.BAR, "Utilization");
+		utilLineSeries.setXDateSeries(xSeries);
+		utilLineSeries.setYSeries(yUtilSeries);
+		utilLineSeries.setYAxisId(utilAxisID); //Connect a series to the Y-Axis.
+		utilLineSeries.setBarColor(Display.getDefault().getSystemColor(
+				SWT.COLOR_GREEN));
+		utilLineSeries.setBarPadding(50);
+		
+		ILineSeries toleranceLineSeries = (ILineSeries) chart.getSeriesSet()
+				.createSeries(ISeries.SeriesType.LINE, "Tolerance");
+		toleranceLineSeries.setXDateSeries(xSeries);
+		toleranceLineSeries.setYSeries(yToleranceSeries);
+		toleranceLineSeries.setYAxisId(utilAxisID);
+		toleranceLineSeries.setLineStyle(LineStyle.DASHDOTDOT);
+		toleranceLineSeries.setLineColor(Display.getDefault().getSystemColor(
+				SWT.COLOR_DARK_RED));
+		toleranceLineSeries.setSymbolType(ILineSeries.PlotSymbolType.NONE);
 		
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
@@ -314,8 +325,51 @@ public class MetricValueRange extends Composite {
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 		
-
-
+		Section sctnMarkers = toolkit.createSection(frmFunction.getBody(), Section.TREE_NODE | Section.TITLE_BAR);
+		FormData fd_sctnMarkers = new FormData();
+		fd_sctnMarkers.top = new FormAttachment(sctnPeriod, 12);
+		fd_sctnMarkers.bottom = new FormAttachment(100, -12);
+		fd_sctnMarkers.right = new FormAttachment(100, -12);
+		fd_sctnMarkers.left = new FormAttachment(0, 12);
+		sctnMarkers.setLayoutData(fd_sctnMarkers);
+		toolkit.paintBordersFor(sctnMarkers);
+		sctnMarkers.setText("Markers");
+		sctnMarkers.setExpanded(true);
+		
+		Composite composite = toolkit.createComposite(sctnMarkers, SWT.NONE);
+		toolkit.paintBordersFor(composite);
+		sctnMarkers.setClient(composite);
+		composite.setLayout(new GridLayout(1, false));
+		
+		TableViewer tableViewer = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
+		table = tableViewer.getTable();
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		toolkit.paintBordersFor(table);
+		
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnType = tableViewerColumn.getColumn();
+		tblclmnType.setWidth(125);
+		tblclmnType.setText("Type");
+		
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnDescription = tableViewerColumn_1.getColumn();
+		tblclmnDescription.setWidth(446);
+		tblclmnDescription.setText("Description");
+		
+		TableItem tableItem = new TableItem(table, SWT.NONE);
+		tableItem.setText(new String[] {"Threshold Breached,", "The Threshold for this resource has been crossed. The resource is not within tolerance. "});
+		
+		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnTimestamp = tableViewerColumn_3.getColumn();
+		tblclmnTimestamp.setWidth(100);
+		tblclmnTimestamp.setText("TimeStamp");
+		
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnValue = tableViewerColumn_2.getColumn();
+		tblclmnValue.setWidth(100);
+		tblclmnValue.setText("Value");
 
 	}
 

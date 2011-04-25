@@ -35,9 +35,9 @@ import org.eclipse.swt.custom.ScrolledComposite;
 public class NewXLSMapping extends Composite {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Text txtNewText;
-	private Text text;
-	private Text text_1;
+	private Text txtSheetName;
+	private Text txtFirstHeaderRow;
+	private Text txtFirstDataRow;
 	private Table table;
 	private Text text_2;
 
@@ -82,8 +82,7 @@ public class NewXLSMapping extends Composite {
 		Section sctnSummary = toolkit.createSection(frmXLSMappingForm.getBody(), Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnSummary = new FormData();
 		fd_sctnSummary.top = new FormAttachment(composite, 12);
-		fd_sctnSummary.right = new FormAttachment(0, 340);
-		fd_sctnSummary.bottom = new FormAttachment(0, 155);
+		fd_sctnSummary.bottom = new FormAttachment(0, 160);
 		fd_sctnSummary.left = new FormAttachment(0, 12);
 		sctnSummary.setLayoutData(fd_sctnSummary);
 		toolkit.paintBordersFor(sctnSummary);
@@ -101,33 +100,33 @@ public class NewXLSMapping extends Composite {
 		gd_lblSheet.widthHint = 70;
 		lblSheet.setLayoutData(gd_lblSheet);
 		
-		txtNewText = toolkit.createText(composite_1, "New Text", SWT.NONE);
-		txtNewText.setText("");
-		GridData gd_txtNewText = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_txtNewText.widthHint = 200;
-		txtNewText.setLayoutData(gd_txtNewText);
+		txtSheetName = toolkit.createText(composite_1, "New Text", SWT.NONE);
+		txtSheetName.setText("");
+		GridData gd_txtSheetName = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtSheetName.widthHint = 200;
+		txtSheetName.setLayoutData(gd_txtSheetName);
 		
 		Label lblHeaderrow = toolkit.createLabel(composite_1, "1st Header row:", SWT.NONE);
 		lblHeaderrow.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		text = toolkit.createText(composite_1, "New Text", SWT.NONE);
-		text.setText("");
-		GridData gd_text = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_text.widthHint = 15;
-		text.setLayoutData(gd_text);
+		txtFirstHeaderRow = toolkit.createText(composite_1, "New Text", SWT.NONE);
+		txtFirstHeaderRow.setText("");
+		GridData gd_txtFirstHeaderRow = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtFirstHeaderRow.widthHint = 15;
+		txtFirstHeaderRow.setLayoutData(gd_txtFirstHeaderRow);
 		
 		Label lblstDataRow = toolkit.createLabel(composite_1, "1st Data row:", SWT.NONE);
 		lblstDataRow.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		text_1 = toolkit.createText(composite_1, "New Text", SWT.NONE);
-		GridData gd_text_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_text_1.widthHint = 15;
-		text_1.setLayoutData(gd_text_1);
-		text_1.setText("");
+		txtFirstDataRow = toolkit.createText(composite_1, "New Text", SWT.NONE);
+		GridData gd_txtFirstDataRow = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtFirstDataRow.widthHint = 15;
+		txtFirstDataRow.setLayoutData(gd_txtFirstDataRow);
+		txtFirstDataRow.setText("");
 		
 		Section sctnXLSInteractive = toolkit.createSection(frmXLSMappingForm.getBody(), Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnXLSInteractive = new FormData();
-		fd_sctnXLSInteractive.left = new FormAttachment(sctnSummary, 6);
+		fd_sctnXLSInteractive.left = new FormAttachment(sctnSummary, 15);
 		fd_sctnXLSInteractive.right = new FormAttachment(100, -12);
 		fd_sctnXLSInteractive.bottom = new FormAttachment(100, -12);
 		fd_sctnXLSInteractive.top = new FormAttachment(sctnSummary, 0, SWT.TOP);
@@ -238,10 +237,11 @@ public class NewXLSMapping extends Composite {
 		new Label(composite_2, SWT.NONE);
 		
 		Section sctnMappingColumns = toolkit.createSection(frmXLSMappingForm.getBody(), Section.TITLE_BAR);
+		fd_sctnSummary.right = new FormAttachment(sctnMappingColumns, 343);
 		FormData fd_sctnMappingColumns = new FormData();
+		fd_sctnMappingColumns.right = new FormAttachment(0, 355);
 		fd_sctnMappingColumns.top = new FormAttachment(sctnSummary, 12);
 		fd_sctnMappingColumns.bottom = new FormAttachment(100, -55);
-		fd_sctnMappingColumns.right = new FormAttachment(sctnXLSInteractive, -6);
 		fd_sctnMappingColumns.left = new FormAttachment(0, 12);
 		sctnMappingColumns.setLayoutData(fd_sctnMappingColumns);
 		toolkit.paintBordersFor(sctnMappingColumns);
@@ -261,6 +261,7 @@ public class NewXLSMapping extends Composite {
 		
 		TableViewer tableViewer = new TableViewer(composite_3, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
+		table.setLinesVisible(true);
 		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4);
 		gd_table.heightHint = 148;
 		table.setLayoutData(gd_table);

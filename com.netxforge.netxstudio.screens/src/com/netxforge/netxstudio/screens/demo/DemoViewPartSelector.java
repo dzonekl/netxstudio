@@ -19,6 +19,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ViewPart;
 
+import com.netxforge.netxstudio.screens.f2.Resource;
+import com.netxforge.netxstudio.screens.f2.ResourceCapacityRange;
 import com.netxforge.netxstudio.screens.f4.MappingStatistics;
 import com.netxforge.netxstudio.screens.f4.MetricSources;
 import com.netxforge.netxstudio.screens.f4.MetricValueRange;
@@ -29,6 +31,7 @@ import com.netxforge.netxstudio.screens.f4.NewMetricSource;
 import com.netxforge.netxstudio.screens.f4.NewScheduledJob;
 import com.netxforge.netxstudio.screens.f4.NewXLSMapping;
 import com.netxforge.netxstudio.screens.f4.PurgeMetrics;
+import com.netxforge.netxstudio.screens.f4.ResourceMonitor;
 import com.netxforge.netxstudio.screens.f4.Scheduler;
 import com.netxforge.netxstudio.screens.nf4.LoginDialog;
 import com.netxforge.netxstudio.screens.nf4.NewUser;
@@ -72,7 +75,8 @@ public class DemoViewPartSelector extends ViewPart {
 		frmNewForm.getBody().setLayout(new FormLayout());
 
 		Section sctnNewSection = toolkit.createSection(frmNewForm.getBody(),
-				Section.EXPANDED | Section.TREE_NODE | Section.TITLE_BAR);
+				Section.COMPACT | Section.EXPANDED | Section.TREE_NODE
+						| Section.TITLE_BAR);
 		FormData fd_sctnNewSection = new FormData();
 		fd_sctnNewSection.bottom = new FormAttachment(0, 170);
 		fd_sctnNewSection.right = new FormAttachment(0, 161);
@@ -232,21 +236,6 @@ public class DemoViewPartSelector extends ViewPart {
 		btnPurgeMetrics.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
 
-		Button btnMetricValueRange = toolkit.createButton(composite,
-				"Metric Value Range", SWT.NONE);
-		btnMetricValueRange.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof MetricValueRange)
-					return;
-				updateComposite(container, new MetricValueRange(container,
-						SWT.NONE));
-
-			}
-		});
-		btnMetricValueRange.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				false, false, 1, 1));
-
 		Button btnNewXlsMapping = toolkit.createButton(composite,
 				"New XLS Mapping", SWT.NONE);
 		btnNewXlsMapping.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
@@ -270,6 +259,61 @@ public class DemoViewPartSelector extends ViewPart {
 				"XLS Mapping Statistics", SWT.NONE);
 		btnXlsMappingStatistics.setLayoutData(new GridData(SWT.FILL,
 				SWT.CENTER, false, false, 1, 1));
+
+		Button btnResource = toolkit.createButton(composite, "Resource",
+				SWT.NONE);
+		btnResource.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (currentComposite instanceof Resource)
+					return;
+				updateComposite(container, new Resource(container, SWT.NONE));
+
+			}
+		});
+		btnResource.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
+				false, 1, 1));
+
+		Button btnMetricValueRange = toolkit.createButton(composite,
+				"Metric Value Range", SWT.NONE);
+		btnMetricValueRange.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (currentComposite instanceof MetricValueRange)
+					return;
+				updateComposite(container, new MetricValueRange(container,
+						SWT.NONE));
+
+			}
+		});
+		btnMetricValueRange.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				false, false, 1, 1));
+
+		Button btnCapacityRange = toolkit.createButton(composite,
+				"Capacity Range", SWT.NONE);
+		btnCapacityRange.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (currentComposite instanceof ResourceCapacityRange)
+					return;
+				updateComposite(container, new ResourceCapacityRange(container,
+						SWT.NONE));
+			}
+		});
+		btnCapacityRange.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				false, false, 1, 1));
+		
+		Button btnResourceMonitor = toolkit.createButton(composite, "Resource Monitor", SWT.NONE);
+		btnResourceMonitor.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (currentComposite instanceof ResourceMonitor)
+					return;
+				updateComposite(container, new ResourceMonitor(container,
+						SWT.NONE));
+			}
+		});
+		btnResourceMonitor.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		btnXlsMappingStatistics.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
