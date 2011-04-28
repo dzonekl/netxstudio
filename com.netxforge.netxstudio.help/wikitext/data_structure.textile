@@ -1,0 +1,83 @@
+h1. Data Structure
+
+The system data structure consists of the following items: 
+
+* Resource Library
+* Network
+
+h2. Library
+
+The resource library is the base data of the system. It defines the Telecommunications representation of system and it's characteristics. 
+
+It is the primary starting point to use NetXStudio and is populated in the tasks: [TODO, reference to these tasks. ]
+
+The following objects are defined in the Library.  
+
+* Function
+* Equipment
+* Metric
+* Company
+* Tolerance
+* Unit
+* Expressions
+
+In the diagram below, we provide an example we provide a definition of a system named as  MSC-S. 
+
+# The objects highlighted in Yellow, represent objects in the Network
+# The objects highlighted in Purple, represent objects in the Library
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/library_structure.png!
+
+
+The following objects can be nested to provide the needed representation of a Telecommunications System. 
+
+* Function
+* Equipment
+* Metric
+
+
+h2. Network
+
+The network, is the actual model of the Network
+
+The following objects are defined in the Network.  
+
+* Service
+* Network
+* Node
+* Functional Relationship 
+* Physical Relationship
+
+The Node object is the instance of a Library Function and Equipment. (Each Node, has a root Function and root Equipment).
+It also holds the Functional and Physical relationships. 
+
+The following objects are currently also defined for the network, but not in use. 
+
+* Country
+* Site
+* Room
+
+The following objects can be nested to provide the needed representation of a Telecommunications System. 
+
+* Network
+
+
+
+h2. Other Data (File based) 
+
+
+* NetXStudio Excel template (.xml or .xls Excel Spreadsheet). 
+* NetXStudio model files. (.netxstudio)
+* NetXStudio model transformations (.qvto)
+* NetXStudio model reports (.html)
+
+[TODO, Will be implemented]
+* NetXStudio Scripts 
+
+
+
+
+
+
+
+

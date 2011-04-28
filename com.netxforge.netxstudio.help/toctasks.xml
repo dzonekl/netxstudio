@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Tasks" link_to="toc.xml#tasks"> 
+	<topic label="Resource Library"> 
+		
+  <topic href="html/tasks/working_with_excel_template.html" label="Working with the Excel template">
+  		<topic href="html/tasks/generate_excel.html" label="Generate an Excel Template" />
+  	  	<topic href="html/tasks/fill_excel.html" label="Filling the Excel Template"/>
+  	    <topic href="html/tasks/import_excel.html" label="Importing the Excel Template"/>
+  </topic>
+  <topic href="html/tasks/working_with_library_model.html" label="Working with the Library model">
+     <topic href="html/tasks/merging_models.html" label="Merging Models">
+     </topic>
+  </topic>
+  <topic label="Editing the Library">
+     <topic label="Adding a Function">
+     </topic>
+     <topic label="Adding an Equipment">
+     </topic>
+     <topic label="Adding a Metric">
+     </topic>
+     <topic label="Adding a Company">
+     </topic>
+     <topic label="Adding a Unit">
+     </topic>
+  </topic> 
+	</topic>
+	<topic label="Service Introduction">
+	</topic> 
+</toc>

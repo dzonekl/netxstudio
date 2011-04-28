@@ -1,0 +1,40 @@
+h1. NetXStudio Workbench
+
+The NetXStudio workbench is a rich application which needs to be installed on an Operating System like Windows, Linux of MacOSX. 
+
+In the diagram below, we highlight the various sections of the workbench: 
+
+
+
+[TODO], diagram with the workbench. 
+
+
+The workbench is context sensitive to the task at hand. In other words, it will adapt menus, toolbars, views etc.. to the task which needs to be performed. 
+
+The main components of the workbench are: 
+
+* Menu
+** File
+** Edit
+** Window
+** Help
+* Toolbar
+* Tasks shortcuts
+** Library
+** Network Design
+* NetXStudio Explorer 
+* Editors
+* Views
+* Statusbar
+* Progressbar
+
+
+h1. NetXStudio Explorer
+
+
+
+
+
+
+
+
