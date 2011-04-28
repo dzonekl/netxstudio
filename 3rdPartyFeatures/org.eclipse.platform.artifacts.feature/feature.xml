@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.platform.artifacts.feature"
+      label="platform plugins"
+      version="1.0.0.qualifier"
+      provider-name="Eclipse">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.osgi" version="3.5.0" match="compatible"/>
+      <import plugin="org.eclipse.osgi.services"/>
+      <import plugin="com.ibm.icu"/>
+      <import plugin="org.eclipse.core.jobs" version="3.2.0" match="compatible"/>
+      <import plugin="javax.servlet"/>
+      <import plugin="org.eclipse.equinox.common" version="3.5.0" match="compatible"/>
+      <import plugin="org.eclipse.equinox.registry" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.equinox.preferences" version="3.3.0" match="compatible"/>
+      <import plugin="org.eclipse.equinox.p2.core" version="2.0.0" match="equivalent"/>
+      <import plugin="org.eclipse.equinox.p2.metadata" version="2.0.0" match="compatible"/>
+      <import plugin="org.eclipse.equinox.p2.metadata.repository"/>
+      <import plugin="org.eclipse.equinox.p2.repository" version="2.0.0" match="equivalent"/>
+      <import plugin="org.eclipse.equinox.security"/>
+      <import plugin="org.eclipse.ecf.identity"/>
+      <import plugin="org.eclipse.ecf"/>
+      <import plugin="org.eclipse.equinox.concurrent"/>
+      <import plugin="org.eclipse.ecf.filetransfer" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.net"/>
+      <import plugin="org.eclipse.equinox.util"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.swt"
+         download-size="0"
+         install-size="0"
+         version="3.7.0.v3724c"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jface"
+         download-size="0"
+         install-size="0"
+         version="3.7.0.I20110309-1300"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.osgi"
+         download-size="0"
+         install-size="0"
+         version="3.7.0.v20110304"
+         unpack="false"/>
+
+   <plugin
+         id="com.ibm.icu"
+         download-size="0"
+         install-size="0"
+         version="4.4.2.v20110208"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jface.databinding"
+         download-size="0"
+         install-size="0"
+         version="1.5.0.I20100907-0800"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jface.text"
+         download-size="0"
+         install-size="0"
+         version="3.7.0.v20110301-0545"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.text"
+         download-size="0"
+         install-size="0"
+         version="3.5.100.v20110301-0545"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.help"
+         download-size="0"
+         install-size="0"
+         version="3.5.0.v20100524"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.osgi.services"
+         download-size="0"
+         install-size="0"
+         version="3.3.0.v20110110"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swt.cocoa.macosx.x86_64"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+</feature>
