@@ -14,8 +14,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.nebula.widgets.cdatetime;bundle-version="0.14.0";visibility:=reexport,
  org.eclipse.nebula.widgets.datechooser;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.nebula.widgets.formattedtext;bundle-version="1.0.0";visibility:=reexport,
- org.eclipse.nebula.widgets.grid;bundle-version="1.0.0";visibility:=reexport,
- org.eclipse.nebula.widgets.oscilloscope;bundle-version="1.0.1";visibility:=reexport,
- org.eclipse.nebula.widgets.radiogroup;bundle-version="0.1.0";visibility:=reexport
+ org.eclipse.nebula.widgets.grid;bundle-version="1.0.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
