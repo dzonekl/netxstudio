@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.xtext.artifacts.feature"
-      label="XText plugins Feature"
-      version="1.0.0.qualifier">
+      id="org.eclipse.xtext.ui.artifacts.feature"
+      label="Xtext UI plugins Feature"
+      version="1.0.0.qualifier"
+      provider-name="Eclipse Modelling">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -17,21 +18,14 @@
    </license>
 
    <plugin
-         id="org.eclipse.xtext"
+         id="org.eclipse.xtext.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.xtext.common.types"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.xtext.util"
+         id="org.eclipse.xtext.ui.shared"
          download-size="0"
          install-size="0"
          version="0.0.0"
