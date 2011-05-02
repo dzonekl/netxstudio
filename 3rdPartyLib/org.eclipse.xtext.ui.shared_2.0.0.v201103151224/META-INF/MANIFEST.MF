@@ -1,0 +1,81 @@
+Manifest-Version: 1.0
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-SymbolicName: org.eclipse.xtext.ui.shared;singleton:=true
+Require-Bundle: org.eclipse.xtext.ui;bundle-version="2.0.0";resolution:=optional,
+ org.eclipse.xtext.builder;bundle-version="2.0.0";resolution:=optional,
+ org.eclipse.jdt.core;bundle-version="3.5.1";resolution:=optional,
+ org.eclipse.xtext.common.types.ui;bundle-version="2.0.0";resolution:=optional
+Bundle-Activator: org.eclipse.xtext.ui.shared.internal.Activator
+Export-Package: org.eclipse.xtext.ui.shared
+Bundle-Version: 2.0.0.v201103151224
+Ant-Version: Apache Ant 1.7.1
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse Modeling Project
+Bundle-Name: Xtext UI Shared
+Created-By: 1.5.0_22-b03 (Sun Microsystems Inc.)
+Import-Package: org.apache.log4j;version="1.2.15"
+Bundle-ManifestVersion: 2
+
+Name: schema/overridingGuiceModule.exsd
+SHA1-Digest: ujr1yBiV8DjmkC4a4G2kCGbi2U0=
+
+Name: org/eclipse/xtext/ui/shared/internal/SharedModule.class
+SHA1-Digest: pxiKpSrVYswxyynEyYsiZuYoFyQ=
+
+Name: icons/searchpage.gif
+SHA1-Digest: KAeudWAcz8OwfYCiUsRwtKa5t+Q=
+
+Name: org/eclipse/xtext/ui/shared/SharedStateModule$1.class
+SHA1-Digest: Vsnx9LPwUTJVrxHqN6oIbbWncYw=
+
+Name: META-INF/eclipse.inf
+SHA1-Digest: KyT9FF7C7t86NoBoa2kZT3ZJBfw=
+
+Name: org/eclipse/xtext/ui/shared/SharedStateModule$2.class
+SHA1-Digest: xqzFv2Wct4GK3xWt78cButJqDmE=
+
+Name: org/eclipse/xtext/ui/shared/internal/ExecutableExtensionFactory.
+ class
+SHA1-Digest: o6XO4robZPtF3pgly5wOe/aXq8g=
+
+Name: org/eclipse/xtext/ui/shared/internal/SharedModuleWithJdt.class
+SHA1-Digest: AQrnc+JZBGbbUonxRWXgng/77/4=
+
+Name: icons/nature_overlay.png
+SHA1-Digest: plBs0CeJ4FiIXdtKpQAm3l8FZFM=
+
+Name: org/eclipse/xtext/ui/shared/internal/AbstractComposite.class
+SHA1-Digest: jwl5UmywAiT5J+N6L7fW8hWjRqg=
+
+Name: about.html
+SHA1-Digest: m//+sZd+LYcO5OY/bjEiZVm0dk0=
+
+Name: org/eclipse/xtext/ui/shared/Access$InternalProvider.class
+SHA1-Digest: ipxkdcYqEO5fuZv12RZcJHeKxiE=
+
+Name: org/eclipse/xtext/ui/shared/internal/SharedModule$1.class
+SHA1-Digest: dwcAIA+jsRzcy80SaiFHWHq+NGs=
+
+Name: plugin.properties
+SHA1-Digest: /ZjNb5I9sPvrHcMyKwoUuBIIT4Y=
+
+Name: org/eclipse/xtext/ui/shared/internal/SharedModule$2.class
+SHA1-Digest: 3crxCw4Nb0fGT/+03F/hPTQM4N8=
+
+Name: org/eclipse/xtext/ui/shared/internal/ComposedResourceChangeListe
+ ner.class
+SHA1-Digest: aG4BCf6opx1I4WRthZeCZ8dZZhA=
+
+Name: org/eclipse/xtext/ui/shared/SharedStateModule.class
+SHA1-Digest: +E04kay+dyCnOSjnLEI/YSMwd6s=
+
+Name: org/eclipse/xtext/ui/shared/internal/Activator.class
+SHA1-Digest: ux4n+FA8e7eEnppdKctbH+5q3ZI=
+
+Name: org/eclipse/xtext/ui/shared/Access.class
+SHA1-Digest: 5cJGdtYM3njLas2Q90S4lwnoUBE=
+
+Name: plugin.xml
+SHA1-Digest: pzWmktl0EAO68U9pYMgF+1Nzyjo=
+

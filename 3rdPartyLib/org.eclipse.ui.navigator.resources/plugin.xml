@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+ 
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="com.netxforge.nextstudio.navigator"
+            class="com.netxforge.netxstudio.navigator.resources.NetXStudioExplorer"
+            icon="$nl$/icons/full/eview16/resource_persp.gif"
+            id="com.netxforge.netxstudio.navigator.ProjectExplorer"
+            name="%Common_Resource_Navigator"/>
+      <category
+            id="com.netxforge.nextstudio.navigator"
+            name="Navigator">
+      </category>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+       <viewer
+             helpContext="com.netxforge.netxstudio.project_explorer_context"
+             viewerId="com.netxforge.netxstudio.navigator.ProjectExplorer">
+          <popupMenu
+                allowsPlatformContributions="true"
+                id="com.netxforge.netxstudio.navigator.ProjectExplorer#PopupMenu">  
+             <insertionPoint name="group.new"/>
+             <insertionPoint
+                   name="group.open"
+                   separator="true"/>
+             <insertionPoint name="group.openWith"/>   
+             <insertionPoint name="group.edit"
+                   separator="true"/>   
+             <insertionPoint name="group.reorganize" />         
+             <insertionPoint
+                   name="group.port"
+                   separator="true"/>     
+             <insertionPoint
+                   name="group.build"
+                   separator="true"/> 
+             <insertionPoint
+                   name="group.generate"
+                   separator="true"/> 
+             <insertionPoint
+                   name="group.search"
+                   separator="true"/>              
+             <insertionPoint
+                   name="additions"
+                   separator="true"/>              
+             <insertionPoint
+                   name="group.properties"
+                   separator="true"/>
+             
+          </popupMenu>
+          <options>
+             <property
+                   name="com.netxforge.netxstudio.navigator.customizeViewDialogHelpContext"
+                   value="com.netxforge.netxstudio.project_explorer_customization_dialog">
+             </property>
+          </options>
+       </viewer>
+       <viewerContentBinding 
+             viewerId="com.netxforge.netxstudio.navigator.ProjectExplorer">
+          <includes>
+       	      <contentExtension pattern="com.netxforge.netxstudio.navigator.resourceContent" />		       	      
+	          <contentExtension pattern="com.netxforge.netxstudio.navigator.resources.filters.*"/>
+           <contentExtension pattern="com.netxforge.netxstudio.navigator.resources.linkHelper"/>
+           <!--
+           <contentExtension pattern="com.netxforge.netxstudio.navigator.resources.workingSets"/>
+           -->
+          </includes>
+       </viewerContentBinding>
+       <viewerActionBinding
+            viewerId="com.netxforge.netxstudio.navigator.ProjectExplorer">
+         <includes>
+             <actionExtension pattern="com.netxforge.netxstudio.navigator.resources.*" />
+         </includes>
+       </viewerActionBinding>
+       <dragAssistant
+             class="com.netxforge.netxstudio.navigator.resources.ResourceDragAdapterAssistant"
+             viewerId="com.netxforge.netxstudio.navigator.ProjectExplorer"/>
+       
+   </extension>
+   
+<!-- Resource Content  -->
+   <extension  
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            name="%resource.extension.name"
+            priority="low"
+            icon="$nl$/icons/full/eview16/resource_persp.gif"
+            activeByDefault="true"
+			            contentProvider="com.netxforge.netxstudio.internal.navigator.resources.workbench.NetXStudioExtensionContentProvider"
+            			labelProvider="com.netxforge.netxstudio.internal.navigator.resources.workbench.ResourceExtensionLabelProvider"			
+            id="com.netxforge.netxstudio.navigator.resourceContent">         
+
+<!-- We enable for IResource objects and also our own custom objects, note, the navigator content actions should be 
+able to deal with these objects. i.e. Properties by default doesn't deal with the URI object. -->
+         <enablement>
+		         <or>         
+		            <instanceof 
+		                  	value="org.eclipse.core.resources.IResource" />
+	              	<instanceof
+	                    value="org.eclipse.emf.common.util.URI"/>
+	                <instanceof
+	                    value="org.eclipse.emf.ecore.resource.Resource"/>
+	                    
+		         </or>
+         </enablement>
+         
+        <commonSorter
+              class="com.netxforge.netxstudio.internal.navigator.resources.workbench.ResourceExtensionSorter"
+              id="com.netxforge.netxstudio.navigator.resources.sorters.defaultSorter">
+           <parentExpression>
+           		  <or>           
+		            <instanceof value="org.eclipse.core.resources.IResource" /> 
+		         </or>
+		   </parentExpression>
+        </commonSorter>
+        <dropAssistant
+              class="com.netxforge.netxstudio.navigator.resources.ResourceDropAdapterAssistant"
+              id="com.netxforge.netxstudio.navigator.resources.resourceDropAdapter">
+           <possibleDropTargets>
+              <or>
+                 <adapt type="org.eclipse.core.resources.IProject"/>
+                 <adapt type="org.eclipse.core.resources.IFolder"/>
+                 <adapt type="org.eclipse.core.resources.IFile"/>
+              </or>
+           </possibleDropTargets>
+        </dropAssistant>        
+        
+<!-- EDIT (Copy, Paste and Cut) Action provider. -->
+        <actionProvider
+              class="com.netxforge.netxstudio.internal.navigator.resources.actions.EditActionProvider"
+              id="com.netxforge.netxstudio.navigator.resources.actions.EditActions"/>
+				
+<!--Migrate our the rename... action.               
+        <actionProvider
+              class="com.netxforge.netxstudio.internal.navigator.resources.actions.RefactorActionProvider"
+              id="com.netxforge.netxstudio.navigator.resources.actions.RefactorActions"/>         
+-->                    
+
+<!-- Menu Shortcut Actions for Wizards -->
+	      <commonWizard
+	        		type="new"
+					wizardId="org.eclipse.ui.wizards.new.folder">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />	
+					</or>
+		         </enablement>
+			</commonWizard>   
+	        <commonWizard
+	            type="new"
+	            wizardId="org.eclipse.ui.wizards.new.file">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />	
+					</or>
+		         </enablement>
+			</commonWizard>              
+      </navigatorContent>
+      
+<!-- OPEN Action provider -->       
+    <actionProvider 
+      			id="com.netxforge.netxstudio.navigator.resources.OpenActions"
+				class="com.netxforge.netxstudio.internal.navigator.resources.actions.OpenActionProvider">
+			<enablement>
+				<or>
+					<adapt type="org.eclipse.core.resources.IFile" /> 	
+				</or>
+			</enablement>
+	</actionProvider>
+		
+<!-- TODO , do we really need the GOTO? -->		
+      <actionProvider
+            class="com.netxforge.netxstudio.internal.navigator.resources.actions.GotoActionProvider"
+            id="com.netxforge.netxstudio.navigator.resources.GotoActions">
+			<enablement>
+				<or>
+					<adapt type="org.eclipse.core.resources.IResource" /> 	
+					<adapt type="org.eclipse.ui.IWorkingSet" /> 	
+				</or>
+			</enablement>
+      </actionProvider>
+      <actionProvider
+            class="com.netxforge.netxstudio.navigator.resources.GoIntoActionProvider"
+            id="com.netxforge.netxstudio.navigator.resources.GoIntoActions">
+			<enablement>
+				<and>
+					<or>
+						<and>
+							<adapt type="org.eclipse.core.resources.IProject" />
+							<test property="org.eclipse.core.resources.open" 
+                            	value="true"/>
+						</and>
+						<adapt type="org.eclipse.core.resources.IFolder" /> 	
+						<adapt type="org.eclipse.ui.IWorkingSet" /> 	
+					</or>
+				</and>
+			</enablement>
+      </actionProvider>
+      
+<!-- Porting Action Providers -->
+		<actionProvider 
+        		id="com.netxforge.netxstudio.navigator.resources.PortingActions"
+				class="com.netxforge.netxstudio.internal.navigator.resources.actions.PortingActionProvider">
+			<enablement> 
+			    <or>
+					<adapt type="org.eclipse.core.resources.IResource" />
+					<adapt type="org.eclipse.emf.ecore.resource.Resource" />	 
+					<adapt type="java.util.Collection"> 
+						<count value="0" />
+					</adapt>
+				</or>	 
+			</enablement>
+		</actionProvider>
+        <actionProvider
+            	class="com.netxforge.netxstudio.internal.navigator.resources.actions.NewActionProvider"
+            	id="com.netxforge.netxstudio.navigator.resources.NewActions"> 
+        	<enablement> 
+        			<or>
+						<adapt type="org.eclipse.core.resources.IResource" />	 
+						<adapt type="java.util.Collection"> 
+							<count value="0" />
+						</adapt>
+					</or>
+	         </enablement>
+		</actionProvider> 
+        <actionProvider
+              class="com.netxforge.netxstudio.internal.navigator.resources.actions.PropertiesActionProvider"
+              id="com.netxforge.netxstudio.navigator.resources.PropertiesActionProvider">
+           <enablement>
+        	  <instanceof value="org.eclipse.core.runtime.IAdaptable" />
+           </enablement>
+        </actionProvider>
+       <!--
+        <actionProvider
+              class="com.netxforge.netxstudio.internal.navigator.resources.actions.WorkManagementActionProvider"
+              id="com.netxforge.netxstudio.navigator.resources.WorkManagementActionProvider">
+           <enablement>
+              <adapt type="org.eclipse.core.resources.IResource"/>
+           </enablement>
+        </actionProvider>
+        --> 
+        <actionProvider
+              class="com.netxforge.netxstudio.internal.navigator.resources.actions.ResourceMgmtActionProvider"
+              id="com.netxforge.netxstudio.navigator.resources.ResourceMgmtActions">
+           <enablement>
+                <or>
+					<adapt type="org.eclipse.core.resources.IResource" />	 
+					<adapt type="java.util.Collection"> 
+						<count value="0" />
+					</adapt>
+				</or>
+           </enablement>
+        </actionProvider> 
+        
+        <actionProvider 
+      			id="com.netxforge.netxstudio.navigator.resources.UndoRedoActionProvider"
+				class="com.netxforge.netxstudio.internal.navigator.resources.actions.UndoRedoActionProvider">
+			<enablement> 
+				<!-- 'true' -->
+   				<or/>
+			</enablement>
+		</actionProvider>
+
+      <!-- Expression Filters -->  
+      <commonFilter
+            id="com.netxforge.netxstudio.navigator.resources.filters.startsWithDot"
+            name="%filters.startsWithDot.name"
+            description="%filters.startsWithDot.description"
+            activeByDefault="true"
+            >
+         <filterExpression>
+         	<and>
+	            <adapt type="org.eclipse.core.resources.IResource">
+            		<test property="org.eclipse.core.resources.name" value=".*"/>
+            	</adapt>	            
+	        </and>
+         </filterExpression>
+      </commonFilter>
+      
+      <!-- Filter out some internal workspace folders --> 
+       <commonFilter  
+            id="com.netxforge.netxstudio.navigator.resources.filters.internalfolders"
+            name="Internal Folders"
+            description="Internal Folders"
+            activeByDefault="true"
+            >
+         <filterExpression>
+         	<and>
+	            <instanceof value="org.eclipse.core.resources.IFolder"/>
+             <or>
+                <test
+                      property="org.eclipse.core.resources.name"
+                      value="Transforms">
+                </test>
+                <test
+                      property="org.eclipse.core.resources.name"
+                      value="Scripts">
+                </test>
+             </or>
+	        </and>
+         </filterExpression>
+      </commonFilter> 
+      
+      <!-- CB TODO Remove later, end's with class is not for us 
+      <commonFilter  
+            id="com.netxforge.netxstudio.navigator.resources.filters.endsWithClass"
+            name="%filters.endsWithClass.name"
+            description="%filters.endsWithClass.description"
+            activeByDefault="false"
+            >
+         <filterExpression>
+         	<and>
+	            <instanceof value="org.eclipse.core.resources.IFile"/>
+            	<test property="org.eclipse.core.resources.name" value="*.class"/>	            
+	        </and>
+         </filterExpression>
+      </commonFilter> 
+      -->
+      
+      <commonFilter
+            id="com.netxforge.netxstudio.navigator.resources.filters.closedProject"
+            name="%filters.closedProject.name"
+            description="%filters.closedProject.description" 
+            activeByDefault="false"
+           >
+         <filterExpression>
+         	<and>
+	            <instanceof value="org.eclipse.core.resources.IProject"/>
+            	<test property="org.eclipse.core.resources.open" value="false"/>	            
+	        </and>
+         </filterExpression>
+      </commonFilter>
+<!-- CB Remove later, don't need this      
+      <commonFilter
+            id="com.netxforge.netxstudio.navigator.resources.filters.workingSet"
+            name="%filters.workingSet.name"
+            description="%filters.workingSet.description" 
+            class="org.eclipse.ui.ResourceWorkingSetFilter" 
+            activeByDefault="false"
+            visibleInUI="false"
+           >
+      </commonFilter>
+      
+      <actionProvider
+            class="com.netxforge.netxstudio.internal.navigator.resources.actions.WorkingSetActionProvider"
+            id="com.netxforge.netxstudio.navigator.resources.WorkingSetActions">
+           <enablement>
+                <or>
+					<adapt type="org.eclipse.core.resources.IResource" />	 
+					<adapt type="java.util.Collection"> 
+						<count value="0" />
+					</adapt>
+				</or>
+           </enablement>            
+      </actionProvider>
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="com.netxforge.netxstudio.internal.navigator.workingsets.WorkingSetsContentProvider"
+            icon="$nl$/icons/full/obj16/workingsets.gif"
+            id="com.netxforge.netxstudio.navigator.resources.workingSets"
+            labelProvider="com.netxforge.netxstudio.internal.navigator.workingsets.WorkingSetsLabelProvider"
+            name="%workingsets.extension.name"
+            priority="higher">
+         <triggerPoints>
+            <instanceof value="org.eclipse.ui.IWorkingSet"/>
+         </triggerPoints>
+         <possibleChildren>
+            <instanceof value="java.lang.Object"/>
+         </possibleChildren>
+         <commonSorter
+               class="com.netxforge.netxstudio.internal.navigator.workingsets.WorkingSetSorter"
+               id="com.netxforge.netxstudio.navigator.resources.workingSets.sorter"/>  
+      </navigatorContent>
+-->      
+   </extension>
+    <extension
+          point="org.eclipse.core.runtime.adapters">
+       <factory
+             adaptableType="org.eclipse.ui.navigator.CommonNavigator"
+            class="com.netxforge.netxstudio.internal.navigator.resources.workbench.TabbedPropertySheetAdapterFactory">
+         <adapter type="org.eclipse.ui.views.properties.IPropertySheetPage"/>
+      </factory>
+    </extension>
+    <extension
+          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+       <propertyContributor
+             contributorId="com.netxforge.netxstudio.navigator.ProjectExplorer"
+             labelProvider="com.netxforge.netxstudio.internal.navigator.resources.workbench.TabbedPropertySheetTitleProvider">
+          <propertyCategory category="general"/>
+          <propertyCategory category="core"/>
+          <propertyCategory category="appearance"/>
+          <propertyCategory category="resource"/>
+          <propertyCategory category="advanced"/>
+       </propertyContributor>
+    </extension>
+    <extension
+          point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+       <propertyTabs contributorId="com.netxforge.netxstudio.navigator.ProjectExplorer">
+          <propertyTab
+                label="%Resource"
+                category="resource"
+                id="CommonNavigator.tab.Resource"/>
+       </propertyTabs>
+    </extension>
+    <extension
+          point="org.eclipse.ui.views.properties.tabbed.propertySections">
+       <propertySections contributorId="com.netxforge.netxstudio.navigator.ProjectExplorer">
+          <propertySection
+                class="org.eclipse.ui.views.properties.tabbed.AdvancedPropertySection"
+                id="CommonNavigator.section.Resource"
+                tab="CommonNavigator.tab.Resource">
+             <input type="java.lang.Object"/>
+          </propertySection>
+       </propertySections>
+    </extension>
+    
+    <extension
+          point="org.eclipse.ui.navigator.linkHelper">
+       <linkHelper
+             class="com.netxforge.netxstudio.internal.navigator.resources.workbench.ResourceLinkHelper"
+             id="com.netxforge.netxstudio.navigator.resources.linkHelper">
+          <selectionEnablement>
+             <instanceof value="org.eclipse.core.resources.IFile"/>
+          </selectionEnablement>
+          <editorInputEnablement>
+             <instanceof value="org.eclipse.ui.IFileEditorInput"/>
+          </editorInputEnablement>
+       </linkHelper>
+    </extension>
+    
+<!--    
+    <extension
+          point="org.eclipse.core.runtime.adapters">
+       <factory
+             adaptableType="com.netxforge.netxstudio.navigator.resources.INetXStudioRoot"
+             class="com.netxforge.netxstudio.navigator.resources.NetXStudioAdapterFactory">
+          <adapter
+                type="com.netxforge.netxstudio.navigator.resources.NetXStudioRootResource">
+          </adapter>
+       </factory>
+    </extension>
+-->    
+<!-- CB TODO, we don't use this perspective    
+	<extension
+      point="org.eclipse.ui.perspectiveExtensions">
+    	<perspectiveExtension targetID = "org.eclipse.ui.resourcePerspective">
+		    <showInPart id = "com.netxforge.netxstudio.navigator.ProjectExplorer"/>
+    	</perspectiveExtension>
+   	</extension>
+-->    	
+   	    
+</plugin> 
