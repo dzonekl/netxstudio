@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.netxforge.netxstudio.screens.feature"
+      label="NetXStudio Screens Feature"
+      version="1.0.0.qualifier"
+      provider-name="NetXForge">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.forms" version="3.5.100" match="greaterOrEqual"/>
+      <import plugin="org.swtchart" version="0.7.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.databinding" version="1.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.databinding.beans" version="1.2.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.databinding.property" version="1.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface.databinding" version="1.5.0" match="greaterOrEqual"/>
+      <import plugin="com.netxforge.netxstudio.models" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="com.netxforge.netxstudio.screens.nebula" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.databinding" version="1.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.databinding.edit" version="1.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.edit.ui" version="2.7.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.nebula.cwt" version="0.9.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.nebula.jface.cdatetime" version="0.14.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.nebula.jface.gridviewer" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.nebula.widgets.calendarcombo" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.nebula.widgets.cdatetime" version="0.14.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.nebula.widgets.datechooser" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.nebula.widgets.formattedtext" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.nebula.widgets.grid" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.nebula.widgets.oscilloscope" version="1.0.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.nebula.widgets.radiogroup" version="0.1.0" match="greaterOrEqual"/>
+      <import plugin="com.google.inject" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="com.google.collect" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.ui" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.ui.shared" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.expressions" version="3.4.300" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.navigator" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare" version="1.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.diff" version="1.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.compare.match" version="1.2.0" match="greaterOrEqual"/>
+      <import plugin="com.netxforge.netxstudio.screens.editing" version="1.0.0" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="com.netxforge.netxstudio.screens"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.netxforge.netxstudio.screens.editing"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.netxforge.netxstudio.screens.nebula"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

@@ -13,6 +13,7 @@ public class MonitoringPerspective implements IPerspectiveFactory {
 		IFolderLayout left = layout.createFolder(
 				"left", IPageLayout.LEFT, 0.4f, editorArea); //$NON-NLS-1$	 //$NON-NLS-2$
 		left.addView("com.netxforge.netxstudio.navigator.ProjectExplorer");
+		layout.addView("com.netxforge.netxstudio.screens.xtext.EmbeddedXtextViewPart", IPageLayout.BOTTOM, 0.5f, "left");
 		IFolderLayout bottom = layout.createFolder(
 				"bottom", IPageLayout.BOTTOM, 0.4f, editorArea); //$NON-NLS-1$	 //$NON-NLS-2$
 		bottom.addView("org.eclipse.ui.views.ProgressView");

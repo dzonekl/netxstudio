@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="com.netxforge.netxstudio.screens.xtext.EmbeddedXtextViewPart"
+            id="com.netxforge.netxstudio.screens.xtext.EmbeddedXtextViewPart"
+            name="Expression Editing">
+      </view>
+   </extension>
+    <extension
+      point="org.eclipse.ui.bindings">
+    <key sequence="M1+M2+F"
+      contextId="org.eclipselabs.xtfo.embededxtextEditor.context"
+      commandId="org.eclipse.xtext.ui.FormatAction"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+    <key sequence="M1+7"
+      contextId="org.eclipselabs.xtfo.embededxtextEditor.context"
+      commandId="org.eclipse.xtext.ui.ToggleCommentAction"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+    <key sequence="M1+/"
+      contextId="org.eclipselabs.xtfo.embededxtextEditor.context"
+      commandId="org.eclipse.xtext.ui.ToggleCommentAction"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+    <key sequence="M1+M2+C"
+      contextId="org.eclipselabs.xtfo.embededxtextEditor.context"
+      commandId="org.eclipse.xtext.ui.ToggleCommentAction"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+   </extension>
+    <extension
+       point="org.eclipse.ui.contexts">
+    <context
+          id="org.eclipselabs.xtfo.embededxtextEditor.context"
+          name="Embedded Xtext Editor"
+          parentId="org.eclipse.ui.contexts.window">
+    </context>
+    </extension>
+</plugin>
