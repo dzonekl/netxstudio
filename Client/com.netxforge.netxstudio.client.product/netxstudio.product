@@ -67,6 +67,7 @@
       <feature id="javax.servlet.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.swtchart.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.nebula.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.rcp" version="3.7.0.v20110216-9DB5FiuFpBGyHd2xA_SWnfP"/>
    </features>
 
    <configurations>
