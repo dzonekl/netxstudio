@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.netxforge.netxstudio.models.xtextwrapper/src-gen"
+    editDirectory="/com.netxforge.netxstudio.models.xtextwrapper.edit/src-gen" modelPluginID="com.netxforge.netxstudio.models.xtextwrapper"
+    modelName="Xtextwrapper" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
+    copyrightFields="false" usedGenPackages="../../org.eclipse.xtext.example.arithmetics/src-gen/org/eclipse/xtext/example/arithmetics/Arithmetics.genmodel#//arithmetics platform:/plugin/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel#//types platform:/plugin/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase">
+  <foreignModel>xtextwrapper.ecore</foreignModel>
+  <genPackages prefix="Xtextwrapper" basePackage="com.netxforge.netxstudio.models"
+      disposableProviderFactory="true" ecorePackage="xtextwrapper.ecore#/">
+    <genClasses ecoreClass="xtextwrapper.ecore#//Model">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtextwrapper.ecore#//Model/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtextwrapper.ecore#//Model/arithmetics"/>
+    </genClasses>
+    <genClasses ecoreClass="xtextwrapper.ecore#//ArithmeticWrapper">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtextwrapper.ecore#//ArithmeticWrapper/asString"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtextwrapper.ecore#//ArithmeticWrapper/eval"/>
+    </genClasses>
+    <genClasses ecoreClass="xtextwrapper.ecore#//NetXScriptWrapper">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtextwrapper.ecore#//NetXScriptWrapper/asString"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtextwrapper.ecore#//NetXScriptWrapper/xblock"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

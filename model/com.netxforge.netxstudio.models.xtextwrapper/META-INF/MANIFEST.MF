@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.netxforge.netxstudio.models.xtextwrapper;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: com.netxforge.netxstudio.models.xtextwrapper,
+ com.netxforge.netxstudio.models.xtextwrapper.impl,
+ com.netxforge.netxstudio.models.xtextwrapper.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.xtext.example.arithmetics;visibility:=reexport,
+ org.eclipse.xtext.xbase;bundle-version="2.0.0";visibility:=reexport
+Bundle-ActivationPolicy: lazy
