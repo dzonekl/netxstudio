@@ -7,7 +7,7 @@
                 <property key="targets" value="create.product" />
             </actorProperties>
             <properties>
-                <property key="profile" value="TDOMSProfile" />
+                <property key="profile" value="NetXStudioProfile" />
                 <property key="iu" value="com.remainsoftware.tdoms.product" />
             </properties>
             <prerequisites alias="repository">
