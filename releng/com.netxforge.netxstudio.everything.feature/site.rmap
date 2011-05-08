@@ -19,17 +19,17 @@
       </rm:uri>
     </rm:provider>
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}/3rdpartyfeatures/{0}">
+      <rm:uri format="${workspace.root}/3rdPartyFeatures/{0}">
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
     </rm:provider>
         <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}/3rdpartytemp/{0}">
+      <rm:uri format="${workspace.root}/3rdPartyTemp/{0}">
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
     </rm:provider>
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}/3rdpartylib/{0}">
+      <rm:uri format="${workspace.root}/3rdPartyLib/{0}">
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
     </rm:provider>
