@@ -25,11 +25,13 @@ Import-Package: org.apache.log4j,
  org.eclipse.xtext.xtend2.lib
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: com.netxforge,
- com.netxforge.services,
+ com.netxforge.generator,
+ com.netxforge.jvmmodel,
  com.netxforge.netxscript,
  com.netxforge.netxscript.impl,
  com.netxforge.netxscript.util,
  com.netxforge.parseTreeConstruction,
  com.netxforge.parser.antlr,
  com.netxforge.parser.antlr.internal,
+ com.netxforge.services,
  com.netxforge.validation
