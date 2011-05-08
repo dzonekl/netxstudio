@@ -7,7 +7,7 @@
          point="org.eclipse.ui.views">
       <view
             category="com.netxforge.nextstudio.navigator"
-            class="com.netxforge.netxstudio.navigator.resources.NetXStudioExplorer"
+            class="org.eclipse.ui.navigator.resources.NetXStudioExplorer"
             icon="$nl$/icons/full/eview16/resource_persp.gif"
             id="com.netxforge.netxstudio.navigator.ProjectExplorer"
             name="%Common_Resource_Navigator"/>
@@ -78,7 +78,7 @@
          </includes>
        </viewerActionBinding>
        <dragAssistant
-             class="com.netxforge.netxstudio.navigator.resources.ResourceDragAdapterAssistant"
+             class="org.eclipse.ui.navigator.resources.ResourceDragAdapterAssistant"
              viewerId="com.netxforge.netxstudio.navigator.ProjectExplorer"/>
        
    </extension>
@@ -91,8 +91,8 @@
             priority="low"
             icon="$nl$/icons/full/eview16/resource_persp.gif"
             activeByDefault="true"
-			            contentProvider="com.netxforge.netxstudio.internal.navigator.resources.workbench.NetXStudioExtensionContentProvider"
-            			labelProvider="com.netxforge.netxstudio.internal.navigator.resources.workbench.ResourceExtensionLabelProvider"			
+			            contentProvider="org.eclipse.ui.internal.navigator.resources.workbench.NetXStudioExtensionContentProvider"
+            			labelProvider="org.eclipse.ui.internal.navigator.resources.workbench.ResourceExtensionLabelProvider"			
             id="com.netxforge.netxstudio.navigator.resourceContent">         
 
 <!-- We enable for IResource objects and also our own custom objects, note, the navigator content actions should be 
@@ -105,12 +105,11 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
 	                    value="org.eclipse.emf.common.util.URI"/>
 	                <instanceof
 	                    value="org.eclipse.emf.ecore.resource.Resource"/>
-	                    
 		         </or>
          </enablement>
          
         <commonSorter
-              class="com.netxforge.netxstudio.internal.navigator.resources.workbench.ResourceExtensionSorter"
+              class="org.eclipse.ui.internal.navigator.resources.workbench.ResourceExtensionSorter"
               id="com.netxforge.netxstudio.navigator.resources.sorters.defaultSorter">
            <parentExpression>
            		  <or>           
@@ -119,7 +118,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
 		   </parentExpression>
         </commonSorter>
         <dropAssistant
-              class="com.netxforge.netxstudio.navigator.resources.ResourceDropAdapterAssistant"
+              class="org.eclipse.ui.navigator.resources.ResourceDropAdapterAssistant"
               id="com.netxforge.netxstudio.navigator.resources.resourceDropAdapter">
            <possibleDropTargets>
               <or>
@@ -132,7 +131,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
         
 <!-- EDIT (Copy, Paste and Cut) Action provider. -->
         <actionProvider
-              class="com.netxforge.netxstudio.internal.navigator.resources.actions.EditActionProvider"
+              class="org.eclipse.ui.internal.navigator.resources.actions.EditActionProvider"
               id="com.netxforge.netxstudio.navigator.resources.actions.EditActions"/>
 				
 <!--Migrate our the rename... action.               
@@ -171,7 +170,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
 <!-- OPEN Action provider -->       
     <actionProvider 
       			id="com.netxforge.netxstudio.navigator.resources.OpenActions"
-				class="com.netxforge.netxstudio.internal.navigator.resources.actions.OpenActionProvider">
+				class="org.eclipse.ui.internal.navigator.resources.actions.OpenActionProvider">
 			<enablement>
 				<or>
 					<adapt type="org.eclipse.core.resources.IFile" /> 	
@@ -181,7 +180,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
 		
 <!-- TODO , do we really need the GOTO? -->		
       <actionProvider
-            class="com.netxforge.netxstudio.internal.navigator.resources.actions.GotoActionProvider"
+            class="org.eclipse.ui.internal.navigator.resources.actions.GotoActionProvider"
             id="com.netxforge.netxstudio.navigator.resources.GotoActions">
 			<enablement>
 				<or>
@@ -191,7 +190,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
 			</enablement>
       </actionProvider>
       <actionProvider
-            class="com.netxforge.netxstudio.navigator.resources.GoIntoActionProvider"
+            class="org.eclipse.ui.navigator.resources.GoIntoActionProvider"
             id="com.netxforge.netxstudio.navigator.resources.GoIntoActions">
 			<enablement>
 				<and>
@@ -211,7 +210,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
 <!-- Porting Action Providers -->
 		<actionProvider 
         		id="com.netxforge.netxstudio.navigator.resources.PortingActions"
-				class="com.netxforge.netxstudio.internal.navigator.resources.actions.PortingActionProvider">
+				class="org.eclipse.ui.internal.navigator.resources.actions.PortingActionProvider">
 			<enablement> 
 			    <or>
 					<adapt type="org.eclipse.core.resources.IResource" />
@@ -223,7 +222,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
 			</enablement>
 		</actionProvider>
         <actionProvider
-            	class="com.netxforge.netxstudio.internal.navigator.resources.actions.NewActionProvider"
+            	class="org.eclipse.ui.internal.navigator.resources.actions.NewActionProvider"
             	id="com.netxforge.netxstudio.navigator.resources.NewActions"> 
         	<enablement> 
         			<or>
@@ -235,7 +234,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
 	         </enablement>
 		</actionProvider> 
         <actionProvider
-              class="com.netxforge.netxstudio.internal.navigator.resources.actions.PropertiesActionProvider"
+              class="org.eclipse.ui.internal.navigator.resources.actions.PropertiesActionProvider"
               id="com.netxforge.netxstudio.navigator.resources.PropertiesActionProvider">
            <enablement>
         	  <instanceof value="org.eclipse.core.runtime.IAdaptable" />
@@ -251,7 +250,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
         </actionProvider>
         --> 
         <actionProvider
-              class="com.netxforge.netxstudio.internal.navigator.resources.actions.ResourceMgmtActionProvider"
+              class="org.eclipse.ui.internal.navigator.resources.actions.ResourceMgmtActionProvider"
               id="com.netxforge.netxstudio.navigator.resources.ResourceMgmtActions">
            <enablement>
                 <or>
@@ -265,7 +264,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
         
         <actionProvider 
       			id="com.netxforge.netxstudio.navigator.resources.UndoRedoActionProvider"
-				class="com.netxforge.netxstudio.internal.navigator.resources.actions.UndoRedoActionProvider">
+				class="org.eclipse.ui.internal.navigator.resources.actions.UndoRedoActionProvider">
 			<enablement> 
 				<!-- 'true' -->
    				<or/>
@@ -388,7 +387,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
           point="org.eclipse.core.runtime.adapters">
        <factory
              adaptableType="org.eclipse.ui.navigator.CommonNavigator"
-            class="com.netxforge.netxstudio.internal.navigator.resources.workbench.TabbedPropertySheetAdapterFactory">
+            class="org.eclipse.ui.internal.navigator.resources.workbench.TabbedPropertySheetAdapterFactory">
          <adapter type="org.eclipse.ui.views.properties.IPropertySheetPage"/>
       </factory>
     </extension>
@@ -396,7 +395,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
           point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
        <propertyContributor
              contributorId="com.netxforge.netxstudio.navigator.ProjectExplorer"
-             labelProvider="com.netxforge.netxstudio.internal.navigator.resources.workbench.TabbedPropertySheetTitleProvider">
+             labelProvider="org.eclipse.ui.internal.navigator.resources.workbench.TabbedPropertySheetTitleProvider">
           <propertyCategory category="general"/>
           <propertyCategory category="core"/>
           <propertyCategory category="appearance"/>
@@ -428,7 +427,7 @@ able to deal with these objects. i.e. Properties by default doesn't deal with th
     <extension
           point="org.eclipse.ui.navigator.linkHelper">
        <linkHelper
-             class="com.netxforge.netxstudio.internal.navigator.resources.workbench.ResourceLinkHelper"
+             class="org.eclipse.ui.internal.navigator.resources.workbench.ResourceLinkHelper"
              id="com.netxforge.netxstudio.navigator.resources.linkHelper">
           <selectionEnablement>
              <instanceof value="org.eclipse.core.resources.IFile"/>

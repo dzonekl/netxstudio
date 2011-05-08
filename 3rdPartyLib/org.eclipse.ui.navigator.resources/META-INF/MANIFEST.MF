@@ -9,13 +9,14 @@ Require-Bundle: org.eclipse.ui.ide;bundle-version="3.7.0",
  org.eclipse.ui.navigator;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.ui.views.properties.tabbed;bundle-version="[3.5.0,4.0.0)",
- org.eclipse.emf.common;bundle-version="2.7.0"
-Bundle-Activator: com.netxforge.netxstudio.internal.navigator.resources.plugin.WorkbenchNavigatorPlugin
-Export-Package: com.netxforge.netxstudio.internal.navigator.resources,
- com.netxforge.netxstudio.internal.navigator.resources.actions,
- com.netxforge.netxstudio.internal.navigator.resources.plugin,
- com.netxforge.netxstudio.internal.navigator.resources.workbench,
- com.netxforge.netxstudio.navigator.resources
+ org.eclipse.emf.common;bundle-version="2.7.0",
+ org.eclipse.emf.ecore;bundle-version="2.7.0"
+Bundle-Activator: org.eclipse.ui.internal.navigator.resources.plugin.WorkbenchNavigatorPlugin
+Export-Package: org.eclipse.ui.internal.navigator.resources,
+ org.eclipse.ui.internal.navigator.resources.actions,
+ org.eclipse.ui.internal.navigator.resources.plugin,
+ org.eclipse.ui.internal.navigator.resources.workbench,
+ org.eclipse.ui.navigator.resources
 Bundle-Version: 3.6.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Plugin.providerName
