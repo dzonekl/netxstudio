@@ -4,7 +4,7 @@
   <rm:locator pattern=".*" searchPathRef="eclipse-org"/>
   <rm:searchPath name="local">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
-      <rm:uri format="${workspace.root}/client/{0}">
+      <rm:uri format="${workspace.root}/Client/{0}">
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
     </rm:provider>
