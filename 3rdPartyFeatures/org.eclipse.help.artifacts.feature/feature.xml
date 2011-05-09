@@ -47,35 +47,35 @@
          id="org.eclipse.help"
          download-size="0"
          install-size="0"
-         version="3.5.0.v20100524"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.help.appserver"
          download-size="0"
          install-size="0"
-         version="3.1.400.v20100427"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.help.base"
          download-size="0"
          install-size="0"
-         version="3.6.0.v201103101119"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.help.ui"
          download-size="0"
          install-size="0"
-         version="3.5.100.v20110221"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.help.webapp"
          download-size="0"
          install-size="0"
-         version="3.6.0.v20110304"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
