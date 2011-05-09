@@ -36,6 +36,7 @@
       <import plugin="org.eclipse.equinox.http.jetty"/>
       <import plugin="javax.servlet"/>
       <import plugin="javax.servlet.jsp"/>
+      <import plugin="org.apache.commons.el"/>
       <import plugin="org.eclipse.equinox.jsp.jasper"/>
       <import plugin="org.eclipse.equinox.http.servlet"/>
       <import plugin="org.mortbay.jetty.util"/>
