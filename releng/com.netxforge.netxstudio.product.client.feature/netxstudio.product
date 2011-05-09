@@ -48,6 +48,7 @@
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.common.ui"/>
       <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.emf.cdo"/>
       <feature id="org.eclipse.emf.ecore.edit"/>
       <feature id="org.eclipse.emf.edit"/>
       <feature id="org.eclipse.emf.edit.ui"/>
