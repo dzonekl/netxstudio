@@ -68,6 +68,7 @@ public class DataGenerationTest extends BaseTest
 	  final ModelDataGenerator modelDataGenerator = new ModelDataGenerator();
 	  modelDataGenerator.setStartEClasses(getAllEClasses());
 	  modelDataGenerator.setMaxDepth(3);
+	  modelDataGenerator.setUseDynamicEnums(false);
 	  modelDataGenerator.setCollectionSize(3);
 	  modelDataGenerator.setDataSize(3);
 	  modelDataGenerator.setMaxObjects(1000);
