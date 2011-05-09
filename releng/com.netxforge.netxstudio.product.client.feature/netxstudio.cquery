@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cq:componentQuery xmlns:cq="http://www.eclipse.org/buckminster/CQuery-1.0" resourceMap="netxstudio.rmap">
     <cq:rootRequest name="com.netxforge.netxstudio.product.client.feature" componentType="eclipse.feature"/>
-    <cq:advisorNode namePattern="com.netxforge.netxstudio.product.client.feature" useMaterialization="false" useRemoteResolution="false" useTargetPlatform="false"/>
+    <cq:advisorNode namePattern="com.netxforge.netxstudio.product.client.feature" useTargetPlatform="false"/>
     <cq:advisorNode namePattern=".*" useWorkspace="false"/>
 </cq:componentQuery>
