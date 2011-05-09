@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.generics;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,9 +41,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getValue()
  * @model extendedMetaData="name='Value' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface Value extends EObject {
+public interface Value extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Time Stamp</b></em>' attribute.
 	 * <!-- begin-user-doc -->

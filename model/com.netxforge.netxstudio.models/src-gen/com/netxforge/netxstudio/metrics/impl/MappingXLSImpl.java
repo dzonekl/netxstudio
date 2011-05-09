@@ -18,16 +18,8 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.MappingXLS;
@@ -53,113 +45,6 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  */
 public class MappingXLSImpl extends MappingImpl implements MappingXLS {
 	/**
-	 * The cached value of the '{@link #getMappingColumns() <em>Mapping Columns</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMappingColumns()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<MappingXLSColumn> mappingColumns;
-
-	/**
-	 * The cached value of the '{@link #getColumnDataKind() <em>Column Data Kind</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getColumnDataKind()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<DataKind> columnDataKind;
-
-	/**
-	 * The default value of the '{@link #getFirstDataRow() <em>First Data Row</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFirstDataRow()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int FIRST_DATA_ROW_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getFirstDataRow() <em>First Data Row</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFirstDataRow()
-	 * @generated
-	 * @ordered
-	 */
-	protected int firstDataRow = FIRST_DATA_ROW_EDEFAULT;
-
-	/**
-	 * This is true if the First Data Row attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean firstDataRowESet;
-
-	/**
-	 * The default value of the '{@link #getHeaderRow() <em>Header Row</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getHeaderRow()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int HEADER_ROW_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getHeaderRow() <em>Header Row</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getHeaderRow()
-	 * @generated
-	 * @ordered
-	 */
-	protected int headerRow = HEADER_ROW_EDEFAULT;
-
-	/**
-	 * This is true if the Header Row attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean headerRowESet;
-
-	/**
-	 * The default value of the '{@link #getSheetNumber() <em>Sheet Number</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSheetNumber()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int SHEET_NUMBER_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getSheetNumber() <em>Sheet Number</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSheetNumber()
-	 * @generated
-	 * @ordered
-	 */
-	protected int sheetNumber = SHEET_NUMBER_EDEFAULT;
-
-	/**
-	 * This is true if the Sheet Number attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean sheetNumberESet;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -183,199 +68,9 @@ public class MappingXLSImpl extends MappingImpl implements MappingXLS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<MappingXLSColumn> getMappingColumns() {
-		if (mappingColumns == null) {
-			mappingColumns = new EObjectContainmentEList<MappingXLSColumn>(MappingXLSColumn.class, this, MetricsPackage.MAPPING_XLS__MAPPING_COLUMNS);
-		}
-		return mappingColumns;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<DataKind> getColumnDataKind() {
-		if (columnDataKind == null) {
-			columnDataKind = new EObjectContainmentEList<DataKind>(DataKind.class, this, MetricsPackage.MAPPING_XLS__COLUMN_DATA_KIND);
-		}
-		return columnDataKind;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getFirstDataRow() {
-		return firstDataRow;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setFirstDataRow(int newFirstDataRow) {
-		int oldFirstDataRow = firstDataRow;
-		firstDataRow = newFirstDataRow;
-		boolean oldFirstDataRowESet = firstDataRowESet;
-		firstDataRowESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.MAPPING_XLS__FIRST_DATA_ROW, oldFirstDataRow, firstDataRow, !oldFirstDataRowESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetFirstDataRow() {
-		int oldFirstDataRow = firstDataRow;
-		boolean oldFirstDataRowESet = firstDataRowESet;
-		firstDataRow = FIRST_DATA_ROW_EDEFAULT;
-		firstDataRowESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, MetricsPackage.MAPPING_XLS__FIRST_DATA_ROW, oldFirstDataRow, FIRST_DATA_ROW_EDEFAULT, oldFirstDataRowESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetFirstDataRow() {
-		return firstDataRowESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getHeaderRow() {
-		return headerRow;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setHeaderRow(int newHeaderRow) {
-		int oldHeaderRow = headerRow;
-		headerRow = newHeaderRow;
-		boolean oldHeaderRowESet = headerRowESet;
-		headerRowESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.MAPPING_XLS__HEADER_ROW, oldHeaderRow, headerRow, !oldHeaderRowESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetHeaderRow() {
-		int oldHeaderRow = headerRow;
-		boolean oldHeaderRowESet = headerRowESet;
-		headerRow = HEADER_ROW_EDEFAULT;
-		headerRowESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, MetricsPackage.MAPPING_XLS__HEADER_ROW, oldHeaderRow, HEADER_ROW_EDEFAULT, oldHeaderRowESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetHeaderRow() {
-		return headerRowESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getSheetNumber() {
-		return sheetNumber;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSheetNumber(int newSheetNumber) {
-		int oldSheetNumber = sheetNumber;
-		sheetNumber = newSheetNumber;
-		boolean oldSheetNumberESet = sheetNumberESet;
-		sheetNumberESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.MAPPING_XLS__SHEET_NUMBER, oldSheetNumber, sheetNumber, !oldSheetNumberESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetSheetNumber() {
-		int oldSheetNumber = sheetNumber;
-		boolean oldSheetNumberESet = sheetNumberESet;
-		sheetNumber = SHEET_NUMBER_EDEFAULT;
-		sheetNumberESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, MetricsPackage.MAPPING_XLS__SHEET_NUMBER, oldSheetNumber, SHEET_NUMBER_EDEFAULT, oldSheetNumberESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetSheetNumber() {
-		return sheetNumberESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_XLS__MAPPING_COLUMNS:
-				return ((InternalEList<?>)getMappingColumns()).basicRemove(otherEnd, msgs);
-			case MetricsPackage.MAPPING_XLS__COLUMN_DATA_KIND:
-				return ((InternalEList<?>)getColumnDataKind()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_XLS__MAPPING_COLUMNS:
-				return getMappingColumns();
-			case MetricsPackage.MAPPING_XLS__COLUMN_DATA_KIND:
-				return getColumnDataKind();
-			case MetricsPackage.MAPPING_XLS__FIRST_DATA_ROW:
-				return getFirstDataRow();
-			case MetricsPackage.MAPPING_XLS__HEADER_ROW:
-				return getHeaderRow();
-			case MetricsPackage.MAPPING_XLS__SHEET_NUMBER:
-				return getSheetNumber();
-		}
-		return super.eGet(featureID, resolve, coreType);
+		return (EList<MappingXLSColumn>)eGet(MetricsPackage.Literals.MAPPING_XLS__MAPPING_COLUMNS, true);
 	}
 
 	/**
@@ -384,28 +79,8 @@ public class MappingXLSImpl extends MappingImpl implements MappingXLS {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_XLS__MAPPING_COLUMNS:
-				getMappingColumns().clear();
-				getMappingColumns().addAll((Collection<? extends MappingXLSColumn>)newValue);
-				return;
-			case MetricsPackage.MAPPING_XLS__COLUMN_DATA_KIND:
-				getColumnDataKind().clear();
-				getColumnDataKind().addAll((Collection<? extends DataKind>)newValue);
-				return;
-			case MetricsPackage.MAPPING_XLS__FIRST_DATA_ROW:
-				setFirstDataRow((Integer)newValue);
-				return;
-			case MetricsPackage.MAPPING_XLS__HEADER_ROW:
-				setHeaderRow((Integer)newValue);
-				return;
-			case MetricsPackage.MAPPING_XLS__SHEET_NUMBER:
-				setSheetNumber((Integer)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<DataKind> getColumnDataKind() {
+		return (EList<DataKind>)eGet(MetricsPackage.Literals.MAPPING_XLS__COLUMN_DATA_KIND, true);
 	}
 
 	/**
@@ -413,26 +88,8 @@ public class MappingXLSImpl extends MappingImpl implements MappingXLS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_XLS__MAPPING_COLUMNS:
-				getMappingColumns().clear();
-				return;
-			case MetricsPackage.MAPPING_XLS__COLUMN_DATA_KIND:
-				getColumnDataKind().clear();
-				return;
-			case MetricsPackage.MAPPING_XLS__FIRST_DATA_ROW:
-				unsetFirstDataRow();
-				return;
-			case MetricsPackage.MAPPING_XLS__HEADER_ROW:
-				unsetHeaderRow();
-				return;
-			case MetricsPackage.MAPPING_XLS__SHEET_NUMBER:
-				unsetSheetNumber();
-				return;
-		}
-		super.eUnset(featureID);
+	public int getFirstDataRow() {
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW, true);
 	}
 
 	/**
@@ -440,21 +97,8 @@ public class MappingXLSImpl extends MappingImpl implements MappingXLS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_XLS__MAPPING_COLUMNS:
-				return mappingColumns != null && !mappingColumns.isEmpty();
-			case MetricsPackage.MAPPING_XLS__COLUMN_DATA_KIND:
-				return columnDataKind != null && !columnDataKind.isEmpty();
-			case MetricsPackage.MAPPING_XLS__FIRST_DATA_ROW:
-				return isSetFirstDataRow();
-			case MetricsPackage.MAPPING_XLS__HEADER_ROW:
-				return isSetHeaderRow();
-			case MetricsPackage.MAPPING_XLS__SHEET_NUMBER:
-				return isSetSheetNumber();
-		}
-		return super.eIsSet(featureID);
+	public void setFirstDataRow(int newFirstDataRow) {
+		eSet(MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW, newFirstDataRow);
 	}
 
 	/**
@@ -462,19 +106,89 @@ public class MappingXLSImpl extends MappingImpl implements MappingXLS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
+	public void unsetFirstDataRow() {
+		eUnset(MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW);
+	}
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (firstDataRow: ");
-		if (firstDataRowESet) result.append(firstDataRow); else result.append("<unset>");
-		result.append(", headerRow: ");
-		if (headerRowESet) result.append(headerRow); else result.append("<unset>");
-		result.append(", sheetNumber: ");
-		if (sheetNumberESet) result.append(sheetNumber); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetFirstDataRow() {
+		return eIsSet(MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getHeaderRow() {
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setHeaderRow(int newHeaderRow) {
+		eSet(MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW, newHeaderRow);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetHeaderRow() {
+		eUnset(MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetHeaderRow() {
+		return eIsSet(MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getSheetNumber() {
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSheetNumber(int newSheetNumber) {
+		eSet(MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER, newSheetNumber);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetSheetNumber() {
+		eUnset(MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetSheetNumber() {
+		return eIsSet(MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
 	}
 
 } //MappingXLSImpl

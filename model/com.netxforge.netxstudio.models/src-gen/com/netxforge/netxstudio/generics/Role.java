@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.generics;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,9 +34,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getRole()
  * @model extendedMetaData="name='Role' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface Role extends EObject {
+public interface Role extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

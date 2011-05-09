@@ -26,6 +26,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -141,7 +142,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateEquipmentRelationship(EquipmentRelationship equipmentRelationship, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(equipmentRelationship, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)equipmentRelationship, diagnostics, context);
 	}
 
 	/**
@@ -150,7 +151,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateExpansionExperience(ExpansionExperience expansionExperience, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(expansionExperience, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)expansionExperience, diagnostics, context);
 	}
 
 	/**
@@ -159,7 +160,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateFunctionRelationship(FunctionRelationship functionRelationship, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(functionRelationship, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)functionRelationship, diagnostics, context);
 	}
 
 	/**
@@ -168,7 +169,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateMarker(Marker marker, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(marker, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)marker, diagnostics, context);
 	}
 
 	/**
@@ -177,7 +178,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateNetwork(Network network, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(network, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)network, diagnostics, context);
 	}
 
 	/**
@@ -186,15 +187,15 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateNode(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(node, diagnostics, context)) return false;
-		boolean result = validate_EveryMultiplicityConforms(node, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(node, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(node, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(node, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(node, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(node, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(node, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(node, diagnostics, context);
+		if (!validate_NoCircularContainment((EObject)node, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms((EObject)node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms((EObject)node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained((EObject)node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired((EObject)node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves((EObject)node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID((EObject)node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique((EObject)node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique((EObject)node, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNode_ValidNodeID(node, diagnostics, context);
 		return result;
 	}
@@ -236,7 +237,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateOperator(Operator operator, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(operator, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)operator, diagnostics, context);
 	}
 
 	/**
@@ -245,7 +246,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateRelationship(Relationship relationship, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(relationship, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)relationship, diagnostics, context);
 	}
 
 	/**
@@ -254,7 +255,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateResourceExpansion(ResourceExpansion resourceExpansion, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(resourceExpansion, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)resourceExpansion, diagnostics, context);
 	}
 
 	/**
@@ -263,7 +264,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateResourceForecast(ResourceForecast resourceForecast, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(resourceForecast, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)resourceForecast, diagnostics, context);
 	}
 
 	/**
@@ -272,7 +273,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateResourceMonitor(ResourceMonitor resourceMonitor, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(resourceMonitor, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)resourceMonitor, diagnostics, context);
 	}
 
 	/**
@@ -281,7 +282,7 @@ public class OperatorsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateWarehouse(Warehouse warehouse, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(warehouse, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)warehouse, diagnostics, context);
 	}
 
 	/**

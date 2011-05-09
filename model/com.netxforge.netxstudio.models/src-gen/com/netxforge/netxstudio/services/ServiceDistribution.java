@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.services;
 
-import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.NetXResource;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.NetXResource;
 
 /**
  * <!-- begin-user-doc -->
@@ -57,9 +56,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceDistribution()
  * @model extendedMetaData="name='ServiceDistribution' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface ServiceDistribution extends EObject {
+public interface ServiceDistribution extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Service Resources</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.NetXResource}.

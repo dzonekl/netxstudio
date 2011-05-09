@@ -18,22 +18,15 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
-
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceExpansion;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -50,37 +43,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *
  * @generated
  */
-public class ResourceExpansionImpl extends EObjectImpl implements ResourceExpansion {
-	/**
-	 * The cached value of the '{@link #getNodeRefs() <em>Node Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getNodeRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Node> nodeRefs;
-
-	/**
-	 * The cached value of the '{@link #getEquipmentRefs() <em>Equipment Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEquipmentRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Equipment> equipmentRefs;
-
-	/**
-	 * The cached value of the '{@link #getFunctionRefs() <em>Function Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFunctionRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Function> functionRefs;
-
+public class ResourceExpansionImpl extends CDOObjectImpl implements ResourceExpansion {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -105,53 +68,9 @@ public class ResourceExpansionImpl extends EObjectImpl implements ResourceExpans
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Node> getNodeRefs() {
-		if (nodeRefs == null) {
-			nodeRefs = new EObjectResolvingEList<Node>(Node.class, this, OperatorsPackage.RESOURCE_EXPANSION__NODE_REFS);
-		}
-		return nodeRefs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Equipment> getEquipmentRefs() {
-		if (equipmentRefs == null) {
-			equipmentRefs = new EObjectResolvingEList<Equipment>(Equipment.class, this, OperatorsPackage.RESOURCE_EXPANSION__EQUIPMENT_REFS);
-		}
-		return equipmentRefs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Function> getFunctionRefs() {
-		if (functionRefs == null) {
-			functionRefs = new EObjectResolvingEList<Function>(Function.class, this, OperatorsPackage.RESOURCE_EXPANSION__FUNCTION_REFS);
-		}
-		return functionRefs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case OperatorsPackage.RESOURCE_EXPANSION__NODE_REFS:
-				return getNodeRefs();
-			case OperatorsPackage.RESOURCE_EXPANSION__EQUIPMENT_REFS:
-				return getEquipmentRefs();
-			case OperatorsPackage.RESOURCE_EXPANSION__FUNCTION_REFS:
-				return getFunctionRefs();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -160,23 +79,8 @@ public class ResourceExpansionImpl extends EObjectImpl implements ResourceExpans
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case OperatorsPackage.RESOURCE_EXPANSION__NODE_REFS:
-				getNodeRefs().clear();
-				getNodeRefs().addAll((Collection<? extends Node>)newValue);
-				return;
-			case OperatorsPackage.RESOURCE_EXPANSION__EQUIPMENT_REFS:
-				getEquipmentRefs().clear();
-				getEquipmentRefs().addAll((Collection<? extends Equipment>)newValue);
-				return;
-			case OperatorsPackage.RESOURCE_EXPANSION__FUNCTION_REFS:
-				getFunctionRefs().clear();
-				getFunctionRefs().addAll((Collection<? extends Function>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<Node> getNodeRefs() {
+		return (EList<Node>)eGet(OperatorsPackage.Literals.RESOURCE_EXPANSION__NODE_REFS, true);
 	}
 
 	/**
@@ -184,20 +88,9 @@ public class ResourceExpansionImpl extends EObjectImpl implements ResourceExpans
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case OperatorsPackage.RESOURCE_EXPANSION__NODE_REFS:
-				getNodeRefs().clear();
-				return;
-			case OperatorsPackage.RESOURCE_EXPANSION__EQUIPMENT_REFS:
-				getEquipmentRefs().clear();
-				return;
-			case OperatorsPackage.RESOURCE_EXPANSION__FUNCTION_REFS:
-				getFunctionRefs().clear();
-				return;
-		}
-		super.eUnset(featureID);
+	@SuppressWarnings("unchecked")
+	public EList<Equipment> getEquipmentRefs() {
+		return (EList<Equipment>)eGet(OperatorsPackage.Literals.RESOURCE_EXPANSION__EQUIPMENT_REFS, true);
 	}
 
 	/**
@@ -205,17 +98,9 @@ public class ResourceExpansionImpl extends EObjectImpl implements ResourceExpans
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case OperatorsPackage.RESOURCE_EXPANSION__NODE_REFS:
-				return nodeRefs != null && !nodeRefs.isEmpty();
-			case OperatorsPackage.RESOURCE_EXPANSION__EQUIPMENT_REFS:
-				return equipmentRefs != null && !equipmentRefs.isEmpty();
-			case OperatorsPackage.RESOURCE_EXPANSION__FUNCTION_REFS:
-				return functionRefs != null && !functionRefs.isEmpty();
-		}
-		return super.eIsSet(featureID);
+	@SuppressWarnings("unchecked")
+	public EList<Function> getFunctionRefs() {
+		return (EList<Function>)eGet(OperatorsPackage.Literals.RESOURCE_EXPANSION__FUNCTION_REFS, true);
 	}
 
 } //ResourceExpansionImpl

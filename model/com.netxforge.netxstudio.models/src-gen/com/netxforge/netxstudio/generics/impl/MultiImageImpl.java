@@ -18,15 +18,11 @@
  */
 package com.netxforge.netxstudio.generics.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.MultiImage;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,107 +41,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class MultiImageImpl extends EObjectImpl implements MultiImage {
-	/**
-	 * The default value of the '{@link #getObj16() <em>Obj16</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObj16()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String OBJ16_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getObj16() <em>Obj16</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObj16()
-	 * @generated
-	 * @ordered
-	 */
-	protected String obj16 = OBJ16_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getObj32() <em>Obj32</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObj32()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String OBJ32_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getObj32() <em>Obj32</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObj32()
-	 * @generated
-	 * @ordered
-	 */
-	protected String obj32 = OBJ32_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getObj48() <em>Obj48</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObj48()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String OBJ48_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getObj48() <em>Obj48</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObj48()
-	 * @generated
-	 * @ordered
-	 */
-	protected String obj48 = OBJ48_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getObj96() <em>Obj96</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObj96()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String OBJ96_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getObj96() <em>Obj96</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObj96()
-	 * @generated
-	 * @ordered
-	 */
-	protected String obj96 = OBJ96_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getObj128() <em>Obj128</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObj128()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String OBJ128_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getObj128() <em>Obj128</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObj128()
-	 * @generated
-	 * @ordered
-	 */
-	protected String obj128 = OBJ128_EDEFAULT;
-
+public class MultiImageImpl extends CDOObjectImpl implements MultiImage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -170,8 +66,18 @@ public class MultiImageImpl extends EObjectImpl implements MultiImage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getObj16() {
-		return obj16;
+		return (String)eGet(GenericsPackage.Literals.MULTI_IMAGE__OBJ16, true);
 	}
 
 	/**
@@ -180,10 +86,7 @@ public class MultiImageImpl extends EObjectImpl implements MultiImage {
 	 * @generated
 	 */
 	public void setObj16(String newObj16) {
-		String oldObj16 = obj16;
-		obj16 = newObj16;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GenericsPackage.MULTI_IMAGE__OBJ16, oldObj16, obj16));
+		eSet(GenericsPackage.Literals.MULTI_IMAGE__OBJ16, newObj16);
 	}
 
 	/**
@@ -192,7 +95,7 @@ public class MultiImageImpl extends EObjectImpl implements MultiImage {
 	 * @generated
 	 */
 	public String getObj32() {
-		return obj32;
+		return (String)eGet(GenericsPackage.Literals.MULTI_IMAGE__OBJ32, true);
 	}
 
 	/**
@@ -201,10 +104,7 @@ public class MultiImageImpl extends EObjectImpl implements MultiImage {
 	 * @generated
 	 */
 	public void setObj32(String newObj32) {
-		String oldObj32 = obj32;
-		obj32 = newObj32;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GenericsPackage.MULTI_IMAGE__OBJ32, oldObj32, obj32));
+		eSet(GenericsPackage.Literals.MULTI_IMAGE__OBJ32, newObj32);
 	}
 
 	/**
@@ -213,7 +113,7 @@ public class MultiImageImpl extends EObjectImpl implements MultiImage {
 	 * @generated
 	 */
 	public String getObj48() {
-		return obj48;
+		return (String)eGet(GenericsPackage.Literals.MULTI_IMAGE__OBJ48, true);
 	}
 
 	/**
@@ -222,10 +122,7 @@ public class MultiImageImpl extends EObjectImpl implements MultiImage {
 	 * @generated
 	 */
 	public void setObj48(String newObj48) {
-		String oldObj48 = obj48;
-		obj48 = newObj48;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GenericsPackage.MULTI_IMAGE__OBJ48, oldObj48, obj48));
+		eSet(GenericsPackage.Literals.MULTI_IMAGE__OBJ48, newObj48);
 	}
 
 	/**
@@ -234,7 +131,7 @@ public class MultiImageImpl extends EObjectImpl implements MultiImage {
 	 * @generated
 	 */
 	public String getObj96() {
-		return obj96;
+		return (String)eGet(GenericsPackage.Literals.MULTI_IMAGE__OBJ96, true);
 	}
 
 	/**
@@ -243,10 +140,7 @@ public class MultiImageImpl extends EObjectImpl implements MultiImage {
 	 * @generated
 	 */
 	public void setObj96(String newObj96) {
-		String oldObj96 = obj96;
-		obj96 = newObj96;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GenericsPackage.MULTI_IMAGE__OBJ96, oldObj96, obj96));
+		eSet(GenericsPackage.Literals.MULTI_IMAGE__OBJ96, newObj96);
 	}
 
 	/**
@@ -255,7 +149,7 @@ public class MultiImageImpl extends EObjectImpl implements MultiImage {
 	 * @generated
 	 */
 	public String getObj128() {
-		return obj128;
+		return (String)eGet(GenericsPackage.Literals.MULTI_IMAGE__OBJ128, true);
 	}
 
 	/**
@@ -264,132 +158,7 @@ public class MultiImageImpl extends EObjectImpl implements MultiImage {
 	 * @generated
 	 */
 	public void setObj128(String newObj128) {
-		String oldObj128 = obj128;
-		obj128 = newObj128;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GenericsPackage.MULTI_IMAGE__OBJ128, oldObj128, obj128));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case GenericsPackage.MULTI_IMAGE__OBJ16:
-				return getObj16();
-			case GenericsPackage.MULTI_IMAGE__OBJ32:
-				return getObj32();
-			case GenericsPackage.MULTI_IMAGE__OBJ48:
-				return getObj48();
-			case GenericsPackage.MULTI_IMAGE__OBJ96:
-				return getObj96();
-			case GenericsPackage.MULTI_IMAGE__OBJ128:
-				return getObj128();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case GenericsPackage.MULTI_IMAGE__OBJ16:
-				setObj16((String)newValue);
-				return;
-			case GenericsPackage.MULTI_IMAGE__OBJ32:
-				setObj32((String)newValue);
-				return;
-			case GenericsPackage.MULTI_IMAGE__OBJ48:
-				setObj48((String)newValue);
-				return;
-			case GenericsPackage.MULTI_IMAGE__OBJ96:
-				setObj96((String)newValue);
-				return;
-			case GenericsPackage.MULTI_IMAGE__OBJ128:
-				setObj128((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case GenericsPackage.MULTI_IMAGE__OBJ16:
-				setObj16(OBJ16_EDEFAULT);
-				return;
-			case GenericsPackage.MULTI_IMAGE__OBJ32:
-				setObj32(OBJ32_EDEFAULT);
-				return;
-			case GenericsPackage.MULTI_IMAGE__OBJ48:
-				setObj48(OBJ48_EDEFAULT);
-				return;
-			case GenericsPackage.MULTI_IMAGE__OBJ96:
-				setObj96(OBJ96_EDEFAULT);
-				return;
-			case GenericsPackage.MULTI_IMAGE__OBJ128:
-				setObj128(OBJ128_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case GenericsPackage.MULTI_IMAGE__OBJ16:
-				return OBJ16_EDEFAULT == null ? obj16 != null : !OBJ16_EDEFAULT.equals(obj16);
-			case GenericsPackage.MULTI_IMAGE__OBJ32:
-				return OBJ32_EDEFAULT == null ? obj32 != null : !OBJ32_EDEFAULT.equals(obj32);
-			case GenericsPackage.MULTI_IMAGE__OBJ48:
-				return OBJ48_EDEFAULT == null ? obj48 != null : !OBJ48_EDEFAULT.equals(obj48);
-			case GenericsPackage.MULTI_IMAGE__OBJ96:
-				return OBJ96_EDEFAULT == null ? obj96 != null : !OBJ96_EDEFAULT.equals(obj96);
-			case GenericsPackage.MULTI_IMAGE__OBJ128:
-				return OBJ128_EDEFAULT == null ? obj128 != null : !OBJ128_EDEFAULT.equals(obj128);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (obj16: ");
-		result.append(obj16);
-		result.append(", obj32: ");
-		result.append(obj32);
-		result.append(", obj48: ");
-		result.append(obj48);
-		result.append(", obj96: ");
-		result.append(obj96);
-		result.append(", obj128: ");
-		result.append(obj128);
-		result.append(')');
-		return result.toString();
+		eSet(GenericsPackage.Literals.MULTI_IMAGE__OBJ128, newObj128);
 	}
 
 } //MultiImageImpl

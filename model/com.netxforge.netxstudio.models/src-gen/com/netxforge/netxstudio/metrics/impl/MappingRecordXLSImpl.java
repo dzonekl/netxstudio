@@ -18,14 +18,10 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
-import com.netxforge.netxstudio.metrics.MappingRecordXLS;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
-
-import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import com.netxforge.netxstudio.metrics.MappingRecordXLS;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,64 +38,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class MappingRecordXLSImpl extends MappingRecordImpl implements MappingRecordXLS {
-	/**
-	 * The default value of the '{@link #getColumn() <em>Column</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getColumn()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int COLUMN_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getColumn() <em>Column</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getColumn()
-	 * @generated
-	 * @ordered
-	 */
-	protected int column = COLUMN_EDEFAULT;
-
-	/**
-	 * This is true if the Column attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean columnESet;
-
-	/**
-	 * The default value of the '{@link #getRow() <em>Row</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRow()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int ROW_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getRow() <em>Row</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRow()
-	 * @generated
-	 * @ordered
-	 */
-	protected int row = ROW_EDEFAULT;
-
-	/**
-	 * This is true if the Row attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean rowESet;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -125,7 +63,7 @@ public class MappingRecordXLSImpl extends MappingRecordImpl implements MappingRe
 	 * @generated
 	 */
 	public int getColumn() {
-		return column;
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING_RECORD_XLS__COLUMN, true);
 	}
 
 	/**
@@ -134,12 +72,7 @@ public class MappingRecordXLSImpl extends MappingRecordImpl implements MappingRe
 	 * @generated
 	 */
 	public void setColumn(int newColumn) {
-		int oldColumn = column;
-		column = newColumn;
-		boolean oldColumnESet = columnESet;
-		columnESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.MAPPING_RECORD_XLS__COLUMN, oldColumn, column, !oldColumnESet));
+		eSet(MetricsPackage.Literals.MAPPING_RECORD_XLS__COLUMN, newColumn);
 	}
 
 	/**
@@ -148,12 +81,7 @@ public class MappingRecordXLSImpl extends MappingRecordImpl implements MappingRe
 	 * @generated
 	 */
 	public void unsetColumn() {
-		int oldColumn = column;
-		boolean oldColumnESet = columnESet;
-		column = COLUMN_EDEFAULT;
-		columnESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, MetricsPackage.MAPPING_RECORD_XLS__COLUMN, oldColumn, COLUMN_EDEFAULT, oldColumnESet));
+		eUnset(MetricsPackage.Literals.MAPPING_RECORD_XLS__COLUMN);
 	}
 
 	/**
@@ -162,7 +90,7 @@ public class MappingRecordXLSImpl extends MappingRecordImpl implements MappingRe
 	 * @generated
 	 */
 	public boolean isSetColumn() {
-		return columnESet;
+		return eIsSet(MetricsPackage.Literals.MAPPING_RECORD_XLS__COLUMN);
 	}
 
 	/**
@@ -171,7 +99,7 @@ public class MappingRecordXLSImpl extends MappingRecordImpl implements MappingRe
 	 * @generated
 	 */
 	public int getRow() {
-		return row;
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING_RECORD_XLS__ROW, true);
 	}
 
 	/**
@@ -180,12 +108,7 @@ public class MappingRecordXLSImpl extends MappingRecordImpl implements MappingRe
 	 * @generated
 	 */
 	public void setRow(int newRow) {
-		int oldRow = row;
-		row = newRow;
-		boolean oldRowESet = rowESet;
-		rowESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.MAPPING_RECORD_XLS__ROW, oldRow, row, !oldRowESet));
+		eSet(MetricsPackage.Literals.MAPPING_RECORD_XLS__ROW, newRow);
 	}
 
 	/**
@@ -194,12 +117,7 @@ public class MappingRecordXLSImpl extends MappingRecordImpl implements MappingRe
 	 * @generated
 	 */
 	public void unsetRow() {
-		int oldRow = row;
-		boolean oldRowESet = rowESet;
-		row = ROW_EDEFAULT;
-		rowESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, MetricsPackage.MAPPING_RECORD_XLS__ROW, oldRow, ROW_EDEFAULT, oldRowESet));
+		eUnset(MetricsPackage.Literals.MAPPING_RECORD_XLS__ROW);
 	}
 
 	/**
@@ -208,93 +126,7 @@ public class MappingRecordXLSImpl extends MappingRecordImpl implements MappingRe
 	 * @generated
 	 */
 	public boolean isSetRow() {
-		return rowESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_RECORD_XLS__COLUMN:
-				return getColumn();
-			case MetricsPackage.MAPPING_RECORD_XLS__ROW:
-				return getRow();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_RECORD_XLS__COLUMN:
-				setColumn((Integer)newValue);
-				return;
-			case MetricsPackage.MAPPING_RECORD_XLS__ROW:
-				setRow((Integer)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_RECORD_XLS__COLUMN:
-				unsetColumn();
-				return;
-			case MetricsPackage.MAPPING_RECORD_XLS__ROW:
-				unsetRow();
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_RECORD_XLS__COLUMN:
-				return isSetColumn();
-			case MetricsPackage.MAPPING_RECORD_XLS__ROW:
-				return isSetRow();
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (column: ");
-		if (columnESet) result.append(column); else result.append("<unset>");
-		result.append(", row: ");
-		if (rowESet) result.append(row); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
+		return eIsSet(MetricsPackage.Literals.MAPPING_RECORD_XLS__ROW);
 	}
 
 } //MappingRecordXLSImpl

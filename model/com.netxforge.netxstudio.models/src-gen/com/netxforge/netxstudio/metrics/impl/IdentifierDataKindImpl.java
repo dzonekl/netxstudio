@@ -18,15 +18,11 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import org.eclipse.emf.ecore.EClass;
+
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ObjectNameType;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -43,55 +39,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDataKind {
-	/**
-	 * The default value of the '{@link #getObjectAttribute() <em>Object Attribute</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObjectAttribute()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String OBJECT_ATTRIBUTE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getObjectAttribute() <em>Object Attribute</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObjectAttribute()
-	 * @generated
-	 * @ordered
-	 */
-	protected String objectAttribute = OBJECT_ATTRIBUTE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getObjectName() <em>Object Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObjectName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final ObjectNameType OBJECT_NAME_EDEFAULT = ObjectNameType.NODE;
-
-	/**
-	 * The cached value of the '{@link #getObjectName() <em>Object Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getObjectName()
-	 * @generated
-	 * @ordered
-	 */
-	protected ObjectNameType objectName = OBJECT_NAME_EDEFAULT;
-
-	/**
-	 * This is true if the Object Name attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean objectNameESet;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -117,7 +64,7 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * @generated
 	 */
 	public String getObjectAttribute() {
-		return objectAttribute;
+		return (String)eGet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE, true);
 	}
 
 	/**
@@ -126,10 +73,7 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * @generated
 	 */
 	public void setObjectAttribute(String newObjectAttribute) {
-		String oldObjectAttribute = objectAttribute;
-		objectAttribute = newObjectAttribute;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE, oldObjectAttribute, objectAttribute));
+		eSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE, newObjectAttribute);
 	}
 
 	/**
@@ -138,7 +82,7 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * @generated
 	 */
 	public ObjectNameType getObjectName() {
-		return objectName;
+		return (ObjectNameType)eGet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_NAME, true);
 	}
 
 	/**
@@ -147,12 +91,7 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * @generated
 	 */
 	public void setObjectName(ObjectNameType newObjectName) {
-		ObjectNameType oldObjectName = objectName;
-		objectName = newObjectName == null ? OBJECT_NAME_EDEFAULT : newObjectName;
-		boolean oldObjectNameESet = objectNameESet;
-		objectNameESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_NAME, oldObjectName, objectName, !oldObjectNameESet));
+		eSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_NAME, newObjectName);
 	}
 
 	/**
@@ -161,12 +100,7 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * @generated
 	 */
 	public void unsetObjectName() {
-		ObjectNameType oldObjectName = objectName;
-		boolean oldObjectNameESet = objectNameESet;
-		objectName = OBJECT_NAME_EDEFAULT;
-		objectNameESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_NAME, oldObjectName, OBJECT_NAME_EDEFAULT, oldObjectNameESet));
+		eUnset(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_NAME);
 	}
 
 	/**
@@ -175,93 +109,7 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * @generated
 	 */
 	public boolean isSetObjectName() {
-		return objectNameESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE:
-				return getObjectAttribute();
-			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_NAME:
-				return getObjectName();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE:
-				setObjectAttribute((String)newValue);
-				return;
-			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_NAME:
-				setObjectName((ObjectNameType)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE:
-				setObjectAttribute(OBJECT_ATTRIBUTE_EDEFAULT);
-				return;
-			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_NAME:
-				unsetObjectName();
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE:
-				return OBJECT_ATTRIBUTE_EDEFAULT == null ? objectAttribute != null : !OBJECT_ATTRIBUTE_EDEFAULT.equals(objectAttribute);
-			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_NAME:
-				return isSetObjectName();
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (objectAttribute: ");
-		result.append(objectAttribute);
-		result.append(", objectName: ");
-		if (objectNameESet) result.append(objectName); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
+		return eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_NAME);
 	}
 
 } //IdentifierDataKindImpl

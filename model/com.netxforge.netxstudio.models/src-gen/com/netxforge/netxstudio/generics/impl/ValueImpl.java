@@ -18,17 +18,13 @@
  */
 package com.netxforge.netxstudio.generics.impl;
 
-import com.netxforge.netxstudio.generics.GenericsPackage;
-import com.netxforge.netxstudio.generics.Value;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Value;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,56 +40,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class ValueImpl extends EObjectImpl implements Value {
-	/**
-	 * The default value of the '{@link #getTimeStamp() <em>Time Stamp</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTimeStamp()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final XMLGregorianCalendar TIME_STAMP_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTimeStamp() <em>Time Stamp</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTimeStamp()
-	 * @generated
-	 * @ordered
-	 */
-	protected XMLGregorianCalendar timeStamp = TIME_STAMP_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double VALUE_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected double value = VALUE_EDEFAULT;
-
-	/**
-	 * This is true if the Value attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean valueESet;
-
+public class ValueImpl extends CDOObjectImpl implements Value {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -118,8 +65,18 @@ public class ValueImpl extends EObjectImpl implements Value {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public XMLGregorianCalendar getTimeStamp() {
-		return timeStamp;
+		return (XMLGregorianCalendar)eGet(GenericsPackage.Literals.VALUE__TIME_STAMP, true);
 	}
 
 	/**
@@ -128,10 +85,7 @@ public class ValueImpl extends EObjectImpl implements Value {
 	 * @generated
 	 */
 	public void setTimeStamp(XMLGregorianCalendar newTimeStamp) {
-		XMLGregorianCalendar oldTimeStamp = timeStamp;
-		timeStamp = newTimeStamp;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GenericsPackage.VALUE__TIME_STAMP, oldTimeStamp, timeStamp));
+		eSet(GenericsPackage.Literals.VALUE__TIME_STAMP, newTimeStamp);
 	}
 
 	/**
@@ -140,7 +94,7 @@ public class ValueImpl extends EObjectImpl implements Value {
 	 * @generated
 	 */
 	public double getValue() {
-		return value;
+		return (Double)eGet(GenericsPackage.Literals.VALUE__VALUE, true);
 	}
 
 	/**
@@ -149,12 +103,7 @@ public class ValueImpl extends EObjectImpl implements Value {
 	 * @generated
 	 */
 	public void setValue(double newValue) {
-		double oldValue = value;
-		value = newValue;
-		boolean oldValueESet = valueESet;
-		valueESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GenericsPackage.VALUE__VALUE, oldValue, value, !oldValueESet));
+		eSet(GenericsPackage.Literals.VALUE__VALUE, newValue);
 	}
 
 	/**
@@ -163,12 +112,7 @@ public class ValueImpl extends EObjectImpl implements Value {
 	 * @generated
 	 */
 	public void unsetValue() {
-		double oldValue = value;
-		boolean oldValueESet = valueESet;
-		value = VALUE_EDEFAULT;
-		valueESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, GenericsPackage.VALUE__VALUE, oldValue, VALUE_EDEFAULT, oldValueESet));
+		eUnset(GenericsPackage.Literals.VALUE__VALUE);
 	}
 
 	/**
@@ -177,93 +121,7 @@ public class ValueImpl extends EObjectImpl implements Value {
 	 * @generated
 	 */
 	public boolean isSetValue() {
-		return valueESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case GenericsPackage.VALUE__TIME_STAMP:
-				return getTimeStamp();
-			case GenericsPackage.VALUE__VALUE:
-				return getValue();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case GenericsPackage.VALUE__TIME_STAMP:
-				setTimeStamp((XMLGregorianCalendar)newValue);
-				return;
-			case GenericsPackage.VALUE__VALUE:
-				setValue((Double)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case GenericsPackage.VALUE__TIME_STAMP:
-				setTimeStamp(TIME_STAMP_EDEFAULT);
-				return;
-			case GenericsPackage.VALUE__VALUE:
-				unsetValue();
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case GenericsPackage.VALUE__TIME_STAMP:
-				return TIME_STAMP_EDEFAULT == null ? timeStamp != null : !TIME_STAMP_EDEFAULT.equals(timeStamp);
-			case GenericsPackage.VALUE__VALUE:
-				return isSetValue();
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (timeStamp: ");
-		result.append(timeStamp);
-		result.append(", value: ");
-		if (valueESet) result.append(value); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
+		return eIsSet(GenericsPackage.Literals.VALUE__VALUE);
 	}
 
 } //ValueImpl

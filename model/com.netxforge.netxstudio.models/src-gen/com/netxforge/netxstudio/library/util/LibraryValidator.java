@@ -26,6 +26,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -112,8 +113,6 @@ public class LibraryValidator extends EObjectValidator {
 				return validateFunction((Function)value, diagnostics, context);
 			case LibraryPackage.LIBRARY:
 				return validateLibrary((Library)value, diagnostics, context);
-			case LibraryPackage.META:
-				return validateMeta((Meta)value, diagnostics, context);
 			case LibraryPackage.NET_XRESOURCE:
 				return validateNetXResource((NetXResource)value, diagnostics, context);
 			case LibraryPackage.NODE_TYPE:
@@ -151,7 +150,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateEquipment(Equipment equipment, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(equipment, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)equipment, diagnostics, context);
 	}
 
 	/**
@@ -160,7 +159,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateEquipmentGroup(EquipmentGroup equipmentGroup, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(equipmentGroup, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)equipmentGroup, diagnostics, context);
 	}
 
 	/**
@@ -169,7 +168,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateExpression(Expression expression, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(expression, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)expression, diagnostics, context);
 	}
 
 	/**
@@ -178,15 +177,15 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateFunction(Function function, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(function, diagnostics, context)) return false;
-		boolean result = validate_EveryMultiplicityConforms(function, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(function, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(function, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(function, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(function, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(function, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(function, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(function, diagnostics, context);
+		if (!validate_NoCircularContainment((EObject)function, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms((EObject)function, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms((EObject)function, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained((EObject)function, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired((EObject)function, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves((EObject)function, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID((EObject)function, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique((EObject)function, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique((EObject)function, diagnostics, context);
 		if (result || diagnostics != null) result &= validateFunction_ValidFunctionName(function, diagnostics, context);
 		return result;
 	}
@@ -228,16 +227,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateLibrary(Library library, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(library, diagnostics, context);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateMeta(Meta meta, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(meta, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)library, diagnostics, context);
 	}
 
 	/**
@@ -246,7 +236,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateNetXResource(NetXResource netXResource, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(netXResource, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)netXResource, diagnostics, context);
 	}
 
 	/**
@@ -255,15 +245,15 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateNodeType(NodeType nodeType, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(nodeType, diagnostics, context)) return false;
-		boolean result = validate_EveryMultiplicityConforms(nodeType, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(nodeType, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(nodeType, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(nodeType, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(nodeType, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(nodeType, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(nodeType, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(nodeType, diagnostics, context);
+		if (!validate_NoCircularContainment((EObject)nodeType, diagnostics, context)) return false;
+		boolean result = validate_EveryMultiplicityConforms((EObject)nodeType, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms((EObject)nodeType, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained((EObject)nodeType, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired((EObject)nodeType, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves((EObject)nodeType, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID((EObject)nodeType, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique((EObject)nodeType, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique((EObject)nodeType, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNodeType_ValidNodeID(nodeType, diagnostics, context);
 		return result;
 	}
@@ -305,7 +295,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateParameter(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(parameter, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)parameter, diagnostics, context);
 	}
 
 	/**
@@ -314,7 +304,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateProductInfo(ProductInfo productInfo, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(productInfo, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)productInfo, diagnostics, context);
 	}
 
 	/**
@@ -323,7 +313,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateTolerance(Tolerance tolerance, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(tolerance, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)tolerance, diagnostics, context);
 	}
 
 	/**
@@ -332,7 +322,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateUnit(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(unit, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)unit, diagnostics, context);
 	}
 
 	/**
@@ -341,7 +331,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateVendor(Vendor vendor, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(vendor, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)vendor, diagnostics, context);
 	}
 
 	/**

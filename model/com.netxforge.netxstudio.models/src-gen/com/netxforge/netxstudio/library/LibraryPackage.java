@@ -18,14 +18,14 @@
  */
 package com.netxforge.netxstudio.library;
 
-import com.netxforge.netxstudio.generics.GenericsPackage;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
+import com.netxforge.netxstudio.generics.GenericsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -784,52 +784,6 @@ public interface LibraryPackage extends EPackage {
 	int LIBRARY_FEATURE_COUNT = 11;
 
 	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.MetaImpl <em>Meta</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.library.impl.MetaImpl
-	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getMeta()
-	 * @generated
-	 */
-	int META = 5;
-
-	/**
-	 * The feature id for the '<em><b>Author</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int META__AUTHOR = 0;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int META__DESCRIPTION = 1;
-
-	/**
-	 * The feature id for the '<em><b>Version</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int META__VERSION = 2;
-
-	/**
-	 * The number of structural features of the '<em>Meta</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int META_FEATURE_COUNT = 3;
-
-	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl <em>Net XResource</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -837,7 +791,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getNetXResource()
 	 * @generated
 	 */
-	int NET_XRESOURCE = 6;
+	int NET_XRESOURCE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Metric Value Ranges</b></em>' containment reference list.
@@ -955,7 +909,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getNodeType()
 	 * @generated
 	 */
-	int NODE_TYPE = 7;
+	int NODE_TYPE = 6;
 
 	/**
 	 * The feature id for the '<em><b>Functions</b></em>' containment reference list.
@@ -992,7 +946,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getParameter()
 	 * @generated
 	 */
-	int PARAMETER = 8;
+	int PARAMETER = 7;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1056,7 +1010,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getProductInfo()
 	 * @generated
 	 */
-	int PRODUCT_INFO = 9;
+	int PRODUCT_INFO = 8;
 
 	/**
 	 * The feature id for the '<em><b>Equipment Ref</b></em>' reference list.
@@ -1156,7 +1110,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getTolerance()
 	 * @generated
 	 */
-	int TOLERANCE = 10;
+	int TOLERANCE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Expression</b></em>' attribute.
@@ -1202,7 +1156,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getUnit()
 	 * @generated
 	 */
-	int UNIT = 11;
+	int UNIT = 10;
 
 	/**
 	 * The feature id for the '<em><b>Icons</b></em>' containment reference.
@@ -1257,7 +1211,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getVendor()
 	 * @generated
 	 */
-	int VENDOR = 12;
+	int VENDOR = 11;
 
 	/**
 	 * The feature id for the '<em><b>Icons</b></em>' containment reference.
@@ -1339,7 +1293,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelType()
 	 * @generated
 	 */
-	int LEVEL_TYPE = 13;
+	int LEVEL_TYPE = 12;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.RedundancyType <em>Redundancy Type</em>}' enum.
@@ -1349,7 +1303,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRedundancyType()
 	 * @generated
 	 */
-	int REDUNDANCY_TYPE = 14;
+	int REDUNDANCY_TYPE = 13;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.StateType <em>State Type</em>}' enum.
@@ -1359,7 +1313,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getStateType()
 	 * @generated
 	 */
-	int STATE_TYPE = 15;
+	int STATE_TYPE = 14;
 
 	/**
 	 * The meta object id for the '<em>Level Type Object</em>' data type.
@@ -1369,7 +1323,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelTypeObject()
 	 * @generated
 	 */
-	int LEVEL_TYPE_OBJECT = 16;
+	int LEVEL_TYPE_OBJECT = 15;
 
 	/**
 	 * The meta object id for the '<em>Redundancy Type Object</em>' data type.
@@ -1379,7 +1333,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRedundancyTypeObject()
 	 * @generated
 	 */
-	int REDUNDANCY_TYPE_OBJECT = 17;
+	int REDUNDANCY_TYPE_OBJECT = 16;
 
 	/**
 	 * The meta object id for the '<em>State Type Object</em>' data type.
@@ -1389,7 +1343,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getStateTypeObject()
 	 * @generated
 	 */
-	int STATE_TYPE_OBJECT = 18;
+	int STATE_TYPE_OBJECT = 17;
 
 
 	/**
@@ -2123,49 +2077,6 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getLibrary_Name();
-
-	/**
-	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.Meta <em>Meta</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Meta</em>'.
-	 * @see com.netxforge.netxstudio.library.Meta
-	 * @generated
-	 */
-	EClass getMeta();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Meta#getAuthor <em>Author</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Author</em>'.
-	 * @see com.netxforge.netxstudio.library.Meta#getAuthor()
-	 * @see #getMeta()
-	 * @generated
-	 */
-	EAttribute getMeta_Author();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Meta#getDescription <em>Description</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Description</em>'.
-	 * @see com.netxforge.netxstudio.library.Meta#getDescription()
-	 * @see #getMeta()
-	 * @generated
-	 */
-	EAttribute getMeta_Description();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Meta#getVersion <em>Version</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Version</em>'.
-	 * @see com.netxforge.netxstudio.library.Meta#getVersion()
-	 * @see #getMeta()
-	 * @generated
-	 */
-	EAttribute getMeta_Version();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.NetXResource <em>Net XResource</em>}'.
@@ -3255,40 +3166,6 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LIBRARY__NAME = eINSTANCE.getLibrary_Name();
-
-		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.MetaImpl <em>Meta</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.library.impl.MetaImpl
-		 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getMeta()
-		 * @generated
-		 */
-		EClass META = eINSTANCE.getMeta();
-
-		/**
-		 * The meta object literal for the '<em><b>Author</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute META__AUTHOR = eINSTANCE.getMeta_Author();
-
-		/**
-		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute META__DESCRIPTION = eINSTANCE.getMeta_Description();
-
-		/**
-		 * The meta object literal for the '<em><b>Version</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute META__VERSION = eINSTANCE.getMeta_Version();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl <em>Net XResource</em>}' class.

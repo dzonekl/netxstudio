@@ -18,33 +18,17 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
-import com.netxforge.netxstudio.generics.DiagramInfo;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Parameter;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -68,127 +52,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
-	/**
-	 * The cached value of the '{@link #getDiagrams() <em>Diagrams</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDiagrams()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<DiagramInfo> diagrams;
-
-	/**
-	 * The cached value of the '{@link #getEquipmentGroupResources() <em>Equipment Group Resources</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEquipmentGroupResources()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<NetXResource> equipmentGroupResources;
-
-	/**
-	 * The cached value of the '{@link #getExpressionRefs() <em>Expression Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExpressionRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Expression> expressionRefs;
-
-	/**
-	 * The cached value of the '{@link #getEquipmentRefs() <em>Equipment Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEquipmentRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Equipment> equipmentRefs;
-
-	/**
-	 * The cached value of the '{@link #getParameterRefs() <em>Parameter Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getParameterRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Parameter> parameterRefs;
-
-	/**
-	 * The cached setting delegate for the '{@link #getAllEquipmentResources() <em>All Equipment Resources</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAllEquipmentResources()
-	 * @generated
-	 * @ordered
-	 */
-	protected EStructuralFeature.Internal.SettingDelegate ALL_EQUIPMENT_RESOURCES__ESETTING_DELEGATE = ((EStructuralFeature.Internal)LibraryPackage.Literals.EQUIPMENT_GROUP__ALL_EQUIPMENT_RESOURCES).getSettingDelegate();
-
-	/**
-	 * The cached setting delegate for the '{@link #getAllEquipments() <em>All Equipments</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAllEquipments()
-	 * @generated
-	 * @ordered
-	 */
-	protected EStructuralFeature.Internal.SettingDelegate ALL_EQUIPMENTS__ESETTING_DELEGATE = ((EStructuralFeature.Internal)LibraryPackage.Literals.EQUIPMENT_GROUP__ALL_EQUIPMENTS).getSettingDelegate();
-
-	/**
-	 * The cached setting delegate for the '{@link #getCount() <em>Count</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCount()
-	 * @generated
-	 * @ordered
-	 */
-	protected EStructuralFeature.Internal.SettingDelegate COUNT__ESETTING_DELEGATE = ((EStructuralFeature.Internal)LibraryPackage.Literals.EQUIPMENT_GROUP__COUNT).getSettingDelegate();
-
-	/**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String DESCRIPTION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected String description = DESCRIPTION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
+public class EquipmentGroupImpl extends CDOObjectImpl implements EquipmentGroup {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -213,11 +77,19 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
 	public EList<DiagramInfo> getDiagrams() {
-		if (diagrams == null) {
-			diagrams = new EObjectContainmentEList<DiagramInfo>(DiagramInfo.class, this, LibraryPackage.EQUIPMENT_GROUP__DIAGRAMS);
-		}
-		return diagrams;
+		return (EList<DiagramInfo>)eGet(LibraryPackage.Literals.EQUIPMENT_GROUP__DIAGRAMS, true);
 	}
 
 	/**
@@ -225,11 +97,9 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<NetXResource> getEquipmentGroupResources() {
-		if (equipmentGroupResources == null) {
-			equipmentGroupResources = new EObjectContainmentEList<NetXResource>(NetXResource.class, this, LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_GROUP_RESOURCES);
-		}
-		return equipmentGroupResources;
+		return (EList<NetXResource>)eGet(LibraryPackage.Literals.EQUIPMENT_GROUP__EQUIPMENT_GROUP_RESOURCES, true);
 	}
 
 	/**
@@ -237,11 +107,9 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Expression> getExpressionRefs() {
-		if (expressionRefs == null) {
-			expressionRefs = new EObjectWithInverseResolvingEList.ManyInverse<Expression>(Expression.class, this, LibraryPackage.EQUIPMENT_GROUP__EXPRESSION_REFS, LibraryPackage.EXPRESSION__EQUIPMENT_GROUP_REFS);
-		}
-		return expressionRefs;
+		return (EList<Expression>)eGet(LibraryPackage.Literals.EQUIPMENT_GROUP__EXPRESSION_REFS, true);
 	}
 
 	/**
@@ -249,11 +117,9 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Equipment> getEquipmentRefs() {
-		if (equipmentRefs == null) {
-			equipmentRefs = new EObjectResolvingEList<Equipment>(Equipment.class, this, LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_REFS);
-		}
-		return equipmentRefs;
+		return (EList<Equipment>)eGet(LibraryPackage.Literals.EQUIPMENT_GROUP__EQUIPMENT_REFS, true);
 	}
 
 	/**
@@ -261,11 +127,9 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Parameter> getParameterRefs() {
-		if (parameterRefs == null) {
-			parameterRefs = new EObjectResolvingEList<Parameter>(Parameter.class, this, LibraryPackage.EQUIPMENT_GROUP__PARAMETER_REFS);
-		}
-		return parameterRefs;
+		return (EList<Parameter>)eGet(LibraryPackage.Literals.EQUIPMENT_GROUP__PARAMETER_REFS, true);
 	}
 
 	/**
@@ -275,7 +139,7 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<NetXResource> getAllEquipmentResources() {
-		return (EList<NetXResource>)ALL_EQUIPMENT_RESOURCES__ESETTING_DELEGATE.dynamicGet(this, null, 0, true, false);
+		return (EList<NetXResource>)eGet(LibraryPackage.Literals.EQUIPMENT_GROUP__ALL_EQUIPMENT_RESOURCES, true);
 	}
 
 	/**
@@ -285,7 +149,7 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<Equipment> getAllEquipments() {
-		return (EList<Equipment>)ALL_EQUIPMENTS__ESETTING_DELEGATE.dynamicGet(this, null, 0, true, false);
+		return (EList<Equipment>)eGet(LibraryPackage.Literals.EQUIPMENT_GROUP__ALL_EQUIPMENTS, true);
 	}
 
 	/**
@@ -294,7 +158,7 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * @generated
 	 */
 	public int getCount() {
-		return (Integer)COUNT__ESETTING_DELEGATE.dynamicGet(this, null, 0, true, false);
+		return (Integer)eGet(LibraryPackage.Literals.EQUIPMENT_GROUP__COUNT, true);
 	}
 
 	/**
@@ -303,7 +167,7 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * @generated
 	 */
 	public void setCount(int newCount) {
-		COUNT__ESETTING_DELEGATE.dynamicSet(this, null, 0, newCount);
+		eSet(LibraryPackage.Literals.EQUIPMENT_GROUP__COUNT, newCount);
 	}
 
 	/**
@@ -312,7 +176,7 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * @generated
 	 */
 	public void unsetCount() {
-		COUNT__ESETTING_DELEGATE.dynamicUnset(this, null, 0);
+		eUnset(LibraryPackage.Literals.EQUIPMENT_GROUP__COUNT);
 	}
 
 	/**
@@ -321,7 +185,7 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * @generated
 	 */
 	public boolean isSetCount() {
-		return COUNT__ESETTING_DELEGATE.dynamicIsSet(this, null, 0);
+		return eIsSet(LibraryPackage.Literals.EQUIPMENT_GROUP__COUNT);
 	}
 
 	/**
@@ -330,7 +194,7 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * @generated
 	 */
 	public String getDescription() {
-		return description;
+		return (String)eGet(LibraryPackage.Literals.EQUIPMENT_GROUP__DESCRIPTION, true);
 	}
 
 	/**
@@ -339,10 +203,7 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * @generated
 	 */
 	public void setDescription(String newDescription) {
-		String oldDescription = description;
-		description = newDescription;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.EQUIPMENT_GROUP__DESCRIPTION, oldDescription, description));
+		eSet(LibraryPackage.Literals.EQUIPMENT_GROUP__DESCRIPTION, newDescription);
 	}
 
 	/**
@@ -351,7 +212,7 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * @generated
 	 */
 	public String getName() {
-		return name;
+		return (String)eGet(LibraryPackage.Literals.EQUIPMENT_GROUP__NAME, true);
 	}
 
 	/**
@@ -360,217 +221,7 @@ public class EquipmentGroupImpl extends EObjectImpl implements EquipmentGroup {
 	 * @generated
 	 */
 	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.EQUIPMENT_GROUP__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case LibraryPackage.EQUIPMENT_GROUP__EXPRESSION_REFS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getExpressionRefs()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case LibraryPackage.EQUIPMENT_GROUP__DIAGRAMS:
-				return ((InternalEList<?>)getDiagrams()).basicRemove(otherEnd, msgs);
-			case LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_GROUP_RESOURCES:
-				return ((InternalEList<?>)getEquipmentGroupResources()).basicRemove(otherEnd, msgs);
-			case LibraryPackage.EQUIPMENT_GROUP__EXPRESSION_REFS:
-				return ((InternalEList<?>)getExpressionRefs()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case LibraryPackage.EQUIPMENT_GROUP__DIAGRAMS:
-				return getDiagrams();
-			case LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_GROUP_RESOURCES:
-				return getEquipmentGroupResources();
-			case LibraryPackage.EQUIPMENT_GROUP__EXPRESSION_REFS:
-				return getExpressionRefs();
-			case LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_REFS:
-				return getEquipmentRefs();
-			case LibraryPackage.EQUIPMENT_GROUP__PARAMETER_REFS:
-				return getParameterRefs();
-			case LibraryPackage.EQUIPMENT_GROUP__ALL_EQUIPMENT_RESOURCES:
-				return getAllEquipmentResources();
-			case LibraryPackage.EQUIPMENT_GROUP__ALL_EQUIPMENTS:
-				return getAllEquipments();
-			case LibraryPackage.EQUIPMENT_GROUP__COUNT:
-				return getCount();
-			case LibraryPackage.EQUIPMENT_GROUP__DESCRIPTION:
-				return getDescription();
-			case LibraryPackage.EQUIPMENT_GROUP__NAME:
-				return getName();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case LibraryPackage.EQUIPMENT_GROUP__DIAGRAMS:
-				getDiagrams().clear();
-				getDiagrams().addAll((Collection<? extends DiagramInfo>)newValue);
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_GROUP_RESOURCES:
-				getEquipmentGroupResources().clear();
-				getEquipmentGroupResources().addAll((Collection<? extends NetXResource>)newValue);
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__EXPRESSION_REFS:
-				getExpressionRefs().clear();
-				getExpressionRefs().addAll((Collection<? extends Expression>)newValue);
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_REFS:
-				getEquipmentRefs().clear();
-				getEquipmentRefs().addAll((Collection<? extends Equipment>)newValue);
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__PARAMETER_REFS:
-				getParameterRefs().clear();
-				getParameterRefs().addAll((Collection<? extends Parameter>)newValue);
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__ALL_EQUIPMENT_RESOURCES:
-				getAllEquipmentResources().clear();
-				getAllEquipmentResources().addAll((Collection<? extends NetXResource>)newValue);
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__ALL_EQUIPMENTS:
-				getAllEquipments().clear();
-				getAllEquipments().addAll((Collection<? extends Equipment>)newValue);
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__COUNT:
-				setCount((Integer)newValue);
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__DESCRIPTION:
-				setDescription((String)newValue);
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__NAME:
-				setName((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case LibraryPackage.EQUIPMENT_GROUP__DIAGRAMS:
-				getDiagrams().clear();
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_GROUP_RESOURCES:
-				getEquipmentGroupResources().clear();
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__EXPRESSION_REFS:
-				getExpressionRefs().clear();
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_REFS:
-				getEquipmentRefs().clear();
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__PARAMETER_REFS:
-				getParameterRefs().clear();
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__ALL_EQUIPMENT_RESOURCES:
-				getAllEquipmentResources().clear();
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__ALL_EQUIPMENTS:
-				getAllEquipments().clear();
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__COUNT:
-				unsetCount();
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
-				return;
-			case LibraryPackage.EQUIPMENT_GROUP__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case LibraryPackage.EQUIPMENT_GROUP__DIAGRAMS:
-				return diagrams != null && !diagrams.isEmpty();
-			case LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_GROUP_RESOURCES:
-				return equipmentGroupResources != null && !equipmentGroupResources.isEmpty();
-			case LibraryPackage.EQUIPMENT_GROUP__EXPRESSION_REFS:
-				return expressionRefs != null && !expressionRefs.isEmpty();
-			case LibraryPackage.EQUIPMENT_GROUP__EQUIPMENT_REFS:
-				return equipmentRefs != null && !equipmentRefs.isEmpty();
-			case LibraryPackage.EQUIPMENT_GROUP__PARAMETER_REFS:
-				return parameterRefs != null && !parameterRefs.isEmpty();
-			case LibraryPackage.EQUIPMENT_GROUP__ALL_EQUIPMENT_RESOURCES:
-				return ALL_EQUIPMENT_RESOURCES__ESETTING_DELEGATE.dynamicIsSet(this, null, 0);
-			case LibraryPackage.EQUIPMENT_GROUP__ALL_EQUIPMENTS:
-				return ALL_EQUIPMENTS__ESETTING_DELEGATE.dynamicIsSet(this, null, 0);
-			case LibraryPackage.EQUIPMENT_GROUP__COUNT:
-				return isSetCount();
-			case LibraryPackage.EQUIPMENT_GROUP__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-			case LibraryPackage.EQUIPMENT_GROUP__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (description: ");
-		result.append(description);
-		result.append(", name: ");
-		result.append(name);
-		result.append(')');
-		return result.toString();
+		eSet(LibraryPackage.Literals.EQUIPMENT_GROUP__NAME, newName);
 	}
 
 } //EquipmentGroupImpl

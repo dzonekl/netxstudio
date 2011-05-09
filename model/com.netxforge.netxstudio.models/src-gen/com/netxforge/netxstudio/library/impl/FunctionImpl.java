@@ -18,40 +18,21 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.MultiImage;
-
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.Tolerance;
-
 import com.netxforge.netxstudio.metrics.Metric;
-
 import com.netxforge.netxstudio.operators.FunctionRelationship;
-
 import com.netxforge.netxstudio.protocols.Protocol;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -79,167 +60,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class FunctionImpl extends EObjectImpl implements Function {
-	/**
-	 * The cached value of the '{@link #getDiagrams() <em>Diagrams</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDiagrams()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<DiagramInfo> diagrams;
-
-	/**
-	 * The cached value of the '{@link #getIcons() <em>Icons</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIcons()
-	 * @generated
-	 * @ordered
-	 */
-	protected MultiImage icons;
-
-	/**
-	 * The cached value of the '{@link #getFunctions() <em>Functions</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFunctions()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Function> functions;
-
-	/**
-	 * The cached value of the '{@link #getFunctionResources() <em>Function Resources</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFunctionResources()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<NetXResource> functionResources;
-
-	/**
-	 * The cached value of the '{@link #getFunctionMetricRefs() <em>Function Metric Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFunctionMetricRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Metric> functionMetricRefs;
-
-	/**
-	 * The cached value of the '{@link #getFunctionRelationshipRefs() <em>Function Relationship Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFunctionRelationshipRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<FunctionRelationship> functionRelationshipRefs;
-
-	/**
-	 * The cached value of the '{@link #getFunctionExpressionRefs() <em>Function Expression Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFunctionExpressionRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Expression> functionExpressionRefs;
-
-	/**
-	 * The cached value of the '{@link #getToleranceRefs() <em>Tolerance Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getToleranceRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Tolerance> toleranceRefs;
-
-	/**
-	 * The cached value of the '{@link #getProtocolRefs() <em>Protocol Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getProtocolRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Protocol> protocolRefs;
-
-	/**
-	 * The cached value of the '{@link #getParameterRefs() <em>Parameter Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getParameterRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Parameter> parameterRefs;
-
-	/**
-	 * The cached setting delegate for the '{@link #getAllFunctionResources() <em>All Function Resources</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAllFunctionResources()
-	 * @generated
-	 * @ordered
-	 */
-	protected EStructuralFeature.Internal.SettingDelegate ALL_FUNCTION_RESOURCES__ESETTING_DELEGATE = ((EStructuralFeature.Internal)LibraryPackage.Literals.FUNCTION__ALL_FUNCTION_RESOURCES).getSettingDelegate();
-
-	/**
-	 * The cached setting delegate for the '{@link #getAllFunctions() <em>All Functions</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAllFunctions()
-	 * @generated
-	 * @ordered
-	 */
-	protected EStructuralFeature.Internal.SettingDelegate ALL_FUNCTIONS__ESETTING_DELEGATE = ((EStructuralFeature.Internal)LibraryPackage.Literals.FUNCTION__ALL_FUNCTIONS).getSettingDelegate();
-
-	/**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String DESCRIPTION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected String description = DESCRIPTION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getFunctionName() <em>Function Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFunctionName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String FUNCTION_NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getFunctionName() <em>Function Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFunctionName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String functionName = FUNCTION_NAME_EDEFAULT;
-
+public class FunctionImpl extends CDOObjectImpl implements Function {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -264,11 +85,19 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
 	public EList<DiagramInfo> getDiagrams() {
-		if (diagrams == null) {
-			diagrams = new EObjectContainmentEList<DiagramInfo>(DiagramInfo.class, this, LibraryPackage.FUNCTION__DIAGRAMS);
-		}
-		return diagrams;
+		return (EList<DiagramInfo>)eGet(LibraryPackage.Literals.FUNCTION__DIAGRAMS, true);
 	}
 
 	/**
@@ -277,22 +106,7 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * @generated
 	 */
 	public MultiImage getIcons() {
-		return icons;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetIcons(MultiImage newIcons, NotificationChain msgs) {
-		MultiImage oldIcons = icons;
-		icons = newIcons;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LibraryPackage.FUNCTION__ICONS, oldIcons, newIcons);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+		return (MultiImage)eGet(LibraryPackage.Literals.FUNCTION__ICONS, true);
 	}
 
 	/**
@@ -301,17 +115,7 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * @generated
 	 */
 	public void setIcons(MultiImage newIcons) {
-		if (newIcons != icons) {
-			NotificationChain msgs = null;
-			if (icons != null)
-				msgs = ((InternalEObject)icons).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LibraryPackage.FUNCTION__ICONS, null, msgs);
-			if (newIcons != null)
-				msgs = ((InternalEObject)newIcons).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LibraryPackage.FUNCTION__ICONS, null, msgs);
-			msgs = basicSetIcons(newIcons, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.FUNCTION__ICONS, newIcons, newIcons));
+		eSet(LibraryPackage.Literals.FUNCTION__ICONS, newIcons);
 	}
 
 	/**
@@ -319,11 +123,9 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Function> getFunctions() {
-		if (functions == null) {
-			functions = new EObjectContainmentEList<Function>(Function.class, this, LibraryPackage.FUNCTION__FUNCTIONS);
-		}
-		return functions;
+		return (EList<Function>)eGet(LibraryPackage.Literals.FUNCTION__FUNCTIONS, true);
 	}
 
 	/**
@@ -331,11 +133,9 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<NetXResource> getFunctionResources() {
-		if (functionResources == null) {
-			functionResources = new EObjectContainmentEList<NetXResource>(NetXResource.class, this, LibraryPackage.FUNCTION__FUNCTION_RESOURCES);
-		}
-		return functionResources;
+		return (EList<NetXResource>)eGet(LibraryPackage.Literals.FUNCTION__FUNCTION_RESOURCES, true);
 	}
 
 	/**
@@ -343,11 +143,9 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Metric> getFunctionMetricRefs() {
-		if (functionMetricRefs == null) {
-			functionMetricRefs = new EObjectResolvingEList<Metric>(Metric.class, this, LibraryPackage.FUNCTION__FUNCTION_METRIC_REFS);
-		}
-		return functionMetricRefs;
+		return (EList<Metric>)eGet(LibraryPackage.Literals.FUNCTION__FUNCTION_METRIC_REFS, true);
 	}
 
 	/**
@@ -355,11 +153,9 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<FunctionRelationship> getFunctionRelationshipRefs() {
-		if (functionRelationshipRefs == null) {
-			functionRelationshipRefs = new EObjectResolvingEList<FunctionRelationship>(FunctionRelationship.class, this, LibraryPackage.FUNCTION__FUNCTION_RELATIONSHIP_REFS);
-		}
-		return functionRelationshipRefs;
+		return (EList<FunctionRelationship>)eGet(LibraryPackage.Literals.FUNCTION__FUNCTION_RELATIONSHIP_REFS, true);
 	}
 
 	/**
@@ -367,11 +163,9 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Expression> getFunctionExpressionRefs() {
-		if (functionExpressionRefs == null) {
-			functionExpressionRefs = new EObjectWithInverseResolvingEList.ManyInverse<Expression>(Expression.class, this, LibraryPackage.FUNCTION__FUNCTION_EXPRESSION_REFS, LibraryPackage.EXPRESSION__FUNCTION_REFS);
-		}
-		return functionExpressionRefs;
+		return (EList<Expression>)eGet(LibraryPackage.Literals.FUNCTION__FUNCTION_EXPRESSION_REFS, true);
 	}
 
 	/**
@@ -379,11 +173,9 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Tolerance> getToleranceRefs() {
-		if (toleranceRefs == null) {
-			toleranceRefs = new EObjectResolvingEList<Tolerance>(Tolerance.class, this, LibraryPackage.FUNCTION__TOLERANCE_REFS);
-		}
-		return toleranceRefs;
+		return (EList<Tolerance>)eGet(LibraryPackage.Literals.FUNCTION__TOLERANCE_REFS, true);
 	}
 
 	/**
@@ -391,11 +183,9 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Protocol> getProtocolRefs() {
-		if (protocolRefs == null) {
-			protocolRefs = new EObjectResolvingEList<Protocol>(Protocol.class, this, LibraryPackage.FUNCTION__PROTOCOL_REFS);
-		}
-		return protocolRefs;
+		return (EList<Protocol>)eGet(LibraryPackage.Literals.FUNCTION__PROTOCOL_REFS, true);
 	}
 
 	/**
@@ -403,11 +193,9 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Parameter> getParameterRefs() {
-		if (parameterRefs == null) {
-			parameterRefs = new EObjectResolvingEList<Parameter>(Parameter.class, this, LibraryPackage.FUNCTION__PARAMETER_REFS);
-		}
-		return parameterRefs;
+		return (EList<Parameter>)eGet(LibraryPackage.Literals.FUNCTION__PARAMETER_REFS, true);
 	}
 
 	/**
@@ -417,7 +205,7 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<NetXResource> getAllFunctionResources() {
-		return (EList<NetXResource>)ALL_FUNCTION_RESOURCES__ESETTING_DELEGATE.dynamicGet(this, null, 0, true, false);
+		return (EList<NetXResource>)eGet(LibraryPackage.Literals.FUNCTION__ALL_FUNCTION_RESOURCES, true);
 	}
 
 	/**
@@ -427,7 +215,7 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<Function> getAllFunctions() {
-		return (EList<Function>)ALL_FUNCTIONS__ESETTING_DELEGATE.dynamicGet(this, null, 0, true, false);
+		return (EList<Function>)eGet(LibraryPackage.Literals.FUNCTION__ALL_FUNCTIONS, true);
 	}
 
 	/**
@@ -436,7 +224,7 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * @generated
 	 */
 	public String getDescription() {
-		return description;
+		return (String)eGet(LibraryPackage.Literals.FUNCTION__DESCRIPTION, true);
 	}
 
 	/**
@@ -445,10 +233,7 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * @generated
 	 */
 	public void setDescription(String newDescription) {
-		String oldDescription = description;
-		description = newDescription;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.FUNCTION__DESCRIPTION, oldDescription, description));
+		eSet(LibraryPackage.Literals.FUNCTION__DESCRIPTION, newDescription);
 	}
 
 	/**
@@ -457,7 +242,7 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * @generated
 	 */
 	public String getFunctionName() {
-		return functionName;
+		return (String)eGet(LibraryPackage.Literals.FUNCTION__FUNCTION_NAME, true);
 	}
 
 	/**
@@ -466,265 +251,7 @@ public class FunctionImpl extends EObjectImpl implements Function {
 	 * @generated
 	 */
 	public void setFunctionName(String newFunctionName) {
-		String oldFunctionName = functionName;
-		functionName = newFunctionName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.FUNCTION__FUNCTION_NAME, oldFunctionName, functionName));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case LibraryPackage.FUNCTION__FUNCTION_EXPRESSION_REFS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getFunctionExpressionRefs()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case LibraryPackage.FUNCTION__DIAGRAMS:
-				return ((InternalEList<?>)getDiagrams()).basicRemove(otherEnd, msgs);
-			case LibraryPackage.FUNCTION__ICONS:
-				return basicSetIcons(null, msgs);
-			case LibraryPackage.FUNCTION__FUNCTIONS:
-				return ((InternalEList<?>)getFunctions()).basicRemove(otherEnd, msgs);
-			case LibraryPackage.FUNCTION__FUNCTION_RESOURCES:
-				return ((InternalEList<?>)getFunctionResources()).basicRemove(otherEnd, msgs);
-			case LibraryPackage.FUNCTION__FUNCTION_EXPRESSION_REFS:
-				return ((InternalEList<?>)getFunctionExpressionRefs()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case LibraryPackage.FUNCTION__DIAGRAMS:
-				return getDiagrams();
-			case LibraryPackage.FUNCTION__ICONS:
-				return getIcons();
-			case LibraryPackage.FUNCTION__FUNCTIONS:
-				return getFunctions();
-			case LibraryPackage.FUNCTION__FUNCTION_RESOURCES:
-				return getFunctionResources();
-			case LibraryPackage.FUNCTION__FUNCTION_METRIC_REFS:
-				return getFunctionMetricRefs();
-			case LibraryPackage.FUNCTION__FUNCTION_RELATIONSHIP_REFS:
-				return getFunctionRelationshipRefs();
-			case LibraryPackage.FUNCTION__FUNCTION_EXPRESSION_REFS:
-				return getFunctionExpressionRefs();
-			case LibraryPackage.FUNCTION__TOLERANCE_REFS:
-				return getToleranceRefs();
-			case LibraryPackage.FUNCTION__PROTOCOL_REFS:
-				return getProtocolRefs();
-			case LibraryPackage.FUNCTION__PARAMETER_REFS:
-				return getParameterRefs();
-			case LibraryPackage.FUNCTION__ALL_FUNCTION_RESOURCES:
-				return getAllFunctionResources();
-			case LibraryPackage.FUNCTION__ALL_FUNCTIONS:
-				return getAllFunctions();
-			case LibraryPackage.FUNCTION__DESCRIPTION:
-				return getDescription();
-			case LibraryPackage.FUNCTION__FUNCTION_NAME:
-				return getFunctionName();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case LibraryPackage.FUNCTION__DIAGRAMS:
-				getDiagrams().clear();
-				getDiagrams().addAll((Collection<? extends DiagramInfo>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__ICONS:
-				setIcons((MultiImage)newValue);
-				return;
-			case LibraryPackage.FUNCTION__FUNCTIONS:
-				getFunctions().clear();
-				getFunctions().addAll((Collection<? extends Function>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__FUNCTION_RESOURCES:
-				getFunctionResources().clear();
-				getFunctionResources().addAll((Collection<? extends NetXResource>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__FUNCTION_METRIC_REFS:
-				getFunctionMetricRefs().clear();
-				getFunctionMetricRefs().addAll((Collection<? extends Metric>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__FUNCTION_RELATIONSHIP_REFS:
-				getFunctionRelationshipRefs().clear();
-				getFunctionRelationshipRefs().addAll((Collection<? extends FunctionRelationship>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__FUNCTION_EXPRESSION_REFS:
-				getFunctionExpressionRefs().clear();
-				getFunctionExpressionRefs().addAll((Collection<? extends Expression>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__TOLERANCE_REFS:
-				getToleranceRefs().clear();
-				getToleranceRefs().addAll((Collection<? extends Tolerance>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__PROTOCOL_REFS:
-				getProtocolRefs().clear();
-				getProtocolRefs().addAll((Collection<? extends Protocol>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__PARAMETER_REFS:
-				getParameterRefs().clear();
-				getParameterRefs().addAll((Collection<? extends Parameter>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__ALL_FUNCTION_RESOURCES:
-				getAllFunctionResources().clear();
-				getAllFunctionResources().addAll((Collection<? extends NetXResource>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__ALL_FUNCTIONS:
-				getAllFunctions().clear();
-				getAllFunctions().addAll((Collection<? extends Function>)newValue);
-				return;
-			case LibraryPackage.FUNCTION__DESCRIPTION:
-				setDescription((String)newValue);
-				return;
-			case LibraryPackage.FUNCTION__FUNCTION_NAME:
-				setFunctionName((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case LibraryPackage.FUNCTION__DIAGRAMS:
-				getDiagrams().clear();
-				return;
-			case LibraryPackage.FUNCTION__ICONS:
-				setIcons((MultiImage)null);
-				return;
-			case LibraryPackage.FUNCTION__FUNCTIONS:
-				getFunctions().clear();
-				return;
-			case LibraryPackage.FUNCTION__FUNCTION_RESOURCES:
-				getFunctionResources().clear();
-				return;
-			case LibraryPackage.FUNCTION__FUNCTION_METRIC_REFS:
-				getFunctionMetricRefs().clear();
-				return;
-			case LibraryPackage.FUNCTION__FUNCTION_RELATIONSHIP_REFS:
-				getFunctionRelationshipRefs().clear();
-				return;
-			case LibraryPackage.FUNCTION__FUNCTION_EXPRESSION_REFS:
-				getFunctionExpressionRefs().clear();
-				return;
-			case LibraryPackage.FUNCTION__TOLERANCE_REFS:
-				getToleranceRefs().clear();
-				return;
-			case LibraryPackage.FUNCTION__PROTOCOL_REFS:
-				getProtocolRefs().clear();
-				return;
-			case LibraryPackage.FUNCTION__PARAMETER_REFS:
-				getParameterRefs().clear();
-				return;
-			case LibraryPackage.FUNCTION__ALL_FUNCTION_RESOURCES:
-				getAllFunctionResources().clear();
-				return;
-			case LibraryPackage.FUNCTION__ALL_FUNCTIONS:
-				getAllFunctions().clear();
-				return;
-			case LibraryPackage.FUNCTION__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
-				return;
-			case LibraryPackage.FUNCTION__FUNCTION_NAME:
-				setFunctionName(FUNCTION_NAME_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case LibraryPackage.FUNCTION__DIAGRAMS:
-				return diagrams != null && !diagrams.isEmpty();
-			case LibraryPackage.FUNCTION__ICONS:
-				return icons != null;
-			case LibraryPackage.FUNCTION__FUNCTIONS:
-				return functions != null && !functions.isEmpty();
-			case LibraryPackage.FUNCTION__FUNCTION_RESOURCES:
-				return functionResources != null && !functionResources.isEmpty();
-			case LibraryPackage.FUNCTION__FUNCTION_METRIC_REFS:
-				return functionMetricRefs != null && !functionMetricRefs.isEmpty();
-			case LibraryPackage.FUNCTION__FUNCTION_RELATIONSHIP_REFS:
-				return functionRelationshipRefs != null && !functionRelationshipRefs.isEmpty();
-			case LibraryPackage.FUNCTION__FUNCTION_EXPRESSION_REFS:
-				return functionExpressionRefs != null && !functionExpressionRefs.isEmpty();
-			case LibraryPackage.FUNCTION__TOLERANCE_REFS:
-				return toleranceRefs != null && !toleranceRefs.isEmpty();
-			case LibraryPackage.FUNCTION__PROTOCOL_REFS:
-				return protocolRefs != null && !protocolRefs.isEmpty();
-			case LibraryPackage.FUNCTION__PARAMETER_REFS:
-				return parameterRefs != null && !parameterRefs.isEmpty();
-			case LibraryPackage.FUNCTION__ALL_FUNCTION_RESOURCES:
-				return ALL_FUNCTION_RESOURCES__ESETTING_DELEGATE.dynamicIsSet(this, null, 0);
-			case LibraryPackage.FUNCTION__ALL_FUNCTIONS:
-				return ALL_FUNCTIONS__ESETTING_DELEGATE.dynamicIsSet(this, null, 0);
-			case LibraryPackage.FUNCTION__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-			case LibraryPackage.FUNCTION__FUNCTION_NAME:
-				return FUNCTION_NAME_EDEFAULT == null ? functionName != null : !FUNCTION_NAME_EDEFAULT.equals(functionName);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (description: ");
-		result.append(description);
-		result.append(", functionName: ");
-		result.append(functionName);
-		result.append(')');
-		return result.toString();
+		eSet(LibraryPackage.Literals.FUNCTION__FUNCTION_NAME, newFunctionName);
 	}
 
 } //FunctionImpl

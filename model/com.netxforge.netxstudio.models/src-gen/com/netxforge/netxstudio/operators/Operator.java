@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.operators;
 
-import com.netxforge.netxstudio.generics.Company;
+import org.eclipse.emf.common.util.EList;
 
+import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceUser;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->

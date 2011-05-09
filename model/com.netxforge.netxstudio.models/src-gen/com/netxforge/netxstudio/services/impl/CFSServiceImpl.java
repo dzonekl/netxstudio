@@ -18,14 +18,10 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
-import com.netxforge.netxstudio.services.CFSService;
-import com.netxforge.netxstudio.services.ServicesPackage;
-
-import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import com.netxforge.netxstudio.services.CFSService;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,46 +38,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class CFSServiceImpl extends ServiceImpl implements CFSService {
-	/**
-	 * The default value of the '{@link #getProvider() <em>Provider</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getProvider()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String PROVIDER_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getProvider() <em>Provider</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getProvider()
-	 * @generated
-	 * @ordered
-	 */
-	protected String provider = PROVIDER_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getScenario() <em>Scenario</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getScenario()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String SCENARIO_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getScenario() <em>Scenario</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getScenario()
-	 * @generated
-	 * @ordered
-	 */
-	protected String scenario = SCENARIO_EDEFAULT;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -107,7 +63,7 @@ public class CFSServiceImpl extends ServiceImpl implements CFSService {
 	 * @generated
 	 */
 	public String getProvider() {
-		return provider;
+		return (String)eGet(ServicesPackage.Literals.CFS_SERVICE__PROVIDER, true);
 	}
 
 	/**
@@ -116,10 +72,7 @@ public class CFSServiceImpl extends ServiceImpl implements CFSService {
 	 * @generated
 	 */
 	public void setProvider(String newProvider) {
-		String oldProvider = provider;
-		provider = newProvider;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ServicesPackage.CFS_SERVICE__PROVIDER, oldProvider, provider));
+		eSet(ServicesPackage.Literals.CFS_SERVICE__PROVIDER, newProvider);
 	}
 
 	/**
@@ -128,7 +81,7 @@ public class CFSServiceImpl extends ServiceImpl implements CFSService {
 	 * @generated
 	 */
 	public String getScenario() {
-		return scenario;
+		return (String)eGet(ServicesPackage.Literals.CFS_SERVICE__SCENARIO, true);
 	}
 
 	/**
@@ -137,96 +90,7 @@ public class CFSServiceImpl extends ServiceImpl implements CFSService {
 	 * @generated
 	 */
 	public void setScenario(String newScenario) {
-		String oldScenario = scenario;
-		scenario = newScenario;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ServicesPackage.CFS_SERVICE__SCENARIO, oldScenario, scenario));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case ServicesPackage.CFS_SERVICE__PROVIDER:
-				return getProvider();
-			case ServicesPackage.CFS_SERVICE__SCENARIO:
-				return getScenario();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case ServicesPackage.CFS_SERVICE__PROVIDER:
-				setProvider((String)newValue);
-				return;
-			case ServicesPackage.CFS_SERVICE__SCENARIO:
-				setScenario((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case ServicesPackage.CFS_SERVICE__PROVIDER:
-				setProvider(PROVIDER_EDEFAULT);
-				return;
-			case ServicesPackage.CFS_SERVICE__SCENARIO:
-				setScenario(SCENARIO_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case ServicesPackage.CFS_SERVICE__PROVIDER:
-				return PROVIDER_EDEFAULT == null ? provider != null : !PROVIDER_EDEFAULT.equals(provider);
-			case ServicesPackage.CFS_SERVICE__SCENARIO:
-				return SCENARIO_EDEFAULT == null ? scenario != null : !SCENARIO_EDEFAULT.equals(scenario);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (provider: ");
-		result.append(provider);
-		result.append(", scenario: ");
-		result.append(scenario);
-		result.append(')');
-		return result.toString();
+		eSet(ServicesPackage.Literals.CFS_SERVICE__SCENARIO, newScenario);
 	}
 
 } //CFSServiceImpl

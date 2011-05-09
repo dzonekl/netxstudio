@@ -18,17 +18,13 @@
  */
 package com.netxforge.netxstudio.generics.impl;
 
-import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.GenericsPackage;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,47 +40,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class DateTimeRangeImpl extends EObjectImpl implements DateTimeRange {
-	/**
-	 * The default value of the '{@link #getBegin() <em>Begin</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBegin()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final XMLGregorianCalendar BEGIN_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getBegin() <em>Begin</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBegin()
-	 * @generated
-	 * @ordered
-	 */
-	protected XMLGregorianCalendar begin = BEGIN_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getEnd() <em>End</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEnd()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final XMLGregorianCalendar END_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getEnd() <em>End</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEnd()
-	 * @generated
-	 * @ordered
-	 */
-	protected XMLGregorianCalendar end = END_EDEFAULT;
-
+public class DateTimeRangeImpl extends CDOObjectImpl implements DateTimeRange {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -109,8 +65,18 @@ public class DateTimeRangeImpl extends EObjectImpl implements DateTimeRange {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public XMLGregorianCalendar getBegin() {
-		return begin;
+		return (XMLGregorianCalendar)eGet(GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN, true);
 	}
 
 	/**
@@ -119,10 +85,7 @@ public class DateTimeRangeImpl extends EObjectImpl implements DateTimeRange {
 	 * @generated
 	 */
 	public void setBegin(XMLGregorianCalendar newBegin) {
-		XMLGregorianCalendar oldBegin = begin;
-		begin = newBegin;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GenericsPackage.DATE_TIME_RANGE__BEGIN, oldBegin, begin));
+		eSet(GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN, newBegin);
 	}
 
 	/**
@@ -131,7 +94,7 @@ public class DateTimeRangeImpl extends EObjectImpl implements DateTimeRange {
 	 * @generated
 	 */
 	public XMLGregorianCalendar getEnd() {
-		return end;
+		return (XMLGregorianCalendar)eGet(GenericsPackage.Literals.DATE_TIME_RANGE__END, true);
 	}
 
 	/**
@@ -140,96 +103,7 @@ public class DateTimeRangeImpl extends EObjectImpl implements DateTimeRange {
 	 * @generated
 	 */
 	public void setEnd(XMLGregorianCalendar newEnd) {
-		XMLGregorianCalendar oldEnd = end;
-		end = newEnd;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GenericsPackage.DATE_TIME_RANGE__END, oldEnd, end));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case GenericsPackage.DATE_TIME_RANGE__BEGIN:
-				return getBegin();
-			case GenericsPackage.DATE_TIME_RANGE__END:
-				return getEnd();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case GenericsPackage.DATE_TIME_RANGE__BEGIN:
-				setBegin((XMLGregorianCalendar)newValue);
-				return;
-			case GenericsPackage.DATE_TIME_RANGE__END:
-				setEnd((XMLGregorianCalendar)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case GenericsPackage.DATE_TIME_RANGE__BEGIN:
-				setBegin(BEGIN_EDEFAULT);
-				return;
-			case GenericsPackage.DATE_TIME_RANGE__END:
-				setEnd(END_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case GenericsPackage.DATE_TIME_RANGE__BEGIN:
-				return BEGIN_EDEFAULT == null ? begin != null : !BEGIN_EDEFAULT.equals(begin);
-			case GenericsPackage.DATE_TIME_RANGE__END:
-				return END_EDEFAULT == null ? end != null : !END_EDEFAULT.equals(end);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (begin: ");
-		result.append(begin);
-		result.append(", end: ");
-		result.append(end);
-		result.append(')');
-		return result.toString();
+		eSet(GenericsPackage.Literals.DATE_TIME_RANGE__END, newEnd);
 	}
 
 } //DateTimeRangeImpl

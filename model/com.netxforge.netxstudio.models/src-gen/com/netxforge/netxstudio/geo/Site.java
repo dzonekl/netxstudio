@@ -18,9 +18,8 @@
  */
 package com.netxforge.netxstudio.geo;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,9 +48,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.geo.GeoPackage#getSite()
  * @model extendedMetaData="name='Site' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Site extends EObject {
+public interface Site extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Rooms</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.geo.Room}.

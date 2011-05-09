@@ -18,26 +18,14 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.NetXResource;
-
 import com.netxforge.netxstudio.services.ServiceDistribution;
 import com.netxforge.netxstudio.services.ServicesPackage;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -53,27 +41,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ServiceDistributionImpl extends EObjectImpl implements ServiceDistribution {
-	/**
-	 * The cached value of the '{@link #getServiceResources() <em>Service Resources</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getServiceResources()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<NetXResource> serviceResources;
-
-	/**
-	 * The cached value of the '{@link #getExpressionRefs() <em>Expression Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExpressionRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Expression> expressionRefs;
-
+public class ServiceDistributionImpl extends CDOObjectImpl implements ServiceDistribution {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -98,53 +66,9 @@ public class ServiceDistributionImpl extends EObjectImpl implements ServiceDistr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<NetXResource> getServiceResources() {
-		if (serviceResources == null) {
-			serviceResources = new EObjectContainmentEList<NetXResource>(NetXResource.class, this, ServicesPackage.SERVICE_DISTRIBUTION__SERVICE_RESOURCES);
-		}
-		return serviceResources;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Expression> getExpressionRefs() {
-		if (expressionRefs == null) {
-			expressionRefs = new EObjectResolvingEList<Expression>(Expression.class, this, ServicesPackage.SERVICE_DISTRIBUTION__EXPRESSION_REFS);
-		}
-		return expressionRefs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_DISTRIBUTION__SERVICE_RESOURCES:
-				return ((InternalEList<?>)getServiceResources()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_DISTRIBUTION__SERVICE_RESOURCES:
-				return getServiceResources();
-			case ServicesPackage.SERVICE_DISTRIBUTION__EXPRESSION_REFS:
-				return getExpressionRefs();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -153,19 +77,8 @@ public class ServiceDistributionImpl extends EObjectImpl implements ServiceDistr
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_DISTRIBUTION__SERVICE_RESOURCES:
-				getServiceResources().clear();
-				getServiceResources().addAll((Collection<? extends NetXResource>)newValue);
-				return;
-			case ServicesPackage.SERVICE_DISTRIBUTION__EXPRESSION_REFS:
-				getExpressionRefs().clear();
-				getExpressionRefs().addAll((Collection<? extends Expression>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<NetXResource> getServiceResources() {
+		return (EList<NetXResource>)eGet(ServicesPackage.Literals.SERVICE_DISTRIBUTION__SERVICE_RESOURCES, true);
 	}
 
 	/**
@@ -173,33 +86,9 @@ public class ServiceDistributionImpl extends EObjectImpl implements ServiceDistr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_DISTRIBUTION__SERVICE_RESOURCES:
-				getServiceResources().clear();
-				return;
-			case ServicesPackage.SERVICE_DISTRIBUTION__EXPRESSION_REFS:
-				getExpressionRefs().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_DISTRIBUTION__SERVICE_RESOURCES:
-				return serviceResources != null && !serviceResources.isEmpty();
-			case ServicesPackage.SERVICE_DISTRIBUTION__EXPRESSION_REFS:
-				return expressionRefs != null && !expressionRefs.isEmpty();
-		}
-		return super.eIsSet(featureID);
+	@SuppressWarnings("unchecked")
+	public EList<Expression> getExpressionRefs() {
+		return (EList<Expression>)eGet(ServicesPackage.Literals.SERVICE_DISTRIBUTION__EXPRESSION_REFS, true);
 	}
 
 } //ServiceDistributionImpl

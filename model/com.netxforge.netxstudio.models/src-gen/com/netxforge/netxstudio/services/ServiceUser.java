@@ -18,11 +18,10 @@
  */
 package com.netxforge.netxstudio.services;
 
-import com.netxforge.netxstudio.library.Expression;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.library.Expression;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,9 +50,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceUser()
  * @model extendedMetaData="name='ServiceUser' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface ServiceUser extends EObject {
+public interface ServiceUser extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Service Profile</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

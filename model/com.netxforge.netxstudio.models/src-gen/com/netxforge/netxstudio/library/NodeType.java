@@ -18,9 +18,8 @@
  */
 package com.netxforge.netxstudio.library;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,9 +45,10 @@ import org.eclipse.emf.ecore.EObject;
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='\n\t\t\t\tValidNodeID\n\t\t\t'"
  *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL ValidNodeID='\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t'"
  *        extendedMetaData="name='NodeType' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface NodeType extends EObject {
+public interface NodeType extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Functions</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.Function}.

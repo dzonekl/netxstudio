@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.generics;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,9 +41,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getMeta()
  * @model extendedMetaData="name='Meta' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Meta extends EObject {
+public interface Meta extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Author</b></em>' reference.
 	 * <!-- begin-user-doc -->

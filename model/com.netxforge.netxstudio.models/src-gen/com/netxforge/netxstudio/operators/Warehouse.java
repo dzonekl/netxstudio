@@ -18,9 +18,8 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,9 +44,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getWarehouse()
  * @model extendedMetaData="name='Warehouse' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Warehouse extends EObject {
+public interface Warehouse extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Nodes</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.operators.Node}.

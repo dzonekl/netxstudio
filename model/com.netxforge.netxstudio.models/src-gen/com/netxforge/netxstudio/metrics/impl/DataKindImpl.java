@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +33,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class DataKindImpl extends EObjectImpl implements DataKind {
+public class DataKindImpl extends CDOObjectImpl implements DataKind {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -52,6 +51,16 @@ public class DataKindImpl extends EObjectImpl implements DataKind {
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.DATA_KIND;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 } //DataKindImpl

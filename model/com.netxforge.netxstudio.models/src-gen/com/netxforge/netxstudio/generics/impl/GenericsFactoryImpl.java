@@ -19,18 +19,28 @@
 package com.netxforge.netxstudio.generics.impl;
 
 import com.netxforge.netxstudio.generics.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+
+import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.DiagramInfo;
+import com.netxforge.netxstudio.generics.DiagramKindType;
+import com.netxforge.netxstudio.generics.ExpansionDuration;
+import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Lifecycle;
+import com.netxforge.netxstudio.generics.Meta;
+import com.netxforge.netxstudio.generics.MultiImage;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.generics.Value;
 
 /**
  * <!-- begin-user-doc -->
@@ -76,15 +86,15 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case GenericsPackage.COMPANY: return createCompany();
-			case GenericsPackage.DATE_TIME_RANGE: return createDateTimeRange();
-			case GenericsPackage.DIAGRAM_INFO: return createDiagramInfo();
-			case GenericsPackage.LIFECYCLE: return createLifecycle();
-			case GenericsPackage.META: return createMeta();
-			case GenericsPackage.MULTI_IMAGE: return createMultiImage();
-			case GenericsPackage.PERSON: return createPerson();
-			case GenericsPackage.ROLE: return createRole();
-			case GenericsPackage.VALUE: return createValue();
+			case GenericsPackage.COMPANY: return (EObject)createCompany();
+			case GenericsPackage.DATE_TIME_RANGE: return (EObject)createDateTimeRange();
+			case GenericsPackage.DIAGRAM_INFO: return (EObject)createDiagramInfo();
+			case GenericsPackage.LIFECYCLE: return (EObject)createLifecycle();
+			case GenericsPackage.META: return (EObject)createMeta();
+			case GenericsPackage.MULTI_IMAGE: return (EObject)createMultiImage();
+			case GenericsPackage.PERSON: return (EObject)createPerson();
+			case GenericsPackage.ROLE: return (EObject)createRole();
+			case GenericsPackage.VALUE: return (EObject)createValue();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

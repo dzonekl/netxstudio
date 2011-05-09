@@ -18,13 +18,11 @@
  */
 package com.netxforge.netxstudio.library;
 
-import com.netxforge.netxstudio.generics.Value;
-
-import com.netxforge.netxstudio.metrics.MetricValueRange;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 
 /**
  * <!-- begin-user-doc -->
@@ -67,9 +65,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource()
  * @model extendedMetaData="name='NetXResource' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface NetXResource extends EObject {
+public interface NetXResource extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Metric Value Ranges</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.MetricValueRange}.

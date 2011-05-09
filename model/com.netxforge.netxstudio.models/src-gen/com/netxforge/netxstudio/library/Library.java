@@ -18,13 +18,11 @@
  */
 package com.netxforge.netxstudio.library;
 
-import com.netxforge.netxstudio.generics.Meta;
-
-import com.netxforge.netxstudio.metrics.Metric;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.Meta;
+import com.netxforge.netxstudio.metrics.Metric;
 
 /**
  * <!-- begin-user-doc -->
@@ -54,9 +52,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getLibrary()
  * @model extendedMetaData="name='Library' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Library extends EObject {
+public interface Library extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Functions</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.Function}.

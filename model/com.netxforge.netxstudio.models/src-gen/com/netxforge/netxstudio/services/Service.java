@@ -18,9 +18,8 @@
  */
 package com.netxforge.netxstudio.services;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,9 +48,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getService()
  * @model extendedMetaData="name='Service' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Service extends EObject {
+public interface Service extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>CIID</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.services.CIID}.

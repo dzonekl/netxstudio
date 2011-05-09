@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.services;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,9 +41,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getCIID()
  * @model extendedMetaData="name='CI-ID' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface CIID extends EObject {
+public interface CIID extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Common CIID</b></em>' attribute.
 	 * <!-- begin-user-doc -->

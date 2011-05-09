@@ -18,18 +18,12 @@
  */
 package com.netxforge.netxstudio.scheduling.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.Scheduling;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,17 +38,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class SchedulingImpl extends EObjectImpl implements Scheduling {
-	/**
-	 * The cached value of the '{@link #getJobs() <em>Jobs</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getJobs()
-	 * @generated
-	 * @ordered
-	 */
-	protected Job jobs;
-
+public class SchedulingImpl extends CDOObjectImpl implements Scheduling {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -79,8 +63,9 @@ public class SchedulingImpl extends EObjectImpl implements Scheduling {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Job getJobs() {
-		return jobs;
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -88,14 +73,8 @@ public class SchedulingImpl extends EObjectImpl implements Scheduling {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetJobs(Job newJobs, NotificationChain msgs) {
-		Job oldJobs = jobs;
-		jobs = newJobs;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SchedulingPackage.SCHEDULING__JOBS, oldJobs, newJobs);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public Job getJobs() {
+		return (Job)eGet(SchedulingPackage.Literals.SCHEDULING__JOBS, true);
 	}
 
 	/**
@@ -104,89 +83,7 @@ public class SchedulingImpl extends EObjectImpl implements Scheduling {
 	 * @generated
 	 */
 	public void setJobs(Job newJobs) {
-		if (newJobs != jobs) {
-			NotificationChain msgs = null;
-			if (jobs != null)
-				msgs = ((InternalEObject)jobs).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SchedulingPackage.SCHEDULING__JOBS, null, msgs);
-			if (newJobs != null)
-				msgs = ((InternalEObject)newJobs).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SchedulingPackage.SCHEDULING__JOBS, null, msgs);
-			msgs = basicSetJobs(newJobs, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulingPackage.SCHEDULING__JOBS, newJobs, newJobs));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SchedulingPackage.SCHEDULING__JOBS:
-				return basicSetJobs(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case SchedulingPackage.SCHEDULING__JOBS:
-				return getJobs();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case SchedulingPackage.SCHEDULING__JOBS:
-				setJobs((Job)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case SchedulingPackage.SCHEDULING__JOBS:
-				setJobs((Job)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case SchedulingPackage.SCHEDULING__JOBS:
-				return jobs != null;
-		}
-		return super.eIsSet(featureID);
+		eSet(SchedulingPackage.Literals.SCHEDULING__JOBS, newJobs);
 	}
 
 } //SchedulingImpl

@@ -18,21 +18,16 @@
  */
 package com.netxforge.netxstudio;
 
-import com.netxforge.netxstudio.generics.Company;
-import com.netxforge.netxstudio.generics.Person;
-
-import com.netxforge.netxstudio.geo.Country;
-
-import com.netxforge.netxstudio.library.Library;
-import com.netxforge.netxstudio.library.Vendor;
-
-import com.netxforge.netxstudio.operators.Operator;
-
-import com.netxforge.netxstudio.scheduling.Job;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.geo.Country;
+import com.netxforge.netxstudio.library.Library;
+import com.netxforge.netxstudio.library.Vendor;
+import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.scheduling.Job;
 
 /**
  * <!-- begin-user-doc -->
@@ -58,9 +53,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.NetxstudioPackage#getNetxstudio()
  * @model extendedMetaData="name='Netxstudio' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Netxstudio extends EObject {
+public interface Netxstudio extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Operators</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.operators.Operator}.

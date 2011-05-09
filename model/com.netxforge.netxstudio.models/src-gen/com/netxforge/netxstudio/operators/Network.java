@@ -18,16 +18,14 @@
  */
 package com.netxforge.netxstudio.operators;
 
-import com.netxforge.netxstudio.generics.DiagramInfo;
-import com.netxforge.netxstudio.generics.Person;
-
-import com.netxforge.netxstudio.metrics.MetricSource;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.DiagramInfo;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.metrics.MetricSource;
 
 /**
  * <!-- begin-user-doc -->
@@ -64,9 +62,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNetwork()
  * @model extendedMetaData="name='Network' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Network extends EObject {
+public interface Network extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Diagrams</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.generics.DiagramInfo}.

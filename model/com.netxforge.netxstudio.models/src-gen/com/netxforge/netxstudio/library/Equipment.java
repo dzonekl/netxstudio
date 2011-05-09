@@ -18,19 +18,15 @@
  */
 package com.netxforge.netxstudio.library;
 
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.common.util.EList;
+
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.MultiImage;
-
 import com.netxforge.netxstudio.metrics.Metric;
-
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
-
 import com.netxforge.netxstudio.protocols.Protocol;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -79,9 +75,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipment()
  * @model extendedMetaData="name='Equipment' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Equipment extends EObject {
+public interface Equipment extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Lifecycle</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

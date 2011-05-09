@@ -18,22 +18,24 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+
 import com.netxforge.netxstudio.NetxstudioPackage;
-
 import com.netxforge.netxstudio.generics.GenericsPackage;
-
 import com.netxforge.netxstudio.generics.impl.GenericsPackageImpl;
-
 import com.netxforge.netxstudio.geo.GeoPackage;
-
 import com.netxforge.netxstudio.geo.impl.GeoPackageImpl;
-
 import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
-
 import com.netxforge.netxstudio.library.LibraryPackage;
-
 import com.netxforge.netxstudio.library.impl.LibraryPackageImpl;
-
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
@@ -53,34 +55,14 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ObjectNameType;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
-
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-
 import com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl;
-
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-
 import com.netxforge.netxstudio.protocols.impl.ProtocolsPackageImpl;
-
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-
 import com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl;
-
 import com.netxforge.netxstudio.services.ServicesPackage;
-
 import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -276,7 +258,6 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies

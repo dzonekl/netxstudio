@@ -19,15 +19,19 @@
 package com.netxforge.netxstudio.protocols.impl;
 
 import com.netxforge.netxstudio.protocols.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.netxforge.netxstudio.protocols.Message;
+import com.netxforge.netxstudio.protocols.OSIType;
+import com.netxforge.netxstudio.protocols.Procedure;
+import com.netxforge.netxstudio.protocols.Protocol;
+import com.netxforge.netxstudio.protocols.ProtocolsFactory;
+import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -73,9 +77,9 @@ public class ProtocolsFactoryImpl extends EFactoryImpl implements ProtocolsFacto
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ProtocolsPackage.MESSAGE: return createMessage();
-			case ProtocolsPackage.PROCEDURE: return createProcedure();
-			case ProtocolsPackage.PROTOCOL: return createProtocol();
+			case ProtocolsPackage.MESSAGE: return (EObject)createMessage();
+			case ProtocolsPackage.PROCEDURE: return (EObject)createProcedure();
+			case ProtocolsPackage.PROTOCOL: return (EObject)createProtocol();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

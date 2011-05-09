@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.generics;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,9 +44,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getDiagramInfo()
  * @model extendedMetaData="name='DiagramInfo' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface DiagramInfo extends EObject {
+public interface DiagramInfo extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Diagram Kind</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.netxforge.netxstudio.generics.DiagramKindType}.

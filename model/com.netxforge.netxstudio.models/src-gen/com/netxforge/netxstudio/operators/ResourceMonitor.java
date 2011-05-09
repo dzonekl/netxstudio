@@ -18,9 +18,8 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,9 +41,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceMonitor()
  * @model extendedMetaData="name='ResourceMonitor' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface ResourceMonitor extends EObject {
+public interface ResourceMonitor extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Markers</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.operators.Marker}.

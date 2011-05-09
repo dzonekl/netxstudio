@@ -19,15 +19,28 @@
 package com.netxforge.netxstudio.operators.impl;
 
 import com.netxforge.netxstudio.operators.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.netxforge.netxstudio.operators.EquipmentRelationship;
+import com.netxforge.netxstudio.operators.ExpansionExperience;
+import com.netxforge.netxstudio.operators.FunctionRelationship;
+import com.netxforge.netxstudio.operators.Marker;
+import com.netxforge.netxstudio.operators.MarkerKind;
+import com.netxforge.netxstudio.operators.Network;
+import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsFactory;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.Relationship;
+import com.netxforge.netxstudio.operators.ResourceExpansion;
+import com.netxforge.netxstudio.operators.ResourceForecast;
+import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.operators.Warehouse;
 
 /**
  * <!-- begin-user-doc -->
@@ -73,18 +86,18 @@ public class OperatorsFactoryImpl extends EFactoryImpl implements OperatorsFacto
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case OperatorsPackage.EQUIPMENT_RELATIONSHIP: return createEquipmentRelationship();
-			case OperatorsPackage.EXPANSION_EXPERIENCE: return createExpansionExperience();
-			case OperatorsPackage.FUNCTION_RELATIONSHIP: return createFunctionRelationship();
-			case OperatorsPackage.MARKER: return createMarker();
-			case OperatorsPackage.NETWORK: return createNetwork();
-			case OperatorsPackage.NODE: return createNode();
-			case OperatorsPackage.OPERATOR: return createOperator();
-			case OperatorsPackage.RELATIONSHIP: return createRelationship();
-			case OperatorsPackage.RESOURCE_EXPANSION: return createResourceExpansion();
-			case OperatorsPackage.RESOURCE_FORECAST: return createResourceForecast();
-			case OperatorsPackage.RESOURCE_MONITOR: return createResourceMonitor();
-			case OperatorsPackage.WAREHOUSE: return createWarehouse();
+			case OperatorsPackage.EQUIPMENT_RELATIONSHIP: return (EObject)createEquipmentRelationship();
+			case OperatorsPackage.EXPANSION_EXPERIENCE: return (EObject)createExpansionExperience();
+			case OperatorsPackage.FUNCTION_RELATIONSHIP: return (EObject)createFunctionRelationship();
+			case OperatorsPackage.MARKER: return (EObject)createMarker();
+			case OperatorsPackage.NETWORK: return (EObject)createNetwork();
+			case OperatorsPackage.NODE: return (EObject)createNode();
+			case OperatorsPackage.OPERATOR: return (EObject)createOperator();
+			case OperatorsPackage.RELATIONSHIP: return (EObject)createRelationship();
+			case OperatorsPackage.RESOURCE_EXPANSION: return (EObject)createResourceExpansion();
+			case OperatorsPackage.RESOURCE_FORECAST: return (EObject)createResourceForecast();
+			case OperatorsPackage.RESOURCE_MONITOR: return (EObject)createResourceMonitor();
+			case OperatorsPackage.WAREHOUSE: return (EObject)createWarehouse();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

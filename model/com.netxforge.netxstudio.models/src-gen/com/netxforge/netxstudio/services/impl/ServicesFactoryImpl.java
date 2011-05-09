@@ -19,15 +19,26 @@
 package com.netxforge.netxstudio.services.impl;
 
 import com.netxforge.netxstudio.services.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.netxforge.netxstudio.services.CFSService;
+import com.netxforge.netxstudio.services.CIID;
+import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServiceClassType;
+import com.netxforge.netxstudio.services.ServiceDistribution;
+import com.netxforge.netxstudio.services.ServiceForecast;
+import com.netxforge.netxstudio.services.ServiceForecastUsers;
+import com.netxforge.netxstudio.services.ServiceMonitor;
+import com.netxforge.netxstudio.services.ServiceProfile;
+import com.netxforge.netxstudio.services.ServiceUser;
+import com.netxforge.netxstudio.services.ServicesFactory;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -73,16 +84,16 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ServicesPackage.CFS_SERVICE: return createCFSService();
-			case ServicesPackage.CIID: return createCIID();
-			case ServicesPackage.RFS_SERVICE: return createRFSService();
-			case ServicesPackage.SERVICE: return createService();
-			case ServicesPackage.SERVICE_DISTRIBUTION: return createServiceDistribution();
-			case ServicesPackage.SERVICE_FORECAST: return createServiceForecast();
-			case ServicesPackage.SERVICE_FORECAST_USERS: return createServiceForecastUsers();
-			case ServicesPackage.SERVICE_MONITOR: return createServiceMonitor();
-			case ServicesPackage.SERVICE_PROFILE: return createServiceProfile();
-			case ServicesPackage.SERVICE_USER: return createServiceUser();
+			case ServicesPackage.CFS_SERVICE: return (EObject)createCFSService();
+			case ServicesPackage.CIID: return (EObject)createCIID();
+			case ServicesPackage.RFS_SERVICE: return (EObject)createRFSService();
+			case ServicesPackage.SERVICE: return (EObject)createService();
+			case ServicesPackage.SERVICE_DISTRIBUTION: return (EObject)createServiceDistribution();
+			case ServicesPackage.SERVICE_FORECAST: return (EObject)createServiceForecast();
+			case ServicesPackage.SERVICE_FORECAST_USERS: return (EObject)createServiceForecastUsers();
+			case ServicesPackage.SERVICE_MONITOR: return (EObject)createServiceMonitor();
+			case ServicesPackage.SERVICE_PROFILE: return (EObject)createServiceProfile();
+			case ServicesPackage.SERVICE_USER: return (EObject)createServiceUser();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.generics;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,9 +49,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getPerson()
  * @model extendedMetaData="name='Person' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface Person extends EObject {
+public interface Person extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Active</b></em>' attribute.
 	 * <!-- begin-user-doc -->

@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,9 +34,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getScheduling()
  * @model extendedMetaData="name='Scheduling' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Scheduling extends EObject {
+public interface Scheduling extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Jobs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

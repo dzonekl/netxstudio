@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.generics;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,9 +44,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getLifecycle()
  * @model extendedMetaData="name='Lifecycle' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface Lifecycle extends EObject {
+public interface Lifecycle extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Construction Date</b></em>' attribute.
 	 * <!-- begin-user-doc -->

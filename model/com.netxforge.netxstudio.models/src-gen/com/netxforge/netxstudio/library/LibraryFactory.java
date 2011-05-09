@@ -83,15 +83,6 @@ public interface LibraryFactory extends EFactory {
 	Library createLibrary();
 
 	/**
-	 * Returns a new object of class '<em>Meta</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Meta</em>'.
-	 * @generated
-	 */
-	Meta createMeta();
-
-	/**
 	 * Returns a new object of class '<em>Net XResource</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

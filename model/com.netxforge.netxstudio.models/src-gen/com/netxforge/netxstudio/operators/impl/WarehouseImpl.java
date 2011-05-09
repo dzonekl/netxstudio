@@ -18,26 +18,13 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Warehouse;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EDataTypeEList;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -55,76 +42,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class WarehouseImpl extends EObjectImpl implements Warehouse {
-	/**
-	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getNodes()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Node> nodes;
-
-	/**
-	 * The cached value of the '{@link #getEquipments() <em>Equipments</em>}' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEquipments()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<String> equipments;
-
-	/**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String DESCRIPTION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected String description = DESCRIPTION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = "name";
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
-	/**
-	 * This is true if the Name attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean nameESet;
-
+public class WarehouseImpl extends CDOObjectImpl implements Warehouse {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -149,124 +67,9 @@ public class WarehouseImpl extends EObjectImpl implements Warehouse {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Node> getNodes() {
-		if (nodes == null) {
-			nodes = new EObjectContainmentEList<Node>(Node.class, this, OperatorsPackage.WAREHOUSE__NODES);
-		}
-		return nodes;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<String> getEquipments() {
-		if (equipments == null) {
-			equipments = new EDataTypeEList<String>(String.class, this, OperatorsPackage.WAREHOUSE__EQUIPMENTS);
-		}
-		return equipments;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDescription(String newDescription) {
-		String oldDescription = description;
-		description = newDescription;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OperatorsPackage.WAREHOUSE__DESCRIPTION, oldDescription, description));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		boolean oldNameESet = nameESet;
-		nameESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OperatorsPackage.WAREHOUSE__NAME, oldName, name, !oldNameESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetName() {
-		String oldName = name;
-		boolean oldNameESet = nameESet;
-		name = NAME_EDEFAULT;
-		nameESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, OperatorsPackage.WAREHOUSE__NAME, oldName, NAME_EDEFAULT, oldNameESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetName() {
-		return nameESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case OperatorsPackage.WAREHOUSE__NODES:
-				return ((InternalEList<?>)getNodes()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case OperatorsPackage.WAREHOUSE__NODES:
-				return getNodes();
-			case OperatorsPackage.WAREHOUSE__EQUIPMENTS:
-				return getEquipments();
-			case OperatorsPackage.WAREHOUSE__DESCRIPTION:
-				return getDescription();
-			case OperatorsPackage.WAREHOUSE__NAME:
-				return getName();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -275,25 +78,8 @@ public class WarehouseImpl extends EObjectImpl implements Warehouse {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case OperatorsPackage.WAREHOUSE__NODES:
-				getNodes().clear();
-				getNodes().addAll((Collection<? extends Node>)newValue);
-				return;
-			case OperatorsPackage.WAREHOUSE__EQUIPMENTS:
-				getEquipments().clear();
-				getEquipments().addAll((Collection<? extends String>)newValue);
-				return;
-			case OperatorsPackage.WAREHOUSE__DESCRIPTION:
-				setDescription((String)newValue);
-				return;
-			case OperatorsPackage.WAREHOUSE__NAME:
-				setName((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<Node> getNodes() {
+		return (EList<Node>)eGet(OperatorsPackage.Literals.WAREHOUSE__NODES, true);
 	}
 
 	/**
@@ -301,23 +87,9 @@ public class WarehouseImpl extends EObjectImpl implements Warehouse {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case OperatorsPackage.WAREHOUSE__NODES:
-				getNodes().clear();
-				return;
-			case OperatorsPackage.WAREHOUSE__EQUIPMENTS:
-				getEquipments().clear();
-				return;
-			case OperatorsPackage.WAREHOUSE__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
-				return;
-			case OperatorsPackage.WAREHOUSE__NAME:
-				unsetName();
-				return;
-		}
-		super.eUnset(featureID);
+	@SuppressWarnings("unchecked")
+	public EList<String> getEquipments() {
+		return (EList<String>)eGet(OperatorsPackage.Literals.WAREHOUSE__EQUIPMENTS, true);
 	}
 
 	/**
@@ -325,19 +97,8 @@ public class WarehouseImpl extends EObjectImpl implements Warehouse {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case OperatorsPackage.WAREHOUSE__NODES:
-				return nodes != null && !nodes.isEmpty();
-			case OperatorsPackage.WAREHOUSE__EQUIPMENTS:
-				return equipments != null && !equipments.isEmpty();
-			case OperatorsPackage.WAREHOUSE__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-			case OperatorsPackage.WAREHOUSE__NAME:
-				return isSetName();
-		}
-		return super.eIsSet(featureID);
+	public String getDescription() {
+		return (String)eGet(OperatorsPackage.Literals.WAREHOUSE__DESCRIPTION, true);
 	}
 
 	/**
@@ -345,19 +106,44 @@ public class WarehouseImpl extends EObjectImpl implements Warehouse {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
+	public void setDescription(String newDescription) {
+		eSet(OperatorsPackage.Literals.WAREHOUSE__DESCRIPTION, newDescription);
+	}
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (equipments: ");
-		result.append(equipments);
-		result.append(", description: ");
-		result.append(description);
-		result.append(", name: ");
-		if (nameESet) result.append(name); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return (String)eGet(OperatorsPackage.Literals.WAREHOUSE__NAME, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		eSet(OperatorsPackage.Literals.WAREHOUSE__NAME, newName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetName() {
+		eUnset(OperatorsPackage.Literals.WAREHOUSE__NAME);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetName() {
+		return eIsSet(OperatorsPackage.Literals.WAREHOUSE__NAME);
 	}
 
 } //WarehouseImpl

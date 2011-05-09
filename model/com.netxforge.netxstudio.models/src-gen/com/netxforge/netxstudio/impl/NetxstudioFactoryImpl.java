@@ -19,14 +19,15 @@
 package com.netxforge.netxstudio.impl;
 
 import com.netxforge.netxstudio.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.netxforge.netxstudio.Netxstudio;
+import com.netxforge.netxstudio.NetxstudioFactory;
+import com.netxforge.netxstudio.NetxstudioPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -72,7 +73,7 @@ public class NetxstudioFactoryImpl extends EFactoryImpl implements NetxstudioFac
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case NetxstudioPackage.NETXSTUDIO: return createNetxstudio();
+			case NetxstudioPackage.NETXSTUDIO: return (EObject)createNetxstudio();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.geo;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,9 +39,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.geo.GeoPackage#getRoom()
  * @model extendedMetaData="name='Room' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface Room extends EObject {
+public interface Room extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

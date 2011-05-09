@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.operators;
 
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,9 +45,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceExpansion()
  * @model extendedMetaData="name='ResourceExpansion' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface ResourceExpansion extends EObject {
+public interface ResourceExpansion extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Node Refs</b></em>' reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.operators.Node}.

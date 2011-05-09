@@ -18,9 +18,8 @@
  */
 package com.netxforge.netxstudio.protocols;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,9 +50,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.protocols.ProtocolsPackage#getProcedure()
  * @model extendedMetaData="name='Procedure' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Procedure extends EObject {
+public interface Procedure extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Messages</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.protocols.Message}.

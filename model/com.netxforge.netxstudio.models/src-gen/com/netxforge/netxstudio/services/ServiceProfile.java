@@ -18,11 +18,10 @@
  */
 package com.netxforge.netxstudio.services;
 
-import com.netxforge.netxstudio.library.NetXResource;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.library.NetXResource;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,9 +44,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceProfile()
  * @model extendedMetaData="name='ServiceProfile' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface ServiceProfile extends EObject {
+public interface ServiceProfile extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Profile Resources</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.NetXResource}.

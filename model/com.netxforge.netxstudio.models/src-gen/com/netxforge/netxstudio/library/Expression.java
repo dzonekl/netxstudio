@@ -18,11 +18,10 @@
  */
 package com.netxforge.netxstudio.library;
 
-import com.netxforge.netxstudio.services.ServiceProfile;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.services.ServiceProfile;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,9 +50,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getExpression()
  * @model extendedMetaData="name='Expression' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Expression extends EObject {
+public interface Expression extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Expression Lines</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.

@@ -18,18 +18,22 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+
 import com.netxforge.netxstudio.NetxstudioPackage;
-
 import com.netxforge.netxstudio.generics.GenericsPackage;
-
 import com.netxforge.netxstudio.generics.impl.GenericsPackageImpl;
-
 import com.netxforge.netxstudio.geo.GeoPackage;
-
 import com.netxforge.netxstudio.geo.impl.GeoPackageImpl;
-
 import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
-
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
@@ -38,7 +42,6 @@ import com.netxforge.netxstudio.library.LevelType;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.Meta;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Parameter;
@@ -48,41 +51,17 @@ import com.netxforge.netxstudio.library.StateType;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.library.Vendor;
-
 import com.netxforge.netxstudio.library.util.LibraryValidator;
-
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-
 import com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl;
-
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-
 import com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl;
-
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-
 import com.netxforge.netxstudio.protocols.impl.ProtocolsPackageImpl;
-
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-
 import com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl;
-
 import com.netxforge.netxstudio.services.ServicesPackage;
-
 import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.emf.ecore.EcorePackage;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -125,13 +104,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	private EClass libraryEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass metaEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -271,7 +243,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
@@ -932,42 +903,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getMeta() {
-		return metaEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMeta_Author() {
-		return (EAttribute)metaEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMeta_Description() {
-		return (EAttribute)metaEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMeta_Version() {
-		return (EAttribute)metaEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getNetXResource() {
 		return netXResourceEClass;
 	}
@@ -1495,11 +1430,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(libraryEClass, LIBRARY__VERSION);
 		createEAttribute(libraryEClass, LIBRARY__NAME);
 
-		metaEClass = createEClass(META);
-		createEAttribute(metaEClass, META__AUTHOR);
-		createEAttribute(metaEClass, META__DESCRIPTION);
-		createEAttribute(metaEClass, META__VERSION);
-
 		netXResourceEClass = createEClass(NET_XRESOURCE);
 		createEReference(netXResourceEClass, NET_XRESOURCE__METRIC_VALUE_RANGES);
 		createEReference(netXResourceEClass, NET_XRESOURCE__CAPACITY_VALUES);
@@ -1671,11 +1601,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getLibrary_Version(), theGenericsPackage.getMeta(), null, "version", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_Name(), theGenericsPackage.getName255(), "name", "Library name", 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(metaEClass, Meta.class, "Meta", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getMeta_Author(), theXMLTypePackage.getAnyURI(), "author", null, 0, 1, Meta.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMeta_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, Meta.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMeta_Version(), theXMLTypePackage.getString(), "version", null, 0, 1, Meta.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(netXResourceEClass, NetXResource.class, "NetXResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNetXResource_MetricValueRanges(), theMetricsPackage.getMetricValueRange(), null, "metricValueRanges", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_CapacityValues(), theGenericsPackage.getValue(), null, "capacityValues", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1782,7 +1707,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidFunctionName\n\t\t\t"
-		   });																																																																																													
+		   });																																																																																					
 		addAnnotation
 		  (nodeTypeEClass, 
 		   source, 
@@ -2282,34 +2207,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "Name"
 		   });			
 		addAnnotation
-		  (metaEClass, 
-		   source, 
-		   new String[] {
-			 "name", "Meta",
-			 "kind", "elementOnly"
-		   });			
-		addAnnotation
-		  (getMeta_Author(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "Author"
-		   });			
-		addAnnotation
-		  (getMeta_Description(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Description"
-		   });			
-		addAnnotation
-		  (getMeta_Version(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Version"
-		   });			
-		addAnnotation
 		  (netXResourceEClass, 
 		   source, 
 		   new String[] {
@@ -2692,7 +2589,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self->closure(functions)->asOrderedSet()\n\t\t\t\t\t\t\t"
-		   });																																																																			
+		   });																																																											
 		addAnnotation
 		  (nodeTypeEClass, 
 		   source, 

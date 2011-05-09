@@ -20,9 +20,8 @@ package com.netxforge.netxstudio.library;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -54,9 +53,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getProductInfo()
  * @model extendedMetaData="name='ProductInfo' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface ProductInfo extends EObject {
+public interface ProductInfo extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Equipment Ref</b></em>' reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.Equipment}.

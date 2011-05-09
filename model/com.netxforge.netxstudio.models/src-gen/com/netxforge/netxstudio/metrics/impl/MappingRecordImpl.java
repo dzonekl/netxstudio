@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +33,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class MappingRecordImpl extends EObjectImpl implements MappingRecord {
+public class MappingRecordImpl extends CDOObjectImpl implements MappingRecord {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -52,6 +51,16 @@ public class MappingRecordImpl extends EObjectImpl implements MappingRecord {
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.MAPPING_RECORD;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 } //MappingRecordImpl

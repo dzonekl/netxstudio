@@ -19,15 +19,30 @@
 package com.netxforge.netxstudio.library.impl;
 
 import com.netxforge.netxstudio.library.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.EquipmentGroup;
+import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LevelType;
+import com.netxforge.netxstudio.library.Library;
+import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.library.Parameter;
+import com.netxforge.netxstudio.library.ProductInfo;
+import com.netxforge.netxstudio.library.RedundancyType;
+import com.netxforge.netxstudio.library.StateType;
+import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.library.Unit;
+import com.netxforge.netxstudio.library.Vendor;
 
 /**
  * <!-- begin-user-doc -->
@@ -73,19 +88,18 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case LibraryPackage.EQUIPMENT: return createEquipment();
-			case LibraryPackage.EQUIPMENT_GROUP: return createEquipmentGroup();
-			case LibraryPackage.EXPRESSION: return createExpression();
-			case LibraryPackage.FUNCTION: return createFunction();
-			case LibraryPackage.LIBRARY: return createLibrary();
-			case LibraryPackage.META: return createMeta();
-			case LibraryPackage.NET_XRESOURCE: return createNetXResource();
-			case LibraryPackage.NODE_TYPE: return createNodeType();
-			case LibraryPackage.PARAMETER: return createParameter();
-			case LibraryPackage.PRODUCT_INFO: return createProductInfo();
-			case LibraryPackage.TOLERANCE: return createTolerance();
-			case LibraryPackage.UNIT: return createUnit();
-			case LibraryPackage.VENDOR: return createVendor();
+			case LibraryPackage.EQUIPMENT: return (EObject)createEquipment();
+			case LibraryPackage.EQUIPMENT_GROUP: return (EObject)createEquipmentGroup();
+			case LibraryPackage.EXPRESSION: return (EObject)createExpression();
+			case LibraryPackage.FUNCTION: return (EObject)createFunction();
+			case LibraryPackage.LIBRARY: return (EObject)createLibrary();
+			case LibraryPackage.NET_XRESOURCE: return (EObject)createNetXResource();
+			case LibraryPackage.NODE_TYPE: return (EObject)createNodeType();
+			case LibraryPackage.PARAMETER: return (EObject)createParameter();
+			case LibraryPackage.PRODUCT_INFO: return (EObject)createProductInfo();
+			case LibraryPackage.TOLERANCE: return (EObject)createTolerance();
+			case LibraryPackage.UNIT: return (EObject)createUnit();
+			case LibraryPackage.VENDOR: return (EObject)createVendor();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -189,16 +203,6 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	public Library createLibrary() {
 		LibraryImpl library = new LibraryImpl();
 		return library;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Meta createMeta() {
-		MetaImpl meta = new MetaImpl();
-		return meta;
 	}
 
 	/**

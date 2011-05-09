@@ -18,16 +18,13 @@
  */
 package com.netxforge.netxstudio.operators;
 
-import com.netxforge.netxstudio.generics.Lifecycle;
-import com.netxforge.netxstudio.generics.Person;
-
-import com.netxforge.netxstudio.geo.Room;
-
-import com.netxforge.netxstudio.library.NodeType;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.Lifecycle;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.library.NodeType;
 
 /**
  * <!-- begin-user-doc -->
@@ -60,9 +57,10 @@ import org.eclipse.emf.ecore.EObject;
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='\n\t\t\t\tValidNodeID\n\t\t\t'"
  *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL ValidNodeID='\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t'"
  *        extendedMetaData="name='Node' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Node extends EObject {
+public interface Node extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Lifecycle</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

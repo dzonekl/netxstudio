@@ -18,25 +18,13 @@
  */
 package com.netxforge.netxstudio.protocols.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.Procedure;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -52,37 +40,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ProcedureImpl extends EObjectImpl implements Procedure {
-	/**
-	 * The cached value of the '{@link #getMessages() <em>Messages</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMessages()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Message> messages;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
+public class ProcedureImpl extends CDOObjectImpl implements Procedure {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -107,62 +65,9 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Message> getMessages() {
-		if (messages == null) {
-			messages = new EObjectContainmentEList<Message>(Message.class, this, ProtocolsPackage.PROCEDURE__MESSAGES);
-		}
-		return messages;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ProtocolsPackage.PROCEDURE__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ProtocolsPackage.PROCEDURE__MESSAGES:
-				return ((InternalEList<?>)getMessages()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case ProtocolsPackage.PROCEDURE__MESSAGES:
-				return getMessages();
-			case ProtocolsPackage.PROCEDURE__NAME:
-				return getName();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -171,18 +76,8 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case ProtocolsPackage.PROCEDURE__MESSAGES:
-				getMessages().clear();
-				getMessages().addAll((Collection<? extends Message>)newValue);
-				return;
-			case ProtocolsPackage.PROCEDURE__NAME:
-				setName((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<Message> getMessages() {
+		return (EList<Message>)eGet(ProtocolsPackage.Literals.PROCEDURE__MESSAGES, true);
 	}
 
 	/**
@@ -190,17 +85,8 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case ProtocolsPackage.PROCEDURE__MESSAGES:
-				getMessages().clear();
-				return;
-			case ProtocolsPackage.PROCEDURE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
+	public String getName() {
+		return (String)eGet(ProtocolsPackage.Literals.PROCEDURE__NAME, true);
 	}
 
 	/**
@@ -208,31 +94,8 @@ public class ProcedureImpl extends EObjectImpl implements Procedure {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case ProtocolsPackage.PROCEDURE__MESSAGES:
-				return messages != null && !messages.isEmpty();
-			case ProtocolsPackage.PROCEDURE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(')');
-		return result.toString();
+	public void setName(String newName) {
+		eSet(ProtocolsPackage.Literals.PROCEDURE__NAME, newName);
 	}
 
 } //ProcedureImpl

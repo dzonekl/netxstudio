@@ -18,6 +18,8 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import com.netxforge.netxstudio.protocols.Protocol;
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -42,9 +44,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getRelationship()
  * @model extendedMetaData="name='Relationship' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface Relationship extends EObject {
+public interface Relationship extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -130,12 +133,12 @@ public interface Relationship extends EObject {
 	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Protocol Ref</em>' reference.
-	 * @see #setProtocolRef(EObject)
+	 * @see #setProtocolRef(Protocol)
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getRelationship_ProtocolRef()
 	 * @model extendedMetaData="kind='attribute' name='ProtocolRef'"
 	 * @generated
 	 */
-	EObject getProtocolRef();
+	Protocol getProtocolRef();
 
 	/**
 	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Relationship#getProtocolRef <em>Protocol Ref</em>}' reference.
@@ -145,6 +148,6 @@ public interface Relationship extends EObject {
 	 * @see #getProtocolRef()
 	 * @generated
 	 */
-	void setProtocolRef(EObject value);
+	void setProtocolRef(Protocol value);
 
 } // Relationship

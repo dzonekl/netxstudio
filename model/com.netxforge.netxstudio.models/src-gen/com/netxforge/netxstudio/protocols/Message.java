@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.protocols;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -43,9 +43,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.protocols.ProtocolsPackage#getMessage()
  * @model extendedMetaData="name='Message' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface Message extends EObject {
+public interface Message extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

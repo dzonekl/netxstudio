@@ -19,14 +19,17 @@
 package com.netxforge.netxstudio.geo.impl;
 
 import com.netxforge.netxstudio.geo.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.netxforge.netxstudio.geo.Country;
+import com.netxforge.netxstudio.geo.GeoFactory;
+import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.geo.Site;
 
 /**
  * <!-- begin-user-doc -->
@@ -72,9 +75,9 @@ public class GeoFactoryImpl extends EFactoryImpl implements GeoFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case GeoPackage.COUNTRY: return createCountry();
-			case GeoPackage.ROOM: return createRoom();
-			case GeoPackage.SITE: return createSite();
+			case GeoPackage.COUNTRY: return (EObject)createCountry();
+			case GeoPackage.ROOM: return (EObject)createRoom();
+			case GeoPackage.SITE: return (EObject)createSite();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

@@ -18,11 +18,10 @@
  */
 package com.netxforge.netxstudio.metrics;
 
-import com.netxforge.netxstudio.generics.DateTimeRange;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,9 +44,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingStatistic()
  * @model extendedMetaData="name='MappingStatistic' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface MappingStatistic extends EObject {
+public interface MappingStatistic extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Failed Records</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.MappingRecord}.

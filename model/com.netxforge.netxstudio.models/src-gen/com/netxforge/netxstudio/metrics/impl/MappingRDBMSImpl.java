@@ -18,10 +18,10 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import org.eclipse.emf.ecore.EClass;
+
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

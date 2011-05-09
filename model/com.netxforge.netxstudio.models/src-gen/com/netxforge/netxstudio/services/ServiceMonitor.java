@@ -18,13 +18,11 @@
  */
 package com.netxforge.netxstudio.services;
 
-import com.netxforge.netxstudio.generics.DateTimeRange;
-
-import com.netxforge.netxstudio.operators.ResourceMonitor;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.operators.ResourceMonitor;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,9 +49,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceMonitor()
  * @model extendedMetaData="name='ServiceMonitor' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface ServiceMonitor extends EObject {
+public interface ServiceMonitor extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Period</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

@@ -18,26 +18,27 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+
 import com.netxforge.netxstudio.NetxstudioPackage;
-
 import com.netxforge.netxstudio.generics.GenericsPackage;
-
 import com.netxforge.netxstudio.generics.impl.GenericsPackageImpl;
-
 import com.netxforge.netxstudio.geo.GeoPackage;
-
 import com.netxforge.netxstudio.geo.impl.GeoPackageImpl;
-
 import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
-
 import com.netxforge.netxstudio.library.LibraryPackage;
-
 import com.netxforge.netxstudio.library.impl.LibraryPackageImpl;
-
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-
 import com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl;
-
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
@@ -53,33 +54,13 @@ import com.netxforge.netxstudio.operators.ResourceExpansion;
 import com.netxforge.netxstudio.operators.ResourceForecast;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.Warehouse;
-
 import com.netxforge.netxstudio.operators.util.OperatorsValidator;
-
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-
 import com.netxforge.netxstudio.protocols.impl.ProtocolsPackageImpl;
-
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-
 import com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl;
-
 import com.netxforge.netxstudio.services.ServicesPackage;
-
 import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.emf.ecore.EcorePackage;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -233,7 +214,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		isInited = true;
 
 		// Initialize simple dependencies
-		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
@@ -961,6 +941,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 		GeoPackage theGeoPackage = (GeoPackage)EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI);
 		ServicesPackage theServicesPackage = (ServicesPackage)EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI);
+		ProtocolsPackage theProtocolsPackage = (ProtocolsPackage)EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -1023,7 +1004,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		initEAttribute(getRelationship_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, Relationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRelationship_NodeID1Ref(), this.getNode(), null, "nodeID1Ref", null, 0, 1, Relationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRelationship_NodeID2Ref(), this.getNode(), null, "nodeID2Ref", null, 0, 1, Relationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRelationship_ProtocolRef(), ecorePackage.getEObject(), null, "protocolRef", null, 0, 1, Relationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRelationship_ProtocolRef(), theProtocolsPackage.getProtocol(), null, "protocolRef", null, 0, 1, Relationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resourceExpansionEClass, ResourceExpansion.class, "ResourceExpansion", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getResourceExpansion_NodeRefs(), this.getNode(), null, "nodeRefs", null, 0, -1, ResourceExpansion.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

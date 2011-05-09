@@ -18,38 +18,32 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+
 import com.netxforge.netxstudio.NetxstudioPackage;
-
 import com.netxforge.netxstudio.generics.GenericsPackage;
-
 import com.netxforge.netxstudio.generics.impl.GenericsPackageImpl;
-
 import com.netxforge.netxstudio.geo.GeoPackage;
-
 import com.netxforge.netxstudio.geo.impl.GeoPackageImpl;
-
 import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
-
 import com.netxforge.netxstudio.library.LibraryPackage;
-
 import com.netxforge.netxstudio.library.impl.LibraryPackageImpl;
-
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-
 import com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl;
-
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-
 import com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl;
-
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-
 import com.netxforge.netxstudio.protocols.impl.ProtocolsPackageImpl;
-
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-
 import com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl;
-
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
@@ -62,18 +56,6 @@ import com.netxforge.netxstudio.services.ServiceProfile;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -213,7 +195,6 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		isInited = true;
 
 		// Initialize simple dependencies
-		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
@@ -796,8 +777,8 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		// Obtain other dependent packages
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
-		LibraryPackage theLibraryPackage = (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 		OperatorsPackage theOperatorsPackage = (OperatorsPackage)EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI);
+		LibraryPackage theLibraryPackage = (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -817,8 +798,8 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		initEAttribute(getCIID_LocalCIID(), theGenericsPackage.getName255(), "localCIID", null, 0, 1, com.netxforge.netxstudio.services.CIID.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rfsServiceEClass, RFSService.class, "RFSService", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRFSService_Nodes(), ecorePackage.getEObject(), null, "nodes", null, 0, -1, RFSService.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRFSService_ToleranceRefs(), ecorePackage.getEObject(), null, "toleranceRefs", null, 0, -1, RFSService.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRFSService_Nodes(), theOperatorsPackage.getNode(), null, "nodes", null, 0, -1, RFSService.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRFSService_ToleranceRefs(), theLibraryPackage.getTolerance(), null, "toleranceRefs", null, 0, -1, RFSService.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRFSService_FunctionalCategory(), theXMLTypePackage.getString(), "functionalCategory", null, 0, 1, RFSService.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceEClass, Service.class, "Service", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

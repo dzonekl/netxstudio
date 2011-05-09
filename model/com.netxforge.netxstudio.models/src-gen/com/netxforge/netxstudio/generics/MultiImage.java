@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.generics;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,9 +42,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getMultiImage()
  * @model extendedMetaData="name='MultiImage' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface MultiImage extends EObject {
+public interface MultiImage extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Obj16</b></em>' attribute.
 	 * <!-- begin-user-doc -->

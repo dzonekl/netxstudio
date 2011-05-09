@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.library;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,9 +42,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getTolerance()
  * @model extendedMetaData="name='Tolerance' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface Tolerance extends EObject {
+public interface Tolerance extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Expression</b></em>' attribute.
 	 * <!-- begin-user-doc -->

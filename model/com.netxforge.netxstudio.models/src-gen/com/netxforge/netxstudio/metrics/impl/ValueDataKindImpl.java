@@ -18,15 +18,11 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import org.eclipse.emf.ecore.EClass;
+
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,35 +38,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class ValueDataKindImpl extends DataKindImpl implements ValueDataKind {
-	/**
-	 * The default value of the '{@link #getValueKind() <em>Value Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getValueKind()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final ValueKindType VALUE_KIND_EDEFAULT = ValueKindType.DATETIME;
-
-	/**
-	 * The cached value of the '{@link #getValueKind() <em>Value Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getValueKind()
-	 * @generated
-	 * @ordered
-	 */
-	protected ValueKindType valueKind = VALUE_KIND_EDEFAULT;
-
-	/**
-	 * This is true if the Value Kind attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean valueKindESet;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -96,7 +63,7 @@ public class ValueDataKindImpl extends DataKindImpl implements ValueDataKind {
 	 * @generated
 	 */
 	public ValueKindType getValueKind() {
-		return valueKind;
+		return (ValueKindType)eGet(MetricsPackage.Literals.VALUE_DATA_KIND__VALUE_KIND, true);
 	}
 
 	/**
@@ -105,12 +72,7 @@ public class ValueDataKindImpl extends DataKindImpl implements ValueDataKind {
 	 * @generated
 	 */
 	public void setValueKind(ValueKindType newValueKind) {
-		ValueKindType oldValueKind = valueKind;
-		valueKind = newValueKind == null ? VALUE_KIND_EDEFAULT : newValueKind;
-		boolean oldValueKindESet = valueKindESet;
-		valueKindESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.VALUE_DATA_KIND__VALUE_KIND, oldValueKind, valueKind, !oldValueKindESet));
+		eSet(MetricsPackage.Literals.VALUE_DATA_KIND__VALUE_KIND, newValueKind);
 	}
 
 	/**
@@ -119,12 +81,7 @@ public class ValueDataKindImpl extends DataKindImpl implements ValueDataKind {
 	 * @generated
 	 */
 	public void unsetValueKind() {
-		ValueKindType oldValueKind = valueKind;
-		boolean oldValueKindESet = valueKindESet;
-		valueKind = VALUE_KIND_EDEFAULT;
-		valueKindESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, MetricsPackage.VALUE_DATA_KIND__VALUE_KIND, oldValueKind, VALUE_KIND_EDEFAULT, oldValueKindESet));
+		eUnset(MetricsPackage.Literals.VALUE_DATA_KIND__VALUE_KIND);
 	}
 
 	/**
@@ -133,81 +90,7 @@ public class ValueDataKindImpl extends DataKindImpl implements ValueDataKind {
 	 * @generated
 	 */
 	public boolean isSetValueKind() {
-		return valueKindESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case MetricsPackage.VALUE_DATA_KIND__VALUE_KIND:
-				return getValueKind();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case MetricsPackage.VALUE_DATA_KIND__VALUE_KIND:
-				setValueKind((ValueKindType)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.VALUE_DATA_KIND__VALUE_KIND:
-				unsetValueKind();
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.VALUE_DATA_KIND__VALUE_KIND:
-				return isSetValueKind();
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (valueKind: ");
-		if (valueKindESet) result.append(valueKind); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
+		return eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__VALUE_KIND);
 	}
 
 } //ValueDataKindImpl

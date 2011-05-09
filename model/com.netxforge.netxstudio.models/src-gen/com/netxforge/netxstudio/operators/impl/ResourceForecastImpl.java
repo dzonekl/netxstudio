@@ -18,23 +18,13 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceForecast;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,17 +39,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ResourceForecastImpl extends EObjectImpl implements ResourceForecast {
-	/**
-	 * The cached value of the '{@link #getMarkers() <em>Markers</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMarkers()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Marker> markers;
-
+public class ResourceForecastImpl extends CDOObjectImpl implements ResourceForecast {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -84,39 +64,9 @@ public class ResourceForecastImpl extends EObjectImpl implements ResourceForecas
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Marker> getMarkers() {
-		if (markers == null) {
-			markers = new EObjectContainmentEList<Marker>(Marker.class, this, OperatorsPackage.RESOURCE_FORECAST__MARKERS);
-		}
-		return markers;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case OperatorsPackage.RESOURCE_FORECAST__MARKERS:
-				return ((InternalEList<?>)getMarkers()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case OperatorsPackage.RESOURCE_FORECAST__MARKERS:
-				return getMarkers();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -125,44 +75,8 @@ public class ResourceForecastImpl extends EObjectImpl implements ResourceForecas
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case OperatorsPackage.RESOURCE_FORECAST__MARKERS:
-				getMarkers().clear();
-				getMarkers().addAll((Collection<? extends Marker>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case OperatorsPackage.RESOURCE_FORECAST__MARKERS:
-				getMarkers().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case OperatorsPackage.RESOURCE_FORECAST__MARKERS:
-				return markers != null && !markers.isEmpty();
-		}
-		return super.eIsSet(featureID);
+	public EList<Marker> getMarkers() {
+		return (EList<Marker>)eGet(OperatorsPackage.Literals.RESOURCE_FORECAST__MARKERS, true);
 	}
 
 } //ResourceForecastImpl

@@ -18,11 +18,10 @@
  */
 package com.netxforge.netxstudio.services;
 
-import com.netxforge.netxstudio.generics.Value;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.Value;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,9 +44,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceForecastUsers()
  * @model extendedMetaData="name='ServiceForecastUsers' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface ServiceForecastUsers extends EObject {
+public interface ServiceForecastUsers extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>User Values</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.generics.Value}.

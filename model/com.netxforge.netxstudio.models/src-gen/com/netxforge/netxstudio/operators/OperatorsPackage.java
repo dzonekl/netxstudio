@@ -18,14 +18,14 @@
  */
 package com.netxforge.netxstudio.operators;
 
-import com.netxforge.netxstudio.generics.GenericsPackage;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
+import com.netxforge.netxstudio.generics.GenericsPackage;
 
 /**
  * <!-- begin-user-doc -->

@@ -18,27 +18,14 @@
  */
 package com.netxforge.netxstudio.geo.impl;
 
-import com.netxforge.netxstudio.generics.MultiImage;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.netxforge.netxstudio.generics.MultiImage;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Site;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -56,67 +43,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class CountryImpl extends EObjectImpl implements Country {
-	/**
-	 * The cached value of the '{@link #getSites() <em>Sites</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSites()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Site> sites;
-
-	/**
-	 * The cached value of the '{@link #getIcons() <em>Icons</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIcons()
-	 * @generated
-	 * @ordered
-	 */
-	protected MultiImage icons;
-
-	/**
-	 * The default value of the '{@link #getCountryCode() <em>Country Code</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCountryCode()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String COUNTRY_CODE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getCountryCode() <em>Country Code</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCountryCode()
-	 * @generated
-	 * @ordered
-	 */
-	protected String countryCode = COUNTRY_CODE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
+public class CountryImpl extends CDOObjectImpl implements Country {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -141,132 +68,9 @@ public class CountryImpl extends EObjectImpl implements Country {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Site> getSites() {
-		if (sites == null) {
-			sites = new EObjectContainmentEList<Site>(Site.class, this, GeoPackage.COUNTRY__SITES);
-		}
-		return sites;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public MultiImage getIcons() {
-		return icons;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetIcons(MultiImage newIcons, NotificationChain msgs) {
-		MultiImage oldIcons = icons;
-		icons = newIcons;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GeoPackage.COUNTRY__ICONS, oldIcons, newIcons);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIcons(MultiImage newIcons) {
-		if (newIcons != icons) {
-			NotificationChain msgs = null;
-			if (icons != null)
-				msgs = ((InternalEObject)icons).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - GeoPackage.COUNTRY__ICONS, null, msgs);
-			if (newIcons != null)
-				msgs = ((InternalEObject)newIcons).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - GeoPackage.COUNTRY__ICONS, null, msgs);
-			msgs = basicSetIcons(newIcons, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GeoPackage.COUNTRY__ICONS, newIcons, newIcons));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getCountryCode() {
-		return countryCode;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCountryCode(String newCountryCode) {
-		String oldCountryCode = countryCode;
-		countryCode = newCountryCode;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GeoPackage.COUNTRY__COUNTRY_CODE, oldCountryCode, countryCode));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GeoPackage.COUNTRY__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case GeoPackage.COUNTRY__SITES:
-				return ((InternalEList<?>)getSites()).basicRemove(otherEnd, msgs);
-			case GeoPackage.COUNTRY__ICONS:
-				return basicSetIcons(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case GeoPackage.COUNTRY__SITES:
-				return getSites();
-			case GeoPackage.COUNTRY__ICONS:
-				return getIcons();
-			case GeoPackage.COUNTRY__COUNTRY_CODE:
-				return getCountryCode();
-			case GeoPackage.COUNTRY__NAME:
-				return getName();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -275,24 +79,8 @@ public class CountryImpl extends EObjectImpl implements Country {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case GeoPackage.COUNTRY__SITES:
-				getSites().clear();
-				getSites().addAll((Collection<? extends Site>)newValue);
-				return;
-			case GeoPackage.COUNTRY__ICONS:
-				setIcons((MultiImage)newValue);
-				return;
-			case GeoPackage.COUNTRY__COUNTRY_CODE:
-				setCountryCode((String)newValue);
-				return;
-			case GeoPackage.COUNTRY__NAME:
-				setName((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<Site> getSites() {
+		return (EList<Site>)eGet(GeoPackage.Literals.COUNTRY__SITES, true);
 	}
 
 	/**
@@ -300,23 +88,8 @@ public class CountryImpl extends EObjectImpl implements Country {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case GeoPackage.COUNTRY__SITES:
-				getSites().clear();
-				return;
-			case GeoPackage.COUNTRY__ICONS:
-				setIcons((MultiImage)null);
-				return;
-			case GeoPackage.COUNTRY__COUNTRY_CODE:
-				setCountryCode(COUNTRY_CODE_EDEFAULT);
-				return;
-			case GeoPackage.COUNTRY__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
+	public MultiImage getIcons() {
+		return (MultiImage)eGet(GeoPackage.Literals.COUNTRY__ICONS, true);
 	}
 
 	/**
@@ -324,19 +97,8 @@ public class CountryImpl extends EObjectImpl implements Country {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case GeoPackage.COUNTRY__SITES:
-				return sites != null && !sites.isEmpty();
-			case GeoPackage.COUNTRY__ICONS:
-				return icons != null;
-			case GeoPackage.COUNTRY__COUNTRY_CODE:
-				return COUNTRY_CODE_EDEFAULT == null ? countryCode != null : !COUNTRY_CODE_EDEFAULT.equals(countryCode);
-			case GeoPackage.COUNTRY__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		}
-		return super.eIsSet(featureID);
+	public void setIcons(MultiImage newIcons) {
+		eSet(GeoPackage.Literals.COUNTRY__ICONS, newIcons);
 	}
 
 	/**
@@ -344,17 +106,35 @@ public class CountryImpl extends EObjectImpl implements Country {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
+	public String getCountryCode() {
+		return (String)eGet(GeoPackage.Literals.COUNTRY__COUNTRY_CODE, true);
+	}
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (countryCode: ");
-		result.append(countryCode);
-		result.append(", name: ");
-		result.append(name);
-		result.append(')');
-		return result.toString();
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCountryCode(String newCountryCode) {
+		eSet(GeoPackage.Literals.COUNTRY__COUNTRY_CODE, newCountryCode);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return (String)eGet(GeoPackage.Literals.COUNTRY__NAME, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		eSet(GeoPackage.Literals.COUNTRY__NAME, newName);
 	}
 
 } //CountryImpl

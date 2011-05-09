@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.generics;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -52,9 +52,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getCompany()
  * @model extendedMetaData="name='Company' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Company extends EObject {
+public interface Company extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Icons</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

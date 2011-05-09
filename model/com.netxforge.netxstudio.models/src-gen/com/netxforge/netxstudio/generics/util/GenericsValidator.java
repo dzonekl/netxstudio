@@ -25,6 +25,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -157,7 +158,7 @@ public class GenericsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateCompany(Company company, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(company, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)company, diagnostics, context);
 	}
 
 	/**
@@ -166,7 +167,7 @@ public class GenericsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateDateTimeRange(DateTimeRange dateTimeRange, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(dateTimeRange, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)dateTimeRange, diagnostics, context);
 	}
 
 	/**
@@ -175,7 +176,7 @@ public class GenericsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateDiagramInfo(DiagramInfo diagramInfo, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(diagramInfo, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)diagramInfo, diagnostics, context);
 	}
 
 	/**
@@ -184,7 +185,7 @@ public class GenericsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateLifecycle(Lifecycle lifecycle, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(lifecycle, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)lifecycle, diagnostics, context);
 	}
 
 	/**
@@ -193,7 +194,7 @@ public class GenericsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateMeta(Meta meta, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(meta, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)meta, diagnostics, context);
 	}
 
 	/**
@@ -202,7 +203,7 @@ public class GenericsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateMultiImage(MultiImage multiImage, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(multiImage, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)multiImage, diagnostics, context);
 	}
 
 	/**
@@ -211,7 +212,7 @@ public class GenericsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validatePerson(Person person, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(person, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)person, diagnostics, context);
 	}
 
 	/**
@@ -220,7 +221,7 @@ public class GenericsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateRole(Role role, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(role, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)role, diagnostics, context);
 	}
 
 	/**
@@ -229,7 +230,7 @@ public class GenericsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateValue(Value value, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(value, diagnostics, context);
+		return validate_EveryDefaultConstraint((EObject)value, diagnostics, context);
 	}
 
 	/**

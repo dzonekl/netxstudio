@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.operators;
 
-import com.netxforge.netxstudio.generics.Value;
+import org.eclipse.emf.cdo.CDOObject;
 
+import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,9 +48,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarker()
  * @model extendedMetaData="name='Marker' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Marker extends EObject {
+public interface Marker extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Equipment Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->

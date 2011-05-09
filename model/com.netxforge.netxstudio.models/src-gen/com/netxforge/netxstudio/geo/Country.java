@@ -18,11 +18,10 @@
  */
 package com.netxforge.netxstudio.geo;
 
-import com.netxforge.netxstudio.generics.MultiImage;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.MultiImage;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,9 +50,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.geo.GeoPackage#getCountry()
  * @model extendedMetaData="name='Country' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Country extends EObject {
+public interface Country extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Sites</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.geo.Site}.

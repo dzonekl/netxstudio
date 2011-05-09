@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,7 +32,8 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRecord()
  * @model extendedMetaData="name='MappingRecord' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface MappingRecord extends EObject {
+public interface MappingRecord extends CDOObject {
 } // MappingRecord

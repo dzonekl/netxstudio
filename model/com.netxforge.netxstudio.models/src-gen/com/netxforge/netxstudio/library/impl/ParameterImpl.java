@@ -18,15 +18,11 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Parameter;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,125 +41,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class ParameterImpl extends EObjectImpl implements Parameter {
-	/**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String DESCRIPTION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected String description = DESCRIPTION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getExpressionName() <em>Expression Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExpressionName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String EXPRESSION_NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getExpressionName() <em>Expression Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExpressionName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String expressionName = EXPRESSION_NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #isModifiable() <em>Modifiable</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isModifiable()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean MODIFIABLE_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isModifiable() <em>Modifiable</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isModifiable()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean modifiable = MODIFIABLE_EDEFAULT;
-
-	/**
-	 * This is true if the Modifiable attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean modifiableESet;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double VALUE_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected double value = VALUE_EDEFAULT;
-
-	/**
-	 * This is true if the Value attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean valueESet;
-
+public class ParameterImpl extends CDOObjectImpl implements Parameter {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -188,8 +66,18 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getDescription() {
-		return description;
+		return (String)eGet(LibraryPackage.Literals.PARAMETER__DESCRIPTION, true);
 	}
 
 	/**
@@ -198,10 +86,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public void setDescription(String newDescription) {
-		String oldDescription = description;
-		description = newDescription;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.PARAMETER__DESCRIPTION, oldDescription, description));
+		eSet(LibraryPackage.Literals.PARAMETER__DESCRIPTION, newDescription);
 	}
 
 	/**
@@ -210,7 +95,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public String getExpressionName() {
-		return expressionName;
+		return (String)eGet(LibraryPackage.Literals.PARAMETER__EXPRESSION_NAME, true);
 	}
 
 	/**
@@ -219,10 +104,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public void setExpressionName(String newExpressionName) {
-		String oldExpressionName = expressionName;
-		expressionName = newExpressionName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.PARAMETER__EXPRESSION_NAME, oldExpressionName, expressionName));
+		eSet(LibraryPackage.Literals.PARAMETER__EXPRESSION_NAME, newExpressionName);
 	}
 
 	/**
@@ -231,7 +113,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public boolean isModifiable() {
-		return modifiable;
+		return (Boolean)eGet(LibraryPackage.Literals.PARAMETER__MODIFIABLE, true);
 	}
 
 	/**
@@ -240,12 +122,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public void setModifiable(boolean newModifiable) {
-		boolean oldModifiable = modifiable;
-		modifiable = newModifiable;
-		boolean oldModifiableESet = modifiableESet;
-		modifiableESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.PARAMETER__MODIFIABLE, oldModifiable, modifiable, !oldModifiableESet));
+		eSet(LibraryPackage.Literals.PARAMETER__MODIFIABLE, newModifiable);
 	}
 
 	/**
@@ -254,12 +131,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public void unsetModifiable() {
-		boolean oldModifiable = modifiable;
-		boolean oldModifiableESet = modifiableESet;
-		modifiable = MODIFIABLE_EDEFAULT;
-		modifiableESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, LibraryPackage.PARAMETER__MODIFIABLE, oldModifiable, MODIFIABLE_EDEFAULT, oldModifiableESet));
+		eUnset(LibraryPackage.Literals.PARAMETER__MODIFIABLE);
 	}
 
 	/**
@@ -268,7 +140,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public boolean isSetModifiable() {
-		return modifiableESet;
+		return eIsSet(LibraryPackage.Literals.PARAMETER__MODIFIABLE);
 	}
 
 	/**
@@ -277,7 +149,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public String getName() {
-		return name;
+		return (String)eGet(LibraryPackage.Literals.PARAMETER__NAME, true);
 	}
 
 	/**
@@ -286,10 +158,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.PARAMETER__NAME, oldName, name));
+		eSet(LibraryPackage.Literals.PARAMETER__NAME, newName);
 	}
 
 	/**
@@ -298,7 +167,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public double getValue() {
-		return value;
+		return (Double)eGet(LibraryPackage.Literals.PARAMETER__VALUE, true);
 	}
 
 	/**
@@ -307,12 +176,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public void setValue(double newValue) {
-		double oldValue = value;
-		value = newValue;
-		boolean oldValueESet = valueESet;
-		valueESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.PARAMETER__VALUE, oldValue, value, !oldValueESet));
+		eSet(LibraryPackage.Literals.PARAMETER__VALUE, newValue);
 	}
 
 	/**
@@ -321,12 +185,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public void unsetValue() {
-		double oldValue = value;
-		boolean oldValueESet = valueESet;
-		value = VALUE_EDEFAULT;
-		valueESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, LibraryPackage.PARAMETER__VALUE, oldValue, VALUE_EDEFAULT, oldValueESet));
+		eUnset(LibraryPackage.Literals.PARAMETER__VALUE);
 	}
 
 	/**
@@ -335,129 +194,7 @@ public class ParameterImpl extends EObjectImpl implements Parameter {
 	 * @generated
 	 */
 	public boolean isSetValue() {
-		return valueESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case LibraryPackage.PARAMETER__DESCRIPTION:
-				return getDescription();
-			case LibraryPackage.PARAMETER__EXPRESSION_NAME:
-				return getExpressionName();
-			case LibraryPackage.PARAMETER__MODIFIABLE:
-				return isModifiable();
-			case LibraryPackage.PARAMETER__NAME:
-				return getName();
-			case LibraryPackage.PARAMETER__VALUE:
-				return getValue();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case LibraryPackage.PARAMETER__DESCRIPTION:
-				setDescription((String)newValue);
-				return;
-			case LibraryPackage.PARAMETER__EXPRESSION_NAME:
-				setExpressionName((String)newValue);
-				return;
-			case LibraryPackage.PARAMETER__MODIFIABLE:
-				setModifiable((Boolean)newValue);
-				return;
-			case LibraryPackage.PARAMETER__NAME:
-				setName((String)newValue);
-				return;
-			case LibraryPackage.PARAMETER__VALUE:
-				setValue((Double)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case LibraryPackage.PARAMETER__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
-				return;
-			case LibraryPackage.PARAMETER__EXPRESSION_NAME:
-				setExpressionName(EXPRESSION_NAME_EDEFAULT);
-				return;
-			case LibraryPackage.PARAMETER__MODIFIABLE:
-				unsetModifiable();
-				return;
-			case LibraryPackage.PARAMETER__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case LibraryPackage.PARAMETER__VALUE:
-				unsetValue();
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case LibraryPackage.PARAMETER__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-			case LibraryPackage.PARAMETER__EXPRESSION_NAME:
-				return EXPRESSION_NAME_EDEFAULT == null ? expressionName != null : !EXPRESSION_NAME_EDEFAULT.equals(expressionName);
-			case LibraryPackage.PARAMETER__MODIFIABLE:
-				return isSetModifiable();
-			case LibraryPackage.PARAMETER__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case LibraryPackage.PARAMETER__VALUE:
-				return isSetValue();
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (description: ");
-		result.append(description);
-		result.append(", expressionName: ");
-		result.append(expressionName);
-		result.append(", modifiable: ");
-		if (modifiableESet) result.append(modifiable); else result.append("<unset>");
-		result.append(", name: ");
-		result.append(name);
-		result.append(", value: ");
-		if (valueESet) result.append(value); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
+		return eIsSet(LibraryPackage.Literals.PARAMETER__VALUE);
 	}
 
 } //ParameterImpl

@@ -18,26 +18,13 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
-import com.netxforge.netxstudio.library.NetXResource;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.services.ServiceProfile;
 import com.netxforge.netxstudio.services.ServicesPackage;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -53,37 +40,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ServiceProfileImpl extends EObjectImpl implements ServiceProfile {
-	/**
-	 * The cached value of the '{@link #getProfileResources() <em>Profile Resources</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getProfileResources()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<NetXResource> profileResources;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
+public class ServiceProfileImpl extends CDOObjectImpl implements ServiceProfile {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -108,62 +65,9 @@ public class ServiceProfileImpl extends EObjectImpl implements ServiceProfile {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<NetXResource> getProfileResources() {
-		if (profileResources == null) {
-			profileResources = new EObjectContainmentEList<NetXResource>(NetXResource.class, this, ServicesPackage.SERVICE_PROFILE__PROFILE_RESOURCES);
-		}
-		return profileResources;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ServicesPackage.SERVICE_PROFILE__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_PROFILE__PROFILE_RESOURCES:
-				return ((InternalEList<?>)getProfileResources()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_PROFILE__PROFILE_RESOURCES:
-				return getProfileResources();
-			case ServicesPackage.SERVICE_PROFILE__NAME:
-				return getName();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -172,18 +76,8 @@ public class ServiceProfileImpl extends EObjectImpl implements ServiceProfile {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_PROFILE__PROFILE_RESOURCES:
-				getProfileResources().clear();
-				getProfileResources().addAll((Collection<? extends NetXResource>)newValue);
-				return;
-			case ServicesPackage.SERVICE_PROFILE__NAME:
-				setName((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<NetXResource> getProfileResources() {
+		return (EList<NetXResource>)eGet(ServicesPackage.Literals.SERVICE_PROFILE__PROFILE_RESOURCES, true);
 	}
 
 	/**
@@ -191,17 +85,8 @@ public class ServiceProfileImpl extends EObjectImpl implements ServiceProfile {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_PROFILE__PROFILE_RESOURCES:
-				getProfileResources().clear();
-				return;
-			case ServicesPackage.SERVICE_PROFILE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
+	public String getName() {
+		return (String)eGet(ServicesPackage.Literals.SERVICE_PROFILE__NAME, true);
 	}
 
 	/**
@@ -209,31 +94,8 @@ public class ServiceProfileImpl extends EObjectImpl implements ServiceProfile {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_PROFILE__PROFILE_RESOURCES:
-				return profileResources != null && !profileResources.isEmpty();
-			case ServicesPackage.SERVICE_PROFILE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(')');
-		return result.toString();
+	public void setName(String newName) {
+		eSet(ServicesPackage.Literals.SERVICE_PROFILE__NAME, newName);
 	}
 
 } //ServiceProfileImpl

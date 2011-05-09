@@ -18,24 +18,15 @@
  */
 package com.netxforge.netxstudio.scheduling.impl;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobKinds;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-
-import java.util.Collection;
-
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -55,135 +46,7 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  *
  * @generated
  */
-public class JobImpl extends EObjectImpl implements Job {
-	/**
-	 * The cached value of the '{@link #getJobExecution() <em>Job Execution</em>}' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getJobExecution()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<XMLGregorianCalendar> jobExecution;
-
-	/**
-	 * The default value of the '{@link #getJobKind() <em>Job Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getJobKind()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final JobKinds JOB_KIND_EDEFAULT = JobKinds.RESOURCE_MONITORING;
-
-	/**
-	 * The cached value of the '{@link #getJobKind() <em>Job Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getJobKind()
-	 * @generated
-	 * @ordered
-	 */
-	protected JobKinds jobKind = JOB_KIND_EDEFAULT;
-
-	/**
-	 * This is true if the Job Kind attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean jobKindESet;
-
-	/**
-	 * The default value of the '{@link #isCurrentlyActive() <em>Currently Active</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isCurrentlyActive()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean CURRENTLY_ACTIVE_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isCurrentlyActive() <em>Currently Active</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isCurrentlyActive()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean currentlyActive = CURRENTLY_ACTIVE_EDEFAULT;
-
-	/**
-	 * This is true if the Currently Active attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean currentlyActiveESet;
-
-	/**
-	 * The default value of the '{@link #getEnded() <em>Ended</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEnded()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final XMLGregorianCalendar ENDED_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getEnded() <em>Ended</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEnded()
-	 * @generated
-	 * @ordered
-	 */
-	protected XMLGregorianCalendar ended = ENDED_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getStarted() <em>Started</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getStarted()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final XMLGregorianCalendar STARTED_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getStarted() <em>Started</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getStarted()
-	 * @generated
-	 * @ordered
-	 */
-	protected XMLGregorianCalendar started = STARTED_EDEFAULT;
-
+public class JobImpl extends CDOObjectImpl implements Job {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -208,190 +71,9 @@ public class JobImpl extends EObjectImpl implements Job {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<XMLGregorianCalendar> getJobExecution() {
-		if (jobExecution == null) {
-			jobExecution = new EDataTypeEList<XMLGregorianCalendar>(XMLGregorianCalendar.class, this, SchedulingPackage.JOB__JOB_EXECUTION);
-		}
-		return jobExecution;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public JobKinds getJobKind() {
-		return jobKind;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setJobKind(JobKinds newJobKind) {
-		JobKinds oldJobKind = jobKind;
-		jobKind = newJobKind == null ? JOB_KIND_EDEFAULT : newJobKind;
-		boolean oldJobKindESet = jobKindESet;
-		jobKindESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulingPackage.JOB__JOB_KIND, oldJobKind, jobKind, !oldJobKindESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetJobKind() {
-		JobKinds oldJobKind = jobKind;
-		boolean oldJobKindESet = jobKindESet;
-		jobKind = JOB_KIND_EDEFAULT;
-		jobKindESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, SchedulingPackage.JOB__JOB_KIND, oldJobKind, JOB_KIND_EDEFAULT, oldJobKindESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetJobKind() {
-		return jobKindESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isCurrentlyActive() {
-		return currentlyActive;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCurrentlyActive(boolean newCurrentlyActive) {
-		boolean oldCurrentlyActive = currentlyActive;
-		currentlyActive = newCurrentlyActive;
-		boolean oldCurrentlyActiveESet = currentlyActiveESet;
-		currentlyActiveESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulingPackage.JOB__CURRENTLY_ACTIVE, oldCurrentlyActive, currentlyActive, !oldCurrentlyActiveESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetCurrentlyActive() {
-		boolean oldCurrentlyActive = currentlyActive;
-		boolean oldCurrentlyActiveESet = currentlyActiveESet;
-		currentlyActive = CURRENTLY_ACTIVE_EDEFAULT;
-		currentlyActiveESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, SchedulingPackage.JOB__CURRENTLY_ACTIVE, oldCurrentlyActive, CURRENTLY_ACTIVE_EDEFAULT, oldCurrentlyActiveESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetCurrentlyActive() {
-		return currentlyActiveESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public XMLGregorianCalendar getEnded() {
-		return ended;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEnded(XMLGregorianCalendar newEnded) {
-		XMLGregorianCalendar oldEnded = ended;
-		ended = newEnded;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulingPackage.JOB__ENDED, oldEnded, ended));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulingPackage.JOB__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public XMLGregorianCalendar getStarted() {
-		return started;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setStarted(XMLGregorianCalendar newStarted) {
-		XMLGregorianCalendar oldStarted = started;
-		started = newStarted;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulingPackage.JOB__STARTED, oldStarted, started));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case SchedulingPackage.JOB__JOB_EXECUTION:
-				return getJobExecution();
-			case SchedulingPackage.JOB__JOB_KIND:
-				return getJobKind();
-			case SchedulingPackage.JOB__CURRENTLY_ACTIVE:
-				return isCurrentlyActive();
-			case SchedulingPackage.JOB__ENDED:
-				return getEnded();
-			case SchedulingPackage.JOB__NAME:
-				return getName();
-			case SchedulingPackage.JOB__STARTED:
-				return getStarted();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -400,30 +82,8 @@ public class JobImpl extends EObjectImpl implements Job {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case SchedulingPackage.JOB__JOB_EXECUTION:
-				getJobExecution().clear();
-				getJobExecution().addAll((Collection<? extends XMLGregorianCalendar>)newValue);
-				return;
-			case SchedulingPackage.JOB__JOB_KIND:
-				setJobKind((JobKinds)newValue);
-				return;
-			case SchedulingPackage.JOB__CURRENTLY_ACTIVE:
-				setCurrentlyActive((Boolean)newValue);
-				return;
-			case SchedulingPackage.JOB__ENDED:
-				setEnded((XMLGregorianCalendar)newValue);
-				return;
-			case SchedulingPackage.JOB__NAME:
-				setName((String)newValue);
-				return;
-			case SchedulingPackage.JOB__STARTED:
-				setStarted((XMLGregorianCalendar)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<XMLGregorianCalendar> getJobExecution() {
+		return (EList<XMLGregorianCalendar>)eGet(SchedulingPackage.Literals.JOB__JOB_EXECUTION, true);
 	}
 
 	/**
@@ -431,29 +91,8 @@ public class JobImpl extends EObjectImpl implements Job {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case SchedulingPackage.JOB__JOB_EXECUTION:
-				getJobExecution().clear();
-				return;
-			case SchedulingPackage.JOB__JOB_KIND:
-				unsetJobKind();
-				return;
-			case SchedulingPackage.JOB__CURRENTLY_ACTIVE:
-				unsetCurrentlyActive();
-				return;
-			case SchedulingPackage.JOB__ENDED:
-				setEnded(ENDED_EDEFAULT);
-				return;
-			case SchedulingPackage.JOB__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case SchedulingPackage.JOB__STARTED:
-				setStarted(STARTED_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
+	public JobKinds getJobKind() {
+		return (JobKinds)eGet(SchedulingPackage.Literals.JOB__JOB_KIND, true);
 	}
 
 	/**
@@ -461,23 +100,8 @@ public class JobImpl extends EObjectImpl implements Job {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case SchedulingPackage.JOB__JOB_EXECUTION:
-				return jobExecution != null && !jobExecution.isEmpty();
-			case SchedulingPackage.JOB__JOB_KIND:
-				return isSetJobKind();
-			case SchedulingPackage.JOB__CURRENTLY_ACTIVE:
-				return isSetCurrentlyActive();
-			case SchedulingPackage.JOB__ENDED:
-				return ENDED_EDEFAULT == null ? ended != null : !ENDED_EDEFAULT.equals(ended);
-			case SchedulingPackage.JOB__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case SchedulingPackage.JOB__STARTED:
-				return STARTED_EDEFAULT == null ? started != null : !STARTED_EDEFAULT.equals(started);
-		}
-		return super.eIsSet(featureID);
+	public void setJobKind(JobKinds newJobKind) {
+		eSet(SchedulingPackage.Literals.JOB__JOB_KIND, newJobKind);
 	}
 
 	/**
@@ -485,25 +109,107 @@ public class JobImpl extends EObjectImpl implements Job {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
+	public void unsetJobKind() {
+		eUnset(SchedulingPackage.Literals.JOB__JOB_KIND);
+	}
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (jobExecution: ");
-		result.append(jobExecution);
-		result.append(", jobKind: ");
-		if (jobKindESet) result.append(jobKind); else result.append("<unset>");
-		result.append(", currentlyActive: ");
-		if (currentlyActiveESet) result.append(currentlyActive); else result.append("<unset>");
-		result.append(", ended: ");
-		result.append(ended);
-		result.append(", name: ");
-		result.append(name);
-		result.append(", started: ");
-		result.append(started);
-		result.append(')');
-		return result.toString();
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetJobKind() {
+		return eIsSet(SchedulingPackage.Literals.JOB__JOB_KIND);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isCurrentlyActive() {
+		return (Boolean)eGet(SchedulingPackage.Literals.JOB__CURRENTLY_ACTIVE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCurrentlyActive(boolean newCurrentlyActive) {
+		eSet(SchedulingPackage.Literals.JOB__CURRENTLY_ACTIVE, newCurrentlyActive);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetCurrentlyActive() {
+		eUnset(SchedulingPackage.Literals.JOB__CURRENTLY_ACTIVE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetCurrentlyActive() {
+		return eIsSet(SchedulingPackage.Literals.JOB__CURRENTLY_ACTIVE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public XMLGregorianCalendar getEnded() {
+		return (XMLGregorianCalendar)eGet(SchedulingPackage.Literals.JOB__ENDED, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEnded(XMLGregorianCalendar newEnded) {
+		eSet(SchedulingPackage.Literals.JOB__ENDED, newEnded);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return (String)eGet(SchedulingPackage.Literals.JOB__NAME, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		eSet(SchedulingPackage.Literals.JOB__NAME, newName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public XMLGregorianCalendar getStarted() {
+		return (XMLGregorianCalendar)eGet(SchedulingPackage.Literals.JOB__STARTED, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStarted(XMLGregorianCalendar newStarted) {
+		eSet(SchedulingPackage.Literals.JOB__STARTED, newStarted);
 	}
 
 } //JobImpl

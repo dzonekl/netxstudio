@@ -18,16 +18,12 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.library.LevelType;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,76 +40,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class ToleranceImpl extends EObjectImpl implements Tolerance {
-	/**
-	 * The default value of the '{@link #getExpression() <em>Expression</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExpression()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String EXPRESSION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getExpression() <em>Expression</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExpression()
-	 * @generated
-	 * @ordered
-	 */
-	protected String expression = EXPRESSION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getLevel() <em>Level</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLevel()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final LevelType LEVEL_EDEFAULT = LevelType.RED;
-
-	/**
-	 * The cached value of the '{@link #getLevel() <em>Level</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLevel()
-	 * @generated
-	 * @ordered
-	 */
-	protected LevelType level = LEVEL_EDEFAULT;
-
-	/**
-	 * This is true if the Level attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean levelESet;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
+public class ToleranceImpl extends CDOObjectImpl implements Tolerance {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -138,8 +65,18 @@ public class ToleranceImpl extends EObjectImpl implements Tolerance {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getExpression() {
-		return expression;
+		return (String)eGet(LibraryPackage.Literals.TOLERANCE__EXPRESSION, true);
 	}
 
 	/**
@@ -148,10 +85,7 @@ public class ToleranceImpl extends EObjectImpl implements Tolerance {
 	 * @generated
 	 */
 	public void setExpression(String newExpression) {
-		String oldExpression = expression;
-		expression = newExpression;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.TOLERANCE__EXPRESSION, oldExpression, expression));
+		eSet(LibraryPackage.Literals.TOLERANCE__EXPRESSION, newExpression);
 	}
 
 	/**
@@ -160,7 +94,7 @@ public class ToleranceImpl extends EObjectImpl implements Tolerance {
 	 * @generated
 	 */
 	public LevelType getLevel() {
-		return level;
+		return (LevelType)eGet(LibraryPackage.Literals.TOLERANCE__LEVEL, true);
 	}
 
 	/**
@@ -169,12 +103,7 @@ public class ToleranceImpl extends EObjectImpl implements Tolerance {
 	 * @generated
 	 */
 	public void setLevel(LevelType newLevel) {
-		LevelType oldLevel = level;
-		level = newLevel == null ? LEVEL_EDEFAULT : newLevel;
-		boolean oldLevelESet = levelESet;
-		levelESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.TOLERANCE__LEVEL, oldLevel, level, !oldLevelESet));
+		eSet(LibraryPackage.Literals.TOLERANCE__LEVEL, newLevel);
 	}
 
 	/**
@@ -183,12 +112,7 @@ public class ToleranceImpl extends EObjectImpl implements Tolerance {
 	 * @generated
 	 */
 	public void unsetLevel() {
-		LevelType oldLevel = level;
-		boolean oldLevelESet = levelESet;
-		level = LEVEL_EDEFAULT;
-		levelESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, LibraryPackage.TOLERANCE__LEVEL, oldLevel, LEVEL_EDEFAULT, oldLevelESet));
+		eUnset(LibraryPackage.Literals.TOLERANCE__LEVEL);
 	}
 
 	/**
@@ -197,7 +121,7 @@ public class ToleranceImpl extends EObjectImpl implements Tolerance {
 	 * @generated
 	 */
 	public boolean isSetLevel() {
-		return levelESet;
+		return eIsSet(LibraryPackage.Literals.TOLERANCE__LEVEL);
 	}
 
 	/**
@@ -206,7 +130,7 @@ public class ToleranceImpl extends EObjectImpl implements Tolerance {
 	 * @generated
 	 */
 	public String getName() {
-		return name;
+		return (String)eGet(LibraryPackage.Literals.TOLERANCE__NAME, true);
 	}
 
 	/**
@@ -215,108 +139,7 @@ public class ToleranceImpl extends EObjectImpl implements Tolerance {
 	 * @generated
 	 */
 	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.TOLERANCE__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case LibraryPackage.TOLERANCE__EXPRESSION:
-				return getExpression();
-			case LibraryPackage.TOLERANCE__LEVEL:
-				return getLevel();
-			case LibraryPackage.TOLERANCE__NAME:
-				return getName();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case LibraryPackage.TOLERANCE__EXPRESSION:
-				setExpression((String)newValue);
-				return;
-			case LibraryPackage.TOLERANCE__LEVEL:
-				setLevel((LevelType)newValue);
-				return;
-			case LibraryPackage.TOLERANCE__NAME:
-				setName((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case LibraryPackage.TOLERANCE__EXPRESSION:
-				setExpression(EXPRESSION_EDEFAULT);
-				return;
-			case LibraryPackage.TOLERANCE__LEVEL:
-				unsetLevel();
-				return;
-			case LibraryPackage.TOLERANCE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case LibraryPackage.TOLERANCE__EXPRESSION:
-				return EXPRESSION_EDEFAULT == null ? expression != null : !EXPRESSION_EDEFAULT.equals(expression);
-			case LibraryPackage.TOLERANCE__LEVEL:
-				return isSetLevel();
-			case LibraryPackage.TOLERANCE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (expression: ");
-		result.append(expression);
-		result.append(", level: ");
-		if (levelESet) result.append(level); else result.append("<unset>");
-		result.append(", name: ");
-		result.append(name);
-		result.append(')');
-		return result.toString();
+		eSet(LibraryPackage.Literals.TOLERANCE__NAME, newName);
 	}
 
 } //ToleranceImpl

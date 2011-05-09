@@ -18,15 +18,11 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.ServicesPackage;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,47 +38,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class CIIDImpl extends EObjectImpl implements CIID {
-	/**
-	 * The default value of the '{@link #getCommonCIID() <em>Common CIID</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCommonCIID()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String COMMON_CIID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getCommonCIID() <em>Common CIID</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCommonCIID()
-	 * @generated
-	 * @ordered
-	 */
-	protected String commonCIID = COMMON_CIID_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getLocalCIID() <em>Local CIID</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLocalCIID()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String LOCAL_CIID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getLocalCIID() <em>Local CIID</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLocalCIID()
-	 * @generated
-	 * @ordered
-	 */
-	protected String localCIID = LOCAL_CIID_EDEFAULT;
-
+public class CIIDImpl extends CDOObjectImpl implements CIID {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -107,8 +63,18 @@ public class CIIDImpl extends EObjectImpl implements CIID {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getCommonCIID() {
-		return commonCIID;
+		return (String)eGet(ServicesPackage.Literals.CIID__COMMON_CIID, true);
 	}
 
 	/**
@@ -117,10 +83,7 @@ public class CIIDImpl extends EObjectImpl implements CIID {
 	 * @generated
 	 */
 	public void setCommonCIID(String newCommonCIID) {
-		String oldCommonCIID = commonCIID;
-		commonCIID = newCommonCIID;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ServicesPackage.CIID__COMMON_CIID, oldCommonCIID, commonCIID));
+		eSet(ServicesPackage.Literals.CIID__COMMON_CIID, newCommonCIID);
 	}
 
 	/**
@@ -129,7 +92,7 @@ public class CIIDImpl extends EObjectImpl implements CIID {
 	 * @generated
 	 */
 	public String getLocalCIID() {
-		return localCIID;
+		return (String)eGet(ServicesPackage.Literals.CIID__LOCAL_CIID, true);
 	}
 
 	/**
@@ -138,96 +101,7 @@ public class CIIDImpl extends EObjectImpl implements CIID {
 	 * @generated
 	 */
 	public void setLocalCIID(String newLocalCIID) {
-		String oldLocalCIID = localCIID;
-		localCIID = newLocalCIID;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ServicesPackage.CIID__LOCAL_CIID, oldLocalCIID, localCIID));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case ServicesPackage.CIID__COMMON_CIID:
-				return getCommonCIID();
-			case ServicesPackage.CIID__LOCAL_CIID:
-				return getLocalCIID();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case ServicesPackage.CIID__COMMON_CIID:
-				setCommonCIID((String)newValue);
-				return;
-			case ServicesPackage.CIID__LOCAL_CIID:
-				setLocalCIID((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case ServicesPackage.CIID__COMMON_CIID:
-				setCommonCIID(COMMON_CIID_EDEFAULT);
-				return;
-			case ServicesPackage.CIID__LOCAL_CIID:
-				setLocalCIID(LOCAL_CIID_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case ServicesPackage.CIID__COMMON_CIID:
-				return COMMON_CIID_EDEFAULT == null ? commonCIID != null : !COMMON_CIID_EDEFAULT.equals(commonCIID);
-			case ServicesPackage.CIID__LOCAL_CIID:
-				return LOCAL_CIID_EDEFAULT == null ? localCIID != null : !LOCAL_CIID_EDEFAULT.equals(localCIID);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (commonCIID: ");
-		result.append(commonCIID);
-		result.append(", localCIID: ");
-		result.append(localCIID);
-		result.append(')');
-		return result.toString();
+		eSet(ServicesPackage.Literals.CIID__LOCAL_CIID, newLocalCIID);
 	}
 
 } //CIIDImpl

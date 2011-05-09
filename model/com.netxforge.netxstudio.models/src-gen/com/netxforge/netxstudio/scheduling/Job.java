@@ -20,9 +20,8 @@ package com.netxforge.netxstudio.scheduling;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -43,9 +42,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob()
  * @model extendedMetaData="name='Job' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Job extends EObject {
+public interface Job extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Job Execution</b></em>' attribute list.
 	 * The list contents are of type {@link javax.xml.datatype.XMLGregorianCalendar}.

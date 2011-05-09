@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.generics;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,9 +42,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getDateTimeRange()
  * @model extendedMetaData="name='DateTimeRange' kind='empty'"
+ * @extends CDOObject
  * @generated
  */
-public interface DateTimeRange extends EObject {
+public interface DateTimeRange extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Begin</b></em>' attribute.
 	 * <!-- begin-user-doc -->

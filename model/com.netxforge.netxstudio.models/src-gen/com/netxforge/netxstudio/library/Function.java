@@ -18,18 +18,14 @@
  */
 package com.netxforge.netxstudio.library;
 
-import com.netxforge.netxstudio.generics.DiagramInfo;
-import com.netxforge.netxstudio.generics.MultiImage;
-
-import com.netxforge.netxstudio.metrics.Metric;
-
-import com.netxforge.netxstudio.operators.FunctionRelationship;
-
-import com.netxforge.netxstudio.protocols.Protocol;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.DiagramInfo;
+import com.netxforge.netxstudio.generics.MultiImage;
+import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.operators.FunctionRelationship;
+import com.netxforge.netxstudio.protocols.Protocol;
 
 /**
  * <!-- begin-user-doc -->
@@ -74,9 +70,10 @@ import org.eclipse.emf.ecore.EObject;
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='\n\t\t\t\tValidFunctionName\n\t\t\t'"
  *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL ValidFunctionName='\n\t\t\t\tnot self.functionName.oclIsUndefined()\n\t\t\t'"
  *        extendedMetaData="name='Function' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface Function extends EObject {
+public interface Function extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Diagrams</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.generics.DiagramInfo}.

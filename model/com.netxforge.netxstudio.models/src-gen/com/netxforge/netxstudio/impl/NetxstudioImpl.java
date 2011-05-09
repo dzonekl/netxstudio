@@ -18,34 +18,19 @@
  */
 package com.netxforge.netxstudio.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioPackage;
-
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.Person;
-
 import com.netxforge.netxstudio.geo.Country;
-
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.Vendor;
-
 import com.netxforge.netxstudio.operators.Operator;
-
 import com.netxforge.netxstudio.scheduling.Job;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -66,77 +51,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class NetxstudioImpl extends EObjectImpl implements Netxstudio {
-	/**
-	 * The cached value of the '{@link #getOperators() <em>Operators</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOperators()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Operator> operators;
-
-	/**
-	 * The cached value of the '{@link #getLibraries() <em>Libraries</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLibraries()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Library> libraries;
-
-	/**
-	 * The cached value of the '{@link #getCompanies() <em>Companies</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCompanies()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Company> companies;
-
-	/**
-	 * The cached value of the '{@link #getVendors() <em>Vendors</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getVendors()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Vendor> vendors;
-
-	/**
-	 * The cached value of the '{@link #getUsers() <em>Users</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUsers()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Person> users;
-
-	/**
-	 * The cached value of the '{@link #getCountries() <em>Countries</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCountries()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Country> countries;
-
-	/**
-	 * The cached value of the '{@link #getJobs() <em>Jobs</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getJobs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Job> jobs;
-
+public class NetxstudioImpl extends CDOObjectImpl implements Netxstudio {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -161,135 +76,9 @@ public class NetxstudioImpl extends EObjectImpl implements Netxstudio {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Operator> getOperators() {
-		if (operators == null) {
-			operators = new EObjectContainmentEList<Operator>(Operator.class, this, NetxstudioPackage.NETXSTUDIO__OPERATORS);
-		}
-		return operators;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Library> getLibraries() {
-		if (libraries == null) {
-			libraries = new EObjectContainmentEList<Library>(Library.class, this, NetxstudioPackage.NETXSTUDIO__LIBRARIES);
-		}
-		return libraries;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Company> getCompanies() {
-		if (companies == null) {
-			companies = new EObjectContainmentEList<Company>(Company.class, this, NetxstudioPackage.NETXSTUDIO__COMPANIES);
-		}
-		return companies;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Vendor> getVendors() {
-		if (vendors == null) {
-			vendors = new EObjectContainmentEList<Vendor>(Vendor.class, this, NetxstudioPackage.NETXSTUDIO__VENDORS);
-		}
-		return vendors;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Person> getUsers() {
-		if (users == null) {
-			users = new EObjectContainmentEList<Person>(Person.class, this, NetxstudioPackage.NETXSTUDIO__USERS);
-		}
-		return users;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Country> getCountries() {
-		if (countries == null) {
-			countries = new EObjectContainmentEList<Country>(Country.class, this, NetxstudioPackage.NETXSTUDIO__COUNTRIES);
-		}
-		return countries;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Job> getJobs() {
-		if (jobs == null) {
-			jobs = new EObjectContainmentEList<Job>(Job.class, this, NetxstudioPackage.NETXSTUDIO__JOBS);
-		}
-		return jobs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case NetxstudioPackage.NETXSTUDIO__OPERATORS:
-				return ((InternalEList<?>)getOperators()).basicRemove(otherEnd, msgs);
-			case NetxstudioPackage.NETXSTUDIO__LIBRARIES:
-				return ((InternalEList<?>)getLibraries()).basicRemove(otherEnd, msgs);
-			case NetxstudioPackage.NETXSTUDIO__COMPANIES:
-				return ((InternalEList<?>)getCompanies()).basicRemove(otherEnd, msgs);
-			case NetxstudioPackage.NETXSTUDIO__VENDORS:
-				return ((InternalEList<?>)getVendors()).basicRemove(otherEnd, msgs);
-			case NetxstudioPackage.NETXSTUDIO__USERS:
-				return ((InternalEList<?>)getUsers()).basicRemove(otherEnd, msgs);
-			case NetxstudioPackage.NETXSTUDIO__COUNTRIES:
-				return ((InternalEList<?>)getCountries()).basicRemove(otherEnd, msgs);
-			case NetxstudioPackage.NETXSTUDIO__JOBS:
-				return ((InternalEList<?>)getJobs()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case NetxstudioPackage.NETXSTUDIO__OPERATORS:
-				return getOperators();
-			case NetxstudioPackage.NETXSTUDIO__LIBRARIES:
-				return getLibraries();
-			case NetxstudioPackage.NETXSTUDIO__COMPANIES:
-				return getCompanies();
-			case NetxstudioPackage.NETXSTUDIO__VENDORS:
-				return getVendors();
-			case NetxstudioPackage.NETXSTUDIO__USERS:
-				return getUsers();
-			case NetxstudioPackage.NETXSTUDIO__COUNTRIES:
-				return getCountries();
-			case NetxstudioPackage.NETXSTUDIO__JOBS:
-				return getJobs();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -298,39 +87,8 @@ public class NetxstudioImpl extends EObjectImpl implements Netxstudio {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case NetxstudioPackage.NETXSTUDIO__OPERATORS:
-				getOperators().clear();
-				getOperators().addAll((Collection<? extends Operator>)newValue);
-				return;
-			case NetxstudioPackage.NETXSTUDIO__LIBRARIES:
-				getLibraries().clear();
-				getLibraries().addAll((Collection<? extends Library>)newValue);
-				return;
-			case NetxstudioPackage.NETXSTUDIO__COMPANIES:
-				getCompanies().clear();
-				getCompanies().addAll((Collection<? extends Company>)newValue);
-				return;
-			case NetxstudioPackage.NETXSTUDIO__VENDORS:
-				getVendors().clear();
-				getVendors().addAll((Collection<? extends Vendor>)newValue);
-				return;
-			case NetxstudioPackage.NETXSTUDIO__USERS:
-				getUsers().clear();
-				getUsers().addAll((Collection<? extends Person>)newValue);
-				return;
-			case NetxstudioPackage.NETXSTUDIO__COUNTRIES:
-				getCountries().clear();
-				getCountries().addAll((Collection<? extends Country>)newValue);
-				return;
-			case NetxstudioPackage.NETXSTUDIO__JOBS:
-				getJobs().clear();
-				getJobs().addAll((Collection<? extends Job>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<Operator> getOperators() {
+		return (EList<Operator>)eGet(NetxstudioPackage.Literals.NETXSTUDIO__OPERATORS, true);
 	}
 
 	/**
@@ -338,32 +96,9 @@ public class NetxstudioImpl extends EObjectImpl implements Netxstudio {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case NetxstudioPackage.NETXSTUDIO__OPERATORS:
-				getOperators().clear();
-				return;
-			case NetxstudioPackage.NETXSTUDIO__LIBRARIES:
-				getLibraries().clear();
-				return;
-			case NetxstudioPackage.NETXSTUDIO__COMPANIES:
-				getCompanies().clear();
-				return;
-			case NetxstudioPackage.NETXSTUDIO__VENDORS:
-				getVendors().clear();
-				return;
-			case NetxstudioPackage.NETXSTUDIO__USERS:
-				getUsers().clear();
-				return;
-			case NetxstudioPackage.NETXSTUDIO__COUNTRIES:
-				getCountries().clear();
-				return;
-			case NetxstudioPackage.NETXSTUDIO__JOBS:
-				getJobs().clear();
-				return;
-		}
-		super.eUnset(featureID);
+	@SuppressWarnings("unchecked")
+	public EList<Library> getLibraries() {
+		return (EList<Library>)eGet(NetxstudioPackage.Literals.NETXSTUDIO__LIBRARIES, true);
 	}
 
 	/**
@@ -371,25 +106,49 @@ public class NetxstudioImpl extends EObjectImpl implements Netxstudio {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case NetxstudioPackage.NETXSTUDIO__OPERATORS:
-				return operators != null && !operators.isEmpty();
-			case NetxstudioPackage.NETXSTUDIO__LIBRARIES:
-				return libraries != null && !libraries.isEmpty();
-			case NetxstudioPackage.NETXSTUDIO__COMPANIES:
-				return companies != null && !companies.isEmpty();
-			case NetxstudioPackage.NETXSTUDIO__VENDORS:
-				return vendors != null && !vendors.isEmpty();
-			case NetxstudioPackage.NETXSTUDIO__USERS:
-				return users != null && !users.isEmpty();
-			case NetxstudioPackage.NETXSTUDIO__COUNTRIES:
-				return countries != null && !countries.isEmpty();
-			case NetxstudioPackage.NETXSTUDIO__JOBS:
-				return jobs != null && !jobs.isEmpty();
-		}
-		return super.eIsSet(featureID);
+	@SuppressWarnings("unchecked")
+	public EList<Company> getCompanies() {
+		return (EList<Company>)eGet(NetxstudioPackage.Literals.NETXSTUDIO__COMPANIES, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<Vendor> getVendors() {
+		return (EList<Vendor>)eGet(NetxstudioPackage.Literals.NETXSTUDIO__VENDORS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<Person> getUsers() {
+		return (EList<Person>)eGet(NetxstudioPackage.Literals.NETXSTUDIO__USERS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<Country> getCountries() {
+		return (EList<Country>)eGet(NetxstudioPackage.Literals.NETXSTUDIO__COUNTRIES, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<Job> getJobs() {
+		return (EList<Job>)eGet(NetxstudioPackage.Literals.NETXSTUDIO__JOBS, true);
 	}
 
 } //NetxstudioImpl

@@ -18,8 +18,9 @@
  */
 package com.netxforge.netxstudio.services;
 
+import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.operators.Node;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -48,7 +49,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface RFSService extends Service {
 	/**
 	 * Returns the value of the '<em><b>Nodes</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+	 * The list contents are of type {@link com.netxforge.netxstudio.operators.Node}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -59,11 +60,11 @@ public interface RFSService extends Service {
 	 * @model extendedMetaData="kind='element' name='Nodes'"
 	 * @generated
 	 */
-	EList<EObject> getNodes();
+	EList<Node> getNodes();
 
 	/**
 	 * Returns the value of the '<em><b>Tolerance Refs</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+	 * The list contents are of type {@link com.netxforge.netxstudio.library.Tolerance}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -74,7 +75,7 @@ public interface RFSService extends Service {
 	 * @model extendedMetaData="kind='element' name='ToleranceRefs'"
 	 * @generated
 	 */
-	EList<EObject> getToleranceRefs();
+	EList<Tolerance> getToleranceRefs();
 
 	/**
 	 * Returns the value of the '<em><b>Functional Category</b></em>' attribute.

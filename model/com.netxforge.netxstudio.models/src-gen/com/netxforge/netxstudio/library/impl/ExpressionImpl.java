@@ -18,31 +18,16 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
-
 import com.netxforge.netxstudio.services.ServiceProfile;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EDataTypeEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -62,77 +47,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ExpressionImpl extends EObjectImpl implements Expression {
-	/**
-	 * The cached value of the '{@link #getExpressionLines() <em>Expression Lines</em>}' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExpressionLines()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<String> expressionLines;
-
-	/**
-	 * The cached value of the '{@link #getEquipmentRefs() <em>Equipment Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEquipmentRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Equipment> equipmentRefs;
-
-	/**
-	 * The cached value of the '{@link #getFunctionRefs() <em>Function Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFunctionRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Function> functionRefs;
-
-	/**
-	 * The cached value of the '{@link #getEquipmentGroupRefs() <em>Equipment Group Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEquipmentGroupRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<EquipmentGroup> equipmentGroupRefs;
-
-	/**
-	 * The cached value of the '{@link #getServiceProfileRefs() <em>Service Profile Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getServiceProfileRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<ServiceProfile> serviceProfileRefs;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
+public class ExpressionImpl extends CDOObjectImpl implements Expression {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -157,11 +72,19 @@ public class ExpressionImpl extends EObjectImpl implements Expression {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
 	public EList<String> getExpressionLines() {
-		if (expressionLines == null) {
-			expressionLines = new EDataTypeEList<String>(String.class, this, LibraryPackage.EXPRESSION__EXPRESSION_LINES);
-		}
-		return expressionLines;
+		return (EList<String>)eGet(LibraryPackage.Literals.EXPRESSION__EXPRESSION_LINES, true);
 	}
 
 	/**
@@ -169,11 +92,9 @@ public class ExpressionImpl extends EObjectImpl implements Expression {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Equipment> getEquipmentRefs() {
-		if (equipmentRefs == null) {
-			equipmentRefs = new EObjectWithInverseResolvingEList.ManyInverse<Equipment>(Equipment.class, this, LibraryPackage.EXPRESSION__EQUIPMENT_REFS, LibraryPackage.EQUIPMENT__EQUIPMENT_EXPRESSION_REFS);
-		}
-		return equipmentRefs;
+		return (EList<Equipment>)eGet(LibraryPackage.Literals.EXPRESSION__EQUIPMENT_REFS, true);
 	}
 
 	/**
@@ -181,11 +102,9 @@ public class ExpressionImpl extends EObjectImpl implements Expression {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<Function> getFunctionRefs() {
-		if (functionRefs == null) {
-			functionRefs = new EObjectWithInverseResolvingEList.ManyInverse<Function>(Function.class, this, LibraryPackage.EXPRESSION__FUNCTION_REFS, LibraryPackage.FUNCTION__FUNCTION_EXPRESSION_REFS);
-		}
-		return functionRefs;
+		return (EList<Function>)eGet(LibraryPackage.Literals.EXPRESSION__FUNCTION_REFS, true);
 	}
 
 	/**
@@ -193,11 +112,9 @@ public class ExpressionImpl extends EObjectImpl implements Expression {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<EquipmentGroup> getEquipmentGroupRefs() {
-		if (equipmentGroupRefs == null) {
-			equipmentGroupRefs = new EObjectWithInverseResolvingEList.ManyInverse<EquipmentGroup>(EquipmentGroup.class, this, LibraryPackage.EXPRESSION__EQUIPMENT_GROUP_REFS, LibraryPackage.EQUIPMENT_GROUP__EXPRESSION_REFS);
-		}
-		return equipmentGroupRefs;
+		return (EList<EquipmentGroup>)eGet(LibraryPackage.Literals.EXPRESSION__EQUIPMENT_GROUP_REFS, true);
 	}
 
 	/**
@@ -205,11 +122,9 @@ public class ExpressionImpl extends EObjectImpl implements Expression {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<ServiceProfile> getServiceProfileRefs() {
-		if (serviceProfileRefs == null) {
-			serviceProfileRefs = new EObjectResolvingEList<ServiceProfile>(ServiceProfile.class, this, LibraryPackage.EXPRESSION__SERVICE_PROFILE_REFS);
-		}
-		return serviceProfileRefs;
+		return (EList<ServiceProfile>)eGet(LibraryPackage.Literals.EXPRESSION__SERVICE_PROFILE_REFS, true);
 	}
 
 	/**
@@ -218,7 +133,7 @@ public class ExpressionImpl extends EObjectImpl implements Expression {
 	 * @generated
 	 */
 	public String getName() {
-		return name;
+		return (String)eGet(LibraryPackage.Literals.EXPRESSION__NAME, true);
 	}
 
 	/**
@@ -227,179 +142,7 @@ public class ExpressionImpl extends EObjectImpl implements Expression {
 	 * @generated
 	 */
 	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LibraryPackage.EXPRESSION__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case LibraryPackage.EXPRESSION__EQUIPMENT_REFS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getEquipmentRefs()).basicAdd(otherEnd, msgs);
-			case LibraryPackage.EXPRESSION__FUNCTION_REFS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getFunctionRefs()).basicAdd(otherEnd, msgs);
-			case LibraryPackage.EXPRESSION__EQUIPMENT_GROUP_REFS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getEquipmentGroupRefs()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case LibraryPackage.EXPRESSION__EQUIPMENT_REFS:
-				return ((InternalEList<?>)getEquipmentRefs()).basicRemove(otherEnd, msgs);
-			case LibraryPackage.EXPRESSION__FUNCTION_REFS:
-				return ((InternalEList<?>)getFunctionRefs()).basicRemove(otherEnd, msgs);
-			case LibraryPackage.EXPRESSION__EQUIPMENT_GROUP_REFS:
-				return ((InternalEList<?>)getEquipmentGroupRefs()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case LibraryPackage.EXPRESSION__EXPRESSION_LINES:
-				return getExpressionLines();
-			case LibraryPackage.EXPRESSION__EQUIPMENT_REFS:
-				return getEquipmentRefs();
-			case LibraryPackage.EXPRESSION__FUNCTION_REFS:
-				return getFunctionRefs();
-			case LibraryPackage.EXPRESSION__EQUIPMENT_GROUP_REFS:
-				return getEquipmentGroupRefs();
-			case LibraryPackage.EXPRESSION__SERVICE_PROFILE_REFS:
-				return getServiceProfileRefs();
-			case LibraryPackage.EXPRESSION__NAME:
-				return getName();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case LibraryPackage.EXPRESSION__EXPRESSION_LINES:
-				getExpressionLines().clear();
-				getExpressionLines().addAll((Collection<? extends String>)newValue);
-				return;
-			case LibraryPackage.EXPRESSION__EQUIPMENT_REFS:
-				getEquipmentRefs().clear();
-				getEquipmentRefs().addAll((Collection<? extends Equipment>)newValue);
-				return;
-			case LibraryPackage.EXPRESSION__FUNCTION_REFS:
-				getFunctionRefs().clear();
-				getFunctionRefs().addAll((Collection<? extends Function>)newValue);
-				return;
-			case LibraryPackage.EXPRESSION__EQUIPMENT_GROUP_REFS:
-				getEquipmentGroupRefs().clear();
-				getEquipmentGroupRefs().addAll((Collection<? extends EquipmentGroup>)newValue);
-				return;
-			case LibraryPackage.EXPRESSION__SERVICE_PROFILE_REFS:
-				getServiceProfileRefs().clear();
-				getServiceProfileRefs().addAll((Collection<? extends ServiceProfile>)newValue);
-				return;
-			case LibraryPackage.EXPRESSION__NAME:
-				setName((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case LibraryPackage.EXPRESSION__EXPRESSION_LINES:
-				getExpressionLines().clear();
-				return;
-			case LibraryPackage.EXPRESSION__EQUIPMENT_REFS:
-				getEquipmentRefs().clear();
-				return;
-			case LibraryPackage.EXPRESSION__FUNCTION_REFS:
-				getFunctionRefs().clear();
-				return;
-			case LibraryPackage.EXPRESSION__EQUIPMENT_GROUP_REFS:
-				getEquipmentGroupRefs().clear();
-				return;
-			case LibraryPackage.EXPRESSION__SERVICE_PROFILE_REFS:
-				getServiceProfileRefs().clear();
-				return;
-			case LibraryPackage.EXPRESSION__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case LibraryPackage.EXPRESSION__EXPRESSION_LINES:
-				return expressionLines != null && !expressionLines.isEmpty();
-			case LibraryPackage.EXPRESSION__EQUIPMENT_REFS:
-				return equipmentRefs != null && !equipmentRefs.isEmpty();
-			case LibraryPackage.EXPRESSION__FUNCTION_REFS:
-				return functionRefs != null && !functionRefs.isEmpty();
-			case LibraryPackage.EXPRESSION__EQUIPMENT_GROUP_REFS:
-				return equipmentGroupRefs != null && !equipmentGroupRefs.isEmpty();
-			case LibraryPackage.EXPRESSION__SERVICE_PROFILE_REFS:
-				return serviceProfileRefs != null && !serviceProfileRefs.isEmpty();
-			case LibraryPackage.EXPRESSION__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (expressionLines: ");
-		result.append(expressionLines);
-		result.append(", name: ");
-		result.append(name);
-		result.append(')');
-		return result.toString();
+		eSet(LibraryPackage.Literals.EXPRESSION__NAME, newName);
 	}
 
 } //ExpressionImpl

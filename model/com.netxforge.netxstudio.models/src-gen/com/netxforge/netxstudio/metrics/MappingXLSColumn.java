@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,9 +36,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingXLSColumn()
  * @model extendedMetaData="name='MappingXLSColumn' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface MappingXLSColumn extends EObject {
+public interface MappingXLSColumn extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Data Type</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

@@ -18,27 +18,14 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
-import com.netxforge.netxstudio.generics.DateTimeRange;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -55,56 +42,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class MappingStatisticImpl extends EObjectImpl implements MappingStatistic {
-	/**
-	 * The cached value of the '{@link #getFailedRecords() <em>Failed Records</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFailedRecords()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<MappingRecord> failedRecords;
-
-	/**
-	 * The cached value of the '{@link #getMappingDuration() <em>Mapping Duration</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMappingDuration()
-	 * @generated
-	 * @ordered
-	 */
-	protected DateTimeRange mappingDuration;
-
-	/**
-	 * The default value of the '{@link #getTotalRecords() <em>Total Records</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTotalRecords()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int TOTAL_RECORDS_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getTotalRecords() <em>Total Records</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTotalRecords()
-	 * @generated
-	 * @ordered
-	 */
-	protected int totalRecords = TOTAL_RECORDS_EDEFAULT;
-
-	/**
-	 * This is true if the Total Records attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean totalRecordsESet;
-
+public class MappingStatisticImpl extends CDOObjectImpl implements MappingStatistic {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -129,134 +67,9 @@ public class MappingStatisticImpl extends EObjectImpl implements MappingStatisti
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<MappingRecord> getFailedRecords() {
-		if (failedRecords == null) {
-			failedRecords = new EObjectContainmentEList<MappingRecord>(MappingRecord.class, this, MetricsPackage.MAPPING_STATISTIC__FAILED_RECORDS);
-		}
-		return failedRecords;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public DateTimeRange getMappingDuration() {
-		return mappingDuration;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetMappingDuration(DateTimeRange newMappingDuration, NotificationChain msgs) {
-		DateTimeRange oldMappingDuration = mappingDuration;
-		mappingDuration = newMappingDuration;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION, oldMappingDuration, newMappingDuration);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMappingDuration(DateTimeRange newMappingDuration) {
-		if (newMappingDuration != mappingDuration) {
-			NotificationChain msgs = null;
-			if (mappingDuration != null)
-				msgs = ((InternalEObject)mappingDuration).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION, null, msgs);
-			if (newMappingDuration != null)
-				msgs = ((InternalEObject)newMappingDuration).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION, null, msgs);
-			msgs = basicSetMappingDuration(newMappingDuration, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION, newMappingDuration, newMappingDuration));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getTotalRecords() {
-		return totalRecords;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTotalRecords(int newTotalRecords) {
-		int oldTotalRecords = totalRecords;
-		totalRecords = newTotalRecords;
-		boolean oldTotalRecordsESet = totalRecordsESet;
-		totalRecordsESet = true;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.MAPPING_STATISTIC__TOTAL_RECORDS, oldTotalRecords, totalRecords, !oldTotalRecordsESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetTotalRecords() {
-		int oldTotalRecords = totalRecords;
-		boolean oldTotalRecordsESet = totalRecordsESet;
-		totalRecords = TOTAL_RECORDS_EDEFAULT;
-		totalRecordsESet = false;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.UNSET, MetricsPackage.MAPPING_STATISTIC__TOTAL_RECORDS, oldTotalRecords, TOTAL_RECORDS_EDEFAULT, oldTotalRecordsESet));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetTotalRecords() {
-		return totalRecordsESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_STATISTIC__FAILED_RECORDS:
-				return ((InternalEList<?>)getFailedRecords()).basicRemove(otherEnd, msgs);
-			case MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION:
-				return basicSetMappingDuration(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_STATISTIC__FAILED_RECORDS:
-				return getFailedRecords();
-			case MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION:
-				return getMappingDuration();
-			case MetricsPackage.MAPPING_STATISTIC__TOTAL_RECORDS:
-				return getTotalRecords();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -265,21 +78,8 @@ public class MappingStatisticImpl extends EObjectImpl implements MappingStatisti
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_STATISTIC__FAILED_RECORDS:
-				getFailedRecords().clear();
-				getFailedRecords().addAll((Collection<? extends MappingRecord>)newValue);
-				return;
-			case MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION:
-				setMappingDuration((DateTimeRange)newValue);
-				return;
-			case MetricsPackage.MAPPING_STATISTIC__TOTAL_RECORDS:
-				setTotalRecords((Integer)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<MappingRecord> getFailedRecords() {
+		return (EList<MappingRecord>)eGet(MetricsPackage.Literals.MAPPING_STATISTIC__FAILED_RECORDS, true);
 	}
 
 	/**
@@ -287,20 +87,8 @@ public class MappingStatisticImpl extends EObjectImpl implements MappingStatisti
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_STATISTIC__FAILED_RECORDS:
-				getFailedRecords().clear();
-				return;
-			case MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION:
-				setMappingDuration((DateTimeRange)null);
-				return;
-			case MetricsPackage.MAPPING_STATISTIC__TOTAL_RECORDS:
-				unsetTotalRecords();
-				return;
-		}
-		super.eUnset(featureID);
+	public DateTimeRange getMappingDuration() {
+		return (DateTimeRange)eGet(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION, true);
 	}
 
 	/**
@@ -308,17 +96,8 @@ public class MappingStatisticImpl extends EObjectImpl implements MappingStatisti
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.MAPPING_STATISTIC__FAILED_RECORDS:
-				return failedRecords != null && !failedRecords.isEmpty();
-			case MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION:
-				return mappingDuration != null;
-			case MetricsPackage.MAPPING_STATISTIC__TOTAL_RECORDS:
-				return isSetTotalRecords();
-		}
-		return super.eIsSet(featureID);
+	public void setMappingDuration(DateTimeRange newMappingDuration) {
+		eSet(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION, newMappingDuration);
 	}
 
 	/**
@@ -326,15 +105,35 @@ public class MappingStatisticImpl extends EObjectImpl implements MappingStatisti
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
+	public int getTotalRecords() {
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING_STATISTIC__TOTAL_RECORDS, true);
+	}
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (totalRecords: ");
-		if (totalRecordsESet) result.append(totalRecords); else result.append("<unset>");
-		result.append(')');
-		return result.toString();
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTotalRecords(int newTotalRecords) {
+		eSet(MetricsPackage.Literals.MAPPING_STATISTIC__TOTAL_RECORDS, newTotalRecords);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetTotalRecords() {
+		eUnset(MetricsPackage.Literals.MAPPING_STATISTIC__TOTAL_RECORDS);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetTotalRecords() {
+		return eIsSet(MetricsPackage.Literals.MAPPING_STATISTIC__TOTAL_RECORDS);
 	}
 
 } //MappingStatisticImpl

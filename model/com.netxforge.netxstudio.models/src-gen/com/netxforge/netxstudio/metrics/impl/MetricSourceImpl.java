@@ -18,28 +18,15 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -58,77 +45,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class MetricSourceImpl extends EObjectImpl implements MetricSource {
-	/**
-	 * The cached value of the '{@link #getMetricRefs() <em>Metric Refs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMetricRefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Metric> metricRefs;
-
-	/**
-	 * The cached value of the '{@link #getMetricMapping() <em>Metric Mapping</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMetricMapping()
-	 * @generated
-	 * @ordered
-	 */
-	protected Mapping metricMapping;
-
-	/**
-	 * The cached value of the '{@link #getStatistics() <em>Statistics</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getStatistics()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<MappingStatistic> statistics;
-
-	/**
-	 * The default value of the '{@link #getMetricLocation() <em>Metric Location</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMetricLocation()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String METRIC_LOCATION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getMetricLocation() <em>Metric Location</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMetricLocation()
-	 * @generated
-	 * @ordered
-	 */
-	protected String metricLocation = METRIC_LOCATION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
+public class MetricSourceImpl extends CDOObjectImpl implements MetricSource {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -153,11 +70,19 @@ public class MetricSourceImpl extends EObjectImpl implements MetricSource {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
 	public EList<Metric> getMetricRefs() {
-		if (metricRefs == null) {
-			metricRefs = new EObjectWithInverseResolvingEList<Metric>(Metric.class, this, MetricsPackage.METRIC_SOURCE__METRIC_REFS, MetricsPackage.METRIC__METRIC_SOURCE_REF);
-		}
-		return metricRefs;
+		return (EList<Metric>)eGet(MetricsPackage.Literals.METRIC_SOURCE__METRIC_REFS, true);
 	}
 
 	/**
@@ -166,22 +91,7 @@ public class MetricSourceImpl extends EObjectImpl implements MetricSource {
 	 * @generated
 	 */
 	public Mapping getMetricMapping() {
-		return metricMapping;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetMetricMapping(Mapping newMetricMapping, NotificationChain msgs) {
-		Mapping oldMetricMapping = metricMapping;
-		metricMapping = newMetricMapping;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MetricsPackage.METRIC_SOURCE__METRIC_MAPPING, oldMetricMapping, newMetricMapping);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+		return (Mapping)eGet(MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING, true);
 	}
 
 	/**
@@ -190,17 +100,7 @@ public class MetricSourceImpl extends EObjectImpl implements MetricSource {
 	 * @generated
 	 */
 	public void setMetricMapping(Mapping newMetricMapping) {
-		if (newMetricMapping != metricMapping) {
-			NotificationChain msgs = null;
-			if (metricMapping != null)
-				msgs = ((InternalEObject)metricMapping).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MetricsPackage.METRIC_SOURCE__METRIC_MAPPING, null, msgs);
-			if (newMetricMapping != null)
-				msgs = ((InternalEObject)newMetricMapping).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MetricsPackage.METRIC_SOURCE__METRIC_MAPPING, null, msgs);
-			msgs = basicSetMetricMapping(newMetricMapping, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.METRIC_SOURCE__METRIC_MAPPING, newMetricMapping, newMetricMapping));
+		eSet(MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING, newMetricMapping);
 	}
 
 	/**
@@ -208,11 +108,9 @@ public class MetricSourceImpl extends EObjectImpl implements MetricSource {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	public EList<MappingStatistic> getStatistics() {
-		if (statistics == null) {
-			statistics = new EObjectContainmentEList<MappingStatistic>(MappingStatistic.class, this, MetricsPackage.METRIC_SOURCE__STATISTICS);
-		}
-		return statistics;
+		return (EList<MappingStatistic>)eGet(MetricsPackage.Literals.METRIC_SOURCE__STATISTICS, true);
 	}
 
 	/**
@@ -221,7 +119,7 @@ public class MetricSourceImpl extends EObjectImpl implements MetricSource {
 	 * @generated
 	 */
 	public String getMetricLocation() {
-		return metricLocation;
+		return (String)eGet(MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION, true);
 	}
 
 	/**
@@ -230,10 +128,7 @@ public class MetricSourceImpl extends EObjectImpl implements MetricSource {
 	 * @generated
 	 */
 	public void setMetricLocation(String newMetricLocation) {
-		String oldMetricLocation = metricLocation;
-		metricLocation = newMetricLocation;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.METRIC_SOURCE__METRIC_LOCATION, oldMetricLocation, metricLocation));
+		eSet(MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION, newMetricLocation);
 	}
 
 	/**
@@ -242,7 +137,7 @@ public class MetricSourceImpl extends EObjectImpl implements MetricSource {
 	 * @generated
 	 */
 	public String getName() {
-		return name;
+		return (String)eGet(MetricsPackage.Literals.METRIC_SOURCE__NAME, true);
 	}
 
 	/**
@@ -251,162 +146,7 @@ public class MetricSourceImpl extends EObjectImpl implements MetricSource {
 	 * @generated
 	 */
 	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetricsPackage.METRIC_SOURCE__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MetricsPackage.METRIC_SOURCE__METRIC_REFS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getMetricRefs()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MetricsPackage.METRIC_SOURCE__METRIC_REFS:
-				return ((InternalEList<?>)getMetricRefs()).basicRemove(otherEnd, msgs);
-			case MetricsPackage.METRIC_SOURCE__METRIC_MAPPING:
-				return basicSetMetricMapping(null, msgs);
-			case MetricsPackage.METRIC_SOURCE__STATISTICS:
-				return ((InternalEList<?>)getStatistics()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case MetricsPackage.METRIC_SOURCE__METRIC_REFS:
-				return getMetricRefs();
-			case MetricsPackage.METRIC_SOURCE__METRIC_MAPPING:
-				return getMetricMapping();
-			case MetricsPackage.METRIC_SOURCE__STATISTICS:
-				return getStatistics();
-			case MetricsPackage.METRIC_SOURCE__METRIC_LOCATION:
-				return getMetricLocation();
-			case MetricsPackage.METRIC_SOURCE__NAME:
-				return getName();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case MetricsPackage.METRIC_SOURCE__METRIC_REFS:
-				getMetricRefs().clear();
-				getMetricRefs().addAll((Collection<? extends Metric>)newValue);
-				return;
-			case MetricsPackage.METRIC_SOURCE__METRIC_MAPPING:
-				setMetricMapping((Mapping)newValue);
-				return;
-			case MetricsPackage.METRIC_SOURCE__STATISTICS:
-				getStatistics().clear();
-				getStatistics().addAll((Collection<? extends MappingStatistic>)newValue);
-				return;
-			case MetricsPackage.METRIC_SOURCE__METRIC_LOCATION:
-				setMetricLocation((String)newValue);
-				return;
-			case MetricsPackage.METRIC_SOURCE__NAME:
-				setName((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.METRIC_SOURCE__METRIC_REFS:
-				getMetricRefs().clear();
-				return;
-			case MetricsPackage.METRIC_SOURCE__METRIC_MAPPING:
-				setMetricMapping((Mapping)null);
-				return;
-			case MetricsPackage.METRIC_SOURCE__STATISTICS:
-				getStatistics().clear();
-				return;
-			case MetricsPackage.METRIC_SOURCE__METRIC_LOCATION:
-				setMetricLocation(METRIC_LOCATION_EDEFAULT);
-				return;
-			case MetricsPackage.METRIC_SOURCE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case MetricsPackage.METRIC_SOURCE__METRIC_REFS:
-				return metricRefs != null && !metricRefs.isEmpty();
-			case MetricsPackage.METRIC_SOURCE__METRIC_MAPPING:
-				return metricMapping != null;
-			case MetricsPackage.METRIC_SOURCE__STATISTICS:
-				return statistics != null && !statistics.isEmpty();
-			case MetricsPackage.METRIC_SOURCE__METRIC_LOCATION:
-				return METRIC_LOCATION_EDEFAULT == null ? metricLocation != null : !METRIC_LOCATION_EDEFAULT.equals(metricLocation);
-			case MetricsPackage.METRIC_SOURCE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		}
-		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (metricLocation: ");
-		result.append(metricLocation);
-		result.append(", name: ");
-		result.append(name);
-		result.append(')');
-		return result.toString();
+		eSet(MetricsPackage.Literals.METRIC_SOURCE__NAME, newName);
 	}
 
 } //MetricSourceImpl

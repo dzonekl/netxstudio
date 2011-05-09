@@ -18,9 +18,8 @@
  */
 package com.netxforge.netxstudio.metrics;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -48,9 +47,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetricSource()
  * @model extendedMetaData="name='MetricSource' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface MetricSource extends EObject {
+public interface MetricSource extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Metric Refs</b></em>' reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.Metric}.

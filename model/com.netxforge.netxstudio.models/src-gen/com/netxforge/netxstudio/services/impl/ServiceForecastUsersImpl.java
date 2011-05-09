@@ -18,27 +18,14 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
-import com.netxforge.netxstudio.generics.Value;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.services.ServiceForecastUsers;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -54,27 +41,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ServiceForecastUsersImpl extends EObjectImpl implements ServiceForecastUsers {
-	/**
-	 * The cached value of the '{@link #getUserValues() <em>User Values</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUserValues()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Value> userValues;
-
-	/**
-	 * The cached value of the '{@link #getServiceUserRef() <em>Service User Ref</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getServiceUserRef()
-	 * @generated
-	 * @ordered
-	 */
-	protected ServiceUser serviceUserRef;
-
+public class ServiceForecastUsersImpl extends CDOObjectImpl implements ServiceForecastUsers {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -99,80 +66,9 @@ public class ServiceForecastUsersImpl extends EObjectImpl implements ServiceFore
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Value> getUserValues() {
-		if (userValues == null) {
-			userValues = new EObjectContainmentEList<Value>(Value.class, this, ServicesPackage.SERVICE_FORECAST_USERS__USER_VALUES);
-		}
-		return userValues;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ServiceUser getServiceUserRef() {
-		if (serviceUserRef != null && serviceUserRef.eIsProxy()) {
-			InternalEObject oldServiceUserRef = (InternalEObject)serviceUserRef;
-			serviceUserRef = (ServiceUser)eResolveProxy(oldServiceUserRef);
-			if (serviceUserRef != oldServiceUserRef) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ServicesPackage.SERVICE_FORECAST_USERS__SERVICE_USER_REF, oldServiceUserRef, serviceUserRef));
-			}
-		}
-		return serviceUserRef;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ServiceUser basicGetServiceUserRef() {
-		return serviceUserRef;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setServiceUserRef(ServiceUser newServiceUserRef) {
-		ServiceUser oldServiceUserRef = serviceUserRef;
-		serviceUserRef = newServiceUserRef;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ServicesPackage.SERVICE_FORECAST_USERS__SERVICE_USER_REF, oldServiceUserRef, serviceUserRef));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_FORECAST_USERS__USER_VALUES:
-				return ((InternalEList<?>)getUserValues()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_FORECAST_USERS__USER_VALUES:
-				return getUserValues();
-			case ServicesPackage.SERVICE_FORECAST_USERS__SERVICE_USER_REF:
-				if (resolve) return getServiceUserRef();
-				return basicGetServiceUserRef();
-		}
-		return super.eGet(featureID, resolve, coreType);
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -181,18 +77,8 @@ public class ServiceForecastUsersImpl extends EObjectImpl implements ServiceFore
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_FORECAST_USERS__USER_VALUES:
-				getUserValues().clear();
-				getUserValues().addAll((Collection<? extends Value>)newValue);
-				return;
-			case ServicesPackage.SERVICE_FORECAST_USERS__SERVICE_USER_REF:
-				setServiceUserRef((ServiceUser)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
+	public EList<Value> getUserValues() {
+		return (EList<Value>)eGet(ServicesPackage.Literals.SERVICE_FORECAST_USERS__USER_VALUES, true);
 	}
 
 	/**
@@ -200,17 +86,8 @@ public class ServiceForecastUsersImpl extends EObjectImpl implements ServiceFore
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_FORECAST_USERS__USER_VALUES:
-				getUserValues().clear();
-				return;
-			case ServicesPackage.SERVICE_FORECAST_USERS__SERVICE_USER_REF:
-				setServiceUserRef((ServiceUser)null);
-				return;
-		}
-		super.eUnset(featureID);
+	public ServiceUser getServiceUserRef() {
+		return (ServiceUser)eGet(ServicesPackage.Literals.SERVICE_FORECAST_USERS__SERVICE_USER_REF, true);
 	}
 
 	/**
@@ -218,15 +95,8 @@ public class ServiceForecastUsersImpl extends EObjectImpl implements ServiceFore
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case ServicesPackage.SERVICE_FORECAST_USERS__USER_VALUES:
-				return userValues != null && !userValues.isEmpty();
-			case ServicesPackage.SERVICE_FORECAST_USERS__SERVICE_USER_REF:
-				return serviceUserRef != null;
-		}
-		return super.eIsSet(featureID);
+	public void setServiceUserRef(ServiceUser newServiceUserRef) {
+		eSet(ServicesPackage.Literals.SERVICE_FORECAST_USERS__SERVICE_USER_REF, newServiceUserRef);
 	}
 
 } //ServiceForecastUsersImpl

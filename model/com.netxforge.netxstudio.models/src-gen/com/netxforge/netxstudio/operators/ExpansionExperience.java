@@ -18,11 +18,10 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import org.eclipse.emf.cdo.CDOObject;
+
 import com.netxforge.netxstudio.generics.ExpansionDuration;
-
 import com.netxforge.netxstudio.library.Equipment;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,9 +43,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getExpansionExperience()
  * @model extendedMetaData="name='ExpansionExperience' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface ExpansionExperience extends EObject {
+public interface ExpansionExperience extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Equipment Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->

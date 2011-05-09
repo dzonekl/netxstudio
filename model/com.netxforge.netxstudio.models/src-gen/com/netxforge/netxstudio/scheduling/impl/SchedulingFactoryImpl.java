@@ -19,15 +19,18 @@
 package com.netxforge.netxstudio.scheduling.impl;
 
 import com.netxforge.netxstudio.scheduling.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.JobKinds;
+import com.netxforge.netxstudio.scheduling.Scheduling;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -73,8 +76,8 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case SchedulingPackage.JOB: return createJob();
-			case SchedulingPackage.SCHEDULING: return createScheduling();
+			case SchedulingPackage.JOB: return (EObject)createJob();
+			case SchedulingPackage.SCHEDULING: return (EObject)createScheduling();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

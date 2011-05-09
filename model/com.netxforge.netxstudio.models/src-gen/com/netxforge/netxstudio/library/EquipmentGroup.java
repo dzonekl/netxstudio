@@ -18,11 +18,10 @@
  */
 package com.netxforge.netxstudio.library;
 
-import com.netxforge.netxstudio.generics.DiagramInfo;
-
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.generics.DiagramInfo;
 
 /**
  * <!-- begin-user-doc -->
@@ -57,9 +56,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup()
  * @model extendedMetaData="name='EquipmentGroup' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface EquipmentGroup extends EObject {
+public interface EquipmentGroup extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Diagrams</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.generics.DiagramInfo}.

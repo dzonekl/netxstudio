@@ -19,15 +19,32 @@
 package com.netxforge.netxstudio.metrics.impl;
 
 import com.netxforge.netxstudio.metrics.*;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import com.netxforge.netxstudio.metrics.DataKind;
+import com.netxforge.netxstudio.metrics.IdentifierDataKind;
+import com.netxforge.netxstudio.metrics.KindHintType;
+import com.netxforge.netxstudio.metrics.Mapping;
+import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingRDBMS;
+import com.netxforge.netxstudio.metrics.MappingRecord;
+import com.netxforge.netxstudio.metrics.MappingRecordXLS;
+import com.netxforge.netxstudio.metrics.MappingStatistic;
+import com.netxforge.netxstudio.metrics.MappingXLS;
+import com.netxforge.netxstudio.metrics.MappingXLSColumn;
+import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsFactory;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.metrics.ObjectNameType;
+import com.netxforge.netxstudio.metrics.ValueDataKind;
+import com.netxforge.netxstudio.metrics.ValueKindType;
 
 /**
  * <!-- begin-user-doc -->
@@ -73,20 +90,20 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case MetricsPackage.DATA_KIND: return createDataKind();
-			case MetricsPackage.IDENTIFIER_DATA_KIND: return createIdentifierDataKind();
-			case MetricsPackage.MAPPING: return createMapping();
-			case MetricsPackage.MAPPING_CSV: return createMappingCSV();
-			case MetricsPackage.MAPPING_RDBMS: return createMappingRDBMS();
-			case MetricsPackage.MAPPING_RECORD: return createMappingRecord();
-			case MetricsPackage.MAPPING_RECORD_XLS: return createMappingRecordXLS();
-			case MetricsPackage.MAPPING_STATISTIC: return createMappingStatistic();
-			case MetricsPackage.MAPPING_XLS: return createMappingXLS();
-			case MetricsPackage.MAPPING_XLS_COLUMN: return createMappingXLSColumn();
-			case MetricsPackage.METRIC: return createMetric();
-			case MetricsPackage.METRIC_SOURCE: return createMetricSource();
-			case MetricsPackage.METRIC_VALUE_RANGE: return createMetricValueRange();
-			case MetricsPackage.VALUE_DATA_KIND: return createValueDataKind();
+			case MetricsPackage.DATA_KIND: return (EObject)createDataKind();
+			case MetricsPackage.IDENTIFIER_DATA_KIND: return (EObject)createIdentifierDataKind();
+			case MetricsPackage.MAPPING: return (EObject)createMapping();
+			case MetricsPackage.MAPPING_CSV: return (EObject)createMappingCSV();
+			case MetricsPackage.MAPPING_RDBMS: return (EObject)createMappingRDBMS();
+			case MetricsPackage.MAPPING_RECORD: return (EObject)createMappingRecord();
+			case MetricsPackage.MAPPING_RECORD_XLS: return (EObject)createMappingRecordXLS();
+			case MetricsPackage.MAPPING_STATISTIC: return (EObject)createMappingStatistic();
+			case MetricsPackage.MAPPING_XLS: return (EObject)createMappingXLS();
+			case MetricsPackage.MAPPING_XLS_COLUMN: return (EObject)createMappingXLSColumn();
+			case MetricsPackage.METRIC: return (EObject)createMetric();
+			case MetricsPackage.METRIC_SOURCE: return (EObject)createMetricSource();
+			case MetricsPackage.METRIC_VALUE_RANGE: return (EObject)createMetricValueRange();
+			case MetricsPackage.VALUE_DATA_KIND: return (EObject)createValueDataKind();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}

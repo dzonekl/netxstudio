@@ -18,53 +18,35 @@
  */
 package com.netxforge.netxstudio.geo.impl;
 
-import com.netxforge.netxstudio.NetxstudioPackage;
-
-import com.netxforge.netxstudio.generics.GenericsPackage;
-
-import com.netxforge.netxstudio.generics.impl.GenericsPackageImpl;
-
-import com.netxforge.netxstudio.geo.Country;
-import com.netxforge.netxstudio.geo.GeoFactory;
-import com.netxforge.netxstudio.geo.GeoPackage;
-import com.netxforge.netxstudio.geo.Room;
-import com.netxforge.netxstudio.geo.Site;
-
-import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
-
-import com.netxforge.netxstudio.library.LibraryPackage;
-
-import com.netxforge.netxstudio.library.impl.LibraryPackageImpl;
-
-import com.netxforge.netxstudio.metrics.MetricsPackage;
-
-import com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl;
-
-import com.netxforge.netxstudio.operators.OperatorsPackage;
-
-import com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl;
-
-import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-
-import com.netxforge.netxstudio.protocols.impl.ProtocolsPackageImpl;
-
-import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-
-import com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl;
-
-import com.netxforge.netxstudio.services.ServicesPackage;
-
-import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+
+import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.impl.GenericsPackageImpl;
+import com.netxforge.netxstudio.geo.Country;
+import com.netxforge.netxstudio.geo.GeoFactory;
+import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.geo.Site;
+import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.impl.LibraryPackageImpl;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl;
+import com.netxforge.netxstudio.protocols.ProtocolsPackage;
+import com.netxforge.netxstudio.protocols.impl.ProtocolsPackageImpl;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl;
+import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -141,7 +123,6 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies

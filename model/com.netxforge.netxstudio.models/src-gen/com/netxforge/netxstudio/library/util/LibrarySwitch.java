@@ -114,12 +114,6 @@ public class LibrarySwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case LibraryPackage.META: {
-				Meta meta = (Meta)theEObject;
-				T result = caseMeta(meta);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case LibraryPackage.NET_XRESOURCE: {
 				NetXResource netXResource = (NetXResource)theEObject;
 				T result = caseNetXResource(netXResource);
@@ -239,21 +233,6 @@ public class LibrarySwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseLibrary(Library object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Meta</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Meta</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseMeta(Meta object) {
 		return null;
 	}
 
