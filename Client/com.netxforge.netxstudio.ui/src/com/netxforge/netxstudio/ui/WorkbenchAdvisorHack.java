@@ -40,9 +40,9 @@ import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.ide.model.StandardPropertiesAdapterFactory;
 import org.eclipse.ui.internal.ide.model.WorkbenchAdapterFactory;
+import org.eclipse.ui.navigator.resources.NetXStudioAdapterFactory;
 import org.osgi.framework.Bundle;
 
-import com.netxforge.netxstudio.navigator.resources.NetXStudioAdapterFactory;
 
 /**
  * Methods copied from {@link org.eclipse.ui.internal.ide.IDEWorkbenchAdvisor}
