@@ -145,4 +145,8 @@
          id="com.netxforge.netxstudio.screens.feature"
          version="0.0.0"/>
 
+   <includes
+         id="com.netxforge.netxstudio.client.product.feature"
+         version="0.0.0"/>
+
 </feature>
