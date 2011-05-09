@@ -41,4 +41,104 @@
          id="com.netxforge.netxstudio.screens.xtext.feature"
          version="0.0.0"/>
 
+   <includes
+         id="com.netxforge.netxstudio.models.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.models.xtextwrapper.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.google.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="javax.servlet.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.antlr.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.apache.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipe.xtext.purexbase.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.compare.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.core.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.ecf.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.emf.compare.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.equinox.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.help.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.jdt.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.ltk.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.nebula.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.p2.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.platform.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.ui.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtext.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtext.example.arithmetics.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtext.ui.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.xtext.xbase.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.mortbay.artifacts.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.swtchart.artifacts.feature"
+         version="0.0.0"/>
+
 </feature>
