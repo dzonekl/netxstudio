@@ -40,7 +40,7 @@ import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.ide.model.StandardPropertiesAdapterFactory;
 import org.eclipse.ui.internal.ide.model.WorkbenchAdapterFactory;
-import org.eclipse.ui.navigator.resources.NetXStudioAdapterFactory;
+//import org.eclipse.ui.navigator.resources.NetXStudioAdapterFactory;
 import org.osgi.framework.Bundle;
 
 
@@ -275,8 +275,8 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor {
 		manager.registerAdapters(paFactory, IFile.class);
 		manager.registerAdapters(paFactory, IMarker.class);
 
-		NetXStudioAdapterFactory netXfactory = new NetXStudioAdapterFactory();
-		manager.registerAdapters(netXfactory, IWorkspaceRoot.class);
+//		NetXStudioAdapterFactory netXfactory = new NetXStudioAdapterFactory();
+//		manager.registerAdapters(netXfactory, IWorkspaceRoot.class);
 
 	}
 }
