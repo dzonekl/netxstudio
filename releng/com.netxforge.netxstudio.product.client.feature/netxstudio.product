@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="NetXStudio Client Product" uid="com.netxforge.netxstudio.client.product" id="com.netxforge.netxstudio.client.product" application="com.netxforge.netxstudio.ui.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/com.netxforge.netxstudio.client.product/icons/Logo about 250-330.png"/>
+      <text>
+         %aboutText
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="icons/Logo X 16.gif" i32="icons/Logo X 32.gif" i48="icons/Logo X 48.gif" i64="icons/Logo X 64.gif" i128="icons/Logo X 128.gif"/>
+
+   <splash
+      location="com.netxforge.netxstudio.client.product"
+      handlerType="interactive" />
+   <launcher name="netxstudio">
+      <macosx icon="/com.netxforge.netxstudio.client.product/icons/netxstudio.icns"/>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="com.netxforge.netxstudio.client.product.intro"/>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.netxforge.netxstudio.client.product.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.ui.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.console.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.help.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.screens.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.emf.common.ui"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.emf.ecore.edit"/>
+      <feature id="org.eclipse.emf.edit"/>
+      <feature id="org.eclipse.emf.edit.ui"/>
+      <feature id="org.eclipse.emf.databinding"/>
+      <feature id="org.eclipse.emf.databinding.edit"/>
+      <feature id="org.eclipse.emf.compare.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.platform.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.core.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.ui.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.equinox.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.compare.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.help.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="com.google.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.apache.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.mortbay.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.antlr.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="javax.servlet.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.swtchart.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.nebula.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.rcp"/>
+   </features>
+
+   <configurations>
+      <plugin id="com.netxforge.netxstudio.data" autoStart="true" startLevel="0" />
+   </configurations>
+
+</product>
