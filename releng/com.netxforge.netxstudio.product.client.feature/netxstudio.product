@@ -68,7 +68,7 @@
       <feature id="org.swtchart.artifacts.feature"/>
       <feature id="org.eclipse.nebula.artifacts.feature"/>
       <feature id="org.eclipse.rcp"/>
-      <feature id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.xtext.artifacts.feature"/>
    </features>
 
    <configurations>
