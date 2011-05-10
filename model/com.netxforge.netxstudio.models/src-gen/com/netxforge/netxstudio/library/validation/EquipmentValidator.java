@@ -6,10 +6,11 @@
  */
 package com.netxforge.netxstudio.library.validation;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.MultiImage;
-
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
@@ -18,14 +19,9 @@ import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.RedundancyType;
 import com.netxforge.netxstudio.library.StateType;
 import com.netxforge.netxstudio.library.Tolerance;
-
 import com.netxforge.netxstudio.metrics.Metric;
-
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
-
 import com.netxforge.netxstudio.protocols.Protocol;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.library.Equipment}.

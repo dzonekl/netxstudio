@@ -6,11 +6,10 @@
  */
 package com.netxforge.netxstudio.services.validation;
 
-import com.netxforge.netxstudio.generics.DateTimeRange;
-
-import com.netxforge.netxstudio.operators.ResourceMonitor;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.operators.ResourceMonitor;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.services.ServiceMonitor}.

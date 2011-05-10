@@ -203,29 +203,6 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.library.Meta} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected MetaItemProvider metaItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.library.Meta}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createMetaAdapter() {
-		if (metaItemProvider == null) {
-			metaItemProvider = new MetaItemProvider(this);
-		}
-
-		return metaItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.library.NetXResource} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -490,7 +467,6 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 		if (expressionItemProvider != null) expressionItemProvider.dispose();
 		if (functionItemProvider != null) functionItemProvider.dispose();
 		if (libraryItemProvider != null) libraryItemProvider.dispose();
-		if (metaItemProvider != null) metaItemProvider.dispose();
 		if (netXResourceItemProvider != null) netXResourceItemProvider.dispose();
 		if (nodeTypeItemProvider != null) nodeTypeItemProvider.dispose();
 		if (parameterItemProvider != null) parameterItemProvider.dispose();

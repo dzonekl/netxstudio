@@ -6,9 +6,9 @@
  */
 package com.netxforge.netxstudio.services.validation;
 
-import com.netxforge.netxstudio.library.NetXResource;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.library.NetXResource;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.services.ServiceProfile}.

@@ -18,14 +18,15 @@
  */
 package com.netxforge.netxstudio.protocols.util;
 
-import com.netxforge.netxstudio.protocols.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.netxforge.netxstudio.protocols.Message;
+import com.netxforge.netxstudio.protocols.Procedure;
+import com.netxforge.netxstudio.protocols.Protocol;
+import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 
 /**
  * <!-- begin-user-doc -->

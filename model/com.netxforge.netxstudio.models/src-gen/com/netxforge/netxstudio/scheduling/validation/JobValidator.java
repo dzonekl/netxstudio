@@ -6,11 +6,11 @@
  */
 package com.netxforge.netxstudio.scheduling.validation;
 
-import com.netxforge.netxstudio.scheduling.JobKinds;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.scheduling.JobKinds;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.scheduling.Job}.

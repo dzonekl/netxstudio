@@ -6,14 +6,12 @@
  */
 package com.netxforge.netxstudio.operators.validation;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Person;
-
 import com.netxforge.netxstudio.geo.Room;
-
 import com.netxforge.netxstudio.library.NodeType;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.operators.Node}.
@@ -25,6 +23,8 @@ public interface NodeValidator {
 	boolean validate();
 
 	boolean validateLifecycle(Lifecycle value);
+	boolean validateNodeType(EList<NodeType> value);
+
 	boolean validateFunctions(EList<NodeType> value);
 	boolean validateCreatedByRef(Person value);
 	boolean validateNodeID(String value);

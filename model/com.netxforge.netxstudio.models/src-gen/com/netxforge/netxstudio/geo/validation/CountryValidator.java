@@ -6,11 +6,10 @@
  */
 package com.netxforge.netxstudio.geo.validation;
 
-import com.netxforge.netxstudio.generics.MultiImage;
-
-import com.netxforge.netxstudio.geo.Site;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.generics.MultiImage;
+import com.netxforge.netxstudio.geo.Site;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.geo.Country}.

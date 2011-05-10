@@ -238,11 +238,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/version"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/name"/>
     </genClasses>
-    <genClasses ecoreClass="library.ecore#//Meta">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Meta/author"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Meta/description"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Meta/version"/>
-    </genClasses>
     <genClasses ecoreClass="library.ecore#//NetXResource">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/metricValueRanges"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/capacityValues"/>
@@ -393,7 +388,7 @@
     <genClasses ecoreClass="operators.ecore#//Marker">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Marker/equipmentRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Marker/functionRef"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Marker/markerValueRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Marker/markerResourceRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Marker/description"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Marker/kind"/>
     </genClasses>
@@ -411,7 +406,7 @@
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//Node">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/lifecycle"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/functions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/nodeType"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/createdByRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Node/nodeID"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/originalNodeTypeRef"/>

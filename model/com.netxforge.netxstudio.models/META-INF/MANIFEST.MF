@@ -37,5 +37,5 @@ Export-Package: com.netxforge.netxstudio,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.emf.cdo;bundle-version="4.0.0"
+ org.eclipse.emf.cdo;bundle-version="4.0.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy

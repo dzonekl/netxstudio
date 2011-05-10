@@ -6,9 +6,9 @@
  */
 package com.netxforge.netxstudio.library.validation;
 
-import com.netxforge.netxstudio.library.ProductInfo;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.library.ProductInfo;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.library.Vendor}.

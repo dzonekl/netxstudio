@@ -20,9 +20,9 @@ package com.netxforge.netxstudio.operators;
 
 import org.eclipse.emf.cdo.CDOObject;
 
-import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.NetXResource;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.library.Function;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.operators.Marker#getEquipmentRef <em>Equipment Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Marker#getFunctionRef <em>Function Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.Marker#getMarkerValueRef <em>Marker Value Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.Marker#getMarkerResourceRef <em>Marker Resource Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Marker#getDescription <em>Description</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Marker#getKind <em>Kind</em>}</li>
  * </ul>
@@ -103,29 +103,29 @@ public interface Marker extends CDOObject {
 	void setFunctionRef(Function value);
 
 	/**
-	 * Returns the value of the '<em><b>Marker Value Ref</b></em>' reference.
+	 * Returns the value of the '<em><b>Marker Resource Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MarkerValue reference, references 0 or 1 MarkerValue type
+	 * The MarkerResource reference, references 0 or 1 Resource type
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Marker Value Ref</em>' reference.
-	 * @see #setMarkerValueRef(Value)
-	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarker_MarkerValueRef()
-	 * @model extendedMetaData="kind='element' name='MarkerValueRef'"
+	 * @return the value of the '<em>Marker Resource Ref</em>' reference.
+	 * @see #setMarkerResourceRef(NetXResource)
+	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarker_MarkerResourceRef()
+	 * @model extendedMetaData="kind='element' name='MarkerResourceRef'"
 	 * @generated
 	 */
-	Value getMarkerValueRef();
+	NetXResource getMarkerResourceRef();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Marker#getMarkerValueRef <em>Marker Value Ref</em>}' reference.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Marker#getMarkerResourceRef <em>Marker Resource Ref</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Marker Value Ref</em>' reference.
-	 * @see #getMarkerValueRef()
+	 * @param value the new value of the '<em>Marker Resource Ref</em>' reference.
+	 * @see #getMarkerResourceRef()
 	 * @generated
 	 */
-	void setMarkerValueRef(Value value);
+	void setMarkerResourceRef(NetXResource value);
 
 	/**
 	 * Returns the value of the '<em><b>Description</b></em>' attribute.

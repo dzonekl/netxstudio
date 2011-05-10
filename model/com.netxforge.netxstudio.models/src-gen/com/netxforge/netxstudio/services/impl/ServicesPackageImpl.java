@@ -195,6 +195,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies

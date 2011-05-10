@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
-import com.netxforge.netxstudio.library.Tolerance;
-import com.netxforge.netxstudio.operators.Node;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServicesPackage;
 

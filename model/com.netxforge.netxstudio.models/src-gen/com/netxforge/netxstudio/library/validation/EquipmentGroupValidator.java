@@ -6,14 +6,13 @@
  */
 package com.netxforge.netxstudio.library.validation;
 
-import com.netxforge.netxstudio.generics.DiagramInfo;
+import org.eclipse.emf.common.util.EList;
 
+import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Parameter;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.library.EquipmentGroup}.

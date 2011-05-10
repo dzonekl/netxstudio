@@ -80,7 +80,7 @@ public class MarkerItemProvider
 
 			addEquipmentRefPropertyDescriptor(object);
 			addFunctionRefPropertyDescriptor(object);
-			addMarkerValueRefPropertyDescriptor(object);
+			addMarkerResourceRefPropertyDescriptor(object);
 			addDescriptionPropertyDescriptor(object);
 			addKindPropertyDescriptor(object);
 		}
@@ -132,19 +132,19 @@ public class MarkerItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Marker Value Ref feature.
+	 * This adds a property descriptor for the Marker Resource Ref feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addMarkerValueRefPropertyDescriptor(Object object) {
+	protected void addMarkerResourceRefPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Marker_markerValueRef_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Marker_markerValueRef_feature", "_UI_Marker_type"),
-				 OperatorsPackage.Literals.MARKER__MARKER_VALUE_REF,
+				 getString("_UI_Marker_markerResourceRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Marker_markerResourceRef_feature", "_UI_Marker_type"),
+				 OperatorsPackage.Literals.MARKER__MARKER_RESOURCE_REF,
 				 true,
 				 false,
 				 true,

@@ -18,12 +18,13 @@
  */
 package com.netxforge.netxstudio.scheduling.util;
 
-import com.netxforge.netxstudio.scheduling.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.Scheduling;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
  * <!-- begin-user-doc -->

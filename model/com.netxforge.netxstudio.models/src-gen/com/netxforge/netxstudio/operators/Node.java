@@ -45,7 +45,7 @@ import com.netxforge.netxstudio.library.NodeType;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getLifecycle <em>Lifecycle</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.Node#getFunctions <em>Functions</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.Node#getNodeType <em>Node Type</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getCreatedByRef <em>Created By Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getNodeID <em>Node ID</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getOriginalNodeTypeRef <em>Original Node Type Ref</em>}</li>
@@ -88,20 +88,20 @@ public interface Node extends CDOObject {
 	void setLifecycle(Lifecycle value);
 
 	/**
-	 * Returns the value of the '<em><b>Functions</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Node Type</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.NodeType}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The NodeType reference, contains 0 or more NodeType types.
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Functions</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNode_Functions()
+	 * @return the value of the '<em>Node Type</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNode_NodeType()
 	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='Functions'"
+	 *        extendedMetaData="kind='element' name='NodeType'"
 	 * @generated
 	 */
-	EList<NodeType> getFunctions();
+	EList<NodeType> getNodeType();
 
 	/**
 	 * Returns the value of the '<em><b>Created By Ref</b></em>' reference.

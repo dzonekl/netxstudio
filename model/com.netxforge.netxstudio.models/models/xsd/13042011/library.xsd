@@ -141,35 +141,6 @@
 			</xs:annotation></xs:attribute>
 	</xs:complexType>
 	
-	<!--_______________________ -->
-	<!-- META -->
-	<!--_______________________ -->
-
-	<xs:complexType name="Meta">
-		<xs:annotation>
-			<xs:documentation>A type representing meta information about this model.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element ecore:refernece= "gen:Person" name="Author" type="xs:anyURI" minOccurs="0"
-				maxOccurs="1" >
-				<xs:annotation>
-					<xs:documentation>The Author reference, contains 1 User type.</xs:documentation>
-				</xs:annotation></xs:element>
-		</xs:sequence>
-		<xs:attribute name="Version" type="xs:string">
-			<xs:annotation>
-				<xs:documentation>The Version attribute holds the version of this datamodel.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="Description" type="gen:Description2000">
-			<xs:annotation>
-				<xs:documentation>The Description attribute holds the description of this datamodel.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:complexType>
-
 	<!--_______________ -->
 	<!-- FUNCTION -->
 	<!--_______________ -->

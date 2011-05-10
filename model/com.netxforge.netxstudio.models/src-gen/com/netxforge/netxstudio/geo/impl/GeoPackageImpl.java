@@ -123,6 +123,7 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies

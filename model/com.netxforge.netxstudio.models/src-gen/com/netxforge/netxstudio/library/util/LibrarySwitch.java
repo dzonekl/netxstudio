@@ -18,14 +18,24 @@
  */
 package com.netxforge.netxstudio.library.util;
 
-import com.netxforge.netxstudio.generics.Company;
-
-import com.netxforge.netxstudio.library.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.EquipmentGroup;
+import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.Library;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.library.Parameter;
+import com.netxforge.netxstudio.library.ProductInfo;
+import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.library.Unit;
+import com.netxforge.netxstudio.library.Vendor;
 
 /**
  * <!-- begin-user-doc -->

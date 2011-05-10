@@ -18,12 +18,21 @@
  */
 package com.netxforge.netxstudio.services.util;
 
-import com.netxforge.netxstudio.services.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.netxforge.netxstudio.services.CFSService;
+import com.netxforge.netxstudio.services.CIID;
+import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServiceDistribution;
+import com.netxforge.netxstudio.services.ServiceForecast;
+import com.netxforge.netxstudio.services.ServiceForecastUsers;
+import com.netxforge.netxstudio.services.ServiceMonitor;
+import com.netxforge.netxstudio.services.ServiceProfile;
+import com.netxforge.netxstudio.services.ServiceUser;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * <!-- begin-user-doc -->

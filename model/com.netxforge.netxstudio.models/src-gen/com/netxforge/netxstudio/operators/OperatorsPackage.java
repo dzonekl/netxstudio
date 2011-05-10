@@ -113,10 +113,12 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
  * 			
  * 		
+ * 
+ * 		
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.operators.OperatorsFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL'"
  * @generated
  */
 public interface OperatorsPackage extends EPackage {
@@ -419,13 +421,13 @@ public interface OperatorsPackage extends EPackage {
 	int MARKER__FUNCTION_REF = 1;
 
 	/**
-	 * The feature id for the '<em><b>Marker Value Ref</b></em>' reference.
+	 * The feature id for the '<em><b>Marker Resource Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__MARKER_VALUE_REF = 2;
+	int MARKER__MARKER_RESOURCE_REF = 2;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -583,13 +585,13 @@ public interface OperatorsPackage extends EPackage {
 	int NODE__LIFECYCLE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Functions</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Node Type</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__FUNCTIONS = 1;
+	int NODE__NODE_TYPE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Created By Ref</b></em>' reference.
@@ -1070,15 +1072,15 @@ public interface OperatorsPackage extends EPackage {
 	EReference getMarker_FunctionRef();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Marker#getMarkerValueRef <em>Marker Value Ref</em>}'.
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Marker#getMarkerResourceRef <em>Marker Resource Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Marker Value Ref</em>'.
-	 * @see com.netxforge.netxstudio.operators.Marker#getMarkerValueRef()
+	 * @return the meta object for the reference '<em>Marker Resource Ref</em>'.
+	 * @see com.netxforge.netxstudio.operators.Marker#getMarkerResourceRef()
 	 * @see #getMarker()
 	 * @generated
 	 */
-	EReference getMarker_MarkerValueRef();
+	EReference getMarker_MarkerResourceRef();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.operators.Marker#getDescription <em>Description</em>}'.
@@ -1244,15 +1246,15 @@ public interface OperatorsPackage extends EPackage {
 	EReference getNode_Lifecycle();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.operators.Node#getFunctions <em>Functions</em>}'.
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.operators.Node#getNodeType <em>Node Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Functions</em>'.
-	 * @see com.netxforge.netxstudio.operators.Node#getFunctions()
+	 * @return the meta object for the containment reference list '<em>Node Type</em>'.
+	 * @see com.netxforge.netxstudio.operators.Node#getNodeType()
 	 * @see #getNode()
 	 * @generated
 	 */
-	EReference getNode_Functions();
+	EReference getNode_NodeType();
 
 	/**
 	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Node#getCreatedByRef <em>Created By Ref</em>}'.
@@ -1716,12 +1718,12 @@ public interface OperatorsPackage extends EPackage {
 		EReference MARKER__FUNCTION_REF = eINSTANCE.getMarker_FunctionRef();
 
 		/**
-		 * The meta object literal for the '<em><b>Marker Value Ref</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Marker Resource Ref</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MARKER__MARKER_VALUE_REF = eINSTANCE.getMarker_MarkerValueRef();
+		EReference MARKER__MARKER_RESOURCE_REF = eINSTANCE.getMarker_MarkerResourceRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
@@ -1848,12 +1850,12 @@ public interface OperatorsPackage extends EPackage {
 		EReference NODE__LIFECYCLE = eINSTANCE.getNode_Lifecycle();
 
 		/**
-		 * The meta object literal for the '<em><b>Functions</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Node Type</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference NODE__FUNCTIONS = eINSTANCE.getNode_Functions();
+		EReference NODE__NODE_TYPE = eINSTANCE.getNode_NodeType();
 
 		/**
 		 * The meta object literal for the '<em><b>Created By Ref</b></em>' reference feature.

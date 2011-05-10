@@ -18,14 +18,21 @@
  */
 package com.netxforge.netxstudio.generics.util;
 
-import com.netxforge.netxstudio.generics.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.DiagramInfo;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Lifecycle;
+import com.netxforge.netxstudio.generics.Meta;
+import com.netxforge.netxstudio.generics.MultiImage;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.generics.Value;
 
 /**
  * <!-- begin-user-doc -->

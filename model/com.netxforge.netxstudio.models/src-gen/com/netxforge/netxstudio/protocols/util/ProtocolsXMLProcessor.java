@@ -18,15 +18,13 @@
  */
 package com.netxforge.netxstudio.protocols.util;
 
-import com.netxforge.netxstudio.protocols.ProtocolsPackage;
-
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.resource.Resource;
-
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
+
+import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 
 /**
  * This class contains helper methods to serialize and deserialize XML documents

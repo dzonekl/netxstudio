@@ -32,13 +32,13 @@
 		<xs:complexContent>
 			<xs:extension base="Service">
 				<xs:sequence>
-					<xs:element name="Nodes" ecore:reference="networks:Node"
+					<xs:element name="Nodes" ecore:reference="operators:Node"
 						type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
                         <xs:annotation>
                         	<xs:documentation>The Nodes reference, references 0 or more Node types</xs:documentation>
                         </xs:annotation>
 					</xs:element>
-					<xs:element ecore:reference="Tolerance" maxOccurs="unbounded"
+					<xs:element ecore:reference="library:Tolerance" maxOccurs="unbounded"
 						minOccurs="0" name="ToleranceRefs" type="xs:anyURI" >
 						<xs:annotation>
 							<xs:documentation>The ToleranceRefs reference, refers to 0 or more Tolerance types.</xs:documentation>

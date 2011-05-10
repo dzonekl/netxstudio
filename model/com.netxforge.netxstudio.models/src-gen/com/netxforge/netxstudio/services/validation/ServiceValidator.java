@@ -6,6 +6,8 @@
  */
 package com.netxforge.netxstudio.services.validation;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceClassType;
@@ -13,8 +15,6 @@ import com.netxforge.netxstudio.services.ServiceDistribution;
 import com.netxforge.netxstudio.services.ServiceForecast;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServiceUser;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.services.Service}.

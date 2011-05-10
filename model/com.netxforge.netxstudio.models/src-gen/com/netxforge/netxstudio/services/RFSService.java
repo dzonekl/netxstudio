@@ -18,10 +18,10 @@
  */
 package com.netxforge.netxstudio.services;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.operators.Node;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->

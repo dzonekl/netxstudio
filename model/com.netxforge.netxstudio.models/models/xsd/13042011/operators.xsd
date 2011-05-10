@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns="http://www.netxforge.com/13042011/operators"
-	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" 
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
 	xmlns:gen="http://www.netxforge.com/13042011/generics"
 	xmlns:metrics="http://www.netxforge.com/13042011/metrics" 
 	xmlns:library="http://www.netxforge.com/13042011/library"
 	xmlns:geo="http://www.netxforge.com/13042011/geo"
 	xmlns:services="http://www.netxforge.com/13042011/services"
+	xmlns:protocols="http://www.netxforge.com/13042011/protocols"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	ecore:package="com.netxforge.netxstudio.operators" id="operators"
 	targetNamespace="http://www.netxforge.com/13042011/operators" >
@@ -18,7 +19,10 @@
 	<xs:import namespace="http://www.netxforge.com/13042011/geo"
 		schemaLocation="geo.xsd" />
 	<xs:import schemaLocation="services.xsd"
-		namespace="http://www.netxforge.com/13042011/services"/>	
+		namespace="http://www.netxforge.com/13042011/services"/>
+	<xs:import schemaLocation="protocols.xsd"
+		namespace="http://www.netxforge.com/13042011/protocols"/>
+			
 	<xs:annotation>
 		<xs:documentation>
 
@@ -189,7 +193,7 @@ Examples:
 					<xs:documentation>The Lifecycle reference, contains 0 or 1 Lifecycle types.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions"
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="NodeType"
 				type="library:NodeType" >
 				<xs:annotation>
 					<xs:documentation>The NodeType reference, contains 0 or more NodeType types.</xs:documentation>
@@ -312,7 +316,7 @@ Both Function and Equipment Relationship extend on this Base type. It holds both
 			<xs:annotation>
 				<xs:documentation>The Name attribute holds a name used for presentation.</xs:documentation>
 			</xs:annotation></xs:attribute>
-		<xs:attribute ecore:reference="library:Protocol" name="ProtocolRef"
+		<xs:attribute ecore:reference="protocols:Protocol" name="ProtocolRef"
 			type="xs:anyURI">
 			<xs:annotation>
 				<xs:documentation>The ProtocolRef reference, refers to 0 or 1 Protocol type.
@@ -474,9 +478,9 @@ this object however holds the time markers which result from the monitoring.
                 	<xs:documentation>The FunctionRef reference, references 0 or 1 Function types.</xs:documentation>
                 </xs:annotation>
 			</xs:element>
-			<xs:element ecore:reference="gen:Value" name="MarkerValueRef" type="xs:anyURI" maxOccurs="1" minOccurs="0">
+			<xs:element ecore:reference="library:NetXResource" name="MarkerResourceRef" type="xs:anyURI" maxOccurs="1" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The MarkerValue reference, references 0 or 1 MarkerValue type</xs:documentation>
+					<xs:documentation>The MarkerResource reference, references 0 or 1 Resource type</xs:documentation>
 				</xs:annotation></xs:element>
 		</xs:sequence>
 		<xs:attribute name="Kind" type="MarkerKind">

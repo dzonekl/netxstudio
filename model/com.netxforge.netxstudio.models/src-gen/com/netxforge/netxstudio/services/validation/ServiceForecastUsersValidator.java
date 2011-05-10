@@ -6,11 +6,10 @@
  */
 package com.netxforge.netxstudio.services.validation;
 
-import com.netxforge.netxstudio.generics.Value;
-
-import com.netxforge.netxstudio.services.ServiceUser;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.services.ServiceUser;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.services.ServiceForecastUsers}.

@@ -6,11 +6,11 @@
  */
 package com.netxforge.netxstudio.metrics.validation;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.Metric;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.metrics.MetricSource}.

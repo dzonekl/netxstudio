@@ -6,13 +6,11 @@
  */
 package com.netxforge.netxstudio.library.validation;
 
-import com.netxforge.netxstudio.generics.Value;
-
-import com.netxforge.netxstudio.library.Unit;
-
-import com.netxforge.netxstudio.metrics.MetricValueRange;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Unit;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.library.NetXResource}.

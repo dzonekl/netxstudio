@@ -7,7 +7,6 @@
 package com.netxforge.netxstudio.operators.validation;
 
 import com.netxforge.netxstudio.generics.ExpansionDuration;
-
 import com.netxforge.netxstudio.library.Equipment;
 
 /**

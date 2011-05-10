@@ -18,14 +18,13 @@
  */
 package com.netxforge.netxstudio.util;
 
-import com.netxforge.netxstudio.*;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.netxforge.netxstudio.Netxstudio;
+import com.netxforge.netxstudio.NetxstudioPackage;
 
 /**
  * <!-- begin-user-doc -->

@@ -233,6 +233,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies

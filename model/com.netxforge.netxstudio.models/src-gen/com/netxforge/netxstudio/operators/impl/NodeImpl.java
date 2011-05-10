@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getLifecycle <em>Lifecycle</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getFunctions <em>Functions</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getNodeType <em>Node Type</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getCreatedByRef <em>Created By Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getNodeID <em>Node ID</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getOriginalNodeTypeRef <em>Original Node Type Ref</em>}</li>
@@ -101,8 +101,8 @@ public class NodeImpl extends CDOObjectImpl implements Node {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<NodeType> getFunctions() {
-		return (EList<NodeType>)eGet(OperatorsPackage.Literals.NODE__FUNCTIONS, true);
+	public EList<NodeType> getNodeType() {
+		return (EList<NodeType>)eGet(OperatorsPackage.Literals.NODE__NODE_TYPE, true);
 	}
 
 	/**

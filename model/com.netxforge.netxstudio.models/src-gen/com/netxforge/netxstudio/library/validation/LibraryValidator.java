@@ -6,8 +6,9 @@
  */
 package com.netxforge.netxstudio.library.validation;
 
-import com.netxforge.netxstudio.generics.Meta;
+import org.eclipse.emf.common.util.EList;
 
+import com.netxforge.netxstudio.generics.Meta;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Function;
@@ -15,10 +16,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.library.Unit;
-
 import com.netxforge.netxstudio.metrics.Metric;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.library.Library}.

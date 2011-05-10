@@ -6,12 +6,11 @@
  */
 package com.netxforge.netxstudio.protocols.validation;
 
-import com.netxforge.netxstudio.generics.Company;
+import org.eclipse.emf.common.util.EList;
 
+import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.protocols.OSIType;
 import com.netxforge.netxstudio.protocols.Procedure;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.protocols.Protocol}.

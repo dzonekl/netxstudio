@@ -18,12 +18,25 @@
  */
 package com.netxforge.netxstudio.metrics.util;
 
-import com.netxforge.netxstudio.metrics.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.netxforge.netxstudio.metrics.DataKind;
+import com.netxforge.netxstudio.metrics.IdentifierDataKind;
+import com.netxforge.netxstudio.metrics.Mapping;
+import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingRDBMS;
+import com.netxforge.netxstudio.metrics.MappingRecord;
+import com.netxforge.netxstudio.metrics.MappingRecordXLS;
+import com.netxforge.netxstudio.metrics.MappingStatistic;
+import com.netxforge.netxstudio.metrics.MappingXLS;
+import com.netxforge.netxstudio.metrics.MappingXLSColumn;
+import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.metrics.ValueDataKind;
 
 /**
  * <!-- begin-user-doc -->

@@ -6,9 +6,9 @@
  */
 package com.netxforge.netxstudio.protocols.validation;
 
-import com.netxforge.netxstudio.protocols.Message;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.protocols.Message;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.protocols.Procedure}.

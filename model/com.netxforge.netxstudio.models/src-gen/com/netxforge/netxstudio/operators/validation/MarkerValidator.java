@@ -7,10 +7,9 @@
 package com.netxforge.netxstudio.operators.validation;
 
 import com.netxforge.netxstudio.generics.Value;
-
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
-
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.MarkerKind;
 
 /**
@@ -24,6 +23,8 @@ public interface MarkerValidator {
 
 	boolean validateEquipmentRef(Equipment value);
 	boolean validateFunctionRef(Function value);
+	boolean validateMarkerResourceRef(NetXResource value);
+
 	boolean validateMarkerValueRef(Value value);
 	boolean validateDescription(String value);
 	boolean validateKind(MarkerKind value);

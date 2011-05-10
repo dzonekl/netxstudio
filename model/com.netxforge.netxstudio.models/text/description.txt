@@ -27,8 +27,8 @@ Package services <http://www.netxforge.com/13042011/services>
     Attribute localCIID : Name255
 
   Class RFSService -> Service
-    Reference nodes : EObject<<0..*>>
-    Reference toleranceRefs : EObject<<0..*>>
+    Reference nodes : Node<<0..*>>
+    Reference toleranceRefs : Tolerance<<0..*>>
     Attribute functionalCategory : String
 
   Class Service
@@ -232,11 +232,6 @@ Package library <http://www.netxforge.com/13042011/library>
     Reference version : Meta
     Attribute name : Name255
 
-  Class Meta
-    Attribute author : AnyURI
-    Attribute description : Description2000
-    Attribute version : String
-
   Class NetXResource
     Reference metricValueRanges : MetricValueRange<<0..*>>
     Reference capacityValues : Value<<0..*>>
@@ -409,7 +404,7 @@ Package operators <http://www.netxforge.com/13042011/operators>
   Class Marker
     Reference equipmentRef : Equipment
     Reference functionRef : Function
-    Reference markerValueRef : Value
+    Reference markerResourceRef : NetXResource
     Attribute description : Description2000
     Attribute kind : MarkerKind
 
@@ -427,7 +422,7 @@ Package operators <http://www.netxforge.com/13042011/operators>
 
   Class Node
     Reference lifecycle : Lifecycle
-    Reference functions : NodeType<<0..*>>
+    Reference nodeType : NodeType<<0..*>>
     Reference createdByRef : Person
     Attribute nodeID : Name255
     Reference originalNodeTypeRef : NodeType
@@ -445,7 +440,7 @@ Package operators <http://www.netxforge.com/13042011/operators>
     Attribute name : String<<1..1>>
     Reference nodeID1Ref : Node
     Reference nodeID2Ref : Node
-    Reference protocolRef : EObject
+    Reference protocolRef : Protocol
 
   Class ResourceExpansion
     Reference nodeRefs : Node<<0..*>>

@@ -132,6 +132,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies

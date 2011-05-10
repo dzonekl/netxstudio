@@ -18,19 +18,27 @@
  */
 package com.netxforge.netxstudio.generics.util;
 
-import com.netxforge.netxstudio.generics.*;
-
 import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.EObjectValidator;
-
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeValidator;
+
+import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.DiagramInfo;
+import com.netxforge.netxstudio.generics.DiagramKindType;
+import com.netxforge.netxstudio.generics.ExpansionDuration;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Lifecycle;
+import com.netxforge.netxstudio.generics.Meta;
+import com.netxforge.netxstudio.generics.MultiImage;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.generics.Value;
 
 /**
  * <!-- begin-user-doc -->

@@ -18,14 +18,24 @@
  */
 package com.netxforge.netxstudio.operators.util;
 
-import com.netxforge.netxstudio.generics.Company;
-
-import com.netxforge.netxstudio.operators.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.operators.EquipmentRelationship;
+import com.netxforge.netxstudio.operators.ExpansionExperience;
+import com.netxforge.netxstudio.operators.FunctionRelationship;
+import com.netxforge.netxstudio.operators.Marker;
+import com.netxforge.netxstudio.operators.Network;
+import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.Relationship;
+import com.netxforge.netxstudio.operators.ResourceExpansion;
+import com.netxforge.netxstudio.operators.ResourceForecast;
+import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.operators.Warehouse;
 
 /**
  * <!-- begin-user-doc -->

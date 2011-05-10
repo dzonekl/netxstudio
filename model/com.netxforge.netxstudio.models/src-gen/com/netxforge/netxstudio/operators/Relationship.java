@@ -18,9 +18,9 @@
  */
 package com.netxforge.netxstudio.operators;
 
-import com.netxforge.netxstudio.protocols.Protocol;
 import org.eclipse.emf.cdo.CDOObject;
-import org.eclipse.emf.ecore.EObject;
+
+import com.netxforge.netxstudio.protocols.Protocol;
 
 /**
  * <!-- begin-user-doc -->

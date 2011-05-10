@@ -193,7 +193,7 @@ public class NodeItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(OperatorsPackage.Literals.NODE__LIFECYCLE);
-			childrenFeatures.add(OperatorsPackage.Literals.NODE__FUNCTIONS);
+			childrenFeatures.add(OperatorsPackage.Literals.NODE__NODE_TYPE);
 		}
 		return childrenFeatures;
 	}
@@ -252,7 +252,7 @@ public class NodeItemProvider
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case OperatorsPackage.NODE__LIFECYCLE:
-			case OperatorsPackage.NODE__FUNCTIONS:
+			case OperatorsPackage.NODE__NODE_TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -277,7 +277,7 @@ public class NodeItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(OperatorsPackage.Literals.NODE__FUNCTIONS,
+				(OperatorsPackage.Literals.NODE__NODE_TYPE,
 				 LibraryFactory.eINSTANCE.createNodeType()));
 	}
 

@@ -6,19 +6,15 @@
  */
 package com.netxforge.netxstudio.validation;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.Person;
-
 import com.netxforge.netxstudio.geo.Country;
-
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.Vendor;
-
 import com.netxforge.netxstudio.operators.Operator;
-
 import com.netxforge.netxstudio.scheduling.Job;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.Netxstudio}.

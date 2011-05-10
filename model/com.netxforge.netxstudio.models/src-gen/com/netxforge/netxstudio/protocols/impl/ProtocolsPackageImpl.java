@@ -140,6 +140,7 @@ public class ProtocolsPackageImpl extends EPackageImpl implements ProtocolsPacka
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies

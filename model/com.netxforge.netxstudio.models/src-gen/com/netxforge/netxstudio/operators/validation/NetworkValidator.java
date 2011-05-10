@@ -6,19 +6,17 @@
  */
 package com.netxforge.netxstudio.operators.validation;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.eclipse.emf.common.util.EList;
+
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.Person;
-
 import com.netxforge.netxstudio.metrics.MetricSource;
-
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
-
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.operators.Network}.

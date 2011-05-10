@@ -6,11 +6,10 @@
  */
 package com.netxforge.netxstudio.metrics.validation;
 
-import com.netxforge.netxstudio.generics.DateTimeRange;
-
-import com.netxforge.netxstudio.metrics.MappingRecord;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.metrics.MappingRecord;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.metrics.MappingStatistic}.

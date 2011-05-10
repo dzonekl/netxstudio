@@ -6,9 +6,9 @@
  */
 package com.netxforge.netxstudio.geo.validation;
 
-import com.netxforge.netxstudio.geo.Room;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.geo.Room;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.geo.Site}.

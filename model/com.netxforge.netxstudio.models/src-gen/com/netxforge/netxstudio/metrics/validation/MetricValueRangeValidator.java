@@ -6,11 +6,10 @@
  */
 package com.netxforge.netxstudio.metrics.validation;
 
-import com.netxforge.netxstudio.generics.Value;
-
-import com.netxforge.netxstudio.metrics.KindHintType;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.metrics.KindHintType;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.metrics.MetricValueRange}.

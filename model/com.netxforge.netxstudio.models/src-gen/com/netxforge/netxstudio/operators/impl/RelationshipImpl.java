@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.operators.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.operators.Node;

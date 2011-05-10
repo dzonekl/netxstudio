@@ -6,9 +6,9 @@
  */
 package com.netxforge.netxstudio.operators.validation;
 
-import com.netxforge.netxstudio.operators.Node;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.operators.Node;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.operators.Warehouse}.

@@ -6,9 +6,9 @@
  */
 package com.netxforge.netxstudio.operators.validation;
 
-import com.netxforge.netxstudio.operators.Marker;
-
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.operators.Marker;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.operators.ResourceForecast}.

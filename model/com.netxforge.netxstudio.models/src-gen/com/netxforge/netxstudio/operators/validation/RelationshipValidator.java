@@ -6,9 +6,10 @@
  */
 package com.netxforge.netxstudio.operators.validation;
 
-import com.netxforge.netxstudio.operators.Node;
-
 import org.eclipse.emf.ecore.EObject;
+
+import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.protocols.Protocol;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.operators.Relationship}.
@@ -22,5 +23,7 @@ public interface RelationshipValidator {
 	boolean validateName(String value);
 	boolean validateNodeID1Ref(Node value);
 	boolean validateNodeID2Ref(Node value);
+	boolean validateProtocolRef(Protocol value);
+
 	boolean validateProtocolRef(EObject value);
 }

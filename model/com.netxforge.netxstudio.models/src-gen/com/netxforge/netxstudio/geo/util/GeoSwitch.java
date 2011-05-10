@@ -18,12 +18,14 @@
  */
 package com.netxforge.netxstudio.geo.util;
 
-import com.netxforge.netxstudio.geo.*;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
+
+import com.netxforge.netxstudio.geo.Country;
+import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.geo.Site;
 
 /**
  * <!-- begin-user-doc -->

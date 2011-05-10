@@ -258,6 +258,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies

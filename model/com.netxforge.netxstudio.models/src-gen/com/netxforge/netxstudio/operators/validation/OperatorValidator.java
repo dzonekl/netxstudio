@@ -6,15 +6,14 @@
  */
 package com.netxforge.netxstudio.operators.validation;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.ResourceExpansion;
 import com.netxforge.netxstudio.operators.Warehouse;
-
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceUser;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.operators.Operator}.

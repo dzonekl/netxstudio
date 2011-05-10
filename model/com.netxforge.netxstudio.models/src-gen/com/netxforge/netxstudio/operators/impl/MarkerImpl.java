@@ -21,9 +21,9 @@ package com.netxforge.netxstudio.operators.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
-import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.MarkerKind;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getEquipmentRef <em>Equipment Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getFunctionRef <em>Function Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getMarkerValueRef <em>Marker Value Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getMarkerResourceRef <em>Marker Resource Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getKind <em>Kind</em>}</li>
  * </ul>
@@ -116,8 +116,8 @@ public class MarkerImpl extends CDOObjectImpl implements Marker {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Value getMarkerValueRef() {
-		return (Value)eGet(OperatorsPackage.Literals.MARKER__MARKER_VALUE_REF, true);
+	public NetXResource getMarkerResourceRef() {
+		return (NetXResource)eGet(OperatorsPackage.Literals.MARKER__MARKER_RESOURCE_REF, true);
 	}
 
 	/**
@@ -125,8 +125,8 @@ public class MarkerImpl extends CDOObjectImpl implements Marker {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMarkerValueRef(Value newMarkerValueRef) {
-		eSet(OperatorsPackage.Literals.MARKER__MARKER_VALUE_REF, newMarkerValueRef);
+	public void setMarkerResourceRef(NetXResource newMarkerResourceRef) {
+		eSet(OperatorsPackage.Literals.MARKER__MARKER_RESOURCE_REF, newMarkerResourceRef);
 	}
 
 	/**
