@@ -5,7 +5,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.data.DataModule;
+import com.netxforge.netxstudio.data.DataServiceModule;
 
 public class DataActivator implements BundleActivator {
 
@@ -23,8 +23,7 @@ public class DataActivator implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		DataActivator.context = bundleContext;
-		injector = Guice.createInjector(new DataModule());
-		
+		injector = Guice.createInjector(new DataServiceModule());
 	}
 
 	/*

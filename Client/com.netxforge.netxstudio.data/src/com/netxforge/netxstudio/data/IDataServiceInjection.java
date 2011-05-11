@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 3, 2011 NetXForge.
+ * Copyright (c) May 10, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,25 +18,16 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-@Singleton
-public class DataService implements IDataService {
+public interface IDataServiceInjection {
 	
-	private final IDataProvider provider;
-	
-	@Inject
-	public DataService(IDataProvider provider) {
-		this.provider = provider;
-	}
-	
-	public IDataProvider getProvider(){
-		return provider;
-	}
+	/**
+	 * Screens for which data is injected by the data service should implement. 
+	 */
+	public abstract void injectData();
 	
 }

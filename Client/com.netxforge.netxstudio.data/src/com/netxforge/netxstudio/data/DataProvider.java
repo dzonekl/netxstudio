@@ -19,18 +19,16 @@
 package com.netxforge.netxstudio.data;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.example.arithmetics.arithmetics.ArithmeticsFactory;
-import org.eclipse.xtext.xbase.XbaseFactory;
 
-import com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper;
-import com.netxforge.netxstudio.models.xtextwrapper.NetXScriptWrapper;
-import com.netxforge.netxstudio.models.xtextwrapper.XtextwrapperFactory;
+import com.netxforge.netxstudio.Netxstudio;
+import com.netxforge.netxstudio.NetxstudioFactory;
+import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.Person;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-@SuppressWarnings("restriction")
 public class DataProvider implements IDataProvider {
 	
 	
@@ -38,18 +36,40 @@ public class DataProvider implements IDataProvider {
 		return null;
 	}
 	
-	public EObject getArithmeticWrapper() {
-		ArithmeticWrapper wrapper = XtextwrapperFactory.eINSTANCE.createArithmeticWrapper();
-		wrapper.setAsString("");
-		wrapper.setEval(ArithmeticsFactory.eINSTANCE.createEvaluation());
-		return wrapper;
+	public EObject getNetXScriptWrapper() {
+//		NetXScriptWrapper wrapper = XtextwrapperFactory.eINSTANCE.createNetXScriptWrapper();
+//		wrapper.setAsString("");
+//		wrapper.setXblock(XbaseFactory.eINSTANCE.createXBlockExpression());
+//		return wrapper;
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataProvider#getNetXStudio()
+	 */
+	public Netxstudio getNetXStudio() {
+		Netxstudio studio = NetxstudioFactory.eINSTANCE.createNetxstudio();
+		studio.getUsers().add(getPerson());
+		studio.getUsers().add(getPerson("Eric", "Meijer", "eric.meijer","Eric@vdvl.nl"));
+		return studio;
 	}
 	
-	public EObject getNetXScriptWrapper() {
-		NetXScriptWrapper wrapper = XtextwrapperFactory.eINSTANCE.createNetXScriptWrapper();
-		wrapper.setAsString("");
-		wrapper.setXblock(XbaseFactory.eINSTANCE.createXBlockExpression());
-		return wrapper;
+	public Person getPerson() {
+		Person p = GenericsFactory.eINSTANCE.createPerson();
+		p.setFirstName("Christophe");
+		p.setLastName("Bouhier");
+		p.setLogin("christophe.bouhier");
+		p.setEmail("christophe.bouhier@netxforge.com");
+		return p;
+	}
+	
+	public Person getPerson(String first, String last, String login, String email) {
+		Person p = GenericsFactory.eINSTANCE.createPerson();
+		p.setFirstName(first);
+		p.setLastName(last);
+		p.setLogin(login);
+		p.setEmail(email);
+		return p;
 	}
 	
 }

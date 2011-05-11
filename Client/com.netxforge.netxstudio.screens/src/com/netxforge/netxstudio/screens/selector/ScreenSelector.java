@@ -1,23 +1,34 @@
-package com.netxforge.netxstudio.screens.demo;
+/*******************************************************************************
+ * Copyright (c) May 8, 2011 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option) any
+ * later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU Lesser General Public
+ * License along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
+package com.netxforge.netxstudio.screens.selector;
 
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.part.ViewPart;
 
 import com.netxforge.netxstudio.screens.f2.Resource;
 import com.netxforge.netxstudio.screens.f2.ResourceCapacityRange;
@@ -37,44 +48,29 @@ import com.netxforge.netxstudio.screens.nf4.LoginDialog;
 import com.netxforge.netxstudio.screens.nf4.NewEditUser;
 import com.netxforge.netxstudio.screens.nf4.UsersAndRoles;
 
-public class DemoViewPartSelector extends ViewPart {
+public class ScreenSelector extends AbstractScreenSelector {
 
-	public static final String ID = "com.netxforge.netxstudio.screens.demo.DemoViewPartSelector"; //$NON-NLS-1$
+	public static final String ID = "com.netxforge.netxstudio.screens.screen.ScreenSelector"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
-	private Composite parentComposite = null;
-	private Composite currentComposite = null;
-	private Form frmNewForm;
-	FormData fd_frmNewForm = new FormData();
-
-	public DemoViewPartSelector() {
+	public ScreenSelector() {
 	}
 
 	/**
-	 * Create contents of the view part.
+	 * A dynamic selector screen selector. 
+	 * Extends an Editor view part for dirtyness, editing domain, command stack etc...
+	 * 
 	 * 
 	 * @param parent
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		parentComposite = parent;
-		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
-		final Composite container = toolkit.createComposite(parent, SWT.NONE);
+		super.createPartControl(parent);
+	}
 
-		toolkit.paintBordersFor(container);
-		container.setLayout(new FormLayout());
-
-		frmNewForm = toolkit.createForm(container);
-		fd_frmNewForm.left = new FormAttachment(0, 10);
-
-		fd_frmNewForm.bottom = new FormAttachment(100, -3);
-		fd_frmNewForm.top = new FormAttachment(0, 3);
-		frmNewForm.setLayoutData(fd_frmNewForm);
-		toolkit.paintBordersFor(frmNewForm);
-		frmNewForm.setText("Screens");
-		frmNewForm.getBody().setLayout(new FormLayout());
-
-		Section sctnNewSection = toolkit.createSection(frmNewForm.getBody(),
+	public void buildSelector(final Composite container){
+		
+		Section sctnNewSection = toolkit.createSection(getSelectorForm().getBody(),
 				Section.COMPACT | Section.EXPANDED | Section.TREE_NODE
 						| Section.TITLE_BAR);
 		FormData fd_sctnNewSection = new FormData();
@@ -91,80 +87,8 @@ public class DemoViewPartSelector extends ViewPart {
 		toolkit.paintBordersFor(composite_1);
 		sctnNewSection.setClient(composite_1);
 		composite_1.setLayout(new GridLayout(1, false));
-
-		Button btnLogin = new Button(composite_1, SWT.FLAT);
-		btnLogin.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
-				1, 1));
-		btnLogin.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				LoginDialog ld = new LoginDialog(DemoViewPartSelector.this
-						.getSite().getShell());
-				ld.open();
-
-			}
-		});
-		toolkit.adapt(btnLogin, true, true);
-		btnLogin.setText("Login");
-
-		Button btnUsersAndRoles = toolkit.createButton(composite_1,
-				"Users and Roles", SWT.NONE);
-		btnUsersAndRoles.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof UsersAndRoles)
-					return;
-				updateComposite(container, new UsersAndRoles(container,
-						SWT.NONE));
-			}
-		});
-		btnUsersAndRoles.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
-
-		Button btnNewUser = toolkit.createButton(composite_1, "New User",
-				SWT.NONE);
-		btnNewUser.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof NewEditUser)
-					return;
-				updateComposite(container, new NewEditUser(container, SWT.NONE));
-			}
-		});
-		btnNewUser.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
-
-		Button btnJobs = new Button(composite_1, SWT.FLAT);
-		btnJobs.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
-				1, 1));
-		btnJobs.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof Scheduler)
-					return;
-				updateComposite(container, new Scheduler(container, SWT.NONE));
-			}
-		});
-		toolkit.adapt(btnJobs, true, true);
-		btnJobs.setText("Scheduler Jobs");
-
-		Button btnNewJob = new Button(composite_1, SWT.FLAT);
-		btnNewJob.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof NewScheduledJob)
-					return;
-				updateComposite(container, new NewScheduledJob(container,
-						SWT.NONE));
-			}
-		});
-		btnNewJob.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1));
-		toolkit.adapt(btnNewJob, true, true);
-		btnNewJob.setText("New Job");
-
-		Section sctnNewSection_1 = toolkit.createSection(frmNewForm.getBody(),
+		
+		Section sctnNewSection_1 = toolkit.createSection(super.getSelectorForm().getBody(),
 				Section.TREE_NODE | Section.TITLE_BAR);
 		FormData fd_sctnNewSection_1 = new FormData();
 		fd_sctnNewSection_1.bottom = new FormAttachment(100, -12);
@@ -182,15 +106,94 @@ public class DemoViewPartSelector extends ViewPart {
 		toolkit.paintBordersFor(composite);
 		sctnNewSection_1.setClient(composite);
 		composite.setLayout(new GridLayout(1, false));
+			
+		
+		
+		Button btnLogin = new Button(composite_1, SWT.FLAT);
+		btnLogin.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+				1, 1));
+		btnLogin.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				LoginDialog ld = new LoginDialog(ScreenSelector.this
+						.getSite().getShell());
+				ld.open();
+
+			}
+		});
+		toolkit.adapt(btnLogin, true, true);
+		btnLogin.setText("Login");
+
+		Button btnUsersAndRoles = toolkit.createButton(composite_1,
+				"Users and Roles", SWT.NONE);
+		btnUsersAndRoles.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				
+				// TODO, consider if this is the correct API. 
+				if(isActiveScreen(UsersAndRoles.class))
+					return;
+				updateComposite(new UsersAndRoles(container,
+						SWT.NONE));
+			}
+		});
+		btnUsersAndRoles.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
+
+		Button btnNewUser = toolkit.createButton(composite_1, "New User",
+				SWT.NONE);
+		btnNewUser.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+//				if (currentComposite instanceof NewUser)
+//					return;
+				updateComposite(new NewEditUser(container, SWT.NONE));
+			}
+		});
+		btnNewUser.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
+
+		Button btnJobs = new Button(composite_1, SWT.FLAT);
+		btnJobs.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
+				1, 1));
+		btnJobs.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+//				if (currentComposite instanceof Scheduler)
+//					return;
+				updateComposite(new Scheduler(container, SWT.NONE));
+			}
+		});
+		toolkit.adapt(btnJobs, true, true);
+		btnJobs.setText("Scheduler Jobs");
+
+		Button btnNewJob = new Button(composite_1, SWT.FLAT);
+		btnNewJob.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+//				if (currentComposite instanceof NewScheduledJob)
+//					return;
+				updateComposite(new NewScheduledJob(container,
+						SWT.NONE));
+			}
+		});
+		btnNewJob.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
+				false, 1, 1));
+		toolkit.adapt(btnNewJob, true, true);
+		btnNewJob.setText("New Job");
+
+		
 
 		Button btnNewButton = toolkit.createButton(composite, "Metrics",
 				SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof Metrics)
-					return;
-				updateComposite(container, new Metrics(container, SWT.NONE));
+//				if (currentComposite instanceof Metrics)
+//					return;
+				updateComposite(new Metrics(container, SWT.NONE));
 			}
 		});
 		btnNewButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
@@ -201,9 +204,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof NewMetric)
-					return;
-				updateComposite(container, new NewMetric(container, SWT.NONE));
+//				if (currentComposite instanceof NewMetric)
+//					return;
+				updateComposite(new NewMetric(container, SWT.NONE));
 
 			}
 		});
@@ -217,9 +220,9 @@ public class DemoViewPartSelector extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Launch the editor.
-				if (currentComposite instanceof MetricSources)
-					return;
-				updateComposite(container, new MetricSources(container,
+//				if (currentComposite instanceof MetricSources)
+//					return;
+				updateComposite( new MetricSources(container,
 						SWT.NONE));
 			}
 		});
@@ -246,9 +249,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnNewMappingColumn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof NewMappingColumn)
-					return;
-				updateComposite(container, new NewMappingColumn(container,
+//				if (currentComposite instanceof NewMappingColumn)
+//					return;
+				updateComposite(new NewMappingColumn(container,
 						SWT.NONE));
 			}
 		});
@@ -265,9 +268,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnResource.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof Resource)
-					return;
-				updateComposite(container, new Resource(container, SWT.NONE));
+//				if (currentComposite instanceof Resource)
+//					return;
+				updateComposite(new Resource(container, SWT.NONE));
 
 			}
 		});
@@ -279,9 +282,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnMetricValueRange.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof MetricValueRange)
-					return;
-				updateComposite(container, new MetricValueRange(container,
+//				if (currentComposite instanceof MetricValueRange)
+//					return;
+				updateComposite(new MetricValueRange(container,
 						SWT.NONE));
 
 			}
@@ -294,9 +297,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnCapacityRange.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof ResourceCapacityRange)
-					return;
-				updateComposite(container, new ResourceCapacityRange(container,
+//				if (currentComposite instanceof ResourceCapacityRange)
+//					return;
+				updateComposite(new ResourceCapacityRange(container,
 						SWT.NONE));
 			}
 		});
@@ -307,9 +310,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnResourceMonitor.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof ResourceMonitor)
-					return;
-				updateComposite(container, new ResourceMonitor(container,
+//				if (currentComposite instanceof ResourceMonitor)
+//					return;
+				updateComposite(new ResourceMonitor(container,
 						SWT.NONE));
 			}
 		});
@@ -318,100 +321,60 @@ public class DemoViewPartSelector extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				if (currentComposite instanceof MappingStatistics)
-					return;
-				updateComposite(container, new MappingStatistics(container,
+//				if (currentComposite instanceof MappingStatistics)
+//					return;
+				updateComposite(new MappingStatistics(container,
 						SWT.NONE));
 			}
 		});
 		btnNewXlsMapping.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof NewXLSMapping)
-					return;
-				updateComposite(container, new NewXLSMapping(container,
+//				if (currentComposite instanceof NewXLSMapping)
+//					return;
+				updateComposite(new NewXLSMapping(container,
 						SWT.NONE));
 			}
 		});
 		btnPurgeMetrics.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof PurgeMetrics)
-					return;
-				updateComposite(container,
-						new PurgeMetrics(container, SWT.NONE));
+//				if (currentComposite instanceof PurgeMetrics)
+//					return;
+				updateComposite(new PurgeMetrics(container, SWT.NONE));
 			}
 		});
 		btnNewMetricSource.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof NewMetricSource)
-					return;
-				updateComposite(container, new NewMetricSource(container,
+//				if (currentComposite instanceof NewMetricSource)
+//					return;
+				updateComposite(new NewMetricSource(container,
 						SWT.NONE));
 			}
 		});
-
-		updateComposite(container, new Composite(container, SWT.BORDER));
-
-		createActions();
-		initializeToolBar();
-		initializeMenu();
 	}
-
-	public void updateComposite(Composite container, Composite control) {
-		if (currentComposite != null) {
-			currentComposite.dispose();
-		}
-
-		currentComposite = control;
-		FormData fd_currentComposite = new FormData();
-		fd_currentComposite.left = new FormAttachment(0, 177);
-		fd_currentComposite.right = new FormAttachment(100, -10);
-		fd_currentComposite.bottom = new FormAttachment(100, -3);
-		fd_currentComposite.top = new FormAttachment(0, 34);
-		currentComposite.setLayoutData(fd_currentComposite);
-
-		toolkit.adapt(control);
-		toolkit.paintBordersFor(control);
-
-		fd_frmNewForm.right = new FormAttachment(currentComposite, -6);
-
-		container.pack();
-		// parentComposite.pack();
-		parentComposite.layout(true);
-	}
-
+	
+	
 	public void dispose() {
 		toolkit.dispose();
 		super.dispose();
 	}
 
-	/**
-	 * Create the actions.
-	 */
-	private void createActions() {
-		// Create the actions
-	}
-
-	/**
-	 * Initialize the toolbar.
-	 */
-	private void initializeToolBar() {
-		@SuppressWarnings("unused")
-		IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();
-	}
-
-	/**
-	 * Initialize the menu.
-	 */
-	private void initializeMenu() {
-		@SuppressWarnings("unused")
-		IMenuManager manager = getViewSite().getActionBars().getMenuManager();
-	}
-
 	@Override
 	public void setFocus() {
 		// Set the focus
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings()
+	 */
+	
+	@Override
+	protected void initBindings() {
+		// TODO Auto-generated method stub
+		// Static initialization of bindings. We need a dynamic form for this. 
+		// 
+		
 	}
 }

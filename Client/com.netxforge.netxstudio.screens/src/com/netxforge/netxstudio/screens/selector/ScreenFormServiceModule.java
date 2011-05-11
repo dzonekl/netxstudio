@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.data;
+package com.netxforge.netxstudio.screens.selector;
 
 
 /**
@@ -24,15 +24,14 @@ package com.netxforge.netxstudio.data;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class DataModule extends com.google.inject.AbstractModule {
+public class ScreenFormServiceModule extends com.google.inject.AbstractModule {
 
 	/* (non-Javadoc)
 	 * @see com.google.inject.AbstractModule#configure()
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IDataProvider.class).to(DataProvider.class);
-		this.bind(IDataService.class).to(DataService.class);
+		this.bind(IScreenFormService.class).to(ScreenFormService.class);
 	}
 
 }

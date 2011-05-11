@@ -3,21 +3,27 @@ package com.netxforge.netxstudio.screens.internal;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.netxforge.netxstudio.screens.selector.ScreenFormServiceModule;
+
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class ScreensActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.netxstudio.screens"; //$NON-NLS-1$
 
 	// The shared instance
-	private static Activator plugin;
+	private static ScreensActivator plugin;
+
+	private static Injector injector;
 	
 	/**
 	 * The constructor
 	 */
-	public Activator() {
+	public ScreensActivator() {
 	}
 
 	/*
@@ -27,6 +33,8 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		injector = Guice.createInjector(new ScreenFormServiceModule());
+		
 	}
 
 	/*
@@ -43,8 +51,12 @@ public class Activator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() {
+	public static ScreensActivator getDefault() {
 		return plugin;
 	}
-
+	
+	public static Injector getInjector() {
+		return injector;
+	}
+	
 }

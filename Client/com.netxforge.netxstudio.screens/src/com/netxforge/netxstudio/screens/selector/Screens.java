@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 3, 2011 NetXForge.
+ * Copyright (c) May 9, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,27 +16,15 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.data;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+package com.netxforge.netxstudio.screens.selector;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-@Singleton
-public class DataService implements IDataService {
+public class Screens {
 	
-	private final IDataProvider provider;
-	
-	@Inject
-	public DataService(IDataProvider provider) {
-		this.provider = provider;
-	}
-	
-	public IDataProvider getProvider(){
-		return provider;
-	}
+	public static final int NEW = 100;
+	public static final int EDIT = 101;
 	
 }

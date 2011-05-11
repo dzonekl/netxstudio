@@ -18,25 +18,21 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 /**
+ * Provides access to a data provider. 
+ * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
  */
-@Singleton
-public class DataService implements IDataService {
-	
-	private final IDataProvider provider;
-	
-	@Inject
-	public DataService(IDataProvider provider) {
-		this.provider = provider;
+public class DataServiceModule extends com.google.inject.AbstractModule {
+
+	/* (non-Javadoc)
+	 * @see com.google.inject.AbstractModule#configure()
+	 */
+	@Override
+	protected void configure() {
+		this.bind(IDataProvider.class).to(DataProvider.class);
+		this.bind(IDataService.class).to(DataService.class);
 	}
-	
-	public IDataProvider getProvider(){
-		return provider;
-	}
-	
+
 }

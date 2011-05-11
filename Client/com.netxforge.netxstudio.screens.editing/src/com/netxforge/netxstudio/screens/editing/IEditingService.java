@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 3, 2011 NetXForge.
+ * Copyright (c) May 10, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,28 +15,20 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
-package com.netxforge.netxstudio.data;
+ *******************************************************************************/
+package com.netxforge.netxstudio.screens.editing;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-@Singleton
-public class DataService implements IDataService {
-	
-	private final IDataProvider provider;
-	
-	@Inject
-	public DataService(IDataProvider provider) {
-		this.provider = provider;
-	}
-	
-	public IDataProvider getProvider(){
-		return provider;
-	}
-	
+public interface IEditingService {
+
+	public abstract EditingDomain getEditingDomain();
+
+	public abstract ComposedAdapterFactory getAdapterFactory();
+
 }

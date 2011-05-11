@@ -20,6 +20,8 @@ package com.netxforge.netxstudio.data;
 
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.Netxstudio;
+
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
@@ -28,8 +30,7 @@ public interface IDataProvider {
 	
 	public EObject getObject();
 	
-	public EObject getArithmeticWrapper();
-	
 	public EObject getNetXScriptWrapper();
 	
+	public Netxstudio getNetXStudio();
 }

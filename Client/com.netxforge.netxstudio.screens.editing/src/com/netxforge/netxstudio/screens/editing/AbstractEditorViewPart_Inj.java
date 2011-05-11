@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -44,6 +43,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPartListener;
@@ -54,8 +54,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
-import com.google.inject.Injector;
-import com.netxforge.netxstudio.data.internal.DataActivator;
+import com.google.inject.Inject;
 
 /**
  * A ViewPart which acts as an editor.
@@ -66,7 +65,7 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
  * 
  * @author dzonekl
  */
-public abstract class AbstractEditorViewPart extends ViewPart implements
+public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 		ISaveablePart2, IPartListener, ISelectionListener,
 		IEditingDomainProvider, ISelectionProvider, IMenuListener {
 
@@ -80,10 +79,14 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 	// Our global action handler.
 	private GlobalActionsHandler globActionsHandler = new GlobalActionsHandler();
 	
-	Injector dataInjector;
+	@Inject
+	private EditingService editingService; 
 	
-	public AbstractEditorViewPart() {
-		dataInjector = DataActivator.getInjector();
+	public EditingService getEditingService() {
+		return editingService;
+	}
+
+	public AbstractEditorViewPart_Inj() {
 		createActions();
 	}
 	
@@ -91,20 +94,8 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 	 * Supers should override. 
 	 */
 	private void createActions() {
-		
 	}
-
-	// The declared EMF edit adapter factory.
-	ComposedAdapterFactory emfEditAdapterFactory;
-
-	private ComposedAdapterFactory getAdapterFactory() {
-		if (emfEditAdapterFactory == null) {
-			emfEditAdapterFactory = new ComposedAdapterFactory(
-					ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		}
-		return emfEditAdapterFactory;
-	}
-
+	
 	/**
 	 * Create contents of the view part.
 	 * 
@@ -188,7 +179,10 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 		// Set the current editor as selection provider.
 		globActionsHandler.initActions(site.getActionBars());
 		hookPageSelection();
-	}
+		
+		
+		
+	}	
 
 	// ISaveablePart2 API.
 	@Override
@@ -292,7 +286,7 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 	@Override
 	public void partActivated(IWorkbenchPart part) {
 		// Register selection listeners.
-		if (part instanceof AbstractEditorViewPart) {
+		if (part instanceof AbstractEditorViewPart_Inj) {
 			// Activate our global actions.
 			globActionsHandler.activate(part);
 			System.out.println("NodePopulateViewPart, part actived");
@@ -314,7 +308,7 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 
 	@Override
 	public void partDeactivated(IWorkbenchPart part) {
-		if (part instanceof AbstractEditorViewPart) {
+		if (part instanceof AbstractEditorViewPart_Inj) {
 			globActionsHandler.deactivate(part);
 			System.out.println("NodePopulateViewPart, part deactived");
 		} else {
@@ -350,40 +344,47 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 		}
 		return selection;
 	}
+	
+	@Override
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
+		return super.getAdapter(key);
+	}
+	
 
 	// IEditingDomainProvider API.
-
+	// TODO, remove later Moved to Guice service. 
 	AdapterFactoryEditingDomain domain = null;
 
 	@Override
 	public EditingDomain getEditingDomain() {
 		
-		
 		if (domain == null) {
-			BasicCommandStack commandStack = new BasicCommandStack();
-
+			domain = (AdapterFactoryEditingDomain) editingService.getEditingDomain();	
+//			BasicCommandStack commandStack = new BasicCommandStack();
 			// Add a listener to set the viewer dirty state.
-
 			CommandStackListener cmdStackListener = new CommandStackListener() {
 				public void commandStackChanged(final EventObject event) {
 					getViewSite().getShell().getDisplay()
 							.asyncExec(new Runnable() {
 								public void run() {
 									firePropertyChange(ISaveablePart2.PROP_DIRTY);
+									System.out.println("dirty fired");
+									
 								}
 							});
 				}
 			};
-			
-			commandStack.addCommandStackListener(cmdStackListener);
-
-			domain = new AdapterFactoryEditingDomain(this.getAdapterFactory(),
-					commandStack);
+			domain.getCommandStack().addCommandStackListener(cmdStackListener);
+//			domain = new AdapterFactoryEditingDomain(this.getAdapterFactory(),
+//					commandStack);
 		}
 		return domain;
 	}
 
 	// ISelectionProvider API.
+	// In our case, our globalActionsHnadler actions listen to our selection provider when 
+	// the part is is activated. 
+	// Whatever screen is active, should provide selection.
 	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
 	@Override
@@ -413,5 +414,66 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 	@Override
 	public void menuAboutToShow(IMenuManager manager) {
 		System.out.println("Menu about to show request: " + manager.getId());
+	}
+	
+	
+	
+	
+	/**
+	 * This listens to which ever viewer is active.
+	 */
+	protected ISelectionChangedListener selectionChangedListener;
+
+	/**
+	 * This keeps track of the active content viewer, which may be either one of
+	 * the viewers in the screens. 
+	 * @generated
+	 */
+	protected Viewer currentViewer;
+	
+	
+	/**
+	 * Call from which ever screen with a view which can/should provide selection.
+	 * @param viewer
+	 */
+	public void setCurrentViewer(Viewer viewer) {
+		if (currentViewer != viewer) {
+			if (selectionChangedListener == null) {
+				// Create the listener on demand.
+				//
+				selectionChangedListener = new ISelectionChangedListener() {
+					// This just notifies those things that are affected by the
+					// section.
+					//
+					public void selectionChanged(
+							SelectionChangedEvent selectionChangedEvent) {
+						setSelection(selectionChangedEvent.getSelection());
+					}
+				};
+			}
+
+			// Stop listening to the old one.
+			//
+			if (currentViewer != null) {
+				currentViewer
+						.removeSelectionChangedListener(selectionChangedListener);
+			}
+
+			// Start listening to the new one.
+			//
+			if (viewer != null) {
+				viewer.addSelectionChangedListener(selectionChangedListener);
+			}
+
+			// Remember it.
+			//
+			currentViewer = viewer;
+
+			// Set the editors selection based on the current viewer's
+			// selection.
+			//
+			setSelection(currentViewer == null ? StructuredSelection.EMPTY
+					: currentViewer.getSelection());
+		}
 	}
 }

@@ -3,21 +3,28 @@ package com.netxforge.netxstudio.screens.editing.internal;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.netxforge.netxstudio.screens.editing.EditingService;
+import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
+
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class EditingActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.netxstudio.screens.editing"; //$NON-NLS-1$
 
 	// The shared instance
-	private static Activator plugin;
+	private static EditingActivator plugin;
+		
+	private static Injector injector;
 	
 	/**
 	 * The constructor
 	 */
-	public Activator() {
+	public EditingActivator() {
 	}
 
 	/*
@@ -27,6 +34,8 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		injector = Guice.createInjector(new EditingServiceModule());
+		injector.getInstance(EditingService.class);
 	}
 
 	/*
@@ -43,8 +52,12 @@ public class Activator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() {
+	public static EditingActivator getDefault() {
 		return plugin;
 	}
-
+	
+	public static Injector getInjector() {
+		return injector;
+	}
+	
 }
