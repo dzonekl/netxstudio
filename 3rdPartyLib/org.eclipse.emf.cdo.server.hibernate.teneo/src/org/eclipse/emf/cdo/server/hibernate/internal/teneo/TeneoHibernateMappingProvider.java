@@ -26,6 +26,7 @@ import org.eclipse.net4j.util.om.trace.ContextTracer;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -104,6 +105,7 @@ public class TeneoHibernateMappingProvider extends HibernateMappingProvider
         getHibernateStore().getRepository().getPackageRegistry());
 
     // translate the list of EPackages to an array
+    boolean hasXMLTypePackage = false;
     final List<EPackage> epacks = getHibernateStore().getPackageHandler().getEPackages();
     final ListIterator<EPackage> iterator = epacks.listIterator();
     while (iterator.hasNext())
@@ -115,8 +117,14 @@ public class TeneoHibernateMappingProvider extends HibernateMappingProvider
       }
       else if (epack == XMLTypePackage.eINSTANCE)
       {
-        iterator.remove();
+        hasXMLTypePackage = true;
+        // iterator.remove();
       }
+    }
+
+    if (hasXMLTypePackage)
+    {
+      addTypeAnnotationToXMLTypes();
     }
 
     addUniqueConstraintAnnotation();
@@ -139,9 +147,31 @@ public class TeneoHibernateMappingProvider extends HibernateMappingProvider
     // to solve an issue with older versions of teneo
     hbm = hbm.replaceAll("_cont", "cont"); //$NON-NLS-1$ //$NON-NLS-2$
 
-//    System.err.println(hbm);
+    // System.err.println(hbm);
 
     return hbm;
+  }
+
+  private void addTypeAnnotationToXMLTypes()
+  {
+    for (EClassifier eClassifier : XMLTypePackage.eINSTANCE.getEClassifiers())
+    {
+      if (eClassifier instanceof EDataType)
+      {
+        final EDataType eDataType = (EDataType)eClassifier;
+        if (eDataType.getEAnnotation(Constants.ANNOTATION_SOURCE_TENEO_JPA) != null)
+        {
+          continue;
+        }
+
+        final EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(Constants.ANNOTATION_SOURCE_TENEO_JPA);
+        final String typeAnnotation = "@Type(type=\"org.eclipse.emf.cdo.server.internal.hibernate.tuplizer.XMLUserType$"
+            + eDataType.getName() + "\")";
+        eAnnotation.getDetails().put("value", typeAnnotation);
+        eDataType.getEAnnotations().add(eAnnotation);
+      }
+    }
   }
 
   private void addTypeAnnotationToEDataType(EDataType eDataType, String type)
