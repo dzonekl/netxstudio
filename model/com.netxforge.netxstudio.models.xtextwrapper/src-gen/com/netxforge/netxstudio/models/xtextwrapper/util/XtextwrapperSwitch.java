@@ -76,12 +76,6 @@ public class XtextwrapperSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case XtextwrapperPackage.ARITHMETIC_WRAPPER: {
-				ArithmeticWrapper arithmeticWrapper = (ArithmeticWrapper)theEObject;
-				T result = caseArithmeticWrapper(arithmeticWrapper);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case XtextwrapperPackage.NET_XSCRIPT_WRAPPER: {
 				NetXScriptWrapper netXScriptWrapper = (NetXScriptWrapper)theEObject;
 				T result = caseNetXScriptWrapper(netXScriptWrapper);
@@ -104,21 +98,6 @@ public class XtextwrapperSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseModel(Model object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Arithmetic Wrapper</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Arithmetic Wrapper</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseArithmeticWrapper(ArithmeticWrapper object) {
 		return null;
 	}
 

@@ -76,10 +76,6 @@ public class XtextwrapperAdapterFactory extends AdapterFactoryImpl {
 				return createModelAdapter();
 			}
 			@Override
-			public Adapter caseArithmeticWrapper(ArithmeticWrapper object) {
-				return createArithmeticWrapperAdapter();
-			}
-			@Override
 			public Adapter caseNetXScriptWrapper(NetXScriptWrapper object) {
 				return createNetXScriptWrapperAdapter();
 			}
@@ -114,20 +110,6 @@ public class XtextwrapperAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createModelAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper <em>Arithmetic Wrapper</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper
-	 * @generated
-	 */
-	public Adapter createArithmeticWrapperAdapter() {
 		return null;
 	}
 

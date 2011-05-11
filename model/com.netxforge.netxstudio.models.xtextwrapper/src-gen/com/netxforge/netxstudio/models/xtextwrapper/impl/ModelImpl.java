@@ -6,8 +6,8 @@
  */
 package com.netxforge.netxstudio.models.xtextwrapper.impl;
 
-import com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper;
 import com.netxforge.netxstudio.models.xtextwrapper.Model;
+import com.netxforge.netxstudio.models.xtextwrapper.NetXScriptWrapper;
 import com.netxforge.netxstudio.models.xtextwrapper.XtextwrapperPackage;
 
 import java.util.Collection;
@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.models.xtextwrapper.impl.ModelImpl#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.models.xtextwrapper.impl.ModelImpl#getArithmetics <em>Arithmetics</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.models.xtextwrapper.impl.ModelImpl#getScripts <em>Scripts</em>}</li>
  * </ul>
  * </p>
  *
@@ -62,14 +62,14 @@ public class ModelImpl extends EObjectImpl implements Model {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getArithmetics() <em>Arithmetics</em>}' containment reference list.
+	 * The cached value of the '{@link #getScripts() <em>Scripts</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getArithmetics()
+	 * @see #getScripts()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ArithmeticWrapper> arithmetics;
+	protected EList<NetXScriptWrapper> scripts;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -116,11 +116,11 @@ public class ModelImpl extends EObjectImpl implements Model {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ArithmeticWrapper> getArithmetics() {
-		if (arithmetics == null) {
-			arithmetics = new EObjectContainmentEList<ArithmeticWrapper>(ArithmeticWrapper.class, this, XtextwrapperPackage.MODEL__ARITHMETICS);
+	public EList<NetXScriptWrapper> getScripts() {
+		if (scripts == null) {
+			scripts = new EObjectContainmentEList<NetXScriptWrapper>(NetXScriptWrapper.class, this, XtextwrapperPackage.MODEL__SCRIPTS);
 		}
-		return arithmetics;
+		return scripts;
 	}
 
 	/**
@@ -131,8 +131,8 @@ public class ModelImpl extends EObjectImpl implements Model {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case XtextwrapperPackage.MODEL__ARITHMETICS:
-				return ((InternalEList<?>)getArithmetics()).basicRemove(otherEnd, msgs);
+			case XtextwrapperPackage.MODEL__SCRIPTS:
+				return ((InternalEList<?>)getScripts()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -147,8 +147,8 @@ public class ModelImpl extends EObjectImpl implements Model {
 		switch (featureID) {
 			case XtextwrapperPackage.MODEL__NAME:
 				return getName();
-			case XtextwrapperPackage.MODEL__ARITHMETICS:
-				return getArithmetics();
+			case XtextwrapperPackage.MODEL__SCRIPTS:
+				return getScripts();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -165,9 +165,9 @@ public class ModelImpl extends EObjectImpl implements Model {
 			case XtextwrapperPackage.MODEL__NAME:
 				setName((String)newValue);
 				return;
-			case XtextwrapperPackage.MODEL__ARITHMETICS:
-				getArithmetics().clear();
-				getArithmetics().addAll((Collection<? extends ArithmeticWrapper>)newValue);
+			case XtextwrapperPackage.MODEL__SCRIPTS:
+				getScripts().clear();
+				getScripts().addAll((Collection<? extends NetXScriptWrapper>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -184,8 +184,8 @@ public class ModelImpl extends EObjectImpl implements Model {
 			case XtextwrapperPackage.MODEL__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case XtextwrapperPackage.MODEL__ARITHMETICS:
-				getArithmetics().clear();
+			case XtextwrapperPackage.MODEL__SCRIPTS:
+				getScripts().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -201,8 +201,8 @@ public class ModelImpl extends EObjectImpl implements Model {
 		switch (featureID) {
 			case XtextwrapperPackage.MODEL__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case XtextwrapperPackage.MODEL__ARITHMETICS:
-				return arithmetics != null && !arithmetics.isEmpty();
+			case XtextwrapperPackage.MODEL__SCRIPTS:
+				return scripts != null && !scripts.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

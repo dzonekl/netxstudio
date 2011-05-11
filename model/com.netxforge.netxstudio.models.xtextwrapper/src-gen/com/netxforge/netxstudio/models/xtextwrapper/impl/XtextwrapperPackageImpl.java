@@ -6,7 +6,6 @@
  */
 package com.netxforge.netxstudio.models.xtextwrapper.impl;
 
-import com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper;
 import com.netxforge.netxstudio.models.xtextwrapper.Model;
 import com.netxforge.netxstudio.models.xtextwrapper.NetXScriptWrapper;
 import com.netxforge.netxstudio.models.xtextwrapper.XtextwrapperFactory;
@@ -19,7 +18,6 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import org.eclipse.xtext.example.arithmetics.arithmetics.ArithmeticsPackage;
 import org.eclipse.xtext.xbase.XbasePackage;
 
 /**
@@ -35,13 +33,6 @@ public class XtextwrapperPackageImpl extends EPackageImpl implements Xtextwrappe
 	 * @generated
 	 */
 	private EClass modelEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass arithmeticWrapperEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -97,7 +88,6 @@ public class XtextwrapperPackageImpl extends EPackageImpl implements Xtextwrappe
 		isInited = true;
 
 		// Initialize simple dependencies
-		ArithmeticsPackage.eINSTANCE.eClass();
 		XbasePackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
@@ -138,35 +128,8 @@ public class XtextwrapperPackageImpl extends EPackageImpl implements Xtextwrappe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModel_Arithmetics() {
+	public EReference getModel_Scripts() {
 		return (EReference)modelEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getArithmeticWrapper() {
-		return arithmeticWrapperEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getArithmeticWrapper_AsString() {
-		return (EAttribute)arithmeticWrapperEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getArithmeticWrapper_Eval() {
-		return (EReference)arithmeticWrapperEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -226,11 +189,7 @@ public class XtextwrapperPackageImpl extends EPackageImpl implements Xtextwrappe
 		// Create classes and their features
 		modelEClass = createEClass(MODEL);
 		createEAttribute(modelEClass, MODEL__NAME);
-		createEReference(modelEClass, MODEL__ARITHMETICS);
-
-		arithmeticWrapperEClass = createEClass(ARITHMETIC_WRAPPER);
-		createEAttribute(arithmeticWrapperEClass, ARITHMETIC_WRAPPER__AS_STRING);
-		createEReference(arithmeticWrapperEClass, ARITHMETIC_WRAPPER__EVAL);
+		createEReference(modelEClass, MODEL__SCRIPTS);
 
 		netXScriptWrapperEClass = createEClass(NET_XSCRIPT_WRAPPER);
 		createEAttribute(netXScriptWrapperEClass, NET_XSCRIPT_WRAPPER__AS_STRING);
@@ -261,7 +220,6 @@ public class XtextwrapperPackageImpl extends EPackageImpl implements Xtextwrappe
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		ArithmeticsPackage theArithmeticsPackage = (ArithmeticsPackage)EPackage.Registry.INSTANCE.getEPackage(ArithmeticsPackage.eNS_URI);
 		XbasePackage theXbasePackage = (XbasePackage)EPackage.Registry.INSTANCE.getEPackage(XbasePackage.eNS_URI);
 
 		// Create type parameters
@@ -273,11 +231,7 @@ public class XtextwrapperPackageImpl extends EPackageImpl implements Xtextwrappe
 		// Initialize classes and features; add operations and parameters
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getModel_Name(), ecorePackage.getEString(), "name", null, 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModel_Arithmetics(), this.getArithmeticWrapper(), null, "arithmetics", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(arithmeticWrapperEClass, ArithmeticWrapper.class, "ArithmeticWrapper", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getArithmeticWrapper_AsString(), ecorePackage.getEString(), "asString", null, 0, 1, ArithmeticWrapper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getArithmeticWrapper_Eval(), theArithmeticsPackage.getEvaluation(), null, "eval", null, 0, 1, ArithmeticWrapper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModel_Scripts(), this.getNetXScriptWrapper(), null, "scripts", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(netXScriptWrapperEClass, NetXScriptWrapper.class, "NetXScriptWrapper", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNetXScriptWrapper_AsString(), ecorePackage.getEString(), "asString", null, 0, 1, NetXScriptWrapper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

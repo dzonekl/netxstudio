@@ -35,15 +35,6 @@ public interface XtextwrapperFactory extends EFactory {
 	Model createModel();
 
 	/**
-	 * Returns a new object of class '<em>Arithmetic Wrapper</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Arithmetic Wrapper</em>'.
-	 * @generated
-	 */
-	ArithmeticWrapper createArithmeticWrapper();
-
-	/**
 	 * Returns a new object of class '<em>Net XScript Wrapper</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

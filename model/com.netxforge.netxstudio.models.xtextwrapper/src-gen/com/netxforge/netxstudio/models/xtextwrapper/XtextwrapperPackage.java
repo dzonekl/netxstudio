@@ -79,13 +79,13 @@ public interface XtextwrapperPackage extends EPackage {
 	int MODEL__NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Arithmetics</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Scripts</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__ARITHMETICS = 1;
+	int MODEL__SCRIPTS = 1;
 
 	/**
 	 * The number of structural features of the '<em>Model</em>' class.
@@ -97,44 +97,6 @@ public interface XtextwrapperPackage extends EPackage {
 	int MODEL_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.models.xtextwrapper.impl.ArithmeticWrapperImpl <em>Arithmetic Wrapper</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.models.xtextwrapper.impl.ArithmeticWrapperImpl
-	 * @see com.netxforge.netxstudio.models.xtextwrapper.impl.XtextwrapperPackageImpl#getArithmeticWrapper()
-	 * @generated
-	 */
-	int ARITHMETIC_WRAPPER = 1;
-
-	/**
-	 * The feature id for the '<em><b>As String</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ARITHMETIC_WRAPPER__AS_STRING = 0;
-
-	/**
-	 * The feature id for the '<em><b>Eval</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ARITHMETIC_WRAPPER__EVAL = 1;
-
-	/**
-	 * The number of structural features of the '<em>Arithmetic Wrapper</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ARITHMETIC_WRAPPER_FEATURE_COUNT = 2;
-
-
-	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.models.xtextwrapper.impl.NetXScriptWrapperImpl <em>Net XScript Wrapper</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -142,7 +104,7 @@ public interface XtextwrapperPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.models.xtextwrapper.impl.XtextwrapperPackageImpl#getNetXScriptWrapper()
 	 * @generated
 	 */
-	int NET_XSCRIPT_WRAPPER = 2;
+	int NET_XSCRIPT_WRAPPER = 1;
 
 	/**
 	 * The feature id for the '<em><b>As String</b></em>' attribute.
@@ -194,47 +156,15 @@ public interface XtextwrapperPackage extends EPackage {
 	EAttribute getModel_Name();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.models.xtextwrapper.Model#getArithmetics <em>Arithmetics</em>}'.
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.models.xtextwrapper.Model#getScripts <em>Scripts</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Arithmetics</em>'.
-	 * @see com.netxforge.netxstudio.models.xtextwrapper.Model#getArithmetics()
+	 * @return the meta object for the containment reference list '<em>Scripts</em>'.
+	 * @see com.netxforge.netxstudio.models.xtextwrapper.Model#getScripts()
 	 * @see #getModel()
 	 * @generated
 	 */
-	EReference getModel_Arithmetics();
-
-	/**
-	 * Returns the meta object for class '{@link com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper <em>Arithmetic Wrapper</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Arithmetic Wrapper</em>'.
-	 * @see com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper
-	 * @generated
-	 */
-	EClass getArithmeticWrapper();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper#getAsString <em>As String</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>As String</em>'.
-	 * @see com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper#getAsString()
-	 * @see #getArithmeticWrapper()
-	 * @generated
-	 */
-	EAttribute getArithmeticWrapper_AsString();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper#getEval <em>Eval</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Eval</em>'.
-	 * @see com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper#getEval()
-	 * @see #getArithmeticWrapper()
-	 * @generated
-	 */
-	EReference getArithmeticWrapper_Eval();
+	EReference getModel_Scripts();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.models.xtextwrapper.NetXScriptWrapper <em>Net XScript Wrapper</em>}'.
@@ -309,38 +239,12 @@ public interface XtextwrapperPackage extends EPackage {
 		EAttribute MODEL__NAME = eINSTANCE.getModel_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Arithmetics</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Scripts</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MODEL__ARITHMETICS = eINSTANCE.getModel_Arithmetics();
-
-		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.models.xtextwrapper.impl.ArithmeticWrapperImpl <em>Arithmetic Wrapper</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.models.xtextwrapper.impl.ArithmeticWrapperImpl
-		 * @see com.netxforge.netxstudio.models.xtextwrapper.impl.XtextwrapperPackageImpl#getArithmeticWrapper()
-		 * @generated
-		 */
-		EClass ARITHMETIC_WRAPPER = eINSTANCE.getArithmeticWrapper();
-
-		/**
-		 * The meta object literal for the '<em><b>As String</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ARITHMETIC_WRAPPER__AS_STRING = eINSTANCE.getArithmeticWrapper_AsString();
-
-		/**
-		 * The meta object literal for the '<em><b>Eval</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ARITHMETIC_WRAPPER__EVAL = eINSTANCE.getArithmeticWrapper_Eval();
+		EReference MODEL__SCRIPTS = eINSTANCE.getModel_Scripts();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.models.xtextwrapper.impl.NetXScriptWrapperImpl <em>Net XScript Wrapper</em>}' class.

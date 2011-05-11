@@ -9,11 +9,7 @@ Package xtextwrapper <http://www.netxforge.com/xtextwrapper>
 
   Class Model
     Attribute name : EString
-    Reference arithmetics : ArithmeticWrapper<<0..*>>
-
-  Class ArithmeticWrapper
-    Attribute asString : EString
-    Reference eval : Evaluation
+    Reference scripts : NetXScriptWrapper<<0..*>>
 
   Class NetXScriptWrapper
     Attribute asString : EString

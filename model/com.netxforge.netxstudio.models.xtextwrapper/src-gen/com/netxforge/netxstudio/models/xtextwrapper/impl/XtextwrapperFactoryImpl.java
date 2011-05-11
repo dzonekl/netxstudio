@@ -61,7 +61,6 @@ public class XtextwrapperFactoryImpl extends EFactoryImpl implements Xtextwrappe
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case XtextwrapperPackage.MODEL: return createModel();
-			case XtextwrapperPackage.ARITHMETIC_WRAPPER: return createArithmeticWrapper();
 			case XtextwrapperPackage.NET_XSCRIPT_WRAPPER: return createNetXScriptWrapper();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -76,16 +75,6 @@ public class XtextwrapperFactoryImpl extends EFactoryImpl implements Xtextwrappe
 	public Model createModel() {
 		ModelImpl model = new ModelImpl();
 		return model;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ArithmeticWrapper createArithmeticWrapper() {
-		ArithmeticWrapperImpl arithmeticWrapper = new ArithmeticWrapperImpl();
-		return arithmeticWrapper;
 	}
 
 	/**

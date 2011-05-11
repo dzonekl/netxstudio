@@ -6,7 +6,7 @@
  */
 package com.netxforge.netxstudio.models.xtextwrapper.validation;
 
-import com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper;
+import com.netxforge.netxstudio.models.xtextwrapper.NetXScriptWrapper;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -20,5 +20,5 @@ public interface ModelValidator {
 	boolean validate();
 
 	boolean validateName(String value);
-	boolean validateArithmetics(EList<ArithmeticWrapper> value);
+	boolean validateScripts(EList<NetXScriptWrapper> value);
 }

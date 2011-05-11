@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.models.xtextwrapper.Model#getName <em>Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.models.xtextwrapper.Model#getArithmetics <em>Arithmetics</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.models.xtextwrapper.Model#getScripts <em>Scripts</em>}</li>
  * </ul>
  * </p>
  *
@@ -55,19 +55,19 @@ public interface Model extends EObject {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Arithmetics</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.models.xtextwrapper.ArithmeticWrapper}.
+	 * Returns the value of the '<em><b>Scripts</b></em>' containment reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.models.xtextwrapper.NetXScriptWrapper}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Arithmetics</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Scripts</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Arithmetics</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.models.xtextwrapper.XtextwrapperPackage#getModel_Arithmetics()
+	 * @return the value of the '<em>Scripts</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.models.xtextwrapper.XtextwrapperPackage#getModel_Scripts()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<ArithmeticWrapper> getArithmetics();
+	EList<NetXScriptWrapper> getScripts();
 
 } // Model
