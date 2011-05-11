@@ -11,5 +11,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.net4j.tcp;bundle-version="4.0.0",
  com.netxforge.netxstudio.models;bundle-version="1.0.0",
  org.eclipse.emf.ecore.change;bundle-version="2.7.0",
- org.eclipse.emf.texo.datagenerator;bundle-version="0.1.0"
+ org.eclipse.emf.texo.datagenerator;bundle-version="0.1.0",
+ org.eclipse.emf.cdo.server.hibernate;bundle-version="4.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
