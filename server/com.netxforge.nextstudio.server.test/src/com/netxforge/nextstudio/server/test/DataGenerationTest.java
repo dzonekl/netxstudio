@@ -17,13 +17,18 @@
  *******************************************************************************/ 
 package com.netxforge.nextstudio.server.test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.texo.datagenerator.ModelDataGenerator;
+import org.eclipse.osgi.internal.baseadaptor.BasePermissionStorage;
 
 /**
  * Generates test data for the available epackages.
@@ -69,8 +74,8 @@ public class DataGenerationTest extends BaseTest
 	  modelDataGenerator.setStartEClasses(getAllEClasses());
 	  modelDataGenerator.setMaxDepth(3);
 	  modelDataGenerator.setUseDynamicEnums(false);
-	  modelDataGenerator.setCollectionSize(3);
-	  modelDataGenerator.setDataSize(3);
+	  modelDataGenerator.setCollectionSize(5);
+	  modelDataGenerator.setDataSize(5);
 	  modelDataGenerator.setMaxObjects(1000);
 	  modelDataGenerator.setEPackages(getEPackages());
 	  modelDataGenerator.generateTestData();
