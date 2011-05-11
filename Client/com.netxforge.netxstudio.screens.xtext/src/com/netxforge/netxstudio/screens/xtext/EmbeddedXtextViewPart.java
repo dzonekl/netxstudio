@@ -212,7 +212,7 @@ public class EmbeddedXtextViewPart extends AbstractEditorViewPart {
 		if (updateEditedEObject) {
 			compoundCommand.append(SetCommand.create(editingDomain,
 					getEditedEObject(),
-					XtextwrapperPackage.Literals.ARITHMETIC_WRAPPER__AS_STRING, editor
+					XtextwrapperPackage.Literals.NET_XSCRIPT_WRAPPER__AS_STRING, editor
 							.getViewer().getDocument().get()));
 		}
 		
@@ -277,5 +277,14 @@ public class EmbeddedXtextViewPart extends AbstractEditorViewPart {
 	protected void update() {
 		String asString = getEditedEObject().getAsString();
 		editor.update(getEditedEObject().getXblock(), asString == null ? "" : asString);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings()
+	 */
+	@Override
+	protected void initBindings() {
+		// TODO Auto-generated method stub
+		
 	}
 }
