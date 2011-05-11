@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Bundle-Name
+Bundle-SymbolicName: com.netxforge.netxstudio.emf.poi
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.netxforge.netxstudio.emf.poi.internal.Activator
+Bundle-Vendor: %Bundle-Vendor
+Require-Bundle: org.eclipse.core.runtime,
+ org.apache.poi;bundle-version="1.0.0";visibility:=reexport,
+ org.eclipse.emf.edit.ui;bundle-version="2.6.0",
+ com.netxforge.netxstudio.emf.teneo;bundle-version="1.0.0";visibility:=reexport,
+ com.netxforge.netxstudio.models;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: com.netxforge.netxstudio.emf.poi,
+ com.netxforge.netxstudio.emf.poi.mappings

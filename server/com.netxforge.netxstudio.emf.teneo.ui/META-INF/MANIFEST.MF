@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: NetXStudio EMF Teneo
+Bundle-SymbolicName: com.netxforge.netxstudio.emf.teneo.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.netxforge.netxstudio.emf.teneo.ui.internal.Activator
+Bundle-Vendor: NetXForge
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.6.0",
+ org.eclipse.ui.ide;bundle-version="3.6.0",
+ org.eclipse.ui.forms;bundle-version="3.5.2",
+ org.eclipse.emf.common.ui;bundle-version="2.6.0",
+ com.netxforge.netxstudio.emf.teneo;bundle-version="1.0.0",
+ org.eclipse.core.resources;bundle-version="3.6.0",
+ com.netxforge.netxstudio.workspace;bundle-version="1.0.0",
+ com.netxforge.netxstudio.ui.viewers;bundle-version="1.0.0",
+ com.netxforge.netxstudio.models;bundle-version="1.0.0",
+ org.hibernate;bundle-version="3.6.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Eclipse-BuddyPolicy: dependent
+Bundle-ClassPath: .
+Export-Package: com.netxforge.netxstudio.emf.teneo.ui,
+ com.netxforge.netxstudio.emf.teneo.ui.cnf
