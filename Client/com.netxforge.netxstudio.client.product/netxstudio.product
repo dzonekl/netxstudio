@@ -45,6 +45,7 @@
       <feature id="com.netxforge.netxstudio.help.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.screens.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.emf.common" version="2.7.0.v20110310-1642"/>
       <feature id="org.eclipse.emf.common.ui" version="2.6.0.v20110310-1804"/>
       <feature id="org.eclipse.emf.ecore" version="2.7.0.v20110310-1642"/>
@@ -68,6 +69,7 @@
       <feature id="org.swtchart.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.nebula.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.rcp" version="3.7.0.v20110216-9DB5FiuFpBGyHd2xA_SWnfP"/>
+      <feature id="org.eclipse.emf.cdo.artifacts.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
