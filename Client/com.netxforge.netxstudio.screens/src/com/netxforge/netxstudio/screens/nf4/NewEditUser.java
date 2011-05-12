@@ -3,9 +3,12 @@ package com.netxforge.netxstudio.screens.nf4;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
@@ -44,10 +47,9 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 	@SuppressWarnings("unused")
 	private DataBindingContext m_bindingContext;
 
-	
-	// Not injected as this service is already injected in the ViePart. 
+	// Not injected as this service is already injected in the ViePart.
 	private IEditingService editingService;
-	
+
 	private Person user;
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -57,12 +59,12 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 	private Text txtPass;
 	private Text txtConfirm;
 	private Text txtEmail;
-	
-	
+	private Object owner;
+
 	public NewEditUser(Composite parent, int style) {
 		this(parent, style, null);
 	}
-	
+
 	/**
 	 * Create the composite.
 	 * 
@@ -71,7 +73,7 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 	 */
 	public NewEditUser(Composite parent, int style, IEditingService eService) {
 		super(parent, SWT.BORDER);
-		
+
 		this.editingService = eService;
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -141,7 +143,8 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 
 		txtLogin = toolkit.createText(composite_1, "New Text", SWT.NONE);
 		txtLogin.setText("");
-		GridData gd_txtLogin = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+		GridData gd_txtLogin = new GridData(SWT.LEFT, SWT.CENTER, true, false,
+				1, 1);
 		gd_txtLogin.widthHint = 200;
 		txtLogin.setLayoutData(gd_txtLogin);
 
@@ -291,8 +294,8 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 		IObservableValue txtLastNameObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtLastName, SWT.Modify));
-//		IObservableValue userLastNameObserveValue = EMFObservables
-//				.observeValue(user, Literals.PERSON__LAST_NAME);
+		// IObservableValue userLastNameObserveValue = EMFObservables
+		// .observeValue(user, Literals.PERSON__LAST_NAME);
 
 		IEMFValueProperty userLastNameObserveValue = EMFEditProperties.value(
 				editingService.getEditingDomain(), Literals.PERSON__LAST_NAME);
@@ -303,9 +306,9 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 		IObservableValue txtEmailObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtEmail, SWT.Modify));
-		
-//		IObservableValue userEmailObserveValue = EMFObservables.observeValue(
-//				user, Literals.PERSON__EMAIL);
+
+		// IObservableValue userEmailObserveValue = EMFObservables.observeValue(
+		// user, Literals.PERSON__EMAIL);
 
 		IEMFValueProperty userEmailObserveValue = EMFEditProperties.value(
 				editingService.getEditingDomain(), Literals.PERSON__EMAIL);
@@ -324,7 +327,10 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 	 * .emf.ecore.EObject)
 	 */
 	@Override
-	public void injectData(Object object) {
+	public void injectData(Object owner, Object object) {
+
+		this.owner = owner;
+
 		if (object != null && object instanceof Person) {
 			user = (Person) object;
 		}
@@ -367,5 +373,21 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 				userEmailObserveValue, null, null);
 		//
 		return bindingContext;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.IDataScreenInjection#addData(java.lang.
+	 * Object)
+	 */
+	@Override
+	public void addData() {
+		if (owner != null) {
+			Command c = new AddCommand(editingService.getEditingDomain(),
+					(EList<?>) owner, user);
+			editingService.getEditingDomain().getCommandStack().execute(c);
+		}
 	}
 }

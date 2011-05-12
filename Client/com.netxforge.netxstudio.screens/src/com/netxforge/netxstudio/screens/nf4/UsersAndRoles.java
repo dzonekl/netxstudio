@@ -43,6 +43,7 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.IDataServiceInjection;
 import com.netxforge.netxstudio.data.internal.DataActivator;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.selector.IScreenFormService;
@@ -124,6 +125,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 					NewEditUser user = new NewEditUser(screenService
 							.getScreenContainer(), SWT.NONE | Screens.NEW, editingService);
 					screenService.setActiveScreen(user);
+					user.injectData(studio.getUsers(), GenericsFactory.eINSTANCE.createPerson());
 				}
 			}
 
@@ -181,7 +183,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 						Object o = ((IStructuredSelection)selection).getFirstElement();
 						NewEditUser u = new NewEditUser(screenService
 								.getScreenContainer(), SWT.NONE | Screens.EDIT, editingService);
-						u.injectData(o);
+						u.injectData(studio.getUsers(), o);
 						screenService.setActiveScreen(u);
 					}
 					
@@ -253,8 +255,6 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 		return bindingContext;
 	}
 	
-	
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -263,7 +263,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 	@Override
 	public void injectData() {
 		DataActivator.getInjector().injectMembers(this);
-		studio = dataService.getProvider().getNetXStudio();
+		studio = dataService.getProvider().getNetXStudio(editingService.getEditingDomain().getResourceSet());
 		// call initbindings.
 		m_bindingContext = initDataBindings_();
 	}

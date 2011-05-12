@@ -115,7 +115,7 @@ public class ScreenFormService implements IScreenFormService {
 
 				// Install all the links on the screen bar.
 				this.setBackLink(screenBody.getScreenBar());
-				// this.setSaveLink(screenBody.getScreenBar());
+				this.setSaveLink(screenBody.getScreenBar());
 				screenBody.setScreenBarOff();
 			}
 			sashForm.setWeights(new int[] { 100, 491 });
@@ -138,46 +138,49 @@ public class ScreenFormService implements IScreenFormService {
 	}
 
 	@Override
-	public Composite addScreenSelector(Composite above, String name, String iconPath, Class<?> screen,
-			int position) {
+	public Composite addScreenSelector(Composite above, String name,
+			String iconPath, Class<?> screen, int position) {
 
 		assert position >= 1 || above != null;
-		
+
 		try {
-			
-			// We look for a constructor supporting the selector service. 
-			// Screens, will be able to use the selector to place themselves on the 
+
+			// We look for a constructor supporting the selector service.
+			// Screens, will be able to use the selector to place themselves on
+			// the
 			// service container, calling updateComposite();
 			Constructor<?> c = null;
 			try {
-				c = screen.getConstructor(Composite.class, int.class, IScreenFormService.class, IEditingService.class);
+				c = screen.getConstructor(Composite.class, int.class,
+						IScreenFormService.class, IEditingService.class);
 			} catch (NoSuchMethodException e2) {
 				System.out.println("TODO, implement correct screen signature.");
 				try {
 					c = screen.getConstructor(Composite.class, int.class);
-				}catch (NoSuchMethodException e3) {
+				} catch (NoSuchMethodException e3) {
 					e3.printStackTrace();
 				}
 			}
-			
-			final Constructor<?> finalC = c; 
+
+			final Constructor<?> finalC = c;
 
 			ImageHyperlink lnk = formToolkit.createImageHyperlink(
 					getSelectorForm().getBody(), SWT.NONE);
 			lnk.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
 					try {
-						
-						// Try with 3, than with 2 parameters. 
+
+						// Try with 3, than with 2 parameters.
 						Composite target;
-						if( finalC.getParameterTypes().length == 4){
-							
-							target = (Composite) finalC.newInstance(getScreenContainer(),
-									SWT.NONE, ScreenFormService.this, editingService);
-							
-						}else{
-							target = (Composite) finalC.newInstance(getScreenContainer(),
-									SWT.NONE);
+						if (finalC.getParameterTypes().length == 4) {
+
+							target = (Composite) finalC.newInstance(
+									getScreenContainer(), SWT.NONE,
+									ScreenFormService.this, editingService);
+
+						} else {
+							target = (Composite) finalC.newInstance(
+									getScreenContainer(), SWT.NONE);
 						}
 						setActiveScreen(target);
 					} catch (IllegalArgumentException e1) {
@@ -327,7 +330,7 @@ public class ScreenFormService implements IScreenFormService {
 	// The screen bar links are exposed, to turn them on and off.
 	private Hyperlink bckLnk;
 
-	// private Hyperlink saveLnk;
+	private Hyperlink applyLnk;
 
 	private void setBackLink(Composite parent) {
 		bckLnk = formToolkit.createHyperlink(parent, "Back", SWT.NONE);
@@ -345,20 +348,26 @@ public class ScreenFormService implements IScreenFormService {
 		});
 	}
 
-	// private void setSaveLink(Composite parent){
-	// saveLnk = formToolkit.createHyperlink(parent, "Save", SWT.NONE);
-	// formToolkit.adapt(saveLnk);
-	// saveLnk.addHyperlinkListener(new IHyperlinkListener() {
-	// public void linkActivated(HyperlinkEvent e) {
-	// // TODO Delegate to the editing service.
-	// }
-	// public void linkEntered(HyperlinkEvent e) {
-	// }
-	//
-	// public void linkExited(HyperlinkEvent e) {
-	// }
-	// });
-	// }
+	private void setSaveLink(Composite parent) {
+		applyLnk = formToolkit.createHyperlink(parent, "Apply", SWT.NONE);
+		formToolkit.adapt(applyLnk);
+		applyLnk.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				// Get the injected object and pass add it to the injector.
+				if( getActiveScreen() instanceof IDataScreenInjection){
+					((IDataScreenInjection)getActiveScreen()).addData();
+					restorePreviousScreen();
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+	}
+
 	IEditingService editingService;
 
 	public void setEditingService(IEditingService eServ) {
