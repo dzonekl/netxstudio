@@ -2,12 +2,12 @@ package org.eclipse.ui.navigator.resources;
 
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.IAdapterFactory;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 
 public class NetXStudioAdapterFactory implements IAdapterFactory {
 
 	private Object rootAdapter = new NetXStudioRootResource();
+	@SuppressWarnings("unused")
 	private Object uriAdapter = new URIAdapter();
 
 	public Object getAdapter(Object o, Class adapterType) {
@@ -34,9 +34,9 @@ public class NetXStudioAdapterFactory implements IAdapterFactory {
 		if (o instanceof IWorkspaceRoot) {
 			return rootAdapter;
 		}
-		if( o instanceof URI){
-			return uriAdapter;
-		}
+//		if( o instanceof URI){
+//			return uriAdapter;
+//		}
 		return null;
 	}
 
