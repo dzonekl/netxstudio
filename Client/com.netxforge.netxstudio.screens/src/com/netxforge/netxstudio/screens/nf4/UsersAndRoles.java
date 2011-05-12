@@ -123,7 +123,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 			public void linkActivated(HyperlinkEvent e) {
 				if (screenService != null) {
 					NewEditUser user = new NewEditUser(screenService
-							.getScreenContainer(), SWT.NONE | Screens.NEW, editingService);
+							.getScreenContainer(), SWT.NONE | Screens.OPERATION_NEW, editingService);
 					screenService.setActiveScreen(user);
 					user.injectData(studio.getUsers(), GenericsFactory.eINSTANCE.createPerson());
 				}
@@ -182,7 +182,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 					if(selection instanceof IStructuredSelection){
 						Object o = ((IStructuredSelection)selection).getFirstElement();
 						NewEditUser u = new NewEditUser(screenService
-								.getScreenContainer(), SWT.NONE | Screens.EDIT, editingService);
+								.getScreenContainer(), SWT.NONE | Screens.OPERATION_EDIT, editingService);
 						u.injectData(studio.getUsers(), o);
 						screenService.setActiveScreen(u);
 					}

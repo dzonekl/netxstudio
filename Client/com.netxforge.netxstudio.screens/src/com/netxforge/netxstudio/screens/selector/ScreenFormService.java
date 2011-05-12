@@ -42,8 +42,6 @@ import com.netxforge.netxstudio.data.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
- * NOT READY FOR USE YET.
- * 
  * First time users of the service should call initialize() to set the parent
  * composite.
  * 
@@ -114,8 +112,8 @@ public class ScreenFormService implements IScreenFormService {
 				screenBody = new ScreenBody(sashForm, SWT.NONE);
 
 				// Install all the links on the screen bar.
-				this.setBackLink(screenBody.getScreenBar());
-				this.setSaveLink(screenBody.getScreenBar());
+				this.createBackLink(screenBody.getScreenBar());
+				this.createSaveLink(screenBody.getScreenBar());
 				screenBody.setScreenBarOff();
 			}
 			sashForm.setWeights(new int[] { 100, 491 });
@@ -154,7 +152,7 @@ public class ScreenFormService implements IScreenFormService {
 				c = screen.getConstructor(Composite.class, int.class,
 						IScreenFormService.class, IEditingService.class);
 			} catch (NoSuchMethodException e2) {
-				System.out.println("TODO, implement correct screen signature.");
+				System.out.println("TODO, implement correct screen signature on :" + screen.getClass().getName());
 				try {
 					c = screen.getConstructor(Composite.class, int.class);
 				} catch (NoSuchMethodException e3) {
@@ -261,6 +259,15 @@ public class ScreenFormService implements IScreenFormService {
 			bckLnk.setVisible(false);
 		}
 
+		if(activeScreen instanceof IScreenOperation){
+			if(!Screens.isNewOperation(((IScreenOperation)activeScreen).getOperation())){
+				applyLnk.setVisible(false);
+			}else{
+				applyLnk.setVisible(true);
+			}
+		}
+		
+		
 		screenBody.setScreenBarOn();
 	}
 
@@ -332,7 +339,7 @@ public class ScreenFormService implements IScreenFormService {
 
 	private Hyperlink applyLnk;
 
-	private void setBackLink(Composite parent) {
+	private void createBackLink(Composite parent) {
 		bckLnk = formToolkit.createHyperlink(parent, "Back", SWT.NONE);
 		formToolkit.adapt(bckLnk);
 		bckLnk.addHyperlinkListener(new IHyperlinkListener() {
@@ -348,7 +355,7 @@ public class ScreenFormService implements IScreenFormService {
 		});
 	}
 
-	private void setSaveLink(Composite parent) {
+	private void createSaveLink(Composite parent) {
 		applyLnk = formToolkit.createHyperlink(parent, "Apply", SWT.NONE);
 		formToolkit.adapt(applyLnk);
 		applyLnk.addHyperlinkListener(new IHyperlinkListener() {

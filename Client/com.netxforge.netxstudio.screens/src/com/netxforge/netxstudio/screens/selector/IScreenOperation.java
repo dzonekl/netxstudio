@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 9, 2011 NetXForge.
+ * Copyright (c) May 12, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,18 +19,16 @@
 package com.netxforge.netxstudio.screens.selector;
 
 /**
- * Screens operations and utilities on operations.
- * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class Screens {
+public interface IScreenOperation {
+
+	/**
+	 * Screens should implement, and tell us what kind of operation they should perform. 
+	 * {@link Screens}
+	 * @return
+	 */
+	int getOperation();
 	
-	
-	public static final int OPERATION_NEW = 0x0200;
-	public static final int OPERATION_EDIT = 0x0100;
-	
-	public static boolean isNewOperation(int operation){
-		return (operation & OPERATION_NEW) != 0;
-	}
 }

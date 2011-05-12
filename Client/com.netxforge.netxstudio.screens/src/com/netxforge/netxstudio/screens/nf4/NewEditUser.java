@@ -37,9 +37,10 @@ import com.netxforge.netxstudio.data.IDataScreenInjection;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.selector.IScreenOperation;
 import com.netxforge.netxstudio.screens.selector.Screens;
 
-public class NewEditUser extends Composite implements IDataScreenInjection {
+public class NewEditUser extends Composite implements IDataScreenInjection, IScreenOperation {
 
 	// Databing object
 	@SuppressWarnings("unused")
@@ -64,7 +65,13 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 	public NewEditUser(Composite parent, int style) {
 		this(parent, style, null);
 	}
-
+	
+	/**
+	 * The type of operation expected from this screen. 
+	 * Operatins can be either New or Edit. 
+	 */
+	private int operation;
+	
 	/**
 	 * Create the composite.
 	 * 
@@ -73,7 +80,9 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 	 */
 	public NewEditUser(Composite parent, int style, IEditingService eService) {
 		super(parent, SWT.BORDER);
-
+		
+		operation = style & 0xFF00; // Ignore first bits, as we piggy back on the SWT style. 
+		
 		this.editingService = eService;
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -89,9 +98,7 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 		frmNewForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewForm);
 
-		String title = ((style & Screens.EDIT) != 0) ? "Edit" : "";
-		if (title.length() == 0)
-			title = ((style & Screens.NEW) != 0) ? "New" : "";
+		String title =  Screens.isNewOperation(operation) ? "New" : "Edit";
 
 		frmNewForm.setText(title + " User");
 		frmNewForm.getBody().setLayout(new FormLayout());
@@ -384,10 +391,21 @@ public class NewEditUser extends Composite implements IDataScreenInjection {
 	 */
 	@Override
 	public void addData() {
-		if (owner != null) {
+		// Should not be called for an edit operation!
+		if (Screens.isNewOperation(operation) && owner != null) {
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					(EList<?>) owner, user);
 			editingService.getEditingDomain().getCommandStack().execute(c);
+		}else{
+			// Databinding has done it's work. Don't need to do anything. 
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.selector.IScreenOperation#getOperation()
+	 */
+	@Override
+	public int getOperation() {
+		return this.operation;
 	}
 }
