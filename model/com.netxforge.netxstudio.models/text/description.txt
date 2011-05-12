@@ -224,6 +224,7 @@ Package library <http://www.netxforge.com/13042011/library>
     Reference nodeTypes : NodeType<<0..*>>
     Reference equipments : Equipment<<0..*>>
     Reference metrics : Metric<<0..*>>
+    Reference metricSources : MetricSource<<0..*>>
     Reference parameters : Parameter<<0..*>>
     Attribute protocols : String<<0..*>>
     Reference tolerances : Tolerance<<0..*>>

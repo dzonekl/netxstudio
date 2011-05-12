@@ -712,13 +712,22 @@ public interface LibraryPackage extends EPackage {
 	int LIBRARY__METRICS = 3;
 
 	/**
+	 * The feature id for the '<em><b>Metric Sources</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__METRIC_SOURCES = 4;
+
+	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__PARAMETERS = 4;
+	int LIBRARY__PARAMETERS = 5;
 
 	/**
 	 * The feature id for the '<em><b>Protocols</b></em>' attribute list.
@@ -727,7 +736,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__PROTOCOLS = 5;
+	int LIBRARY__PROTOCOLS = 6;
 
 	/**
 	 * The feature id for the '<em><b>Tolerances</b></em>' containment reference list.
@@ -736,7 +745,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__TOLERANCES = 6;
+	int LIBRARY__TOLERANCES = 7;
 
 	/**
 	 * The feature id for the '<em><b>Expressions</b></em>' containment reference list.
@@ -745,7 +754,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__EXPRESSIONS = 7;
+	int LIBRARY__EXPRESSIONS = 8;
 
 	/**
 	 * The feature id for the '<em><b>Units</b></em>' containment reference list.
@@ -754,7 +763,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__UNITS = 8;
+	int LIBRARY__UNITS = 9;
 
 	/**
 	 * The feature id for the '<em><b>Version</b></em>' containment reference.
@@ -763,7 +772,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__VERSION = 9;
+	int LIBRARY__VERSION = 10;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -772,7 +781,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY__NAME = 10;
+	int LIBRARY__NAME = 11;
 
 	/**
 	 * The number of structural features of the '<em>Library</em>' class.
@@ -781,7 +790,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = 11;
+	int LIBRARY_FEATURE_COUNT = 12;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl <em>Net XResource</em>}' class.
@@ -2002,6 +2011,17 @@ public interface LibraryPackage extends EPackage {
 	EReference getLibrary_Metrics();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.library.Library#getMetricSources <em>Metric Sources</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Metric Sources</em>'.
+	 * @see com.netxforge.netxstudio.library.Library#getMetricSources()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_MetricSources();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.library.Library#getParameters <em>Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3110,6 +3130,14 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LIBRARY__METRICS = eINSTANCE.getLibrary_Metrics();
+
+		/**
+		 * The meta object literal for the '<em><b>Metric Sources</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__METRIC_SOURCES = eINSTANCE.getLibrary_MetricSources();
 
 		/**
 		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.

@@ -33,6 +33,7 @@ import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricSource;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,6 +46,7 @@ import com.netxforge.netxstudio.metrics.Metric;
  *   <li>{@link com.netxforge.netxstudio.library.impl.LibraryImpl#getNodeTypes <em>Node Types</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.LibraryImpl#getEquipments <em>Equipments</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.LibraryImpl#getMetrics <em>Metrics</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.LibraryImpl#getMetricSources <em>Metric Sources</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.LibraryImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.LibraryImpl#getProtocols <em>Protocols</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.LibraryImpl#getTolerances <em>Tolerances</em>}</li>
@@ -125,6 +127,16 @@ public class LibraryImpl extends CDOObjectImpl implements Library {
 	@SuppressWarnings("unchecked")
 	public EList<Metric> getMetrics() {
 		return (EList<Metric>)eGet(LibraryPackage.Literals.LIBRARY__METRICS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<MetricSource> getMetricSources() {
+		return (EList<MetricSource>)eGet(LibraryPackage.Literals.LIBRARY__METRIC_SOURCES, true);
 	}
 
 	/**

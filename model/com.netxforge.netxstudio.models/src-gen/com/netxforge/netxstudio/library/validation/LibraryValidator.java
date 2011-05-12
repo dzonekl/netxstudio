@@ -17,6 +17,7 @@ import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricSource;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.library.Library}.
@@ -31,6 +32,8 @@ public interface LibraryValidator {
 	boolean validateNodeTypes(EList<NodeType> value);
 	boolean validateEquipments(EList<Equipment> value);
 	boolean validateMetrics(EList<Metric> value);
+	boolean validateMetricSources(EList<MetricSource> value);
+
 	boolean validateParameters(EList<Parameter> value);
 	boolean validateProtocols(EList<String> value);
 	boolean validateTolerances(EList<Tolerance> value);

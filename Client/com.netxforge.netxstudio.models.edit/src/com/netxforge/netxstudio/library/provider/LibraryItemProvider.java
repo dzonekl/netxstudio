@@ -151,6 +151,7 @@ public class LibraryItemProvider
 			childrenFeatures.add(LibraryPackage.Literals.LIBRARY__NODE_TYPES);
 			childrenFeatures.add(LibraryPackage.Literals.LIBRARY__EQUIPMENTS);
 			childrenFeatures.add(LibraryPackage.Literals.LIBRARY__METRICS);
+			childrenFeatures.add(LibraryPackage.Literals.LIBRARY__METRIC_SOURCES);
 			childrenFeatures.add(LibraryPackage.Literals.LIBRARY__PARAMETERS);
 			childrenFeatures.add(LibraryPackage.Literals.LIBRARY__TOLERANCES);
 			childrenFeatures.add(LibraryPackage.Literals.LIBRARY__EXPRESSIONS);
@@ -218,6 +219,7 @@ public class LibraryItemProvider
 			case LibraryPackage.LIBRARY__NODE_TYPES:
 			case LibraryPackage.LIBRARY__EQUIPMENTS:
 			case LibraryPackage.LIBRARY__METRICS:
+			case LibraryPackage.LIBRARY__METRIC_SOURCES:
 			case LibraryPackage.LIBRARY__PARAMETERS:
 			case LibraryPackage.LIBRARY__TOLERANCES:
 			case LibraryPackage.LIBRARY__EXPRESSIONS:
@@ -259,6 +261,11 @@ public class LibraryItemProvider
 			(createChildParameter
 				(LibraryPackage.Literals.LIBRARY__METRICS,
 				 MetricsFactory.eINSTANCE.createMetric()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LibraryPackage.Literals.LIBRARY__METRIC_SOURCES,
+				 MetricsFactory.eINSTANCE.createMetricSource()));
 
 		newChildDescriptors.add
 			(createChildParameter

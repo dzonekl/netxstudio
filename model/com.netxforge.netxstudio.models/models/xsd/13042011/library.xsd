@@ -96,6 +96,13 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0"
+				name="MetricSources" type="metrics:MetricSource">
+				<xs:annotation>
+					<xs:documentation>The MetricSources reference, contains 0 or more MetricSource type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0"
 				name="Parameters" type="Parameter">
 				<xs:annotation>
 					<xs:documentation>The Parameters reference, contains 0 or more Parameter type.

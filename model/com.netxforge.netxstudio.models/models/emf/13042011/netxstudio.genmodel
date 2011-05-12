@@ -230,6 +230,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/nodeTypes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/equipments"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/metrics"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/metricSources"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/parameters"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/protocols"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/tolerances"/>

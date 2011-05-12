@@ -842,7 +842,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLibrary_Parameters() {
+	public EReference getLibrary_MetricSources() {
 		return (EReference)libraryEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -851,8 +851,17 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getLibrary_Parameters() {
+		return (EReference)libraryEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getLibrary_Protocols() {
-		return (EAttribute)libraryEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -861,15 +870,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	public EReference getLibrary_Tolerances() {
-		return (EReference)libraryEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getLibrary_Expressions() {
 		return (EReference)libraryEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -878,7 +878,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLibrary_Units() {
+	public EReference getLibrary_Expressions() {
 		return (EReference)libraryEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -887,7 +887,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLibrary_Version() {
+	public EReference getLibrary_Units() {
 		return (EReference)libraryEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -896,8 +896,17 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getLibrary_Version() {
+		return (EReference)libraryEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getLibrary_Name() {
-		return (EAttribute)libraryEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)libraryEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -1424,6 +1433,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(libraryEClass, LIBRARY__NODE_TYPES);
 		createEReference(libraryEClass, LIBRARY__EQUIPMENTS);
 		createEReference(libraryEClass, LIBRARY__METRICS);
+		createEReference(libraryEClass, LIBRARY__METRIC_SOURCES);
 		createEReference(libraryEClass, LIBRARY__PARAMETERS);
 		createEAttribute(libraryEClass, LIBRARY__PROTOCOLS);
 		createEReference(libraryEClass, LIBRARY__TOLERANCES);
@@ -1595,6 +1605,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getLibrary_NodeTypes(), this.getNodeType(), null, "nodeTypes", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLibrary_Equipments(), this.getEquipment(), null, "equipments", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLibrary_Metrics(), theMetricsPackage.getMetric(), null, "metrics", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLibrary_MetricSources(), theMetricsPackage.getMetricSource(), null, "metricSources", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLibrary_Parameters(), this.getParameter(), null, "parameters", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_Protocols(), theXMLTypePackage.getString(), "protocols", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLibrary_Tolerances(), this.getTolerance(), null, "tolerances", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1709,7 +1720,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidFunctionName\n\t\t\t"
-		   });																																																																																					
+		   });																																																																																							
 		addAnnotation
 		  (nodeTypeEClass, 
 		   source, 
@@ -2160,6 +2171,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "Metrics"
 		   });			
 		addAnnotation
+		  (getLibrary_MetricSources(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "MetricSources"
+		   });			
+		addAnnotation
 		  (getLibrary_Parameters(), 
 		   source, 
 		   new String[] {
@@ -2591,7 +2609,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self->closure(functions)->asOrderedSet()\n\t\t\t\t\t\t\t"
-		   });																																																											
+		   });																																																													
 		addAnnotation
 		  (nodeTypeEClass, 
 		   source, 

@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Meta;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricSource;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,6 +41,7 @@ import com.netxforge.netxstudio.metrics.Metric;
  *   <li>{@link com.netxforge.netxstudio.library.Library#getNodeTypes <em>Node Types</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Library#getEquipments <em>Equipments</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Library#getMetrics <em>Metrics</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.Library#getMetricSources <em>Metric Sources</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Library#getParameters <em>Parameters</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Library#getProtocols <em>Protocols</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Library#getTolerances <em>Tolerances</em>}</li>
@@ -123,6 +125,23 @@ public interface Library extends CDOObject {
 	 * @generated
 	 */
 	EList<Metric> getMetrics();
+
+	/**
+	 * Returns the value of the '<em><b>Metric Sources</b></em>' containment reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.MetricSource}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The MetricSources reference, contains 0 or more MetricSource type.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Metric Sources</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getLibrary_MetricSources()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='MetricSources'"
+	 * @generated
+	 */
+	EList<MetricSource> getMetricSources();
 
 	/**
 	 * Returns the value of the '<em><b>Parameters</b></em>' containment reference list.
