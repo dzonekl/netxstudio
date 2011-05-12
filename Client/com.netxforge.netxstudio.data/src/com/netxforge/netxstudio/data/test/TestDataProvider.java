@@ -16,20 +16,22 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.data;
+package com.netxforge.netxstudio.data.test;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioFactory;
+import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Person;
 
 /**
+ * A test provider which creates dummy objects. 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
  */
-public class DataProvider implements IDataProvider {
+public class TestDataProvider implements IDataProvider {
 	
 	
 	public EObject getObject() {
@@ -70,6 +72,14 @@ public class DataProvider implements IDataProvider {
 		p.setLogin(login);
 		p.setEmail(email);
 		return p;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataProvider#getNetXStudio(org.eclipse.emf.ecore.resource.ResourceSet)
+	 */
+	public Netxstudio getNetXStudio(ResourceSet set) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

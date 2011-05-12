@@ -18,6 +18,8 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data;
 
+import com.netxforge.netxstudio.data.test.TestDataProvider;
+
 
 /**
  * Provides access to a data provider. 
@@ -31,7 +33,7 @@ public class DataServiceModule extends com.google.inject.AbstractModule {
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IDataProvider.class).to(DataProvider.class);
+		this.bind(IDataProvider.class).to(TestDataProvider.class);
 		this.bind(IDataService.class).to(DataService.class);
 	}
 

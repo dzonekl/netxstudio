@@ -29,6 +29,10 @@ public interface IDataScreenInjection {
 	/**
 	 * Screens for which data is injected by another screen should implement. 
 	 */
-	public abstract void injectData(Object object);
+	public abstract void injectData(Object owner, Object object);
+	
+	/**
+	 */
+	public abstract void addData();
 	
 }

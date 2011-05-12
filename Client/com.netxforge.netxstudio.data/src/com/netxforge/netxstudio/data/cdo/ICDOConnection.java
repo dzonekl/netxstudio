@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 3, 2011 NetXForge.
+ * Copyright (c) May 12, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,25 +16,18 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.data;
+package com.netxforge.netxstudio.data.cdo;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-
-import com.netxforge.netxstudio.Netxstudio;
+import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public interface IDataProvider {
+public interface ICDOConnection {
 	
-	public EObject getObject();
+	public void initialize();
 	
-	public EObject getNetXScriptWrapper();
-	
-	public Netxstudio getNetXStudio();
-	
-	public Netxstudio getNetXStudio(ResourceSet set);
-	
+	public CDOSessionConfiguration getConfig();
+
 }

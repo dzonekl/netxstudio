@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 3, 2011 NetXForge.
+ * Copyright (c) May 12, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,26 +15,29 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/
-package com.netxforge.netxstudio.data;
+ *******************************************************************************/ 
+package com.netxforge.netxstudio.data.cdo;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-
-import com.netxforge.netxstudio.Netxstudio;
+import com.netxforge.netxstudio.data.DataService;
+import com.netxforge.netxstudio.data.DataServiceModule;
+import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IDataService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public interface IDataProvider {
+public class CDODataServiceModule extends DataServiceModule {
 	
-	public EObject getObject();
-	
-	public EObject getNetXScriptWrapper();
-	
-	public Netxstudio getNetXStudio();
-	
-	public Netxstudio getNetXStudio(ResourceSet set);
-	
+
+	/* (non-Javadoc)
+	 * @see com.google.inject.AbstractModule#configure()
+	 */
+	@Override
+	protected void configure() {
+		this.bind(IDataProvider.class).to(CDODataProvider.class);
+		this.bind(IDataService.class).to(DataService.class);
+		this.bind(ICDOConnection.class).to(CDODataConnection.class);
+	}
+
 }
