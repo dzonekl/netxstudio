@@ -19,19 +19,12 @@
 package com.netxforge.netxstudio.library.provider;
 
 
-import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.Parameter;
-
-import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -42,6 +35,10 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.Parameter;
+import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.library.Parameter} object.

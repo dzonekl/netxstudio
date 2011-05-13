@@ -19,16 +19,11 @@
 package com.netxforge.netxstudio.metrics.provider;
 
 
-import com.netxforge.netxstudio.metrics.IdentifierDataKind;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.metrics.ObjectNameType;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -38,6 +33,10 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
+import com.netxforge.netxstudio.metrics.IdentifierDataKind;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.metrics.ObjectKindType;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.metrics.IdentifierDataKind} object.
@@ -74,26 +73,26 @@ public class IdentifierDataKindItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addObjectAttributePropertyDescriptor(object);
-			addObjectNamePropertyDescriptor(object);
+			addObjectKindPropertyDescriptor(object);
+			addObjectPropertyPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Object Attribute feature.
+	 * This adds a property descriptor for the Object Kind feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addObjectAttributePropertyDescriptor(Object object) {
+	protected void addObjectKindPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_IdentifierDataKind_objectAttribute_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_IdentifierDataKind_objectAttribute_feature", "_UI_IdentifierDataKind_type"),
-				 MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE,
+				 getString("_UI_IdentifierDataKind_objectKind_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_IdentifierDataKind_objectKind_feature", "_UI_IdentifierDataKind_type"),
+				 MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_KIND,
 				 true,
 				 false,
 				 false,
@@ -103,19 +102,19 @@ public class IdentifierDataKindItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Object Name feature.
+	 * This adds a property descriptor for the Object Property feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addObjectNamePropertyDescriptor(Object object) {
+	protected void addObjectPropertyPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_IdentifierDataKind_objectName_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_IdentifierDataKind_objectName_feature", "_UI_IdentifierDataKind_type"),
-				 MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_NAME,
+				 getString("_UI_IdentifierDataKind_objectProperty_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_IdentifierDataKind_objectProperty_feature", "_UI_IdentifierDataKind_type"),
+				 MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY,
 				 true,
 				 false,
 				 false,
@@ -143,7 +142,7 @@ public class IdentifierDataKindItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		ObjectNameType labelValue = ((IdentifierDataKind)object).getObjectName();
+		ObjectKindType labelValue = ((IdentifierDataKind)object).getObjectKind();
 		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
 			getString("_UI_IdentifierDataKind_type") :
@@ -162,8 +161,8 @@ public class IdentifierDataKindItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(IdentifierDataKind.class)) {
-			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE:
-			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_NAME:
+			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_KIND:
+			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

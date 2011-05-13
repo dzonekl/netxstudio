@@ -19,18 +19,12 @@
 package com.netxforge.netxstudio.metrics.provider;
 
 
-import com.netxforge.netxstudio.metrics.MappingXLS;
-import com.netxforge.netxstudio.metrics.MetricsFactory;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -40,6 +34,10 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
+import com.netxforge.netxstudio.metrics.MappingXLS;
+import com.netxforge.netxstudio.metrics.MetricsFactory;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.metrics.MappingXLS} object.
@@ -162,7 +160,6 @@ public class MappingXLSItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(MetricsPackage.Literals.MAPPING_XLS__MAPPING_COLUMNS);
-			childrenFeatures.add(MetricsPackage.Literals.MAPPING_XLS__COLUMN_DATA_KIND);
 		}
 		return childrenFeatures;
 	}
@@ -221,7 +218,6 @@ public class MappingXLSItemProvider
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case MetricsPackage.MAPPING_XLS__MAPPING_COLUMNS:
-			case MetricsPackage.MAPPING_XLS__COLUMN_DATA_KIND:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -243,21 +239,6 @@ public class MappingXLSItemProvider
 			(createChildParameter
 				(MetricsPackage.Literals.MAPPING_XLS__MAPPING_COLUMNS,
 				 MetricsFactory.eINSTANCE.createMappingXLSColumn()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(MetricsPackage.Literals.MAPPING_XLS__COLUMN_DATA_KIND,
-				 MetricsFactory.eINSTANCE.createDataKind()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(MetricsPackage.Literals.MAPPING_XLS__COLUMN_DATA_KIND,
-				 MetricsFactory.eINSTANCE.createIdentifierDataKind()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(MetricsPackage.Literals.MAPPING_XLS__COLUMN_DATA_KIND,
-				 MetricsFactory.eINSTANCE.createValueDataKind()));
 	}
 
 }
