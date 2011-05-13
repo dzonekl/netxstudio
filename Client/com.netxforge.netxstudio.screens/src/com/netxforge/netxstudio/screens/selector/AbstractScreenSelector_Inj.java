@@ -24,7 +24,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart_Inj;
-import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -35,10 +34,9 @@ public abstract class AbstractScreenSelector_Inj extends AbstractEditorViewPart_
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenSelectorII"; //$NON-NLS-1$
 
 	@Inject
-	protected ScreenFormService service;
+	protected ScreenFormService screenFormService;
 	
 	public AbstractScreenSelector_Inj() {
-		ScreensActivator.getInjector().injectMembers(this);
 	}
 
 	/**
@@ -52,10 +50,9 @@ public abstract class AbstractScreenSelector_Inj extends AbstractEditorViewPart_
 		initializeToolBar();
 		initializeMenu();
 		
-		
 		//Our service. 
-		service.initalize(parent);
-		service.setEditingService(getEditingService());
+		screenFormService.initalize(parent);
+		screenFormService.setEditingService(getEditingService());
 		buildSelector();
 	}
 

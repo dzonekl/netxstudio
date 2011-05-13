@@ -44,15 +44,15 @@ public class AdminScreenSelector extends AbstractScreenSelector_Inj {
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
-		service.getSelectorForm().setText("Admin");
+		screenFormService.getSelectorForm().setText("Admin");
 	}
 
 	public void buildSelector(){
 		
 		Composite result;
-		result = service.addScreenSelector("Users","icons/full/obj16/User_H.png", UsersAndRoles.class, 1);
-		result = service.addScreenSelector(result, "Jobs", "icons/full/obj16/Function_H.png",  Scheduler.class);
-		service.addScreenSelector(result, "Purge Metrics", "icons/full/obj16/MetricSource_H.png",  PurgeMetrics.class);
+		result = screenFormService.addScreenSelector("Users","icons/full/obj16/User_H.png", UsersAndRoles.class, 1, Screens.OPERATION_TABLE);
+		result = screenFormService.addScreenSelector(result, "Jobs", "icons/full/obj16/Function_H.png",  Scheduler.class, Screens.OPERATION_TABLE);
+		screenFormService.addScreenSelector(result, "Purge Metrics", "icons/full/obj16/MetricSource_H.png",  PurgeMetrics.class, Screens.OPERATION_TABLE);
 	
 	}
 	

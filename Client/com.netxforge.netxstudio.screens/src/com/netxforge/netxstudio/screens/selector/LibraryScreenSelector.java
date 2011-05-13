@@ -43,14 +43,14 @@ public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
-		service.getSelectorForm().setText("Library");
+		screenFormService.getSelectorForm().setText("Library");
 	}
 
 	public void buildSelector(){
 		Composite result;
 		
-		result = service.addScreenSelector("Expressions","icons/full/obj16/Expression_H.png", Expressions.class, 1);
-		service.addScreenSelector( result, "Resource", "icons/full/obj16/Equipment_H.png",  Resource.class);
+		result = screenFormService.addScreenSelector("Expressions","icons/full/obj16/Expression_H.png", Expressions.class, 1, Screens.OPERATION_TABLE);
+		screenFormService.addScreenSelector( result, "Resource", "icons/full/obj16/Equipment_H.png",  Resource.class, Screens.OPERATION_TABLE);
 	}
 	
 	

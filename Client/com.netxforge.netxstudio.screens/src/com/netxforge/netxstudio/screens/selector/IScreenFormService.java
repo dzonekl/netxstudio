@@ -26,6 +26,8 @@ import org.eclipse.ui.forms.widgets.Form;
  * 
  */
 public interface IScreenFormService {
+	
+	public static final String ICON_PATH = "com.netxforge.netxstudio.models.edit";
 
 	/**
 	 * Get the currentScreen.
@@ -35,13 +37,19 @@ public interface IScreenFormService {
 	public abstract Composite getActiveScreen();
 
 	/**
-	 * Check if the propsed new screen is not the active screen already.
-	 * 
+	 * Check if the proposed new screen is not the active screen already.
 	 * @param proposedScreen
 	 * @return
 	 */
 	public abstract boolean isActiveScreen(Class<?> proposedScreen);
 
+	/**
+	 * Check if the is an active screen.
+	 * @return
+	 */
+	public abstract boolean hasActiveScreen();
+	
+	
 	/**
 	 * Set the active screen to this composite.
 	 * 
@@ -55,15 +63,38 @@ public interface IScreenFormService {
 	 * @param parent
 	 */
 	public abstract void initalize(Composite parent);
-
+	
+	
+	/**
+	 * @return
+	 */
 	public abstract Composite addScreenSelector(String name, String iconPath,
-			Class<?> screen, int position);
-
+			Class<?> screen, int position, int operation);
+	
+	/**
+	 * 
+	 * @param above
+	 * @param name
+	 * @param iconPath
+	 * @param screen
+	 * @return
+	 */
 	public abstract Composite addScreenSelector(Composite above, String name,
-			String iconPath, Class<?> screen);
-
+			String iconPath, Class<?> screen, int operation);
+	
+	/**
+	 * Add a screen selector (Hyperlink) to the selector form.  
+	 * 
+	 * @param above The screen which is above this selector.
+	 * @param name The name to appear on the selector. 
+	 * @param iconPath The icon path is appended to {@link ICON_PATH} to get the icon. 
+	 * @param screen The screen to add. 
+	 * @param position The position of the selector. 
+	 * @pparam operation The operation for this screen.
+	 * @return
+	 */
 	public abstract Composite addScreenSelector(Composite above, String name,
-			String iconPath, Class<?> screen, int position);
+			String iconPath, Class<?> screen, int position, int operation);
 
 	public abstract void restorePreviousScreen();
 

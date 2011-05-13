@@ -5,6 +5,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.netxforge.netxstudio.screens.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.selector.ScreenFormServiceModule;
 
 /**
@@ -34,6 +35,7 @@ public class ScreensActivator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		injector = Guice.createInjector(new ScreenFormServiceModule());
+		injector.getInstance(IScreenFormService.class);
 		
 	}
 

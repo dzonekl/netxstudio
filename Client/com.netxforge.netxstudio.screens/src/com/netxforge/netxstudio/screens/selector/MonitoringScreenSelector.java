@@ -44,15 +44,15 @@ public class MonitoringScreenSelector extends AbstractScreenSelector_Inj {
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
-		service.getSelectorForm().setText("Monitoring");
+		screenFormService.getSelectorForm().setText("Monitoring");
 	}
 
 	public void buildSelector(){
 		
 		Composite result;
-		result = service.addScreenSelector("Metrics","icons/full/obj16/Metric_H.png", Metrics.class, 1);
-		result = service.addScreenSelector(result, "Metric Sources", "icons/full/obj16/MetricSource_H.png",  MetricSources.class);
-		service.addScreenSelector(result, "Resource Monitor", "icons/full/obj16/Monitor_graph_H.png",  ResourceMonitor.class);
+		result = screenFormService.addScreenSelector("Metrics","icons/full/obj16/Metric_H.png", Metrics.class, 1, Screens.OPERATION_TABLE);
+		result = screenFormService.addScreenSelector(result, "Metric Sources", "icons/full/obj16/MetricSource_H.png",  MetricSources.class, Screens.OPERATION_TABLE);
+		screenFormService.addScreenSelector(result, "Resource Monitor", "icons/full/obj16/Monitor_graph_H.png",  ResourceMonitor.class, Screens.OPERATION_TABLE);
 		
 	}
 	

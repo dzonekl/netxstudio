@@ -7,16 +7,23 @@ import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
@@ -37,26 +44,23 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.Netxstudio;
+import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
-import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.IDataServiceInjection;
-import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.selector.IScreenFormService;
+import com.netxforge.netxstudio.screens.selector.IScreenOperation;
 import com.netxforge.netxstudio.screens.selector.Screens;
 
-public class UsersAndRoles extends Composite implements IDataServiceInjection {
+public class UsersAndRoles extends Composite implements IDataServiceInjection, IScreenOperation {
 	@SuppressWarnings("unused")
 	private DataBindingContext m_bindingContext;
 
 	private Netxstudio studio;
 
-	@Inject
-	private IDataService dataService;
 	
 	private IEditingService editingService;
 
@@ -65,9 +69,11 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
 	private Table table;
-	private Text txtNewText;
+	private Text txtTableFilter;
 
 	private TableViewer tableViewer;
+
+	private int operation;
 
 	public UsersAndRoles(Composite parent, int style) {
 		this(parent, style, null, null);
@@ -82,7 +88,9 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 	public UsersAndRoles(Composite parent, int style,
 			IScreenFormService sService, IEditingService eService) {
 		super(parent, SWT.BORDER);
-
+		
+		operation = style & 0xFF00; // Ignore first bits, as we piggy back on the SWT style.
+		
 		this.screenService = sService;
 		this.editingService = eService;
 		
@@ -108,15 +116,30 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 				false, 1, 1);
 		gd_lblNewLabel.widthHint = 36;
 		lblNewLabel.setLayoutData(gd_lblNewLabel);
-
-		txtNewText = toolkit.createText(frmMetricSources.getBody(), "New Text",
+		
+		
+		// Filter.
+		txtTableFilter = toolkit.createText(frmMetricSources.getBody(), "New Text",
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
-		GridData gd_txtNewText = new GridData(SWT.LEFT, SWT.CENTER, false,
+		GridData gd_txtTableFilter = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
-		gd_txtNewText.widthHint = 200;
-		txtNewText.setLayoutData(gd_txtNewText);
-		txtNewText.setText("");
-
+		gd_txtTableFilter.widthHint = 200;
+		txtTableFilter.setLayoutData(gd_txtTableFilter);
+		txtTableFilter.setText("");
+		
+		txtTableFilter.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent ke) {
+				tableViewer.refresh();
+				ViewerFilter[] filters = tableViewer.getFilters();
+				for (ViewerFilter viewerFilter : filters) {
+					if (viewerFilter instanceof SearchFilter) {
+						((SearchFilter) viewerFilter)
+								.setSearchText(txtTableFilter.getText());
+					}
+				}
+			}
+		});
+		
 		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
 				frmMetricSources.getBody(), SWT.NONE);
 		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
@@ -197,6 +220,10 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 		TableColumn tblclmnEmail = tableViewerColumn_3.getColumn();
 		tblclmnEmail.setWidth(100);
 		tblclmnEmail.setText("Email");
+		
+		
+		tableViewer.addFilter(new SearchFilter());
+		
 		injectData();
 		
 	}
@@ -262,10 +289,59 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection {
 	 */
 	@Override
 	public void injectData() {
-		DataActivator.getInjector().injectMembers(this);
-		studio = dataService.getProvider().getNetXStudio(editingService.getEditingDomain().getResourceSet());
-		// call initbindings.
+		
+		Resource res = editingService.initScreen(NetxstudioPackage.NETXSTUDIO);
+		if (res.getContents().size() == 0) {
+			Netxstudio netx = NetxstudioFactory.eINSTANCE.createNetxstudio();
+			res.getContents().add(netx);
+			studio = netx;
+		} else {
+			studio = (Netxstudio) res.getContents().get(0);
+		}		
 		m_bindingContext = initDataBindings_();
 	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		
+		editingService.tearDownScreen();
+	}
+	
+	
+	public class SearchFilter extends ViewerFilter {
+		
+		private String searchString;
+		public void setSearchText(String s) {
+			// Search must be a substring of the existing value
+			this.searchString = ".*" + s + ".*"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		@Override
+		public boolean select(Viewer viewer, Object parentElement,
+				Object element) {
+			if (searchString == null || searchString.length() == 0) {
+				return true;
+			}
+
+			if (element instanceof EObject) {
+
+				String match = new AdapterFactoryItemDelegator(
+						editingService.getAdapterFactory())
+						.getText(element);
+				return match.matches(searchString);
+			}
+			return false;
+		}
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.selector.IScreenOperation#getOperation()
+	 */
+	@Override
+	public int getOperation() {
+		return operation;
+	}	
 	
 }
