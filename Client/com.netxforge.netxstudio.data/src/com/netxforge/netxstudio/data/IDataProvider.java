@@ -19,9 +19,8 @@
 package com.netxforge.netxstudio.data;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-
-import com.netxforge.netxstudio.Netxstudio;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -29,12 +28,8 @@ import com.netxforge.netxstudio.Netxstudio;
  */
 public interface IDataProvider {
 	
-	public EObject getObject();
+	public Resource getResource(ResourceSet set, int feature);
 	
 	public EObject getNetXScriptWrapper();
-	
-	public Netxstudio getNetXStudio();
-	
-	public Netxstudio getNetXStudio(ResourceSet set);
 	
 }

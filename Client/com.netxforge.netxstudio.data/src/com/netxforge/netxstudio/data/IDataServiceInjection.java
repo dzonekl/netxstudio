@@ -20,14 +20,14 @@ package com.netxforge.netxstudio.data;
 
 
 /**
+ * Screens for which data is injected by the data service should implement. 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
  */
 public interface IDataServiceInjection {
 	
 	/**
-	 * Screens for which data is injected by the data service should implement. 
 	 */
 	public abstract void injectData();
+	
 	
 }

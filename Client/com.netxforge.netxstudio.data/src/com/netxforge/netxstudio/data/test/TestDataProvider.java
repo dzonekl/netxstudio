@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.data.test;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import com.netxforge.netxstudio.Netxstudio;
@@ -78,6 +79,14 @@ public class TestDataProvider implements IDataProvider {
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getNetXStudio(org.eclipse.emf.ecore.resource.ResourceSet)
 	 */
 	public Netxstudio getNetXStudio(ResourceSet set) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataProvider#getResource(org.eclipse.emf.ecore.resource.ResourceSet, int)
+	 */
+	public Resource getResource(ResourceSet set, int feature) {
 		// TODO Auto-generated method stub
 		return null;
 	}

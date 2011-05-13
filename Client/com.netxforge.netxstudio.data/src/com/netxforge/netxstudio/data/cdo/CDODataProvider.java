@@ -26,6 +26,7 @@ import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import com.google.inject.Inject;
@@ -92,9 +93,26 @@ public class CDODataProvider implements IDataProvider {
 		}
 		return cdoSession;
 	}
-
-	public EObject getObject() {
-		return null;
+	
+	
+	public Resource getResource(ResourceSet set, int feature) {
+		String res = resolveResourceName(feature);
+		assert res != null && res.length() > 0;
+		CDOTransaction transaction = openSession().openTransaction(set);
+		CDOResource resource = transaction.getOrCreateResource(res);
+		return resource;
+	}
+	
+	
+	private String resolveResourceName(int feature){
+		String resource = "/"; 
+		// We switch on the resource to use. 
+		switch(feature){
+		case NetxstudioPackage.NETXSTUDIO:{
+			resource += "netxstudio";
+		}
+		}
+		return resource;
 	}
 
 	public EObject getNetXScriptWrapper() {
