@@ -6,6 +6,7 @@
  */
 package com.netxforge.netxstudio.metrics.validation;
 
+import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.metrics.ObjectNameType;
 
 /**
@@ -16,6 +17,10 @@ import com.netxforge.netxstudio.metrics.ObjectNameType;
  */
 public interface IdentifierDataKindValidator {
 	boolean validate();
+
+	boolean validateObjectKind(ObjectKindType value);
+
+	boolean validateObjectProperty(String value);
 
 	boolean validateObjectAttribute(String value);
 	boolean validateObjectName(ObjectNameType value);

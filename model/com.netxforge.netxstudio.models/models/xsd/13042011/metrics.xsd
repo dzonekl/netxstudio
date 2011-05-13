@@ -165,10 +165,6 @@ Multiple identifiers can be defined, the mapping will succeed if all identificat
 				<xs:sequence>
 					<xs:element name="MappingColumns" type="MappingXLSColumn" maxOccurs="unbounded" minOccurs="0">
 						</xs:element>
-					<xs:element name="ColumnDataKind" type="DataKind" maxOccurs="unbounded" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The ColumnDataKind reference, contains 0 or more DataKind types. The DataKind is either an Identifer or a Value.</xs:documentation>
-						</xs:annotation></xs:element>
 				</xs:sequence>
 				<xs:attribute name="SheetNumber" type="xs:int">
 					<xs:annotation>
@@ -229,10 +225,10 @@ as the Node->NodeID identifier.
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="DataKind">
-				<xs:attribute name="ObjectName">
+				<xs:attribute name="ObjectKind">
 					<xs:annotation>
-						<xs:documentation>The ObjectName attributes holds the textual name of the target object we are looking for. 
-Note: Most often this will be a "Node"
+						<xs:documentation>The ObjectKind attributes holds the textual name of the target object we are looking for. 
+Note: Most often this will be a "Node", but also a child of a "Node" like an "Equipment", it can also be a "Relationship" on a "Node".
 						</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
@@ -240,12 +236,13 @@ Note: Most often this will be a "Node"
 							<xs:enumeration value="NODE"></xs:enumeration>
 							<xs:enumeration value="EQUIPMENT"></xs:enumeration>
 							<xs:enumeration value="FUNCTION"></xs:enumeration>
+							<xs:enumeration value="RELATIONSHIP"></xs:enumeration>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
-				<xs:attribute name="ObjectAttribute" type="xs:string">
+				<xs:attribute name="ObjectProperty" type="xs:string">
 					<xs:annotation>
-						<xs:documentation>The ObjectAttribute attribute holds the the textual name of the target attribute we are looking for.
+						<xs:documentation>The ObjectProperty attribute holds the the textual name of the target attribute we are looking for.
 Note: Most often this will be the "NodeID" but it can also be a "Position" identifier or anything else. </xs:documentation>
 					</xs:annotation></xs:attribute>
 			</xs:extension>
@@ -389,15 +386,15 @@ It is expected the metric loading or derived values will consider the hints, on 
 					<xs:documentation>The ColumnDataKind reference, contains 1 DataKind type. The DataKind is either an Identifer or a Value.</xs:documentation>
 				</xs:annotation></xs:element>
 		</xs:sequence>
-		<xs:attribute name="ColumnName" type="xs:string">
+		<xs:attribute name="ColumnHeaderName" type="xs:string">
 		<xs:annotation>
-				<xs:documentation>The ColumnName attribute, is a textual expected header names.
+				<xs:documentation>The ColumnHeaderName attribute, is a textual expected header names.
 Note: that if the corresponding ColumnDataKind is a Metric, the column header will be interpreted as the name of the Metric.</xs:documentation>
 		</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="ColumnRow" type="xs:int">
+		<xs:attribute name="ColumnHeaderRow" type="xs:int">
 			<xs:annotation>
-				<xs:documentation>The ColumnRow attributes overrides (per column) the row number of the expected header row. </xs:documentation>
+				<xs:documentation>The ColumnHeaderRow attributes overrides (per column) the row number of the expected header row. </xs:documentation>
 			</xs:annotation></xs:attribute>
 	</xs:complexType>
 </xs:schema>

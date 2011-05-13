@@ -156,22 +156,22 @@ public interface MetricsPackage extends EPackage {
 	int IDENTIFIER_DATA_KIND = 1;
 
 	/**
-	 * The feature id for the '<em><b>Object Attribute</b></em>' attribute.
+	 * The feature id for the '<em><b>Object Kind</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE = DATA_KIND_FEATURE_COUNT + 0;
+	int IDENTIFIER_DATA_KIND__OBJECT_KIND = DATA_KIND_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Object Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Object Property</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IDENTIFIER_DATA_KIND__OBJECT_NAME = DATA_KIND_FEATURE_COUNT + 1;
+	int IDENTIFIER_DATA_KIND__OBJECT_PROPERTY = DATA_KIND_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Identifier Data Kind</em>' class.
@@ -361,22 +361,13 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_XLS__MAPPING_COLUMNS = MAPPING_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Column Data Kind</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_XLS__COLUMN_DATA_KIND = MAPPING_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>First Data Row</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS__FIRST_DATA_ROW = MAPPING_FEATURE_COUNT + 2;
+	int MAPPING_XLS__FIRST_DATA_ROW = MAPPING_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Header Row</b></em>' attribute.
@@ -385,7 +376,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS__HEADER_ROW = MAPPING_FEATURE_COUNT + 3;
+	int MAPPING_XLS__HEADER_ROW = MAPPING_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Sheet Number</b></em>' attribute.
@@ -394,7 +385,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS__SHEET_NUMBER = MAPPING_FEATURE_COUNT + 4;
+	int MAPPING_XLS__SHEET_NUMBER = MAPPING_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Mapping XLS</em>' class.
@@ -403,7 +394,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 5;
+	int MAPPING_XLS_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl <em>Mapping XLS Column</em>}' class.
@@ -425,22 +416,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_XLS_COLUMN__DATA_TYPE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Column Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Column Header Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS_COLUMN__COLUMN_NAME = 1;
+	int MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME = 1;
 
 	/**
-	 * The feature id for the '<em><b>Column Row</b></em>' attribute.
+	 * The feature id for the '<em><b>Column Header Row</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS_COLUMN__COLUMN_ROW = 2;
+	int MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW = 2;
 
 	/**
 	 * The number of structural features of the '<em>Mapping XLS Column</em>' class.
@@ -691,14 +682,14 @@ public interface MetricsPackage extends EPackage {
 	int KIND_HINT_TYPE = 14;
 
 	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.ObjectNameType <em>Object Name Type</em>}' enum.
+	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.ObjectKindType <em>Object Kind Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.metrics.ObjectNameType
-	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectNameType()
+	 * @see com.netxforge.netxstudio.metrics.ObjectKindType
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectKindType()
 	 * @generated
 	 */
-	int OBJECT_NAME_TYPE = 15;
+	int OBJECT_KIND_TYPE = 15;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.ValueKindType <em>Value Kind Type</em>}' enum.
@@ -721,14 +712,14 @@ public interface MetricsPackage extends EPackage {
 	int KIND_HINT_TYPE_OBJECT = 17;
 
 	/**
-	 * The meta object id for the '<em>Object Name Type Object</em>' data type.
+	 * The meta object id for the '<em>Object Kind Type Object</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.metrics.ObjectNameType
-	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectNameTypeObject()
+	 * @see com.netxforge.netxstudio.metrics.ObjectKindType
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectKindTypeObject()
 	 * @generated
 	 */
-	int OBJECT_NAME_TYPE_OBJECT = 18;
+	int OBJECT_KIND_TYPE_OBJECT = 18;
 
 	/**
 	 * The meta object id for the '<em>Value Kind Type Object</em>' data type.
@@ -762,26 +753,26 @@ public interface MetricsPackage extends EPackage {
 	EClass getIdentifierDataKind();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectAttribute <em>Object Attribute</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectKind <em>Object Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Object Attribute</em>'.
-	 * @see com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectAttribute()
+	 * @return the meta object for the attribute '<em>Object Kind</em>'.
+	 * @see com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectKind()
 	 * @see #getIdentifierDataKind()
 	 * @generated
 	 */
-	EAttribute getIdentifierDataKind_ObjectAttribute();
+	EAttribute getIdentifierDataKind_ObjectKind();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectName <em>Object Name</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectProperty <em>Object Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Object Name</em>'.
-	 * @see com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectName()
+	 * @return the meta object for the attribute '<em>Object Property</em>'.
+	 * @see com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectProperty()
 	 * @see #getIdentifierDataKind()
 	 * @generated
 	 */
-	EAttribute getIdentifierDataKind_ObjectName();
+	EAttribute getIdentifierDataKind_ObjectProperty();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.Mapping <em>Mapping</em>}'.
@@ -920,17 +911,6 @@ public interface MetricsPackage extends EPackage {
 	EReference getMappingXLS_MappingColumns();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.metrics.MappingXLS#getColumnDataKind <em>Column Data Kind</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Column Data Kind</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLS#getColumnDataKind()
-	 * @see #getMappingXLS()
-	 * @generated
-	 */
-	EReference getMappingXLS_ColumnDataKind();
-
-	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLS#getFirstDataRow <em>First Data Row</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -985,26 +965,26 @@ public interface MetricsPackage extends EPackage {
 	EReference getMappingXLSColumn_DataType();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnName <em>Column Name</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderName <em>Column Header Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Column Name</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnName()
+	 * @return the meta object for the attribute '<em>Column Header Name</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderName()
 	 * @see #getMappingXLSColumn()
 	 * @generated
 	 */
-	EAttribute getMappingXLSColumn_ColumnName();
+	EAttribute getMappingXLSColumn_ColumnHeaderName();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnRow <em>Column Row</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderRow <em>Column Header Row</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Column Row</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnRow()
+	 * @return the meta object for the attribute '<em>Column Header Row</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderRow()
 	 * @see #getMappingXLSColumn()
 	 * @generated
 	 */
-	EAttribute getMappingXLSColumn_ColumnRow();
+	EAttribute getMappingXLSColumn_ColumnHeaderRow();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.Metric <em>Metric</em>}'.
@@ -1244,14 +1224,14 @@ public interface MetricsPackage extends EPackage {
 	EEnum getKindHintType();
 
 	/**
-	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.metrics.ObjectNameType <em>Object Name Type</em>}'.
+	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.metrics.ObjectKindType <em>Object Kind Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Object Name Type</em>'.
-	 * @see com.netxforge.netxstudio.metrics.ObjectNameType
+	 * @return the meta object for enum '<em>Object Kind Type</em>'.
+	 * @see com.netxforge.netxstudio.metrics.ObjectKindType
 	 * @generated
 	 */
-	EEnum getObjectNameType();
+	EEnum getObjectKindType();
 
 	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.metrics.ValueKindType <em>Value Kind Type</em>}'.
@@ -1276,16 +1256,16 @@ public interface MetricsPackage extends EPackage {
 	EDataType getKindHintTypeObject();
 
 	/**
-	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.metrics.ObjectNameType <em>Object Name Type Object</em>}'.
+	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.metrics.ObjectKindType <em>Object Kind Type Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>Object Name Type Object</em>'.
-	 * @see com.netxforge.netxstudio.metrics.ObjectNameType
-	 * @model instanceClass="com.netxforge.netxstudio.metrics.ObjectNameType"
-	 *        extendedMetaData="name='ObjectName_._type:Object' baseType='ObjectName_._type'"
+	 * @return the meta object for data type '<em>Object Kind Type Object</em>'.
+	 * @see com.netxforge.netxstudio.metrics.ObjectKindType
+	 * @model instanceClass="com.netxforge.netxstudio.metrics.ObjectKindType"
+	 *        extendedMetaData="name='ObjectKind_._type:Object' baseType='ObjectKind_._type'"
 	 * @generated
 	 */
-	EDataType getObjectNameTypeObject();
+	EDataType getObjectKindTypeObject();
 
 	/**
 	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.metrics.ValueKindType <em>Value Kind Type Object</em>}'.
@@ -1342,20 +1322,20 @@ public interface MetricsPackage extends EPackage {
 		EClass IDENTIFIER_DATA_KIND = eINSTANCE.getIdentifierDataKind();
 
 		/**
-		 * The meta object literal for the '<em><b>Object Attribute</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Object Kind</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE = eINSTANCE.getIdentifierDataKind_ObjectAttribute();
+		EAttribute IDENTIFIER_DATA_KIND__OBJECT_KIND = eINSTANCE.getIdentifierDataKind_ObjectKind();
 
 		/**
-		 * The meta object literal for the '<em><b>Object Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Object Property</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute IDENTIFIER_DATA_KIND__OBJECT_NAME = eINSTANCE.getIdentifierDataKind_ObjectName();
+		EAttribute IDENTIFIER_DATA_KIND__OBJECT_PROPERTY = eINSTANCE.getIdentifierDataKind_ObjectProperty();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingImpl <em>Mapping</em>}' class.
@@ -1476,14 +1456,6 @@ public interface MetricsPackage extends EPackage {
 		EReference MAPPING_XLS__MAPPING_COLUMNS = eINSTANCE.getMappingXLS_MappingColumns();
 
 		/**
-		 * The meta object literal for the '<em><b>Column Data Kind</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MAPPING_XLS__COLUMN_DATA_KIND = eINSTANCE.getMappingXLS_ColumnDataKind();
-
-		/**
 		 * The meta object literal for the '<em><b>First Data Row</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1526,20 +1498,20 @@ public interface MetricsPackage extends EPackage {
 		EReference MAPPING_XLS_COLUMN__DATA_TYPE = eINSTANCE.getMappingXLSColumn_DataType();
 
 		/**
-		 * The meta object literal for the '<em><b>Column Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Column Header Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MAPPING_XLS_COLUMN__COLUMN_NAME = eINSTANCE.getMappingXLSColumn_ColumnName();
+		EAttribute MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME = eINSTANCE.getMappingXLSColumn_ColumnHeaderName();
 
 		/**
-		 * The meta object literal for the '<em><b>Column Row</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Column Header Row</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MAPPING_XLS_COLUMN__COLUMN_ROW = eINSTANCE.getMappingXLSColumn_ColumnRow();
+		EAttribute MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW = eINSTANCE.getMappingXLSColumn_ColumnHeaderRow();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MetricImpl <em>Metric</em>}' class.
@@ -1728,14 +1700,14 @@ public interface MetricsPackage extends EPackage {
 		EEnum KIND_HINT_TYPE = eINSTANCE.getKindHintType();
 
 		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.ObjectNameType <em>Object Name Type</em>}' enum.
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.ObjectKindType <em>Object Kind Type</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.metrics.ObjectNameType
-		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectNameType()
+		 * @see com.netxforge.netxstudio.metrics.ObjectKindType
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectKindType()
 		 * @generated
 		 */
-		EEnum OBJECT_NAME_TYPE = eINSTANCE.getObjectNameType();
+		EEnum OBJECT_KIND_TYPE = eINSTANCE.getObjectKindType();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.ValueKindType <em>Value Kind Type</em>}' enum.
@@ -1758,14 +1730,14 @@ public interface MetricsPackage extends EPackage {
 		EDataType KIND_HINT_TYPE_OBJECT = eINSTANCE.getKindHintTypeObject();
 
 		/**
-		 * The meta object literal for the '<em>Object Name Type Object</em>' data type.
+		 * The meta object literal for the '<em>Object Kind Type Object</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.metrics.ObjectNameType
-		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectNameTypeObject()
+		 * @see com.netxforge.netxstudio.metrics.ObjectKindType
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectKindTypeObject()
 		 * @generated
 		 */
-		EDataType OBJECT_NAME_TYPE_OBJECT = eINSTANCE.getObjectNameTypeObject();
+		EDataType OBJECT_KIND_TYPE_OBJECT = eINSTANCE.getObjectKindTypeObject();
 
 		/**
 		 * The meta object literal for the '<em>Value Kind Type Object</em>' data type.

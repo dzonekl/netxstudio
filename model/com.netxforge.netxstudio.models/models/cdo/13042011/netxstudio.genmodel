@@ -297,10 +297,11 @@
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//KindHintType/BH"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//KindHintType/AVG"/>
     </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//ObjectNameType">
-      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectNameType/NODE"/>
-      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectNameType/EQUIPMENT"/>
-      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectNameType/FUNCTION"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//ObjectKindType">
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/NODE"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/EQUIPMENT"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/FUNCTION"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/RELATIONSHIP"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//ValueKindType">
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/DATETIME"/>
@@ -308,12 +309,12 @@
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/METRIC"/>
     </genEnums>
     <genDataTypes ecoreDataType="metrics.ecore#//KindHintTypeObject"/>
-    <genDataTypes ecoreDataType="metrics.ecore#//ObjectNameTypeObject"/>
+    <genDataTypes ecoreDataType="metrics.ecore#//ObjectKindTypeObject"/>
     <genDataTypes ecoreDataType="metrics.ecore#//ValueKindTypeObject"/>
     <genClasses ecoreClass="metrics.ecore#//DataKind"/>
     <genClasses ecoreClass="metrics.ecore#//IdentifierDataKind">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/objectAttribute"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/objectName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/objectKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/objectProperty"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//Mapping"/>
     <genClasses ecoreClass="metrics.ecore#//MappingCSV"/>
@@ -330,15 +331,14 @@
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingXLS">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingXLS/mappingColumns"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingXLS/columnDataKind"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLS/firstDataRow"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLS/headerRow"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLS/sheetNumber"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingXLSColumn">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingXLSColumn/dataType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLSColumn/columnName"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLSColumn/columnRow"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLSColumn/columnHeaderName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLSColumn/columnHeaderRow"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//Metric">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Metric/metrics"/>

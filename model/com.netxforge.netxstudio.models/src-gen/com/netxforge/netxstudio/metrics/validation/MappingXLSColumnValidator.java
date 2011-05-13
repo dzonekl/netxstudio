@@ -18,6 +18,10 @@ public interface MappingXLSColumnValidator {
 	boolean validate();
 
 	boolean validateDataType(DataKind value);
+	boolean validateColumnHeaderName(String value);
+
+	boolean validateColumnHeaderRow(int value);
+
 	boolean validateColumnName(String value);
 	boolean validateColumnRow(int value);
 }

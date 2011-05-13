@@ -21,7 +21,6 @@ package com.netxforge.netxstudio.metrics.impl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
-import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MappingXLSColumn;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -34,7 +33,6 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getMappingColumns <em>Mapping Columns</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getColumnDataKind <em>Column Data Kind</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getFirstDataRow <em>First Data Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getHeaderRow <em>Header Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getSheetNumber <em>Sheet Number</em>}</li>
@@ -71,16 +69,6 @@ public class MappingXLSImpl extends MappingImpl implements MappingXLS {
 	@SuppressWarnings("unchecked")
 	public EList<MappingXLSColumn> getMappingColumns() {
 		return (EList<MappingXLSColumn>)eGet(MetricsPackage.Literals.MAPPING_XLS__MAPPING_COLUMNS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<DataKind> getColumnDataKind() {
-		return (EList<DataKind>)eGet(MetricsPackage.Literals.MAPPING_XLS__COLUMN_DATA_KIND, true);
 	}
 
 	/**

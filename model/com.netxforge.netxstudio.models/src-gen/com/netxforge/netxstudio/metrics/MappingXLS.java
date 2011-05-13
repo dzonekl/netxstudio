@@ -39,7 +39,6 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLS#getMappingColumns <em>Mapping Columns</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLS#getColumnDataKind <em>Column Data Kind</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLS#getFirstDataRow <em>First Data Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLS#getHeaderRow <em>Header Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLS#getSheetNumber <em>Sheet Number</em>}</li>
@@ -67,22 +66,6 @@ public interface MappingXLS extends Mapping {
 	 * @generated
 	 */
 	EList<MappingXLSColumn> getMappingColumns();
-
-	/**
-	 * Returns the value of the '<em><b>Column Data Kind</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.DataKind}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The ColumnDataKind reference, contains 0 or more DataKind types. The DataKind is either an Identifer or a Value.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Column Data Kind</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingXLS_ColumnDataKind()
-	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='ColumnDataKind'"
-	 * @generated
-	 */
-	EList<DataKind> getColumnDataKind();
 
 	/**
 	 * Returns the value of the '<em><b>First Data Row</b></em>' attribute.

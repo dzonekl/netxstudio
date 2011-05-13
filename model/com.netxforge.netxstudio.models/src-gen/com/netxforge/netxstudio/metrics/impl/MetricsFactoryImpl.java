@@ -41,7 +41,7 @@ import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.metrics.ObjectNameType;
+import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 
@@ -118,14 +118,14 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 		switch (eDataType.getClassifierID()) {
 			case MetricsPackage.KIND_HINT_TYPE:
 				return createKindHintTypeFromString(eDataType, initialValue);
-			case MetricsPackage.OBJECT_NAME_TYPE:
-				return createObjectNameTypeFromString(eDataType, initialValue);
+			case MetricsPackage.OBJECT_KIND_TYPE:
+				return createObjectKindTypeFromString(eDataType, initialValue);
 			case MetricsPackage.VALUE_KIND_TYPE:
 				return createValueKindTypeFromString(eDataType, initialValue);
 			case MetricsPackage.KIND_HINT_TYPE_OBJECT:
 				return createKindHintTypeObjectFromString(eDataType, initialValue);
-			case MetricsPackage.OBJECT_NAME_TYPE_OBJECT:
-				return createObjectNameTypeObjectFromString(eDataType, initialValue);
+			case MetricsPackage.OBJECT_KIND_TYPE_OBJECT:
+				return createObjectKindTypeObjectFromString(eDataType, initialValue);
 			case MetricsPackage.VALUE_KIND_TYPE_OBJECT:
 				return createValueKindTypeObjectFromString(eDataType, initialValue);
 			default:
@@ -143,14 +143,14 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 		switch (eDataType.getClassifierID()) {
 			case MetricsPackage.KIND_HINT_TYPE:
 				return convertKindHintTypeToString(eDataType, instanceValue);
-			case MetricsPackage.OBJECT_NAME_TYPE:
-				return convertObjectNameTypeToString(eDataType, instanceValue);
+			case MetricsPackage.OBJECT_KIND_TYPE:
+				return convertObjectKindTypeToString(eDataType, instanceValue);
 			case MetricsPackage.VALUE_KIND_TYPE:
 				return convertValueKindTypeToString(eDataType, instanceValue);
 			case MetricsPackage.KIND_HINT_TYPE_OBJECT:
 				return convertKindHintTypeObjectToString(eDataType, instanceValue);
-			case MetricsPackage.OBJECT_NAME_TYPE_OBJECT:
-				return convertObjectNameTypeObjectToString(eDataType, instanceValue);
+			case MetricsPackage.OBJECT_KIND_TYPE_OBJECT:
+				return convertObjectKindTypeObjectToString(eDataType, instanceValue);
 			case MetricsPackage.VALUE_KIND_TYPE_OBJECT:
 				return convertValueKindTypeObjectToString(eDataType, instanceValue);
 			default:
@@ -323,8 +323,8 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObjectNameType createObjectNameTypeFromString(EDataType eDataType, String initialValue) {
-		ObjectNameType result = ObjectNameType.get(initialValue);
+	public ObjectKindType createObjectKindTypeFromString(EDataType eDataType, String initialValue) {
+		ObjectKindType result = ObjectKindType.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -334,7 +334,7 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertObjectNameTypeToString(EDataType eDataType, Object instanceValue) {
+	public String convertObjectKindTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
@@ -381,8 +381,8 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObjectNameType createObjectNameTypeObjectFromString(EDataType eDataType, String initialValue) {
-		return createObjectNameTypeFromString(MetricsPackage.Literals.OBJECT_NAME_TYPE, initialValue);
+	public ObjectKindType createObjectKindTypeObjectFromString(EDataType eDataType, String initialValue) {
+		return createObjectKindTypeFromString(MetricsPackage.Literals.OBJECT_KIND_TYPE, initialValue);
 	}
 
 	/**
@@ -390,8 +390,8 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertObjectNameTypeObjectToString(EDataType eDataType, Object instanceValue) {
-		return convertObjectNameTypeToString(MetricsPackage.Literals.OBJECT_NAME_TYPE, instanceValue);
+	public String convertObjectKindTypeObjectToString(EDataType eDataType, Object instanceValue) {
+		return convertObjectKindTypeToString(MetricsPackage.Literals.OBJECT_KIND_TYPE, instanceValue);
 	}
 
 	/**

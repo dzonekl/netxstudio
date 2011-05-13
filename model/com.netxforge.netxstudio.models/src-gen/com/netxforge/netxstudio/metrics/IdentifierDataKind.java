@@ -37,8 +37,8 @@ package com.netxforge.netxstudio.metrics;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectAttribute <em>Object Attribute</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectName <em>Object Name</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectKind <em>Object Kind</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectProperty <em>Object Property</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,88 +48,88 @@ package com.netxforge.netxstudio.metrics;
  */
 public interface IdentifierDataKind extends DataKind {
 	/**
-	 * Returns the value of the '<em><b>Object Attribute</b></em>' attribute.
+	 * Returns the value of the '<em><b>Object Kind</b></em>' attribute.
+	 * The literals are from the enumeration {@link com.netxforge.netxstudio.metrics.ObjectKindType}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ObjectAttribute attribute holds the the textual name of the target attribute we are looking for.
-	 * Note: Most often this will be the "NodeID" but it can also be a "Position" identifier or anything else. 
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Object Attribute</em>' attribute.
-	 * @see #setObjectAttribute(String)
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getIdentifierDataKind_ObjectAttribute()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        extendedMetaData="kind='attribute' name='ObjectAttribute'"
-	 * @generated
-	 */
-	String getObjectAttribute();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectAttribute <em>Object Attribute</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Object Attribute</em>' attribute.
-	 * @see #getObjectAttribute()
-	 * @generated
-	 */
-	void setObjectAttribute(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Object Name</b></em>' attribute.
-	 * The literals are from the enumeration {@link com.netxforge.netxstudio.metrics.ObjectNameType}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The ObjectName attributes holds the textual name of the target object we are looking for. 
-	 * Note: Most often this will be a "Node"
+	 * The ObjectKind attributes holds the textual name of the target object we are looking for. 
+	 * Note: Most often this will be a "Node", but also a child of a "Node" like an "Equipment", it can also be a "Relationship" on a "Node".
 	 * 						
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Object Name</em>' attribute.
-	 * @see com.netxforge.netxstudio.metrics.ObjectNameType
-	 * @see #isSetObjectName()
-	 * @see #unsetObjectName()
-	 * @see #setObjectName(ObjectNameType)
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getIdentifierDataKind_ObjectName()
+	 * @return the value of the '<em>Object Kind</em>' attribute.
+	 * @see com.netxforge.netxstudio.metrics.ObjectKindType
+	 * @see #isSetObjectKind()
+	 * @see #unsetObjectKind()
+	 * @see #setObjectKind(ObjectKindType)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getIdentifierDataKind_ObjectKind()
 	 * @model unsettable="true"
-	 *        extendedMetaData="kind='attribute' name='ObjectName'"
+	 *        extendedMetaData="kind='attribute' name='ObjectKind'"
 	 * @generated
 	 */
-	ObjectNameType getObjectName();
+	ObjectKindType getObjectKind();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectName <em>Object Name</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectKind <em>Object Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Object Name</em>' attribute.
-	 * @see com.netxforge.netxstudio.metrics.ObjectNameType
-	 * @see #isSetObjectName()
-	 * @see #unsetObjectName()
-	 * @see #getObjectName()
+	 * @param value the new value of the '<em>Object Kind</em>' attribute.
+	 * @see com.netxforge.netxstudio.metrics.ObjectKindType
+	 * @see #isSetObjectKind()
+	 * @see #unsetObjectKind()
+	 * @see #getObjectKind()
 	 * @generated
 	 */
-	void setObjectName(ObjectNameType value);
+	void setObjectKind(ObjectKindType value);
 
 	/**
-	 * Unsets the value of the '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectName <em>Object Name</em>}' attribute.
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectKind <em>Object Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isSetObjectName()
-	 * @see #getObjectName()
-	 * @see #setObjectName(ObjectNameType)
+	 * @see #isSetObjectKind()
+	 * @see #getObjectKind()
+	 * @see #setObjectKind(ObjectKindType)
 	 * @generated
 	 */
-	void unsetObjectName();
+	void unsetObjectKind();
 
 	/**
-	 * Returns whether the value of the '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectName <em>Object Name</em>}' attribute is set.
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectKind <em>Object Kind</em>}' attribute is set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Object Name</em>' attribute is set.
-	 * @see #unsetObjectName()
-	 * @see #getObjectName()
-	 * @see #setObjectName(ObjectNameType)
+	 * @return whether the value of the '<em>Object Kind</em>' attribute is set.
+	 * @see #unsetObjectKind()
+	 * @see #getObjectKind()
+	 * @see #setObjectKind(ObjectKindType)
 	 * @generated
 	 */
-	boolean isSetObjectName();
+	boolean isSetObjectKind();
+
+	/**
+	 * Returns the value of the '<em><b>Object Property</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The ObjectProperty attribute holds the the textual name of the target attribute we are looking for.
+	 * Note: Most often this will be the "NodeID" but it can also be a "Position" identifier or anything else. 
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Object Property</em>' attribute.
+	 * @see #setObjectProperty(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getIdentifierDataKind_ObjectProperty()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='ObjectProperty'"
+	 * @generated
+	 */
+	String getObjectProperty();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectProperty <em>Object Property</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Object Property</em>' attribute.
+	 * @see #getObjectProperty()
+	 * @generated
+	 */
+	void setObjectProperty(String value);
 
 } // IdentifierDataKind

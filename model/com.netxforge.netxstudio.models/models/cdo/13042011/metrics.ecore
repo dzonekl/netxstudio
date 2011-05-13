@@ -28,23 +28,23 @@
       <details key="name" value="IdentifierDataKind"/>
       <details key="kind" value="empty"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ObjectAttribute attribute holds the the textual name of the target attribute we are looking for.&#xA;Note: Most often this will be the &quot;NodeID&quot; but it can also be a &quot;Position&quot; identifier or anything else. "/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="ObjectAttribute"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectName" eType="#//ObjectNameType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectKind" eType="#//ObjectKindType"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ObjectName attributes holds the textual name of the target object we are looking for. &#xA;Note: Most often this will be a &quot;Node&quot;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The ObjectKind attributes holds the textual name of the target object we are looking for. &#xA;Note: Most often this will be a &quot;Node&quot;, but also a child of a &quot;Node&quot; like an &quot;Equipment&quot;, it can also be a &quot;Relationship&quot; on a &quot;Node&quot;.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
-        <details key="name" value="ObjectName"/>
+        <details key="name" value="ObjectKind"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The ObjectProperty attribute holds the the textual name of the target attribute we are looking for.&#xA;Note: Most often this will be the &quot;NodeID&quot; but it can also be a &quot;Position&quot; identifier or anything else. "/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="ObjectProperty"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -180,16 +180,6 @@
         <details key="name" value="MappingColumns"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="columnDataKind" upperBound="-1"
-        eType="#//DataKind" containment="true" resolveProxies="false">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ColumnDataKind reference, contains 0 or more DataKind types. The DataKind is either an Identifer or a Value."/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="ColumnDataKind"/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstDataRow" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -236,23 +226,23 @@
         <details key="name" value="DataType"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="columnName" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="columnHeaderName" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ColumnName attribute, is a textual expected header names.&#xA;Note: that if the corresponding ColumnDataKind is a Metric, the column header will be interpreted as the name of the Metric."/>
+        <details key="documentation" value="The ColumnHeaderName attribute, is a textual expected header names.&#xA;Note: that if the corresponding ColumnDataKind is a Metric, the column header will be interpreted as the name of the Metric."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
-        <details key="name" value="ColumnName"/>
+        <details key="name" value="ColumnHeaderName"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="columnRow" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="columnHeaderRow" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ColumnRow attributes overrides (per column) the row number of the expected header row. "/>
+        <details key="documentation" value="The ColumnHeaderRow attributes overrides (per column) the row number of the expected header row. "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
-        <details key="name" value="ColumnRow"/>
+        <details key="name" value="ColumnHeaderRow"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -435,18 +425,19 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="ObjectNameType">
+  <eClassifiers xsi:type="ecore:EEnum" name="ObjectKindType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="ObjectName_._type"/>
+      <details key="name" value="ObjectKind_._type"/>
     </eAnnotations>
     <eLiterals name="NODE"/>
     <eLiterals name="EQUIPMENT" value="1"/>
     <eLiterals name="FUNCTION" value="2"/>
+    <eLiterals name="RELATIONSHIP" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="ObjectNameTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="ObjectKindTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="ObjectName_._type:Object"/>
-      <details key="baseType" value="ObjectName_._type"/>
+      <details key="name" value="ObjectKind_._type:Object"/>
+      <details key="baseType" value="ObjectKind_._type"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ValueDataKind" eSuperTypes="#//DataKind">

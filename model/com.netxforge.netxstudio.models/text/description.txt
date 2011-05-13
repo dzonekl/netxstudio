@@ -311,8 +311,8 @@ Package metrics <http://www.netxforge.com/13042011/metrics>
   Class DataKind
 
   Class IdentifierDataKind -> DataKind
-    Attribute objectAttribute : String
-    Attribute objectName : ObjectNameType
+    Attribute objectKind : ObjectKindType
+    Attribute objectProperty : String
 
   Class Mapping
 
@@ -333,15 +333,14 @@ Package metrics <http://www.netxforge.com/13042011/metrics>
 
   Class MappingXLS -> Mapping
     Reference mappingColumns : MappingXLSColumn<<0..*>>
-    Reference columnDataKind : DataKind<<0..*>>
     Attribute firstDataRow : Int
     Attribute headerRow : Int
     Attribute sheetNumber : Int
 
   Class MappingXLSColumn
     Reference dataType : DataKind
-    Attribute columnName : String
-    Attribute columnRow : Int
+    Attribute columnHeaderName : String
+    Attribute columnHeaderRow : Int
 
   Class Metric
     Reference metrics : Metric<<0..*>>
@@ -372,10 +371,11 @@ Package metrics <http://www.netxforge.com/13042011/metrics>
     Literal BH = 0
     Literal AVG = 1
 
-  Enum ObjectNameType
+  Enum ObjectKindType
     Literal NODE = 0
     Literal EQUIPMENT = 1
     Literal FUNCTION = 2
+    Literal RELATIONSHIP = 3
 
   Enum ValueKindType
     Literal DATETIME = 0
@@ -384,7 +384,7 @@ Package metrics <http://www.netxforge.com/13042011/metrics>
 
   DataType KindHintTypeObject <org.eclipse.emf.common.util.Enumerator>
 
-  DataType ObjectNameTypeObject <org.eclipse.emf.common.util.Enumerator>
+  DataType ObjectKindTypeObject <org.eclipse.emf.common.util.Enumerator>
 
   DataType ValueKindTypeObject <org.eclipse.emf.common.util.Enumerator>
 

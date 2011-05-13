@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.metrics.ObjectNameType;
+import com.netxforge.netxstudio.metrics.ObjectKindType;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,8 +31,8 @@ import com.netxforge.netxstudio.metrics.ObjectNameType;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl#getObjectAttribute <em>Object Attribute</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl#getObjectName <em>Object Name</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl#getObjectKind <em>Object Kind</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl#getObjectProperty <em>Object Property</em>}</li>
  * </ul>
  * </p>
  *
@@ -63,8 +63,8 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getObjectAttribute() {
-		return (String)eGet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE, true);
+	public ObjectKindType getObjectKind() {
+		return (ObjectKindType)eGet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_KIND, true);
 	}
 
 	/**
@@ -72,8 +72,8 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setObjectAttribute(String newObjectAttribute) {
-		eSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_ATTRIBUTE, newObjectAttribute);
+	public void setObjectKind(ObjectKindType newObjectKind) {
+		eSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_KIND, newObjectKind);
 	}
 
 	/**
@@ -81,8 +81,8 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ObjectNameType getObjectName() {
-		return (ObjectNameType)eGet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_NAME, true);
+	public void unsetObjectKind() {
+		eUnset(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_KIND);
 	}
 
 	/**
@@ -90,8 +90,8 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setObjectName(ObjectNameType newObjectName) {
-		eSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_NAME, newObjectName);
+	public boolean isSetObjectKind() {
+		return eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_KIND);
 	}
 
 	/**
@@ -99,8 +99,8 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void unsetObjectName() {
-		eUnset(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_NAME);
+	public String getObjectProperty() {
+		return (String)eGet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY, true);
 	}
 
 	/**
@@ -108,8 +108,8 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isSetObjectName() {
-		return eIsSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_NAME);
+	public void setObjectProperty(String newObjectProperty) {
+		eSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY, newObjectProperty);
 	}
 
 } //IdentifierDataKindImpl

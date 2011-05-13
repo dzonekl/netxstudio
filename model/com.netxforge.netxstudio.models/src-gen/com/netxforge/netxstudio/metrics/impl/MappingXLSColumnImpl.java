@@ -33,8 +33,8 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getDataType <em>Data Type</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getColumnName <em>Column Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getColumnRow <em>Column Row</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getColumnHeaderName <em>Column Header Name</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getColumnHeaderRow <em>Column Header Row</em>}</li>
  * </ul>
  * </p>
  *
@@ -93,8 +93,8 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getColumnName() {
-		return (String)eGet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_NAME, true);
+	public String getColumnHeaderName() {
+		return (String)eGet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME, true);
 	}
 
 	/**
@@ -102,8 +102,8 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setColumnName(String newColumnName) {
-		eSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_NAME, newColumnName);
+	public void setColumnHeaderName(String newColumnHeaderName) {
+		eSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME, newColumnHeaderName);
 	}
 
 	/**
@@ -111,8 +111,8 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getColumnRow() {
-		return (Integer)eGet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_ROW, true);
+	public int getColumnHeaderRow() {
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW, true);
 	}
 
 	/**
@@ -120,8 +120,8 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setColumnRow(int newColumnRow) {
-		eSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_ROW, newColumnRow);
+	public void setColumnHeaderRow(int newColumnHeaderRow) {
+		eSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW, newColumnHeaderRow);
 	}
 
 	/**
@@ -129,8 +129,8 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void unsetColumnRow() {
-		eUnset(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_ROW);
+	public void unsetColumnHeaderRow() {
+		eUnset(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW);
 	}
 
 	/**
@@ -138,8 +138,8 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isSetColumnRow() {
-		return eIsSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_ROW);
+	public boolean isSetColumnHeaderRow() {
+		return eIsSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW);
 	}
 
 } //MappingXLSColumnImpl
