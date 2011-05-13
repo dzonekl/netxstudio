@@ -18,8 +18,11 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -30,5 +33,22 @@ public interface IEditingService {
 	public abstract EditingDomain getEditingDomain();
 
 	public abstract ComposedAdapterFactory getAdapterFactory();
-
+	
+	public abstract IRunnableWithProgress doGetSaveOperation(IProgressMonitor monitor);
+	
+	public abstract void doSave(IProgressMonitor monitor);
+		
+	/**
+	 * Call when a screen is changed, also tell us what kind of root 
+	 * data feature is expected, we will return the resource which contains it or can be used..
+	 */
+	public abstract Resource initScreen(int feature);
+		
+	/**
+	 * Can when the screen is gone, we can tear down the connections 
+	 * to the data provider. 
+	 * 
+	 * @return
+	 */
+	public abstract void tearDownScreen();
 }

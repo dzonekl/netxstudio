@@ -18,6 +18,14 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
+import com.netxforge.netxstudio.data.DataService;
+import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.cdo.CDODataConnection;
+import com.netxforge.netxstudio.data.cdo.CDODataProvider;
+import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+
+
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
@@ -31,7 +39,10 @@ public class EditingServiceModule extends com.google.inject.AbstractModule {
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IEditingService.class).to(EditingService.class);
+		this.bind(IEditingService.class).to(CDOEditingService.class);
+		this.bind(IDataProvider.class).to(CDODataProvider.class);
+		this.bind(IDataService.class).to(DataService.class);
+		this.bind(ICDOConnection.class).to(CDODataConnection.class);
 	}
 
 }

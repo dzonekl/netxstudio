@@ -21,13 +21,10 @@ package com.netxforge.netxstudio.screens.editing;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EventObject;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -35,8 +32,6 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -55,6 +50,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * A ViewPart which acts as an editor.
@@ -80,13 +76,14 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	private GlobalActionsHandler globActionsHandler = new GlobalActionsHandler();
 	
 	@Inject
-	private EditingService editingService; 
+	private IEditingService editingService; 
 	
-	public EditingService getEditingService() {
+	public IEditingService getEditingService() {
 		return editingService;
 	}
 
 	public AbstractEditorViewPart_Inj() {
+		EditingActivator.getInjector().injectMembers(this);
 		createActions();
 	}
 	
@@ -175,15 +172,11 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 			aValue = memento.getFloat(AKEY);
 		}
 		site.getPage().addPartListener(this);
-
 		// Set the current editor as selection provider.
 		globActionsHandler.initActions(site.getActionBars());
 		hookPageSelection();
-		
-		
-		
 	}	
-
+	
 	// ISaveablePart2 API.
 	@Override
 	public void saveState(IMemento memento) {
@@ -196,55 +189,14 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-
-		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
-		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
-				Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-
-		// Do the work within an operation because this is a long running
-		// activity that modifies the workbench.
-		//
-		IRunnableWithProgress operation = new IRunnableWithProgress() {
-
-			// This is the method that gets invoked when the operation runs.
-			//
-			public void run(IProgressMonitor monitor) {
-				// Save the resources to the file system.
-				//
-				boolean first = true;
-				for (Resource resource : getEditingDomain().getResourceSet()
-						.getResources()) {
-					if ((first || !resource.getContents().isEmpty())
-							&& !getEditingDomain().isReadOnly(resource)) {
-						try {
-							resource.save(saveOptions);
-						} catch (Exception exception) {
-						}
-						first = false;
-					}
-				}
-			}
-		};
-
-		try {
-			// This runs the options, and shows progress.
-			//
-			new ProgressMonitorDialog(getSite().getShell()).run(true, false,
-					operation);
-
-			// Refresh the necessary state.
-			//
-			((BasicCommandStack) getEditingDomain().getCommandStack())
-					.saveIsDone();
-			firePropertyChange(ISaveablePart2.PROP_DIRTY);
-		} catch (Exception exception) {
-			// Something went wrong that shouldn't.
-		}
-
+		// Delegate to a pluggable service.
+		editingService.doSave(monitor);
+		firePropertyChange(ISaveablePart2.PROP_DIRTY);
 	}
 
 	@Override
 	public void doSaveAs() {
+		
 	}
 
 	// @Override

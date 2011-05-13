@@ -5,7 +5,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.screens.editing.EditingService;
+import com.netxforge.netxstudio.screens.editing.CDOEditingService;
 import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
 
 /**
@@ -18,9 +18,9 @@ public class EditingActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static EditingActivator plugin;
-		
+
 	private static Injector injector;
-	
+
 	/**
 	 * The constructor
 	 */
@@ -29,18 +29,24 @@ public class EditingActivator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 		injector = Guice.createInjector(new EditingServiceModule());
-		injector.getInstance(EditingService.class);
+//		injector.getInstance(CDOEditingService.class);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
@@ -49,15 +55,15 @@ public class EditingActivator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 *
+	 * 
 	 * @return the shared instance
 	 */
 	public static EditingActivator getDefault() {
 		return plugin;
 	}
-	
+
 	public static Injector getInjector() {
 		return injector;
 	}
-	
+
 }
