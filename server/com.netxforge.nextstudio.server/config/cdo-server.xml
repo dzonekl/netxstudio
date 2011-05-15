@@ -12,6 +12,9 @@
 	</acceptor>
 
 	<repository name="repo1">
+	
+		<userManager type="file" description="/temp/users.db"/>  
+	
 		<property name="overrideUUID" value=""/>
 		<property name="supportingAudits" value="false"/>
 
