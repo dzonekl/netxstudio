@@ -49,8 +49,8 @@ public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
 	public void buildSelector(){
 		Composite result;
 		
-		result = screenFormService.addScreenSelector("Expressions","icons/full/obj16/Expression_H.png", Expressions.class, 1, Screens.OPERATION_TABLE);
-		screenFormService.addScreenSelector( result, "Resource", "icons/full/obj16/Equipment_H.png",  Resource.class, Screens.OPERATION_TABLE);
+		result = screenFormService.addScreenSelector("Expressions","icons/full/obj16/Expression_H.png", Expressions.class, 1, Screens.OPERATION_VIEWER);
+		screenFormService.addScreenSelector( result, "Resource", "icons/full/obj16/Equipment_H.png",  Resource.class, Screens.OPERATION_VIEWER);
 	}
 	
 	

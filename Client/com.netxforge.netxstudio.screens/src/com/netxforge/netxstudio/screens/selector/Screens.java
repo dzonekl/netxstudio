@@ -28,7 +28,7 @@ public class Screens {
 	
 	public static final int OPERATION_EDIT = 0x0100;
 	public static final int OPERATION_NEW = 0x0200;
-	public static final int OPERATION_TABLE = 0x0400;
+	public static final int OPERATION_VIEWER = 0x0400;
 	
 	public static boolean isNewOperation(int operation){
 		return (operation & OPERATION_NEW) != 0;

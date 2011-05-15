@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.selector;
 
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.Form;
 
@@ -44,7 +45,7 @@ public interface IScreenFormService {
 	public abstract boolean isActiveScreen(Class<?> proposedScreen);
 
 	/**
-	 * Check if the is an active screen.
+	 * Check if there is an active screen.
 	 * @return
 	 */
 	public abstract boolean hasActiveScreen();
@@ -56,7 +57,22 @@ public interface IScreenFormService {
 	 * @param control
 	 */
 	public abstract void setActiveScreen(Composite control);
-
+	
+	
+	/**
+	 * Check if there is a previous screen.
+	 * @return
+	 */
+	public abstract boolean hasPreviousScreen();
+	
+	
+	/**
+	 * Check if the proposed new screen is not the previous screen already.
+	 * @param proposedScreen
+	 * @return
+	 */
+	public abstract boolean isPreviousScreen(Class<?> proposedScreen);
+	
 	/**
 	 * Initialize the service with the parent.
 	 * 
@@ -95,11 +111,27 @@ public interface IScreenFormService {
 	 */
 	public abstract Composite addScreenSelector(Composite above, String name,
 			String iconPath, Class<?> screen, int position, int operation);
-
+	
+	/**
+	 * Restores the previously shown screened, if any, this is for  multi(two)-step
+	 * UI data entry.  
+	 */
 	public abstract void restorePreviousScreen();
-
+	
+	/**
+	 * Get the selector form. 
+	 * @return
+	 */
 	public abstract Form getSelectorForm();
-
+	
+	/**
+	 * Get the screen container. 
+	 * @return
+	 */
 	public abstract Composite getScreenContainer();
+	
+	
+	public abstract Viewer getSelectionViewer();
+	
 
 }

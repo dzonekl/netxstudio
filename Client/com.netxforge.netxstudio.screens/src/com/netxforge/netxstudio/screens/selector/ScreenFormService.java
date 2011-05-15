@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.screens.selector;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
@@ -57,8 +58,8 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * <code>IScreenFormService</code>. </p>The service also automatically shows a
  * toolbar with Hyperlinks to navigate and invoke actions, between the screens,
  * depending on the implemented interfaces: <uL <li>{@link IScreenOperation},
- * for New, Edit and Table type screens</li> <li>{@link IDataServiceInjection}, for
- * screens which get their data injected from {@link IDataService}</li> <li>
+ * for New, Edit and Table type screens</li> <li>{@link IDataServiceInjection},
+ * for screens which get their data injected from {@link IDataService}</li> <li>
  * {@link IDataScreenInjection}, for screens which get their data injected from
  * another screen, will show the <b>Apply</b> action</li> </ul>
  * 
@@ -70,7 +71,6 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  */
 public class ScreenFormService implements IScreenFormService {
 
-	
 	private SashForm sashForm;
 	private Form selectorForm;
 
@@ -91,16 +91,23 @@ public class ScreenFormService implements IScreenFormService {
 		return activeScreen;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.selector.IScreenFormService#hasActiveScreen()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.selector.IScreenFormService#hasActiveScreen
+	 * ()
 	 */
 	@Override
 	public boolean hasActiveScreen() {
 		return activeScreen != null;
 	}
 
-	
+	@Override
+	public boolean hasPreviousScreen() {
+		return previousScreen != null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -110,10 +117,15 @@ public class ScreenFormService implements IScreenFormService {
 	 */
 	@Override
 	public boolean isActiveScreen(Class<?> proposedScreen) {
-		return hasActiveScreen() && activeScreen.getClass().equals(proposedScreen);
+		return hasActiveScreen()
+				&& activeScreen.getClass().equals(proposedScreen);
 	}
-	
-	
+
+	@Override
+	public boolean isPreviousScreen(Class<?> proposedScreen) {
+		return hasPreviousScreen()
+				&& previousScreen.getClass().equals(proposedScreen);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -160,7 +172,8 @@ public class ScreenFormService implements IScreenFormService {
 	@Override
 	public Composite addScreenSelector(String name, String iconPath,
 			Class<?> screen, int position, int operation) {
-		return addScreenSelector(null, name, iconPath, screen, position, operation);
+		return addScreenSelector(null, name, iconPath, screen, position,
+				operation);
 	}
 
 	@Override
@@ -209,19 +222,28 @@ public class ScreenFormService implements IScreenFormService {
 					getSelectorForm().getBody(), SWT.NONE);
 			lnk.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
+					
+					if (isActiveScreen(finalScreen)) {
+						return; // Ignore we are there already. 
+					}
+					if (isPreviousScreen(finalScreen)) {
+						restorePreviousScreen(); // We are still cached restore. 
+						return;
+					}
+					// We are a new screen, instantiate and set active. 
 					try {
-						
-						isActiveScreen(finalScreen);
 						Composite target;
 						if (finalScreenConstructor.getParameterTypes().length == 4) {
 							target = (Composite) finalScreenConstructor
-									.newInstance(getScreenContainer(),
-											SWT.NONE | finalOperation, ScreenFormService.this,
+									.newInstance(getScreenContainer(), SWT.NONE
+											| finalOperation,
+											ScreenFormService.this,
 											editingService);
 						} else {
 							// Services not set.
 							target = (Composite) finalScreenConstructor
-									.newInstance(getScreenContainer(), SWT.NONE | finalOperation);
+									.newInstance(getScreenContainer(), SWT.NONE
+											| finalOperation);
 						}
 						setActiveScreen(target);
 					} catch (IllegalArgumentException e1) {
@@ -347,7 +369,8 @@ public class ScreenFormService implements IScreenFormService {
 
 	public void updateScreenBarActions(Composite activeScreen) {
 
-		// Show the back link when then screen is triggered by another screen, and should
+		// Show the back link when then screen is triggered by another screen,
+		// and should
 		// have a return option.
 		if (activeScreen instanceof IDataScreenInjection) {
 			bckLnk.setVisible(true);
@@ -355,8 +378,9 @@ public class ScreenFormService implements IScreenFormService {
 		if (activeScreen instanceof IDataServiceInjection) {
 			bckLnk.setVisible(false);
 		}
-		
-		// Show the apply link depending on, if the screen is supposed to provide a new object. 
+
+		// Show the apply link depending on, if the screen is supposed to
+		// provide a new object.
 		if (activeScreen instanceof IScreenOperation) {
 			if (!Screens.isNewOperation(((IScreenOperation) activeScreen)
 					.getOperation())) {
@@ -414,6 +438,24 @@ public class ScreenFormService implements IScreenFormService {
 
 	public void setEditingService(IEditingService eServ) {
 		editingService = eServ;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.screens.selector.IScreenFormService#
+	 * getSelectionViewer()
+	 */
+	@Override
+	public Viewer getSelectionViewer() {
+		// TODO Auto-generated method stub
+		if (getActiveScreen() instanceof IScreenOperation) {
+			if (((IScreenOperation) getActiveScreen()).getOperation() == Screens.OPERATION_VIEWER) {
+				// This one has a Viewer, get the
+			}
+		}
+
+		return null;
 	}
 
 }

@@ -50,9 +50,9 @@ public class MonitoringScreenSelector extends AbstractScreenSelector_Inj {
 	public void buildSelector(){
 		
 		Composite result;
-		result = screenFormService.addScreenSelector("Metrics","icons/full/obj16/Metric_H.png", Metrics.class, 1, Screens.OPERATION_TABLE);
-		result = screenFormService.addScreenSelector(result, "Metric Sources", "icons/full/obj16/MetricSource_H.png",  MetricSources.class, Screens.OPERATION_TABLE);
-		screenFormService.addScreenSelector(result, "Resource Monitor", "icons/full/obj16/Monitor_graph_H.png",  ResourceMonitor.class, Screens.OPERATION_TABLE);
+		result = screenFormService.addScreenSelector("Metrics","icons/full/obj16/Metric_H.png", Metrics.class, 1, Screens.OPERATION_VIEWER);
+		result = screenFormService.addScreenSelector(result, "Metric Sources", "icons/full/obj16/MetricSource_H.png",  MetricSources.class, Screens.OPERATION_VIEWER);
+		screenFormService.addScreenSelector(result, "Resource Monitor", "icons/full/obj16/Monitor_graph_H.png",  ResourceMonitor.class, Screens.OPERATION_VIEWER);
 		
 	}
 	
