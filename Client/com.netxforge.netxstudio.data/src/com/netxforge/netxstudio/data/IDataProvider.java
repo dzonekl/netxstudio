@@ -32,4 +32,7 @@ public interface IDataProvider {
 	
 	public EObject getNetXScriptWrapper();
 	
+	public void openSession(String uid, String passwd);
+	
+	public String getSessionUserID();
 }

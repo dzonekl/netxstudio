@@ -90,5 +90,21 @@ public class TestDataProvider implements IDataProvider {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataProvider#openSession(java.lang.String, java.lang.String)
+	 */
+	public void openSession(String uid, String passwd) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataProvider#getSessionUserID()
+	 */
+	public String getSessionUserID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

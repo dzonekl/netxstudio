@@ -24,18 +24,20 @@ import java.util.List;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
+import org.eclipse.net4j.util.security.PasswordCredentials;
+import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.Netxstudio;
-import com.netxforge.netxstudio.NetxstudioFactory;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.GenericsPackage;
-import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -59,10 +61,12 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
+@Singleton
 public class CDODataProvider implements IDataProvider {
 
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
+	private String loggedInUser;
 
 	@Inject
 	public CDODataProvider(ICDOConnection conn) {
@@ -79,6 +83,75 @@ public class CDODataProvider implements IDataProvider {
 		ePackages.add(ServicesPackage.eINSTANCE);
 	}
 
+	public String getSessionUserID() {
+		return this.loggedInUser;
+	}
+
+	/**
+	 * Our session, we keep it final, as Google Guice, Singleton instantiates
+	 * another instance.
+	 */
+	private static CDOSession clientSession = null;
+
+	public void openSession(String uid, String passwd) throws SecurityException {
+
+		if (connection.getConfig() == null) {
+			connection.initialize();
+		}
+		
+		// Session Config and Sessions go hand in hand.
+		// Recover our session, if some reason we try to reopen for the same user and 
+		// this very same config. 
+		if(connection.getConfig().isSessionOpen()){
+			CDOSession openSession = connection.getConfig().openSession();
+			if( loggedInUser.equals(openSession.getUserID())){
+				clientSession = openSession; 
+			}
+		}
+		
+		
+		IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
+				new PasswordCredentials(uid, passwd.toCharArray()));
+
+		connection.getConfig().getAuthenticator()
+				.setCredentialsProvider(credentialsProvider);
+
+		try {
+			clientSession = connection.getConfig().openSession();
+			if (clientSession != null) {
+				loggedInUser = clientSession.getUserID();
+			}
+			for (EPackage ePackage : ePackages) {
+				clientSession.getPackageRegistry().putEPackage(ePackage);
+			}
+		} catch (SecurityException se) {
+			throw new SecurityException(se);
+		}
+	}
+	
+	/**
+	 * Close the session. 
+	 */
+	public void closeSession() {
+		if (clientSession != null) {
+			if (!clientSession.isClosed()) {
+				clientSession.close();
+			}
+		}
+	}
+
+	private CDOSession getSession() {
+		if (clientSession == null) {
+			// We can't get a session, which has not be opened and
+			// authenticated.
+			throw new java.lang.IllegalStateException();
+		} else {
+			System.out.println("Currrent session instance:"
+					+ clientSession.toString());
+			return clientSession;
+		}
+	}
+
 	/**
 	 * Opens a CDOSession, does not register an EPackage with the session. This
 	 * should be done by the caller.
@@ -93,22 +166,43 @@ public class CDODataProvider implements IDataProvider {
 		}
 		return cdoSession;
 	}
-	
-	
+
 	public Resource getResource(ResourceSet set, int feature) {
+		
 		String res = resolveResourceName(feature);
 		assert res != null && res.length() > 0;
-		CDOTransaction transaction = openSession().openTransaction(set);
+
+		// Before attempting to open a new CDOView, we want to know what is already 
+		// in our session and resource set. 
+		CDOView[] views = this.getSession().getViews();
+		for(int i = 0; i < views.length; i++){
+			CDOView view = views[i];
+			if(view.getResourceSet().equals(set)){
+				CDOResource resource =  view.getResource(res);
+				if(resource != null){
+					return resource;
+				}
+			}
+		}
+		
+		// We haven't found this resource in the current view's and set's, 
+		// OK create a new one. 
+		CDOTransaction transaction = getSession().openTransaction(set);
 		CDOResource resource = transaction.getOrCreateResource(res);
 		return resource;
 	}
 	
 	
-	private String resolveResourceName(int feature){
-		String resource = "/"; 
-		// We switch on the resource to use. 
-		switch(feature){
-		case NetxstudioPackage.NETXSTUDIO:{
+	/**
+	 * Dispatcher to break-up which objects go into which resources.
+	 * @param feature
+	 * @return
+	 */
+	private String resolveResourceName(int feature) {
+		String resource = "/";
+		// We switch on the resource to use.
+		switch (feature) {
+		case NetxstudioPackage.NETXSTUDIO: {
 			resource += "netxstudio";
 		}
 		}
@@ -122,55 +216,6 @@ public class CDODataProvider implements IDataProvider {
 		// wrapper.setXblock(XbaseFactory.eINSTANCE.createXBlockExpression());
 		// return wrapper;
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.netxforge.netxstudio.data.IDataProvider#getNetXStudio()
-	 */
-	public Netxstudio getNetXStudio() {
-		return getNetXStudio(null);
-	}
-
-	public Person getPerson() {
-		return null;
-	}
-
-	public Person getPerson(String first, String last, String login,
-			String email) {
-		return null;
-	}
-
-	private Netxstudio initO_Netxstudio() {
-		Netxstudio netxs = NetxstudioFactory.eINSTANCE.createNetxstudio();
-		return netxs;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.data.IDataProvider#getNetXStudio(org.eclipse
-	 * .emf.ecore.resource.ResourceSet)
-	 */
-	public Netxstudio getNetXStudio(ResourceSet set) {
-
-		CDOTransaction transaction = null;
-		if (set != null) {
-			transaction = openSession().openTransaction(set);
-		} else {
-			transaction = openSession().openTransaction();
-		}
-		// get/create a resource, the resource name is arbitrary and helps us
-		CDOResource resource = transaction.getOrCreateResource("/netxstudio"); //$NON-NLS-1$
-		if (resource.getContents().size() == 0) {
-			Netxstudio netx = initO_Netxstudio();
-			resource.getContents().add(netx);
-			return (Netxstudio) netx;
-		} else {
-			return (Netxstudio) resource.getContents().get(0);
-		}
 	}
 
 }

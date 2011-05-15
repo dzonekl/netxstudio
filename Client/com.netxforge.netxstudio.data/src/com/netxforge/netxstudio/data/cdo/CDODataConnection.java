@@ -15,7 +15,7 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
@@ -32,15 +32,14 @@ import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
 import com.google.inject.Singleton;
 
 /**
- * A CDO connection, which can be initialized. 
+ * A CDO connection, which can be initialized.
  * 
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 @Singleton
 public class CDODataConnection implements ICDOConnection {
-	
-	
+
 	// TODO, Migrate the Data Store UI.
 
 	protected static final String REPO_NAME = "repo1"; //$NON-NLS-1$
@@ -48,18 +47,17 @@ public class CDODataConnection implements ICDOConnection {
 	protected static final String CONNECTION_ADDRESS = "localhost:2036"; //$NON-NLS-1$
 
 	private CDOSessionConfiguration sessionConfiguration = null;
-	
-	
-	public CDOSessionConfiguration getConfig(){
+
+	public CDOSessionConfiguration getConfig() {
 		return sessionConfiguration;
 	}
-	
+
 	/**
 	 * Initializes the connection and creates a {@link CDOSessionConfiguration}
 	 * which is stored in a member of this class.
 	 */
 	public void initialize() {
-		
+
 		OMPlatform.INSTANCE.setDebugging(true);
 		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
 		OMPlatform.INSTANCE.addTraceHandler(PrintTraceHandler.CONSOLE);
@@ -81,6 +79,5 @@ public class CDODataConnection implements ICDOConnection {
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 	}
-	
-	
+
 }

@@ -18,7 +18,10 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data.cdo;
 
+import com.netxforge.netxstudio.data.DataService;
 import com.netxforge.netxstudio.data.DataServiceModule;
+import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IDataService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -32,5 +35,8 @@ public class CDODataServiceModule extends DataServiceModule {
 	 */
 	@Override
 	protected void configure() {
+		this.bind(IDataProvider.class).to(CDODataProvider.class);
+		this.bind(IDataService.class).to(DataService.class);
+		this.bind(ICDOConnection.class).to(CDODataConnection.class);
 	}
 }
