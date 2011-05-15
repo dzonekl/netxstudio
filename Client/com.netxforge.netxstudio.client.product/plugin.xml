@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
- <extension
-         id="com.netxforge.netxstudio.client.product"
-         point="org.eclipse.core.runtime.products">
-      <product
-            application="com.netxforge.netxstudio.ui.application"
-            name="NetXStudio client product">
-         <property
-               name="windowImages"
-               value="icons/Logo X 16.gif,icons/Logo X 32.gif,icons/Logo X 48.gif,icons/Logo X 64.gif,icons/Logo X 128.gif">
-         </property>
-         <property
-               name="appName"
-               value="NetXStudio">
-         </property>
-      </product>
-   </extension>
    <extension
          point="org.eclipse.ui.intro">
       <intro
@@ -25,7 +9,7 @@
       </intro>
       <introProductBinding
             introId="com.netxforge.netxstudio.client.product.intro"
-            productId="com.netxforge.netxstudio.client.product">
+            productId="com.netxforge.netxstudio.client.product.netxstudio">
       </introProductBinding>
    </extension>
    <extension
@@ -45,14 +29,14 @@
       </config>
    </extension>
    <extension
-         id="netxscript"
+         id="netxstudio"
          point="org.eclipse.core.runtime.products">
       <product
             application="com.netxforge.netxstudio.ui.application"
-            name="NetXScript">
+            name="NetXStudio">
          <property
                name="appName"
-               value="NetXScript">
+               value="NetXStudio">
          </property>
          <property
                name="windowImages"
@@ -75,7 +59,7 @@
             id="com.netxforge.netxstudio.client.product.splashHandlers.interactive">
       </splashHandler>
       <splashHandlerProductBinding
-            productId="com.netxforge.netxstudio.client.product.netxscript"
+            productId="com.netxforge.netxstudio.client.product.netxstudio"
             splashId="com.netxforge.netxstudio.client.product.splashHandlers.interactive">
       </splashHandlerProductBinding>
    </extension>
