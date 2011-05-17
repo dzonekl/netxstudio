@@ -204,6 +204,9 @@ public class CDODataProvider implements IDataProvider {
 		switch (feature) {
 		case NetxstudioPackage.NETXSTUDIO: {
 			resource += "netxstudio";
+		}break;
+		case LibraryPackage.LIBRARY: {
+			resource += "library";
 		}
 		}
 		return resource;
