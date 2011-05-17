@@ -26,12 +26,13 @@
       </perspective>
       <perspective
             class="com.netxforge.netxstudio.ui.perspective.MonitoringPerspective"
-            icon="icons/view16/metric_editor.png"
+            icon="icons/view16/monitor_editor.png"
             id="com.netxforge.netxstudio.ui.monitoring"
             name="%perspective.name.1">
       </perspective>
       <perspective
             class="com.netxforge.netxstudio.ui.perspective.AdminPerspective"
+            icon="icons/view16/admin_editor.png"
             id="com.netxforge.netxstudio.ui.perspective.AdminPerspective"
             name="Administrative">
       </perspective>
