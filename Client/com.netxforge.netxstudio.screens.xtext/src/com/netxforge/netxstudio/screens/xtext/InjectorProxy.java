@@ -53,9 +53,7 @@ public class InjectorProxy {
 //		return ArithmeticsActivator.getInstance().getInjector("org.eclipse.xtext.example.arithmetics.Arithmetics");
 		
 		// and this one comes just next. 
-		return NetxscriptActivator.getInstance().getInjector("com.netxforge.Netxscript");
-		
-		
+		return NetxscriptActivator.getInstance().getInjector(grammarName);
 		
 	}
 }

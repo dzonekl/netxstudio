@@ -455,6 +455,11 @@ public class EmbeddedXtextEditor {
 		fFoldingStructureProvider.initialize();
 	}
 
+	public Control getSourceViewerControl(){
+		return this.fSourceViewer.getControl();
+	}
+	
+	
 	/**
 	 * Returns the source viewer decoration support.
 	 * 
@@ -473,6 +478,7 @@ public class EmbeddedXtextEditor {
 		return fSourceViewerDecorationSupport;
 	}
 
+	
 	/**
 	 * Configures the decoration support for this editor's source viewer.
 	 * Subclasses may override this method, but should call their superclass'

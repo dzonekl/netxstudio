@@ -29,8 +29,6 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -43,14 +41,11 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
-import org.eclipse.xtext.xbase.XBlockExpression;
-import org.eclipse.xtext.xbase.XbaseFactory;
 
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.data.internal.DataActivator;
+import com.netxforge.netxstudio.data.IDataScreenInjection;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.LibraryFactory;
-import com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart_Inj;
+import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
 
 /**
@@ -59,41 +54,38 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class EmbeddedXtextViewPart extends AbstractEditorViewPart_Inj {
+public class EmbeddedXtextScreen extends Composite implements IDataScreenInjection {
 
-	public static final String ID = "com.netxforge.netxstudio.screens.xtext.EmbeddedXtextViewPart"; //$NON-NLS-1$
+//	public static final String ID = "com.netxforge.netxstudio.screens.xtext.EmbeddedXtextViewPart"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private EmbeddedXtextEditor editor;
-	
-	Injector dataInjector;
+	private IEditingService editingService;
 	
 	/**
 	 * Our expression being edited. 
 	 */
 	private Expression expression;
 	
-	public EmbeddedXtextViewPart() {
-		dataInjector = DataActivator.getInjector();
-	}
-
 	/**
 	 * Create contents of the view part.
 	 * 
 	 * @param parent
 	 */
-	@Override
-	public void createPartControl(Composite parent) {
+	public EmbeddedXtextScreen(Composite parent, int style, IEditingService eService) {
+		super(parent, style);
+		editingService = eService;
+		
 		Composite container = toolkit.createComposite(parent, SWT.NONE);
 		toolkit.paintBordersFor(container);
 		container.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
-		
 		// The magic, our inject will be based on the grammar name, from this
 		// all we be constructed.
-		
 		Injector injector = InjectorProxy
 				.getInjector("com.netxforge.Netxscript");
-		editor = new EmbeddedXtextEditor(container, injector, SWT.BORDER);
+		
+		
+		editor = new EmbeddedXtextEditor(parent, injector, SWT.BORDER);
 
 		// TODO, deal with the dirty state @see our super.
 		editor.getViewer().getTextWidget()
@@ -144,15 +136,6 @@ public class EmbeddedXtextViewPart extends AbstractEditorViewPart_Inj {
 //					}
 //				});
 
-		createActions();
-		initializeToolBar();
-		initializeMenu();
-		
-		
-		
-		// TODO
-		// Finally call our update(), but this should be triggered by undel
-		this.update();
 	}
 
 	public void dispose() {
@@ -161,54 +144,13 @@ public class EmbeddedXtextViewPart extends AbstractEditorViewPart_Inj {
 	}
 
 	/**
-	 * Create the actions.
-	 */
-	private void createActions() {
-		// Create the actions
-	}
-
-	/**
-	 * Initialize the toolbar.
-	 */
-	private void initializeToolBar() {
-		IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();
-	}
-
-	/**
-	 * Initialize the menu.
-	 */
-	private void initializeMenu() {
-		IMenuManager manager = getViewSite().getActionBars().getMenuManager();
-	}
-
-	@Override
-	public void setFocus() {
-		// Set the focus
-	}
-
-	/**
 	 * Testing Injection with a Guice data provider. s
 	 */
 	
 	protected Expression getEditedEObject() {
-		if(expression != null){
-			return expression;
-		}else{
-			expression = LibraryFactory.eINSTANCE.createExpression();
-			XBlockExpression be = XbaseFactory.eINSTANCE.createXBlockExpression();
-			expression.setEvaluationObject(be);
-			return expression;
-//			Resource res = super.getEditingService().getScreenData(null, LibraryPackage.LIBRARY);
-//			Library lib = (Library)res.getContents().get(0);
-//			if( lib.getExpressions().size() > 0 ) {
-//				expression = lib.getExpressions().get(0);
-//			}else{
-//				re
-//			}
-		}
-//		return (NetXScriptWrapper)dataInjector.getInstance(DataService.class).getProvider().getNetXScriptWrapper();
+		return expression;
 	}
-
+	
 	protected String getAsString(Expression expression) {
 		StringBuffer buf = new StringBuffer();
 		for(String exprLine : expression.getExpressionLines()){
@@ -217,6 +159,8 @@ public class EmbeddedXtextViewPart extends AbstractEditorViewPart_Inj {
 		return buf.toString();
 	}
 	
+	
+
 	// CB, the reconciler, fires some commands, and needs an editing domain,
 	// implement an EditingDomainProvider
 	// in a IViewPart.
@@ -229,22 +173,24 @@ public class EmbeddedXtextViewPart extends AbstractEditorViewPart_Inj {
 			}
 		};
 
-		EditingDomain editingDomain = getEditingDomain();
+		EditingDomain editingDomain = editingService.getEditingDomain();
 
 		// 1) we will update the edited EObject only if there is a diff in the
 		// source viewer
 
 		boolean updateEditedEObject = !editor.getViewer().getDocument().get()
 				.equals(getAsString(expression));
-		
+
 		if (updateEditedEObject) {
-			// TODO Replace. 
 			
+			
+			// TODO, we would need to update the string line by line. 
 			
 //			compoundCommand.append(SetCommand.create(editingDomain,
 //					getEditedEObject(),
 //					XtextwrapperPackage.Literals.NET_XSCRIPT_WRAPPER__AS_STRING, editor
 //							.getViewer().getDocument().get()));
+			
 		}
 		
 		
@@ -305,17 +251,24 @@ public class EmbeddedXtextViewPart extends AbstractEditorViewPart_Inj {
 				}));
 	}
 	
-	protected void update() {
-		String asString = getAsString(this.getEditedEObject());
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataScreenInjection#injectData(java.lang.Object, java.lang.Object)
+	 */
+	public void injectData(Object owner, Object object) {
+		if(object instanceof Expression){
+			expression = (Expression)object;
+		}
+		String asString = getAsString(expression);
 		editor.update(getEditedEObject().getEvaluationObject(), asString == null ? "" : asString);
 	}
 
 	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings()
+	 * @see com.netxforge.netxstudio.data.IDataScreenInjection#addData()
 	 */
-	@Override
-	protected void initBindings() {
+	public void addData() {
 		// TODO Auto-generated method stub
 		
 	}
+
 }
