@@ -3,11 +3,6 @@ package com.netxforge.netxstudio.screens.internal;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.netxforge.netxstudio.screens.selector.IScreenFormService;
-import com.netxforge.netxstudio.screens.selector.ScreenFormServiceModule;
-
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -19,7 +14,7 @@ public class ScreensActivator extends AbstractUIPlugin {
 	// The shared instance
 	private static ScreensActivator plugin;
 
-	private static Injector injector;
+//	private static Injector injector;
 	
 	/**
 	 * The constructor
@@ -34,8 +29,8 @@ public class ScreensActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		injector = Guice.createInjector(new ScreenFormServiceModule());
-		injector.getInstance(IScreenFormService.class);
+//		injector = Guice.createInjector(new ScreenFormServiceModule());
+//		injector.getInstance(IScreenFormService.class);
 		
 	}
 
@@ -57,8 +52,8 @@ public class ScreensActivator extends AbstractUIPlugin {
 		return plugin;
 	}
 	
-	public static Injector getInjector() {
-		return injector;
-	}
+//	public static Injector getInjector() {
+//		return injector;
+//	}
 	
 }

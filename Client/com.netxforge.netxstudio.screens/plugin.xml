@@ -3,49 +3,38 @@
 <plugin>
    <extension
          point="org.eclipse.ui.views">
-      <view
-            category="com.netxforge.netxstudio.ui"
-            class="com.netxforge.netxstudio.screens.demo.DemoViewPartSelector"
-            id="com.netxforge.netxstudio.screens.demo.DemoViewPartSelector"
-            name="Demo">
-      </view>
-            <view
-                  category="com.netxforge.netxstudio.ui"
-                  class="com.netxforge.netxstudio.screens.selector.ScreenSelector"
-                  id="com.netxforge.netxstudio.screens.selector.demo"
-                  name="ScreenSelector">
+     <view
+           category="com.netxforge.netxstudio.ui"
+           class="com.netxforge.netxstudio.screens.parts.AdminScreenSelector"
+           icon="icons/view16/admin_editor.png"
+           id="com.netxforge.netxstudio.screens.selector.admin"
+           name="Admin">
       </view>
      <view
-                  category="com.netxforge.netxstudio.ui"
-                  class="com.netxforge.netxstudio.screens.selector.AdminScreenSelector"
-                  id="com.netxforge.netxstudio.screens.selector.admin"
-                  name="AdminSelector">
+           category="com.netxforge.netxstudio.ui"
+           class="com.netxforge.netxstudio.screens.parts.MonitoringScreenSelector"
+           icon="icons/view16/monitor_editor.png"
+           id="com.netxforge.netxstudio.screens.selector.monitoring"
+           name="Monitoring">
       </view>
      <view
-                  category="com.netxforge.netxstudio.ui"
-                  class="com.netxforge.netxstudio.screens.selector.MonitoringScreenSelector"
-                  id="com.netxforge.netxstudio.screens.selector.monitoring"
-                  name="MonitoringSelector">
+           category="com.netxforge.netxstudio.ui"
+           class="com.netxforge.netxstudio.screens.parts.LibraryScreenSelector"
+           icon="icons/view16/library_editor.gif"
+           id="com.netxforge.netxstudio.screens.selector.library"
+           name="Library">
       </view>
      <view
-                  category="com.netxforge.netxstudio.ui"
-                  class="com.netxforge.netxstudio.screens.selector.LibraryScreenSelector"
-                  id="com.netxforge.netxstudio.screens.selector.library"
-                  name="LibrarySelector">
+           category="com.netxforge.netxstudio.ui"
+           class="com.netxforge.netxstudio.screens.parts.DesignScreenSelector"
+           icon="icons/view16/designer_editor.png"
+           id="com.netxforge.netxstudio.screens.selector.design"
+           name="Design">
       </view>
       
       <!-- Define Viewparts for various selectors. -->
       
    </extension>
    
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            name="ScreensEditor"
-            default="true"
-            class="com.netxforge.netxstudio.screens.demo.ScreensEditor"
-            id="com.netxforge.netxstudio.screens.demo.editor">
-      </editor>
-   </extension>
    
 </plugin>

@@ -51,21 +51,21 @@ import com.netxforge.netxstudio.data.IDataServiceInjection;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.selector.IScreenFormService;
-import com.netxforge.netxstudio.screens.selector.IScreenOperation;
-import com.netxforge.netxstudio.screens.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class UsersAndRoles extends Composite implements IDataServiceInjection, IScreenOperation {
+public class UsersAndRoles extends Composite implements IDataServiceInjection,
+		IScreen {
 	@SuppressWarnings("unused")
 	private DataBindingContext m_bindingContext;
 
 	private Netxstudio studio;
 
-	
 	private IEditingService editingService;
 
 	private IScreenFormService screenService;
-	
+
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
 	private Table table;
@@ -88,12 +88,13 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection, I
 	public UsersAndRoles(Composite parent, int style,
 			IScreenFormService sService, IEditingService eService) {
 		super(parent, SWT.BORDER);
-		
-		operation = style & 0xFF00; // Ignore first bits, as we piggy back on the SWT style.
-		
+
+		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
+									// the SWT style.
+
 		this.screenService = sService;
 		this.editingService = eService;
-		
+
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -116,17 +117,16 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection, I
 				false, 1, 1);
 		gd_lblNewLabel.widthHint = 36;
 		lblNewLabel.setLayoutData(gd_lblNewLabel);
-		
-		
+
 		// Filter.
-		txtTableFilter = toolkit.createText(frmMetricSources.getBody(), "New Text",
-				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
+		txtTableFilter = toolkit.createText(frmMetricSources.getBody(),
+				"New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		GridData gd_txtTableFilter = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_txtTableFilter.widthHint = 200;
 		txtTableFilter.setLayoutData(gd_txtTableFilter);
 		txtTableFilter.setText("");
-		
+
 		txtTableFilter.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
 				tableViewer.refresh();
@@ -139,16 +139,18 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection, I
 				}
 			}
 		});
-		
+
 		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
 				frmMetricSources.getBody(), SWT.NONE);
 		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				if (screenService != null) {
 					NewEditUser user = new NewEditUser(screenService
-							.getScreenContainer(), SWT.NONE | Screens.OPERATION_NEW, editingService);
+							.getScreenContainer(), SWT.NONE
+							| Screens.OPERATION_NEW, editingService);
 					screenService.setActiveScreen(user);
-					user.injectData(studio.getUsers(), GenericsFactory.eINSTANCE.createPerson());
+					user.injectData(studio.getUsers(),
+							GenericsFactory.eINSTANCE.createPerson());
 				}
 			}
 
@@ -160,9 +162,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection, I
 		});
 		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
-		mghprlnkNew.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/obj16/User_H.png"));
+		mghprlnkNew.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/User_E.png"));
 		mghprlnkNew.setBounds(0, 0, 114, 17);
 		toolkit.paintBordersFor(mghprlnkNew);
 		mghprlnkNew.setText("New");
@@ -201,31 +201,55 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection, I
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (screenService != null) {
-					ISelection selection = getTableViewerWidget().getSelection();
-					if(selection instanceof IStructuredSelection){
-						Object o = ((IStructuredSelection)selection).getFirstElement();
+					ISelection selection = getTableViewerWidget()
+							.getSelection();
+					if (selection instanceof IStructuredSelection) {
+						Object o = ((IStructuredSelection) selection)
+								.getFirstElement();
 						NewEditUser u = new NewEditUser(screenService
-								.getScreenContainer(), SWT.NONE | Screens.OPERATION_EDIT, editingService);
+								.getScreenContainer(), SWT.NONE
+								| Screens.OPERATION_EDIT, editingService);
 						u.injectData(studio.getUsers(), o);
 						screenService.setActiveScreen(u);
 					}
-					
 				}
 			}
 		});
 		mntmEdit.setText("Edit...");
+
+		MenuItem mntmHistory = new MenuItem(menu, SWT.NONE);
+		mntmHistory.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (screenService != null) {
+					ISelection selection = getTableViewerWidget()
+							.getSelection();
+					if (selection instanceof IStructuredSelection) {
+						Object o = ((IStructuredSelection) selection)
+								.getFirstElement();
+						UserActivity u = new UserActivity(screenService
+								.getScreenContainer(), SWT.NONE
+								| Screens.OPERATION_VIEWER, editingService);
+						u.injectData(studio.getUsers(), o);
+						screenService.setActiveScreen(u);
+					}
+				}
+			}
+		});
+		mntmHistory.setText("History...");
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnEmail = tableViewerColumn_3.getColumn();
 		tblclmnEmail.setWidth(100);
 		tblclmnEmail.setText("Email");
-		
-		
+
 		tableViewer.addFilter(new SearchFilter());
-		
-		injectData();
-		
+
+		if (editingService != null) {
+			injectData();
+		}
+
 	}
 
 	public TableViewer getTableViewerWidget() {
@@ -250,15 +274,17 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection, I
 						Literals.PERSON__EMAIL });
 		tableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
-		
-		IEMFListProperty l = EMFEditProperties.list(editingService.getEditingDomain(), NetxstudioPackage.Literals.NETXSTUDIO__USERS);
-		
+
+		IEMFListProperty l = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				NetxstudioPackage.Literals.NETXSTUDIO__USERS);
+
 		tableViewer.setInput(l.observe(studio));
 		return bindingContext;
 	}
-	
+
 	protected DataBindingContext initDataBindings() {
-		
+
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
@@ -271,47 +297,48 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection, I
 						Literals.PERSON__EMAIL });
 		tableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
-		
+
 		IObservableList studioUsersObserveList = EMFObservables.observeList(
 				Realm.getDefault(), studio,
 				NetxstudioPackage.Literals.NETXSTUDIO__USERS);
-		
-		
+
 		tableViewer.setInput(studioUsersObserveList);
 		//
 		return bindingContext;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.netxforge.netxstudio.data.IDataInjection#injectData()
 	 */
-	@Override
 	public void injectData() {
-		
-		Resource res = editingService.initScreen(NetxstudioPackage.NETXSTUDIO);
+
+		Resource res = editingService.getScreenData(this,
+				NetxstudioPackage.NETXSTUDIO);
 		if (res.getContents().size() == 0) {
 			Netxstudio netx = NetxstudioFactory.eINSTANCE.createNetxstudio();
 			res.getContents().add(netx);
 			studio = netx;
 		} else {
 			studio = (Netxstudio) res.getContents().get(0);
-		}		
+		}
 		m_bindingContext = initDataBindings_();
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
-		
-		editingService.tearDownScreen();
+
+		if (editingService != null) {
+			editingService.tearDownScreen();
+		}
 	}
-	
-	
+
 	public class SearchFilter extends ViewerFilter {
-		
+
 		private String searchString;
+
 		public void setSearchText(String s) {
 			// Search must be a substring of the existing value
 			this.searchString = ".*" + s + ".*"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -327,21 +354,30 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection, I
 			if (element instanceof EObject) {
 
 				String match = new AdapterFactoryItemDelegator(
-						editingService.getAdapterFactory())
-						.getText(element);
+						editingService.getAdapterFactory()).getText(element);
 				return match.matches(searchString);
 			}
 			return false;
 		}
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.selector.IScreenOperation#getOperation()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.selector.IScreenOperation#getOperation()
 	 */
-	@Override
 	public int getOperation() {
 		return operation;
-	}	
-	
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
+	 */
+	public Viewer getViewer() {
+
+		return this.getTableViewerWidget();
+	}
 }

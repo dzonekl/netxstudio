@@ -18,15 +18,34 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.ch9;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -35,19 +54,46 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.wb.swt.ResourceManager;
+
+import com.netxforge.netxstudio.data.IDataServiceInjection;
+import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.Library;
+import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.LibraryPackage.Literals;
+import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Expressions extends Composite {
+public class Expressions extends Composite implements IScreen,
+		IDataServiceInjection, IViewerProvider {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
 	private Table table;
-	
+
+	private Library library;
+
+	private IEditingService editingService;
+
+	private IScreenFormService screenService;
+
+	private int operation;
+	private TableViewer tableViewer;
+	@SuppressWarnings("unused")
+	private DataBindingContext bindingContext;
+
 	/**
 	 * Create the composite.
 	 * 
@@ -55,7 +101,19 @@ public class Expressions extends Composite {
 	 * @param style
 	 */
 	public Expressions(Composite parent, int style) {
+		this(parent, style, null, null);
+	}
+
+	public Expressions(Composite parent, int style,
+			IScreenFormService sService, IEditingService eService) {
 		super(parent, SWT.BORDER);
+
+		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
+		// the SWT style.
+
+		this.screenService = sService;
+		this.editingService = eService;
+
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -65,64 +123,226 @@ public class Expressions extends Composite {
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Form frmMetricSources = toolkit.createForm(this);
-		frmMetricSources.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmMetricSources);
-		frmMetricSources.setText("Expression");
-		frmMetricSources.getBody().setLayout(new GridLayout(2, false));
+		Form frmExpressions = toolkit.createForm(this);
+		frmExpressions.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmExpressions);
+		frmExpressions.setText("Expression");
+		frmExpressions.getBody().setLayout(new GridLayout(3, false));
 
-		Label lblFilterLabel = toolkit.createLabel(frmMetricSources.getBody(),
+		Label lblFilterLabel = toolkit.createLabel(frmExpressions.getBody(),
 				"Filter:", SWT.NONE);
-		lblFilterLabel.setAlignment(SWT.RIGHT);
-		GridData gd_lblFilterLabel = new GridData(SWT.RIGHT, SWT.CENTER, false,
+		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
-		gd_lblFilterLabel.widthHint = 70;
+		gd_lblFilterLabel.widthHint = 36;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmMetricSources.getBody(),
+		txtFilterText = toolkit.createText(frmExpressions.getBody(),
 				"New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
-		txtFilterText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
-		new Label(frmMetricSources.getBody(), SWT.NONE);
-		
+		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, true,
+				false, 1, 1);
+		gd_txtFilterText.widthHint = 200;
+		txtFilterText.setLayoutData(gd_txtFilterText);
 
-		TableViewer tableViewer = new TableViewer(frmMetricSources.getBody(), SWT.BORDER | SWT.FULL_SELECTION);
+		txtFilterText.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent ke) {
+				tableViewer.refresh();
+				ViewerFilter[] filters = tableViewer.getFilters();
+				for (ViewerFilter viewerFilter : filters) {
+					if (viewerFilter instanceof SearchFilter) {
+						((SearchFilter) viewerFilter)
+								.setSearchText(txtFilterText.getText());
+					}
+				}
+			}
+		});
+
+		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+				frmExpressions.getBody(), SWT.NONE);
+		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				if (screenService != null) {
+					NewEditExpression user = new NewEditExpression(
+							screenService.getScreenContainer(), SWT.NONE
+									| Screens.OPERATION_NEW, editingService);
+					screenService.setActiveScreen(user);
+					Expression exp = LibraryFactory.eINSTANCE
+							.createExpression();
+
+					// New Expressions always need an evaluation object.
+					// What ever object is set as evaluation object, should be
+					// the root object
+					// of our expression language.
+//					Model m = NetxscriptFactory.eINSTANCE.createModel();
+//					exp.setEvaluationObject(m);
+					user.injectData(library.getExpressions(), exp);
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		mghprlnkNew.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/obj16/Expression_H.png"));
+		mghprlnkNew.setBounds(0, 0, 114, 17);
+		toolkit.paintBordersFor(mghprlnkNew);
+		mghprlnkNew.setText("New");
+
+		tableViewer = new TableViewer(frmExpressions.getBody(), SWT.BORDER
+				| SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 5));
 		toolkit.paintBordersFor(table);
-		
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
-		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
-		tblclmnNewColumn.setWidth(100);
-		tblclmnNewColumn.setText("Name");
-		
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
-		TableColumn tblclmnLocationUrl = tableViewerColumn_1.getColumn();
-		tblclmnLocationUrl.setWidth(100);
-		tblclmnLocationUrl.setText("Owned by");
-		
+
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(
+				tableViewer, SWT.NONE);
+		TableColumn tblclmnName = tableViewerColumn.getColumn();
+		tblclmnName.setWidth(143);
+		tblclmnName.setText("Name");
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
+		TableColumn tblclmnOwnedBy = tableViewerColumn_1.getColumn();
+		tblclmnOwnedBy.setWidth(100);
+		tblclmnOwnedBy.setText("Owned by");
+
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
-		
-		MenuItem mntmScheduleCollectionJob = new MenuItem(menu, SWT.NONE);
-		mntmScheduleCollectionJob.setText("Edit...");
-		
-		Button btnAddButton = toolkit.createButton(frmMetricSources.getBody(), "+", SWT.NONE);
-		GridData gd_btnAddButton = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_btnAddButton.widthHint = 18;
-		gd_btnAddButton.heightHint = 18;
-		btnAddButton.setLayoutData(gd_btnAddButton);
-		
-		Button btnRemoveButton_1 = toolkit.createButton(frmMetricSources.getBody(), "-", SWT.NONE);
-		GridData gd_btnRemoveButton_1 = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_btnRemoveButton_1.widthHint = 18;
-		gd_btnRemoveButton_1.heightHint = 18;
-		btnRemoveButton_1.setLayoutData(gd_btnRemoveButton_1);
-		new Label(frmMetricSources.getBody(), SWT.NONE);
-		
+
+		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
+		mntmEdit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (screenService != null) {
+					ISelection selection = getTableViewerWidget()
+							.getSelection();
+					if (selection instanceof IStructuredSelection) {
+						Object o = ((IStructuredSelection) selection)
+								.getFirstElement();
+						if (o != null) {
+							NewEditExpression editExpression = new NewEditExpression(
+									screenService.getScreenContainer(),
+									SWT.NONE | Screens.OPERATION_EDIT,
+									editingService);
+							editExpression.injectData(library.getExpressions(),
+									o);
+							screenService.setActiveScreen(editExpression);
+						}
+					}
+				}
+			}
+		});
+		mntmEdit.setText("Edit...");
+
+		if (editingService != null) {
+			injectData();
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#getOperation()
+	 */
+	public int getOperation() {
+		return operation;
+	}
+
+	public TableViewer getTableViewerWidget() {
+		return tableViewer;
+	}
+
+	public class SearchFilter extends ViewerFilter {
+
+		private String searchString;
+
+		public void setSearchText(String s) {
+			// Search must be a substring of the existing value
+			this.searchString = ".*" + s + ".*"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		@Override
+		public boolean select(Viewer viewer, Object parentElement,
+				Object element) {
+			if (searchString == null || searchString.length() == 0) {
+				return true;
+			}
+
+			if (element instanceof EObject) {
+
+				String match = new AdapterFactoryItemDelegator(
+						editingService.getAdapterFactory()).getText(element);
+				return match.matches(searchString);
+			}
+			return false;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
+	 */
+	public void injectData() {
+		Resource res = editingService.getScreenData(this,
+				LibraryPackage.LIBRARY);
+		if (res.getContents().size() == 0) {
+			Library lib = LibraryFactory.eINSTANCE.createLibrary();
+			res.getContents().add(lib);
+			this.library = lib;
+		} else {
+			this.library = (Library) res.getContents().get(0);
+		}
+		bindingContext = initDataBindings_();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		if (editingService != null) {
+			editingService.tearDownScreen();
+		}
+	}
+
+	protected DataBindingContext initDataBindings_() {
+
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		tableViewer.setContentProvider(listContentProvider);
+		//
+		IObservableMap[] observeMaps = EMFObservables.observeMaps(
+				listContentProvider.getKnownElements(),
+				new EStructuralFeature[] { Literals.EXPRESSION__NAME });
+		tableViewer
+				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+
+		IEMFListProperty l = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.LIBRARY__EXPRESSIONS);
+
+		tableViewer.setInput(l.observe(library));
+		return bindingContext;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
+	 */
+	public Viewer getViewer() {
+		return this.getTableViewerWidget();
 	}
 
 }

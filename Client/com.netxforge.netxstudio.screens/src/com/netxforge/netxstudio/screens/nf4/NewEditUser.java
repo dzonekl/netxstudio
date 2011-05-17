@@ -13,6 +13,7 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.widgets.formattedtext.FormattedText;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -37,10 +38,10 @@ import com.netxforge.netxstudio.data.IDataScreenInjection;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.selector.IScreenOperation;
-import com.netxforge.netxstudio.screens.selector.Screens;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class NewEditUser extends Composite implements IDataScreenInjection, IScreenOperation {
+public class NewEditUser extends Composite implements IDataScreenInjection, IScreen {
 
 	// Databing object
 	@SuppressWarnings("unused")
@@ -272,7 +273,12 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 		controlDecoration_2
 				.setDescriptionText("Has only View Access to activities");
 	}
-
+	
+	
+	/**
+	 * Converted to new EMF API. 
+	 * @return
+	 */
 	protected DataBindingContext initDataBindings_() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
@@ -333,7 +339,6 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 	 * com.netxforge.netxstudio.data.IDataScreenInjection#injectData(org.eclipse
 	 * .emf.ecore.EObject)
 	 */
-	@Override
 	public void injectData(Object owner, Object object) {
 
 		this.owner = owner;
@@ -389,7 +394,6 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 	 * com.netxforge.netxstudio.data.IDataScreenInjection#addData(java.lang.
 	 * Object)
 	 */
-	@Override
 	public void addData() {
 		// Should not be called for an edit operation!
 		if (Screens.isNewOperation(operation) && owner != null) {
@@ -404,8 +408,16 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.screens.selector.IScreenOperation#getOperation()
 	 */
-	@Override
 	public int getOperation() {
 		return this.operation;
 	}
+
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
+	 */
+	public Viewer getViewer() {
+		return null;
+	}
+
 }

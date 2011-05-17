@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.selector.ScreenFormService;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenFormService;
 
 public class Scheduler extends Composite {
 
