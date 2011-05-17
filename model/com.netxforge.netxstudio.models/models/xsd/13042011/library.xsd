@@ -966,7 +966,11 @@ See: The NetXScript specification.</xs:documentation>
 				<xs:annotation>
 					<xs:documentation>The ExpressionLines reference, contains 0 or more ExpressionLine types.</xs:documentation>
 				</xs:annotation></xs:element>
-			
+			<xs:element ecore:reference="ecore:EObject" name="EvaluationObject" type="xs:anyURI" maxOccurs="1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The EvaluationObject reference holds 0 or 1 EObject type</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<!-- Non-Contained -->
 			<xs:element ecore:opposite="EquipmentExpressionRefs"
 				ecore:reference="Equipment" maxOccurs="unbounded" minOccurs="0"
@@ -997,7 +1001,8 @@ See: The NetXScript specification.</xs:documentation>
 		<xs:attribute name="Name" type="gen:Name255" >
 			<xs:annotation>
 				<xs:documentation>The Name attribute holds the name of the expression.</xs:documentation>
-			</xs:annotation></xs:attribute>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	
 	<!--_____________________________ -->

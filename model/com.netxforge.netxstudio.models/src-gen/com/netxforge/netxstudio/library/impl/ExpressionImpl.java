@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.library.impl;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.library.Equipment;
@@ -37,6 +38,7 @@ import com.netxforge.netxstudio.services.ServiceProfile;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getExpressionLines <em>Expression Lines</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getEvaluationObject <em>Evaluation Object</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getEquipmentRefs <em>Equipment Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getFunctionRefs <em>Function Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getEquipmentGroupRefs <em>Equipment Group Refs</em>}</li>
@@ -85,6 +87,24 @@ public class ExpressionImpl extends CDOObjectImpl implements Expression {
 	@SuppressWarnings("unchecked")
 	public EList<String> getExpressionLines() {
 		return (EList<String>)eGet(LibraryPackage.Literals.EXPRESSION__EXPRESSION_LINES, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EObject getEvaluationObject() {
+		return (EObject)eGet(LibraryPackage.Literals.EXPRESSION__EVALUATION_OBJECT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEvaluationObject(EObject newEvaluationObject) {
+		eSet(LibraryPackage.Literals.EXPRESSION__EVALUATION_OBJECT, newEvaluationObject);
 	}
 
 	/**

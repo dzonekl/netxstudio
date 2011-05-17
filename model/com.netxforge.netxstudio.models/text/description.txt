@@ -197,6 +197,7 @@ Package library <http://www.netxforge.com/13042011/library>
 
   Class Expression
     Attribute expressionLines : ExpressionLine<<0..*>>
+    Reference evaluationObject : EObject
     Reference equipmentRefs : Equipment<<0..*>>
     Reference functionRefs : Function<<0..*>>
     Reference equipmentGroupRefs : EquipmentGroup<<0..*>>

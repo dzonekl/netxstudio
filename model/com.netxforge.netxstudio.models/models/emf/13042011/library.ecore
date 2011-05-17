@@ -369,6 +369,15 @@
         <details key="name" value="ExpressionLines"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluationObject" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The EvaluationObject reference holds 0 or 1 EObject type"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="EvaluationObject"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="equipmentRefs" upperBound="-1"
         eType="#//Equipment" eOpposite="#//Equipment/equipmentExpressionRefs">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

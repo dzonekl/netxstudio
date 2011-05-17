@@ -205,6 +205,7 @@
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Expression">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Expression/expressionLines"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/evaluationObject"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/equipmentRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/functionRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/equipmentGroupRefs"/>

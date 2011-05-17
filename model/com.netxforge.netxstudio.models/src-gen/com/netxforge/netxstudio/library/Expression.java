@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.library;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.services.ServiceProfile;
 
@@ -40,6 +41,7 @@ import com.netxforge.netxstudio.services.ServiceProfile;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getExpressionLines <em>Expression Lines</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.Expression#getEvaluationObject <em>Evaluation Object</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getEquipmentRefs <em>Equipment Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getFunctionRefs <em>Function Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getEquipmentGroupRefs <em>Equipment Group Refs</em>}</li>
@@ -69,6 +71,31 @@ public interface Expression extends CDOObject {
 	 * @generated
 	 */
 	EList<String> getExpressionLines();
+
+	/**
+	 * Returns the value of the '<em><b>Evaluation Object</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The EvaluationObject reference holds 0 or 1 EObject type
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Evaluation Object</em>' reference.
+	 * @see #setEvaluationObject(EObject)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpression_EvaluationObject()
+	 * @model extendedMetaData="kind='element' name='EvaluationObject'"
+	 * @generated
+	 */
+	EObject getEvaluationObject();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Expression#getEvaluationObject <em>Evaluation Object</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Evaluation Object</em>' reference.
+	 * @see #getEvaluationObject()
+	 * @generated
+	 */
+	void setEvaluationObject(EObject value);
 
 	/**
 	 * Returns the value of the '<em><b>Equipment Refs</b></em>' reference list.

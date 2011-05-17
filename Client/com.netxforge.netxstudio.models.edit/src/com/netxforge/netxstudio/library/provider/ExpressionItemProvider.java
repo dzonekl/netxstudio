@@ -76,6 +76,7 @@ public class ExpressionItemProvider
 			super.getPropertyDescriptors(object);
 
 			addExpressionLinesPropertyDescriptor(object);
+			addEvaluationObjectPropertyDescriptor(object);
 			addEquipmentRefsPropertyDescriptor(object);
 			addFunctionRefsPropertyDescriptor(object);
 			addEquipmentGroupRefsPropertyDescriptor(object);
@@ -103,6 +104,28 @@ public class ExpressionItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Evaluation Object feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addEvaluationObjectPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Expression_evaluationObject_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Expression_evaluationObject_feature", "_UI_Expression_type"),
+				 LibraryPackage.Literals.EXPRESSION__EVALUATION_OBJECT,
+				 true,
+				 false,
+				 true,
+				 null,
 				 null,
 				 null));
 	}

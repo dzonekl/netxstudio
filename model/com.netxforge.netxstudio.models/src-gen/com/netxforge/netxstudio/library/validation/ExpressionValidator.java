@@ -7,6 +7,7 @@
 package com.netxforge.netxstudio.library.validation;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
@@ -23,6 +24,8 @@ public interface ExpressionValidator {
 	boolean validate();
 
 	boolean validateExpressionLines(EList<String> value);
+	boolean validateEvaluationObject(EObject value);
+
 	boolean validateEquipmentRefs(EList<Equipment> value);
 	boolean validateFunctionRefs(EList<Function> value);
 	boolean validateEquipmentGroupRefs(EList<EquipmentGroup> value);

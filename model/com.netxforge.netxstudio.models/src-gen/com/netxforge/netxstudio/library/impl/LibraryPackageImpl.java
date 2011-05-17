@@ -617,7 +617,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExpression_EquipmentRefs() {
+	public EReference getExpression_EvaluationObject() {
 		return (EReference)expressionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -626,7 +626,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExpression_FunctionRefs() {
+	public EReference getExpression_EquipmentRefs() {
 		return (EReference)expressionEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -635,7 +635,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExpression_EquipmentGroupRefs() {
+	public EReference getExpression_FunctionRefs() {
 		return (EReference)expressionEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -644,7 +644,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExpression_ServiceProfileRefs() {
+	public EReference getExpression_EquipmentGroupRefs() {
 		return (EReference)expressionEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -653,8 +653,17 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getExpression_ServiceProfileRefs() {
+		return (EReference)expressionEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getExpression_Name() {
-		return (EAttribute)expressionEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)expressionEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1406,6 +1415,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		expressionEClass = createEClass(EXPRESSION);
 		createEAttribute(expressionEClass, EXPRESSION__EXPRESSION_LINES);
+		createEReference(expressionEClass, EXPRESSION__EVALUATION_OBJECT);
 		createEReference(expressionEClass, EXPRESSION__EQUIPMENT_REFS);
 		createEReference(expressionEClass, EXPRESSION__FUNCTION_REFS);
 		createEReference(expressionEClass, EXPRESSION__EQUIPMENT_GROUP_REFS);
@@ -1578,6 +1588,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		initEClass(expressionEClass, Expression.class, "Expression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExpression_ExpressionLines(), theGenericsPackage.getExpressionLine(), "expressionLines", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExpression_EvaluationObject(), ecorePackage.getEObject(), null, "evaluationObject", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExpression_EquipmentRefs(), this.getEquipment(), this.getEquipment_EquipmentExpressionRefs(), "equipmentRefs", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExpression_FunctionRefs(), this.getFunction(), this.getFunction_FunctionExpressionRefs(), "functionRefs", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExpression_EquipmentGroupRefs(), this.getEquipmentGroup(), this.getEquipmentGroup_ExpressionRefs(), "equipmentGroupRefs", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1714,7 +1725,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																									
+		   });																																																																																											
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -1981,6 +1992,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "ExpressionLines"
+		   });			
+		addAnnotation
+		  (getExpression_EvaluationObject(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "EvaluationObject"
 		   });			
 		addAnnotation
 		  (getExpression_EquipmentRefs(), 
@@ -2591,7 +2609,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self.equipments->size()\n\t\t\t\t\t\t\t"
-		   });																							
+		   });																									
 		addAnnotation
 		  (functionEClass, 
 		   source, 

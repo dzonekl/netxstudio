@@ -467,13 +467,22 @@ public interface LibraryPackage extends EPackage {
 	int EXPRESSION__EXPRESSION_LINES = 0;
 
 	/**
+	 * The feature id for the '<em><b>Evaluation Object</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION__EVALUATION_OBJECT = 1;
+
+	/**
 	 * The feature id for the '<em><b>Equipment Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION__EQUIPMENT_REFS = 1;
+	int EXPRESSION__EQUIPMENT_REFS = 2;
 
 	/**
 	 * The feature id for the '<em><b>Function Refs</b></em>' reference list.
@@ -482,7 +491,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION__FUNCTION_REFS = 2;
+	int EXPRESSION__FUNCTION_REFS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Equipment Group Refs</b></em>' reference list.
@@ -491,7 +500,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION__EQUIPMENT_GROUP_REFS = 3;
+	int EXPRESSION__EQUIPMENT_GROUP_REFS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Service Profile Refs</b></em>' reference list.
@@ -500,7 +509,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION__SERVICE_PROFILE_REFS = 4;
+	int EXPRESSION__SERVICE_PROFILE_REFS = 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -509,7 +518,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION__NAME = 5;
+	int EXPRESSION__NAME = 6;
 
 	/**
 	 * The number of structural features of the '<em>Expression</em>' class.
@@ -518,7 +527,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_FEATURE_COUNT = 6;
+	int EXPRESSION_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.FunctionImpl <em>Function</em>}' class.
@@ -1738,6 +1747,17 @@ public interface LibraryPackage extends EPackage {
 	EAttribute getExpression_ExpressionLines();
 
 	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.Expression#getEvaluationObject <em>Evaluation Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Evaluation Object</em>'.
+	 * @see com.netxforge.netxstudio.library.Expression#getEvaluationObject()
+	 * @see #getExpression()
+	 * @generated
+	 */
+	EReference getExpression_EvaluationObject();
+
+	/**
 	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Expression#getEquipmentRefs <em>Equipment Refs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2926,6 +2946,14 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EXPRESSION__EXPRESSION_LINES = eINSTANCE.getExpression_ExpressionLines();
+
+		/**
+		 * The meta object literal for the '<em><b>Evaluation Object</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPRESSION__EVALUATION_OBJECT = eINSTANCE.getExpression_EvaluationObject();
 
 		/**
 		 * The meta object literal for the '<em><b>Equipment Refs</b></em>' reference list feature.
