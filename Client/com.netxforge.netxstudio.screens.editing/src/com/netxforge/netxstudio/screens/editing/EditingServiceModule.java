@@ -24,6 +24,8 @@ import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.cdo.CDODataConnection;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
+import com.netxforge.netxstudio.screens.editing.selector.ScreenFormService;
 
 
 /**
@@ -43,6 +45,7 @@ public class EditingServiceModule extends com.google.inject.AbstractModule {
 		this.bind(IDataProvider.class).to(CDODataProvider.class);
 		this.bind(IDataService.class).to(DataService.class);
 		this.bind(ICDOConnection.class).to(CDODataConnection.class);
+		this.bind(IScreenFormService.class).to(ScreenFormService.class);
 	}
 
 }

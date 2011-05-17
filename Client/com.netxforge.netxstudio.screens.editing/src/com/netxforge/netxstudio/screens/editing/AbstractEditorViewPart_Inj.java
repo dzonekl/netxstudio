@@ -25,6 +25,7 @@ import java.util.EventObject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -63,7 +64,7 @@ import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
  */
 public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 		ISaveablePart2, IPartListener, ISelectionListener,
-		IEditingDomainProvider, ISelectionProvider, IMenuListener {
+		IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider {
 
 	//	public static final String ID = "com.netxforge.netxstudio.ui.forms.EquipmentsViewPart"; //$NON-NLS-1$
 
@@ -241,10 +242,7 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 		if (part instanceof AbstractEditorViewPart_Inj) {
 			// Activate our global actions.
 			globActionsHandler.activate(part);
-			System.out.println("NodePopulateViewPart, part actived");
 		} else {
-			System.out.println("Other part activated: "
-					+ part.getSite().getId());
 		}
 	}
 
@@ -262,17 +260,12 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	public void partDeactivated(IWorkbenchPart part) {
 		if (part instanceof AbstractEditorViewPart_Inj) {
 			globActionsHandler.deactivate(part);
-			System.out.println("NodePopulateViewPart, part deactived");
 		} else {
-			System.out.println("Other part de-activated: "
-					+ part.getSite().getId());
 		}
 	}
 
 	@Override
 	public void partOpened(IWorkbenchPart part) {
-		// Not used.
-		System.out.println("NodePopulateViewPart, part opened");
 	}
 
 	// ISelectionListener API
@@ -304,7 +297,6 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	
 
 	// IEditingDomainProvider API.
-	// TODO, remove later Moved to Guice service. 
 	AdapterFactoryEditingDomain domain = null;
 
 	@Override
@@ -320,15 +312,11 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 							.asyncExec(new Runnable() {
 								public void run() {
 									firePropertyChange(ISaveablePart2.PROP_DIRTY);
-									System.out.println("dirty fired");
-									
 								}
 							});
 				}
 			};
 			domain.getCommandStack().addCommandStackListener(cmdStackListener);
-//			domain = new AdapterFactoryEditingDomain(this.getAdapterFactory(),
-//					commandStack);
 		}
 		return domain;
 	}
@@ -427,5 +415,10 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 			setSelection(currentViewer == null ? StructuredSelection.EMPTY
 					: currentViewer.getSelection());
 		}
+	}
+	
+	@Override
+	public Viewer getViewer() {
+		return currentViewer; 
 	}
 }

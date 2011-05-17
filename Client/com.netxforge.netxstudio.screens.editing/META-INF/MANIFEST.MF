@@ -16,4 +16,6 @@ Require-Bundle: org.eclipse.ui,
  com.netxforge.netxstudio.data;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: com.netxforge.netxstudio.screens.editing
+Eclipse-BuddyPolicy: registered
+Export-Package: com.netxforge.netxstudio.screens.editing,
+ com.netxforge.netxstudio.screens.editing.selector

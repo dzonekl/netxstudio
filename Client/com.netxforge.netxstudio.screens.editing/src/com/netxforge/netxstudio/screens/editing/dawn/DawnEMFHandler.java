@@ -13,44 +13,42 @@ package com.netxforge.netxstudio.screens.editing.dawn;
 import org.eclipse.emf.cdo.transaction.CDOTransactionConflictEvent;
 import org.eclipse.emf.cdo.view.CDOViewInvalidationEvent;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Martin Fluegge
  */
-public class DawnEMFHandler extends BasicDawnListener
-{
-  /**
-   * @since 1.0
-   */
-  public DawnEMFHandler(IDawnEditor editor)
-  {
-    super(editor);
-  }
+public class DawnEMFHandler extends BasicDawnListener {
+	/**
+	 * @since 1.0
+	 */
+	public DawnEMFHandler(IDawnEditor editor) {
+		super(editor);
+	}
 
-  @Override
-  public void handleTransactionConflictEvent(CDOTransactionConflictEvent event)
-  {
-    super.handleTransactionConflictEvent(event);
-    refreshEditor();
-  }
+	@Override
+	public void handleTransactionConflictEvent(CDOTransactionConflictEvent event) {
+		super.handleTransactionConflictEvent(event);
+		refreshEditor();
+	}
 
-  @Override
-  public void handleViewInvalidationEvent(CDOViewInvalidationEvent event)
-  {
-    super.handleViewInvalidationEvent(event);
-    refreshEditor();
-  }
+	@Override
+	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) {
+		super.handleViewInvalidationEvent(event);
+		refreshEditor();
+	}
 
-  private void refreshEditor()
-  {
-	  
-	  System.out.println("Should refresh the view, as we have been called by CDO...");
-//    editor.getSite().getShell().getDisplay().asyncExec(new Runnable()
-//    {
-//      public void run()
-//      {
-//        ((IViewerProvider)editor).getViewer().refresh();
-//      }
-//    });
-  }
+	private void refreshEditor() {
+
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				Viewer v = ((IViewerProvider) editor).getViewer();
+				if (v != null) {
+					v.refresh();
+				}
+				// No viewer to update. 
+			}
+		});
+	}
 }

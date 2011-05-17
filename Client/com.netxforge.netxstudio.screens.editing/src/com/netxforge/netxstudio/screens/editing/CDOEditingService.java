@@ -22,8 +22,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.inject.Singleton;
@@ -40,7 +43,7 @@ import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
  * 
  */
 @Singleton
-public class CDOEditingService extends EMFEditingService implements IDawnEditor {
+public class CDOEditingService extends EMFEditingService implements IDawnEditor, IViewerProvider {
 
 	/**
 	 * Our editor support for Dawn.
@@ -87,15 +90,29 @@ public class CDOEditingService extends EMFEditingService implements IDawnEditor 
 		CDOView view = dawnEditorSupport.getView();
 		if (view instanceof CDOTransaction) {
 			if (view.hasConflict()) {
-				MessageDialog.openError(Display.getDefault().getActiveShell(),
-						"conflict",
-						"Your Resource is in conflict and cannot be committed");
+				// TODO, remove later. 
+//				MessageDialog.openError(Display.getDefault().getActiveShell(),
+//						"conflict",
+//						"Your Resource is in conflict and cannot be committed");
+				MessageDialog dialog = new MessageDialog(Display.getDefault().getActiveShell(), "Conflict", null,
+				          "There is a conflict with another user. Would you like to rollback your current transaction?",
+				          MessageDialog.QUESTION, new String[] { "yes", "no", "Cancel" }, 1);
+				      switch (dialog.open())
+				      {
+				      case 0: // yes
+				        ((IDawnEditor)this).getDawnEditorSupport().rollback();
+				        break;
+				      case 1: // no
+				        break;
+				      default: // cancel
+				        break;
+				      }
 			} else {
 				super.doSave(monitor);
 			}
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -103,11 +120,15 @@ public class CDOEditingService extends EMFEditingService implements IDawnEditor 
 	 * com.netxforge.netxstudio.screens.editing.IEditingService#initScreen(int)
 	 */
 	@Override
-	public Resource initScreen(int feature) {
+	public Resource getScreenData(Composite screen, int feature) {
+			
 		Resource res = dataService.getProvider().getResource(
 				this.getEditingDomain().getResourceSet(), feature);
 		if (res instanceof CDOResource) {
 			dawnEditorSupport.setView(((CDOResource) res).cdoView());
+			
+			
+			// TODO, should deregister!!
 			dawnEditorSupport.registerListeners();
 		}
 		return res;
@@ -121,5 +142,13 @@ public class CDOEditingService extends EMFEditingService implements IDawnEditor 
 		  dawnEditorSupport.close(); // Closes the view.
 		  // Close the view, but does it close the transaction? 
 		  
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
+	 */
+	@Override
+	public Viewer getViewer() {
+		return this.delegateViewerProvider.getViewer();
 	}
 }

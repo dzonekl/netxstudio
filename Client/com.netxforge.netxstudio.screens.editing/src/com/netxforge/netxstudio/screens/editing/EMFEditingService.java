@@ -15,7 +15,7 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
 import java.util.HashMap;
@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -37,31 +38,34 @@ import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.IDataService;
 
 /**
- * For the lifetime of this service, we keep an editing domain. 
- * We also proxy to a dataservice. (As the dataservice likely wants to know
- * about our resourceset). 
+ * For the lifetime of this service, we keep an editing domain. We also proxy to
+ * a dataservice. (As the dataservice likely wants to know about our
+ * resourceset).
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
+ * 
  */
 @Singleton
 public abstract class EMFEditingService implements IEditingService {
-	
-	
+
 	@Inject
 	protected IDataService dataService;
-	
-	public EMFEditingService(){
+
+	public EMFEditingService() {
 	}
-	
+
 	static AdapterFactoryEditingDomain domain = null;
-	
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#getEditingDomain()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.IEditingService#getEditingDomain
+	 * ()
 	 */
 	@Override
 	public EditingDomain getEditingDomain() {
-		
+
 		if (domain == null) {
 			BasicCommandStack commandStack = new BasicCommandStack();
 			domain = new AdapterFactoryEditingDomain(this.getAdapterFactory(),
@@ -69,13 +73,16 @@ public abstract class EMFEditingService implements IEditingService {
 		}
 		return domain;
 	}
-	
-	
+
 	// The declared EMF edit adapter factory.
 	static ComposedAdapterFactory emfEditAdapterFactory;
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#getAdapterFactory()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.IEditingService#getAdapterFactory
+	 * ()
 	 */
 	@Override
 	public ComposedAdapterFactory getAdapterFactory() {
@@ -85,14 +92,18 @@ public abstract class EMFEditingService implements IEditingService {
 		}
 		return emfEditAdapterFactory;
 	}
-	
-	public EObject getObject(){
+
+	public EObject getObject() {
 		return null;
-		// TODO implement. 
+		// TODO implement.
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.IEditingService#doSave(org.eclipse
+	 * .core.runtime.IProgressMonitor)
 	 */
 	@Override
 	public IRunnableWithProgress doGetSaveOperation(IProgressMonitor monitor) {
@@ -125,22 +136,24 @@ public abstract class EMFEditingService implements IEditingService {
 				}
 			}
 		};
-		
+
 		return operation;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#doSave()
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		IRunnableWithProgress operation = doGetSaveOperation(monitor);
-		if(operation == null)
+		if (operation == null)
 			return;
 		try {
 			// This runs the options, and shows progress.
-			new ProgressMonitorDialog(Display.getDefault().getActiveShell()).run(true, false,
-					operation);
+			new ProgressMonitorDialog(Display.getDefault().getActiveShell())
+					.run(true, false, operation);
 
 			// Refresh the necessary state.
 			//
@@ -151,6 +164,10 @@ public abstract class EMFEditingService implements IEditingService {
 		}
 	}
 
-	
+	IViewerProvider delegateViewerProvider;
+
+	public void setViewerProvider(IViewerProvider viewerProvider) {
+		this.delegateViewerProvider = viewerProvider;
+	}
 
 }
