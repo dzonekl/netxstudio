@@ -20,7 +20,7 @@ import org.eclipse.osgi.util.NLS;
  */
 public class WorkbenchNavigatorMessages extends NLS {
 	/** The bundle properties file */
-	public static final String BUNDLE_NAME = "com.netxforge.netxstudio.internal.navigator.resources.plugin.messages"; //$NON-NLS-1$
+	public static final String BUNDLE_NAME = "org.eclipse.ui.internal.navigator.resources.plugin.messages"; //$NON-NLS-1$
 
 	public static String PortingActionProvider_ImportResourcesMenu_label;
 
