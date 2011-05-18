@@ -6,7 +6,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 
 public class DesignPerspective implements IPerspectiveFactory {
 	
-	public static String ID = "com.netxforge.netxstudio.ui.networkdesign";
+	public static String ID = "com.netxforge.netxstudio.ui.perspective.design";
 	
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setEditorAreaVisible(true);

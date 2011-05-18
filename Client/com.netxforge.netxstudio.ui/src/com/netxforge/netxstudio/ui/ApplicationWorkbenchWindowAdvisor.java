@@ -14,8 +14,10 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.ui;
+
+import java.util.List;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IPerspectiveDescriptor;
@@ -27,11 +29,25 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.console.ConsoleService;
+import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.cdo.IFixtures;
+import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.ui.activities.IActivityAndRoleService;
+import com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
-
+	
+	
+	
+	@Inject
+	private IDataService dService;
+	
+	@Inject
+	private IActivityAndRoleService aService;
+	
 	public ApplicationWorkbenchWindowAdvisor(
 			IWorkbenchWindowConfigurer configurer) {
 		super(configurer);
@@ -45,8 +61,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	public void preWindowOpen() {
 		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
 		configurer.setInitialSize(new Point(700, 550));
-		// TODO, Whenever we have cool toolbar icons to show, turn this on.
-		// configurer.setShowCoolBar(true);
+		// Note: Whenever we have cool toolbar icons to show, turn this on.
+		configurer.setShowCoolBar(false);
 		configurer.setShowStatusLine(true);
 		configurer.setTitle("NetXStudio");
 		configurer.setShowPerspectiveBar(true);
@@ -57,8 +73,28 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	@Override
 	public void postWindowOpen() {
 		super.postWindowOpen();
+
 		WorkspaceUtil.INSTANCE.initProjectCreationWizard();
 		WorkspaceUtil.INSTANCE.extractFixturePlugin();
+
+		// Kick of activities.
+		// Inject the data service.
+		ActivitiesActivator.getInjector().injectMembers(this);
+			
+		
+		if( dService.getProvider() instanceof IFixtures){
+			((IFixtures)dService.getProvider()).loadFixtures();
+		}
+		
+		String currentUser = dService.getProvider().getSessionUserID();
+		List<Role> roles = dService.getRoleHandler().getRole(currentUser);
+		
+		// Extract the first role.
+		if (roles.size() == 1) {
+			aService.enableActivity(roles.get(0));
+		} else {
+			// Data corruption issue.
+		}
 
 		// Get the workbench and disable some actionsets:
 		// These will be added again for another perspective.
@@ -74,7 +110,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 					public void perspectiveActivated(IWorkbenchPage page,
 							IPerspectiveDescriptor perspective) {
 						page.closeAllEditors(true);
-						// TODO: Activate the appropriate screen corresponding to the perspective. 
 						hideActionSets(page);
 					}
 
@@ -83,9 +118,10 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 					}
 
 				});
-		
-		this.hideActionSets(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage());
-		
+
+		this.hideActionSets(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage());
+
 	}
 
 	protected void hideActionSets(IWorkbenchPage page) {

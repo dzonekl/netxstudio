@@ -5,7 +5,7 @@ import org.eclipse.ui.IPageLayout;
 
 public class LibraryPerspective extends AbstractFormPerspective {
 
-	public static String ID = "com.netxforge.netxstudio.ui.library";
+	public static String ID = "com.netxforge.netxstudio.ui.perspective.library";
 
 	public void createInitialLayout(IPageLayout layout) {
 		super.createInitialLayout(layout);

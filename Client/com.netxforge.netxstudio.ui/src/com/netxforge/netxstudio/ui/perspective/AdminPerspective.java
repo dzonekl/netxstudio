@@ -4,7 +4,7 @@ import org.eclipse.ui.IPageLayout;
 
 public class AdminPerspective extends AbstractFormPerspective {
 	
-	public static String ID = "com.netxforge.netxstudio.ui.admin";
+	public static String ID = "com.netxforge.netxstudio.ui.perspective.admin";
 	
 	/**
 	 * Creates the initial layout for a page.
