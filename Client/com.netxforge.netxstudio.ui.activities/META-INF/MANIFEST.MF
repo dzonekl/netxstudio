@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: NetXStudio UI Activities
+Bundle-SymbolicName: com.netxforge.netxstudio.ui.activities;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.netxforge.netxstudio.ui.activities.internal.ActivitiesActivator
+Bundle-Vendor: NetXForge
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.netxforge.netxstudio.models;bundle-version="1.0.0",
+ com.google.inject;bundle-version="2.0.0",
+ com.netxforge.netxstudio.data;bundle-version="1.0.0",
+ com.netxforge.netxstudio.data.fixtures;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Export-Package: com.netxforge.netxstudio.ui.activities,
+ com.netxforge.netxstudio.ui.activities.internal

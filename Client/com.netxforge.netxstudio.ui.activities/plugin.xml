@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.activities">
+      
+      <activity
+            description="Administration activitity"
+            id="com.netxforge.netxstudio.ui.activity.admin"
+            name="admin">
+      </activity>
+      <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.admin"
+            isEqualityPattern="true"
+            pattern="com.netxforge.netxstudio.ui/com.netxforge.netxstudio.ui.perspective.admin">
+      </activityPatternBinding>
+      <activity
+            description="Monitoring activitity"
+            id="com.netxforge.netxstudio.ui.activity.monitoring"
+            name="monitoring">
+      </activity>
+      <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.monitoring"
+            isEqualityPattern="true"
+            pattern="com.netxforge.netxstudio.ui/com.netxforge.netxstudio.ui.perspective.monitoring">
+      </activityPatternBinding>
+      
+   </extension>
+</plugin>
