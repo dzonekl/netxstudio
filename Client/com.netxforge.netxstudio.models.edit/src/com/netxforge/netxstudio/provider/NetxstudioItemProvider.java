@@ -100,6 +100,7 @@ public class NetxstudioItemProvider
 			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__COMPANIES);
 			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__VENDORS);
 			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__USERS);
+			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__ROLES);
 			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__COUNTRIES);
 			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__JOBS);
 		}
@@ -158,6 +159,7 @@ public class NetxstudioItemProvider
 			case NetxstudioPackage.NETXSTUDIO__COMPANIES:
 			case NetxstudioPackage.NETXSTUDIO__VENDORS:
 			case NetxstudioPackage.NETXSTUDIO__USERS:
+			case NetxstudioPackage.NETXSTUDIO__ROLES:
 			case NetxstudioPackage.NETXSTUDIO__COUNTRIES:
 			case NetxstudioPackage.NETXSTUDIO__JOBS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
@@ -211,6 +213,11 @@ public class NetxstudioItemProvider
 			(createChildParameter
 				(NetxstudioPackage.Literals.NETXSTUDIO__USERS,
 				 GenericsFactory.eINSTANCE.createPerson()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(NetxstudioPackage.Literals.NETXSTUDIO__ROLES,
+				 GenericsFactory.eINSTANCE.createRole()));
 
 		newChildDescriptors.add
 			(createChildParameter

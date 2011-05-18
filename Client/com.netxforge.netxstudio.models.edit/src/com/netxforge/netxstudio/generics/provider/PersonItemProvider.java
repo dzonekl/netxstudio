@@ -75,6 +75,7 @@ public class PersonItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addRolesPropertyDescriptor(object);
 			addActivePropertyDescriptor(object);
 			addCompanyRefPropertyDescriptor(object);
 			addEmailPropertyDescriptor(object);
@@ -84,6 +85,28 @@ public class PersonItemProvider
 			addPasswordPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Roles feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRolesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Person_roles_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Person_roles_feature", "_UI_Person_type"),
+				 GenericsPackage.Literals.PERSON__ROLES,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
