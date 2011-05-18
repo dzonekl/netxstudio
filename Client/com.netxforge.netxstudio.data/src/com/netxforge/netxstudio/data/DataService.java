@@ -22,21 +22,30 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /**
+ * A data service implementation. 
+ * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
  */
 @Singleton
 public class DataService implements IDataService {
 	
 	private final IDataProvider provider;
+	private final IRoleHandler roleHandler;
 	
 	@Inject
-	public DataService(IDataProvider provider) {
+	public DataService(IDataProvider provider, IRoleHandler roleHandler) {
 		this.provider = provider;
+		this.roleHandler = roleHandler;
 	}
 	
 	public IDataProvider getProvider(){
 		return provider;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataService#getRoleHandler()
+	 */
+	public IRoleHandler getRoleHandler() {
+		return roleHandler;
+	}
 }

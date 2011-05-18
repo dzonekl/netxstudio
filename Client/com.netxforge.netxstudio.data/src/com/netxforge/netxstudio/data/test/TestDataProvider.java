@@ -18,6 +18,7 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data.test;
 
+import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -103,6 +104,22 @@ public class TestDataProvider implements IDataProvider {
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getSessionUserID()
 	 */
 	public String getSessionUserID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataProvider#getResource(int)
+	 */
+	public Resource getResource(int feature) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataProvider#getSession()
+	 */
+	public CDOSession getSession() {
 		// TODO Auto-generated method stub
 		return null;
 	}

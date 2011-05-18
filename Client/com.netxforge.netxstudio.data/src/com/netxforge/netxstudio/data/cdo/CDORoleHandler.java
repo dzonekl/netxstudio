@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 3, 2011 NetXForge.
+ * Copyright (c) May 17, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,25 +16,41 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.data;
+package com.netxforge.netxstudio.data.cdo;
+
+import java.util.List;
+
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOQuery;
+
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.IRoleHandler;
+import com.netxforge.netxstudio.generics.Role;
 
 /**
- * Provides various services. 
- * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
+ *
  */
-public interface IDataService {
+public class CDORoleHandler implements IRoleHandler {
 	
-	/**
-	 * Get the data provider. 
-	 * @return
-	 */
-	public IDataProvider getProvider();
+	private IDataProvider provider;
 	
-	/**
-	 * Get the Data service role handler. 
-	 * @return
+	@Inject
+	public CDORoleHandler(IDataProvider dataProvider){
+		this.provider = dataProvider;
+	}
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.cdo.ICDORoleHandler#getRole(java.lang.String)
 	 */
-	public IRoleHandler getRoleHandler();
-
+	public List<Role> getRole(String userID) {
+		
+		CDOTransaction t = provider.getSession().openTransaction();
+		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_ROLES_FROM_PERSON);
+		q.setParameter("name", userID);
+		CDOQueryUtil.addCacheParameter(q);
+		return q.getResult(Role.class);
+	}
+	
+	
 }

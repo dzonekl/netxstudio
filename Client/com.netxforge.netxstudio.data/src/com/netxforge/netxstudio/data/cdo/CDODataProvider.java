@@ -18,8 +18,11 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
@@ -32,12 +35,18 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
 import org.eclipse.net4j.util.security.PasswordCredentials;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
+import org.eclipse.net4j.util.transaction.TransactionException;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.netxforge.netxstudio.Netxstudio;
+import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -50,23 +59,17 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * A CDO Data provider, which gets data from a CDO Server. The CDO provider has
  * some special requirements. - It require to initialize a connection.
  * 
- * Clients should use a Session to
- * 
- * final CDOSession session = openSession(); final CDOTransaction transaction =
- * session.openTransaction();
- * 
- * // get/create a resource CDOResource resource =
- * transaction.getOrCreateResource("/test1");
- * 
+ * Note: One single data provider, is associated with one single user/session.
+ * The session is static.
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 @Singleton
-public class CDODataProvider implements IDataProvider {
+public class CDODataProvider implements IDataProvider, IFixtures {
 
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
-	private String loggedInUser;
+//	private String loggedInUser;
 
 	@Inject
 	public CDODataProvider(ICDOConnection conn) {
@@ -84,7 +87,7 @@ public class CDODataProvider implements IDataProvider {
 	}
 
 	public String getSessionUserID() {
-		return this.loggedInUser;
+		return this.getSession().getUserID();
 	}
 
 	/**
@@ -98,18 +101,17 @@ public class CDODataProvider implements IDataProvider {
 		if (connection.getConfig() == null) {
 			connection.initialize();
 		}
-		
+
 		// Session Config and Sessions go hand in hand.
-		// Recover our session, if some reason we try to reopen for the same user and 
-		// this very same config. 
-		if(connection.getConfig().isSessionOpen()){
+		// Recover our session, if some reason we try to reopen for the same
+		// user and
+		// this very same config.
+		if (connection.getConfig().isSessionOpen()) {
 			CDOSession openSession = connection.getConfig().openSession();
-			if( loggedInUser.equals(openSession.getUserID())){
-				clientSession = openSession; 
-			}
+			clientSession = openSession;
+			return;
 		}
-		
-		
+
 		IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
 				new PasswordCredentials(uid, passwd.toCharArray()));
 
@@ -118,9 +120,6 @@ public class CDODataProvider implements IDataProvider {
 
 		try {
 			clientSession = connection.getConfig().openSession();
-			if (clientSession != null) {
-				loggedInUser = clientSession.getUserID();
-			}
 			for (EPackage ePackage : ePackages) {
 				clientSession.getPackageRegistry().putEPackage(ePackage);
 			}
@@ -128,9 +127,9 @@ public class CDODataProvider implements IDataProvider {
 			throw new SecurityException(se);
 		}
 	}
-	
+
 	/**
-	 * Close the session. 
+	 * Close the session.
 	 */
 	public void closeSession() {
 		if (clientSession != null) {
@@ -140,7 +139,7 @@ public class CDODataProvider implements IDataProvider {
 		}
 	}
 
-	private CDOSession getSession() {
+	public CDOSession getSession() {
 		if (clientSession == null) {
 			// We can't get a session, which has not be opened and
 			// authenticated.
@@ -168,33 +167,34 @@ public class CDODataProvider implements IDataProvider {
 	}
 
 	public Resource getResource(ResourceSet set, int feature) {
-		
+
 		String res = resolveResourceName(feature);
 		assert res != null && res.length() > 0;
 
-		// Before attempting to open a new CDOView, we want to know what is already 
-		// in our session and resource set. 
+		// Before attempting to open a new CDOView, we want to know what is
+		// already
+		// in our session and resource set.
 		CDOView[] views = this.getSession().getViews();
-		for(int i = 0; i < views.length; i++){
+		for (int i = 0; i < views.length; i++) {
 			CDOView view = views[i];
-			if(view.getResourceSet().equals(set)){
-				CDOResource resource =  view.getResource(res);
-				if(resource != null){
+			if (view.getResourceSet().equals(set)) {
+				CDOResource resource = view.getResource(res);
+				if (resource != null) {
 					return resource;
 				}
 			}
 		}
-		
-		// We haven't found this resource in the current view's and set's, 
-		// OK create a new one. 
+
+		// We haven't found this resource in the current view's and set's,
+		// OK create a new one.
 		CDOTransaction transaction = getSession().openTransaction(set);
 		CDOResource resource = transaction.getOrCreateResource(res);
 		return resource;
 	}
-	
-	
+
 	/**
 	 * Dispatcher to break-up which objects go into which resources.
+	 * 
 	 * @param feature
 	 * @return
 	 */
@@ -204,7 +204,8 @@ public class CDODataProvider implements IDataProvider {
 		switch (feature) {
 		case NetxstudioPackage.NETXSTUDIO: {
 			resource += "netxstudio";
-		}break;
+		}
+			break;
 		case LibraryPackage.LIBRARY: {
 			resource += "library";
 		}
@@ -221,4 +222,75 @@ public class CDODataProvider implements IDataProvider {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.data.IDataProvider#getResource(int)
+	 */
+	public Resource getResource(int feature) {
+		String res = resolveResourceName(feature);
+		assert res != null && res.length() > 0;
+
+		CDOView[] views = this.getSession().getViews();
+		for (int i = 0; i < views.length; i++) {
+			CDOView view = views[i];
+			CDOResource resource = view.getResource(res);
+			if (resource != null) {
+				return resource;
+			}
+		}
+
+		CDOTransaction transaction = getSession().openTransaction();
+		CDOResource resource = transaction.getOrCreateResource(res);
+
+		return resource;
+
+	}
+
+	public void loadFixtures() {
+
+		CDOResource res = (CDOResource) getResource(NetxstudioPackage.NETXSTUDIO);
+		CDOView view = res.cdoView();
+
+		res.getContents().clear();
+		Netxstudio studio = NetxstudioFactory.eINSTANCE.createNetxstudio();
+
+		// Add the fixture roles.
+		{
+			Role r = GenericsFactory.eINSTANCE.createRole();
+			r.setName(ROLE_ADMIN);
+			studio.getRoles().add(r);
+			
+			// Make Tom an Admin. 
+			Person p = GenericsFactory.eINSTANCE.createPerson();
+			p.setLogin("tom");
+			p.setRoles(r);
+			studio.getUsers().add(p);
+		}
+		{
+			Role r = GenericsFactory.eINSTANCE.createRole();
+			r.setName(ROLE_PLANNER);
+			studio.getRoles().add(r);
+		}
+		{
+			Role r = GenericsFactory.eINSTANCE.createRole();
+			r.setName(ROLE_READONLY);
+			studio.getRoles().add(r);
+		}
+
+		res.getContents().add(studio);
+
+		// TODO, add some actions.
+		@SuppressWarnings("unused")
+		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+		try {
+			res.save(null);
+		} catch (TransactionException e) {
+			// TODO, some rollback of the transaction.
+			// See CDO Editor.
+			((CDOTransaction) view).rollback();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

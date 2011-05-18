@@ -18,21 +18,54 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data;
 
+import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
  */
 public interface IDataProvider {
 	
+	/**
+	 * Get a resource with a given resource set. 
+	 * @param set
+	 * @param feature
+	 * @return
+	 */
 	public Resource getResource(ResourceSet set, int feature);
 	
+	/**
+	 * Get the resource for a specific feature. 
+	 * @param feature
+	 * @return
+	 */
+	public Resource getResource(int feature);
+	
+	/**
+	 * TODO Remove later. 
+	 * @return
+	 */
 	public EObject getNetXScriptWrapper();
 	
+	/**
+	 * Open a session for the user credentials. 
+	 * @param uid
+	 * @param passwd
+	 */
 	public void openSession(String uid, String passwd);
 	
+	/**
+	 * Get the current User ID for this session. 
+	 * @return
+	 */
 	public String getSessionUserID();
+	
+	/**
+	 * Get the active session
+	 * @return
+	 */
+	public CDOSession getSession();
+	
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 3, 2011 NetXForge.
+ * Copyright (c) May 18, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,26 +15,23 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
-package com.netxforge.netxstudio.data;
+ *******************************************************************************/
+package com.netxforge.netxstudio.data.cdo;
+
 
 /**
- * Provides various services. 
- * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
+ *
  */
-public interface IDataService {
+public interface IFixtures {
+	
+	public static String ROLE_ADMIN = "admin";
+	public static String ROLE_PLANNER = "planner";
+	public static String ROLE_READONLY = "readonly";
 	
 	/**
-	 * Get the data provider. 
-	 * @return
+	 * Note: Will clear existing data on specified resources. 
 	 */
-	public IDataProvider getProvider();
-	
-	/**
-	 * Get the Data service role handler. 
-	 * @return
-	 */
-	public IRoleHandler getRoleHandler();
+	public abstract void loadFixtures();
 
 }

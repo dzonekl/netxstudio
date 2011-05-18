@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 3, 2011 NetXForge.
+ * Copyright (c) May 18, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,25 +16,17 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.data;
+package com.netxforge.netxstudio.data.cdo;
+
+import org.eclipse.emf.cdo.view.CDOQuery;
 
 /**
- * Provides various services. 
- * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
+ *
  */
-public interface IDataService {
-	
-	/**
-	 * Get the data provider. 
-	 * @return
-	 */
-	public IDataProvider getProvider();
-	
-	/**
-	 * Get the Data service role handler. 
-	 * @return
-	 */
-	public IRoleHandler getRoleHandler();
+public class CDOQueryUtil {
 
+	public static void addCacheParameter(CDOQuery query) {
+		query.setParameter(ICDOQueries.CACHE_RESULTS, true);
+	}
 }
