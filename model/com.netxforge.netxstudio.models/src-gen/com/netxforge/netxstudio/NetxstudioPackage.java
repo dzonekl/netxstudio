@@ -225,13 +225,22 @@ public interface NetxstudioPackage extends EPackage {
 	int NETXSTUDIO__USERS = 4;
 
 	/**
+	 * The feature id for the '<em><b>Roles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NETXSTUDIO__ROLES = 5;
+
+	/**
 	 * The feature id for the '<em><b>Countries</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NETXSTUDIO__COUNTRIES = 5;
+	int NETXSTUDIO__COUNTRIES = 6;
 
 	/**
 	 * The feature id for the '<em><b>Jobs</b></em>' containment reference list.
@@ -240,7 +249,7 @@ public interface NetxstudioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETXSTUDIO__JOBS = 6;
+	int NETXSTUDIO__JOBS = 7;
 
 	/**
 	 * The number of structural features of the '<em>Netxstudio</em>' class.
@@ -249,7 +258,7 @@ public interface NetxstudioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETXSTUDIO_FEATURE_COUNT = 7;
+	int NETXSTUDIO_FEATURE_COUNT = 8;
 
 
 	/**
@@ -316,6 +325,17 @@ public interface NetxstudioPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getNetxstudio_Users();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.Netxstudio#getRoles <em>Roles</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Roles</em>'.
+	 * @see com.netxforge.netxstudio.Netxstudio#getRoles()
+	 * @see #getNetxstudio()
+	 * @generated
+	 */
+	EReference getNetxstudio_Roles();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.Netxstudio#getCountries <em>Countries</em>}'.
@@ -410,6 +430,14 @@ public interface NetxstudioPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NETXSTUDIO__USERS = eINSTANCE.getNetxstudio_Users();
+
+		/**
+		 * The meta object literal for the '<em><b>Roles</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NETXSTUDIO__ROLES = eINSTANCE.getNetxstudio_Roles();
 
 		/**
 		 * The meta object literal for the '<em><b>Countries</b></em>' containment reference list feature.

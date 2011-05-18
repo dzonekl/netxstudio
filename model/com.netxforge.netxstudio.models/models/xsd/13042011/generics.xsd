@@ -93,6 +93,9 @@ Examples:
 
 			</xs:documentation>
 		</xs:annotation>
+		<xs:sequence>
+			<xs:element ecore:reference="Role" name="Roles" type="xs:anyURI" maxOccurs="1" minOccurs="0"></xs:element>
+		</xs:sequence>
 		<xs:attribute ecore:reference="Company" name="CompanyRef"
 			type="xs:anyURI">
 			<xs:annotation>

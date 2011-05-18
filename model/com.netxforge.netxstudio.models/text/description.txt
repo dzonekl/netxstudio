@@ -118,6 +118,7 @@ Package generics <http://www.netxforge.com/13042011/generics>
     Attribute obj128 : AnyURI
 
   Class Person
+    Reference roles : Role
     Attribute active : Boolean
     Reference companyRef : Company
     Attribute email : String
@@ -550,5 +551,6 @@ Package netxstudio <http://www.netxforge.com/13042011/netxstudio>
     Reference companies : Company<<0..*>>
     Reference vendors : Vendor<<0..*>>
     Reference users : Person<<0..*>>
+    Reference roles : Role<<0..*>>
     Reference countries : Country<<0..*>>
     Reference jobs : Job<<0..*>>

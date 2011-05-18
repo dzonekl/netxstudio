@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.Vendor;
@@ -46,6 +47,7 @@ import com.netxforge.netxstudio.scheduling.Job;
  *   <li>{@link com.netxforge.netxstudio.Netxstudio#getCompanies <em>Companies</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.Netxstudio#getVendors <em>Vendors</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.Netxstudio#getUsers <em>Users</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.Netxstudio#getRoles <em>Roles</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.Netxstudio#getCountries <em>Countries</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.Netxstudio#getJobs <em>Jobs</em>}</li>
  * </ul>
@@ -136,6 +138,22 @@ public interface Netxstudio extends CDOObject {
 	 * @generated
 	 */
 	EList<Person> getUsers();
+
+	/**
+	 * Returns the value of the '<em><b>Roles</b></em>' containment reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.generics.Role}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The Roles reference, contains 0 or more Role type.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Roles</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.NetxstudioPackage#getNetxstudio_Roles()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Roles'"
+	 * @generated
+	 */
+	EList<Role> getRoles();
 
 	/**
 	 * Returns the value of the '<em><b>Countries</b></em>' containment reference list.

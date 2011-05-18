@@ -37,6 +37,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.generics.Person#getRoles <em>Roles</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.Person#isActive <em>Active</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.Person#getCompanyRef <em>Company Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.Person#getEmail <em>Email</em>}</li>
@@ -48,11 +49,37 @@ import org.eclipse.emf.cdo.CDOObject;
  * </p>
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getPerson()
- * @model extendedMetaData="name='Person' kind='empty'"
+ * @model extendedMetaData="name='Person' kind='elementOnly'"
  * @extends CDOObject
  * @generated
  */
 public interface Person extends CDOObject {
+	/**
+	 * Returns the value of the '<em><b>Roles</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Roles</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Roles</em>' reference.
+	 * @see #setRoles(Role)
+	 * @see com.netxforge.netxstudio.generics.GenericsPackage#getPerson_Roles()
+	 * @model extendedMetaData="kind='element' name='Roles'"
+	 * @generated
+	 */
+	Role getRoles();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.generics.Person#getRoles <em>Roles</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Roles</em>' reference.
+	 * @see #getRoles()
+	 * @generated
+	 */
+	void setRoles(Role value);
+
 	/**
 	 * Returns the value of the '<em><b>Active</b></em>' attribute.
 	 * <!-- begin-user-doc -->

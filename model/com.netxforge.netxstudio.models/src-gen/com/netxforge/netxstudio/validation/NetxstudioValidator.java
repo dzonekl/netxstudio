@@ -10,6 +10,7 @@ import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.Vendor;
@@ -30,6 +31,8 @@ public interface NetxstudioValidator {
 	boolean validateCompanies(EList<Company> value);
 	boolean validateVendors(EList<Vendor> value);
 	boolean validateUsers(EList<Person> value);
+	boolean validateRoles(EList<Role> value);
+
 	boolean validateCountries(EList<Country> value);
 	boolean validateJobs(EList<Job> value);
 }

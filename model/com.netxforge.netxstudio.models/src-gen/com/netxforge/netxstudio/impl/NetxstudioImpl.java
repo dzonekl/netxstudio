@@ -26,6 +26,7 @@ import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.Vendor;
@@ -44,6 +45,7 @@ import com.netxforge.netxstudio.scheduling.Job;
  *   <li>{@link com.netxforge.netxstudio.impl.NetxstudioImpl#getCompanies <em>Companies</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.impl.NetxstudioImpl#getVendors <em>Vendors</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.impl.NetxstudioImpl#getUsers <em>Users</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.impl.NetxstudioImpl#getRoles <em>Roles</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.impl.NetxstudioImpl#getCountries <em>Countries</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.impl.NetxstudioImpl#getJobs <em>Jobs</em>}</li>
  * </ul>
@@ -129,6 +131,16 @@ public class NetxstudioImpl extends CDOObjectImpl implements Netxstudio {
 	@SuppressWarnings("unchecked")
 	public EList<Person> getUsers() {
 		return (EList<Person>)eGet(NetxstudioPackage.Literals.NETXSTUDIO__USERS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<Role> getRoles() {
+		return (EList<Role>)eGet(NetxstudioPackage.Literals.NETXSTUDIO__ROLES, true);
 	}
 
 	/**

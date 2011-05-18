@@ -129,6 +129,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//MultiImage/obj128"/>
     </genClasses>
     <genClasses ecoreClass="generics.ecore#//Person">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference generics.ecore#//Person/roles"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Person/active"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference generics.ecore#//Person/companyRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Person/email"/>
@@ -529,6 +530,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/companies"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/vendors"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/users"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/roles"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/countries"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/jobs"/>
     </genClasses>

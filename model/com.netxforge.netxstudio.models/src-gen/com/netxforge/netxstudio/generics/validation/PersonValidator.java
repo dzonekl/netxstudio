@@ -7,6 +7,7 @@
 package com.netxforge.netxstudio.generics.validation;
 
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.generics.Role;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.generics.Person}.
@@ -16,6 +17,8 @@ import com.netxforge.netxstudio.generics.Company;
  */
 public interface PersonValidator {
 	boolean validate();
+
+	boolean validateRoles(Role value);
 
 	boolean validateActive(boolean value);
 

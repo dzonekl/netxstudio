@@ -405,13 +405,22 @@ public interface GenericsPackage extends EPackage {
 	int PERSON = 6;
 
 	/**
+	 * The feature id for the '<em><b>Roles</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERSON__ROLES = 0;
+
+	/**
 	 * The feature id for the '<em><b>Active</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__ACTIVE = 0;
+	int PERSON__ACTIVE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Company Ref</b></em>' reference.
@@ -420,7 +429,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__COMPANY_REF = 1;
+	int PERSON__COMPANY_REF = 2;
 
 	/**
 	 * The feature id for the '<em><b>Email</b></em>' attribute.
@@ -429,7 +438,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__EMAIL = 2;
+	int PERSON__EMAIL = 3;
 
 	/**
 	 * The feature id for the '<em><b>First Name</b></em>' attribute.
@@ -438,7 +447,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__FIRST_NAME = 3;
+	int PERSON__FIRST_NAME = 4;
 
 	/**
 	 * The feature id for the '<em><b>Last Name</b></em>' attribute.
@@ -447,7 +456,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__LAST_NAME = 4;
+	int PERSON__LAST_NAME = 5;
 
 	/**
 	 * The feature id for the '<em><b>Login</b></em>' attribute.
@@ -456,7 +465,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__LOGIN = 5;
+	int PERSON__LOGIN = 6;
 
 	/**
 	 * The feature id for the '<em><b>Password</b></em>' attribute.
@@ -465,7 +474,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__PASSWORD = 6;
+	int PERSON__PASSWORD = 7;
 
 	/**
 	 * The number of structural features of the '<em>Person</em>' class.
@@ -474,7 +483,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON_FEATURE_COUNT = 7;
+	int PERSON_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.RoleImpl <em>Role</em>}' class.
@@ -944,6 +953,17 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getPerson();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.generics.Person#getRoles <em>Roles</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Roles</em>'.
+	 * @see com.netxforge.netxstudio.generics.Person#getRoles()
+	 * @see #getPerson()
+	 * @generated
+	 */
+	EReference getPerson_Roles();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.generics.Person#isActive <em>Active</em>}'.
@@ -1442,6 +1462,14 @@ public interface GenericsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PERSON = eINSTANCE.getPerson();
+
+		/**
+		 * The meta object literal for the '<em><b>Roles</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PERSON__ROLES = eINSTANCE.getPerson_Roles();
 
 		/**
 		 * The meta object literal for the '<em><b>Active</b></em>' attribute feature.

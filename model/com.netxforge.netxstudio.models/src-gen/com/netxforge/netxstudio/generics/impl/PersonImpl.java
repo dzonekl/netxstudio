@@ -24,6 +24,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,6 +33,7 @@ import com.netxforge.netxstudio.generics.Person;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.generics.impl.PersonImpl#getRoles <em>Roles</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.impl.PersonImpl#isActive <em>Active</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.impl.PersonImpl#getCompanyRef <em>Company Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.generics.impl.PersonImpl#getEmail <em>Email</em>}</li>
@@ -72,6 +74,24 @@ public class PersonImpl extends CDOObjectImpl implements Person {
 	@Override
 	protected int eStaticFeatureCount() {
 		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Role getRoles() {
+		return (Role)eGet(GenericsPackage.Literals.PERSON__ROLES, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRoles(Role newRoles) {
+		eSet(GenericsPackage.Literals.PERSON__ROLES, newRoles);
 	}
 
 	/**

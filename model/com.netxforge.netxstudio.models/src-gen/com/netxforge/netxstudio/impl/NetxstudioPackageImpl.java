@@ -207,7 +207,7 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNetxstudio_Countries() {
+	public EReference getNetxstudio_Roles() {
 		return (EReference)netxstudioEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -216,8 +216,17 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNetxstudio_Jobs() {
+	public EReference getNetxstudio_Countries() {
 		return (EReference)netxstudioEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNetxstudio_Jobs() {
+		return (EReference)netxstudioEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -254,6 +263,7 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 		createEReference(netxstudioEClass, NETXSTUDIO__COMPANIES);
 		createEReference(netxstudioEClass, NETXSTUDIO__VENDORS);
 		createEReference(netxstudioEClass, NETXSTUDIO__USERS);
+		createEReference(netxstudioEClass, NETXSTUDIO__ROLES);
 		createEReference(netxstudioEClass, NETXSTUDIO__COUNTRIES);
 		createEReference(netxstudioEClass, NETXSTUDIO__JOBS);
 	}
@@ -301,6 +311,7 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 		initEReference(getNetxstudio_Companies(), theGenericsPackage.getCompany(), null, "companies", null, 0, -1, Netxstudio.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetxstudio_Vendors(), theLibraryPackage.getVendor(), null, "vendors", null, 0, -1, Netxstudio.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetxstudio_Users(), theGenericsPackage.getPerson(), null, "users", null, 0, -1, Netxstudio.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNetxstudio_Roles(), theGenericsPackage.getRole(), null, "roles", null, 0, -1, Netxstudio.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetxstudio_Countries(), theGeoPackage.getCountry(), null, "countries", null, 0, -1, Netxstudio.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetxstudio_Jobs(), theSchedulingPackage.getJob(), null, "jobs", null, 0, -1, Netxstudio.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -329,7 +340,7 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																
+		   });																		
 	}
 
 	/**
@@ -381,6 +392,13 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 		   new String[] {
 			 "kind", "element",
 			 "name", "Users"
+		   });			
+		addAnnotation
+		  (getNetxstudio_Roles(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Roles"
 		   });			
 		addAnnotation
 		  (getNetxstudio_Countries(), 
