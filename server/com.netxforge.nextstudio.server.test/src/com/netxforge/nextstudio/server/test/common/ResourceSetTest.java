@@ -15,7 +15,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.nextstudio.server.test;
+package com.netxforge.nextstudio.server.test.common;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
@@ -30,6 +30,8 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoFactory;
+import com.netxforge.nextstudio.server.test.base.BaseAuthTest;
+import com.netxforge.nextstudio.server.test.base.BaseTest;
 
 /**
  * A Test showing persisting of data using an editing domain and a resource set.
@@ -43,7 +45,7 @@ import com.netxforge.netxstudio.geo.GeoFactory;
  *
  * @author Martin Taal
  */
-public class ResourceSetTest extends BaseTest
+public class ResourceSetTest extends BaseAuthTest
 {
 
   /**
@@ -59,18 +61,18 @@ public class ResourceSetTest extends BaseTest
       
       // Create an EMF adapter factory which constructed from the registered adapter factoy descriptors. 
       // as by extension:  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      ComposedAdapterFactory emfEditAdapterFactory = new ComposedAdapterFactory(
+      final ComposedAdapterFactory emfEditAdapterFactory = new ComposedAdapterFactory(
   					ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
       
-      BasicCommandStack commandStack = new BasicCommandStack();
+      final BasicCommandStack commandStack = new BasicCommandStack();
       
       // Create the editing domain and 
-      AdapterFactoryEditingDomain domain = new AdapterFactoryEditingDomain(emfEditAdapterFactory,commandStack);
+      final AdapterFactoryEditingDomain domain = new AdapterFactoryEditingDomain(emfEditAdapterFactory,commandStack);
       
       final CDOTransaction transaction = session.openTransaction(domain.getResourceSet());
       
       // get/create a resource, in the resourceset. 
-      CDOResource resource = transaction.getOrCreateResource("/test1"); //$NON-NLS-1$
+      final CDOResource resource = transaction.getOrCreateResource("/test1"); //$NON-NLS-1$
       
       // Our CDO resource should be contained in the resource set. 
       assert domain.getResourceSet().getResources().size() > 0;
@@ -84,7 +86,7 @@ public class ResourceSetTest extends BaseTest
       country.setName(name);
       
       // Use the edit framework 
-      Command c = new AddCommand(domain, resource.getContents(), country);
+      final Command c = new AddCommand(domain, resource.getContents(), country);
       assert !(c instanceof UnexecutableCommand);
       if(c.canExecute()){
     	  domain.getCommandStack().execute(c);
@@ -92,7 +94,7 @@ public class ResourceSetTest extends BaseTest
       
       if(((BasicCommandStack)domain.getCommandStack()).isSaveNeeded()){
     	  // Something was added.
-    	  EObject whatwasadded = resource.getContents().get(0);
+    	  final EObject whatwasadded = resource.getContents().get(0);
     	  assert whatwasadded != null && whatwasadded instanceof Country;
     	  
       }else{
@@ -118,7 +120,7 @@ public class ResourceSetTest extends BaseTest
       final CDOSession session = openSession();
       final CDOTransaction transaction = session.openTransaction();
       
-      CDOResource resource = transaction.getResource("/test1"); //$NON-NLS-1$
+      final CDOResource resource = transaction.getResource("/test1"); //$NON-NLS-1$
       assertEquals(true, resource.getContents().get(0) instanceof Country);
       assertEquals(1, resource.getContents().size());
       final Country address = (Country)resource.getContents().get(0);

@@ -15,7 +15,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.nextstudio.server.test;
+package com.netxforge.nextstudio.server.test.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,18 +27,19 @@ import org.eclipse.emf.cdo.view.CDOQuery;
 
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.StateType;
+import com.netxforge.nextstudio.server.test.base.BaseAuthTest;
 
 /**
  * Test different aspects of HQL querying using the CDO query api.
  * 
  * @author Martin Taal
  */
-public class HibernateQueryTest extends BaseTest
+public class HibernateQueryAuthTest extends BaseAuthTest
 {
 
   public void testSimpleQuery() throws Exception
   {
-    CDOSession session = openSession();
+    CDOSession session = openSession("test", "test");
     CDOTransaction transaction = session.openTransaction();
 
     {
@@ -66,7 +67,7 @@ public class HibernateQueryTest extends BaseTest
   
   public void testFunctions() throws Exception
   {
-    CDOSession session = openSession();
+    CDOSession session = openSession("test", "test");
     CDOTransaction transaction = session.openTransaction();
 
     {
@@ -93,7 +94,7 @@ public class HibernateQueryTest extends BaseTest
 
   public void testQueryObjectArray() throws Exception
   {
-    CDOSession session = openSession();
+    CDOSession session = openSession("test", "test");
     CDOTransaction transaction = session.openTransaction();
 
     {
@@ -113,7 +114,7 @@ public class HibernateQueryTest extends BaseTest
 
   public void testPaging() throws Exception
   {
-    CDOSession session = openSession();
+    CDOSession session = openSession("test", "test");
     CDOTransaction transaction = session.openTransaction();
 
     {

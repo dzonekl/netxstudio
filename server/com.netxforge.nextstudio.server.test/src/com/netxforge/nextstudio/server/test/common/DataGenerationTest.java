@@ -15,7 +15,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.nextstudio.server.test;
+package com.netxforge.nextstudio.server.test.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.texo.datagenerator.ModelDataGenerator;
 import org.eclipse.osgi.internal.baseadaptor.BasePermissionStorage;
+
+import com.netxforge.nextstudio.server.test.base.BaseTest;
 
 /**
  * Generates test data for the available epackages.

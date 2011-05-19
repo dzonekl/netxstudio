@@ -15,7 +15,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.nextstudio.server.test;
+package com.netxforge.nextstudio.server.test.common;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
@@ -25,6 +25,8 @@ import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.Unit;
+import com.netxforge.nextstudio.server.test.base.BaseAuthTest;
+import com.netxforge.nextstudio.server.test.base.BaseTest;
 
 /**
  * A quick test to show creating and persisting some data in the repository. To run these tests the CDO server has to be
@@ -35,7 +37,7 @@ import com.netxforge.netxstudio.library.Unit;
  *
  * @author Martin Taal
  */
-public class QuickStartTest extends BaseTest
+public class QuickStartTestWithAuthentication extends BaseAuthTest
 {
 
   /**
@@ -46,7 +48,8 @@ public class QuickStartTest extends BaseTest
     // first create an address and persist it
     final String name = "name " + System.currentTimeMillis(); //$NON-NLS-1$
     {
-      final CDOSession session = openSession();
+      final CDOSession session = openSession("tom","123");
+      
       final CDOTransaction transaction = session.openTransaction();
 
       // get/create a resource
@@ -70,7 +73,7 @@ public class QuickStartTest extends BaseTest
 
     // read back and do some tests
     {
-      final CDOSession session = openSession();
+      final CDOSession session = openSession("tom","123");
       final CDOTransaction transaction = session.openTransaction();
       CDOResource resource = transaction.getResource("/test1"); //$NON-NLS-1$
       assertEquals(true, resource.getContents().get(0) instanceof Country);

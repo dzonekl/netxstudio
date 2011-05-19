@@ -15,7 +15,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.nextstudio.server.test;
+package com.netxforge.nextstudio.server.test.base;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +36,6 @@ import org.eclipse.net4j.util.container.IManagedContainer;
 import org.eclipse.net4j.util.om.OMPlatform;
 import org.eclipse.net4j.util.om.log.PrintLogHandler;
 import org.eclipse.net4j.util.om.trace.PrintTraceHandler;
-import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
-import org.eclipse.net4j.util.security.PasswordCredentials;
-import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -56,7 +53,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Martin Taal
  */
-public class BaseAuthTest extends TestCase {
+public class BaseTest extends TestCase {
 	protected static final String REPO_NAME = "repo1"; //$NON-NLS-1$
 
 	protected static final String CONNECTION_ADDRESS = "localhost:2036"; //$NON-NLS-1$
@@ -65,7 +62,7 @@ public class BaseAuthTest extends TestCase {
 
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 
-	public BaseAuthTest() {
+	public BaseTest() {
 		ePackages.add(GeoPackage.eINSTANCE);
 		ePackages.add(GenericsPackage.eINSTANCE);
 		ePackages.add(NetxstudioPackage.eINSTANCE);
@@ -85,20 +82,11 @@ public class BaseAuthTest extends TestCase {
 	 * Opens a CDOSession, does not register an EPackage with the session. This
 	 * should be done by the caller.
 	 */
-	protected CDOSession openSession(String uid, String pass) {
+	protected CDOSession openSession() {
 		if (sessionConfiguration == null) {
 			initialize();
 		}
-		
-		IPasswordCredentialsProvider credentialsProvider = new 
-				PasswordCredentialsProvider(new 
-				PasswordCredentials(uid,pass.toCharArray())); 
-		sessionConfiguration.getAuthenticator().setCredentialsProvider(credentialsProvider);
-		
 		final CDOSession cdoSession = sessionConfiguration.openSession();
-		
-		
-		
 		for (EPackage ePackage : ePackages) {
 			cdoSession.getPackageRegistry().putEPackage(ePackage);
 		}
