@@ -50,11 +50,11 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 			return new NetxForgeUserManager();
 		}
 	}
-
+	
 	@Override
 	protected char[] getPassword(IRepository repository, String userID) {
-		if (userID.equals("test")) {
-			return "test".toCharArray();
+		if (userID.equals("admin")) {
+			return "admin".toCharArray();
 		}
 		final IHibernateStore hbStore = (IHibernateStore) repository.getStore();
 		final Session session = hbStore.getHibernateSessionFactory()
@@ -79,5 +79,4 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 		}
 		return pwd.toCharArray();
 	}
-
 }
