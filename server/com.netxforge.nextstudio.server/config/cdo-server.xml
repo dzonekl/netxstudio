@@ -6,14 +6,14 @@
 	-->
 
 	<acceptor type="tcp" listenAddr="0.0.0.0" port="2036">
-		<!--
-		<negotiator type="challenge" description="/temp/users.db"/>
-		-->
+		<!-- negotiator type="challenge" description="NetxForgeChallenge"/-->
 	</acceptor>
 
 	<repository name="repo1">
 	
-		<userManager type="file" description="/temp/users.db"/>  
+		<userManager type="NetxForgeUserManager" description="repo1"/>
+	
+		<!-- userManager type="file" description="/temp/users.db"/-->  
 	
 		<property name="overrideUUID" value=""/>
 		<property name="supportingAudits" value="false"/>
@@ -27,6 +27,7 @@
 		<initialPackage nsURI="http://www.netxforge.com/13042011/protocols"/>
 		<initialPackage nsURI="http://www.netxforge.com/13042011/scheduling"/>
 		<initialPackage nsURI="http://www.netxforge.com/13042011/services"/>
+		<initialPackage nsURI="http://www.eclipse.org/emf/2003/XMLType"/>
 
 		<!--
 			NOTE: the following properties are currently defined on repository level.
