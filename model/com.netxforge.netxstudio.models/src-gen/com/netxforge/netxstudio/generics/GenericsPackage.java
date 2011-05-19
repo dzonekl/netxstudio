@@ -621,15 +621,14 @@ public interface GenericsPackage extends EPackage {
 	int NAME255 = 15;
 
 	/**
-	 * The meta object id for the '<em>Unit</em>' data type.
+	 * The meta object id for the '<em>Unit Code</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see java.lang.String
-	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getUnit()
+	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getUnitCode()
 	 * @generated
 	 */
-	int UNIT = 16;
-
+	int UNIT_CODE = 16;
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.generics.Company <em>Company</em>}'.
@@ -1176,16 +1175,16 @@ public interface GenericsPackage extends EPackage {
 	EDataType getName255();
 
 	/**
-	 * Returns the meta object for data type '{@link java.lang.String <em>Unit</em>}'.
+	 * Returns the meta object for data type '{@link java.lang.String <em>Unit Code</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>Unit</em>'.
+	 * @return the meta object for data type '<em>Unit Code</em>'.
 	 * @see java.lang.String
 	 * @model instanceClass="java.lang.String"
-	 *        extendedMetaData="name='Unit' baseType='http://www.eclipse.org/emf/2003/XMLType#string' maxLength='3'"
+	 *        extendedMetaData="name='UnitCode' baseType='http://www.eclipse.org/emf/2003/XMLType#string' maxLength='3'"
 	 * @generated
 	 */
-	EDataType getUnit();
+	EDataType getUnitCode();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1642,14 +1641,14 @@ public interface GenericsPackage extends EPackage {
 		EDataType NAME255 = eINSTANCE.getName255();
 
 		/**
-		 * The meta object literal for the '<em>Unit</em>' data type.
+		 * The meta object literal for the '<em>Unit Code</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see java.lang.String
-		 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getUnit()
+		 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getUnitCode()
 		 * @generated
 		 */
-		EDataType UNIT = eINSTANCE.getUnit();
+		EDataType UNIT_CODE = eINSTANCE.getUnitCode();
 
 	}
 

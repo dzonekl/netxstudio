@@ -739,6 +739,15 @@
       <details key="name" value="NetXResource"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metricRef" eType="ecore:EClass metrics.ecore#//Metric">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The MetricRef reference, refers to zero or one Metric for which this resource contains values.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="MetricRef"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="metricValueRanges" upperBound="-1"
         eType="ecore:EClass metrics.ecore#//MetricValueRange" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -1116,7 +1125,7 @@
         <details key="name" value="Icons"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" eType="ecore:EDataType generics.ecore#//Unit">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" eType="ecore:EDataType generics.ecore#//UnitCode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The Code attribute holds the code of the unit.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>

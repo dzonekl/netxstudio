@@ -29,8 +29,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getDataType <em>Data Type</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderName <em>Column Header Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderRow <em>Column Header Row</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumn <em>Column</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,7 +44,9 @@ public interface MappingXLSColumn extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ColumnDataKind reference, contains 1 DataKind type. The DataKind is either an Identifer or a Value.
+	 * The ColumnDataKind reference, contains 1 DataKind
+	 * 						type. The DataKind is either an Identifer or a Value.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Data Type</em>' containment reference.
 	 * @see #setDataType(DataKind)
@@ -67,83 +68,57 @@ public interface MappingXLSColumn extends CDOObject {
 	void setDataType(DataKind value);
 
 	/**
-	 * Returns the value of the '<em><b>Column Header Name</b></em>' attribute.
+	 * Returns the value of the '<em><b>Column</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Column</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The ColumnHeaderName attribute, is a textual expected header names.
-	 * Note: that if the corresponding ColumnDataKind is a Metric, the column header will be interpreted as the name of the Metric.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Column Header Name</em>' attribute.
-	 * @see #setColumnHeaderName(String)
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingXLSColumn_ColumnHeaderName()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        extendedMetaData="kind='attribute' name='ColumnHeaderName'"
-	 * @generated
-	 */
-	String getColumnHeaderName();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderName <em>Column Header Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Column Header Name</em>' attribute.
-	 * @see #getColumnHeaderName()
-	 * @generated
-	 */
-	void setColumnHeaderName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Column Header Row</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The ColumnHeaderRow attributes overrides (per column) the row number of the expected header row. 
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Column Header Row</em>' attribute.
-	 * @see #isSetColumnHeaderRow()
-	 * @see #unsetColumnHeaderRow()
-	 * @see #setColumnHeaderRow(int)
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingXLSColumn_ColumnHeaderRow()
+	 * @return the value of the '<em>Column</em>' attribute.
+	 * @see #isSetColumn()
+	 * @see #unsetColumn()
+	 * @see #setColumn(int)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingXLSColumn_Column()
 	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
-	 *        extendedMetaData="kind='attribute' name='ColumnHeaderRow'"
+	 *        extendedMetaData="kind='attribute' name='column'"
 	 * @generated
 	 */
-	int getColumnHeaderRow();
+	int getColumn();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderRow <em>Column Header Row</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumn <em>Column</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Column Header Row</em>' attribute.
-	 * @see #isSetColumnHeaderRow()
-	 * @see #unsetColumnHeaderRow()
-	 * @see #getColumnHeaderRow()
+	 * @param value the new value of the '<em>Column</em>' attribute.
+	 * @see #isSetColumn()
+	 * @see #unsetColumn()
+	 * @see #getColumn()
 	 * @generated
 	 */
-	void setColumnHeaderRow(int value);
+	void setColumn(int value);
 
 	/**
-	 * Unsets the value of the '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderRow <em>Column Header Row</em>}' attribute.
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumn <em>Column</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isSetColumnHeaderRow()
-	 * @see #getColumnHeaderRow()
-	 * @see #setColumnHeaderRow(int)
+	 * @see #isSetColumn()
+	 * @see #getColumn()
+	 * @see #setColumn(int)
 	 * @generated
 	 */
-	void unsetColumnHeaderRow();
+	void unsetColumn();
 
 	/**
-	 * Returns whether the value of the '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderRow <em>Column Header Row</em>}' attribute is set.
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumn <em>Column</em>}' attribute is set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Column Header Row</em>' attribute is set.
-	 * @see #unsetColumnHeaderRow()
-	 * @see #getColumnHeaderRow()
-	 * @see #setColumnHeaderRow(int)
+	 * @return whether the value of the '<em>Column</em>' attribute is set.
+	 * @see #unsetColumn()
+	 * @see #getColumn()
+	 * @see #setColumn(int)
 	 * @generated
 	 */
-	boolean isSetColumnHeaderRow();
+	boolean isSetColumn();
 
 } // MappingXLSColumn

@@ -18,6 +18,8 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import com.netxforge.netxstudio.metrics.KindHintType;
+import com.netxforge.netxstudio.metrics.Metric;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -31,6 +33,8 @@ import com.netxforge.netxstudio.metrics.ValueKindType;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl#getMetricRef <em>Metric Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl#getKindHint <em>Kind Hint</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl#getValueKind <em>Value Kind</em>}</li>
  * </ul>
  * </p>
@@ -55,6 +59,60 @@ public class ValueDataKindImpl extends DataKindImpl implements ValueDataKind {
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.VALUE_DATA_KIND;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Metric getMetricRef() {
+		return (Metric)eGet(MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMetricRef(Metric newMetricRef) {
+		eSet(MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF, newMetricRef);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public KindHintType getKindHint() {
+		return (KindHintType)eGet(MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setKindHint(KindHintType newKindHint) {
+		eSet(MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT, newKindHint);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetKindHint() {
+		eUnset(MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetKindHint() {
+		return eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT);
 	}
 
 	/**

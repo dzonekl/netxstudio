@@ -768,6 +768,13 @@ for an equipment or a function. </xs:documentation>
         		<xs:documentation>
         		</xs:documentation>
         	</xs:annotation>
+			<xs:element ecore:reference="metrics:Metric" minOccurs="0" maxOccurs="1"
+				name="MetricRef" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>The MetricRef reference, refers to zero or one Metric for which this resource contains values.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
         	<xs:element name="MetricValueRanges" type="metrics:MetricValueRange" maxOccurs="unbounded" minOccurs="0">
         		<xs:annotation>
         			<xs:documentation>The MetricValueRanges reference, contains measured usage values. Metric values are values
@@ -939,7 +946,7 @@ Examples:
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="Code" type="gen:Unit">
+		<xs:attribute name="Code" type="gen:UnitCode">
 			<xs:annotation>
 				<xs:documentation>The Code attribute holds the code of the unit.
 				</xs:documentation>

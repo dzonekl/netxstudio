@@ -29,8 +29,12 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Kind Hint Type</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
+ * <!-- begin-model-doc -->
+ * The KindHintType defines if a metric value is a BusyHour or AVG.
+ * 			
+ * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getKindHintType()
- * @model extendedMetaData="name='KindHint_._type'"
+ * @model extendedMetaData="name='KindHintType'"
  * @generated
  */
 public enum KindHintType implements Enumerator {

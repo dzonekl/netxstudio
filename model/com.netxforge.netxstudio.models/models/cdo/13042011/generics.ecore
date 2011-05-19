@@ -418,12 +418,12 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Unit" instanceClassName="java.lang.String">
+  <eClassifiers xsi:type="ecore:EDataType" name="UnitCode" instanceClassName="java.lang.String">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A type representing a Unit as in a measurement unit. The Unit, is a three character string&#xA;which demarks the resource unit for displaying purposes. (The Unit as such is not interpreted).&#xA;Units can be freely defined (Not implied by enumeration). &#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="Unit"/>
+      <details key="name" value="UnitCode"/>
       <details key="baseType" value="http://www.eclipse.org/emf/2003/XMLType#string"/>
       <details key="maxLength" value="3"/>
     </eAnnotations>

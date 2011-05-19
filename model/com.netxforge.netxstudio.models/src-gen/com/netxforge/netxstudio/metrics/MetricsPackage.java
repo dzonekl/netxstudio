@@ -250,13 +250,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_RECORD = 5;
 
 	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RECORD__MESSAGE = 0;
+
+	/**
 	 * The number of structural features of the '<em>Mapping Record</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RECORD_FEATURE_COUNT = 0;
+	int MAPPING_RECORD_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRecordXLSImpl <em>Mapping Record XLS</em>}' class.
@@ -267,6 +276,15 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	int MAPPING_RECORD_XLS = 6;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RECORD_XLS__MESSAGE = MAPPING_RECORD__MESSAGE;
 
 	/**
 	 * The feature id for the '<em><b>Column</b></em>' attribute.
@@ -324,13 +342,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_STATISTIC__MAPPING_DURATION = 1;
 
 	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_STATISTIC__MESSAGE = 2;
+
+	/**
 	 * The feature id for the '<em><b>Total Records</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_STATISTIC__TOTAL_RECORDS = 2;
+	int MAPPING_STATISTIC__TOTAL_RECORDS = 3;
 
 	/**
 	 * The number of structural features of the '<em>Mapping Statistic</em>' class.
@@ -339,7 +366,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_STATISTIC_FEATURE_COUNT = 3;
+	int MAPPING_STATISTIC_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl <em>Mapping XLS</em>}' class.
@@ -416,22 +443,13 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_XLS_COLUMN__DATA_TYPE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Column Header Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Column</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME = 1;
-
-	/**
-	 * The feature id for the '<em><b>Column Header Row</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW = 2;
+	int MAPPING_XLS_COLUMN__COLUMN = 1;
 
 	/**
 	 * The number of structural features of the '<em>Mapping XLS Column</em>' class.
@@ -440,7 +458,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS_COLUMN_FEATURE_COUNT = 3;
+	int MAPPING_XLS_COLUMN_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricImpl <em>Metric</em>}' class.
@@ -654,13 +672,31 @@ public interface MetricsPackage extends EPackage {
 	int VALUE_DATA_KIND = 13;
 
 	/**
+	 * The feature id for the '<em><b>Metric Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUE_DATA_KIND__METRIC_REF = DATA_KIND_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Kind Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUE_DATA_KIND__KIND_HINT = DATA_KIND_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Value Kind</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_DATA_KIND__VALUE_KIND = DATA_KIND_FEATURE_COUNT + 0;
+	int VALUE_DATA_KIND__VALUE_KIND = DATA_KIND_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Value Data Kind</em>' class.
@@ -669,7 +705,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_DATA_KIND_FEATURE_COUNT = DATA_KIND_FEATURE_COUNT + 1;
+	int VALUE_DATA_KIND_FEATURE_COUNT = DATA_KIND_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.KindHintType <em>Kind Hint Type</em>}' enum.
@@ -815,6 +851,17 @@ public interface MetricsPackage extends EPackage {
 	EClass getMappingRecord();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRecord#getMessage <em>Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Message</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingRecord#getMessage()
+	 * @see #getMappingRecord()
+	 * @generated
+	 */
+	EAttribute getMappingRecord_Message();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingRecordXLS <em>Mapping Record XLS</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -877,6 +924,17 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getMappingStatistic_MappingDuration();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingStatistic#getMessage <em>Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Message</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingStatistic#getMessage()
+	 * @see #getMappingStatistic()
+	 * @generated
+	 */
+	EAttribute getMappingStatistic_Message();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingStatistic#getTotalRecords <em>Total Records</em>}'.
@@ -965,26 +1023,15 @@ public interface MetricsPackage extends EPackage {
 	EReference getMappingXLSColumn_DataType();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderName <em>Column Header Name</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumn <em>Column</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Column Header Name</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderName()
+	 * @return the meta object for the attribute '<em>Column</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumn()
 	 * @see #getMappingXLSColumn()
 	 * @generated
 	 */
-	EAttribute getMappingXLSColumn_ColumnHeaderName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderRow <em>Column Header Row</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Column Header Row</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumnHeaderRow()
-	 * @see #getMappingXLSColumn()
-	 * @generated
-	 */
-	EAttribute getMappingXLSColumn_ColumnHeaderRow();
+	EAttribute getMappingXLSColumn_Column();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.Metric <em>Metric</em>}'.
@@ -1203,6 +1250,28 @@ public interface MetricsPackage extends EPackage {
 	EClass getValueDataKind();
 
 	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.metrics.ValueDataKind#getMetricRef <em>Metric Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Metric Ref</em>'.
+	 * @see com.netxforge.netxstudio.metrics.ValueDataKind#getMetricRef()
+	 * @see #getValueDataKind()
+	 * @generated
+	 */
+	EReference getValueDataKind_MetricRef();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.ValueDataKind#getKindHint <em>Kind Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Kind Hint</em>'.
+	 * @see com.netxforge.netxstudio.metrics.ValueDataKind#getKindHint()
+	 * @see #getValueDataKind()
+	 * @generated
+	 */
+	EAttribute getValueDataKind_KindHint();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.ValueDataKind#getValueKind <em>Value Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1250,7 +1319,7 @@ public interface MetricsPackage extends EPackage {
 	 * @return the meta object for data type '<em>Kind Hint Type Object</em>'.
 	 * @see com.netxforge.netxstudio.metrics.KindHintType
 	 * @model instanceClass="com.netxforge.netxstudio.metrics.KindHintType"
-	 *        extendedMetaData="name='KindHint_._type:Object' baseType='KindHint_._type'"
+	 *        extendedMetaData="name='KindHintType:Object' baseType='KindHintType'"
 	 * @generated
 	 */
 	EDataType getKindHintTypeObject();
@@ -1378,6 +1447,14 @@ public interface MetricsPackage extends EPackage {
 		EClass MAPPING_RECORD = eINSTANCE.getMappingRecord();
 
 		/**
+		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_RECORD__MESSAGE = eINSTANCE.getMappingRecord_Message();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRecordXLSImpl <em>Mapping Record XLS</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1428,6 +1505,14 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MAPPING_STATISTIC__MAPPING_DURATION = eINSTANCE.getMappingStatistic_MappingDuration();
+
+		/**
+		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_STATISTIC__MESSAGE = eINSTANCE.getMappingStatistic_Message();
 
 		/**
 		 * The meta object literal for the '<em><b>Total Records</b></em>' attribute feature.
@@ -1498,20 +1583,12 @@ public interface MetricsPackage extends EPackage {
 		EReference MAPPING_XLS_COLUMN__DATA_TYPE = eINSTANCE.getMappingXLSColumn_DataType();
 
 		/**
-		 * The meta object literal for the '<em><b>Column Header Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Column</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME = eINSTANCE.getMappingXLSColumn_ColumnHeaderName();
-
-		/**
-		 * The meta object literal for the '<em><b>Column Header Row</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW = eINSTANCE.getMappingXLSColumn_ColumnHeaderRow();
+		EAttribute MAPPING_XLS_COLUMN__COLUMN = eINSTANCE.getMappingXLSColumn_Column();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MetricImpl <em>Metric</em>}' class.
@@ -1680,6 +1757,22 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass VALUE_DATA_KIND = eINSTANCE.getValueDataKind();
+
+		/**
+		 * The meta object literal for the '<em><b>Metric Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VALUE_DATA_KIND__METRIC_REF = eINSTANCE.getValueDataKind_MetricRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Kind Hint</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VALUE_DATA_KIND__KIND_HINT = eINSTANCE.getValueDataKind_KindHint();
 
 		/**
 		 * The meta object literal for the '<em><b>Value Kind</b></em>' attribute feature.

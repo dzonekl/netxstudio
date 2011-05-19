@@ -26,7 +26,8 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points for a mapping specification.
+ * A type representing the basic information points
+ * 				for a mapping specification.
  * <!-- end-model-doc -->
  *
  *

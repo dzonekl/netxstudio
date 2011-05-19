@@ -267,7 +267,7 @@ Examples:
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
-	<xs:simpleType name="Unit">
+	<xs:simpleType name="UnitCode">
 		<xs:annotation>
 			<xs:documentation>A type representing a Unit as in a measurement unit. The Unit, is a three character string
 which demarks the resource unit for displaying purposes. (The Unit as such is not interpreted).

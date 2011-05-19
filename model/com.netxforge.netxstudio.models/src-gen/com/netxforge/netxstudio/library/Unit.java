@@ -90,7 +90,7 @@ public interface Unit extends CDOObject {
 	 * @return the value of the '<em>Code</em>' attribute.
 	 * @see #setCode(String)
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getUnit_Code()
-	 * @model dataType="com.netxforge.netxstudio.generics.Unit"
+	 * @model dataType="com.netxforge.netxstudio.generics.UnitCode"
 	 *        extendedMetaData="kind='attribute' name='Code'"
 	 * @generated
 	 */

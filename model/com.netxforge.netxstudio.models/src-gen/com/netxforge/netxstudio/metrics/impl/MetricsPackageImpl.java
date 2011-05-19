@@ -379,6 +379,15 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getMappingRecord_Message() {
+		return (EAttribute)mappingRecordEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMappingRecordXLS() {
 		return mappingRecordXLSEClass;
 	}
@@ -433,8 +442,17 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMappingStatistic_TotalRecords() {
+	public EAttribute getMappingStatistic_Message() {
 		return (EAttribute)mappingStatisticEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingStatistic_TotalRecords() {
+		return (EAttribute)mappingStatisticEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -505,17 +523,8 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMappingXLSColumn_ColumnHeaderName() {
+	public EAttribute getMappingXLSColumn_Column() {
 		return (EAttribute)mappingXLSColumnEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMappingXLSColumn_ColumnHeaderRow() {
-		return (EAttribute)mappingXLSColumnEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -703,8 +712,26 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getValueDataKind_MetricRef() {
+		return (EReference)valueDataKindEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getValueDataKind_KindHint() {
+		return (EAttribute)valueDataKindEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getValueDataKind_ValueKind() {
-		return (EAttribute)valueDataKindEClass.getEStructuralFeatures().get(0);
+		return (EAttribute)valueDataKindEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -802,6 +829,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		mappingRDBMSEClass = createEClass(MAPPING_RDBMS);
 
 		mappingRecordEClass = createEClass(MAPPING_RECORD);
+		createEAttribute(mappingRecordEClass, MAPPING_RECORD__MESSAGE);
 
 		mappingRecordXLSEClass = createEClass(MAPPING_RECORD_XLS);
 		createEAttribute(mappingRecordXLSEClass, MAPPING_RECORD_XLS__COLUMN);
@@ -810,6 +838,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		mappingStatisticEClass = createEClass(MAPPING_STATISTIC);
 		createEReference(mappingStatisticEClass, MAPPING_STATISTIC__FAILED_RECORDS);
 		createEReference(mappingStatisticEClass, MAPPING_STATISTIC__MAPPING_DURATION);
+		createEAttribute(mappingStatisticEClass, MAPPING_STATISTIC__MESSAGE);
 		createEAttribute(mappingStatisticEClass, MAPPING_STATISTIC__TOTAL_RECORDS);
 
 		mappingXLSEClass = createEClass(MAPPING_XLS);
@@ -820,8 +849,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 
 		mappingXLSColumnEClass = createEClass(MAPPING_XLS_COLUMN);
 		createEReference(mappingXLSColumnEClass, MAPPING_XLS_COLUMN__DATA_TYPE);
-		createEAttribute(mappingXLSColumnEClass, MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME);
-		createEAttribute(mappingXLSColumnEClass, MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW);
+		createEAttribute(mappingXLSColumnEClass, MAPPING_XLS_COLUMN__COLUMN);
 
 		metricEClass = createEClass(METRIC);
 		createEReference(metricEClass, METRIC__METRICS);
@@ -846,6 +874,8 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		createEAttribute(metricValueRangeEClass, METRIC_VALUE_RANGE__PERIOD_HINT);
 
 		valueDataKindEClass = createEClass(VALUE_DATA_KIND);
+		createEReference(valueDataKindEClass, VALUE_DATA_KIND__METRIC_REF);
+		createEAttribute(valueDataKindEClass, VALUE_DATA_KIND__KIND_HINT);
 		createEAttribute(valueDataKindEClass, VALUE_DATA_KIND__VALUE_KIND);
 
 		// Create enums
@@ -912,6 +942,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEClass(mappingRDBMSEClass, MappingRDBMS.class, "MappingRDBMS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(mappingRecordEClass, MappingRecord.class, "MappingRecord", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMappingRecord_Message(), theXMLTypePackage.getString(), "message", null, 0, 1, MappingRecord.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mappingRecordXLSEClass, MappingRecordXLS.class, "MappingRecordXLS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMappingRecordXLS_Column(), theXMLTypePackage.getInt(), "column", null, 0, 1, MappingRecordXLS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -920,6 +951,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEClass(mappingStatisticEClass, MappingStatistic.class, "MappingStatistic", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMappingStatistic_FailedRecords(), this.getMappingRecord(), null, "failedRecords", null, 0, -1, MappingStatistic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMappingStatistic_MappingDuration(), theGenericsPackage.getDateTimeRange(), null, "mappingDuration", null, 1, 1, MappingStatistic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingStatistic_Message(), theXMLTypePackage.getString(), "message", null, 0, 1, MappingStatistic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMappingStatistic_TotalRecords(), theXMLTypePackage.getInt(), "totalRecords", null, 0, 1, MappingStatistic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mappingXLSEClass, MappingXLS.class, "MappingXLS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -930,8 +962,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 
 		initEClass(mappingXLSColumnEClass, MappingXLSColumn.class, "MappingXLSColumn", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMappingXLSColumn_DataType(), this.getDataKind(), null, "dataType", null, 0, 1, MappingXLSColumn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMappingXLSColumn_ColumnHeaderName(), theXMLTypePackage.getString(), "columnHeaderName", null, 0, 1, MappingXLSColumn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMappingXLSColumn_ColumnHeaderRow(), theXMLTypePackage.getInt(), "columnHeaderRow", null, 0, 1, MappingXLSColumn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingXLSColumn_Column(), theXMLTypePackage.getInt(), "column", null, 0, 1, MappingXLSColumn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(metricEClass, Metric.class, "Metric", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetric_Metrics(), this.getMetric(), null, "metrics", null, 0, -1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -941,7 +972,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEAttribute(getMetric_MetricCalculation(), theGenericsPackage.getExpressionLine(), "metricCalculation", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMetric_MetricSourceRef(), this.getMetricSource(), this.getMetricSource_MetricRefs(), "metricSourceRef", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetric_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMetric_UnitRef(), theGenericsPackage.getUnit(), "unitRef", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMetric_UnitRef(), theGenericsPackage.getUnitCode(), "unitRef", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(metricSourceEClass, MetricSource.class, "MetricSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricSource_MetricRefs(), this.getMetric(), this.getMetric_MetricSourceRef(), "metricRefs", null, 0, -1, MetricSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -956,6 +987,8 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEAttribute(getMetricValueRange_PeriodHint(), theXMLTypePackage.getInt(), "periodHint", null, 0, 1, MetricValueRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(valueDataKindEClass, ValueDataKind.class, "ValueDataKind", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getValueDataKind_MetricRef(), this.getMetric(), null, "metricRef", null, 0, 1, ValueDataKind.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getValueDataKind_KindHint(), this.getKindHintType(), "kindHint", null, 0, 1, ValueDataKind.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getValueDataKind_ValueKind(), this.getValueKindType(), "valueKind", null, 0, 1, ValueDataKind.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
@@ -970,6 +1003,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		addEEnumLiteral(objectKindTypeEEnum, ObjectKindType.RELATIONSHIP);
 
 		initEEnum(valueKindTypeEEnum, ValueKindType.class, "ValueKindType");
+		addEEnumLiteral(valueKindTypeEEnum, ValueKindType.PERIOD);
 		addEEnumLiteral(valueKindTypeEEnum, ValueKindType.DATETIME);
 		addEEnumLiteral(valueKindTypeEEnum, ValueKindType.NULL);
 		addEEnumLiteral(valueKindTypeEEnum, ValueKindType.METRIC);
@@ -1004,7 +1038,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																														
+		   });																																																																																																		
 	}
 
 	/**
@@ -1042,19 +1076,19 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "ObjectProperty"
-		   });		
+		   });			
 		addAnnotation
 		  (kindHintTypeEEnum, 
 		   source, 
 		   new String[] {
-			 "name", "KindHint_._type"
+			 "name", "KindHintType"
 		   });		
 		addAnnotation
 		  (kindHintTypeObjectEDataType, 
 		   source, 
 		   new String[] {
-			 "name", "KindHint_._type:Object",
-			 "baseType", "KindHint_._type"
+			 "name", "KindHintType:Object",
+			 "baseType", "KindHintType"
 		   });			
 		addAnnotation
 		  (mappingEClass, 
@@ -1083,6 +1117,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "name", "MappingRecord",
 			 "kind", "empty"
+		   });			
+		addAnnotation
+		  (getMappingRecord_Message(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Message"
 		   });			
 		addAnnotation
 		  (mappingRecordXLSEClass, 
@@ -1125,6 +1166,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "MappingDuration"
+		   });			
+		addAnnotation
+		  (getMappingStatistic_Message(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Message"
 		   });			
 		addAnnotation
 		  (getMappingStatistic_TotalRecords(), 
@@ -1181,20 +1229,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "DataType"
-		   });			
+		   });		
 		addAnnotation
-		  (getMappingXLSColumn_ColumnHeaderName(), 
+		  (getMappingXLSColumn_Column(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
-			 "name", "ColumnHeaderName"
-		   });			
-		addAnnotation
-		  (getMappingXLSColumn_ColumnHeaderRow(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "ColumnHeaderRow"
+			 "name", "column"
 		   });			
 		addAnnotation
 		  (metricEClass, 
@@ -1314,7 +1355,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "MetricValues"
-		   });			
+		   });		
 		addAnnotation
 		  (getMetricValueRange_KindHint(), 
 		   source, 
@@ -1347,7 +1388,21 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   source, 
 		   new String[] {
 			 "name", "ValueDataKind",
-			 "kind", "empty"
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getValueDataKind_MetricRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "MetricRef"
+		   });		
+		addAnnotation
+		  (getValueDataKind_KindHint(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "KindHint"
 		   });			
 		addAnnotation
 		  (getValueDataKind_ValueKind(), 

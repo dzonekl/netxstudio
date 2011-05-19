@@ -22,6 +22,7 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 
 /**
@@ -49,6 +50,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getMetricRef <em>Metric Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getMetricValueRanges <em>Metric Value Ranges</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getCapacityValues <em>Capacity Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getForecastCapacityValues <em>Forecast Capacity Values</em>}</li>
@@ -69,6 +71,32 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  * @generated
  */
 public interface NetXResource extends CDOObject {
+	/**
+	 * Returns the value of the '<em><b>Metric Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The MetricRef reference, refers to zero or one Metric for which this resource contains values.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Metric Ref</em>' reference.
+	 * @see #setMetricRef(Metric)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_MetricRef()
+	 * @model extendedMetaData="kind='element' name='MetricRef'"
+	 * @generated
+	 */
+	Metric getMetricRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.NetXResource#getMetricRef <em>Metric Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Metric Ref</em>' reference.
+	 * @see #getMetricRef()
+	 * @generated
+	 */
+	void setMetricRef(Metric value);
+
 	/**
 	 * Returns the value of the '<em><b>Metric Value Ranges</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.MetricValueRange}.

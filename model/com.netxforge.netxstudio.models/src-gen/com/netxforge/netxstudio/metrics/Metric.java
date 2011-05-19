@@ -27,15 +27,19 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a metric in an a telecom equipment. This is often also referred to as counter or KPI. 
- * Metric types can be nested to form a hiarchical structure in similar fashion to a real KPI hiarchy.
+ * A type representing a metric in an a telecom
+ * 				equipment. This is often also referred to as counter or KPI.
+ * 				Metric types can be nested to form a hiarchical structure in similar
+ * 				fashion to a real KPI hiarchy.
  * 
- * The Metric type (and/or it's children) is first part of the Library type, and then referenced from a Node type when 
- * created.
+ * 				The Metric type (and/or it's children) is first part of the Library
+ * 				type, and then referenced from a Node type when
+ * 				created.
  * 
- * Examples:
- * 1. The Metric type "SGSN Attached subscribers" reprents a KPI on a SGSN function.
- * 
+ * 				Examples:
+ * 				1. The Metric type "SGSN Attached subscribers" reprents a KPI on a
+ * 				SGSN function.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -64,7 +68,8 @@ public interface Metric extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Metrics reference, contains 0 or more Metric types.
+	 * The Metrics reference, contains 0 or more Metric
+	 * 						types.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metrics</em>' containment reference list.
@@ -80,7 +85,8 @@ public interface Metric extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Description attribute holds the description of the metric.
+	 * The Description attribute holds the description of
+	 * 					the metric.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
@@ -106,8 +112,10 @@ public interface Metric extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MeasurementKind attribute is a free form text field which can hold information about which
-	 * category or group a Metric belongs.
+	 * The MeasurementKind attribute is a free form text
+	 * 					field which can hold information about which
+	 * 					category or group a Metric belongs.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Measurement Kind</em>' attribute.
 	 * @see #setMeasurementKind(String)
@@ -133,8 +141,10 @@ public interface Metric extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MeasurementPoint Attribute describes textually at which point in a procedure
-	 * the measurement takes place.
+	 * The MeasurementPoint Attribute describes textually
+	 * 					at which point in a procedure
+	 * 					the measurement takes place.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Measurement Point</em>' attribute.
 	 * @see #setMeasurementPoint(String)
@@ -160,7 +170,8 @@ public interface Metric extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MetricCalculation references, contains 0 or 1 ExpressionLine type.
+	 * The MetricCalculation references, contains 0 or 1
+	 * 					ExpressionLine type.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Calculation</em>' attribute.
 	 * @see #setMetricCalculation(String)
@@ -187,7 +198,8 @@ public interface Metric extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MetricSourceRef references, references a MetricSource type.
+	 * The MetricSourceRef references, references a
+	 * 					MetricSource type.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Source Ref</em>' reference.
 	 * @see #setMetricSourceRef(MetricSource)
@@ -215,6 +227,7 @@ public interface Metric extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The Name attribute holds the name of the metric.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -241,11 +254,12 @@ public interface Metric extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The UnitRef reference, refers to 0 or 1 Unit type.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Unit Ref</em>' attribute.
 	 * @see #setUnitRef(String)
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetric_UnitRef()
-	 * @model dataType="com.netxforge.netxstudio.generics.Unit"
+	 * @model dataType="com.netxforge.netxstudio.generics.UnitCode"
 	 *        extendedMetaData="kind='attribute' name='UnitRef'"
 	 * @generated
 	 */

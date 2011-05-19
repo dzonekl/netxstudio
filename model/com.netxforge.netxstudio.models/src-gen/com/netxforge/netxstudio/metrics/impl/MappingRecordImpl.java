@@ -29,6 +29,10 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * An implementation of the model object '<em><b>Mapping Record</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRecordImpl#getMessage <em>Message</em>}</li>
+ * </ul>
  * </p>
  *
  * @generated
@@ -61,6 +65,24 @@ public class MappingRecordImpl extends CDOObjectImpl implements MappingRecord {
 	@Override
 	protected int eStaticFeatureCount() {
 		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getMessage() {
+		return (String)eGet(MetricsPackage.Literals.MAPPING_RECORD__MESSAGE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMessage(String newMessage) {
+		eSet(MetricsPackage.Literals.MAPPING_RECORD__MESSAGE, newMessage);
 	}
 
 } //MappingRecordImpl

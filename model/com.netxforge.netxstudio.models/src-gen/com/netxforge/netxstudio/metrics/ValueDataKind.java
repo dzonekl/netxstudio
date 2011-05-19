@@ -25,33 +25,125 @@ package com.netxforge.netxstudio.metrics;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A specialized type, for representing a value in the mapping. The valuekind can be either a datetime or a metric. 
- * To ignore a column, provide the "null" type as the valuekind, for that for that column.
+ * A specialized type, for representing a value in the
+ * 				mapping. The valuekind can be either a datetime or a metric.
+ * 				To ignore a column, provide the "null" type as the valuekind, for that
+ * 				for that column.
  * 
- * Examples: 
- * 1. If the valueKind is metric, the mapping will store the value as a numeric value in a new Value object. 
- * 2. if the valueKind is datetime, the mapping will store the value as a timestamp in a new Value object
+ * 				Examples:
+ * 				1. If the valueKind is metric, the mapping will store the value as a
+ * 				numeric value in a new Value object.
+ * 				2. if the valueKind is datetime, the mapping will store the value as a
+ * 				timestamp in a new Value object
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.metrics.ValueDataKind#getMetricRef <em>Metric Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.ValueDataKind#getKindHint <em>Kind Hint</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.ValueDataKind#getValueKind <em>Value Kind</em>}</li>
  * </ul>
  * </p>
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getValueDataKind()
- * @model extendedMetaData="name='ValueDataKind' kind='empty'"
+ * @model extendedMetaData="name='ValueDataKind' kind='elementOnly'"
  * @generated
  */
 public interface ValueDataKind extends DataKind {
+	/**
+	 * Returns the value of the '<em><b>Metric Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The MetricRef reference, refers to zero or one
+	 * 								Metric for which this data kind applies.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Metric Ref</em>' reference.
+	 * @see #setMetricRef(Metric)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getValueDataKind_MetricRef()
+	 * @model extendedMetaData="kind='element' name='MetricRef'"
+	 * @generated
+	 */
+	Metric getMetricRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.ValueDataKind#getMetricRef <em>Metric Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Metric Ref</em>' reference.
+	 * @see #getMetricRef()
+	 * @generated
+	 */
+	void setMetricRef(Metric value);
+
+	/**
+	 * Returns the value of the '<em><b>Kind Hint</b></em>' attribute.
+	 * The literals are from the enumeration {@link com.netxforge.netxstudio.metrics.KindHintType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Kind Hint</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Kind Hint</em>' attribute.
+	 * @see com.netxforge.netxstudio.metrics.KindHintType
+	 * @see #isSetKindHint()
+	 * @see #unsetKindHint()
+	 * @see #setKindHint(KindHintType)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getValueDataKind_KindHint()
+	 * @model unsettable="true"
+	 *        extendedMetaData="kind='attribute' name='KindHint'"
+	 * @generated
+	 */
+	KindHintType getKindHint();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.ValueDataKind#getKindHint <em>Kind Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Kind Hint</em>' attribute.
+	 * @see com.netxforge.netxstudio.metrics.KindHintType
+	 * @see #isSetKindHint()
+	 * @see #unsetKindHint()
+	 * @see #getKindHint()
+	 * @generated
+	 */
+	void setKindHint(KindHintType value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.metrics.ValueDataKind#getKindHint <em>Kind Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetKindHint()
+	 * @see #getKindHint()
+	 * @see #setKindHint(KindHintType)
+	 * @generated
+	 */
+	void unsetKindHint();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.metrics.ValueDataKind#getKindHint <em>Kind Hint</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Kind Hint</em>' attribute is set.
+	 * @see #unsetKindHint()
+	 * @see #getKindHint()
+	 * @see #setKindHint(KindHintType)
+	 * @generated
+	 */
+	boolean isSetKindHint();
+
 	/**
 	 * Returns the value of the '<em><b>Value Kind</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.netxforge.netxstudio.metrics.ValueKindType}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ValueKind attribute holds the target value type we expect. 
+	 * The ValueKind attribute holds the target value
+	 * 							type we expect.
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Value Kind</em>' attribute.

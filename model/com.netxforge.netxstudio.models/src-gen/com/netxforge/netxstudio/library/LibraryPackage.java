@@ -812,13 +812,22 @@ public interface LibraryPackage extends EPackage {
 	int NET_XRESOURCE = 5;
 
 	/**
+	 * The feature id for the '<em><b>Metric Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NET_XRESOURCE__METRIC_REF = 0;
+
+	/**
 	 * The feature id for the '<em><b>Metric Value Ranges</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__METRIC_VALUE_RANGES = 0;
+	int NET_XRESOURCE__METRIC_VALUE_RANGES = 1;
 
 	/**
 	 * The feature id for the '<em><b>Capacity Values</b></em>' containment reference list.
@@ -827,7 +836,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__CAPACITY_VALUES = 1;
+	int NET_XRESOURCE__CAPACITY_VALUES = 2;
 
 	/**
 	 * The feature id for the '<em><b>Forecast Capacity Values</b></em>' containment reference list.
@@ -836,7 +845,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__FORECAST_CAPACITY_VALUES = 2;
+	int NET_XRESOURCE__FORECAST_CAPACITY_VALUES = 3;
 
 	/**
 	 * The feature id for the '<em><b>Forecast Values</b></em>' containment reference list.
@@ -845,7 +854,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__FORECAST_VALUES = 3;
+	int NET_XRESOURCE__FORECAST_VALUES = 4;
 
 	/**
 	 * The feature id for the '<em><b>Trended Values</b></em>' containment reference list.
@@ -854,7 +863,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__TRENDED_VALUES = 4;
+	int NET_XRESOURCE__TRENDED_VALUES = 5;
 
 	/**
 	 * The feature id for the '<em><b>Detail Display</b></em>' attribute.
@@ -863,7 +872,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__DETAIL_DISPLAY = 5;
+	int NET_XRESOURCE__DETAIL_DISPLAY = 6;
 
 	/**
 	 * The feature id for the '<em><b>Expression Name</b></em>' attribute.
@@ -872,7 +881,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__EXPRESSION_NAME = 6;
+	int NET_XRESOURCE__EXPRESSION_NAME = 7;
 
 	/**
 	 * The feature id for the '<em><b>Long Name</b></em>' attribute.
@@ -881,7 +890,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__LONG_NAME = 7;
+	int NET_XRESOURCE__LONG_NAME = 8;
 
 	/**
 	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
@@ -890,7 +899,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__SHORT_NAME = 8;
+	int NET_XRESOURCE__SHORT_NAME = 9;
 
 	/**
 	 * The feature id for the '<em><b>Summary Display</b></em>' attribute.
@@ -899,7 +908,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__SUMMARY_DISPLAY = 9;
+	int NET_XRESOURCE__SUMMARY_DISPLAY = 10;
 
 	/**
 	 * The feature id for the '<em><b>Unit Ref</b></em>' reference.
@@ -908,7 +917,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__UNIT_REF = 10;
+	int NET_XRESOURCE__UNIT_REF = 11;
 
 	/**
 	 * The number of structural features of the '<em>Net XResource</em>' class.
@@ -917,7 +926,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE_FEATURE_COUNT = 11;
+	int NET_XRESOURCE_FEATURE_COUNT = 12;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl <em>Node Type</em>}' class.
@@ -2129,6 +2138,17 @@ public interface LibraryPackage extends EPackage {
 	EClass getNetXResource();
 
 	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.NetXResource#getMetricRef <em>Metric Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Metric Ref</em>'.
+	 * @see com.netxforge.netxstudio.library.NetXResource#getMetricRef()
+	 * @see #getNetXResource()
+	 * @generated
+	 */
+	EReference getNetXResource_MetricRef();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.library.NetXResource#getMetricValueRanges <em>Metric Value Ranges</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3232,6 +3252,14 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NET_XRESOURCE = eINSTANCE.getNetXResource();
+
+		/**
+		 * The meta object literal for the '<em><b>Metric Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NET_XRESOURCE__METRIC_REF = eINSTANCE.getNetXResource_MetricRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Metric Value Ranges</b></em>' containment reference list feature.

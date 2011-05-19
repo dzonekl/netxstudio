@@ -35,6 +35,14 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum ValueKindType implements Enumerator {
 	/**
+	 * The '<em><b>PERIOD</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #PERIOD_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	PERIOD(0, "PERIOD", "PERIOD"), /**
 	 * The '<em><b>DATETIME</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -42,7 +50,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DATETIME(0, "DATETIME", "DATETIME"),
+	DATETIME(1, "DATETIME", "DATETIME"),
 
 	/**
 	 * The '<em><b>NULL</b></em>' literal object.
@@ -52,7 +60,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NULL(1, "NULL", "NULL"),
+	NULL(2, "NULL", "NULL"),
 
 	/**
 	 * The '<em><b>METRIC</b></em>' literal object.
@@ -62,7 +70,22 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	METRIC(2, "METRIC", "METRIC");
+	METRIC(3, "METRIC", "METRIC");
+
+	/**
+	 * The '<em><b>PERIOD</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>PERIOD</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #PERIOD
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PERIOD_VALUE = 0;
 
 	/**
 	 * The '<em><b>DATETIME</b></em>' literal value.
@@ -77,7 +100,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int DATETIME_VALUE = 0;
+	public static final int DATETIME_VALUE = 1;
 
 	/**
 	 * The '<em><b>NULL</b></em>' literal value.
@@ -92,7 +115,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NULL_VALUE = 1;
+	public static final int NULL_VALUE = 2;
 
 	/**
 	 * The '<em><b>METRIC</b></em>' literal value.
@@ -107,7 +130,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int METRIC_VALUE = 2;
+	public static final int METRIC_VALUE = 3;
 
 	/**
 	 * An array of all the '<em><b>Value Kind Type</b></em>' enumerators.
@@ -117,6 +140,7 @@ public enum ValueKindType implements Enumerator {
 	 */
 	private static final ValueKindType[] VALUES_ARRAY =
 		new ValueKindType[] {
+			PERIOD,
 			DATETIME,
 			NULL,
 			METRIC,
@@ -170,6 +194,7 @@ public enum ValueKindType implements Enumerator {
 	 */
 	public static ValueKindType get(int value) {
 		switch (value) {
+			case PERIOD_VALUE: return PERIOD;
 			case DATETIME_VALUE: return DATETIME;
 			case NULL_VALUE: return NULL;
 			case METRIC_VALUE: return METRIC;

@@ -29,10 +29,12 @@ import com.netxforge.netxstudio.generics.Value;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a range of metricvalues. The range has a name and provides some hints on the expected
- * stored values.
+ * A type representing a range of metricvalues. The
+ * 				range has a name and provides some hints on the expected
+ * 				stored values.
  * 
- * It is expected the metric loading or derived values will consider the hints, on where to store the metric.
+ * 				It is expected the metric loading or derived values will consider the
+ * 				hints, on where to store the metric.
  * 			
  * <!-- end-model-doc -->
  *
@@ -57,7 +59,8 @@ public interface MetricValueRange extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MetricValue reference, contains 0 or more Value types
+	 * The MetricValue reference, contains 0 or more
+	 * 						Value types
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Values</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetricValueRange_MetricValues()
@@ -72,9 +75,6 @@ public interface MetricValueRange extends CDOObject {
 	 * The literals are from the enumeration {@link com.netxforge.netxstudio.metrics.KindHintType}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The KindHint attribute, holds a hint for the metric kind of a metric value, it can be either BusyHour or AVG.
-	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Kind Hint</em>' attribute.
 	 * @see com.netxforge.netxstudio.metrics.KindHintType
 	 * @see #isSetKindHint()
@@ -128,7 +128,9 @@ public interface MetricValueRange extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The PeriodHint attribute, holds a hint for the metric period between each metric value in minutes.
+	 * The PeriodHint attribute, holds a hint for the
+	 * 					metric period between each metric value in minutes.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Period Hint</em>' attribute.
 	 * @see #isSetPeriodHint()

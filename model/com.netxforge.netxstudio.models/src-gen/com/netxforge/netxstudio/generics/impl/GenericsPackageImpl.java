@@ -184,7 +184,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType unitEDataType = null;
+	private EDataType unitCodeEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -741,8 +741,8 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getUnit() {
-		return unitEDataType;
+	public EDataType getUnitCode() {
+		return unitCodeEDataType;
 	}
 
 	/**
@@ -835,7 +835,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		expansionDurationObjectEDataType = createEDataType(EXPANSION_DURATION_OBJECT);
 		expressionLineEDataType = createEDataType(EXPRESSION_LINE);
 		name255EDataType = createEDataType(NAME255);
-		unitEDataType = createEDataType(UNIT);
+		unitCodeEDataType = createEDataType(UNIT_CODE);
 	}
 
 	/**
@@ -943,7 +943,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		initEDataType(expansionDurationObjectEDataType, ExpansionDuration.class, "ExpansionDurationObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(expressionLineEDataType, String.class, "ExpressionLine", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(name255EDataType, String.class, "Name255", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(unitEDataType, String.class, "Unit", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(unitCodeEDataType, String.class, "UnitCode", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -1292,10 +1292,10 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 			 "name", "Name"
 		   });			
 		addAnnotation
-		  (unitEDataType, 
+		  (unitCodeEDataType, 
 		   source, 
 		   new String[] {
-			 "name", "Unit",
+			 "name", "UnitCode",
 			 "baseType", "http://www.eclipse.org/emf/2003/XMLType#string",
 			 "maxLength", "3"
 		   });			

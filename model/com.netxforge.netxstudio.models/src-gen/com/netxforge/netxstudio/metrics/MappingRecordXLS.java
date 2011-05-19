@@ -25,7 +25,8 @@ package com.netxforge.netxstudio.metrics;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A specialized type representing the information points of a XLS mapping record.
+ * A specialized type representing the information
+ * 				points of a XLS mapping record.
  * 			
  * <!-- end-model-doc -->
  *

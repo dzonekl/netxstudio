@@ -27,11 +27,14 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the information points of a source which provides metric values.
- * A source, is an external data source like an RDBMS or an Excel or CSV file. The MetricSource type will contain all necessary 
- * to access, and map the metric values of the source to the correct Object. (Most commonly a Node).
+ * A type representing the information points of a
+ * 				source which provides metric values.
+ * 				A source, is an external data source like an RDBMS or an Excel or CSV
+ * 				file. The MetricSource type will contain all necessary
+ * 				to access, and map the metric values of the source to the correct
+ * 				Object. (Most commonly a Node).
  * 
- * 
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -58,7 +61,8 @@ public interface MetricSource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MetricRefs reference, refers to one or more Metric types for which this source provides values.
+	 * The MetricRefs reference, refers to one or more
+	 * 						Metric types for which this source provides values.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Refs</em>' reference list.
@@ -75,7 +79,8 @@ public interface MetricSource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Will not be persisted in the DB, but would use a .properties file for now.
+	 * Will not be persisted in the DB, but would use a
+	 * 						.properties file for now.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Mapping</em>' containment reference.
@@ -103,7 +108,8 @@ public interface MetricSource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Statistics reference, contains one or more MappingStatistic types.
+	 * The Statistics reference, contains one or more
+	 * 						MappingStatistic types.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Statistics</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetricSource_Statistics()
@@ -118,12 +124,16 @@ public interface MetricSource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * a URI representation of the location additional information like login/password can be appended to the URI.
+	 * a URI representation of the location additional
+	 * 					information like login/password can be appended to the URI.
 	 * 
-	 * Examples: 
-	 * 1. For an XLS file this could be file://path_to_where_the_xls_files_are_stored/
-	 * 2. For an RDMS this could be: 	jdbc:mysql://localhost:3306/DB (In this case a JDBC URL to access the DB). The login/password can be appended to the URI.
-	 * 
+	 * 					Examples:
+	 * 					1. For an XLS file this could be
+	 * 					file://path_to_where_the_xls_files_are_stored/
+	 * 					2. For an RDMS this could be: jdbc:mysql://localhost:3306/DB (In this
+	 * 					case a JDBC URL to access the DB). The login/password can be
+	 * 					appended to the URI.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Location</em>' attribute.
 	 * @see #setMetricLocation(String)
@@ -149,8 +159,9 @@ public interface MetricSource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds the name of the MetricSource as it will be presented. 
-	 * 			
+	 * The Name attribute holds the name of the
+	 * 					MetricSource as it will be presented.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)

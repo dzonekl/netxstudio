@@ -25,12 +25,17 @@ package com.netxforge.netxstudio.metrics;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A specialized type, for representing an identifier in the mapping. The identifier should contain the target object and the target attribute of the object. 
- * The target object and target attribute are used to find the Object, in which the values will be stored. 
+ * A specialized type, for representing an identifier
+ * 				in the mapping. The identifier should contain the target object and
+ * 				the target attribute of the object.
+ * 				The target object and target attribute are used to find the Object, in
+ * 				which the values will be stored.
  * 
- * Examples: 
- * 1. If the ObjectName is "Node" and the ObjectAttribute is "NodeID", the value of the column in the XLS with with this IdentifierDataType, will be interpreted
- * as the Node->NodeID identifier.	
+ * 				Examples:
+ * 				1. If the ObjectName is "Node" and the ObjectAttribute is "NodeID",
+ * 				the value of the column in the XLS with with this
+ * 				IdentifierDataType, will be interpreted
+ * 				as the Node->NodeID identifier.
  * 			
  * <!-- end-model-doc -->
  *
@@ -53,8 +58,10 @@ public interface IdentifierDataKind extends DataKind {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ObjectKind attributes holds the textual name of the target object we are looking for. 
-	 * Note: Most often this will be a "Node", but also a child of a "Node" like an "Equipment", it can also be a "Relationship" on a "Node".
+	 * The ObjectKind attributes holds the textual name
+	 * 							of the target object we are looking for.
+	 * 							Note: Most often this will be a "Node", but also a child of a "Node"
+	 * 							like an "Equipment", it can also be a "Relationship" on a "Node".
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Object Kind</em>' attribute.
@@ -110,8 +117,11 @@ public interface IdentifierDataKind extends DataKind {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ObjectProperty attribute holds the the textual name of the target attribute we are looking for.
-	 * Note: Most often this will be the "NodeID" but it can also be a "Position" identifier or anything else. 
+	 * The ObjectProperty attribute holds the the
+	 * 							textual name of the target attribute we are looking for.
+	 * 							Note: Most often this will be the "NodeID" but it can also be a
+	 * 							"Position" identifier or anything else.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Object Property</em>' attribute.
 	 * @see #setObjectProperty(String)

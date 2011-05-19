@@ -29,7 +29,8 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the information points of a statistic for each time a source was accessed.
+ * A type representing the information points of a
+ * 				statistic for each time a source was accessed.
  * 			
  * <!-- end-model-doc -->
  *
@@ -38,6 +39,7 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getFailedRecords <em>Failed Records</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getMappingDuration <em>Mapping Duration</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getMessage <em>Message</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getTotalRecords <em>Total Records</em>}</li>
  * </ul>
  * </p>
@@ -54,7 +56,8 @@ public interface MappingStatistic extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The FailedRecords reference, contains 0 or more MappingRecord types.
+	 * The FailedRecords reference, contains 0 or more
+	 * 						MappingRecord types.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Failed Records</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingStatistic_FailedRecords()
@@ -69,7 +72,8 @@ public interface MappingStatistic extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MappingDuration reference, refers to a DateTimeRange type.
+	 * The MappingDuration reference, refers to a
+	 * 						DateTimeRange type.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Mapping Duration</em>' containment reference.
 	 * @see #setMappingDuration(DateTimeRange)
@@ -91,11 +95,39 @@ public interface MappingStatistic extends CDOObject {
 	void setMappingDuration(DateTimeRange value);
 
 	/**
+	 * Returns the value of the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * A global error or information message
+	 * 				
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Message</em>' attribute.
+	 * @see #setMessage(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingStatistic_Message()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='Message'"
+	 * @generated
+	 */
+	String getMessage();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingStatistic#getMessage <em>Message</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Message</em>' attribute.
+	 * @see #getMessage()
+	 * @generated
+	 */
+	void setMessage(String value);
+
+	/**
 	 * Returns the value of the '<em><b>Total Records</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The TotalRecords attribute holds a the number of records for this mapping run.
+	 * The TotalRecords attribute holds a the number of
+	 * 					records for this mapping run.
 	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Total Records</em>' attribute.

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.generics.impl;
 
+import com.netxforge.netxstudio.generics.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -121,8 +122,8 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 				return createExpressionLineFromString(eDataType, initialValue);
 			case GenericsPackage.NAME255:
 				return createName255FromString(eDataType, initialValue);
-			case GenericsPackage.UNIT:
-				return createUnitFromString(eDataType, initialValue);
+			case GenericsPackage.UNIT_CODE:
+				return createUnitCodeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -150,8 +151,8 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 				return convertExpressionLineToString(eDataType, instanceValue);
 			case GenericsPackage.NAME255:
 				return convertName255ToString(eDataType, instanceValue);
-			case GenericsPackage.UNIT:
-				return convertUnitToString(eDataType, instanceValue);
+			case GenericsPackage.UNIT_CODE:
+				return convertUnitCodeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -382,7 +383,7 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String createUnitFromString(EDataType eDataType, String initialValue) {
+	public String createUnitCodeFromString(EDataType eDataType, String initialValue) {
 		return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.STRING, initialValue);
 	}
 
@@ -391,7 +392,7 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertUnitToString(EDataType eDataType, Object instanceValue) {
+	public String convertUnitCodeToString(EDataType eDataType, Object instanceValue) {
 		return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.STRING, instanceValue);
 	}
 

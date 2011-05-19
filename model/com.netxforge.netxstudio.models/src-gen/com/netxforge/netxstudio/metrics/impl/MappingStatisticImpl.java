@@ -36,6 +36,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getFailedRecords <em>Failed Records</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getMappingDuration <em>Mapping Duration</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getMessage <em>Message</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getTotalRecords <em>Total Records</em>}</li>
  * </ul>
  * </p>
@@ -98,6 +99,24 @@ public class MappingStatisticImpl extends CDOObjectImpl implements MappingStatis
 	 */
 	public void setMappingDuration(DateTimeRange newMappingDuration) {
 		eSet(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION, newMappingDuration);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getMessage() {
+		return (String)eGet(MetricsPackage.Literals.MAPPING_STATISTIC__MESSAGE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMessage(String newMessage) {
+		eSet(MetricsPackage.Literals.MAPPING_STATISTIC__MESSAGE, newMessage);
 	}
 
 	/**

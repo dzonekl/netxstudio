@@ -92,7 +92,7 @@
     <genDataTypes ecoreDataType="generics.ecore#//ExpansionDurationObject"/>
     <genDataTypes ecoreDataType="generics.ecore#//ExpressionLine"/>
     <genDataTypes ecoreDataType="generics.ecore#//Name255"/>
-    <genDataTypes ecoreDataType="generics.ecore#//Unit"/>
+    <genDataTypes ecoreDataType="generics.ecore#//UnitCode"/>
     <genClasses ecoreClass="generics.ecore#//Company">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//Company/icons"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Company/name"/>
@@ -244,6 +244,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/name"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//NetXResource">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/metricRef"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/metricValueRanges"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/capacityValues"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/forecastCapacityValues"/>
@@ -306,6 +307,7 @@
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/RELATIONSHIP"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//ValueKindType">
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/PERIOD"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/DATETIME"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/NULL"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/METRIC"/>
@@ -321,7 +323,9 @@
     <genClasses ecoreClass="metrics.ecore#//Mapping"/>
     <genClasses ecoreClass="metrics.ecore#//MappingCSV"/>
     <genClasses ecoreClass="metrics.ecore#//MappingRDBMS"/>
-    <genClasses ecoreClass="metrics.ecore#//MappingRecord"/>
+    <genClasses ecoreClass="metrics.ecore#//MappingRecord">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/message"/>
+    </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingRecordXLS">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecordXLS/column"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecordXLS/row"/>
@@ -329,6 +333,7 @@
     <genClasses ecoreClass="metrics.ecore#//MappingStatistic">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingStatistic/failedRecords"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingStatistic/mappingDuration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingStatistic/message"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingStatistic/totalRecords"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingXLS">
@@ -339,8 +344,7 @@
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingXLSColumn">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingXLSColumn/dataType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLSColumn/columnHeaderName"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLSColumn/columnHeaderRow"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLSColumn/column"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//Metric">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Metric/metrics"/>
@@ -365,6 +369,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricValueRange/periodHint"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//ValueDataKind">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//ValueDataKind/metricRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//ValueDataKind/kindHint"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//ValueDataKind/valueKind"/>
     </genClasses>
   </genPackages>

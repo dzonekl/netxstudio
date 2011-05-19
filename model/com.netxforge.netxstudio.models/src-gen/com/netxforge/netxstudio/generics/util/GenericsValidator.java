@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.generics.util;
 
+import com.netxforge.netxstudio.generics.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -153,8 +154,8 @@ public class GenericsValidator extends EObjectValidator {
 				return validateExpressionLine((String)value, diagnostics, context);
 			case GenericsPackage.NAME255:
 				return validateName255((String)value, diagnostics, context);
-			case GenericsPackage.UNIT:
-				return validateUnit((String)value, diagnostics, context);
+			case GenericsPackage.UNIT_CODE:
+				return validateUnitCode((String)value, diagnostics, context);
 			default:
 				return true;
 		}
@@ -354,22 +355,22 @@ public class GenericsValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateUnit(String unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = validateUnit_MaxLength(unit, diagnostics, context);
+	public boolean validateUnitCode(String unitCode, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validateUnitCode_MaxLength(unitCode, diagnostics, context);
 		return result;
 	}
 
 	/**
-	 * Validates the MaxLength constraint of '<em>Unit</em>'.
+	 * Validates the MaxLength constraint of '<em>Unit Code</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateUnit_MaxLength(String unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		int length = unit.length();
+	public boolean validateUnitCode_MaxLength(String unitCode, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		int length = unitCode.length();
 		boolean result = length <= 3;
 		if (!result && diagnostics != null)
-			reportMaxLengthViolation(GenericsPackage.Literals.UNIT, unit, length, 3, diagnostics, context);
+			reportMaxLengthViolation(GenericsPackage.Literals.UNIT_CODE, unitCode, length, 3, diagnostics, context);
 		return result;
 	}
 

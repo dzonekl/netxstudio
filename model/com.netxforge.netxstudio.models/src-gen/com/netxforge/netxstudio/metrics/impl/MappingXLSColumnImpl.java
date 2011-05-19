@@ -33,8 +33,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getDataType <em>Data Type</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getColumnHeaderName <em>Column Header Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getColumnHeaderRow <em>Column Header Row</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getColumn <em>Column</em>}</li>
  * </ul>
  * </p>
  *
@@ -93,8 +92,8 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getColumnHeaderName() {
-		return (String)eGet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME, true);
+	public int getColumn() {
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN, true);
 	}
 
 	/**
@@ -102,8 +101,8 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setColumnHeaderName(String newColumnHeaderName) {
-		eSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME, newColumnHeaderName);
+	public void setColumn(int newColumn) {
+		eSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN, newColumn);
 	}
 
 	/**
@@ -111,8 +110,8 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getColumnHeaderRow() {
-		return (Integer)eGet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW, true);
+	public void unsetColumn() {
+		eUnset(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN);
 	}
 
 	/**
@@ -120,26 +119,8 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setColumnHeaderRow(int newColumnHeaderRow) {
-		eSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW, newColumnHeaderRow);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetColumnHeaderRow() {
-		eUnset(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetColumnHeaderRow() {
-		return eIsSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW);
+	public boolean isSetColumn() {
+		return eIsSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN);
 	}
 
 } //MappingXLSColumnImpl
