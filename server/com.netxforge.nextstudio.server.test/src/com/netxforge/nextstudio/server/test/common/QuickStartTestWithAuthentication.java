@@ -1,20 +1,21 @@
 /*******************************************************************************
- * Copyright (c) Apr 26, 2011 NetXForge.
+ * Copyright (c) May 20, 2011 NetXForge.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  You should have received a copy of the GNU Lesser General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>
  * 
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option) any
- * later version.
- * 
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details. You should have received a copy of the GNU Lesser General Public
- * License along with this program. If not, see <http://www.gnu.org/licenses/>
- * 
- * Contributors: Martin Taal - initial API and implementation and/or
- * initial documentation
- *******************************************************************************/ 
+ * Contributors: 
+ * 	Martin Taal - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package com.netxforge.nextstudio.server.test.common;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
@@ -53,7 +54,7 @@ public class QuickStartTestWithAuthentication extends BaseAuthTest
       final CDOTransaction transaction = session.openTransaction();
 
       // get/create a resource
-      CDOResource resource = transaction.getOrCreateResource("/test1"); //$NON-NLS-1$
+      final CDOResource resource = transaction.getOrCreateResource("/test1"); //$NON-NLS-1$
 
       // clear any previous data
       resource.getContents().clear();
@@ -75,7 +76,7 @@ public class QuickStartTestWithAuthentication extends BaseAuthTest
     {
       final CDOSession session = openSession("tom","123");
       final CDOTransaction transaction = session.openTransaction();
-      CDOResource resource = transaction.getResource("/test1"); //$NON-NLS-1$
+      final CDOResource resource = transaction.getResource("/test1"); //$NON-NLS-1$
       assertEquals(true, resource.getContents().get(0) instanceof Country);
       assertEquals(2, resource.getContents().size());
       final Country address = (Country)resource.getContents().get(0);
