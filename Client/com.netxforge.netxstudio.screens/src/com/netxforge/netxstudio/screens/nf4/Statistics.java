@@ -68,4 +68,11 @@ public class Statistics extends Composite implements IScreen{
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
+	 */
+	public boolean isValid() {
+		return true;
+	}
+
 }

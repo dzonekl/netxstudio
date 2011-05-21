@@ -61,13 +61,13 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.data.IDataServiceInjection;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -117,6 +117,7 @@ public class Expressions extends Composite implements IScreen,
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
+				disposeData();
 			}
 		});
 		toolkit.adapt(this);
@@ -173,8 +174,8 @@ public class Expressions extends Composite implements IScreen,
 					// What ever object is set as evaluation object, should be
 					// the root object
 					// of our expression language.
-//					Model m = NetxscriptFactory.eINSTANCE.createModel();
-//					exp.setEvaluationObject(m);
+					// Model m = NetxscriptFactory.eINSTANCE.createModel();
+					// exp.setEvaluationObject(m);
 					user.injectData(library.getExpressions(), exp);
 				}
 			}
@@ -294,8 +295,7 @@ public class Expressions extends Composite implements IScreen,
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
-		Resource res = editingService.getScreenData(this,
-				LibraryPackage.LIBRARY);
+		Resource res = editingService.getData(LibraryPackage.LIBRARY);
 		if (res.getContents().size() == 0) {
 			Library lib = LibraryFactory.eINSTANCE.createLibrary();
 			res.getContents().add(lib);
@@ -306,12 +306,9 @@ public class Expressions extends Composite implements IScreen,
 		bindingContext = initDataBindings_();
 	}
 
-	@Override
-	public void dispose() {
-		super.dispose();
-
+	public void disposeData() {
 		if (editingService != null) {
-			editingService.tearDownScreen();
+			editingService.revokeData();
 		}
 	}
 
@@ -343,6 +340,13 @@ public class Expressions extends Composite implements IScreen,
 	 */
 	public Viewer getViewer() {
 		return this.getTableViewerWidget();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
+	 */
+	public boolean isValid() {
+		return true;
 	}
 
 }

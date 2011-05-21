@@ -14,8 +14,6 @@ public class ScreensActivator extends AbstractUIPlugin {
 	// The shared instance
 	private static ScreensActivator plugin;
 
-//	private static Injector injector;
-	
 	/**
 	 * The constructor
 	 */
@@ -29,8 +27,6 @@ public class ScreensActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-//		injector = Guice.createInjector(new ScreenFormServiceModule());
-//		injector.getInstance(IScreenFormService.class);
 		
 	}
 
@@ -51,9 +47,5 @@ public class ScreensActivator extends AbstractUIPlugin {
 	public static ScreensActivator getDefault() {
 		return plugin;
 	}
-	
-//	public static Injector getInjector() {
-//		return injector;
-//	}
 	
 }

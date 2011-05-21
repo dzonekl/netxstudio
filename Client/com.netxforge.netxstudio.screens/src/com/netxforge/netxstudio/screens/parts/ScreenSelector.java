@@ -30,7 +30,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.f2.Resource;
 import com.netxforge.netxstudio.screens.f2.ResourceCapacityRange;
 import com.netxforge.netxstudio.screens.f4.MappingStatistics;

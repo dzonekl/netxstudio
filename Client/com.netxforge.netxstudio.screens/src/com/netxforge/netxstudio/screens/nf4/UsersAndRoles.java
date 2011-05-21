@@ -4,6 +4,7 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -47,10 +48,10 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
-import com.netxforge.netxstudio.data.IDataServiceInjection;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -58,7 +59,7 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 public class UsersAndRoles extends Composite implements IDataServiceInjection,
 		IScreen {
 	@SuppressWarnings("unused")
-	private DataBindingContext m_bindingContext;
+	private EMFDataBindingContext m_bindingContext;
 
 	private Netxstudio studio;
 
@@ -98,6 +99,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
+				disposeData();
 			}
 		});
 		toolkit.adapt(this);
@@ -149,7 +151,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 							.getScreenContainer(), SWT.NONE
 							| Screens.OPERATION_NEW, editingService);
 					screenService.setActiveScreen(user);
-					user.injectData(studio.getUsers(),
+					user.injectData(studio,
 							GenericsFactory.eINSTANCE.createPerson());
 				}
 			}
@@ -209,7 +211,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 						NewEditUser u = new NewEditUser(screenService
 								.getScreenContainer(), SWT.NONE
 								| Screens.OPERATION_EDIT, editingService);
-						u.injectData(studio.getUsers(), o);
+						u.injectData(studio, o);
 						screenService.setActiveScreen(u);
 					}
 				}
@@ -260,9 +262,9 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 		return table;
 	}
 
-	protected DataBindingContext initDataBindings_() {
+	protected EMFDataBindingContext initDataBindings_() {
 
-		DataBindingContext bindingContext = new DataBindingContext();
+		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
@@ -314,7 +316,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 	 */
 	public void injectData() {
 
-		Resource res = editingService.getScreenData(this,
+		Resource res = editingService.getData(
 				NetxstudioPackage.NETXSTUDIO);
 		if (res.getContents().size() == 0) {
 			Netxstudio netx = NetxstudioFactory.eINSTANCE.createNetxstudio();
@@ -324,15 +326,6 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 			studio = (Netxstudio) res.getContents().get(0);
 		}
 		m_bindingContext = initDataBindings_();
-	}
-
-	@Override
-	public void dispose() {
-		super.dispose();
-
-		if (editingService != null) {
-			editingService.tearDownScreen();
-		}
 	}
 
 	public class SearchFilter extends ViewerFilter {
@@ -379,5 +372,21 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 	public Viewer getViewer() {
 
 		return this.getTableViewerWidget();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#disposeData()
+	 */
+	public void disposeData() {
+		if (editingService != null) {
+			editingService.revokeData();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
+	 */
+	public boolean isValid() {
+		return true;
 	}
 }

@@ -39,8 +39,8 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.netxforge.netxstudio.data.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -164,5 +164,13 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 	 */
 	public Viewer getViewer() {
 		return null;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
+	 */
+	public boolean isValid() {
+		return true;
 	}
 }

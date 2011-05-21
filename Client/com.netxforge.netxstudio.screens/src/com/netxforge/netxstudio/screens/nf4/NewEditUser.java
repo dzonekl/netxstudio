@@ -1,23 +1,42 @@
 package com.netxforge.netxstudio.screens.nf4;
 
-import org.eclipse.core.databinding.Binding;
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.observable.value.IValueChangeListener;
+import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
+import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
+import org.eclipse.emf.databinding.FeaturePath;
+import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.ReplaceCommand;
+import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.fieldassist.ControlDecoration;
-import org.eclipse.jface.fieldassist.FieldDecoration;
-import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.databinding.viewers.ViewerProperties;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.widgets.formattedtext.FormattedText;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -25,34 +44,53 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.IMessage;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import com.netxforge.netxstudio.data.IDataScreenInjection;
+import com.netxforge.netxstudio.Netxstudio;
+import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
+import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
+import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
+import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
+import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class NewEditUser extends Composite implements IDataScreenInjection, IScreen {
+public class NewEditUser extends Composite implements IDataScreenInjection,
+		IScreen, IValidationListener {
 
-	// Databing object
-	@SuppressWarnings("unused")
-	private Binding loginBinding;
-	@SuppressWarnings("unused")
-	private DataBindingContext m_bindingContext;
+	private EMFDataBindingContext m_bindingContext;
 
 	// Not injected as this service is already injected in the ViePart.
 	private IEditingService editingService;
 
+	private IValidationService validationService = new ValidationService();
+
+	/**
+	 * A new or copy of a object to edit.
+	 */
 	private Person user;
+	
+	/**
+	 * The original object in case of an edit operation. 
+	 */
+	private Person original;
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtLogin;
@@ -61,18 +99,22 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 	private Text txtPass;
 	private Text txtConfirm;
 	private Text txtEmail;
-	private Object owner;
+	private Netxstudio owner;
 
 	public NewEditUser(Composite parent, int style) {
 		this(parent, style, null);
 	}
-	
+
 	/**
-	 * The type of operation expected from this screen. 
-	 * Operatins can be either New or Edit. 
+	 * The type of operation expected from this screen. Operations can be either
+	 * New or Edit.
 	 */
 	private int operation;
-	
+	private ComboViewer comboViewer;
+	private Combo combo;
+	private Button btnCheck;
+	private Form frmNewForm;
+
 	/**
 	 * Create the composite.
 	 * 
@@ -81,13 +123,17 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 	 */
 	public NewEditUser(Composite parent, int style, IEditingService eService) {
 		super(parent, SWT.BORDER);
-		
-		operation = style & 0xFF00; // Ignore first bits, as we piggy back on the SWT style. 
-		
+
+		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
+									// the SWT style.
+
 		this.editingService = eService;
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+				validationService.dispose();
+				validationService.removeValidationListener(NewEditUser.this);
 				toolkit.dispose();
+
 			}
 		});
 		toolkit.adapt(this);
@@ -95,13 +141,14 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Form frmNewForm = toolkit.createForm(this);
+		frmNewForm = toolkit.createForm(this);
 		frmNewForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewForm);
 
-		String title =  Screens.isNewOperation(operation) ? "New" : "Edit";
+		String title = Screens.isNewOperation(operation) ? "New" : "Edit";
 
 		frmNewForm.setText(title + " User");
+		frmNewForm.addMessageHyperlinkListener(new HyperlinkAdapter());
 		frmNewForm.getBody().setLayout(new FormLayout());
 
 		Composite composite = toolkit.createComposite(frmNewForm.getBody(),
@@ -124,7 +171,7 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnInfo = new FormData();
 		fd_sctnInfo.top = new FormAttachment(composite, 12);
-		fd_sctnInfo.bottom = new FormAttachment(0, 165);
+		fd_sctnInfo.bottom = new FormAttachment(0, 195);
 		fd_sctnInfo.right = new FormAttachment(100, -12);
 		fd_sctnInfo.left = new FormAttachment(0, 12);
 		sctnInfo.setLayoutData(fd_sctnInfo);
@@ -139,15 +186,11 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 		composite_1.setLayout(gl_composite_1);
 
 		Label lblLogin = toolkit.createLabel(composite_1, "Login:", SWT.NONE);
-		lblLogin.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-
-		ControlDecoration controlDecoration_3 = new ControlDecoration(lblLogin,
-				SWT.RIGHT | SWT.CENTER);
-		controlDecoration_3.setDescriptionText("Some description");
-		FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
-				.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-		controlDecoration_3.setImage(fieldDecoration.getImage());
+		lblLogin.setAlignment(SWT.RIGHT);
+		GridData gd_lblLogin = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblLogin.widthHint = 70;
+		lblLogin.setLayoutData(gd_lblLogin);
 
 		txtLogin = toolkit.createText(composite_1, "New Text", SWT.NONE);
 		txtLogin.setText("");
@@ -158,8 +201,11 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 
 		Label lblFirstName = toolkit.createLabel(composite_1, "First Name:",
 				SWT.NONE);
-		lblFirstName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
+		lblFirstName.setAlignment(SWT.RIGHT);
+		GridData gd_lblFirstName = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblFirstName.widthHint = 70;
+		lblFirstName.setLayoutData(gd_lblFirstName);
 
 		txtFirstName = toolkit.createText(composite_1, "New Text", SWT.NONE);
 		GridData gd_txtFirstName = new GridData(SWT.LEFT, SWT.CENTER, false,
@@ -170,8 +216,11 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 
 		Label lblLastName = toolkit.createLabel(composite_1, "Last Name:",
 				SWT.NONE);
-		lblLastName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
+		lblLastName.setAlignment(SWT.RIGHT);
+		GridData gd_lblLastName = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblLastName.widthHint = 70;
+		lblLastName.setLayoutData(gd_lblLastName);
 
 		txtLastName = toolkit.createText(composite_1, "New Text", SWT.NONE);
 		txtLastName.setText("");
@@ -181,8 +230,11 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 		txtLastName.setLayoutData(gd_txtLastName);
 
 		Label lblEmail = toolkit.createLabel(composite_1, "Email:", SWT.NONE);
-		lblEmail.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
+		lblEmail.setAlignment(SWT.RIGHT);
+		GridData gd_lblEmail = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblEmail.widthHint = 70;
+		lblEmail.setLayoutData(gd_lblEmail);
 
 		FormattedText formattedText = new FormattedText(composite_1, SWT.BORDER);
 		txtEmail = formattedText.getControl();
@@ -190,11 +242,14 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 				1, 1);
 		gd_txtEmail.widthHint = 200;
 		txtEmail.setLayoutData(gd_txtEmail);
+		new Label(composite_1, SWT.NONE);
+
+		btnCheck = toolkit.createButton(composite_1, "Active?", SWT.CHECK);
 
 		Section sctnAuthentication = toolkit.createSection(
-				frmNewForm.getBody(), Section.EXPANDED | Section.TITLE_BAR);
+				frmNewForm.getBody(), Section.EXPANDED | Section.TREE_NODE | Section.TITLE_BAR);
 		FormData fd_sctnAuthentication = new FormData();
-		fd_sctnAuthentication.bottom = new FormAttachment(0, 250);
+		fd_sctnAuthentication.bottom = new FormAttachment(0, 285);
 		fd_sctnAuthentication.right = new FormAttachment(100, -12);
 		fd_sctnAuthentication.top = new FormAttachment(sctnInfo);
 		fd_sctnAuthentication.left = new FormAttachment(0, 12);
@@ -211,8 +266,10 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 		Label lblPassword = toolkit.createLabel(composite_2, "Password:",
 				SWT.NONE);
 		lblPassword.setAlignment(SWT.RIGHT);
-		lblPassword.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
+		GridData gd_lblPassword = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblPassword.widthHint = 70;
+		lblPassword.setLayoutData(gd_lblPassword);
 
 		txtPass = toolkit.createText(composite_2, "New Text", SWT.PASSWORD);
 		GridData gd_txtPass = new GridData(SWT.LEFT, SWT.CENTER, false, false,
@@ -227,7 +284,7 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 		lblConfirm.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		txtConfirm = toolkit.createText(composite_2, "New Text", SWT.NONE);
+		txtConfirm = toolkit.createText(composite_2, "New Text", SWT.PASSWORD);
 		GridData gd_txtConfirm = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_txtConfirm.widthHint = 200;
@@ -237,50 +294,70 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 		Section sctnRoles = toolkit.createSection(frmNewForm.getBody(),
 				Section.TITLE_BAR);
 		FormData fd_sctnRoles = new FormData();
+		fd_sctnRoles.top = new FormAttachment(sctnAuthentication);
 		fd_sctnRoles.bottom = new FormAttachment(100, -12);
-		fd_sctnRoles.top = new FormAttachment(sctnAuthentication, 12);
 		fd_sctnRoles.right = new FormAttachment(100, -12);
 		fd_sctnRoles.left = new FormAttachment(sctnAuthentication, 0, SWT.LEFT);
 		sctnRoles.setLayoutData(fd_sctnRoles);
 		toolkit.paintBordersFor(sctnRoles);
-		sctnRoles.setText("Roles");
+		sctnRoles.setText("Role");
 
 		Composite composite_3 = toolkit.createComposite(sctnRoles, SWT.NONE);
 		toolkit.paintBordersFor(composite_3);
 		sctnRoles.setClient(composite_3);
-		composite_3.setLayout(new GridLayout(1, false));
+		composite_3.setLayout(new GridLayout(2, false));
 
-		Button btnAdministrator = toolkit.createButton(composite_3,
-				"Administrator", SWT.CHECK);
+		Label lblRole = toolkit.createLabel(composite_3, "Role:", SWT.NONE);
+		lblRole.setAlignment(SWT.RIGHT);
+		GridData gd_lblRole = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
+				1, 1);
+		gd_lblRole.widthHint = 70;
+		lblRole.setLayoutData(gd_lblRole);
 
-		ControlDecoration controlDecoration = new ControlDecoration(
-				btnAdministrator, SWT.LEFT | SWT.TOP);
-		controlDecoration.setDescriptionText("Can perform all activities");
+		comboViewer = new ComboViewer(composite_3, SWT.READ_ONLY);
+		combo = comboViewer.getCombo();
+		GridData gd_combo = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1,
+				1);
+		gd_combo.widthHint = 200;
+		combo.setLayoutData(gd_combo);
+		toolkit.paintBordersFor(combo);
 
-		Button btnCapacityPlanner = toolkit.createButton(composite_3,
-				"Capacity Planner", SWT.CHECK);
-
-		ControlDecoration controlDecoration_1 = new ControlDecoration(
-				btnCapacityPlanner, SWT.LEFT | SWT.TOP);
-		controlDecoration_1
-				.setDescriptionText("Can perform most activities except the Admin tasts");
-
-		Button btnViewer = toolkit.createButton(composite_3, "Viewer",
-				SWT.CHECK);
-
-		ControlDecoration controlDecoration_2 = new ControlDecoration(
-				btnViewer, SWT.LEFT | SWT.TOP);
-		controlDecoration_2
-				.setDescriptionText("Has only View Access to activities");
+		// Register decorators for each control.
+		validationService.registerAllDecorators(txtLogin, lblLogin);
+		validationService.registerAllDecorators(txtFirstName, lblFirstName);
+		validationService.registerAllDecorators(txtLastName, lblLastName);
+		validationService.registerAllDecorators(txtEmail, lblEmail);
+		validationService.registerAllDecorators(txtPass, lblPassword);
+		validationService.registerAllDecorators(txtConfirm, lblConfirm);
 	}
-	
-	
+
+	protected void handleRoleSelection(SelectionEvent e) {
+
+	}
+
 	/**
-	 * Converted to new EMF API. 
+	 * Converted to new EMF API.
+	 * 
 	 * @return
 	 */
-	protected DataBindingContext initDataBindings_() {
-		DataBindingContext bindingContext = new DataBindingContext();
+	protected EMFDataBindingContext initDataBindings_() {
+
+		// Validation Strategies
+		EMFUpdateValueStrategy loginStrategy = validationService
+				.getUpdateValueStrategyBeforeSet("Login is required");
+
+		EMFUpdateValueStrategy firstNameStrategy = validationService
+				.getUpdateValueStrategyBeforeSet("First name is required");
+
+		EMFUpdateValueStrategy lastNameStrategy = validationService
+				.getUpdateValueStrategyBeforeSet("Last name is required");
+
+		EMFUpdateValueStrategy emailNameStrategy = validationService
+				.getUpdateValueStrategyBeforeSet("Email is required");
+
+		// Bindings
+
+		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		//
 		IObservableValue textObserveTextObserveWidget_1 = SWTObservables
 				.observeDelayedValue(100,
@@ -289,8 +366,8 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 		IEMFValueProperty userLoginObserveValue_1 = EMFEditProperties.value(
 				editingService.getEditingDomain(), Literals.PERSON__LOGIN);
 
-		loginBinding = bindingContext.bindValue(textObserveTextObserveWidget_1,
-				userLoginObserveValue_1.observe(user), null, null);
+		bindingContext.bindValue(textObserveTextObserveWidget_1,
+				userLoginObserveValue_1.observe(user), loginStrategy, null);
 
 		IObservableValue txtFirstNameObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400,
@@ -302,7 +379,8 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 				editingService.getEditingDomain(), Literals.PERSON__FIRST_NAME);
 
 		bindingContext.bindValue(txtFirstNameObserveTextObserveWidget,
-				userFirstNameObserveValue.observe(user), null, null);
+				userFirstNameObserveValue.observe(user), firstNameStrategy,
+				null);
 		//
 		IObservableValue txtLastNameObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400,
@@ -314,7 +392,7 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 				editingService.getEditingDomain(), Literals.PERSON__LAST_NAME);
 
 		bindingContext.bindValue(txtLastNameObserveTextObserveWidget,
-				userLastNameObserveValue.observe(user), null, null);
+				userLastNameObserveValue.observe(user), lastNameStrategy, null);
 
 		IObservableValue txtEmailObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400,
@@ -327,9 +405,156 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 				editingService.getEditingDomain(), Literals.PERSON__EMAIL);
 
 		bindingContext.bindValue(txtEmailObserveTextObserveWidget,
-				userEmailObserveValue.observe(user), null, null);
+				userEmailObserveValue.observe(user), emailNameStrategy, null);
+
+		IObservableValue btnCheckObserveSelectionObserveWidget = SWTObservables
+				.observeSelection(btnCheck);
+		IEMFValueProperty userActiveObserveValue = EMFEditProperties.value(
+				editingService.getEditingDomain(), Literals.PERSON__ACTIVE);
+		bindingContext.bindValue(btnCheckObserveSelectionObserveWidget,
+				userActiveObserveValue.observe(user), null, null);
+
+		// Special writable case for password and confirmation,
+		// both share the value changed listener, which only updates the proxy
+		// when both passwords are the same. 2 x widgets -> model
+
+		IObservableValue passwordObservableValue = new WritableValue();
+		
+		PasswordConfirmed confirmedHandler = new PasswordConfirmed(
+				passwordObservableValue);
+
+		IObservableValue txtPasswordObserveTextObserveWidget = SWTObservables
+				.observeDelayedValue(400,
+						SWTObservables.observeText(txtPass, SWT.Modify));
+		txtPasswordObserveTextObserveWidget
+				.addValueChangeListener(confirmedHandler);
+
+		IObservableValue txtConfirmObserveTextObserveWidget = SWTObservables
+				.observeDelayedValue(400,
+						SWTObservables.observeText(txtConfirm, SWT.Modify));
+		txtConfirmObserveTextObserveWidget
+				.addValueChangeListener(confirmedHandler);
+		
+		
+		IEMFValueProperty passwordObserveValue = EMFEditProperties.value(
+				editingService.getEditingDomain(), Literals.PERSON__PASSWORD);
+
+		EMFUpdateValueStrategy passStrategy = validationService
+				.getUpdateValueStrategyAfterGet(confirmedHandler);
+		
+		bindingContext.bindValue(passwordObservableValue, passwordObserveValue
+				.observe(user), passStrategy, null);
+		
+		// Observe and fork on the opposite direction model -> 2 x widget. 
+		
+		final IObservableValue passToTargetObservableValueWritable = new WritableValue();
+		
+		IObservableValue passToTargetObservableValue = passwordObserveValue.observe(user);
+		passToTargetObservableValue.addValueChangeListener(new IValueChangeListener(){
+
+			public void handleValueChange(ValueChangeEvent event) {
+				// We can't set the value, which would trigger a circular update. 
+//				passToTargetObservableValueWritable.setValue(event.diff.getNewValue());
+			}
+		});
+		
+		bindingContext.bindValue(txtPasswordObserveTextObserveWidget, passToTargetObservableValueWritable, null, null);
+		
+//		bindingContext.bindValue(txtConfirmObserveTextObserveWidget, passToTargetObservableValueWritable, null, null);
+
+		
+		// Hand coded binding for a combo.
+
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		this.getComboViewerWidget().setContentProvider(listContentProvider);
+
+		IObservableMap observeMap = EMFObservables.observeMap(
+				listContentProvider.getKnownElements(), Literals.ROLE__NAME);
+
+		this.getComboViewerWidget().setLabelProvider(
+				new ObservableMapLabelProvider(observeMap));
+
+		IEMFListProperty l = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				NetxstudioPackage.Literals.NETXSTUDIO__ROLES);
+
+		this.getComboViewerWidget().setInput(l.observe(owner));
+
+		IObservableValue comboObserveProxy = ViewerProperties.singleSelection()
+				.observe(comboViewer);
+
+		IEMFValueProperty roleObserveValue = EMFEditProperties.value(
+				editingService.getEditingDomain(), Literals.PERSON__ROLES);
+
+		bindingContext.bindValue(comboObserveProxy,
+				roleObserveValue.observe(user), null, null);
 
 		return bindingContext;
+	}
+
+	/**
+	 * Combines the password and confirm value into a single update. Acts as a
+	 * validator to make sure both password are the same.
+	 * 
+	 * @author Christophe Bouhier christophe.bouhier@netxforge.com
+	 * 
+	 */
+	private class PasswordConfirmed implements IValueChangeListener, IValidator {
+
+		private String pass;
+		private String confirm;
+		private IObservableValue toObserve;
+
+		PasswordConfirmed(IObservableValue obsv) {
+			this.toObserve = obsv;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.core.databinding.observable.value.IValueChangeListener
+		 * #handleValueChange
+		 * (org.eclipse.core.databinding.observable.value.ValueChangeEvent)
+		 */
+		public void handleValueChange(ValueChangeEvent event) {
+			Object newValue = event.diff.getNewValue();
+
+			if (event.getObservable() instanceof ISWTObservableValue) {
+				Control control = (Control) ((ISWTObservableValue) event
+						.getObservable()).getWidget();
+				if (control.equals(txtPass)) {
+					pass = (String) newValue;
+				}
+				if (control.equals(txtConfirm)) {
+					confirm = (String) newValue;
+				}
+				if (checkPassConfirmed()) {
+					toObserve.setValue(pass);
+				}
+			}
+		}
+
+		private boolean checkPassConfirmed() {
+			return (pass != null) && (confirm != null) & pass.equals(confirm);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.core.databinding.validation.IValidator#validate(java.
+		 * lang.Object)
+		 */
+		public IStatus validate(Object value) {
+
+			// Should we care about the value, we use the observable.
+			if (checkPassConfirmed()) {
+				return Status.OK_STATUS;
+			}
+			return new Status(IStatus.WARNING, ScreensActivator.PLUGIN_ID,
+					"Password should be equal");
+		}
 	}
 
 	/*
@@ -341,12 +566,115 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 	 */
 	public void injectData(Object owner, Object object) {
 
-		this.owner = owner;
-
-		if (object != null && object instanceof Person) {
-			user = (Person) object;
+		if (owner instanceof Netxstudio) {
+			this.owner = (Netxstudio) owner;
+		} else {
+			// We need the right type of object for this screen.
+			throw new java.lang.IllegalArgumentException();
 		}
+		if (object != null && object instanceof Person) {
+			if(Screens.isEditOperation(operation)){
+				Person copy = EcoreUtil.copy((Person)object);
+				user = copy;
+				original = (Person) object;
+			}else if(Screens.isNewOperation(operation)){
+				user = (Person) object;
+			}
+		}
+		
 		m_bindingContext = initDataBindings_();
+		validationService.registerBindingContext(m_bindingContext);
+		validationService.addValidationListener(this);
+		
+		// we can't update to trigger validation, as this will also invoke commands and dirty our stack. 
+//		m_bindingContext.updateTargets();
+//		m_bindingContext.updateModels();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.data.IDataScreenInjection#addData(java.lang.
+	 * Object)
+	 */
+	public void addData() {
+		if (Screens.isNewOperation(operation) && owner != null) {
+			// If new, we have been operating on an object not added yet.
+			Command c = new AddCommand(editingService.getEditingDomain(),
+					((Netxstudio) owner).getUsers(), user);
+			editingService.getEditingDomain().getCommandStack().execute(c);
+			
+		} else if(Screens.isEditOperation(operation)){
+			// If edit, we have been operating on a copy of the object, so we have 
+			// to replace.
+			Command c = new ReplaceCommand(editingService.getEditingDomain(),((Netxstudio) owner).getUsers(), 
+					original, user);
+			editingService.getEditingDomain().getCommandStack().execute(c);
+			
+		}
+		// After our edit, we shall be dirty
+		if( editingService.isDirty()){
+			editingService.doSave(new NullProgressMonitor());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.selector.IScreenOperation#getOperation()
+	 */
+	public int getOperation() {
+		return this.operation;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
+	 */
+	public Viewer getViewer() {
+		return null;
+	}
+
+	public ComboViewer getComboViewerWidget() {
+		return comboViewer;
+	}
+
+	/**
+	 * @param currentStatus
+	 * @param ctx
+	 */
+	public void handleValidationStateChange(ValidationEvent event) {
+
+		if (event instanceof FormValidationEvent) {
+			int type = ((FormValidationEvent) event).getMsgType();
+			List<IMessage> list = ((FormValidationEvent) event).getMessages();
+			if (frmNewForm.isDisposed() || frmNewForm.getHead().isDisposed()) {
+				return;
+			}
+
+			if (type != IMessage.NONE) {
+
+				String errorType = "";
+				if (type == IMessage.ERROR) {
+					errorType = "Error:";
+				}
+				if (type == IMessage.WARNING) {
+					errorType = "Required:";
+				}
+
+				StringBuffer msgBuffer = new StringBuffer();
+				msgBuffer.append(errorType + "(" + list.size() + "), first:"
+						+ list.get(0).getMessage());
+				frmNewForm.setMessage(msgBuffer.toString(), type,
+						list.toArray(new IMessage[list.size()]));
+
+			} else {
+				frmNewForm.setMessage(null);
+			}
+		}
 	}
 
 	protected DataBindingContext initDataBindings() {
@@ -357,7 +685,7 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 						SWTObservables.observeText(txtLogin, SWT.Modify));
 		IObservableValue userLoginObserveValue_1 = EMFObservables.observeValue(
 				user, Literals.PERSON__LOGIN);
-		loginBinding = bindingContext.bindValue(textObserveTextObserveWidget_1,
+		bindingContext.bindValue(textObserveTextObserveWidget_1,
 				userLoginObserveValue_1, null, null);
 		//
 		IObservableValue txtFirstNameObserveTextObserveWidget = SWTObservables
@@ -384,40 +712,29 @@ public class NewEditUser extends Composite implements IDataScreenInjection, IScr
 		bindingContext.bindValue(txtEmailObserveTextObserveWidget,
 				userEmailObserveValue, null, null);
 		//
+		IObservableValue comboViewerObserveSingleSelection = ViewersObservables
+				.observeSingleSelection(comboViewer);
+		IObservableValue userNameObserveValue = EMFProperties.value(
+				FeaturePath.fromList(Literals.PERSON__ROLES,
+						Literals.ROLE__NAME)).observe(user);
+		bindingContext.bindValue(comboViewerObserveSingleSelection,
+				userNameObserveValue, null, null);
+		//
+		IObservableValue btnCheckObserveSelectionObserveWidget = SWTObservables
+				.observeSelection(btnCheck);
+		IObservableValue userActiveObserveValue = EMFObservables.observeValue(
+				user, Literals.PERSON__ACTIVE);
+		bindingContext.bindValue(btnCheckObserveSelectionObserveWidget,
+				userActiveObserveValue, null, null);
+		//
 		return bindingContext;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.data.IDataScreenInjection#addData(java.lang.
-	 * Object)
-	 */
-	public void addData() {
-		// Should not be called for an edit operation!
-		if (Screens.isNewOperation(operation) && owner != null) {
-			Command c = new AddCommand(editingService.getEditingDomain(),
-					(EList<?>) owner, user);
-			editingService.getEditingDomain().getCommandStack().execute(c);
-		}else{
-			// Databinding has done it's work. Don't need to do anything. 
-		}
-	}
-
 	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.selector.IScreenOperation#getOperation()
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
 	 */
-	public int getOperation() {
-		return this.operation;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
-	 */
-	public Viewer getViewer() {
-		return null;
+	public boolean isValid() {
+		return validationService.isValid();
 	}
 
 }

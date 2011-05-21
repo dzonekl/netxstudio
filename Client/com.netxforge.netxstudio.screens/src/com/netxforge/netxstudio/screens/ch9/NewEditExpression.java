@@ -55,10 +55,11 @@ import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
 
 import com.google.inject.Injector;
 import com.netxforge.netxscript.NetxscriptFactory;
-import com.netxforge.netxstudio.data.IDataScreenInjection;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
@@ -73,7 +74,9 @@ public class NewEditExpression extends Composite implements
 		IDataScreenInjection, IScreen {
 	@SuppressWarnings("unused")
 	private DataBindingContext m_bindingContext;
-
+	
+	private ValidationService validationService = new ValidationService(); 
+	
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtName;
 	private EmbeddedXtextEditor editor;
@@ -372,5 +375,12 @@ public class NewEditExpression extends Composite implements
 	 */
 	public Viewer getViewer() {
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
+	 */
+	public boolean isValid() {
+		return validationService.isValid();
 	}
 }
