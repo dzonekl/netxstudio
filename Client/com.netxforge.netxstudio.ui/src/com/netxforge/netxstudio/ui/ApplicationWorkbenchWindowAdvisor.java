@@ -142,8 +142,15 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	@Override
 	public void postWindowClose() {
-		WorkspaceUtil.INSTANCE.saveChanges();
 		super.postWindowClose();
+		
+		// Close our session. 
+		dService.getProvider().closeSession();
+		
+		// Save our workspace. 
+		WorkspaceUtil.INSTANCE.saveChanges();
+		
+		
 	}
 
 }

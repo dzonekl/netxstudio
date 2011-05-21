@@ -36,6 +36,11 @@
             id="com.netxforge.netxstudio.ui.perspective.admin"
             name="Administrative">
       </perspective>
+      <perspective
+            class="com.netxforge.netxstudio.ui.perspective.WelcomePerspective"
+            id="com.netxforge.netxstudio.ui.perspective.welcome"
+            name="Welcome">
+      </perspective>
    </extension>
 
    

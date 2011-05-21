@@ -21,7 +21,7 @@ import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import com.netxforge.netxstudio.ui.perspective.LibraryPerspective;
+import com.netxforge.netxstudio.ui.perspective.WelcomePerspective;
 
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
@@ -36,7 +36,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
     }
 
 	public String getInitialWindowPerspectiveId() {
-		return LibraryPerspective.ID;
+		return WelcomePerspective.ID;
 	}
 	
 }

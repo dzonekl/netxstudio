@@ -41,6 +41,7 @@ public abstract class AbstractFormPerspective implements IPerspectiveFactory {
 		layout.addPerspectiveShortcut(DesignPerspective.ID);
 		layout.addPerspectiveShortcut(MonitoringPerspective.ID);
 		layout.addPerspectiveShortcut(AdminPerspective.ID);
+		layout.addPerspectiveShortcut(LibraryPerspective.ID);
 	}
 
 }
