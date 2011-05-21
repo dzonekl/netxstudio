@@ -37,7 +37,6 @@ public class EditingActivator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		injector = Guice.createInjector(new EditingServiceModule());
-//		injector.getInstance(CDOEditingService.class);
 	}
 
 	/*

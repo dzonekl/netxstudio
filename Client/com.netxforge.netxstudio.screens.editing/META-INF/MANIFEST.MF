@@ -14,8 +14,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.forms;bundle-version="3.5.100",
  com.google.inject;bundle-version="2.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered
 Export-Package: com.netxforge.netxstudio.screens.editing,
+ com.netxforge.netxstudio.screens.editing.observables,
  com.netxforge.netxstudio.screens.editing.selector

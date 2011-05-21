@@ -24,37 +24,76 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.swt.widgets.Composite;
+
+import com.netxforge.netxstudio.data.IDataService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
 public interface IEditingService {
-
-	public abstract EditingDomain getEditingDomain();
-
-	public abstract ComposedAdapterFactory getAdapterFactory();
 	
+	/**
+	 * Get the editing domain for this service. 
+	 * @return
+	 */
+	public abstract EditingDomain getEditingDomain();
+	
+	/**
+	 * Get the adapterfactory for this service. 
+	 * @return
+	 */
+	public abstract ComposedAdapterFactory getAdapterFactory();
+		
+	/**
+	 * Get the save operation. 
+	 * @param monitor
+	 * @return
+	 */
 	public abstract IRunnableWithProgress doGetSaveOperation(IProgressMonitor monitor);
 	
+	/**
+	 * Saves the data permanently.
+	 * @param monitor
+	 */
 	public abstract void doSave(IProgressMonitor monitor);
+	
+	
+	/**
+	 * returns if editing is dirty and should be saved.
+	 * @return
+	 */
+	public abstract boolean isDirty();
+	
+	/**
+	 * sets dirty for saving. 
+	 * @return
+	 */
+	public abstract void setDirty();
 	
 	/**
 	 * Call when a screen is changed, also tell us what kind of root 
 	 * data feature is expected, we will return the resource which contains it or can be used..
 	 */
-	public abstract Resource getScreenData(Composite screen, int feature);
+	public abstract Resource getData(int feature);
 		
 	/**
-	 * Can when the screen is gone, we can tear down the connections 
-	 * to the data provider. 
-	 * 
+	 * Revoke any relation with the data provider. 
+	 * Typically used to release a connection. 
 	 * @return
 	 */
-	public abstract void tearDownScreen();
-
+	public abstract void revokeData();
+	
+	/**
+	 * Set the provider for the active viewer. 
+	 * @param provider
+	 */
 	public abstract void setViewerProvider(IViewerProvider provider);
 	
+	
+	/**
+	 * Get a data service.
+	 */
+	public abstract IDataService getDataService();
 
 }

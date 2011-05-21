@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 12, 2011 NetXForge.
+ * Copyright (c) May 20, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,29 +16,28 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.screens.editing.selector;
+package com.netxforge.netxstudio.screens.editing.observables;
 
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-
+import java.util.EventObject;
 
 /**
- * Screens participating in the screen service, should implement. 
- * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
+ *
  */
-public interface IScreen extends IViewerProvider {
+public class ValidationEvent extends EventObject {
 
 	/**
-	 * Screens should implement, and tell us what kind of operation they should perform. 
-	 * {@link Screens}
-	 * @return
+	 * 
 	 */
-	int getOperation();
+	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Let us know if this screen is valid.
-	 * @return
+	 * @param arg0
 	 */
-	boolean isValid();
-	
+	public ValidationEvent(Object arg0) {
+		super(arg0);
+		this.source = arg0;
+		// TODO Auto-generated constructor stub
+	}
+
 }

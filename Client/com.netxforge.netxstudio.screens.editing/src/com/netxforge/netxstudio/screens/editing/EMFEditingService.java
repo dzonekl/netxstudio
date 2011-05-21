@@ -50,7 +50,7 @@ public abstract class EMFEditingService implements IEditingService {
 
 	@Inject
 	protected IDataService dataService;
-
+	
 	public EMFEditingService() {
 	}
 
@@ -63,7 +63,6 @@ public abstract class EMFEditingService implements IEditingService {
 	 * com.netxforge.netxstudio.screens.editing.IEditingService#getEditingDomain
 	 * ()
 	 */
-	@Override
 	public EditingDomain getEditingDomain() {
 
 		if (domain == null) {
@@ -84,7 +83,6 @@ public abstract class EMFEditingService implements IEditingService {
 	 * com.netxforge.netxstudio.screens.editing.IEditingService#getAdapterFactory
 	 * ()
 	 */
-	@Override
 	public ComposedAdapterFactory getAdapterFactory() {
 		if (emfEditAdapterFactory == null) {
 			emfEditAdapterFactory = new ComposedAdapterFactory(
@@ -105,7 +103,6 @@ public abstract class EMFEditingService implements IEditingService {
 	 * com.netxforge.netxstudio.screens.editing.IEditingService#doSave(org.eclipse
 	 * .core.runtime.IProgressMonitor)
 	 */
-	@Override
 	public IRunnableWithProgress doGetSaveOperation(IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
@@ -145,7 +142,6 @@ public abstract class EMFEditingService implements IEditingService {
 	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#doSave()
 	 */
-	@Override
 	public void doSave(IProgressMonitor monitor) {
 		IRunnableWithProgress operation = doGetSaveOperation(monitor);
 		if (operation == null)
@@ -170,4 +166,8 @@ public abstract class EMFEditingService implements IEditingService {
 		this.delegateViewerProvider = viewerProvider;
 	}
 
+	public IDataService getDataService() {
+		return this.dataService;
+	}
+	
 }

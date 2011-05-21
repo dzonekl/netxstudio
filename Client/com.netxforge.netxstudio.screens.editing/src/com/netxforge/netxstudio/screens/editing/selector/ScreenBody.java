@@ -126,4 +126,9 @@ public class ScreenBody extends Composite {
 	public StackLayout getScreenDeck(){
 		return screenDeck;
 	}
+	@Override
+	public void dispose() {
+		super.dispose();
+	}
+	
 }

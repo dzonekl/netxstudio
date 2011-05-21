@@ -130,7 +130,6 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 	private void hookPageSelection() {
 		pageSelectionListener = new ISelectionListener() {
 
-			@Override
 			public void selectionChanged(IWorkbenchPart part,
 					ISelection selection) {
 				pageSelectionChanged(part, selection);
@@ -200,7 +199,6 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 	/**
 	 * We deal with objects in resources outside our own editing domain.
 	 */
-	@Override
 	public void doSave(IProgressMonitor monitor) {
 
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
@@ -249,7 +247,6 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 
 	}
 
-	@Override
 	public void doSaveAs() {
 	}
 
@@ -264,7 +261,6 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 	/**
 	 * Based on the command stack statues.
 	 */
-	@Override
 	public boolean isDirty() {
 
 		boolean result = ((BasicCommandStack) getEditingDomain()
@@ -273,23 +269,19 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 		return result;
 	}
 
-	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
 
-	@Override
 	public boolean isSaveOnCloseNeeded() {
 		return true;
 	}
 
-	@Override
 	public int promptToSaveOnClose() {
 		return ISaveablePart2.PROP_DIRTY;
 	}
 
 	// IPartListner API.
-	@Override
 	public void partActivated(IWorkbenchPart part) {
 		// Register selection listeners.
 		if (part instanceof AbstractEditorViewPart) {
@@ -302,17 +294,14 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 		}
 	}
 
-	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
 		// Not used.
 	}
 
-	@Override
 	public void partClosed(IWorkbenchPart part) {
 		// Not used.
 	}
 
-	@Override
 	public void partDeactivated(IWorkbenchPart part) {
 		if (part instanceof AbstractEditorViewPart) {
 			globActionsHandler.deactivate(part);
@@ -323,7 +312,6 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 		}
 	}
 
-	@Override
 	public void partOpened(IWorkbenchPart part) {
 		// Not used.
 		System.out.println("NodePopulateViewPart, part opened");
@@ -332,7 +320,6 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 	// ISelectionListener API
 
 	@SuppressWarnings("unused")
-	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		Object o = this.firstFromSelection(selection);
 	}
@@ -355,7 +342,6 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 
 	AdapterFactoryEditingDomain domain = null;
 
-	@Override
 	public EditingDomain getEditingDomain() {
 		
 		
@@ -386,23 +372,19 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 	// ISelectionProvider API.
 	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
-	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.add(listener);
 	}
 
-	@Override
 	public ISelection getSelection() {
 		return viewSelection;
 	}
 
-	@Override
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener) {
 		selectionChangedListeners.remove(listener);
 	}
 
-	@Override
 	public void setSelection(ISelection selection) {
 		this.viewSelection = selection;
 		for (ISelectionChangedListener listener : selectionChangedListeners) {
@@ -410,7 +392,6 @@ public abstract class AbstractEditorViewPart extends ViewPart implements
 		}
 	}
 
-	@Override
 	public void menuAboutToShow(IMenuManager manager) {
 		System.out.println("Menu about to show request: " + manager.getId());
 	}

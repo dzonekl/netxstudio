@@ -133,5 +133,6 @@ public interface IScreenFormService {
 	
 	public abstract Viewer getSelectionViewer();
 	
+	
 
 }

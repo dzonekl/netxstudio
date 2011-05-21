@@ -52,7 +52,7 @@ import org.eclipse.ui.part.ViewPart;
  * 
  * @author dzonekl
  */
-public abstract class AbstractEditorViewPart2 extends ViewPart implements
+public abstract class AbstractEditorViewPartSimple extends ViewPart implements
 		ISaveablePart2, IPartListener, IEditingDomainProvider {
 
 	//	public static final String ID = "com.netxforge.netxstudio.ui.forms.EquipmentsViewPart"; //$NON-NLS-1$
@@ -65,7 +65,7 @@ public abstract class AbstractEditorViewPart2 extends ViewPart implements
 	// Our global action handler.
 	private GlobalActionsHandler globActionsHandler = new GlobalActionsHandler();
 
-	public AbstractEditorViewPart2() {
+	public AbstractEditorViewPartSimple() {
 		createActions();
 	}
 
@@ -159,7 +159,6 @@ public abstract class AbstractEditorViewPart2 extends ViewPart implements
 	/**
 	 * We deal with objects in resources outside our own editing domain.
 	 */
-	@Override
 	public void doSave(IProgressMonitor monitor) {
 
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
@@ -208,7 +207,6 @@ public abstract class AbstractEditorViewPart2 extends ViewPart implements
 
 	}
 
-	@Override
 	public void doSaveAs() {
 	}
 
@@ -223,7 +221,6 @@ public abstract class AbstractEditorViewPart2 extends ViewPart implements
 	/**
 	 * Based on the command stack statues.
 	 */
-	@Override
 	public boolean isDirty() {
 
 		boolean result = ((BasicCommandStack) getEditingDomain()
@@ -232,26 +229,22 @@ public abstract class AbstractEditorViewPart2 extends ViewPart implements
 		return result;
 	}
 
-	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
 
-	@Override
 	public boolean isSaveOnCloseNeeded() {
 		return true;
 	}
 
-	@Override
 	public int promptToSaveOnClose() {
 		return ISaveablePart2.PROP_DIRTY;
 	}
 
 	// IPartListner API.
-	@Override
 	public void partActivated(IWorkbenchPart part) {
 		// Register selection listeners.
-		if (part instanceof AbstractEditorViewPart2) {
+		if (part instanceof AbstractEditorViewPartSimple) {
 			// Activate our global actions.
 			globActionsHandler.activate(part);
 			System.out.println("NodePopulateViewPart, part actived");
@@ -261,19 +254,16 @@ public abstract class AbstractEditorViewPart2 extends ViewPart implements
 		}
 	}
 
-	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
 		// Not used.
 	}
 
-	@Override
 	public void partClosed(IWorkbenchPart part) {
 		// Not used.
 	}
 
-	@Override
 	public void partDeactivated(IWorkbenchPart part) {
-		if (part instanceof AbstractEditorViewPart2) {
+		if (part instanceof AbstractEditorViewPartSimple) {
 			globActionsHandler.deactivate(part);
 			System.out.println("NodePopulateViewPart, part deactived");
 		} else {
@@ -282,7 +272,6 @@ public abstract class AbstractEditorViewPart2 extends ViewPart implements
 		}
 	}
 
-	@Override
 	public void partOpened(IWorkbenchPart part) {
 		// Not used.
 		System.out.println("NodePopulateViewPart, part opened");
@@ -293,7 +282,6 @@ public abstract class AbstractEditorViewPart2 extends ViewPart implements
 
 	AdapterFactoryEditingDomain domain = null;
 
-	@Override
 	public EditingDomain getEditingDomain() {
 		if (domain == null) {
 			BasicCommandStack commandStack = new BasicCommandStack();

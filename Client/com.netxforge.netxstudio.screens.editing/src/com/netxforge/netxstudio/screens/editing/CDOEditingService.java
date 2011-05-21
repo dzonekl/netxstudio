@@ -22,11 +22,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.inject.Singleton;
@@ -35,9 +35,8 @@ import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
 
 /**
- * For the lifetime of this service, we keep an editing domain. We also proxy to
- * a dataservice. (As the dataservice likely wants to know about our
- * resourceset).
+ * For the lifetime of this service, we keep various editing facilities. We also proxy to
+ * various other services, like a data and validation service. 
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
@@ -59,20 +58,11 @@ public class CDOEditingService extends EMFEditingService implements IDawnEditor,
 	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor#getView()
 	 */
-	@Override
 	public CDOView getView() {
 		return dawnEditorSupport.getView();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor#setDirty()
-	 */
-	@Override
-	public void setDirty() {
-		dawnEditorSupport.setDirty(true);
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -80,7 +70,6 @@ public class CDOEditingService extends EMFEditingService implements IDawnEditor,
 	 * @see com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor#
 	 * getDawnEditorSupport()
 	 */
-	@Override
 	public IDawnEditorSupport getDawnEditorSupport() {
 		return dawnEditorSupport;
 	}
@@ -119,8 +108,7 @@ public class CDOEditingService extends EMFEditingService implements IDawnEditor,
 	 * @see
 	 * com.netxforge.netxstudio.screens.editing.IEditingService#initScreen(int)
 	 */
-	@Override
-	public Resource getScreenData(Composite screen, int feature) {
+	public Resource getData(int feature) {
 			
 		Resource res = dataService.getProvider().getResource(
 				this.getEditingDomain().getResourceSet(), feature);
@@ -137,18 +125,33 @@ public class CDOEditingService extends EMFEditingService implements IDawnEditor,
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#tearDownScreen(int)
 	 */
-	@Override
-	public void tearDownScreen() {
+	public void revokeData() {
 		  dawnEditorSupport.close(); // Closes the view.
 		  // Close the view, but does it close the transaction? 
-		  
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
-	@Override
 	public Viewer getViewer() {
 		return this.delegateViewerProvider.getViewer();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#isDirty()
+	 */
+	public boolean isDirty() {
+		boolean result = ((BasicCommandStack) getEditingDomain()
+				.getCommandStack()).isSaveNeeded();
+		return result;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor#setDirty()
+	 */
+	public void setDirty() {
+		dawnEditorSupport.setDirty(true);
 	}
 }

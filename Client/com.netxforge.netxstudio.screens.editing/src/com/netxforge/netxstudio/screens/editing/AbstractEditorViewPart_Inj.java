@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.EventObject;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -119,7 +118,6 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	private void hookPageSelection() {
 		pageSelectionListener = new ISelectionListener() {
 
-			@Override
 			public void selectionChanged(IWorkbenchPart part,
 					ISelection selection) {
 				pageSelectionChanged(part, selection);
@@ -179,7 +177,6 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	}	
 	
 	// ISaveablePart2 API.
-	@Override
 	public void saveState(IMemento memento) {
 		super.saveState(memento);
 		memento.putFloat(AKEY, 0.1f);
@@ -188,16 +185,14 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	/**
 	 * We deal with objects in resources outside our own editing domain.
 	 */
-	@Override
 	public void doSave(IProgressMonitor monitor) {
 		// Delegate to a pluggable service.
 		editingService.doSave(monitor);
 		firePropertyChange(ISaveablePart2.PROP_DIRTY);
 	}
 
-	@Override
 	public void doSaveAs() {
-		
+		// TODO, do something. 
 	}
 
 	// @Override
@@ -211,32 +206,23 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	/**
 	 * Based on the command stack statues.
 	 */
-	@Override
 	public boolean isDirty() {
-
-		boolean result = ((BasicCommandStack) getEditingDomain()
-				.getCommandStack()).isSaveNeeded();
-
-		return result;
+		return editingService.isDirty();
 	}
 
-	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
 
-	@Override
 	public boolean isSaveOnCloseNeeded() {
 		return true;
 	}
 
-	@Override
 	public int promptToSaveOnClose() {
 		return ISaveablePart2.PROP_DIRTY;
 	}
 
 	// IPartListner API.
-	@Override
 	public void partActivated(IWorkbenchPart part) {
 		// Register selection listeners.
 		if (part instanceof AbstractEditorViewPart_Inj) {
@@ -246,17 +232,14 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 		}
 	}
 
-	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
 		// Not used.
 	}
 
-	@Override
 	public void partClosed(IWorkbenchPart part) {
 		// Not used.
 	}
 
-	@Override
 	public void partDeactivated(IWorkbenchPart part) {
 		if (part instanceof AbstractEditorViewPart_Inj) {
 			globActionsHandler.deactivate(part);
@@ -264,14 +247,12 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 		}
 	}
 
-	@Override
 	public void partOpened(IWorkbenchPart part) {
 	}
 
 	// ISelectionListener API
 
 	@SuppressWarnings("unused")
-	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		Object o = this.firstFromSelection(selection);
 	}
@@ -299,7 +280,6 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	// IEditingDomainProvider API.
 	AdapterFactoryEditingDomain domain = null;
 
-	@Override
 	public EditingDomain getEditingDomain() {
 		
 		if (domain == null) {
@@ -312,6 +292,7 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 							.asyncExec(new Runnable() {
 								public void run() {
 									firePropertyChange(ISaveablePart2.PROP_DIRTY);
+									editingService.setDirty();
 								}
 							});
 				}
@@ -327,23 +308,19 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	// Whatever screen is active, should provide selection.
 	protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
-	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.add(listener);
 	}
 
-	@Override
 	public ISelection getSelection() {
 		return viewSelection;
 	}
 
-	@Override
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener) {
 		selectionChangedListeners.remove(listener);
 	}
 
-	@Override
 	public void setSelection(ISelection selection) {
 		this.viewSelection = selection;
 		for (ISelectionChangedListener listener : selectionChangedListeners) {
@@ -351,13 +328,9 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 		}
 	}
 
-	@Override
 	public void menuAboutToShow(IMenuManager manager) {
 		System.out.println("Menu about to show request: " + manager.getId());
 	}
-	
-	
-	
 	
 	/**
 	 * This listens to which ever viewer is active.
@@ -417,7 +390,6 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 		}
 	}
 	
-	@Override
 	public Viewer getViewer() {
 		return currentViewer; 
 	}

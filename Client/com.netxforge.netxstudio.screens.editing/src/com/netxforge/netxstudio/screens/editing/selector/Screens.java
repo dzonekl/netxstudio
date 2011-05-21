@@ -33,4 +33,9 @@ public class Screens {
 	public static boolean isNewOperation(int operation){
 		return (operation & OPERATION_NEW) != 0;
 	}
+	
+	public static boolean isEditOperation(int operation){
+		return (operation & OPERATION_EDIT) != 0;
+	}
+
 }
