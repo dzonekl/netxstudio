@@ -69,7 +69,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
-//	private String loggedInUser;
+
+	// private String loggedInUser;
 
 	@Inject
 	public CDODataProvider(ICDOConnection conn) {
@@ -260,12 +261,21 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 			Role r = GenericsFactory.eINSTANCE.createRole();
 			r.setName(ROLE_ADMIN);
 			studio.getRoles().add(r);
-			
-			// Make Tom an Admin. 
-			Person p = GenericsFactory.eINSTANCE.createPerson();
-			p.setLogin("tom");
-			p.setRoles(r);
-			studio.getUsers().add(p);
+
+			{
+				// Make Tom an Admin.
+				Person p = GenericsFactory.eINSTANCE.createPerson();
+				p.setLogin("tom");
+				p.setRoles(r);
+				studio.getUsers().add(p);
+			}
+			{
+				// Make Dick an Admin.
+				Person p = GenericsFactory.eINSTANCE.createPerson();
+				p.setLogin("dick");
+				p.setRoles(r);
+				studio.getUsers().add(p);
+			}
 		}
 		{
 			Role r = GenericsFactory.eINSTANCE.createRole();

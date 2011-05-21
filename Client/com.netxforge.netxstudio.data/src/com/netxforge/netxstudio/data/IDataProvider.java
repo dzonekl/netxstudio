@@ -68,4 +68,11 @@ public interface IDataProvider {
 	 */
 	public CDOSession getSession();
 	
+	
+	/**
+	 * close the active session.
+	 * @return
+	 */
+	public void closeSession();
+	
 }

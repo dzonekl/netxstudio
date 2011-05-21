@@ -77,26 +77,17 @@ public class TestDataProvider implements IDataProvider {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.data.IDataProvider#getNetXStudio(org.eclipse.emf.ecore.resource.ResourceSet)
-	 */
-	public Netxstudio getNetXStudio(ResourceSet set) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getResource(org.eclipse.emf.ecore.resource.ResourceSet, int)
 	 */
 	public Resource getResource(ResourceSet set, int feature) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.data.IDataProvider#openSession(java.lang.String, java.lang.String)
 	 */
 	public void openSession(String uid, String passwd) {
-		// TODO Auto-generated method stub
+		throw new java.lang.UnsupportedOperationException();
 		
 	}
 
@@ -104,24 +95,29 @@ public class TestDataProvider implements IDataProvider {
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getSessionUserID()
 	 */
 	public String getSessionUserID() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getResource(int)
 	 */
 	public Resource getResource(int feature) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getSession()
 	 */
 	public CDOSession getSession() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.data.IDataProvider#closeSession()
+	 */
+	public void closeSession() {
+		throw new java.lang.UnsupportedOperationException();
+		
 	}
 	
 }
