@@ -74,8 +74,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	public void postWindowOpen() {
 		super.postWindowOpen();
 
-		WorkspaceUtil.INSTANCE.initProjectCreationWizard();
-		WorkspaceUtil.INSTANCE.extractFixturePlugin();
+		WorkspaceUtil.INSTANCE.initDefaultProject();
+//		WorkspaceUtil.INSTANCE.extractFixturePlugin();
 
 		// Kick of activities.
 		// Inject the data service.

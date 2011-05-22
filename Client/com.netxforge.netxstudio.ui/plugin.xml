@@ -104,6 +104,9 @@
          </command>
     </menuContribution>
  -->      
+ 
+ <!-- FIXME These contributions belong to specific screens, not in the UI plugin.  
+ 
     <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar
@@ -141,9 +144,14 @@
             </command>
          </toolbar>
 	</menuContribution>
+-->	
    </extension>
+   
+   
    <extension
          point="org.eclipse.ui.commands">
+         
+<!-- FIXME, These commands. belong to screens, not the UI plugin.          
       <command
             id="com.netxforge.netxstudio.ui.command.network"
             name="%command.name">
@@ -156,6 +164,8 @@
             id="com.netxforge.netxstudio.ui.command.equipment"
             name="%command.name.1">
       </command>
+-->      
+      
 <!--      
       <command
             id="com.netxforge.netxstudio.ui.command.refreshview"
@@ -174,7 +184,9 @@
             class="com.netxforge.netxstudio.ui.handlers.RefreshViewHandler"
             commandId="com.netxforge.netxstudio.ui.command.refreshview">
       </handler>
--->      
+-->     
+
+<!-- FIXME, move these handlers to the specific screen plugin.  
       <handler
             class="com.netxforge.netxstudio.ui.handlers.NetworkHandler"
             commandId="com.netxforge.netxstudio.ui.command.network">
@@ -187,6 +199,7 @@
             class="com.netxforge.netxstudio.ui.handlers.EquipmentHandler"
             commandId="com.netxforge.netxstudio.ui.command.equipment">
       </handler>
+-->      
    </extension>
    <extension
          point="org.eclipse.ui.exportWizards">
