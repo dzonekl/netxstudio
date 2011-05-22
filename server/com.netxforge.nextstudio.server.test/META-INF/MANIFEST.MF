@@ -19,7 +19,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.google.inject;bundle-version="2.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: com.netxforge.nextstudio.server.test.base,
+Export-Package: com.netxforge.nextstudio.server.test.actions,
+ com.netxforge.nextstudio.server.test.base,
  com.netxforge.nextstudio.server.test.common,
- com.netxforge.nextstudio.server.test.metrics,
- com.netxforge.nextstudio.server.test.metrics.data
+ com.netxforge.nextstudio.server.test.metrics

@@ -19,6 +19,7 @@
 package com.netxforge.nextstudio.server;
 
 import org.eclipse.emf.cdo.server.IRepository;
+import org.eclipse.emf.cdo.server.StoreThreadLocal;
 import org.eclipse.emf.cdo.server.hibernate.IHibernateStore;
 import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
 import org.eclipse.emf.cdo.spi.server.RepositoryUserManager;
@@ -57,9 +58,11 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 		if (userID.equals("admin")) {
 			return "admin".toCharArray();
 		}
+
 		final IHibernateStore hbStore = (IHibernateStore) repository.getStore();
 		final Session session = hbStore.getHibernateSessionFactory()
 				.openSession();
+		
 		final Query qry = session
 				.createQuery("select p from Person p where login=?");
 		qry.setParameter(0, userID);
@@ -78,6 +81,9 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 		if (pwd == null) {
 			return null;
 		}
+		
+		StoreThreadLocal.release();
+		
 		return pwd.toCharArray();
 	}
 }

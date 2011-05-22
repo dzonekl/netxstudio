@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
-import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -61,8 +60,7 @@ public class NetworkElementLocator {
 		}
 		
 		// find the cross references to this metric
-	    final CDOView view = dataService.getProvider().getSession().openView();
-	    final List<CDOObjectReference> results = view.queryXRefs(metric, sourceReference);
+	    final List<CDOObjectReference> results = dataService.getProvider().getTransaction().queryXRefs(metric, sourceReference);
 	    for (final CDOObjectReference objectReference : results) {
 	    	final CDOObject source = objectReference.getSourceObject();
 	    	boolean foundValidNode = false;
@@ -98,8 +96,8 @@ public class NetworkElementLocator {
 		if (eObject == null) {
 			return false;
 		}
-		if (eObject instanceof Node) {
-			return isValidObject(eObject, identifierValue);
+		if (eObject instanceof Node && isValidObject(eObject, identifierValue)) {
+		    return true;
 		}
 		return hasValidNode(eObject.eContainer(), identifierValue);
 	}

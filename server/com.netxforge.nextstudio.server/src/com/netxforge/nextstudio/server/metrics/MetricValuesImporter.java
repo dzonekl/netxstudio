@@ -38,6 +38,10 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.MappingRecordXLS;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
@@ -90,7 +94,6 @@ public class MetricValuesImporter {
 			final String location = metricSource.getMetricLocation();
 			final InputStream is = (inputStream == null ? this.getClass()
 					.getResourceAsStream(location) : inputStream);
-			;
 			final HSSFWorkbook workBook = new HSSFWorkbook(is);
 			final HSSFSheet sheet = workBook.getSheetAt(getMappingXLS()
 					.getSheetNumber());
@@ -107,8 +110,43 @@ public class MetricValuesImporter {
 					e.getMessage());
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
+		storeMetricValues();
+		dataService.getProvider().commitTransaction();
 	}
 
+	private void storeMetricValues() {
+		for (final Metric metric : metricValueRanges.keySet()) {
+			final Map<Object, MetricValueRange> valueRangesByObject = metricValueRanges.get(metric);
+			for (final Object object : valueRangesByObject.keySet()) {
+				if (object instanceof Function) {
+					final Function function = (Function)object;
+					addToNetXResource(metric, valueRangesByObject.get(object), function.getFunctionResources());
+				} else if (object instanceof Equipment) {
+					final Equipment equipment = (Equipment)object;
+					addToNetXResource(metric, valueRangesByObject.get(object), equipment.getEquipmentResources());
+				}
+			}
+		}
+	}
+	
+	private void addToNetXResource(Metric metric, MetricValueRange metricValueRange, EList<NetXResource> netXResources) {
+		NetXResource addToNetXResource = null;
+		for (final NetXResource netXResource: netXResources) {
+			if (netXResource.getMetricRef() == metric) {
+				addToNetXResource = netXResource;
+			}
+		}
+		if (addToNetXResource == null) {
+			addToNetXResource = LibraryFactory.eINSTANCE.createNetXResource();
+			addToNetXResource.setMetricRef(metric);
+			addToNetXResource.setShortName(metric.getName());
+			addToNetXResource.setLongName(metric.getName());
+			addToNetXResource.setUnitRef(metric.getUnitRef());
+			netXResources.add(addToNetXResource);			
+		}
+		addToNetXResource.getMetricValueRanges().add(metricValueRange);
+	}
+	
 	// create the mapping statistics on the basis of the errors and
 	// warnings
 	private MappingStatistic createMappingStatistics(long startTime,
@@ -147,12 +185,16 @@ public class MetricValuesImporter {
 		for (int rowNum = getMappingXLS().getFirstDataRow(); rowNum <= sheet
 				.getLastRowNum(); rowNum++) {
 			System.err.println("Processing row " + rowNum);
+			if (rowNum == 20) {
+				break;
+			}
 			try {
 				totalRows++;
 				final List<IdentifierValue> elementIdentifiers = getIdentifierValues(
 						sheet, rowNum);
 				final Date timeStamp = getTimeStampValue(sheet, rowNum);
-
+				final int periodHint = getPeriodHint(sheet, rowNum);
+				
 				for (final MappingXLSColumn xlsColumn : getMappingXLSColumn()) {
 					if (isMetric(xlsColumn)) {
 						final CDOObject networkElement = getNetworkElementLocator()
@@ -171,7 +213,7 @@ public class MetricValuesImporter {
 								.getCell(xlsColumn.getColumn())
 								.getNumericCellValue();
 						addMetricValue(xlsColumn, timeStamp, networkElement,
-								value);
+								value, periodHint);
 					}
 				}
 			} catch (final Exception e) {
@@ -184,7 +226,7 @@ public class MetricValuesImporter {
 	}
 
 	private void addMetricValue(MappingXLSColumn xlsColumn, Date timeStamp,
-			Object networkElement, Double dblValue) {
+			Object networkElement, Double dblValue, int periodHint) {
 		final ValueDataKind valueDataKind = getValueDataKind(xlsColumn);
 		Map<Object, MetricValueRange> valueRanges = metricValueRanges
 				.get(valueDataKind.getMetricRef());
@@ -196,6 +238,7 @@ public class MetricValuesImporter {
 		if (valueRange == null) {
 			valueRange = MetricsFactory.eINSTANCE.createMetricValueRange();
 			valueRange.setKindHint(valueDataKind.getKindHint());
+			valueRange.setPeriodHint(periodHint);
 			valueRanges.put(networkElement, valueRange);
 		}
 		final Value value = GenericsFactory.eINSTANCE.createValue();
@@ -241,6 +284,22 @@ public class MetricValuesImporter {
 			}
 		}
 		return null;
+	}
+
+	private int getPeriodHint(HSSFSheet sheet, int rowNum) {
+		for (final MappingXLSColumn xlsColumn : getMappingXLSColumn()) {
+			if (xlsColumn.getDataType() instanceof ValueDataKind
+					&& ((ValueDataKind) xlsColumn.getDataType()).getValueKind() == ValueKindType.PERIOD) {
+				final Cell cell = sheet.getRow(rowNum).getCell(
+						xlsColumn.getColumn());
+				try {
+					return new Double(cell.getNumericCellValue()).intValue();
+				} catch (final Exception e) {
+					throw new IllegalStateException(e);
+				}
+			}
+		}
+		return -1;
 	}
 
 	private EList<MappingXLSColumn> getMappingXLSColumn() {
