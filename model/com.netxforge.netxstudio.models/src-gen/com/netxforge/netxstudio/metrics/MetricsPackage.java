@@ -87,10 +87,12 @@ import org.eclipse.emf.ecore.EReference;
  * 		
  * 
  * 		
+ * 
+ * 		
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.metrics.MetricsFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL'"
  * @generated
  */
 public interface MetricsPackage extends EPackage {
@@ -534,7 +536,7 @@ public interface MetricsPackage extends EPackage {
 	int METRIC__NAME = 6;
 
 	/**
-	 * The feature id for the '<em><b>Unit Ref</b></em>' attribute.
+	 * The feature id for the '<em><b>Unit Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1121,15 +1123,15 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getMetric_Name();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.Metric#getUnitRef <em>Unit Ref</em>}'.
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.metrics.Metric#getUnitRef <em>Unit Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Unit Ref</em>'.
+	 * @return the meta object for the reference '<em>Unit Ref</em>'.
 	 * @see com.netxforge.netxstudio.metrics.Metric#getUnitRef()
 	 * @see #getMetric()
 	 * @generated
 	 */
-	EAttribute getMetric_UnitRef();
+	EReference getMetric_UnitRef();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MetricSource <em>Metric Source</em>}'.
@@ -1657,12 +1659,12 @@ public interface MetricsPackage extends EPackage {
 		EAttribute METRIC__NAME = eINSTANCE.getMetric_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Unit Ref</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Unit Ref</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute METRIC__UNIT_REF = eINSTANCE.getMetric_UnitRef();
+		EReference METRIC__UNIT_REF = eINSTANCE.getMetric_UnitRef();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl <em>Metric Source</em>}' class.

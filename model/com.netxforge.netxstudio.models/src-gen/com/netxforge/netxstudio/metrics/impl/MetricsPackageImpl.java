@@ -604,8 +604,8 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMetric_UnitRef() {
-		return (EAttribute)metricEClass.getEStructuralFeatures().get(7);
+	public EReference getMetric_UnitRef() {
+		return (EReference)metricEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -859,7 +859,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		createEAttribute(metricEClass, METRIC__METRIC_CALCULATION);
 		createEReference(metricEClass, METRIC__METRIC_SOURCE_REF);
 		createEAttribute(metricEClass, METRIC__NAME);
-		createEAttribute(metricEClass, METRIC__UNIT_REF);
+		createEReference(metricEClass, METRIC__UNIT_REF);
 
 		metricSourceEClass = createEClass(METRIC_SOURCE);
 		createEReference(metricSourceEClass, METRIC_SOURCE__METRIC_REFS);
@@ -915,6 +915,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		// Obtain other dependent packages
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
+		LibraryPackage theLibraryPackage = (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -972,7 +973,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEAttribute(getMetric_MetricCalculation(), theGenericsPackage.getExpressionLine(), "metricCalculation", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMetric_MetricSourceRef(), this.getMetricSource(), this.getMetricSource_MetricRefs(), "metricSourceRef", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetric_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMetric_UnitRef(), theGenericsPackage.getUnitCode(), "unitRef", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMetric_UnitRef(), theLibraryPackage.getUnit(), null, "unitRef", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(metricSourceEClass, MetricSource.class, "MetricSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricSource_MetricRefs(), this.getMetric(), this.getMetric_MetricSourceRef(), "metricRefs", null, 0, -1, MetricSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1035,9 +1036,9 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		  (this, 
 		   source, 
 		   new String[] {
-			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
-			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
-			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
+			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
+			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
+			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
 		   });																																																																																																		
 	}
 

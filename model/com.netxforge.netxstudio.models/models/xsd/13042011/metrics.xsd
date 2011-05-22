@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns="http://www.netxforge.com/13042011/metrics"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:operators="http://www.netxforge.com/13042011/operators"
+	xmlns:library="http://www.netxforge.com/13042011/library" xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:operators="http://www.netxforge.com/13042011/operators"
 	id="metrics" targetNamespace="http://www.netxforge.com/13042011/metrics"
 	ecore:package="com.netxforge.netxstudio.metrics">
 	<xs:import schemaLocation="generics.xsd"
 		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
 	<xs:import schemaLocation="operators.xsd"
 		namespace="http://www.netxforge.com/13042011/operators"></xs:import>
+	<xs:import namespace="http://www.netxforge.com/13042011/library"
+		schemaLocation="library.xsd" />
 
 	<!--_____________________________ -->
 	<!--| METRIC | -->
@@ -52,13 +54,10 @@
 					the metric.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute ecore:reference="gen:UnitCode" name="UnitRef"
-			type="xs:anyURI">
+		<xs:attribute ecore:reference="library:Unit" name="UnitRef" type="xs:anyURI" >
 			<xs:annotation>
-				<xs:documentation>The UnitRef reference, refers to 0 or 1 Unit type.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
+				<xs:documentation>The UnitRef reference, refers to 0 or 1 Unit type.</xs:documentation>
+		</xs:annotation></xs:attribute>
 		<xs:attribute name="MeasurementPoint" type="gen:Description2000">
 			<xs:annotation>
 				<xs:documentation>The MeasurementPoint Attribute describes textually

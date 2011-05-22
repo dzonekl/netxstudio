@@ -18,8 +18,10 @@
  */
 package com.netxforge.netxstudio.metrics;
 
+import com.netxforge.netxstudio.library.Unit;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -249,30 +251,28 @@ public interface Metric extends CDOObject {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Unit Ref</b></em>' attribute.
+	 * Returns the value of the '<em><b>Unit Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The UnitRef reference, refers to 0 or 1 Unit type.
-	 * 				
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Unit Ref</em>' attribute.
-	 * @see #setUnitRef(String)
+	 * @return the value of the '<em>Unit Ref</em>' reference.
+	 * @see #setUnitRef(Unit)
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetric_UnitRef()
-	 * @model dataType="com.netxforge.netxstudio.generics.UnitCode"
-	 *        extendedMetaData="kind='attribute' name='UnitRef'"
+	 * @model extendedMetaData="kind='attribute' name='UnitRef'"
 	 * @generated
 	 */
-	String getUnitRef();
+	Unit getUnitRef();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.Metric#getUnitRef <em>Unit Ref</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.Metric#getUnitRef <em>Unit Ref</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Unit Ref</em>' attribute.
+	 * @param value the new value of the '<em>Unit Ref</em>' reference.
 	 * @see #getUnitRef()
 	 * @generated
 	 */
-	void setUnitRef(String value);
+	void setUnitRef(Unit value);
 
 } // Metric

@@ -18,8 +18,10 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import com.netxforge.netxstudio.library.Unit;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.metrics.Metric;
@@ -199,8 +201,8 @@ public class MetricImpl extends CDOObjectImpl implements Metric {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getUnitRef() {
-		return (String)eGet(MetricsPackage.Literals.METRIC__UNIT_REF, true);
+	public Unit getUnitRef() {
+		return (Unit)eGet(MetricsPackage.Literals.METRIC__UNIT_REF, true);
 	}
 
 	/**
@@ -208,7 +210,7 @@ public class MetricImpl extends CDOObjectImpl implements Metric {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setUnitRef(String newUnitRef) {
+	public void setUnitRef(Unit newUnitRef) {
 		eSet(MetricsPackage.Literals.METRIC__UNIT_REF, newUnitRef);
 	}
 

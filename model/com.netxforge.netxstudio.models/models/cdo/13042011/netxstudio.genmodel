@@ -354,7 +354,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Metric/metricCalculation"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//Metric/metricSourceRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Metric/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Metric/unitRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference metrics.ecore#//Metric/unitRef"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MetricSource">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/metricRefs"/>
