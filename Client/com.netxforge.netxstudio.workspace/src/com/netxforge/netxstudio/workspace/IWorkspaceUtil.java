@@ -20,7 +20,17 @@ public interface IWorkspaceUtil {
 	 * @see com.netxforge.netxstudio.workspace.IWorkspaceUtil#initProjectCreationWizard()
 	 */
 	public abstract void initProjectCreationWizard();
-
+	
+	
+	/**
+	 * Init the project structure with the default project name.
+	 */
+	public abstract void initDefaultProject();
+	
+	/**
+	 * Create the project structure with all subfolders. 
+	 * @param proj
+	 */
 	public abstract void createWorkspaceStructure(IProject proj);
 
 	/**

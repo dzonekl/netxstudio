@@ -96,7 +96,15 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 			}
 		return false;
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.workspace.IWorkspaceUtil#initDefaultProject()
+	 */
+	public void initDefaultProject() {
+		defaultProject = createNewProject(WorkspaceUtil.DEFAULT_PROJ_NAME);
+		createWorkspaceStructure(defaultProject);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -126,7 +134,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 		}
 		createWorkspaceStructure(defaultProject);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -840,5 +848,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 		Bundle b = Platform.getBundle(bundleSymbolicName);
 		return this.getBundlePathAsString(b);
 	}
+
+	
 
 }
