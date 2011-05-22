@@ -77,48 +77,25 @@ public class MappingXLSColumnItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addColumnHeaderNamePropertyDescriptor(object);
-			addColumnHeaderRowPropertyDescriptor(object);
+			addColumnPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Column Header Name feature.
+	 * This adds a property descriptor for the Column feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addColumnHeaderNamePropertyDescriptor(Object object) {
+	protected void addColumnPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_MappingXLSColumn_columnHeaderName_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MappingXLSColumn_columnHeaderName_feature", "_UI_MappingXLSColumn_type"),
-				 MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Column Header Row feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addColumnHeaderRowPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_MappingXLSColumn_columnHeaderRow_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MappingXLSColumn_columnHeaderRow_feature", "_UI_MappingXLSColumn_type"),
-				 MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW,
+				 getString("_UI_MappingXLSColumn_column_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingXLSColumn_column_feature", "_UI_MappingXLSColumn_type"),
+				 MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN,
 				 true,
 				 false,
 				 false,
@@ -176,10 +153,8 @@ public class MappingXLSColumnItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((MappingXLSColumn)object).getColumnHeaderName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_MappingXLSColumn_type") :
-			getString("_UI_MappingXLSColumn_type") + " " + label;
+		MappingXLSColumn mappingXLSColumn = (MappingXLSColumn)object;
+		return getString("_UI_MappingXLSColumn_type") + " " + mappingXLSColumn.getColumn();
 	}
 
 	/**
@@ -194,8 +169,7 @@ public class MappingXLSColumnItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(MappingXLSColumn.class)) {
-			case MetricsPackage.MAPPING_XLS_COLUMN__COLUMN_HEADER_NAME:
-			case MetricsPackage.MAPPING_XLS_COLUMN__COLUMN_HEADER_ROW:
+			case MetricsPackage.MAPPING_XLS_COLUMN__COLUMN:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case MetricsPackage.MAPPING_XLS_COLUMN__DATA_TYPE:

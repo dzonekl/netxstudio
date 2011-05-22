@@ -78,6 +78,7 @@ public class NetXResourceItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addMetricRefPropertyDescriptor(object);
 			addDetailDisplayPropertyDescriptor(object);
 			addExpressionNamePropertyDescriptor(object);
 			addLongNamePropertyDescriptor(object);
@@ -86,6 +87,28 @@ public class NetXResourceItemProvider
 			addUnitRefPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Metric Ref feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMetricRefPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NetXResource_metricRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NetXResource_metricRef_feature", "_UI_NetXResource_type"),
+				 LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**

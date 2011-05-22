@@ -18,10 +18,10 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
-import com.netxforge.netxstudio.metrics.KindHintType;
-import com.netxforge.netxstudio.metrics.Metric;
 import org.eclipse.emf.ecore.EClass;
 
+import com.netxforge.netxstudio.metrics.KindHintType;
+import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;

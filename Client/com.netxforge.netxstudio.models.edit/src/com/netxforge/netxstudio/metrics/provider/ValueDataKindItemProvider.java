@@ -34,9 +34,9 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
-import com.netxforge.netxstudio.metrics.ValueKindType;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.metrics.ValueDataKind} object.
@@ -73,9 +73,55 @@ public class ValueDataKindItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addMetricRefPropertyDescriptor(object);
+			addKindHintPropertyDescriptor(object);
 			addValueKindPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Metric Ref feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMetricRefPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValueDataKind_metricRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValueDataKind_metricRef_feature", "_UI_ValueDataKind_type"),
+				 MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Kind Hint feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addKindHintPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValueDataKind_kindHint_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValueDataKind_kindHint_feature", "_UI_ValueDataKind_type"),
+				 MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -119,7 +165,7 @@ public class ValueDataKindItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		ValueKindType labelValue = ((ValueDataKind)object).getValueKind();
+		KindHintType labelValue = ((ValueDataKind)object).getKindHint();
 		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ValueDataKind_type") :
@@ -138,6 +184,7 @@ public class ValueDataKindItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ValueDataKind.class)) {
+			case MetricsPackage.VALUE_DATA_KIND__KIND_HINT:
 			case MetricsPackage.VALUE_DATA_KIND__VALUE_KIND:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

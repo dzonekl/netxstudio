@@ -78,9 +78,32 @@ public class MappingStatisticItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addMessagePropertyDescriptor(object);
 			addTotalRecordsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Message feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMessagePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingStatistic_message_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingStatistic_message_feature", "_UI_MappingStatistic_type"),
+				 MetricsPackage.Literals.MAPPING_STATISTIC__MESSAGE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -155,8 +178,10 @@ public class MappingStatisticItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		MappingStatistic mappingStatistic = (MappingStatistic)object;
-		return getString("_UI_MappingStatistic_type") + " " + mappingStatistic.getTotalRecords();
+		String label = ((MappingStatistic)object).getMessage();
+		return label == null || label.length() == 0 ?
+			getString("_UI_MappingStatistic_type") :
+			getString("_UI_MappingStatistic_type") + " " + label;
 	}
 
 	/**
@@ -171,6 +196,7 @@ public class MappingStatisticItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(MappingStatistic.class)) {
+			case MetricsPackage.MAPPING_STATISTIC__MESSAGE:
 			case MetricsPackage.MAPPING_STATISTIC__TOTAL_RECORDS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
