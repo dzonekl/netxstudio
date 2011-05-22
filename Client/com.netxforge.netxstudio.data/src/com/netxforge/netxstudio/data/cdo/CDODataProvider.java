@@ -253,6 +253,11 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		CDOResource res = (CDOResource) getResource(NetxstudioPackage.NETXSTUDIO);
 		CDOView view = res.cdoView();
 
+		// Should do some basic import data validation. 
+		if(res.getContents().get(0) instanceof Netxstudio){
+			return;
+		}
+		
 		res.getContents().clear();
 		Netxstudio studio = NetxstudioFactory.eINSTANCE.createNetxstudio();
 
@@ -265,17 +270,18 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 			{
 				// Make Tom an Admin.
 				Person p = GenericsFactory.eINSTANCE.createPerson();
-				p.setLogin("tom");
+				p.setLogin("admin");
+				p.setActive(true);
 				p.setRoles(r);
 				studio.getUsers().add(p);
 			}
-			{
-				// Make Dick an Admin.
-				Person p = GenericsFactory.eINSTANCE.createPerson();
-				p.setLogin("dick");
-				p.setRoles(r);
-				studio.getUsers().add(p);
-			}
+//			{
+//				// Make Dick an Admin.
+//				Person p = GenericsFactory.eINSTANCE.createPerson();
+//				p.setLogin("dick");
+//				p.setRoles(r);
+//				studio.getUsers().add(p);
+//			}
 		}
 		{
 			Role r = GenericsFactory.eINSTANCE.createRole();
