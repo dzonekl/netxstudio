@@ -600,6 +600,7 @@ public class EmbeddedXtextEditor {
 	 * @param eObject
 	 * @param asString
 	 */
+	@SuppressWarnings("unused")
 	public void update(EObject eObject, String asString) {
 		fResource.setParentResource(eObject.eResource());
 		if (eObject != null) {

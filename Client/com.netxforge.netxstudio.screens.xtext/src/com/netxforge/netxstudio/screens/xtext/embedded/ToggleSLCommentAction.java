@@ -124,6 +124,7 @@ public final class ToggleSLCommentAction extends Action implements IUpdate {
 			IRegion block= getTextBlockFromSelection(textSelection, document);
 			ITypedRegion[] regions= TextUtilities.computePartitioning(document, fDocumentPartitioning, block.getOffset(), block.getLength(), false);
 
+			@SuppressWarnings("unused")
 			int lineCount = 0;
 			int[] lines= new int[regions.length * 2]; // [startline, endline, startline, endline, ...]
 			for (int i= 0, j= 0; i < regions.length; i++, j+= 2) {
