@@ -186,7 +186,13 @@ public class ValidationService implements IValidationService {
 		strat.setAfterGetValidator(validator);
 		return strat;
 	}
-
+	
+	
+	/**
+	 * Convert from IStatus to IMessage
+	 * @param sev
+	 * @return
+	 */
 	protected int convertType(int sev) {
 		switch (sev) {
 		case IStatus.INFO:

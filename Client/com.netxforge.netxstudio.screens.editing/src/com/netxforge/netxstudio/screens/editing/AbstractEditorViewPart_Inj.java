@@ -291,8 +291,12 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 					getViewSite().getShell().getDisplay()
 							.asyncExec(new Runnable() {
 								public void run() {
+									
+									// We should not dirty mark, while editing or new a single object. 
 									firePropertyChange(ISaveablePart2.PROP_DIRTY);
 									editingService.setDirty();
+									
+									
 								}
 							});
 				}
