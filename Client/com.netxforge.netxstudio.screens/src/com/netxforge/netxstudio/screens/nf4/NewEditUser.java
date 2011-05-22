@@ -3,6 +3,7 @@ package com.netxforge.netxstudio.screens.nf4;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.conversion.Converter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
@@ -59,6 +60,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.common.CommonService;
+import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
@@ -82,13 +85,15 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 
 	private IValidationService validationService = new ValidationService();
 
+	CommonService commonService = new CommonService(new JCAService());
+
 	/**
 	 * A new or copy of a object to edit.
 	 */
 	private Person user;
-	
+
 	/**
-	 * The original object in case of an edit operation. 
+	 * The original object in case of an edit operation.
 	 */
 	private Person original;
 
@@ -246,8 +251,13 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 
 		btnCheck = toolkit.createButton(composite_1, "Active?", SWT.CHECK);
 
+		// The Authentication section, in edit mode should ask to reset the
+		// password,
+		// as the set password will not be shown.
+
 		Section sctnAuthentication = toolkit.createSection(
-				frmNewForm.getBody(), Section.EXPANDED | Section.TREE_NODE | Section.TITLE_BAR);
+				frmNewForm.getBody(), Section.EXPANDED | Section.TREE_NODE
+						| Section.TITLE_BAR);
 		FormData fd_sctnAuthentication = new FormData();
 		fd_sctnAuthentication.bottom = new FormAttachment(0, 285);
 		fd_sctnAuthentication.right = new FormAttachment(100, -12);
@@ -327,8 +337,11 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		validationService.registerAllDecorators(txtFirstName, lblFirstName);
 		validationService.registerAllDecorators(txtLastName, lblLastName);
 		validationService.registerAllDecorators(txtEmail, lblEmail);
+		validationService.registerAllDecorators(btnCheck, btnCheck);
 		validationService.registerAllDecorators(txtPass, lblPassword);
 		validationService.registerAllDecorators(txtConfirm, lblConfirm);
+		validationService.registerAllDecorators(combo, lblRole);
+
 	}
 
 	protected void handleRoleSelection(SelectionEvent e) {
@@ -354,6 +367,44 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 
 		EMFUpdateValueStrategy emailNameStrategy = validationService
 				.getUpdateValueStrategyBeforeSet("Email is required");
+
+		// The active strategy is merely a warning.
+		EMFUpdateValueStrategy activeStrategy = validationService
+				.getUpdateValueStrategyAfterGet(new IValidator() {
+
+					public IStatus validate(Object value) {
+						if (value instanceof Boolean) {
+							if (!((Boolean) value).booleanValue()) {
+								// Not active, issue warning.
+								return new Status(IStatus.WARNING,
+										ScreensActivator.PLUGIN_ID,
+										"Person not active, are you sure");
+							} else {
+								return Status.OK_STATUS;
+							}
+						} else {
+							return new Status(IStatus.ERROR,
+									ScreensActivator.PLUGIN_ID,
+									"Should and will not occure");
+						}
+					}
+
+				});
+
+		EMFUpdateValueStrategy roleStrategy = validationService
+				.getUpdateValueStrategyAfterGet(new IValidator() {
+					public IStatus validate(Object value) {
+						if (value == null) {
+							return new Status(IStatus.WARNING,
+									ScreensActivator.PLUGIN_ID,
+									"A role should be selected");
+						} else {
+							// Any other value should do.
+							return Status.OK_STATUS;
+						}
+
+					}
+				});
 
 		// Bindings
 
@@ -412,14 +463,14 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		IEMFValueProperty userActiveObserveValue = EMFEditProperties.value(
 				editingService.getEditingDomain(), Literals.PERSON__ACTIVE);
 		bindingContext.bindValue(btnCheckObserveSelectionObserveWidget,
-				userActiveObserveValue.observe(user), null, null);
+				userActiveObserveValue.observe(user), activeStrategy, null);
 
 		// Special writable case for password and confirmation,
 		// both share the value changed listener, which only updates the proxy
 		// when both passwords are the same. 2 x widgets -> model
 
 		IObservableValue passwordObservableValue = new WritableValue();
-		
+
 		PasswordConfirmed confirmedHandler = new PasswordConfirmed(
 				passwordObservableValue);
 
@@ -432,37 +483,42 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		IObservableValue txtConfirmObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtConfirm, SWT.Modify));
+
 		txtConfirmObserveTextObserveWidget
 				.addValueChangeListener(confirmedHandler);
-		
-		
+
 		IEMFValueProperty passwordObserveValue = EMFEditProperties.value(
 				editingService.getEditingDomain(), Literals.PERSON__PASSWORD);
 
 		EMFUpdateValueStrategy passStrategy = validationService
 				.getUpdateValueStrategyAfterGet(confirmedHandler);
-		
-		bindingContext.bindValue(passwordObservableValue, passwordObserveValue
-				.observe(user), passStrategy, null);
-		
-		// Observe and fork on the opposite direction model -> 2 x widget. 
-		
-		final IObservableValue passToTargetObservableValueWritable = new WritableValue();
-		
-		IObservableValue passToTargetObservableValue = passwordObserveValue.observe(user);
-		passToTargetObservableValue.addValueChangeListener(new IValueChangeListener(){
+		passStrategy.setConverter(new PasswordConverter());
 
-			public void handleValueChange(ValueChangeEvent event) {
-				// We can't set the value, which would trigger a circular update. 
-//				passToTargetObservableValueWritable.setValue(event.diff.getNewValue());
-			}
-		});
-		
-		bindingContext.bindValue(txtPasswordObserveTextObserveWidget, passToTargetObservableValueWritable, null, null);
-		
-//		bindingContext.bindValue(txtConfirmObserveTextObserveWidget, passToTargetObservableValueWritable, null, null);
+		bindingContext.bindValue(passwordObservableValue,
+				passwordObserveValue.observe(user), passStrategy, passStrategy);
 
-		
+		// Observe and fork on the opposite direction model -> 2 x widget.
+
+//		final IObservableValue passToTargetObservableValueWritable = new WritableValue();
+//
+//		IObservableValue passToTargetObservableValue = passwordObserveValue
+//				.observe(user);
+//		passToTargetObservableValue
+//				.addValueChangeListener(new IValueChangeListener() {
+//
+//					public void handleValueChange(ValueChangeEvent event) {
+						// We can't set the value, which would trigger a
+						// circular update.
+						// passToTargetObservableValueWritable.setValue(event.diff.getNewValue());
+//					}
+//				});
+//
+//		bindingContext.bindValue(txtPasswordObserveTextObserveWidget,
+//				passToTargetObservableValueWritable, null, null);
+
+		// bindingContext.bindValue(txtConfirmObserveTextObserveWidget,
+		// passToTargetObservableValueWritable, null, null);
+
 		// Hand coded binding for a combo.
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
@@ -487,9 +543,38 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 				editingService.getEditingDomain(), Literals.PERSON__ROLES);
 
 		bindingContext.bindValue(comboObserveProxy,
-				roleObserveValue.observe(user), null, null);
+				roleObserveValue.observe(user), roleStrategy, null);
 
 		return bindingContext;
+	}
+
+	private class PasswordConverter extends Converter {
+
+		/**
+		 * @param fromType
+		 * @param toType
+		 */
+		public PasswordConverter() {
+			super(String.class, String.class);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.core.databinding.conversion.IConverter#convert(java.lang
+		 * .Object)
+		 */
+		public Object convert(Object fromObject) {
+
+			if (fromObject instanceof String) {
+				// Return a digest using the commons services.
+				String toObject = commonService.getJcasService().digest(
+						(String) fromObject);
+				return toObject;
+			}
+			return fromObject;
+		}
 	}
 
 	/**
@@ -573,22 +658,23 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 			throw new java.lang.IllegalArgumentException();
 		}
 		if (object != null && object instanceof Person) {
-			if(Screens.isEditOperation(operation)){
-				Person copy = EcoreUtil.copy((Person)object);
+			if (Screens.isEditOperation(operation)) {
+				Person copy = EcoreUtil.copy((Person) object);
 				user = copy;
 				original = (Person) object;
-			}else if(Screens.isNewOperation(operation)){
+			} else if (Screens.isNewOperation(operation)) {
 				user = (Person) object;
 			}
 		}
-		
+
 		m_bindingContext = initDataBindings_();
 		validationService.registerBindingContext(m_bindingContext);
 		validationService.addValidationListener(this);
-		
-		// we can't update to trigger validation, as this will also invoke commands and dirty our stack. 
-//		m_bindingContext.updateTargets();
-//		m_bindingContext.updateModels();
+
+		// we can't update to trigger validation, as this will also invoke
+		// commands and dirty our stack.
+		// m_bindingContext.updateTargets();
+		// m_bindingContext.updateModels();
 	}
 
 	/*
@@ -604,17 +690,18 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					((Netxstudio) owner).getUsers(), user);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-			
-		} else if(Screens.isEditOperation(operation)){
-			// If edit, we have been operating on a copy of the object, so we have 
+
+		} else if (Screens.isEditOperation(operation)) {
+			// If edit, we have been operating on a copy of the object, so we
+			// have
 			// to replace.
-			Command c = new ReplaceCommand(editingService.getEditingDomain(),((Netxstudio) owner).getUsers(), 
-					original, user);
+			Command c = new ReplaceCommand(editingService.getEditingDomain(),
+					((Netxstudio) owner).getUsers(), original, user);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-			
+
 		}
 		// After our edit, we shall be dirty
-		if( editingService.isDirty()){
+		if (editingService.isDirty()) {
 			editingService.doSave(new NullProgressMonitor());
 		}
 	}
@@ -666,7 +753,7 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 				}
 
 				StringBuffer msgBuffer = new StringBuffer();
-				msgBuffer.append(errorType + "(" + list.size() + "), first:"
+				msgBuffer.append(errorType + "(" + list.size() + "), "
 						+ list.get(0).getMessage());
 				frmNewForm.setMessage(msgBuffer.toString(), type,
 						list.toArray(new IMessage[list.size()]));
@@ -730,7 +817,9 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		return bindingContext;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
 	 */
 	public boolean isValid() {
