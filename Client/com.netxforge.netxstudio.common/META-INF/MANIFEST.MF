@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Common
+Bundle-SymbolicName: com.netxforge.netxstudio.common
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.netxforge.netxstudio.common.internal.CommonActivator
+Bundle-Vendor: NetXForge
+Require-Bundle: org.eclipse.core.runtime,
+ com.google.inject;bundle-version="2.0.0"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Export-Package: com.netxforge.netxstudio.common,
+ com.netxforge.netxstudio.common.internal,
+ com.netxforge.netxstudio.common.jca
