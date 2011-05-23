@@ -23,7 +23,7 @@
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
     </rm:provider>
-        <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="local">
       <rm:uri format="${workspace.root}/3rdPartyTemp/{0}">
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
@@ -53,6 +53,11 @@
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
       <rm:uri format="http://ftp.halifax.rwth-aachen.de/eclipse/modeling/tmf/updates/milestones/"/>
+    </rm:provider>
+    <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:uri format="http://download.eclipse.org/modeling/emf/cdo/updates/4.0-integration"/>
     </rm:provider>
   </rm:searchPath>
 </rm:rmap>
