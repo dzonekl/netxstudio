@@ -118,10 +118,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.xtext.example.arithmetics.artifacts.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.xtext.ui.artifacts.feature"
          version="0.0.0"/>
 

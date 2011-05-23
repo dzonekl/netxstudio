@@ -90,9 +90,6 @@
    <feature url="features/com.netxforge.netxstudio.ui.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.ui.feature" version="1.0.0.qualifier">
       <category name="netxstudio"/>
    </feature>
-   <feature url="features/com.netxforge.netxstudio.models.xtextwrapper.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.xtextwrapper.feature" version="1.0.0.qualifier">
-      <category name="netxmodel"/>
-   </feature>
    <feature url="features/com.netxforge.netxstudio.models.feature_1.0.0.qualifier.jar" id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier">
       <category name="netxmodel"/>
    </feature>
