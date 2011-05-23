@@ -43,15 +43,15 @@
    </plugins>
 
    <features>
-      <feature id="com.netxforge.netxstudio.client.product.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.ui.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.console.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.help.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.screens.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier"/>
-      <feature id="com.netxforge.netxscript.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.client.product.feature"/>
+      <feature id="com.netxforge.netxstudio.ui.feature"/>
+      <feature id="com.netxforge.netxstudio.console.feature"/>
+      <feature id="com.netxforge.netxstudio.help.feature"/>
+      <feature id="com.netxforge.netxstudio.screens.feature"/>
+      <feature id="com.netxforge.netxstudio.models.feature"/>
+      <feature id="com.netxforge.netxstudio.data.feature"/>
+      <feature id="com.netxforge.netxstudio.common.feature"/>
+      <feature id="com.netxforge.netxscript.feature"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.common.ui"/>
       <feature id="org.eclipse.emf.ecore"/>
@@ -60,26 +60,26 @@
       <feature id="org.eclipse.emf.edit.ui"/>
       <feature id="org.eclipse.emf.databinding"/>
       <feature id="org.eclipse.emf.databinding.edit"/>
-      <feature id="org.eclipse.emf.compare.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.platform.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.core.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.ui.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.equinox.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.compare.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.help.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="com.google.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.apache.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.mortbay.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.antlr.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="javax.servlet.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.swtchart.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.nebula.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.emf.compare.artifacts.feature"/>
+      <feature id="org.eclipse.platform.artifacts.feature"/>
+      <feature id="org.eclipse.core.artifacts.feature"/>
+      <feature id="org.eclipse.ui.artifacts.feature"/>
+      <feature id="org.eclipse.equinox.artifacts.feature"/>
+      <feature id="org.eclipse.compare.artifacts.feature"/>
+      <feature id="org.eclipse.help.artifacts.feature"/>
+      <feature id="com.google.artifacts.feature"/>
+      <feature id="org.apache.artifacts.feature"/>
+      <feature id="org.mortbay.artifacts.feature"/>
+      <feature id="org.antlr.artifacts.feature"/>
+      <feature id="javax.servlet.artifacts.feature"/>
+      <feature id="org.swtchart.artifacts.feature"/>
+      <feature id="org.eclipse.nebula.artifacts.feature"/>
       <feature id="org.eclipse.rcp"/>
-      <feature id="org.eclipse.emf.cdo.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.xtext.ui.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.xtext.xbase.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.jdt.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.xtext.artifacts.feature"/>
+      <feature id="org.eclipse.xtext.ui.artifacts.feature"/>
+      <feature id="org.eclipse.xtext.xbase.artifacts.feature"/>
+      <feature id="org.eclipse.jdt.artifacts.feature"/>
+      <feature id="org.eclipse.emf.cdo.client.artifacts.feature"/>
    </features>
 
    <configurations>
