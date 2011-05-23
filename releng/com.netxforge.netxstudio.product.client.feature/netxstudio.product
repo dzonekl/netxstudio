@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="NetXStudio Client Product" uid="com.netxforge.netxstudio.client.product" id="com.netxforge.netxstudio.client.product" application="com.netxforge.netxstudio.ui.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="NetXStudio" uid="com.netxforge.netxstudio" id="com.netxforge.netxstudio.client.product.netxstudio" application="com.netxforge.netxstudio.ui.application" version="1.0.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/com.netxforge.netxstudio.client.product/icons/Logo about 250-330.png"/>
@@ -35,6 +35,10 @@
    <vm>
    </vm>
 
+   <license>
+        <url>http://www.gnu.org/copyleft/lesser.html</url>
+   </license>
+
    <plugins>
    </plugins>
 
@@ -45,10 +49,12 @@
       <feature id="com.netxforge.netxstudio.help.feature"/>
       <feature id="com.netxforge.netxstudio.screens.feature"/>
       <feature id="com.netxforge.netxstudio.models.feature"/>
+      <feature id="com.netxforge.netxstudio.data.feature"/>
+      <feature id="com.netxforge.netxstudio.common.feature"/>
+      <feature id="com.netxforge.netxscript.feature"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.common.ui"/>
       <feature id="org.eclipse.emf.ecore"/>
-      <feature id="org.eclipse.emf.cdo"/>
       <feature id="org.eclipse.emf.ecore.edit"/>
       <feature id="org.eclipse.emf.edit"/>
       <feature id="org.eclipse.emf.edit.ui"/>
@@ -69,11 +75,17 @@
       <feature id="org.swtchart.artifacts.feature"/>
       <feature id="org.eclipse.nebula.artifacts.feature"/>
       <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.emf.cdo.artifacts.feature"/>
+      <feature id="org.eclipse.xtext.artifacts.feature"/>
       <feature id="org.eclipse.xtext.ui.artifacts.feature"/>
+      <feature id="org.eclipse.xtext.xbase.artifacts.feature"/>
+      <feature id="org.eclipse.jdt.artifacts.feature"/>
    </features>
 
    <configurations>
       <plugin id="com.netxforge.netxstudio.data" autoStart="true" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.data.fixtures" autoStart="true" startLevel="3" />
+      <plugin id="com.netxforge.netxstudio.ui.activities" autoStart="true" startLevel="0" />
    </configurations>
 
 </product>
