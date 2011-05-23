@@ -8,13 +8,13 @@
             </actorProperties>
             <properties>
                 <property key="profile" value="netxStudioClientProfile" />
-                <property key="iu" value="com.netxforge.netxstudio.client.product" />
+                <property key="iu" value="com.netxforge.netxstudio.client.product.netxstudio" />
             </properties>
             <prerequisites alias="repository">
                 <attribute name="site.p2" />
             </prerequisites>
             <products alias="destination" base="${buckminster.output}">
-                <path path="netxforge.netxstudion.client.${target.ws}.${target.os}.${target.arch}/" />
+                <path path="netxstudio.client.${target.ws}.${target.os}.${target.arch}/" />
             </products>
         </public>
         
@@ -27,7 +27,7 @@
                 <attribute name="create.product" />
             </prerequisites>
             <products alias="action.output" base="${buckminster.output}">
-                <path path="netxforge.netxstudion.client.${target.ws}.${target.os}.${target.arch}.zip" />
+                <path path="netxstudio.client.${target.ws}.${target.os}.${target.arch}.zip" />
             </products>
         </public>
         
