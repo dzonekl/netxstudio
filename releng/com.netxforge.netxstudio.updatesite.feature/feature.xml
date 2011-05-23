@@ -145,4 +145,8 @@
          id="com.netxforge.netxstudio.common.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.emf.cdo.artifacts.feature"
+         version="0.0.0"/>
+
 </feature>
