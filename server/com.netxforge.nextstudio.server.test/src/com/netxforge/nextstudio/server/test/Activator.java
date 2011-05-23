@@ -16,10 +16,14 @@
  * Contributors: 
  * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.nextstudio.server;
+package com.netxforge.nextstudio.server.test;
+
+import java.util.Hashtable;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+
+import com.netxforge.nextstudio.server.test.actions.ImportMetricValuesActions;
 
 public class Activator implements BundleActivator {
 
@@ -36,6 +40,7 @@ public class Activator implements BundleActivator {
 	@Override
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
+		bundleContext.registerService(ImportMetricValuesActions.class, new ImportMetricValuesActions(), new Hashtable<String, String>());
 	}
 
 	/*
@@ -45,7 +50,6 @@ public class Activator implements BundleActivator {
 	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
 		Activator.context = null;
-		ServerUtils.getInstance().deActivate();
 	}
 
 }

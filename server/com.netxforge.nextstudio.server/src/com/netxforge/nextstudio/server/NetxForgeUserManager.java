@@ -18,17 +18,17 @@
  *******************************************************************************/
 package com.netxforge.nextstudio.server;
 
+import java.util.List;
+
 import org.eclipse.emf.cdo.server.IRepository;
-import org.eclipse.emf.cdo.server.StoreThreadLocal;
-import org.eclipse.emf.cdo.server.hibernate.IHibernateStore;
-import org.eclipse.emf.cdo.spi.common.revision.InternalCDORevision;
+import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.spi.server.RepositoryUserManager;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.net4j.util.factory.ProductCreationException;
 import org.eclipse.net4j.util.security.UserManager;
-import org.hibernate.Query;
-import org.hibernate.Session;
 
-import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Person;
 
 /**
  * Implements the CDO {@link UserManager} which reads user information from the
@@ -37,9 +37,9 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * @author Martin Taal
  */
 public class NetxForgeUserManager extends RepositoryUserManager {
-	
+
 	public static final String TYPE = "NetxForgeUserManager";
-	
+
 	public static class Factory extends RepositoryUserManagerFactory {
 		public Factory() {
 			// Must match the type attribute in plugin.xml
@@ -52,38 +52,55 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 			return new NetxForgeUserManager();
 		}
 	}
+
+	private static NetxForgeUserManager instance = null;
+	
+	public static NetxForgeUserManager getInstance() {
+		return instance;
+	}
+	
+	private String serverSideLogin = "" + System.currentTimeMillis();
+	
+	public NetxForgeUserManager() {
+		ServerUtils.getInstance().setServerSideLogin(serverSideLogin);
+		instance = this;
+	}
 	
 	@Override
 	protected char[] getPassword(IRepository repository, String userID) {
+		ServerUtils.getInstance().checkRepositorySupported(repository);
+		
 		if (userID.equals("admin")) {
 			return "admin".toCharArray();
 		}
-
-		final IHibernateStore hbStore = (IHibernateStore) repository.getStore();
-		final Session session = hbStore.getHibernateSessionFactory()
-				.openSession();
 		
-		final Query qry = session
-				.createQuery("select p from Person p where login=?");
-		qry.setParameter(0, userID);
-		if (qry.list().size() != 1) {
-			return null;
-		}
-		final InternalCDORevision cdoRevision = (InternalCDORevision) qry
-				.list().get(0);
-		final String pwd = (String) cdoRevision.get(
-				GenericsPackage.eINSTANCE.getPerson_Password(), -1);
-		final boolean active = (Boolean) cdoRevision.get(
-				GenericsPackage.eINSTANCE.getPerson_Active(), -1);
-		if (!active) {
-			return null;
-		}
-		if (pwd == null) {
-			return null;
+		if (userID.equals(serverSideLogin)) {
+			return serverSideLogin.toCharArray();
 		}
 		
-		StoreThreadLocal.release();
-		
-		return pwd.toCharArray();
+		final CDOSession session = ServerUtils.getInstance().openJVMSession();
+		final CDOTransaction transaction = session.openTransaction();
+		try {
+			final CDOQuery cdoQuery = transaction.createQuery("hql",
+					"select p from Person p where login=:login");
+			cdoQuery.setParameter("login", userID);
+			final List<Person> persons = cdoQuery.getResult(Person.class);
+			if (persons.size() != 1) {
+				return null;
+			}
+			final String pwd = persons.get(0).getPassword();
+			if (pwd == null) {
+				return null;
+			}
+			return pwd.toCharArray();
+		} finally {
+			try {
+				transaction.commit();
+			} catch (final Exception e) {
+				throw new IllegalStateException(e);
+			}
+			transaction.close();
+			session.close();
+		}
 	}
 }

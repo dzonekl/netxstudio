@@ -124,7 +124,7 @@ public class BaseTest extends TestCase {
 		CDONet4jUtil.prepareContainer(container); // Register CDO factories
 		// LifecycleUtil.activate(container);
 		container.activate();
-
+		
 		// Create connector
 		final IConnector connector = TCPUtil.getConnector(container,
 				CONNECTION_ADDRESS);

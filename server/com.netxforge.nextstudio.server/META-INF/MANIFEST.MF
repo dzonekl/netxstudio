@@ -17,9 +17,19 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.cdo.server.hibernate;bundle-version="4.0.0",
  org.apache.poi;bundle-version="1.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0",
- com.google.inject;bundle-version="2.0.0"
+ com.google.inject;bundle-version="2.0.0",
+ org.eclipse.net4j;bundle-version="4.0.0",
+ org.eclipse.emf.cdo.net4j;bundle-version="4.0.0",
+ org.eclipse.net4j.jvm;bundle-version="4.0.0",
+ org.eclipse.emf.cdo.server.net4j;bundle-version="4.0.0",
+ org.eclipse.equinox.http.servlet;bundle-version="1.1.200",
+ javax.servlet;bundle-version="2.5.0",
+ org.eclipse.equinox.http.registry;bundle-version="1.1.100"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.nextstudio.server,
  com.netxforge.nextstudio.server.dataimport,
- com.netxforge.nextstudio.server.metrics
+ com.netxforge.nextstudio.server.metrics,
+ com.netxforge.nextstudio.server.service,
+ com.netxforge.nextstudio.server.servlet
+Web-ContextPath: /netxforge

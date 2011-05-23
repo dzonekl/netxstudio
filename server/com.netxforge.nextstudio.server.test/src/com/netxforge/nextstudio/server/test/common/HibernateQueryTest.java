@@ -30,6 +30,7 @@ import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.StateType;
 import com.netxforge.nextstudio.server.test.base.BaseAuthTest;
 
+
 /**
  * Test different aspects of HQL querying using the CDO query api.
  * 

@@ -185,9 +185,6 @@ public class MetricValuesImporter {
 		for (int rowNum = getMappingXLS().getFirstDataRow(); rowNum <= sheet
 				.getLastRowNum(); rowNum++) {
 			System.err.println("Processing row " + rowNum);
-			if (rowNum == 20) {
-				break;
-			}
 			try {
 				totalRows++;
 				final List<IdentifierValue> elementIdentifiers = getIdentifierValues(

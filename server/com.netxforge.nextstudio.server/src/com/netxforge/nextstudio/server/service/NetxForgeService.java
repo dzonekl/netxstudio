@@ -16,36 +16,21 @@
  * Contributors: 
  * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.nextstudio.server;
+package com.netxforge.nextstudio.server.service;
 
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
+import java.util.Map;
 
-public class Activator implements BundleActivator {
-
-	private static BundleContext context;
-
-	static BundleContext getContext() {
-		return context;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-	 */
-	@Override
-	public void start(BundleContext bundleContext) throws Exception {
-		Activator.context = bundleContext;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
-	@Override
-	public void stop(BundleContext bundleContext) throws Exception {
-		Activator.context = null;
-		ServerUtils.getInstance().deActivate();
-	}
-
+/**
+ * Defines the common interface for NetxForge services which are callable
+ * through http.
+ * 
+ * @author mtaal
+ *
+ */
+public interface NetxForgeService {
+	public static final String COMMAND_PARAM_NAME = "command";
+	public static final String SERVICE_PARAM_NAME = "service";
+	public static final String DEFAULT_SUCCESS_RESULT = "success";
+	
+	public Object run(Map<String, String> parameters);
 }

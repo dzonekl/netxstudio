@@ -24,7 +24,6 @@ import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.texo.datagenerator.ModelDataGenerator;
 
 import com.netxforge.nextstudio.server.test.base.BaseTest;
 
@@ -68,17 +67,18 @@ public class DataGenerationTest extends BaseTest
   }
   
   private List<EObject> getTestData() {
-	  final ModelDataGenerator modelDataGenerator = new ModelDataGenerator();
-	  modelDataGenerator.setStartEClasses(getAllEClasses());
-	  modelDataGenerator.setMaxDepth(3);
-	  modelDataGenerator.setUseDynamicEnums(false);
-	  modelDataGenerator.setCollectionSize(5);
-	  modelDataGenerator.setDataSize(5);
-	  modelDataGenerator.setMaxObjects(1000);
-	  modelDataGenerator.setEPackages(getEPackages());
-	  modelDataGenerator.generateTestData();
-	  System.err.println("Generated " + modelDataGenerator.getTotalObjectCount() + " objects ");
-	  final List<EObject> result = modelDataGenerator.getResult();
-	  return result;
+	  throw new IllegalStateException("Need to add dependency on datagenerator");
+//	  final ModelDataGenerator modelDataGenerator = new ModelDataGenerator();
+//	  modelDataGenerator.setStartEClasses(getAllEClasses());
+//	  modelDataGenerator.setMaxDepth(3);
+//	  modelDataGenerator.setUseDynamicEnums(false);
+//	  modelDataGenerator.setCollectionSize(5);
+//	  modelDataGenerator.setDataSize(5);
+//	  modelDataGenerator.setMaxObjects(1000);
+//	  modelDataGenerator.setEPackages(getEPackages());
+//	  modelDataGenerator.generateTestData();
+//	  System.err.println("Generated " + modelDataGenerator.getTotalObjectCount() + " objects ");
+//	  final List<EObject> result = modelDataGenerator.getResult();
+//	  return result;
   }
 }

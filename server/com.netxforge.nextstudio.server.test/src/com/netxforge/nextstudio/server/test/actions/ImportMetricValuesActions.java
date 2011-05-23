@@ -18,6 +18,11 @@
  *******************************************************************************/
 package com.netxforge.nextstudio.server.test.actions;
 
+import java.util.Map;
+
+import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.id.CDOIDUtil;
+import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.ecore.EObject;
@@ -46,42 +51,104 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.nextstudio.server.metrics.MetricValuesImporter;
+import com.netxforge.nextstudio.server.service.NetxForgeService;
 
 /**
  * Main entrance class for importing an example xls.
  * 
  * @author Martin Taal
  */
-public class ImportMetricValuesActions {
-	private static final String MS_NAME_1 = "SGSN attached users (Gb_IuPS)(10192010 1611)";
+public class ImportMetricValuesActions implements NetxForgeService {
 
+	public static final String METRIC_SOURCE_NAME_PARAM = "metricSourceName";
+	public static final String METRIC_SOURCE_ID_PARAM = "metricSourceId";
+	public static final String CREATE_TEST_DATA_COMMAND = "createTestData";
+	public static final String IMPORT_METRIC_SOURCE_COMMAND = "importMetricSource";
+	
 	@Inject
 	private IDataService dataService;
 
-	public void createTestData() throws Exception {
+	private boolean sessionOpened = false;
+
+	@Override
+	public Object run(Map<String, String> parameters) {
+		final String command = parameters.get(NetxForgeService.COMMAND_PARAM_NAME);
+		if (command == null) {
+			throw new IllegalStateException(NetxForgeService.COMMAND_PARAM_NAME + " parameter not specified");
+		} else if (command.equals(CREATE_TEST_DATA_COMMAND)) {
+			createTestData(parameters.get(METRIC_SOURCE_NAME_PARAM));
+		} else if (command.equals(IMPORT_METRIC_SOURCE_COMMAND)) {
+			if (parameters.get(METRIC_SOURCE_ID_PARAM) != null) {
+				final MetricSource metricSource = getMetricSourceById(parameters
+						.get(METRIC_SOURCE_ID_PARAM));
+				if (metricSource == null) {
+					throw new IllegalStateException("Metric source with id " + parameters
+						.get(METRIC_SOURCE_ID_PARAM) + " not found");
+				}
+				importMetricSource(metricSource);
+			} else if (parameters.get(METRIC_SOURCE_NAME_PARAM) != null) {
+				importMetricSource(getMetricSource(parameters.get(METRIC_SOURCE_NAME_PARAM)));
+			} else {
+				throw new IllegalStateException("Missing " + METRIC_SOURCE_NAME_PARAM + " or " + METRIC_SOURCE_ID_PARAM + " parameters");
+			}
+		} else {
+			throw new IllegalArgumentException("Command " + command
+					+ " not supported here");
+		}
+		return NetxForgeService.DEFAULT_SUCCESS_RESULT;
+	}
+
+	private MetricSource getMetricSourceById(String metricSourceId) {
+		final CDOID cdoID = CDOIDUtil
+				.createLongWithClassifier(new CDOClassifierRef(
+						MetricsPackage.eINSTANCE.getMetricSource()), Long
+						.parseLong(metricSourceId));
+		return (MetricSource) dataService.getProvider().getTransaction()
+				.getObject(cdoID);
+	}
+
+	private void doOpenSession() {
+		if (sessionOpened) {
+			return;
+		}
+		sessionOpened = true;
 
 		DataActivator.getInjector().injectMembers(this);
 
 		dataService.getProvider().openSession("admin", "admin");
-
-		getMetricSource(MS_NAME_1);
-
 	}
 
-	public void importMetricSource() {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.nextstudio.server.test.actions.ImportMetricValuesService
+	 * #createTestData()
+	 */
+	public void createTestData(String metricSourceName) {
+		doOpenSession();
 		try {
+			getMetricSource(metricSourceName);
+		} catch (final Exception e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
-			DataActivator.getInjector().injectMembers(this);
-
-			dataService.getProvider().openSession("admin", "admin");
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.nextstudio.server.test.actions.ImportMetricValuesService
+	 * #importMetricSource()
+	 */
+	public void importMetricSource(MetricSource metricSource) {
+		try {
+			doOpenSession();
 			final MetricValuesImporter metricsImporter = new MetricValuesImporter();
-
-			final MetricSource metricSource = getMetricSource(MS_NAME_1);
 
 			metricsImporter.setMetricSource(metricSource);
 			metricsImporter.setInputStream(this.getClass().getResourceAsStream(
-					"data/" + MS_NAME_1 + ".xls"));
+					"data/" + metricSource.getName() + ".xls"));
 			metricsImporter.process();
 			dataService.getProvider().commitTransaction();
 		} catch (final Exception e) {
@@ -89,8 +156,9 @@ public class ImportMetricValuesActions {
 		}
 	}
 
-	private MetricSource getMetricSource(String name) throws CommitException {
-		{
+	private MetricSource getMetricSource(String name) {
+		try {
+			doOpenSession();
 			final CDOQuery qry = dataService.getProvider().getTransaction()
 					.createQuery("hql", "from MetricSource");
 			for (final MetricSource metricSource : qry
@@ -102,6 +170,8 @@ public class ImportMetricValuesActions {
 
 			// not found create one
 			return createTestMetricSource(name);
+		} catch (final Exception e) {
+			throw new IllegalStateException(e);
 		}
 	}
 
@@ -122,9 +192,7 @@ public class ImportMetricValuesActions {
 				.createMappingXLS();
 		metricSource.setMetricMapping(mappingXLS);
 
-		if (name.equals(MS_NAME_1)) {
-			setMSName1Mapping(metricSource, mappingXLS);
-		}
+		setMSName1Mapping(metricSource, mappingXLS);
 
 		final Network network = createNetwork(metricSource);
 		resource.getContents().add(network);
