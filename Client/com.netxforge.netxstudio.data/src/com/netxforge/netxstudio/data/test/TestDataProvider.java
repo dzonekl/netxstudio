@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.data.test;
 
 import org.eclipse.emf.cdo.session.CDOSession;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -52,14 +53,14 @@ public class TestDataProvider implements IDataProvider {
 	 * @see com.netxforge.netxstudio.data.IDataProvider#getNetXStudio()
 	 */
 	public Netxstudio getNetXStudio() {
-		Netxstudio studio = NetxstudioFactory.eINSTANCE.createNetxstudio();
+		final Netxstudio studio = NetxstudioFactory.eINSTANCE.createNetxstudio();
 		studio.getUsers().add(getPerson());
 		studio.getUsers().add(getPerson("Eric", "Meijer", "eric.meijer","Eric@vdvl.nl"));
 		return studio;
 	}
 	
 	public Person getPerson() {
-		Person p = GenericsFactory.eINSTANCE.createPerson();
+		final Person p = GenericsFactory.eINSTANCE.createPerson();
 		p.setFirstName("Christophe");
 		p.setLastName("Bouhier");
 		p.setLogin("christophe.bouhier");
@@ -68,7 +69,7 @@ public class TestDataProvider implements IDataProvider {
 	}
 	
 	public Person getPerson(String first, String last, String login, String email) {
-		Person p = GenericsFactory.eINSTANCE.createPerson();
+		final Person p = GenericsFactory.eINSTANCE.createPerson();
 		p.setFirstName(first);
 		p.setLastName(last);
 		p.setLogin(login);
@@ -117,6 +118,21 @@ public class TestDataProvider implements IDataProvider {
 	 */
 	public void closeSession() {
 		throw new java.lang.UnsupportedOperationException();
+		
+	}
+
+	public CDOTransaction getTransaction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void commitTransaction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void rollbackTransaction() {
+		// TODO Auto-generated method stub
 		
 	}
 	

@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.data;
 
 import org.eclipse.emf.cdo.session.CDOSession;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -55,6 +56,22 @@ public interface IDataProvider {
 	 * @param passwd
 	 */
 	public void openSession(String uid, String passwd);
+	
+	/**
+	 * Gets the current transaction if no current transaction then 
+	 * a new one will be opened. 
+	 */
+	public CDOTransaction getTransaction();
+	
+	/**
+	 * Commit the current transaction if there is any.
+	 */
+	public void commitTransaction();
+	
+	/**
+	 * Rollback the current transaction if there is any.
+	 */
+	public void rollbackTransaction();
 	
 	/**
 	 * Get the current User ID for this session. 
