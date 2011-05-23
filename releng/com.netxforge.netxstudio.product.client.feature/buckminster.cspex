@@ -8,7 +8,7 @@
             </actorProperties>
             <properties>
                 <property key="profile" value="netxStudioClientProfile" />
-                <property key="iu" value="com.netxforge.netxstudio.client.product.netxstudio" />
+                <property key="iu" value="com.netxforge.netxstudio.client" />
             </properties>
             <prerequisites alias="repository">
                 <attribute name="site.p2" />
