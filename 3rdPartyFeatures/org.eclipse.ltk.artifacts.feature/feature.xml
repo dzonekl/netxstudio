@@ -17,33 +17,6 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import plugin="org.eclipse.core.runtime" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.core.expressions" version="3.4.100" match="compatible"/>
-      <import plugin="org.eclipse.core.filesystem" version="1.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.filebuffers" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.core.resources" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.core.commands" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.text" version="3.5.0" match="compatible"/>
-      <import plugin="com.ibm.icu"/>
-      <import plugin="org.eclipse.ltk.core.refactoring" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.jface.text" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.ui" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.ui.navigator" version="3.3.200" match="compatible"/>
-      <import plugin="org.eclipse.compare" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.team.core" version="3.4.100" match="compatible"/>
-      <import plugin="org.eclipse.team.ui" version="3.4.100" match="compatible"/>
-      <import plugin="org.eclipse.core.resources" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.filesystem" version="1.1.0" match="compatible"/>
-      <import plugin="org.eclipse.team.core" version="3.6.0" match="compatible"/>
-      <import plugin="org.eclipse.compare" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.ui.forms" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.ui.navigator" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.jface.text" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.ui.editors" version="3.3.0" match="compatible"/>
-   </requires>
-
    <plugin
          id="org.eclipse.ltk.core.refactoring"
          download-size="0"

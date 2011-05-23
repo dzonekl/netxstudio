@@ -17,29 +17,6 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import plugin="com.ibm.icu"/>
-      <import plugin="org.eclipse.osgi"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.core.expressions"/>
-      <import plugin="org.eclipse.osgi.services"/>
-      <import plugin="org.apache.commons.logging"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.apache.jasper"/>
-      <import plugin="org.eclipse.equinox.registry"/>
-      <import plugin="org.eclipse.equinox.common"/>
-      <import plugin="org.eclipse.equinox.http.jetty"/>
-      <import plugin="javax.servlet"/>
-      <import plugin="javax.servlet.jsp" version="2.0.0.v201101211617" match="perfect"/>
-      <import plugin="org.apache.commons.el"/>
-      <import plugin="org.eclipse.equinox.jsp.jasper"/>
-      <import plugin="org.eclipse.equinox.http.servlet"/>
-      <import plugin="org.mortbay.jetty.util"/>
-      <import plugin="org.mortbay.jetty.server"/>
-   </requires>
-
    <plugin
          id="org.eclipse.help"
          download-size="0"

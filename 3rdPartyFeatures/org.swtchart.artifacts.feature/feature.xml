@@ -17,10 +17,6 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import plugin="org.eclipse.swt" version="3.7.0" match="greaterOrEqual"/>
-   </requires>
-
    <plugin
          id="org.swtchart"
          download-size="0"

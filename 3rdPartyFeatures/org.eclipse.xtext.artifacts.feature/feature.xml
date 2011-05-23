@@ -16,20 +16,6 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.xtext.util" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.antlr.runtime" version="3.2.0" match="greaterOrEqual"/>
-      <import plugin="com.google.inject" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.common"/>
-      <import plugin="org.apache.log4j"/>
-      <import plugin="com.google.collect" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.xtext" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.3.2" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.xtext.ui" version="2.0.0" match="greaterOrEqual"/>
-   </requires>
-
    <plugin
          id="org.eclipse.xtext"
          download-size="0"
