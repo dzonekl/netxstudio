@@ -3,10 +3,7 @@ package com.netxforge.netxstudio.data.fixtures.internal;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.data.fixtures.FixturesModule;
-import com.netxforge.netxstudio.data.fixtures.IFixtures;
 
 /**
  * The activator class controls the plug-in life cycle

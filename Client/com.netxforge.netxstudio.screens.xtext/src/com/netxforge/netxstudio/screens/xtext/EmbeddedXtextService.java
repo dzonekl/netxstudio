@@ -164,7 +164,7 @@ public class EmbeddedXtextService {
 
 		if (updateEditedEObject) {
 
-			EObject astRootElement = expression.getEvaluationObject();
+//			EObject astRootElement = expression.getEvaluationObject();
 
 			// if (!astRootElement.eContents().isEmpty()) {
 			// // remove all previous elements in the edited object

@@ -59,6 +59,7 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
+@SuppressWarnings("restriction")
 public class EmbeddedXtextViewPart extends AbstractEditorViewPart_Inj {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.xtext.EmbeddedXtextViewPart"; //$NON-NLS-1$
@@ -171,6 +172,7 @@ public class EmbeddedXtextViewPart extends AbstractEditorViewPart_Inj {
 	 * Initialize the toolbar.
 	 */
 	private void initializeToolBar() {
+		@SuppressWarnings("unused")
 		IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();
 	}
 
@@ -178,6 +180,7 @@ public class EmbeddedXtextViewPart extends AbstractEditorViewPart_Inj {
 	 * Initialize the menu.
 	 */
 	private void initializeMenu() {
+		@SuppressWarnings("unused")
 		IMenuManager manager = getViewSite().getActionBars().getMenuManager();
 	}
 
