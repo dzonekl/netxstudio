@@ -46,10 +46,6 @@
          version="0.0.0"/>
 
    <includes
-         id="com.netxforge.netxstudio.models.xtextwrapper.feature"
-         version="0.0.0"/>
-
-   <includes
          id="com.google.artifacts.feature"
          version="0.0.0"/>
 
@@ -147,6 +143,10 @@
 
    <includes
          id="com.netxforge.netxstudio.client.product.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.netxforge.netxstudio.common.feature"
          version="0.0.0"/>
 
 </feature>
