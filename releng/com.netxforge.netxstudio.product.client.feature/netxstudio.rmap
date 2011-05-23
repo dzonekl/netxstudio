@@ -11,9 +11,9 @@
   </rm:searchPath>
   <rm:searchPath name="updatesite">
     <rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
-      <rm:property key="buckminster.mutable" value="false"/>
       <rm:property key="buckminster.source" value="false"/>
-      <rm:uri format="http://yazafatutu.com:8080/job/netxstudio.updatesite/lastSuccessfulBuild/artifact/site.p2/"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="file:///root/.jenkins/jobs/netxstudio.updatesite/workspace/site.p2"/>
     </rm:provider>
   </rm:searchPath>
 </rm:rmap>
