@@ -18,10 +18,10 @@
  */
 package com.netxforge.netxstudio.metrics;
 
-import com.netxforge.netxstudio.library.Unit;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
+
+import com.netxforge.netxstudio.library.Unit;
 
 /**
  * <!-- begin-user-doc -->
