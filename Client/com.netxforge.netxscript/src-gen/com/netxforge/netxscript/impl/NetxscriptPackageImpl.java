@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.xtext.xbase.XbasePackage;
 
+import org.eclipse.xtext.xbase.annotations.xAnnotations.XAnnotationsPackage;
+
 import org.eclipse.xtext.xtype.XtypePackage;
 
 /**
@@ -100,6 +102,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     isInited = true;
 
     // Initialize simple dependencies
+    XAnnotationsPackage.eINSTANCE.eClass();
     XtypePackage.eINSTANCE.eClass();
     XbasePackage.eINSTANCE.eClass();
 

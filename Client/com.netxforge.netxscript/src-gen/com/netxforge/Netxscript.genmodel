@@ -6,7 +6,7 @@
     modelPluginID="com.netxforge.netxscript" forceOverwrite="true" modelName="Netxscript"
     updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="5.0" copyrightFields="false" editPluginID="com.netxforge.netxscript.edit"
-    editorPluginID="com.netxforge.netxscript.editor" usedGenPackages="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xtype platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase">
+    editorPluginID="com.netxforge.netxscript.editor" usedGenPackages="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xAnnotations platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xtype platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase">
   <genPackages prefix="Netxscript" basePackage="com.netxforge" disposableProviderFactory="true"
       ecorePackage="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#/">
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Model">
