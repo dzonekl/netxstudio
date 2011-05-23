@@ -17,52 +17,39 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import plugin="org.eclipse.equinox.common" version="3.5.0" match="compatible"/>
-      <import plugin="org.eclipse.osgi"/>
-      <import plugin="org.eclipse.equinox.registry"/>
-      <import plugin="org.eclipse.core.jobs" version="3.4.0" match="compatible"/>
-      <import plugin="org.eclipse.equinox.preferences"/>
-      <import plugin="org.eclipse.equinox.security"/>
-      <import plugin="org.eclipse.equinox.p2.core" version="2.0.0" match="compatible"/>
-      <import plugin="org.eclipse.ecf.filetransfer" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ecf.identity"/>
-      <import plugin="org.eclipse.equinox.registry" version="3.3.0" match="greaterOrEqual"/>
-   </requires>
-
    <plugin
          id="org.eclipse.equinox.p2.core"
          download-size="0"
          install-size="0"
-         version="2.1.0.v20110305-0130"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.equinox.p2.engine"
          download-size="0"
          install-size="0"
-         version="2.1.0.v20110222-0044"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.equinox.p2.metadata"
          download-size="0"
          install-size="0"
-         version="2.1.0.v20110228"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.equinox.p2.metadata.repository"
          download-size="0"
          install-size="0"
-         version="1.2.0.v20110307-1255"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.equinox.p2.repository"
          download-size="0"
          install-size="0"
-         version="2.1.0.v20110307-1255"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
