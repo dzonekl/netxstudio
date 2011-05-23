@@ -17,15 +17,6 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import plugin="javax.servlet"/>
-      <import plugin="javax.servlet.jsp"/>
-      <import plugin="org.eclipse.osgi"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.apache.lucene.core" version="2.9.1" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime"/>
-   </requires>
-
    <plugin
          id="org.apache.commons.el"
          download-size="0"
