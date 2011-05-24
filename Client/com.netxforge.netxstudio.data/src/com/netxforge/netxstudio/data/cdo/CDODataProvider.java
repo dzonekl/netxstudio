@@ -95,7 +95,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	 * Our session, we keep it final, as Google Guice, Singleton instantiates
 	 * another instance.
 	 */
-	private CDOSession clientSession = null;
+	private static CDOSession clientSession = null;
 
 	private CDOTransaction transaction = null;
 
