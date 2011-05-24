@@ -45,7 +45,6 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
-import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -70,8 +69,6 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
 
-	// private String loggedInUser;
-
 	@Inject
 	public CDODataProvider(ICDOConnection conn) {
 		this.connection = conn;
@@ -92,12 +89,16 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	}
 
 	/**
-	 * Our session, we keep it final, as Google Guice, Singleton instantiates
+	 * Our session, we keep it static, as Google Guice, Singleton instantiates
 	 * another instance.
 	 */
 	private static CDOSession clientSession = null;
 
-	private CDOTransaction transaction = null;
+	/**
+	 * Our transcation, we keep it static, as Google Guice, Singleton instantiates
+	 * another instance.
+	 */
+	private static CDOTransaction transaction = null;
 
 	public void openSession(String uid, String passwd) throws SecurityException {
 
@@ -148,8 +149,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 			// authenticated.
 			throw new java.lang.IllegalStateException();
 		} else {
-			System.out.println("Currrent session instance:"
-					+ clientSession.toString());
+//			System.out.println("Currrent session instance:"
+//					+ clientSession.toString());
 			return clientSession;
 		}
 	}
@@ -249,7 +250,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		return resource;
 
 	}
-
+	
 	public void loadFixtures() {
 
 		final CDOResource res = (CDOResource) getResource(NetxstudioPackage.NETXSTUDIO);
@@ -269,22 +270,16 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 			final Role r = GenericsFactory.eINSTANCE.createRole();
 			r.setName(ROLE_ADMIN);
 			studio.getRoles().add(r);
-
-			{
-				// Make Tom an Admin.
-				final Person p = GenericsFactory.eINSTANCE.createPerson();
-				p.setLogin("admin");
-				p.setActive(true);
-				p.setRoles(r);
-				studio.getUsers().add(p);
-			}
-			// {
-			// // Make Dick an Admin.
-			// Person p = GenericsFactory.eINSTANCE.createPerson();
-			// p.setLogin("dick");
-			// p.setRoles(r);
-			// studio.getUsers().add(p);
-			// }
+			
+			
+			// FIXME, the admin user is hard coded for now.  
+//			{
+//				final Person p = GenericsFactory.eINSTANCE.createPerson();
+//				p.setLogin("admin");
+//				p.setActive(true);
+//				p.setRoles(r);
+//				studio.getUsers().add(p);
+//			}
 		}
 		{
 			final Role r = GenericsFactory.eINSTANCE.createRole();
@@ -299,14 +294,11 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 
 		res.getContents().add(studio);
 
-		// TODO, add some actions.
 		@SuppressWarnings("unused")
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 		try {
 			res.save(null);
 		} catch (final TransactionException e) {
-			// TODO, some rollback of the transaction.
-			// See CDO Editor.
 			((CDOTransaction) view).rollback();
 		} catch (final IOException e) {
 			e.printStackTrace();
