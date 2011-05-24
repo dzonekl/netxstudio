@@ -242,6 +242,8 @@ public class Expressions extends Composite implements IScreen,
 			}
 		});
 		mntmEdit.setText("Edit...");
+		
+		tableViewer.addFilter(new SearchFilter());
 
 		if (editingService != null) {
 			injectData();
