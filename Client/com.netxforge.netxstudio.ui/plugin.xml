@@ -36,11 +36,6 @@
             id="com.netxforge.netxstudio.ui.perspective.admin"
             name="%perspective.name.2">
       </perspective>
-      <perspective
-            class="com.netxforge.netxstudio.ui.perspective.WelcomePerspective"
-            id="com.netxforge.netxstudio.ui.perspective.welcome"
-            name="%perspective.name.3">
-      </perspective>
    </extension>
 
    
