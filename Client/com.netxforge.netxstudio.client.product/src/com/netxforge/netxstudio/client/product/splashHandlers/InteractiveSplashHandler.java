@@ -16,6 +16,8 @@ import org.eclipse.ui.splash.AbstractSplashHandler;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.CommonService;
+import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.internal.DataActivator;
 
@@ -47,6 +49,8 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 
 	@Inject
 	private IDataService dataService;
+	
+	CommonService commonService = new CommonService(new JCAService());
 
 	/**
 	 * 
@@ -153,6 +157,14 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 			// operation.
 
 			try {
+				if(!"admin".equals(username)){
+					String digest = commonService.getJcasService().digest(password);
+					if(digest != null && digest.length() > 0){
+						password = digest;
+					}else{
+						throw new java.lang.IllegalAccessException();
+					}
+				}
 				dataService.getProvider().openSession(username, password);
 				fAuthenticated = true;
 			} catch (Exception se) {
