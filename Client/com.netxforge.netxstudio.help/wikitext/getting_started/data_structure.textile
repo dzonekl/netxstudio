@@ -26,7 +26,7 @@ In the diagram below, we provide an example we provide a definition of a system 
 # The objects highlighted in Yellow, represent objects in the Network
 # The objects highlighted in Purple, represent objects in the Library
 
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/library_structure.png!
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/library_structure.png!
 
 
 The following objects can be nested to provide the needed representation of a Telecommunications System. 

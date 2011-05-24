@@ -18,13 +18,13 @@
    </topic> 
 	<topic label="Library"> 
 		
-  <topic href="html/tasks/working_with_excel_template.html" label="Working with the Excel template">
-  		<topic href="html/tasks/generate_excel.html" label="Generate an Excel Template" />
-  	  	<topic href="html/tasks/fill_excel.html" label="Filling the Excel Template"/>
-  	    <topic href="html/tasks/import_excel.html" label="Importing the Excel Template"/>
+  <topic href="html/tasks/library/excel/working_with_excel_template.html" label="Working with the Excel template">
+  		<topic href="html/tasks/library/excel/generate_excel.html" label="Generate an Excel Template" />
+  	  	<topic href="html/tasks/library/excel/fill_excel.html" label="Filling the Excel Template"/>
+  	    <topic href="html/tasks/library/excel/import_excel.html" label="Importing the Excel Template"/>
   </topic>
   <topic href="html/tasks/working_with_library_model.html" label="Working with the Library model">
-     <topic href="html/tasks/merging_models.html" label="Merging Models">
+     <topic href="html/tasks/library/library_model/merging_models.html" label="Merging Models">
      </topic>
   </topic>
   <topic label="Editing the Library">
@@ -38,8 +38,12 @@
      </topic>
      <topic label="Adding a Unit">
      </topic>
+  </topic>
+  <topic label="Expressions">
+     <topic label="Creating an Expression">
+     </topic>
+     <topic label="Modifying an Expression">
+     </topic>
   </topic> 
 	</topic>
-	<topic label="Service Introduction">
-	</topic> 
 </toc>
