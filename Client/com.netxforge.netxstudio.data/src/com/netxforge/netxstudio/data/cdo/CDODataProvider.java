@@ -45,6 +45,7 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -179,21 +180,66 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		// already
 		// in our session and resource set.
 		final CDOView[] views = this.getSession().getViews();
+		
+		
+//		FIXME, we seem to have multiple views????
+//		if(views.length > 1){
+//			// How can we have multiple views?? 
+//			throw new java.lang.IllegalArgumentException();
+//		}
+		
 		for (int i = 0; i < views.length; i++) {
 			final CDOView view = views[i];
 			if (view.getResourceSet().equals(set)) {
-				final CDOResource resource = view.getResource(res);
-				if (resource != null) {
+				if( view.hasResource(res) ){
+					final CDOResource resource = view.getResource(res);
+					return resource;
+				}
+				// We haven't found this resource in the current view's set,
+				// but we can't create a new transaction, so we have to see if the 
+				// the CDOView has a transaction.
+				if(view instanceof CDOTransaction){
+					CDOTransaction transaction = (CDOTransaction)view;
+					CDOResource resource = transaction.getOrCreateResource(res);
 					return resource;
 				}
 			}
+			
 		}
-
-		// We haven't found this resource in the current view's and set's,
-		// OK create a new one.
+		
+		// We don't have a view, so let's open one. 
 		final CDOTransaction transaction = getSession().openTransaction(set);
 		final CDOResource resource = transaction.getOrCreateResource(res);
 		return resource;
+	}
+	
+	public Resource getResource(CDOView view, int feature) {
+
+		final String res = resolveResourceName(feature);
+		assert res != null && res.length() > 0;
+
+		// Before attempting to open a new CDOView, we want to know what is
+		// already
+		// in our session and resource set.
+			if (view.getResourceSet() != null) {
+				if( view.hasResource(res) ){
+					final CDOResource resource = view.getResource(res);
+					return resource;
+				}
+			}else{
+				return null; // We need a resourceset. 
+			}
+			
+			// We haven't found this resource in the current view's and set's,
+			// but we can't create a new transaction, so we have to see if the 
+			// the CDOView has a transaction.
+			if(view instanceof CDOTransaction){
+				CDOTransaction transaction = (CDOTransaction)view;
+				// Should create in the set.
+				CDOResource resource = transaction.getOrCreateResource(res);
+				return resource;
+			}
+		return null;
 	}
 
 	/**
@@ -257,10 +303,13 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		final CDOView view = res.cdoView();
 
 		// Should do some basic import data validation.
-		if (res.getContents().get(0) instanceof Netxstudio) {
-			return;
+		if (res.getContents() != null && (res.getContents().size() > 0)) {
+			if(res.getContents().get(0) instanceof Netxstudio){
+				return;	
+			}
 		}
 
+		// Anything else than checked before, is bogus so we start from scratch.
 		res.getContents().clear();
 		final Netxstudio studio = NetxstudioFactory.eINSTANCE
 				.createNetxstudio();
@@ -273,13 +322,16 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 			
 			
 			// FIXME, the admin user is hard coded for now.  
-//			{
-//				final Person p = GenericsFactory.eINSTANCE.createPerson();
-//				p.setLogin("admin");
-//				p.setActive(true);
-//				p.setRoles(r);
-//				studio.getUsers().add(p);
-//			}
+			{
+				final Person p = GenericsFactory.eINSTANCE.createPerson();
+				p.setLogin("admin");
+				p.setFirstName("admin");
+				p.setLastName("admin");
+//				p.setPassword("admin");
+				p.setActive(true);
+				p.setRoles(r);
+				studio.getUsers().add(p);
+			}
 		}
 		{
 			final Role r = GenericsFactory.eINSTANCE.createRole();
