@@ -32,7 +32,6 @@ import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.fixtures.internal.FixturesActivator;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Role;
 
@@ -84,14 +83,14 @@ public class Fixtures implements IFixtures {
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 		try {
 			res.save(null);
-			FixturesActivator.logInfo("Fixtures loaded");
+//			FixturesActivator.logInfo("Fixtures loaded");
 		} catch (TransactionException e) {
 			// TODO, some rollback of the transaction. 
 			// See CDO Editor. 
 			((CDOTransaction)view).rollback();
 		} catch (IOException e) {
 			e.printStackTrace();
-			FixturesActivator.logInfo("Error loading Fixtures");
+//			FixturesActivator.logInfo("Error loading Fixtures");
 		}
 	}
 	
