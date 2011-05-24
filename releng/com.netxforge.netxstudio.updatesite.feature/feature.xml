@@ -149,4 +149,8 @@
          id="org.eclipse.emf.cdo.client.artifacts.feature"
          version="0.0.0"/>
 
+   <includes
+         id="com.netxforge.netxstudio.models.edit.feature"
+         version="0.0.0"/>
+
 </feature>
