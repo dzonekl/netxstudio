@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="NetxForge CDO Server" uid="com.netxforge.netxstudio.server" id="com.netxforge.nextstudio.server.product" application="org.eclipse.emf.cdo.server.app" version="1.0.0" useFeatures="false" includeLaunchers="true">
+
+   <configIni use="">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog -clean -debug -console --launcher.XXMaxPermSize 128M</programArgs>
+      <vmArgs>-Xms40m
+-Xmx1024m
+-Ddebug=true
+-Dlog4j.debug=true
+-Dnet4j.config=&quot;${resource_loc:/com.netxforge.nextstudio.server/config}&quot;
+-Dorg.osgi.service.http.port=8080
+-Dlogback.configurationFile=${resource_loc:com.netxforge.netxstudio.server.jetty}/etc/logback.xml
+-Djetty.home=${resource_loc:com.netxforge.netxstudio.server.jetty}/jettyhome
+</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <launcher name="cdo-server">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+
+</product>
