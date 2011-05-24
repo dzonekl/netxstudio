@@ -2,10 +2,10 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="NetXStudio Help" topic="html/toc.html">
-   <topic label="Getting Started">
+   <topic href="html/getting_started/getting_started.html" label="Getting Started">
       <anchor id="gettingstarted"/>
    </topic>
-   <topic label="Tasks">
+   <topic href="html/tasks/tasks.html" label="Tasks">
       <anchor id="tasks"/>
    </topic>
 </toc>
