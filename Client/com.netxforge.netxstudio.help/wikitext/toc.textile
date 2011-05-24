@@ -1,3 +1,4 @@
 h1. Table of Contents
 
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/html/getting_started/getting_started.html!
+* "Getting Started":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/getting_started/getting_started.html
+* "Tasks":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/tasks.html

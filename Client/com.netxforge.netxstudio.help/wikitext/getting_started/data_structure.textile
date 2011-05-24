@@ -2,8 +2,11 @@ h1. Data Structure
 
 The system data structure consists of the following items: 
 
-* Resource Library
-* Network
+* Library
+* Operator(s)
+* Services
+* Metrics
+* Geo
 
 h2. Library
 
@@ -21,13 +24,12 @@ The following objects are defined in the Library.
 * Unit
 * Expressions
 
-In the diagram below, we provide an example we provide a definition of a system named as  MSC-S. 
+In the diagram below, as an example we provide a definition of a system named as  MSC-S. 
 
 # The objects highlighted in Yellow, represent objects in the Network
 # The objects highlighted in Purple, represent objects in the Library
 
 !PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/library_structure.png!
-
 
 The following objects can be nested to provide the needed representation of a Telecommunications System. 
 
@@ -36,31 +38,38 @@ The following objects can be nested to provide the needed representation of a Te
 * Metric
 
 
-h2. Network
+h2. Operator
 
-The network, is the actual model of the Network
+The operator, is the actual model of the Operator
 
 The following objects are defined in the Network.  
 
-* Service
 * Network
 * Node
 * Functional Relationship 
 * Physical Relationship
+* [TBD update with the latest model details]
 
 The Node object is the instance of a Library Function and Equipment. (Each Node, has a root Function and root Equipment).
 It also holds the Functional and Physical relationships. 
+
+The following objects can be nested to provide the needed representation of a Telecommunications System. 
+
+* Network
+
+
+h2. Metrics
+
+[TBD]
+
+
+h2. Geographical
 
 The following objects are currently also defined for the network, but not in use. 
 
 * Country
 * Site
 * Room
-
-The following objects can be nested to provide the needed representation of a Telecommunications System. 
-
-* Network
-
 
 
 h2. Other Data (File based) 
@@ -70,14 +79,3 @@ h2. Other Data (File based)
 * NetXStudio model files. (.netxstudio)
 * NetXStudio model transformations (.qvto)
 * NetXStudio model reports (.html)
-
-[TODO, Will be implemented]
-* NetXStudio Scripts 
-
-
-
-
-
-
-
-

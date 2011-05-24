@@ -1,4 +1,18 @@
-h1. Adminstrative Task
+h1. Administrative Task
+
+The Administrative task provides access to administrative activities: 
+
+* Users
+* Jobs
+* ...
+
+h2. Users
+
+Manage users 
+
+h2. Jobs
+
+Manage jobs like automatic import of metrics here.
 
 
 

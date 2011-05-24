@@ -3,6 +3,16 @@ h1. Users
 User management consists of viewing, creating and modifying users which can 
 access the system. Users have a single role, which determines the permission to use tasks of the user in the system. 
 
+* "Create or Modifying a User":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/users/creating_a_user.html
+
+The Users screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/users/users.png!
+
+*New* => Click on the upright link to create a new User
+*Edit* => Right-click on a User in the table and select edit. 
+*Filter* => Type text to filter Users containing the text
+
 h2. User roles
 
 The following roles are defined: 

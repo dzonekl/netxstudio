@@ -3,9 +3,9 @@ h1. Generate an Excel template.
 To generate an Excel template perform the following action: 
 
 * Select <pre>File->Export</pre> and choose under category NetXStudio the wizard named "Export model to template". 
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/export_excel_template.png!
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/excel/export_excel_template.png!
 * Then from the template selection box, choose "Export Template Library model to Excel".
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/export_excel_template_2.png!
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/excel/export_excel_template_2.png!
 * Finally choose a destination folder and filename ending with ".xls". The recommended folder is "export" in the workspace.
 
  

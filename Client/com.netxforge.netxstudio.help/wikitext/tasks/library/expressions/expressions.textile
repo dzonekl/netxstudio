@@ -1,1 +1,52 @@
 h1. Expressions
+
+The Expressions screen provides access to all expressions used by the system. 
+Expressions can be created and attached to various to objects. From the expressions screen the following activities can be performed
+
+* "Create or Modifying an Expression":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/expressions/creating_an_expression.html
+
+
+The Expressions screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/expressions/expressions.png!
+
+*New* => Click on the upright link to create a new expression
+*Edit* => Right-click on an expression in the table and select edit. 
+*Filter* => Type text to filter expressions containing the text
+
+h2. Types of expressions
+
+Expressions are evaluated by the expression engine depending on the job being performed. 
+
+* Service Monitoring
+* Resource Monitoring
+
+h2. Expressions in Service Monitoring
+
+[TBD]
+
+h2. Expressions in Resource Monitoring
+
+In resource monitoring expressions are applied at various stages. Some expressions are always applied, and some are applied depending on if an object has an expression 'attached'. Attaching an expression simply means telling an object it has an expression. 
+
+h3. Applicable objects
+
+The following objects use expressions in resource monitoring: 
+
+* Function/Equipment Resources
+
+Calculate Function and Equipment resource capacities using an expression
+
+* Metric
+
+Calculate and derive resource values from raw metrics
+
+* Function/Equipment Thresholds
+
+Calculate and derive threshold values.
+
+h3. The resource monitoring job
+
+The resource monitoring job executes the expressions in the following sequence
+
+[TBD]

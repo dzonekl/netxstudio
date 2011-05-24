@@ -1,1 +1,10 @@
 h1. Library task
+
+The Library task provides access to the activities concerning the library. 
+
+* Expressions
+* ...
+
+h2. Expressions
+
+Create and edit expressions to be used for calculating i.e. capacities 
