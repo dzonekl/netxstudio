@@ -56,7 +56,6 @@ import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioPackage;
@@ -156,27 +155,11 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		frmNewForm.addMessageHyperlinkListener(new HyperlinkAdapter());
 		frmNewForm.getBody().setLayout(new FormLayout());
 
-		Composite composite = toolkit.createComposite(frmNewForm.getBody(),
-				SWT.NONE);
-		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
-		FormData fd_composite = new FormData();
-		fd_composite.bottom = new FormAttachment(0, 16);
-		fd_composite.right = new FormAttachment(100);
-		fd_composite.top = new FormAttachment(0);
-		fd_composite.left = new FormAttachment(0);
-		composite.setLayoutData(fd_composite);
-		toolkit.paintBordersFor(composite);
-
-		Label lblNewLabel = toolkit.createLabel(composite,
-				"Data Entry Feedback", SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(154, 205, 50));
-		lblNewLabel.setAlignment(SWT.CENTER);
-
 		Section sctnInfo = toolkit.createSection(frmNewForm.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnInfo = new FormData();
-		fd_sctnInfo.top = new FormAttachment(composite, 12);
-		fd_sctnInfo.bottom = new FormAttachment(0, 195);
+		fd_sctnInfo.top = new FormAttachment(0, 12);
+		fd_sctnInfo.bottom = new FormAttachment(0, 169);
 		fd_sctnInfo.right = new FormAttachment(100, -12);
 		fd_sctnInfo.left = new FormAttachment(0, 12);
 		sctnInfo.setLayoutData(fd_sctnInfo);
@@ -259,9 +242,8 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 				frmNewForm.getBody(), Section.EXPANDED | Section.TREE_NODE
 						| Section.TITLE_BAR);
 		FormData fd_sctnAuthentication = new FormData();
-		fd_sctnAuthentication.bottom = new FormAttachment(0, 285);
+		fd_sctnAuthentication.top = new FormAttachment(sctnInfo, 12);
 		fd_sctnAuthentication.right = new FormAttachment(100, -12);
-		fd_sctnAuthentication.top = new FormAttachment(sctnInfo);
 		fd_sctnAuthentication.left = new FormAttachment(0, 12);
 		sctnAuthentication.setLayoutData(fd_sctnAuthentication);
 		toolkit.paintBordersFor(sctnAuthentication);
@@ -303,8 +285,9 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 
 		Section sctnRoles = toolkit.createSection(frmNewForm.getBody(),
 				Section.TITLE_BAR);
+		fd_sctnAuthentication.bottom = new FormAttachment(sctnRoles, -12);
 		FormData fd_sctnRoles = new FormData();
-		fd_sctnRoles.top = new FormAttachment(sctnAuthentication);
+		fd_sctnRoles.top = new FormAttachment(0, 280);
 		fd_sctnRoles.bottom = new FormAttachment(100, -12);
 		fd_sctnRoles.right = new FormAttachment(100, -12);
 		fd_sctnRoles.left = new FormAttachment(sctnAuthentication, 0, SWT.LEFT);

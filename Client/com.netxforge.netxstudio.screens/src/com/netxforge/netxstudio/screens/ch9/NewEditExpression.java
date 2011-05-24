@@ -18,15 +18,21 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.ch9;
 
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -45,6 +51,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
@@ -58,6 +65,9 @@ import com.netxforge.netxscript.NetxscriptFactory;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
+import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
+import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
@@ -71,24 +81,28 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
  * 
  */
 public class NewEditExpression extends Composite implements
-		IDataScreenInjection, IScreen {
-	@SuppressWarnings("unused")
+		IDataScreenInjection, IScreen, IValidationListener {
 	private DataBindingContext m_bindingContext;
-	
-	private ValidationService validationService = new ValidationService(); 
-	
+
+	private ValidationService validationService = new ValidationService();
+
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Text txtName;
+	private Text txtExpressionName;
 	private EmbeddedXtextEditor editor;
 
 	private int operation;
 	private IEditingService editingService;
 	private Object owner;
 	private Expression expression;
-	private EObject evaluationObject = NetxscriptFactory.eINSTANCE.createModel();
-	
+	private EObject evaluationObject = NetxscriptFactory.eINSTANCE
+			.createModel();
+
 	private Text txtOwner;
 	private EmbeddedXtextService xtextService;
+
+	private Form frmNewForm;
+
+	private Expression original;
 
 	/**
 	 * Create the composite.
@@ -118,7 +132,7 @@ public class NewEditExpression extends Composite implements
 
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Form frmNewForm = toolkit.createForm(this);
+		frmNewForm = toolkit.createForm(this);
 		frmNewForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewForm);
 
@@ -127,27 +141,11 @@ public class NewEditExpression extends Composite implements
 		frmNewForm.setText(title);
 		frmNewForm.getBody().setLayout(new FormLayout());
 
-		Composite composite = toolkit.createComposite(frmNewForm.getBody(),
-				SWT.NONE);
-		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
-		FormData fd_composite = new FormData();
-		fd_composite.bottom = new FormAttachment(0, 16);
-		fd_composite.right = new FormAttachment(100);
-		fd_composite.top = new FormAttachment(0);
-		fd_composite.left = new FormAttachment(0);
-		composite.setLayoutData(fd_composite);
-		toolkit.paintBordersFor(composite);
-
-		Label lblNewLabel = toolkit.createLabel(composite,
-				"Data Entry Feedback", SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(154, 205, 50));
-		lblNewLabel.setAlignment(SWT.CENTER);
-
 		Section sctnInfo = toolkit.createSection(frmNewForm.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnInfo = new FormData();
-		fd_sctnInfo.top = new FormAttachment(composite, 12);
-		fd_sctnInfo.bottom = new FormAttachment(0, 120);
+		fd_sctnInfo.top = new FormAttachment(0, 12);
+		fd_sctnInfo.bottom = new FormAttachment(0, 102);
 		fd_sctnInfo.right = new FormAttachment(100, -12);
 		fd_sctnInfo.left = new FormAttachment(0, 12);
 		sctnInfo.setLayoutData(fd_sctnInfo);
@@ -161,16 +159,18 @@ public class NewEditExpression extends Composite implements
 		gl_composite_1.horizontalSpacing = 8;
 		composite_1.setLayout(gl_composite_1);
 
-		Label lblLogin = toolkit.createLabel(composite_1, "Name:", SWT.NONE);
-		lblLogin.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
+		Label lblExpressionName = toolkit.createLabel(composite_1, "Name:",
+				SWT.NONE);
+		lblExpressionName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
 
-		txtName = toolkit.createText(composite_1, "New Text", SWT.NONE);
-		txtName.setText("");
+		txtExpressionName = toolkit.createText(composite_1, "New Text",
+				SWT.NONE);
+		txtExpressionName.setText("");
 		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, true, false,
 				1, 1);
 		gd_txtName.widthHint = 200;
-		txtName.setLayoutData(gd_txtName);
+		txtExpressionName.setLayoutData(gd_txtName);
 
 		Hyperlink hprlnkAddTo = toolkit.createHyperlink(composite_1,
 				"Select Owner:", SWT.NONE);
@@ -188,10 +188,10 @@ public class NewEditExpression extends Composite implements
 		Section sctnNewSection = toolkit.createSection(frmNewForm.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnNewSection = new FormData();
+		fd_sctnNewSection.top = new FormAttachment(sctnInfo, 6);
 		fd_sctnNewSection.bottom = new FormAttachment(100, -12);
-		fd_sctnNewSection.right = new FormAttachment(sctnInfo, 0, SWT.RIGHT);
-		fd_sctnNewSection.top = new FormAttachment(sctnInfo);
 		fd_sctnNewSection.left = new FormAttachment(0, 12);
+		fd_sctnNewSection.right = new FormAttachment(100, -12);
 		sctnNewSection.setLayoutData(fd_sctnNewSection);
 		toolkit.paintBordersFor(sctnNewSection);
 		sctnNewSection.setText("NetXScript");
@@ -219,7 +219,8 @@ public class NewEditExpression extends Composite implements
 		editor = new EmbeddedXtextEditor(editorComposite, injector, SWT.BORDER);
 		editor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
-				evaluationObject = xtextService.reconcileChangedModel(expression, editor);
+				evaluationObject = xtextService.reconcileChangedModel(
+						expression, editor);
 			}
 		});
 		editorComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
@@ -227,6 +228,10 @@ public class NewEditExpression extends Composite implements
 		this.createKeyPad(client);
 		sctnNewSection.setClient(client);
 		xtextService = new EmbeddedXtextService(editingService);
+
+		validationService.registerAllDecorators(txtExpressionName,
+				lblExpressionName);
+
 	}
 
 	/*
@@ -249,13 +254,23 @@ public class NewEditExpression extends Composite implements
 	public void injectData(Object owner, Object object) {
 		this.owner = owner;
 		if (object != null && object instanceof Expression) {
-			expression = (Expression) object;
-			String asString = xtextService.getAsString(expression);
-			editor.update(this.evaluationObject,
-					asString == null ? "" : asString);
+			if (Screens.isEditOperation(operation)) {
+				Expression copy = EcoreUtil.copy((Expression) object);
+				expression = copy;
+				original = (Expression) object;
+			} else if (Screens.isNewOperation(operation)) {
+				expression = (Expression) object;
+			}
 
+			String asString = xtextService.getAsString(expression);
+			editor.update(this.evaluationObject, asString == null ? ""
+					: asString);
 		}
-		 m_bindingContext = initDataBindings_();
+
+		m_bindingContext = initDataBindings_();
+		validationService.registerBindingContext(m_bindingContext);
+		validationService.addValidationListener(this);
+
 	}
 
 	/*
@@ -268,8 +283,18 @@ public class NewEditExpression extends Composite implements
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					(EList<?>) owner, expression);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-		}else{
-			// Databinding has done it's work. Don't need to do anything. 
+		} else if (Screens.isEditOperation(operation)) {
+			// If edit, we have been operating on a copy of the object, so we
+			// have
+			// to replace.
+			Command c = new ReplaceCommand(editingService.getEditingDomain(),
+					(EList<?>) owner, original, expression);
+			editingService.getEditingDomain().getCommandStack().execute(c);
+
+		}
+		// After our edit, we shall be dirty
+		if (editingService.isDirty()) {
+			editingService.doSave(new NullProgressMonitor());
 		}
 	}
 
@@ -307,9 +332,12 @@ public class NewEditExpression extends Composite implements
 		Composite keyPadComposite = toolkit.createComposite(parent, SWT.BORDER);
 		keyPadComposite.setBackground(SWTResourceManager
 				.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-		GridLayout gl_composite_3 = new GridLayout(2, false);
-		gl_composite_3.marginRight = 5;
-		gl_composite_3.marginLeft = 5;
+		GridLayout gl_composite_3 = new GridLayout(5, false);
+		gl_composite_3.verticalSpacing = 2;
+		gl_composite_3.marginHeight = 2;
+		gl_composite_3.horizontalSpacing = 2;
+		gl_composite_3.marginRight = 2;
+		gl_composite_3.marginLeft = 2;
 		gl_composite_3.marginWidth = 0;
 		keyPadComposite.setLayout(gl_composite_3);
 		GridData gd_composite_3 = new GridData(SWT.FILL, SWT.FILL, false, true,
@@ -324,63 +352,216 @@ public class NewEditExpression extends Composite implements
 		gd_button.widthHint = 18;
 		gd_button.heightHint = 18;
 		button.setLayoutData(gd_button);
-
-		Button button_1 = toolkit.createButton(keyPadComposite, "-", SWT.NONE);
-		GridData gd_button_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_button_1.widthHint = 18;
-		gd_button_1.heightHint = 18;
-		button_1.setLayoutData(gd_button_1);
-
-		Button button_2 = toolkit.createButton(keyPadComposite, "*", SWT.NONE);
-		GridData gd_button_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_button_2.widthHint = 18;
-		gd_button_2.heightHint = 18;
-		button_2.setLayoutData(gd_button_2);
+		
+		Button btnTrue = toolkit.createButton(keyPadComposite, "TRUE", SWT.NONE);
+		btnTrue.setFont(SWTResourceManager.getFont("Lucida Grande", 9, SWT.NORMAL));
+		GridData gd_btnTrue = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_btnTrue.widthHint = 36;
+		gd_btnTrue.heightHint = 18;
+		btnTrue.setLayoutData(gd_btnTrue);
+		
+		Button button_6 = toolkit.createButton(keyPadComposite, "==", SWT.NONE);
+		GridData gd_button_6 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_button_6.widthHint = 24;
+		gd_button_6.heightHint = 18;
+		button_6.setLayoutData(gd_button_6);
 		new Label(keyPadComposite, SWT.NONE);
 		
+		Composite composite = toolkit.createComposite(keyPadComposite, SWT.NO_BACKGROUND | SWT.NO_FOCUS);
+		GridData gd_composite = new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 3);
+		gd_composite.widthHint = 18;
+		gd_composite.heightHint = 18;
+		composite.setLayoutData(gd_composite);
+		toolkit.paintBordersFor(composite);
+		
+				Button button_1 = toolkit.createButton(keyPadComposite, "-", SWT.NONE);
+				GridData gd_button_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+						1, 1);
+				gd_button_1.widthHint = 18;
+				gd_button_1.heightHint = 18;
+				button_1.setLayoutData(gd_button_1);
+		
+		Button btnFalse = toolkit.createButton(keyPadComposite, "FALSE", SWT.NONE);
+		GridData gd_btnFalse = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_btnFalse.widthHint = 36;
+		gd_btnFalse.heightHint = 18;
+		btnFalse.setLayoutData(gd_btnFalse);
+		btnFalse.setFont(SWTResourceManager.getFont("Lucida Grande", 9, SWT.NORMAL));
+		
+		Button button_11 = toolkit.createButton(keyPadComposite, "!=", SWT.NONE);
+		GridData gd_button_11 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_button_11.widthHint = 24;
+		gd_button_11.heightHint = 18;
+		button_11.setLayoutData(gd_button_11);
+		new Label(keyPadComposite, SWT.NONE);
+		
+		Button button_3 = toolkit.createButton(keyPadComposite, "/", SWT.NONE);
+		GridData gd_button_3 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_button_3.widthHint = 18;
+		gd_button_3.heightHint = 18;
+		button_3.setLayoutData(gd_button_3);
+		
+		Button btnAnd = toolkit.createButton(keyPadComposite, "AND", SWT.NONE);
+		btnAnd.setFont(SWTResourceManager.getFont("Lucida Grande", 9, SWT.NORMAL));
+		GridData gd_btnAnd = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_btnAnd.widthHint = 36;
+		gd_btnAnd.heightHint = 18;
+		btnAnd.setLayoutData(gd_btnAnd);
+		
+		Button button_9 = toolkit.createButton(keyPadComposite, ">=", SWT.NONE);
+		GridData gd_button_9 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_button_9.widthHint = 24;
+		gd_button_9.heightHint = 18;
+		button_9.setLayoutData(gd_button_9);
+		new Label(keyPadComposite, SWT.NONE);
+		
+				Button button_2 = toolkit.createButton(keyPadComposite, "*", SWT.NONE);
+				GridData gd_button_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+						1, 1);
+				gd_button_2.widthHint = 18;
+				gd_button_2.heightHint = 18;
+				button_2.setLayoutData(gd_button_2);
+		
+		Button btnOr = toolkit.createButton(keyPadComposite, "OR", SWT.NONE);
+		btnOr.setFont(SWTResourceManager.getFont("Lucida Grande", 9, SWT.NORMAL));
+		GridData gd_btnOr = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_btnOr.widthHint = 36;
+		gd_btnOr.heightHint = 18;
+		btnOr.setLayoutData(gd_btnOr);
+		
+		Button button_10 = toolkit.createButton(keyPadComposite, "<=", SWT.NONE);
+		GridData gd_button_10 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_button_10.widthHint = 24;
+		gd_button_10.heightHint = 18;
+		button_10.setLayoutData(gd_button_10);
+		new Label(keyPadComposite, SWT.NONE);
+		new Label(keyPadComposite, SWT.NONE);
+		
+		Button button_4 = toolkit.createButton(keyPadComposite, "%", SWT.NONE);
+		GridData gd_button_4 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_button_4.heightHint = 18;
+		gd_button_4.widthHint = 18;
+		button_4.setLayoutData(gd_button_4);
+		
+		Button btnNot = toolkit.createButton(keyPadComposite, "NOT", SWT.NONE);
+		btnNot.setFont(SWTResourceManager.getFont("Lucida Grande", 9, SWT.NORMAL));
+		GridData gd_btnNot = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_btnNot.widthHint = 36;
+		gd_btnNot.heightHint = 18;
+		btnNot.setLayoutData(gd_btnNot);
+		
+		Button button_7 = toolkit.createButton(keyPadComposite, ">", SWT.NONE);
+		GridData gd_button_7 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_button_7.widthHint = 24;
+		gd_button_7.heightHint = 18;
+		button_7.setLayoutData(gd_button_7);
+		new Label(keyPadComposite, SWT.NONE);
+		new Label(keyPadComposite, SWT.NONE);
+		
+		Button button_5 = toolkit.createButton(keyPadComposite, "=", SWT.NONE);
+		GridData gd_button_5 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_button_5.widthHint = 18;
+		gd_button_5.heightHint = 18;
+		button_5.setLayoutData(gd_button_5);
+		new Label(keyPadComposite, SWT.NONE);
+		
+		Button button_8 = toolkit.createButton(keyPadComposite, "<", SWT.NONE);
+		GridData gd_button_8 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_button_8.widthHint = 24;
+		gd_button_8.heightHint = 18;
+		button_8.setLayoutData(gd_button_8);
+		new Label(keyPadComposite, SWT.NONE);
+		new Label(keyPadComposite, SWT.NONE);
+
 	}
-	
+
 	/**
-	 * Converted to new EMF API. 
+	 * Converted to new EMF API.
+	 * 
 	 * @return
 	 */
 	protected DataBindingContext initDataBindings_() {
+
+		EMFUpdateValueStrategy expressionStrategy = validationService
+				.getUpdateValueStrategyBeforeSet("Expression name is required");
+
 		DataBindingContext bindingContext = new DataBindingContext();
-		
-		IObservableValue txtNameObserveTextObserveWidget = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(txtName, SWT.Modify));
-		
-		IEMFValueProperty expressionNameObserveValue_1 = EMFEditProperties.value(
-				editingService.getEditingDomain(), Literals.EXPRESSION__NAME);
-		bindingContext.bindValue(txtNameObserveTextObserveWidget, expressionNameObserveValue_1.observe(expression), null, null);
-	
+
+		IObservableValue txtNameObserveTextObserveWidget = SWTObservables
+				.observeDelayedValue(400, SWTObservables.observeText(
+						txtExpressionName, SWT.Modify));
+
+		IEMFValueProperty expressionNameObserveValue_1 = EMFEditProperties
+				.value(editingService.getEditingDomain(),
+						Literals.EXPRESSION__NAME);
+		bindingContext.bindValue(txtNameObserveTextObserveWidget,
+				expressionNameObserveValue_1.observe(expression),
+				expressionStrategy, null);
+
 		// TODO, For the references, we need some sort of custom binding.
-		// The .edit label provider would need. 
+		// The .edit label provider would need.
 		return bindingContext;
 	}
-	
+
 	protected DataBindingContext initDataBindings() {
 		DataBindingContext bindingContext = new DataBindingContext();
 		//
-		IObservableValue txtNameObserveTextObserveWidget = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(txtName, SWT.Modify));
-		IObservableValue expressionNameObserveValue = EMFObservables.observeValue(expression, Literals.EXPRESSION__NAME);
-		bindingContext.bindValue(txtNameObserveTextObserveWidget, expressionNameObserveValue, null, null);
+		IObservableValue txtNameObserveTextObserveWidget = SWTObservables
+				.observeDelayedValue(400, SWTObservables.observeText(
+						txtExpressionName, SWT.Modify));
+		IObservableValue expressionNameObserveValue = EMFObservables
+				.observeValue(expression, Literals.EXPRESSION__NAME);
+		bindingContext.bindValue(txtNameObserveTextObserveWidget,
+				expressionNameObserveValue, null, null);
 		//
 		return bindingContext;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
 	public Viewer getViewer() {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
 	 */
 	public boolean isValid() {
 		return validationService.isValid();
+	}
+
+	public void handleValidationStateChange(ValidationEvent event) {
+		if (event instanceof FormValidationEvent) {
+			int type = ((FormValidationEvent) event).getMsgType();
+			List<IMessage> list = ((FormValidationEvent) event).getMessages();
+			if (frmNewForm.isDisposed() || frmNewForm.getHead().isDisposed()) {
+				return;
+			}
+
+			if (type != IMessage.NONE) {
+
+				String errorType = "";
+				if (type == IMessage.ERROR) {
+					errorType = "Error:";
+				}
+				if (type == IMessage.WARNING) {
+					errorType = "Required:";
+				}
+
+				StringBuffer msgBuffer = new StringBuffer();
+				msgBuffer.append(errorType + "(" + list.size() + "), "
+						+ list.get(0).getMessage());
+				frmNewForm.setMessage(msgBuffer.toString(), type,
+						list.toArray(new IMessage[list.size()]));
+
+			} else {
+				frmNewForm.setMessage(null);
+			}
+		}
 	}
 }
