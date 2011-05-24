@@ -1,14 +1,22 @@
-#Tue May 24 18:12:10 CEST 2011
+#Tue May 24 18:46:50 CEST 2011
 eclipse.preferences.version=1
 encoding//html/getting_started/TMNL_Capacity_Management_Process.html=utf-8
 encoding//html/getting_started/data_structure.html=utf-8
 encoding//html/getting_started/getting_started.html=utf-8
 encoding//html/getting_started/workbench/netxstudio_workbench.html=utf-8
 encoding//html/tasks/administrative/administrative.html=utf-8
+encoding//html/tasks/administrative/users/creating_a_user.html=utf-8
+encoding//html/tasks/administrative/users/modifying_a_user.html=utf-8
+encoding//html/tasks/administrative/users/users.html=utf-8
 encoding//html/tasks/library/excel/fill_excel.html=utf-8
 encoding//html/tasks/library/excel/generate_excel.html=utf-8
 encoding//html/tasks/library/excel/import_excel.html=utf-8
 encoding//html/tasks/library/excel/working_with_excel_template.html=utf-8
+encoding//html/tasks/library/expressions/creating_an_expression.html=utf-8
+encoding//html/tasks/library/expressions/expressions.html=utf-8
+encoding//html/tasks/library/expressions/modifying_an_expression.html=utf-8
+encoding//html/tasks/library/library.html=utf-8
 encoding//html/tasks/library/library_model/merging_models.html=utf-8
+encoding//html/tasks/library/library_model/working_with_library_model.html=utf-8
 encoding//html/tasks/tasks.html=utf-8
 encoding//html/toc.html=utf-8
