@@ -6,6 +6,9 @@ In the diagram below, we highlight the various sections of the workbench:
 
 
 
+
+
+
 [TODO], diagram with the workbench. 
 
 

@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Tasks" link_to="toc.xml#tasks"> 
-	<topic label="Resource Library"> 
+<toc label="Tasks" link_to="toc.xml#tasks">
+   <topic label="Administrative Task">
+      <topic label="Users">
+         <topic label="Creating a User">
+         </topic>
+         <topic label="Modifying a User">
+         </topic>
+      </topic>
+      <topic label="Jobs">
+         <topic label="Creating a Job">
+         </topic>
+         <topic label="Modifying a Job">
+         </topic>
+      </topic>
+   </topic> 
+	<topic label="Library"> 
 		
   <topic href="html/tasks/working_with_excel_template.html" label="Working with the Excel template">
   		<topic href="html/tasks/generate_excel.html" label="Generate an Excel Template" />
