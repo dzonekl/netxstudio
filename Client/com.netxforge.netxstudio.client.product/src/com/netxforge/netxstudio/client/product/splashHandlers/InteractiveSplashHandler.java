@@ -232,6 +232,8 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		data.widthHint = F_BUTTON_WIDTH_HINT;
 		data.verticalIndent = 10;
 		fButtonOK.setLayoutData(data);
+		// We explicity request focus. 
+		fButtonOK.setFocus();
 	}
 
 	/**

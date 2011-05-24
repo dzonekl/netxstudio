@@ -63,6 +63,7 @@
       <feature id="org.eclipse.emf.databinding.edit"/>
       <feature id="org.eclipse.emf.compare.artifacts.feature"/>
       <feature id="org.eclipse.platform.artifacts.feature"/>
+      <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.core.artifacts.feature"/>
       <feature id="org.eclipse.ui.artifacts.feature"/>
       <feature id="org.eclipse.equinox.artifacts.feature"/>
@@ -80,7 +81,7 @@
       <feature id="org.eclipse.xtext.xbase.artifacts.feature"/>
       <feature id="org.eclipse.jdt.artifacts.feature"/>
       <feature id="org.eclipse.emf.cdo.client.artifacts.feature"/>
-      <feature id="org.eclipse.rcp" version="3.7.0.v20110216-9DB5Fm1FpBGyZcJRp-GUtaY"/>
+      <feature id="org.eclipe.xtext.purexbase.artifacts.feature"/>
    </features>
 
    <configurations>
