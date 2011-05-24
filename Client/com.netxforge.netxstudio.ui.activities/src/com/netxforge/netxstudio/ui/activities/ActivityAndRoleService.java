@@ -65,9 +65,11 @@ public class ActivityAndRoleService implements IActivityAndRoleService {
 			return enabledActivities;
 		}
 		if( role.getName().equals(IFixtures.ROLE_PLANNER)){
-			enabledActivities.add(ACTIVITY_ADMIN);
+//			enabledActivities.add(ACTIVITY_ADMIN);
 			enabledActivities.add(ACTIVITY_MONITORING);
 		}
+		
+		
 		
 		return enabledActivities;
 	}

@@ -9,10 +9,16 @@
             id="com.netxforge.netxstudio.ui.activity.admin"
             name="admin">
       </activity>
+      
       <activityPatternBinding
             activityId="com.netxforge.netxstudio.ui.activity.admin"
             isEqualityPattern="true"
             pattern="com.netxforge.netxstudio.ui/com.netxforge.netxstudio.ui.perspective.admin">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.admin"
+            isEqualityPattern="true"
+            pattern="com.netxforge.netxstudio.screens/com.netxforge.netxstudio.screens.selector.admin">
       </activityPatternBinding>
       <activity
             description="Monitoring activitity"
@@ -23,6 +29,11 @@
             activityId="com.netxforge.netxstudio.ui.activity.monitoring"
             isEqualityPattern="true"
             pattern="com.netxforge.netxstudio.ui/com.netxforge.netxstudio.ui.perspective.monitoring">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.monitoring"
+            isEqualityPattern="true"
+            pattern="com.netxforge.netxstudio.screens/com.netxforge.netxstudio.screens.selector.monitoring">
       </activityPatternBinding>
       
    </extension>
