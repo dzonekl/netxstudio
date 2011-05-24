@@ -300,7 +300,7 @@ public class ValidationService implements IValidationService {
 	}
 
 	public ControlDecoration getErrorDecoration(Control control) {
-		ControlDecoration deco = new ControlDecoration(control, SWT.RIGHT
+		ControlDecoration deco = new ControlDecoration(control, SWT.LEFT
 				| SWT.CENTER);
 		FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
 				.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
@@ -310,7 +310,7 @@ public class ValidationService implements IValidationService {
 	}
 
 	public ControlDecoration getWarningDecoration(Control control) {
-		ControlDecoration deco = new ControlDecoration(control, SWT.RIGHT
+		ControlDecoration deco = new ControlDecoration(control, SWT.LEFT
 				| SWT.CENTER);
 		FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
 				.getFieldDecoration(FieldDecorationRegistry.DEC_WARNING);
@@ -320,7 +320,7 @@ public class ValidationService implements IValidationService {
 	}
 
 	public ControlDecoration getRequiredDecoration(Control control) {
-		ControlDecoration deco = new ControlDecoration(control, SWT.RIGHT
+		ControlDecoration deco = new ControlDecoration(control, SWT.LEFT
 				| SWT.CENTER);
 		FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
 				.getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED);

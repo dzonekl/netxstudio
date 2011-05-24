@@ -109,9 +109,15 @@ public class CDOEditingService extends EMFEditingService implements IDawnEditor,
 	 * com.netxforge.netxstudio.screens.editing.IEditingService#initScreen(int)
 	 */
 	public Resource getData(int feature) {
-			
+		
+		// Check if we have a view already. 
+		if(this.getView() != null){
+			// check if we can create the resource from the current view. 
+		}
+		
 		Resource res = dataService.getProvider().getResource(
 				this.getEditingDomain().getResourceSet(), feature);
+		
 		if (res instanceof CDOResource) {
 			dawnEditorSupport.setView(((CDOResource) res).cdoView());
 			
