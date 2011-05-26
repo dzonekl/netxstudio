@@ -25,8 +25,10 @@ import java.util.Map;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
+import org.eclipse.emf.cdo.server.CDOServerUtil;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.net4j.connector.IConnector;
@@ -73,6 +75,15 @@ public class ServerUtils {
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		}
+	}
+
+	public void addCommitInfoHandler() {
+		final IManagedContainer container = IPluginContainer.INSTANCE;
+		final IRepository repo = CDOServerUtil.getRepository(container,
+				REPO_NAME);
+		final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(new NetxForgeCommitInfoHandler());
+		asyncCommitInfoHandler.activate();
+		repo.addCommitInfoHandler(asyncCommitInfoHandler);
 	}
 
 	public Object runService(Map<String, String> parameters) {

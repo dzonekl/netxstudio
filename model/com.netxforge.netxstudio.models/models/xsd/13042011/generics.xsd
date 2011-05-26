@@ -374,4 +374,55 @@ The Diagram model is expected to be a Notation model, which refers to the NetXSt
 				<xs:documentation>The TimeStamp attribute holds the time date for which the value applies.</xs:documentation>
 			</xs:annotation></xs:attribute>
 	</xs:complexType>
+	
+	<!-- ___________________________ -->
+	<!--| CommitLOGENTRY | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="CommitLogEntry">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the changes done by a user for a certain object/user.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence/>
+		<xs:attribute name="User" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The user name
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ObjectId" type="Description2000">
+			<xs:annotation>
+				<xs:documentation>
+					The id/uri of the object being changed
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Change" type="Description2000">
+			<xs:annotation>
+				<xs:documentation>
+					The type uri of the object being changed
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Action">
+            <xs:annotation>
+            	<xs:documentation>The Action type</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="UPDATE" />
+					<xs:enumeration value="ADD" />
+					<xs:enumeration value="DELETE" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="TimeStamp" type="xs:dateTime" >
+			<xs:annotation>
+				<xs:documentation>The TimeStamp attribute holds the time of the commit.</xs:documentation>
+			</xs:annotation></xs:attribute>
+	</xs:complexType>
+	
 </xs:schema>

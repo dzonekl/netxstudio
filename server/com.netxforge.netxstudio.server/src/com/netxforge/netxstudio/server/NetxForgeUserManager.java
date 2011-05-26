@@ -61,6 +61,8 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 	
 	private String serverSideLogin = "" + System.currentTimeMillis();
 	
+	private boolean registeredCommitInfo = false;
+	
 	public NetxForgeUserManager() {
 		ServerUtils.getInstance().setServerSideLogin(serverSideLogin);
 		instance = this;
@@ -68,6 +70,10 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 	
 	@Override
 	protected char[] getPassword(IRepository repository, String userID) {
+		if (!registeredCommitInfo) {
+			registeredCommitInfo = true;
+			ServerUtils.getInstance().addCommitInfoHandler();
+		}
 		ServerUtils.getInstance().checkRepositorySupported(repository);
 		
 		if (userID.equals("admin")) {

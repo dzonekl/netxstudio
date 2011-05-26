@@ -30,6 +30,8 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.generics.ActionType;
+import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.DiagramInfo;
@@ -67,6 +69,13 @@ import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
  * @generated
  */
 public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass commitLogEntryEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -135,6 +144,13 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EEnum actionTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum diagramKindTypeEEnum = null;
 
 	/**
@@ -143,6 +159,13 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * @generated
 	 */
 	private EEnum expansionDurationEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType actionTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -284,6 +307,60 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(GenericsPackage.eNS_URI, theGenericsPackage);
 		return theGenericsPackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCommitLogEntry() {
+		return commitLogEntryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCommitLogEntry_Action() {
+		return (EAttribute)commitLogEntryEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCommitLogEntry_Change() {
+		return (EAttribute)commitLogEntryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCommitLogEntry_ObjectId() {
+		return (EAttribute)commitLogEntryEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCommitLogEntry_TimeStamp() {
+		return (EAttribute)commitLogEntryEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCommitLogEntry_User() {
+		return (EAttribute)commitLogEntryEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -678,6 +755,15 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getActionType() {
+		return actionTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getDiagramKindType() {
 		return diagramKindTypeEEnum;
 	}
@@ -689,6 +775,15 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 */
 	public EEnum getExpansionDuration() {
 		return expansionDurationEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getActionTypeObject() {
+		return actionTypeObjectEDataType;
 	}
 
 	/**
@@ -773,6 +868,13 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		isCreated = true;
 
 		// Create classes and their features
+		commitLogEntryEClass = createEClass(COMMIT_LOG_ENTRY);
+		createEAttribute(commitLogEntryEClass, COMMIT_LOG_ENTRY__ACTION);
+		createEAttribute(commitLogEntryEClass, COMMIT_LOG_ENTRY__CHANGE);
+		createEAttribute(commitLogEntryEClass, COMMIT_LOG_ENTRY__OBJECT_ID);
+		createEAttribute(commitLogEntryEClass, COMMIT_LOG_ENTRY__TIME_STAMP);
+		createEAttribute(commitLogEntryEClass, COMMIT_LOG_ENTRY__USER);
+
 		companyEClass = createEClass(COMPANY);
 		createEReference(companyEClass, COMPANY__ICONS);
 		createEAttribute(companyEClass, COMPANY__NAME);
@@ -826,10 +928,12 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		createEAttribute(valueEClass, VALUE__VALUE);
 
 		// Create enums
+		actionTypeEEnum = createEEnum(ACTION_TYPE);
 		diagramKindTypeEEnum = createEEnum(DIAGRAM_KIND_TYPE);
 		expansionDurationEEnum = createEEnum(EXPANSION_DURATION);
 
 		// Create data types
+		actionTypeObjectEDataType = createEDataType(ACTION_TYPE_OBJECT);
 		description2000EDataType = createEDataType(DESCRIPTION2000);
 		diagramKindTypeObjectEDataType = createEDataType(DIAGRAM_KIND_TYPE_OBJECT);
 		expansionDurationObjectEDataType = createEDataType(EXPANSION_DURATION_OBJECT);
@@ -871,6 +975,13 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		// Add supertypes to classes
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(commitLogEntryEClass, CommitLogEntry.class, "CommitLogEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCommitLogEntry_Action(), this.getActionType(), "action", null, 0, 1, CommitLogEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCommitLogEntry_Change(), this.getDescription2000(), "change", null, 0, 1, CommitLogEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCommitLogEntry_ObjectId(), this.getDescription2000(), "objectId", null, 0, 1, CommitLogEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCommitLogEntry_TimeStamp(), theXMLTypePackage.getDateTime(), "timeStamp", null, 0, 1, CommitLogEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCommitLogEntry_User(), theXMLTypePackage.getString(), "user", null, 0, 1, CommitLogEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(companyEClass, Company.class, "Company", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompany_Icons(), this.getMultiImage(), null, "icons", null, 0, 1, Company.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCompany_Name(), this.getName255(), "name", null, 0, 1, Company.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -924,6 +1035,11 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		initEAttribute(getValue_Value(), theXMLTypePackage.getDouble(), "value", null, 0, 1, Value.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
+		initEEnum(actionTypeEEnum, ActionType.class, "ActionType");
+		addEEnumLiteral(actionTypeEEnum, ActionType.UPDATE);
+		addEEnumLiteral(actionTypeEEnum, ActionType.ADD);
+		addEEnumLiteral(actionTypeEEnum, ActionType.DELETE);
+
 		initEEnum(diagramKindTypeEEnum, DiagramKindType.class, "DiagramKindType");
 		addEEnumLiteral(diagramKindTypeEEnum, DiagramKindType.NETWORK);
 		addEEnumLiteral(diagramKindTypeEEnum, DiagramKindType.FUNCTION);
@@ -938,6 +1054,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		addEEnumLiteral(expansionDurationEEnum, ExpansionDuration.LONG);
 
 		// Initialize data types
+		initEDataType(actionTypeObjectEDataType, ActionType.class, "ActionTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(description2000EDataType, String.class, "Description2000", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(diagramKindTypeObjectEDataType, DiagramKindType.class, "DiagramKindTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(expansionDurationObjectEDataType, ExpansionDuration.class, "ExpansionDurationObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
@@ -960,7 +1077,62 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";			
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+		addAnnotation
+		  (actionTypeEEnum, 
+		   source, 
+		   new String[] {
+			 "name", "Action_._type"
+		   });		
+		addAnnotation
+		  (actionTypeObjectEDataType, 
+		   source, 
+		   new String[] {
+			 "name", "Action_._type:Object",
+			 "baseType", "Action_._type"
+		   });			
+		addAnnotation
+		  (commitLogEntryEClass, 
+		   source, 
+		   new String[] {
+			 "name", "CommitLogEntry",
+			 "kind", "empty"
+		   });			
+		addAnnotation
+		  (getCommitLogEntry_Action(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Action"
+		   });			
+		addAnnotation
+		  (getCommitLogEntry_Change(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Change"
+		   });			
+		addAnnotation
+		  (getCommitLogEntry_ObjectId(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "ObjectId"
+		   });			
+		addAnnotation
+		  (getCommitLogEntry_TimeStamp(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "TimeStamp"
+		   });			
+		addAnnotation
+		  (getCommitLogEntry_User(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "User"
+		   });			
 		addAnnotation
 		  (companyEClass, 
 		   source, 

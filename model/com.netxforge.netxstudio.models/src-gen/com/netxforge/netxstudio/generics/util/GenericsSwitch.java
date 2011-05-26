@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.generics.util;
 
+import com.netxforge.netxstudio.generics.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -90,6 +91,12 @@ public class GenericsSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case GenericsPackage.COMMIT_LOG_ENTRY: {
+				CommitLogEntry commitLogEntry = (CommitLogEntry)theEObject;
+				T result = caseCommitLogEntry(commitLogEntry);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case GenericsPackage.COMPANY: {
 				Company company = (Company)theEObject;
 				T result = caseCompany(company);
@@ -146,6 +153,21 @@ public class GenericsSwitch<T> extends Switch<T> {
 			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Commit Log Entry</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Commit Log Entry</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCommitLogEntry(CommitLogEntry object) {
+		return null;
 	}
 
 	/**

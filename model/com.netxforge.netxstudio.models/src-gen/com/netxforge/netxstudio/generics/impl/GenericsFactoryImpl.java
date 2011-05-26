@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.generics.impl;
 
+import com.netxforge.netxstudio.generics.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -85,6 +86,7 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case GenericsPackage.COMMIT_LOG_ENTRY: return (EObject)createCommitLogEntry();
 			case GenericsPackage.COMPANY: return (EObject)createCompany();
 			case GenericsPackage.DATE_TIME_RANGE: return (EObject)createDateTimeRange();
 			case GenericsPackage.DIAGRAM_INFO: return (EObject)createDiagramInfo();
@@ -107,10 +109,14 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
+			case GenericsPackage.ACTION_TYPE:
+				return createActionTypeFromString(eDataType, initialValue);
 			case GenericsPackage.DIAGRAM_KIND_TYPE:
 				return createDiagramKindTypeFromString(eDataType, initialValue);
 			case GenericsPackage.EXPANSION_DURATION:
 				return createExpansionDurationFromString(eDataType, initialValue);
+			case GenericsPackage.ACTION_TYPE_OBJECT:
+				return createActionTypeObjectFromString(eDataType, initialValue);
 			case GenericsPackage.DESCRIPTION2000:
 				return createDescription2000FromString(eDataType, initialValue);
 			case GenericsPackage.DIAGRAM_KIND_TYPE_OBJECT:
@@ -136,10 +142,14 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
+			case GenericsPackage.ACTION_TYPE:
+				return convertActionTypeToString(eDataType, instanceValue);
 			case GenericsPackage.DIAGRAM_KIND_TYPE:
 				return convertDiagramKindTypeToString(eDataType, instanceValue);
 			case GenericsPackage.EXPANSION_DURATION:
 				return convertExpansionDurationToString(eDataType, instanceValue);
+			case GenericsPackage.ACTION_TYPE_OBJECT:
+				return convertActionTypeObjectToString(eDataType, instanceValue);
 			case GenericsPackage.DESCRIPTION2000:
 				return convertDescription2000ToString(eDataType, instanceValue);
 			case GenericsPackage.DIAGRAM_KIND_TYPE_OBJECT:
@@ -155,6 +165,16 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CommitLogEntry createCommitLogEntry() {
+		CommitLogEntryImpl commitLogEntry = new CommitLogEntryImpl();
+		return commitLogEntry;
 	}
 
 	/**
@@ -252,6 +272,26 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ActionType createActionTypeFromString(EDataType eDataType, String initialValue) {
+		ActionType result = ActionType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertActionTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public DiagramKindType createDiagramKindTypeFromString(EDataType eDataType, String initialValue) {
 		DiagramKindType result = DiagramKindType.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -285,6 +325,24 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	 */
 	public String convertExpansionDurationToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ActionType createActionTypeObjectFromString(EDataType eDataType, String initialValue) {
+		return createActionTypeFromString(GenericsPackage.Literals.ACTION_TYPE, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertActionTypeObjectToString(EDataType eDataType, Object instanceValue) {
+		return convertActionTypeToString(GenericsPackage.Literals.ACTION_TYPE, instanceValue);
 	}
 
 	/**

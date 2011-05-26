@@ -74,6 +74,70 @@ public interface GenericsPackage extends EPackage {
 	GenericsPackage eINSTANCE = com.netxforge.netxstudio.generics.impl.GenericsPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.CommitLogEntryImpl <em>Commit Log Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.generics.impl.CommitLogEntryImpl
+	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getCommitLogEntry()
+	 * @generated
+	 */
+	int COMMIT_LOG_ENTRY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Action</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMIT_LOG_ENTRY__ACTION = 0;
+
+	/**
+	 * The feature id for the '<em><b>Change</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMIT_LOG_ENTRY__CHANGE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Object Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMIT_LOG_ENTRY__OBJECT_ID = 2;
+
+	/**
+	 * The feature id for the '<em><b>Time Stamp</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMIT_LOG_ENTRY__TIME_STAMP = 3;
+
+	/**
+	 * The feature id for the '<em><b>User</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMIT_LOG_ENTRY__USER = 4;
+
+	/**
+	 * The number of structural features of the '<em>Commit Log Entry</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMIT_LOG_ENTRY_FEATURE_COUNT = 5;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.CompanyImpl <em>Company</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -81,7 +145,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getCompany()
 	 * @generated
 	 */
-	int COMPANY = 0;
+	int COMPANY = 1;
 
 	/**
 	 * The feature id for the '<em><b>Icons</b></em>' containment reference.
@@ -154,7 +218,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDateTimeRange()
 	 * @generated
 	 */
-	int DATE_TIME_RANGE = 1;
+	int DATE_TIME_RANGE = 2;
 
 	/**
 	 * The feature id for the '<em><b>Begin</b></em>' attribute.
@@ -191,7 +255,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDiagramInfo()
 	 * @generated
 	 */
-	int DIAGRAM_INFO = 2;
+	int DIAGRAM_INFO = 3;
 
 	/**
 	 * The feature id for the '<em><b>Diagram Kind</b></em>' attribute.
@@ -228,7 +292,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getLifecycle()
 	 * @generated
 	 */
-	int LIFECYCLE = 3;
+	int LIFECYCLE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Construction Date</b></em>' attribute.
@@ -292,7 +356,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getMeta()
 	 * @generated
 	 */
-	int META = 4;
+	int META = 5;
 
 	/**
 	 * The feature id for the '<em><b>Author</b></em>' reference.
@@ -338,7 +402,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getMultiImage()
 	 * @generated
 	 */
-	int MULTI_IMAGE = 5;
+	int MULTI_IMAGE = 6;
 
 	/**
 	 * The feature id for the '<em><b>Obj16</b></em>' attribute.
@@ -402,7 +466,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getPerson()
 	 * @generated
 	 */
-	int PERSON = 6;
+	int PERSON = 7;
 
 	/**
 	 * The feature id for the '<em><b>Roles</b></em>' reference.
@@ -493,7 +557,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getRole()
 	 * @generated
 	 */
-	int ROLE = 7;
+	int ROLE = 8;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -521,7 +585,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getValue()
 	 * @generated
 	 */
-	int VALUE = 8;
+	int VALUE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Time Stamp</b></em>' attribute.
@@ -551,6 +615,16 @@ public interface GenericsPackage extends EPackage {
 	int VALUE_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.ActionType <em>Action Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.generics.ActionType
+	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getActionType()
+	 * @generated
+	 */
+	int ACTION_TYPE = 10;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.DiagramKindType <em>Diagram Kind Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -558,7 +632,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDiagramKindType()
 	 * @generated
 	 */
-	int DIAGRAM_KIND_TYPE = 9;
+	int DIAGRAM_KIND_TYPE = 11;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.ExpansionDuration <em>Expansion Duration</em>}' enum.
@@ -568,7 +642,17 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpansionDuration()
 	 * @generated
 	 */
-	int EXPANSION_DURATION = 10;
+	int EXPANSION_DURATION = 12;
+
+	/**
+	 * The meta object id for the '<em>Action Type Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.generics.ActionType
+	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getActionTypeObject()
+	 * @generated
+	 */
+	int ACTION_TYPE_OBJECT = 13;
 
 	/**
 	 * The meta object id for the '<em>Description2000</em>' data type.
@@ -578,7 +662,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDescription2000()
 	 * @generated
 	 */
-	int DESCRIPTION2000 = 11;
+	int DESCRIPTION2000 = 14;
 
 	/**
 	 * The meta object id for the '<em>Diagram Kind Type Object</em>' data type.
@@ -588,7 +672,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDiagramKindTypeObject()
 	 * @generated
 	 */
-	int DIAGRAM_KIND_TYPE_OBJECT = 12;
+	int DIAGRAM_KIND_TYPE_OBJECT = 15;
 
 	/**
 	 * The meta object id for the '<em>Expansion Duration Object</em>' data type.
@@ -598,7 +682,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpansionDurationObject()
 	 * @generated
 	 */
-	int EXPANSION_DURATION_OBJECT = 13;
+	int EXPANSION_DURATION_OBJECT = 16;
 
 	/**
 	 * The meta object id for the '<em>Expression Line</em>' data type.
@@ -608,7 +692,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpressionLine()
 	 * @generated
 	 */
-	int EXPRESSION_LINE = 14;
+	int EXPRESSION_LINE = 17;
 
 	/**
 	 * The meta object id for the '<em>Name255</em>' data type.
@@ -618,7 +702,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getName255()
 	 * @generated
 	 */
-	int NAME255 = 15;
+	int NAME255 = 18;
 
 	/**
 	 * The meta object id for the '<em>Unit Code</em>' data type.
@@ -628,7 +712,72 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getUnitCode()
 	 * @generated
 	 */
-	int UNIT_CODE = 16;
+	int UNIT_CODE = 19;
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.generics.CommitLogEntry <em>Commit Log Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Commit Log Entry</em>'.
+	 * @see com.netxforge.netxstudio.generics.CommitLogEntry
+	 * @generated
+	 */
+	EClass getCommitLogEntry();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.generics.CommitLogEntry#getAction <em>Action</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Action</em>'.
+	 * @see com.netxforge.netxstudio.generics.CommitLogEntry#getAction()
+	 * @see #getCommitLogEntry()
+	 * @generated
+	 */
+	EAttribute getCommitLogEntry_Action();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.generics.CommitLogEntry#getChange <em>Change</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Change</em>'.
+	 * @see com.netxforge.netxstudio.generics.CommitLogEntry#getChange()
+	 * @see #getCommitLogEntry()
+	 * @generated
+	 */
+	EAttribute getCommitLogEntry_Change();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.generics.CommitLogEntry#getObjectId <em>Object Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Object Id</em>'.
+	 * @see com.netxforge.netxstudio.generics.CommitLogEntry#getObjectId()
+	 * @see #getCommitLogEntry()
+	 * @generated
+	 */
+	EAttribute getCommitLogEntry_ObjectId();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.generics.CommitLogEntry#getTimeStamp <em>Time Stamp</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Time Stamp</em>'.
+	 * @see com.netxforge.netxstudio.generics.CommitLogEntry#getTimeStamp()
+	 * @see #getCommitLogEntry()
+	 * @generated
+	 */
+	EAttribute getCommitLogEntry_TimeStamp();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.generics.CommitLogEntry#getUser <em>User</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>User</em>'.
+	 * @see com.netxforge.netxstudio.generics.CommitLogEntry#getUser()
+	 * @see #getCommitLogEntry()
+	 * @generated
+	 */
+	EAttribute getCommitLogEntry_User();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.generics.Company <em>Company</em>}'.
@@ -1095,6 +1244,16 @@ public interface GenericsPackage extends EPackage {
 	EAttribute getValue_Value();
 
 	/**
+	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.generics.ActionType <em>Action Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Action Type</em>'.
+	 * @see com.netxforge.netxstudio.generics.ActionType
+	 * @generated
+	 */
+	EEnum getActionType();
+
+	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.generics.DiagramKindType <em>Diagram Kind Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1113,6 +1272,18 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getExpansionDuration();
+
+	/**
+	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.generics.ActionType <em>Action Type Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Action Type Object</em>'.
+	 * @see com.netxforge.netxstudio.generics.ActionType
+	 * @model instanceClass="com.netxforge.netxstudio.generics.ActionType"
+	 *        extendedMetaData="name='Action_._type:Object' baseType='Action_._type'"
+	 * @generated
+	 */
+	EDataType getActionTypeObject();
 
 	/**
 	 * Returns the meta object for data type '{@link java.lang.String <em>Description2000</em>}'.
@@ -1208,6 +1379,56 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 */
 	interface Literals {
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.generics.impl.CommitLogEntryImpl <em>Commit Log Entry</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.generics.impl.CommitLogEntryImpl
+		 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getCommitLogEntry()
+		 * @generated
+		 */
+		EClass COMMIT_LOG_ENTRY = eINSTANCE.getCommitLogEntry();
+
+		/**
+		 * The meta object literal for the '<em><b>Action</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMIT_LOG_ENTRY__ACTION = eINSTANCE.getCommitLogEntry_Action();
+
+		/**
+		 * The meta object literal for the '<em><b>Change</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMIT_LOG_ENTRY__CHANGE = eINSTANCE.getCommitLogEntry_Change();
+
+		/**
+		 * The meta object literal for the '<em><b>Object Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMIT_LOG_ENTRY__OBJECT_ID = eINSTANCE.getCommitLogEntry_ObjectId();
+
+		/**
+		 * The meta object literal for the '<em><b>Time Stamp</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMIT_LOG_ENTRY__TIME_STAMP = eINSTANCE.getCommitLogEntry_TimeStamp();
+
+		/**
+		 * The meta object literal for the '<em><b>User</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMMIT_LOG_ENTRY__USER = eINSTANCE.getCommitLogEntry_User();
+
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.generics.impl.CompanyImpl <em>Company</em>}' class.
 		 * <!-- begin-user-doc -->
@@ -1571,6 +1792,16 @@ public interface GenericsPackage extends EPackage {
 		EAttribute VALUE__VALUE = eINSTANCE.getValue_Value();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.generics.ActionType <em>Action Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.generics.ActionType
+		 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getActionType()
+		 * @generated
+		 */
+		EEnum ACTION_TYPE = eINSTANCE.getActionType();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.generics.DiagramKindType <em>Diagram Kind Type</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1589,6 +1820,16 @@ public interface GenericsPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum EXPANSION_DURATION = eINSTANCE.getExpansionDuration();
+
+		/**
+		 * The meta object literal for the '<em>Action Type Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.generics.ActionType
+		 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getActionTypeObject()
+		 * @generated
+		 */
+		EDataType ACTION_TYPE_OBJECT = eINSTANCE.getActionTypeObject();
 
 		/**
 		 * The meta object literal for the '<em>Description2000</em>' data type.

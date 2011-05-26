@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.generics.util;
 
+import com.netxforge.netxstudio.generics.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -121,6 +122,8 @@ public class GenericsValidator extends EObjectValidator {
 	@Override
 	protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		switch (classifierID) {
+			case GenericsPackage.COMMIT_LOG_ENTRY:
+				return validateCommitLogEntry((CommitLogEntry)value, diagnostics, context);
 			case GenericsPackage.COMPANY:
 				return validateCompany((Company)value, diagnostics, context);
 			case GenericsPackage.DATE_TIME_RANGE:
@@ -139,10 +142,14 @@ public class GenericsValidator extends EObjectValidator {
 				return validateRole((Role)value, diagnostics, context);
 			case GenericsPackage.VALUE:
 				return validateValue((Value)value, diagnostics, context);
+			case GenericsPackage.ACTION_TYPE:
+				return validateActionType((ActionType)value, diagnostics, context);
 			case GenericsPackage.DIAGRAM_KIND_TYPE:
 				return validateDiagramKindType((DiagramKindType)value, diagnostics, context);
 			case GenericsPackage.EXPANSION_DURATION:
 				return validateExpansionDuration((ExpansionDuration)value, diagnostics, context);
+			case GenericsPackage.ACTION_TYPE_OBJECT:
+				return validateActionTypeObject((ActionType)value, diagnostics, context);
 			case GenericsPackage.DESCRIPTION2000:
 				return validateDescription2000((String)value, diagnostics, context);
 			case GenericsPackage.DIAGRAM_KIND_TYPE_OBJECT:
@@ -158,6 +165,15 @@ public class GenericsValidator extends EObjectValidator {
 			default:
 				return true;
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateCommitLogEntry(CommitLogEntry commitLogEntry, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint((EObject)commitLogEntry, diagnostics, context);
 	}
 
 	/**
@@ -246,6 +262,15 @@ public class GenericsValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean validateActionType(ActionType actionType, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean validateDiagramKindType(DiagramKindType diagramKindType, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
 	}
@@ -256,6 +281,15 @@ public class GenericsValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateExpansionDuration(ExpansionDuration expansionDuration, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateActionTypeObject(ActionType actionTypeObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
 	}
 

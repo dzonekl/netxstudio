@@ -74,6 +74,11 @@
   </genPackages>
   <genPackages prefix="Generics" basePackage="com.netxforge.netxstudio" resource="XML"
       disposableProviderFactory="true" ecorePackage="generics.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="generics.ecore#//ActionType">
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ActionType/UPDATE"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ActionType/ADD"/>
+      <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ActionType/DELETE"/>
+    </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="generics.ecore#//DiagramKindType">
       <genEnumLiterals ecoreEnumLiteral="generics.ecore#//DiagramKindType/NETWORK"/>
       <genEnumLiterals ecoreEnumLiteral="generics.ecore#//DiagramKindType/FUNCTION"/>
@@ -87,12 +92,20 @@
       <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ExpansionDuration/MEDIUM"/>
       <genEnumLiterals ecoreEnumLiteral="generics.ecore#//ExpansionDuration/LONG"/>
     </genEnums>
+    <genDataTypes ecoreDataType="generics.ecore#//ActionTypeObject"/>
     <genDataTypes ecoreDataType="generics.ecore#//Description2000"/>
     <genDataTypes ecoreDataType="generics.ecore#//DiagramKindTypeObject"/>
     <genDataTypes ecoreDataType="generics.ecore#//ExpansionDurationObject"/>
     <genDataTypes ecoreDataType="generics.ecore#//ExpressionLine"/>
     <genDataTypes ecoreDataType="generics.ecore#//Name255"/>
     <genDataTypes ecoreDataType="generics.ecore#//UnitCode"/>
+    <genClasses ecoreClass="generics.ecore#//CommitLogEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//CommitLogEntry/action"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//CommitLogEntry/change"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//CommitLogEntry/objectId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//CommitLogEntry/timeStamp"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//CommitLogEntry/user"/>
+    </genClasses>
     <genClasses ecoreClass="generics.ecore#//Company">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//Company/icons"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Company/name"/>
