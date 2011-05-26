@@ -51,6 +51,16 @@ public class CDORoleHandler implements IRoleHandler {
 		CDOQueryUtil.addCacheParameter(q);
 		return q.getResult(Role.class);
 	}
+	public Role getCurrentRole() {
+		
+		String userID = provider.getSessionUserID();
+		List<Role> roles = this.getRole(userID);
+		if(roles.size()!= 1 ){
+			throw new java.lang.IllegalStateException("Data corruption, user +" + userID + "should have a role defined");
+		}else{
+			return roles.get(0);
+		}
+	}
 	
 	
 }

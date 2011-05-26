@@ -35,5 +35,12 @@ public interface IRoleHandler {
 	 * @return
 	 */
 	public List<Role> getRole(String userID);
+	
+	
+	/**
+	 * Get the role for the current user. 
+	 * @return
+	 */
+	public Role getCurrentRole();
 
 }
