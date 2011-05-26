@@ -40,7 +40,7 @@ public class HibernateQueryAuthTest extends BaseAuthTest
 
   public void testSimpleQuery() throws Exception
   {
-    final CDOSession session = openSession("test", "test");
+    final CDOSession session = openSession();
     final CDOTransaction transaction = session.openTransaction();
 
     {
@@ -68,7 +68,7 @@ public class HibernateQueryAuthTest extends BaseAuthTest
   
   public void testFunctions() throws Exception
   {
-    final CDOSession session = openSession("test", "test");
+    final CDOSession session = openSession();
     final CDOTransaction transaction = session.openTransaction();
 
     {
@@ -95,7 +95,7 @@ public class HibernateQueryAuthTest extends BaseAuthTest
 
   public void testQueryObjectArray() throws Exception
   {
-    final CDOSession session = openSession("test", "test");
+    final CDOSession session = openSession();
     final CDOTransaction transaction = session.openTransaction();
 
     {
@@ -115,7 +115,7 @@ public class HibernateQueryAuthTest extends BaseAuthTest
 
   public void testPaging() throws Exception
   {
-    final CDOSession session = openSession("test", "test");
+    final CDOSession session = openSession();
     final CDOTransaction transaction = session.openTransaction();
 
     {
