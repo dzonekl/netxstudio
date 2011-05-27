@@ -224,7 +224,8 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		gd_lblEmail.widthHint = 70;
 		lblEmail.setLayoutData(gd_lblEmail);
 
-		FormattedText formattedText = new FormattedText(composite_1, SWT.BORDER);
+		FormattedText formattedText = new FormattedText(composite_1, SWT.BORDER
+				| SWT.NONE);
 		txtEmail = formattedText.getControl();
 		GridData gd_txtEmail = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
@@ -482,22 +483,23 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 
 		// Observe and fork on the opposite direction model -> 2 x widget.
 
-//		final IObservableValue passToTargetObservableValueWritable = new WritableValue();
-//
-//		IObservableValue passToTargetObservableValue = passwordObserveValue
-//				.observe(user);
-//		passToTargetObservableValue
-//				.addValueChangeListener(new IValueChangeListener() {
-//
-//					public void handleValueChange(ValueChangeEvent event) {
-						// We can't set the value, which would trigger a
-						// circular update.
-						// passToTargetObservableValueWritable.setValue(event.diff.getNewValue());
-//					}
-//				});
-//
-//		bindingContext.bindValue(txtPasswordObserveTextObserveWidget,
-//				passToTargetObservableValueWritable, null, null);
+		// final IObservableValue passToTargetObservableValueWritable = new
+		// WritableValue();
+		//
+		// IObservableValue passToTargetObservableValue = passwordObserveValue
+		// .observe(user);
+		// passToTargetObservableValue
+		// .addValueChangeListener(new IValueChangeListener() {
+		//
+		// public void handleValueChange(ValueChangeEvent event) {
+		// We can't set the value, which would trigger a
+		// circular update.
+		// passToTargetObservableValueWritable.setValue(event.diff.getNewValue());
+		// }
+		// });
+		//
+		// bindingContext.bindValue(txtPasswordObserveTextObserveWidget,
+		// passToTargetObservableValueWritable, null, null);
 
 		// bindingContext.bindValue(txtConfirmObserveTextObserveWidget,
 		// passToTargetObservableValueWritable, null, null);
@@ -647,12 +649,15 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 				original = (Person) object;
 			} else if (Screens.isNewOperation(operation)) {
 				user = (Person) object;
-			}
+			};
 		}
 
 		m_bindingContext = initDataBindings_();
-		validationService.registerBindingContext(m_bindingContext);
-		validationService.addValidationListener(this);
+
+		if (!Screens.isReadOnlyOperation(operation)) {
+			validationService.registerBindingContext(m_bindingContext);
+			validationService.addValidationListener(this);
+		}
 
 		// we can't update to trigger validation, as this will also invoke
 		// commands and dirty our stack.
@@ -676,17 +681,27 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 
 		} else if (Screens.isEditOperation(operation)) {
 			// If edit, we have been operating on a copy of the object, so we
-			// have
-			// to replace.
+			// have to replace. However if our original object is invalid, this will 
+			// cause invalidity, so the action will not occure in case the original is 
+			// invalid, and we should cancel. 
+			
+			if(original.cdoInvalid()){
+				return;
+			}
+			
 			Command c = new ReplaceCommand(editingService.getEditingDomain(),
 					((Netxstudio) owner).getUsers(), original, user);
 			editingService.getEditingDomain().getCommandStack().execute(c);
+			
+			System.out.println(user.cdoID() + "" + user.cdoState());
 
 		}
 		// After our edit, we shall be dirty
 		if (editingService.isDirty()) {
 			editingService.doSave(new NullProgressMonitor());
 		}
+		
+		System.out.println(user.cdoID() + "" + user.cdoState());
 	}
 
 	/*

@@ -106,13 +106,13 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Form frmMetricSources = toolkit.createForm(this);
-		frmMetricSources.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmMetricSources);
-		frmMetricSources.setText("Users and Roles");
-		frmMetricSources.getBody().setLayout(new GridLayout(3, false));
+		Form frmUsersAndRoles = toolkit.createForm(this);
+		frmUsersAndRoles.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmUsersAndRoles);
+		frmUsersAndRoles.setText("Users and Roles");
+		frmUsersAndRoles.getBody().setLayout(new GridLayout(3, false));
 
-		Label lblNewLabel = toolkit.createLabel(frmMetricSources.getBody(),
+		Label lblNewLabel = toolkit.createLabel(frmUsersAndRoles.getBody(),
 				"Filter:", SWT.NONE);
 		lblNewLabel.setAlignment(SWT.RIGHT);
 		GridData gd_lblNewLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
@@ -121,7 +121,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 		lblNewLabel.setLayoutData(gd_lblNewLabel);
 
 		// Filter.
-		txtTableFilter = toolkit.createText(frmMetricSources.getBody(),
+		txtTableFilter = toolkit.createText(frmUsersAndRoles.getBody(),
 				"New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		GridData gd_txtTableFilter = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
@@ -142,34 +142,40 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 			}
 		});
 
-		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-				frmMetricSources.getBody(), SWT.NONE);
-		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				if (screenService != null) {
-					NewEditUser user = new NewEditUser(screenService
-							.getScreenContainer(), SWT.NONE
-							| Screens.OPERATION_NEW, editingService);
-					screenService.setActiveScreen(user);
-					user.injectData(studio,
-							GenericsFactory.eINSTANCE.createPerson());
+		// Conditional widget.
+		if (!Screens.isReadOnlyOperation(operation)) {
+			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+					frmUsersAndRoles.getBody(), SWT.NONE);
+			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					if (screenService != null) {
+						NewEditUser user = new NewEditUser(screenService
+								.getScreenContainer(), SWT.NONE
+								| Screens.OPERATION_NEW, editingService);
+						screenService.setActiveScreen(user);
+						user.injectData(studio,
+								GenericsFactory.eINSTANCE.createPerson());
+					}
 				}
-			}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		mghprlnkNew.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/User_E.png"));
-		mghprlnkNew.setBounds(0, 0, 114, 17);
-		toolkit.paintBordersFor(mghprlnkNew);
-		mghprlnkNew.setText("New");
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+					false, false, 1, 1));
+			mghprlnkNew.setImage(ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/ctool16/User_E.png"));
+			mghprlnkNew.setBounds(0, 0, 114, 17);
+			toolkit.paintBordersFor(mghprlnkNew);
+			mghprlnkNew.setText("New");
 
-		tableViewer = new TableViewer(frmMetricSources.getBody(), SWT.BORDER
+		}
+
+		tableViewer = new TableViewer(frmUsersAndRoles.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
@@ -209,14 +215,14 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
 						NewEditUser u = new NewEditUser(screenService
-								.getScreenContainer(), SWT.NONE
-								| Screens.OPERATION_EDIT, editingService);
+								.getScreenContainer(), Screens.OPERATION_EDIT | SWT.NONE, editingService);
 						u.injectData(studio, o);
 						screenService.setActiveScreen(u);
 					}
 				}
 			}
 		});
+
 		mntmEdit.setText("Edit...");
 
 		MenuItem mntmHistory = new MenuItem(menu, SWT.NONE);
@@ -231,7 +237,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 								.getFirstElement();
 						UserActivity u = new UserActivity(screenService
 								.getScreenContainer(), SWT.NONE
-								| Screens.OPERATION_VIEWER, editingService);
+								| Screens.OPERATION_READ_ONLY, editingService);
 						u.injectData(studio.getUsers(), o);
 						screenService.setActiveScreen(u);
 					}
@@ -316,8 +322,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 	 */
 	public void injectData() {
 
-		Resource res = editingService.getData(
-				NetxstudioPackage.NETXSTUDIO);
+		Resource res = editingService.getData(NetxstudioPackage.NETXSTUDIO);
 		if (res.getContents().size() == 0) {
 			Netxstudio netx = NetxstudioFactory.eINSTANCE.createNetxstudio();
 			res.getContents().add(netx);
@@ -374,7 +379,9 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 		return this.getTableViewerWidget();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#disposeData()
 	 */
 	public void disposeData() {
@@ -383,7 +390,9 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
 	 */
 	public boolean isValid() {

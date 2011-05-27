@@ -51,7 +51,7 @@ public class AdminScreenSelector extends AbstractScreenSelector_Inj {
 		
 		@SuppressWarnings("unused")
 		Composite result;
-		result = screenFormService.addScreenSelector("Users","icons/full/obj16/User_H.png", UsersAndRoles.class, 1, Screens.OPERATION_VIEWER);
+		result = screenFormService.addScreenSelector("Users","icons/full/obj16/User_H.png", UsersAndRoles.class, 1, Screens.OPERATION_EDIT);
 //		result = screenFormService.addScreenSelector(result, "Jobs", "icons/full/obj16/Function_H.png",  Scheduler.class, Screens.OPERATION_VIEWER);
 //		screenFormService.addScreenSelector(result, "Purge Metrics", "icons/full/obj16/MetricSource_H.png",  PurgeMetrics.class, Screens.OPERATION_VIEWER);
 	

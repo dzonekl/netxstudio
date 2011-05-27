@@ -18,6 +18,15 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.nf4;
 
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -34,11 +43,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
@@ -54,14 +64,11 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 	private Table table;
 	
 	
-	// TODO, Data binding. for this table. 
-	@SuppressWarnings("unused")
 	private IEditingService editingService;
 	
 	public UserActivity(Composite parent, int style) {
 		this(parent, style, null);
 	}
-	
 	
 	/**
 	 * Create the composite.
@@ -82,17 +89,17 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 		
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Form frmNewForm = toolkit.createForm(this);
-		frmNewForm.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmNewForm);
+		frmActivities = toolkit.createForm(this);
+		frmActivities.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmActivities);
 
-		frmNewForm.setText("User : Peter de Graaff");
-		frmNewForm.getBody().setLayout(new FormLayout());
+		frmActivities.setText("User : Peter de Graaff");
+		frmActivities.getBody().setLayout(new FormLayout());
 		
-		Section sctnInfo = toolkit.createSection(frmNewForm.getBody(),
+		Section sctnInfo = toolkit.createSection(frmActivities.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnInfo = new FormData();
-		fd_sctnInfo.top = new FormAttachment(frmNewForm.getBody(), 12);
+		fd_sctnInfo.top = new FormAttachment(frmActivities.getBody(), 12);
 		fd_sctnInfo.bottom = new FormAttachment(100, -12);
 		fd_sctnInfo.right = new FormAttachment(100, -12);
 		fd_sctnInfo.left = new FormAttachment(0, 12);
@@ -107,7 +114,7 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 		gl_composite_1.horizontalSpacing = 8;
 		composite_1.setLayout(gl_composite_1);
 		
-		TableViewer tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.FULL_SELECTION);
+		tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -129,26 +136,36 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 		tblclmnActivity.setWidth(114);
 		tblclmnActivity.setText("Activity");
 		
-		TableItem tableItem = new TableItem(table, SWT.NONE);
-		tableItem.setText(new String[] {"25-May-'11", "Node: YPSGSN3", "Modified"});
-
-		
-		
-		
+		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnData = tableViewerColumn_3.getColumn();
+		tblclmnData.setWidth(100);
+		tblclmnData.setText("Data");
 	}
 
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#getOperation()
 	 */
 	public int getOperation() {
-		return Screens.OPERATION_VIEWER;
+		return Screens.OPERATION_READ_ONLY;
 	}
-
+	
+	private Resource commitEntries; 
+	private TableViewer tableViewer;
+	private Form frmActivities;
+	
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.data.IDataScreenInjection#injectData(java.lang.Object, java.lang.Object)
 	 */
 	public void injectData(Object owner, Object object) {
-		
+		if(object instanceof Person){
+			Person user = (Person)object;
+			String userID = user.getLogin();
+			this.getFormActivities().setText("User: " + userID);
+			commitEntries = this.editingService.getDataService().getProvider().getCommitInfoResource(userID);
+			if(commitEntries != null){
+				this.initDataBindings_();
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -157,13 +174,56 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 	public void addData() {
 		throw new java.lang.UnsupportedOperationException();
 	}
+	
+	
+	protected EMFDataBindingContext initDataBindings_() {
 
+		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
+		//
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		tableViewer.setContentProvider(listContentProvider);
+		//
+		IObservableMap[] observeMaps = EMFObservables.observeMaps(
+				listContentProvider.getKnownElements(),
+				new EStructuralFeature[] { GenericsPackage.Literals.COMMIT_LOG_ENTRY__TIME_STAMP,
+					GenericsPackage.Literals.COMMIT_LOG_ENTRY__OBJECT_ID,GenericsPackage.Literals.COMMIT_LOG_ENTRY__ACTION,
+					GenericsPackage.Literals.COMMIT_LOG_ENTRY__CHANGE});
+		tableViewer
+				.setLabelProvider(new CommitObservableMapLabelProvider(observeMaps));
+		
+		// Cool, observer the whole resource. 
+		IEMFListProperty l = EMFProperties.resource();
+		tableViewer.setInput(l.observe(commitEntries));
+		return bindingContext;
+	}
+	
+	
+	class CommitObservableMapLabelProvider extends ObservableMapLabelProvider{
+
+		public CommitObservableMapLabelProvider(IObservableMap[] attributeMaps) {
+			super(attributeMaps);
+		}
+
+		public CommitObservableMapLabelProvider(IObservableMap attributeMap) {
+			super(attributeMap);
+		}
+
+		@Override
+		public String getText(Object element) {
+			return super.getText(element);
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			return super.getColumnText(element, columnIndex);
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
 	public Viewer getViewer() {
-		return null;
+		return this.getTableViewerWidget();
 	}
 
 
@@ -172,5 +232,11 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 	 */
 	public boolean isValid() {
 		return true;
+	}
+	public TableViewer getTableViewerWidget() {
+		return tableViewer;
+	}
+	public Form getFormActivities() {
+		return frmActivities;
 	}
 }

@@ -158,42 +158,47 @@ public class Expressions extends Composite implements IScreen,
 			}
 		});
 
-		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-				frmExpressions.getBody(), SWT.NONE);
-		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				if (screenService != null) {
-					NewEditExpression user = new NewEditExpression(
-							screenService.getScreenContainer(), SWT.NONE
-									| Screens.OPERATION_NEW, editingService);
-					screenService.setActiveScreen(user);
-					Expression exp = LibraryFactory.eINSTANCE
-							.createExpression();
+		// Conditional widget.
+		if (!Screens.isReadOnlyOperation(operation)) {
+			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+					frmExpressions.getBody(), SWT.NONE);
+			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkActivated(HyperlinkEvent e) {
+					if (screenService != null) {
+						NewEditExpression user = new NewEditExpression(
+								screenService.getScreenContainer(), SWT.NONE
+										| Screens.OPERATION_NEW, editingService);
+						screenService.setActiveScreen(user);
+						Expression exp = LibraryFactory.eINSTANCE
+								.createExpression();
 
-					// New Expressions always need an evaluation object.
-					// What ever object is set as evaluation object, should be
-					// the root object
-					// of our expression language.
-					// Model m = NetxscriptFactory.eINSTANCE.createModel();
-					// exp.setEvaluationObject(m);
-					user.injectData(library.getExpressions(), exp);
+						// New Expressions always need an evaluation object.
+						// What ever object is set as evaluation object, should
+						// be
+						// the root object
+						// of our expression language.
+						// Model m = NetxscriptFactory.eINSTANCE.createModel();
+						// exp.setEvaluationObject(m);
+						user.injectData(library.getExpressions(), exp);
+					}
 				}
-			}
 
-			public void linkEntered(HyperlinkEvent e) {
-			}
+				public void linkEntered(HyperlinkEvent e) {
+				}
 
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		mghprlnkNew.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/obj16/Expression_H.png"));
-		mghprlnkNew.setBounds(0, 0, 114, 17);
-		toolkit.paintBordersFor(mghprlnkNew);
-		mghprlnkNew.setText("New");
+				public void linkExited(HyperlinkEvent e) {
+				}
+			});
+			mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+					false, false, 1, 1));
+			mghprlnkNew.setImage(ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/obj16/Expression_H.png"));
+			mghprlnkNew.setBounds(0, 0, 114, 17);
+			toolkit.paintBordersFor(mghprlnkNew);
+			mghprlnkNew.setText("New");
+
+		}
 
 		tableViewer = new TableViewer(frmExpressions.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION);
@@ -229,10 +234,16 @@ public class Expressions extends Composite implements IScreen,
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
 						if (o != null) {
+							int widgetStyle = SWT.None;
+							// Conditional widget.
+							if (Screens.isReadOnlyOperation(operation)) {
+								widgetStyle |= Screens.OPERATION_READ_ONLY;
+							} else {
+								widgetStyle |= Screens.OPERATION_EDIT;
+							}
 							NewEditExpression editExpression = new NewEditExpression(
 									screenService.getScreenContainer(),
-									SWT.NONE | Screens.OPERATION_EDIT,
-									editingService);
+									widgetStyle, editingService);
 							editExpression.injectData(library.getExpressions(),
 									o);
 							screenService.setActiveScreen(editExpression);
@@ -241,14 +252,19 @@ public class Expressions extends Composite implements IScreen,
 				}
 			}
 		});
-		mntmEdit.setText("Edit...");
 		
+		String detailedAction;
+		if (Screens.isReadOnlyOperation(operation)) {
+			detailedAction = "View";
+		}else{
+			detailedAction = "Edit";
+		}
+		mntmEdit.setText(detailedAction + "...");
 		tableViewer.addFilter(new SearchFilter());
 
 		if (editingService != null) {
 			injectData();
 		}
-
 	}
 
 	/*
@@ -344,7 +360,9 @@ public class Expressions extends Composite implements IScreen,
 		return this.getTableViewerWidget();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.selector.IScreen#isValid()
 	 */
 	public boolean isValid() {

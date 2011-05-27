@@ -120,24 +120,42 @@ public class NewEditExpression extends Composite implements
 
 		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
 									// the SWT style.
+		int widgetStyle = SWT.None;
+		if(Screens.isReadOnlyOperation(operation)){
+			widgetStyle |= SWT.READ_ONLY;
+		}
+		
 		this.editingService = eService;
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+				validationService.dispose();
+				validationService.removeValidationListener(NewEditExpression.this);
 				toolkit.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-
+		
+		
+		
+		
+		
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmNewForm = toolkit.createForm(this);
 		frmNewForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewForm);
-
-		String title = Screens.isNewOperation(operation) ? "New" : "Edit";
-
+		
+		// Screen title
+		String title =""; 
+		if(Screens.isNewOperation(operation) ){
+			title = "New";
+		}else if(Screens.isEditOperation(style)){
+			title = "Edit";
+		}else if(Screens.isReadOnlyOperation(style)){
+			title = "Read-Only";
+		}
 		frmNewForm.setText(title);
 		frmNewForm.getBody().setLayout(new FormLayout());
 
@@ -165,7 +183,7 @@ public class NewEditExpression extends Composite implements
 				false, false, 1, 1));
 
 		txtExpressionName = toolkit.createText(composite_1, "New Text",
-				SWT.NONE);
+				SWT.NONE | widgetStyle);
 		txtExpressionName.setText("");
 		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, true, false,
 				1, 1);
@@ -178,7 +196,7 @@ public class NewEditExpression extends Composite implements
 				false, 1, 1));
 		toolkit.paintBordersFor(hprlnkAddTo);
 
-		txtOwner = toolkit.createText(composite_1, "New Text", SWT.NONE);
+		txtOwner = toolkit.createText(composite_1, "New Text", SWT.NONE | widgetStyle);
 		txtOwner.setText("");
 		GridData gd_txtOwner = new GridData(SWT.LEFT, SWT.CENTER, true, false,
 				1, 1);
@@ -216,7 +234,7 @@ public class NewEditExpression extends Composite implements
 		gl_editorComposite.marginHeight = 0;
 		gl_editorComposite.marginWidth = 0;
 		editorComposite.setLayout(gl_editorComposite);
-		editor = new EmbeddedXtextEditor(editorComposite, injector, SWT.BORDER);
+		editor = new EmbeddedXtextEditor(editorComposite, injector, SWT.BORDER | widgetStyle);
 		editor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
 				evaluationObject = xtextService.reconcileChangedModel(
@@ -229,9 +247,12 @@ public class NewEditExpression extends Composite implements
 		sctnNewSection.setClient(client);
 		xtextService = new EmbeddedXtextService(editingService);
 
-		validationService.registerAllDecorators(txtExpressionName,
-				lblExpressionName);
-
+		// Conditional 
+		
+		if(!Screens.isReadOnlyOperation(operation)){
+			validationService.registerAllDecorators(txtExpressionName,
+					lblExpressionName);
+		}
 	}
 
 	/*
@@ -258,7 +279,7 @@ public class NewEditExpression extends Composite implements
 				Expression copy = EcoreUtil.copy((Expression) object);
 				expression = copy;
 				original = (Expression) object;
-			} else if (Screens.isNewOperation(operation)) {
+			} else if (Screens.isNewOperation(operation) || Screens.isReadOnlyOperation(operation)) {
 				expression = (Expression) object;
 			}
 
