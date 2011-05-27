@@ -118,22 +118,22 @@ public class TestDataProvider implements IDataProvider {
 	 */
 	public void closeSession() {
 		throw new java.lang.UnsupportedOperationException();
-		
 	}
 
 	public CDOTransaction getTransaction() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	public void commitTransaction() {
-		// TODO Auto-generated method stub
-		
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	public void rollbackTransaction() {
-		// TODO Auto-generated method stub
-		
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public Resource getCommitInfoResource(String userID) {
+		throw new java.lang.UnsupportedOperationException();
 	}
 	
 }

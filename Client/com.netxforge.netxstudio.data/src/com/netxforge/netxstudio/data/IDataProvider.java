@@ -36,6 +36,15 @@ public interface IDataProvider {
 	 * @return
 	 */
 	public Resource getResource(ResourceSet set, int feature);
+		
+	
+	/**
+	 * Get a specific commit info resource for the specified user. 
+	 * TODO Consider refactoring this, and making it less object specific. 
+	 * @param userID
+	 * @return
+	 */
+	public Resource getCommitInfoResource(String userID);
 	
 	/**
 	 * Get the resource for a specific feature. 

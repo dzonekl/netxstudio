@@ -96,8 +96,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	private static CDOSession clientSession = null;
 
 	/**
-	 * Our transcation, we keep it static, as Google Guice, Singleton instantiates
-	 * another instance.
+	 * Our transcation, we keep it static, as Google Guice, Singleton
+	 * instantiates another instance.
 	 */
 	private static CDOTransaction transaction = null;
 
@@ -150,8 +150,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 			// authenticated.
 			throw new java.lang.IllegalStateException();
 		} else {
-//			System.out.println("Currrent session instance:"
-//					+ clientSession.toString());
+			// System.out.println("Currrent session instance:"
+			// + clientSession.toString());
 			return clientSession;
 		}
 	}
@@ -180,39 +180,39 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		// already
 		// in our session and resource set.
 		final CDOView[] views = this.getSession().getViews();
-		
-		
-//		FIXME, we seem to have multiple views????
-//		if(views.length > 1){
-//			// How can we have multiple views?? 
-//			throw new java.lang.IllegalArgumentException();
-//		}
-		
+
+		// FIXME, we seem to have multiple views????
+		// if(views.length > 1){
+		// // How can we have multiple views??
+		// throw new java.lang.IllegalArgumentException();
+		// }
+
 		for (int i = 0; i < views.length; i++) {
 			final CDOView view = views[i];
 			if (view.getResourceSet().equals(set)) {
-				if( view.hasResource(res) ){
+				if (view.hasResource(res)) {
 					final CDOResource resource = view.getResource(res);
 					return resource;
 				}
 				// We haven't found this resource in the current view's set,
-				// but we can't create a new transaction, so we have to see if the 
+				// but we can't create a new transaction, so we have to see if
+				// the
 				// the CDOView has a transaction.
-				if(view instanceof CDOTransaction){
-					CDOTransaction transaction = (CDOTransaction)view;
+				if (view instanceof CDOTransaction) {
+					CDOTransaction transaction = (CDOTransaction) view;
 					CDOResource resource = transaction.getOrCreateResource(res);
 					return resource;
 				}
 			}
-			
+
 		}
-		
-		// We don't have a view, so let's open one. 
+
+		// We don't have a view, so let's open one.
 		final CDOTransaction transaction = getSession().openTransaction(set);
 		final CDOResource resource = transaction.getOrCreateResource(res);
 		return resource;
 	}
-	
+
 	public Resource getResource(CDOView view, int feature) {
 
 		final String res = resolveResourceName(feature);
@@ -221,24 +221,24 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		// Before attempting to open a new CDOView, we want to know what is
 		// already
 		// in our session and resource set.
-			if (view.getResourceSet() != null) {
-				if( view.hasResource(res) ){
-					final CDOResource resource = view.getResource(res);
-					return resource;
-				}
-			}else{
-				return null; // We need a resourceset. 
-			}
-			
-			// We haven't found this resource in the current view's and set's,
-			// but we can't create a new transaction, so we have to see if the 
-			// the CDOView has a transaction.
-			if(view instanceof CDOTransaction){
-				CDOTransaction transaction = (CDOTransaction)view;
-				// Should create in the set.
-				CDOResource resource = transaction.getOrCreateResource(res);
+		if (view.getResourceSet() != null) {
+			if (view.hasResource(res)) {
+				final CDOResource resource = view.getResource(res);
 				return resource;
 			}
+		} else {
+			return null; // We need a resourceset.
+		}
+
+		// We haven't found this resource in the current view's and set's,
+		// but we can't create a new transaction, so we have to see if the
+		// the CDOView has a transaction.
+		if (view instanceof CDOTransaction) {
+			CDOTransaction transaction = (CDOTransaction) view;
+			// Should create in the set.
+			CDOResource resource = transaction.getOrCreateResource(res);
+			return resource;
+		}
 		return null;
 	}
 
@@ -259,8 +259,13 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		case LibraryPackage.LIBRARY: {
 			resource += "library";
 		}
+			break;
 		}
 		return resource;
+	}
+
+	private String resolveResourceCommitInfo(String userID) {
+		return "CDOCommitInfo_" + userID;
 	}
 
 	public EObject getNetXScriptWrapper() {
@@ -280,23 +285,43 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	public Resource getResource(int feature) {
 		final String res = resolveResourceName(feature);
 		assert res != null && res.length() > 0;
+		return this.getResource(res);
+	}
 
+	public Resource getCommitInfoResource(String userID) {
+		String resourceName = this.resolveResourceCommitInfo(userID);
+		CDOResource resource = this.resolveInCurrentView(resourceName);
+		if (resource == null) {
+			final CDOTransaction transaction = getSession().openTransaction();
+			resource = transaction.getOrCreateResource(resourceName);
+		}
+		return resource;
+	}
+
+	private Resource getResource(String resourceName) {
+		CDOResource resource = resolveInCurrentView(resourceName);
+
+		if (resource == null) {
+			final CDOTransaction transaction = getSession().openTransaction();
+			resource = transaction.getOrCreateResource(resourceName);
+		}
+		return resource;
+	}
+
+	private CDOResource resolveInCurrentView(String resourceName) {
 		final CDOView[] views = this.getSession().getViews();
 		for (int i = 0; i < views.length; i++) {
 			final CDOView view = views[i];
-			final CDOResource resource = view.getResource(res);
-			if (resource != null) {
-				return resource;
+			if (view.hasResource(resourceName)) {
+				final CDOResource resource = view.getResource(resourceName);
+				if (resource != null) {
+					return resource;
+				}
 			}
 		}
-
-		final CDOTransaction transaction = getSession().openTransaction();
-		final CDOResource resource = transaction.getOrCreateResource(res);
-
-		return resource;
-
+		return null;
 	}
-	
+
 	public void loadFixtures() {
 
 		final CDOResource res = (CDOResource) getResource(NetxstudioPackage.NETXSTUDIO);
@@ -304,8 +329,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 
 		// Should do some basic import data validation.
 		if (res.getContents() != null && (res.getContents().size() > 0)) {
-			if(res.getContents().get(0) instanceof Netxstudio){
-				return;	
+			if (res.getContents().get(0) instanceof Netxstudio) {
+				return;
 			}
 		}
 
@@ -319,15 +344,14 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 			final Role r = GenericsFactory.eINSTANCE.createRole();
 			r.setName(ROLE_ADMIN);
 			studio.getRoles().add(r);
-			
-			
-			// FIXME, the admin user is hard coded for now.  
+
+			// FIXME, the admin user is hard coded for now.
 			{
 				final Person p = GenericsFactory.eINSTANCE.createPerson();
 				p.setLogin("admin");
 				p.setFirstName("admin");
 				p.setLastName("admin");
-//				p.setPassword("admin");
+				// p.setPassword("admin");
 				p.setActive(true);
 				p.setRoles(r);
 				studio.getUsers().add(p);
