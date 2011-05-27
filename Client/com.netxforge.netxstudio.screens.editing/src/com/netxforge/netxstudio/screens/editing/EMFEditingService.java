@@ -127,6 +127,7 @@ public abstract class EMFEditingService implements IEditingService {
 						try {
 							resource.save(saveOptions);
 						} catch (Exception exception) {
+							exception.printStackTrace();
 						}
 						first = false;
 					}

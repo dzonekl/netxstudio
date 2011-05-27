@@ -77,8 +77,9 @@ public class CDOEditingService extends EMFEditingService implements IDawnEditor,
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		CDOView view = dawnEditorSupport.getView();
+		System.out.println("View ID when saving:" + view.getViewID());
 		if (view instanceof CDOTransaction) {
-			if (view.hasConflict()) {
+			if (((CDOTransaction)view).hasConflict()) {
 				// TODO, remove later. 
 //				MessageDialog.openError(Display.getDefault().getActiveShell(),
 //						"conflict",

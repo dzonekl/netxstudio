@@ -41,6 +41,8 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.cdo.IFixtures;
+import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
@@ -61,7 +63,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * Edit and Table type screens</li> <li>{@link IDataServiceInjection}, for
  * screens which get their data injected from {@link IDataService}</li> <li>
  * {@link IDataScreenInjection}, for screens which get their data injected from
- * another screen, will show the <b>Apply</b> action</li> </ul>
+ * another screen, will show the <b>Save</b> action</li> </ul>
  * 
  * First time users of the service should call <code>initialize()</code> to set
  * the parent composite. Also it's a good idea to call
@@ -194,7 +196,7 @@ public class ScreenFormService implements IScreenFormService {
 			} catch (NoSuchMethodException e2) {
 				System.out
 						.println("TODO, Implement correct screen signature on :"
-								+ screen.getClass().getName());
+								+ screen.getClass().getSimpleName());
 				System.out.println("TODO, should implement:"
 						+ IScreenFormService.class.getName() + ","
 						+ IEditingService.class.getName());
@@ -209,6 +211,14 @@ public class ScreenFormService implements IScreenFormService {
 			// We need some finals, to invoke in the listener.
 			final Constructor<?> finalScreenConstructor = screenConstructor;
 			final Class<?> finalScreen = screen;
+
+			// We operride the operation, depending on the user role.
+			Role r = editingService.getDataService().getRoleHandler()
+					.getCurrentRole();
+			if (r.getName().equals(IFixtures.ROLE_READONLY)) {
+				operation = Screens.OPERATION_READ_ONLY;
+			}
+
 			final int finalOperation = operation;
 			ImageHyperlink lnk = formToolkit.createImageHyperlink(
 					getSelectorForm().getBody(), SWT.NONE);
@@ -359,15 +369,28 @@ public class ScreenFormService implements IScreenFormService {
 		}
 	}
 
+	/**
+	 * Activation of actions, is depending on various flags maintained by
+	 * interfaces implemented by the Screen.
+	 * <ul>
+	 * <li>IDataScreenInjection</li>
+	 * <li>IDataServiceInjection</li>
+	 * <li>IScreen</li>
+	 * </ul>
+	 * 
+	 * @param activeScreen
+	 */
 	public void updateScreenBarActions(Composite activeScreen) {
 
 		// Show the back link when then screen is triggered by another screen,
 		// and should
 		// have a return option.
-		
 		if (activeScreen instanceof IDataScreenInjection) {
 			bckLnk.setVisible(true);
-			saveLnk.setVisible(true);
+			IScreen screen = (IScreen) activeScreen;
+			if (!Screens.isReadOnlyOperation(screen.getOperation())) {
+				saveLnk.setVisible(true);
+			}
 		}
 		if (activeScreen instanceof IDataServiceInjection) {
 			bckLnk.setVisible(false);
@@ -377,7 +400,6 @@ public class ScreenFormService implements IScreenFormService {
 
 	// The screen bar links are exposed, to turn them on and off.
 	private Hyperlink bckLnk;
-
 	private Hyperlink saveLnk;
 
 	private void createBackLink(Composite parent) {
@@ -406,10 +428,14 @@ public class ScreenFormService implements IScreenFormService {
 					if (((IScreen) getActiveScreen()).isValid()) {
 						((IDataScreenInjection) getActiveScreen()).addData();
 						restorePreviousScreen();
-					}else{
-						// TODO, do we need feedback here? 
+					} else {
 						
 					}
+				}else{
+					// Should not occure as the save lnk is not show, for
+					// these types of screens.
+					throw new java.lang.IllegalStateException(
+							"Save link should not be presented");
 				}
 			}
 
@@ -435,7 +461,7 @@ public class ScreenFormService implements IScreenFormService {
 	 */
 	public Viewer getSelectionViewer() {
 		if (getActiveScreen() instanceof IScreen) {
-			if (((IScreen) getActiveScreen()).getOperation() == Screens.OPERATION_VIEWER) {
+			if (((IScreen) getActiveScreen()).getOperation() == Screens.OPERATION_READ_ONLY) {
 				// This one has a Viewer, get the
 			}
 		}
