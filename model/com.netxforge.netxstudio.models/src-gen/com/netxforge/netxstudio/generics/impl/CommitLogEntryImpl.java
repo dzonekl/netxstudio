@@ -18,15 +18,14 @@
  */
 package com.netxforge.netxstudio.generics.impl;
 
-import com.netxforge.netxstudio.generics.ActionType;
-import com.netxforge.netxstudio.generics.CommitLogEntry;
-import com.netxforge.netxstudio.generics.GenericsPackage;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
+import com.netxforge.netxstudio.generics.ActionType;
+import com.netxforge.netxstudio.generics.CommitLogEntry;
+import com.netxforge.netxstudio.generics.GenericsPackage;
 
 /**
  * <!-- begin-user-doc -->
