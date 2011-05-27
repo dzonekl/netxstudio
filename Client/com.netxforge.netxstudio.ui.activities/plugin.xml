@@ -35,6 +35,15 @@
             isEqualityPattern="true"
             pattern="com.netxforge.netxstudio.screens/com.netxforge.netxstudio.screens.selector.monitoring">
       </activityPatternBinding>
-      
+      <activity
+            description="JDT UI activitity"
+            id="com.netxforge.netxstudio.ui.activity.jdt.ui"
+            name="jdt.ui">
+      </activity>
+      <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.jdt.ui"
+            isEqualityPattern="true"
+            pattern="org.eclipse.jdt.ui/org.eclipse.jdt.*">
+      </activityPatternBinding>
    </extension>
 </plugin>
