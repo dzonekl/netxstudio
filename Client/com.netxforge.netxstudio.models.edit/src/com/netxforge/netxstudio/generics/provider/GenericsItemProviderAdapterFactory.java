@@ -87,6 +87,29 @@ public class GenericsItemProviderAdapterFactory extends GenericsAdapterFactory i
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.generics.CommitLogEntry} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected CommitLogEntryItemProvider commitLogEntryItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.generics.CommitLogEntry}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createCommitLogEntryAdapter() {
+		if (commitLogEntryItemProvider == null) {
+			commitLogEntryItemProvider = new CommitLogEntryItemProvider(this);
+		}
+
+		return commitLogEntryItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.generics.Company} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -392,6 +415,7 @@ public class GenericsItemProviderAdapterFactory extends GenericsAdapterFactory i
 	 * @generated
 	 */
 	public void dispose() {
+		if (commitLogEntryItemProvider != null) commitLogEntryItemProvider.dispose();
 		if (companyItemProvider != null) companyItemProvider.dispose();
 		if (dateTimeRangeItemProvider != null) dateTimeRangeItemProvider.dispose();
 		if (diagramInfoItemProvider != null) diagramInfoItemProvider.dispose();
