@@ -359,10 +359,18 @@ public class ScreenFormService implements IScreenFormService {
 			activeScreen = previousScreen;
 			previousScreen = null;
 			activeScreen.setVisible(true);
-			// We might need to do something on the previous Screen.
 			screenBody.getScreenDeck().topControl = activeScreen;
 			getScreenContainer().layout(true);
 			updateScreenBarActions(activeScreen);
+			
+			
+			// We need to refresh the viewer in case objects have been 
+			// invalidated and need to be updated. 
+			Viewer v = ((IScreen)activeScreen).getViewer();
+			if(v != null){
+				v.refresh();
+			}
+			
 			fireScreenChanged((IScreen) activeScreen);
 		} else {
 			screenBody.setScreenBarOff();
@@ -380,7 +388,7 @@ public class ScreenFormService implements IScreenFormService {
 	 * 
 	 * @param activeScreen
 	 */
-	public void updateScreenBarActions(Composite activeScreen) {
+	private void updateScreenBarActions(Composite activeScreen) {
 
 		// Show the back link when then screen is triggered by another screen,
 		// and should
@@ -491,6 +499,13 @@ public class ScreenFormService implements IScreenFormService {
 		for (ScreenChangeListener l : screenChangedListeners) {
 			l.screenChanged(screen);
 		}
+	}
+	
+	/**
+	 * Delegate to the screen body composite. 
+	 */
+	public Composite getScreenActionBar() {
+		return this.screenBody.getScreenBar();
 	}
 
 }

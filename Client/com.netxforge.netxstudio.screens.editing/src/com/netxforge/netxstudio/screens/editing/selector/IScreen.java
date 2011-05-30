@@ -19,6 +19,8 @@
 package com.netxforge.netxstudio.screens.editing.selector;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.ui.forms.widgets.Form;
 
 
 /**
@@ -33,12 +35,24 @@ public interface IScreen extends IViewerProvider {
 	 * {@link Screens}
 	 * @return
 	 */
-	int getOperation();
+	public abstract int getOperation();
 	
 	/**
 	 * Let us know if this screen is valid.
 	 * @return
 	 */
-	boolean isValid();
+	public abstract boolean isValid();
+		
+	/**
+	 * Get the form object, for this screen. 
+	 * @return
+	 */
+	public abstract Form getScreenForm();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public abstract EMFDataBindingContext initDataBindings_();
 	
 }

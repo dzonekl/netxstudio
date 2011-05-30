@@ -130,7 +130,17 @@ public interface IScreenFormService {
 	 */
 	public abstract Composite getScreenContainer();
 	
+	/**
+	 * Get the screen action bar.  
+	 * @return
+	 */
+	public abstract Composite getScreenActionBar();
 	
+	
+	/**
+	 * Get the viewer of the screen providing the selection. 
+	 * @return
+	 */
 	public abstract Viewer getSelectionViewer();
 	
 	

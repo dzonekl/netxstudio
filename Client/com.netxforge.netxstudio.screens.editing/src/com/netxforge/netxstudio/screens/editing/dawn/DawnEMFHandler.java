@@ -44,10 +44,11 @@ public class DawnEMFHandler extends BasicDawnListener {
 	@Override
 	public void handleViewInvalidationEvent(CDOViewInvalidationEvent event) {
 		super.handleViewInvalidationEvent(event);
-		
+		String invalidBy = event.getSource().getSession().getUserID();
+		System.out.println("Invalid objects by:" + invalidBy);
 		Set<CDOObject> dos = event.getDirtyObjects();
 		for(CDOObject o : dos){
-			System.out.println(o);
+			System.out.println("Invalid object" + o);
 		}
 		refreshEditor();
 	}

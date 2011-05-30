@@ -11,6 +11,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -24,7 +25,7 @@ import org.eclipse.ui.actions.ActionFactory;
  * @author dzonekl
  * 
  */
-public class GlobalActionsHandler {
+public class GlobalActionsHandler  implements IPropertyListener {
 
 	/**
 	 * This is the action used to implement delete.
@@ -167,6 +168,9 @@ public class GlobalActionsHandler {
 	 * @param part
 	 */
 	public void activate(IWorkbenchPart part) {
+		
+		part.addPropertyListener(this);
+		
 		deleteAction.setActiveWorkbenchPart(part);
 		cutAction.setActiveWorkbenchPart(part);
 		copyAction.setActiveWorkbenchPart(part);
@@ -207,6 +211,8 @@ public class GlobalActionsHandler {
 	}
 
 	public void deactivate(IWorkbenchPart part) {
+		
+		part.removePropertyListener(this);
 
 		deleteAction.setActiveWorkbenchPart(null);
 		cutAction.setActiveWorkbenchPart(null);
@@ -225,6 +231,13 @@ public class GlobalActionsHandler {
 			selectionProvider.removeSelectionChangedListener(pasteAction);
 
 		}
+	}
+
+	public void propertyChanged(Object source, int propId) {
+		// TODO Auto-generated method stub
+		System.out.println("WORK IN PROGESS : Property fired prop ID" + propId);
+		this.update((IWorkbenchPart) source);
+		
 	}
 
 }
