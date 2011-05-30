@@ -1,7 +1,9 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -12,27 +14,37 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 
-public class MetricSources extends Composite {
+import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
+
+public class MetricSources extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
 	private Text txtFilterText;
-
+	private Form frmMetricSources;
+	
 	/**
 	 * Create the composite.
 	 * @param parent
 	 * @param style
 	 */
 	public MetricSources(Composite parent, int style) {
-		super(parent, SWT.BORDER);
+		this(parent, style, null, null);
+	}
+	public MetricSources(Composite parent, int style, IScreenFormService sService, IEditingService eService) {
+		super(parent, SWT.BORDER, sService, eService);
+		
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -42,7 +54,7 @@ public class MetricSources extends Composite {
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 		
-		Form frmMetricSources = toolkit.createForm(this);
+		frmMetricSources = toolkit.createForm(this);
 		frmMetricSources.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmMetricSources);
 		frmMetricSources.setText("Metric Sources");
@@ -105,5 +117,62 @@ public class MetricSources extends Composite {
 		gd_btnRemoveButton_1.heightHint = 18;
 		btnRemoveButton_1.setLayoutData(gd_btnRemoveButton_1);
 		new Label(frmMetricSources.getBody(), SWT.NONE);
+	}
+
+	public Viewer getViewer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void injectData() {
+//		Resource res = editingService.getData(OperatorsPackage.NETXSTUDIO);
+//		if (res.getContents().size() == 0) {
+//			Netxstudio netx = NetxstudioFactory.eINSTANCE.createNetxstudio();
+//			res.getContents().add(netx);
+//			studio = netx;
+//		} else {
+//			studio = (Netxstudio) res.getContents().get(0);
+//		}
+//		m_bindingContext = initDataBindings_();
+	}
+	
+	
+	public EMFDataBindingContext initDataBindings_() {
+
+		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
+//		//
+//		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+//		tableViewer.setContentProvider(listContentProvider);
+//		//
+//		IObservableMap[] observeMaps = EMFObservables.observeMaps(
+//				listContentProvider.getKnownElements(),
+//				new EStructuralFeature[] { MetricsPackage.Literals.METRIC_SOURCE__NAME,
+//						Literals.PERSON__LAST_NAME, Literals.PERSON__LOGIN,
+//						Literals.PERSON__EMAIL });
+//		tableViewer
+//				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+//
+//		IEMFListProperty l = EMFEditProperties.list(
+//				editingService.getEditingDomain(),
+//				NetxstudioPackage.Literals.NETXSTUDIO__USERS);
+//
+//		tableViewer.setInput(l.observe(studio));
+		return bindingContext;
+	}
+
+	
+	public void disposeData() {
+		if (editingService != null) {
+			editingService.revokeData();
+		}		
+	}
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public Form getScreenForm() {
+		return this.frmMetricSources;
 	}
 }

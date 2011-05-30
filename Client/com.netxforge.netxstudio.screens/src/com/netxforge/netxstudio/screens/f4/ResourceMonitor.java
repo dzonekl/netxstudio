@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.widgets.datechooser.DateChooserCombo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -23,6 +27,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -34,18 +41,23 @@ import org.swtchart.IBarSeries;
 import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
 import org.swtchart.LineStyle;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.swt.widgets.TableItem;
 
-public class ResourceMonitor extends Composite {
+import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
+
+public class ResourceMonitor extends AbstractScreen implements IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Chart chart;
 	private Table table;
-
+	private Form frmFunction;
+	
+	public ResourceMonitor(Composite parent, int style) {
+		this(parent, style, null, null);
+	}
+	
 	/**
 	 * Create the composite.
 	 * 
@@ -53,8 +65,8 @@ public class ResourceMonitor extends Composite {
 	 * @param style
 	 */
 	@SuppressWarnings("unused")
-	public ResourceMonitor(Composite parent, int style) {
-		super(parent, SWT.BORDER);
+	public ResourceMonitor(Composite parent, int style, IScreenFormService sService, IEditingService eService) {
+		super(parent, SWT.BORDER, sService, eService);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -64,7 +76,7 @@ public class ResourceMonitor extends Composite {
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Form frmFunction = toolkit.createForm(this);
+		frmFunction = toolkit.createForm(this);
 		frmFunction.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmFunction);
 		frmFunction.setText("Resource Monitor <Res.Name>");
@@ -375,5 +387,35 @@ public class ResourceMonitor extends Composite {
 
 	public Chart getChart() {
 		return chart;
+	}
+
+	public Viewer getViewer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void injectData(Object owner, Object object) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public EMFDataBindingContext initDataBindings_() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Form getScreenForm() {
+		return this.frmFunction;
 	}
 }

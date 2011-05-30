@@ -23,6 +23,7 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -50,21 +51,18 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class UserActivity extends Composite implements IDataScreenInjection, IScreen {
+public class UserActivity extends AbstractScreen implements IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
-	
-	
-	private IEditingService editingService;
 	
 	public UserActivity(Composite parent, int style) {
 		this(parent, style, null);
@@ -76,8 +74,7 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 	 * @param style
 	 */
 	public UserActivity(Composite parent, int style, IEditingService eService) {
-		super(parent, SWT.BORDER);
-		this.editingService = eService;
+		super(parent, SWT.BORDER, eService);
 		
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -160,7 +157,7 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 		if(object instanceof Person){
 			Person user = (Person)object;
 			String userID = user.getLogin();
-			this.getFormActivities().setText("User: " + userID);
+			this.getScreenForm().setText("User: " + userID);
 			commitEntries = this.editingService.getDataService().getProvider().getCommitInfoResource(userID);
 			if(commitEntries != null){
 				this.initDataBindings_();
@@ -176,7 +173,7 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 	}
 	
 	
-	protected EMFDataBindingContext initDataBindings_() {
+	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		//
@@ -210,6 +207,9 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 
 		@Override
 		public String getText(Object element) {
+			
+			((EObject)element).eContainmentFeature();
+			
 			return super.getText(element);
 		}
 
@@ -236,7 +236,9 @@ public class UserActivity extends Composite implements IDataScreenInjection, ISc
 	public TableViewer getTableViewerWidget() {
 		return tableViewer;
 	}
-	public Form getFormActivities() {
+	
+	@Override
+	public Form getScreenForm() {
 		return frmActivities;
 	}
 }

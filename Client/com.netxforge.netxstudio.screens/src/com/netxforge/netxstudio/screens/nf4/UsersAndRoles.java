@@ -51,21 +51,17 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class UsersAndRoles extends Composite implements IDataServiceInjection,
-		IScreen {
+public class UsersAndRoles extends AbstractScreen implements IDataServiceInjection
+		{
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
 
 	private Netxstudio studio;
-
-	private IEditingService editingService;
-
-	private IScreenFormService screenService;
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
@@ -73,8 +69,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 	private Text txtTableFilter;
 
 	private TableViewer tableViewer;
-
-	private int operation;
+	private Form frmUsersAndRoles;
 
 	public UsersAndRoles(Composite parent, int style) {
 		this(parent, style, null, null);
@@ -88,14 +83,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 	 */
 	public UsersAndRoles(Composite parent, int style,
 			IScreenFormService sService, IEditingService eService) {
-		super(parent, SWT.BORDER);
-
-		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
-									// the SWT style.
-
-		this.screenService = sService;
-		this.editingService = eService;
-
+		super(parent, SWT.BORDER, sService, eService);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -106,7 +94,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Form frmUsersAndRoles = toolkit.createForm(this);
+		frmUsersAndRoles = toolkit.createForm(this);
 		frmUsersAndRoles.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmUsersAndRoles);
 		frmUsersAndRoles.setText("Users and Roles");
@@ -143,7 +131,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 		});
 
 		// Conditional widget.
-		if (!Screens.isReadOnlyOperation(operation)) {
+		if (!Screens.isReadOnlyOperation(this.getOperation())) {
 			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
 					frmUsersAndRoles.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
@@ -174,6 +162,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 			mghprlnkNew.setText("New");
 
 		}
+		new Label(frmUsersAndRoles.getBody(), SWT.NONE);
 
 		tableViewer = new TableViewer(frmUsersAndRoles.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION);
@@ -268,7 +257,7 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 		return table;
 	}
 
-	protected EMFDataBindingContext initDataBindings_() {
+	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		//
@@ -362,16 +351,6 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.selector.IScreenOperation#getOperation()
-	 */
-	public int getOperation() {
-		return operation;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
 	public Viewer getViewer() {
@@ -397,5 +376,10 @@ public class UsersAndRoles extends Composite implements IDataServiceInjection,
 	 */
 	public boolean isValid() {
 		return true;
+	}
+	
+	@Override
+	public Form getScreenForm() {
+		return frmUsersAndRoles;
 	}
 }

@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.screens.ch9;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -67,8 +67,8 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -76,8 +76,8 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Expressions extends Composite implements IScreen,
-		IDataServiceInjection, IViewerProvider {
+public class Expressions extends AbstractScreen implements
+		IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
@@ -85,14 +85,10 @@ public class Expressions extends Composite implements IScreen,
 
 	private Library library;
 
-	private IEditingService editingService;
-
-	private IScreenFormService screenService;
-
-	private int operation;
 	private TableViewer tableViewer;
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
+	private Form frmExpressions;
 
 	/**
 	 * Create the composite.
@@ -106,13 +102,7 @@ public class Expressions extends Composite implements IScreen,
 
 	public Expressions(Composite parent, int style,
 			IScreenFormService sService, IEditingService eService) {
-		super(parent, SWT.BORDER);
-
-		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
-		// the SWT style.
-
-		this.screenService = sService;
-		this.editingService = eService;
+		super(parent, SWT.BORDER, sService, eService);
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -124,7 +114,7 @@ public class Expressions extends Composite implements IScreen,
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Form frmExpressions = toolkit.createForm(this);
+		frmExpressions = toolkit.createForm(this);
 		frmExpressions.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmExpressions);
 		frmExpressions.setText("Expression");
@@ -159,7 +149,7 @@ public class Expressions extends Composite implements IScreen,
 		});
 
 		// Conditional widget.
-		if (!Screens.isReadOnlyOperation(operation)) {
+		if (!Screens.isReadOnlyOperation(this.getOperation())) {
 			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
 					frmExpressions.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
@@ -236,7 +226,7 @@ public class Expressions extends Composite implements IScreen,
 						if (o != null) {
 							int widgetStyle = SWT.None;
 							// Conditional widget.
-							if (Screens.isReadOnlyOperation(operation)) {
+							if (Screens.isReadOnlyOperation(getOperation())) {
 								widgetStyle |= Screens.OPERATION_READ_ONLY;
 							} else {
 								widgetStyle |= Screens.OPERATION_EDIT;
@@ -252,11 +242,11 @@ public class Expressions extends Composite implements IScreen,
 				}
 			}
 		});
-		
+
 		String detailedAction;
-		if (Screens.isReadOnlyOperation(operation)) {
+		if (Screens.isReadOnlyOperation(getOperation())) {
 			detailedAction = "View";
-		}else{
+		} else {
 			detailedAction = "Edit";
 		}
 		mntmEdit.setText(detailedAction + "...");
@@ -265,16 +255,6 @@ public class Expressions extends Composite implements IScreen,
 		if (editingService != null) {
 			injectData();
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#getOperation()
-	 */
-	public int getOperation() {
-		return operation;
 	}
 
 	public TableViewer getTableViewerWidget() {
@@ -330,9 +310,9 @@ public class Expressions extends Composite implements IScreen,
 		}
 	}
 
-	protected DataBindingContext initDataBindings_() {
+	public EMFDataBindingContext initDataBindings_() {
 
-		DataBindingContext bindingContext = new DataBindingContext();
+		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
@@ -367,6 +347,11 @@ public class Expressions extends Composite implements IScreen,
 	 */
 	public boolean isValid() {
 		return true;
+	}
+
+	@Override
+	public Form getScreenForm() {
+		return this.frmExpressions;
 	}
 
 }

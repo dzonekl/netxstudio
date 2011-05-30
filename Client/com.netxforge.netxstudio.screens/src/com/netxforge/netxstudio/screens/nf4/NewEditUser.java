@@ -31,6 +31,7 @@ import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.widgets.formattedtext.FormattedText;
@@ -69,19 +70,17 @@ import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class NewEditUser extends Composite implements IDataScreenInjection,
-		IScreen, IValidationListener {
+public class NewEditUser extends AbstractScreen implements
+		IDataScreenInjection, IValidationListener {
 
 	private EMFDataBindingContext m_bindingContext;
 
 	// Not injected as this service is already injected in the ViePart.
-	private IEditingService editingService;
-
 	private IValidationService validationService = new ValidationService();
 
 	CommonService commonService = new CommonService(new JCAService());
@@ -109,15 +108,10 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		this(parent, style, null);
 	}
 
-	/**
-	 * The type of operation expected from this screen. Operations can be either
-	 * New or Edit.
-	 */
-	private int operation;
 	private ComboViewer comboViewer;
 	private Combo combo;
 	private Button btnCheck;
-	private Form frmNewForm;
+	private Form frmNewEditUser;
 
 	/**
 	 * Create the composite.
@@ -126,12 +120,8 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 	 * @param style
 	 */
 	public NewEditUser(Composite parent, int style, IEditingService eService) {
-		super(parent, SWT.BORDER);
+		super(parent, SWT.BORDER, eService);
 
-		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
-									// the SWT style.
-
-		this.editingService = eService;
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				validationService.dispose();
@@ -145,17 +135,17 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		frmNewForm = toolkit.createForm(this);
-		frmNewForm.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmNewForm);
+		frmNewEditUser = toolkit.createForm(this);
+		frmNewEditUser.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmNewEditUser);
 
-		String title = Screens.isNewOperation(operation) ? "New" : "Edit";
+		String title = Screens.isNewOperation(getOperation()) ? "New" : "Edit";
 
-		frmNewForm.setText(title + " User");
-		frmNewForm.addMessageHyperlinkListener(new HyperlinkAdapter());
-		frmNewForm.getBody().setLayout(new FormLayout());
+		frmNewEditUser.setText(title + " User");
+		frmNewEditUser.addMessageHyperlinkListener(new HyperlinkAdapter());
+		frmNewEditUser.getBody().setLayout(new FormLayout());
 
-		Section sctnInfo = toolkit.createSection(frmNewForm.getBody(),
+		Section sctnInfo = toolkit.createSection(frmNewEditUser.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnInfo = new FormData();
 		fd_sctnInfo.top = new FormAttachment(0, 12);
@@ -240,7 +230,7 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		// as the set password will not be shown.
 
 		Section sctnAuthentication = toolkit.createSection(
-				frmNewForm.getBody(), Section.EXPANDED | Section.TREE_NODE
+				frmNewEditUser.getBody(), Section.EXPANDED | Section.TREE_NODE
 						| Section.TITLE_BAR);
 		FormData fd_sctnAuthentication = new FormData();
 		fd_sctnAuthentication.top = new FormAttachment(sctnInfo, 12);
@@ -284,7 +274,7 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		txtConfirm.setLayoutData(gd_txtConfirm);
 		txtConfirm.setText("");
 
-		Section sctnRoles = toolkit.createSection(frmNewForm.getBody(),
+		Section sctnRoles = toolkit.createSection(frmNewEditUser.getBody(),
 				Section.TITLE_BAR);
 		fd_sctnAuthentication.bottom = new FormAttachment(sctnRoles, -12);
 		FormData fd_sctnRoles = new FormData();
@@ -337,7 +327,7 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 	 * 
 	 * @return
 	 */
-	protected EMFDataBindingContext initDataBindings_() {
+	public EMFDataBindingContext initDataBindings_() {
 
 		// Validation Strategies
 		EMFUpdateValueStrategy loginStrategy = validationService
@@ -643,18 +633,19 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 			throw new java.lang.IllegalArgumentException();
 		}
 		if (object != null && object instanceof Person) {
-			if (Screens.isEditOperation(operation)) {
+			if (Screens.isEditOperation(this.getOperation())) {
 				Person copy = EcoreUtil.copy((Person) object);
 				user = copy;
 				original = (Person) object;
-			} else if (Screens.isNewOperation(operation)) {
+			} else if (Screens.isNewOperation(getOperation())) {
 				user = (Person) object;
-			};
+			}
+			;
 		}
 
 		m_bindingContext = initDataBindings_();
 
-		if (!Screens.isReadOnlyOperation(operation)) {
+		if (!Screens.isReadOnlyOperation(getOperation())) {
 			validationService.registerBindingContext(m_bindingContext);
 			validationService.addValidationListener(this);
 		}
@@ -673,26 +664,30 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 	 * Object)
 	 */
 	public void addData() {
-		if (Screens.isNewOperation(operation) && owner != null) {
+		if (Screens.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					((Netxstudio) owner).getUsers(), user);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-
-		} else if (Screens.isEditOperation(operation)) {
+		} else if (Screens.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
-			// have to replace. However if our original object is invalid, this will 
-			// cause invalidity, so the action will not occure in case the original is 
-			// invalid, and we should cancel. 
-			
-			if(original.cdoInvalid()){
+			// have to replace. However if our original object is invalid, this
+			// will
+			// cause invalidity, so the action will not occure in case the
+			// original is
+			// invalid, and we should cancel the action and warn the user.
+			if (original.cdoInvalid()) {
+				MessageDialog
+						.openWarning(Display.getDefault().getActiveShell(),
+								"Conflict",
+								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-			
+
 			Command c = new ReplaceCommand(editingService.getEditingDomain(),
 					((Netxstudio) owner).getUsers(), original, user);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-			
+
 			System.out.println(user.cdoID() + "" + user.cdoState());
 
 		}
@@ -700,18 +695,8 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		if (editingService.isDirty()) {
 			editingService.doSave(new NullProgressMonitor());
 		}
-		
-		System.out.println(user.cdoID() + "" + user.cdoState());
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.selector.IScreenOperation#getOperation()
-	 */
-	public int getOperation() {
-		return this.operation;
+		System.out.println(user.cdoID() + "" + user.cdoState());
 	}
 
 	/*
@@ -736,7 +721,8 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		if (event instanceof FormValidationEvent) {
 			int type = ((FormValidationEvent) event).getMsgType();
 			List<IMessage> list = ((FormValidationEvent) event).getMessages();
-			if (frmNewForm.isDisposed() || frmNewForm.getHead().isDisposed()) {
+			if (frmNewEditUser.isDisposed()
+					|| frmNewEditUser.getHead().isDisposed()) {
 				return;
 			}
 
@@ -753,11 +739,11 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 				StringBuffer msgBuffer = new StringBuffer();
 				msgBuffer.append(errorType + "(" + list.size() + "), "
 						+ list.get(0).getMessage());
-				frmNewForm.setMessage(msgBuffer.toString(), type,
+				frmNewEditUser.setMessage(msgBuffer.toString(), type,
 						list.toArray(new IMessage[list.size()]));
 
 			} else {
-				frmNewForm.setMessage(null);
+				frmNewEditUser.setMessage(null);
 			}
 		}
 	}
@@ -824,4 +810,8 @@ public class NewEditUser extends Composite implements IDataScreenInjection,
 		return validationService.isValid();
 	}
 
+	@Override
+	public Form getScreenForm() {
+		return this.frmNewEditUser;
+	}
 }

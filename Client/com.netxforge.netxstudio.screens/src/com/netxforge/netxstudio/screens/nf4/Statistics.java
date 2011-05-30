@@ -18,20 +18,24 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.nf4;
 
+import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
 
 /**
+ * 
+ * TODO WORK - IN - PROGRESS..
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class Statistics extends Composite implements IScreen{
+public class Statistics extends AbstractScreen {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
@@ -73,6 +77,17 @@ public class Statistics extends Composite implements IScreen{
 	 */
 	public boolean isValid() {
 		return true;
+	}
+
+	public EMFDataBindingContext initDataBindings_() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Form getScreenForm() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

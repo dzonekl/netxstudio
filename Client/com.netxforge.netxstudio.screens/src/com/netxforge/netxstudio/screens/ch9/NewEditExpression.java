@@ -25,6 +25,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFValueProperty;
@@ -34,6 +35,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -69,8 +71,8 @@ import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
 import com.netxforge.netxstudio.screens.xtext.InjectorProxy;
@@ -80,8 +82,8 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class NewEditExpression extends Composite implements
-		IDataScreenInjection, IScreen, IValidationListener {
+public class NewEditExpression extends AbstractScreen 
+		implements IDataScreenInjection, IValidationListener {
 	private DataBindingContext m_bindingContext;
 
 	private ValidationService validationService = new ValidationService();
@@ -90,8 +92,6 @@ public class NewEditExpression extends Composite implements
 	private Text txtExpressionName;
 	private EmbeddedXtextEditor editor;
 
-	private int operation;
-	private IEditingService editingService;
 	private Object owner;
 	private Expression expression;
 	private EObject evaluationObject = NetxscriptFactory.eINSTANCE
@@ -116,44 +116,39 @@ public class NewEditExpression extends Composite implements
 
 	public NewEditExpression(Composite parent, int style,
 			IEditingService eService) {
-		super(parent, SWT.BORDER);
+		super(parent, SWT.BORDER, eService);
 
-		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
-									// the SWT style.
 		int widgetStyle = SWT.None;
-		if(Screens.isReadOnlyOperation(operation)){
+		if (Screens.isReadOnlyOperation(getOperation())) {
 			widgetStyle |= SWT.READ_ONLY;
 		}
-		
+
 		this.editingService = eService;
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				validationService.dispose();
-				validationService.removeValidationListener(NewEditExpression.this);
+				validationService
+						.removeValidationListener(NewEditExpression.this);
 				toolkit.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		
-		
-		
-		
-		
+
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmNewForm = toolkit.createForm(this);
 		frmNewForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewForm);
-		
+
 		// Screen title
-		String title =""; 
-		if(Screens.isNewOperation(operation) ){
+		String title = "";
+		if (Screens.isNewOperation(getOperation())) {
 			title = "New";
-		}else if(Screens.isEditOperation(style)){
+		} else if (Screens.isEditOperation(style)) {
 			title = "Edit";
-		}else if(Screens.isReadOnlyOperation(style)){
+		} else if (Screens.isReadOnlyOperation(style)) {
 			title = "Read-Only";
 		}
 		frmNewForm.setText(title);
@@ -196,7 +191,8 @@ public class NewEditExpression extends Composite implements
 				false, 1, 1));
 		toolkit.paintBordersFor(hprlnkAddTo);
 
-		txtOwner = toolkit.createText(composite_1, "New Text", SWT.NONE | widgetStyle);
+		txtOwner = toolkit.createText(composite_1, "New Text", SWT.NONE
+				| widgetStyle);
 		txtOwner.setText("");
 		GridData gd_txtOwner = new GridData(SWT.LEFT, SWT.CENTER, true, false,
 				1, 1);
@@ -234,7 +230,8 @@ public class NewEditExpression extends Composite implements
 		gl_editorComposite.marginHeight = 0;
 		gl_editorComposite.marginWidth = 0;
 		editorComposite.setLayout(gl_editorComposite);
-		editor = new EmbeddedXtextEditor(editorComposite, injector, SWT.BORDER | widgetStyle);
+		editor = new EmbeddedXtextEditor(editorComposite, injector, SWT.BORDER
+				| widgetStyle);
 		editor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
 				evaluationObject = xtextService.reconcileChangedModel(
@@ -247,22 +244,12 @@ public class NewEditExpression extends Composite implements
 		sctnNewSection.setClient(client);
 		xtextService = new EmbeddedXtextService(editingService);
 
-		// Conditional 
-		
-		if(!Screens.isReadOnlyOperation(operation)){
+		// Conditional
+
+		if (!Screens.isReadOnlyOperation(getOperation())) {
 			validationService.registerAllDecorators(txtExpressionName,
 					lblExpressionName);
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.editing.selector.IScreen#getOperation()
-	 */
-	public int getOperation() {
-		return operation;
 	}
 
 	/*
@@ -275,11 +262,12 @@ public class NewEditExpression extends Composite implements
 	public void injectData(Object owner, Object object) {
 		this.owner = owner;
 		if (object != null && object instanceof Expression) {
-			if (Screens.isEditOperation(operation)) {
+			if (Screens.isEditOperation(getOperation())) {
 				Expression copy = EcoreUtil.copy((Expression) object);
 				expression = copy;
 				original = (Expression) object;
-			} else if (Screens.isNewOperation(operation) || Screens.isReadOnlyOperation(operation)) {
+			} else if (Screens.isNewOperation(getOperation())
+					|| Screens.isReadOnlyOperation(getOperation())) {
 				expression = (Expression) object;
 			}
 
@@ -300,14 +288,24 @@ public class NewEditExpression extends Composite implements
 	 * @see com.netxforge.netxstudio.data.IDataScreenInjection#addData()
 	 */
 	public void addData() {
-		if (Screens.isNewOperation(operation) && owner != null) {
+		if (Screens.isNewOperation(getOperation()) && owner != null) {
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					(EList<?>) owner, expression);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-		} else if (Screens.isEditOperation(operation)) {
+		} else if (Screens.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have
 			// to replace.
+
+			// invalid, and we should cancel the action and warn the user.
+			if (original.cdoInvalid()) {
+				MessageDialog
+						.openWarning(Display.getDefault().getActiveShell(),
+								"Conflict",
+								"There is a conflict with another user. Your changes can't be saved.");
+				return;
+			}
+
 			Command c = new ReplaceCommand(editingService.getEditingDomain(),
 					(EList<?>) owner, original, expression);
 			editingService.getEditingDomain().getCommandStack().execute(c);
@@ -373,121 +371,146 @@ public class NewEditExpression extends Composite implements
 		gd_button.widthHint = 18;
 		gd_button.heightHint = 18;
 		button.setLayoutData(gd_button);
-		
-		Button btnTrue = toolkit.createButton(keyPadComposite, "TRUE", SWT.NONE);
-		btnTrue.setFont(SWTResourceManager.getFont("Lucida Grande", 9, SWT.NORMAL));
-		GridData gd_btnTrue = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+
+		Button btnTrue = toolkit
+				.createButton(keyPadComposite, "TRUE", SWT.NONE);
+		btnTrue.setFont(SWTResourceManager.getFont("Lucida Grande", 9,
+				SWT.NORMAL));
+		GridData gd_btnTrue = new GridData(SWT.CENTER, SWT.CENTER, false,
+				false, 1, 1);
 		gd_btnTrue.widthHint = 36;
 		gd_btnTrue.heightHint = 18;
 		btnTrue.setLayoutData(gd_btnTrue);
-		
+
 		Button button_6 = toolkit.createButton(keyPadComposite, "==", SWT.NONE);
-		GridData gd_button_6 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_button_6 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
 		gd_button_6.widthHint = 24;
 		gd_button_6.heightHint = 18;
 		button_6.setLayoutData(gd_button_6);
 		new Label(keyPadComposite, SWT.NONE);
-		
-		Composite composite = toolkit.createComposite(keyPadComposite, SWT.NO_BACKGROUND | SWT.NO_FOCUS);
-		GridData gd_composite = new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 3);
+
+		Composite composite = toolkit.createComposite(keyPadComposite,
+				SWT.NO_BACKGROUND | SWT.NO_FOCUS);
+		GridData gd_composite = new GridData(SWT.LEFT, SWT.FILL, false, false,
+				1, 3);
 		gd_composite.widthHint = 18;
 		gd_composite.heightHint = 18;
 		composite.setLayoutData(gd_composite);
 		toolkit.paintBordersFor(composite);
-		
-				Button button_1 = toolkit.createButton(keyPadComposite, "-", SWT.NONE);
-				GridData gd_button_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-						1, 1);
-				gd_button_1.widthHint = 18;
-				gd_button_1.heightHint = 18;
-				button_1.setLayoutData(gd_button_1);
-		
-		Button btnFalse = toolkit.createButton(keyPadComposite, "FALSE", SWT.NONE);
-		GridData gd_btnFalse = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+
+		Button button_1 = toolkit.createButton(keyPadComposite, "-", SWT.NONE);
+		GridData gd_button_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
+		gd_button_1.widthHint = 18;
+		gd_button_1.heightHint = 18;
+		button_1.setLayoutData(gd_button_1);
+
+		Button btnFalse = toolkit.createButton(keyPadComposite, "FALSE",
+				SWT.NONE);
+		GridData gd_btnFalse = new GridData(SWT.CENTER, SWT.CENTER, false,
+				false, 1, 1);
 		gd_btnFalse.widthHint = 36;
 		gd_btnFalse.heightHint = 18;
 		btnFalse.setLayoutData(gd_btnFalse);
-		btnFalse.setFont(SWTResourceManager.getFont("Lucida Grande", 9, SWT.NORMAL));
-		
-		Button button_11 = toolkit.createButton(keyPadComposite, "!=", SWT.NONE);
-		GridData gd_button_11 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		btnFalse.setFont(SWTResourceManager.getFont("Lucida Grande", 9,
+				SWT.NORMAL));
+
+		Button button_11 = toolkit
+				.createButton(keyPadComposite, "!=", SWT.NONE);
+		GridData gd_button_11 = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
 		gd_button_11.widthHint = 24;
 		gd_button_11.heightHint = 18;
 		button_11.setLayoutData(gd_button_11);
 		new Label(keyPadComposite, SWT.NONE);
-		
+
 		Button button_3 = toolkit.createButton(keyPadComposite, "/", SWT.NONE);
-		GridData gd_button_3 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_button_3 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
 		gd_button_3.widthHint = 18;
 		gd_button_3.heightHint = 18;
 		button_3.setLayoutData(gd_button_3);
-		
+
 		Button btnAnd = toolkit.createButton(keyPadComposite, "AND", SWT.NONE);
-		btnAnd.setFont(SWTResourceManager.getFont("Lucida Grande", 9, SWT.NORMAL));
-		GridData gd_btnAnd = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		btnAnd.setFont(SWTResourceManager.getFont("Lucida Grande", 9,
+				SWT.NORMAL));
+		GridData gd_btnAnd = new GridData(SWT.CENTER, SWT.CENTER, false, false,
+				1, 1);
 		gd_btnAnd.widthHint = 36;
 		gd_btnAnd.heightHint = 18;
 		btnAnd.setLayoutData(gd_btnAnd);
-		
+
 		Button button_9 = toolkit.createButton(keyPadComposite, ">=", SWT.NONE);
-		GridData gd_button_9 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_button_9 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
 		gd_button_9.widthHint = 24;
 		gd_button_9.heightHint = 18;
 		button_9.setLayoutData(gd_button_9);
 		new Label(keyPadComposite, SWT.NONE);
-		
-				Button button_2 = toolkit.createButton(keyPadComposite, "*", SWT.NONE);
-				GridData gd_button_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-						1, 1);
-				gd_button_2.widthHint = 18;
-				gd_button_2.heightHint = 18;
-				button_2.setLayoutData(gd_button_2);
-		
+
+		Button button_2 = toolkit.createButton(keyPadComposite, "*", SWT.NONE);
+		GridData gd_button_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
+		gd_button_2.widthHint = 18;
+		gd_button_2.heightHint = 18;
+		button_2.setLayoutData(gd_button_2);
+
 		Button btnOr = toolkit.createButton(keyPadComposite, "OR", SWT.NONE);
-		btnOr.setFont(SWTResourceManager.getFont("Lucida Grande", 9, SWT.NORMAL));
-		GridData gd_btnOr = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		btnOr.setFont(SWTResourceManager
+				.getFont("Lucida Grande", 9, SWT.NORMAL));
+		GridData gd_btnOr = new GridData(SWT.CENTER, SWT.CENTER, false, false,
+				1, 1);
 		gd_btnOr.widthHint = 36;
 		gd_btnOr.heightHint = 18;
 		btnOr.setLayoutData(gd_btnOr);
-		
-		Button button_10 = toolkit.createButton(keyPadComposite, "<=", SWT.NONE);
-		GridData gd_button_10 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+
+		Button button_10 = toolkit
+				.createButton(keyPadComposite, "<=", SWT.NONE);
+		GridData gd_button_10 = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
 		gd_button_10.widthHint = 24;
 		gd_button_10.heightHint = 18;
 		button_10.setLayoutData(gd_button_10);
 		new Label(keyPadComposite, SWT.NONE);
 		new Label(keyPadComposite, SWT.NONE);
-		
+
 		Button button_4 = toolkit.createButton(keyPadComposite, "%", SWT.NONE);
-		GridData gd_button_4 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_button_4 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
 		gd_button_4.heightHint = 18;
 		gd_button_4.widthHint = 18;
 		button_4.setLayoutData(gd_button_4);
-		
+
 		Button btnNot = toolkit.createButton(keyPadComposite, "NOT", SWT.NONE);
-		btnNot.setFont(SWTResourceManager.getFont("Lucida Grande", 9, SWT.NORMAL));
-		GridData gd_btnNot = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		btnNot.setFont(SWTResourceManager.getFont("Lucida Grande", 9,
+				SWT.NORMAL));
+		GridData gd_btnNot = new GridData(SWT.CENTER, SWT.CENTER, false, false,
+				1, 1);
 		gd_btnNot.widthHint = 36;
 		gd_btnNot.heightHint = 18;
 		btnNot.setLayoutData(gd_btnNot);
-		
+
 		Button button_7 = toolkit.createButton(keyPadComposite, ">", SWT.NONE);
-		GridData gd_button_7 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_button_7 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
 		gd_button_7.widthHint = 24;
 		gd_button_7.heightHint = 18;
 		button_7.setLayoutData(gd_button_7);
 		new Label(keyPadComposite, SWT.NONE);
 		new Label(keyPadComposite, SWT.NONE);
-		
+
 		Button button_5 = toolkit.createButton(keyPadComposite, "=", SWT.NONE);
-		GridData gd_button_5 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_button_5 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
 		gd_button_5.widthHint = 18;
 		gd_button_5.heightHint = 18;
 		button_5.setLayoutData(gd_button_5);
 		new Label(keyPadComposite, SWT.NONE);
-		
+
 		Button button_8 = toolkit.createButton(keyPadComposite, "<", SWT.NONE);
-		GridData gd_button_8 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_button_8 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
 		gd_button_8.widthHint = 24;
 		gd_button_8.heightHint = 18;
 		button_8.setLayoutData(gd_button_8);
@@ -501,12 +524,12 @@ public class NewEditExpression extends Composite implements
 	 * 
 	 * @return
 	 */
-	protected DataBindingContext initDataBindings_() {
+	public EMFDataBindingContext initDataBindings_() {
 
 		EMFUpdateValueStrategy expressionStrategy = validationService
 				.getUpdateValueStrategyBeforeSet("Expression name is required");
 
-		DataBindingContext bindingContext = new DataBindingContext();
+		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
 		IObservableValue txtNameObserveTextObserveWidget = SWTObservables
 				.observeDelayedValue(400, SWTObservables.observeText(
@@ -584,5 +607,11 @@ public class NewEditExpression extends Composite implements
 				frmNewForm.setMessage(null);
 			}
 		}
+	}
+
+	@Override
+	public Form getScreenForm() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
