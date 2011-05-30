@@ -49,7 +49,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 
 	@Inject
 	private IDataService dataService;
-	
+
 	CommonService commonService = new CommonService(new JCAService());
 
 	/**
@@ -157,21 +157,26 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 			// operation.
 
 			try {
-				if(!"admin".equals(username)){
-					String digest = commonService.getJcasService().digest(password);
-					if(digest != null && digest.length() > 0){
+				if (!"admin".equals(username)) {
+					String digest = commonService.getJcasService().digest(
+							password);
+					if (digest != null && digest.length() > 0) {
 						password = digest;
-					}else{
+					} else {
 						throw new java.lang.IllegalAccessException();
 					}
 				}
 				dataService.getProvider().openSession(username, password);
 				fAuthenticated = true;
+			} catch (SecurityException se) {
+				fAuthenticated = false;
+				MessageDialog.openError(getSplash(), "Authentication Failed",
+						"The user ID and/or password is wrong");
 			} catch (Exception se) {
 				fAuthenticated = false;
 				MessageDialog
-						.openError(getSplash(), "Authentication Failed", //$NON-NLS-1$
-								"The user ID and/or password is wrong, or the service is not available"); //$NON-NLS-1$
+						.openError(getSplash(), "Error", //$NON-NLS-1$
+								"The service is not available, contact the service admin"); //$NON-NLS-1$
 			}
 
 		} else {
@@ -232,7 +237,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		data.widthHint = F_BUTTON_WIDTH_HINT;
 		data.verticalIndent = 10;
 		fButtonOK.setLayoutData(data);
-		// We explicity request focus. 
+		// We explicity request focus.
 		fButtonOK.setFocus();
 	}
 
