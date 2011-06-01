@@ -1,0 +1,129 @@
+/*******************************************************************************
+NetXScript interpreter. 
+Supports: 
+
+Arithmetics
+Functions
+Variables
+Keyword substitution, and referenced model/feature lookup.
+
+*******************************************************************************/
+grammar com.netxforge.Netxscript with org.eclipse.xtext.common.Terminals
+
+generate netxscript "http://www.netxforge.com/Netxscript"
+
+// Declare an alias to access ecore types. 
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+// Note we can't use the nsURI, as it won't be found in development time. On the other hand the resource
+// uri won't be found in runtime??? 
+import "platform:/resource/com.netxforge.model.a/model/library.ecore" as library
+
+Mod:
+	'mod' name=ID
+	(imports+=Import)*
+	(functions+=Function)+;
+
+Import:
+	'import' importURI=STRING;
+
+	//ImportName:
+//	ID ('.' '*')?;
+
+// TODO, we can't have mandatory brackets, as this would conflict with our PrimaryExpression. 
+Function:
+	'def' name=ID '(' (args+=Argument (',' args+=Argument)*)? ')'
+	block=Block;
+
+Argument:
+	name=ID;
+
+AbstractVarOrArgument:
+	VariableStatement | Argument;
+
+AbstractFunction:
+	Function;
+
+Block:
+	'{' {Block} statements+=Statement* '}';
+
+Statement:
+	{BlankStatement} ';' | VariableStatement ';' | Block;
+
+VariableStatement returns Statement:
+	expression=Expression | {Variable} name=ID ('=') expression=Expression;
+
+	// Expression, all operators extend this class. 
+Expression:
+	Logical;
+
+	// Logical	
+Logical returns Expression:
+	Equality (({And.left=current} '&&' | {Or.left=current} '||') right=Equality)*;
+
+	// Equal, Non-Equal 
+Equality returns Expression:
+	Comparison (({Equal.left=current} '==' | {Unequal.left=current} '!=') right=Comparison)*;
+
+	// Lesser, Greater. 
+Comparison returns Expression:
+	Addition (({Lesser.left=current} '<'
+	| {LesserEqual.left=current} '<='
+	| {Greater.left=current} '>'
+	| {GreaterEqual.left=current} '>=') right=Addition)*;
+
+Addition returns Expression:
+	Multiplication (({Plus.left=current} '+' | {Minus.left=current} '-') right=Multiplication)*;
+
+Multiplication returns Expression:
+	Unary (({Multi.left=current} '*'
+	| {Div.left=current} '/'
+	| {Modulo.left=current} '%') right=Unary)*;
+
+	// Unaries are return type specific. The type on the right should be checked.  
+Unary returns Expression:
+	PrimaryExpression |
+	({Negation} op='!' | {UnaryPlusMinus} op=UnaryOperator) right=Unary;
+
+UnaryOperator:
+	'-' |
+	'+';
+
+	// TODO, a functionCall is not necessarly an abstract definition in this grammar, but could 
+// be an internal function call. For this we could mixin, a grammar which contains
+// all internal calls.
+
+// The FunctionCall and potential parameters, shoul be checked as reference priot to a regular Assignment call. 
+PrimaryExpression returns Expression:
+	'(' Expression ')' |
+	{NumberLiteral} value=NUMBER |
+	{BooleanLiteral} condition?=BOOLEAN |
+	{ModelReference} node=NodeDepth |
+	FunctionCall |
+	VarOrArgumentCall;
+
+FunctionCall returns Expression:
+	{FunctionCall} func=[AbstractFunction] '(' (args+=Expression (',' args+=Expression)*)? ')';
+
+VarOrArgumentCall returns Expression:
+	{VarOrArgumentCall} call=[AbstractVarOrArgument];
+
+NodeDepth:
+	'NODE.' PrimaryNodeRef ('.' depth+=PrimaryNodeRef)* '.' resRef=[library::Resource];
+
+PrimaryNodeRef:
+	nodeRef=[library::Node] ;
+	
+
+terminal NUMBER returns ecore::EBigDecimal:
+	('0'..'9')* ('.' ('0'..'9')+)?;
+
+terminal BOOLEAN returns ecore::EBoolean:
+	'true' | 'false';
+
+	//How to deal with FQN??
+//terminal KEYWORD returns ecore::EString:
+//	'this' | 'period' | 'NODE' | 'SERVICE' | 'SERVICEPROFILE' | 'SERVICEPROFILE'
+//	'SERVICEDISTRIBUTION' | 'RFSSERVICE' | 'METRIC' | 'LINK' | 'RESOURCE'| 'EQUIPMENT' | 'FUNCTION';
+terminal INT returns ecore::EInt:
+	'this one has been deactivated';
+	

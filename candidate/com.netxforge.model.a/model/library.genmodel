@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.netxforge.model.a/src"
+    modelPluginID="com.netxforge.model.a" modelName="Library" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>library.ecore</foreignModel>
+  <genPackages prefix="Library" disposableProviderFactory="true" ecorePackage="library.ecore#/">
+    <genClasses ecoreClass="library.ecore#//Node">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Node/resources"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Node/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Node/nodes"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Resource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Resource/name"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Network">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Network/nodes"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
