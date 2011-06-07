@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.xtext;bundle-version="2.0.0";visibility:=reexport,
  org.eclipse.emf.common,
  org.antlr.runtime,
  org.eclipse.xtext.common.types,
- com.netxforge.model.a;bundle-version="1.0.0"
+ com.netxforge.model.a;bundle-version="1.0.0";visibility:=reexport,
+ org.apache.commons.math;bundle-version="2.2.0"
 Import-Package: org.apache.log4j,
  org.apache.commons.logging,
  org.eclipse.xtext.xbase.lib,

@@ -5,9 +5,9 @@
  */
 package com.netxforge.netxscript.impl;
 
-import com.netxforge.netxscript.ModelReference;
 import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxscript.NodeDepth;
+import com.netxforge.netxscript.RefAssignement;
+import com.netxforge.netxscript.Reference;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -19,35 +19,35 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Model Reference</b></em>'.
+ * An implementation of the model object '<em><b>Ref Assignement</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.impl.ModelReferenceImpl#getNode <em>Node</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.RefAssignementImpl#getRef <em>Ref</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ModelReferenceImpl extends ExpressionImpl implements ModelReference
+public class RefAssignementImpl extends StatementImpl implements RefAssignement
 {
   /**
-   * The cached value of the '{@link #getNode() <em>Node</em>}' containment reference.
+   * The cached value of the '{@link #getRef() <em>Ref</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getNode()
+   * @see #getRef()
    * @generated
    * @ordered
    */
-  protected NodeDepth node;
+  protected Reference ref;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ModelReferenceImpl()
+  protected RefAssignementImpl()
   {
     super();
   }
@@ -60,7 +60,7 @@ public class ModelReferenceImpl extends ExpressionImpl implements ModelReference
   @Override
   protected EClass eStaticClass()
   {
-    return NetxscriptPackage.Literals.MODEL_REFERENCE;
+    return NetxscriptPackage.Literals.REF_ASSIGNEMENT;
   }
 
   /**
@@ -68,9 +68,9 @@ public class ModelReferenceImpl extends ExpressionImpl implements ModelReference
    * <!-- end-user-doc -->
    * @generated
    */
-  public NodeDepth getNode()
+  public Reference getRef()
   {
-    return node;
+    return ref;
   }
 
   /**
@@ -78,13 +78,13 @@ public class ModelReferenceImpl extends ExpressionImpl implements ModelReference
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetNode(NodeDepth newNode, NotificationChain msgs)
+  public NotificationChain basicSetRef(Reference newRef, NotificationChain msgs)
   {
-    NodeDepth oldNode = node;
-    node = newNode;
+    Reference oldRef = ref;
+    ref = newRef;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.MODEL_REFERENCE__NODE, oldNode, newNode);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REF_ASSIGNEMENT__REF, oldRef, newRef);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -95,20 +95,20 @@ public class ModelReferenceImpl extends ExpressionImpl implements ModelReference
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setNode(NodeDepth newNode)
+  public void setRef(Reference newRef)
   {
-    if (newNode != node)
+    if (newRef != ref)
     {
       NotificationChain msgs = null;
-      if (node != null)
-        msgs = ((InternalEObject)node).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.MODEL_REFERENCE__NODE, null, msgs);
-      if (newNode != null)
-        msgs = ((InternalEObject)newNode).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.MODEL_REFERENCE__NODE, null, msgs);
-      msgs = basicSetNode(newNode, msgs);
+      if (ref != null)
+        msgs = ((InternalEObject)ref).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REF_ASSIGNEMENT__REF, null, msgs);
+      if (newRef != null)
+        msgs = ((InternalEObject)newRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REF_ASSIGNEMENT__REF, null, msgs);
+      msgs = basicSetRef(newRef, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.MODEL_REFERENCE__NODE, newNode, newNode));
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REF_ASSIGNEMENT__REF, newRef, newRef));
   }
 
   /**
@@ -121,8 +121,8 @@ public class ModelReferenceImpl extends ExpressionImpl implements ModelReference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.MODEL_REFERENCE__NODE:
-        return basicSetNode(null, msgs);
+      case NetxscriptPackage.REF_ASSIGNEMENT__REF:
+        return basicSetRef(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -137,8 +137,8 @@ public class ModelReferenceImpl extends ExpressionImpl implements ModelReference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.MODEL_REFERENCE__NODE:
-        return getNode();
+      case NetxscriptPackage.REF_ASSIGNEMENT__REF:
+        return getRef();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -153,8 +153,8 @@ public class ModelReferenceImpl extends ExpressionImpl implements ModelReference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.MODEL_REFERENCE__NODE:
-        setNode((NodeDepth)newValue);
+      case NetxscriptPackage.REF_ASSIGNEMENT__REF:
+        setRef((Reference)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -170,8 +170,8 @@ public class ModelReferenceImpl extends ExpressionImpl implements ModelReference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.MODEL_REFERENCE__NODE:
-        setNode((NodeDepth)null);
+      case NetxscriptPackage.REF_ASSIGNEMENT__REF:
+        setRef((Reference)null);
         return;
     }
     super.eUnset(featureID);
@@ -187,10 +187,10 @@ public class ModelReferenceImpl extends ExpressionImpl implements ModelReference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.MODEL_REFERENCE__NODE:
-        return node != null;
+      case NetxscriptPackage.REF_ASSIGNEMENT__REF:
+        return ref != null;
     }
     return super.eIsSet(featureID);
   }
 
-} //ModelReferenceImpl
+} //RefAssignementImpl

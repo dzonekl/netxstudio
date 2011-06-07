@@ -82,6 +82,13 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case NetxscriptPackage.CONTEXT:
+      {
+        Context context = (Context)theEObject;
+        T result = caseContext(context);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case NetxscriptPackage.IMPORT:
       {
         Import import_ = (Import)theEObject;
@@ -143,27 +150,38 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.NODE_DEPTH:
+      case NetxscriptPackage.REFERENCE:
       {
-        NodeDepth nodeDepth = (NodeDepth)theEObject;
-        T result = caseNodeDepth(nodeDepth);
+        Reference reference = (Reference)theEObject;
+        T result = caseReference(reference);
+        if (result == null) result = caseExpression(reference);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.PRIMARY_NODE_REF:
+      case NetxscriptPackage.RETURN:
       {
-        PrimaryNodeRef primaryNodeRef = (PrimaryNodeRef)theEObject;
-        T result = casePrimaryNodeRef(primaryNodeRef);
-        if (result == null) result = caseNodeDepth(primaryNodeRef);
+        Return return_ = (Return)theEObject;
+        T result = caseReturn(return_);
+        if (result == null) result = caseStatement(return_);
+        if (result == null) result = caseAbstractVarOrArgument(return_);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.BLANK_STATEMENT:
+      case NetxscriptPackage.IF:
       {
-        BlankStatement blankStatement = (BlankStatement)theEObject;
-        T result = caseBlankStatement(blankStatement);
-        if (result == null) result = caseStatement(blankStatement);
-        if (result == null) result = caseAbstractVarOrArgument(blankStatement);
+        If if_ = (If)theEObject;
+        T result = caseIf(if_);
+        if (result == null) result = caseStatement(if_);
+        if (result == null) result = caseAbstractVarOrArgument(if_);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.WHILE:
+      {
+        While while_ = (While)theEObject;
+        T result = caseWhile(while_);
+        if (result == null) result = caseStatement(while_);
+        if (result == null) result = caseAbstractVarOrArgument(while_);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -173,6 +191,24 @@ public class NetxscriptSwitch<T> extends Switch<T>
         T result = caseVariable(variable);
         if (result == null) result = caseStatement(variable);
         if (result == null) result = caseAbstractVarOrArgument(variable);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.ASSIGNMENT:
+      {
+        Assignment assignment = (Assignment)theEObject;
+        T result = caseAssignment(assignment);
+        if (result == null) result = caseStatement(assignment);
+        if (result == null) result = caseAbstractVarOrArgument(assignment);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.REF_ASSIGNEMENT:
+      {
+        RefAssignement refAssignement = (RefAssignement)theEObject;
+        T result = caseRefAssignement(refAssignement);
+        if (result == null) result = caseStatement(refAssignement);
+        if (result == null) result = caseAbstractVarOrArgument(refAssignement);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -312,14 +348,6 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.MODEL_REFERENCE:
-      {
-        ModelReference modelReference = (ModelReference)theEObject;
-        T result = caseModelReference(modelReference);
-        if (result == null) result = caseExpression(modelReference);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case NetxscriptPackage.FUNCTION_CALL:
       {
         FunctionCall functionCall = (FunctionCall)theEObject;
@@ -333,6 +361,33 @@ public class NetxscriptSwitch<T> extends Switch<T>
         VarOrArgumentCall varOrArgumentCall = (VarOrArgumentCall)theEObject;
         T result = caseVarOrArgumentCall(varOrArgumentCall);
         if (result == null) result = caseExpression(varOrArgumentCall);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.NODE_REF:
+      {
+        NodeRef nodeRef = (NodeRef)theEObject;
+        T result = caseNodeRef(nodeRef);
+        if (result == null) result = caseReference(nodeRef);
+        if (result == null) result = caseExpression(nodeRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.RESOURCE_REF:
+      {
+        ResourceRef resourceRef = (ResourceRef)theEObject;
+        T result = caseResourceRef(resourceRef);
+        if (result == null) result = caseReference(resourceRef);
+        if (result == null) result = caseExpression(resourceRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.LINK_REF:
+      {
+        LinkRef linkRef = (LinkRef)theEObject;
+        T result = caseLinkRef(linkRef);
+        if (result == null) result = caseReference(linkRef);
+        if (result == null) result = caseExpression(linkRef);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -352,6 +407,22 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseMod(Mod object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Context</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Context</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseContext(Context object)
   {
     return null;
   }
@@ -485,49 +556,65 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Node Depth</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Reference</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Node Depth</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Reference</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseNodeDepth(NodeDepth object)
+  public T caseReference(Reference object)
   {
     return null;
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Primary Node Ref</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Return</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Primary Node Ref</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Return</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T casePrimaryNodeRef(PrimaryNodeRef object)
+  public T caseReturn(Return object)
   {
     return null;
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Blank Statement</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>If</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Blank Statement</em>'.
+   * @return the result of interpreting the object as an instance of '<em>If</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseBlankStatement(BlankStatement object)
+  public T caseIf(If object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>While</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>While</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseWhile(While object)
   {
     return null;
   }
@@ -544,6 +631,38 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseVariable(Variable object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Assignment</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Assignment</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseAssignment(Assignment object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Ref Assignement</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Ref Assignement</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseRefAssignement(RefAssignement object)
   {
     return null;
   }
@@ -821,22 +940,6 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Model Reference</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Model Reference</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseModelReference(ModelReference object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Function Call</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -864,6 +967,54 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseVarOrArgumentCall(VarOrArgumentCall object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Node Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Node Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNodeRef(NodeRef object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Resource Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Resource Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseResourceRef(ResourceRef object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Link Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Link Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseLinkRef(LinkRef object)
   {
     return null;
   }

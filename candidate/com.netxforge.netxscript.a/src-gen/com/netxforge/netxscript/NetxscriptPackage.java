@@ -7,6 +7,7 @@ package com.netxforge.netxscript;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -97,13 +98,50 @@ public interface NetxscriptPackage extends EPackage
   int MOD__FUNCTIONS = 2;
 
   /**
+   * The feature id for the '<em><b>Statements</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MOD__STATEMENTS = 3;
+
+  /**
    * The number of structural features of the '<em>Mod</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MOD_FEATURE_COUNT = 3;
+  int MOD_FEATURE_COUNT = 4;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.ContextImpl <em>Context</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.ContextImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getContext()
+   * @generated
+   */
+  int CONTEXT = 1;
+
+  /**
+   * The feature id for the '<em><b>Context</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONTEXT__CONTEXT = 0;
+
+  /**
+   * The number of structural features of the '<em>Context</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONTEXT_FEATURE_COUNT = 1;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.ImportImpl <em>Import</em>}' class.
@@ -113,7 +151,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getImport()
    * @generated
    */
-  int IMPORT = 1;
+  int IMPORT = 2;
 
   /**
    * The feature id for the '<em><b>Import URI</b></em>' attribute.
@@ -141,7 +179,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getAbstractFunction()
    * @generated
    */
-  int ABSTRACT_FUNCTION = 5;
+  int ABSTRACT_FUNCTION = 6;
 
   /**
    * The number of structural features of the '<em>Abstract Function</em>' class.
@@ -160,7 +198,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getFunction()
    * @generated
    */
-  int FUNCTION = 2;
+  int FUNCTION = 3;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -206,7 +244,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getAbstractVarOrArgument()
    * @generated
    */
-  int ABSTRACT_VAR_OR_ARGUMENT = 4;
+  int ABSTRACT_VAR_OR_ARGUMENT = 5;
 
   /**
    * The number of structural features of the '<em>Abstract Var Or Argument</em>' class.
@@ -225,7 +263,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getArgument()
    * @generated
    */
-  int ARGUMENT = 3;
+  int ARGUMENT = 4;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -253,7 +291,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getStatement()
    * @generated
    */
-  int STATEMENT = 7;
+  int STATEMENT = 8;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -281,7 +319,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getBlock()
    * @generated
    */
-  int BLOCK = 6;
+  int BLOCK = 7;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -318,7 +356,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getExpression()
    * @generated
    */
-  int EXPRESSION = 8;
+  int EXPRESSION = 9;
 
   /**
    * The number of structural features of the '<em>Expression</em>' class.
@@ -330,79 +368,60 @@ public interface NetxscriptPackage extends EPackage
   int EXPRESSION_FEATURE_COUNT = 0;
 
   /**
-   * The meta object id for the '{@link com.netxforge.netxscript.impl.NodeDepthImpl <em>Node Depth</em>}' class.
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.ReferenceImpl <em>Reference</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see com.netxforge.netxscript.impl.NodeDepthImpl
-   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNodeDepth()
+   * @see com.netxforge.netxscript.impl.ReferenceImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getReference()
    * @generated
    */
-  int NODE_DEPTH = 9;
+  int REFERENCE = 10;
 
   /**
-   * The number of structural features of the '<em>Node Depth</em>' class.
+   * The feature id for the '<em><b>Native Function</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int NODE_DEPTH_FEATURE_COUNT = 0;
+  int REFERENCE__NATIVE_FUNCTION = EXPRESSION_FEATURE_COUNT + 0;
 
   /**
-   * The meta object id for the '{@link com.netxforge.netxscript.impl.PrimaryNodeRefImpl <em>Primary Node Ref</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.netxscript.impl.PrimaryNodeRefImpl
-   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getPrimaryNodeRef()
-   * @generated
-   */
-  int PRIMARY_NODE_REF = 10;
-
-  /**
-   * The feature id for the '<em><b>Depth</b></em>' containment reference list.
+   * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PRIMARY_NODE_REF__DEPTH = NODE_DEPTH_FEATURE_COUNT + 0;
+  int REFERENCE__NODES = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
-   * The feature id for the '<em><b>Res Ref</b></em>' reference.
+   * The feature id for the '<em><b>Ref</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PRIMARY_NODE_REF__RES_REF = NODE_DEPTH_FEATURE_COUNT + 1;
+  int REFERENCE__REF = EXPRESSION_FEATURE_COUNT + 2;
 
   /**
-   * The feature id for the '<em><b>Node Ref</b></em>' reference.
+   * The number of structural features of the '<em>Reference</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PRIMARY_NODE_REF__NODE_REF = NODE_DEPTH_FEATURE_COUNT + 2;
+  int REFERENCE_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 3;
 
   /**
-   * The number of structural features of the '<em>Primary Node Ref</em>' class.
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.ReturnImpl <em>Return</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PRIMARY_NODE_REF_FEATURE_COUNT = NODE_DEPTH_FEATURE_COUNT + 3;
-
-  /**
-   * The meta object id for the '{@link com.netxforge.netxscript.impl.BlankStatementImpl <em>Blank Statement</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.netxscript.impl.BlankStatementImpl
-   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getBlankStatement()
+   * @see com.netxforge.netxscript.impl.ReturnImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getReturn()
    * @generated
    */
-  int BLANK_STATEMENT = 11;
+  int RETURN = 11;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -411,16 +430,117 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    * @ordered
    */
-  int BLANK_STATEMENT__EXPRESSION = STATEMENT__EXPRESSION;
+  int RETURN__EXPRESSION = STATEMENT__EXPRESSION;
 
   /**
-   * The number of structural features of the '<em>Blank Statement</em>' class.
+   * The number of structural features of the '<em>Return</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int BLANK_STATEMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 0;
+  int RETURN_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.IfImpl <em>If</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.IfImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getIf()
+   * @generated
+   */
+  int IF = 12;
+
+  /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IF__EXPRESSION = STATEMENT__EXPRESSION;
+
+  /**
+   * The feature id for the '<em><b>If</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IF__IF = STATEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Then</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IF__THEN = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Else</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IF__ELSE = STATEMENT_FEATURE_COUNT + 2;
+
+  /**
+   * The number of structural features of the '<em>If</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IF_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 3;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.WhileImpl <em>While</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.WhileImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getWhile()
+   * @generated
+   */
+  int WHILE = 13;
+
+  /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int WHILE__EXPRESSION = STATEMENT__EXPRESSION;
+
+  /**
+   * The feature id for the '<em><b>Predicate</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int WHILE__PREDICATE = STATEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int WHILE__BODY = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>While</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int WHILE_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.VariableImpl <em>Variable</em>}' class.
@@ -430,7 +550,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getVariable()
    * @generated
    */
-  int VARIABLE = 12;
+  int VARIABLE = 14;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -460,6 +580,80 @@ public interface NetxscriptPackage extends EPackage
   int VARIABLE_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 1;
 
   /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.AssignmentImpl <em>Assignment</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.AssignmentImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getAssignment()
+   * @generated
+   */
+  int ASSIGNMENT = 15;
+
+  /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASSIGNMENT__EXPRESSION = STATEMENT__EXPRESSION;
+
+  /**
+   * The feature id for the '<em><b>Var</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASSIGNMENT__VAR = STATEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Assignment</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ASSIGNMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.RefAssignementImpl <em>Ref Assignement</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.RefAssignementImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getRefAssignement()
+   * @generated
+   */
+  int REF_ASSIGNEMENT = 16;
+
+  /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REF_ASSIGNEMENT__EXPRESSION = STATEMENT__EXPRESSION;
+
+  /**
+   * The feature id for the '<em><b>Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REF_ASSIGNEMENT__REF = STATEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Ref Assignement</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REF_ASSIGNEMENT_FEATURE_COUNT = STATEMENT_FEATURE_COUNT + 1;
+
+  /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.AndImpl <em>And</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -467,7 +661,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getAnd()
    * @generated
    */
-  int AND = 13;
+  int AND = 17;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -504,7 +698,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getOr()
    * @generated
    */
-  int OR = 14;
+  int OR = 18;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -541,7 +735,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getEqual()
    * @generated
    */
-  int EQUAL = 15;
+  int EQUAL = 19;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -578,7 +772,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getUnequal()
    * @generated
    */
-  int UNEQUAL = 16;
+  int UNEQUAL = 20;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -615,7 +809,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getLesser()
    * @generated
    */
-  int LESSER = 17;
+  int LESSER = 21;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -652,7 +846,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getLesserEqual()
    * @generated
    */
-  int LESSER_EQUAL = 18;
+  int LESSER_EQUAL = 22;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -689,7 +883,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getGreater()
    * @generated
    */
-  int GREATER = 19;
+  int GREATER = 23;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -726,7 +920,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getGreaterEqual()
    * @generated
    */
-  int GREATER_EQUAL = 20;
+  int GREATER_EQUAL = 24;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -763,7 +957,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getPlus()
    * @generated
    */
-  int PLUS = 21;
+  int PLUS = 25;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -800,7 +994,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getMinus()
    * @generated
    */
-  int MINUS = 22;
+  int MINUS = 26;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -837,7 +1031,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getMulti()
    * @generated
    */
-  int MULTI = 23;
+  int MULTI = 27;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -874,7 +1068,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getDiv()
    * @generated
    */
-  int DIV = 24;
+  int DIV = 28;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -911,7 +1105,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getModulo()
    * @generated
    */
-  int MODULO = 25;
+  int MODULO = 29;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -948,7 +1142,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNegation()
    * @generated
    */
-  int NEGATION = 26;
+  int NEGATION = 30;
 
   /**
    * The feature id for the '<em><b>Op</b></em>' attribute.
@@ -985,7 +1179,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getUnaryPlusMinus()
    * @generated
    */
-  int UNARY_PLUS_MINUS = 27;
+  int UNARY_PLUS_MINUS = 31;
 
   /**
    * The feature id for the '<em><b>Op</b></em>' attribute.
@@ -1022,7 +1216,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNumberLiteral()
    * @generated
    */
-  int NUMBER_LITERAL = 28;
+  int NUMBER_LITERAL = 32;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1050,7 +1244,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getBooleanLiteral()
    * @generated
    */
-  int BOOLEAN_LITERAL = 29;
+  int BOOLEAN_LITERAL = 33;
 
   /**
    * The feature id for the '<em><b>Condition</b></em>' attribute.
@@ -1071,34 +1265,6 @@ public interface NetxscriptPackage extends EPackage
   int BOOLEAN_LITERAL_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link com.netxforge.netxscript.impl.ModelReferenceImpl <em>Model Reference</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.netxscript.impl.ModelReferenceImpl
-   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getModelReference()
-   * @generated
-   */
-  int MODEL_REFERENCE = 30;
-
-  /**
-   * The feature id for the '<em><b>Node</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MODEL_REFERENCE__NODE = EXPRESSION_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>Model Reference</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MODEL_REFERENCE_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
-
-  /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.FunctionCallImpl <em>Function Call</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1106,7 +1272,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getFunctionCall()
    * @generated
    */
-  int FUNCTION_CALL = 31;
+  int FUNCTION_CALL = 34;
 
   /**
    * The feature id for the '<em><b>Func</b></em>' reference.
@@ -1143,7 +1309,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getVarOrArgumentCall()
    * @generated
    */
-  int VAR_OR_ARGUMENT_CALL = 32;
+  int VAR_OR_ARGUMENT_CALL = 35;
 
   /**
    * The feature id for the '<em><b>Call</b></em>' reference.
@@ -1162,6 +1328,181 @@ public interface NetxscriptPackage extends EPackage
    * @ordered
    */
   int VAR_OR_ARGUMENT_CALL_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.NodeRefImpl <em>Node Ref</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.NodeRefImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNodeRef()
+   * @generated
+   */
+  int NODE_REF = 36;
+
+  /**
+   * The feature id for the '<em><b>Native Function</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NODE_REF__NATIVE_FUNCTION = REFERENCE__NATIVE_FUNCTION;
+
+  /**
+   * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NODE_REF__NODES = REFERENCE__NODES;
+
+  /**
+   * The feature id for the '<em><b>Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NODE_REF__REF = REFERENCE__REF;
+
+  /**
+   * The feature id for the '<em><b>Node</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NODE_REF__NODE = REFERENCE_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Node Ref</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NODE_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.ResourceRefImpl <em>Resource Ref</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.ResourceRefImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getResourceRef()
+   * @generated
+   */
+  int RESOURCE_REF = 37;
+
+  /**
+   * The feature id for the '<em><b>Native Function</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RESOURCE_REF__NATIVE_FUNCTION = REFERENCE__NATIVE_FUNCTION;
+
+  /**
+   * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RESOURCE_REF__NODES = REFERENCE__NODES;
+
+  /**
+   * The feature id for the '<em><b>Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RESOURCE_REF__REF = REFERENCE__REF;
+
+  /**
+   * The feature id for the '<em><b>Resource</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RESOURCE_REF__RESOURCE = REFERENCE_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Resource Ref</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RESOURCE_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.LinkRefImpl <em>Link Ref</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.LinkRefImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getLinkRef()
+   * @generated
+   */
+  int LINK_REF = 38;
+
+  /**
+   * The feature id for the '<em><b>Native Function</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LINK_REF__NATIVE_FUNCTION = REFERENCE__NATIVE_FUNCTION;
+
+  /**
+   * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LINK_REF__NODES = REFERENCE__NODES;
+
+  /**
+   * The feature id for the '<em><b>Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LINK_REF__REF = REFERENCE__REF;
+
+  /**
+   * The feature id for the '<em><b>Link</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LINK_REF__LINK = REFERENCE_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Link Ref</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LINK_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.netxscript.NativeFunction <em>Native Function</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.NativeFunction
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNativeFunction()
+   * @generated
+   */
+  int NATIVE_FUNCTION = 39;
 
 
   /**
@@ -1206,6 +1547,38 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   EReference getMod_Functions();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link com.netxforge.netxscript.Mod#getStatements <em>Statements</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Statements</em>'.
+   * @see com.netxforge.netxscript.Mod#getStatements()
+   * @see #getMod()
+   * @generated
+   */
+  EReference getMod_Statements();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.Context <em>Context</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Context</em>'.
+   * @see com.netxforge.netxscript.Context
+   * @generated
+   */
+  EClass getContext();
+
+  /**
+   * Returns the meta object for the reference '{@link com.netxforge.netxscript.Context#getContext <em>Context</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Context</em>'.
+   * @see com.netxforge.netxscript.Context#getContext()
+   * @see #getContext()
+   * @generated
+   */
+  EReference getContext_Context();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.Import <em>Import</em>}'.
@@ -1365,67 +1738,132 @@ public interface NetxscriptPackage extends EPackage
   EClass getExpression();
 
   /**
-   * Returns the meta object for class '{@link com.netxforge.netxscript.NodeDepth <em>Node Depth</em>}'.
+   * Returns the meta object for class '{@link com.netxforge.netxscript.Reference <em>Reference</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Node Depth</em>'.
-   * @see com.netxforge.netxscript.NodeDepth
+   * @return the meta object for class '<em>Reference</em>'.
+   * @see com.netxforge.netxscript.Reference
    * @generated
    */
-  EClass getNodeDepth();
+  EClass getReference();
 
   /**
-   * Returns the meta object for class '{@link com.netxforge.netxscript.PrimaryNodeRef <em>Primary Node Ref</em>}'.
+   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.Reference#getNativeFunction <em>Native Function</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Primary Node Ref</em>'.
-   * @see com.netxforge.netxscript.PrimaryNodeRef
+   * @return the meta object for the attribute '<em>Native Function</em>'.
+   * @see com.netxforge.netxscript.Reference#getNativeFunction()
+   * @see #getReference()
    * @generated
    */
-  EClass getPrimaryNodeRef();
+  EAttribute getReference_NativeFunction();
 
   /**
-   * Returns the meta object for the containment reference list '{@link com.netxforge.netxscript.PrimaryNodeRef#getDepth <em>Depth</em>}'.
+   * Returns the meta object for the containment reference list '{@link com.netxforge.netxscript.Reference#getNodes <em>Nodes</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Depth</em>'.
-   * @see com.netxforge.netxscript.PrimaryNodeRef#getDepth()
-   * @see #getPrimaryNodeRef()
+   * @return the meta object for the containment reference list '<em>Nodes</em>'.
+   * @see com.netxforge.netxscript.Reference#getNodes()
+   * @see #getReference()
    * @generated
    */
-  EReference getPrimaryNodeRef_Depth();
+  EReference getReference_Nodes();
 
   /**
-   * Returns the meta object for the reference '{@link com.netxforge.netxscript.PrimaryNodeRef#getResRef <em>Res Ref</em>}'.
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.Reference#getRef <em>Ref</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Res Ref</em>'.
-   * @see com.netxforge.netxscript.PrimaryNodeRef#getResRef()
-   * @see #getPrimaryNodeRef()
+   * @return the meta object for the containment reference '<em>Ref</em>'.
+   * @see com.netxforge.netxscript.Reference#getRef()
+   * @see #getReference()
    * @generated
    */
-  EReference getPrimaryNodeRef_ResRef();
+  EReference getReference_Ref();
 
   /**
-   * Returns the meta object for the reference '{@link com.netxforge.netxscript.PrimaryNodeRef#getNodeRef <em>Node Ref</em>}'.
+   * Returns the meta object for class '{@link com.netxforge.netxscript.Return <em>Return</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Node Ref</em>'.
-   * @see com.netxforge.netxscript.PrimaryNodeRef#getNodeRef()
-   * @see #getPrimaryNodeRef()
+   * @return the meta object for class '<em>Return</em>'.
+   * @see com.netxforge.netxscript.Return
    * @generated
    */
-  EReference getPrimaryNodeRef_NodeRef();
+  EClass getReturn();
 
   /**
-   * Returns the meta object for class '{@link com.netxforge.netxscript.BlankStatement <em>Blank Statement</em>}'.
+   * Returns the meta object for class '{@link com.netxforge.netxscript.If <em>If</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Blank Statement</em>'.
-   * @see com.netxforge.netxscript.BlankStatement
+   * @return the meta object for class '<em>If</em>'.
+   * @see com.netxforge.netxscript.If
    * @generated
    */
-  EClass getBlankStatement();
+  EClass getIf();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.If#getIf <em>If</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>If</em>'.
+   * @see com.netxforge.netxscript.If#getIf()
+   * @see #getIf()
+   * @generated
+   */
+  EReference getIf_If();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.If#getThen <em>Then</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Then</em>'.
+   * @see com.netxforge.netxscript.If#getThen()
+   * @see #getIf()
+   * @generated
+   */
+  EReference getIf_Then();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.If#getElse <em>Else</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Else</em>'.
+   * @see com.netxforge.netxscript.If#getElse()
+   * @see #getIf()
+   * @generated
+   */
+  EReference getIf_Else();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.While <em>While</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>While</em>'.
+   * @see com.netxforge.netxscript.While
+   * @generated
+   */
+  EClass getWhile();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.While#getPredicate <em>Predicate</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Predicate</em>'.
+   * @see com.netxforge.netxscript.While#getPredicate()
+   * @see #getWhile()
+   * @generated
+   */
+  EReference getWhile_Predicate();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.While#getBody <em>Body</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Body</em>'.
+   * @see com.netxforge.netxscript.While#getBody()
+   * @see #getWhile()
+   * @generated
+   */
+  EReference getWhile_Body();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.Variable <em>Variable</em>}'.
@@ -1447,6 +1885,48 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   EAttribute getVariable_Name();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.Assignment <em>Assignment</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Assignment</em>'.
+   * @see com.netxforge.netxscript.Assignment
+   * @generated
+   */
+  EClass getAssignment();
+
+  /**
+   * Returns the meta object for the reference '{@link com.netxforge.netxscript.Assignment#getVar <em>Var</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Var</em>'.
+   * @see com.netxforge.netxscript.Assignment#getVar()
+   * @see #getAssignment()
+   * @generated
+   */
+  EReference getAssignment_Var();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.RefAssignement <em>Ref Assignement</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Ref Assignement</em>'.
+   * @see com.netxforge.netxscript.RefAssignement
+   * @generated
+   */
+  EClass getRefAssignement();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.RefAssignement#getRef <em>Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Ref</em>'.
+   * @see com.netxforge.netxscript.RefAssignement#getRef()
+   * @see #getRefAssignement()
+   * @generated
+   */
+  EReference getRefAssignement_Ref();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.And <em>And</em>}'.
@@ -1971,27 +2451,6 @@ public interface NetxscriptPackage extends EPackage
   EAttribute getBooleanLiteral_Condition();
 
   /**
-   * Returns the meta object for class '{@link com.netxforge.netxscript.ModelReference <em>Model Reference</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Model Reference</em>'.
-   * @see com.netxforge.netxscript.ModelReference
-   * @generated
-   */
-  EClass getModelReference();
-
-  /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.ModelReference#getNode <em>Node</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Node</em>'.
-   * @see com.netxforge.netxscript.ModelReference#getNode()
-   * @see #getModelReference()
-   * @generated
-   */
-  EReference getModelReference_Node();
-
-  /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.FunctionCall <em>Function Call</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2043,6 +2502,79 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   EReference getVarOrArgumentCall_Call();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.NodeRef <em>Node Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Node Ref</em>'.
+   * @see com.netxforge.netxscript.NodeRef
+   * @generated
+   */
+  EClass getNodeRef();
+
+  /**
+   * Returns the meta object for the reference '{@link com.netxforge.netxscript.NodeRef#getNode <em>Node</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Node</em>'.
+   * @see com.netxforge.netxscript.NodeRef#getNode()
+   * @see #getNodeRef()
+   * @generated
+   */
+  EReference getNodeRef_Node();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.ResourceRef <em>Resource Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Resource Ref</em>'.
+   * @see com.netxforge.netxscript.ResourceRef
+   * @generated
+   */
+  EClass getResourceRef();
+
+  /**
+   * Returns the meta object for the reference '{@link com.netxforge.netxscript.ResourceRef#getResource <em>Resource</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Resource</em>'.
+   * @see com.netxforge.netxscript.ResourceRef#getResource()
+   * @see #getResourceRef()
+   * @generated
+   */
+  EReference getResourceRef_Resource();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.LinkRef <em>Link Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Link Ref</em>'.
+   * @see com.netxforge.netxscript.LinkRef
+   * @generated
+   */
+  EClass getLinkRef();
+
+  /**
+   * Returns the meta object for the reference '{@link com.netxforge.netxscript.LinkRef#getLink <em>Link</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Link</em>'.
+   * @see com.netxforge.netxscript.LinkRef#getLink()
+   * @see #getLinkRef()
+   * @generated
+   */
+  EReference getLinkRef_Link();
+
+  /**
+   * Returns the meta object for enum '{@link com.netxforge.netxscript.NativeFunction <em>Native Function</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Native Function</em>'.
+   * @see com.netxforge.netxscript.NativeFunction
+   * @generated
+   */
+  EEnum getNativeFunction();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -2100,6 +2632,32 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EReference MOD__FUNCTIONS = eINSTANCE.getMod_Functions();
+
+    /**
+     * The meta object literal for the '<em><b>Statements</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MOD__STATEMENTS = eINSTANCE.getMod_Statements();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.ContextImpl <em>Context</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.ContextImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getContext()
+     * @generated
+     */
+    EClass CONTEXT = eINSTANCE.getContext();
+
+    /**
+     * The meta object literal for the '<em><b>Context</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CONTEXT__CONTEXT = eINSTANCE.getContext_Context();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.ImportImpl <em>Import</em>}' class.
@@ -2238,58 +2796,108 @@ public interface NetxscriptPackage extends EPackage
     EClass EXPRESSION = eINSTANCE.getExpression();
 
     /**
-     * The meta object literal for the '{@link com.netxforge.netxscript.impl.NodeDepthImpl <em>Node Depth</em>}' class.
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.ReferenceImpl <em>Reference</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see com.netxforge.netxscript.impl.NodeDepthImpl
-     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNodeDepth()
+     * @see com.netxforge.netxscript.impl.ReferenceImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getReference()
      * @generated
      */
-    EClass NODE_DEPTH = eINSTANCE.getNodeDepth();
+    EClass REFERENCE = eINSTANCE.getReference();
 
     /**
-     * The meta object literal for the '{@link com.netxforge.netxscript.impl.PrimaryNodeRefImpl <em>Primary Node Ref</em>}' class.
+     * The meta object literal for the '<em><b>Native Function</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see com.netxforge.netxscript.impl.PrimaryNodeRefImpl
-     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getPrimaryNodeRef()
      * @generated
      */
-    EClass PRIMARY_NODE_REF = eINSTANCE.getPrimaryNodeRef();
+    EAttribute REFERENCE__NATIVE_FUNCTION = eINSTANCE.getReference_NativeFunction();
 
     /**
-     * The meta object literal for the '<em><b>Depth</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Nodes</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference PRIMARY_NODE_REF__DEPTH = eINSTANCE.getPrimaryNodeRef_Depth();
+    EReference REFERENCE__NODES = eINSTANCE.getReference_Nodes();
 
     /**
-     * The meta object literal for the '<em><b>Res Ref</b></em>' reference feature.
+     * The meta object literal for the '<em><b>Ref</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference PRIMARY_NODE_REF__RES_REF = eINSTANCE.getPrimaryNodeRef_ResRef();
+    EReference REFERENCE__REF = eINSTANCE.getReference_Ref();
 
     /**
-     * The meta object literal for the '<em><b>Node Ref</b></em>' reference feature.
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.ReturnImpl <em>Return</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.ReturnImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getReturn()
      * @generated
      */
-    EReference PRIMARY_NODE_REF__NODE_REF = eINSTANCE.getPrimaryNodeRef_NodeRef();
+    EClass RETURN = eINSTANCE.getReturn();
 
     /**
-     * The meta object literal for the '{@link com.netxforge.netxscript.impl.BlankStatementImpl <em>Blank Statement</em>}' class.
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.IfImpl <em>If</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see com.netxforge.netxscript.impl.BlankStatementImpl
-     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getBlankStatement()
+     * @see com.netxforge.netxscript.impl.IfImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getIf()
      * @generated
      */
-    EClass BLANK_STATEMENT = eINSTANCE.getBlankStatement();
+    EClass IF = eINSTANCE.getIf();
+
+    /**
+     * The meta object literal for the '<em><b>If</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference IF__IF = eINSTANCE.getIf_If();
+
+    /**
+     * The meta object literal for the '<em><b>Then</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference IF__THEN = eINSTANCE.getIf_Then();
+
+    /**
+     * The meta object literal for the '<em><b>Else</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference IF__ELSE = eINSTANCE.getIf_Else();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.WhileImpl <em>While</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.WhileImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getWhile()
+     * @generated
+     */
+    EClass WHILE = eINSTANCE.getWhile();
+
+    /**
+     * The meta object literal for the '<em><b>Predicate</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference WHILE__PREDICATE = eINSTANCE.getWhile_Predicate();
+
+    /**
+     * The meta object literal for the '<em><b>Body</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference WHILE__BODY = eINSTANCE.getWhile_Body();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.VariableImpl <em>Variable</em>}' class.
@@ -2308,6 +2916,42 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EAttribute VARIABLE__NAME = eINSTANCE.getVariable_Name();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.AssignmentImpl <em>Assignment</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.AssignmentImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getAssignment()
+     * @generated
+     */
+    EClass ASSIGNMENT = eINSTANCE.getAssignment();
+
+    /**
+     * The meta object literal for the '<em><b>Var</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ASSIGNMENT__VAR = eINSTANCE.getAssignment_Var();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.RefAssignementImpl <em>Ref Assignement</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.RefAssignementImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getRefAssignement()
+     * @generated
+     */
+    EClass REF_ASSIGNEMENT = eINSTANCE.getRefAssignement();
+
+    /**
+     * The meta object literal for the '<em><b>Ref</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference REF_ASSIGNEMENT__REF = eINSTANCE.getRefAssignement_Ref();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.AndImpl <em>And</em>}' class.
@@ -2736,24 +3380,6 @@ public interface NetxscriptPackage extends EPackage
     EAttribute BOOLEAN_LITERAL__CONDITION = eINSTANCE.getBooleanLiteral_Condition();
 
     /**
-     * The meta object literal for the '{@link com.netxforge.netxscript.impl.ModelReferenceImpl <em>Model Reference</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.netxforge.netxscript.impl.ModelReferenceImpl
-     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getModelReference()
-     * @generated
-     */
-    EClass MODEL_REFERENCE = eINSTANCE.getModelReference();
-
-    /**
-     * The meta object literal for the '<em><b>Node</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference MODEL_REFERENCE__NODE = eINSTANCE.getModelReference_Node();
-
-    /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.FunctionCallImpl <em>Function Call</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2796,6 +3422,70 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EReference VAR_OR_ARGUMENT_CALL__CALL = eINSTANCE.getVarOrArgumentCall_Call();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.NodeRefImpl <em>Node Ref</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.NodeRefImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNodeRef()
+     * @generated
+     */
+    EClass NODE_REF = eINSTANCE.getNodeRef();
+
+    /**
+     * The meta object literal for the '<em><b>Node</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference NODE_REF__NODE = eINSTANCE.getNodeRef_Node();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.ResourceRefImpl <em>Resource Ref</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.ResourceRefImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getResourceRef()
+     * @generated
+     */
+    EClass RESOURCE_REF = eINSTANCE.getResourceRef();
+
+    /**
+     * The meta object literal for the '<em><b>Resource</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference RESOURCE_REF__RESOURCE = eINSTANCE.getResourceRef_Resource();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.LinkRefImpl <em>Link Ref</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.LinkRefImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getLinkRef()
+     * @generated
+     */
+    EClass LINK_REF = eINSTANCE.getLinkRef();
+
+    /**
+     * The meta object literal for the '<em><b>Link</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LINK_REF__LINK = eINSTANCE.getLinkRef_Link();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.NativeFunction <em>Native Function</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.NativeFunction
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNativeFunction()
+     * @generated
+     */
+    EEnum NATIVE_FUNCTION = eINSTANCE.getNativeFunction();
 
   }
 

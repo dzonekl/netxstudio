@@ -119,7 +119,52 @@
                 </reference>
             </activeWhen>
         </handler>
-    </extension>   
+    </extension>
+    
+<!-- START NetXForge addition of an interpreter handler. -->
+<!-- TODO move to final product -->
+ <extension point="org.eclipse.ui.menus">
+        <menuContribution
+             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+        	<toolbar
+               id="com.netxforge.netxstudio.ui.toolbar.netxstudio"
+               label="toolb">
+             <command
+                   commandId="com.netxforge.Netxscript.interpreter"
+                   icon="icons/Expression_H.png"
+                   style="push"
+                   tooltip="Call interpreter">
+            <visibleWhen checkEnabled="false">
+                <reference
+                    definitionId="com.netxforge.Netxscript.Editor.opened">
+                </reference>
+            </visibleWhen>
+         </command>
+         	</toolbar>  
+         </menuContribution>
+    </extension>
+    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Trigger evaluation of NetXScript"
+            id="com.netxforge.Netxscript.interpreter"
+            name="Interpreter">
+      </command>
+    </extension>    
+	<extension point="org.eclipse.ui.handlers">
+	    <handler
+            class="com.netxforge.ui.NetxscriptExecutableExtensionFactory:com.netxforge.ui.interpreter.InterpreterHandler"
+            commandId="com.netxforge.Netxscript.interpreter">
+            <activeWhen>
+                <reference
+                    definitionId="com.netxforge.Netxscript.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+    </extension>
+       
+
+<!-- END NetXForge--> 
 
 <!-- adding resource factories -->
 

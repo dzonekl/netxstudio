@@ -9,10 +9,22 @@
     editorPluginID="com.netxforge.netxscript.a.editor" usedGenPackages="platform:/resource/com.netxforge.model.a/model/library.genmodel#//library">
   <genPackages prefix="Netxscript" basePackage="com.netxforge" disposableProviderFactory="true"
       ecorePackage="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NativeFunction">
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NativeFunction/COUNT"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NativeFunction/SUM"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NativeFunction/MIN"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NativeFunction/MAX"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NativeFunction/MEAN"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NativeFunction/DEVIATION"/>
+    </genEnums>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Mod">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Mod/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Mod/imports"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Mod/functions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Mod/statements"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Context">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Context/context"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Import">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Import/importURI"/>
@@ -34,15 +46,29 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement/expression"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"/>
-    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NodeDepth"/>
-    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//PrimaryNodeRef">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//PrimaryNodeRef/depth"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//PrimaryNodeRef/resRef"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//PrimaryNodeRef/nodeRef"/>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference/nativeFunction"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference/nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference/ref"/>
     </genClasses>
-    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//BlankStatement"/>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Return"/>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//If">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//If/if"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//If/then"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//If/else"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//While">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//While/predicate"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//While/body"/>
+    </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Variable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Variable/name"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Assignment">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Assignment/var"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//RefAssignement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//RefAssignement/ref"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//And">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//And/left"/>
@@ -110,15 +136,21 @@
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//BooleanLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//BooleanLiteral/condition"/>
     </genClasses>
-    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//ModelReference">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//ModelReference/node"/>
-    </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//FunctionCall">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//FunctionCall/func"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//FunctionCall/args"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//VarOrArgumentCall">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//VarOrArgumentCall/call"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NodeRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NodeRef/node"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//ResourceRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//ResourceRef/resource"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//LinkRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//LinkRef/link"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

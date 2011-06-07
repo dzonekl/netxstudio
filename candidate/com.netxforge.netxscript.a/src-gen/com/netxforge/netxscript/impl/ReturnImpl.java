@@ -6,29 +6,27 @@
 package com.netxforge.netxscript.impl;
 
 import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxscript.NodeDepth;
+import com.netxforge.netxscript.Return;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Node Depth</b></em>'.
+ * An implementation of the model object '<em><b>Return</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class NodeDepthImpl extends MinimalEObjectImpl.Container implements NodeDepth
+public class ReturnImpl extends StatementImpl implements Return
 {
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected NodeDepthImpl()
+  protected ReturnImpl()
   {
     super();
   }
@@ -41,7 +39,7 @@ public class NodeDepthImpl extends MinimalEObjectImpl.Container implements NodeD
   @Override
   protected EClass eStaticClass()
   {
-    return NetxscriptPackage.Literals.NODE_DEPTH;
+    return NetxscriptPackage.Literals.RETURN;
   }
 
-} //NodeDepthImpl
+} //ReturnImpl

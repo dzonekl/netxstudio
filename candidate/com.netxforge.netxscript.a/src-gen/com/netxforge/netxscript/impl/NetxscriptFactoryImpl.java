@@ -8,6 +8,7 @@ package com.netxforge.netxscript.impl;
 import com.netxforge.netxscript.*;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -68,6 +69,7 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
     switch (eClass.getClassifierID())
     {
       case NetxscriptPackage.MOD: return createMod();
+      case NetxscriptPackage.CONTEXT: return createContext();
       case NetxscriptPackage.IMPORT: return createImport();
       case NetxscriptPackage.FUNCTION: return createFunction();
       case NetxscriptPackage.ARGUMENT: return createArgument();
@@ -76,10 +78,13 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.BLOCK: return createBlock();
       case NetxscriptPackage.STATEMENT: return createStatement();
       case NetxscriptPackage.EXPRESSION: return createExpression();
-      case NetxscriptPackage.NODE_DEPTH: return createNodeDepth();
-      case NetxscriptPackage.PRIMARY_NODE_REF: return createPrimaryNodeRef();
-      case NetxscriptPackage.BLANK_STATEMENT: return createBlankStatement();
+      case NetxscriptPackage.REFERENCE: return createReference();
+      case NetxscriptPackage.RETURN: return createReturn();
+      case NetxscriptPackage.IF: return createIf();
+      case NetxscriptPackage.WHILE: return createWhile();
       case NetxscriptPackage.VARIABLE: return createVariable();
+      case NetxscriptPackage.ASSIGNMENT: return createAssignment();
+      case NetxscriptPackage.REF_ASSIGNEMENT: return createRefAssignement();
       case NetxscriptPackage.AND: return createAnd();
       case NetxscriptPackage.OR: return createOr();
       case NetxscriptPackage.EQUAL: return createEqual();
@@ -97,11 +102,47 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.UNARY_PLUS_MINUS: return createUnaryPlusMinus();
       case NetxscriptPackage.NUMBER_LITERAL: return createNumberLiteral();
       case NetxscriptPackage.BOOLEAN_LITERAL: return createBooleanLiteral();
-      case NetxscriptPackage.MODEL_REFERENCE: return createModelReference();
       case NetxscriptPackage.FUNCTION_CALL: return createFunctionCall();
       case NetxscriptPackage.VAR_OR_ARGUMENT_CALL: return createVarOrArgumentCall();
+      case NetxscriptPackage.NODE_REF: return createNodeRef();
+      case NetxscriptPackage.RESOURCE_REF: return createResourceRef();
+      case NetxscriptPackage.LINK_REF: return createLinkRef();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object createFromString(EDataType eDataType, String initialValue)
+  {
+    switch (eDataType.getClassifierID())
+    {
+      case NetxscriptPackage.NATIVE_FUNCTION:
+        return createNativeFunctionFromString(eDataType, initialValue);
+      default:
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String convertToString(EDataType eDataType, Object instanceValue)
+  {
+    switch (eDataType.getClassifierID())
+    {
+      case NetxscriptPackage.NATIVE_FUNCTION:
+        return convertNativeFunctionToString(eDataType, instanceValue);
+      default:
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
   }
 
@@ -114,6 +155,17 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
   {
     ModImpl mod = new ModImpl();
     return mod;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Context createContext()
+  {
+    ContextImpl context = new ContextImpl();
+    return context;
   }
 
   /**
@@ -209,10 +261,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public NodeDepth createNodeDepth()
+  public Reference createReference()
   {
-    NodeDepthImpl nodeDepth = new NodeDepthImpl();
-    return nodeDepth;
+    ReferenceImpl reference = new ReferenceImpl();
+    return reference;
   }
 
   /**
@@ -220,10 +272,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public PrimaryNodeRef createPrimaryNodeRef()
+  public Return createReturn()
   {
-    PrimaryNodeRefImpl primaryNodeRef = new PrimaryNodeRefImpl();
-    return primaryNodeRef;
+    ReturnImpl return_ = new ReturnImpl();
+    return return_;
   }
 
   /**
@@ -231,10 +283,21 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public BlankStatement createBlankStatement()
+  public If createIf()
   {
-    BlankStatementImpl blankStatement = new BlankStatementImpl();
-    return blankStatement;
+    IfImpl if_ = new IfImpl();
+    return if_;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public While createWhile()
+  {
+    WhileImpl while_ = new WhileImpl();
+    return while_;
   }
 
   /**
@@ -246,6 +309,28 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
   {
     VariableImpl variable = new VariableImpl();
     return variable;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Assignment createAssignment()
+  {
+    AssignmentImpl assignment = new AssignmentImpl();
+    return assignment;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public RefAssignement createRefAssignement()
+  {
+    RefAssignementImpl refAssignement = new RefAssignementImpl();
+    return refAssignement;
   }
 
   /**
@@ -440,17 +525,6 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public ModelReference createModelReference()
-  {
-    ModelReferenceImpl modelReference = new ModelReferenceImpl();
-    return modelReference;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public FunctionCall createFunctionCall()
   {
     FunctionCallImpl functionCall = new FunctionCallImpl();
@@ -466,6 +540,61 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
   {
     VarOrArgumentCallImpl varOrArgumentCall = new VarOrArgumentCallImpl();
     return varOrArgumentCall;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NodeRef createNodeRef()
+  {
+    NodeRefImpl nodeRef = new NodeRefImpl();
+    return nodeRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ResourceRef createResourceRef()
+  {
+    ResourceRefImpl resourceRef = new ResourceRefImpl();
+    return resourceRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public LinkRef createLinkRef()
+  {
+    LinkRefImpl linkRef = new LinkRefImpl();
+    return linkRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NativeFunction createNativeFunctionFromString(EDataType eDataType, String initialValue)
+  {
+    NativeFunction result = NativeFunction.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertNativeFunctionToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**

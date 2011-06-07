@@ -83,6 +83,11 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createModAdapter();
       }
       @Override
+      public Adapter caseContext(Context object)
+      {
+        return createContextAdapter();
+      }
+      @Override
       public Adapter caseImport(Import object)
       {
         return createImportAdapter();
@@ -123,24 +128,39 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createExpressionAdapter();
       }
       @Override
-      public Adapter caseNodeDepth(NodeDepth object)
+      public Adapter caseReference(Reference object)
       {
-        return createNodeDepthAdapter();
+        return createReferenceAdapter();
       }
       @Override
-      public Adapter casePrimaryNodeRef(PrimaryNodeRef object)
+      public Adapter caseReturn(Return object)
       {
-        return createPrimaryNodeRefAdapter();
+        return createReturnAdapter();
       }
       @Override
-      public Adapter caseBlankStatement(BlankStatement object)
+      public Adapter caseIf(If object)
       {
-        return createBlankStatementAdapter();
+        return createIfAdapter();
+      }
+      @Override
+      public Adapter caseWhile(While object)
+      {
+        return createWhileAdapter();
       }
       @Override
       public Adapter caseVariable(Variable object)
       {
         return createVariableAdapter();
+      }
+      @Override
+      public Adapter caseAssignment(Assignment object)
+      {
+        return createAssignmentAdapter();
+      }
+      @Override
+      public Adapter caseRefAssignement(RefAssignement object)
+      {
+        return createRefAssignementAdapter();
       }
       @Override
       public Adapter caseAnd(And object)
@@ -228,11 +248,6 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createBooleanLiteralAdapter();
       }
       @Override
-      public Adapter caseModelReference(ModelReference object)
-      {
-        return createModelReferenceAdapter();
-      }
-      @Override
       public Adapter caseFunctionCall(FunctionCall object)
       {
         return createFunctionCallAdapter();
@@ -241,6 +256,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
       public Adapter caseVarOrArgumentCall(VarOrArgumentCall object)
       {
         return createVarOrArgumentCallAdapter();
+      }
+      @Override
+      public Adapter caseNodeRef(NodeRef object)
+      {
+        return createNodeRefAdapter();
+      }
+      @Override
+      public Adapter caseResourceRef(ResourceRef object)
+      {
+        return createResourceRefAdapter();
+      }
+      @Override
+      public Adapter caseLinkRef(LinkRef object)
+      {
+        return createLinkRefAdapter();
       }
       @Override
       public Adapter defaultCase(EObject object)
@@ -275,6 +305,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createModAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.Context <em>Context</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.Context
+   * @generated
+   */
+  public Adapter createContextAdapter()
   {
     return null;
   }
@@ -400,46 +445,61 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NodeDepth <em>Node Depth</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.Reference <em>Reference</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.netxscript.NodeDepth
+   * @see com.netxforge.netxscript.Reference
    * @generated
    */
-  public Adapter createNodeDepthAdapter()
+  public Adapter createReferenceAdapter()
   {
     return null;
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.PrimaryNodeRef <em>Primary Node Ref</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.Return <em>Return</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.netxscript.PrimaryNodeRef
+   * @see com.netxforge.netxscript.Return
    * @generated
    */
-  public Adapter createPrimaryNodeRefAdapter()
+  public Adapter createReturnAdapter()
   {
     return null;
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.BlankStatement <em>Blank Statement</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.If <em>If</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.netxscript.BlankStatement
+   * @see com.netxforge.netxscript.If
    * @generated
    */
-  public Adapter createBlankStatementAdapter()
+  public Adapter createIfAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.While <em>While</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.While
+   * @generated
+   */
+  public Adapter createWhileAdapter()
   {
     return null;
   }
@@ -455,6 +515,36 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createVariableAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.Assignment <em>Assignment</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.Assignment
+   * @generated
+   */
+  public Adapter createAssignmentAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.RefAssignement <em>Ref Assignement</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.RefAssignement
+   * @generated
+   */
+  public Adapter createRefAssignementAdapter()
   {
     return null;
   }
@@ -715,21 +805,6 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.ModelReference <em>Model Reference</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.netxscript.ModelReference
-   * @generated
-   */
-  public Adapter createModelReferenceAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.FunctionCall <em>Function Call</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -755,6 +830,51 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createVarOrArgumentCallAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NodeRef <em>Node Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.NodeRef
+   * @generated
+   */
+  public Adapter createNodeRefAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.ResourceRef <em>Resource Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.ResourceRef
+   * @generated
+   */
+  public Adapter createResourceRefAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.LinkRef <em>Link Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.LinkRef
+   * @generated
+   */
+  public Adapter createLinkRefAdapter()
   {
     return null;
   }

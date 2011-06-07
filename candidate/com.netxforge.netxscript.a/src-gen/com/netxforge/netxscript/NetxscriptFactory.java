@@ -35,6 +35,15 @@ public interface NetxscriptFactory extends EFactory
   Mod createMod();
 
   /**
+   * Returns a new object of class '<em>Context</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Context</em>'.
+   * @generated
+   */
+  Context createContext();
+
+  /**
    * Returns a new object of class '<em>Import</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -107,31 +116,40 @@ public interface NetxscriptFactory extends EFactory
   Expression createExpression();
 
   /**
-   * Returns a new object of class '<em>Node Depth</em>'.
+   * Returns a new object of class '<em>Reference</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Node Depth</em>'.
+   * @return a new object of class '<em>Reference</em>'.
    * @generated
    */
-  NodeDepth createNodeDepth();
+  Reference createReference();
 
   /**
-   * Returns a new object of class '<em>Primary Node Ref</em>'.
+   * Returns a new object of class '<em>Return</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Primary Node Ref</em>'.
+   * @return a new object of class '<em>Return</em>'.
    * @generated
    */
-  PrimaryNodeRef createPrimaryNodeRef();
+  Return createReturn();
 
   /**
-   * Returns a new object of class '<em>Blank Statement</em>'.
+   * Returns a new object of class '<em>If</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Blank Statement</em>'.
+   * @return a new object of class '<em>If</em>'.
    * @generated
    */
-  BlankStatement createBlankStatement();
+  If createIf();
+
+  /**
+   * Returns a new object of class '<em>While</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>While</em>'.
+   * @generated
+   */
+  While createWhile();
 
   /**
    * Returns a new object of class '<em>Variable</em>'.
@@ -141,6 +159,24 @@ public interface NetxscriptFactory extends EFactory
    * @generated
    */
   Variable createVariable();
+
+  /**
+   * Returns a new object of class '<em>Assignment</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Assignment</em>'.
+   * @generated
+   */
+  Assignment createAssignment();
+
+  /**
+   * Returns a new object of class '<em>Ref Assignement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Ref Assignement</em>'.
+   * @generated
+   */
+  RefAssignement createRefAssignement();
 
   /**
    * Returns a new object of class '<em>And</em>'.
@@ -296,15 +332,6 @@ public interface NetxscriptFactory extends EFactory
   BooleanLiteral createBooleanLiteral();
 
   /**
-   * Returns a new object of class '<em>Model Reference</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Model Reference</em>'.
-   * @generated
-   */
-  ModelReference createModelReference();
-
-  /**
    * Returns a new object of class '<em>Function Call</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -321,6 +348,33 @@ public interface NetxscriptFactory extends EFactory
    * @generated
    */
   VarOrArgumentCall createVarOrArgumentCall();
+
+  /**
+   * Returns a new object of class '<em>Node Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Node Ref</em>'.
+   * @generated
+   */
+  NodeRef createNodeRef();
+
+  /**
+   * Returns a new object of class '<em>Resource Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Resource Ref</em>'.
+   * @generated
+   */
+  ResourceRef createResourceRef();
+
+  /**
+   * Returns a new object of class '<em>Link Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Link Ref</em>'.
+   * @generated
+   */
+  LinkRef createLinkRef();
 
   /**
    * Returns the package supported by this factory.

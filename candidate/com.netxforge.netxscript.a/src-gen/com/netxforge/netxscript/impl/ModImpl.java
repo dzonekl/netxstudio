@@ -9,6 +9,7 @@ import com.netxforge.netxscript.Function;
 import com.netxforge.netxscript.Import;
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.Statement;
 
 import java.util.Collection;
 
@@ -36,6 +37,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link com.netxforge.netxscript.impl.ModImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.ModImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.ModImpl#getFunctions <em>Functions</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.ModImpl#getStatements <em>Statements</em>}</li>
  * </ul>
  * </p>
  *
@@ -82,6 +84,16 @@ public class ModImpl extends MinimalEObjectImpl.Container implements Mod
    * @ordered
    */
   protected EList<Function> functions;
+
+  /**
+   * The cached value of the '{@link #getStatements() <em>Statements</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getStatements()
+   * @generated
+   * @ordered
+   */
+  protected EList<Statement> statements;
 
   /**
    * <!-- begin-user-doc -->
@@ -160,6 +172,20 @@ public class ModImpl extends MinimalEObjectImpl.Container implements Mod
    * <!-- end-user-doc -->
    * @generated
    */
+  public EList<Statement> getStatements()
+  {
+    if (statements == null)
+    {
+      statements = new EObjectContainmentEList<Statement>(Statement.class, this, NetxscriptPackage.MOD__STATEMENTS);
+    }
+    return statements;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -169,6 +195,8 @@ public class ModImpl extends MinimalEObjectImpl.Container implements Mod
         return ((InternalEList<?>)getImports()).basicRemove(otherEnd, msgs);
       case NetxscriptPackage.MOD__FUNCTIONS:
         return ((InternalEList<?>)getFunctions()).basicRemove(otherEnd, msgs);
+      case NetxscriptPackage.MOD__STATEMENTS:
+        return ((InternalEList<?>)getStatements()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -189,6 +217,8 @@ public class ModImpl extends MinimalEObjectImpl.Container implements Mod
         return getImports();
       case NetxscriptPackage.MOD__FUNCTIONS:
         return getFunctions();
+      case NetxscriptPackage.MOD__STATEMENTS:
+        return getStatements();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -215,6 +245,10 @@ public class ModImpl extends MinimalEObjectImpl.Container implements Mod
         getFunctions().clear();
         getFunctions().addAll((Collection<? extends Function>)newValue);
         return;
+      case NetxscriptPackage.MOD__STATEMENTS:
+        getStatements().clear();
+        getStatements().addAll((Collection<? extends Statement>)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -238,6 +272,9 @@ public class ModImpl extends MinimalEObjectImpl.Container implements Mod
       case NetxscriptPackage.MOD__FUNCTIONS:
         getFunctions().clear();
         return;
+      case NetxscriptPackage.MOD__STATEMENTS:
+        getStatements().clear();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -258,6 +295,8 @@ public class ModImpl extends MinimalEObjectImpl.Container implements Mod
         return imports != null && !imports.isEmpty();
       case NetxscriptPackage.MOD__FUNCTIONS:
         return functions != null && !functions.isEmpty();
+      case NetxscriptPackage.MOD__STATEMENTS:
+        return statements != null && !statements.isEmpty();
     }
     return super.eIsSet(featureID);
   }

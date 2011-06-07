@@ -18,21 +18,22 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 // uri won't be found in runtime??? 
 import "platform:/resource/com.netxforge.model.a/model/library.ecore" as library
 
+
+
 Mod:
-	('mod' name=ID)?
+	'mod' name=ID
 	(imports+=Import)*
-	(functions+=Function)*
-	(statements+=Statement)*;
+	(functions+=Function)+;
 
 Context:
-	'context' context=[ecore::EObject];
+	'context' context=[ecore::EObject]
+;
 
 Import:
 	'import' importURI=STRING;
 
 	//ImportName:
 //	ID ('.' '*')?;
-
 
 // TODO, we can't have mandatory brackets, as this would conflict with our PrimaryExpression. 
 Function:
@@ -49,34 +50,13 @@ AbstractFunction:
 	Function;
 
 Block:
-	{Block} '{' statements+=Statement* '}';
+	'{' {Block} statements+=Statement* '}';
 
 Statement:
-	(VariableStatement | AssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement) ';'
-	| IfStatement
-	| WhileStatement
-	| Block;
-
-ReturnStatement returns Statement:
-	{Return} 'return' (expression=Expression)?;
-
-IfStatement returns Statement:
-	{If} 'if' '(' if=Logical ')' then=Block
-	('else' else=Block)?;
-
-WhileStatement returns Statement:
-	{While}
-	'while' '(' predicate=Logical ')'
-		body=Block;
+	{BlankStatement} ';' | VariableStatement ';' | Block;
 
 VariableStatement returns Statement:
-	{Variable} 'var' name=ID (('=') expression=Expression)?;
-
-AssignmentStatement returns Statement:
-	{Assignment} var=[AbstractVarOrArgument] '=' expression=Expression;
-
-ReferenceAssignmentStatement returns Statement:
-	{RefAssignement} ref=ContextRef '=' expression=Expression;
+	expression=Expression | {Variable} name=ID ('=') expression=Expression;
 
 	// Expression, all operators extend this class. 
 Expression:
@@ -114,7 +94,8 @@ UnaryOperator:
 	'-' |
 	'+';
 
-	// TODO, a functionCall is not necessarly an abstract definition in this grammar, but could 
+
+// TODO, a functionCall is not necessarly an abstract definition in this grammar, but could 
 // be an internal function call. For this we could mixin, a grammar which contains
 // all internal calls.
 
@@ -124,14 +105,17 @@ PrimaryExpression returns Expression:
 	Reference |
 	FunctionCall |
 	VarOrArgumentCall |
-	ParenthesizedExpression;
+	ParenthesizedExpression
+	;
 
 Literal returns Expression:
 	{NumberLiteral} value=NUMBER |
-	{BooleanLiteral} (condition?='true' | 'false');
+	{BooleanLiteral} condition?=BOOLEAN
+;
 
 ParenthesizedExpression returns Expression:
-	'(' Expression ')';
+	'(' Expression ')'
+;
 
 FunctionCall returns Expression:
 	{FunctionCall} func=[AbstractFunction] '(' (args+=Expression (',' args+=Expression)*)? ')';
@@ -139,45 +123,52 @@ FunctionCall returns Expression:
 VarOrArgumentCall returns Expression:
 	{VarOrArgumentCall} call=[AbstractVarOrArgument];
 
-Reference returns Expression:
-	ContextRef ('.' nativeFunction=NativeFunction)?;
-
-
-enum NativeFunction:
-	COUNT | SUM | MIN | MAX | MEAN | DEVIATION
+ReturnExpression returns Expression:
+	{ReturnExpression} 'return' (=>expression=Expression)?
 ;
 
+Reference returns Expression:
+	ContextRef ('.' nativeFunction=NativeFunction)?
+;
 
-//terminal NativeFunction returns ecore::EString:
-//	('count' | 'sum' | 'erlangB' | 'trend' | 'metricRange');
-
-	/**
+/**
  * Contextual reference will be restricted by a container in the scope provider
  * depending on the object representation of 'this', until implemented, all possible 
  * references will be visible.  
  */
 ContextRef returns Reference:
-	'this' NodeRef;
+	'this' NodeRef
+;
 
-	/**
+/**
  * Exteral Node references, these can be nested and finish with a resource reference.
  */
 NodeRef returns Reference:
-	(nodes+=PrimaryNodeRef)+ ('->' ref=(ResourceRef | LinkRef))?;
+	( nodes+=PrimaryNodeRef)+ ('->' ref=(ResourceRef | LinkRef))?;
 
 PrimaryNodeRef returns Reference:
 	{NodeRef} '->' node=[library::Node];
 
 ResourceRef returns Reference:
-	{ResourceRef} 'RES' resource=[library::Resource];
+	{ResourceRef}'RES' resource=[library::Resource]
+;
 
 LinkRef returns Reference:
-	{LinkRef} 'LINK' link=[library::Link];
+	{LinkRef}'LINK' link=[library::Link]
+;
 
 
+
+
+terminal NativeFunction returns ecore::EString:
+	('count' | 'sum' | 'erlangB' | 'trend' | 'metricRange')
+;
 
 terminal NUMBER returns ecore::EBigDecimal:
 	('0'..'9')* ('.' ('0'..'9')+)?;
+
+terminal BOOLEAN returns ecore::EBoolean:
+	'true' | 'false';
 
 terminal INT returns ecore::EInt:
 	'this one has been deactivated';

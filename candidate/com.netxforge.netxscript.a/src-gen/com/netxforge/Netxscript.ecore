@@ -11,6 +11,12 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="functions" upperBound="-1"
         eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Function"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Context">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="context" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Import">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -37,17 +43,46 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expression"/>
-  <eClassifiers xsi:type="ecore:EClass" name="NodeDepth"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PrimaryNodeRef" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NodeDepth">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="depth" upperBound="-1"
-        eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//PrimaryNodeRef"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="resRef" eType="ecore:EClass platform:/resource/com.netxforge.model.a/model/library.ecore#//Resource"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nodeRef" eType="ecore:EClass platform:/resource/com.netxforge.model.a/model/library.ecore#//Node"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="NativeFunction">
+    <eLiterals name="COUNT" literal="COUNT"/>
+    <eLiterals name="SUM" value="1" literal="SUM"/>
+    <eLiterals name="MIN" value="2" literal="MIN"/>
+    <eLiterals name="MAX" value="3" literal="MAX"/>
+    <eLiterals name="MEAN" value="4" literal="MEAN"/>
+    <eLiterals name="DEVIATION" value="5" literal="DEVIATION"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="BlankStatement" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Reference" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nativeFunction" eType="ecore:EEnum platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NativeFunction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Return" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="if" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="then" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Block"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Block"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="While" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Block"
+        containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="var" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//AbstractVarOrArgument"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RefAssignement" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"
@@ -143,10 +178,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ModelReference" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="node" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NodeDepth"
-        containment="true"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionCall" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="func" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//AbstractFunction"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="args" upperBound="-1" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"
@@ -154,5 +185,14 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VarOrArgumentCall" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="call" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//AbstractVarOrArgument"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeRef" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="node" eType="ecore:EClass platform:/resource/com.netxforge.model.a/model/library.ecore#//Node"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceRef" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resource" eType="ecore:EClass platform:/resource/com.netxforge.model.a/model/library.ecore#//Resource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkRef" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="link" eType="ecore:EClass platform:/resource/com.netxforge.model.a/model/library.ecore#//Link"/>
   </eClassifiers>
 </ecore:EPackage>
