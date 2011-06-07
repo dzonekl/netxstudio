@@ -6,13 +6,17 @@
  */
 package library.util;
 
-import library.*;
+import library.LibraryPackage;
+import library.Link;
+import library.Network;
+import library.Node;
+import library.Period;
+import library.Resource;
+import library.Value;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**

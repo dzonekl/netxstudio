@@ -6,6 +6,7 @@
  */
 package library.impl;
 
+import static library.LibraryPackage.RESOURCE;
 import library.LibraryFactory;
 import library.LibraryPackage;
 import library.Link;
@@ -13,13 +14,12 @@ import library.Network;
 import library.Node;
 import library.Period;
 import library.Resource;
-
 import library.Value;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**

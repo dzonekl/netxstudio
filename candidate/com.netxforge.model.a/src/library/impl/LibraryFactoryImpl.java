@@ -6,14 +6,19 @@
  */
 package library.impl;
 
-import library.*;
+import library.LibraryFactory;
+import library.LibraryPackage;
+import library.Link;
+import library.Network;
+import library.Node;
+import library.Period;
+import library.Resource;
+import library.Value;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**

@@ -6,11 +6,16 @@
  */
 package library.util;
 
-import library.*;
+import library.LibraryPackage;
+import library.Link;
+import library.Network;
+import library.Node;
+import library.Period;
+import library.Resource;
+import library.Value;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
 
 /**
