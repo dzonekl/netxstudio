@@ -6,7 +6,6 @@
  */
 package library.impl;
 
-import static library.LibraryPackage.RESOURCE;
 import library.LibraryFactory;
 import library.LibraryPackage;
 import library.Link;
