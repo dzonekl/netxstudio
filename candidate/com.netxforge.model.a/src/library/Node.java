@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link library.Node#getResources <em>Resources</em>}</li>
  *   <li>{@link library.Node#getName <em>Name</em>}</li>
  *   <li>{@link library.Node#getNodes <em>Nodes</em>}</li>
+ *   <li>{@link library.Node#getLinks <em>Links</em>}</li>
  * </ul>
  * </p>
  *
@@ -87,5 +88,21 @@ public interface Node extends EObject {
 	 * @generated
 	 */
 	EList<Node> getNodes();
+
+	/**
+	 * Returns the value of the '<em><b>Links</b></em>' reference list.
+	 * The list contents are of type {@link library.Link}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Links</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Links</em>' reference list.
+	 * @see library.LibraryPackage#getNode_Links()
+	 * @model
+	 * @generated
+	 */
+	EList<Link> getLinks();
 
 } // Node

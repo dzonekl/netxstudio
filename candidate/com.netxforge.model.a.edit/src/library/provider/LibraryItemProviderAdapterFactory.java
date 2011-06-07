@@ -145,6 +145,75 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link library.Link} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected LinkItemProvider linkItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link library.Link}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createLinkAdapter() {
+		if (linkItemProvider == null) {
+			linkItemProvider = new LinkItemProvider(this);
+		}
+
+		return linkItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link library.Value} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ValueItemProvider valueItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link library.Value}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createValueAdapter() {
+		if (valueItemProvider == null) {
+			valueItemProvider = new ValueItemProvider(this);
+		}
+
+		return valueItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link library.Period} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PeriodItemProvider periodItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link library.Period}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPeriodAdapter() {
+		if (periodItemProvider == null) {
+			periodItemProvider = new PeriodItemProvider(this);
+		}
+
+		return periodItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -246,6 +315,9 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 		if (nodeItemProvider != null) nodeItemProvider.dispose();
 		if (resourceItemProvider != null) resourceItemProvider.dispose();
 		if (networkItemProvider != null) networkItemProvider.dispose();
+		if (linkItemProvider != null) linkItemProvider.dispose();
+		if (valueItemProvider != null) valueItemProvider.dispose();
+		if (periodItemProvider != null) periodItemProvider.dispose();
 	}
 
 }

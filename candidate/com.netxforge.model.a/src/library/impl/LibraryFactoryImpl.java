@@ -63,6 +63,9 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 			case LibraryPackage.NODE: return createNode();
 			case LibraryPackage.RESOURCE: return createResource();
 			case LibraryPackage.NETWORK: return createNetwork();
+			case LibraryPackage.LINK: return createLink();
+			case LibraryPackage.VALUE: return createValue();
+			case LibraryPackage.PERIOD: return createPeriod();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -96,6 +99,36 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	public Network createNetwork() {
 		NetworkImpl network = new NetworkImpl();
 		return network;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Link createLink() {
+		LinkImpl link = new LinkImpl();
+		return link;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Value createValue() {
+		ValueImpl value = new ValueImpl();
+		return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Period createPeriod() {
+		PeriodImpl period = new PeriodImpl();
+		return period;
 	}
 
 	/**

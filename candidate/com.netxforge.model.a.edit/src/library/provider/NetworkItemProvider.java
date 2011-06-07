@@ -82,6 +82,7 @@ public class NetworkItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(LibraryPackage.Literals.NETWORK__NODES);
+			childrenFeatures.add(LibraryPackage.Literals.NETWORK__LINKS);
 		}
 		return childrenFeatures;
 	}
@@ -134,6 +135,7 @@ public class NetworkItemProvider
 
 		switch (notification.getFeatureID(Network.class)) {
 			case LibraryPackage.NETWORK__NODES:
+			case LibraryPackage.NETWORK__LINKS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -155,6 +157,11 @@ public class NetworkItemProvider
 			(createChildParameter
 				(LibraryPackage.Literals.NETWORK__NODES,
 				 LibraryFactory.eINSTANCE.createNode()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LibraryPackage.Literals.NETWORK__LINKS,
+				 LibraryFactory.eINSTANCE.createLink()));
 	}
 
 	/**

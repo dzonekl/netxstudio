@@ -8,18 +8,16 @@ package library.provider;
 
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
-import library.LibraryFactory;
 import library.LibraryPackage;
-import library.Node;
+import library.Period;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
-
-import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -33,12 +31,12 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link library.Node} object.
+ * This is the item provider adapter for a {@link library.Period} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class NodeItemProvider
+public class PeriodItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -52,7 +50,7 @@ public class NodeItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NodeItemProvider(AdapterFactory adapterFactory) {
+	public PeriodItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -67,26 +65,26 @@ public class NodeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
-			addLinksPropertyDescriptor(object);
+			addApproxStartPropertyDescriptor(object);
+			addApproxEndPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Approx Start feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNamePropertyDescriptor(Object object) {
+	protected void addApproxStartPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Node_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Node_name_feature", "_UI_Node_type"),
-				 LibraryPackage.Literals.NODE__NAME,
+				 getString("_UI_Period_approxStart_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Period_approxStart_feature", "_UI_Period_type"),
+				 LibraryPackage.Literals.PERIOD__APPROX_START,
 				 true,
 				 false,
 				 false,
@@ -96,67 +94,36 @@ public class NodeItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Links feature.
+	 * This adds a property descriptor for the Approx End feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addLinksPropertyDescriptor(Object object) {
+	protected void addApproxEndPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Node_links_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Node_links_feature", "_UI_Node_type"),
-				 LibraryPackage.Literals.NODE__LINKS,
+				 getString("_UI_Period_approxEnd_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Period_approxEnd_feature", "_UI_Period_type"),
+				 LibraryPackage.Literals.PERIOD__APPROX_END,
 				 true,
 				 false,
-				 true,
-				 null,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(LibraryPackage.Literals.NODE__RESOURCES);
-			childrenFeatures.add(LibraryPackage.Literals.NODE__NODES);
-		}
-		return childrenFeatures;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-
-		return super.getChildFeature(object, child);
-	}
-
-	/**
-	 * This returns Node.gif.
+	 * This returns Period.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Node"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Period"));
 	}
 
 	/**
@@ -167,10 +134,11 @@ public class NodeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Node)object).getName();
+		Date labelValue = ((Period)object).getApproxStart();
+		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Node_type") :
-			getString("_UI_Node_type") + " " + label;
+			getString("_UI_Period_type") :
+			getString("_UI_Period_type") + " " + label;
 	}
 
 	/**
@@ -184,13 +152,10 @@ public class NodeItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Node.class)) {
-			case LibraryPackage.NODE__NAME:
+		switch (notification.getFeatureID(Period.class)) {
+			case LibraryPackage.PERIOD__APPROX_START:
+			case LibraryPackage.PERIOD__APPROX_END:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case LibraryPackage.NODE__RESOURCES:
-			case LibraryPackage.NODE__NODES:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -206,16 +171,6 @@ public class NodeItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.NODE__RESOURCES,
-				 LibraryFactory.eINSTANCE.createResource()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.NODE__NODES,
-				 LibraryFactory.eINSTANCE.createNode()));
 	}
 
 	/**

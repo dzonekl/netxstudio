@@ -6,6 +6,8 @@
  */
 package library;
 
+import org.eclipse.emf.common.util.EList;
+import java.math.BigDecimal;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -17,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link library.Resource#getName <em>Name</em>}</li>
+ *   <li>{@link library.Resource#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,5 +53,21 @@ public interface Resource extends EObject {
 	 * @generated
 	 */
 	void setName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Values</b></em>' containment reference list.
+	 * The list contents are of type {@link library.Value}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Values</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Values</em>' containment reference list.
+	 * @see library.LibraryPackage#getResource_Values()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Value> getValues();
 
 } // Resource

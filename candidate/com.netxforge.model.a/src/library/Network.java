@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link library.Network#getNodes <em>Nodes</em>}</li>
+ *   <li>{@link library.Network#getLinks <em>Links</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,5 +43,21 @@ public interface Network extends EObject {
 	 * @generated
 	 */
 	EList<Node> getNodes();
+
+	/**
+	 * Returns the value of the '<em><b>Links</b></em>' containment reference list.
+	 * The list contents are of type {@link library.Link}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Links</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Links</em>' containment reference list.
+	 * @see library.LibraryPackage#getNetwork_Links()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Link> getLinks();
 
 } // Network

@@ -9,6 +9,7 @@ package library.impl;
 import java.util.Collection;
 
 import library.LibraryPackage;
+import library.Link;
 import library.Node;
 import library.Resource;
 
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -36,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link library.impl.NodeImpl#getResources <em>Resources</em>}</li>
  *   <li>{@link library.impl.NodeImpl#getName <em>Name</em>}</li>
  *   <li>{@link library.impl.NodeImpl#getNodes <em>Nodes</em>}</li>
+ *   <li>{@link library.impl.NodeImpl#getLinks <em>Links</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,6 +83,16 @@ public class NodeImpl extends EObjectImpl implements Node {
 	 * @ordered
 	 */
 	protected EList<Node> nodes;
+
+	/**
+	 * The cached value of the '{@link #getLinks() <em>Links</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLinks()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Link> links;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -150,6 +163,18 @@ public class NodeImpl extends EObjectImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Link> getLinks() {
+		if (links == null) {
+			links = new EObjectResolvingEList<Link>(Link.class, this, LibraryPackage.NODE__LINKS);
+		}
+		return links;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -175,6 +200,8 @@ public class NodeImpl extends EObjectImpl implements Node {
 				return getName();
 			case LibraryPackage.NODE__NODES:
 				return getNodes();
+			case LibraryPackage.NODE__LINKS:
+				return getLinks();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -199,6 +226,10 @@ public class NodeImpl extends EObjectImpl implements Node {
 				getNodes().clear();
 				getNodes().addAll((Collection<? extends Node>)newValue);
 				return;
+			case LibraryPackage.NODE__LINKS:
+				getLinks().clear();
+				getLinks().addAll((Collection<? extends Link>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -220,6 +251,9 @@ public class NodeImpl extends EObjectImpl implements Node {
 			case LibraryPackage.NODE__NODES:
 				getNodes().clear();
 				return;
+			case LibraryPackage.NODE__LINKS:
+				getLinks().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -238,6 +272,8 @@ public class NodeImpl extends EObjectImpl implements Node {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case LibraryPackage.NODE__NODES:
 				return nodes != null && !nodes.isEmpty();
+			case LibraryPackage.NODE__LINKS:
+				return links != null && !links.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

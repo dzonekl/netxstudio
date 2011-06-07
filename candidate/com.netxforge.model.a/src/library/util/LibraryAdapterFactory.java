@@ -84,6 +84,18 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 				return createNetworkAdapter();
 			}
 			@Override
+			public Adapter caseLink(Link object) {
+				return createLinkAdapter();
+			}
+			@Override
+			public Adapter caseValue(Value object) {
+				return createValueAdapter();
+			}
+			@Override
+			public Adapter casePeriod(Period object) {
+				return createPeriodAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -142,6 +154,48 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createNetworkAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link library.Link <em>Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see library.Link
+	 * @generated
+	 */
+	public Adapter createLinkAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link library.Value <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see library.Value
+	 * @generated
+	 */
+	public Adapter createValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link library.Period <em>Period</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see library.Period
+	 * @generated
+	 */
+	public Adapter createPeriodAdapter() {
 		return null;
 	}
 

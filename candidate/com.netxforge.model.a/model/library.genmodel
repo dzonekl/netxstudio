@@ -10,12 +10,28 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Node/resources"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Node/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Node/nodes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Node/links"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Resource">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Resource/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Resource/values"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Network">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Network/nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Network/links"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Link">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Link/firstLeg"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Link/secondLeg"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Link/name"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Value">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Value/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Value/timeStamp"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//Period">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Period/approxStart"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Period/approxEnd"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
