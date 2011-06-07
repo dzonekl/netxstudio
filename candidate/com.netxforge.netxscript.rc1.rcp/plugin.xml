@@ -19,6 +19,8 @@
             id="com.netxforge.netxscript.rc1.rcp.perspective">
       </perspective>
    </extension>
+   
+<!--    
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
@@ -32,6 +34,7 @@
          </menu>
       </menuContribution>
    </extension>
+-->   
    <extension
          id="product"
          point="org.eclipse.core.runtime.products">

@@ -11,11 +11,17 @@ public class Perspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		IFolderLayout left = layout.createFolder(
 				"left", IPageLayout.LEFT, 0.3f, editorArea); //$NON-NLS-1$	 //$NON-NLS-2$
-		left.addView("org.eclipse.ui.navigator.ProjectExplorer");
+		left.addView("com.netxforge.netxstudio.navigator.ProjectExplorer");
 
 		IFolderLayout right = layout.createFolder(
 				"right", IPageLayout.RIGHT, 0.3f, editorArea); //$NON-NLS-1$	 //$NON-NLS-2$
 		right.addView("org.eclipse.ui.views.ContentOutline");
+		
+		IFolderLayout bottom = layout.createFolder(
+				"bottom", IPageLayout.BOTTOM, 0.3f, editorArea); //$NON-NLS-1$	 //$NON-NLS-2$
+		bottom.addView("org.eclipse.ui.console.ConsoleView");
+		
+		
 	}
 
 }
