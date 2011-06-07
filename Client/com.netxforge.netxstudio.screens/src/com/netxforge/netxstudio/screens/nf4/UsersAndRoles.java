@@ -365,7 +365,7 @@ public class UsersAndRoles extends AbstractScreen implements IDataServiceInjecti
 	 */
 	public void disposeData() {
 		if (editingService != null) {
-			editingService.revokeData();
+			editingService.disposeData();
 		}
 	}
 

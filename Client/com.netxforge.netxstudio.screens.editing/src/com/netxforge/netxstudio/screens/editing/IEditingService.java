@@ -82,7 +82,7 @@ public interface IEditingService {
 	 * Typically used to release a connection. 
 	 * @return
 	 */
-	public abstract void revokeData();
+	public abstract void disposeData();
 	
 	/**
 	 * Set the provider for the active viewer. 

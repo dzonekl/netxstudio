@@ -26,7 +26,7 @@ import com.netxforge.netxstudio.screens.f4.MetricSources;
 import com.netxforge.netxstudio.screens.f4.MetricValueRange;
 import com.netxforge.netxstudio.screens.f4.Metrics;
 import com.netxforge.netxstudio.screens.f4.NewMappingColumn;
-import com.netxforge.netxstudio.screens.f4.NewMetric;
+import com.netxforge.netxstudio.screens.f4.NewEditMetric;
 import com.netxforge.netxstudio.screens.f4.NewMetricSource;
 import com.netxforge.netxstudio.screens.f4.NewScheduledJob;
 import com.netxforge.netxstudio.screens.f4.NewXLSMapping;
@@ -201,9 +201,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof NewMetric)
+				if (currentComposite instanceof NewEditMetric)
 					return;
-				updateComposite(container, new NewMetric(container, SWT.NONE));
+				updateComposite(container, new NewEditMetric(container, SWT.NONE));
 
 			}
 		});

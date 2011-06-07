@@ -1,5 +1,7 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -20,7 +22,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-public class NewMetric extends Composite {
+import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+
+public class NewEditMetric extends AbstractScreen implements IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtNewText;
@@ -35,9 +41,12 @@ public class NewMetric extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	@SuppressWarnings("unused")
-	public NewMetric(Composite parent, int style) {
-		super(parent, SWT.BORDER);
+	public NewEditMetric(Composite parent, int style) {
+		this(parent, style, null);
+	}
+	
+	public NewEditMetric(Composite parent, int style, IEditingService eService) {
+		super(parent, style, eService);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -152,5 +161,38 @@ public class NewMetric extends Composite {
 		GridData gd_text_3 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_text_3.heightHint = 70;
 		text_3.setLayoutData(gd_text_3);
+	}
+
+	public EMFDataBindingContext initDataBindings_() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void injectData(Object owner, Object object) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Viewer getViewer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Form getScreenForm() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

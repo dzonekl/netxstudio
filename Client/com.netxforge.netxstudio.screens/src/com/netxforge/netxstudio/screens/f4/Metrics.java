@@ -1,26 +1,48 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.wb.swt.ResourceManager;
 
-public class Metrics extends Composite {
+import com.netxforge.netxstudio.library.Library;
+import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricsFactory;
+import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
+
+public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
+	private Library library;
+	private EMFDataBindingContext bindingContext;
+	private Form frmMetrics;
+	private TreeViewer treeViewer;
 	
 	/**
 	 * Create the composite.
@@ -28,83 +50,116 @@ public class Metrics extends Composite {
 	 * @param style
 	 */
 	public Metrics(Composite parent, int style) {
-		super(parent, SWT.BORDER);
+		this(parent, style, null, null);
+	}
+	
+	public Metrics(Composite parent, int style, IEditingService eService, IScreenFormService sService) {
+		super(parent, style, sService, eService);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
+				disposeData();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 		
-		Form frmMetricSources = toolkit.createForm(this);
-		frmMetricSources.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmMetricSources);
-		frmMetricSources.setText("Metrics");
-		frmMetricSources.getBody().setLayout(new GridLayout(2, false));
+		frmMetrics = toolkit.createForm(this);
+		frmMetrics.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmMetrics);
+		frmMetrics.setText("Metrics");
+		frmMetrics.getBody().setLayout(new GridLayout(3, false));
 		
-		Label lblFilterLabel = toolkit.createLabel(frmMetricSources.getBody(), "Filter:", SWT.NONE);
+		Label lblFilterLabel = toolkit.createLabel(frmMetrics.getBody(), "Filter:", SWT.NONE);
 		lblFilterLabel.setAlignment(SWT.RIGHT);
-		GridData gd_lblFilterLabel = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_lblFilterLabel.widthHint = 70;
+		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_lblFilterLabel.widthHint = 36;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 		
-		txtFilterText = toolkit.createText(frmMetricSources.getBody(), "New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
+		txtFilterText = toolkit.createText(frmMetrics.getBody(), "New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
-		txtFilterText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		new Label(frmMetricSources.getBody(), SWT.NONE);
-			
+		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+		gd_txtFilterText.widthHint = 200;
+		txtFilterText.setLayoutData(gd_txtFilterText);
 		
-		// TODO, Replace by a treeviewer, when hooking data binding. 
+		ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(frmMetrics.getBody(), SWT.NONE);
+		mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				NewEditMetric metricScreen = new NewEditMetric(
+						screenService.getScreenContainer(), SWT.NONE
+								| Screens.OPERATION_NEW, editingService);
+				screenService.setActiveScreen(metricScreen);
+				Metric metric = MetricsFactory.eINSTANCE
+						.createMetric();
+				metricScreen.injectData(library.getMetrics(), metric);
+			}
+			public void linkEntered(HyperlinkEvent e) {
+			}
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		mghprlnkNewMetric.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Metric_E.png"));
+		toolkit.paintBordersFor(mghprlnkNewMetric);
+		mghprlnkNewMetric.setText("New");
 		
-		Tree tree = new Tree(frmMetricSources.getBody(), SWT.BORDER);
+		treeViewer = new TreeViewer(frmMetrics.getBody(), SWT.BORDER);
+		Tree tree = treeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
-		toolkit.adapt(tree);
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(tree);
 		
-		TreeColumn trclmnNewColumn = new TreeColumn(tree, SWT.NONE);
-		trclmnNewColumn.setWidth(176);
-		trclmnNewColumn.setText("Name");
+		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
+		TreeColumn trclmnName = treeViewerColumn.getColumn();
+		trclmnName.setWidth(100);
+		trclmnName.setText("Name");
 		
-		TreeColumn trclmnNewColumn_1 = new TreeColumn(tree, SWT.NONE);
-		trclmnNewColumn_1.setWidth(239);
-		trclmnNewColumn_1.setText("Description");
+		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(treeViewer, SWT.NONE);
+		TreeColumn trclmnDescription = treeViewerColumn_1.getColumn();
+		trclmnDescription.setWidth(100);
+		trclmnDescription.setText("Description");
 		
-		TreeItem trtmNewTreeitem = new TreeItem(tree, SWT.NONE);
-		trtmNewTreeitem.setText(new String[] {"SGSN Traffic 2G", "SGSN Traffic in 2G"});
-		
-		TreeItem trtmNewTreeitem_1 = new TreeItem(trtmNewTreeitem, SWT.NONE);
-		trtmNewTreeitem_1.setText(new String[] {"", "Bytes of 2G downlink packets forwarded successfully from GTP"});
-		trtmNewTreeitem_1.setText("Gb mode downlink");
-		
-		TreeItem trtmNewTreeitem_3 = new TreeItem(trtmNewTreeitem, SWT.NONE);
-		trtmNewTreeitem_3.setText(new String[] {"", "Bytes of 2G uplink packets forwarded successfully from GTP"});
-		trtmNewTreeitem_3.setText("Gb mode uplink");
-		trtmNewTreeitem.setExpanded(true);
-		
-		TreeColumn trclmnUnit = new TreeColumn(tree, SWT.NONE);
+		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(treeViewer, SWT.NONE);
+		TreeColumn trclmnUnit = treeViewerColumn_2.getColumn();
 		trclmnUnit.setWidth(100);
 		trclmnUnit.setText("Unit");
-		
-		TreeColumn trclmnExpression = new TreeColumn(tree, SWT.NONE);
-		trclmnExpression.setWidth(100);
-		trclmnExpression.setText("Expression");
-		
-		Button btnAddButton = toolkit.createButton(frmMetricSources.getBody(), "+", SWT.NONE);
-		GridData gd_btnAddButton = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_btnAddButton.widthHint = 18;
-		gd_btnAddButton.heightHint = 18;
-		btnAddButton.setLayoutData(gd_btnAddButton);
-		
-		Button btnRemoveButton_1 = toolkit.createButton(frmMetricSources.getBody(), "-", SWT.NONE);
-		GridData gd_btnRemoveButton_1 = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_btnRemoveButton_1.widthHint = 18;
-		gd_btnRemoveButton_1.heightHint = 18;
-		btnRemoveButton_1.setLayoutData(gd_btnRemoveButton_1);
-		new Label(frmMetricSources.getBody(), SWT.NONE);
 	}
 
+	public EMFDataBindingContext initDataBindings_() {
+		EMFDataBindingContext context = new EMFDataBindingContext();
+		
+		return context;
+	}
+
+	public void injectData() {
+		Resource res = editingService.getData(LibraryPackage.LIBRARY);
+		if (res.getContents().size() == 0) {
+			Library lib = LibraryFactory.eINSTANCE.createLibrary();
+			res.getContents().add(lib);
+			this.library = lib;
+		} else {
+			this.library = (Library) res.getContents().get(0);
+		}
+		bindingContext = initDataBindings_();
+	}
+
+	public void disposeData() {
+		editingService.disposeData();
+	}
+
+	@Override
+	public Viewer getViewer() {
+		return treeViewer;
+	}
+
+	@Override
+	public boolean isValid() {
+		return false;
+	}
+
+	@Override
+	public Form getScreenForm() {
+		return this.frmMetrics;
+	}
 }

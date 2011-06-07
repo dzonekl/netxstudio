@@ -306,7 +306,7 @@ public class Expressions extends AbstractScreen implements
 
 	public void disposeData() {
 		if (editingService != null) {
-			editingService.revokeData();
+			editingService.disposeData();
 		}
 	}
 

@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.screens.f4.MetricSources;
 import com.netxforge.netxstudio.screens.f4.MetricValueRange;
 import com.netxforge.netxstudio.screens.f4.Metrics;
 import com.netxforge.netxstudio.screens.f4.NewMappingColumn;
-import com.netxforge.netxstudio.screens.f4.NewMetric;
+import com.netxforge.netxstudio.screens.f4.NewEditMetric;
 import com.netxforge.netxstudio.screens.f4.NewMetricSource;
 import com.netxforge.netxstudio.screens.f4.NewScheduledJob;
 import com.netxforge.netxstudio.screens.f4.NewXLSMapping;
@@ -206,7 +206,7 @@ public class ScreenSelector extends AbstractScreenSelector {
 			public void widgetSelected(SelectionEvent e) {
 //				if (currentComposite instanceof NewMetric)
 //					return;
-				updateComposite(new NewMetric(container, SWT.NONE));
+				updateComposite(new NewEditMetric(container, SWT.NONE));
 
 			}
 		});

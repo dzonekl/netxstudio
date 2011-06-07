@@ -132,7 +132,7 @@ public class CDOEditingService extends EMFEditingService implements IDawnEditor,
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#tearDownScreen(int)
 	 */
-	public void revokeData() {
+	public void disposeData() {
 		  dawnEditorSupport.close(); // Closes the view.
 		  // Close the view, but does it close the transaction? 
 	}
