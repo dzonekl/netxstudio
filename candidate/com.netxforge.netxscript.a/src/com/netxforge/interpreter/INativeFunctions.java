@@ -1,17 +1,25 @@
 package com.netxforge.interpreter;
 
-import library.Value;
+import java.math.BigDecimal;
 
 import org.eclipse.emf.common.util.EList;
 
 public interface INativeFunctions {
-
+	
+	
+	/**
+	 * Count the range.
+	 * @param range
+	 * @return
+	 */
+	public abstract BigDecimal count(EList<?> range);
+	
 	/**
 	 * Sum the range.
 	 * @param range
 	 * @return
 	 */
-	public abstract double sum(EList<Value> range);
+	public abstract BigDecimal sum(EList<?> range);
 
 	/**
 	 * Sum the range. 
@@ -25,7 +33,7 @@ public interface INativeFunctions {
 	 * @param range
 	 * @return
 	 */
-	public abstract double max(EList<Value> range);
+	public abstract BigDecimal max(EList<?> range);
 
 	/**
 	 * The max value in the range.
@@ -39,7 +47,7 @@ public interface INativeFunctions {
 	 * @param range
 	 * @return
 	 */
-	public abstract double min(EList<Value> range);
+	public abstract BigDecimal min(EList<?> range);
 
 	/**
 	 * The min value in the range. 
@@ -54,7 +62,7 @@ public interface INativeFunctions {
 	 * @param range
 	 * @return
 	 */
-	public abstract double mean(EList<Value> range);
+	public abstract BigDecimal mean(EList<?> range);
 
 	/**
 	 * The arithmetic mean in the range. 
@@ -70,7 +78,7 @@ public interface INativeFunctions {
 	 * @param range
 	 * @return
 	 */
-	public abstract double standardDeviation(EList<Value> range);
+	public abstract BigDecimal standardDeviation(EList<?> range);
 
 	/**
 	 * The standard deviation from a range. 

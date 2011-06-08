@@ -8,19 +8,27 @@ import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
 
 import com.google.inject.Inject;
 import com.netxforge.netxscript.Argument;
+import com.netxforge.netxscript.Assignment;
+import com.netxforge.netxscript.BooleanLiteral;
 import com.netxforge.netxscript.Div;
 import com.netxforge.netxscript.Function;
 import com.netxforge.netxscript.FunctionCall;
+import com.netxforge.netxscript.If;
 import com.netxforge.netxscript.LinkRef;
 import com.netxforge.netxscript.Minus;
+import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.Multi;
+import com.netxforge.netxscript.NativeExpression;
 import com.netxforge.netxscript.NodeRef;
 import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Plus;
 import com.netxforge.netxscript.Reference;
 import com.netxforge.netxscript.ResourceRef;
+import com.netxforge.netxscript.Return;
+import com.netxforge.netxscript.Statement;
 import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
+import com.netxforge.netxscript.While;
 
 /**
  * Provides labels for a EObjects.
@@ -52,11 +60,43 @@ public class NetxscriptLabelProvider extends DefaultEObjectLabelProvider {
 	String text(Multi ele) {
 		return "*";
 	}
-
+	
 	String text(NumberLiteral ele) {
 		return ele.getValue().toEngineeringString();
 	}
+	
+	String text (BooleanLiteral ele){
+		return  ele.isCondition() ? "true" : "false";
+	}
 
+	String text(Mod s){
+		return "NetXScript";
+	}
+	
+	String text(Statement s){
+		
+		if(s instanceof If){
+			return "If";
+		}
+		if(s instanceof While){
+			return "While";
+		}
+		if(s instanceof Return){
+			return "Return";
+		}
+		if(s instanceof Variable){
+			return "Var: " + ((Variable)s).getName();
+		}
+		if(s instanceof Assignment){
+			return "Assignment: " +((Variable)((Assignment)s).getVar()).getName();
+		}
+		return "Statement";
+	}
+	
+	String text(NativeExpression n){
+		return "Function: " + n.getNativeFunction().getName();
+	}
+	
 	String text(Reference ele) {
 		if (ele instanceof LinkRef) {
 			return ((LinkRef) ele).getLink().getName();
@@ -67,8 +107,10 @@ public class NetxscriptLabelProvider extends DefaultEObjectLabelProvider {
 		if (ele instanceof ResourceRef) {
 			return ((ResourceRef) ele).getResource().getName();
 		}
-
-		return ele.getClass().getSimpleName();
+		if(ele instanceof Reference){
+			return "Model Reference";
+		}
+		return "";
 	}
 
 	String text(VarOrArgumentCall ele) {
@@ -88,10 +130,6 @@ public class NetxscriptLabelProvider extends DefaultEObjectLabelProvider {
 	String text(Function ele) {
 		return "Function:" + ele.getName() + "("
 				+ ele.getBlock().getStatements().size() + ")";
-	}
-
-	String text(Variable ele) {
-		return "Variable:" + ele.getName();
 	}
 
 	/*

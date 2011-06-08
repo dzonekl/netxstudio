@@ -9,6 +9,7 @@
 package com.netxforge.tests;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Map;
 
 import junit.framework.AssertionFailedError;
@@ -17,16 +18,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.junit.AbstractXtextTests;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.netxforge.NetxscriptStandaloneSetup;
+import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.InterpreterTypeless;
-import com.netxforge.netxscript.Assignment;
-import com.netxforge.netxscript.Function;
 import com.netxforge.netxscript.Mod;
-import com.netxforge.netxscript.NetxscriptFactory;
-import com.netxforge.netxscript.Statement;
-import com.netxforge.netxscript.Variable;
+import com.netxforge.netxscript.Return;
 
 public class CalculatorTest extends AbstractXtextTests {
 
@@ -36,40 +33,160 @@ public class CalculatorTest extends AbstractXtextTests {
 		with(new NetxscriptStandaloneSetup());
 	}
 
-	public void testSimple() throws Exception {
-		checkFunction("def main(){true;}", new Object[]{Boolean.TRUE});
-		checkFunction("def main(){1 + 1;}", new Object[]{new BigDecimal(2)});
+	public void testFunction() throws Exception {
+
+		checkModule("def main(){var a = true;}", testMap("a", Boolean.TRUE));
+		checkModule("def main(){var a = 1 + 1;}",
+				testMap("a", new BigDecimal(2)));
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public void testStatements() throws Exception {
-		checkStatements("1 + 1;", new Object[]{new BigDecimal(2)});
-		checkStatements("4 * 5;", new Object[]{new BigDecimal(20)});
-		Variable v = NetxscriptFactory.eINSTANCE.createVariable();
-		v.setName("a");
-		checkStatements("var a = 3;a + 3;", new Object[]{v, new BigDecimal(6)});
-		Assignment a = NetxscriptFactory.eINSTANCE.createAssignment();
-		a.setVar(v);
-		checkStatements("var a = 3;a = a + 3;a;", new Object[]{v,a ,new BigDecimal(6)});
+
+		// Numerical
+		checkModule("var a = 1 + 1;", testMap("a", new BigDecimal(2)));
+		checkModule("var a = 4 * 5;", testMap("a", new BigDecimal(20)));
+		checkModule("var a = 20/4;", testMap("a", new BigDecimal(5)));
+		checkModule("var a = (3+3)/2;", testMap("a", new BigDecimal(3)));
+		checkModule("var a = 2%3;", testMap("a", new BigDecimal(2)));
+		checkModule("var a = 1/2;", testMap("a", new BigDecimal(0.5)));
+		checkModule("var a = 0.5 + 0.5;", testMap("a", new BigDecimal(1)));
+
+		// Numerical, with re-assignments.
+		// A variable is pre-assigned, but not re-assigned in an expression, so
+		// the old value is kept.
+		checkModule("var a = 3;a + 3;", testMap("a", new BigDecimal(3)));
+		checkModule("var a = 3;a = a + 3;", testMap("a", new BigDecimal(6)));
+		checkModule("var a = 3;a = a + 3;a;", testMap("a", new BigDecimal(6)));
+
+		// Negations with re-assignments
+		checkModule("var a = 3;a = -a;", testMap("a", new BigDecimal(-3)));
+		checkModule("var a = 3;a = +a;", testMap("a", new BigDecimal(3)));
+		checkModule("var a = 3;a = +-a;", testMap("a", new BigDecimal(-3)));
+
+
+		// Logical
+		checkModule("var a = true;", testMap("a", Boolean.TRUE));
+		checkModule("var a = (1 == 1);", testMap("a", Boolean.TRUE));
+		checkModule("var a = 1 == 1;", testMap("a", Boolean.TRUE));
+		checkModule("var a = (1 != 1);", testMap("a", Boolean.FALSE));
+		checkModule("var a = (1 <= 1);", testMap("a", Boolean.TRUE));
+		checkModule("var a = (1 <= 2);", testMap("a", Boolean.TRUE));
+		checkModule("var a = (1 < 2);", testMap("a", Boolean.TRUE));
+		checkModule("var a = (1 >= 1);", testMap("a", Boolean.TRUE));
+		checkModule("var a = (1 >= 2);", testMap("a", Boolean.FALSE));
+
+		checkModule("var a = false || false;", testMap("a", Boolean.FALSE));
+		checkModule("var a = false || true;", testMap("a", Boolean.TRUE));
+		checkModule("var a = false && false;", testMap("a", Boolean.FALSE));
+		checkModule("var a = false && true;", testMap("a", Boolean.FALSE));
+		checkModule("var a = true && true;", testMap("a", Boolean.TRUE));
+		checkModule("var a = !true;", testMap("a", Boolean.FALSE));
+		checkModule("var a = !false;", testMap("a", Boolean.TRUE));
+
+		{
+			Map<String, Object> map = testMap("a", Boolean.TRUE);
+			map.put("b", Boolean.TRUE);
+			checkModule("var a = true;var b = a;", map);
+		}
+
+		{
+			Map<String, Object> map = testMap("a", Boolean.TRUE);
+			map.put("b", Boolean.TRUE);
+			checkModule("var a = true;var b = a || a;", map);
+		}
+
+		{
+			Map<String, Object> map = testMap("a", Boolean.TRUE);
+			map.put("b", Boolean.TRUE);
+			checkModule("var a = true;var b = a && a;", map);
+		}
+
+		// Flow control, scoping and functions.
+		checkModule("var a = 4;{a = a -1;}", testMap("a", new BigDecimal(3)));
+		checkModule("var a = 4;{{a = a -1;}}", testMap("a", new BigDecimal(3)));
+		checkModule("var a = 4;if(a == 4){a = a -1;}",
+				testMap("a", new BigDecimal(3)));
+		checkModule("var a = 4;if(a != 4){a = a -1;}else{a = a + 1;}",
+				testMap("a", new BigDecimal(5)));
+		checkModule("var a = 4;if(true){var b = 5;a = b;}",
+				testMap("a", new BigDecimal(5)));
+		// proving a local assigned variable, is not available outside the
+		// scoped block.
+		checkModule("if(true){var a = -1;}", Collections.EMPTY_MAP);
+		// deeply nested (re)assignment
+		checkModule("var a = 0;if(true){if(true){if(true){a = 6;}}}",
+				testMap("a", new BigDecimal(6)));
+		// while statement
+		checkModule("var a = 0;while(a < 5){ a = a + 1;}",
+				testMap("a", new BigDecimal(5)));
 		
-		// TODO, with BigDecimal operators, scale factor. 
-//		checkStatements("20/4;", new Object[]{new BigDecimal(5.0)});
-//		checkStatements("(3+3)/2;", new Object[]{new BigDecimal(3)});
+		// Returns have a special meaning. 
+		checkModule("return;", Collections.EMPTY_MAP);
+		checkModule("def main(){var a = 1;}",
+				testMap("a", new BigDecimal(1)));
+
+		checkModule("def main(){var a = other();}def other(){ return 5;}",
+				testMap("a", new BigDecimal(5)));
+		
+		// Re-assignment from a function, with same var as argument 
+		checkModule("def main(){var a = 3; a = other(a);}def other(arg){ return arg + 3;}",
+				testMap("a", new BigDecimal(6)));
+
+		// Returned value from the first function has no result. 
+		checkModule("def main(){return 1 + 1;}",
+				testMap("a", Collections.EMPTY_MAP));
+			
+		// Negative testing. (Syntacticly correct, but not evaluable). 
+		try {
+			checkModule("def main(){!1;}", Collections.EMPTY_MAP);
+		} catch (java.lang.UnsupportedOperationException e) {
+			// Not allowed, negation on a numeric
+		}
+		
+		try {
+			evaluateModule("def main(){+true;}");
+		} catch (java.lang.UnsupportedOperationException e) {
+			// Not allowed, unary on a boolean"
+		}
+		
+		try {
+			checkModule("var a;a = a + 3;a;", testMap("a", new BigDecimal(6)));
+		} catch (java.lang.UnsupportedOperationException e) {
+			// Unassigned variable declaration, throws expression
+		}
 	}
 	
+	
+	/**
+	 * Creat a test map. 
+	 * @param s
+	 * @param o
+	 * @return
+	 */
+	private Map<String, Object> testMap(String s, Object o) {
+		Map<String, Object> testMap = Maps.newHashMap();
+		testMap.put(s, o);
+		return testMap;
+	}
+
 	public void testReferences() throws Exception {
-		
+
 	}
-	
+
 	public void testVisual() throws Exception {
 
 		System.out.println("=>Blocks");
 		evaluateModule("def main(){}");
 		evaluateModule("def a(){}");
-		evaluateModule("def a(){{}}"); // Nested blocks, each block will hold statements.
-		evaluateModule("def a(){{{{}}}}"); // deeply nested blocks, each block will hold
-									// statements.
-		evaluateModule("def a(){{2+2;}1+1;}"); // Nested blocks, each block will hold
+		evaluateModule("def a(){{}}"); // Nested blocks, each block will hold
 										// statements.
+		evaluateModule("def a(){{{{}}}}"); // deeply nested blocks, each block
+											// will hold
+		// statements.
+		evaluateModule("def a(){{2+2;}1+1;}"); // Nested blocks, each block will
+												// hold
+		// statements.
 
 		System.out.println("=>Function expressions");
 		evaluateModule("def a(){ } def b(){}");
@@ -127,127 +244,67 @@ public class CalculatorTest extends AbstractXtextTests {
 			// Should happen.
 			System.out.println("Not allowed, unary on a boolean");
 		}
-
-		// check(0,"1 + 2 - 3");
-		// check(5,"1 * 2 + 3");
-		// check(-4,"1 - 2 - 3");
-		// check(1.5,"1 / 2 * 3");
 	}
-	
-	
+
 	/**
-	 * @param expected
+	 * 
 	 * @param expression
+	 * @param result
 	 * @throws Exception
 	 */
-	protected void checkFunction(String expression, Object... result) throws Exception {
+	protected void checkModule(String expression, Map<String, Object> testMap)
+			throws Exception {
 		Mod mod = getMod(expression);
-		InterpreterTypeless c = new InterpreterTypeless();
+		IInterpreter c = new InterpreterTypeless();
 
-		Function first = mod.getFunctions().get(0);
-		 //The evaluation check should match the number of expected results.
-		if(first == null || first.getBlock().getStatements().size() != result.length){
-			throw new Exception();
-		}
-		Map<String, Object> localVarsAndArguments = Maps.newHashMap();
+		// Assert result.
+		Object eval = c.evaluate(mod);
 		
-		for(Statement s : first.getBlock().getStatements()){
-			Object eResult = c.evaluate(s,  ImmutableMap.copyOf(localVarsAndArguments));
-			
-			{ // Pre-evaluation of variables and assignments.
-				Object varEval = null;
-				Variable v = null;
-				if (s instanceof Variable) {
-					v = (Variable) s;
-					if (v != null) {
-						varEval = c.evaluate(v.getExpression(),
-								ImmutableMap.copyOf(localVarsAndArguments));
-					}
-					localVarsAndArguments.put(v.getName(), varEval);
-				}
-				if (s instanceof Assignment) {
-					v = (Variable) ((Assignment) s).getVar();
-					if (v != null) {
-						varEval = c.evaluate(v.getExpression(),
-								ImmutableMap.copyOf(localVarsAndArguments));
-					}
-					localVarsAndArguments.put(v.getName(), varEval);
-				}
-				
+		// Returns, have a non-pre-evaluated expression. 
+		if(eval instanceof Return){
+			if( ((Return)eval).getExpression() != null){
+				eval = c.evaluate(((Return)eval).getExpression());
 			}
-			
-			
-			int i = first.getBlock().getStatements().indexOf(s);
-			Object expected = result[i];
-			
-			/**
-			 * Object equality will work? 
-			 */
-			assertEquals(expected,eResult);
+		}
+		
+		if (eval instanceof Map<?, ?>) {
+			@SuppressWarnings("unchecked")
+			Map<String, Object> innerMap = (Map<String, Object>) eval;
+
+			// The evaluation check should match the number of expected results.
+			if (innerMap.size() != testMap.size()) {
+				throw new Exception();
+			}
+
+			for (String s : innerMap.keySet()) {
+				Object eResult = innerMap.get(s);
+				Object expected = testMap.get(s);
+				if (eResult instanceof EObject) {
+					assert EcoreUtil.equals((EObject) expected,
+							(EObject) eResult) : new AssertionFailedError(
+							"EObject unequal");
+				} else {
+
+					// For BigDecimal, we need to use the compare method, to
+					// ignore the scale of the BigD.
+					if (eResult instanceof BigDecimal) {
+						assertEquals(0,
+								((BigDecimal) eResult)
+										.compareTo((BigDecimal) expected));
+					} else {
+						/**
+						 * Object equality will work?
+						 */
+						assertEquals(expected, eResult);
+					}
+				}
+			}
 		}
 	}
-	
-	
-	protected void checkStatements(String expression, Object... result) throws Exception {
-		Mod mod = getMod(expression);
-		InterpreterTypeless c = new InterpreterTypeless();
-		 //The evaluation check should match the number of expected results.
-		if(mod.getStatements().size() != result.length){
-			throw new Exception();
-		}
-		
-		Map<String, Object> localVarsAndArguments = Maps.newHashMap();
-		
-		for(Statement s : mod.getStatements()){
-			Object eResult = c.evaluate(s, ImmutableMap.copyOf(localVarsAndArguments));
-			
-			
-			{ // Pre-evaluation of variables and assignments.
-				Object varEval = null;
-				Variable v = null;
-				if (s instanceof Variable) {
-					v = (Variable) s;
-					if (v != null) {
-						varEval = c.evaluate(v.getExpression(),
-								ImmutableMap.copyOf(localVarsAndArguments));
-					}
-					localVarsAndArguments.put(v.getName(), varEval);
-				}
-				if (s instanceof Assignment) {
-					v = (Variable) ((Assignment) s).getVar();
-					if (v != null) {
-						varEval = c.evaluate(v.getExpression(),
-								ImmutableMap.copyOf(localVarsAndArguments));
-					}
-					localVarsAndArguments.put(v.getName(), varEval);
-				}
-				
-			}
-			
-			// Assert result.
-			
-			int i = mod.getStatements().indexOf(s);
-			Object expected = result[i];
-			
-			if(eResult instanceof EObject){
-				assert EcoreUtil.equals((EObject)expected,(EObject)eResult) : new AssertionFailedError("EObject unequal");
-			}else{
-				/**
-				 * Object equality will work? 
-				 */
-				assertEquals(expected,eResult);
-			}
-		}
-		
-	}
-	
-	protected boolean hasManyStatements(Function f){
-		return f.getBlock().getStatements().size() > 1;
-	};
-	
+
 	protected Object evaluateModule(String expression) throws Exception {
 		Mod mod = getMod(expression);
-		InterpreterTypeless c = new InterpreterTypeless();
+		IInterpreter c = new InterpreterTypeless();
 		// We assume the first definition is a
 		Object result = c.evaluate(mod);
 		if (result != null) {
@@ -258,7 +315,7 @@ public class CalculatorTest extends AbstractXtextTests {
 
 		return result;
 	}
-	
+
 	protected Mod getMod(String string) throws Exception {
 		Mod model = (Mod) getModel("mod test " + string);
 		return model;

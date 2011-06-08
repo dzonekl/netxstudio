@@ -7,8 +7,11 @@ import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.generic.GenericResourceDescriptionManager;
 
 import com.google.inject.Binder;
+import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.INativeFunctions;
+import com.netxforge.interpreter.InterpreterTypeless;
 import com.netxforge.interpreter.NativeFunctions;
+import com.netxforge.scoping.CDOScopeProvider;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -32,5 +35,15 @@ public class NetxscriptRuntimeModule extends com.netxforge.AbstractNetxscriptRun
 	public Class<? extends INativeFunctions> bindMathFunctions(){
 		return NativeFunctions.class;
 	}
+	
+	public Class<? extends IInterpreter> bindInterpreterFunctions(){
+		return InterpreterTypeless.class;
+	}
+	
+	// contributed by org.eclipse.xtext.generator.scoping.AbstractScopingFragment
+//	public Class<? extends org.eclipse.xtext.scoping.IGlobalScopeProvider> bindIGlobalScopeProvider() {
+//		return CDOScopeProvider.class;
+//	}
+	
 	
 }

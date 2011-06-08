@@ -5,7 +5,7 @@
  */
 package com.netxforge.netxscript.impl;
 
-import com.netxforge.netxscript.NativeFunction;
+import com.netxforge.netxscript.LeafRef;
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.Reference;
 
@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getNativeFunction <em>Native Function</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getNodes <em>Nodes</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getRef <em>Ref</em>}</li>
  * </ul>
@@ -41,26 +40,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class ReferenceImpl extends ExpressionImpl implements Reference
 {
-  /**
-   * The default value of the '{@link #getNativeFunction() <em>Native Function</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getNativeFunction()
-   * @generated
-   * @ordered
-   */
-  protected static final NativeFunction NATIVE_FUNCTION_EDEFAULT = NativeFunction.COUNT;
-
-  /**
-   * The cached value of the '{@link #getNativeFunction() <em>Native Function</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getNativeFunction()
-   * @generated
-   * @ordered
-   */
-  protected NativeFunction nativeFunction = NATIVE_FUNCTION_EDEFAULT;
-
   /**
    * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -79,7 +58,7 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * @generated
    * @ordered
    */
-  protected Reference ref;
+  protected LeafRef ref;
 
   /**
    * <!-- begin-user-doc -->
@@ -107,29 +86,6 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  public NativeFunction getNativeFunction()
-  {
-    return nativeFunction;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setNativeFunction(NativeFunction newNativeFunction)
-  {
-    NativeFunction oldNativeFunction = nativeFunction;
-    nativeFunction = newNativeFunction == null ? NATIVE_FUNCTION_EDEFAULT : newNativeFunction;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REFERENCE__NATIVE_FUNCTION, oldNativeFunction, nativeFunction));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EList<Reference> getNodes()
   {
     if (nodes == null)
@@ -144,7 +100,7 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  public Reference getRef()
+  public LeafRef getRef()
   {
     return ref;
   }
@@ -154,9 +110,9 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetRef(Reference newRef, NotificationChain msgs)
+  public NotificationChain basicSetRef(LeafRef newRef, NotificationChain msgs)
   {
-    Reference oldRef = ref;
+    LeafRef oldRef = ref;
     ref = newRef;
     if (eNotificationRequired())
     {
@@ -171,7 +127,7 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setRef(Reference newRef)
+  public void setRef(LeafRef newRef)
   {
     if (newRef != ref)
     {
@@ -215,8 +171,6 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__NATIVE_FUNCTION:
-        return getNativeFunction();
       case NetxscriptPackage.REFERENCE__NODES:
         return getNodes();
       case NetxscriptPackage.REFERENCE__REF:
@@ -236,15 +190,12 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__NATIVE_FUNCTION:
-        setNativeFunction((NativeFunction)newValue);
-        return;
       case NetxscriptPackage.REFERENCE__NODES:
         getNodes().clear();
         getNodes().addAll((Collection<? extends Reference>)newValue);
         return;
       case NetxscriptPackage.REFERENCE__REF:
-        setRef((Reference)newValue);
+        setRef((LeafRef)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -260,14 +211,11 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__NATIVE_FUNCTION:
-        setNativeFunction(NATIVE_FUNCTION_EDEFAULT);
-        return;
       case NetxscriptPackage.REFERENCE__NODES:
         getNodes().clear();
         return;
       case NetxscriptPackage.REFERENCE__REF:
-        setRef((Reference)null);
+        setRef((LeafRef)null);
         return;
     }
     super.eUnset(featureID);
@@ -283,31 +231,12 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__NATIVE_FUNCTION:
-        return nativeFunction != NATIVE_FUNCTION_EDEFAULT;
       case NetxscriptPackage.REFERENCE__NODES:
         return nodes != null && !nodes.isEmpty();
       case NetxscriptPackage.REFERENCE__REF:
         return ref != null;
     }
     return super.eIsSet(featureID);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (nativeFunction: ");
-    result.append(nativeFunction);
-    result.append(')');
-    return result.toString();
   }
 
 } //ReferenceImpl

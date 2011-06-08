@@ -30,7 +30,7 @@ public enum NativeFunction implements Enumerator
    * @generated
    * @ordered
    */
-  COUNT(0, "COUNT", "COUNT"),
+  COUNT(0, "COUNT", "count()"),
 
   /**
    * The '<em><b>SUM</b></em>' literal object.
@@ -40,7 +40,7 @@ public enum NativeFunction implements Enumerator
    * @generated
    * @ordered
    */
-  SUM(1, "SUM", "SUM"),
+  SUM(1, "SUM", "sum()"),
 
   /**
    * The '<em><b>MIN</b></em>' literal object.
@@ -50,7 +50,7 @@ public enum NativeFunction implements Enumerator
    * @generated
    * @ordered
    */
-  MIN(2, "MIN", "MIN"),
+  MIN(2, "MIN", "min()"),
 
   /**
    * The '<em><b>MAX</b></em>' literal object.
@@ -60,7 +60,7 @@ public enum NativeFunction implements Enumerator
    * @generated
    * @ordered
    */
-  MAX(3, "MAX", "MAX"),
+  MAX(3, "MAX", "max()"),
 
   /**
    * The '<em><b>MEAN</b></em>' literal object.
@@ -70,7 +70,7 @@ public enum NativeFunction implements Enumerator
    * @generated
    * @ordered
    */
-  MEAN(4, "MEAN", "MEAN"),
+  MEAN(4, "MEAN", "mean()"),
 
   /**
    * The '<em><b>DEVIATION</b></em>' literal object.
@@ -80,7 +80,7 @@ public enum NativeFunction implements Enumerator
    * @generated
    * @ordered
    */
-  DEVIATION(5, "DEVIATION", "DEVIATION");
+  DEVIATION(5, "DEVIATION", "deviation()");
 
   /**
    * The '<em><b>COUNT</b></em>' literal value.
@@ -91,7 +91,7 @@ public enum NativeFunction implements Enumerator
    * </p>
    * <!-- end-user-doc -->
    * @see #COUNT
-   * @model
+   * @model literal="count()"
    * @generated
    * @ordered
    */
@@ -106,7 +106,7 @@ public enum NativeFunction implements Enumerator
    * </p>
    * <!-- end-user-doc -->
    * @see #SUM
-   * @model
+   * @model literal="sum()"
    * @generated
    * @ordered
    */
@@ -121,7 +121,7 @@ public enum NativeFunction implements Enumerator
    * </p>
    * <!-- end-user-doc -->
    * @see #MIN
-   * @model
+   * @model literal="min()"
    * @generated
    * @ordered
    */
@@ -136,7 +136,7 @@ public enum NativeFunction implements Enumerator
    * </p>
    * <!-- end-user-doc -->
    * @see #MAX
-   * @model
+   * @model literal="max()"
    * @generated
    * @ordered
    */
@@ -151,7 +151,7 @@ public enum NativeFunction implements Enumerator
    * </p>
    * <!-- end-user-doc -->
    * @see #MEAN
-   * @model
+   * @model literal="mean()"
    * @generated
    * @ordered
    */
@@ -166,7 +166,7 @@ public enum NativeFunction implements Enumerator
    * </p>
    * <!-- end-user-doc -->
    * @see #DEVIATION
-   * @model
+   * @model literal="deviation()"
    * @generated
    * @ordered
    */

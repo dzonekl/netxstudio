@@ -128,9 +128,19 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createExpressionAdapter();
       }
       @Override
+      public Adapter caseRange(Range object)
+      {
+        return createRangeAdapter();
+      }
+      @Override
       public Adapter caseReference(Reference object)
       {
         return createReferenceAdapter();
+      }
+      @Override
+      public Adapter caseLeafRef(LeafRef object)
+      {
+        return createLeafRefAdapter();
       }
       @Override
       public Adapter caseReturn(Return object)
@@ -256,6 +266,16 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
       public Adapter caseVarOrArgumentCall(VarOrArgumentCall object)
       {
         return createVarOrArgumentCallAdapter();
+      }
+      @Override
+      public Adapter caseNativeExpression(NativeExpression object)
+      {
+        return createNativeExpressionAdapter();
+      }
+      @Override
+      public Adapter caseRangeLiteral(RangeLiteral object)
+      {
+        return createRangeLiteralAdapter();
       }
       @Override
       public Adapter caseNodeRef(NodeRef object)
@@ -445,6 +465,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.Range <em>Range</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.Range
+   * @generated
+   */
+  public Adapter createRangeAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.Reference <em>Reference</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -455,6 +490,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createReferenceAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.LeafRef <em>Leaf Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.LeafRef
+   * @generated
+   */
+  public Adapter createLeafRefAdapter()
   {
     return null;
   }
@@ -830,6 +880,36 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createVarOrArgumentCallAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NativeExpression <em>Native Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.NativeExpression
+   * @generated
+   */
+  public Adapter createNativeExpressionAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.RangeLiteral <em>Range Literal</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.RangeLiteral
+   * @generated
+   */
+  public Adapter createRangeLiteralAdapter()
   {
     return null;
   }

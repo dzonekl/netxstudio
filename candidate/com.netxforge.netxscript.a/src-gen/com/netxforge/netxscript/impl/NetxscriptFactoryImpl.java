@@ -78,7 +78,9 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.BLOCK: return createBlock();
       case NetxscriptPackage.STATEMENT: return createStatement();
       case NetxscriptPackage.EXPRESSION: return createExpression();
+      case NetxscriptPackage.RANGE: return createRange();
       case NetxscriptPackage.REFERENCE: return createReference();
+      case NetxscriptPackage.LEAF_REF: return createLeafRef();
       case NetxscriptPackage.RETURN: return createReturn();
       case NetxscriptPackage.IF: return createIf();
       case NetxscriptPackage.WHILE: return createWhile();
@@ -104,6 +106,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.BOOLEAN_LITERAL: return createBooleanLiteral();
       case NetxscriptPackage.FUNCTION_CALL: return createFunctionCall();
       case NetxscriptPackage.VAR_OR_ARGUMENT_CALL: return createVarOrArgumentCall();
+      case NetxscriptPackage.NATIVE_EXPRESSION: return createNativeExpression();
+      case NetxscriptPackage.RANGE_LITERAL: return createRangeLiteral();
       case NetxscriptPackage.NODE_REF: return createNodeRef();
       case NetxscriptPackage.RESOURCE_REF: return createResourceRef();
       case NetxscriptPackage.LINK_REF: return createLinkRef();
@@ -261,10 +265,32 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
+  public Range createRange()
+  {
+    RangeImpl range = new RangeImpl();
+    return range;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Reference createReference()
   {
     ReferenceImpl reference = new ReferenceImpl();
     return reference;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public LeafRef createLeafRef()
+  {
+    LeafRefImpl leafRef = new LeafRefImpl();
+    return leafRef;
   }
 
   /**
@@ -540,6 +566,28 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
   {
     VarOrArgumentCallImpl varOrArgumentCall = new VarOrArgumentCallImpl();
     return varOrArgumentCall;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NativeExpression createNativeExpression()
+  {
+    NativeExpressionImpl nativeExpression = new NativeExpressionImpl();
+    return nativeExpression;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public RangeLiteral createRangeLiteral()
+  {
+    RangeLiteralImpl rangeLiteral = new RangeLiteralImpl();
+    return rangeLiteral;
   }
 
   /**

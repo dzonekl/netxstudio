@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_NUMBER", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'mod'", "'import'", "'def'", "'('", "','", "')'", "'{'", "'}'", "';'", "'return'", "'if'", "'else'", "'while'", "'var'", "'='", "'&&'", "'||'", "'=='", "'!='", "'<'", "'<='", "'>'", "'>='", "'+'", "'-'", "'*'", "'/'", "'%'", "'!'", "'true'", "'false'", "'.'", "'this'", "'->'", "'RES'", "'LINK'", "'COUNT'", "'SUM'", "'MIN'", "'MAX'", "'MEAN'", "'DEVIATION'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_NUMBER", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'mod'", "'import'", "'def'", "'('", "','", "')'", "'{'", "'}'", "';'", "'return'", "'if'", "'else'", "'while'", "'var'", "'='", "'&&'", "'||'", "'=='", "'!='", "'<'", "'<='", "'>'", "'>='", "'+'", "'-'", "'*'", "'/'", "'%'", "'!'", "'true'", "'false'", "'.'", "'['", "']'", "'this'", "'->'", "'RES'", "'LINK'", "'count()'", "'sum()'", "'min()'", "'max()'", "'mean()'", "'deviation()'"
     };
     public static final int RULE_ID=4;
     public static final int T__29=29;
@@ -37,6 +37,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final int T__21=21;
     public static final int T__20=20;
     public static final int EOF=-1;
+    public static final int T__55=55;
     public static final int T__19=19;
     public static final int T__16=16;
     public static final int T__51=51;
@@ -44,6 +45,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final int T__15=15;
     public static final int T__53=53;
     public static final int T__18=18;
+    public static final int T__54=54;
     public static final int T__17=17;
     public static final int RULE_NUMBER=6;
     public static final int T__12=12;
@@ -151,7 +153,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMod"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:77:1: ruleMod returns [EObject current=null] : ( (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )? ( (lv_imports_2_0= ruleImport ) )* ( (lv_functions_3_0= ruleFunction ) )* ( (lv_statements_4_0= ruleStatement ) )* ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:77:1: ruleMod returns [EObject current=null] : ( (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )? ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_functions_3_0= ruleFunction ) )+ | ( (lv_statements_4_0= ruleStatement ) )+ ) ) ;
     public final EObject ruleMod() throws RecognitionException {
         EObject current = null;
 
@@ -167,11 +169,11 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:80:28: ( ( (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )? ( (lv_imports_2_0= ruleImport ) )* ( (lv_functions_3_0= ruleFunction ) )* ( (lv_statements_4_0= ruleStatement ) )* ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:81:1: ( (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )? ( (lv_imports_2_0= ruleImport ) )* ( (lv_functions_3_0= ruleFunction ) )* ( (lv_statements_4_0= ruleStatement ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:80:28: ( ( (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )? ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_functions_3_0= ruleFunction ) )+ | ( (lv_statements_4_0= ruleStatement ) )+ ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:81:1: ( (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )? ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_functions_3_0= ruleFunction ) )+ | ( (lv_statements_4_0= ruleStatement ) )+ ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:81:1: ( (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )? ( (lv_imports_2_0= ruleImport ) )* ( (lv_functions_3_0= ruleFunction ) )* ( (lv_statements_4_0= ruleStatement ) )* )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:81:2: (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )? ( (lv_imports_2_0= ruleImport ) )* ( (lv_functions_3_0= ruleFunction ) )* ( (lv_statements_4_0= ruleStatement ) )*
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:81:1: ( (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )? ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_functions_3_0= ruleFunction ) )+ | ( (lv_statements_4_0= ruleStatement ) )+ ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:81:2: (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )? ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_functions_3_0= ruleFunction ) )+ | ( (lv_statements_4_0= ruleStatement ) )+ )
             {
             // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:81:2: (otherlv_0= 'mod' ( (lv_name_1_0= RULE_ID ) ) )?
             int alt1=2;
@@ -269,103 +271,145 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                 }
             } while (true);
 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:121:3: ( (lv_functions_3_0= ruleFunction ) )*
-            loop3:
-            do {
-                int alt3=2;
-                int LA3_0 = input.LA(1);
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:121:3: ( ( (lv_functions_3_0= ruleFunction ) )+ | ( (lv_statements_4_0= ruleStatement ) )+ )
+            int alt5=2;
+            int LA5_0 = input.LA(1);
 
-                if ( (LA3_0==14) ) {
-                    alt3=1;
-                }
+            if ( (LA5_0==14) ) {
+                alt5=1;
+            }
+            else if ( (LA5_0==RULE_ID||LA5_0==RULE_NUMBER||LA5_0==15||LA5_0==18||(LA5_0>=21 && LA5_0<=22)||(LA5_0>=24 && LA5_0<=25)||(LA5_0>=35 && LA5_0<=36)||(LA5_0>=40 && LA5_0<=42)||LA5_0==44||LA5_0==46) ) {
+                alt5=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 5, 0, input);
 
+                throw nvae;
+            }
+            switch (alt5) {
+                case 1 :
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:121:4: ( (lv_functions_3_0= ruleFunction ) )+
+                    {
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:121:4: ( (lv_functions_3_0= ruleFunction ) )+
+                    int cnt3=0;
+                    loop3:
+                    do {
+                        int alt3=2;
+                        int LA3_0 = input.LA(1);
 
-                switch (alt3) {
-            	case 1 :
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:122:1: (lv_functions_3_0= ruleFunction )
-            	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:122:1: (lv_functions_3_0= ruleFunction )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:123:3: lv_functions_3_0= ruleFunction
-            	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getModAccess().getFunctionsFunctionParserRuleCall_2_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_ruleFunction_in_ruleMod190);
-            	    lv_functions_3_0=ruleFunction();
-
-            	    state._fsp--;
-
-
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getModRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"functions",
-            	            		lv_functions_3_0, 
-            	            		"Function");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
-
-            	    }
+                        if ( (LA3_0==14) ) {
+                            alt3=1;
+                        }
 
 
-            	    }
-            	    break;
+                        switch (alt3) {
+                    	case 1 :
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:122:1: (lv_functions_3_0= ruleFunction )
+                    	    {
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:122:1: (lv_functions_3_0= ruleFunction )
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:123:3: lv_functions_3_0= ruleFunction
+                    	    {
+                    	     
+                    	    	        newCompositeNode(grammarAccess.getModAccess().getFunctionsFunctionParserRuleCall_2_0_0()); 
+                    	    	    
+                    	    pushFollow(FOLLOW_ruleFunction_in_ruleMod191);
+                    	    lv_functions_3_0=ruleFunction();
 
-            	default :
-            	    break loop3;
-                }
-            } while (true);
-
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:139:3: ( (lv_statements_4_0= ruleStatement ) )*
-            loop4:
-            do {
-                int alt4=2;
-                int LA4_0 = input.LA(1);
-
-                if ( (LA4_0==RULE_ID||LA4_0==RULE_NUMBER||LA4_0==15||LA4_0==18||(LA4_0>=21 && LA4_0<=22)||(LA4_0>=24 && LA4_0<=25)||(LA4_0>=35 && LA4_0<=36)||(LA4_0>=40 && LA4_0<=42)||LA4_0==44) ) {
-                    alt4=1;
-                }
+                    	    state._fsp--;
 
 
-                switch (alt4) {
-            	case 1 :
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:140:1: (lv_statements_4_0= ruleStatement )
-            	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:140:1: (lv_statements_4_0= ruleStatement )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:141:3: lv_statements_4_0= ruleStatement
-            	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getModAccess().getStatementsStatementParserRuleCall_3_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_ruleStatement_in_ruleMod212);
-            	    lv_statements_4_0=ruleStatement();
+                    	    	        if (current==null) {
+                    	    	            current = createModelElementForParent(grammarAccess.getModRule());
+                    	    	        }
+                    	           		add(
+                    	           			current, 
+                    	           			"functions",
+                    	            		lv_functions_3_0, 
+                    	            		"Function");
+                    	    	        afterParserOrEnumRuleCall();
+                    	    	    
 
-            	    state._fsp--;
+                    	    }
 
 
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getModRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"statements",
-            	            		lv_statements_4_0, 
-            	            		"Statement");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
+                    	    }
+                    	    break;
 
-            	    }
+                    	default :
+                    	    if ( cnt3 >= 1 ) break loop3;
+                                EarlyExitException eee =
+                                    new EarlyExitException(3, input);
+                                throw eee;
+                        }
+                        cnt3++;
+                    } while (true);
 
 
-            	    }
-            	    break;
+                    }
+                    break;
+                case 2 :
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:140:6: ( (lv_statements_4_0= ruleStatement ) )+
+                    {
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:140:6: ( (lv_statements_4_0= ruleStatement ) )+
+                    int cnt4=0;
+                    loop4:
+                    do {
+                        int alt4=2;
+                        int LA4_0 = input.LA(1);
 
-            	default :
-            	    break loop4;
-                }
-            } while (true);
+                        if ( (LA4_0==RULE_ID||LA4_0==RULE_NUMBER||LA4_0==15||LA4_0==18||(LA4_0>=21 && LA4_0<=22)||(LA4_0>=24 && LA4_0<=25)||(LA4_0>=35 && LA4_0<=36)||(LA4_0>=40 && LA4_0<=42)||LA4_0==44||LA4_0==46) ) {
+                            alt4=1;
+                        }
+
+
+                        switch (alt4) {
+                    	case 1 :
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:141:1: (lv_statements_4_0= ruleStatement )
+                    	    {
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:141:1: (lv_statements_4_0= ruleStatement )
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:142:3: lv_statements_4_0= ruleStatement
+                    	    {
+                    	     
+                    	    	        newCompositeNode(grammarAccess.getModAccess().getStatementsStatementParserRuleCall_2_1_0()); 
+                    	    	    
+                    	    pushFollow(FOLLOW_ruleStatement_in_ruleMod219);
+                    	    lv_statements_4_0=ruleStatement();
+
+                    	    state._fsp--;
+
+
+                    	    	        if (current==null) {
+                    	    	            current = createModelElementForParent(grammarAccess.getModRule());
+                    	    	        }
+                    	           		add(
+                    	           			current, 
+                    	           			"statements",
+                    	            		lv_statements_4_0, 
+                    	            		"Statement");
+                    	    	        afterParserOrEnumRuleCall();
+                    	    	    
+
+                    	    }
+
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    if ( cnt4 >= 1 ) break loop4;
+                                EarlyExitException eee =
+                                    new EarlyExitException(4, input);
+                                throw eee;
+                        }
+                        cnt4++;
+                    } while (true);
+
+
+                    }
+                    break;
+
+            }
 
 
             }
@@ -388,7 +432,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleImport"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:167:1: entryRuleImport returns [EObject current=null] : iv_ruleImport= ruleImport EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:168:1: entryRuleImport returns [EObject current=null] : iv_ruleImport= ruleImport EOF ;
     public final EObject entryRuleImport() throws RecognitionException {
         EObject current = null;
 
@@ -396,17 +440,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:168:2: (iv_ruleImport= ruleImport EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:169:2: iv_ruleImport= ruleImport EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:169:2: (iv_ruleImport= ruleImport EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:170:2: iv_ruleImport= ruleImport EOF
             {
              newCompositeNode(grammarAccess.getImportRule()); 
-            pushFollow(FOLLOW_ruleImport_in_entryRuleImport251);
+            pushFollow(FOLLOW_ruleImport_in_entryRuleImport259);
             iv_ruleImport=ruleImport();
 
             state._fsp--;
 
              current =iv_ruleImport; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleImport261); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleImport269); 
 
             }
 
@@ -424,7 +468,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleImport"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:176:1: ruleImport returns [EObject current=null] : (otherlv_0= 'import' ( (lv_importURI_1_0= RULE_STRING ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:177:1: ruleImport returns [EObject current=null] : (otherlv_0= 'import' ( (lv_importURI_1_0= RULE_STRING ) ) ) ;
     public final EObject ruleImport() throws RecognitionException {
         EObject current = null;
 
@@ -434,23 +478,23 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:179:28: ( (otherlv_0= 'import' ( (lv_importURI_1_0= RULE_STRING ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:180:1: (otherlv_0= 'import' ( (lv_importURI_1_0= RULE_STRING ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:180:28: ( (otherlv_0= 'import' ( (lv_importURI_1_0= RULE_STRING ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:181:1: (otherlv_0= 'import' ( (lv_importURI_1_0= RULE_STRING ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:180:1: (otherlv_0= 'import' ( (lv_importURI_1_0= RULE_STRING ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:180:3: otherlv_0= 'import' ( (lv_importURI_1_0= RULE_STRING ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:181:1: (otherlv_0= 'import' ( (lv_importURI_1_0= RULE_STRING ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:181:3: otherlv_0= 'import' ( (lv_importURI_1_0= RULE_STRING ) )
             {
-            otherlv_0=(Token)match(input,13,FOLLOW_13_in_ruleImport298); 
+            otherlv_0=(Token)match(input,13,FOLLOW_13_in_ruleImport306); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getImportAccess().getImportKeyword_0());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:184:1: ( (lv_importURI_1_0= RULE_STRING ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:185:1: (lv_importURI_1_0= RULE_STRING )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:185:1: ( (lv_importURI_1_0= RULE_STRING ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:186:1: (lv_importURI_1_0= RULE_STRING )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:185:1: (lv_importURI_1_0= RULE_STRING )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:186:3: lv_importURI_1_0= RULE_STRING
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:186:1: (lv_importURI_1_0= RULE_STRING )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:187:3: lv_importURI_1_0= RULE_STRING
             {
-            lv_importURI_1_0=(Token)match(input,RULE_STRING,FOLLOW_RULE_STRING_in_ruleImport315); 
+            lv_importURI_1_0=(Token)match(input,RULE_STRING,FOLLOW_RULE_STRING_in_ruleImport323); 
 
             			newLeafNode(lv_importURI_1_0, grammarAccess.getImportAccess().getImportURISTRINGTerminalRuleCall_1_0()); 
             		
@@ -491,7 +535,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleFunction"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:210:1: entryRuleFunction returns [EObject current=null] : iv_ruleFunction= ruleFunction EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:211:1: entryRuleFunction returns [EObject current=null] : iv_ruleFunction= ruleFunction EOF ;
     public final EObject entryRuleFunction() throws RecognitionException {
         EObject current = null;
 
@@ -499,17 +543,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:211:2: (iv_ruleFunction= ruleFunction EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:212:2: iv_ruleFunction= ruleFunction EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:212:2: (iv_ruleFunction= ruleFunction EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:213:2: iv_ruleFunction= ruleFunction EOF
             {
              newCompositeNode(grammarAccess.getFunctionRule()); 
-            pushFollow(FOLLOW_ruleFunction_in_entryRuleFunction356);
+            pushFollow(FOLLOW_ruleFunction_in_entryRuleFunction364);
             iv_ruleFunction=ruleFunction();
 
             state._fsp--;
 
              current =iv_ruleFunction; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleFunction366); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleFunction374); 
 
             }
 
@@ -527,7 +571,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleFunction"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:219:1: ruleFunction returns [EObject current=null] : (otherlv_0= 'def' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )? otherlv_6= ')' ( (lv_block_7_0= ruleBlock ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:220:1: ruleFunction returns [EObject current=null] : (otherlv_0= 'def' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )? otherlv_6= ')' ( (lv_block_7_0= ruleBlock ) ) ) ;
     public final EObject ruleFunction() throws RecognitionException {
         EObject current = null;
 
@@ -546,23 +590,23 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:222:28: ( (otherlv_0= 'def' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )? otherlv_6= ')' ( (lv_block_7_0= ruleBlock ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:223:1: (otherlv_0= 'def' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )? otherlv_6= ')' ( (lv_block_7_0= ruleBlock ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:223:28: ( (otherlv_0= 'def' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )? otherlv_6= ')' ( (lv_block_7_0= ruleBlock ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:224:1: (otherlv_0= 'def' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )? otherlv_6= ')' ( (lv_block_7_0= ruleBlock ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:223:1: (otherlv_0= 'def' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )? otherlv_6= ')' ( (lv_block_7_0= ruleBlock ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:223:3: otherlv_0= 'def' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )? otherlv_6= ')' ( (lv_block_7_0= ruleBlock ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:224:1: (otherlv_0= 'def' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )? otherlv_6= ')' ( (lv_block_7_0= ruleBlock ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:224:3: otherlv_0= 'def' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )? otherlv_6= ')' ( (lv_block_7_0= ruleBlock ) )
             {
-            otherlv_0=(Token)match(input,14,FOLLOW_14_in_ruleFunction403); 
+            otherlv_0=(Token)match(input,14,FOLLOW_14_in_ruleFunction411); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getFunctionAccess().getDefKeyword_0());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:227:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:228:1: (lv_name_1_0= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:228:1: ( (lv_name_1_0= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:229:1: (lv_name_1_0= RULE_ID )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:228:1: (lv_name_1_0= RULE_ID )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:229:3: lv_name_1_0= RULE_ID
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:229:1: (lv_name_1_0= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:230:3: lv_name_1_0= RULE_ID
             {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleFunction420); 
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleFunction428); 
 
             			newLeafNode(lv_name_1_0, grammarAccess.getFunctionAccess().getNameIDTerminalRuleCall_1_0()); 
             		
@@ -582,31 +626,31 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,15,FOLLOW_15_in_ruleFunction437); 
+            otherlv_2=(Token)match(input,15,FOLLOW_15_in_ruleFunction445); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getFunctionAccess().getLeftParenthesisKeyword_2());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:249:1: ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )?
-            int alt6=2;
-            int LA6_0 = input.LA(1);
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:250:1: ( ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )* )?
+            int alt7=2;
+            int LA7_0 = input.LA(1);
 
-            if ( (LA6_0==RULE_ID) ) {
-                alt6=1;
+            if ( (LA7_0==RULE_ID) ) {
+                alt7=1;
             }
-            switch (alt6) {
+            switch (alt7) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:249:2: ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )*
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:250:2: ( (lv_args_3_0= ruleArgument ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )*
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:249:2: ( (lv_args_3_0= ruleArgument ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:250:1: (lv_args_3_0= ruleArgument )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:250:2: ( (lv_args_3_0= ruleArgument ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:251:1: (lv_args_3_0= ruleArgument )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:250:1: (lv_args_3_0= ruleArgument )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:251:3: lv_args_3_0= ruleArgument
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:251:1: (lv_args_3_0= ruleArgument )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:252:3: lv_args_3_0= ruleArgument
                     {
                      
                     	        newCompositeNode(grammarAccess.getFunctionAccess().getArgsArgumentParserRuleCall_3_0_0()); 
                     	    
-                    pushFollow(FOLLOW_ruleArgument_in_ruleFunction459);
+                    pushFollow(FOLLOW_ruleArgument_in_ruleFunction467);
                     lv_args_3_0=ruleArgument();
 
                     state._fsp--;
@@ -628,35 +672,35 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:267:2: (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )*
-                    loop5:
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:268:2: (otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) ) )*
+                    loop6:
                     do {
-                        int alt5=2;
-                        int LA5_0 = input.LA(1);
+                        int alt6=2;
+                        int LA6_0 = input.LA(1);
 
-                        if ( (LA5_0==16) ) {
-                            alt5=1;
+                        if ( (LA6_0==16) ) {
+                            alt6=1;
                         }
 
 
-                        switch (alt5) {
+                        switch (alt6) {
                     	case 1 :
-                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:267:4: otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) )
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:268:4: otherlv_4= ',' ( (lv_args_5_0= ruleArgument ) )
                     	    {
-                    	    otherlv_4=(Token)match(input,16,FOLLOW_16_in_ruleFunction472); 
+                    	    otherlv_4=(Token)match(input,16,FOLLOW_16_in_ruleFunction480); 
 
                     	        	newLeafNode(otherlv_4, grammarAccess.getFunctionAccess().getCommaKeyword_3_1_0());
                     	        
-                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:271:1: ( (lv_args_5_0= ruleArgument ) )
-                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:272:1: (lv_args_5_0= ruleArgument )
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:272:1: ( (lv_args_5_0= ruleArgument ) )
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:273:1: (lv_args_5_0= ruleArgument )
                     	    {
-                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:272:1: (lv_args_5_0= ruleArgument )
-                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:273:3: lv_args_5_0= ruleArgument
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:273:1: (lv_args_5_0= ruleArgument )
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:274:3: lv_args_5_0= ruleArgument
                     	    {
                     	     
                     	    	        newCompositeNode(grammarAccess.getFunctionAccess().getArgsArgumentParserRuleCall_3_1_1_0()); 
                     	    	    
-                    	    pushFollow(FOLLOW_ruleArgument_in_ruleFunction493);
+                    	    pushFollow(FOLLOW_ruleArgument_in_ruleFunction501);
                     	    lv_args_5_0=ruleArgument();
 
                     	    state._fsp--;
@@ -683,7 +727,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     	    break;
 
                     	default :
-                    	    break loop5;
+                    	    break loop6;
                         }
                     } while (true);
 
@@ -693,20 +737,20 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_6=(Token)match(input,17,FOLLOW_17_in_ruleFunction509); 
+            otherlv_6=(Token)match(input,17,FOLLOW_17_in_ruleFunction517); 
 
                 	newLeafNode(otherlv_6, grammarAccess.getFunctionAccess().getRightParenthesisKeyword_4());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:293:1: ( (lv_block_7_0= ruleBlock ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:294:1: (lv_block_7_0= ruleBlock )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:294:1: ( (lv_block_7_0= ruleBlock ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:295:1: (lv_block_7_0= ruleBlock )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:294:1: (lv_block_7_0= ruleBlock )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:295:3: lv_block_7_0= ruleBlock
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:295:1: (lv_block_7_0= ruleBlock )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:296:3: lv_block_7_0= ruleBlock
             {
              
             	        newCompositeNode(grammarAccess.getFunctionAccess().getBlockBlockParserRuleCall_5_0()); 
             	    
-            pushFollow(FOLLOW_ruleBlock_in_ruleFunction530);
+            pushFollow(FOLLOW_ruleBlock_in_ruleFunction538);
             lv_block_7_0=ruleBlock();
 
             state._fsp--;
@@ -749,7 +793,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleArgument"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:319:1: entryRuleArgument returns [EObject current=null] : iv_ruleArgument= ruleArgument EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:320:1: entryRuleArgument returns [EObject current=null] : iv_ruleArgument= ruleArgument EOF ;
     public final EObject entryRuleArgument() throws RecognitionException {
         EObject current = null;
 
@@ -757,17 +801,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:320:2: (iv_ruleArgument= ruleArgument EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:321:2: iv_ruleArgument= ruleArgument EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:321:2: (iv_ruleArgument= ruleArgument EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:322:2: iv_ruleArgument= ruleArgument EOF
             {
              newCompositeNode(grammarAccess.getArgumentRule()); 
-            pushFollow(FOLLOW_ruleArgument_in_entryRuleArgument566);
+            pushFollow(FOLLOW_ruleArgument_in_entryRuleArgument574);
             iv_ruleArgument=ruleArgument();
 
             state._fsp--;
 
              current =iv_ruleArgument; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleArgument576); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleArgument584); 
 
             }
 
@@ -785,7 +829,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleArgument"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:328:1: ruleArgument returns [EObject current=null] : ( (lv_name_0_0= RULE_ID ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:329:1: ruleArgument returns [EObject current=null] : ( (lv_name_0_0= RULE_ID ) ) ;
     public final EObject ruleArgument() throws RecognitionException {
         EObject current = null;
 
@@ -794,16 +838,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:331:28: ( ( (lv_name_0_0= RULE_ID ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:332:1: ( (lv_name_0_0= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:332:28: ( ( (lv_name_0_0= RULE_ID ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:333:1: ( (lv_name_0_0= RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:332:1: ( (lv_name_0_0= RULE_ID ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:333:1: (lv_name_0_0= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:333:1: ( (lv_name_0_0= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:334:1: (lv_name_0_0= RULE_ID )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:333:1: (lv_name_0_0= RULE_ID )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:334:3: lv_name_0_0= RULE_ID
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:334:1: (lv_name_0_0= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:335:3: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleArgument617); 
+            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleArgument625); 
 
             			newLeafNode(lv_name_0_0, grammarAccess.getArgumentAccess().getNameIDTerminalRuleCall_0()); 
             		
@@ -841,7 +885,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleBlock"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:362:1: entryRuleBlock returns [EObject current=null] : iv_ruleBlock= ruleBlock EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:363:1: entryRuleBlock returns [EObject current=null] : iv_ruleBlock= ruleBlock EOF ;
     public final EObject entryRuleBlock() throws RecognitionException {
         EObject current = null;
 
@@ -849,17 +893,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:363:2: (iv_ruleBlock= ruleBlock EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:364:2: iv_ruleBlock= ruleBlock EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:364:2: (iv_ruleBlock= ruleBlock EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:365:2: iv_ruleBlock= ruleBlock EOF
             {
              newCompositeNode(grammarAccess.getBlockRule()); 
-            pushFollow(FOLLOW_ruleBlock_in_entryRuleBlock661);
+            pushFollow(FOLLOW_ruleBlock_in_entryRuleBlock669);
             iv_ruleBlock=ruleBlock();
 
             state._fsp--;
 
              current =iv_ruleBlock; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleBlock671); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleBlock679); 
 
             }
 
@@ -877,7 +921,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBlock"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:371:1: ruleBlock returns [EObject current=null] : ( () otherlv_1= '{' ( (lv_statements_2_0= ruleStatement ) )* otherlv_3= '}' ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:372:1: ruleBlock returns [EObject current=null] : ( () otherlv_1= '{' ( (lv_statements_2_0= ruleStatement ) )* otherlv_3= '}' ) ;
     public final EObject ruleBlock() throws RecognitionException {
         EObject current = null;
 
@@ -889,14 +933,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:374:28: ( ( () otherlv_1= '{' ( (lv_statements_2_0= ruleStatement ) )* otherlv_3= '}' ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:375:1: ( () otherlv_1= '{' ( (lv_statements_2_0= ruleStatement ) )* otherlv_3= '}' )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:375:28: ( ( () otherlv_1= '{' ( (lv_statements_2_0= ruleStatement ) )* otherlv_3= '}' ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:376:1: ( () otherlv_1= '{' ( (lv_statements_2_0= ruleStatement ) )* otherlv_3= '}' )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:375:1: ( () otherlv_1= '{' ( (lv_statements_2_0= ruleStatement ) )* otherlv_3= '}' )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:375:2: () otherlv_1= '{' ( (lv_statements_2_0= ruleStatement ) )* otherlv_3= '}'
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:376:1: ( () otherlv_1= '{' ( (lv_statements_2_0= ruleStatement ) )* otherlv_3= '}' )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:376:2: () otherlv_1= '{' ( (lv_statements_2_0= ruleStatement ) )* otherlv_3= '}'
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:375:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:376:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:376:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:377:5: 
             {
 
                     current = forceCreateModelElement(
@@ -906,32 +950,32 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,18,FOLLOW_18_in_ruleBlock717); 
+            otherlv_1=(Token)match(input,18,FOLLOW_18_in_ruleBlock725); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getBlockAccess().getLeftCurlyBracketKeyword_1());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:385:1: ( (lv_statements_2_0= ruleStatement ) )*
-            loop7:
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:386:1: ( (lv_statements_2_0= ruleStatement ) )*
+            loop8:
             do {
-                int alt7=2;
-                int LA7_0 = input.LA(1);
+                int alt8=2;
+                int LA8_0 = input.LA(1);
 
-                if ( (LA7_0==RULE_ID||LA7_0==RULE_NUMBER||LA7_0==15||LA7_0==18||(LA7_0>=21 && LA7_0<=22)||(LA7_0>=24 && LA7_0<=25)||(LA7_0>=35 && LA7_0<=36)||(LA7_0>=40 && LA7_0<=42)||LA7_0==44) ) {
-                    alt7=1;
+                if ( (LA8_0==RULE_ID||LA8_0==RULE_NUMBER||LA8_0==15||LA8_0==18||(LA8_0>=21 && LA8_0<=22)||(LA8_0>=24 && LA8_0<=25)||(LA8_0>=35 && LA8_0<=36)||(LA8_0>=40 && LA8_0<=42)||LA8_0==44||LA8_0==46) ) {
+                    alt8=1;
                 }
 
 
-                switch (alt7) {
+                switch (alt8) {
             	case 1 :
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:386:1: (lv_statements_2_0= ruleStatement )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:387:1: (lv_statements_2_0= ruleStatement )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:386:1: (lv_statements_2_0= ruleStatement )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:387:3: lv_statements_2_0= ruleStatement
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:387:1: (lv_statements_2_0= ruleStatement )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:388:3: lv_statements_2_0= ruleStatement
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getBlockAccess().getStatementsStatementParserRuleCall_2_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleStatement_in_ruleBlock738);
+            	    pushFollow(FOLLOW_ruleStatement_in_ruleBlock746);
             	    lv_statements_2_0=ruleStatement();
 
             	    state._fsp--;
@@ -955,11 +999,11 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop7;
+            	    break loop8;
                 }
             } while (true);
 
-            otherlv_3=(Token)match(input,19,FOLLOW_19_in_ruleBlock751); 
+            otherlv_3=(Token)match(input,19,FOLLOW_19_in_ruleBlock759); 
 
                 	newLeafNode(otherlv_3, grammarAccess.getBlockAccess().getRightCurlyBracketKeyword_3());
                 
@@ -984,7 +1028,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:415:1: entryRuleStatement returns [EObject current=null] : iv_ruleStatement= ruleStatement EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:416:1: entryRuleStatement returns [EObject current=null] : iv_ruleStatement= ruleStatement EOF ;
     public final EObject entryRuleStatement() throws RecognitionException {
         EObject current = null;
 
@@ -992,17 +1036,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:416:2: (iv_ruleStatement= ruleStatement EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:417:2: iv_ruleStatement= ruleStatement EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:417:2: (iv_ruleStatement= ruleStatement EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:418:2: iv_ruleStatement= ruleStatement EOF
             {
              newCompositeNode(grammarAccess.getStatementRule()); 
-            pushFollow(FOLLOW_ruleStatement_in_entryRuleStatement787);
+            pushFollow(FOLLOW_ruleStatement_in_entryRuleStatement795);
             iv_ruleStatement=ruleStatement();
 
             state._fsp--;
 
              current =iv_ruleStatement; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleStatement797); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleStatement805); 
 
             }
 
@@ -1020,7 +1064,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:424:1: ruleStatement returns [EObject current=null] : ( ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' ) | this_IfStatement_6= ruleIfStatement | this_WhileStatement_7= ruleWhileStatement | this_Block_8= ruleBlock ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:425:1: ruleStatement returns [EObject current=null] : ( ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' ) | this_IfStatement_6= ruleIfStatement | this_WhileStatement_7= ruleWhileStatement | this_Block_8= ruleBlock ) ;
     public final EObject ruleStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1045,11 +1089,11 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:427:28: ( ( ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' ) | this_IfStatement_6= ruleIfStatement | this_WhileStatement_7= ruleWhileStatement | this_Block_8= ruleBlock ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:428:1: ( ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' ) | this_IfStatement_6= ruleIfStatement | this_WhileStatement_7= ruleWhileStatement | this_Block_8= ruleBlock )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:428:28: ( ( ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' ) | this_IfStatement_6= ruleIfStatement | this_WhileStatement_7= ruleWhileStatement | this_Block_8= ruleBlock ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:429:1: ( ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' ) | this_IfStatement_6= ruleIfStatement | this_WhileStatement_7= ruleWhileStatement | this_Block_8= ruleBlock )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:428:1: ( ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' ) | this_IfStatement_6= ruleIfStatement | this_WhileStatement_7= ruleWhileStatement | this_Block_8= ruleBlock )
-            int alt9=4;
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:429:1: ( ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' ) | this_IfStatement_6= ruleIfStatement | this_WhileStatement_7= ruleWhileStatement | this_Block_8= ruleBlock )
+            int alt10=4;
             switch ( input.LA(1) ) {
             case RULE_ID:
             case RULE_NUMBER:
@@ -1062,50 +1106,51 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             case 41:
             case 42:
             case 44:
+            case 46:
                 {
-                alt9=1;
+                alt10=1;
                 }
                 break;
             case 22:
                 {
-                alt9=2;
+                alt10=2;
                 }
                 break;
             case 24:
                 {
-                alt9=3;
+                alt10=3;
                 }
                 break;
             case 18:
                 {
-                alt9=4;
+                alt10=4;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 9, 0, input);
+                    new NoViableAltException("", 10, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt9) {
+            switch (alt10) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:428:2: ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:429:2: ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:428:2: ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:428:3: (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';'
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:429:2: ( (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:429:3: (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement ) otherlv_5= ';'
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:428:3: (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement )
-                    int alt8=5;
-                    alt8 = dfa8.predict(input);
-                    switch (alt8) {
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:429:3: (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement )
+                    int alt9=5;
+                    alt9 = dfa9.predict(input);
+                    switch (alt9) {
                         case 1 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:429:5: this_VariableStatement_0= ruleVariableStatement
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:430:5: this_VariableStatement_0= ruleVariableStatement
                             {
                              
                                     newCompositeNode(grammarAccess.getStatementAccess().getVariableStatementParserRuleCall_0_0_0()); 
                                 
-                            pushFollow(FOLLOW_ruleVariableStatement_in_ruleStatement846);
+                            pushFollow(FOLLOW_ruleVariableStatement_in_ruleStatement854);
                             this_VariableStatement_0=ruleVariableStatement();
 
                             state._fsp--;
@@ -1118,12 +1163,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:439:5: this_AssignmentStatement_1= ruleAssignmentStatement
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:440:5: this_AssignmentStatement_1= ruleAssignmentStatement
                             {
                              
                                     newCompositeNode(grammarAccess.getStatementAccess().getAssignmentStatementParserRuleCall_0_0_1()); 
                                 
-                            pushFollow(FOLLOW_ruleAssignmentStatement_in_ruleStatement873);
+                            pushFollow(FOLLOW_ruleAssignmentStatement_in_ruleStatement881);
                             this_AssignmentStatement_1=ruleAssignmentStatement();
 
                             state._fsp--;
@@ -1136,12 +1181,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 3 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:449:5: this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:450:5: this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement
                             {
                              
                                     newCompositeNode(grammarAccess.getStatementAccess().getReferenceAssignmentStatementParserRuleCall_0_0_2()); 
                                 
-                            pushFollow(FOLLOW_ruleReferenceAssignmentStatement_in_ruleStatement900);
+                            pushFollow(FOLLOW_ruleReferenceAssignmentStatement_in_ruleStatement908);
                             this_ReferenceAssignmentStatement_2=ruleReferenceAssignmentStatement();
 
                             state._fsp--;
@@ -1154,18 +1199,18 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 4 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:458:6: ( (lv_expression_3_0= ruleExpression ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:459:6: ( (lv_expression_3_0= ruleExpression ) )
                             {
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:458:6: ( (lv_expression_3_0= ruleExpression ) )
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:459:1: (lv_expression_3_0= ruleExpression )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:459:6: ( (lv_expression_3_0= ruleExpression ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:460:1: (lv_expression_3_0= ruleExpression )
                             {
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:459:1: (lv_expression_3_0= ruleExpression )
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:460:3: lv_expression_3_0= ruleExpression
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:460:1: (lv_expression_3_0= ruleExpression )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:461:3: lv_expression_3_0= ruleExpression
                             {
                              
                             	        newCompositeNode(grammarAccess.getStatementAccess().getExpressionExpressionParserRuleCall_0_0_3_0()); 
                             	    
-                            pushFollow(FOLLOW_ruleExpression_in_ruleStatement926);
+                            pushFollow(FOLLOW_ruleExpression_in_ruleStatement934);
                             lv_expression_3_0=ruleExpression();
 
                             state._fsp--;
@@ -1191,12 +1236,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 5 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:478:5: this_ReturnStatement_4= ruleReturnStatement
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:479:5: this_ReturnStatement_4= ruleReturnStatement
                             {
                              
                                     newCompositeNode(grammarAccess.getStatementAccess().getReturnStatementParserRuleCall_0_0_4()); 
                                 
-                            pushFollow(FOLLOW_ruleReturnStatement_in_ruleStatement954);
+                            pushFollow(FOLLOW_ruleReturnStatement_in_ruleStatement962);
                             this_ReturnStatement_4=ruleReturnStatement();
 
                             state._fsp--;
@@ -1211,7 +1256,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    otherlv_5=(Token)match(input,20,FOLLOW_20_in_ruleStatement966); 
+                    otherlv_5=(Token)match(input,20,FOLLOW_20_in_ruleStatement974); 
 
                         	newLeafNode(otherlv_5, grammarAccess.getStatementAccess().getSemicolonKeyword_0_1());
                         
@@ -1222,12 +1267,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:492:5: this_IfStatement_6= ruleIfStatement
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:493:5: this_IfStatement_6= ruleIfStatement
                     {
                      
                             newCompositeNode(grammarAccess.getStatementAccess().getIfStatementParserRuleCall_1()); 
                         
-                    pushFollow(FOLLOW_ruleIfStatement_in_ruleStatement995);
+                    pushFollow(FOLLOW_ruleIfStatement_in_ruleStatement1003);
                     this_IfStatement_6=ruleIfStatement();
 
                     state._fsp--;
@@ -1240,12 +1285,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:502:5: this_WhileStatement_7= ruleWhileStatement
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:503:5: this_WhileStatement_7= ruleWhileStatement
                     {
                      
                             newCompositeNode(grammarAccess.getStatementAccess().getWhileStatementParserRuleCall_2()); 
                         
-                    pushFollow(FOLLOW_ruleWhileStatement_in_ruleStatement1022);
+                    pushFollow(FOLLOW_ruleWhileStatement_in_ruleStatement1030);
                     this_WhileStatement_7=ruleWhileStatement();
 
                     state._fsp--;
@@ -1258,12 +1303,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:512:5: this_Block_8= ruleBlock
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:513:5: this_Block_8= ruleBlock
                     {
                      
                             newCompositeNode(grammarAccess.getStatementAccess().getBlockParserRuleCall_3()); 
                         
-                    pushFollow(FOLLOW_ruleBlock_in_ruleStatement1049);
+                    pushFollow(FOLLOW_ruleBlock_in_ruleStatement1057);
                     this_Block_8=ruleBlock();
 
                     state._fsp--;
@@ -1296,7 +1341,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReturnStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:528:1: entryRuleReturnStatement returns [EObject current=null] : iv_ruleReturnStatement= ruleReturnStatement EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:529:1: entryRuleReturnStatement returns [EObject current=null] : iv_ruleReturnStatement= ruleReturnStatement EOF ;
     public final EObject entryRuleReturnStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1304,17 +1349,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:529:2: (iv_ruleReturnStatement= ruleReturnStatement EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:530:2: iv_ruleReturnStatement= ruleReturnStatement EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:530:2: (iv_ruleReturnStatement= ruleReturnStatement EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:531:2: iv_ruleReturnStatement= ruleReturnStatement EOF
             {
              newCompositeNode(grammarAccess.getReturnStatementRule()); 
-            pushFollow(FOLLOW_ruleReturnStatement_in_entryRuleReturnStatement1084);
+            pushFollow(FOLLOW_ruleReturnStatement_in_entryRuleReturnStatement1092);
             iv_ruleReturnStatement=ruleReturnStatement();
 
             state._fsp--;
 
              current =iv_ruleReturnStatement; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleReturnStatement1094); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleReturnStatement1102); 
 
             }
 
@@ -1332,7 +1377,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReturnStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:537:1: ruleReturnStatement returns [EObject current=null] : ( () otherlv_1= 'return' ( (lv_expression_2_0= ruleExpression ) )? ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:538:1: ruleReturnStatement returns [EObject current=null] : ( () otherlv_1= 'return' ( (lv_expression_2_0= ruleExpression ) )? ) ;
     public final EObject ruleReturnStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1343,14 +1388,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:540:28: ( ( () otherlv_1= 'return' ( (lv_expression_2_0= ruleExpression ) )? ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:541:1: ( () otherlv_1= 'return' ( (lv_expression_2_0= ruleExpression ) )? )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:541:28: ( ( () otherlv_1= 'return' ( (lv_expression_2_0= ruleExpression ) )? ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:542:1: ( () otherlv_1= 'return' ( (lv_expression_2_0= ruleExpression ) )? )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:541:1: ( () otherlv_1= 'return' ( (lv_expression_2_0= ruleExpression ) )? )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:541:2: () otherlv_1= 'return' ( (lv_expression_2_0= ruleExpression ) )?
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:542:1: ( () otherlv_1= 'return' ( (lv_expression_2_0= ruleExpression ) )? )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:542:2: () otherlv_1= 'return' ( (lv_expression_2_0= ruleExpression ) )?
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:541:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:542:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:542:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:543:5: 
             {
 
                     current = forceCreateModelElement(
@@ -1360,28 +1405,28 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,21,FOLLOW_21_in_ruleReturnStatement1140); 
+            otherlv_1=(Token)match(input,21,FOLLOW_21_in_ruleReturnStatement1148); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getReturnStatementAccess().getReturnKeyword_1());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:551:1: ( (lv_expression_2_0= ruleExpression ) )?
-            int alt10=2;
-            int LA10_0 = input.LA(1);
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:552:1: ( (lv_expression_2_0= ruleExpression ) )?
+            int alt11=2;
+            int LA11_0 = input.LA(1);
 
-            if ( (LA10_0==RULE_ID||LA10_0==RULE_NUMBER||LA10_0==15||(LA10_0>=35 && LA10_0<=36)||(LA10_0>=40 && LA10_0<=42)||LA10_0==44) ) {
-                alt10=1;
+            if ( (LA11_0==RULE_ID||LA11_0==RULE_NUMBER||LA11_0==15||(LA11_0>=35 && LA11_0<=36)||(LA11_0>=40 && LA11_0<=42)||LA11_0==44||LA11_0==46) ) {
+                alt11=1;
             }
-            switch (alt10) {
+            switch (alt11) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:552:1: (lv_expression_2_0= ruleExpression )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:553:1: (lv_expression_2_0= ruleExpression )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:552:1: (lv_expression_2_0= ruleExpression )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:553:3: lv_expression_2_0= ruleExpression
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:553:1: (lv_expression_2_0= ruleExpression )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:554:3: lv_expression_2_0= ruleExpression
                     {
                      
                     	        newCompositeNode(grammarAccess.getReturnStatementAccess().getExpressionExpressionParserRuleCall_2_0()); 
                     	    
-                    pushFollow(FOLLOW_ruleExpression_in_ruleReturnStatement1161);
+                    pushFollow(FOLLOW_ruleExpression_in_ruleReturnStatement1169);
                     lv_expression_2_0=ruleExpression();
 
                     state._fsp--;
@@ -1427,7 +1472,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleIfStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:577:1: entryRuleIfStatement returns [EObject current=null] : iv_ruleIfStatement= ruleIfStatement EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:578:1: entryRuleIfStatement returns [EObject current=null] : iv_ruleIfStatement= ruleIfStatement EOF ;
     public final EObject entryRuleIfStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1435,17 +1480,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:578:2: (iv_ruleIfStatement= ruleIfStatement EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:579:2: iv_ruleIfStatement= ruleIfStatement EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:579:2: (iv_ruleIfStatement= ruleIfStatement EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:580:2: iv_ruleIfStatement= ruleIfStatement EOF
             {
              newCompositeNode(grammarAccess.getIfStatementRule()); 
-            pushFollow(FOLLOW_ruleIfStatement_in_entryRuleIfStatement1198);
+            pushFollow(FOLLOW_ruleIfStatement_in_entryRuleIfStatement1206);
             iv_ruleIfStatement=ruleIfStatement();
 
             state._fsp--;
 
              current =iv_ruleIfStatement; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleIfStatement1208); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleIfStatement1216); 
 
             }
 
@@ -1463,7 +1508,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleIfStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:586:1: ruleIfStatement returns [EObject current=null] : ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_if_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_then_5_0= ruleBlock ) ) (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )? ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:587:1: ruleIfStatement returns [EObject current=null] : ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_if_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_then_5_0= ruleBlock ) ) (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )? ) ;
     public final EObject ruleIfStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1481,14 +1526,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:589:28: ( ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_if_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_then_5_0= ruleBlock ) ) (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )? ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:590:1: ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_if_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_then_5_0= ruleBlock ) ) (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )? )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:590:28: ( ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_if_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_then_5_0= ruleBlock ) ) (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )? ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:591:1: ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_if_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_then_5_0= ruleBlock ) ) (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )? )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:590:1: ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_if_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_then_5_0= ruleBlock ) ) (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )? )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:590:2: () otherlv_1= 'if' otherlv_2= '(' ( (lv_if_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_then_5_0= ruleBlock ) ) (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )?
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:591:1: ( () otherlv_1= 'if' otherlv_2= '(' ( (lv_if_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_then_5_0= ruleBlock ) ) (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )? )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:591:2: () otherlv_1= 'if' otherlv_2= '(' ( (lv_if_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_then_5_0= ruleBlock ) ) (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )?
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:590:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:591:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:591:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:592:5: 
             {
 
                     current = forceCreateModelElement(
@@ -1498,24 +1543,24 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,22,FOLLOW_22_in_ruleIfStatement1254); 
+            otherlv_1=(Token)match(input,22,FOLLOW_22_in_ruleIfStatement1262); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getIfStatementAccess().getIfKeyword_1());
                 
-            otherlv_2=(Token)match(input,15,FOLLOW_15_in_ruleIfStatement1266); 
+            otherlv_2=(Token)match(input,15,FOLLOW_15_in_ruleIfStatement1274); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getIfStatementAccess().getLeftParenthesisKeyword_2());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:604:1: ( (lv_if_3_0= ruleLogical ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:605:1: (lv_if_3_0= ruleLogical )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:605:1: ( (lv_if_3_0= ruleLogical ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:606:1: (lv_if_3_0= ruleLogical )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:605:1: (lv_if_3_0= ruleLogical )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:606:3: lv_if_3_0= ruleLogical
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:606:1: (lv_if_3_0= ruleLogical )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:607:3: lv_if_3_0= ruleLogical
             {
              
             	        newCompositeNode(grammarAccess.getIfStatementAccess().getIfLogicalParserRuleCall_3_0()); 
             	    
-            pushFollow(FOLLOW_ruleLogical_in_ruleIfStatement1287);
+            pushFollow(FOLLOW_ruleLogical_in_ruleIfStatement1295);
             lv_if_3_0=ruleLogical();
 
             state._fsp--;
@@ -1537,20 +1582,20 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,17,FOLLOW_17_in_ruleIfStatement1299); 
+            otherlv_4=(Token)match(input,17,FOLLOW_17_in_ruleIfStatement1307); 
 
                 	newLeafNode(otherlv_4, grammarAccess.getIfStatementAccess().getRightParenthesisKeyword_4());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:626:1: ( (lv_then_5_0= ruleBlock ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:627:1: (lv_then_5_0= ruleBlock )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:627:1: ( (lv_then_5_0= ruleBlock ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:628:1: (lv_then_5_0= ruleBlock )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:627:1: (lv_then_5_0= ruleBlock )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:628:3: lv_then_5_0= ruleBlock
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:628:1: (lv_then_5_0= ruleBlock )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:629:3: lv_then_5_0= ruleBlock
             {
              
             	        newCompositeNode(grammarAccess.getIfStatementAccess().getThenBlockParserRuleCall_5_0()); 
             	    
-            pushFollow(FOLLOW_ruleBlock_in_ruleIfStatement1320);
+            pushFollow(FOLLOW_ruleBlock_in_ruleIfStatement1328);
             lv_then_5_0=ruleBlock();
 
             state._fsp--;
@@ -1572,31 +1617,31 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:644:2: (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )?
-            int alt11=2;
-            int LA11_0 = input.LA(1);
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:645:2: (otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) ) )?
+            int alt12=2;
+            int LA12_0 = input.LA(1);
 
-            if ( (LA11_0==23) ) {
-                alt11=1;
+            if ( (LA12_0==23) ) {
+                alt12=1;
             }
-            switch (alt11) {
+            switch (alt12) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:644:4: otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:645:4: otherlv_6= 'else' ( (lv_else_7_0= ruleBlock ) )
                     {
-                    otherlv_6=(Token)match(input,23,FOLLOW_23_in_ruleIfStatement1333); 
+                    otherlv_6=(Token)match(input,23,FOLLOW_23_in_ruleIfStatement1341); 
 
                         	newLeafNode(otherlv_6, grammarAccess.getIfStatementAccess().getElseKeyword_6_0());
                         
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:648:1: ( (lv_else_7_0= ruleBlock ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:649:1: (lv_else_7_0= ruleBlock )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:649:1: ( (lv_else_7_0= ruleBlock ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:650:1: (lv_else_7_0= ruleBlock )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:649:1: (lv_else_7_0= ruleBlock )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:650:3: lv_else_7_0= ruleBlock
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:650:1: (lv_else_7_0= ruleBlock )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:651:3: lv_else_7_0= ruleBlock
                     {
                      
                     	        newCompositeNode(grammarAccess.getIfStatementAccess().getElseBlockParserRuleCall_6_1_0()); 
                     	    
-                    pushFollow(FOLLOW_ruleBlock_in_ruleIfStatement1354);
+                    pushFollow(FOLLOW_ruleBlock_in_ruleIfStatement1362);
                     lv_else_7_0=ruleBlock();
 
                     state._fsp--;
@@ -1645,7 +1690,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleWhileStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:674:1: entryRuleWhileStatement returns [EObject current=null] : iv_ruleWhileStatement= ruleWhileStatement EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:675:1: entryRuleWhileStatement returns [EObject current=null] : iv_ruleWhileStatement= ruleWhileStatement EOF ;
     public final EObject entryRuleWhileStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1653,17 +1698,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:675:2: (iv_ruleWhileStatement= ruleWhileStatement EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:676:2: iv_ruleWhileStatement= ruleWhileStatement EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:676:2: (iv_ruleWhileStatement= ruleWhileStatement EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:677:2: iv_ruleWhileStatement= ruleWhileStatement EOF
             {
              newCompositeNode(grammarAccess.getWhileStatementRule()); 
-            pushFollow(FOLLOW_ruleWhileStatement_in_entryRuleWhileStatement1392);
+            pushFollow(FOLLOW_ruleWhileStatement_in_entryRuleWhileStatement1400);
             iv_ruleWhileStatement=ruleWhileStatement();
 
             state._fsp--;
 
              current =iv_ruleWhileStatement; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleWhileStatement1402); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleWhileStatement1410); 
 
             }
 
@@ -1681,7 +1726,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleWhileStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:683:1: ruleWhileStatement returns [EObject current=null] : ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_predicate_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_body_5_0= ruleBlock ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:684:1: ruleWhileStatement returns [EObject current=null] : ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_predicate_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_body_5_0= ruleBlock ) ) ) ;
     public final EObject ruleWhileStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1696,14 +1741,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:686:28: ( ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_predicate_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_body_5_0= ruleBlock ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:687:1: ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_predicate_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_body_5_0= ruleBlock ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:687:28: ( ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_predicate_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_body_5_0= ruleBlock ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:688:1: ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_predicate_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_body_5_0= ruleBlock ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:687:1: ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_predicate_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_body_5_0= ruleBlock ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:687:2: () otherlv_1= 'while' otherlv_2= '(' ( (lv_predicate_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_body_5_0= ruleBlock ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:688:1: ( () otherlv_1= 'while' otherlv_2= '(' ( (lv_predicate_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_body_5_0= ruleBlock ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:688:2: () otherlv_1= 'while' otherlv_2= '(' ( (lv_predicate_3_0= ruleLogical ) ) otherlv_4= ')' ( (lv_body_5_0= ruleBlock ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:687:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:688:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:688:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:689:5: 
             {
 
                     current = forceCreateModelElement(
@@ -1713,24 +1758,24 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,24,FOLLOW_24_in_ruleWhileStatement1448); 
+            otherlv_1=(Token)match(input,24,FOLLOW_24_in_ruleWhileStatement1456); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getWhileStatementAccess().getWhileKeyword_1());
                 
-            otherlv_2=(Token)match(input,15,FOLLOW_15_in_ruleWhileStatement1460); 
+            otherlv_2=(Token)match(input,15,FOLLOW_15_in_ruleWhileStatement1468); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getWhileStatementAccess().getLeftParenthesisKeyword_2());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:701:1: ( (lv_predicate_3_0= ruleLogical ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:702:1: (lv_predicate_3_0= ruleLogical )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:702:1: ( (lv_predicate_3_0= ruleLogical ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:703:1: (lv_predicate_3_0= ruleLogical )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:702:1: (lv_predicate_3_0= ruleLogical )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:703:3: lv_predicate_3_0= ruleLogical
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:703:1: (lv_predicate_3_0= ruleLogical )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:704:3: lv_predicate_3_0= ruleLogical
             {
              
             	        newCompositeNode(grammarAccess.getWhileStatementAccess().getPredicateLogicalParserRuleCall_3_0()); 
             	    
-            pushFollow(FOLLOW_ruleLogical_in_ruleWhileStatement1481);
+            pushFollow(FOLLOW_ruleLogical_in_ruleWhileStatement1489);
             lv_predicate_3_0=ruleLogical();
 
             state._fsp--;
@@ -1752,20 +1797,20 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_4=(Token)match(input,17,FOLLOW_17_in_ruleWhileStatement1493); 
+            otherlv_4=(Token)match(input,17,FOLLOW_17_in_ruleWhileStatement1501); 
 
                 	newLeafNode(otherlv_4, grammarAccess.getWhileStatementAccess().getRightParenthesisKeyword_4());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:723:1: ( (lv_body_5_0= ruleBlock ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:724:1: (lv_body_5_0= ruleBlock )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:724:1: ( (lv_body_5_0= ruleBlock ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:725:1: (lv_body_5_0= ruleBlock )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:724:1: (lv_body_5_0= ruleBlock )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:725:3: lv_body_5_0= ruleBlock
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:725:1: (lv_body_5_0= ruleBlock )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:726:3: lv_body_5_0= ruleBlock
             {
              
             	        newCompositeNode(grammarAccess.getWhileStatementAccess().getBodyBlockParserRuleCall_5_0()); 
             	    
-            pushFollow(FOLLOW_ruleBlock_in_ruleWhileStatement1514);
+            pushFollow(FOLLOW_ruleBlock_in_ruleWhileStatement1522);
             lv_body_5_0=ruleBlock();
 
             state._fsp--;
@@ -1808,7 +1853,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleVariableStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:749:1: entryRuleVariableStatement returns [EObject current=null] : iv_ruleVariableStatement= ruleVariableStatement EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:750:1: entryRuleVariableStatement returns [EObject current=null] : iv_ruleVariableStatement= ruleVariableStatement EOF ;
     public final EObject entryRuleVariableStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1816,17 +1861,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:750:2: (iv_ruleVariableStatement= ruleVariableStatement EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:751:2: iv_ruleVariableStatement= ruleVariableStatement EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:751:2: (iv_ruleVariableStatement= ruleVariableStatement EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:752:2: iv_ruleVariableStatement= ruleVariableStatement EOF
             {
              newCompositeNode(grammarAccess.getVariableStatementRule()); 
-            pushFollow(FOLLOW_ruleVariableStatement_in_entryRuleVariableStatement1550);
+            pushFollow(FOLLOW_ruleVariableStatement_in_entryRuleVariableStatement1558);
             iv_ruleVariableStatement=ruleVariableStatement();
 
             state._fsp--;
 
              current =iv_ruleVariableStatement; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleVariableStatement1560); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleVariableStatement1568); 
 
             }
 
@@ -1844,7 +1889,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleVariableStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:758:1: ruleVariableStatement returns [EObject current=null] : ( () otherlv_1= 'var' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )? ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:759:1: ruleVariableStatement returns [EObject current=null] : ( () otherlv_1= 'var' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )? ) ;
     public final EObject ruleVariableStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1857,14 +1902,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:761:28: ( ( () otherlv_1= 'var' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )? ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:762:1: ( () otherlv_1= 'var' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )? )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:762:28: ( ( () otherlv_1= 'var' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )? ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:763:1: ( () otherlv_1= 'var' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )? )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:762:1: ( () otherlv_1= 'var' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )? )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:762:2: () otherlv_1= 'var' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )?
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:763:1: ( () otherlv_1= 'var' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )? )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:763:2: () otherlv_1= 'var' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )?
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:762:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:763:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:763:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:764:5: 
             {
 
                     current = forceCreateModelElement(
@@ -1874,17 +1919,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,25,FOLLOW_25_in_ruleVariableStatement1606); 
+            otherlv_1=(Token)match(input,25,FOLLOW_25_in_ruleVariableStatement1614); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getVariableStatementAccess().getVarKeyword_1());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:772:1: ( (lv_name_2_0= RULE_ID ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:773:1: (lv_name_2_0= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:773:1: ( (lv_name_2_0= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:774:1: (lv_name_2_0= RULE_ID )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:773:1: (lv_name_2_0= RULE_ID )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:774:3: lv_name_2_0= RULE_ID
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:774:1: (lv_name_2_0= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:775:3: lv_name_2_0= RULE_ID
             {
-            lv_name_2_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleVariableStatement1623); 
+            lv_name_2_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleVariableStatement1631); 
 
             			newLeafNode(lv_name_2_0, grammarAccess.getVariableStatementAccess().getNameIDTerminalRuleCall_2_0()); 
             		
@@ -1904,31 +1949,31 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:790:2: (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )?
-            int alt12=2;
-            int LA12_0 = input.LA(1);
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:791:2: (otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) ) )?
+            int alt13=2;
+            int LA13_0 = input.LA(1);
 
-            if ( (LA12_0==26) ) {
-                alt12=1;
+            if ( (LA13_0==26) ) {
+                alt13=1;
             }
-            switch (alt12) {
+            switch (alt13) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:790:4: otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:791:4: otherlv_3= '=' ( (lv_expression_4_0= ruleExpression ) )
                     {
-                    otherlv_3=(Token)match(input,26,FOLLOW_26_in_ruleVariableStatement1641); 
+                    otherlv_3=(Token)match(input,26,FOLLOW_26_in_ruleVariableStatement1649); 
 
                         	newLeafNode(otherlv_3, grammarAccess.getVariableStatementAccess().getEqualsSignKeyword_3_0());
                         
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:794:1: ( (lv_expression_4_0= ruleExpression ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:795:1: (lv_expression_4_0= ruleExpression )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:795:1: ( (lv_expression_4_0= ruleExpression ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:796:1: (lv_expression_4_0= ruleExpression )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:795:1: (lv_expression_4_0= ruleExpression )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:796:3: lv_expression_4_0= ruleExpression
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:796:1: (lv_expression_4_0= ruleExpression )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:797:3: lv_expression_4_0= ruleExpression
                     {
                      
                     	        newCompositeNode(grammarAccess.getVariableStatementAccess().getExpressionExpressionParserRuleCall_3_1_0()); 
                     	    
-                    pushFollow(FOLLOW_ruleExpression_in_ruleVariableStatement1662);
+                    pushFollow(FOLLOW_ruleExpression_in_ruleVariableStatement1670);
                     lv_expression_4_0=ruleExpression();
 
                     state._fsp--;
@@ -1977,7 +2022,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAssignmentStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:820:1: entryRuleAssignmentStatement returns [EObject current=null] : iv_ruleAssignmentStatement= ruleAssignmentStatement EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:821:1: entryRuleAssignmentStatement returns [EObject current=null] : iv_ruleAssignmentStatement= ruleAssignmentStatement EOF ;
     public final EObject entryRuleAssignmentStatement() throws RecognitionException {
         EObject current = null;
 
@@ -1985,17 +2030,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:821:2: (iv_ruleAssignmentStatement= ruleAssignmentStatement EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:822:2: iv_ruleAssignmentStatement= ruleAssignmentStatement EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:822:2: (iv_ruleAssignmentStatement= ruleAssignmentStatement EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:823:2: iv_ruleAssignmentStatement= ruleAssignmentStatement EOF
             {
              newCompositeNode(grammarAccess.getAssignmentStatementRule()); 
-            pushFollow(FOLLOW_ruleAssignmentStatement_in_entryRuleAssignmentStatement1700);
+            pushFollow(FOLLOW_ruleAssignmentStatement_in_entryRuleAssignmentStatement1708);
             iv_ruleAssignmentStatement=ruleAssignmentStatement();
 
             state._fsp--;
 
              current =iv_ruleAssignmentStatement; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleAssignmentStatement1710); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleAssignmentStatement1718); 
 
             }
 
@@ -2013,7 +2058,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAssignmentStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:829:1: ruleAssignmentStatement returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:830:1: ruleAssignmentStatement returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) ;
     public final EObject ruleAssignmentStatement() throws RecognitionException {
         EObject current = null;
 
@@ -2025,14 +2070,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:832:28: ( ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:833:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:833:28: ( ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:834:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:833:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:833:2: () ( (otherlv_1= RULE_ID ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:834:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:834:2: () ( (otherlv_1= RULE_ID ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:833:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:834:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:834:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:835:5: 
             {
 
                     current = forceCreateModelElement(
@@ -2042,18 +2087,18 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:839:2: ( (otherlv_1= RULE_ID ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:840:1: (otherlv_1= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:840:2: ( (otherlv_1= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:841:1: (otherlv_1= RULE_ID )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:840:1: (otherlv_1= RULE_ID )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:841:3: otherlv_1= RULE_ID
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:841:1: (otherlv_1= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:842:3: otherlv_1= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getAssignmentStatementRule());
             	        }
                     
-            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleAssignmentStatement1764); 
+            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleAssignmentStatement1772); 
 
             		newLeafNode(otherlv_1, grammarAccess.getAssignmentStatementAccess().getVarAbstractVarOrArgumentCrossReference_1_0()); 
             	
@@ -2063,20 +2108,20 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,26,FOLLOW_26_in_ruleAssignmentStatement1776); 
+            otherlv_2=(Token)match(input,26,FOLLOW_26_in_ruleAssignmentStatement1784); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getAssignmentStatementAccess().getEqualsSignKeyword_2());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:856:1: ( (lv_expression_3_0= ruleExpression ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:857:1: (lv_expression_3_0= ruleExpression )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:857:1: ( (lv_expression_3_0= ruleExpression ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:858:1: (lv_expression_3_0= ruleExpression )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:857:1: (lv_expression_3_0= ruleExpression )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:858:3: lv_expression_3_0= ruleExpression
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:858:1: (lv_expression_3_0= ruleExpression )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:859:3: lv_expression_3_0= ruleExpression
             {
              
             	        newCompositeNode(grammarAccess.getAssignmentStatementAccess().getExpressionExpressionParserRuleCall_3_0()); 
             	    
-            pushFollow(FOLLOW_ruleExpression_in_ruleAssignmentStatement1797);
+            pushFollow(FOLLOW_ruleExpression_in_ruleAssignmentStatement1805);
             lv_expression_3_0=ruleExpression();
 
             state._fsp--;
@@ -2119,7 +2164,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleReferenceAssignmentStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:882:1: entryRuleReferenceAssignmentStatement returns [EObject current=null] : iv_ruleReferenceAssignmentStatement= ruleReferenceAssignmentStatement EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:883:1: entryRuleReferenceAssignmentStatement returns [EObject current=null] : iv_ruleReferenceAssignmentStatement= ruleReferenceAssignmentStatement EOF ;
     public final EObject entryRuleReferenceAssignmentStatement() throws RecognitionException {
         EObject current = null;
 
@@ -2127,17 +2172,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:883:2: (iv_ruleReferenceAssignmentStatement= ruleReferenceAssignmentStatement EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:884:2: iv_ruleReferenceAssignmentStatement= ruleReferenceAssignmentStatement EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:884:2: (iv_ruleReferenceAssignmentStatement= ruleReferenceAssignmentStatement EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:885:2: iv_ruleReferenceAssignmentStatement= ruleReferenceAssignmentStatement EOF
             {
              newCompositeNode(grammarAccess.getReferenceAssignmentStatementRule()); 
-            pushFollow(FOLLOW_ruleReferenceAssignmentStatement_in_entryRuleReferenceAssignmentStatement1833);
+            pushFollow(FOLLOW_ruleReferenceAssignmentStatement_in_entryRuleReferenceAssignmentStatement1841);
             iv_ruleReferenceAssignmentStatement=ruleReferenceAssignmentStatement();
 
             state._fsp--;
 
              current =iv_ruleReferenceAssignmentStatement; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleReferenceAssignmentStatement1843); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleReferenceAssignmentStatement1851); 
 
             }
 
@@ -2155,7 +2200,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceAssignmentStatement"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:891:1: ruleReferenceAssignmentStatement returns [EObject current=null] : ( () ( (lv_ref_1_0= ruleContextRef ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:892:1: ruleReferenceAssignmentStatement returns [EObject current=null] : ( () ( (lv_ref_1_0= ruleContextRef ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) ;
     public final EObject ruleReferenceAssignmentStatement() throws RecognitionException {
         EObject current = null;
 
@@ -2168,14 +2213,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:894:28: ( ( () ( (lv_ref_1_0= ruleContextRef ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:895:1: ( () ( (lv_ref_1_0= ruleContextRef ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:895:28: ( ( () ( (lv_ref_1_0= ruleContextRef ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:896:1: ( () ( (lv_ref_1_0= ruleContextRef ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:895:1: ( () ( (lv_ref_1_0= ruleContextRef ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:895:2: () ( (lv_ref_1_0= ruleContextRef ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:896:1: ( () ( (lv_ref_1_0= ruleContextRef ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:896:2: () ( (lv_ref_1_0= ruleContextRef ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:895:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:896:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:896:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:897:5: 
             {
 
                     current = forceCreateModelElement(
@@ -2185,16 +2230,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:901:2: ( (lv_ref_1_0= ruleContextRef ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:902:1: (lv_ref_1_0= ruleContextRef )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:902:2: ( (lv_ref_1_0= ruleContextRef ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:903:1: (lv_ref_1_0= ruleContextRef )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:902:1: (lv_ref_1_0= ruleContextRef )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:903:3: lv_ref_1_0= ruleContextRef
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:903:1: (lv_ref_1_0= ruleContextRef )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:904:3: lv_ref_1_0= ruleContextRef
             {
              
             	        newCompositeNode(grammarAccess.getReferenceAssignmentStatementAccess().getRefContextRefParserRuleCall_1_0()); 
             	    
-            pushFollow(FOLLOW_ruleContextRef_in_ruleReferenceAssignmentStatement1898);
+            pushFollow(FOLLOW_ruleContextRef_in_ruleReferenceAssignmentStatement1906);
             lv_ref_1_0=ruleContextRef();
 
             state._fsp--;
@@ -2216,20 +2261,20 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,26,FOLLOW_26_in_ruleReferenceAssignmentStatement1910); 
+            otherlv_2=(Token)match(input,26,FOLLOW_26_in_ruleReferenceAssignmentStatement1918); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getReferenceAssignmentStatementAccess().getEqualsSignKeyword_2());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:923:1: ( (lv_expression_3_0= ruleExpression ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:924:1: (lv_expression_3_0= ruleExpression )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:924:1: ( (lv_expression_3_0= ruleExpression ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:925:1: (lv_expression_3_0= ruleExpression )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:924:1: (lv_expression_3_0= ruleExpression )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:925:3: lv_expression_3_0= ruleExpression
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:925:1: (lv_expression_3_0= ruleExpression )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:926:3: lv_expression_3_0= ruleExpression
             {
              
             	        newCompositeNode(grammarAccess.getReferenceAssignmentStatementAccess().getExpressionExpressionParserRuleCall_3_0()); 
             	    
-            pushFollow(FOLLOW_ruleExpression_in_ruleReferenceAssignmentStatement1931);
+            pushFollow(FOLLOW_ruleExpression_in_ruleReferenceAssignmentStatement1939);
             lv_expression_3_0=ruleExpression();
 
             state._fsp--;
@@ -2272,7 +2317,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleExpression"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:949:1: entryRuleExpression returns [EObject current=null] : iv_ruleExpression= ruleExpression EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:950:1: entryRuleExpression returns [EObject current=null] : iv_ruleExpression= ruleExpression EOF ;
     public final EObject entryRuleExpression() throws RecognitionException {
         EObject current = null;
 
@@ -2280,17 +2325,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:950:2: (iv_ruleExpression= ruleExpression EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:951:2: iv_ruleExpression= ruleExpression EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:951:2: (iv_ruleExpression= ruleExpression EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:952:2: iv_ruleExpression= ruleExpression EOF
             {
              newCompositeNode(grammarAccess.getExpressionRule()); 
-            pushFollow(FOLLOW_ruleExpression_in_entryRuleExpression1967);
+            pushFollow(FOLLOW_ruleExpression_in_entryRuleExpression1975);
             iv_ruleExpression=ruleExpression();
 
             state._fsp--;
 
              current =iv_ruleExpression; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleExpression1977); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleExpression1985); 
 
             }
 
@@ -2308,7 +2353,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleExpression"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:958:1: ruleExpression returns [EObject current=null] : this_Logical_0= ruleLogical ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:959:1: ruleExpression returns [EObject current=null] : this_Logical_0= ruleLogical ;
     public final EObject ruleExpression() throws RecognitionException {
         EObject current = null;
 
@@ -2318,13 +2363,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:961:28: (this_Logical_0= ruleLogical )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:963:5: this_Logical_0= ruleLogical
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:962:28: (this_Logical_0= ruleLogical )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:964:5: this_Logical_0= ruleLogical
             {
              
                     newCompositeNode(grammarAccess.getExpressionAccess().getLogicalParserRuleCall()); 
                 
-            pushFollow(FOLLOW_ruleLogical_in_ruleExpression2023);
+            pushFollow(FOLLOW_ruleLogical_in_ruleExpression2031);
             this_Logical_0=ruleLogical();
 
             state._fsp--;
@@ -2351,7 +2396,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLogical"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:979:1: entryRuleLogical returns [EObject current=null] : iv_ruleLogical= ruleLogical EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:980:1: entryRuleLogical returns [EObject current=null] : iv_ruleLogical= ruleLogical EOF ;
     public final EObject entryRuleLogical() throws RecognitionException {
         EObject current = null;
 
@@ -2359,17 +2404,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:980:2: (iv_ruleLogical= ruleLogical EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:981:2: iv_ruleLogical= ruleLogical EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:981:2: (iv_ruleLogical= ruleLogical EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:982:2: iv_ruleLogical= ruleLogical EOF
             {
              newCompositeNode(grammarAccess.getLogicalRule()); 
-            pushFollow(FOLLOW_ruleLogical_in_entryRuleLogical2057);
+            pushFollow(FOLLOW_ruleLogical_in_entryRuleLogical2065);
             iv_ruleLogical=ruleLogical();
 
             state._fsp--;
 
              current =iv_ruleLogical; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleLogical2067); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleLogical2075); 
 
             }
 
@@ -2387,7 +2432,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLogical"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:988:1: ruleLogical returns [EObject current=null] : (this_Equality_0= ruleEquality ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )* ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:989:1: ruleLogical returns [EObject current=null] : (this_Equality_0= ruleEquality ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )* ) ;
     public final EObject ruleLogical() throws RecognitionException {
         EObject current = null;
 
@@ -2401,16 +2446,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:991:28: ( (this_Equality_0= ruleEquality ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )* ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:992:1: (this_Equality_0= ruleEquality ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:992:28: ( (this_Equality_0= ruleEquality ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )* ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:993:1: (this_Equality_0= ruleEquality ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )* )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:992:1: (this_Equality_0= ruleEquality ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )* )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:993:5: this_Equality_0= ruleEquality ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )*
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:993:1: (this_Equality_0= ruleEquality ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:994:5: this_Equality_0= ruleEquality ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )*
             {
              
                     newCompositeNode(grammarAccess.getLogicalAccess().getEqualityParserRuleCall_0()); 
                 
-            pushFollow(FOLLOW_ruleEquality_in_ruleLogical2114);
+            pushFollow(FOLLOW_ruleEquality_in_ruleLogical2122);
             this_Equality_0=ruleEquality();
 
             state._fsp--;
@@ -2419,46 +2464,46 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     current = this_Equality_0; 
                     afterParserOrEnumRuleCall();
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1001:1: ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )*
-            loop14:
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1002:1: ( ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) ) )*
+            loop15:
             do {
-                int alt14=2;
-                int LA14_0 = input.LA(1);
+                int alt15=2;
+                int LA15_0 = input.LA(1);
 
-                if ( ((LA14_0>=27 && LA14_0<=28)) ) {
-                    alt14=1;
+                if ( ((LA15_0>=27 && LA15_0<=28)) ) {
+                    alt15=1;
                 }
 
 
-                switch (alt14) {
+                switch (alt15) {
             	case 1 :
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1001:2: ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1002:2: ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) ) ( (lv_right_5_0= ruleEquality ) )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1001:2: ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) )
-            	    int alt13=2;
-            	    int LA13_0 = input.LA(1);
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1002:2: ( ( () otherlv_2= '&&' ) | ( () otherlv_4= '||' ) )
+            	    int alt14=2;
+            	    int LA14_0 = input.LA(1);
 
-            	    if ( (LA13_0==27) ) {
-            	        alt13=1;
+            	    if ( (LA14_0==27) ) {
+            	        alt14=1;
             	    }
-            	    else if ( (LA13_0==28) ) {
-            	        alt13=2;
+            	    else if ( (LA14_0==28) ) {
+            	        alt14=2;
             	    }
             	    else {
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 13, 0, input);
+            	            new NoViableAltException("", 14, 0, input);
 
             	        throw nvae;
             	    }
-            	    switch (alt13) {
+            	    switch (alt14) {
             	        case 1 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1001:3: ( () otherlv_2= '&&' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1002:3: ( () otherlv_2= '&&' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1001:3: ( () otherlv_2= '&&' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1001:4: () otherlv_2= '&&'
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1002:3: ( () otherlv_2= '&&' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1002:4: () otherlv_2= '&&'
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1001:4: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1002:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1002:4: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1003:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -2468,7 +2513,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_2=(Token)match(input,27,FOLLOW_27_in_ruleLogical2137); 
+            	            otherlv_2=(Token)match(input,27,FOLLOW_27_in_ruleLogical2145); 
 
             	                	newLeafNode(otherlv_2, grammarAccess.getLogicalAccess().getAmpersandAmpersandKeyword_1_0_0_1());
             	                
@@ -2479,13 +2524,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 2 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1012:6: ( () otherlv_4= '||' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1013:6: ( () otherlv_4= '||' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1012:6: ( () otherlv_4= '||' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1012:7: () otherlv_4= '||'
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1013:6: ( () otherlv_4= '||' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1013:7: () otherlv_4= '||'
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1012:7: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1013:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1013:7: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1014:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -2495,7 +2540,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_4=(Token)match(input,28,FOLLOW_28_in_ruleLogical2166); 
+            	            otherlv_4=(Token)match(input,28,FOLLOW_28_in_ruleLogical2174); 
 
             	                	newLeafNode(otherlv_4, grammarAccess.getLogicalAccess().getVerticalLineVerticalLineKeyword_1_0_1_1());
             	                
@@ -2508,16 +2553,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1022:3: ( (lv_right_5_0= ruleEquality ) )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1023:1: (lv_right_5_0= ruleEquality )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1023:3: ( (lv_right_5_0= ruleEquality ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1024:1: (lv_right_5_0= ruleEquality )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1023:1: (lv_right_5_0= ruleEquality )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1024:3: lv_right_5_0= ruleEquality
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1024:1: (lv_right_5_0= ruleEquality )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1025:3: lv_right_5_0= ruleEquality
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getLogicalAccess().getRightEqualityParserRuleCall_1_1_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleEquality_in_ruleLogical2189);
+            	    pushFollow(FOLLOW_ruleEquality_in_ruleLogical2197);
             	    lv_right_5_0=ruleEquality();
 
             	    state._fsp--;
@@ -2544,7 +2589,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop14;
+            	    break loop15;
                 }
             } while (true);
 
@@ -2569,7 +2614,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleEquality"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1048:1: entryRuleEquality returns [EObject current=null] : iv_ruleEquality= ruleEquality EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1049:1: entryRuleEquality returns [EObject current=null] : iv_ruleEquality= ruleEquality EOF ;
     public final EObject entryRuleEquality() throws RecognitionException {
         EObject current = null;
 
@@ -2577,17 +2622,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1049:2: (iv_ruleEquality= ruleEquality EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1050:2: iv_ruleEquality= ruleEquality EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1050:2: (iv_ruleEquality= ruleEquality EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1051:2: iv_ruleEquality= ruleEquality EOF
             {
              newCompositeNode(grammarAccess.getEqualityRule()); 
-            pushFollow(FOLLOW_ruleEquality_in_entryRuleEquality2227);
+            pushFollow(FOLLOW_ruleEquality_in_entryRuleEquality2235);
             iv_ruleEquality=ruleEquality();
 
             state._fsp--;
 
              current =iv_ruleEquality; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleEquality2237); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleEquality2245); 
 
             }
 
@@ -2605,7 +2650,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEquality"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1057:1: ruleEquality returns [EObject current=null] : (this_Comparison_0= ruleComparison ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )* ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1058:1: ruleEquality returns [EObject current=null] : (this_Comparison_0= ruleComparison ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )* ) ;
     public final EObject ruleEquality() throws RecognitionException {
         EObject current = null;
 
@@ -2619,16 +2664,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1060:28: ( (this_Comparison_0= ruleComparison ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )* ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1061:1: (this_Comparison_0= ruleComparison ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1061:28: ( (this_Comparison_0= ruleComparison ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )* ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1062:1: (this_Comparison_0= ruleComparison ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )* )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1061:1: (this_Comparison_0= ruleComparison ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )* )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1062:5: this_Comparison_0= ruleComparison ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )*
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1062:1: (this_Comparison_0= ruleComparison ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1063:5: this_Comparison_0= ruleComparison ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )*
             {
              
                     newCompositeNode(grammarAccess.getEqualityAccess().getComparisonParserRuleCall_0()); 
                 
-            pushFollow(FOLLOW_ruleComparison_in_ruleEquality2284);
+            pushFollow(FOLLOW_ruleComparison_in_ruleEquality2292);
             this_Comparison_0=ruleComparison();
 
             state._fsp--;
@@ -2637,46 +2682,46 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     current = this_Comparison_0; 
                     afterParserOrEnumRuleCall();
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1070:1: ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )*
-            loop16:
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1071:1: ( ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) ) )*
+            loop17:
             do {
-                int alt16=2;
-                int LA16_0 = input.LA(1);
+                int alt17=2;
+                int LA17_0 = input.LA(1);
 
-                if ( ((LA16_0>=29 && LA16_0<=30)) ) {
-                    alt16=1;
+                if ( ((LA17_0>=29 && LA17_0<=30)) ) {
+                    alt17=1;
                 }
 
 
-                switch (alt16) {
+                switch (alt17) {
             	case 1 :
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1070:2: ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1071:2: ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) ) ( (lv_right_5_0= ruleComparison ) )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1070:2: ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) )
-            	    int alt15=2;
-            	    int LA15_0 = input.LA(1);
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1071:2: ( ( () otherlv_2= '==' ) | ( () otherlv_4= '!=' ) )
+            	    int alt16=2;
+            	    int LA16_0 = input.LA(1);
 
-            	    if ( (LA15_0==29) ) {
-            	        alt15=1;
+            	    if ( (LA16_0==29) ) {
+            	        alt16=1;
             	    }
-            	    else if ( (LA15_0==30) ) {
-            	        alt15=2;
+            	    else if ( (LA16_0==30) ) {
+            	        alt16=2;
             	    }
             	    else {
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 15, 0, input);
+            	            new NoViableAltException("", 16, 0, input);
 
             	        throw nvae;
             	    }
-            	    switch (alt15) {
+            	    switch (alt16) {
             	        case 1 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1070:3: ( () otherlv_2= '==' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1071:3: ( () otherlv_2= '==' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1070:3: ( () otherlv_2= '==' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1070:4: () otherlv_2= '=='
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1071:3: ( () otherlv_2= '==' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1071:4: () otherlv_2= '=='
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1070:4: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1071:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1071:4: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1072:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -2686,7 +2731,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_2=(Token)match(input,29,FOLLOW_29_in_ruleEquality2307); 
+            	            otherlv_2=(Token)match(input,29,FOLLOW_29_in_ruleEquality2315); 
 
             	                	newLeafNode(otherlv_2, grammarAccess.getEqualityAccess().getEqualsSignEqualsSignKeyword_1_0_0_1());
             	                
@@ -2697,13 +2742,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 2 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1081:6: ( () otherlv_4= '!=' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1082:6: ( () otherlv_4= '!=' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1081:6: ( () otherlv_4= '!=' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1081:7: () otherlv_4= '!='
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1082:6: ( () otherlv_4= '!=' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1082:7: () otherlv_4= '!='
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1081:7: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1082:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1082:7: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1083:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -2713,7 +2758,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_4=(Token)match(input,30,FOLLOW_30_in_ruleEquality2336); 
+            	            otherlv_4=(Token)match(input,30,FOLLOW_30_in_ruleEquality2344); 
 
             	                	newLeafNode(otherlv_4, grammarAccess.getEqualityAccess().getExclamationMarkEqualsSignKeyword_1_0_1_1());
             	                
@@ -2726,16 +2771,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1091:3: ( (lv_right_5_0= ruleComparison ) )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1092:1: (lv_right_5_0= ruleComparison )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1092:3: ( (lv_right_5_0= ruleComparison ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1093:1: (lv_right_5_0= ruleComparison )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1092:1: (lv_right_5_0= ruleComparison )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1093:3: lv_right_5_0= ruleComparison
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1093:1: (lv_right_5_0= ruleComparison )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1094:3: lv_right_5_0= ruleComparison
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getEqualityAccess().getRightComparisonParserRuleCall_1_1_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleComparison_in_ruleEquality2359);
+            	    pushFollow(FOLLOW_ruleComparison_in_ruleEquality2367);
             	    lv_right_5_0=ruleComparison();
 
             	    state._fsp--;
@@ -2762,7 +2807,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop16;
+            	    break loop17;
                 }
             } while (true);
 
@@ -2787,7 +2832,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleComparison"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1117:1: entryRuleComparison returns [EObject current=null] : iv_ruleComparison= ruleComparison EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1118:1: entryRuleComparison returns [EObject current=null] : iv_ruleComparison= ruleComparison EOF ;
     public final EObject entryRuleComparison() throws RecognitionException {
         EObject current = null;
 
@@ -2795,17 +2840,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1118:2: (iv_ruleComparison= ruleComparison EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1119:2: iv_ruleComparison= ruleComparison EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1119:2: (iv_ruleComparison= ruleComparison EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1120:2: iv_ruleComparison= ruleComparison EOF
             {
              newCompositeNode(grammarAccess.getComparisonRule()); 
-            pushFollow(FOLLOW_ruleComparison_in_entryRuleComparison2397);
+            pushFollow(FOLLOW_ruleComparison_in_entryRuleComparison2405);
             iv_ruleComparison=ruleComparison();
 
             state._fsp--;
 
              current =iv_ruleComparison; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleComparison2407); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleComparison2415); 
 
             }
 
@@ -2823,7 +2868,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleComparison"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1126:1: ruleComparison returns [EObject current=null] : (this_Addition_0= ruleAddition ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )* ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1127:1: ruleComparison returns [EObject current=null] : (this_Addition_0= ruleAddition ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )* ) ;
     public final EObject ruleComparison() throws RecognitionException {
         EObject current = null;
 
@@ -2839,16 +2884,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1129:28: ( (this_Addition_0= ruleAddition ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )* ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1130:1: (this_Addition_0= ruleAddition ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1130:28: ( (this_Addition_0= ruleAddition ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )* ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1131:1: (this_Addition_0= ruleAddition ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )* )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1130:1: (this_Addition_0= ruleAddition ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )* )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1131:5: this_Addition_0= ruleAddition ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )*
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1131:1: (this_Addition_0= ruleAddition ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1132:5: this_Addition_0= ruleAddition ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )*
             {
              
                     newCompositeNode(grammarAccess.getComparisonAccess().getAdditionParserRuleCall_0()); 
                 
-            pushFollow(FOLLOW_ruleAddition_in_ruleComparison2454);
+            pushFollow(FOLLOW_ruleAddition_in_ruleComparison2462);
             this_Addition_0=ruleAddition();
 
             state._fsp--;
@@ -2857,60 +2902,60 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     current = this_Addition_0; 
                     afterParserOrEnumRuleCall();
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1139:1: ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )*
-            loop18:
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1140:1: ( ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) ) )*
+            loop19:
             do {
-                int alt18=2;
-                int LA18_0 = input.LA(1);
+                int alt19=2;
+                int LA19_0 = input.LA(1);
 
-                if ( ((LA18_0>=31 && LA18_0<=34)) ) {
-                    alt18=1;
+                if ( ((LA19_0>=31 && LA19_0<=34)) ) {
+                    alt19=1;
                 }
 
 
-                switch (alt18) {
+                switch (alt19) {
             	case 1 :
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1139:2: ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1140:2: ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) ) ( (lv_right_9_0= ruleAddition ) )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1139:2: ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) )
-            	    int alt17=4;
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1140:2: ( ( () otherlv_2= '<' ) | ( () otherlv_4= '<=' ) | ( () otherlv_6= '>' ) | ( () otherlv_8= '>=' ) )
+            	    int alt18=4;
             	    switch ( input.LA(1) ) {
             	    case 31:
             	        {
-            	        alt17=1;
+            	        alt18=1;
             	        }
             	        break;
             	    case 32:
             	        {
-            	        alt17=2;
+            	        alt18=2;
             	        }
             	        break;
             	    case 33:
             	        {
-            	        alt17=3;
+            	        alt18=3;
             	        }
             	        break;
             	    case 34:
             	        {
-            	        alt17=4;
+            	        alt18=4;
             	        }
             	        break;
             	    default:
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 17, 0, input);
+            	            new NoViableAltException("", 18, 0, input);
 
             	        throw nvae;
             	    }
 
-            	    switch (alt17) {
+            	    switch (alt18) {
             	        case 1 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1139:3: ( () otherlv_2= '<' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1140:3: ( () otherlv_2= '<' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1139:3: ( () otherlv_2= '<' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1139:4: () otherlv_2= '<'
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1140:3: ( () otherlv_2= '<' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1140:4: () otherlv_2= '<'
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1139:4: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1140:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1140:4: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1141:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -2920,7 +2965,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_2=(Token)match(input,31,FOLLOW_31_in_ruleComparison2477); 
+            	            otherlv_2=(Token)match(input,31,FOLLOW_31_in_ruleComparison2485); 
 
             	                	newLeafNode(otherlv_2, grammarAccess.getComparisonAccess().getLessThanSignKeyword_1_0_0_1());
             	                
@@ -2931,13 +2976,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 2 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1150:6: ( () otherlv_4= '<=' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1151:6: ( () otherlv_4= '<=' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1150:6: ( () otherlv_4= '<=' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1150:7: () otherlv_4= '<='
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1151:6: ( () otherlv_4= '<=' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1151:7: () otherlv_4= '<='
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1150:7: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1151:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1151:7: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1152:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -2947,7 +2992,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_4=(Token)match(input,32,FOLLOW_32_in_ruleComparison2506); 
+            	            otherlv_4=(Token)match(input,32,FOLLOW_32_in_ruleComparison2514); 
 
             	                	newLeafNode(otherlv_4, grammarAccess.getComparisonAccess().getLessThanSignEqualsSignKeyword_1_0_1_1());
             	                
@@ -2958,13 +3003,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 3 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1161:6: ( () otherlv_6= '>' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1162:6: ( () otherlv_6= '>' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1161:6: ( () otherlv_6= '>' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1161:7: () otherlv_6= '>'
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1162:6: ( () otherlv_6= '>' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1162:7: () otherlv_6= '>'
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1161:7: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1162:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1162:7: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1163:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -2974,7 +3019,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_6=(Token)match(input,33,FOLLOW_33_in_ruleComparison2535); 
+            	            otherlv_6=(Token)match(input,33,FOLLOW_33_in_ruleComparison2543); 
 
             	                	newLeafNode(otherlv_6, grammarAccess.getComparisonAccess().getGreaterThanSignKeyword_1_0_2_1());
             	                
@@ -2985,13 +3030,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 4 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1172:6: ( () otherlv_8= '>=' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1173:6: ( () otherlv_8= '>=' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1172:6: ( () otherlv_8= '>=' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1172:7: () otherlv_8= '>='
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1173:6: ( () otherlv_8= '>=' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1173:7: () otherlv_8= '>='
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1172:7: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1173:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1173:7: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1174:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -3001,7 +3046,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_8=(Token)match(input,34,FOLLOW_34_in_ruleComparison2564); 
+            	            otherlv_8=(Token)match(input,34,FOLLOW_34_in_ruleComparison2572); 
 
             	                	newLeafNode(otherlv_8, grammarAccess.getComparisonAccess().getGreaterThanSignEqualsSignKeyword_1_0_3_1());
             	                
@@ -3014,16 +3059,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1182:3: ( (lv_right_9_0= ruleAddition ) )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1183:1: (lv_right_9_0= ruleAddition )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1183:3: ( (lv_right_9_0= ruleAddition ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1184:1: (lv_right_9_0= ruleAddition )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1183:1: (lv_right_9_0= ruleAddition )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1184:3: lv_right_9_0= ruleAddition
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1184:1: (lv_right_9_0= ruleAddition )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1185:3: lv_right_9_0= ruleAddition
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getComparisonAccess().getRightAdditionParserRuleCall_1_1_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleAddition_in_ruleComparison2587);
+            	    pushFollow(FOLLOW_ruleAddition_in_ruleComparison2595);
             	    lv_right_9_0=ruleAddition();
 
             	    state._fsp--;
@@ -3050,7 +3095,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop18;
+            	    break loop19;
                 }
             } while (true);
 
@@ -3075,7 +3120,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleAddition"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1208:1: entryRuleAddition returns [EObject current=null] : iv_ruleAddition= ruleAddition EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1209:1: entryRuleAddition returns [EObject current=null] : iv_ruleAddition= ruleAddition EOF ;
     public final EObject entryRuleAddition() throws RecognitionException {
         EObject current = null;
 
@@ -3083,17 +3128,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1209:2: (iv_ruleAddition= ruleAddition EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1210:2: iv_ruleAddition= ruleAddition EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1210:2: (iv_ruleAddition= ruleAddition EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1211:2: iv_ruleAddition= ruleAddition EOF
             {
              newCompositeNode(grammarAccess.getAdditionRule()); 
-            pushFollow(FOLLOW_ruleAddition_in_entryRuleAddition2625);
+            pushFollow(FOLLOW_ruleAddition_in_entryRuleAddition2633);
             iv_ruleAddition=ruleAddition();
 
             state._fsp--;
 
              current =iv_ruleAddition; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleAddition2635); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleAddition2643); 
 
             }
 
@@ -3111,7 +3156,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleAddition"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1217:1: ruleAddition returns [EObject current=null] : (this_Multiplication_0= ruleMultiplication ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )* ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1218:1: ruleAddition returns [EObject current=null] : (this_Multiplication_0= ruleMultiplication ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )* ) ;
     public final EObject ruleAddition() throws RecognitionException {
         EObject current = null;
 
@@ -3125,16 +3170,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1220:28: ( (this_Multiplication_0= ruleMultiplication ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )* ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1221:1: (this_Multiplication_0= ruleMultiplication ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1221:28: ( (this_Multiplication_0= ruleMultiplication ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )* ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1222:1: (this_Multiplication_0= ruleMultiplication ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )* )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1221:1: (this_Multiplication_0= ruleMultiplication ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )* )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1222:5: this_Multiplication_0= ruleMultiplication ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )*
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1222:1: (this_Multiplication_0= ruleMultiplication ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1223:5: this_Multiplication_0= ruleMultiplication ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )*
             {
              
                     newCompositeNode(grammarAccess.getAdditionAccess().getMultiplicationParserRuleCall_0()); 
                 
-            pushFollow(FOLLOW_ruleMultiplication_in_ruleAddition2682);
+            pushFollow(FOLLOW_ruleMultiplication_in_ruleAddition2690);
             this_Multiplication_0=ruleMultiplication();
 
             state._fsp--;
@@ -3143,46 +3188,46 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     current = this_Multiplication_0; 
                     afterParserOrEnumRuleCall();
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1230:1: ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )*
-            loop20:
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1231:1: ( ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) ) )*
+            loop21:
             do {
-                int alt20=2;
-                int LA20_0 = input.LA(1);
+                int alt21=2;
+                int LA21_0 = input.LA(1);
 
-                if ( ((LA20_0>=35 && LA20_0<=36)) ) {
-                    alt20=1;
+                if ( ((LA21_0>=35 && LA21_0<=36)) ) {
+                    alt21=1;
                 }
 
 
-                switch (alt20) {
+                switch (alt21) {
             	case 1 :
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1230:2: ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1231:2: ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) ) ( (lv_right_5_0= ruleMultiplication ) )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1230:2: ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) )
-            	    int alt19=2;
-            	    int LA19_0 = input.LA(1);
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1231:2: ( ( () otherlv_2= '+' ) | ( () otherlv_4= '-' ) )
+            	    int alt20=2;
+            	    int LA20_0 = input.LA(1);
 
-            	    if ( (LA19_0==35) ) {
-            	        alt19=1;
+            	    if ( (LA20_0==35) ) {
+            	        alt20=1;
             	    }
-            	    else if ( (LA19_0==36) ) {
-            	        alt19=2;
+            	    else if ( (LA20_0==36) ) {
+            	        alt20=2;
             	    }
             	    else {
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 19, 0, input);
+            	            new NoViableAltException("", 20, 0, input);
 
             	        throw nvae;
             	    }
-            	    switch (alt19) {
+            	    switch (alt20) {
             	        case 1 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1230:3: ( () otherlv_2= '+' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1231:3: ( () otherlv_2= '+' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1230:3: ( () otherlv_2= '+' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1230:4: () otherlv_2= '+'
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1231:3: ( () otherlv_2= '+' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1231:4: () otherlv_2= '+'
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1230:4: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1231:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1231:4: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1232:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -3192,7 +3237,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_2=(Token)match(input,35,FOLLOW_35_in_ruleAddition2705); 
+            	            otherlv_2=(Token)match(input,35,FOLLOW_35_in_ruleAddition2713); 
 
             	                	newLeafNode(otherlv_2, grammarAccess.getAdditionAccess().getPlusSignKeyword_1_0_0_1());
             	                
@@ -3203,13 +3248,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 2 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1241:6: ( () otherlv_4= '-' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1242:6: ( () otherlv_4= '-' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1241:6: ( () otherlv_4= '-' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1241:7: () otherlv_4= '-'
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1242:6: ( () otherlv_4= '-' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1242:7: () otherlv_4= '-'
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1241:7: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1242:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1242:7: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1243:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -3219,7 +3264,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_4=(Token)match(input,36,FOLLOW_36_in_ruleAddition2734); 
+            	            otherlv_4=(Token)match(input,36,FOLLOW_36_in_ruleAddition2742); 
 
             	                	newLeafNode(otherlv_4, grammarAccess.getAdditionAccess().getHyphenMinusKeyword_1_0_1_1());
             	                
@@ -3232,16 +3277,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1251:3: ( (lv_right_5_0= ruleMultiplication ) )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1252:1: (lv_right_5_0= ruleMultiplication )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1252:3: ( (lv_right_5_0= ruleMultiplication ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1253:1: (lv_right_5_0= ruleMultiplication )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1252:1: (lv_right_5_0= ruleMultiplication )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1253:3: lv_right_5_0= ruleMultiplication
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1253:1: (lv_right_5_0= ruleMultiplication )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1254:3: lv_right_5_0= ruleMultiplication
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getAdditionAccess().getRightMultiplicationParserRuleCall_1_1_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleMultiplication_in_ruleAddition2757);
+            	    pushFollow(FOLLOW_ruleMultiplication_in_ruleAddition2765);
             	    lv_right_5_0=ruleMultiplication();
 
             	    state._fsp--;
@@ -3268,7 +3313,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop20;
+            	    break loop21;
                 }
             } while (true);
 
@@ -3293,7 +3338,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMultiplication"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1277:1: entryRuleMultiplication returns [EObject current=null] : iv_ruleMultiplication= ruleMultiplication EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1278:1: entryRuleMultiplication returns [EObject current=null] : iv_ruleMultiplication= ruleMultiplication EOF ;
     public final EObject entryRuleMultiplication() throws RecognitionException {
         EObject current = null;
 
@@ -3301,17 +3346,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1278:2: (iv_ruleMultiplication= ruleMultiplication EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1279:2: iv_ruleMultiplication= ruleMultiplication EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1279:2: (iv_ruleMultiplication= ruleMultiplication EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1280:2: iv_ruleMultiplication= ruleMultiplication EOF
             {
              newCompositeNode(grammarAccess.getMultiplicationRule()); 
-            pushFollow(FOLLOW_ruleMultiplication_in_entryRuleMultiplication2795);
+            pushFollow(FOLLOW_ruleMultiplication_in_entryRuleMultiplication2803);
             iv_ruleMultiplication=ruleMultiplication();
 
             state._fsp--;
 
              current =iv_ruleMultiplication; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleMultiplication2805); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleMultiplication2813); 
 
             }
 
@@ -3329,7 +3374,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMultiplication"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1286:1: ruleMultiplication returns [EObject current=null] : (this_Unary_0= ruleUnary ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )* ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1287:1: ruleMultiplication returns [EObject current=null] : (this_Unary_0= ruleUnary ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )* ) ;
     public final EObject ruleMultiplication() throws RecognitionException {
         EObject current = null;
 
@@ -3344,16 +3389,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1289:28: ( (this_Unary_0= ruleUnary ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )* ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1290:1: (this_Unary_0= ruleUnary ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1290:28: ( (this_Unary_0= ruleUnary ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )* ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1291:1: (this_Unary_0= ruleUnary ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )* )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1290:1: (this_Unary_0= ruleUnary ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )* )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1291:5: this_Unary_0= ruleUnary ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )*
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1291:1: (this_Unary_0= ruleUnary ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )* )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1292:5: this_Unary_0= ruleUnary ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )*
             {
              
                     newCompositeNode(grammarAccess.getMultiplicationAccess().getUnaryParserRuleCall_0()); 
                 
-            pushFollow(FOLLOW_ruleUnary_in_ruleMultiplication2852);
+            pushFollow(FOLLOW_ruleUnary_in_ruleMultiplication2860);
             this_Unary_0=ruleUnary();
 
             state._fsp--;
@@ -3362,55 +3407,55 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     current = this_Unary_0; 
                     afterParserOrEnumRuleCall();
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1299:1: ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )*
-            loop22:
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1300:1: ( ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) ) )*
+            loop23:
             do {
-                int alt22=2;
-                int LA22_0 = input.LA(1);
+                int alt23=2;
+                int LA23_0 = input.LA(1);
 
-                if ( ((LA22_0>=37 && LA22_0<=39)) ) {
-                    alt22=1;
+                if ( ((LA23_0>=37 && LA23_0<=39)) ) {
+                    alt23=1;
                 }
 
 
-                switch (alt22) {
+                switch (alt23) {
             	case 1 :
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1299:2: ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1300:2: ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) ) ( (lv_right_7_0= ruleUnary ) )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1299:2: ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) )
-            	    int alt21=3;
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1300:2: ( ( () otherlv_2= '*' ) | ( () otherlv_4= '/' ) | ( () otherlv_6= '%' ) )
+            	    int alt22=3;
             	    switch ( input.LA(1) ) {
             	    case 37:
             	        {
-            	        alt21=1;
+            	        alt22=1;
             	        }
             	        break;
             	    case 38:
             	        {
-            	        alt21=2;
+            	        alt22=2;
             	        }
             	        break;
             	    case 39:
             	        {
-            	        alt21=3;
+            	        alt22=3;
             	        }
             	        break;
             	    default:
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 21, 0, input);
+            	            new NoViableAltException("", 22, 0, input);
 
             	        throw nvae;
             	    }
 
-            	    switch (alt21) {
+            	    switch (alt22) {
             	        case 1 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1299:3: ( () otherlv_2= '*' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1300:3: ( () otherlv_2= '*' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1299:3: ( () otherlv_2= '*' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1299:4: () otherlv_2= '*'
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1300:3: ( () otherlv_2= '*' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1300:4: () otherlv_2= '*'
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1299:4: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1300:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1300:4: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1301:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -3420,7 +3465,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_2=(Token)match(input,37,FOLLOW_37_in_ruleMultiplication2875); 
+            	            otherlv_2=(Token)match(input,37,FOLLOW_37_in_ruleMultiplication2883); 
 
             	                	newLeafNode(otherlv_2, grammarAccess.getMultiplicationAccess().getAsteriskKeyword_1_0_0_1());
             	                
@@ -3431,13 +3476,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 2 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1310:6: ( () otherlv_4= '/' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1311:6: ( () otherlv_4= '/' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1310:6: ( () otherlv_4= '/' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1310:7: () otherlv_4= '/'
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1311:6: ( () otherlv_4= '/' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1311:7: () otherlv_4= '/'
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1310:7: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1311:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1311:7: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1312:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -3447,7 +3492,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_4=(Token)match(input,38,FOLLOW_38_in_ruleMultiplication2904); 
+            	            otherlv_4=(Token)match(input,38,FOLLOW_38_in_ruleMultiplication2912); 
 
             	                	newLeafNode(otherlv_4, grammarAccess.getMultiplicationAccess().getSolidusKeyword_1_0_1_1());
             	                
@@ -3458,13 +3503,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	            }
             	            break;
             	        case 3 :
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1321:6: ( () otherlv_6= '%' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1322:6: ( () otherlv_6= '%' )
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1321:6: ( () otherlv_6= '%' )
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1321:7: () otherlv_6= '%'
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1322:6: ( () otherlv_6= '%' )
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1322:7: () otherlv_6= '%'
             	            {
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1321:7: ()
-            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1322:5: 
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1322:7: ()
+            	            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1323:5: 
             	            {
 
             	                    current = forceCreateModelElementAndSet(
@@ -3474,7 +3519,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	            }
 
-            	            otherlv_6=(Token)match(input,39,FOLLOW_39_in_ruleMultiplication2933); 
+            	            otherlv_6=(Token)match(input,39,FOLLOW_39_in_ruleMultiplication2941); 
 
             	                	newLeafNode(otherlv_6, grammarAccess.getMultiplicationAccess().getPercentSignKeyword_1_0_2_1());
             	                
@@ -3487,16 +3532,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             	    }
 
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1331:3: ( (lv_right_7_0= ruleUnary ) )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1332:1: (lv_right_7_0= ruleUnary )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1332:3: ( (lv_right_7_0= ruleUnary ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1333:1: (lv_right_7_0= ruleUnary )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1332:1: (lv_right_7_0= ruleUnary )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1333:3: lv_right_7_0= ruleUnary
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1333:1: (lv_right_7_0= ruleUnary )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1334:3: lv_right_7_0= ruleUnary
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getMultiplicationAccess().getRightUnaryParserRuleCall_1_1_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleUnary_in_ruleMultiplication2956);
+            	    pushFollow(FOLLOW_ruleUnary_in_ruleMultiplication2964);
             	    lv_right_7_0=ruleUnary();
 
             	    state._fsp--;
@@ -3523,7 +3568,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop22;
+            	    break loop23;
                 }
             } while (true);
 
@@ -3548,7 +3593,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleUnary"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1357:1: entryRuleUnary returns [EObject current=null] : iv_ruleUnary= ruleUnary EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1358:1: entryRuleUnary returns [EObject current=null] : iv_ruleUnary= ruleUnary EOF ;
     public final EObject entryRuleUnary() throws RecognitionException {
         EObject current = null;
 
@@ -3556,17 +3601,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1358:2: (iv_ruleUnary= ruleUnary EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1359:2: iv_ruleUnary= ruleUnary EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1359:2: (iv_ruleUnary= ruleUnary EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1360:2: iv_ruleUnary= ruleUnary EOF
             {
              newCompositeNode(grammarAccess.getUnaryRule()); 
-            pushFollow(FOLLOW_ruleUnary_in_entryRuleUnary2994);
+            pushFollow(FOLLOW_ruleUnary_in_entryRuleUnary3002);
             iv_ruleUnary=ruleUnary();
 
             state._fsp--;
 
              current =iv_ruleUnary; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleUnary3004); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleUnary3012); 
 
             }
 
@@ -3584,7 +3629,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleUnary"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1366:1: ruleUnary returns [EObject current=null] : (this_PrimaryExpression_0= rulePrimaryExpression | ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1367:1: ruleUnary returns [EObject current=null] : (this_PrimaryExpression_0= rulePrimaryExpression | ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) ) ) ;
     public final EObject ruleUnary() throws RecognitionException {
         EObject current = null;
 
@@ -3599,33 +3644,33 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1369:28: ( (this_PrimaryExpression_0= rulePrimaryExpression | ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1370:1: (this_PrimaryExpression_0= rulePrimaryExpression | ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1370:28: ( (this_PrimaryExpression_0= rulePrimaryExpression | ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1371:1: (this_PrimaryExpression_0= rulePrimaryExpression | ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1370:1: (this_PrimaryExpression_0= rulePrimaryExpression | ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) ) )
-            int alt24=2;
-            int LA24_0 = input.LA(1);
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1371:1: (this_PrimaryExpression_0= rulePrimaryExpression | ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) ) )
+            int alt25=2;
+            int LA25_0 = input.LA(1);
 
-            if ( (LA24_0==RULE_ID||LA24_0==RULE_NUMBER||LA24_0==15||(LA24_0>=41 && LA24_0<=42)||LA24_0==44) ) {
-                alt24=1;
+            if ( (LA25_0==RULE_ID||LA25_0==RULE_NUMBER||LA25_0==15||(LA25_0>=41 && LA25_0<=42)||LA25_0==44||LA25_0==46) ) {
+                alt25=1;
             }
-            else if ( ((LA24_0>=35 && LA24_0<=36)||LA24_0==40) ) {
-                alt24=2;
+            else if ( ((LA25_0>=35 && LA25_0<=36)||LA25_0==40) ) {
+                alt25=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 24, 0, input);
+                    new NoViableAltException("", 25, 0, input);
 
                 throw nvae;
             }
-            switch (alt24) {
+            switch (alt25) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1371:5: this_PrimaryExpression_0= rulePrimaryExpression
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1372:5: this_PrimaryExpression_0= rulePrimaryExpression
                     {
                      
                             newCompositeNode(grammarAccess.getUnaryAccess().getPrimaryExpressionParserRuleCall_0()); 
                         
-                    pushFollow(FOLLOW_rulePrimaryExpression_in_ruleUnary3051);
+                    pushFollow(FOLLOW_rulePrimaryExpression_in_ruleUnary3059);
                     this_PrimaryExpression_0=rulePrimaryExpression();
 
                     state._fsp--;
@@ -3638,36 +3683,36 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1380:6: ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1381:6: ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1380:6: ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1380:7: ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1381:6: ( ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1381:7: ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) ) ( (lv_right_5_0= ruleUnary ) )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1380:7: ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) )
-                    int alt23=2;
-                    int LA23_0 = input.LA(1);
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1381:7: ( ( () ( (lv_op_2_0= '!' ) ) ) | ( () ( (lv_op_4_0= ruleUnaryOperator ) ) ) )
+                    int alt24=2;
+                    int LA24_0 = input.LA(1);
 
-                    if ( (LA23_0==40) ) {
-                        alt23=1;
+                    if ( (LA24_0==40) ) {
+                        alt24=1;
                     }
-                    else if ( ((LA23_0>=35 && LA23_0<=36)) ) {
-                        alt23=2;
+                    else if ( ((LA24_0>=35 && LA24_0<=36)) ) {
+                        alt24=2;
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("", 23, 0, input);
+                            new NoViableAltException("", 24, 0, input);
 
                         throw nvae;
                     }
-                    switch (alt23) {
+                    switch (alt24) {
                         case 1 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1380:8: ( () ( (lv_op_2_0= '!' ) ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1381:8: ( () ( (lv_op_2_0= '!' ) ) )
                             {
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1380:8: ( () ( (lv_op_2_0= '!' ) ) )
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1380:9: () ( (lv_op_2_0= '!' ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1381:8: ( () ( (lv_op_2_0= '!' ) ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1381:9: () ( (lv_op_2_0= '!' ) )
                             {
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1380:9: ()
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1381:5: 
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1381:9: ()
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1382:5: 
                             {
 
                                     current = forceCreateModelElement(
@@ -3677,13 +3722,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1386:2: ( (lv_op_2_0= '!' ) )
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1387:1: (lv_op_2_0= '!' )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1387:2: ( (lv_op_2_0= '!' ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1388:1: (lv_op_2_0= '!' )
                             {
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1387:1: (lv_op_2_0= '!' )
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1388:3: lv_op_2_0= '!'
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1388:1: (lv_op_2_0= '!' )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1389:3: lv_op_2_0= '!'
                             {
-                            lv_op_2_0=(Token)match(input,40,FOLLOW_40_in_ruleUnary3086); 
+                            lv_op_2_0=(Token)match(input,40,FOLLOW_40_in_ruleUnary3094); 
 
                                     newLeafNode(lv_op_2_0, grammarAccess.getUnaryAccess().getOpExclamationMarkKeyword_1_0_0_1_0());
                                 
@@ -3706,13 +3751,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1402:6: ( () ( (lv_op_4_0= ruleUnaryOperator ) ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1403:6: ( () ( (lv_op_4_0= ruleUnaryOperator ) ) )
                             {
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1402:6: ( () ( (lv_op_4_0= ruleUnaryOperator ) ) )
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1402:7: () ( (lv_op_4_0= ruleUnaryOperator ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1403:6: ( () ( (lv_op_4_0= ruleUnaryOperator ) ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1403:7: () ( (lv_op_4_0= ruleUnaryOperator ) )
                             {
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1402:7: ()
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1403:5: 
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1403:7: ()
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1404:5: 
                             {
 
                                     current = forceCreateModelElement(
@@ -3722,16 +3767,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
                             }
 
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1408:2: ( (lv_op_4_0= ruleUnaryOperator ) )
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1409:1: (lv_op_4_0= ruleUnaryOperator )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1409:2: ( (lv_op_4_0= ruleUnaryOperator ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1410:1: (lv_op_4_0= ruleUnaryOperator )
                             {
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1409:1: (lv_op_4_0= ruleUnaryOperator )
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1410:3: lv_op_4_0= ruleUnaryOperator
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1410:1: (lv_op_4_0= ruleUnaryOperator )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1411:3: lv_op_4_0= ruleUnaryOperator
                             {
                              
                             	        newCompositeNode(grammarAccess.getUnaryAccess().getOpUnaryOperatorParserRuleCall_1_0_1_1_0()); 
                             	    
-                            pushFollow(FOLLOW_ruleUnaryOperator_in_ruleUnary3137);
+                            pushFollow(FOLLOW_ruleUnaryOperator_in_ruleUnary3145);
                             lv_op_4_0=ruleUnaryOperator();
 
                             state._fsp--;
@@ -3762,16 +3807,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1426:4: ( (lv_right_5_0= ruleUnary ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1427:1: (lv_right_5_0= ruleUnary )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1427:4: ( (lv_right_5_0= ruleUnary ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1428:1: (lv_right_5_0= ruleUnary )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1427:1: (lv_right_5_0= ruleUnary )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1428:3: lv_right_5_0= ruleUnary
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1428:1: (lv_right_5_0= ruleUnary )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1429:3: lv_right_5_0= ruleUnary
                     {
                      
                     	        newCompositeNode(grammarAccess.getUnaryAccess().getRightUnaryParserRuleCall_1_1_0()); 
                     	    
-                    pushFollow(FOLLOW_ruleUnary_in_ruleUnary3160);
+                    pushFollow(FOLLOW_ruleUnary_in_ruleUnary3168);
                     lv_right_5_0=ruleUnary();
 
                     state._fsp--;
@@ -3820,7 +3865,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleUnaryOperator"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1452:1: entryRuleUnaryOperator returns [String current=null] : iv_ruleUnaryOperator= ruleUnaryOperator EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1453:1: entryRuleUnaryOperator returns [String current=null] : iv_ruleUnaryOperator= ruleUnaryOperator EOF ;
     public final String entryRuleUnaryOperator() throws RecognitionException {
         String current = null;
 
@@ -3828,17 +3873,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1453:2: (iv_ruleUnaryOperator= ruleUnaryOperator EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1454:2: iv_ruleUnaryOperator= ruleUnaryOperator EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1454:2: (iv_ruleUnaryOperator= ruleUnaryOperator EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1455:2: iv_ruleUnaryOperator= ruleUnaryOperator EOF
             {
              newCompositeNode(grammarAccess.getUnaryOperatorRule()); 
-            pushFollow(FOLLOW_ruleUnaryOperator_in_entryRuleUnaryOperator3198);
+            pushFollow(FOLLOW_ruleUnaryOperator_in_entryRuleUnaryOperator3206);
             iv_ruleUnaryOperator=ruleUnaryOperator();
 
             state._fsp--;
 
              current =iv_ruleUnaryOperator.getText(); 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleUnaryOperator3209); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleUnaryOperator3217); 
 
             }
 
@@ -3856,7 +3901,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleUnaryOperator"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1461:1: ruleUnaryOperator returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= '-' | kw= '+' ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1462:1: ruleUnaryOperator returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= '-' | kw= '+' ) ;
     public final AntlrDatatypeRuleToken ruleUnaryOperator() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -3865,30 +3910,30 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1464:28: ( (kw= '-' | kw= '+' ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1465:1: (kw= '-' | kw= '+' )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1465:28: ( (kw= '-' | kw= '+' ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1466:1: (kw= '-' | kw= '+' )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1465:1: (kw= '-' | kw= '+' )
-            int alt25=2;
-            int LA25_0 = input.LA(1);
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1466:1: (kw= '-' | kw= '+' )
+            int alt26=2;
+            int LA26_0 = input.LA(1);
 
-            if ( (LA25_0==36) ) {
-                alt25=1;
+            if ( (LA26_0==36) ) {
+                alt26=1;
             }
-            else if ( (LA25_0==35) ) {
-                alt25=2;
+            else if ( (LA26_0==35) ) {
+                alt26=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 25, 0, input);
+                    new NoViableAltException("", 26, 0, input);
 
                 throw nvae;
             }
-            switch (alt25) {
+            switch (alt26) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1466:2: kw= '-'
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1467:2: kw= '-'
                     {
-                    kw=(Token)match(input,36,FOLLOW_36_in_ruleUnaryOperator3247); 
+                    kw=(Token)match(input,36,FOLLOW_36_in_ruleUnaryOperator3255); 
 
                             current.merge(kw);
                             newLeafNode(kw, grammarAccess.getUnaryOperatorAccess().getHyphenMinusKeyword_0()); 
@@ -3897,9 +3942,9 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1473:2: kw= '+'
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1474:2: kw= '+'
                     {
-                    kw=(Token)match(input,35,FOLLOW_35_in_ruleUnaryOperator3266); 
+                    kw=(Token)match(input,35,FOLLOW_35_in_ruleUnaryOperator3274); 
 
                             current.merge(kw);
                             newLeafNode(kw, grammarAccess.getUnaryOperatorAccess().getPlusSignKeyword_1()); 
@@ -3928,7 +3973,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRulePrimaryExpression"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1486:1: entryRulePrimaryExpression returns [EObject current=null] : iv_rulePrimaryExpression= rulePrimaryExpression EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1487:1: entryRulePrimaryExpression returns [EObject current=null] : iv_rulePrimaryExpression= rulePrimaryExpression EOF ;
     public final EObject entryRulePrimaryExpression() throws RecognitionException {
         EObject current = null;
 
@@ -3936,17 +3981,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1487:2: (iv_rulePrimaryExpression= rulePrimaryExpression EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1488:2: iv_rulePrimaryExpression= rulePrimaryExpression EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1488:2: (iv_rulePrimaryExpression= rulePrimaryExpression EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1489:2: iv_rulePrimaryExpression= rulePrimaryExpression EOF
             {
              newCompositeNode(grammarAccess.getPrimaryExpressionRule()); 
-            pushFollow(FOLLOW_rulePrimaryExpression_in_entryRulePrimaryExpression3306);
+            pushFollow(FOLLOW_rulePrimaryExpression_in_entryRulePrimaryExpression3314);
             iv_rulePrimaryExpression=rulePrimaryExpression();
 
             state._fsp--;
 
              current =iv_rulePrimaryExpression; 
-            match(input,EOF,FOLLOW_EOF_in_entryRulePrimaryExpression3316); 
+            match(input,EOF,FOLLOW_EOF_in_entryRulePrimaryExpression3324); 
 
             }
 
@@ -3964,80 +4009,42 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "rulePrimaryExpression"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1495:1: rulePrimaryExpression returns [EObject current=null] : (this_Literal_0= ruleLiteral | this_Reference_1= ruleReference | this_FunctionCall_2= ruleFunctionCall | this_VarOrArgumentCall_3= ruleVarOrArgumentCall | this_ParenthesizedExpression_4= ruleParenthesizedExpression ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1496:1: rulePrimaryExpression returns [EObject current=null] : (this_Literal_0= ruleLiteral | this_Range_1= ruleRange | this_NativeExpression_2= ruleNativeExpression | this_Reference_3= ruleReference | this_FunctionCall_4= ruleFunctionCall | this_VarOrArgumentCall_5= ruleVarOrArgumentCall | this_ParenthesizedExpression_6= ruleParenthesizedExpression ) ;
     public final EObject rulePrimaryExpression() throws RecognitionException {
         EObject current = null;
 
         EObject this_Literal_0 = null;
 
-        EObject this_Reference_1 = null;
+        EObject this_Range_1 = null;
 
-        EObject this_FunctionCall_2 = null;
+        EObject this_NativeExpression_2 = null;
 
-        EObject this_VarOrArgumentCall_3 = null;
+        EObject this_Reference_3 = null;
 
-        EObject this_ParenthesizedExpression_4 = null;
+        EObject this_FunctionCall_4 = null;
+
+        EObject this_VarOrArgumentCall_5 = null;
+
+        EObject this_ParenthesizedExpression_6 = null;
 
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1498:28: ( (this_Literal_0= ruleLiteral | this_Reference_1= ruleReference | this_FunctionCall_2= ruleFunctionCall | this_VarOrArgumentCall_3= ruleVarOrArgumentCall | this_ParenthesizedExpression_4= ruleParenthesizedExpression ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1499:1: (this_Literal_0= ruleLiteral | this_Reference_1= ruleReference | this_FunctionCall_2= ruleFunctionCall | this_VarOrArgumentCall_3= ruleVarOrArgumentCall | this_ParenthesizedExpression_4= ruleParenthesizedExpression )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1499:28: ( (this_Literal_0= ruleLiteral | this_Range_1= ruleRange | this_NativeExpression_2= ruleNativeExpression | this_Reference_3= ruleReference | this_FunctionCall_4= ruleFunctionCall | this_VarOrArgumentCall_5= ruleVarOrArgumentCall | this_ParenthesizedExpression_6= ruleParenthesizedExpression ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1500:1: (this_Literal_0= ruleLiteral | this_Range_1= ruleRange | this_NativeExpression_2= ruleNativeExpression | this_Reference_3= ruleReference | this_FunctionCall_4= ruleFunctionCall | this_VarOrArgumentCall_5= ruleVarOrArgumentCall | this_ParenthesizedExpression_6= ruleParenthesizedExpression )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1499:1: (this_Literal_0= ruleLiteral | this_Reference_1= ruleReference | this_FunctionCall_2= ruleFunctionCall | this_VarOrArgumentCall_3= ruleVarOrArgumentCall | this_ParenthesizedExpression_4= ruleParenthesizedExpression )
-            int alt26=5;
-            switch ( input.LA(1) ) {
-            case RULE_NUMBER:
-            case 41:
-            case 42:
-                {
-                alt26=1;
-                }
-                break;
-            case 44:
-                {
-                alt26=2;
-                }
-                break;
-            case RULE_ID:
-                {
-                int LA26_3 = input.LA(2);
-
-                if ( (LA26_3==EOF||(LA26_3>=16 && LA26_3<=17)||LA26_3==20||(LA26_3>=27 && LA26_3<=39)) ) {
-                    alt26=4;
-                }
-                else if ( (LA26_3==15) ) {
-                    alt26=3;
-                }
-                else {
-                    NoViableAltException nvae =
-                        new NoViableAltException("", 26, 3, input);
-
-                    throw nvae;
-                }
-                }
-                break;
-            case 15:
-                {
-                alt26=5;
-                }
-                break;
-            default:
-                NoViableAltException nvae =
-                    new NoViableAltException("", 26, 0, input);
-
-                throw nvae;
-            }
-
-            switch (alt26) {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1500:1: (this_Literal_0= ruleLiteral | this_Range_1= ruleRange | this_NativeExpression_2= ruleNativeExpression | this_Reference_3= ruleReference | this_FunctionCall_4= ruleFunctionCall | this_VarOrArgumentCall_5= ruleVarOrArgumentCall | this_ParenthesizedExpression_6= ruleParenthesizedExpression )
+            int alt27=7;
+            alt27 = dfa27.predict(input);
+            switch (alt27) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1500:5: this_Literal_0= ruleLiteral
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1501:5: this_Literal_0= ruleLiteral
                     {
                      
                             newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getLiteralParserRuleCall_0()); 
                         
-                    pushFollow(FOLLOW_ruleLiteral_in_rulePrimaryExpression3363);
+                    pushFollow(FOLLOW_ruleLiteral_in_rulePrimaryExpression3371);
                     this_Literal_0=ruleLiteral();
 
                     state._fsp--;
@@ -4050,72 +4057,108 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1510:5: this_Reference_1= ruleReference
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1511:5: this_Range_1= ruleRange
                     {
                      
-                            newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getReferenceParserRuleCall_1()); 
+                            newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getRangeParserRuleCall_1()); 
                         
-                    pushFollow(FOLLOW_ruleReference_in_rulePrimaryExpression3390);
-                    this_Reference_1=ruleReference();
+                    pushFollow(FOLLOW_ruleRange_in_rulePrimaryExpression3398);
+                    this_Range_1=ruleRange();
 
                     state._fsp--;
 
                      
-                            current = this_Reference_1; 
+                            current = this_Range_1; 
                             afterParserOrEnumRuleCall();
                         
 
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1520:5: this_FunctionCall_2= ruleFunctionCall
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1521:5: this_NativeExpression_2= ruleNativeExpression
                     {
                      
-                            newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getFunctionCallParserRuleCall_2()); 
+                            newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getNativeExpressionParserRuleCall_2()); 
                         
-                    pushFollow(FOLLOW_ruleFunctionCall_in_rulePrimaryExpression3417);
-                    this_FunctionCall_2=ruleFunctionCall();
+                    pushFollow(FOLLOW_ruleNativeExpression_in_rulePrimaryExpression3425);
+                    this_NativeExpression_2=ruleNativeExpression();
 
                     state._fsp--;
 
                      
-                            current = this_FunctionCall_2; 
+                            current = this_NativeExpression_2; 
                             afterParserOrEnumRuleCall();
                         
 
                     }
                     break;
                 case 4 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1530:5: this_VarOrArgumentCall_3= ruleVarOrArgumentCall
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1531:5: this_Reference_3= ruleReference
                     {
                      
-                            newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getVarOrArgumentCallParserRuleCall_3()); 
+                            newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getReferenceParserRuleCall_3()); 
                         
-                    pushFollow(FOLLOW_ruleVarOrArgumentCall_in_rulePrimaryExpression3444);
-                    this_VarOrArgumentCall_3=ruleVarOrArgumentCall();
+                    pushFollow(FOLLOW_ruleReference_in_rulePrimaryExpression3452);
+                    this_Reference_3=ruleReference();
 
                     state._fsp--;
 
                      
-                            current = this_VarOrArgumentCall_3; 
+                            current = this_Reference_3; 
                             afterParserOrEnumRuleCall();
                         
 
                     }
                     break;
                 case 5 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1540:5: this_ParenthesizedExpression_4= ruleParenthesizedExpression
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1541:5: this_FunctionCall_4= ruleFunctionCall
                     {
                      
-                            newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getParenthesizedExpressionParserRuleCall_4()); 
+                            newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getFunctionCallParserRuleCall_4()); 
                         
-                    pushFollow(FOLLOW_ruleParenthesizedExpression_in_rulePrimaryExpression3471);
-                    this_ParenthesizedExpression_4=ruleParenthesizedExpression();
+                    pushFollow(FOLLOW_ruleFunctionCall_in_rulePrimaryExpression3479);
+                    this_FunctionCall_4=ruleFunctionCall();
 
                     state._fsp--;
 
                      
-                            current = this_ParenthesizedExpression_4; 
+                            current = this_FunctionCall_4; 
+                            afterParserOrEnumRuleCall();
+                        
+
+                    }
+                    break;
+                case 6 :
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1551:5: this_VarOrArgumentCall_5= ruleVarOrArgumentCall
+                    {
+                     
+                            newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getVarOrArgumentCallParserRuleCall_5()); 
+                        
+                    pushFollow(FOLLOW_ruleVarOrArgumentCall_in_rulePrimaryExpression3506);
+                    this_VarOrArgumentCall_5=ruleVarOrArgumentCall();
+
+                    state._fsp--;
+
+                     
+                            current = this_VarOrArgumentCall_5; 
+                            afterParserOrEnumRuleCall();
+                        
+
+                    }
+                    break;
+                case 7 :
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1561:5: this_ParenthesizedExpression_6= ruleParenthesizedExpression
+                    {
+                     
+                            newCompositeNode(grammarAccess.getPrimaryExpressionAccess().getParenthesizedExpressionParserRuleCall_6()); 
+                        
+                    pushFollow(FOLLOW_ruleParenthesizedExpression_in_rulePrimaryExpression3533);
+                    this_ParenthesizedExpression_6=ruleParenthesizedExpression();
+
+                    state._fsp--;
+
+                     
+                            current = this_ParenthesizedExpression_6; 
                             afterParserOrEnumRuleCall();
                         
 
@@ -4142,7 +4185,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLiteral"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1556:1: entryRuleLiteral returns [EObject current=null] : iv_ruleLiteral= ruleLiteral EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1577:1: entryRuleLiteral returns [EObject current=null] : iv_ruleLiteral= ruleLiteral EOF ;
     public final EObject entryRuleLiteral() throws RecognitionException {
         EObject current = null;
 
@@ -4150,17 +4193,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1557:2: (iv_ruleLiteral= ruleLiteral EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1558:2: iv_ruleLiteral= ruleLiteral EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1578:2: (iv_ruleLiteral= ruleLiteral EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1579:2: iv_ruleLiteral= ruleLiteral EOF
             {
              newCompositeNode(grammarAccess.getLiteralRule()); 
-            pushFollow(FOLLOW_ruleLiteral_in_entryRuleLiteral3506);
+            pushFollow(FOLLOW_ruleLiteral_in_entryRuleLiteral3568);
             iv_ruleLiteral=ruleLiteral();
 
             state._fsp--;
 
              current =iv_ruleLiteral; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleLiteral3516); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleLiteral3578); 
 
             }
 
@@ -4178,7 +4221,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLiteral"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1565:1: ruleLiteral returns [EObject current=null] : ( ( () ( (lv_value_1_0= RULE_NUMBER ) ) ) | ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1586:1: ruleLiteral returns [EObject current=null] : ( ( () ( (lv_value_1_0= RULE_NUMBER ) ) ) | ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) ) ) ;
     public final EObject ruleLiteral() throws RecognitionException {
         EObject current = null;
 
@@ -4189,34 +4232,34 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1568:28: ( ( ( () ( (lv_value_1_0= RULE_NUMBER ) ) ) | ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1569:1: ( ( () ( (lv_value_1_0= RULE_NUMBER ) ) ) | ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1589:28: ( ( ( () ( (lv_value_1_0= RULE_NUMBER ) ) ) | ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1590:1: ( ( () ( (lv_value_1_0= RULE_NUMBER ) ) ) | ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1569:1: ( ( () ( (lv_value_1_0= RULE_NUMBER ) ) ) | ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) ) )
-            int alt28=2;
-            int LA28_0 = input.LA(1);
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1590:1: ( ( () ( (lv_value_1_0= RULE_NUMBER ) ) ) | ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) ) )
+            int alt29=2;
+            int LA29_0 = input.LA(1);
 
-            if ( (LA28_0==RULE_NUMBER) ) {
-                alt28=1;
+            if ( (LA29_0==RULE_NUMBER) ) {
+                alt29=1;
             }
-            else if ( ((LA28_0>=41 && LA28_0<=42)) ) {
-                alt28=2;
+            else if ( ((LA29_0>=41 && LA29_0<=42)) ) {
+                alt29=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 28, 0, input);
+                    new NoViableAltException("", 29, 0, input);
 
                 throw nvae;
             }
-            switch (alt28) {
+            switch (alt29) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1569:2: ( () ( (lv_value_1_0= RULE_NUMBER ) ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1590:2: ( () ( (lv_value_1_0= RULE_NUMBER ) ) )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1569:2: ( () ( (lv_value_1_0= RULE_NUMBER ) ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1569:3: () ( (lv_value_1_0= RULE_NUMBER ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1590:2: ( () ( (lv_value_1_0= RULE_NUMBER ) ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1590:3: () ( (lv_value_1_0= RULE_NUMBER ) )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1569:3: ()
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1570:5: 
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1590:3: ()
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1591:5: 
                     {
 
                             current = forceCreateModelElement(
@@ -4226,13 +4269,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1575:2: ( (lv_value_1_0= RULE_NUMBER ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1576:1: (lv_value_1_0= RULE_NUMBER )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1596:2: ( (lv_value_1_0= RULE_NUMBER ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1597:1: (lv_value_1_0= RULE_NUMBER )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1576:1: (lv_value_1_0= RULE_NUMBER )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1577:3: lv_value_1_0= RULE_NUMBER
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1597:1: (lv_value_1_0= RULE_NUMBER )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1598:3: lv_value_1_0= RULE_NUMBER
                     {
-                    lv_value_1_0=(Token)match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_ruleLiteral3568); 
+                    lv_value_1_0=(Token)match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_ruleLiteral3630); 
 
                     			newLeafNode(lv_value_1_0, grammarAccess.getLiteralAccess().getValueNUMBERTerminalRuleCall_0_1_0()); 
                     		
@@ -4259,13 +4302,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1594:6: ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1615:6: ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1594:6: ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1594:7: () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1615:6: ( () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1615:7: () ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1594:7: ()
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1595:5: 
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1615:7: ()
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1616:5: 
                     {
 
                             current = forceCreateModelElement(
@@ -4275,33 +4318,33 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1600:2: ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' )
-                    int alt27=2;
-                    int LA27_0 = input.LA(1);
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1621:2: ( ( (lv_condition_3_0= 'true' ) ) | otherlv_4= 'false' )
+                    int alt28=2;
+                    int LA28_0 = input.LA(1);
 
-                    if ( (LA27_0==41) ) {
-                        alt27=1;
+                    if ( (LA28_0==41) ) {
+                        alt28=1;
                     }
-                    else if ( (LA27_0==42) ) {
-                        alt27=2;
+                    else if ( (LA28_0==42) ) {
+                        alt28=2;
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("", 27, 0, input);
+                            new NoViableAltException("", 28, 0, input);
 
                         throw nvae;
                     }
-                    switch (alt27) {
+                    switch (alt28) {
                         case 1 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1600:3: ( (lv_condition_3_0= 'true' ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1621:3: ( (lv_condition_3_0= 'true' ) )
                             {
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1600:3: ( (lv_condition_3_0= 'true' ) )
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1601:1: (lv_condition_3_0= 'true' )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1621:3: ( (lv_condition_3_0= 'true' ) )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1622:1: (lv_condition_3_0= 'true' )
                             {
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1601:1: (lv_condition_3_0= 'true' )
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1602:3: lv_condition_3_0= 'true'
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1622:1: (lv_condition_3_0= 'true' )
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1623:3: lv_condition_3_0= 'true'
                             {
-                            lv_condition_3_0=(Token)match(input,41,FOLLOW_41_in_ruleLiteral3609); 
+                            lv_condition_3_0=(Token)match(input,41,FOLLOW_41_in_ruleLiteral3671); 
 
                                     newLeafNode(lv_condition_3_0, grammarAccess.getLiteralAccess().getConditionTrueKeyword_1_1_0_0());
                                 
@@ -4321,9 +4364,9 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                             }
                             break;
                         case 2 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1616:7: otherlv_4= 'false'
+                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1637:7: otherlv_4= 'false'
                             {
-                            otherlv_4=(Token)match(input,42,FOLLOW_42_in_ruleLiteral3640); 
+                            otherlv_4=(Token)match(input,42,FOLLOW_42_in_ruleLiteral3702); 
 
                                 	newLeafNode(otherlv_4, grammarAccess.getLiteralAccess().getFalseKeyword_1_1_1());
                                 
@@ -4360,7 +4403,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleParenthesizedExpression"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1628:1: entryRuleParenthesizedExpression returns [EObject current=null] : iv_ruleParenthesizedExpression= ruleParenthesizedExpression EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1649:1: entryRuleParenthesizedExpression returns [EObject current=null] : iv_ruleParenthesizedExpression= ruleParenthesizedExpression EOF ;
     public final EObject entryRuleParenthesizedExpression() throws RecognitionException {
         EObject current = null;
 
@@ -4368,17 +4411,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1629:2: (iv_ruleParenthesizedExpression= ruleParenthesizedExpression EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1630:2: iv_ruleParenthesizedExpression= ruleParenthesizedExpression EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1650:2: (iv_ruleParenthesizedExpression= ruleParenthesizedExpression EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1651:2: iv_ruleParenthesizedExpression= ruleParenthesizedExpression EOF
             {
              newCompositeNode(grammarAccess.getParenthesizedExpressionRule()); 
-            pushFollow(FOLLOW_ruleParenthesizedExpression_in_entryRuleParenthesizedExpression3678);
+            pushFollow(FOLLOW_ruleParenthesizedExpression_in_entryRuleParenthesizedExpression3740);
             iv_ruleParenthesizedExpression=ruleParenthesizedExpression();
 
             state._fsp--;
 
              current =iv_ruleParenthesizedExpression; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleParenthesizedExpression3688); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleParenthesizedExpression3750); 
 
             }
 
@@ -4396,7 +4439,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleParenthesizedExpression"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1637:1: ruleParenthesizedExpression returns [EObject current=null] : (otherlv_0= '(' this_Expression_1= ruleExpression otherlv_2= ')' ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1658:1: ruleParenthesizedExpression returns [EObject current=null] : (otherlv_0= '(' this_Expression_1= ruleExpression otherlv_2= ')' ) ;
     public final EObject ruleParenthesizedExpression() throws RecognitionException {
         EObject current = null;
 
@@ -4408,20 +4451,20 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1640:28: ( (otherlv_0= '(' this_Expression_1= ruleExpression otherlv_2= ')' ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1641:1: (otherlv_0= '(' this_Expression_1= ruleExpression otherlv_2= ')' )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1661:28: ( (otherlv_0= '(' this_Expression_1= ruleExpression otherlv_2= ')' ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1662:1: (otherlv_0= '(' this_Expression_1= ruleExpression otherlv_2= ')' )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1641:1: (otherlv_0= '(' this_Expression_1= ruleExpression otherlv_2= ')' )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1641:3: otherlv_0= '(' this_Expression_1= ruleExpression otherlv_2= ')'
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1662:1: (otherlv_0= '(' this_Expression_1= ruleExpression otherlv_2= ')' )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1662:3: otherlv_0= '(' this_Expression_1= ruleExpression otherlv_2= ')'
             {
-            otherlv_0=(Token)match(input,15,FOLLOW_15_in_ruleParenthesizedExpression3725); 
+            otherlv_0=(Token)match(input,15,FOLLOW_15_in_ruleParenthesizedExpression3787); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getParenthesizedExpressionAccess().getLeftParenthesisKeyword_0());
                 
              
                     newCompositeNode(grammarAccess.getParenthesizedExpressionAccess().getExpressionParserRuleCall_1()); 
                 
-            pushFollow(FOLLOW_ruleExpression_in_ruleParenthesizedExpression3747);
+            pushFollow(FOLLOW_ruleExpression_in_ruleParenthesizedExpression3809);
             this_Expression_1=ruleExpression();
 
             state._fsp--;
@@ -4430,7 +4473,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     current = this_Expression_1; 
                     afterParserOrEnumRuleCall();
                 
-            otherlv_2=(Token)match(input,17,FOLLOW_17_in_ruleParenthesizedExpression3758); 
+            otherlv_2=(Token)match(input,17,FOLLOW_17_in_ruleParenthesizedExpression3820); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getParenthesizedExpressionAccess().getRightParenthesisKeyword_2());
                 
@@ -4455,7 +4498,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleFunctionCall"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1666:1: entryRuleFunctionCall returns [EObject current=null] : iv_ruleFunctionCall= ruleFunctionCall EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1687:1: entryRuleFunctionCall returns [EObject current=null] : iv_ruleFunctionCall= ruleFunctionCall EOF ;
     public final EObject entryRuleFunctionCall() throws RecognitionException {
         EObject current = null;
 
@@ -4463,17 +4506,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1667:2: (iv_ruleFunctionCall= ruleFunctionCall EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1668:2: iv_ruleFunctionCall= ruleFunctionCall EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1688:2: (iv_ruleFunctionCall= ruleFunctionCall EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1689:2: iv_ruleFunctionCall= ruleFunctionCall EOF
             {
              newCompositeNode(grammarAccess.getFunctionCallRule()); 
-            pushFollow(FOLLOW_ruleFunctionCall_in_entryRuleFunctionCall3794);
+            pushFollow(FOLLOW_ruleFunctionCall_in_entryRuleFunctionCall3856);
             iv_ruleFunctionCall=ruleFunctionCall();
 
             state._fsp--;
 
              current =iv_ruleFunctionCall; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleFunctionCall3804); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleFunctionCall3866); 
 
             }
 
@@ -4491,7 +4534,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleFunctionCall"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1675:1: ruleFunctionCall returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )? otherlv_6= ')' ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1696:1: ruleFunctionCall returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )? otherlv_6= ')' ) ;
     public final EObject ruleFunctionCall() throws RecognitionException {
         EObject current = null;
 
@@ -4507,14 +4550,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1678:28: ( ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )? otherlv_6= ')' ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1679:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )? otherlv_6= ')' )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1699:28: ( ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )? otherlv_6= ')' ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1700:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )? otherlv_6= ')' )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1679:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )? otherlv_6= ')' )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1679:2: () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )? otherlv_6= ')'
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1700:1: ( () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )? otherlv_6= ')' )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1700:2: () ( (otherlv_1= RULE_ID ) ) otherlv_2= '(' ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )? otherlv_6= ')'
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1679:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1680:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1700:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1701:5: 
             {
 
                     current = forceCreateModelElement(
@@ -4524,18 +4567,18 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1685:2: ( (otherlv_1= RULE_ID ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1686:1: (otherlv_1= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1706:2: ( (otherlv_1= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1707:1: (otherlv_1= RULE_ID )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1686:1: (otherlv_1= RULE_ID )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1687:3: otherlv_1= RULE_ID
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1707:1: (otherlv_1= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1708:3: otherlv_1= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getFunctionCallRule());
             	        }
                     
-            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleFunctionCall3858); 
+            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleFunctionCall3920); 
 
             		newLeafNode(otherlv_1, grammarAccess.getFunctionCallAccess().getFuncAbstractFunctionCrossReference_1_0()); 
             	
@@ -4545,31 +4588,31 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,15,FOLLOW_15_in_ruleFunctionCall3870); 
+            otherlv_2=(Token)match(input,15,FOLLOW_15_in_ruleFunctionCall3932); 
 
                 	newLeafNode(otherlv_2, grammarAccess.getFunctionCallAccess().getLeftParenthesisKeyword_2());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1702:1: ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )?
-            int alt30=2;
-            int LA30_0 = input.LA(1);
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1723:1: ( ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )* )?
+            int alt31=2;
+            int LA31_0 = input.LA(1);
 
-            if ( (LA30_0==RULE_ID||LA30_0==RULE_NUMBER||LA30_0==15||(LA30_0>=35 && LA30_0<=36)||(LA30_0>=40 && LA30_0<=42)||LA30_0==44) ) {
-                alt30=1;
+            if ( (LA31_0==RULE_ID||LA31_0==RULE_NUMBER||LA31_0==15||(LA31_0>=35 && LA31_0<=36)||(LA31_0>=40 && LA31_0<=42)||LA31_0==44||LA31_0==46) ) {
+                alt31=1;
             }
-            switch (alt30) {
+            switch (alt31) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1702:2: ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )*
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1723:2: ( (lv_args_3_0= ruleExpression ) ) (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )*
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1702:2: ( (lv_args_3_0= ruleExpression ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1703:1: (lv_args_3_0= ruleExpression )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1723:2: ( (lv_args_3_0= ruleExpression ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1724:1: (lv_args_3_0= ruleExpression )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1703:1: (lv_args_3_0= ruleExpression )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1704:3: lv_args_3_0= ruleExpression
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1724:1: (lv_args_3_0= ruleExpression )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1725:3: lv_args_3_0= ruleExpression
                     {
                      
                     	        newCompositeNode(grammarAccess.getFunctionCallAccess().getArgsExpressionParserRuleCall_3_0_0()); 
                     	    
-                    pushFollow(FOLLOW_ruleExpression_in_ruleFunctionCall3892);
+                    pushFollow(FOLLOW_ruleExpression_in_ruleFunctionCall3954);
                     lv_args_3_0=ruleExpression();
 
                     state._fsp--;
@@ -4591,35 +4634,35 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
                     }
 
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1720:2: (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )*
-                    loop29:
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1741:2: (otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) ) )*
+                    loop30:
                     do {
-                        int alt29=2;
-                        int LA29_0 = input.LA(1);
+                        int alt30=2;
+                        int LA30_0 = input.LA(1);
 
-                        if ( (LA29_0==16) ) {
-                            alt29=1;
+                        if ( (LA30_0==16) ) {
+                            alt30=1;
                         }
 
 
-                        switch (alt29) {
+                        switch (alt30) {
                     	case 1 :
-                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1720:4: otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) )
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1741:4: otherlv_4= ',' ( (lv_args_5_0= ruleExpression ) )
                     	    {
-                    	    otherlv_4=(Token)match(input,16,FOLLOW_16_in_ruleFunctionCall3905); 
+                    	    otherlv_4=(Token)match(input,16,FOLLOW_16_in_ruleFunctionCall3967); 
 
                     	        	newLeafNode(otherlv_4, grammarAccess.getFunctionCallAccess().getCommaKeyword_3_1_0());
                     	        
-                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1724:1: ( (lv_args_5_0= ruleExpression ) )
-                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1725:1: (lv_args_5_0= ruleExpression )
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1745:1: ( (lv_args_5_0= ruleExpression ) )
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1746:1: (lv_args_5_0= ruleExpression )
                     	    {
-                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1725:1: (lv_args_5_0= ruleExpression )
-                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1726:3: lv_args_5_0= ruleExpression
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1746:1: (lv_args_5_0= ruleExpression )
+                    	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1747:3: lv_args_5_0= ruleExpression
                     	    {
                     	     
                     	    	        newCompositeNode(grammarAccess.getFunctionCallAccess().getArgsExpressionParserRuleCall_3_1_1_0()); 
                     	    	    
-                    	    pushFollow(FOLLOW_ruleExpression_in_ruleFunctionCall3926);
+                    	    pushFollow(FOLLOW_ruleExpression_in_ruleFunctionCall3988);
                     	    lv_args_5_0=ruleExpression();
 
                     	    state._fsp--;
@@ -4646,7 +4689,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     	    break;
 
                     	default :
-                    	    break loop29;
+                    	    break loop30;
                         }
                     } while (true);
 
@@ -4656,7 +4699,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_6=(Token)match(input,17,FOLLOW_17_in_ruleFunctionCall3942); 
+            otherlv_6=(Token)match(input,17,FOLLOW_17_in_ruleFunctionCall4004); 
 
                 	newLeafNode(otherlv_6, grammarAccess.getFunctionCallAccess().getRightParenthesisKeyword_4());
                 
@@ -4681,7 +4724,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleVarOrArgumentCall"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1754:1: entryRuleVarOrArgumentCall returns [EObject current=null] : iv_ruleVarOrArgumentCall= ruleVarOrArgumentCall EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1775:1: entryRuleVarOrArgumentCall returns [EObject current=null] : iv_ruleVarOrArgumentCall= ruleVarOrArgumentCall EOF ;
     public final EObject entryRuleVarOrArgumentCall() throws RecognitionException {
         EObject current = null;
 
@@ -4689,17 +4732,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1755:2: (iv_ruleVarOrArgumentCall= ruleVarOrArgumentCall EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1756:2: iv_ruleVarOrArgumentCall= ruleVarOrArgumentCall EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1776:2: (iv_ruleVarOrArgumentCall= ruleVarOrArgumentCall EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1777:2: iv_ruleVarOrArgumentCall= ruleVarOrArgumentCall EOF
             {
              newCompositeNode(grammarAccess.getVarOrArgumentCallRule()); 
-            pushFollow(FOLLOW_ruleVarOrArgumentCall_in_entryRuleVarOrArgumentCall3978);
+            pushFollow(FOLLOW_ruleVarOrArgumentCall_in_entryRuleVarOrArgumentCall4040);
             iv_ruleVarOrArgumentCall=ruleVarOrArgumentCall();
 
             state._fsp--;
 
              current =iv_ruleVarOrArgumentCall; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleVarOrArgumentCall3988); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleVarOrArgumentCall4050); 
 
             }
 
@@ -4717,7 +4760,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleVarOrArgumentCall"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1763:1: ruleVarOrArgumentCall returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1784:1: ruleVarOrArgumentCall returns [EObject current=null] : ( () ( (otherlv_1= RULE_ID ) ) ) ;
     public final EObject ruleVarOrArgumentCall() throws RecognitionException {
         EObject current = null;
 
@@ -4726,14 +4769,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1766:28: ( ( () ( (otherlv_1= RULE_ID ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1767:1: ( () ( (otherlv_1= RULE_ID ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1787:28: ( ( () ( (otherlv_1= RULE_ID ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1788:1: ( () ( (otherlv_1= RULE_ID ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1767:1: ( () ( (otherlv_1= RULE_ID ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1767:2: () ( (otherlv_1= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1788:1: ( () ( (otherlv_1= RULE_ID ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1788:2: () ( (otherlv_1= RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1767:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1768:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1788:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1789:5: 
             {
 
                     current = forceCreateModelElement(
@@ -4743,18 +4786,18 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1773:2: ( (otherlv_1= RULE_ID ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1774:1: (otherlv_1= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1794:2: ( (otherlv_1= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1795:1: (otherlv_1= RULE_ID )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1774:1: (otherlv_1= RULE_ID )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1775:3: otherlv_1= RULE_ID
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1795:1: (otherlv_1= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1796:3: otherlv_1= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getVarOrArgumentCallRule());
             	        }
                     
-            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleVarOrArgumentCall4042); 
+            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleVarOrArgumentCall4104); 
 
             		newLeafNode(otherlv_1, grammarAccess.getVarOrArgumentCallAccess().getCallAbstractVarOrArgumentCrossReference_1_0()); 
             	
@@ -4784,26 +4827,26 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleVarOrArgumentCall"
 
 
-    // $ANTLR start "entryRuleReference"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1794:1: entryRuleReference returns [EObject current=null] : iv_ruleReference= ruleReference EOF ;
-    public final EObject entryRuleReference() throws RecognitionException {
+    // $ANTLR start "entryRuleNativeExpression"
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1815:1: entryRuleNativeExpression returns [EObject current=null] : iv_ruleNativeExpression= ruleNativeExpression EOF ;
+    public final EObject entryRuleNativeExpression() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleReference = null;
+        EObject iv_ruleNativeExpression = null;
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1795:2: (iv_ruleReference= ruleReference EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1796:2: iv_ruleReference= ruleReference EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1816:2: (iv_ruleNativeExpression= ruleNativeExpression EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1817:2: iv_ruleNativeExpression= ruleNativeExpression EOF
             {
-             newCompositeNode(grammarAccess.getReferenceRule()); 
-            pushFollow(FOLLOW_ruleReference_in_entryRuleReference4078);
-            iv_ruleReference=ruleReference();
+             newCompositeNode(grammarAccess.getNativeExpressionRule()); 
+            pushFollow(FOLLOW_ruleNativeExpression_in_entryRuleNativeExpression4140);
+            iv_ruleNativeExpression=ruleNativeExpression();
 
             state._fsp--;
 
-             current =iv_ruleReference; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleReference4088); 
+             current =iv_ruleNativeExpression; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleNativeExpression4150); 
 
             }
 
@@ -4817,79 +4860,85 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleReference"
+    // $ANTLR end "entryRuleNativeExpression"
 
 
-    // $ANTLR start "ruleReference"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1803:1: ruleReference returns [EObject current=null] : (this_ContextRef_0= ruleContextRef (otherlv_1= '.' ( (lv_nativeFunction_2_0= ruleNativeFunction ) ) )? ) ;
-    public final EObject ruleReference() throws RecognitionException {
+    // $ANTLR start "ruleNativeExpression"
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1824:1: ruleNativeExpression returns [EObject current=null] : ( () ( ( (lv_range_1_0= ruleRangeLiteral ) ) | ( (lv_ref_2_0= ruleReference ) ) ) otherlv_3= '.' ( (lv_nativeFunction_4_0= ruleNativeFunction ) ) ) ;
+    public final EObject ruleNativeExpression() throws RecognitionException {
         EObject current = null;
 
-        Token otherlv_1=null;
-        EObject this_ContextRef_0 = null;
+        Token otherlv_3=null;
+        EObject lv_range_1_0 = null;
 
-        Enumerator lv_nativeFunction_2_0 = null;
+        EObject lv_ref_2_0 = null;
+
+        Enumerator lv_nativeFunction_4_0 = null;
 
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1806:28: ( (this_ContextRef_0= ruleContextRef (otherlv_1= '.' ( (lv_nativeFunction_2_0= ruleNativeFunction ) ) )? ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1807:1: (this_ContextRef_0= ruleContextRef (otherlv_1= '.' ( (lv_nativeFunction_2_0= ruleNativeFunction ) ) )? )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1827:28: ( ( () ( ( (lv_range_1_0= ruleRangeLiteral ) ) | ( (lv_ref_2_0= ruleReference ) ) ) otherlv_3= '.' ( (lv_nativeFunction_4_0= ruleNativeFunction ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1828:1: ( () ( ( (lv_range_1_0= ruleRangeLiteral ) ) | ( (lv_ref_2_0= ruleReference ) ) ) otherlv_3= '.' ( (lv_nativeFunction_4_0= ruleNativeFunction ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1807:1: (this_ContextRef_0= ruleContextRef (otherlv_1= '.' ( (lv_nativeFunction_2_0= ruleNativeFunction ) ) )? )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1808:5: this_ContextRef_0= ruleContextRef (otherlv_1= '.' ( (lv_nativeFunction_2_0= ruleNativeFunction ) ) )?
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1828:1: ( () ( ( (lv_range_1_0= ruleRangeLiteral ) ) | ( (lv_ref_2_0= ruleReference ) ) ) otherlv_3= '.' ( (lv_nativeFunction_4_0= ruleNativeFunction ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1828:2: () ( ( (lv_range_1_0= ruleRangeLiteral ) ) | ( (lv_ref_2_0= ruleReference ) ) ) otherlv_3= '.' ( (lv_nativeFunction_4_0= ruleNativeFunction ) )
             {
-             
-                    newCompositeNode(grammarAccess.getReferenceAccess().getContextRefParserRuleCall_0()); 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1828:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1829:5: 
+            {
+
+                    current = forceCreateModelElement(
+                        grammarAccess.getNativeExpressionAccess().getNativeExpressionAction_0(),
+                        current);
                 
-            pushFollow(FOLLOW_ruleContextRef_in_ruleReference4135);
-            this_ContextRef_0=ruleContextRef();
 
-            state._fsp--;
-
-             
-                    current = this_ContextRef_0; 
-                    afterParserOrEnumRuleCall();
-                
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1816:1: (otherlv_1= '.' ( (lv_nativeFunction_2_0= ruleNativeFunction ) ) )?
-            int alt31=2;
-            int LA31_0 = input.LA(1);
-
-            if ( (LA31_0==43) ) {
-                alt31=1;
             }
-            switch (alt31) {
-                case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1816:3: otherlv_1= '.' ( (lv_nativeFunction_2_0= ruleNativeFunction ) )
-                    {
-                    otherlv_1=(Token)match(input,43,FOLLOW_43_in_ruleReference4147); 
 
-                        	newLeafNode(otherlv_1, grammarAccess.getReferenceAccess().getFullStopKeyword_1_0());
-                        
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1820:1: ( (lv_nativeFunction_2_0= ruleNativeFunction ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1821:1: (lv_nativeFunction_2_0= ruleNativeFunction )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1834:2: ( ( (lv_range_1_0= ruleRangeLiteral ) ) | ( (lv_ref_2_0= ruleReference ) ) )
+            int alt32=2;
+            int LA32_0 = input.LA(1);
+
+            if ( (LA32_0==44) ) {
+                alt32=1;
+            }
+            else if ( (LA32_0==46) ) {
+                alt32=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 32, 0, input);
+
+                throw nvae;
+            }
+            switch (alt32) {
+                case 1 :
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1834:3: ( (lv_range_1_0= ruleRangeLiteral ) )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1821:1: (lv_nativeFunction_2_0= ruleNativeFunction )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1822:3: lv_nativeFunction_2_0= ruleNativeFunction
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1834:3: ( (lv_range_1_0= ruleRangeLiteral ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1835:1: (lv_range_1_0= ruleRangeLiteral )
+                    {
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1835:1: (lv_range_1_0= ruleRangeLiteral )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1836:3: lv_range_1_0= ruleRangeLiteral
                     {
                      
-                    	        newCompositeNode(grammarAccess.getReferenceAccess().getNativeFunctionNativeFunctionEnumRuleCall_1_1_0()); 
+                    	        newCompositeNode(grammarAccess.getNativeExpressionAccess().getRangeRangeLiteralParserRuleCall_1_0_0()); 
                     	    
-                    pushFollow(FOLLOW_ruleNativeFunction_in_ruleReference4168);
-                    lv_nativeFunction_2_0=ruleNativeFunction();
+                    pushFollow(FOLLOW_ruleRangeLiteral_in_ruleNativeExpression4206);
+                    lv_range_1_0=ruleRangeLiteral();
 
                     state._fsp--;
 
 
                     	        if (current==null) {
-                    	            current = createModelElementForParent(grammarAccess.getReferenceRule());
+                    	            current = createModelElementForParent(grammarAccess.getNativeExpressionRule());
                     	        }
                            		set(
                            			current, 
-                           			"nativeFunction",
-                            		lv_nativeFunction_2_0, 
-                            		"NativeFunction");
+                           			"range",
+                            		lv_range_1_0, 
+                            		"RangeLiteral");
                     	        afterParserOrEnumRuleCall();
                     	    
 
@@ -4901,6 +4950,78 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
                     }
                     break;
+                case 2 :
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1853:6: ( (lv_ref_2_0= ruleReference ) )
+                    {
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1853:6: ( (lv_ref_2_0= ruleReference ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1854:1: (lv_ref_2_0= ruleReference )
+                    {
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1854:1: (lv_ref_2_0= ruleReference )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1855:3: lv_ref_2_0= ruleReference
+                    {
+                     
+                    	        newCompositeNode(grammarAccess.getNativeExpressionAccess().getRefReferenceParserRuleCall_1_1_0()); 
+                    	    
+                    pushFollow(FOLLOW_ruleReference_in_ruleNativeExpression4233);
+                    lv_ref_2_0=ruleReference();
+
+                    state._fsp--;
+
+
+                    	        if (current==null) {
+                    	            current = createModelElementForParent(grammarAccess.getNativeExpressionRule());
+                    	        }
+                           		set(
+                           			current, 
+                           			"ref",
+                            		lv_ref_2_0, 
+                            		"Reference");
+                    	        afterParserOrEnumRuleCall();
+                    	    
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+            otherlv_3=(Token)match(input,43,FOLLOW_43_in_ruleNativeExpression4246); 
+
+                	newLeafNode(otherlv_3, grammarAccess.getNativeExpressionAccess().getFullStopKeyword_2());
+                
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1875:1: ( (lv_nativeFunction_4_0= ruleNativeFunction ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1876:1: (lv_nativeFunction_4_0= ruleNativeFunction )
+            {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1876:1: (lv_nativeFunction_4_0= ruleNativeFunction )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1877:3: lv_nativeFunction_4_0= ruleNativeFunction
+            {
+             
+            	        newCompositeNode(grammarAccess.getNativeExpressionAccess().getNativeFunctionNativeFunctionEnumRuleCall_3_0()); 
+            	    
+            pushFollow(FOLLOW_ruleNativeFunction_in_ruleNativeExpression4267);
+            lv_nativeFunction_4_0=ruleNativeFunction();
+
+            state._fsp--;
+
+
+            	        if (current==null) {
+            	            current = createModelElementForParent(grammarAccess.getNativeExpressionRule());
+            	        }
+                   		set(
+                   			current, 
+                   			"nativeFunction",
+                    		lv_nativeFunction_4_0, 
+                    		"NativeFunction");
+            	        afterParserOrEnumRuleCall();
+            	    
+
+            }
+
 
             }
 
@@ -4921,11 +5042,344 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
+    // $ANTLR end "ruleNativeExpression"
+
+
+    // $ANTLR start "entryRuleRange"
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1901:1: entryRuleRange returns [EObject current=null] : iv_ruleRange= ruleRange EOF ;
+    public final EObject entryRuleRange() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleRange = null;
+
+
+        try {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1902:2: (iv_ruleRange= ruleRange EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1903:2: iv_ruleRange= ruleRange EOF
+            {
+             newCompositeNode(grammarAccess.getRangeRule()); 
+            pushFollow(FOLLOW_ruleRange_in_entryRuleRange4303);
+            iv_ruleRange=ruleRange();
+
+            state._fsp--;
+
+             current =iv_ruleRange; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleRange4313); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleRange"
+
+
+    // $ANTLR start "ruleRange"
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1910:1: ruleRange returns [EObject current=null] : this_RangeLiteral_0= ruleRangeLiteral ;
+    public final EObject ruleRange() throws RecognitionException {
+        EObject current = null;
+
+        EObject this_RangeLiteral_0 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1913:28: (this_RangeLiteral_0= ruleRangeLiteral )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1915:5: this_RangeLiteral_0= ruleRangeLiteral
+            {
+             
+                    newCompositeNode(grammarAccess.getRangeAccess().getRangeLiteralParserRuleCall()); 
+                
+            pushFollow(FOLLOW_ruleRangeLiteral_in_ruleRange4359);
+            this_RangeLiteral_0=ruleRangeLiteral();
+
+            state._fsp--;
+
+             
+                    current = this_RangeLiteral_0; 
+                    afterParserOrEnumRuleCall();
+                
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleRange"
+
+
+    // $ANTLR start "entryRuleRangeLiteral"
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1931:1: entryRuleRangeLiteral returns [EObject current=null] : iv_ruleRangeLiteral= ruleRangeLiteral EOF ;
+    public final EObject entryRuleRangeLiteral() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleRangeLiteral = null;
+
+
+        try {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1932:2: (iv_ruleRangeLiteral= ruleRangeLiteral EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1933:2: iv_ruleRangeLiteral= ruleRangeLiteral EOF
+            {
+             newCompositeNode(grammarAccess.getRangeLiteralRule()); 
+            pushFollow(FOLLOW_ruleRangeLiteral_in_entryRuleRangeLiteral4393);
+            iv_ruleRangeLiteral=ruleRangeLiteral();
+
+            state._fsp--;
+
+             current =iv_ruleRangeLiteral; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleRangeLiteral4403); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleRangeLiteral"
+
+
+    // $ANTLR start "ruleRangeLiteral"
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1940:1: ruleRangeLiteral returns [EObject current=null] : ( () otherlv_1= '[' ( (lv_values_2_0= RULE_NUMBER ) ) (otherlv_3= ',' ( (lv_values_4_0= RULE_NUMBER ) ) )* otherlv_5= ']' ) ;
+    public final EObject ruleRangeLiteral() throws RecognitionException {
+        EObject current = null;
+
+        Token otherlv_1=null;
+        Token lv_values_2_0=null;
+        Token otherlv_3=null;
+        Token lv_values_4_0=null;
+        Token otherlv_5=null;
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1943:28: ( ( () otherlv_1= '[' ( (lv_values_2_0= RULE_NUMBER ) ) (otherlv_3= ',' ( (lv_values_4_0= RULE_NUMBER ) ) )* otherlv_5= ']' ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1944:1: ( () otherlv_1= '[' ( (lv_values_2_0= RULE_NUMBER ) ) (otherlv_3= ',' ( (lv_values_4_0= RULE_NUMBER ) ) )* otherlv_5= ']' )
+            {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1944:1: ( () otherlv_1= '[' ( (lv_values_2_0= RULE_NUMBER ) ) (otherlv_3= ',' ( (lv_values_4_0= RULE_NUMBER ) ) )* otherlv_5= ']' )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1944:2: () otherlv_1= '[' ( (lv_values_2_0= RULE_NUMBER ) ) (otherlv_3= ',' ( (lv_values_4_0= RULE_NUMBER ) ) )* otherlv_5= ']'
+            {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1944:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1945:5: 
+            {
+
+                    current = forceCreateModelElement(
+                        grammarAccess.getRangeLiteralAccess().getRangeLiteralAction_0(),
+                        current);
+                
+
+            }
+
+            otherlv_1=(Token)match(input,44,FOLLOW_44_in_ruleRangeLiteral4449); 
+
+                	newLeafNode(otherlv_1, grammarAccess.getRangeLiteralAccess().getLeftSquareBracketKeyword_1());
+                
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1954:1: ( (lv_values_2_0= RULE_NUMBER ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1955:1: (lv_values_2_0= RULE_NUMBER )
+            {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1955:1: (lv_values_2_0= RULE_NUMBER )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1956:3: lv_values_2_0= RULE_NUMBER
+            {
+            lv_values_2_0=(Token)match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_ruleRangeLiteral4466); 
+
+            			newLeafNode(lv_values_2_0, grammarAccess.getRangeLiteralAccess().getValuesNUMBERTerminalRuleCall_2_0()); 
+            		
+
+            	        if (current==null) {
+            	            current = createModelElement(grammarAccess.getRangeLiteralRule());
+            	        }
+                   		addWithLastConsumed(
+                   			current, 
+                   			"values",
+                    		lv_values_2_0, 
+                    		"NUMBER");
+            	    
+
+            }
+
+
+            }
+
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1972:2: (otherlv_3= ',' ( (lv_values_4_0= RULE_NUMBER ) ) )*
+            loop33:
+            do {
+                int alt33=2;
+                int LA33_0 = input.LA(1);
+
+                if ( (LA33_0==16) ) {
+                    alt33=1;
+                }
+
+
+                switch (alt33) {
+            	case 1 :
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1972:4: otherlv_3= ',' ( (lv_values_4_0= RULE_NUMBER ) )
+            	    {
+            	    otherlv_3=(Token)match(input,16,FOLLOW_16_in_ruleRangeLiteral4484); 
+
+            	        	newLeafNode(otherlv_3, grammarAccess.getRangeLiteralAccess().getCommaKeyword_3_0());
+            	        
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1976:1: ( (lv_values_4_0= RULE_NUMBER ) )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1977:1: (lv_values_4_0= RULE_NUMBER )
+            	    {
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1977:1: (lv_values_4_0= RULE_NUMBER )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1978:3: lv_values_4_0= RULE_NUMBER
+            	    {
+            	    lv_values_4_0=(Token)match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_ruleRangeLiteral4501); 
+
+            	    			newLeafNode(lv_values_4_0, grammarAccess.getRangeLiteralAccess().getValuesNUMBERTerminalRuleCall_3_1_0()); 
+            	    		
+
+            	    	        if (current==null) {
+            	    	            current = createModelElement(grammarAccess.getRangeLiteralRule());
+            	    	        }
+            	           		addWithLastConsumed(
+            	           			current, 
+            	           			"values",
+            	            		lv_values_4_0, 
+            	            		"NUMBER");
+            	    	    
+
+            	    }
+
+
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop33;
+                }
+            } while (true);
+
+            otherlv_5=(Token)match(input,45,FOLLOW_45_in_ruleRangeLiteral4520); 
+
+                	newLeafNode(otherlv_5, grammarAccess.getRangeLiteralAccess().getRightSquareBracketKeyword_4());
+                
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleRangeLiteral"
+
+
+    // $ANTLR start "entryRuleReference"
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2006:1: entryRuleReference returns [EObject current=null] : iv_ruleReference= ruleReference EOF ;
+    public final EObject entryRuleReference() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleReference = null;
+
+
+        try {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2007:2: (iv_ruleReference= ruleReference EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2008:2: iv_ruleReference= ruleReference EOF
+            {
+             newCompositeNode(grammarAccess.getReferenceRule()); 
+            pushFollow(FOLLOW_ruleReference_in_entryRuleReference4556);
+            iv_ruleReference=ruleReference();
+
+            state._fsp--;
+
+             current =iv_ruleReference; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleReference4566); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleReference"
+
+
+    // $ANTLR start "ruleReference"
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2015:1: ruleReference returns [EObject current=null] : this_ContextRef_0= ruleContextRef ;
+    public final EObject ruleReference() throws RecognitionException {
+        EObject current = null;
+
+        EObject this_ContextRef_0 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2018:28: (this_ContextRef_0= ruleContextRef )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2020:5: this_ContextRef_0= ruleContextRef
+            {
+             
+                    newCompositeNode(grammarAccess.getReferenceAccess().getContextRefParserRuleCall()); 
+                
+            pushFollow(FOLLOW_ruleContextRef_in_ruleReference4612);
+            this_ContextRef_0=ruleContextRef();
+
+            state._fsp--;
+
+             
+                    current = this_ContextRef_0; 
+                    afterParserOrEnumRuleCall();
+                
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
     // $ANTLR end "ruleReference"
 
 
     // $ANTLR start "entryRuleContextRef"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1846:1: entryRuleContextRef returns [EObject current=null] : iv_ruleContextRef= ruleContextRef EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2036:1: entryRuleContextRef returns [EObject current=null] : iv_ruleContextRef= ruleContextRef EOF ;
     public final EObject entryRuleContextRef() throws RecognitionException {
         EObject current = null;
 
@@ -4933,17 +5387,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1847:2: (iv_ruleContextRef= ruleContextRef EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1848:2: iv_ruleContextRef= ruleContextRef EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2037:2: (iv_ruleContextRef= ruleContextRef EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2038:2: iv_ruleContextRef= ruleContextRef EOF
             {
              newCompositeNode(grammarAccess.getContextRefRule()); 
-            pushFollow(FOLLOW_ruleContextRef_in_entryRuleContextRef4206);
+            pushFollow(FOLLOW_ruleContextRef_in_entryRuleContextRef4646);
             iv_ruleContextRef=ruleContextRef();
 
             state._fsp--;
 
              current =iv_ruleContextRef; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleContextRef4216); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleContextRef4656); 
 
             }
 
@@ -4961,7 +5415,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleContextRef"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1855:1: ruleContextRef returns [EObject current=null] : (otherlv_0= 'this' this_NodeRef_1= ruleNodeRef ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2045:1: ruleContextRef returns [EObject current=null] : (otherlv_0= 'this' this_NodeRef_1= ruleNodeRef ) ;
     public final EObject ruleContextRef() throws RecognitionException {
         EObject current = null;
 
@@ -4972,20 +5426,20 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1858:28: ( (otherlv_0= 'this' this_NodeRef_1= ruleNodeRef ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1859:1: (otherlv_0= 'this' this_NodeRef_1= ruleNodeRef )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2048:28: ( (otherlv_0= 'this' this_NodeRef_1= ruleNodeRef ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2049:1: (otherlv_0= 'this' this_NodeRef_1= ruleNodeRef )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1859:1: (otherlv_0= 'this' this_NodeRef_1= ruleNodeRef )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1859:3: otherlv_0= 'this' this_NodeRef_1= ruleNodeRef
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2049:1: (otherlv_0= 'this' this_NodeRef_1= ruleNodeRef )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2049:3: otherlv_0= 'this' this_NodeRef_1= ruleNodeRef
             {
-            otherlv_0=(Token)match(input,44,FOLLOW_44_in_ruleContextRef4253); 
+            otherlv_0=(Token)match(input,46,FOLLOW_46_in_ruleContextRef4693); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getContextRefAccess().getThisKeyword_0());
                 
              
                     newCompositeNode(grammarAccess.getContextRefAccess().getNodeRefParserRuleCall_1()); 
                 
-            pushFollow(FOLLOW_ruleNodeRef_in_ruleContextRef4275);
+            pushFollow(FOLLOW_ruleNodeRef_in_ruleContextRef4715);
             this_NodeRef_1=ruleNodeRef();
 
             state._fsp--;
@@ -5015,7 +5469,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleNodeRef"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1880:1: entryRuleNodeRef returns [EObject current=null] : iv_ruleNodeRef= ruleNodeRef EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2070:1: entryRuleNodeRef returns [EObject current=null] : iv_ruleNodeRef= ruleNodeRef EOF ;
     public final EObject entryRuleNodeRef() throws RecognitionException {
         EObject current = null;
 
@@ -5023,17 +5477,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1881:2: (iv_ruleNodeRef= ruleNodeRef EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1882:2: iv_ruleNodeRef= ruleNodeRef EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2071:2: (iv_ruleNodeRef= ruleNodeRef EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2072:2: iv_ruleNodeRef= ruleNodeRef EOF
             {
              newCompositeNode(grammarAccess.getNodeRefRule()); 
-            pushFollow(FOLLOW_ruleNodeRef_in_entryRuleNodeRef4310);
+            pushFollow(FOLLOW_ruleNodeRef_in_entryRuleNodeRef4750);
             iv_ruleNodeRef=ruleNodeRef();
 
             state._fsp--;
 
              current =iv_ruleNodeRef; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleNodeRef4320); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleNodeRef4760); 
 
             }
 
@@ -5051,56 +5505,54 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleNodeRef"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1889:1: ruleNodeRef returns [EObject current=null] : ( ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+ (otherlv_1= '->' ( ( (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef ) ) ) )? ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2079:1: ruleNodeRef returns [EObject current=null] : ( ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+ (otherlv_1= '->' ( (lv_ref_2_0= ruleLeafRef ) ) )? ) ;
     public final EObject ruleNodeRef() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_1=null;
         EObject lv_nodes_0_0 = null;
 
-        EObject lv_ref_2_1 = null;
-
-        EObject lv_ref_2_2 = null;
+        EObject lv_ref_2_0 = null;
 
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1892:28: ( ( ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+ (otherlv_1= '->' ( ( (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef ) ) ) )? ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1893:1: ( ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+ (otherlv_1= '->' ( ( (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef ) ) ) )? )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2082:28: ( ( ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+ (otherlv_1= '->' ( (lv_ref_2_0= ruleLeafRef ) ) )? ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2083:1: ( ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+ (otherlv_1= '->' ( (lv_ref_2_0= ruleLeafRef ) ) )? )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1893:1: ( ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+ (otherlv_1= '->' ( ( (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef ) ) ) )? )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1893:2: ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+ (otherlv_1= '->' ( ( (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef ) ) ) )?
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2083:1: ( ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+ (otherlv_1= '->' ( (lv_ref_2_0= ruleLeafRef ) ) )? )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2083:2: ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+ (otherlv_1= '->' ( (lv_ref_2_0= ruleLeafRef ) ) )?
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1893:2: ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+
-            int cnt32=0;
-            loop32:
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2083:2: ( (lv_nodes_0_0= rulePrimaryNodeRef ) )+
+            int cnt34=0;
+            loop34:
             do {
-                int alt32=2;
-                int LA32_0 = input.LA(1);
+                int alt34=2;
+                int LA34_0 = input.LA(1);
 
-                if ( (LA32_0==45) ) {
-                    int LA32_1 = input.LA(2);
+                if ( (LA34_0==43) ) {
+                    int LA34_2 = input.LA(2);
 
-                    if ( (LA32_1==RULE_ID) ) {
-                        alt32=1;
+                    if ( (LA34_2==RULE_ID) ) {
+                        alt34=1;
                     }
 
 
                 }
 
 
-                switch (alt32) {
+                switch (alt34) {
             	case 1 :
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1894:1: (lv_nodes_0_0= rulePrimaryNodeRef )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2084:1: (lv_nodes_0_0= rulePrimaryNodeRef )
             	    {
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1894:1: (lv_nodes_0_0= rulePrimaryNodeRef )
-            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1895:3: lv_nodes_0_0= rulePrimaryNodeRef
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2084:1: (lv_nodes_0_0= rulePrimaryNodeRef )
+            	    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2085:3: lv_nodes_0_0= rulePrimaryNodeRef
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getNodeRefAccess().getNodesPrimaryNodeRefParserRuleCall_0_0()); 
             	    	    
-            	    pushFollow(FOLLOW_rulePrimaryNodeRef_in_ruleNodeRef4366);
+            	    pushFollow(FOLLOW_rulePrimaryNodeRef_in_ruleNodeRef4806);
             	    lv_nodes_0_0=rulePrimaryNodeRef();
 
             	    state._fsp--;
@@ -5124,105 +5576,54 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt32 >= 1 ) break loop32;
+            	    if ( cnt34 >= 1 ) break loop34;
                         EarlyExitException eee =
-                            new EarlyExitException(32, input);
+                            new EarlyExitException(34, input);
                         throw eee;
                 }
-                cnt32++;
+                cnt34++;
             } while (true);
 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1911:3: (otherlv_1= '->' ( ( (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef ) ) ) )?
-            int alt34=2;
-            int LA34_0 = input.LA(1);
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2101:3: (otherlv_1= '->' ( (lv_ref_2_0= ruleLeafRef ) ) )?
+            int alt35=2;
+            int LA35_0 = input.LA(1);
 
-            if ( (LA34_0==45) ) {
-                alt34=1;
+            if ( (LA35_0==47) ) {
+                alt35=1;
             }
-            switch (alt34) {
+            switch (alt35) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1911:5: otherlv_1= '->' ( ( (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef ) ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2101:5: otherlv_1= '->' ( (lv_ref_2_0= ruleLeafRef ) )
                     {
-                    otherlv_1=(Token)match(input,45,FOLLOW_45_in_ruleNodeRef4380); 
+                    otherlv_1=(Token)match(input,47,FOLLOW_47_in_ruleNodeRef4820); 
 
                         	newLeafNode(otherlv_1, grammarAccess.getNodeRefAccess().getHyphenMinusGreaterThanSignKeyword_1_0());
                         
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1915:1: ( ( (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef ) ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1916:1: ( (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2105:1: ( (lv_ref_2_0= ruleLeafRef ) )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2106:1: (lv_ref_2_0= ruleLeafRef )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1916:1: ( (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef ) )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1917:1: (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2106:1: (lv_ref_2_0= ruleLeafRef )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2107:3: lv_ref_2_0= ruleLeafRef
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1917:1: (lv_ref_2_1= ruleResourceRef | lv_ref_2_2= ruleLinkRef )
-                    int alt33=2;
-                    int LA33_0 = input.LA(1);
+                     
+                    	        newCompositeNode(grammarAccess.getNodeRefAccess().getRefLeafRefParserRuleCall_1_1_0()); 
+                    	    
+                    pushFollow(FOLLOW_ruleLeafRef_in_ruleNodeRef4841);
+                    lv_ref_2_0=ruleLeafRef();
 
-                    if ( (LA33_0==46) ) {
-                        alt33=1;
-                    }
-                    else if ( (LA33_0==47) ) {
-                        alt33=2;
-                    }
-                    else {
-                        NoViableAltException nvae =
-                            new NoViableAltException("", 33, 0, input);
-
-                        throw nvae;
-                    }
-                    switch (alt33) {
-                        case 1 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1918:3: lv_ref_2_1= ruleResourceRef
-                            {
-                             
-                            	        newCompositeNode(grammarAccess.getNodeRefAccess().getRefResourceRefParserRuleCall_1_1_0_0()); 
-                            	    
-                            pushFollow(FOLLOW_ruleResourceRef_in_ruleNodeRef4403);
-                            lv_ref_2_1=ruleResourceRef();
-
-                            state._fsp--;
+                    state._fsp--;
 
 
-                            	        if (current==null) {
-                            	            current = createModelElementForParent(grammarAccess.getNodeRefRule());
-                            	        }
-                                   		set(
-                                   			current, 
-                                   			"ref",
-                                    		lv_ref_2_1, 
-                                    		"ResourceRef");
-                            	        afterParserOrEnumRuleCall();
-                            	    
-
-                            }
-                            break;
-                        case 2 :
-                            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1933:8: lv_ref_2_2= ruleLinkRef
-                            {
-                             
-                            	        newCompositeNode(grammarAccess.getNodeRefAccess().getRefLinkRefParserRuleCall_1_1_0_1()); 
-                            	    
-                            pushFollow(FOLLOW_ruleLinkRef_in_ruleNodeRef4422);
-                            lv_ref_2_2=ruleLinkRef();
-
-                            state._fsp--;
-
-
-                            	        if (current==null) {
-                            	            current = createModelElementForParent(grammarAccess.getNodeRefRule());
-                            	        }
-                                   		set(
-                                   			current, 
-                                   			"ref",
-                                    		lv_ref_2_2, 
-                                    		"LinkRef");
-                            	        afterParserOrEnumRuleCall();
-                            	    
-
-                            }
-                            break;
-
-                    }
-
+                    	        if (current==null) {
+                    	            current = createModelElementForParent(grammarAccess.getNodeRefRule());
+                    	        }
+                           		set(
+                           			current, 
+                           			"ref",
+                            		lv_ref_2_0, 
+                            		"LeafRef");
+                    	        afterParserOrEnumRuleCall();
+                    	    
 
                     }
 
@@ -5256,7 +5657,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRulePrimaryNodeRef"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1959:1: entryRulePrimaryNodeRef returns [EObject current=null] : iv_rulePrimaryNodeRef= rulePrimaryNodeRef EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2131:1: entryRulePrimaryNodeRef returns [EObject current=null] : iv_rulePrimaryNodeRef= rulePrimaryNodeRef EOF ;
     public final EObject entryRulePrimaryNodeRef() throws RecognitionException {
         EObject current = null;
 
@@ -5264,17 +5665,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1960:2: (iv_rulePrimaryNodeRef= rulePrimaryNodeRef EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1961:2: iv_rulePrimaryNodeRef= rulePrimaryNodeRef EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2132:2: (iv_rulePrimaryNodeRef= rulePrimaryNodeRef EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2133:2: iv_rulePrimaryNodeRef= rulePrimaryNodeRef EOF
             {
              newCompositeNode(grammarAccess.getPrimaryNodeRefRule()); 
-            pushFollow(FOLLOW_rulePrimaryNodeRef_in_entryRulePrimaryNodeRef4463);
+            pushFollow(FOLLOW_rulePrimaryNodeRef_in_entryRulePrimaryNodeRef4879);
             iv_rulePrimaryNodeRef=rulePrimaryNodeRef();
 
             state._fsp--;
 
              current =iv_rulePrimaryNodeRef; 
-            match(input,EOF,FOLLOW_EOF_in_entryRulePrimaryNodeRef4473); 
+            match(input,EOF,FOLLOW_EOF_in_entryRulePrimaryNodeRef4889); 
 
             }
 
@@ -5292,7 +5693,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "rulePrimaryNodeRef"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1968:1: rulePrimaryNodeRef returns [EObject current=null] : ( () otherlv_1= '->' ( (otherlv_2= RULE_ID ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2140:1: rulePrimaryNodeRef returns [EObject current=null] : ( () otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ) ;
     public final EObject rulePrimaryNodeRef() throws RecognitionException {
         EObject current = null;
 
@@ -5302,14 +5703,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1971:28: ( ( () otherlv_1= '->' ( (otherlv_2= RULE_ID ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1972:1: ( () otherlv_1= '->' ( (otherlv_2= RULE_ID ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2143:28: ( ( () otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2144:1: ( () otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1972:1: ( () otherlv_1= '->' ( (otherlv_2= RULE_ID ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1972:2: () otherlv_1= '->' ( (otherlv_2= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2144:1: ( () otherlv_1= '.' ( (otherlv_2= RULE_ID ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2144:2: () otherlv_1= '.' ( (otherlv_2= RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1972:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1973:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2144:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2145:5: 
             {
 
                     current = forceCreateModelElement(
@@ -5319,22 +5720,22 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,45,FOLLOW_45_in_rulePrimaryNodeRef4519); 
+            otherlv_1=(Token)match(input,43,FOLLOW_43_in_rulePrimaryNodeRef4935); 
 
-                	newLeafNode(otherlv_1, grammarAccess.getPrimaryNodeRefAccess().getHyphenMinusGreaterThanSignKeyword_1());
+                	newLeafNode(otherlv_1, grammarAccess.getPrimaryNodeRefAccess().getFullStopKeyword_1());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1982:1: ( (otherlv_2= RULE_ID ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1983:1: (otherlv_2= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2154:1: ( (otherlv_2= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2155:1: (otherlv_2= RULE_ID )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1983:1: (otherlv_2= RULE_ID )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1984:3: otherlv_2= RULE_ID
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2155:1: (otherlv_2= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2156:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getPrimaryNodeRefRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_rulePrimaryNodeRef4539); 
+            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_rulePrimaryNodeRef4955); 
 
             		newLeafNode(otherlv_2, grammarAccess.getPrimaryNodeRefAccess().getNodeNodeCrossReference_2_0()); 
             	
@@ -5364,8 +5765,133 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     // $ANTLR end "rulePrimaryNodeRef"
 
 
+    // $ANTLR start "entryRuleLeafRef"
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2175:1: entryRuleLeafRef returns [EObject current=null] : iv_ruleLeafRef= ruleLeafRef EOF ;
+    public final EObject entryRuleLeafRef() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleLeafRef = null;
+
+
+        try {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2176:2: (iv_ruleLeafRef= ruleLeafRef EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2177:2: iv_ruleLeafRef= ruleLeafRef EOF
+            {
+             newCompositeNode(grammarAccess.getLeafRefRule()); 
+            pushFollow(FOLLOW_ruleLeafRef_in_entryRuleLeafRef4991);
+            iv_ruleLeafRef=ruleLeafRef();
+
+            state._fsp--;
+
+             current =iv_ruleLeafRef; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleLeafRef5001); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleLeafRef"
+
+
+    // $ANTLR start "ruleLeafRef"
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2184:1: ruleLeafRef returns [EObject current=null] : (this_ResourceRef_0= ruleResourceRef | this_LinkRef_1= ruleLinkRef ) ;
+    public final EObject ruleLeafRef() throws RecognitionException {
+        EObject current = null;
+
+        EObject this_ResourceRef_0 = null;
+
+        EObject this_LinkRef_1 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2187:28: ( (this_ResourceRef_0= ruleResourceRef | this_LinkRef_1= ruleLinkRef ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2188:1: (this_ResourceRef_0= ruleResourceRef | this_LinkRef_1= ruleLinkRef )
+            {
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2188:1: (this_ResourceRef_0= ruleResourceRef | this_LinkRef_1= ruleLinkRef )
+            int alt36=2;
+            int LA36_0 = input.LA(1);
+
+            if ( (LA36_0==48) ) {
+                alt36=1;
+            }
+            else if ( (LA36_0==49) ) {
+                alt36=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 36, 0, input);
+
+                throw nvae;
+            }
+            switch (alt36) {
+                case 1 :
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2189:5: this_ResourceRef_0= ruleResourceRef
+                    {
+                     
+                            newCompositeNode(grammarAccess.getLeafRefAccess().getResourceRefParserRuleCall_0()); 
+                        
+                    pushFollow(FOLLOW_ruleResourceRef_in_ruleLeafRef5048);
+                    this_ResourceRef_0=ruleResourceRef();
+
+                    state._fsp--;
+
+                     
+                            current = this_ResourceRef_0; 
+                            afterParserOrEnumRuleCall();
+                        
+
+                    }
+                    break;
+                case 2 :
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2199:5: this_LinkRef_1= ruleLinkRef
+                    {
+                     
+                            newCompositeNode(grammarAccess.getLeafRefAccess().getLinkRefParserRuleCall_1()); 
+                        
+                    pushFollow(FOLLOW_ruleLinkRef_in_ruleLeafRef5075);
+                    this_LinkRef_1=ruleLinkRef();
+
+                    state._fsp--;
+
+                     
+                            current = this_LinkRef_1; 
+                            afterParserOrEnumRuleCall();
+                        
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleLeafRef"
+
+
     // $ANTLR start "entryRuleResourceRef"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2003:1: entryRuleResourceRef returns [EObject current=null] : iv_ruleResourceRef= ruleResourceRef EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2215:1: entryRuleResourceRef returns [EObject current=null] : iv_ruleResourceRef= ruleResourceRef EOF ;
     public final EObject entryRuleResourceRef() throws RecognitionException {
         EObject current = null;
 
@@ -5373,17 +5899,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2004:2: (iv_ruleResourceRef= ruleResourceRef EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2005:2: iv_ruleResourceRef= ruleResourceRef EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2216:2: (iv_ruleResourceRef= ruleResourceRef EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2217:2: iv_ruleResourceRef= ruleResourceRef EOF
             {
              newCompositeNode(grammarAccess.getResourceRefRule()); 
-            pushFollow(FOLLOW_ruleResourceRef_in_entryRuleResourceRef4575);
+            pushFollow(FOLLOW_ruleResourceRef_in_entryRuleResourceRef5110);
             iv_ruleResourceRef=ruleResourceRef();
 
             state._fsp--;
 
              current =iv_ruleResourceRef; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleResourceRef4585); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleResourceRef5120); 
 
             }
 
@@ -5401,7 +5927,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleResourceRef"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2012:1: ruleResourceRef returns [EObject current=null] : ( () otherlv_1= 'RES' ( (otherlv_2= RULE_ID ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2224:1: ruleResourceRef returns [EObject current=null] : ( () otherlv_1= 'RES' ( (otherlv_2= RULE_ID ) ) ) ;
     public final EObject ruleResourceRef() throws RecognitionException {
         EObject current = null;
 
@@ -5411,14 +5937,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2015:28: ( ( () otherlv_1= 'RES' ( (otherlv_2= RULE_ID ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2016:1: ( () otherlv_1= 'RES' ( (otherlv_2= RULE_ID ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2227:28: ( ( () otherlv_1= 'RES' ( (otherlv_2= RULE_ID ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2228:1: ( () otherlv_1= 'RES' ( (otherlv_2= RULE_ID ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2016:1: ( () otherlv_1= 'RES' ( (otherlv_2= RULE_ID ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2016:2: () otherlv_1= 'RES' ( (otherlv_2= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2228:1: ( () otherlv_1= 'RES' ( (otherlv_2= RULE_ID ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2228:2: () otherlv_1= 'RES' ( (otherlv_2= RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2016:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2017:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2228:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2229:5: 
             {
 
                     current = forceCreateModelElement(
@@ -5428,22 +5954,22 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,46,FOLLOW_46_in_ruleResourceRef4631); 
+            otherlv_1=(Token)match(input,48,FOLLOW_48_in_ruleResourceRef5166); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getResourceRefAccess().getRESKeyword_1());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2026:1: ( (otherlv_2= RULE_ID ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2027:1: (otherlv_2= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2238:1: ( (otherlv_2= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2239:1: (otherlv_2= RULE_ID )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2027:1: (otherlv_2= RULE_ID )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2028:3: otherlv_2= RULE_ID
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2239:1: (otherlv_2= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2240:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getResourceRefRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleResourceRef4651); 
+            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleResourceRef5186); 
 
             		newLeafNode(otherlv_2, grammarAccess.getResourceRefAccess().getResourceResourceCrossReference_2_0()); 
             	
@@ -5474,7 +6000,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLinkRef"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2047:1: entryRuleLinkRef returns [EObject current=null] : iv_ruleLinkRef= ruleLinkRef EOF ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2259:1: entryRuleLinkRef returns [EObject current=null] : iv_ruleLinkRef= ruleLinkRef EOF ;
     public final EObject entryRuleLinkRef() throws RecognitionException {
         EObject current = null;
 
@@ -5482,17 +6008,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2048:2: (iv_ruleLinkRef= ruleLinkRef EOF )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2049:2: iv_ruleLinkRef= ruleLinkRef EOF
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2260:2: (iv_ruleLinkRef= ruleLinkRef EOF )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2261:2: iv_ruleLinkRef= ruleLinkRef EOF
             {
              newCompositeNode(grammarAccess.getLinkRefRule()); 
-            pushFollow(FOLLOW_ruleLinkRef_in_entryRuleLinkRef4687);
+            pushFollow(FOLLOW_ruleLinkRef_in_entryRuleLinkRef5222);
             iv_ruleLinkRef=ruleLinkRef();
 
             state._fsp--;
 
              current =iv_ruleLinkRef; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleLinkRef4697); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleLinkRef5232); 
 
             }
 
@@ -5510,7 +6036,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLinkRef"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2056:1: ruleLinkRef returns [EObject current=null] : ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2268:1: ruleLinkRef returns [EObject current=null] : ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) ) ;
     public final EObject ruleLinkRef() throws RecognitionException {
         EObject current = null;
 
@@ -5520,14 +6046,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2059:28: ( ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2060:1: ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2271:28: ( ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2272:1: ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2060:1: ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2060:2: () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2272:1: ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2272:2: () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2060:2: ()
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2061:5: 
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2272:2: ()
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2273:5: 
             {
 
                     current = forceCreateModelElement(
@@ -5537,22 +6063,22 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,47,FOLLOW_47_in_ruleLinkRef4743); 
+            otherlv_1=(Token)match(input,49,FOLLOW_49_in_ruleLinkRef5278); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getLinkRefAccess().getLINKKeyword_1());
                 
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2070:1: ( (otherlv_2= RULE_ID ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2071:1: (otherlv_2= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2282:1: ( (otherlv_2= RULE_ID ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2283:1: (otherlv_2= RULE_ID )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2071:1: (otherlv_2= RULE_ID )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2072:3: otherlv_2= RULE_ID
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2283:1: (otherlv_2= RULE_ID )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2284:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getLinkRefRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleLinkRef4763); 
+            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleLinkRef5298); 
 
             		newLeafNode(otherlv_2, grammarAccess.getLinkRefAccess().getLinkLinkCrossReference_2_0()); 
             	
@@ -5583,7 +6109,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleNativeFunction"
-    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2091:1: ruleNativeFunction returns [Enumerator current=null] : ( (enumLiteral_0= 'COUNT' ) | (enumLiteral_1= 'SUM' ) | (enumLiteral_2= 'MIN' ) | (enumLiteral_3= 'MAX' ) | (enumLiteral_4= 'MEAN' ) | (enumLiteral_5= 'DEVIATION' ) ) ;
+    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2303:1: ruleNativeFunction returns [Enumerator current=null] : ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) ) ;
     public final Enumerator ruleNativeFunction() throws RecognitionException {
         Enumerator current = null;
 
@@ -5596,57 +6122,57 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
          enterRule(); 
         try {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2093:28: ( ( (enumLiteral_0= 'COUNT' ) | (enumLiteral_1= 'SUM' ) | (enumLiteral_2= 'MIN' ) | (enumLiteral_3= 'MAX' ) | (enumLiteral_4= 'MEAN' ) | (enumLiteral_5= 'DEVIATION' ) ) )
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2094:1: ( (enumLiteral_0= 'COUNT' ) | (enumLiteral_1= 'SUM' ) | (enumLiteral_2= 'MIN' ) | (enumLiteral_3= 'MAX' ) | (enumLiteral_4= 'MEAN' ) | (enumLiteral_5= 'DEVIATION' ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2305:28: ( ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) ) )
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2306:1: ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) )
             {
-            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2094:1: ( (enumLiteral_0= 'COUNT' ) | (enumLiteral_1= 'SUM' ) | (enumLiteral_2= 'MIN' ) | (enumLiteral_3= 'MAX' ) | (enumLiteral_4= 'MEAN' ) | (enumLiteral_5= 'DEVIATION' ) )
-            int alt35=6;
+            // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2306:1: ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) )
+            int alt37=6;
             switch ( input.LA(1) ) {
-            case 48:
-                {
-                alt35=1;
-                }
-                break;
-            case 49:
-                {
-                alt35=2;
-                }
-                break;
             case 50:
                 {
-                alt35=3;
+                alt37=1;
                 }
                 break;
             case 51:
                 {
-                alt35=4;
+                alt37=2;
                 }
                 break;
             case 52:
                 {
-                alt35=5;
+                alt37=3;
                 }
                 break;
             case 53:
                 {
-                alt35=6;
+                alt37=4;
+                }
+                break;
+            case 54:
+                {
+                alt37=5;
+                }
+                break;
+            case 55:
+                {
+                alt37=6;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 35, 0, input);
+                    new NoViableAltException("", 37, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt35) {
+            switch (alt37) {
                 case 1 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2094:2: (enumLiteral_0= 'COUNT' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2306:2: (enumLiteral_0= 'count()' )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2094:2: (enumLiteral_0= 'COUNT' )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2094:4: enumLiteral_0= 'COUNT'
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2306:2: (enumLiteral_0= 'count()' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2306:4: enumLiteral_0= 'count()'
                     {
-                    enumLiteral_0=(Token)match(input,48,FOLLOW_48_in_ruleNativeFunction4813); 
+                    enumLiteral_0=(Token)match(input,50,FOLLOW_50_in_ruleNativeFunction5348); 
 
                             current = grammarAccess.getNativeFunctionAccess().getCOUNTEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_0, grammarAccess.getNativeFunctionAccess().getCOUNTEnumLiteralDeclaration_0()); 
@@ -5658,12 +6184,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2100:6: (enumLiteral_1= 'SUM' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2312:6: (enumLiteral_1= 'sum()' )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2100:6: (enumLiteral_1= 'SUM' )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2100:8: enumLiteral_1= 'SUM'
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2312:6: (enumLiteral_1= 'sum()' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2312:8: enumLiteral_1= 'sum()'
                     {
-                    enumLiteral_1=(Token)match(input,49,FOLLOW_49_in_ruleNativeFunction4830); 
+                    enumLiteral_1=(Token)match(input,51,FOLLOW_51_in_ruleNativeFunction5365); 
 
                             current = grammarAccess.getNativeFunctionAccess().getSUMEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_1, grammarAccess.getNativeFunctionAccess().getSUMEnumLiteralDeclaration_1()); 
@@ -5675,12 +6201,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2106:6: (enumLiteral_2= 'MIN' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2318:6: (enumLiteral_2= 'min()' )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2106:6: (enumLiteral_2= 'MIN' )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2106:8: enumLiteral_2= 'MIN'
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2318:6: (enumLiteral_2= 'min()' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2318:8: enumLiteral_2= 'min()'
                     {
-                    enumLiteral_2=(Token)match(input,50,FOLLOW_50_in_ruleNativeFunction4847); 
+                    enumLiteral_2=(Token)match(input,52,FOLLOW_52_in_ruleNativeFunction5382); 
 
                             current = grammarAccess.getNativeFunctionAccess().getMINEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_2, grammarAccess.getNativeFunctionAccess().getMINEnumLiteralDeclaration_2()); 
@@ -5692,12 +6218,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2112:6: (enumLiteral_3= 'MAX' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2324:6: (enumLiteral_3= 'max()' )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2112:6: (enumLiteral_3= 'MAX' )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2112:8: enumLiteral_3= 'MAX'
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2324:6: (enumLiteral_3= 'max()' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2324:8: enumLiteral_3= 'max()'
                     {
-                    enumLiteral_3=(Token)match(input,51,FOLLOW_51_in_ruleNativeFunction4864); 
+                    enumLiteral_3=(Token)match(input,53,FOLLOW_53_in_ruleNativeFunction5399); 
 
                             current = grammarAccess.getNativeFunctionAccess().getMAXEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_3, grammarAccess.getNativeFunctionAccess().getMAXEnumLiteralDeclaration_3()); 
@@ -5709,12 +6235,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2118:6: (enumLiteral_4= 'MEAN' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2330:6: (enumLiteral_4= 'mean()' )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2118:6: (enumLiteral_4= 'MEAN' )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2118:8: enumLiteral_4= 'MEAN'
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2330:6: (enumLiteral_4= 'mean()' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2330:8: enumLiteral_4= 'mean()'
                     {
-                    enumLiteral_4=(Token)match(input,52,FOLLOW_52_in_ruleNativeFunction4881); 
+                    enumLiteral_4=(Token)match(input,54,FOLLOW_54_in_ruleNativeFunction5416); 
 
                             current = grammarAccess.getNativeFunctionAccess().getMEANEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_4, grammarAccess.getNativeFunctionAccess().getMEANEnumLiteralDeclaration_4()); 
@@ -5726,12 +6252,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2124:6: (enumLiteral_5= 'DEVIATION' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2336:6: (enumLiteral_5= 'deviation()' )
                     {
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2124:6: (enumLiteral_5= 'DEVIATION' )
-                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2124:8: enumLiteral_5= 'DEVIATION'
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2336:6: (enumLiteral_5= 'deviation()' )
+                    // ../com.netxforge.netxscript.a/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2336:8: enumLiteral_5= 'deviation()'
                     {
-                    enumLiteral_5=(Token)match(input,53,FOLLOW_53_in_ruleNativeFunction4898); 
+                    enumLiteral_5=(Token)match(input,55,FOLLOW_55_in_ruleNativeFunction5433); 
 
                             current = grammarAccess.getNativeFunctionAccess().getDEVIATIONEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_5, grammarAccess.getNativeFunctionAccess().getDEVIATIONEnumLiteralDeclaration_5()); 
@@ -5764,22 +6290,24 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     // Delegated rules
 
 
-    protected DFA8 dfa8 = new DFA8(this);
-    static final String DFA8_eotS =
-        "\17\uffff";
-    static final String DFA8_eofS =
-        "\17\uffff";
-    static final String DFA8_minS =
-        "\1\4\1\uffff\1\17\1\55\3\uffff\1\4\1\24\1\4\1\uffff\2\4\2\24";
-    static final String DFA8_maxS =
-        "\1\54\1\uffff\1\47\1\55\3\uffff\1\4\1\55\1\57\1\uffff\2\4\2\53";
-    static final String DFA8_acceptS =
-        "\1\uffff\1\1\2\uffff\1\4\1\5\1\2\3\uffff\1\3\4\uffff";
-    static final String DFA8_specialS =
-        "\17\uffff}>";
-    static final String[] DFA8_transitionS = {
+    protected DFA9 dfa9 = new DFA9(this);
+    protected DFA27 dfa27 = new DFA27(this);
+    static final String DFA9_eotS =
+        "\20\uffff";
+    static final String DFA9_eofS =
+        "\20\uffff";
+    static final String DFA9_minS =
+        "\1\4\1\uffff\1\17\1\53\3\uffff\1\4\1\24\1\60\1\uffff\3\4\2\24";
+    static final String DFA9_maxS =
+        "\1\56\1\uffff\1\47\1\53\3\uffff\1\4\1\57\1\61\1\uffff\1\67\2\4\2"+
+        "\53";
+    static final String DFA9_acceptS =
+        "\1\uffff\1\1\2\uffff\1\4\1\5\1\2\3\uffff\1\3\5\uffff";
+    static final String DFA9_specialS =
+        "\20\uffff}>";
+    static final String[] DFA9_transitionS = {
             "\1\2\1\uffff\1\4\10\uffff\1\4\5\uffff\1\5\3\uffff\1\1\11\uffff"+
-            "\2\4\3\uffff\3\4\1\uffff\1\3",
+            "\2\4\3\uffff\3\4\1\uffff\1\4\1\uffff\1\3",
             "",
             "\1\4\4\uffff\1\4\5\uffff\1\6\15\4",
             "\1\7",
@@ -5787,46 +6315,122 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             "",
             "",
             "\1\10",
-            "\1\4\5\uffff\1\12\15\4\3\uffff\1\4\1\uffff\1\11",
-            "\1\10\51\uffff\1\13\1\14",
+            "\1\4\5\uffff\1\12\15\4\3\uffff\1\13\3\uffff\1\11",
+            "\1\14\1\15",
             "",
-            "\1\15",
+            "\1\10\55\uffff\6\4",
             "\1\16",
+            "\1\17",
             "\1\4\5\uffff\1\12\15\4\3\uffff\1\4",
             "\1\4\5\uffff\1\12\15\4\3\uffff\1\4"
     };
 
-    static final short[] DFA8_eot = DFA.unpackEncodedString(DFA8_eotS);
-    static final short[] DFA8_eof = DFA.unpackEncodedString(DFA8_eofS);
-    static final char[] DFA8_min = DFA.unpackEncodedStringToUnsignedChars(DFA8_minS);
-    static final char[] DFA8_max = DFA.unpackEncodedStringToUnsignedChars(DFA8_maxS);
-    static final short[] DFA8_accept = DFA.unpackEncodedString(DFA8_acceptS);
-    static final short[] DFA8_special = DFA.unpackEncodedString(DFA8_specialS);
-    static final short[][] DFA8_transition;
+    static final short[] DFA9_eot = DFA.unpackEncodedString(DFA9_eotS);
+    static final short[] DFA9_eof = DFA.unpackEncodedString(DFA9_eofS);
+    static final char[] DFA9_min = DFA.unpackEncodedStringToUnsignedChars(DFA9_minS);
+    static final char[] DFA9_max = DFA.unpackEncodedStringToUnsignedChars(DFA9_maxS);
+    static final short[] DFA9_accept = DFA.unpackEncodedString(DFA9_acceptS);
+    static final short[] DFA9_special = DFA.unpackEncodedString(DFA9_specialS);
+    static final short[][] DFA9_transition;
 
     static {
-        int numStates = DFA8_transitionS.length;
-        DFA8_transition = new short[numStates][];
+        int numStates = DFA9_transitionS.length;
+        DFA9_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA8_transition[i] = DFA.unpackEncodedString(DFA8_transitionS[i]);
+            DFA9_transition[i] = DFA.unpackEncodedString(DFA9_transitionS[i]);
         }
     }
 
-    class DFA8 extends DFA {
+    class DFA9 extends DFA {
 
-        public DFA8(BaseRecognizer recognizer) {
+        public DFA9(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 8;
-            this.eot = DFA8_eot;
-            this.eof = DFA8_eof;
-            this.min = DFA8_min;
-            this.max = DFA8_max;
-            this.accept = DFA8_accept;
-            this.special = DFA8_special;
-            this.transition = DFA8_transition;
+            this.decisionNumber = 9;
+            this.eot = DFA9_eot;
+            this.eof = DFA9_eof;
+            this.min = DFA9_min;
+            this.max = DFA9_max;
+            this.accept = DFA9_accept;
+            this.special = DFA9_special;
+            this.transition = DFA9_transition;
         }
         public String getDescription() {
-            return "428:3: (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement )";
+            return "429:3: (this_VariableStatement_0= ruleVariableStatement | this_AssignmentStatement_1= ruleAssignmentStatement | this_ReferenceAssignmentStatement_2= ruleReferenceAssignmentStatement | ( (lv_expression_3_0= ruleExpression ) ) | this_ReturnStatement_4= ruleReturnStatement )";
+        }
+    }
+    static final String DFA27_eotS =
+        "\27\uffff";
+    static final String DFA27_eofS =
+        "\4\uffff\1\10\6\uffff\1\16\1\22\10\uffff\2\22";
+    static final String DFA27_minS =
+        "\1\4\1\uffff\1\6\1\53\1\17\1\uffff\1\20\1\4\2\uffff\1\6\3\20\2\uffff"+
+        "\1\60\1\4\1\uffff\2\4\2\20";
+    static final String DFA27_maxS =
+        "\1\56\1\uffff\1\6\1\53\1\47\1\uffff\1\55\1\4\2\uffff\1\6\1\53\1"+
+        "\57\1\55\2\uffff\1\61\1\67\1\uffff\2\4\2\53";
+    static final String DFA27_acceptS =
+        "\1\uffff\1\1\3\uffff\1\7\2\uffff\1\6\1\5\4\uffff\1\2\1\3\2\uffff"+
+        "\1\4\4\uffff";
+    static final String DFA27_specialS =
+        "\27\uffff}>";
+    static final String[] DFA27_transitionS = {
+            "\1\4\1\uffff\1\1\10\uffff\1\5\31\uffff\2\1\1\uffff\1\2\1\uffff"+
+            "\1\3",
+            "",
+            "\1\6",
+            "\1\7",
+            "\1\11\2\10\2\uffff\1\10\6\uffff\15\10",
+            "",
+            "\1\12\34\uffff\1\13",
+            "\1\14",
+            "",
+            "",
+            "\1\15",
+            "\2\16\2\uffff\1\16\6\uffff\15\16\3\uffff\1\17",
+            "\2\22\2\uffff\1\22\6\uffff\15\22\3\uffff\1\21\3\uffff\1\20",
+            "\1\12\34\uffff\1\13",
+            "",
+            "",
+            "\1\23\1\24",
+            "\1\14\55\uffff\6\17",
+            "",
+            "\1\25",
+            "\1\26",
+            "\2\22\2\uffff\1\22\6\uffff\15\22\3\uffff\1\17",
+            "\2\22\2\uffff\1\22\6\uffff\15\22\3\uffff\1\17"
+    };
+
+    static final short[] DFA27_eot = DFA.unpackEncodedString(DFA27_eotS);
+    static final short[] DFA27_eof = DFA.unpackEncodedString(DFA27_eofS);
+    static final char[] DFA27_min = DFA.unpackEncodedStringToUnsignedChars(DFA27_minS);
+    static final char[] DFA27_max = DFA.unpackEncodedStringToUnsignedChars(DFA27_maxS);
+    static final short[] DFA27_accept = DFA.unpackEncodedString(DFA27_acceptS);
+    static final short[] DFA27_special = DFA.unpackEncodedString(DFA27_specialS);
+    static final short[][] DFA27_transition;
+
+    static {
+        int numStates = DFA27_transitionS.length;
+        DFA27_transition = new short[numStates][];
+        for (int i=0; i<numStates; i++) {
+            DFA27_transition[i] = DFA.unpackEncodedString(DFA27_transitionS[i]);
+        }
+    }
+
+    class DFA27 extends DFA {
+
+        public DFA27(BaseRecognizer recognizer) {
+            this.recognizer = recognizer;
+            this.decisionNumber = 27;
+            this.eot = DFA27_eot;
+            this.eof = DFA27_eof;
+            this.min = DFA27_min;
+            this.max = DFA27_max;
+            this.accept = DFA27_accept;
+            this.special = DFA27_special;
+            this.transition = DFA27_transition;
+        }
+        public String getDescription() {
+            return "1500:1: (this_Literal_0= ruleLiteral | this_Range_1= ruleRange | this_NativeExpression_2= ruleNativeExpression | this_Reference_3= ruleReference | this_FunctionCall_4= ruleFunctionCall | this_VarOrArgumentCall_5= ruleVarOrArgumentCall | this_ParenthesizedExpression_6= ruleParenthesizedExpression )";
         }
     }
  
@@ -5834,185 +6438,204 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_ruleMod_in_entryRuleMod75 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleMod85 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_12_in_ruleMod123 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleMod140 = new BitSet(new long[]{0x000017180364E052L});
-    public static final BitSet FOLLOW_ruleImport_in_ruleMod168 = new BitSet(new long[]{0x000017180364E052L});
-    public static final BitSet FOLLOW_ruleFunction_in_ruleMod190 = new BitSet(new long[]{0x000017180364C052L});
-    public static final BitSet FOLLOW_ruleStatement_in_ruleMod212 = new BitSet(new long[]{0x0000171803648052L});
-    public static final BitSet FOLLOW_ruleImport_in_entryRuleImport251 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleImport261 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_13_in_ruleImport298 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_STRING_in_ruleImport315 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleFunction_in_entryRuleFunction356 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleFunction366 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_14_in_ruleFunction403 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleFunction420 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_15_in_ruleFunction437 = new BitSet(new long[]{0x0000000000020010L});
-    public static final BitSet FOLLOW_ruleArgument_in_ruleFunction459 = new BitSet(new long[]{0x0000000000030000L});
-    public static final BitSet FOLLOW_16_in_ruleFunction472 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_ruleArgument_in_ruleFunction493 = new BitSet(new long[]{0x0000000000030000L});
-    public static final BitSet FOLLOW_17_in_ruleFunction509 = new BitSet(new long[]{0x0000171803648050L});
-    public static final BitSet FOLLOW_ruleBlock_in_ruleFunction530 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleArgument_in_entryRuleArgument566 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleArgument576 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleArgument617 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleBlock_in_entryRuleBlock661 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleBlock671 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_18_in_ruleBlock717 = new BitSet(new long[]{0x00001718036C8050L});
-    public static final BitSet FOLLOW_ruleStatement_in_ruleBlock738 = new BitSet(new long[]{0x00001718036C8050L});
-    public static final BitSet FOLLOW_19_in_ruleBlock751 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleStatement_in_entryRuleStatement787 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleStatement797 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleVariableStatement_in_ruleStatement846 = new BitSet(new long[]{0x0000000000100000L});
-    public static final BitSet FOLLOW_ruleAssignmentStatement_in_ruleStatement873 = new BitSet(new long[]{0x0000000000100000L});
-    public static final BitSet FOLLOW_ruleReferenceAssignmentStatement_in_ruleStatement900 = new BitSet(new long[]{0x0000000000100000L});
-    public static final BitSet FOLLOW_ruleExpression_in_ruleStatement926 = new BitSet(new long[]{0x0000000000100000L});
-    public static final BitSet FOLLOW_ruleReturnStatement_in_ruleStatement954 = new BitSet(new long[]{0x0000000000100000L});
-    public static final BitSet FOLLOW_20_in_ruleStatement966 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleIfStatement_in_ruleStatement995 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleWhileStatement_in_ruleStatement1022 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleBlock_in_ruleStatement1049 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleReturnStatement_in_entryRuleReturnStatement1084 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleReturnStatement1094 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_21_in_ruleReturnStatement1140 = new BitSet(new long[]{0x0000171800008052L});
-    public static final BitSet FOLLOW_ruleExpression_in_ruleReturnStatement1161 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleIfStatement_in_entryRuleIfStatement1198 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleIfStatement1208 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_22_in_ruleIfStatement1254 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_15_in_ruleIfStatement1266 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleLogical_in_ruleIfStatement1287 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleIfStatement1299 = new BitSet(new long[]{0x0000171803648050L});
-    public static final BitSet FOLLOW_ruleBlock_in_ruleIfStatement1320 = new BitSet(new long[]{0x0000000000800002L});
-    public static final BitSet FOLLOW_23_in_ruleIfStatement1333 = new BitSet(new long[]{0x0000171803648050L});
-    public static final BitSet FOLLOW_ruleBlock_in_ruleIfStatement1354 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleWhileStatement_in_entryRuleWhileStatement1392 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleWhileStatement1402 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_24_in_ruleWhileStatement1448 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_15_in_ruleWhileStatement1460 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleLogical_in_ruleWhileStatement1481 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleWhileStatement1493 = new BitSet(new long[]{0x0000171803648050L});
-    public static final BitSet FOLLOW_ruleBlock_in_ruleWhileStatement1514 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleVariableStatement_in_entryRuleVariableStatement1550 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleVariableStatement1560 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_25_in_ruleVariableStatement1606 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleVariableStatement1623 = new BitSet(new long[]{0x0000000004000002L});
-    public static final BitSet FOLLOW_26_in_ruleVariableStatement1641 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleExpression_in_ruleVariableStatement1662 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleAssignmentStatement_in_entryRuleAssignmentStatement1700 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleAssignmentStatement1710 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleAssignmentStatement1764 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_26_in_ruleAssignmentStatement1776 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleExpression_in_ruleAssignmentStatement1797 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleReferenceAssignmentStatement_in_entryRuleReferenceAssignmentStatement1833 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleReferenceAssignmentStatement1843 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleContextRef_in_ruleReferenceAssignmentStatement1898 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_26_in_ruleReferenceAssignmentStatement1910 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleExpression_in_ruleReferenceAssignmentStatement1931 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleExpression_in_entryRuleExpression1967 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleExpression1977 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLogical_in_ruleExpression2023 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLogical_in_entryRuleLogical2057 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleLogical2067 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleEquality_in_ruleLogical2114 = new BitSet(new long[]{0x0000000018000002L});
-    public static final BitSet FOLLOW_27_in_ruleLogical2137 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_28_in_ruleLogical2166 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleEquality_in_ruleLogical2189 = new BitSet(new long[]{0x0000000018000002L});
-    public static final BitSet FOLLOW_ruleEquality_in_entryRuleEquality2227 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleEquality2237 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleComparison_in_ruleEquality2284 = new BitSet(new long[]{0x0000000060000002L});
-    public static final BitSet FOLLOW_29_in_ruleEquality2307 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_30_in_ruleEquality2336 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleComparison_in_ruleEquality2359 = new BitSet(new long[]{0x0000000060000002L});
-    public static final BitSet FOLLOW_ruleComparison_in_entryRuleComparison2397 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleComparison2407 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleAddition_in_ruleComparison2454 = new BitSet(new long[]{0x0000000780000002L});
-    public static final BitSet FOLLOW_31_in_ruleComparison2477 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_32_in_ruleComparison2506 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_33_in_ruleComparison2535 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_34_in_ruleComparison2564 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleAddition_in_ruleComparison2587 = new BitSet(new long[]{0x0000000780000002L});
-    public static final BitSet FOLLOW_ruleAddition_in_entryRuleAddition2625 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleAddition2635 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleMultiplication_in_ruleAddition2682 = new BitSet(new long[]{0x0000001800000002L});
-    public static final BitSet FOLLOW_35_in_ruleAddition2705 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_36_in_ruleAddition2734 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleMultiplication_in_ruleAddition2757 = new BitSet(new long[]{0x0000001800000002L});
-    public static final BitSet FOLLOW_ruleMultiplication_in_entryRuleMultiplication2795 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleMultiplication2805 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleUnary_in_ruleMultiplication2852 = new BitSet(new long[]{0x000000E000000002L});
-    public static final BitSet FOLLOW_37_in_ruleMultiplication2875 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_38_in_ruleMultiplication2904 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_39_in_ruleMultiplication2933 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleUnary_in_ruleMultiplication2956 = new BitSet(new long[]{0x000000E000000002L});
-    public static final BitSet FOLLOW_ruleUnary_in_entryRuleUnary2994 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleUnary3004 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rulePrimaryExpression_in_ruleUnary3051 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_40_in_ruleUnary3086 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleUnaryOperator_in_ruleUnary3137 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleUnary_in_ruleUnary3160 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleUnaryOperator_in_entryRuleUnaryOperator3198 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleUnaryOperator3209 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_36_in_ruleUnaryOperator3247 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_35_in_ruleUnaryOperator3266 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rulePrimaryExpression_in_entryRulePrimaryExpression3306 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRulePrimaryExpression3316 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLiteral_in_rulePrimaryExpression3363 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleReference_in_rulePrimaryExpression3390 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleFunctionCall_in_rulePrimaryExpression3417 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleVarOrArgumentCall_in_rulePrimaryExpression3444 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleParenthesizedExpression_in_rulePrimaryExpression3471 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLiteral_in_entryRuleLiteral3506 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleLiteral3516 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NUMBER_in_ruleLiteral3568 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_41_in_ruleLiteral3609 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_42_in_ruleLiteral3640 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleParenthesizedExpression_in_entryRuleParenthesizedExpression3678 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleParenthesizedExpression3688 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_15_in_ruleParenthesizedExpression3725 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleExpression_in_ruleParenthesizedExpression3747 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleParenthesizedExpression3758 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleFunctionCall_in_entryRuleFunctionCall3794 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleFunctionCall3804 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleFunctionCall3858 = new BitSet(new long[]{0x0000000000008000L});
-    public static final BitSet FOLLOW_15_in_ruleFunctionCall3870 = new BitSet(new long[]{0x0000171800028050L});
-    public static final BitSet FOLLOW_ruleExpression_in_ruleFunctionCall3892 = new BitSet(new long[]{0x0000000000030000L});
-    public static final BitSet FOLLOW_16_in_ruleFunctionCall3905 = new BitSet(new long[]{0x0000171800008050L});
-    public static final BitSet FOLLOW_ruleExpression_in_ruleFunctionCall3926 = new BitSet(new long[]{0x0000000000030000L});
-    public static final BitSet FOLLOW_17_in_ruleFunctionCall3942 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleVarOrArgumentCall_in_entryRuleVarOrArgumentCall3978 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleVarOrArgumentCall3988 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleVarOrArgumentCall4042 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleReference_in_entryRuleReference4078 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleReference4088 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleContextRef_in_ruleReference4135 = new BitSet(new long[]{0x0000080000000002L});
-    public static final BitSet FOLLOW_43_in_ruleReference4147 = new BitSet(new long[]{0x003F000000000000L});
-    public static final BitSet FOLLOW_ruleNativeFunction_in_ruleReference4168 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleContextRef_in_entryRuleContextRef4206 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleContextRef4216 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_44_in_ruleContextRef4253 = new BitSet(new long[]{0x0000200000000000L});
-    public static final BitSet FOLLOW_ruleNodeRef_in_ruleContextRef4275 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleNodeRef_in_entryRuleNodeRef4310 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleNodeRef4320 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rulePrimaryNodeRef_in_ruleNodeRef4366 = new BitSet(new long[]{0x0000200000000002L});
-    public static final BitSet FOLLOW_45_in_ruleNodeRef4380 = new BitSet(new long[]{0x0000C00000000000L});
-    public static final BitSet FOLLOW_ruleResourceRef_in_ruleNodeRef4403 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLinkRef_in_ruleNodeRef4422 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rulePrimaryNodeRef_in_entryRulePrimaryNodeRef4463 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRulePrimaryNodeRef4473 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_45_in_rulePrimaryNodeRef4519 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_rulePrimaryNodeRef4539 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleResourceRef_in_entryRuleResourceRef4575 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleResourceRef4585 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_46_in_ruleResourceRef4631 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleResourceRef4651 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLinkRef_in_entryRuleLinkRef4687 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleLinkRef4697 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_47_in_ruleLinkRef4743 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleLinkRef4763 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_48_in_ruleNativeFunction4813 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_49_in_ruleNativeFunction4830 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_50_in_ruleNativeFunction4847 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_51_in_ruleNativeFunction4864 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_52_in_ruleNativeFunction4881 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_53_in_ruleNativeFunction4898 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleMod140 = new BitSet(new long[]{0x000057180364E050L});
+    public static final BitSet FOLLOW_ruleImport_in_ruleMod168 = new BitSet(new long[]{0x000057180364E050L});
+    public static final BitSet FOLLOW_ruleFunction_in_ruleMod191 = new BitSet(new long[]{0x0000000000004002L});
+    public static final BitSet FOLLOW_ruleStatement_in_ruleMod219 = new BitSet(new long[]{0x000057180364E052L});
+    public static final BitSet FOLLOW_ruleImport_in_entryRuleImport259 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleImport269 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_13_in_ruleImport306 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_STRING_in_ruleImport323 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleFunction_in_entryRuleFunction364 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleFunction374 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_14_in_ruleFunction411 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleFunction428 = new BitSet(new long[]{0x0000000000008000L});
+    public static final BitSet FOLLOW_15_in_ruleFunction445 = new BitSet(new long[]{0x0000000000020010L});
+    public static final BitSet FOLLOW_ruleArgument_in_ruleFunction467 = new BitSet(new long[]{0x0000000000030000L});
+    public static final BitSet FOLLOW_16_in_ruleFunction480 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_ruleArgument_in_ruleFunction501 = new BitSet(new long[]{0x0000000000030000L});
+    public static final BitSet FOLLOW_17_in_ruleFunction517 = new BitSet(new long[]{0x000057180364E050L});
+    public static final BitSet FOLLOW_ruleBlock_in_ruleFunction538 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleArgument_in_entryRuleArgument574 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleArgument584 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleArgument625 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleBlock_in_entryRuleBlock669 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleBlock679 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_18_in_ruleBlock725 = new BitSet(new long[]{0x00005718036CE050L});
+    public static final BitSet FOLLOW_ruleStatement_in_ruleBlock746 = new BitSet(new long[]{0x00005718036CE050L});
+    public static final BitSet FOLLOW_19_in_ruleBlock759 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleStatement_in_entryRuleStatement795 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleStatement805 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleVariableStatement_in_ruleStatement854 = new BitSet(new long[]{0x0000000000100000L});
+    public static final BitSet FOLLOW_ruleAssignmentStatement_in_ruleStatement881 = new BitSet(new long[]{0x0000000000100000L});
+    public static final BitSet FOLLOW_ruleReferenceAssignmentStatement_in_ruleStatement908 = new BitSet(new long[]{0x0000000000100000L});
+    public static final BitSet FOLLOW_ruleExpression_in_ruleStatement934 = new BitSet(new long[]{0x0000000000100000L});
+    public static final BitSet FOLLOW_ruleReturnStatement_in_ruleStatement962 = new BitSet(new long[]{0x0000000000100000L});
+    public static final BitSet FOLLOW_20_in_ruleStatement974 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleIfStatement_in_ruleStatement1003 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleWhileStatement_in_ruleStatement1030 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleBlock_in_ruleStatement1057 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleReturnStatement_in_entryRuleReturnStatement1092 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleReturnStatement1102 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_21_in_ruleReturnStatement1148 = new BitSet(new long[]{0x0000571800008052L});
+    public static final BitSet FOLLOW_ruleExpression_in_ruleReturnStatement1169 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleIfStatement_in_entryRuleIfStatement1206 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleIfStatement1216 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_22_in_ruleIfStatement1262 = new BitSet(new long[]{0x0000000000008000L});
+    public static final BitSet FOLLOW_15_in_ruleIfStatement1274 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleLogical_in_ruleIfStatement1295 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ruleIfStatement1307 = new BitSet(new long[]{0x000057180364E050L});
+    public static final BitSet FOLLOW_ruleBlock_in_ruleIfStatement1328 = new BitSet(new long[]{0x0000000000800002L});
+    public static final BitSet FOLLOW_23_in_ruleIfStatement1341 = new BitSet(new long[]{0x000057180364E050L});
+    public static final BitSet FOLLOW_ruleBlock_in_ruleIfStatement1362 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleWhileStatement_in_entryRuleWhileStatement1400 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleWhileStatement1410 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_24_in_ruleWhileStatement1456 = new BitSet(new long[]{0x0000000000008000L});
+    public static final BitSet FOLLOW_15_in_ruleWhileStatement1468 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleLogical_in_ruleWhileStatement1489 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ruleWhileStatement1501 = new BitSet(new long[]{0x000057180364E050L});
+    public static final BitSet FOLLOW_ruleBlock_in_ruleWhileStatement1522 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleVariableStatement_in_entryRuleVariableStatement1558 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleVariableStatement1568 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_25_in_ruleVariableStatement1614 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleVariableStatement1631 = new BitSet(new long[]{0x0000000004000002L});
+    public static final BitSet FOLLOW_26_in_ruleVariableStatement1649 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleExpression_in_ruleVariableStatement1670 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleAssignmentStatement_in_entryRuleAssignmentStatement1708 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleAssignmentStatement1718 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleAssignmentStatement1772 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_26_in_ruleAssignmentStatement1784 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleExpression_in_ruleAssignmentStatement1805 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleReferenceAssignmentStatement_in_entryRuleReferenceAssignmentStatement1841 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleReferenceAssignmentStatement1851 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleContextRef_in_ruleReferenceAssignmentStatement1906 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_26_in_ruleReferenceAssignmentStatement1918 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleExpression_in_ruleReferenceAssignmentStatement1939 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleExpression_in_entryRuleExpression1975 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleExpression1985 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLogical_in_ruleExpression2031 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLogical_in_entryRuleLogical2065 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleLogical2075 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleEquality_in_ruleLogical2122 = new BitSet(new long[]{0x0000000018000002L});
+    public static final BitSet FOLLOW_27_in_ruleLogical2145 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_28_in_ruleLogical2174 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleEquality_in_ruleLogical2197 = new BitSet(new long[]{0x0000000018000002L});
+    public static final BitSet FOLLOW_ruleEquality_in_entryRuleEquality2235 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleEquality2245 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleComparison_in_ruleEquality2292 = new BitSet(new long[]{0x0000000060000002L});
+    public static final BitSet FOLLOW_29_in_ruleEquality2315 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_30_in_ruleEquality2344 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleComparison_in_ruleEquality2367 = new BitSet(new long[]{0x0000000060000002L});
+    public static final BitSet FOLLOW_ruleComparison_in_entryRuleComparison2405 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleComparison2415 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleAddition_in_ruleComparison2462 = new BitSet(new long[]{0x0000000780000002L});
+    public static final BitSet FOLLOW_31_in_ruleComparison2485 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_32_in_ruleComparison2514 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_33_in_ruleComparison2543 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_34_in_ruleComparison2572 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleAddition_in_ruleComparison2595 = new BitSet(new long[]{0x0000000780000002L});
+    public static final BitSet FOLLOW_ruleAddition_in_entryRuleAddition2633 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleAddition2643 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleMultiplication_in_ruleAddition2690 = new BitSet(new long[]{0x0000001800000002L});
+    public static final BitSet FOLLOW_35_in_ruleAddition2713 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_36_in_ruleAddition2742 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleMultiplication_in_ruleAddition2765 = new BitSet(new long[]{0x0000001800000002L});
+    public static final BitSet FOLLOW_ruleMultiplication_in_entryRuleMultiplication2803 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleMultiplication2813 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleUnary_in_ruleMultiplication2860 = new BitSet(new long[]{0x000000E000000002L});
+    public static final BitSet FOLLOW_37_in_ruleMultiplication2883 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_38_in_ruleMultiplication2912 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_39_in_ruleMultiplication2941 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleUnary_in_ruleMultiplication2964 = new BitSet(new long[]{0x000000E000000002L});
+    public static final BitSet FOLLOW_ruleUnary_in_entryRuleUnary3002 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleUnary3012 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rulePrimaryExpression_in_ruleUnary3059 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_40_in_ruleUnary3094 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleUnaryOperator_in_ruleUnary3145 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleUnary_in_ruleUnary3168 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleUnaryOperator_in_entryRuleUnaryOperator3206 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleUnaryOperator3217 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_36_in_ruleUnaryOperator3255 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_35_in_ruleUnaryOperator3274 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rulePrimaryExpression_in_entryRulePrimaryExpression3314 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRulePrimaryExpression3324 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLiteral_in_rulePrimaryExpression3371 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleRange_in_rulePrimaryExpression3398 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleNativeExpression_in_rulePrimaryExpression3425 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleReference_in_rulePrimaryExpression3452 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleFunctionCall_in_rulePrimaryExpression3479 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleVarOrArgumentCall_in_rulePrimaryExpression3506 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleParenthesizedExpression_in_rulePrimaryExpression3533 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLiteral_in_entryRuleLiteral3568 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleLiteral3578 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NUMBER_in_ruleLiteral3630 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_41_in_ruleLiteral3671 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_42_in_ruleLiteral3702 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleParenthesizedExpression_in_entryRuleParenthesizedExpression3740 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleParenthesizedExpression3750 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_15_in_ruleParenthesizedExpression3787 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleExpression_in_ruleParenthesizedExpression3809 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ruleParenthesizedExpression3820 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleFunctionCall_in_entryRuleFunctionCall3856 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleFunctionCall3866 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleFunctionCall3920 = new BitSet(new long[]{0x0000000000008000L});
+    public static final BitSet FOLLOW_15_in_ruleFunctionCall3932 = new BitSet(new long[]{0x0000571800028050L});
+    public static final BitSet FOLLOW_ruleExpression_in_ruleFunctionCall3954 = new BitSet(new long[]{0x0000000000030000L});
+    public static final BitSet FOLLOW_16_in_ruleFunctionCall3967 = new BitSet(new long[]{0x0000571800008050L});
+    public static final BitSet FOLLOW_ruleExpression_in_ruleFunctionCall3988 = new BitSet(new long[]{0x0000000000030000L});
+    public static final BitSet FOLLOW_17_in_ruleFunctionCall4004 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleVarOrArgumentCall_in_entryRuleVarOrArgumentCall4040 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleVarOrArgumentCall4050 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleVarOrArgumentCall4104 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleNativeExpression_in_entryRuleNativeExpression4140 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleNativeExpression4150 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleRangeLiteral_in_ruleNativeExpression4206 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_ruleReference_in_ruleNativeExpression4233 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_43_in_ruleNativeExpression4246 = new BitSet(new long[]{0x00FC000000000000L});
+    public static final BitSet FOLLOW_ruleNativeFunction_in_ruleNativeExpression4267 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleRange_in_entryRuleRange4303 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleRange4313 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleRangeLiteral_in_ruleRange4359 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleRangeLiteral_in_entryRuleRangeLiteral4393 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleRangeLiteral4403 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_44_in_ruleRangeLiteral4449 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_RULE_NUMBER_in_ruleRangeLiteral4466 = new BitSet(new long[]{0x0000200000010000L});
+    public static final BitSet FOLLOW_16_in_ruleRangeLiteral4484 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_RULE_NUMBER_in_ruleRangeLiteral4501 = new BitSet(new long[]{0x0000200000010000L});
+    public static final BitSet FOLLOW_45_in_ruleRangeLiteral4520 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleReference_in_entryRuleReference4556 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleReference4566 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleContextRef_in_ruleReference4612 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleContextRef_in_entryRuleContextRef4646 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleContextRef4656 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_46_in_ruleContextRef4693 = new BitSet(new long[]{0x0000080000000000L});
+    public static final BitSet FOLLOW_ruleNodeRef_in_ruleContextRef4715 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleNodeRef_in_entryRuleNodeRef4750 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleNodeRef4760 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rulePrimaryNodeRef_in_ruleNodeRef4806 = new BitSet(new long[]{0x0000880000000002L});
+    public static final BitSet FOLLOW_47_in_ruleNodeRef4820 = new BitSet(new long[]{0x0003000000000000L});
+    public static final BitSet FOLLOW_ruleLeafRef_in_ruleNodeRef4841 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rulePrimaryNodeRef_in_entryRulePrimaryNodeRef4879 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRulePrimaryNodeRef4889 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_43_in_rulePrimaryNodeRef4935 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_ID_in_rulePrimaryNodeRef4955 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLeafRef_in_entryRuleLeafRef4991 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleLeafRef5001 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleResourceRef_in_ruleLeafRef5048 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLinkRef_in_ruleLeafRef5075 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleResourceRef_in_entryRuleResourceRef5110 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleResourceRef5120 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_48_in_ruleResourceRef5166 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleResourceRef5186 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLinkRef_in_entryRuleLinkRef5222 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleLinkRef5232 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_49_in_ruleLinkRef5278 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleLinkRef5298 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_50_in_ruleNativeFunction5348 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_51_in_ruleNativeFunction5365 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_52_in_ruleNativeFunction5382 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_53_in_ruleNativeFunction5399 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_54_in_ruleNativeFunction5416 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_55_in_ruleNativeFunction5433 = new BitSet(new long[]{0x0000000000000002L});
 
 }

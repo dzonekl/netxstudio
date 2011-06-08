@@ -21,8 +21,8 @@ import "platform:/resource/com.netxforge.model.a/model/library.ecore" as library
 Mod:
 	('mod' name=ID)?
 	(imports+=Import)*
-	(functions+=Function)*
-	(statements+=Statement)*;
+	((functions+=Function)+ |
+	(statements+=Statement)+);
 
 Context:
 	'context' context=[ecore::EObject];
@@ -36,8 +36,7 @@ Import:
 
 // TODO, we can't have mandatory brackets, as this would conflict with our PrimaryExpression. 
 Function:
-	'def' name=ID '(' (args+=Argument (',' args+=Argument)*)? ')'
-	block=Block;
+	'def' name=ID '(' (args+=Argument (',' args+=Argument)*)? ')' block=Block;
 
 Argument:
 	name=ID;
@@ -53,21 +52,16 @@ Block:
 
 Statement:
 	(VariableStatement | AssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement) ';'
-	| IfStatement
-	| WhileStatement
-	| Block;
+	| IfStatement | WhileStatement | Block;
 
 ReturnStatement returns Statement:
 	{Return} 'return' (expression=Expression)?;
 
 IfStatement returns Statement:
-	{If} 'if' '(' if=Logical ')' then=Block
-	('else' else=Block)?;
+	{If} 'if' '(' if=Logical ')' then=Block ('else' else=Block)?;
 
 WhileStatement returns Statement:
-	{While}
-	'while' '(' predicate=Logical ')'
-		body=Block;
+	{While} 'while' '(' predicate=Logical ')' body=Block;
 
 VariableStatement returns Statement:
 	{Variable} 'var' name=ID (('=') expression=Expression)?;
@@ -92,27 +86,21 @@ Equality returns Expression:
 
 	// Lesser, Greater. 
 Comparison returns Expression:
-	Addition (({Lesser.left=current} '<'
-	| {LesserEqual.left=current} '<='
-	| {Greater.left=current} '>'
-	| {GreaterEqual.left=current} '>=') right=Addition)*;
+	Addition (({Lesser.left=current} '<' | {LesserEqual.left=current} '<=' | {Greater.left=current} '>' |
+	{GreaterEqual.left=current} '>=') right=Addition)*;
 
 Addition returns Expression:
 	Multiplication (({Plus.left=current} '+' | {Minus.left=current} '-') right=Multiplication)*;
 
 Multiplication returns Expression:
-	Unary (({Multi.left=current} '*'
-	| {Div.left=current} '/'
-	| {Modulo.left=current} '%') right=Unary)*;
+	Unary (({Multi.left=current} '*' | {Div.left=current} '/' | {Modulo.left=current} '%') right=Unary)*;
 
 	// Unaries are return type specific. The type on the right should be checked.  
 Unary returns Expression:
-	PrimaryExpression |
-	({Negation} op='!' | {UnaryPlusMinus} op=UnaryOperator) right=Unary;
+	PrimaryExpression | ({Negation} op='!' | {UnaryPlusMinus} op=UnaryOperator) right=Unary;
 
 UnaryOperator:
-	'-' |
-	'+';
+	'-' | '+';
 
 	// TODO, a functionCall is not necessarly an abstract definition in this grammar, but could 
 // be an internal function call. For this we could mixin, a grammar which contains
@@ -120,15 +108,10 @@ UnaryOperator:
 
 // The FunctionCall and potential parameters, shoul be checked as reference priot to a regular Assignment call. 
 PrimaryExpression returns Expression:
-	Literal |
-	Reference |
-	FunctionCall |
-	VarOrArgumentCall |
-	ParenthesizedExpression;
+	Literal | Range | NativeExpression | Reference | FunctionCall | VarOrArgumentCall | ParenthesizedExpression;
 
 Literal returns Expression:
-	{NumberLiteral} value=NUMBER |
-	{BooleanLiteral} (condition?='true' | 'false');
+	{NumberLiteral} value=NUMBER | {BooleanLiteral} (condition?='true' | 'false');
 
 ParenthesizedExpression returns Expression:
 	'(' Expression ')';
@@ -139,22 +122,30 @@ FunctionCall returns Expression:
 VarOrArgumentCall returns Expression:
 	{VarOrArgumentCall} call=[AbstractVarOrArgument];
 
-Reference returns Expression:
-	ContextRef ('.' nativeFunction=NativeFunction)?;
+NativeExpression returns Expression:
+	{NativeExpression} (range=RangeLiteral | ref=Reference) '.' nativeFunction=NativeFunction;
 
+Range:
+	RangeLiteral;
+
+RangeLiteral returns Range:
+	{RangeLiteral} '[' values+=NUMBER (',' values+=NUMBER)* ']';
+
+Reference returns Expression:
+	ContextRef;
 
 enum NativeFunction:
-	COUNT | SUM | MIN | MAX | MEAN | DEVIATION
-;
-
-
-//terminal NativeFunction returns ecore::EString:
-//	('count' | 'sum' | 'erlangB' | 'trend' | 'metricRange');
+	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()';
 
 	/**
  * Contextual reference will be restricted by a container in the scope provider
  * depending on the object representation of 'this', until implemented, all possible 
  * references will be visible.  
+ * 
+ * TODO:
+ * As an alternative to this, implement hooks into the object types, with a literal string 
+ * like 'Node'  
+ * 
  */
 ContextRef returns Reference:
 	'this' NodeRef;
@@ -163,18 +154,34 @@ ContextRef returns Reference:
  * Exteral Node references, these can be nested and finish with a resource reference.
  */
 NodeRef returns Reference:
-	(nodes+=PrimaryNodeRef)+ ('->' ref=(ResourceRef | LinkRef))?;
+	(nodes+=PrimaryNodeRef)+ ('->' ref=LeafRef)?;
 
 PrimaryNodeRef returns Reference:
-	{NodeRef} '->' node=[library::Node];
+	{NodeRef} '.' node=[library::Node];
 
+LeafRef:
+	ResourceRef | LinkRef;
+
+
+/**
+ *  TODO, for resource, we need access to the sub ranges. 
+ * This could be: 
+ * Res.metric.period=?
+ * Res.cap
+ * Res.forecast
+ *
+ */
 ResourceRef returns Reference:
-	{ResourceRef} 'RES' resource=[library::Resource];
+	{ResourceRef} 'Res' resource=[library::Resource];
 
+
+/**
+ * TODO, through a link, we should be able to access, the opposite node and 
+ * resources. 
+ * 
+ */
 LinkRef returns Reference:
-	{LinkRef} 'LINK' link=[library::Link];
-
-
+	{LinkRef} 'Link' link=[library::Link];
 
 terminal NUMBER returns ecore::EBigDecimal:
 	('0'..'9')* ('.' ('0'..'9')+)?;

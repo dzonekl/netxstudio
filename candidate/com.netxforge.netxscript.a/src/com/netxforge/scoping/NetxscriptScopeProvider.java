@@ -13,5 +13,9 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
  *
  */
 public class NetxscriptScopeProvider extends AbstractDeclarativeScopeProvider {
-
+	
+	
+	
+	
+	
 }

@@ -43,22 +43,23 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Range" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"/>
   <eClassifiers xsi:type="ecore:EEnum" name="NativeFunction">
-    <eLiterals name="COUNT" literal="COUNT"/>
-    <eLiterals name="SUM" value="1" literal="SUM"/>
-    <eLiterals name="MIN" value="2" literal="MIN"/>
-    <eLiterals name="MAX" value="3" literal="MAX"/>
-    <eLiterals name="MEAN" value="4" literal="MEAN"/>
-    <eLiterals name="DEVIATION" value="5" literal="DEVIATION"/>
+    <eLiterals name="COUNT" literal="count()"/>
+    <eLiterals name="SUM" value="1" literal="sum()"/>
+    <eLiterals name="MIN" value="2" literal="min()"/>
+    <eLiterals name="MAX" value="3" literal="max()"/>
+    <eLiterals name="MEAN" value="4" literal="mean()"/>
+    <eLiterals name="DEVIATION" value="5" literal="deviation()"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Reference" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nativeFunction" eType="ecore:EEnum platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NativeFunction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Reference" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//LeafRef">
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
         eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//LeafRef"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LeafRef"/>
   <eClassifiers xsi:type="ecore:EClass" name="Return" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement"/>
   <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="if" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"
@@ -185,6 +186,17 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VarOrArgumentCall" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="call" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//AbstractVarOrArgument"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NativeExpression" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="range" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Range"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nativeFunction" eType="ecore:EEnum platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NativeFunction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RangeLiteral" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Range">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NodeRef" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="node" eType="ecore:EClass platform:/resource/com.netxforge.model.a/model/library.ecore#//Node"/>

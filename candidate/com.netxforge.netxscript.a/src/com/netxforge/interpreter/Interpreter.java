@@ -354,7 +354,7 @@ public class Interpreter {
 	
 	protected Object internalEvaluate(Reference e,
 			ImmutableMap<String, BigDecimal> params) {
-		return evaluate(e.getRef(), ImmutableMap.copyOf(params));
+		return dispatcher.invoke(e.getRef(), ImmutableMap.copyOf(params));
 	}
 	
 	

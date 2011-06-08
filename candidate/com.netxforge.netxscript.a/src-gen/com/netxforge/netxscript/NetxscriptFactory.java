@@ -116,6 +116,15 @@ public interface NetxscriptFactory extends EFactory
   Expression createExpression();
 
   /**
+   * Returns a new object of class '<em>Range</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Range</em>'.
+   * @generated
+   */
+  Range createRange();
+
+  /**
    * Returns a new object of class '<em>Reference</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -123,6 +132,15 @@ public interface NetxscriptFactory extends EFactory
    * @generated
    */
   Reference createReference();
+
+  /**
+   * Returns a new object of class '<em>Leaf Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Leaf Ref</em>'.
+   * @generated
+   */
+  LeafRef createLeafRef();
 
   /**
    * Returns a new object of class '<em>Return</em>'.
@@ -348,6 +366,24 @@ public interface NetxscriptFactory extends EFactory
    * @generated
    */
   VarOrArgumentCall createVarOrArgumentCall();
+
+  /**
+   * Returns a new object of class '<em>Native Expression</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Native Expression</em>'.
+   * @generated
+   */
+  NativeExpression createNativeExpression();
+
+  /**
+   * Returns a new object of class '<em>Range Literal</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Range Literal</em>'.
+   * @generated
+   */
+  RangeLiteral createRangeLiteral();
 
   /**
    * Returns a new object of class '<em>Node Ref</em>'.

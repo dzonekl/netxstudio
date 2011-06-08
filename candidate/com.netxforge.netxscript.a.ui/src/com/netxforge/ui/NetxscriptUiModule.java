@@ -4,8 +4,6 @@
 package com.netxforge.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.xtext.resource.IResourceDescription;
-import org.eclipse.xtext.resource.generic.GenericResourceDescriptionManager;
 
 /**
  * Use this class to register components to be used within the IDE.

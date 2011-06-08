@@ -10,7 +10,8 @@ import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.utils.EditorUtils;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
-import com.netxforge.interpreter.InterpreterTypeless;
+import com.google.inject.Inject;
+import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.netxscript.Function;
 import com.netxforge.netxscript.Mod;
 
@@ -22,7 +23,11 @@ import com.netxforge.netxscript.Mod;
  * @author dzonekl
  */
 public class InterpreterHandler extends AbstractHandler {
-
+	
+	
+	@Inject 
+	private IInterpreter interpreter;
+	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		XtextEditor xtextEditor = EditorUtils.getActiveXtextEditor(event);
@@ -48,13 +53,11 @@ public class InterpreterHandler extends AbstractHandler {
 						
 						if ((resource.getContents().get(0) instanceof Mod)) {
 							Mod root = (Mod) resource.getContents().get(0);
-							InterpreterTypeless i = new InterpreterTypeless();
-							i.evaluate(root);
+							interpreter.evaluate(root);
 						}
 						if ((resource.getContents().get(0) instanceof Function)) {
 							Function root = (Function) resource.getContents().get(0);
-							InterpreterTypeless i = new InterpreterTypeless();
-							i.evaluate(root);
+							interpreter.evaluate(root);
 						}
 						return null;
 					}

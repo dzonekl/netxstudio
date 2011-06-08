@@ -13,7 +13,6 @@ import org.eclipse.emf.common.util.EList;
  * TODO: 
  * 	- Extrapolation (Regression math). 
  * 
- * 
  * @author dzonekl
  */
 public class NativeFunctions implements INativeFunctions {
@@ -32,10 +31,10 @@ public class NativeFunctions implements INativeFunctions {
 	 * @see com.netxforge.interpreter.INativeFunctions#sum(org.eclipse.emf.common.util.EList)
 	 */
 	@Override
-	public double sum(EList<Value> range){
+	public BigDecimal sum(EList<?> range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
-		return sum(dRange);
+		return new BigDecimal(sum(dRange));
 	}
 	
 	/* (non-Javadoc)
@@ -51,10 +50,10 @@ public class NativeFunctions implements INativeFunctions {
 	 * @see com.netxforge.interpreter.INativeFunctions#max(org.eclipse.emf.common.util.EList)
 	 */
 	@Override
-	public double max(EList<Value> range){
+	public BigDecimal max(EList<?> range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
-		return max(dRange);
+		return new BigDecimal(max(dRange));
 	}
 	
 	/* (non-Javadoc)
@@ -70,10 +69,10 @@ public class NativeFunctions implements INativeFunctions {
 	 * @see com.netxforge.interpreter.INativeFunctions#min(org.eclipse.emf.common.util.EList)
 	 */
 	@Override
-	public double min(EList<Value> range){
+	public BigDecimal min(EList<?> range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
-		return min(dRange);
+		return new BigDecimal(min(dRange));
 	}
 
 	
@@ -90,10 +89,10 @@ public class NativeFunctions implements INativeFunctions {
 	 * @see com.netxforge.interpreter.INativeFunctions#mean(org.eclipse.emf.common.util.EList)
 	 */
 	@Override
-	public double mean(EList<Value> range){
+	public BigDecimal mean(EList<?> range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
-		return mean(dRange);
+		return new BigDecimal(mean(dRange));
 	}
 	
 	/* (non-Javadoc)
@@ -110,13 +109,14 @@ public class NativeFunctions implements INativeFunctions {
 	 * @see com.netxforge.interpreter.INativeFunctions#standardDeviation(org.eclipse.emf.common.util.EList)
 	 */
 	@Override
-	public double standardDeviation(EList<Value> range){
+	public BigDecimal standardDeviation(EList<?> range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		DescriptiveStatistics stats = new DescriptiveStatistics();
-		for(Value v : range){
-			stats.addValue(v.getValue().doubleValue());
+		double[] dRange = rangeSelection(range);
+		for(int i = 0; i < dRange.length;i++){
+			stats.addValue(dRange[i]);
 		}
-		return stats.getStandardDeviation();
+		return new BigDecimal(stats.getStandardDeviation());
 	}
 	
 	/* (non-Javadoc)
@@ -139,11 +139,19 @@ public class NativeFunctions implements INativeFunctions {
 	 * @param values
 	 * @return
 	 */
-	private double[] rangeSelection(EList<Value> values){
+	private double[] rangeSelection(EList<?> values){
 		double[] doubles = new double[values.size()];
-		for(Value v : values){
+		
+		// We would need some assertion, that all objects in the collection are 
+		// of the same type? 
+		for(Object v : values){
 			int index = values.indexOf(v);
-			doubles[index] = v.getValue().doubleValue();
+			if(v instanceof Value){
+				doubles[index] = ((Value)v).getValue().doubleValue();
+			}
+			if(v instanceof BigDecimal){
+				doubles[index] = ((BigDecimal)v).doubleValue();
+			}
 		}
 		return doubles;
 	}
