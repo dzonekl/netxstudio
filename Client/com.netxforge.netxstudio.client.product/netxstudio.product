@@ -81,7 +81,6 @@
       <feature id="org.eclipse.xtext.xbase.artifacts.feature"/>
       <feature id="org.eclipse.jdt.artifacts.feature"/>
       <feature id="org.eclipse.emf.cdo.client.artifacts.feature"/>
-      <feature id="org.eclipe.xtext.purexbase.artifacts.feature"/>
    </features>
 
    <configurations>
