@@ -36,7 +36,6 @@ public class Activator implements BundleActivator {
 	@Override
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
-//		ServerUtils.getInstance().addCommitInfoHandler();
 	}
 
 	/*

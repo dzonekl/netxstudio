@@ -9,24 +9,6 @@
             type="NetxForgeUserManager">
       </factory>
    </extension>
-
-<!--
-    <extension id="app" point="org.eclipse.core.runtime.applications" name="NetxForge CDO Server">
-				<application cardinality="1" thread="any">
-					<run class="org.eclipse.emf.cdo.internal.server.bundle.CDOServerApplication"/>
- 				</application>
-		</extension>
--->
-
-<!--
-   	<extension id="product" point="org.eclipse.core.runtime.products">
-      	<product
-        	name="NetxForge CDO Server"
-          	application="org.eclipse.emf.cdo.server.app">
-        		<property name="appName" value="NetxForge CDO Server"/>
-      	</product>
-   	</extension>
--->   	
     <extension
           point="org.eclipse.equinox.http.registry.servlets">
           <servlet
@@ -44,6 +26,12 @@
                 value="Netxserver">
           </property>
        </product>
+    </extension>
+    <extension
+          point="org.eclipse.net4j.util.elementProcessors">
+       <elementProcessor
+             class="com.netxforge.netxstudio.server.ServerUtils$RepositoryCommitLogConfigurer">
+       </elementProcessor>
     </extension>
 
 </plugin>

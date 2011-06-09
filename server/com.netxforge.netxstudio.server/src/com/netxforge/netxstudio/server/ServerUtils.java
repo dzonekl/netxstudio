@@ -28,12 +28,12 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.cdo.common.commit.handler.AsyncCommitInfoHandler;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
-import org.eclipse.emf.cdo.server.CDOServerUtil;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.jvm.IJVMAcceptor;
 import org.eclipse.net4j.jvm.JVMUtil;
+import org.eclipse.net4j.util.container.IElementProcessor;
 import org.eclipse.net4j.util.container.IManagedContainer;
 import org.eclipse.net4j.util.container.IPluginContainer;
 import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
@@ -75,15 +75,6 @@ public class ServerUtils {
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		}
-	}
-
-	public void addCommitInfoHandler() {
-		final IManagedContainer container = IPluginContainer.INSTANCE;
-		final IRepository repo = CDOServerUtil.getRepository(container,
-				REPO_NAME);
-		final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(new NetxForgeCommitInfoHandler());
-		asyncCommitInfoHandler.activate();
-		repo.addCommitInfoHandler(asyncCommitInfoHandler);
 	}
 
 	public Object runService(Map<String, String> parameters) {
@@ -175,4 +166,22 @@ public class ServerUtils {
 	public void setServerSideLogin(String serverSideLogin) {
 		this.serverSideLogin = serverSideLogin;
 	}
+
+	public static class RepositoryCommitLogConfigurer implements IElementProcessor {
+		
+		@Override
+		public Object process(IManagedContainer container, String productGroup,
+				String factoryType, String description, Object element) {
+			if (element instanceof IRepository) {
+				final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(
+						new NetxForgeCommitInfoHandler());
+				asyncCommitInfoHandler.activate();
+				((IRepository) element)
+						.addCommitInfoHandler(asyncCommitInfoHandler);
+			}
+
+			return element;
+		}
+	}
+
 }
