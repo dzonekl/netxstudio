@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Logic
+Bundle-SymbolicName: com.netxforge.netxstudio.server.logic
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.netxforge.netxstudio.server.logic.Activator
+Bundle-Vendor: NETXFORGE
+Require-Bundle: org.eclipse.core.runtime,
+ com.netxforge.netxstudio.models;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
