@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library.util;
 
+import com.netxforge.netxstudio.library.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -122,6 +123,8 @@ public class LibraryValidator extends EObjectValidator {
 				return validateEquipmentGroup((EquipmentGroup)value, diagnostics, context);
 			case LibraryPackage.EXPRESSION:
 				return validateExpression((Expression)value, diagnostics, context);
+			case LibraryPackage.EXPRESSION_RESULT:
+				return validateExpressionResult((ExpressionResult)value, diagnostics, context);
 			case LibraryPackage.FUNCTION:
 				return validateFunction((Function)value, diagnostics, context);
 			case LibraryPackage.LIBRARY:
@@ -182,6 +185,15 @@ public class LibraryValidator extends EObjectValidator {
 	 */
 	public boolean validateExpression(Expression expression, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return validate_EveryDefaultConstraint((EObject)expression, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateExpressionResult(ExpressionResult expressionResult, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint((EObject)expressionResult, diagnostics, context);
 	}
 
 	/**

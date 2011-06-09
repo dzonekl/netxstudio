@@ -16,35 +16,31 @@
  * Contributors:
  * Christophe Bouhier - initial API and implementation and/or initial documentation
  */
-package com.netxforge.netxstudio.scheduling.impl;
+package com.netxforge.netxstudio.library.impl;
+
+import com.netxforge.netxstudio.library.ExpressionResult;
+import com.netxforge.netxstudio.library.LibraryPackage;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
-import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.Scheduling;
-import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Scheduling</b></em>'.
+ * An implementation of the model object '<em><b>Expression Result</b></em>'.
  * <!-- end-user-doc -->
  * <p>
- * The following features are implemented:
- * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.SchedulingImpl#getJobs <em>Jobs</em>}</li>
- * </ul>
  * </p>
  *
  * @generated
  */
-public class SchedulingImpl extends CDOObjectImpl implements Scheduling {
+public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionResult {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SchedulingImpl() {
+	protected ExpressionResultImpl() {
 		super();
 	}
 
@@ -55,7 +51,7 @@ public class SchedulingImpl extends CDOObjectImpl implements Scheduling {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SchedulingPackage.Literals.SCHEDULING;
+		return LibraryPackage.Literals.EXPRESSION_RESULT;
 	}
 
 	/**
@@ -68,22 +64,4 @@ public class SchedulingImpl extends CDOObjectImpl implements Scheduling {
 		return 0;
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Job getJobs() {
-		return (Job)eGet(SchedulingPackage.Literals.SCHEDULING__JOBS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setJobs(Job newJobs) {
-		eSet(SchedulingPackage.Literals.SCHEDULING__JOBS, newJobs);
-	}
-
-} //SchedulingImpl
+} //ExpressionResultImpl

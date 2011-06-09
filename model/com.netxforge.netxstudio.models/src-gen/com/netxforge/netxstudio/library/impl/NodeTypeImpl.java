@@ -36,6 +36,7 @@ import com.netxforge.netxstudio.library.NodeType;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl#getFunctions <em>Functions</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl#getEquipments <em>Equipments</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl#isLeafNode <em>Leaf Node</em>}</li>
  * </ul>
  * </p>
  *
@@ -89,6 +90,42 @@ public class NodeTypeImpl extends CDOObjectImpl implements NodeType {
 	@SuppressWarnings("unchecked")
 	public EList<Equipment> getEquipments() {
 		return (EList<Equipment>)eGet(LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isLeafNode() {
+		return (Boolean)eGet(LibraryPackage.Literals.NODE_TYPE__LEAF_NODE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLeafNode(boolean newLeafNode) {
+		eSet(LibraryPackage.Literals.NODE_TYPE__LEAF_NODE, newLeafNode);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetLeafNode() {
+		eUnset(LibraryPackage.Literals.NODE_TYPE__LEAF_NODE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetLeafNode() {
+		return eIsSet(LibraryPackage.Literals.NODE_TYPE__LEAF_NODE);
 	}
 
 } //NodeTypeImpl

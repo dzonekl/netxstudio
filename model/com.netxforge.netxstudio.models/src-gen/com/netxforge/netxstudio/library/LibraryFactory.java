@@ -65,6 +65,15 @@ public interface LibraryFactory extends EFactory {
 	Expression createExpression();
 
 	/**
+	 * Returns a new object of class '<em>Expression Result</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Expression Result</em>'.
+	 * @generated
+	 */
+	ExpressionResult createExpressionResult();
+
+	/**
 	 * Returns a new object of class '<em>Function</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

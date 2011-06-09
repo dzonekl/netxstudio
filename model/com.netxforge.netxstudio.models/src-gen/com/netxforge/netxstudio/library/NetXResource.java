@@ -53,6 +53,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getMetricRef <em>Metric Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getMetricValueRanges <em>Metric Value Ranges</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getCapacityValues <em>Capacity Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getUtilizationValues <em>Utilization Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getForecastCapacityValues <em>Forecast Capacity Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getForecastValues <em>Forecast Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getTrendedValues <em>Trended Values</em>}</li>
@@ -132,6 +133,24 @@ public interface NetXResource extends CDOObject {
 	 * @generated
 	 */
 	EList<Value> getCapacityValues();
+
+	/**
+	 * Returns the value of the '<em><b>Utilization Values</b></em>' containment reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.generics.Value}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The UtilizationValues reference, contains utilization values. Utilization values are populated through
+	 * a work flow computation run.
+	 *         			
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Utilization Values</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_UtilizationValues()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='UtilizationValues'"
+	 * @generated
+	 */
+	EList<Value> getUtilizationValues();
 
 	/**
 	 * Returns the value of the '<em><b>Forecast Capacity Values</b></em>' containment reference list.

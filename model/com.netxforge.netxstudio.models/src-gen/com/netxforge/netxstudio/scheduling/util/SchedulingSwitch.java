@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.util;
 
+import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -89,9 +90,16 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SchedulingPackage.SCHEDULING: {
-				Scheduling scheduling = (Scheduling)theEObject;
-				T result = caseScheduling(scheduling);
+			case SchedulingPackage.JOB_RUN: {
+				JobRun jobRun = (JobRun)theEObject;
+				T result = caseJobRun(jobRun);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SchedulingPackage.METRIC_SOURCE_JOB: {
+				MetricSourceJob metricSourceJob = (MetricSourceJob)theEObject;
+				T result = caseMetricSourceJob(metricSourceJob);
+				if (result == null) result = caseJob(metricSourceJob);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -115,17 +123,32 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Scheduling</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Job Run</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Scheduling</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Job Run</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseScheduling(Scheduling object) {
+	public T caseJobRun(JobRun object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Metric Source Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Metric Source Job</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMetricSourceJob(MetricSourceJob object) {
 		return null;
 	}
 

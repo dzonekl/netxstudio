@@ -48,6 +48,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *   <li>{@link com.netxforge.netxstudio.library.impl.FunctionImpl#getFunctionMetricRefs <em>Function Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.FunctionImpl#getFunctionRelationshipRefs <em>Function Relationship Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.FunctionImpl#getFunctionExpressionRefs <em>Function Expression Refs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.FunctionImpl#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.FunctionImpl#getToleranceRefs <em>Tolerance Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.FunctionImpl#getProtocolRefs <em>Protocol Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.FunctionImpl#getParameterRefs <em>Parameter Refs</em>}</li>
@@ -166,6 +167,24 @@ public class FunctionImpl extends CDOObjectImpl implements Function {
 	@SuppressWarnings("unchecked")
 	public EList<Expression> getFunctionExpressionRefs() {
 		return (EList<Expression>)eGet(LibraryPackage.Literals.FUNCTION__FUNCTION_EXPRESSION_REFS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Expression getCapacityExpressionRef() {
+		return (Expression)eGet(LibraryPackage.Literals.FUNCTION__CAPACITY_EXPRESSION_REF, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCapacityExpressionRef(Expression newCapacityExpressionRef) {
+		eSet(LibraryPackage.Literals.FUNCTION__CAPACITY_EXPRESSION_REF, newCapacityExpressionRef);
 	}
 
 	/**

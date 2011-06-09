@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.generics.util;
 
+import com.netxforge.netxstudio.generics.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -159,6 +160,8 @@ public class GenericsValidator extends EObjectValidator {
 				return validateExpansionDurationObject((ExpansionDuration)value, diagnostics, context);
 			case GenericsPackage.EXPRESSION_LINE:
 				return validateExpressionLine((String)value, diagnostics, context);
+			case GenericsPackage.LONG_TEXT:
+				return validateLongText((String)value, diagnostics, context);
 			case GenericsPackage.NAME255:
 				return validateName255((String)value, diagnostics, context);
 			case GenericsPackage.UNIT_CODE:
@@ -357,6 +360,30 @@ public class GenericsValidator extends EObjectValidator {
 		boolean result = length <= 1000;
 		if (!result && diagnostics != null)
 			reportMaxLengthViolation(GenericsPackage.Literals.EXPRESSION_LINE, expressionLine, length, 1000, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateLongText(String longText, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validateLongText_MaxLength(longText, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * Validates the MaxLength constraint of '<em>Long Text</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateLongText_MaxLength(String longText, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		int length = longText.length();
+		boolean result = length <= 20000;
+		if (!result && diagnostics != null)
+			reportMaxLengthViolation(GenericsPackage.Literals.LONG_TEXT, longText, length, 20000, diagnostics, context);
 		return result;
 	}
 

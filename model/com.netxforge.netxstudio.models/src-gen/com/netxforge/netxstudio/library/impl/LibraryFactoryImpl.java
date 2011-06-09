@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import com.netxforge.netxstudio.library.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -90,6 +91,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 			case LibraryPackage.EQUIPMENT: return (EObject)createEquipment();
 			case LibraryPackage.EQUIPMENT_GROUP: return (EObject)createEquipmentGroup();
 			case LibraryPackage.EXPRESSION: return (EObject)createExpression();
+			case LibraryPackage.EXPRESSION_RESULT: return (EObject)createExpressionResult();
 			case LibraryPackage.FUNCTION: return (EObject)createFunction();
 			case LibraryPackage.LIBRARY: return (EObject)createLibrary();
 			case LibraryPackage.NET_XRESOURCE: return (EObject)createNetXResource();
@@ -182,6 +184,16 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	public Expression createExpression() {
 		ExpressionImpl expression = new ExpressionImpl();
 		return expression;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExpressionResult createExpressionResult() {
+		ExpressionResultImpl expressionResult = new ExpressionResultImpl();
+		return expressionResult;
 	}
 
 	/**

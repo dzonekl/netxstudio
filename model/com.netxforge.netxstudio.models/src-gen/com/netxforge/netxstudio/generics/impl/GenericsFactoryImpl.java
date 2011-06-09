@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.generics.impl;
 
+import com.netxforge.netxstudio.generics.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -126,6 +127,8 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 				return createExpansionDurationObjectFromString(eDataType, initialValue);
 			case GenericsPackage.EXPRESSION_LINE:
 				return createExpressionLineFromString(eDataType, initialValue);
+			case GenericsPackage.LONG_TEXT:
+				return createLongTextFromString(eDataType, initialValue);
 			case GenericsPackage.NAME255:
 				return createName255FromString(eDataType, initialValue);
 			case GenericsPackage.UNIT_CODE:
@@ -159,6 +162,8 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 				return convertExpansionDurationObjectToString(eDataType, instanceValue);
 			case GenericsPackage.EXPRESSION_LINE:
 				return convertExpressionLineToString(eDataType, instanceValue);
+			case GenericsPackage.LONG_TEXT:
+				return convertLongTextToString(eDataType, instanceValue);
 			case GenericsPackage.NAME255:
 				return convertName255ToString(eDataType, instanceValue);
 			case GenericsPackage.UNIT_CODE:
@@ -415,6 +420,24 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	 * @generated
 	 */
 	public String convertExpressionLineToString(EDataType eDataType, Object instanceValue) {
+		return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.STRING, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String createLongTextFromString(EDataType eDataType, String initialValue) {
+		return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.STRING, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertLongTextToString(EDataType eDataType, Object instanceValue) {
 		return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.STRING, instanceValue);
 	}
 

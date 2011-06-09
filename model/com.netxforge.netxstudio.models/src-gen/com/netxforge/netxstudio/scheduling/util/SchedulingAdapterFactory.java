@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.util;
 
+import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -88,8 +89,12 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 				return createJobAdapter();
 			}
 			@Override
-			public Adapter caseScheduling(Scheduling object) {
-				return createSchedulingAdapter();
+			public Adapter caseJobRun(JobRun object) {
+				return createJobRunAdapter();
+			}
+			@Override
+			public Adapter caseMetricSourceJob(MetricSourceJob object) {
+				return createMetricSourceJobAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -126,16 +131,30 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.Scheduling <em>Scheduling</em>}'.
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.JobRun <em>Job Run</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.scheduling.Scheduling
+	 * @see com.netxforge.netxstudio.scheduling.JobRun
 	 * @generated
 	 */
-	public Adapter createSchedulingAdapter() {
+	public Adapter createJobRunAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.MetricSourceJob <em>Metric Source Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.MetricSourceJob
+	 * @generated
+	 */
+	public Adapter createMetricSourceJobAdapter() {
 		return null;
 	}
 

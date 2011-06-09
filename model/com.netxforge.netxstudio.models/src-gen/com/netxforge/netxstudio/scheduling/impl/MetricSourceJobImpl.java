@@ -16,61 +16,63 @@
  * Contributors:
  * Christophe Bouhier - initial API and implementation and/or initial documentation
  */
-package com.netxforge.netxstudio.scheduling;
+package com.netxforge.netxstudio.scheduling.impl;
 
-import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+
+import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
  * <!-- begin-user-doc -->
- * The <b>Factory</b> for the model.
- * It provides a create method for each non-abstract class of the model.
+ * An implementation of the model object '<em><b>Metric Source Job</b></em>'.
  * <!-- end-user-doc -->
- * @see com.netxforge.netxstudio.scheduling.SchedulingPackage
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.MetricSourceJobImpl#getMetricSource <em>Metric Source</em>}</li>
+ * </ul>
+ * </p>
+ *
  * @generated
  */
-public interface SchedulingFactory extends EFactory {
+public class MetricSourceJobImpl extends JobImpl implements MetricSourceJob {
 	/**
-	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	SchedulingFactory eINSTANCE = com.netxforge.netxstudio.scheduling.impl.SchedulingFactoryImpl.init();
+	protected MetricSourceJobImpl() {
+		super();
+	}
 
 	/**
-	 * Returns a new object of class '<em>Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Job</em>'.
 	 * @generated
 	 */
-	Job createJob();
+	@Override
+	protected EClass eStaticClass() {
+		return SchedulingPackage.Literals.METRIC_SOURCE_JOB;
+	}
 
 	/**
-	 * Returns a new object of class '<em>Job Run</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Job Run</em>'.
 	 * @generated
 	 */
-	JobRun createJobRun();
+	public EObject getMetricSource() {
+		return (EObject)eGet(SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCE, true);
+	}
 
 	/**
-	 * Returns a new object of class '<em>Metric Source Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Metric Source Job</em>'.
 	 * @generated
 	 */
-	MetricSourceJob createMetricSourceJob();
+	public void setMetricSource(EObject newMetricSource) {
+		eSet(SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCE, newMetricSource);
+	}
 
-	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
-	SchedulingPackage getSchedulingPackage();
-
-} //SchedulingFactory
+} //MetricSourceJobImpl

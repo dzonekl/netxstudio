@@ -38,6 +38,7 @@ import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LevelType;
 import com.netxforge.netxstudio.library.Library;
@@ -91,6 +92,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	private EClass expressionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass expressionResultEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -383,7 +391,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_ToleranceRefs() {
+	public EReference getEquipment_CapacityExpressionRef() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -392,7 +400,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_ProtocolRefs() {
+	public EReference getEquipment_ToleranceRefs() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -401,7 +409,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_ParameterRefs() {
+	public EReference getEquipment_ProtocolRefs() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(10);
 	}
 
@@ -410,7 +418,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_AllEquipmentResources() {
+	public EReference getEquipment_ParameterRefs() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(11);
 	}
 
@@ -419,7 +427,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_AllEquipments() {
+	public EReference getEquipment_AllEquipmentResources() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(12);
 	}
 
@@ -428,7 +436,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_Icons() {
+	public EReference getEquipment_AllEquipments() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(13);
 	}
 
@@ -437,8 +445,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_Count() {
-		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(14);
+	public EReference getEquipment_Icons() {
+		return (EReference)equipmentEClass.getEStructuralFeatures().get(14);
 	}
 
 	/**
@@ -446,7 +454,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_Description() {
+	public EAttribute getEquipment_Count() {
 		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(15);
 	}
 
@@ -455,7 +463,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_EquipmentCode() {
+	public EAttribute getEquipment_Description() {
 		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(16);
 	}
 
@@ -464,7 +472,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_EquipmentName() {
+	public EAttribute getEquipment_EquipmentCode() {
 		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(17);
 	}
 
@@ -473,7 +481,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_Position() {
+	public EAttribute getEquipment_EquipmentName() {
 		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(18);
 	}
 
@@ -482,7 +490,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_Redundancy() {
+	public EAttribute getEquipment_Position() {
 		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(19);
 	}
 
@@ -491,8 +499,17 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_State() {
+	public EAttribute getEquipment_Redundancy() {
 		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(20);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEquipment_State() {
+		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(21);
 	}
 
 	/**
@@ -671,6 +688,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getExpressionResult() {
+		return expressionResultEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFunction() {
 		return functionEClass;
 	}
@@ -743,7 +769,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getFunction_ToleranceRefs() {
+	public EReference getFunction_CapacityExpressionRef() {
 		return (EReference)functionEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -752,7 +778,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getFunction_ProtocolRefs() {
+	public EReference getFunction_ToleranceRefs() {
 		return (EReference)functionEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -761,7 +787,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getFunction_ParameterRefs() {
+	public EReference getFunction_ProtocolRefs() {
 		return (EReference)functionEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -770,7 +796,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getFunction_AllFunctionResources() {
+	public EReference getFunction_ParameterRefs() {
 		return (EReference)functionEClass.getEStructuralFeatures().get(10);
 	}
 
@@ -779,7 +805,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getFunction_AllFunctions() {
+	public EReference getFunction_AllFunctionResources() {
 		return (EReference)functionEClass.getEStructuralFeatures().get(11);
 	}
 
@@ -788,8 +814,17 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getFunction_AllFunctions() {
+		return (EReference)functionEClass.getEStructuralFeatures().get(12);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getFunction_Description() {
-		return (EAttribute)functionEClass.getEStructuralFeatures().get(12);
+		return (EAttribute)functionEClass.getEStructuralFeatures().get(13);
 	}
 
 	/**
@@ -798,7 +833,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	public EAttribute getFunction_FunctionName() {
-		return (EAttribute)functionEClass.getEStructuralFeatures().get(13);
+		return (EAttribute)functionEClass.getEStructuralFeatures().get(14);
 	}
 
 	/**
@@ -959,7 +994,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNetXResource_ForecastCapacityValues() {
+	public EReference getNetXResource_UtilizationValues() {
 		return (EReference)netXResourceEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -968,7 +1003,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNetXResource_ForecastValues() {
+	public EReference getNetXResource_ForecastCapacityValues() {
 		return (EReference)netXResourceEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -977,7 +1012,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNetXResource_TrendedValues() {
+	public EReference getNetXResource_ForecastValues() {
 		return (EReference)netXResourceEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -986,8 +1021,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNetXResource_DetailDisplay() {
-		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(6);
+	public EReference getNetXResource_TrendedValues() {
+		return (EReference)netXResourceEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -995,7 +1030,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNetXResource_ExpressionName() {
+	public EAttribute getNetXResource_DetailDisplay() {
 		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -1004,7 +1039,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNetXResource_LongName() {
+	public EAttribute getNetXResource_ExpressionName() {
 		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -1013,7 +1048,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNetXResource_ShortName() {
+	public EAttribute getNetXResource_LongName() {
 		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -1022,7 +1057,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNetXResource_SummaryDisplay() {
+	public EAttribute getNetXResource_ShortName() {
 		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(10);
 	}
 
@@ -1031,8 +1066,17 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getNetXResource_SummaryDisplay() {
+		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getNetXResource_UnitRef() {
-		return (EReference)netXResourceEClass.getEStructuralFeatures().get(11);
+		return (EReference)netXResourceEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -1060,6 +1104,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 */
 	public EReference getNodeType_Equipments() {
 		return (EReference)nodeTypeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNodeType_LeafNode() {
+		return (EAttribute)nodeTypeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1396,6 +1449,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENT_METRIC_REFS);
 		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENT_RELATIONSHIP_REFS);
 		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENT_EXPRESSION_REFS);
+		createEReference(equipmentEClass, EQUIPMENT__CAPACITY_EXPRESSION_REF);
 		createEReference(equipmentEClass, EQUIPMENT__TOLERANCE_REFS);
 		createEReference(equipmentEClass, EQUIPMENT__PROTOCOL_REFS);
 		createEReference(equipmentEClass, EQUIPMENT__PARAMETER_REFS);
@@ -1431,6 +1485,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(expressionEClass, EXPRESSION__SERVICE_PROFILE_REFS);
 		createEAttribute(expressionEClass, EXPRESSION__NAME);
 
+		expressionResultEClass = createEClass(EXPRESSION_RESULT);
+
 		functionEClass = createEClass(FUNCTION);
 		createEReference(functionEClass, FUNCTION__DIAGRAMS);
 		createEReference(functionEClass, FUNCTION__ICONS);
@@ -1439,6 +1495,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(functionEClass, FUNCTION__FUNCTION_METRIC_REFS);
 		createEReference(functionEClass, FUNCTION__FUNCTION_RELATIONSHIP_REFS);
 		createEReference(functionEClass, FUNCTION__FUNCTION_EXPRESSION_REFS);
+		createEReference(functionEClass, FUNCTION__CAPACITY_EXPRESSION_REF);
 		createEReference(functionEClass, FUNCTION__TOLERANCE_REFS);
 		createEReference(functionEClass, FUNCTION__PROTOCOL_REFS);
 		createEReference(functionEClass, FUNCTION__PARAMETER_REFS);
@@ -1465,6 +1522,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(netXResourceEClass, NET_XRESOURCE__METRIC_REF);
 		createEReference(netXResourceEClass, NET_XRESOURCE__METRIC_VALUE_RANGES);
 		createEReference(netXResourceEClass, NET_XRESOURCE__CAPACITY_VALUES);
+		createEReference(netXResourceEClass, NET_XRESOURCE__UTILIZATION_VALUES);
 		createEReference(netXResourceEClass, NET_XRESOURCE__FORECAST_CAPACITY_VALUES);
 		createEReference(netXResourceEClass, NET_XRESOURCE__FORECAST_VALUES);
 		createEReference(netXResourceEClass, NET_XRESOURCE__TRENDED_VALUES);
@@ -1478,6 +1536,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		nodeTypeEClass = createEClass(NODE_TYPE);
 		createEReference(nodeTypeEClass, NODE_TYPE__FUNCTIONS);
 		createEReference(nodeTypeEClass, NODE_TYPE__EQUIPMENTS);
+		createEAttribute(nodeTypeEClass, NODE_TYPE__LEAF_NODE);
 
 		parameterEClass = createEClass(PARAMETER);
 		createEAttribute(parameterEClass, PARAMETER__DESCRIPTION);
@@ -1570,6 +1629,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getEquipment_EquipmentMetricRefs(), theMetricsPackage.getMetric(), null, "equipmentMetricRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_EquipmentRelationshipRefs(), theOperatorsPackage.getEquipmentRelationship(), null, "equipmentRelationshipRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_EquipmentExpressionRefs(), this.getExpression(), this.getExpression_EquipmentRefs(), "equipmentExpressionRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEquipment_CapacityExpressionRef(), this.getExpression(), null, "capacityExpressionRef", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_ToleranceRefs(), this.getTolerance(), null, "toleranceRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_ProtocolRefs(), theProtocolsPackage.getProtocol(), null, "protocolRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_ParameterRefs(), this.getParameter(), null, "parameterRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1605,6 +1665,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getExpression_ServiceProfileRefs(), theServicesPackage.getServiceProfile(), null, "serviceProfileRefs", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExpression_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(expressionResultEClass, ExpressionResult.class, "ExpressionResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		initEClass(functionEClass, Function.class, "Function", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFunction_Diagrams(), theGenericsPackage.getDiagramInfo(), null, "diagrams", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_Icons(), theGenericsPackage.getMultiImage(), null, "icons", null, 0, 1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1613,6 +1675,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getFunction_FunctionMetricRefs(), theMetricsPackage.getMetric(), null, "functionMetricRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_FunctionRelationshipRefs(), theOperatorsPackage.getFunctionRelationship(), null, "functionRelationshipRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_FunctionExpressionRefs(), this.getExpression(), this.getExpression_FunctionRefs(), "functionExpressionRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFunction_CapacityExpressionRef(), this.getExpression(), null, "capacityExpressionRef", null, 0, 1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_ToleranceRefs(), this.getTolerance(), null, "toleranceRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_ProtocolRefs(), theProtocolsPackage.getProtocol(), null, "protocolRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_ParameterRefs(), this.getParameter(), null, "parameterRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1639,6 +1702,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getNetXResource_MetricRef(), theMetricsPackage.getMetric(), null, "metricRef", null, 0, 1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_MetricValueRanges(), theMetricsPackage.getMetricValueRange(), null, "metricValueRanges", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_CapacityValues(), theGenericsPackage.getValue(), null, "capacityValues", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNetXResource_UtilizationValues(), theGenericsPackage.getValue(), null, "utilizationValues", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_ForecastCapacityValues(), theGenericsPackage.getValue(), null, "forecastCapacityValues", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_ForecastValues(), theGenericsPackage.getValue(), null, "forecastValues", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_TrendedValues(), theGenericsPackage.getValue(), null, "trendedValues", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1652,6 +1716,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEClass(nodeTypeEClass, NodeType.class, "NodeType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNodeType_Functions(), this.getFunction(), null, "functions", null, 0, -1, NodeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNodeType_Equipments(), this.getEquipment(), null, "equipments", null, 0, -1, NodeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNodeType_LeafNode(), theXMLTypePackage.getBoolean(), "leafNode", "false", 0, 1, NodeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getParameter_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1719,6 +1784,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createExtendedMetaDataAnnotations();
 		// http://www.eclipse.org/emf/2002/Ecore/OCL
 		createOCLAnnotations();
+		// teneo.jpa
+		createTeneoAnnotations();
 	}
 
 	/**
@@ -1736,19 +1803,19 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																											
+		   });																																																																																																
 		addAnnotation
 		  (functionEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidFunctionName\n\t\t\t"
-		   });																																																																																									
+		   });																																																																																													
 		addAnnotation
 		  (nodeTypeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidNodeID\n\t\t\t"
-		   });																																																																
+		   });																																																																		
 	}
 
 	/**
@@ -1821,6 +1888,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "EquipmentExpressionRefs"
+		   });			
+		addAnnotation
+		  (getEquipment_CapacityExpressionRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "CapacityExpressionRef"
 		   });			
 		addAnnotation
 		  (getEquipment_ToleranceRefs(), 
@@ -2045,6 +2119,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Name"
+		   });				
+		addAnnotation
+		  (expressionResultEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ExpressionResult",
+			 "kind", "empty"
 		   });					
 		addAnnotation
 		  (functionEClass, 
@@ -2101,6 +2182,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "FunctionExpressionRefs"
+		   });			
+		addAnnotation
+		  (getFunction_CapacityExpressionRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "CapacityExpressionRef"
 		   });			
 		addAnnotation
 		  (getFunction_ToleranceRefs(), 
@@ -2284,6 +2372,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "CapacityValues"
 		   });			
 		addAnnotation
+		  (getNetXResource_UtilizationValues(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "UtilizationValues"
+		   });			
+		addAnnotation
 		  (getNetXResource_ForecastCapacityValues(), 
 		   source, 
 		   new String[] {
@@ -2366,6 +2461,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "Equipments"
+		   });			
+		addAnnotation
+		  (getNodeType_LeafNode(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "LeafNode"
 		   });			
 		addAnnotation
 		  (parameterEClass, 
@@ -2591,7 +2693,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	protected void createOCLAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																													
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																															
 		addAnnotation
 		  (getEquipment_AllEquipmentResources(), 
 		   source, 
@@ -2627,13 +2729,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self.equipments->size()\n\t\t\t\t\t\t\t"
-		   });																									
+		   });																												
 		addAnnotation
 		  (functionEClass, 
 		   source, 
 		   new String[] {
 			 "ValidFunctionName", "\n\t\t\t\tnot self.functionName.oclIsUndefined()\n\t\t\t"
-		   });																								
+		   });																										
 		addAnnotation
 		  (getFunction_AllFunctionResources(), 
 		   source, 
@@ -2645,13 +2747,29 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self->closure(functions)->asOrderedSet()\n\t\t\t\t\t\t\t"
-		   });																																																															
+		   });																																																																	
 		addAnnotation
 		  (nodeTypeEClass, 
 		   source, 
 		   new String[] {
 			 "ValidNodeID", "\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t"
-		   });																																																															
+		   });																																																																	
+	}
+
+	/**
+	 * Initializes the annotations for <b>teneo.jpa</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createTeneoAnnotations() {
+		String source = "teneo.jpa";																																																																																															
+		addAnnotation
+		  (expressionResultEClass, 
+		   source, 
+		   new String[] {
+			 "appinfo", "@Transient"
+		   });																																																																																																																																																																	
 	}
 
 } //LibraryPackageImpl

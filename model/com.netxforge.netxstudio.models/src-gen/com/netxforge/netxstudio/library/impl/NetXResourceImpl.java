@@ -39,6 +39,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getMetricRef <em>Metric Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getMetricValueRanges <em>Metric Value Ranges</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getCapacityValues <em>Capacity Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getUtilizationValues <em>Utilization Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getForecastCapacityValues <em>Forecast Capacity Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getForecastValues <em>Forecast Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getTrendedValues <em>Trended Values</em>}</li>
@@ -119,6 +120,16 @@ public class NetXResourceImpl extends CDOObjectImpl implements NetXResource {
 	@SuppressWarnings("unchecked")
 	public EList<Value> getCapacityValues() {
 		return (EList<Value>)eGet(LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<Value> getUtilizationValues() {
+		return (EList<Value>)eGet(LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES, true);
 	}
 
 	/**

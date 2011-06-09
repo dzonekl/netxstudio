@@ -97,6 +97,7 @@
     <genDataTypes ecoreDataType="generics.ecore#//DiagramKindTypeObject"/>
     <genDataTypes ecoreDataType="generics.ecore#//ExpansionDurationObject"/>
     <genDataTypes ecoreDataType="generics.ecore#//ExpressionLine"/>
+    <genDataTypes ecoreDataType="generics.ecore#//LongText"/>
     <genDataTypes ecoreDataType="generics.ecore#//Name255"/>
     <genDataTypes ecoreDataType="generics.ecore#//UnitCode"/>
     <genClasses ecoreClass="generics.ecore#//CommitLogEntry">
@@ -191,6 +192,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentMetricRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentRelationshipRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentExpressionRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/capacityExpressionRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/toleranceRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/protocolRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/parameterRefs"/>
@@ -226,6 +228,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/serviceProfileRefs"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Expression/name"/>
     </genClasses>
+    <genClasses ecoreClass="library.ecore#//ExpressionResult"/>
     <genClasses ecoreClass="library.ecore#//Function">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Function/diagrams"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Function/icons"/>
@@ -234,6 +237,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/functionMetricRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/functionRelationshipRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/functionExpressionRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/capacityExpressionRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/toleranceRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/protocolRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/parameterRefs"/>
@@ -260,6 +264,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/metricRef"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/metricValueRanges"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/capacityValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/utilizationValues"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/forecastCapacityValues"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/forecastValues"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/trendedValues"/>
@@ -273,6 +278,7 @@
     <genClasses ecoreClass="library.ecore#//NodeType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NodeType/functions"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NodeType/equipments"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//NodeType/leafNode"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Parameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Parameter/description"/>
@@ -523,22 +529,37 @@
   </genPackages>
   <genPackages prefix="Scheduling" basePackage="com.netxforge.netxstudio" resource="XML"
       disposableProviderFactory="true" ecorePackage="scheduling.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduling.ecore#//JobKinds">
-      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobKinds/ResourceMonitoring"/>
-      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobKinds/ServiceMonitoring"/>
-      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobKinds/MetricDataRetention"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduling.ecore#//JobRunState">
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/Running"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/FinishedSuccessfully"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/FinishedWithError"/>
     </genEnums>
-    <genDataTypes ecoreDataType="scheduling.ecore#//JobKindsObject"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduling.ecore#//JobState">
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobState/Active"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobState/InActive"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="scheduling.ecore#//JobRunStateObject"/>
+    <genDataTypes ecoreDataType="scheduling.ecore#//JobStateObject"/>
     <genClasses ecoreClass="scheduling.ecore#//Job">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/jobExecution"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/jobKind"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/currentlyActive"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/ended"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//Job/jobRuns"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/interval"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/jobState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/lastRunTime"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/started"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/startTime"/>
     </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//Scheduling">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//Scheduling/jobs"/>
+    <genClasses ecoreClass="scheduling.ecore#//JobRun">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/ended"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/jobRunState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/log"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/progress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/progressMessage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/progressTask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/started"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/state"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//MetricSourceJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//MetricSourceJob/metricSource"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Netxstudio" basePackage="com.netxforge" resource="XML" disposableProviderFactory="true"

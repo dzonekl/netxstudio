@@ -1,49 +1,92 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns="http://www.netxforge.com/13042011/scheduling"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:services="http://www.netxforge.com/13042011/services"
+	xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:lib="http://www.netxforge.com/13042011/library" xmlns:services="http://www.netxforge.com/13042011/services"
 	id="scheduling" targetNamespace="http://www.netxforge.com/13042011/scheduling"
 	ecore:package="com.netxforge.netxstudio.scheduling">
     <xs:import schemaLocation="generics.xsd"
 		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
+    <xs:import schemaLocation="library.xsd"
+		namespace="http://www.netxforge.com/13042011/library"></xs:import>
 	<xs:import schemaLocation="services.xsd"
 		namespace="http://www.netxforge.com/13042011/services">
 		<xs:annotation>
 			<xs:documentation>TODO, SEE if BPMN2 can offer a scheduling model</xs:documentation>
 		</xs:annotation></xs:import>
-	<xs:complexType name="Scheduling">
-		<xs:sequence>
-			<xs:element name="Jobs" type="Job"></xs:element>
-		</xs:sequence>
-	</xs:complexType>
 	
 	<!--_____________________________ -->
 	<!--| JOB 						| -->
 	<!--|___________________________| -->
 	<xs:complexType name="Job">
 		<xs:sequence>
-			<xs:element name="JobExecution" type="xs:dateTime" maxOccurs="unbounded" minOccurs="0"></xs:element>
-			<xs:element name="JobKind" type="JobKinds" maxOccurs="1" minOccurs="0"></xs:element>
+			<xs:element name="JobRuns" type="JobRun" maxOccurs="unbounded" minOccurs="0"></xs:element>
 		</xs:sequence>
+		<xs:attribute name="StartTime" type="xs:dateTime"></xs:attribute>
+		<xs:attribute name="LastRunTime" type="xs:dateTime"></xs:attribute>
+		<xs:attribute name="Interval" type="xs:long"></xs:attribute>
+		<xs:attribute name="Name" type="xs:string"></xs:attribute>
+		<xs:attribute name="JobState" type="JobState"></xs:attribute>
+	</xs:complexType>
+		
+	<!--_____________________________ -->
+	<!--| VENDOR | -->
+	<!--|___________________________| -->
+	<xs:complexType name="MetricSourceJob">
+		<xs:annotation>
+			<xs:documentation>A job importing metric sources.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Job">
+				<xs:sequence>
+					<xs:element name="MetricSource" type="xs:anyURI" ecore:reference="lib:MetricSource" minOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the metric source being imported</xs:documentation>
+						</xs:annotation></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!--_____________________________ -->
+	<!--| JOBRUN 						| -->
+	<!--|___________________________| -->
+	<xs:complexType name="JobRun">
 		<xs:attribute name="Started" type="xs:dateTime"></xs:attribute>
 		<xs:attribute name="Ended" type="xs:dateTime"></xs:attribute>
-		<xs:attribute name="Name" type="xs:string"></xs:attribute>
-		<xs:attribute name="CurrentlyActive" type="xs:boolean"></xs:attribute>
-		<!-- TODO, We need some kind of Job status like Active etc... -->
+		<xs:attribute name="State" type="JobRunState"></xs:attribute>
+		<xs:attribute name="Progress" type="xs:int"></xs:attribute>
+		<xs:attribute name="ProgressTask" type="xs:string"></xs:attribute>
+		<xs:attribute name="ProgressMessage" type="xs:string"></xs:attribute>
+		<xs:attribute name="JobRunState" type="JobRunState"></xs:attribute>
+		<xs:attribute name="Log" type="gen:LongText"></xs:attribute>		
 	</xs:complexType>
 
 	<!--_____________________________ -->
-	<!--| JOBKINDS 					| -->
+	<!--| JOBSTATE 					| -->
 	<!--|___________________________| -->
-	<xs:simpleType name="JobKinds">
+	<xs:simpleType name="JobState">
         <xs:annotation>
-        	<xs:documentation>A type representing a type of Job. 
+        	<xs:documentation>A type representing the job states. 
 			</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-			<xs:enumeration value="Resource Monitoring"></xs:enumeration>
-			<xs:enumeration value="Service Monitoring"></xs:enumeration>
-			<xs:enumeration value="Metric data retention"></xs:enumeration>
+			<xs:enumeration value="Active"></xs:enumeration>
+			<xs:enumeration value="InActive"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!--_____________________________ -->
+	<!--| JOBRUNSTATE 					| -->
+	<!--|___________________________| -->
+	<xs:simpleType name="JobRunState">
+        <xs:annotation>
+        	<xs:documentation>A type representing the job states. 
+			</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+			<xs:enumeration value="Running"></xs:enumeration>
+			<xs:enumeration value="FinishedSuccessfully"></xs:enumeration>
+			<xs:enumeration value="FinishedWithError"></xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 	

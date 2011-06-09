@@ -26,8 +26,10 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.JobKinds;
-import com.netxforge.netxstudio.scheduling.Scheduling;
+import com.netxforge.netxstudio.scheduling.JobRun;
+import com.netxforge.netxstudio.scheduling.JobRunState;
+import com.netxforge.netxstudio.scheduling.JobState;
+import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
@@ -76,7 +78,8 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case SchedulingPackage.JOB: return (EObject)createJob();
-			case SchedulingPackage.SCHEDULING: return (EObject)createScheduling();
+			case SchedulingPackage.JOB_RUN: return (EObject)createJobRun();
+			case SchedulingPackage.METRIC_SOURCE_JOB: return (EObject)createMetricSourceJob();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -90,10 +93,14 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case SchedulingPackage.JOB_KINDS:
-				return createJobKindsFromString(eDataType, initialValue);
-			case SchedulingPackage.JOB_KINDS_OBJECT:
-				return createJobKindsObjectFromString(eDataType, initialValue);
+			case SchedulingPackage.JOB_RUN_STATE:
+				return createJobRunStateFromString(eDataType, initialValue);
+			case SchedulingPackage.JOB_STATE:
+				return createJobStateFromString(eDataType, initialValue);
+			case SchedulingPackage.JOB_RUN_STATE_OBJECT:
+				return createJobRunStateObjectFromString(eDataType, initialValue);
+			case SchedulingPackage.JOB_STATE_OBJECT:
+				return createJobStateObjectFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -107,10 +114,14 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case SchedulingPackage.JOB_KINDS:
-				return convertJobKindsToString(eDataType, instanceValue);
-			case SchedulingPackage.JOB_KINDS_OBJECT:
-				return convertJobKindsObjectToString(eDataType, instanceValue);
+			case SchedulingPackage.JOB_RUN_STATE:
+				return convertJobRunStateToString(eDataType, instanceValue);
+			case SchedulingPackage.JOB_STATE:
+				return convertJobStateToString(eDataType, instanceValue);
+			case SchedulingPackage.JOB_RUN_STATE_OBJECT:
+				return convertJobRunStateObjectToString(eDataType, instanceValue);
+			case SchedulingPackage.JOB_STATE_OBJECT:
+				return convertJobStateObjectToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -131,9 +142,9 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Scheduling createScheduling() {
-		SchedulingImpl scheduling = new SchedulingImpl();
-		return scheduling;
+	public JobRun createJobRun() {
+		JobRunImpl jobRun = new JobRunImpl();
+		return jobRun;
 	}
 
 	/**
@@ -141,8 +152,18 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JobKinds createJobKindsFromString(EDataType eDataType, String initialValue) {
-		JobKinds result = JobKinds.get(initialValue);
+	public MetricSourceJob createMetricSourceJob() {
+		MetricSourceJobImpl metricSourceJob = new MetricSourceJobImpl();
+		return metricSourceJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public JobRunState createJobRunStateFromString(EDataType eDataType, String initialValue) {
+		JobRunState result = JobRunState.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -152,7 +173,7 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertJobKindsToString(EDataType eDataType, Object instanceValue) {
+	public String convertJobRunStateToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
@@ -161,8 +182,10 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JobKinds createJobKindsObjectFromString(EDataType eDataType, String initialValue) {
-		return createJobKindsFromString(SchedulingPackage.Literals.JOB_KINDS, initialValue);
+	public JobState createJobStateFromString(EDataType eDataType, String initialValue) {
+		JobState result = JobState.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
 	}
 
 	/**
@@ -170,8 +193,44 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertJobKindsObjectToString(EDataType eDataType, Object instanceValue) {
-		return convertJobKindsToString(SchedulingPackage.Literals.JOB_KINDS, instanceValue);
+	public String convertJobStateToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public JobRunState createJobRunStateObjectFromString(EDataType eDataType, String initialValue) {
+		return createJobRunStateFromString(SchedulingPackage.Literals.JOB_RUN_STATE, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertJobRunStateObjectToString(EDataType eDataType, Object instanceValue) {
+		return convertJobRunStateToString(SchedulingPackage.Literals.JOB_RUN_STATE, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public JobState createJobStateObjectFromString(EDataType eDataType, String initialValue) {
+		return createJobStateFromString(SchedulingPackage.Literals.JOB_STATE, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertJobStateObjectToString(EDataType eDataType, Object instanceValue) {
+		return convertJobStateToString(SchedulingPackage.Literals.JOB_STATE, instanceValue);
 	}
 
 	/**

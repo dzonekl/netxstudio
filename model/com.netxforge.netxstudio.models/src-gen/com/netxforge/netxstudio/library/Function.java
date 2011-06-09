@@ -56,6 +56,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *   <li>{@link com.netxforge.netxstudio.library.Function#getFunctionMetricRefs <em>Function Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Function#getFunctionRelationshipRefs <em>Function Relationship Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Function#getFunctionExpressionRefs <em>Function Expression Refs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.Function#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Function#getToleranceRefs <em>Tolerance Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Function#getProtocolRefs <em>Protocol Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Function#getParameterRefs <em>Parameter Refs</em>}</li>
@@ -196,6 +197,32 @@ public interface Function extends CDOObject {
 	 * @generated
 	 */
 	EList<Expression> getFunctionExpressionRefs();
+
+	/**
+	 * Returns the value of the '<em><b>Capacity Expression Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The CapacityExpressionRef reference, used to compute the capacity values for the equipment.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Capacity Expression Ref</em>' reference.
+	 * @see #setCapacityExpressionRef(Expression)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getFunction_CapacityExpressionRef()
+	 * @model extendedMetaData="kind='element' name='CapacityExpressionRef'"
+	 * @generated
+	 */
+	Expression getCapacityExpressionRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Function#getCapacityExpressionRef <em>Capacity Expression Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Capacity Expression Ref</em>' reference.
+	 * @see #getCapacityExpressionRef()
+	 * @generated
+	 */
+	void setCapacityExpressionRef(Expression value);
 
 	/**
 	 * Returns the value of the '<em><b>Tolerance Refs</b></em>' reference list.

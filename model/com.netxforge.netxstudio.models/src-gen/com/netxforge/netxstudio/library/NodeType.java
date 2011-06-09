@@ -38,6 +38,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.NodeType#getFunctions <em>Functions</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NodeType#getEquipments <em>Equipments</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.NodeType#isLeafNode <em>Leaf Node</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,5 +81,59 @@ public interface NodeType extends CDOObject {
 	 * @generated
 	 */
 	EList<Equipment> getEquipments();
+
+	/**
+	 * Returns the value of the '<em><b>Leaf Node</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Leaf Node</em>' attribute.
+	 * @see #isSetLeafNode()
+	 * @see #unsetLeafNode()
+	 * @see #setLeafNode(boolean)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNodeType_LeafNode()
+	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='attribute' name='LeafNode'"
+	 * @generated
+	 */
+	boolean isLeafNode();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.NodeType#isLeafNode <em>Leaf Node</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Leaf Node</em>' attribute.
+	 * @see #isSetLeafNode()
+	 * @see #unsetLeafNode()
+	 * @see #isLeafNode()
+	 * @generated
+	 */
+	void setLeafNode(boolean value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.NodeType#isLeafNode <em>Leaf Node</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetLeafNode()
+	 * @see #isLeafNode()
+	 * @see #setLeafNode(boolean)
+	 * @generated
+	 */
+	void unsetLeafNode();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.NodeType#isLeafNode <em>Leaf Node</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Leaf Node</em>' attribute is set.
+	 * @see #unsetLeafNode()
+	 * @see #isLeafNode()
+	 * @see #setLeafNode(boolean)
+	 * @generated
+	 */
+	boolean isSetLeafNode();
 
 } // NodeType

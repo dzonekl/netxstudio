@@ -695,6 +695,16 @@ public interface GenericsPackage extends EPackage {
 	int EXPRESSION_LINE = 17;
 
 	/**
+	 * The meta object id for the '<em>Long Text</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.String
+	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getLongText()
+	 * @generated
+	 */
+	int LONG_TEXT = 18;
+
+	/**
 	 * The meta object id for the '<em>Name255</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -702,7 +712,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getName255()
 	 * @generated
 	 */
-	int NAME255 = 18;
+	int NAME255 = 19;
 
 	/**
 	 * The meta object id for the '<em>Unit Code</em>' data type.
@@ -712,7 +722,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getUnitCode()
 	 * @generated
 	 */
-	int UNIT_CODE = 19;
+	int UNIT_CODE = 20;
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.generics.CommitLogEntry <em>Commit Log Entry</em>}'.
@@ -1334,6 +1344,18 @@ public interface GenericsPackage extends EPackage {
 	EDataType getExpressionLine();
 
 	/**
+	 * Returns the meta object for data type '{@link java.lang.String <em>Long Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Long Text</em>'.
+	 * @see java.lang.String
+	 * @model instanceClass="java.lang.String"
+	 *        extendedMetaData="name='LongText' baseType='http://www.eclipse.org/emf/2003/XMLType#string' maxLength='20000'"
+	 * @generated
+	 */
+	EDataType getLongText();
+
+	/**
 	 * Returns the meta object for data type '{@link java.lang.String <em>Name255</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1870,6 +1892,16 @@ public interface GenericsPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType EXPRESSION_LINE = eINSTANCE.getExpressionLine();
+
+		/**
+		 * The meta object literal for the '<em>Long Text</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.String
+		 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getLongText()
+		 * @generated
+		 */
+		EDataType LONG_TEXT = eINSTANCE.getLongText();
 
 		/**
 		 * The meta object literal for the '<em>Name255</em>' data type.

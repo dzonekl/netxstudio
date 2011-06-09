@@ -220,6 +220,14 @@ Examples:
 				<xs:annotation>
 					<xs:documentation>The FunctionExpressionRefs reference, refers to 0 or more Expression types.</xs:documentation>
 				</xs:annotation></xs:element>
+			<xs:element 
+				ecore:reference="Expression" minOccurs="0"
+				name="CapacityExpressionRef" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>The CapacityExpressionRef reference, used to compute the capacity values for the equipment.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element ecore:reference="Tolerance" maxOccurs="unbounded"
 				minOccurs="0" name="ToleranceRefs" type="xs:anyURI" >
 				<xs:annotation>
@@ -355,6 +363,14 @@ Examples:
 				name="EquipmentExpressionRefs" type="xs:anyURI">
 				<xs:annotation>
 					<xs:documentation>The EquipmentExpressionRefs reference, refers to 0 or more Expression types.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element 
+				ecore:reference="Expression" minOccurs="0"
+				name="CapacityExpressionRef" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>The CapacityExpressionRef reference, used to compute the capacity values for the equipment.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -740,6 +756,10 @@ it will be identified by the name of the root function and the root equipment.
 			<!-- Non-Contained -->
 			<!-- OCL Derived features -->
 		</xs:sequence>
+		<xs:attribute name="LeafNode" type="xs:boolean" default="false">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation></xs:attribute>
 	</xs:complexType>
 	
 	<!--_____________________________ -->
@@ -786,6 +806,13 @@ retrieved from the real network element.
         		<xs:annotation>
         			<xs:documentation>The CapacityValues reference, contains capacity values. Capacity values are populated with
 expressions, imported or entered manually.
+        			</xs:documentation>
+        		</xs:annotation>
+        	</xs:element>
+        	<xs:element name="UtilizationValues" type="gen:Value" maxOccurs="unbounded" minOccurs="0">
+        		<xs:annotation>
+        			<xs:documentation>The UtilizationValues reference, contains utilization values. Utilization values are populated through
+a work flow computation run.
         			</xs:documentation>
         		</xs:annotation>
         	</xs:element>
@@ -1010,6 +1037,17 @@ See: The NetXScript specification.</xs:documentation>
 				<xs:documentation>The Name attribute holds the name of the expression.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| EXPRESSION RESULT| -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="ExpressionResult">	
+        <xs:annotation>
+        	<xs:documentation>A type representing the results of an expression run. </xs:documentation>
+        	<xs:appinfo source="teneo.jpa">@Transient</xs:appinfo>
+        </xs:annotation>
 	</xs:complexType>
 	
 	<!--_____________________________ -->

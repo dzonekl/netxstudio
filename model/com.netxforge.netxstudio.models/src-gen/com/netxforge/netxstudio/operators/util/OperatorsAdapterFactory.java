@@ -24,6 +24,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.operators.*;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.FunctionRelationship;

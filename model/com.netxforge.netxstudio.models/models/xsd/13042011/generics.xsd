@@ -205,8 +205,20 @@ Examples:
 			<xs:maxLength value="2000" />
 		</xs:restriction>
 	</xs:simpleType>
+
+	<!--_______________________ -->
+	<!-- LONG TEXT TYPE -->
+	<!--_______________________ -->
 	
-	
+	<xs:simpleType name="LongText">
+		<xs:annotation>
+			<xs:documentation>A long text used for logs etc.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20000" />
+		</xs:restriction>
+	</xs:simpleType>
+		
 	<!--_______________________ -->
 	<!-- META -->
 	<!--_______________________ -->

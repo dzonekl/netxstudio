@@ -200,6 +200,13 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EDataType longTextEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EDataType name255EDataType = null;
 
 	/**
@@ -827,6 +834,15 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getLongText() {
+		return longTextEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getName255() {
 		return name255EDataType;
 	}
@@ -938,6 +954,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		diagramKindTypeObjectEDataType = createEDataType(DIAGRAM_KIND_TYPE_OBJECT);
 		expansionDurationObjectEDataType = createEDataType(EXPANSION_DURATION_OBJECT);
 		expressionLineEDataType = createEDataType(EXPRESSION_LINE);
+		longTextEDataType = createEDataType(LONG_TEXT);
 		name255EDataType = createEDataType(NAME255);
 		unitCodeEDataType = createEDataType(UNIT_CODE);
 	}
@@ -1059,6 +1076,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		initEDataType(diagramKindTypeObjectEDataType, DiagramKindType.class, "DiagramKindTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(expansionDurationObjectEDataType, ExpansionDuration.class, "ExpansionDurationObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(expressionLineEDataType, String.class, "ExpressionLine", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(longTextEDataType, String.class, "LongText", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(name255EDataType, String.class, "Name255", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(unitCodeEDataType, String.class, "UnitCode", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
@@ -1307,6 +1325,14 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Proposed"
+		   });			
+		addAnnotation
+		  (longTextEDataType, 
+		   source, 
+		   new String[] {
+			 "name", "LongText",
+			 "baseType", "http://www.eclipse.org/emf/2003/XMLType#string",
+			 "maxLength", "20000"
 		   });			
 		addAnnotation
 		  (metaEClass, 
