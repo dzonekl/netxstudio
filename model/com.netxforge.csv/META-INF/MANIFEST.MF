@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CSV Resource
+Bundle-SymbolicName: com.netxforge.csv;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: com.netxforge.csv.Activator
+Bundle-Vendor: NetXForge
+Require-Bundle: org.eclipse.ui;bundle-version="3.5.0",
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;bundle-version="2.5.0",
+ org.supercsv;bundle-version="1.0.0",
+ org.eclipse.core.resources;bundle-version="3.5.2"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Export-Package: com.netxforge.csv,
+ com.netxforge.csv.preference

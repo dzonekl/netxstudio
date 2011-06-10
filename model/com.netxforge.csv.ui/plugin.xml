@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+<extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.netxforge.csv.ui.editor.CSVEditor"
+            contributorClass="com.netxforge.csv.ui.editor.CSVActionBarContributor"
+            default="true"
+            extensions="csv"
+            id="com.netxforge.d.csv"
+            name="CSV Editor">
+      </editor>
+   </extension>
+      <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.netxforge.csv.ui.preferences.CSVPreferencePage"
+            id="com.netxforge.csv.preferences.CSVPreferencePage"
+            name="CSV Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.netxforge.csv.ui.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+</plugin>
