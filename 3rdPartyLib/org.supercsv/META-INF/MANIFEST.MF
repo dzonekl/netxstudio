@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SupercsvII
+Bundle-SymbolicName: org.supercsv
+Bundle-Version: 1.5.2
+Bundle-Activator: org.supercsvii.Activator
+Require-Bundle: org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ClassPath: spiffy-with_source-all-0.05.jar,
+ .
+Export-Package: org.supercsv.cellprocessor,
+ org.supercsv.cellprocessor.constraint,
+ org.supercsv.cellprocessor.ift,
+ org.supercsv.exception,
+ org.supercsv.io,
+ org.supercsv.prefs,
+ org.supercsv.util,
+ org.supercsvii
+Bundle-Vendor: Kasper B. Graversen
