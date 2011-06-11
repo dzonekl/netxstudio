@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LibraryPackage;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

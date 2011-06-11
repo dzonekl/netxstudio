@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.generics.util;
 
-import com.netxforge.netxstudio.generics.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;

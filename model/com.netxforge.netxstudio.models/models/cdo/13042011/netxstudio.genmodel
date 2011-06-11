@@ -5,7 +5,7 @@
     modelDirectory="/com.netxforge.netxstudio.models/src-gen" modelPluginID="com.netxforge.netxstudio.models"
     modelName="Netxstudio" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
     reflectiveDelegation="true" importerID="org.eclipse.xsd.ecore.importer" featureDelegation="Reflective"
-    complianceLevel="6.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    complianceLevel="6.0" copyrightFields="false">
   <foreignModel>../../xsd/13042011/netxstudio.xsd</foreignModel>
   <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
   <genPackages prefix="Services" basePackage="com.netxforge.netxstudio" resource="XML"

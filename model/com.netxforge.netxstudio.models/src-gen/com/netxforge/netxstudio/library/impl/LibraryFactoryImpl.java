@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
-import com.netxforge.netxstudio.library.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -29,6 +28,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LevelType;
 import com.netxforge.netxstudio.library.Library;

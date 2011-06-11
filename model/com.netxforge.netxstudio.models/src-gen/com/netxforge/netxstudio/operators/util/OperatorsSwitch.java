@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Company;
-import com.netxforge.netxstudio.operators.*;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.FunctionRelationship;

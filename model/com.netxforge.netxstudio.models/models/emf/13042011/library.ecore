@@ -99,6 +99,16 @@
         <details key="name" value="EquipmentExpressionRefs"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capacityExpressionRef"
+        eType="#//Expression">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The CapacityExpressionRef reference, used to compute the capacity values for the equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="CapacityExpressionRef"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="toleranceRefs" upperBound="-1"
         eType="#//Tolerance">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -428,6 +438,18 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpressionResult">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A type representing the results of an expression run. "/>
+    </eAnnotations>
+    <eAnnotations source="teneo.jpa">
+      <details key="appinfo" value="@Transient"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ExpressionResult"/>
+      <details key="kind" value="empty"/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Function">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A type representing a function in an a telecom equipment. This is often also referred to as a Application, &#xA;or a Logical Function&#xA;Specifically it represents the Software portion. (The Hardware is represented by the Equipment type). &#xA;Function types can be nested to form a hiarchical structure in similar fashion to a real Software anatomy.&#xA;&#xA;The Function type (and/or it's children) is first part of the Library type, and then copied into a Node type when &#xA;created.&#xA;&#xA;Examples:&#xA;1. The Function type typical structure is: System -> Subsystem -> Module etc..&#xA;2. The Function type can be &quot;Mobility Management&quot;.&#x9;&#x9;&#x9;"/>
@@ -510,6 +532,16 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="FunctionExpressionRefs"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capacityExpressionRef"
+        eType="#//Expression">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The CapacityExpressionRef reference, used to compute the capacity values for the equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="CapacityExpressionRef"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="toleranceRefs" upperBound="-1"
@@ -768,6 +800,16 @@
         <details key="name" value="CapacityValues"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="utilizationValues" upperBound="-1"
+        eType="ecore:EClass generics.ecore#//Value" containment="true" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The UtilizationValues reference, contains utilization values. Utilization values are populated through&#xA;a work flow computation run.&#xA;        &#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="UtilizationValues"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="forecastCapacityValues"
         upperBound="-1" eType="ecore:EClass generics.ecore#//Value" containment="true"
         resolveProxies="false">
@@ -888,6 +930,16 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="Equipments"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="leafNode" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        defaultValueLiteral="false" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="LeafNode"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

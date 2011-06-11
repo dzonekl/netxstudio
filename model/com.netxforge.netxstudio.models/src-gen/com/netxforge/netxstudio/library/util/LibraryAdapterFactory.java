@@ -24,10 +24,10 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Company;
-import com.netxforge.netxstudio.library.*;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryPackage;
