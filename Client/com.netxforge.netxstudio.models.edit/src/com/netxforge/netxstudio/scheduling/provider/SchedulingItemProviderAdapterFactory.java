@@ -110,26 +110,49 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.Scheduling} instances.
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.JobRun} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SchedulingItemProvider schedulingItemProvider;
+	protected JobRunItemProvider jobRunItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.Scheduling}.
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.JobRun}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createSchedulingAdapter() {
-		if (schedulingItemProvider == null) {
-			schedulingItemProvider = new SchedulingItemProvider(this);
+	public Adapter createJobRunAdapter() {
+		if (jobRunItemProvider == null) {
+			jobRunItemProvider = new JobRunItemProvider(this);
 		}
 
-		return schedulingItemProvider;
+		return jobRunItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.MetricSourceJob} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MetricSourceJobItemProvider metricSourceJobItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.MetricSourceJob}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMetricSourceJobAdapter() {
+		if (metricSourceJobItemProvider == null) {
+			metricSourceJobItemProvider = new MetricSourceJobItemProvider(this);
+		}
+
+		return metricSourceJobItemProvider;
 	}
 
 	/**
@@ -232,7 +255,8 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	 */
 	public void dispose() {
 		if (jobItemProvider != null) jobItemProvider.dispose();
-		if (schedulingItemProvider != null) schedulingItemProvider.dispose();
+		if (jobRunItemProvider != null) jobRunItemProvider.dispose();
+		if (metricSourceJobItemProvider != null) metricSourceJobItemProvider.dispose();
 	}
 
 }

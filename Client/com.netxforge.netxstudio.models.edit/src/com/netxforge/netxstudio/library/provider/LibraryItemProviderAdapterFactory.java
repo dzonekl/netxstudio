@@ -156,6 +156,29 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.library.ExpressionResult} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ExpressionResultItemProvider expressionResultItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.library.ExpressionResult}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createExpressionResultAdapter() {
+		if (expressionResultItemProvider == null) {
+			expressionResultItemProvider = new ExpressionResultItemProvider(this);
+		}
+
+		return expressionResultItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.library.Function} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -464,6 +487,7 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 		if (equipmentItemProvider != null) equipmentItemProvider.dispose();
 		if (equipmentGroupItemProvider != null) equipmentGroupItemProvider.dispose();
 		if (expressionItemProvider != null) expressionItemProvider.dispose();
+		if (expressionResultItemProvider != null) expressionResultItemProvider.dispose();
 		if (functionItemProvider != null) functionItemProvider.dispose();
 		if (libraryItemProvider != null) libraryItemProvider.dispose();
 		if (netXResourceItemProvider != null) netXResourceItemProvider.dispose();

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) ${date} NetXForge
+ * Copyright (c) 2011 NetXForge
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,30 +25,23 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.library.LibraryFactory;
-import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.library.NodeType} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.library.ExpressionResult} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class NodeTypeItemProvider
+public class ExpressionResultItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -62,7 +55,7 @@ public class NodeTypeItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NodeTypeItemProvider(AdapterFactory adapterFactory) {
+	public ExpressionResultItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -77,73 +70,19 @@ public class NodeTypeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addLeafNodePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Leaf Node feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addLeafNodePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NodeType_leafNode_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NodeType_leafNode_feature", "_UI_NodeType_type"),
-				 LibraryPackage.Literals.NODE_TYPE__LEAF_NODE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(LibraryPackage.Literals.NODE_TYPE__FUNCTIONS);
-			childrenFeatures.add(LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS);
-		}
-		return childrenFeatures;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-
-		return super.getChildFeature(object, child);
-	}
-
-	/**
-	 * This returns NodeType.gif.
+	 * This returns ExpressionResult.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/NodeType"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ExpressionResult"));
 	}
 
 	/**
@@ -154,8 +93,7 @@ public class NodeTypeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		NodeType nodeType = (NodeType)object;
-		return getString("_UI_NodeType_type") + " " + nodeType.isLeafNode();
+		return getString("_UI_ExpressionResult_type");
 	}
 
 	/**
@@ -168,16 +106,6 @@ public class NodeTypeItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
-		switch (notification.getFeatureID(NodeType.class)) {
-			case LibraryPackage.NODE_TYPE__LEAF_NODE:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case LibraryPackage.NODE_TYPE__FUNCTIONS:
-			case LibraryPackage.NODE_TYPE__EQUIPMENTS:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 
@@ -191,16 +119,6 @@ public class NodeTypeItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
-				 LibraryFactory.eINSTANCE.createFunction()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS,
-				 LibraryFactory.eINSTANCE.createEquipment()));
 	}
 
 	/**

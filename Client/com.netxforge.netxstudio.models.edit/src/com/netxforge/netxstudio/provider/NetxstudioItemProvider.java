@@ -228,6 +228,11 @@ public class NetxstudioItemProvider
 			(createChildParameter
 				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
 				 SchedulingFactory.eINSTANCE.createJob()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
+				 SchedulingFactory.eINSTANCE.createMetricSourceJob()));
 	}
 
 	/**

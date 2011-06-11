@@ -1,5 +1,5 @@
 /**
- * Copyright (c) ${date} NetXForge
+ * Copyright (c) 2011 NetXForge
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,10 +22,11 @@ package com.netxforge.netxstudio.scheduling.provider;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -37,18 +38,17 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.Job} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.JobRun} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class JobItemProvider
+public class JobRunItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -62,7 +62,7 @@ public class JobItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JobItemProvider(AdapterFactory adapterFactory) {
+	public JobRunItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -77,29 +77,98 @@ public class JobItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addIntervalPropertyDescriptor(object);
-			addJobStatePropertyDescriptor(object);
-			addLastRunTimePropertyDescriptor(object);
-			addNamePropertyDescriptor(object);
-			addStartTimePropertyDescriptor(object);
+			addEndedPropertyDescriptor(object);
+			addJobRunStatePropertyDescriptor(object);
+			addLogPropertyDescriptor(object);
+			addProgressPropertyDescriptor(object);
+			addProgressMessagePropertyDescriptor(object);
+			addProgressTaskPropertyDescriptor(object);
+			addStartedPropertyDescriptor(object);
+			addStatePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Interval feature.
+	 * This adds a property descriptor for the Ended feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addIntervalPropertyDescriptor(Object object) {
+	protected void addEndedPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Job_interval_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Job_interval_feature", "_UI_Job_type"),
-				 SchedulingPackage.Literals.JOB__INTERVAL,
+				 getString("_UI_JobRun_ended_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JobRun_ended_feature", "_UI_JobRun_type"),
+				 SchedulingPackage.Literals.JOB_RUN__ENDED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Job Run State feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addJobRunStatePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_JobRun_jobRunState_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JobRun_jobRunState_feature", "_UI_JobRun_type"),
+				 SchedulingPackage.Literals.JOB_RUN__JOB_RUN_STATE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Log feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addLogPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_JobRun_log_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JobRun_log_feature", "_UI_JobRun_type"),
+				 SchedulingPackage.Literals.JOB_RUN__LOG,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Progress feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addProgressPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_JobRun_progress_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JobRun_progress_feature", "_UI_JobRun_type"),
+				 SchedulingPackage.Literals.JOB_RUN__PROGRESS,
 				 true,
 				 false,
 				 false,
@@ -109,19 +178,19 @@ public class JobItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Job State feature.
+	 * This adds a property descriptor for the Progress Message feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addJobStatePropertyDescriptor(Object object) {
+	protected void addProgressMessagePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Job_jobState_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Job_jobState_feature", "_UI_Job_type"),
-				 SchedulingPackage.Literals.JOB__JOB_STATE,
+				 getString("_UI_JobRun_progressMessage_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JobRun_progressMessage_feature", "_UI_JobRun_type"),
+				 SchedulingPackage.Literals.JOB_RUN__PROGRESS_MESSAGE,
 				 true,
 				 false,
 				 false,
@@ -131,19 +200,19 @@ public class JobItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Last Run Time feature.
+	 * This adds a property descriptor for the Progress Task feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addLastRunTimePropertyDescriptor(Object object) {
+	protected void addProgressTaskPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Job_lastRunTime_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Job_lastRunTime_feature", "_UI_Job_type"),
-				 SchedulingPackage.Literals.JOB__LAST_RUN_TIME,
+				 getString("_UI_JobRun_progressTask_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JobRun_progressTask_feature", "_UI_JobRun_type"),
+				 SchedulingPackage.Literals.JOB_RUN__PROGRESS_TASK,
 				 true,
 				 false,
 				 false,
@@ -153,19 +222,19 @@ public class JobItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Started feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNamePropertyDescriptor(Object object) {
+	protected void addStartedPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Job_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Job_name_feature", "_UI_Job_type"),
-				 SchedulingPackage.Literals.JOB__NAME,
+				 getString("_UI_JobRun_started_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JobRun_started_feature", "_UI_JobRun_type"),
+				 SchedulingPackage.Literals.JOB_RUN__STARTED,
 				 true,
 				 false,
 				 false,
@@ -175,19 +244,19 @@ public class JobItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Start Time feature.
+	 * This adds a property descriptor for the State feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addStartTimePropertyDescriptor(Object object) {
+	protected void addStatePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Job_startTime_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Job_startTime_feature", "_UI_Job_type"),
-				 SchedulingPackage.Literals.JOB__START_TIME,
+				 getString("_UI_JobRun_state_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JobRun_state_feature", "_UI_JobRun_type"),
+				 SchedulingPackage.Literals.JOB_RUN__STATE,
 				 true,
 				 false,
 				 false,
@@ -197,44 +266,14 @@ public class JobItemProvider
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(SchedulingPackage.Literals.JOB__JOB_RUNS);
-		}
-		return childrenFeatures;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-
-		return super.getChildFeature(object, child);
-	}
-
-	/**
-	 * This returns Job.gif.
+	 * This returns JobRun.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Job"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/JobRun"));
 	}
 
 	/**
@@ -245,10 +284,11 @@ public class JobItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Job)object).getName();
+		XMLGregorianCalendar labelValue = ((JobRun)object).getEnded();
+		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Job_type") :
-			getString("_UI_Job_type") + " " + label;
+			getString("_UI_JobRun_type") :
+			getString("_UI_JobRun_type") + " " + label;
 	}
 
 	/**
@@ -262,16 +302,16 @@ public class JobItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Job.class)) {
-			case SchedulingPackage.JOB__INTERVAL:
-			case SchedulingPackage.JOB__JOB_STATE:
-			case SchedulingPackage.JOB__LAST_RUN_TIME:
-			case SchedulingPackage.JOB__NAME:
-			case SchedulingPackage.JOB__START_TIME:
+		switch (notification.getFeatureID(JobRun.class)) {
+			case SchedulingPackage.JOB_RUN__ENDED:
+			case SchedulingPackage.JOB_RUN__JOB_RUN_STATE:
+			case SchedulingPackage.JOB_RUN__LOG:
+			case SchedulingPackage.JOB_RUN__PROGRESS:
+			case SchedulingPackage.JOB_RUN__PROGRESS_MESSAGE:
+			case SchedulingPackage.JOB_RUN__PROGRESS_TASK:
+			case SchedulingPackage.JOB_RUN__STARTED:
+			case SchedulingPackage.JOB_RUN__STATE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case SchedulingPackage.JOB__JOB_RUNS:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -287,11 +327,6 @@ public class JobItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(SchedulingPackage.Literals.JOB__JOB_RUNS,
-				 SchedulingFactory.eINSTANCE.createJobRun()));
 	}
 
 	/**

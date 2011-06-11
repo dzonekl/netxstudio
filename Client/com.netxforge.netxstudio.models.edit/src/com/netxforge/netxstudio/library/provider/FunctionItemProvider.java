@@ -81,6 +81,7 @@ public class FunctionItemProvider
 			addFunctionMetricRefsPropertyDescriptor(object);
 			addFunctionRelationshipRefsPropertyDescriptor(object);
 			addFunctionExpressionRefsPropertyDescriptor(object);
+			addCapacityExpressionRefPropertyDescriptor(object);
 			addToleranceRefsPropertyDescriptor(object);
 			addProtocolRefsPropertyDescriptor(object);
 			addParameterRefsPropertyDescriptor(object);
@@ -150,6 +151,28 @@ public class FunctionItemProvider
 				 getString("_UI_Function_functionExpressionRefs_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Function_functionExpressionRefs_feature", "_UI_Function_type"),
 				 LibraryPackage.Literals.FUNCTION__FUNCTION_EXPRESSION_REFS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Capacity Expression Ref feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCapacityExpressionRefPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Function_capacityExpressionRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Function_capacityExpressionRef_feature", "_UI_Function_type"),
+				 LibraryPackage.Literals.FUNCTION__CAPACITY_EXPRESSION_REF,
 				 true,
 				 false,
 				 true,

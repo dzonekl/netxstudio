@@ -257,6 +257,7 @@ public class NetXResourceItemProvider
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(LibraryPackage.Literals.NET_XRESOURCE__METRIC_VALUE_RANGES);
 			childrenFeatures.add(LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES);
+			childrenFeatures.add(LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES);
 			childrenFeatures.add(LibraryPackage.Literals.NET_XRESOURCE__FORECAST_CAPACITY_VALUES);
 			childrenFeatures.add(LibraryPackage.Literals.NET_XRESOURCE__FORECAST_VALUES);
 			childrenFeatures.add(LibraryPackage.Literals.NET_XRESOURCE__TRENDED_VALUES);
@@ -323,6 +324,7 @@ public class NetXResourceItemProvider
 				return;
 			case LibraryPackage.NET_XRESOURCE__METRIC_VALUE_RANGES:
 			case LibraryPackage.NET_XRESOURCE__CAPACITY_VALUES:
+			case LibraryPackage.NET_XRESOURCE__UTILIZATION_VALUES:
 			case LibraryPackage.NET_XRESOURCE__FORECAST_CAPACITY_VALUES:
 			case LibraryPackage.NET_XRESOURCE__FORECAST_VALUES:
 			case LibraryPackage.NET_XRESOURCE__TRENDED_VALUES:
@@ -355,6 +357,11 @@ public class NetXResourceItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
+				(LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES,
+				 GenericsFactory.eINSTANCE.createValue()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(LibraryPackage.Literals.NET_XRESOURCE__FORECAST_CAPACITY_VALUES,
 				 GenericsFactory.eINSTANCE.createValue()));
 
@@ -382,6 +389,7 @@ public class NetXResourceItemProvider
 
 		boolean qualify =
 			childFeature == LibraryPackage.Literals.NET_XRESOURCE__CAPACITY_VALUES ||
+			childFeature == LibraryPackage.Literals.NET_XRESOURCE__UTILIZATION_VALUES ||
 			childFeature == LibraryPackage.Literals.NET_XRESOURCE__FORECAST_CAPACITY_VALUES ||
 			childFeature == LibraryPackage.Literals.NET_XRESOURCE__FORECAST_VALUES ||
 			childFeature == LibraryPackage.Literals.NET_XRESOURCE__TRENDED_VALUES;
