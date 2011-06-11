@@ -5,13 +5,15 @@ package com.netxforge;
 
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.generic.GenericResourceDescriptionManager;
+import org.eclipse.xtext.scoping.impl.DefaultGlobalScopeProvider;
 
 import com.google.inject.Binder;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.INativeFunctions;
+import com.netxforge.interpreter.IPrettyLog;
 import com.netxforge.interpreter.InterpreterTypeless;
 import com.netxforge.interpreter.NativeFunctions;
-import com.netxforge.scoping.CDOScopeProvider;
+import com.netxforge.interpreter.PrettyLog;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -40,10 +42,20 @@ public class NetxscriptRuntimeModule extends com.netxforge.AbstractNetxscriptRun
 		return InterpreterTypeless.class;
 	}
 	
+	public Class<? extends IPrettyLog> bindPrettyLog(){
+		return PrettyLog.class;
+	}
+	
+	
 	// contributed by org.eclipse.xtext.generator.scoping.AbstractScopingFragment
 //	public Class<? extends org.eclipse.xtext.scoping.IGlobalScopeProvider> bindIGlobalScopeProvider() {
 //		return CDOScopeProvider.class;
 //	}
 	
+
+	public Class<? extends org.eclipse.xtext.scoping.IGlobalScopeProvider> bindIGlobalScopeProvider() {
+	return DefaultGlobalScopeProvider.class;
+}
+
 	
 }

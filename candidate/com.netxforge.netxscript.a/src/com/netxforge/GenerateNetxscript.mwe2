@@ -13,6 +13,7 @@ Workflow {
     bean = StandaloneSetup {
 	    scanClassPath = true
 		platformUri = "${runtimeProject}/.."
+		registerGenModelFile = "platform:/resource/com.netxforge.model.a/model/library.genmodel"
 	}
 
 	component = DirectoryCleaner {
@@ -42,7 +43,7 @@ Workflow {
 			// 	platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel,
 			// 	platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel
 			// "
-				referencedGenModels="platform:/resource/com.netxforge.model.a/model/library.genmodel"
+//				referencedGenModels="platform:/resource/com.netxforge.model.a/model/library.genmodel"
 //				referencedGenModels="platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/netxstudio.genmodel"
 			}
 

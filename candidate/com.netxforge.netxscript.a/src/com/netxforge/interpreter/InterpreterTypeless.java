@@ -58,8 +58,8 @@ import com.netxforge.netxscript.While;
  * It internally uses a polymorphic dispatcher to dispatch between the
  * implementations for the different EClasses.
  * 
- * TODO Numeric evaluations, should consider ranges. 
- * TODO Perform error handling.
+ * TODO Numeric evaluations, should consider ranges. TODO Perform error
+ * handling.
  * 
  * @author Sven Efftinge - initial contribution and API
  * @author dzonekl - Extended the grammar, see NetXScript.
@@ -68,6 +68,9 @@ public class InterpreterTypeless implements IInterpreter {
 
 	@Inject
 	INativeFunctions nativeFunctions;
+
+	@Inject
+	IPrettyLog pLog;
 
 	private PolymorphicDispatcher<BigDecimal> dispatcher = PolymorphicDispatcher
 			.createForSingleTarget("internalEvaluate", 2, 2, this);
@@ -86,7 +89,6 @@ public class InterpreterTypeless implements IInterpreter {
 	 */
 	public InterpreterTypeless() {
 	}
-		
 
 	/**
 	 * Construct with an root object constraint.
@@ -97,17 +99,20 @@ public class InterpreterTypeless implements IInterpreter {
 		this.context = context;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.interpreter.IInterpreter#evaluate(com.netxforge.netxscript.Mod)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.interpreter.IInterpreter#evaluate(com.netxforge.netxscript
+	 * .Mod)
 	 */
-	@Override
 	public Object evaluate(Mod module) {
 		if (module.getFunctions().size() > 0) {
 			Function f = module.getFunctions().get(0);
 			// TODO, this is where we need to set the arguments if any.
 			// We would then call the function evaluation including values.
 			// Or the first function has no arguments?
-			System.out.println("Calling first function: '" + f.getName()
+			pLog.log("Calling first function: '" + f.getName()
 					+ "' Additional Functions:"
 					+ (module.getFunctions().size() - 1));
 			return evaluate(f);
@@ -118,10 +123,13 @@ public class InterpreterTypeless implements IInterpreter {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.interpreter.IInterpreter#evaluate(com.netxforge.netxscript.Function)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.interpreter.IInterpreter#evaluate(com.netxforge.netxscript
+	 * .Function)
 	 */
-	@Override
 	public Object evaluate(Function function) {
 		return evaluate(function, ImmutableMap.<String, Object> of());
 	}
@@ -143,18 +151,24 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	// Dispatch methods, main entry class.
-	/* (non-Javadoc)
-	 * @see com.netxforge.interpreter.IInterpreter#evaluate(com.netxforge.netxscript.Expression)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.interpreter.IInterpreter#evaluate(com.netxforge.netxscript
+	 * .Expression)
 	 */
-	@Override
 	public Object evaluate(Expression obj) {
 		return evaluate(obj, ImmutableMap.<String, Object> of());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.interpreter.IInterpreter#evaluate(com.netxforge.netxscript.Expression, com.google.common.collect.ImmutableMap)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.interpreter.IInterpreter#evaluate(com.netxforge.netxscript
+	 * .Expression, com.google.common.collect.ImmutableMap)
 	 */
-	@Override
 	public Object evaluate(Expression obj, ImmutableMap<String, Object> values) {
 		return dispatcher.invoke(obj, values);
 	}
@@ -232,7 +246,7 @@ public class InterpreterTypeless implements IInterpreter {
 	 * definitions and assignments are pre-evaluated. We maintain a map of
 	 * pre-evaluated values, to be used by calls. (Argument or Variable).
 	 * 
-	 * Returns either the return statement or a list of scoped variables. 
+	 * Returns either the return statement or a list of scoped variables.
 	 * 
 	 */
 	protected Object internalEvaluate(Block block, EList<Statement> statements,
@@ -264,8 +278,7 @@ public class InterpreterTypeless implements IInterpreter {
 			// Abort this block (Actually the function), if we are a Return
 			// statement.
 			if (statement instanceof Return) {
-				System.out
-						.println("return encountered, postpone return evaluation");
+				pLog.log("return encountered, postpone return evaluation");
 				return statement;
 			}
 
@@ -298,39 +311,19 @@ public class InterpreterTypeless implements IInterpreter {
 				if (statement instanceof Assignment) {
 					Assignment a = (Assignment) statement;
 					if (a.getExpression() != null) {
+
 						Object varEval = dispatcher.invoke(a.getExpression(),
 								ImmutableMap.copyOf(localVarsAndArguments));
 						localVarsAndArguments.put(
 								((Variable) a.getVar()).getName(), varEval);
+
 					}
 				}
 			}
 
-			{
-				// Print the evaluation result.
-				// FIXME, change to logger.
-				if (eval != null) {
-					System.out.print("Statement (" + index + ") result:");
-					// The evaluation result, could be any type.
-					// A variable assignment returns a string (Not the result of
-					// the
-					// assigned expression).
-					if (eval instanceof EList<?>) {
-						for (Object o : (EList<?>) eval) {
-							if (o instanceof Value) {
-								System.out.print(" val="
-										+ ((Value) o).getValue());
-							}
-							if( o instanceof BigDecimal){
-								System.out.print(" val="
-										+ o);
-								
-							}
-						}
-						System.out.println();
-					} else
-						System.out.println(eval);
-				}
+			// Print the evaluation result.
+			if (eval != null) {
+				pLog.log("Statement (" + index + ") result:", eval);
 			}
 		}
 		return localVarsAndArguments;
@@ -500,6 +493,17 @@ public class InterpreterTypeless implements IInterpreter {
 			Variable var = (Variable) e.getCall();
 			Object preEvaluated = values.get(var.getName());
 			if (preEvaluated != null) {
+				if (preEvaluated instanceof EList<?>) {
+					if (e.getIndex() != null) {
+						Object eval = dispatcher.invoke(e.getIndex(),
+								ImmutableMap.copyOf(values));
+						if (this.assertNumeric(eval)) {
+							return ((EList<?>) preEvaluated)
+									.get(((BigDecimal) eval).intValue());
+						}
+					}
+				}
+				// case for an index on a non-range.
 				return preEvaluated;
 			} else {
 				throw new UnsupportedOperationException(
@@ -520,20 +524,21 @@ public class InterpreterTypeless implements IInterpreter {
 
 	protected Object internalEvaluate(Reference e,
 			ImmutableMap<String, Object> params) {
-		Object eval = dispatcher.invoke(e.getRef(), ImmutableMap.copyOf(params));
+		Object eval = dispatcher
+				.invoke(e.getRef(), ImmutableMap.copyOf(params));
 		return eval;
 	}
 
 	protected void internalEvaluate(NodeRef e,
 			ImmutableMap<String, Object> values) {
 		// Could be any type of reference, even nested.
-		System.out.println("Found a node reference");
+		pLog.log("Found a node reference");
 	}
 
 	protected void internalEvaluate(LinkRef e,
 			ImmutableMap<String, Object> values) {
 		// Could be any type of reference, even nested.
-		System.out.println("Found a link reference" + e.getLink().getName());
+		pLog.log("Found a link reference", e.getLink());
 	}
 
 	protected EList<Value> internalEvaluate(ResourceRef e,
@@ -551,21 +556,23 @@ public class InterpreterTypeless implements IInterpreter {
 
 	protected Object internalEvaluate(NativeExpression ne,
 			ImmutableMap<String, Object> values) {
-		
-		// Invocations on a RangeLiteral or Reference. 
+
+		// Invocations on a RangeLiteral or Reference.
 		EList<?> range = null;
-		if(ne.getRange() != null){
-			 range = (EList<?>) dispatcher.invoke(ne.getRange(),ImmutableMap.copyOf(values));
+		if (ne.getRange() != null) {
+			range = (EList<?>) dispatcher.invoke(ne.getRange(),
+					ImmutableMap.copyOf(values));
 		}
-		
-		if(ne.getRef() != null){
-			Object eval = dispatcher.invoke(ne.getRef(), ImmutableMap.copyOf(values));
-			if(eval instanceof EList<?>){
+
+		if (ne.getRef() != null) {
+			Object eval = dispatcher.invoke(ne.getRef(),
+					ImmutableMap.copyOf(values));
+			if (eval instanceof EList<?>) {
 				range = (EList<?>) eval;
 			}
 		}
-		
-		if(range != null && ne.getNativeFunction() != null){
+
+		if (range != null && ne.getNativeFunction() != null) {
 			NativeFunction nf = ne.getNativeFunction();
 			switch (nf.getValue()) {
 			case NativeFunction.SUM_VALUE: {
@@ -597,10 +604,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 	protected void internalEvaluate(Expression e,
 			ImmutableMap<String, Object> values) {
-		System.out
-				.println("TODO, implement evaluation rule for expression type: "
-						+ e.eClass().getName());
-		// throw new UnsupportedOperationException(e.toString());
+		pLog.log("TODO, implement evaluation rule for expression type: ", e);
 	}
 
 	// /////////////////////////////////////
@@ -610,7 +614,7 @@ public class InterpreterTypeless implements IInterpreter {
 			ImmutableMap<String, Object> values) {
 		return e.getValue();
 	}
-	
+
 	protected EList<BigDecimal> internalEvaluate(RangeLiteral e,
 			ImmutableMap<String, Object> values) {
 		return e.getValues();

@@ -102,8 +102,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.MODULO: return createModulo();
       case NetxscriptPackage.NEGATION: return createNegation();
       case NetxscriptPackage.UNARY_PLUS_MINUS: return createUnaryPlusMinus();
-      case NetxscriptPackage.NUMBER_LITERAL: return createNumberLiteral();
       case NetxscriptPackage.BOOLEAN_LITERAL: return createBooleanLiteral();
+      case NetxscriptPackage.NUMBER_LITERAL: return createNumberLiteral();
       case NetxscriptPackage.FUNCTION_CALL: return createFunctionCall();
       case NetxscriptPackage.VAR_OR_ARGUMENT_CALL: return createVarOrArgumentCall();
       case NetxscriptPackage.NATIVE_EXPRESSION: return createNativeExpression();
@@ -529,10 +529,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public NumberLiteral createNumberLiteral()
+  public BooleanLiteral createBooleanLiteral()
   {
-    NumberLiteralImpl numberLiteral = new NumberLiteralImpl();
-    return numberLiteral;
+    BooleanLiteralImpl booleanLiteral = new BooleanLiteralImpl();
+    return booleanLiteral;
   }
 
   /**
@@ -540,10 +540,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public BooleanLiteral createBooleanLiteral()
+  public NumberLiteral createNumberLiteral()
   {
-    BooleanLiteralImpl booleanLiteral = new BooleanLiteralImpl();
-    return booleanLiteral;
+    NumberLiteralImpl numberLiteral = new NumberLiteralImpl();
+    return numberLiteral;
   }
 
   /**

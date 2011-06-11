@@ -359,13 +359,22 @@ public interface NetxscriptPackage extends EPackage
   int EXPRESSION = 9;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EXPRESSION__INDEX = 0;
+
+  /**
    * The number of structural features of the '<em>Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EXPRESSION_FEATURE_COUNT = 0;
+  int EXPRESSION_FEATURE_COUNT = 1;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.RangeImpl <em>Range</em>}' class.
@@ -376,6 +385,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int RANGE = 10;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RANGE__INDEX = EXPRESSION__INDEX;
 
   /**
    * The number of structural features of the '<em>Range</em>' class.
@@ -395,6 +413,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int REFERENCE = 11;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REFERENCE__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
@@ -693,6 +720,15 @@ public interface NetxscriptPackage extends EPackage
   int AND = 19;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int AND__INDEX = EXPRESSION__INDEX;
+
+  /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -728,6 +764,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int OR = 20;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OR__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -767,6 +812,15 @@ public interface NetxscriptPackage extends EPackage
   int EQUAL = 21;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EQUAL__INDEX = EXPRESSION__INDEX;
+
+  /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -802,6 +856,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int UNEQUAL = 22;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNEQUAL__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -841,6 +904,15 @@ public interface NetxscriptPackage extends EPackage
   int LESSER = 23;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LESSER__INDEX = EXPRESSION__INDEX;
+
+  /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -876,6 +948,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int LESSER_EQUAL = 24;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LESSER_EQUAL__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -915,6 +996,15 @@ public interface NetxscriptPackage extends EPackage
   int GREATER = 25;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GREATER__INDEX = EXPRESSION__INDEX;
+
+  /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -950,6 +1040,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int GREATER_EQUAL = 26;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GREATER_EQUAL__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -989,6 +1088,15 @@ public interface NetxscriptPackage extends EPackage
   int PLUS = 27;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PLUS__INDEX = EXPRESSION__INDEX;
+
+  /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1024,6 +1132,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int MINUS = 28;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MINUS__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1063,6 +1180,15 @@ public interface NetxscriptPackage extends EPackage
   int MULTI = 29;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MULTI__INDEX = EXPRESSION__INDEX;
+
+  /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1098,6 +1224,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int DIV = 30;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DIV__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1137,6 +1272,15 @@ public interface NetxscriptPackage extends EPackage
   int MODULO = 31;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MODULO__INDEX = EXPRESSION__INDEX;
+
+  /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1172,6 +1316,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int NEGATION = 32;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NEGATION__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Op</b></em>' attribute.
@@ -1211,6 +1364,15 @@ public interface NetxscriptPackage extends EPackage
   int UNARY_PLUS_MINUS = 33;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_PLUS_MINUS__INDEX = EXPRESSION__INDEX;
+
+  /**
    * The feature id for the '<em><b>Op</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1238,34 +1400,6 @@ public interface NetxscriptPackage extends EPackage
   int UNARY_PLUS_MINUS_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 2;
 
   /**
-   * The meta object id for the '{@link com.netxforge.netxscript.impl.NumberLiteralImpl <em>Number Literal</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see com.netxforge.netxscript.impl.NumberLiteralImpl
-   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNumberLiteral()
-   * @generated
-   */
-  int NUMBER_LITERAL = 34;
-
-  /**
-   * The feature id for the '<em><b>Value</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NUMBER_LITERAL__VALUE = EXPRESSION_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>Number Literal</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NUMBER_LITERAL_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
-
-  /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.BooleanLiteralImpl <em>Boolean Literal</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1273,7 +1407,16 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getBooleanLiteral()
    * @generated
    */
-  int BOOLEAN_LITERAL = 35;
+  int BOOLEAN_LITERAL = 34;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int BOOLEAN_LITERAL__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Condition</b></em>' attribute.
@@ -1294,6 +1437,43 @@ public interface NetxscriptPackage extends EPackage
   int BOOLEAN_LITERAL_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
 
   /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.NumberLiteralImpl <em>Number Literal</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.NumberLiteralImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNumberLiteral()
+   * @generated
+   */
+  int NUMBER_LITERAL = 35;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NUMBER_LITERAL__INDEX = EXPRESSION__INDEX;
+
+  /**
+   * The feature id for the '<em><b>Value</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NUMBER_LITERAL__VALUE = EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Number Literal</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NUMBER_LITERAL_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
+
+  /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.FunctionCallImpl <em>Function Call</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1302,6 +1482,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int FUNCTION_CALL = 36;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int FUNCTION_CALL__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Func</b></em>' reference.
@@ -1341,6 +1530,15 @@ public interface NetxscriptPackage extends EPackage
   int VAR_OR_ARGUMENT_CALL = 37;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int VAR_OR_ARGUMENT_CALL__INDEX = EXPRESSION__INDEX;
+
+  /**
    * The feature id for the '<em><b>Call</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1367,6 +1565,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int NATIVE_EXPRESSION = 38;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NATIVE_EXPRESSION__INDEX = EXPRESSION__INDEX;
 
   /**
    * The feature id for the '<em><b>Range</b></em>' containment reference.
@@ -1415,6 +1622,15 @@ public interface NetxscriptPackage extends EPackage
   int RANGE_LITERAL = 39;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RANGE_LITERAL__INDEX = RANGE__INDEX;
+
+  /**
    * The feature id for the '<em><b>Values</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1441,6 +1657,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int NODE_REF = 40;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NODE_REF__INDEX = REFERENCE__INDEX;
 
   /**
    * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
@@ -1489,6 +1714,15 @@ public interface NetxscriptPackage extends EPackage
   int RESOURCE_REF = 41;
 
   /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RESOURCE_REF__INDEX = REFERENCE__INDEX;
+
+  /**
    * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1533,6 +1767,15 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   int LINK_REF = 42;
+
+  /**
+   * The feature id for the '<em><b>Index</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LINK_REF__INDEX = REFERENCE__INDEX;
 
   /**
    * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
@@ -1812,6 +2055,17 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   EClass getExpression();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.Expression#getIndex <em>Index</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Index</em>'.
+   * @see com.netxforge.netxscript.Expression#getIndex()
+   * @see #getExpression()
+   * @generated
+   */
+  EReference getExpression_Index();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.Range <em>Range</em>}'.
@@ -2494,27 +2748,6 @@ public interface NetxscriptPackage extends EPackage
   EReference getUnaryPlusMinus_Right();
 
   /**
-   * Returns the meta object for class '{@link com.netxforge.netxscript.NumberLiteral <em>Number Literal</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Number Literal</em>'.
-   * @see com.netxforge.netxscript.NumberLiteral
-   * @generated
-   */
-  EClass getNumberLiteral();
-
-  /**
-   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.NumberLiteral#getValue <em>Value</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Value</em>'.
-   * @see com.netxforge.netxscript.NumberLiteral#getValue()
-   * @see #getNumberLiteral()
-   * @generated
-   */
-  EAttribute getNumberLiteral_Value();
-
-  /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.BooleanLiteral <em>Boolean Literal</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2534,6 +2767,27 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   EAttribute getBooleanLiteral_Condition();
+
+  /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.NumberLiteral <em>Number Literal</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Number Literal</em>'.
+   * @see com.netxforge.netxscript.NumberLiteral
+   * @generated
+   */
+  EClass getNumberLiteral();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.NumberLiteral#getValue <em>Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Value</em>'.
+   * @see com.netxforge.netxscript.NumberLiteral#getValue()
+   * @see #getNumberLiteral()
+   * @generated
+   */
+  EAttribute getNumberLiteral_Value();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.FunctionCall <em>Function Call</em>}'.
@@ -2943,6 +3197,14 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EClass EXPRESSION = eINSTANCE.getExpression();
+
+    /**
+     * The meta object literal for the '<em><b>Index</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EXPRESSION__INDEX = eINSTANCE.getExpression_Index();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.RangeImpl <em>Range</em>}' class.
@@ -3505,24 +3767,6 @@ public interface NetxscriptPackage extends EPackage
     EReference UNARY_PLUS_MINUS__RIGHT = eINSTANCE.getUnaryPlusMinus_Right();
 
     /**
-     * The meta object literal for the '{@link com.netxforge.netxscript.impl.NumberLiteralImpl <em>Number Literal</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see com.netxforge.netxscript.impl.NumberLiteralImpl
-     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNumberLiteral()
-     * @generated
-     */
-    EClass NUMBER_LITERAL = eINSTANCE.getNumberLiteral();
-
-    /**
-     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute NUMBER_LITERAL__VALUE = eINSTANCE.getNumberLiteral_Value();
-
-    /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.BooleanLiteralImpl <em>Boolean Literal</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3539,6 +3783,24 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EAttribute BOOLEAN_LITERAL__CONDITION = eINSTANCE.getBooleanLiteral_Condition();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.NumberLiteralImpl <em>Number Literal</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.NumberLiteralImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNumberLiteral()
+     * @generated
+     */
+    EClass NUMBER_LITERAL = eINSTANCE.getNumberLiteral();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute NUMBER_LITERAL__VALUE = eINSTANCE.getNumberLiteral_Value();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.FunctionCallImpl <em>Function Call</em>}' class.

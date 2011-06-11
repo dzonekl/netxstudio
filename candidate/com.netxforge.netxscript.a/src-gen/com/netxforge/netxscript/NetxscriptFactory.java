@@ -332,15 +332,6 @@ public interface NetxscriptFactory extends EFactory
   UnaryPlusMinus createUnaryPlusMinus();
 
   /**
-   * Returns a new object of class '<em>Number Literal</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Number Literal</em>'.
-   * @generated
-   */
-  NumberLiteral createNumberLiteral();
-
-  /**
    * Returns a new object of class '<em>Boolean Literal</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -348,6 +339,15 @@ public interface NetxscriptFactory extends EFactory
    * @generated
    */
   BooleanLiteral createBooleanLiteral();
+
+  /**
+   * Returns a new object of class '<em>Number Literal</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Number Literal</em>'.
+   * @generated
+   */
+  NumberLiteral createNumberLiteral();
 
   /**
    * Returns a new object of class '<em>Function Call</em>'.

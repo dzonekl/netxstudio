@@ -42,7 +42,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="index" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"
+        containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Range" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"/>
   <eClassifiers xsi:type="ecore:EEnum" name="NativeFunction">
     <eLiterals name="COUNT" literal="count()"/>
@@ -173,11 +176,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NumberLiteral" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanLiteral" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NumberLiteral" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionCall" eSuperTypes="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="func" eType="ecore:EClass platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//AbstractFunction"/>

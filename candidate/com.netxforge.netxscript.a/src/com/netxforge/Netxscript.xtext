@@ -17,6 +17,7 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 // Note we can't use the nsURI, as it won't be found in development time. On the other hand the resource
 // uri won't be found in runtime??? 
 import "platform:/resource/com.netxforge.model.a/model/library.ecore" as library
+//import "platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/library.ecore" as library
 
 Mod:
 	('mod' name=ID)?
@@ -67,7 +68,10 @@ VariableStatement returns Statement:
 	{Variable} 'var' name=ID (('=') expression=Expression)?;
 
 AssignmentStatement returns Statement:
-	{Assignment} var=[AbstractVarOrArgument] '=' expression=Expression;
+	{Assignment} var=[AbstractVarOrArgument]  '=' expression=Expression;
+
+//AssignmentStatement returns Statement:
+//	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
 
 ReferenceAssignmentStatement returns Statement:
 	{RefAssignement} ref=ContextRef '=' expression=Expression;
@@ -108,10 +112,14 @@ UnaryOperator:
 
 // The FunctionCall and potential parameters, shoul be checked as reference priot to a regular Assignment call. 
 PrimaryExpression returns Expression:
-	Literal | Range | NativeExpression | Reference | FunctionCall | VarOrArgumentCall | ParenthesizedExpression;
+	Literal | Range | NativeExpression | Reference | FunctionCall | IndexedCall | ParenthesizedExpression;
 
 Literal returns Expression:
-	{NumberLiteral} value=NUMBER | {BooleanLiteral} (condition?='true' | 'false');
+	 NumberLiteral | {BooleanLiteral} (condition?='true' | 'false');
+
+NumberLiteral returns Expression:
+	{NumberLiteral} value=NUMBER
+;
 
 ParenthesizedExpression returns Expression:
 	'(' Expression ')';
@@ -119,8 +127,12 @@ ParenthesizedExpression returns Expression:
 FunctionCall returns Expression:
 	{FunctionCall} func=[AbstractFunction] '(' (args+=Expression (',' args+=Expression)*)? ')';
 
+IndexedCall returns Expression:
+	VarOrArgumentCall ('[' index=Expression ']')?
+;
+
 VarOrArgumentCall returns Expression:
-	{VarOrArgumentCall} call=[AbstractVarOrArgument];
+	{VarOrArgumentCall} call=[AbstractVarOrArgument] ;
 
 NativeExpression returns Expression:
 	{NativeExpression} (range=RangeLiteral | ref=Reference) '.' nativeFunction=NativeFunction;
@@ -174,7 +186,6 @@ LeafRef:
 ResourceRef returns Reference:
 	{ResourceRef} 'Res' resource=[library::Resource];
 
-
 /**
  * TODO, through a link, we should be able to access, the opposite node and 
  * resources. 
@@ -188,4 +199,3 @@ terminal NUMBER returns ecore::EBigDecimal:
 
 terminal INT returns ecore::EInt:
 	'this one has been deactivated';
-	

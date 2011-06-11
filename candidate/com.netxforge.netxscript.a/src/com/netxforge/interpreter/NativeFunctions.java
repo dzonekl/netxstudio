@@ -30,7 +30,6 @@ public class NativeFunctions implements INativeFunctions {
 	/* (non-Javadoc)
 	 * @see com.netxforge.interpreter.INativeFunctions#sum(org.eclipse.emf.common.util.EList)
 	 */
-	@Override
 	public BigDecimal sum(EList<?> range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
@@ -40,7 +39,6 @@ public class NativeFunctions implements INativeFunctions {
 	/* (non-Javadoc)
 	 * @see com.netxforge.interpreter.INativeFunctions#sum(double[])
 	 */
-	@Override
 	public double sum(double[] range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		return StatUtils.sum(range);
@@ -49,7 +47,6 @@ public class NativeFunctions implements INativeFunctions {
 	/* (non-Javadoc)
 	 * @see com.netxforge.interpreter.INativeFunctions#max(org.eclipse.emf.common.util.EList)
 	 */
-	@Override
 	public BigDecimal max(EList<?> range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
@@ -59,7 +56,6 @@ public class NativeFunctions implements INativeFunctions {
 	/* (non-Javadoc)
 	 * @see com.netxforge.interpreter.INativeFunctions#max(double[])
 	 */
-	@Override
 	public double max(double[] range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		return StatUtils.max(range);
@@ -68,7 +64,6 @@ public class NativeFunctions implements INativeFunctions {
 	/* (non-Javadoc)
 	 * @see com.netxforge.interpreter.INativeFunctions#min(org.eclipse.emf.common.util.EList)
 	 */
-	@Override
 	public BigDecimal min(EList<?> range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
@@ -79,7 +74,6 @@ public class NativeFunctions implements INativeFunctions {
 	/* (non-Javadoc)
 	 * @see com.netxforge.interpreter.INativeFunctions#min(double[])
 	 */
-	@Override
 	public double min(double[] range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		return StatUtils.min(range);
@@ -88,7 +82,6 @@ public class NativeFunctions implements INativeFunctions {
 	/* (non-Javadoc)
 	 * @see com.netxforge.interpreter.INativeFunctions#mean(org.eclipse.emf.common.util.EList)
 	 */
-	@Override
 	public BigDecimal mean(EList<?> range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		double[] dRange = rangeSelection(range);
@@ -98,7 +91,6 @@ public class NativeFunctions implements INativeFunctions {
 	/* (non-Javadoc)
 	 * @see com.netxforge.interpreter.INativeFunctions#mean(double[])
 	 */
-	@Override
 	public double mean(double[] range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		return StatUtils.mean(range);
@@ -108,7 +100,6 @@ public class NativeFunctions implements INativeFunctions {
 	/* (non-Javadoc)
 	 * @see com.netxforge.interpreter.INativeFunctions#standardDeviation(org.eclipse.emf.common.util.EList)
 	 */
-	@Override
 	public BigDecimal standardDeviation(EList<?> range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		DescriptiveStatistics stats = new DescriptiveStatistics();
@@ -122,7 +113,6 @@ public class NativeFunctions implements INativeFunctions {
 	/* (non-Javadoc)
 	 * @see com.netxforge.interpreter.INativeFunctions#standardDeviation(double[])
 	 */
-	@Override
 	public double standardDeviation(double[] range){
 		assert range != null : new InterpreterException("Range can't be empty");
 		DescriptiveStatistics stats = new DescriptiveStatistics();

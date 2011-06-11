@@ -45,7 +45,9 @@
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Statement/expression"/>
     </genClasses>
-    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression"/>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Expression/index"/>
+    </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Range"/>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//Reference/nodes"/>
@@ -131,11 +133,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//UnaryPlusMinus/op"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//UnaryPlusMinus/right"/>
     </genClasses>
-    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NumberLiteral">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NumberLiteral/value"/>
-    </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//BooleanLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//BooleanLiteral/condition"/>
+    </genClasses>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NumberLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//NumberLiteral/value"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//FunctionCall">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript.a/src-gen/com/netxforge/Netxscript.ecore#//FunctionCall/func"/>
