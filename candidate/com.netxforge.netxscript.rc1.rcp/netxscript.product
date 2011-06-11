@@ -21,6 +21,7 @@
       <plugin id="com.netxforge.netxscript.a.ui"/>
       <plugin id="com.netxforge.netxscript.rc1.rcp"/>
       <plugin id="com.netxforge.netxstudio.console"/>
+      <plugin id="com.netxforge.netxstudio.log4j" fragment="true"/>
       <plugin id="com.netxforge.netxstudio.workspace"/>
       <plugin id="org.antlr.runtime"/>
       <plugin id="org.aopalliance"/>
