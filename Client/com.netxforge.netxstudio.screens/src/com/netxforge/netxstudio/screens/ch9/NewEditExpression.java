@@ -95,7 +95,7 @@ public class NewEditExpression extends AbstractScreen
 	private Object owner;
 	private Expression expression;
 	private EObject evaluationObject = NetxscriptFactory.eINSTANCE
-			.createModel();
+			.createMod();
 
 	private Text txtOwner;
 	private EmbeddedXtextService xtextService;
