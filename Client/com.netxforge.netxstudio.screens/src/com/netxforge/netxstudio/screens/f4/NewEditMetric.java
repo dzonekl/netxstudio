@@ -118,6 +118,7 @@ public class NewEditMetric extends AbstractScreen implements IDataScreenInjectio
 		gd_text_1.widthHint = 50;
 		text_1.setLayoutData(gd_text_1);
 		
+		@SuppressWarnings("unused")
 		Button btnSelect = toolkit.createButton(composite_1, "Select", SWT.NONE);
 		
 		ExpandableComposite xpndblcmpstMore = toolkit.createExpandableComposite(composite_1, ExpandableComposite.TREE_NODE);

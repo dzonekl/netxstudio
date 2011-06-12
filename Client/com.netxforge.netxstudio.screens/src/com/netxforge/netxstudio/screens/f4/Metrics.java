@@ -40,6 +40,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
 	private Library library;
+	@SuppressWarnings("unused")
 	private EMFDataBindingContext bindingContext;
 	private Form frmMetrics;
 	private TreeViewer treeViewer;

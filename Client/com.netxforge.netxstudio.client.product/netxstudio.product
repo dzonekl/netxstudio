@@ -51,8 +51,9 @@
       <feature id="com.netxforge.netxstudio.models.feature"/>
       <feature id="com.netxforge.netxstudio.data.feature"/>
       <feature id="com.netxforge.netxstudio.common.feature"/>
-      <feature id="com.netxforge.netxstudio.models.edit.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.models.edit.feature"/>
       <feature id="com.netxforge.netxscript.feature"/>
+      <feature id="com.netxforge.netxscript.ui.feature"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.common.ui"/>
       <feature id="org.eclipse.emf.ecore"/>
@@ -78,9 +79,8 @@
       <feature id="org.eclipse.nebula.artifacts.feature"/>
       <feature id="org.eclipse.xtext.artifacts.feature"/>
       <feature id="org.eclipse.xtext.ui.artifacts.feature"/>
-      <feature id="org.eclipse.xtext.xbase.artifacts.feature"/>
-      <feature id="org.eclipse.jdt.artifacts.feature"/>
       <feature id="org.eclipse.emf.cdo.client.artifacts.feature"/>
+      <feature id="org.eclipse.jdt.artifacts.feature"/>
    </features>
 
    <configurations>

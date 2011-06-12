@@ -33,6 +33,9 @@ public abstract class AbstractScreen extends Composite implements IScreen {
 		super(parent, style);
 		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
 		// the SWT style.
+		screenService = sService;
+		editingService = eService;
+		
 	}
 
 	public abstract Viewer getViewer();

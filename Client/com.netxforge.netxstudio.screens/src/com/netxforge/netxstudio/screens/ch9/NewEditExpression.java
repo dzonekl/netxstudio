@@ -54,15 +54,25 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IMessage;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
+import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import com.google.inject.Injector;
+import com.netxforge.interpreter.IInterpreter;
+import com.netxforge.interpreter.InterpreterTypeless;
+import com.netxforge.netxscript.Function;
+import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.NetxscriptFactory;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
@@ -82,20 +92,20 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class NewEditExpression extends AbstractScreen 
-		implements IDataScreenInjection, IValidationListener {
+public class NewEditExpression extends AbstractScreen implements
+		IDataScreenInjection, IValidationListener {
 	private DataBindingContext m_bindingContext;
 
 	private ValidationService validationService = new ValidationService();
-
+	private IInterpreter interpreter = new InterpreterTypeless();
+	
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtExpressionName;
 	private EmbeddedXtextEditor editor;
 
 	private Object owner;
 	private Expression expression;
-	private EObject evaluationObject = NetxscriptFactory.eINSTANCE
-			.createMod();
+	private EObject evaluationObject = NetxscriptFactory.eINSTANCE.createMod();
 
 	private Text txtOwner;
 	private EmbeddedXtextService xtextService;
@@ -116,7 +126,7 @@ public class NewEditExpression extends AbstractScreen
 
 	public NewEditExpression(Composite parent, int style,
 			IEditingService eService) {
-		super(parent, SWT.BORDER, eService);
+		super(parent, style, eService);
 
 		int widgetStyle = SWT.None;
 		if (Screens.isReadOnlyOperation(getOperation())) {
@@ -242,6 +252,54 @@ public class NewEditExpression extends AbstractScreen
 				true));
 		this.createKeyPad(client);
 		sctnNewSection.setClient(client);
+		
+		ImageHyperlink mghprlnkTest = toolkit.createImageHyperlink(sctnNewSection, SWT.NONE);
+		mghprlnkTest.addHyperlinkListener(new IHyperlinkListener() {
+			
+			// FIXME, PROPER, ERROR HANDLING. 
+			
+			public void linkActivated(HyperlinkEvent e) {
+				// Launch the interpreter. 
+				IXtextDocument doc = editor.getDocument();
+				if (documentHasErrors(doc)) {
+					System.out
+							.println("Intepreter cancelled, as errors exist in script: "
+									+ doc.get());
+					
+				}
+				@SuppressWarnings("unused")
+				String rootElementName = doc
+						.readOnly(new IUnitOfWork<String, XtextResource>() {
+							
+							// Note: Expression scoping i.e. 'mod' or 'def' are optional.  
+							public String exec(XtextResource resource) throws Exception {
+								if (resource.getContents().isEmpty()) {
+									return null;
+								}
+								
+								// TODO, Consider validating the resource here.
+								
+								if ((resource.getContents().get(0) instanceof Mod)) {
+									Mod root = (Mod) resource.getContents().get(0);
+									interpreter.evaluate(root);
+								}
+								if ((resource.getContents().get(0) instanceof Function)) {
+									Function root = (Function) resource.getContents().get(0);
+									interpreter.evaluate(root);
+								}
+								return null;
+							}
+						});
+				
+			}
+			public void linkEntered(HyperlinkEvent e) {
+			}
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		toolkit.paintBordersFor(mghprlnkTest);
+		sctnNewSection.setTextClient(mghprlnkTest);
+		mghprlnkTest.setText("Test Run");
 		xtextService = new EmbeddedXtextService(editingService);
 
 		// Conditional
@@ -266,9 +324,11 @@ public class NewEditExpression extends AbstractScreen
 				Expression copy = EcoreUtil.copy((Expression) object);
 				expression = copy;
 				original = (Expression) object;
-			} else if (Screens.isNewOperation(getOperation())
-					|| Screens.isReadOnlyOperation(getOperation())) {
-				expression = (Expression) object;
+			} else {
+				if (Screens.isNewOperation(getOperation())
+						|| Screens.isReadOnlyOperation(getOperation())) {
+					expression = (Expression) object;
+				}
 			}
 
 			String asString = xtextService.getAsString(expression);
@@ -614,4 +674,20 @@ public class NewEditExpression extends AbstractScreen
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	public boolean documentHasErrors(final IXtextDocument xtextDocument) {
+		return (xtextDocument
+				.readOnly(new IUnitOfWork<Boolean, XtextResource>() {
+					public Boolean exec(XtextResource state) throws Exception {
+						IParseResult parseResult = state.getParseResult();
+						// CB Change.
+						return !state.getErrors().isEmpty()
+								|| parseResult == null
+								|| parseResult.getSyntaxErrors().iterator()
+										.hasNext();
+					}
+				}));
+	}
+	
 }

@@ -19,8 +19,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.compare.match;bundle-version="1.2.0",
  com.netxforge.netxstudio.screens.editing;bundle-version="1.0.0",
  com.netxforge.netxstudio.data;bundle-version="1.0.0",
- com.netxforge.netxscript.ui;bundle-version="1.0.0";visibility:=reexport,
- org.eclipse.xtext.xbase;bundle-version="2.0.0";visibility:=reexport
+ com.netxforge.netxscript.ui;bundle-version="1.0.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.screens.xtext,

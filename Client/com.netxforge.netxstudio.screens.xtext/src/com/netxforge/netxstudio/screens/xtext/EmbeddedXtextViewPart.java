@@ -43,8 +43,6 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
-import org.eclipse.xtext.xbase.XBlockExpression;
-import org.eclipse.xtext.xbase.XbaseFactory;
 
 import com.google.inject.Injector;
 import com.netxforge.netxstudio.data.internal.DataActivator;
@@ -198,8 +196,10 @@ public class EmbeddedXtextViewPart extends AbstractEditorViewPart_Inj {
 			return expression;
 		}else{
 			expression = LibraryFactory.eINSTANCE.createExpression();
-			XBlockExpression be = XbaseFactory.eINSTANCE.createXBlockExpression();
-			expression.setEvaluationObject(be);
+			
+//			XBlockExpression be = XbaseFactory.eINSTANCE.createXBlockExpression();
+//			expression.setEvaluationObject(be);
+			
 			return expression;
 //			Resource res = super.getEditingService().getScreenData(null, LibraryPackage.LIBRARY);
 //			Library lib = (Library)res.getContents().get(0);
