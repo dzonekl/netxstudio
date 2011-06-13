@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.util.PolymorphicDispatcher;
 
 import com.google.common.collect.ImmutableMap;
@@ -77,7 +76,7 @@ public class InterpreterTypeless implements IInterpreter {
 	 * Context corresponds to 'this' in the grammar.
 	 */
 	@SuppressWarnings("unused")
-	private EObject context;
+	private IInterpreterContext context;
 
 	/**
 	 * Construct without a root object constraint.
@@ -90,7 +89,7 @@ public class InterpreterTypeless implements IInterpreter {
 	 * 
 	 * @param context
 	 */
-	public InterpreterTypeless(EObject context) {
+	public InterpreterTypeless(IInterpreterContext context) {
 		this.context = context;
 	}
 

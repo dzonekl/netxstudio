@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.data;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -29,8 +29,19 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public interface IDataProvider {
 	
+	
 	/**
-	 * Get a resource with a given resource set. 
+	 * Get the resource in the the provided set, with the provided resourcePath. 
+	 * 
+	 * @param set
+	 * @param resourcePath
+	 * @return
+	 */
+	public Resource getResource(ResourceSet set, String resourcePath);
+	
+	/**
+	 * Get a resource with a given resource set.
+	 * @deprecated Use getResource(EStructuralFeature feature) instead. 
 	 * @param set
 	 * @param feature
 	 * @return
@@ -47,17 +58,20 @@ public interface IDataProvider {
 	public Resource getCommitInfoResource(String userID);
 	
 	/**
-	 * Get the resource for a specific feature. 
+	 * Get the resource for a feature (Index)
+	 * @deprecated Use getResource(EStructuralFeature feature) instead.
 	 * @param feature
 	 * @return
 	 */
 	public Resource getResource(int feature);
 	
 	/**
-	 * TODO Remove later. 
+	 * Get the resource for a specific EStructural feature. 
+	 * @param feature
 	 * @return
 	 */
-	public EObject getNetXScriptWrapper();
+	public Resource getResource(EStructuralFeature feature);
+	
 	
 	/**
 	 * Open a session for the user credentials. 

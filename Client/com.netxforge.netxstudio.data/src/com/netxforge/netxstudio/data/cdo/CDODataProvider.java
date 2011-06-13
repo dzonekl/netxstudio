@@ -28,8 +28,8 @@ import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
@@ -170,11 +170,19 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		}
 		return cdoSession;
 	}
-
-	public Resource getResource(ResourceSet set, int feature) {
-
+	
+	public Resource getResource(ResourceSet set, EStructuralFeature feature) {
 		final String res = resolveResourceName(feature);
-		assert res != null && res.length() > 0;
+		return getResource(set, res);
+	}
+	
+	public Resource getResource(ResourceSet set, int feature) {
+		final String res = resolveResourceName(feature);
+		return getResource(set, res);
+	}
+	
+	public Resource getResource(ResourceSet set, String resourcePath) {
+		assert resourcePath != null && resourcePath.length() > 0;
 
 		// Before attempting to open a new CDOView, we want to know what is
 		// already
@@ -190,8 +198,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		for (int i = 0; i < views.length; i++) {
 			final CDOView view = views[i];
 			if (view.getResourceSet().equals(set)) {
-				if (view.hasResource(res)) {
-					final CDOResource resource = view.getResource(res);
+				if (view.hasResource(resourcePath)) {
+					final CDOResource resource = view.getResource(resourcePath);
 					return resource;
 				}
 				// We haven't found this resource in the current view's set,
@@ -200,7 +208,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 				// the CDOView has a transaction.
 				if (view instanceof CDOTransaction) {
 					CDOTransaction transaction = (CDOTransaction) view;
-					CDOResource resource = transaction.getOrCreateResource(res);
+					CDOResource resource = transaction.getOrCreateResource(resourcePath);
 					return resource;
 				}
 			}
@@ -209,13 +217,18 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 
 		// We don't have a view, so let's open one.
 		final CDOTransaction transaction = getSession().openTransaction(set);
-		final CDOResource resource = transaction.getOrCreateResource(res);
+		final CDOResource resource = transaction.getOrCreateResource(resourcePath);
 		return resource;
 	}
 
-	public Resource getResource(CDOView view, int feature) {
-
+	public Resource getResource(CDOView view, EStructuralFeature feature) {
 		final String res = resolveResourceName(feature);
+		return getResource(view, res);
+	}
+	
+	public Resource getResource(CDOView view, String res) {
+
+		
 		assert res != null && res.length() > 0;
 
 		// Before attempting to open a new CDOView, we want to know what is
@@ -242,9 +255,25 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		return null;
 	}
 
+	private String resolveResourceName(EStructuralFeature feature) {
+		String resource = "/";
+		if(feature == NetxstudioPackage.Literals.NETXSTUDIO){
+			resource += "netxstudio";
+		}
+		if(feature == LibraryPackage.Literals.LIBRARY){
+			resource += "library";
+		}
+		if(feature == OperatorsPackage.Literals.OPERATOR){
+			resource += "operator";
+		}
+		
+		return resource;
+	}
+	
 	/**
 	 * Dispatcher to break-up which objects go into which resources.
 	 * 
+	 * @deprecated
 	 * @param feature
 	 * @return
 	 */
@@ -268,15 +297,6 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		return "CDOCommitInfo_" + userID;
 	}
 
-	public EObject getNetXScriptWrapper() {
-		// NetXScriptWrapper wrapper =
-		// XtextwrapperFactory.eINSTANCE.createNetXScriptWrapper();
-		// wrapper.setAsString("");
-		// wrapper.setXblock(XbaseFactory.eINSTANCE.createXBlockExpression());
-		// return wrapper;
-		return null;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -286,6 +306,13 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		final String res = resolveResourceName(feature);
 		assert res != null && res.length() > 0;
 		return this.getResource(res);
+	}
+	
+	public Resource getResource(EStructuralFeature feature) {
+		final String res = resolveResourceName(feature);
+		assert res != null && res.length() > 0;
+		return this.getResource(res);
+
 	}
 
 	public Resource getCommitInfoResource(String userID) {
@@ -307,6 +334,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		}
 		return resource;
 	}
+	
 
 	private CDOResource resolveInCurrentView(String resourceName) {
 		final CDOView[] views = this.getSession().getViews();
@@ -411,4 +439,5 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 			transaction = null;
 		}
 	}
+
 }

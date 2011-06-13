@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: com.netxforge.netxscript.tests
-Bundle-Vendor: My Company
+Bundle-Name: NetXScript tests
+Bundle-Vendor: NetXForge
 Bundle-Version: 1.0.0
 Bundle-SymbolicName: com.netxforge.netxscript.tests; singleton:=true
 Bundle-ActivationPolicy: lazy

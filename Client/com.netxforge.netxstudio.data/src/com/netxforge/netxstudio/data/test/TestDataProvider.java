@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.data.test;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -133,6 +134,14 @@ public class TestDataProvider implements IDataProvider {
 	}
 
 	public Resource getCommitInfoResource(String userID) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public Resource getResource(ResourceSet set, String resourcePath) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public Resource getResource(EStructuralFeature feature) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 	
