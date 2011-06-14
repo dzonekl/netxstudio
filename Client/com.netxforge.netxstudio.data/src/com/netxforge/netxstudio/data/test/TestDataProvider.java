@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.data.test;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -137,11 +138,15 @@ public class TestDataProvider implements IDataProvider {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	public Resource getResource(ResourceSet set, String resourcePath) {
+	public Resource getResource(EStructuralFeature feature) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	public Resource getResource(EStructuralFeature feature) {
+	public Resource getResource(ResourceSet set, EClass clazz) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public Resource getResource(EClass clazz) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 	

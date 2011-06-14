@@ -20,7 +20,7 @@ package com.netxforge.netxstudio.data;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -37,7 +37,7 @@ public interface IDataProvider {
 	 * @param resourcePath
 	 * @return
 	 */
-	public Resource getResource(ResourceSet set, String resourcePath);
+	public Resource getResource(ResourceSet set, EClass clazz);
 	
 	/**
 	 * Get a resource with a given resource set.
@@ -66,11 +66,11 @@ public interface IDataProvider {
 	public Resource getResource(int feature);
 	
 	/**
-	 * Get the resource for a specific EStructural feature. 
+	 * Get the resource for a specific EClass. 
 	 * @param feature
 	 * @return
 	 */
-	public Resource getResource(EStructuralFeature feature);
+	public Resource getResource(EClass clazz);
 	
 	
 	/**

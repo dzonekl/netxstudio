@@ -28,8 +28,8 @@ import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
@@ -171,7 +171,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		return cdoSession;
 	}
 	
-	public Resource getResource(ResourceSet set, EStructuralFeature feature) {
+	public Resource getResource(ResourceSet set, EClass feature) {
 		final String res = resolveResourceName(feature);
 		return getResource(set, res);
 	}
@@ -181,7 +181,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		return getResource(set, res);
 	}
 	
-	public Resource getResource(ResourceSet set, String resourcePath) {
+	private Resource getResource(ResourceSet set, String resourcePath) {
 		assert resourcePath != null && resourcePath.length() > 0;
 
 		// Before attempting to open a new CDOView, we want to know what is
@@ -221,7 +221,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		return resource;
 	}
 
-	public Resource getResource(CDOView view, EStructuralFeature feature) {
+	public Resource getResource(CDOView view, EClass feature) {
 		final String res = resolveResourceName(feature);
 		return getResource(view, res);
 	}
@@ -255,15 +255,16 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		return null;
 	}
 
-	private String resolveResourceName(EStructuralFeature feature) {
+	private String resolveResourceName(EClass clazz) {
 		String resource = "/";
-		if(feature == NetxstudioPackage.Literals.NETXSTUDIO){
+		
+		if(clazz == NetxstudioPackage.Literals.NETXSTUDIO){
 			resource += "netxstudio";
 		}
-		if(feature == LibraryPackage.Literals.LIBRARY){
+		if(clazz == LibraryPackage.Literals.LIBRARY){
 			resource += "library";
 		}
-		if(feature == OperatorsPackage.Literals.OPERATOR){
+		if(clazz == OperatorsPackage.Literals.OPERATOR){
 			resource += "operator";
 		}
 		
@@ -308,7 +309,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		return this.getResource(res);
 	}
 	
-	public Resource getResource(EStructuralFeature feature) {
+	public Resource getResource(EClass feature) {
 		final String res = resolveResourceName(feature);
 		assert res != null && res.length() > 0;
 		return this.getResource(res);
