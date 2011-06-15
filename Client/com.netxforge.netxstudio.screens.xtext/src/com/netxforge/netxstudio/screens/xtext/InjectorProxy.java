@@ -18,7 +18,7 @@
 package com.netxforge.netxstudio.screens.xtext;
 
 import com.google.inject.Injector;
-import com.netxforge.ui.internal.NetxscriptActivator;
+import com.netxforge.ui.internal.override.OverrideNetxscriptActivator;
 
 /**
  * Proxies to whatever Activator can return the injector. 
@@ -53,7 +53,7 @@ public class InjectorProxy {
 //		return ArithmeticsActivator.getInstance().getInjector("org.eclipse.xtext.example.arithmetics.Arithmetics");
 		
 		// and this one comes just next. 
-		return NetxscriptActivator.getInstance().getInjector(grammarName);
+		return OverrideNetxscriptActivator.getInstance().getInjector(grammarName);
 		
 	}
 }
