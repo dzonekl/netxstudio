@@ -33,6 +33,7 @@ public class CommonTests extends TestSuite {
 	public static Test suite() {
 		TestSuite suite = new CommonTests("netxstudio common Tests");
 		suite.addTestSuite(JCATest.class); 
+		
 		return suite;
 	}
 

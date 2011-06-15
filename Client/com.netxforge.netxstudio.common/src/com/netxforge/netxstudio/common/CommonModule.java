@@ -18,7 +18,11 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.common;
 
+import javax.xml.datatype.DatatypeFactory;
+
+import com.google.inject.Provides;
 import com.netxforge.netxstudio.common.jca.JCAServiceModule;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 
 
 /**
@@ -26,13 +30,24 @@ import com.netxforge.netxstudio.common.jca.JCAServiceModule;
  *
  */
 public class CommonModule extends JCAServiceModule {
-
+	
 	/* (non-Javadoc)
 	 * @see com.google.inject.AbstractModule#configure()
 	 */
 	@Override
 	protected void configure() {
 		super.configure();
+		this.bind(ModelUtils.class);
+		
 	}
-
+	
+	@Provides
+	DatatypeFactory providerDataTypeFactory(){
+		try {
+			return DatatypeFactory.newInstance();
+		} catch (final Exception e) {
+			return null;
+		}
+	}
+	
 }

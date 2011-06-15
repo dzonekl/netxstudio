@@ -11,4 +11,5 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.common,
  com.netxforge.netxstudio.common.internal,
- com.netxforge.netxstudio.common.jca
+ com.netxforge.netxstudio.common.jca,
+ com.netxforge.netxstudio.common.model

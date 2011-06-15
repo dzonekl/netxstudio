@@ -26,7 +26,9 @@ import com.netxforge.netxstudio.common.jca.IJCAService;
  *
  */
 public class CommonService {
-
+	
+	public String SERVICE_ID = "Common services";
+	
 	private IJCAService jcaService;
 	
 	public IJCAService getJcasService() {
