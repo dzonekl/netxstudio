@@ -9,4 +9,12 @@
        class = "com.netxforge.netxscript.NetxscriptPackage"
        genModel = "com/netxforge/Netxscript.genmodel" /> 
   </extension>
+  
+  <extension point="org.eclipse.xtext.protocol_resourceServiceProvider">
+  	<resourceServiceProvider
+              class="com.netxforge.NetxscriptExecutableExtensionFactory:com.netxforge.scoping.CDOResourceServiceProvider"
+              protocolName="cdo">
+        </resourceServiceProvider>
+  </extension>
 </plugin>
+

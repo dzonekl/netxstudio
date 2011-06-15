@@ -21,8 +21,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.netxforge.netxstudio.data.IDataService;
 
-
-
 /**
  * A simple CDOScope provider, which returns all potential references. (Without filtering). 
  * Uses a custom CDOLoadOnDemandResourceDescriptions.

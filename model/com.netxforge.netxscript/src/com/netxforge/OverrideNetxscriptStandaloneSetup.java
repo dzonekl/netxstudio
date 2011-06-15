@@ -1,14 +1,16 @@
 
 package com.netxforge;
 
+import static com.google.inject.util.Modules.override;
+
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.ISetup;
 
-import static com.google.inject.util.Modules.override;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 
 /**
@@ -35,6 +37,7 @@ public class OverrideNetxscriptStandaloneSetup implements ISetup {
 		
 		Module om = new com.netxforge.NetxscriptRuntimeModule();
 		om = override(om).with(new CDODataServiceModule());
+		om = override(om).with(new CommonModule());
 		return Guice.createInjector(om);
 	}
 	

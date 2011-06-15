@@ -5,6 +5,16 @@ package com.netxforge;
 
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
+import com.netxforge.interpreter.IInterpreter;
+import com.netxforge.interpreter.IInterpreterContextFactory;
+import com.netxforge.interpreter.IInterpreterFactory;
+import com.netxforge.interpreter.INativeFunctions;
+import com.netxforge.interpreter.IPrettyLog;
+import com.netxforge.interpreter.InterpreterContextFactory;
+import com.netxforge.interpreter.InterpreterFactory;
+import com.netxforge.interpreter.InterpreterTypeless;
+import com.netxforge.interpreter.NativeFunctions;
+import com.netxforge.interpreter.PrettyLog;
 import com.netxforge.scoping.CDOResourceServiceProvider;
 import com.netxforge.scoping.SimpleCDONameProvider;
 import com.netxforge.scoping.SimpleCDOScopeProvider;
@@ -18,13 +28,34 @@ public class NetxscriptRuntimeModule extends com.netxforge.AbstractNetxscriptRun
 		return SimpleCDOScopeProvider.class;
 	}
 	
-	
 	public Class<? extends IResourceServiceProvider> bindIResourceServiceProvider() {
 		return CDOResourceServiceProvider.class;
 	}
 	
 	public Class<? extends org.eclipse.xtext.naming.IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return SimpleCDONameProvider.class;
+	}
+	
+	
+	public Class<? extends INativeFunctions> bindMathFunctions(){
+		return NativeFunctions.class;
+	}
+	
+	public Class<? extends IInterpreter> bindInterpreterFunctions(){
+		return InterpreterTypeless.class;
+	}
+	
+	public Class<? extends IPrettyLog> bindPrettyLog(){
+		return PrettyLog.class;
+	}
+	
+	public Class<? extends IInterpreterFactory> bindInterpreterFactory(){
+		return InterpreterFactory.class;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public Class<? extends IInterpreterContextFactory> bindInterpreterContextFactory(){
+		return InterpreterContextFactory.class;
 	}
 	
 }

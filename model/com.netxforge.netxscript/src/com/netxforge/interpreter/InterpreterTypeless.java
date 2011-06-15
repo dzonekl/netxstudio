@@ -2,13 +2,17 @@ package com.netxforge.interpreter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtext.util.PolymorphicDispatcher;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.inject.Inject;
 import com.netxforge.netxscript.And;
 import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
@@ -63,8 +67,12 @@ import com.netxforge.netxstudio.generics.Value;
  */
 public class InterpreterTypeless implements IInterpreter {
 
-	INativeFunctions nativeFunctions = new NativeFunctions();
-	IPrettyLog pLog = new PrettyLog();
+
+	@Inject
+	INativeFunctions nativeFunctions;
+	
+	@Inject
+	IPrettyLog pLog;
 
 	private PolymorphicDispatcher<BigDecimal> dispatcher = PolymorphicDispatcher
 			.createForSingleTarget("internalEvaluate", 2, 2, this);
@@ -73,10 +81,11 @@ public class InterpreterTypeless implements IInterpreter {
 	// .createForVarTarget("internalEvaluate", this);
 
 	/**
-	 * Context corresponds to 'this' in the grammar.
+	 * The first Context always corresponds to 'this' in the grammar.
+	 * Additional context, contain the period range for an expression. 
+	 * 
 	 */
-	@SuppressWarnings("unused")
-	private IInterpreterContext context;
+	private List<IInterpreterContext> contextList = Lists.newArrayList();
 
 	/**
 	 * Construct without a root object constraint.
@@ -85,12 +94,21 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	/**
-	 * Construct with an root object constraint.
+	 * Construct with multiple context
+	 * 
+	 * @param context
+	 */
+	public InterpreterTypeless(IInterpreterContext... context) {
+		this.contextList.addAll(Lists.newArrayList(context));
+	}
+	
+	/**
+	 * Construct with a single context
 	 * 
 	 * @param context
 	 */
 	public InterpreterTypeless(IInterpreterContext context) {
-		this.context = context;
+		this.contextList.add(context);
 	}
 
 	/*
@@ -808,5 +826,12 @@ public class InterpreterTypeless implements IInterpreter {
 	protected boolean assertCollection(Object eval) {
 		return (eval instanceof EList<?>);
 	}
+	
+	@Override
+	public String toString() {
+		return Joiner.on(",").join(contextList);
+	}
+
+	
 
 }
