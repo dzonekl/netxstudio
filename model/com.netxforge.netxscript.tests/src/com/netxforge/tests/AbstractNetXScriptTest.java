@@ -25,7 +25,7 @@ import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.Return;
 
 public class AbstractNetXScriptTest extends AbstractXtextTests {
-
+	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
