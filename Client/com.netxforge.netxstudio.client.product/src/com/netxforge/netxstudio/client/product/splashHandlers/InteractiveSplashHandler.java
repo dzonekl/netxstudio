@@ -24,6 +24,9 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
 /**
  * @since 3.3
  * 
+ * TODO, use an extensionfactory, to instantiate this class and have the bindings 
+ * done automaticly. 
+ * 
  */
 public class InteractiveSplashHandler extends AbstractSplashHandler {
 
