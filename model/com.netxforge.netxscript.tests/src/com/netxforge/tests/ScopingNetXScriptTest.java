@@ -26,6 +26,14 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 
+
+
+/**
+ * FIXME, Should target test repository. 
+ * 
+ * @author dzonekl
+ *
+ */
 public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 
 	IDataService dataService;
@@ -117,8 +125,6 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 		res.save(null);
 		
 		// Now invoke the scope provider to find the added reference. 
-		
-		
 		IScopeProvider scopeProvider = this.getInjector().getInstance(
 				IScopeProvider.class);
 		IQualifiedNameConverter converter = this.getInjector().getInstance(
