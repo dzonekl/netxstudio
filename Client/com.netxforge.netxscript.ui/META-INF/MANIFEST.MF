@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: com.netxforge.netxscript.ui
-Bundle-Vendor: My Company
-Bundle-Version: 1.0.0
+Bundle-Name: NetXScript UI
+Bundle-Vendor: NetXForge
+Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: com.netxforge.netxscript.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.netxforge.netxscript;visibility:=reexport,
@@ -15,10 +15,12 @@ Require-Bundle: com.netxforge.netxscript;visibility:=reexport,
  org.antlr.runtime,
  org.eclipse.xtext.common.types.ui;resolution:=optional,
  org.eclipse.xtext.ui.codetemplates.ui,
- org.eclipse.compare
+ org.eclipse.compare,
+ com.netxforge.netxstudio.data;bundle-version="1.0.0"
 Import-Package: org.apache.log4j,
  org.apache.commons.logging
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: com.netxforge.ui.contentassist.antlr,
- com.netxforge.ui.internal
-Bundle-Activator: com.netxforge.ui.internal.NetxscriptActivator
+ com.netxforge.ui.internal,
+ com.netxforge.ui.internal.override
+Bundle-Activator: com.netxforge.ui.internal.override.OverrideNetxscriptActivator

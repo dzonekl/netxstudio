@@ -16,12 +16,12 @@ public class NetxscriptExecutableExtensionFactory extends AbstractGuiceAwareExec
 
 	@Override
 	protected Bundle getBundle() {
-		return com.netxforge.ui.internal.NetxscriptActivator.getInstance().getBundle();
+		return com.netxforge.ui.internal.override.OverrideNetxscriptActivator.getInstance().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return com.netxforge.ui.internal.NetxscriptActivator.getInstance().getInjector("com.netxforge.Netxscript");
+		return com.netxforge.ui.internal.override.OverrideNetxscriptActivator.getInstance().getInjector("com.netxforge.Netxscript");
 	}
 	
 }

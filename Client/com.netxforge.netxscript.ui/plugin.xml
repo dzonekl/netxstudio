@@ -231,5 +231,11 @@
             extensions="netxscript">
     </provider>
   </extension>
-
+     <extension
+           point="org.eclipse.xtext.protocol_resourceServiceProvider">
+        <resourceServiceProvider
+              class="com.netxforge.ui.NetxscriptExecutableExtensionFactory:com.netxforge.ui.scoping.UICDOResourceServiceProvider"
+              protocolName="cdo">
+        </resourceServiceProvider>
+     </extension>
 </plugin>

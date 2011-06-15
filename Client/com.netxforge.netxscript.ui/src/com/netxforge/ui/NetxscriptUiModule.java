@@ -4,6 +4,9 @@
 package com.netxforge.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
+
+import com.netxforge.ui.scoping.UICDOResourceServiceProvider;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -12,4 +15,11 @@ public class NetxscriptUiModule extends com.netxforge.ui.AbstractNetxscriptUiMod
 	public NetxscriptUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
+	
+	public Class<? extends IResourceServiceProvider> bindIResourceServiceProvider() {
+		return UICDOResourceServiceProvider.class;
+	}
+	
+	
+	
 }
