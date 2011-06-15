@@ -35,6 +35,7 @@
       <feature id="com.netxforge.netxstudio.server.test.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.data.feature" version="1.0.0.qualifier"/>
       <feature id="com.netxforge.netxstudio.models.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxscript.feature" version="1.0.0.qualifier"/>
       <feature id="com.google.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.emf.cdo.server.artifacts.feature"/>
@@ -46,6 +47,10 @@
       <feature id="org.hibernate" version="3.6.0"/>
       <feature id="org.dom4j" version="1.6.1"/>
       <feature id="javax.persistence" version="2.0.1"/>
+      <feature id="org.antlr.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.apache.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="com.netxforge.netxstudio.common.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>

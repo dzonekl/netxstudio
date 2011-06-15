@@ -18,8 +18,9 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.workflow;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.server.logic.expression.ExpressionEngine;
+import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 
 
 /**
@@ -30,10 +31,12 @@ import com.netxforge.netxstudio.server.logic.expression.ExpressionEngine;
 public class ExpressionWorkFlowStep {
 	
 	private Expression expression;
-	private ExpressionEngine expressionEngine;
+	
+	@Inject
+	private IExpressionEngine expressionEngine;
+	
 	
 	public void run() {
-		expressionEngine = new ExpressionEngine();
 		expressionEngine.run();		
 	}
 
