@@ -8,11 +8,5 @@
        uri = "http://www.netxforge.com/Netxscript" 
        class = "com.netxforge.netxscript.NetxscriptPackage"
        genModel = "com/netxforge/Netxscript.genmodel" /> 
-	
   </extension>
-
-
-
-
-
 </plugin>

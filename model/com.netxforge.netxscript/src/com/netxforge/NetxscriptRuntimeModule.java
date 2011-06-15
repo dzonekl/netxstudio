@@ -3,9 +3,28 @@
  */
 package com.netxforge;
 
+import org.eclipse.xtext.resource.IResourceServiceProvider;
+
+import com.netxforge.scoping.CDOResourceServiceProvider;
+import com.netxforge.scoping.SimpleCDONameProvider;
+import com.netxforge.scoping.SimpleCDOScopeProvider;
+
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class NetxscriptRuntimeModule extends com.netxforge.AbstractNetxscriptRuntimeModule {
 
+	public Class<? extends org.eclipse.xtext.scoping.IGlobalScopeProvider> bindIGlobalScopeProvider() {
+		return SimpleCDOScopeProvider.class;
+	}
+	
+	
+	public Class<? extends IResourceServiceProvider> bindIResourceServiceProvider() {
+		return CDOResourceServiceProvider.class;
+	}
+	
+	public Class<? extends org.eclipse.xtext.naming.IQualifiedNameProvider> bindIQualifiedNameProvider() {
+		return SimpleCDONameProvider.class;
+	}
+	
 }

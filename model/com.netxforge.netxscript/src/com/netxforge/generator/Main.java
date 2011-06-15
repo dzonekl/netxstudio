@@ -27,7 +27,7 @@ public class Main {
 			System.err.println("Aborting: no path to EMF resource provided!");
 			return;
 		}
-		Injector injector = new com.netxforge.NetxscriptStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
+		Injector injector = new com.netxforge.OverrideNetxscriptStandaloneSetup().createInjectorAndDoEMFRegistration();
 		Main main = injector.getInstance(Main.class);
 		main.runGenerator(args[0]);
 	}

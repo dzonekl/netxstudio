@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: NetXScript Runtime
 Bundle-Vendor: NetXForge
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: com.netxforge.netxscript; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;bundle-version="2.0.0";visibility:=reexport,
@@ -17,8 +17,11 @@ Require-Bundle: org.eclipse.xtext;bundle-version="2.0.0";visibility:=reexport,
  org.eclipse.emf.common,
  org.antlr.runtime,
  org.eclipse.xtext.common.types,
+ com.netxforge.netxstudio.data;bundle-version="1.0.0",
  com.netxforge.netxstudio.models;bundle-version="1.0.0",
- org.apache.commons.math;bundle-version="2.2.0"
+ org.apache.commons.math;bundle-version="2.2.0",
+ org.eclipse.osgi;bundle-version="3.7.0",
+ org.eclipse.core.runtime;bundle-version="3.7.0"
 Import-Package: org.apache.commons.logging,
  org.apache.log4j,
  org.eclipse.xtext.xbase.lib;resolution:=optional,
@@ -31,6 +34,8 @@ Export-Package: com.netxforge,
  com.netxforge.netxscript.util,
  com.netxforge.parser.antlr,
  com.netxforge.parser.antlr.internal,
+ com.netxforge.scoping,
  com.netxforge.serializer,
  com.netxforge.services,
  com.netxforge.validation
+Bundle-Activator: com.netxforge.internal.RuntimeActivator
