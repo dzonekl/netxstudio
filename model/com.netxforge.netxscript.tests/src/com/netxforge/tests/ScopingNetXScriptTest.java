@@ -26,13 +26,11 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 
-
-
 /**
- * FIXME, Should target test repository. 
+ * FIXME, Should target test repository.
  * 
  * @author dzonekl
- *
+ * 
  */
 public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 
@@ -45,15 +43,23 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		dataService = this.getInjector().getInstance(IDataService.class);
-		resourceDescriptionManager = this.getInjector().getInstance(
-				IResourceDescription.Manager.class);
-		globalScopeProvider = this.getInjector().getInstance(
-				IGlobalScopeProvider.class);
+		
+		// Inject whatever we need.
+		dataService = get(IDataService.class);
+		resourceDescriptionManager = get(IResourceDescription.Manager.class);
+		globalScopeProvider = get(IGlobalScopeProvider.class);
 
-		// dataService.getProvider().openSession("admin", "admin");
-
+		dataService.getProvider().openSession("admin", "admin");
 	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		dataService.getProvider().closeSession();
+	}
+
+
+
 
 	/**
 	 * Visual inspection, all object descriptions from the current resource. the
@@ -78,10 +84,7 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 	}
 
 	public void testLocalScope() throws Exception {
-		
-		// We will invoke scoping, so better to open a session now. 
-		dataService.getProvider().openSession("admin", "admin");
-		
+
 		IScopeProvider scopeProvider = this.getInjector().getInstance(
 				IScopeProvider.class);
 		IQualifiedNameConverter converter = this.getInjector().getInstance(
@@ -101,30 +104,25 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 						.getQualifiedName()));
 			}
 		}
-		
-		dataService.getProvider().closeSession();
 
 	}
 
-	
 	public void testCDOScope() throws Exception {
-		
-		// We will invoke scoping, so better to open a session now. 
-		dataService.getProvider().openSession("admin", "admin");
-			
-		// Add some objects, which are referable from our xtext model. 
-		Resource res = dataService.getProvider().getResource(LibraryPackage.Literals.LIBRARY);
+
+		// Add some objects, which are referable from our xtext model.
+		Resource res = dataService.getProvider().getResource(
+				LibraryPackage.Literals.LIBRARY);
 		Library lib = (Library) res.getContents().get(0);
-		
+
 		NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
 		Function sgsnFunction = LibraryFactory.eINSTANCE.createFunction();
 		sgsnFunction.setFunctionName("SGSN");
 		sgsnType.getFunctions().add(sgsnFunction);
 		lib.getNodeTypes().add(sgsnType);
-		
+
 		res.save(null);
-		
-		// Now invoke the scope provider to find the added reference. 
+
+		// Now invoke the scope provider to find the added reference.
 		IScopeProvider scopeProvider = this.getInjector().getInstance(
 				IScopeProvider.class);
 		IQualifiedNameConverter converter = this.getInjector().getInstance(
@@ -144,9 +142,6 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 						.getQualifiedName()));
 			}
 		}
-		
-		dataService.getProvider().closeSession();
-
 	}
-	
+
 }

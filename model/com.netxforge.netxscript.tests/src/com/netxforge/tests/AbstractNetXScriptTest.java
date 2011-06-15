@@ -20,21 +20,22 @@ import org.eclipse.xtext.junit.AbstractXtextTests;
 import com.google.common.collect.Maps;
 import com.netxforge.NetxscriptStandaloneSetup;
 import com.netxforge.interpreter.IInterpreter;
-import com.netxforge.interpreter.InterpreterTypeless;
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.Return;
 
 public class AbstractNetXScriptTest extends AbstractXtextTests {
 	
+	IInterpreter interpreter;
+	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		with(new NetxscriptStandaloneSetup());
+		interpreter = this.get(IInterpreter.class);
 	}
 
 	protected void checkModule(String expression, Map<String, Object> testMap)
 			throws Exception {
-		IInterpreter interpreter = new InterpreterTypeless();
 		checkModule(interpreter, expression, testMap);
 		
 	}
@@ -110,9 +111,8 @@ public class AbstractNetXScriptTest extends AbstractXtextTests {
 	
 	protected Object evaluateModule(String expression) throws Exception {
 		Mod mod = getMod(expression);
-		IInterpreter c = new InterpreterTypeless();
 		// We assume the first definition is a
-		Object result = c.evaluate(mod);
+		Object result = interpreter.evaluate(mod);
 		if (result != null) {
 			System.out.println("Evaluation result: " + result);
 		} else {

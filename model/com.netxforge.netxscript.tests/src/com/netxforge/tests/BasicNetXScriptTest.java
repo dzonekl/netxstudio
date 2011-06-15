@@ -12,8 +12,29 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Map;
 
-public class BasicNetXScriptTest extends AbstractNetXScriptTest {
+import com.netxforge.netxstudio.data.IDataService;
 
+public class BasicNetXScriptTest extends AbstractNetXScriptTest {
+	
+	IDataService dataService;
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		// Inject whatever we need.
+		dataService = get(IDataService.class);
+		
+		// As we have no global scoping in these tests, 
+		// CDO connection is not required. 
+		// dataService.getProvider().openSession("admin", "admin");
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		dataService.getProvider().closeSession();
+	}
+	
 
 	@SuppressWarnings("unchecked")
 	public void testStatements() throws Exception {
