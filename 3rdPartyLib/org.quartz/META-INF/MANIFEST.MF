@@ -4,6 +4,7 @@ Bundle-Name: quartz
 Bundle-SymbolicName: org.quartz
 Bundle-Version: 1.0.0
 Bundle-ClassPath: quartz-all-2.0.1.jar
+Eclipse-BuddyPolicy: dependent
 Bundle-Vendor: quartz
 Export-Package: org.quartz,
  org.quartz.core,
