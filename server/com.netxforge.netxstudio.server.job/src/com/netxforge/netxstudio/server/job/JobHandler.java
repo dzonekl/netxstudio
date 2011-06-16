@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.job;
 
+import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOInvalidationPolicy;
 import org.eclipse.emf.common.notify.Adapter;
@@ -25,12 +26,16 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.net4j.util.container.IElementProcessor;
+import org.eclipse.net4j.util.container.IManagedContainer;
+import org.eclipse.net4j.util.event.IEvent;
+import org.eclipse.net4j.util.event.IListener;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SimpleScheduleBuilder;
-import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -84,10 +89,9 @@ public class JobHandler {
 			scheduler.clear();
 		} catch (final Exception e) {
 			// TODO: do some form of logging but don't stop
+			e.printStackTrace(System.err);
 		}
 
-		// TODO: handle start time
-		
 		// now initialize quartz
 		for (final EObject eObject : jobResource.getContents()) {
 			final Job job = (Job) eObject;
@@ -95,7 +99,7 @@ public class JobHandler {
 			if (job.getJobState() == JobState.IN_ACTIVE) {
 				continue;
 			}
-			
+
 			final JobDataMap map = new JobDataMap();
 			map.put(NetxForgeJob.JOB_PARAMETER, job);
 
@@ -104,23 +108,33 @@ public class JobHandler {
 			final JobDetail jobDetail = JobBuilder.newJob(NetxForgeJob.class)
 					.withIdentity(jobIdentity).withDescription(job.getName())
 					.usingJobData(map).build();
-			final SimpleTrigger trigger = TriggerBuilder
+			TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder
 					.newTrigger()
-					.withIdentity(jobIdentity)
-					.startNow()
-					.withSchedule(
-							SimpleScheduleBuilder
-									.simpleSchedule()
-									.withIntervalInMinutes(
-											(int) job.getInterval())
-									.repeatForever()).build();
+					.withIdentity(jobIdentity);
+			if (job.getStartTime() != null) {
+				triggerBuilder = triggerBuilder.startAt(job.getStartTime().toGregorianCalendar().getTime());
+			} else {
+				triggerBuilder = triggerBuilder.startNow();
+			}
+			final SimpleScheduleBuilder scheduleBuilder;
+			if (job.getEndTime() != null) {
+				triggerBuilder.endAt(job.getEndTime().toGregorianCalendar().getTime());				
+				scheduleBuilder = SimpleScheduleBuilder.simpleSchedule();				
+			} else if (job.getRepeat() > 0){
+				scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForTotalCount(job.getRepeat(), job.getInterval() > 10 ? job.getInterval() : 10);
+			} else if (job.getInterval() > 10) {
+				scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(job.getInterval());				
+			} else {
+				scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(10);				
+			}
+			final Trigger trigger = triggerBuilder.withSchedule(scheduleBuilder).build();
 			try {
 				scheduler.scheduleJob(jobDetail, trigger);
 			} catch (final Exception e) {
 				// TODO do some form of logging but don't stop everything
+				e.printStackTrace(System.err);
 			}
 		}
-
 	}
 
 	private void activate() {
@@ -176,4 +190,26 @@ public class JobHandler {
 		}
 
 	}
+
+	public static class Initializer implements IElementProcessor {
+
+		@Override
+		public Object process(IManagedContainer container, String productGroup,
+				String factoryType, String description, Object element) {
+			if (element instanceof IRepository) {
+				final IRepository repository = (IRepository) element;
+				container.addListener(new IListener() {
+					@Override
+					public void notifyEvent(IEvent arg0) {
+//						System.err.println(arg0.getSource());
+//						System.err.println(arg0.toString());
+//						JobHandler.createAndInitialize();
+					}
+				});
+			}
+//			System.err.println(element.toString());
+			return element;
+		}
+	}
+
 }

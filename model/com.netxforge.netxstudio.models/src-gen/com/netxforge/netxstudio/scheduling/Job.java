@@ -31,37 +31,47 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getJobRuns <em>Job Runs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getEndTime <em>End Time</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getInterval <em>Interval</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getJobState <em>Job State</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getLastRunTime <em>Last Run Time</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getRepeat <em>Repeat</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.Job#getStartTime <em>Start Time</em>}</li>
  * </ul>
  * </p>
  *
  * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob()
- * @model extendedMetaData="name='Job' kind='elementOnly'"
+ * @model extendedMetaData="name='Job' kind='empty'"
  * @extends CDOObject
  * @generated
  */
 public interface Job extends CDOObject {
 	/**
-	 * Returns the value of the '<em><b>Job Runs</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.scheduling.JobRun}.
+	 * Returns the value of the '<em><b>End Time</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Job Runs</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>End Time</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Job Runs</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob_JobRuns()
-	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='JobRuns'"
+	 * @return the value of the '<em>End Time</em>' attribute.
+	 * @see #setEndTime(XMLGregorianCalendar)
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob_EndTime()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
+	 *        extendedMetaData="kind='attribute' name='EndTime'"
 	 * @generated
 	 */
-	EList<JobRun> getJobRuns();
+	XMLGregorianCalendar getEndTime();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#getEndTime <em>End Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>End Time</em>' attribute.
+	 * @see #getEndTime()
+	 * @generated
+	 */
+	void setEndTime(XMLGregorianCalendar value);
 
 	/**
 	 * Returns the value of the '<em><b>Interval</b></em>' attribute.
@@ -74,13 +84,13 @@ public interface Job extends CDOObject {
 	 * @return the value of the '<em>Interval</em>' attribute.
 	 * @see #isSetInterval()
 	 * @see #unsetInterval()
-	 * @see #setInterval(long)
+	 * @see #setInterval(int)
 	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob_Interval()
-	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Long"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
 	 *        extendedMetaData="kind='attribute' name='Interval'"
 	 * @generated
 	 */
-	long getInterval();
+	int getInterval();
 
 	/**
 	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#getInterval <em>Interval</em>}' attribute.
@@ -92,7 +102,7 @@ public interface Job extends CDOObject {
 	 * @see #getInterval()
 	 * @generated
 	 */
-	void setInterval(long value);
+	void setInterval(int value);
 
 	/**
 	 * Unsets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#getInterval <em>Interval</em>}' attribute.
@@ -100,7 +110,7 @@ public interface Job extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * @see #isSetInterval()
 	 * @see #getInterval()
-	 * @see #setInterval(long)
+	 * @see #setInterval(int)
 	 * @generated
 	 */
 	void unsetInterval();
@@ -112,7 +122,7 @@ public interface Job extends CDOObject {
 	 * @return whether the value of the '<em>Interval</em>' attribute is set.
 	 * @see #unsetInterval()
 	 * @see #getInterval()
-	 * @see #setInterval(long)
+	 * @see #setInterval(int)
 	 * @generated
 	 */
 	boolean isSetInterval();
@@ -175,33 +185,6 @@ public interface Job extends CDOObject {
 	boolean isSetJobState();
 
 	/**
-	 * Returns the value of the '<em><b>Last Run Time</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Last Run Time</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Last Run Time</em>' attribute.
-	 * @see #setLastRunTime(XMLGregorianCalendar)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob_LastRunTime()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
-	 *        extendedMetaData="kind='attribute' name='LastRunTime'"
-	 * @generated
-	 */
-	XMLGregorianCalendar getLastRunTime();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#getLastRunTime <em>Last Run Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Last Run Time</em>' attribute.
-	 * @see #getLastRunTime()
-	 * @generated
-	 */
-	void setLastRunTime(XMLGregorianCalendar value);
-
-	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -227,6 +210,60 @@ public interface Job extends CDOObject {
 	 * @generated
 	 */
 	void setName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Repeat</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Repeat</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Repeat</em>' attribute.
+	 * @see #isSetRepeat()
+	 * @see #unsetRepeat()
+	 * @see #setRepeat(int)
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob_Repeat()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 *        extendedMetaData="kind='attribute' name='Repeat'"
+	 * @generated
+	 */
+	int getRepeat();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#getRepeat <em>Repeat</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Repeat</em>' attribute.
+	 * @see #isSetRepeat()
+	 * @see #unsetRepeat()
+	 * @see #getRepeat()
+	 * @generated
+	 */
+	void setRepeat(int value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.scheduling.Job#getRepeat <em>Repeat</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetRepeat()
+	 * @see #getRepeat()
+	 * @see #setRepeat(int)
+	 * @generated
+	 */
+	void unsetRepeat();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.scheduling.Job#getRepeat <em>Repeat</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Repeat</em>' attribute is set.
+	 * @see #unsetRepeat()
+	 * @see #getRepeat()
+	 * @see #setRepeat(int)
+	 * @generated
+	 */
+	boolean isSetRepeat();
 
 	/**
 	 * Returns the value of the '<em><b>Start Time</b></em>' attribute.

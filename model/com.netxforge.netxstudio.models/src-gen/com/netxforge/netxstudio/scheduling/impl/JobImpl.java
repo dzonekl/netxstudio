@@ -36,11 +36,11 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobImpl#getJobRuns <em>Job Runs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobImpl#getEndTime <em>End Time</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobImpl#getInterval <em>Interval</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobImpl#getJobState <em>Job State</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobImpl#getLastRunTime <em>Last Run Time</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobImpl#getRepeat <em>Repeat</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobImpl#getStartTime <em>Start Time</em>}</li>
  * </ul>
  * </p>
@@ -82,9 +82,8 @@ public class JobImpl extends CDOObjectImpl implements Job {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	public EList<JobRun> getJobRuns() {
-		return (EList<JobRun>)eGet(SchedulingPackage.Literals.JOB__JOB_RUNS, true);
+	public XMLGregorianCalendar getEndTime() {
+		return (XMLGregorianCalendar)eGet(SchedulingPackage.Literals.JOB__END_TIME, true);
 	}
 
 	/**
@@ -92,8 +91,8 @@ public class JobImpl extends CDOObjectImpl implements Job {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public long getInterval() {
-		return (Long)eGet(SchedulingPackage.Literals.JOB__INTERVAL, true);
+	public void setEndTime(XMLGregorianCalendar newEndTime) {
+		eSet(SchedulingPackage.Literals.JOB__END_TIME, newEndTime);
 	}
 
 	/**
@@ -101,7 +100,16 @@ public class JobImpl extends CDOObjectImpl implements Job {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setInterval(long newInterval) {
+	public int getInterval() {
+		return (Integer)eGet(SchedulingPackage.Literals.JOB__INTERVAL, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInterval(int newInterval) {
 		eSet(SchedulingPackage.Literals.JOB__INTERVAL, newInterval);
 	}
 
@@ -164,24 +172,6 @@ public class JobImpl extends CDOObjectImpl implements Job {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public XMLGregorianCalendar getLastRunTime() {
-		return (XMLGregorianCalendar)eGet(SchedulingPackage.Literals.JOB__LAST_RUN_TIME, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLastRunTime(XMLGregorianCalendar newLastRunTime) {
-		eSet(SchedulingPackage.Literals.JOB__LAST_RUN_TIME, newLastRunTime);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public String getName() {
 		return (String)eGet(SchedulingPackage.Literals.JOB__NAME, true);
 	}
@@ -193,6 +183,42 @@ public class JobImpl extends CDOObjectImpl implements Job {
 	 */
 	public void setName(String newName) {
 		eSet(SchedulingPackage.Literals.JOB__NAME, newName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getRepeat() {
+		return (Integer)eGet(SchedulingPackage.Literals.JOB__REPEAT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRepeat(int newRepeat) {
+		eSet(SchedulingPackage.Literals.JOB__REPEAT, newRepeat);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetRepeat() {
+		eUnset(SchedulingPackage.Literals.JOB__REPEAT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetRepeat() {
+		return eIsSet(SchedulingPackage.Literals.JOB__REPEAT);
 	}
 
 	/**

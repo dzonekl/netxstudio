@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.util;
 
+import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -93,8 +94,16 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 				return createJobRunAdapter();
 			}
 			@Override
+			public Adapter caseJobRunContainer(JobRunContainer object) {
+				return createJobRunContainerAdapter();
+			}
+			@Override
 			public Adapter caseMetricSourceJob(MetricSourceJob object) {
 				return createMetricSourceJobAdapter();
+			}
+			@Override
+			public Adapter caseNetworkJob(NetworkJob object) {
+				return createNetworkJobAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -145,6 +154,20 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.JobRunContainer <em>Job Run Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.JobRunContainer
+	 * @generated
+	 */
+	public Adapter createJobRunContainerAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.MetricSourceJob <em>Metric Source Job</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -155,6 +178,20 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMetricSourceJobAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.NetworkJob <em>Network Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.NetworkJob
+	 * @generated
+	 */
+	public Adapter createNetworkJobAdapter() {
 		return null;
 	}
 

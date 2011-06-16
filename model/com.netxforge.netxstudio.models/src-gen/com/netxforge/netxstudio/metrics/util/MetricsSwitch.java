@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics.util;
 
+import com.netxforge.netxstudio.metrics.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;

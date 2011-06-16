@@ -62,6 +62,30 @@ import org.eclipse.emf.ecore.EReference;
  * 			
  * 		
  * 
+ * 
+ * 			Network Data schema Copyright 2008 The schema uses
+ * 			ecore
+ * 			references syntax, but should easily map into an SQL schema.
+ * 			The
+ * 			ecore
+ * 			references, are mapped into ORM specific DLL (See
+ * 			Hibernate or
+ * 			other
+ * 			ORM. EMF/Hibernate
+ * 			however uses a custom mechanism.
+ * 
+ * 			Don't use
+ * 			the
+ * 			word
+ * 			"Item", as this is appended to the Object
+ * 			name in the EMF
+ * 			edit
+ * 			model.
+ * 			
+ * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
+ * 			
+ * 		
+ * 
  * 		
  * 
  * 
@@ -92,7 +116,7 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.scheduling.SchedulingFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/emf/2002/Ecore validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL'"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore validationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' settingDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL' invocationDelegates='http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL'"
  * @generated
  */
 public interface SchedulingPackage extends EPackage {
@@ -139,13 +163,13 @@ public interface SchedulingPackage extends EPackage {
 	int JOB = 0;
 
 	/**
-	 * The feature id for the '<em><b>Job Runs</b></em>' containment reference list.
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JOB__JOB_RUNS = 0;
+	int JOB__END_TIME = 0;
 
 	/**
 	 * The feature id for the '<em><b>Interval</b></em>' attribute.
@@ -166,22 +190,22 @@ public interface SchedulingPackage extends EPackage {
 	int JOB__JOB_STATE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Last Run Time</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JOB__LAST_RUN_TIME = 3;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JOB__NAME = 4;
+	int JOB__NAME = 3;
+
+	/**
+	 * The feature id for the '<em><b>Repeat</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOB__REPEAT = 4;
 
 	/**
 	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
@@ -221,22 +245,13 @@ public interface SchedulingPackage extends EPackage {
 	int JOB_RUN__ENDED = 0;
 
 	/**
-	 * The feature id for the '<em><b>Job Run State</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JOB_RUN__JOB_RUN_STATE = 1;
-
-	/**
 	 * The feature id for the '<em><b>Log</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JOB_RUN__LOG = 2;
+	int JOB_RUN__LOG = 1;
 
 	/**
 	 * The feature id for the '<em><b>Progress</b></em>' attribute.
@@ -245,7 +260,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB_RUN__PROGRESS = 3;
+	int JOB_RUN__PROGRESS = 2;
 
 	/**
 	 * The feature id for the '<em><b>Progress Message</b></em>' attribute.
@@ -254,7 +269,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB_RUN__PROGRESS_MESSAGE = 4;
+	int JOB_RUN__PROGRESS_MESSAGE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Progress Task</b></em>' attribute.
@@ -263,7 +278,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB_RUN__PROGRESS_TASK = 5;
+	int JOB_RUN__PROGRESS_TASK = 4;
 
 	/**
 	 * The feature id for the '<em><b>Started</b></em>' attribute.
@@ -272,7 +287,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB_RUN__STARTED = 6;
+	int JOB_RUN__STARTED = 5;
 
 	/**
 	 * The feature id for the '<em><b>State</b></em>' attribute.
@@ -281,7 +296,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB_RUN__STATE = 7;
+	int JOB_RUN__STATE = 6;
 
 	/**
 	 * The number of structural features of the '<em>Job Run</em>' class.
@@ -290,7 +305,44 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB_RUN_FEATURE_COUNT = 8;
+	int JOB_RUN_FEATURE_COUNT = 7;
+
+	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl <em>Job Run Container</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunContainer()
+	 * @generated
+	 */
+	int JOB_RUN_CONTAINER = 2;
+
+	/**
+	 * The feature id for the '<em><b>Job</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOB_RUN_CONTAINER__JOB = 0;
+
+	/**
+	 * The feature id for the '<em><b>Job Runs</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOB_RUN_CONTAINER__JOB_RUNS = 1;
+
+	/**
+	 * The number of structural features of the '<em>Job Run Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOB_RUN_CONTAINER_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.MetricSourceJobImpl <em>Metric Source Job</em>}' class.
@@ -300,16 +352,16 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getMetricSourceJob()
 	 * @generated
 	 */
-	int METRIC_SOURCE_JOB = 2;
+	int METRIC_SOURCE_JOB = 3;
 
 	/**
-	 * The feature id for the '<em><b>Job Runs</b></em>' containment reference list.
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE_JOB__JOB_RUNS = JOB__JOB_RUNS;
+	int METRIC_SOURCE_JOB__END_TIME = JOB__END_TIME;
 
 	/**
 	 * The feature id for the '<em><b>Interval</b></em>' attribute.
@@ -330,15 +382,6 @@ public interface SchedulingPackage extends EPackage {
 	int METRIC_SOURCE_JOB__JOB_STATE = JOB__JOB_STATE;
 
 	/**
-	 * The feature id for the '<em><b>Last Run Time</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METRIC_SOURCE_JOB__LAST_RUN_TIME = JOB__LAST_RUN_TIME;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -346,6 +389,15 @@ public interface SchedulingPackage extends EPackage {
 	 * @ordered
 	 */
 	int METRIC_SOURCE_JOB__NAME = JOB__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Repeat</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_SOURCE_JOB__REPEAT = JOB__REPEAT;
 
 	/**
 	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
@@ -375,6 +427,88 @@ public interface SchedulingPackage extends EPackage {
 	int METRIC_SOURCE_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.NetworkJobImpl <em>Network Job</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.NetworkJobImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getNetworkJob()
+	 * @generated
+	 */
+	int NETWORK_JOB = 4;
+
+	/**
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NETWORK_JOB__END_TIME = JOB__END_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Interval</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NETWORK_JOB__INTERVAL = JOB__INTERVAL;
+
+	/**
+	 * The feature id for the '<em><b>Job State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NETWORK_JOB__JOB_STATE = JOB__JOB_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NETWORK_JOB__NAME = JOB__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Repeat</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NETWORK_JOB__REPEAT = JOB__REPEAT;
+
+	/**
+	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NETWORK_JOB__START_TIME = JOB__START_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Network</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NETWORK_JOB__NETWORK = JOB_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Network Job</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NETWORK_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -382,7 +516,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunState()
 	 * @generated
 	 */
-	int JOB_RUN_STATE = 3;
+	int JOB_RUN_STATE = 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobState <em>Job State</em>}' enum.
@@ -392,7 +526,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobState()
 	 * @generated
 	 */
-	int JOB_STATE = 4;
+	int JOB_STATE = 6;
 
 	/**
 	 * The meta object id for the '<em>Job Run State Object</em>' data type.
@@ -402,7 +536,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunStateObject()
 	 * @generated
 	 */
-	int JOB_RUN_STATE_OBJECT = 5;
+	int JOB_RUN_STATE_OBJECT = 7;
 
 	/**
 	 * The meta object id for the '<em>Job State Object</em>' data type.
@@ -412,7 +546,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobStateObject()
 	 * @generated
 	 */
-	int JOB_STATE_OBJECT = 6;
+	int JOB_STATE_OBJECT = 8;
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.Job <em>Job</em>}'.
@@ -425,15 +559,15 @@ public interface SchedulingPackage extends EPackage {
 	EClass getJob();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.scheduling.Job#getJobRuns <em>Job Runs</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#getEndTime <em>End Time</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Job Runs</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.Job#getJobRuns()
+	 * @return the meta object for the attribute '<em>End Time</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.Job#getEndTime()
 	 * @see #getJob()
 	 * @generated
 	 */
-	EReference getJob_JobRuns();
+	EAttribute getJob_EndTime();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#getInterval <em>Interval</em>}'.
@@ -458,17 +592,6 @@ public interface SchedulingPackage extends EPackage {
 	EAttribute getJob_JobState();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#getLastRunTime <em>Last Run Time</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Last Run Time</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.Job#getLastRunTime()
-	 * @see #getJob()
-	 * @generated
-	 */
-	EAttribute getJob_LastRunTime();
-
-	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -478,6 +601,17 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getJob_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#getRepeat <em>Repeat</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Repeat</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.Job#getRepeat()
+	 * @see #getJob()
+	 * @generated
+	 */
+	EAttribute getJob_Repeat();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.Job#getStartTime <em>Start Time</em>}'.
@@ -510,17 +644,6 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getJobRun_Ended();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.JobRun#getJobRunState <em>Job Run State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Job Run State</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.JobRun#getJobRunState()
-	 * @see #getJobRun()
-	 * @generated
-	 */
-	EAttribute getJobRun_JobRunState();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.JobRun#getLog <em>Log</em>}'.
@@ -589,6 +712,38 @@ public interface SchedulingPackage extends EPackage {
 	EAttribute getJobRun_State();
 
 	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.JobRunContainer <em>Job Run Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Job Run Container</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.JobRunContainer
+	 * @generated
+	 */
+	EClass getJobRunContainer();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.JobRunContainer#getJob <em>Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Job</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.JobRunContainer#getJob()
+	 * @see #getJobRunContainer()
+	 * @generated
+	 */
+	EReference getJobRunContainer_Job();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.scheduling.JobRunContainer#getJobRuns <em>Job Runs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Job Runs</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.JobRunContainer#getJobRuns()
+	 * @see #getJobRunContainer()
+	 * @generated
+	 */
+	EReference getJobRunContainer_JobRuns();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.MetricSourceJob <em>Metric Source Job</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -608,6 +763,27 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getMetricSourceJob_MetricSource();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.NetworkJob <em>Network Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Network Job</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.NetworkJob
+	 * @generated
+	 */
+	EClass getNetworkJob();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.NetworkJob#getNetwork <em>Network</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Network</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.NetworkJob#getNetwork()
+	 * @see #getNetworkJob()
+	 * @generated
+	 */
+	EReference getNetworkJob_Network();
 
 	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}'.
@@ -686,12 +862,12 @@ public interface SchedulingPackage extends EPackage {
 		EClass JOB = eINSTANCE.getJob();
 
 		/**
-		 * The meta object literal for the '<em><b>Job Runs</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>End Time</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference JOB__JOB_RUNS = eINSTANCE.getJob_JobRuns();
+		EAttribute JOB__END_TIME = eINSTANCE.getJob_EndTime();
 
 		/**
 		 * The meta object literal for the '<em><b>Interval</b></em>' attribute feature.
@@ -710,20 +886,20 @@ public interface SchedulingPackage extends EPackage {
 		EAttribute JOB__JOB_STATE = eINSTANCE.getJob_JobState();
 
 		/**
-		 * The meta object literal for the '<em><b>Last Run Time</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JOB__LAST_RUN_TIME = eINSTANCE.getJob_LastRunTime();
-
-		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute JOB__NAME = eINSTANCE.getJob_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Repeat</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute JOB__REPEAT = eINSTANCE.getJob_Repeat();
 
 		/**
 		 * The meta object literal for the '<em><b>Start Time</b></em>' attribute feature.
@@ -750,14 +926,6 @@ public interface SchedulingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute JOB_RUN__ENDED = eINSTANCE.getJobRun_Ended();
-
-		/**
-		 * The meta object literal for the '<em><b>Job Run State</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JOB_RUN__JOB_RUN_STATE = eINSTANCE.getJobRun_JobRunState();
 
 		/**
 		 * The meta object literal for the '<em><b>Log</b></em>' attribute feature.
@@ -808,6 +976,32 @@ public interface SchedulingPackage extends EPackage {
 		EAttribute JOB_RUN__STATE = eINSTANCE.getJobRun_State();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl <em>Job Run Container</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunContainer()
+		 * @generated
+		 */
+		EClass JOB_RUN_CONTAINER = eINSTANCE.getJobRunContainer();
+
+		/**
+		 * The meta object literal for the '<em><b>Job</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference JOB_RUN_CONTAINER__JOB = eINSTANCE.getJobRunContainer_Job();
+
+		/**
+		 * The meta object literal for the '<em><b>Job Runs</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference JOB_RUN_CONTAINER__JOB_RUNS = eINSTANCE.getJobRunContainer_JobRuns();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.MetricSourceJobImpl <em>Metric Source Job</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -824,6 +1018,24 @@ public interface SchedulingPackage extends EPackage {
 		 * @generated
 		 */
 		EReference METRIC_SOURCE_JOB__METRIC_SOURCE = eINSTANCE.getMetricSourceJob_MetricSource();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.NetworkJobImpl <em>Network Job</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.scheduling.impl.NetworkJobImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getNetworkJob()
+		 * @generated
+		 */
+		EClass NETWORK_JOB = eINSTANCE.getNetworkJob();
+
+		/**
+		 * The meta object literal for the '<em><b>Network</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NETWORK_JOB__NETWORK = eINSTANCE.getNetworkJob_Network();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}' enum.

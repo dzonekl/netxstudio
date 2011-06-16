@@ -35,7 +35,6 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getEnded <em>Ended</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getJobRunState <em>Job Run State</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getLog <em>Log</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getProgress <em>Progress</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getProgressMessage <em>Progress Message</em>}</li>
@@ -93,42 +92,6 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 */
 	public void setEnded(XMLGregorianCalendar newEnded) {
 		eSet(SchedulingPackage.Literals.JOB_RUN__ENDED, newEnded);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public JobRunState getJobRunState() {
-		return (JobRunState)eGet(SchedulingPackage.Literals.JOB_RUN__JOB_RUN_STATE, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setJobRunState(JobRunState newJobRunState) {
-		eSet(SchedulingPackage.Literals.JOB_RUN__JOB_RUN_STATE, newJobRunState);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetJobRunState() {
-		eUnset(SchedulingPackage.Literals.JOB_RUN__JOB_RUN_STATE);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetJobRunState() {
-		return eIsSet(SchedulingPackage.Literals.JOB_RUN__JOB_RUN_STATE);
 	}
 
 	/**

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.impl;
 
+import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -79,7 +80,9 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 		switch (eClass.getClassifierID()) {
 			case SchedulingPackage.JOB: return (EObject)createJob();
 			case SchedulingPackage.JOB_RUN: return (EObject)createJobRun();
+			case SchedulingPackage.JOB_RUN_CONTAINER: return (EObject)createJobRunContainer();
 			case SchedulingPackage.METRIC_SOURCE_JOB: return (EObject)createMetricSourceJob();
+			case SchedulingPackage.NETWORK_JOB: return (EObject)createNetworkJob();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -152,9 +155,29 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public JobRunContainer createJobRunContainer() {
+		JobRunContainerImpl jobRunContainer = new JobRunContainerImpl();
+		return jobRunContainer;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public MetricSourceJob createMetricSourceJob() {
 		MetricSourceJobImpl metricSourceJob = new MetricSourceJobImpl();
 		return metricSourceJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NetworkJob createNetworkJob() {
+		NetworkJobImpl networkJob = new NetworkJobImpl();
+		return networkJob;
 	}
 
 	/**

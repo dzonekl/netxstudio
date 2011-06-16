@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.util;
 
+import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -96,10 +97,23 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case SchedulingPackage.JOB_RUN_CONTAINER: {
+				JobRunContainer jobRunContainer = (JobRunContainer)theEObject;
+				T result = caseJobRunContainer(jobRunContainer);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case SchedulingPackage.METRIC_SOURCE_JOB: {
 				MetricSourceJob metricSourceJob = (MetricSourceJob)theEObject;
 				T result = caseMetricSourceJob(metricSourceJob);
 				if (result == null) result = caseJob(metricSourceJob);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SchedulingPackage.NETWORK_JOB: {
+				NetworkJob networkJob = (NetworkJob)theEObject;
+				T result = caseNetworkJob(networkJob);
+				if (result == null) result = caseJob(networkJob);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -138,6 +152,21 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Job Run Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Job Run Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseJobRunContainer(JobRunContainer object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Metric Source Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -149,6 +178,21 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMetricSourceJob(MetricSourceJob object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Network Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Network Job</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNetworkJob(NetworkJob object) {
 		return null;
 	}
 

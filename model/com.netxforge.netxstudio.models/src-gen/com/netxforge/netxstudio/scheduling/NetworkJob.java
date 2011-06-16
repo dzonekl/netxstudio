@@ -18,54 +18,53 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
-import com.netxforge.netxstudio.metrics.MetricSource;
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.operators.Network;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Metric Source Job</b></em>'.
+ * A representation of the model object '<em><b>Network Job</b></em>'.
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A job importing metric sources.
+ * A job walking over a network and computing capacity and other values.
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.MetricSourceJob#getMetricSource <em>Metric Source</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.NetworkJob#getNetwork <em>Network</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getMetricSourceJob()
- * @model extendedMetaData="name='MetricSourceJob' kind='elementOnly'"
+ * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getNetworkJob()
+ * @model extendedMetaData="name='NetworkJob' kind='elementOnly'"
  * @generated
  */
-public interface MetricSourceJob extends Job {
+public interface NetworkJob extends Job {
 	/**
-	 * Returns the value of the '<em><b>Metric Source</b></em>' reference.
+	 * Returns the value of the '<em><b>Network</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Reference to the metric source being imported
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Metric Source</em>' reference.
-	 * @see #setMetricSource(MetricSource)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getMetricSourceJob_MetricSource()
+	 * @return the value of the '<em>Network</em>' reference.
+	 * @see #setNetwork(Network)
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getNetworkJob_Network()
 	 * @model required="true"
-	 *        extendedMetaData="kind='element' name='MetricSource'"
+	 *        extendedMetaData="kind='element' name='Network'"
 	 * @generated
 	 */
-	MetricSource getMetricSource();
+	Network getNetwork();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.MetricSourceJob#getMetricSource <em>Metric Source</em>}' reference.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.NetworkJob#getNetwork <em>Network</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Metric Source</em>' reference.
-	 * @see #getMetricSource()
+	 * @param value the new value of the '<em>Network</em>' reference.
+	 * @see #getNetwork()
 	 * @generated
 	 */
-	void setMetricSource(MetricSource value);
+	void setNetwork(Network value);
 
-} // MetricSourceJob
+} // NetworkJob

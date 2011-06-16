@@ -43,9 +43,11 @@ import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.protocols.impl.ProtocolsPackageImpl;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRun;
+import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.NetworkJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -77,7 +79,21 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass jobRunContainerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass metricSourceJobEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass networkJobEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -211,8 +227,8 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getJob_JobRuns() {
-		return (EReference)jobEClass.getEStructuralFeatures().get(0);
+	public EAttribute getJob_EndTime() {
+		return (EAttribute)jobEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -238,7 +254,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJob_LastRunTime() {
+	public EAttribute getJob_Name() {
 		return (EAttribute)jobEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -247,7 +263,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJob_Name() {
+	public EAttribute getJob_Repeat() {
 		return (EAttribute)jobEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -283,7 +299,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJobRun_JobRunState() {
+	public EAttribute getJobRun_Log() {
 		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -292,7 +308,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJobRun_Log() {
+	public EAttribute getJobRun_Progress() {
 		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -301,7 +317,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJobRun_Progress() {
+	public EAttribute getJobRun_ProgressMessage() {
 		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -310,7 +326,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJobRun_ProgressMessage() {
+	public EAttribute getJobRun_ProgressTask() {
 		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -319,7 +335,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJobRun_ProgressTask() {
+	public EAttribute getJobRun_Started() {
 		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -328,7 +344,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJobRun_Started() {
+	public EAttribute getJobRun_State() {
 		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -337,8 +353,26 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getJobRun_State() {
-		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(7);
+	public EClass getJobRunContainer() {
+		return jobRunContainerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getJobRunContainer_Job() {
+		return (EReference)jobRunContainerEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getJobRunContainer_JobRuns() {
+		return (EReference)jobRunContainerEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -357,6 +391,24 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 */
 	public EReference getMetricSourceJob_MetricSource() {
 		return (EReference)metricSourceJobEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNetworkJob() {
+		return networkJobEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNetworkJob_Network() {
+		return (EReference)networkJobEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -424,16 +476,15 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		// Create classes and their features
 		jobEClass = createEClass(JOB);
-		createEReference(jobEClass, JOB__JOB_RUNS);
+		createEAttribute(jobEClass, JOB__END_TIME);
 		createEAttribute(jobEClass, JOB__INTERVAL);
 		createEAttribute(jobEClass, JOB__JOB_STATE);
-		createEAttribute(jobEClass, JOB__LAST_RUN_TIME);
 		createEAttribute(jobEClass, JOB__NAME);
+		createEAttribute(jobEClass, JOB__REPEAT);
 		createEAttribute(jobEClass, JOB__START_TIME);
 
 		jobRunEClass = createEClass(JOB_RUN);
 		createEAttribute(jobRunEClass, JOB_RUN__ENDED);
-		createEAttribute(jobRunEClass, JOB_RUN__JOB_RUN_STATE);
 		createEAttribute(jobRunEClass, JOB_RUN__LOG);
 		createEAttribute(jobRunEClass, JOB_RUN__PROGRESS);
 		createEAttribute(jobRunEClass, JOB_RUN__PROGRESS_MESSAGE);
@@ -441,8 +492,15 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		createEAttribute(jobRunEClass, JOB_RUN__STARTED);
 		createEAttribute(jobRunEClass, JOB_RUN__STATE);
 
+		jobRunContainerEClass = createEClass(JOB_RUN_CONTAINER);
+		createEReference(jobRunContainerEClass, JOB_RUN_CONTAINER__JOB);
+		createEReference(jobRunContainerEClass, JOB_RUN_CONTAINER__JOB_RUNS);
+
 		metricSourceJobEClass = createEClass(METRIC_SOURCE_JOB);
 		createEReference(metricSourceJobEClass, METRIC_SOURCE_JOB__METRIC_SOURCE);
+
+		networkJobEClass = createEClass(NETWORK_JOB);
+		createEReference(networkJobEClass, NETWORK_JOB__NETWORK);
 
 		// Create enums
 		jobRunStateEEnum = createEEnum(JOB_RUN_STATE);
@@ -479,6 +537,8 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		// Obtain other dependent packages
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
+		MetricsPackage theMetricsPackage = (MetricsPackage)EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI);
+		OperatorsPackage theOperatorsPackage = (OperatorsPackage)EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -486,19 +546,19 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		// Add supertypes to classes
 		metricSourceJobEClass.getESuperTypes().add(this.getJob());
+		networkJobEClass.getESuperTypes().add(this.getJob());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(jobEClass, Job.class, "Job", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getJob_JobRuns(), this.getJobRun(), null, "jobRuns", null, 0, -1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJob_Interval(), theXMLTypePackage.getLong(), "interval", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getJob_EndTime(), theXMLTypePackage.getDateTime(), "endTime", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getJob_Interval(), theXMLTypePackage.getInt(), "interval", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJob_JobState(), this.getJobState(), "jobState", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJob_LastRunTime(), theXMLTypePackage.getDateTime(), "lastRunTime", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJob_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getJob_Repeat(), theXMLTypePackage.getInt(), "repeat", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJob_StartTime(), theXMLTypePackage.getDateTime(), "startTime", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(jobRunEClass, JobRun.class, "JobRun", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getJobRun_Ended(), theXMLTypePackage.getDateTime(), "ended", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJobRun_JobRunState(), this.getJobRunState(), "jobRunState", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJobRun_Log(), theGenericsPackage.getLongText(), "log", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJobRun_Progress(), theXMLTypePackage.getInt(), "progress", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJobRun_ProgressMessage(), theXMLTypePackage.getString(), "progressMessage", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -506,8 +566,15 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		initEAttribute(getJobRun_Started(), theXMLTypePackage.getDateTime(), "started", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJobRun_State(), this.getJobRunState(), "state", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(jobRunContainerEClass, JobRunContainer.class, "JobRunContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getJobRunContainer_Job(), this.getJob(), null, "job", null, 1, 1, JobRunContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getJobRunContainer_JobRuns(), this.getJobRun(), null, "jobRuns", null, 0, -1, JobRunContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(metricSourceJobEClass, MetricSourceJob.class, "MetricSourceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMetricSourceJob_MetricSource(), ecorePackage.getEObject(), null, "metricSource", null, 1, 1, MetricSourceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMetricSourceJob_MetricSource(), theMetricsPackage.getMetricSource(), null, "metricSource", null, 1, 1, MetricSourceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(networkJobEClass, NetworkJob.class, "NetworkJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getNetworkJob_Network(), theOperatorsPackage.getNetwork(), null, "network", null, 1, 1, NetworkJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(jobRunStateEEnum, JobRunState.class, "JobRunState");
@@ -545,10 +612,10 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		  (this, 
 		   source, 
 		   new String[] {
-			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
-			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
-			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																										
+			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
+			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
+			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
+		   });																																
 	}
 
 	/**
@@ -564,14 +631,14 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   source, 
 		   new String[] {
 			 "name", "Job",
-			 "kind", "elementOnly"
+			 "kind", "empty"
 		   });		
 		addAnnotation
-		  (getJob_JobRuns(), 
+		  (getJob_EndTime(), 
 		   source, 
 		   new String[] {
-			 "kind", "element",
-			 "name", "JobRuns"
+			 "kind", "attribute",
+			 "name", "EndTime"
 		   });		
 		addAnnotation
 		  (getJob_Interval(), 
@@ -588,18 +655,18 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "name", "JobState"
 		   });		
 		addAnnotation
-		  (getJob_LastRunTime(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "LastRunTime"
-		   });		
-		addAnnotation
 		  (getJob_Name(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Name"
+		   });		
+		addAnnotation
+		  (getJob_Repeat(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Repeat"
 		   });		
 		addAnnotation
 		  (getJob_StartTime(), 
@@ -621,13 +688,6 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Ended"
-		   });		
-		addAnnotation
-		  (getJobRun_JobRunState(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "JobRunState"
 		   });		
 		addAnnotation
 		  (getJobRun_Log(), 
@@ -670,6 +730,27 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "State"
+		   });		
+		addAnnotation
+		  (jobRunContainerEClass, 
+		   source, 
+		   new String[] {
+			 "name", "JobRunContainer",
+			 "kind", "elementOnly"
+		   });		
+		addAnnotation
+		  (getJobRunContainer_Job(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Job"
+		   });		
+		addAnnotation
+		  (getJobRunContainer_JobRuns(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "JobRuns"
 		   });			
 		addAnnotation
 		  (jobRunStateEEnum, 
@@ -710,6 +791,20 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   new String[] {
 			 "kind", "element",
 			 "name", "MetricSource"
+		   });			
+		addAnnotation
+		  (networkJobEClass, 
+		   source, 
+		   new String[] {
+			 "name", "NetworkJob",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getNetworkJob_Network(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Network"
 		   });
 	}
 

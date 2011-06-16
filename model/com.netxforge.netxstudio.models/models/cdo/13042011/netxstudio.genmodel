@@ -541,16 +541,15 @@
     <genDataTypes ecoreDataType="scheduling.ecore#//JobRunStateObject"/>
     <genDataTypes ecoreDataType="scheduling.ecore#//JobStateObject"/>
     <genClasses ecoreClass="scheduling.ecore#//Job">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//Job/jobRuns"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/endTime"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/interval"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/jobState"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/lastRunTime"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/repeat"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/startTime"/>
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//JobRun">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/ended"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/jobRunState"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/log"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/progress"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/progressMessage"/>
@@ -558,8 +557,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/started"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//JobRun/state"/>
     </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//JobRunContainer">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//JobRunContainer/job"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//JobRunContainer/jobRuns"/>
+    </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//MetricSourceJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//MetricSourceJob/metricSource"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//NetworkJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//NetworkJob/network"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Netxstudio" basePackage="com.netxforge" resource="XML" disposableProviderFactory="true"

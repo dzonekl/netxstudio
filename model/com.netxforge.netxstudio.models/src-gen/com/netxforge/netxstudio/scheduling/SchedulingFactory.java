@@ -56,6 +56,15 @@ public interface SchedulingFactory extends EFactory {
 	JobRun createJobRun();
 
 	/**
+	 * Returns a new object of class '<em>Job Run Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Job Run Container</em>'.
+	 * @generated
+	 */
+	JobRunContainer createJobRunContainer();
+
+	/**
 	 * Returns a new object of class '<em>Metric Source Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -63,6 +72,15 @@ public interface SchedulingFactory extends EFactory {
 	 * @generated
 	 */
 	MetricSourceJob createMetricSourceJob();
+
+	/**
+	 * Returns a new object of class '<em>Network Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Network Job</em>'.
+	 * @generated
+	 */
+	NetworkJob createNetworkJob();
 
 	/**
 	 * Returns the package supported by this factory.

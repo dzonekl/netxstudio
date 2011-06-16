@@ -18,33 +18,33 @@
  */
 package com.netxforge.netxstudio.scheduling.impl;
 
-import com.netxforge.netxstudio.metrics.MetricSource;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
+import com.netxforge.netxstudio.operators.Network;
 
-import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.NetworkJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Metric Source Job</b></em>'.
+ * An implementation of the model object '<em><b>Network Job</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.MetricSourceJobImpl#getMetricSource <em>Metric Source</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.NetworkJobImpl#getNetwork <em>Network</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class MetricSourceJobImpl extends JobImpl implements MetricSourceJob {
+public class NetworkJobImpl extends JobImpl implements NetworkJob {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MetricSourceJobImpl() {
+	protected NetworkJobImpl() {
 		super();
 	}
 
@@ -55,7 +55,7 @@ public class MetricSourceJobImpl extends JobImpl implements MetricSourceJob {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SchedulingPackage.Literals.METRIC_SOURCE_JOB;
+		return SchedulingPackage.Literals.NETWORK_JOB;
 	}
 
 	/**
@@ -63,8 +63,8 @@ public class MetricSourceJobImpl extends JobImpl implements MetricSourceJob {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MetricSource getMetricSource() {
-		return (MetricSource)eGet(SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCE, true);
+	public Network getNetwork() {
+		return (Network)eGet(SchedulingPackage.Literals.NETWORK_JOB__NETWORK, true);
 	}
 
 	/**
@@ -72,8 +72,8 @@ public class MetricSourceJobImpl extends JobImpl implements MetricSourceJob {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMetricSource(MetricSource newMetricSource) {
-		eSet(SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCE, newMetricSource);
+	public void setNetwork(Network newNetwork) {
+		eSet(SchedulingPackage.Literals.NETWORK_JOB__NETWORK, newNetwork);
 	}
 
-} //MetricSourceJobImpl
+} //NetworkJobImpl

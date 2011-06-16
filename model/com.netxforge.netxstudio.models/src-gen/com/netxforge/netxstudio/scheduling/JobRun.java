@@ -31,7 +31,6 @@ import org.eclipse.emf.cdo.CDOObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getEnded <em>Ended</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getJobRunState <em>Job Run State</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getLog <em>Log</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getProgress <em>Progress</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getProgressMessage <em>Progress Message</em>}</li>
@@ -73,63 +72,6 @@ public interface JobRun extends CDOObject {
 	 * @generated
 	 */
 	void setEnded(XMLGregorianCalendar value);
-
-	/**
-	 * Returns the value of the '<em><b>Job Run State</b></em>' attribute.
-	 * The literals are from the enumeration {@link com.netxforge.netxstudio.scheduling.JobRunState}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Job Run State</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Job Run State</em>' attribute.
-	 * @see com.netxforge.netxstudio.scheduling.JobRunState
-	 * @see #isSetJobRunState()
-	 * @see #unsetJobRunState()
-	 * @see #setJobRunState(JobRunState)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRun_JobRunState()
-	 * @model unsettable="true"
-	 *        extendedMetaData="kind='attribute' name='JobRunState'"
-	 * @generated
-	 */
-	JobRunState getJobRunState();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getJobRunState <em>Job Run State</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Job Run State</em>' attribute.
-	 * @see com.netxforge.netxstudio.scheduling.JobRunState
-	 * @see #isSetJobRunState()
-	 * @see #unsetJobRunState()
-	 * @see #getJobRunState()
-	 * @generated
-	 */
-	void setJobRunState(JobRunState value);
-
-	/**
-	 * Unsets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getJobRunState <em>Job Run State</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetJobRunState()
-	 * @see #getJobRunState()
-	 * @see #setJobRunState(JobRunState)
-	 * @generated
-	 */
-	void unsetJobRunState();
-
-	/**
-	 * Returns whether the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getJobRunState <em>Job Run State</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Job Run State</em>' attribute is set.
-	 * @see #unsetJobRunState()
-	 * @see #getJobRunState()
-	 * @see #setJobRunState(JobRunState)
-	 * @generated
-	 */
-	boolean isSetJobRunState();
 
 	/**
 	 * Returns the value of the '<em><b>Log</b></em>' attribute.
