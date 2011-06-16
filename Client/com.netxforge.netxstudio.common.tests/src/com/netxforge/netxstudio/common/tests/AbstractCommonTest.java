@@ -3,7 +3,7 @@ package com.netxforge.netxstudio.common.tests;
 import junit.framework.TestCase;
 
 import com.google.inject.Injector;
-import com.netxforge.netxstudio.common.internal.InjectorProxy;
+import com.netxforge.netxstudio.common.CommonStandalone;
 
 public abstract class AbstractCommonTest extends TestCase {
 	
@@ -12,7 +12,7 @@ public abstract class AbstractCommonTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		injector = new InjectorProxy().getInjector();
+		injector = new CommonStandalone().getInjector();
 	}
 
 	@Override

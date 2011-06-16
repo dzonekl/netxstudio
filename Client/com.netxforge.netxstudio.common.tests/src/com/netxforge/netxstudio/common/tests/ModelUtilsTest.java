@@ -17,11 +17,16 @@ public class ModelUtilsTest extends AbstractCommonTest {
 
 	public void testModelUtils() throws Exception {
 		
+		
+		// TODO. 
 		Date today = modelUtils.today();
 		Date lastWeek = modelUtils.lastWeek();
 		
-		modelUtils.toString(today);
-		modelUtils.toString(lastWeek);
+		System.out.println(modelUtils.toString(today));
+		System.out.println(modelUtils.toString(lastWeek));
+		
+		
+		System.out.println(modelUtils.weekDays());
 		
 	}
 	
