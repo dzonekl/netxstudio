@@ -267,6 +267,9 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		if(clazz == OperatorsPackage.Literals.OPERATOR){
 			resource += "operator";
 		}
+		if(clazz == SchedulingPackage.Literals.JOB){
+			resource += "jobs";
+		}
 		
 		return resource;
 	}

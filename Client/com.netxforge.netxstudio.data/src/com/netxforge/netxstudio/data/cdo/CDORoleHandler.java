@@ -35,10 +35,12 @@ import com.netxforge.netxstudio.generics.Role;
 public class CDORoleHandler implements IRoleHandler {
 	
 	private IDataProvider provider;
+	private CDOQueryUtil queryService;
 	
 	@Inject
-	public CDORoleHandler(IDataProvider dataProvider){
+	public CDORoleHandler(IDataProvider dataProvider, CDOQueryUtil queryService){
 		this.provider = dataProvider;
+		this.queryService = queryService;
 	}
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.data.cdo.ICDORoleHandler#getRole(java.lang.String)
@@ -48,7 +50,7 @@ public class CDORoleHandler implements IRoleHandler {
 		CDOTransaction t = provider.getSession().openTransaction();
 		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_ROLES_FROM_PERSON);
 		q.setParameter("name", userID);
-		CDOQueryUtil.addCacheParameter(q);
+		queryService.addCacheParameter(q);
 		return q.getResult(Role.class);
 	}
 	public Role getCurrentRole() {

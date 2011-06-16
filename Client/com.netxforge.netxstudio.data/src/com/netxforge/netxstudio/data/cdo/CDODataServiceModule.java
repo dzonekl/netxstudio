@@ -18,7 +18,6 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data.cdo;
 
-import com.netxforge.netxstudio.data.DataService;
 import com.netxforge.netxstudio.data.DataServiceModule;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IDataService;
@@ -30,15 +29,15 @@ import com.netxforge.netxstudio.data.IRoleHandler;
  */
 public class CDODataServiceModule extends DataServiceModule {
 	
-
 	/* (non-Javadoc)
 	 * @see com.google.inject.AbstractModule#configure()
 	 */
 	@Override
 	protected void configure() {
 		this.bind(IDataProvider.class).to(CDODataProvider.class);
-		this.bind(IDataService.class).to(DataService.class);
+		this.bind(IDataService.class).to(CDODataService.class);
 		this.bind(ICDOConnection.class).to(CDODataConnection.class);
 		this.bind(IRoleHandler.class).to(CDORoleHandler.class);
+		this.bind(CDOQueryUtil.class);
 	}
 }

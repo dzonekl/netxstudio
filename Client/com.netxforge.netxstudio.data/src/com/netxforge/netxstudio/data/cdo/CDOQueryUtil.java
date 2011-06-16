@@ -26,7 +26,8 @@ import org.eclipse.emf.cdo.view.CDOQuery;
  */
 public class CDOQueryUtil {
 
-	public static void addCacheParameter(CDOQuery query) {
+	public void addCacheParameter(CDOQuery query) {
 		query.setParameter(ICDOQueries.CACHE_RESULTS, true);
 	}
+	
 }

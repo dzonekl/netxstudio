@@ -27,5 +27,6 @@ public interface ICDOQueries {
 
 	public static final String CACHE_RESULTS = "cacheResults"; //$NON-NLS-1$
 	public static final String SELECT_ROLES_FROM_PERSON = "select roles from Person person where person.login=:name";
+	public static final String SELECT_JOBS = "from Job";
 	
 }
