@@ -149,5 +149,10 @@ public class TestDataProvider implements IDataProvider {
 	public Resource getResource(EClass clazz) {
 		throw new java.lang.UnsupportedOperationException();
 	}
+
+	public CDOSession openSession() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

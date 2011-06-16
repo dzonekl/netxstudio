@@ -157,10 +157,10 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	}
 
 	/**
-	 * Opens a CDOSession, does not register an EPackage with the session. This
-	 * should be done by the caller.
+	 * Opens a CDOSession without credentials unless the connection 
+	 * already handles this.
 	 */
-	protected CDOSession openSession() {
+	public CDOSession openSession() {
 		if (connection.getConfig() == null) {
 			connection.initialize();
 		}
@@ -207,8 +207,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 				// the
 				// the CDOView has a transaction.
 				if (view instanceof CDOTransaction) {
-					CDOTransaction transaction = (CDOTransaction) view;
-					CDOResource resource = transaction.getOrCreateResource(resourcePath);
+					final CDOTransaction transaction = (CDOTransaction) view;
+					final CDOResource resource = transaction.getOrCreateResource(resourcePath);
 					return resource;
 				}
 			}
@@ -247,9 +247,9 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		// but we can't create a new transaction, so we have to see if the
 		// the CDOView has a transaction.
 		if (view instanceof CDOTransaction) {
-			CDOTransaction transaction = (CDOTransaction) view;
+			final CDOTransaction transaction = (CDOTransaction) view;
 			// Should create in the set.
-			CDOResource resource = transaction.getOrCreateResource(res);
+			final CDOResource resource = transaction.getOrCreateResource(res);
 			return resource;
 		}
 		return null;
@@ -281,6 +281,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	 * @param feature
 	 * @return
 	 */
+	@Deprecated
 	private String resolveResourceName(int feature) {
 		String resource = "/";
 		// We switch on the resource to use.
@@ -320,7 +321,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	}
 
 	public Resource getCommitInfoResource(String userID) {
-		String resourceName = this.resolveResourceCommitInfo(userID);
+		final String resourceName = this.resolveResourceCommitInfo(userID);
 		CDOResource resource = this.resolveInCurrentView(resourceName);
 		if (resource == null) {
 			final CDOTransaction transaction = getSession().openTransaction();

@@ -46,6 +46,7 @@ public interface IDataProvider {
 	 * @param feature
 	 * @return
 	 */
+	@Deprecated
 	public Resource getResource(ResourceSet set, int feature);
 		
 	
@@ -63,6 +64,7 @@ public interface IDataProvider {
 	 * @param feature
 	 * @return
 	 */
+	@Deprecated
 	public Resource getResource(int feature);
 	
 	/**
@@ -72,7 +74,13 @@ public interface IDataProvider {
 	 */
 	public Resource getResource(EClass clazz);
 	
-	
+	/**
+	 * Open a session, depending on the implementation will
+	 * use default credentials or no credentials (which can fail
+	 * if credentials are required).
+	 */
+	public CDOSession openSession();
+
 	/**
 	 * Open a session for the user credentials. 
 	 * @param uid
