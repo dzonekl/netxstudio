@@ -59,10 +59,7 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 		return instance;
 	}
 	
-	private String serverSideLogin = "" + System.currentTimeMillis();
-	
 	public NetxForgeUserManager() {
-		ServerUtils.getInstance().setServerSideLogin(serverSideLogin);
 		instance = this;
 	}
 	
@@ -74,8 +71,8 @@ public class NetxForgeUserManager extends RepositoryUserManager {
 			return "admin".toCharArray();
 		}
 		
-		if (userID.equals(serverSideLogin)) {
-			return serverSideLogin.toCharArray();
+		if (userID.equals(ServerUtils.getInstance().getServerSideLogin())) {
+			return ServerUtils.getInstance().getServerSideLogin().toCharArray();
 		}
 		
 		final CDOSession session = ServerUtils.getInstance().openJVMSession();

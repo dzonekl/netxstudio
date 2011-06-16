@@ -67,7 +67,7 @@ public class ServerUtils {
 	private CDOSessionConfiguration sessionConfiguration = null;
 	private IJVMAcceptor acceptor;
 	private IConnector connector;
-	private String serverSideLogin = null;
+	private String serverSideLogin = "" + System.currentTimeMillis();
 
 	public ServerUtils() {
 		try {
@@ -102,18 +102,15 @@ public class ServerUtils {
 		}
 	}
 
-	public CDOSession openJVMSession() {
+	public CDOSessionConfiguration getSessionConfiguration() {
 		if (sessionConfiguration == null) {
 			initialize();
 		}
-
-		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
-				new PasswordCredentials(serverSideLogin,
-						serverSideLogin.toCharArray()));
-		sessionConfiguration.getAuthenticator().setCredentialsProvider(
-				credentialsProvider);
-
-		final CDOSession cdoSession = sessionConfiguration.openSession();
+		return sessionConfiguration;
+	}
+	
+	public CDOSession openJVMSession() {
+		final CDOSession cdoSession = getSessionConfiguration().openSession();
 		return cdoSession;
 	}
 
@@ -136,9 +133,16 @@ public class ServerUtils {
 		sessionConfiguration = CDONet4jUtil.createSessionConfiguration();
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
+
+		final IPasswordCredentialsProvider credentialsProvider = new PasswordCredentialsProvider(
+				new PasswordCredentials(serverSideLogin,
+						serverSideLogin.toCharArray()));
+		sessionConfiguration.getAuthenticator().setCredentialsProvider(
+				credentialsProvider);
+
 	}
 
-	public XMLGregorianCalendar getXMLGregorianCalendarDate(Date date) {
+	public XMLGregorianCalendar toXmlDate(Date date) {
 		final XMLGregorianCalendar gregCalendar = dataTypeFactory
 				.newXMLGregorianCalendar();
 		final Calendar calendar = Calendar.getInstance();
@@ -161,10 +165,6 @@ public class ServerUtils {
 
 	public String getServerSideLogin() {
 		return serverSideLogin;
-	}
-
-	public void setServerSideLogin(String serverSideLogin) {
-		this.serverSideLogin = serverSideLogin;
 	}
 
 	public static class RepositoryCommitLogConfigurer implements IElementProcessor {

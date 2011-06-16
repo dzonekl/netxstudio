@@ -66,7 +66,7 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 		}
 
 		final XMLGregorianCalendar commitTimeStamp = ServerUtils.getInstance()
-				.getXMLGregorianCalendarDate(
+				.toXmlDate(
 						new Date(commitInfo.getTimeStamp()));
 		final CDOSession session = ServerUtils.getInstance().openJVMSession();
 		final CDOTransaction transaction = session.openTransaction();

@@ -36,8 +36,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.internal.DataActivator;
+import com.netxforge.netxstudio.server.Server;
 
 /**
  * Imports metrics and units from an excel sheet.
@@ -47,7 +48,8 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
 public class MasterDataImporter {
 
 	@Inject
-	private IDataService dataService;
+	@Server
+	private IDataProvider dataProvider;
 
 	private List<EStructuralFeature> eFeatures = new ArrayList<EStructuralFeature>();
 
@@ -58,22 +60,22 @@ public class MasterDataImporter {
 	}
 
 	public void process(HSSFWorkbook workBook) {
-		dataService.getProvider().openSession("test", "test");
+		dataProvider.openSession("test", "test");
 		try {
 			final List<EObject> result = new ArrayList<EObject>();
 			for (int i = 0; i < workBook.getNumberOfSheets(); i++) {
 				result.addAll(processWorkSheet(workBook.getSheetAt(i)));
 			}
 
-			final Resource resource = dataService.getProvider().getResource(
-					eClassToImport.getClassifierID());
+			final Resource resource = dataProvider.getResource(
+					eClassToImport);
 			resource.getContents().clear();
 			resource.getContents().addAll(result);
 			resource.save(Collections.emptyMap());
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		} finally {
-			dataService.getProvider().getSession().close();
+			dataProvider.getSession().close();
 		}
 	}
 
