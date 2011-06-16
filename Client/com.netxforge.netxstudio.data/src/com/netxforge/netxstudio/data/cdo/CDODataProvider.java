@@ -256,22 +256,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	}
 
 	private String resolveResourceName(EClass clazz) {
-		String resource = "/";
-		
-		if(clazz == NetxstudioPackage.Literals.NETXSTUDIO){
-			resource += "netxstudio";
-		}
-		if(clazz == LibraryPackage.Literals.LIBRARY){
-			resource += "library";
-		}
-		if(clazz == OperatorsPackage.Literals.OPERATOR){
-			resource += "operator";
-		}
-		if(clazz == SchedulingPackage.Literals.JOB){
-			resource += "jobs";
-		}
-		
-		return resource;
+		return "/" + clazz.getName();
 	}
 	
 	/**
