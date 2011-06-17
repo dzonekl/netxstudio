@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Quartz
 Bundle-SymbolicName: org.quartz
-Bundle-Version: 1.0.0
+Bundle-Version: 1.2.14
 Bundle-ClassPath: quartz-all-2.0.1.jar,
  log4j-1.2.14.jar,
  slf4j-api-1.6.1.jar,
@@ -62,4 +62,4 @@ Export-Package: org.apache.log4j,
  org.slf4j.helpers,
  org.slf4j.impl,
  org.slf4j.spi
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
