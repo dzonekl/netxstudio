@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.scheduling;
 
 import com.netxforge.netxstudio.metrics.MetricSource;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->

@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.scheduling.impl;
 
-import com.netxforge.netxstudio.operators.Network;
+import org.eclipse.emf.ecore.EClass;
 
+import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.scheduling.NetworkJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

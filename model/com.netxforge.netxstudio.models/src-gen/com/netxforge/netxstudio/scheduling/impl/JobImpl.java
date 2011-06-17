@@ -20,12 +20,10 @@ package com.netxforge.netxstudio.scheduling.impl;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
