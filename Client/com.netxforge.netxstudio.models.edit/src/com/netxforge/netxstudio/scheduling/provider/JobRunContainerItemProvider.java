@@ -1,5 +1,5 @@
 /**
- * Copyright (c) ${date} NetXForge
+ * Copyright (c) 2011 NetXForge
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,7 +16,7 @@
  * Contributors:
  * Christophe Bouhier - initial API and implementation and/or initial documentation
  */
-package com.netxforge.netxstudio.provider;
+package com.netxforge.netxstudio.scheduling.provider;
 
 
 import java.util.Collection;
@@ -26,6 +26,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -35,22 +36,18 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.Netxstudio;
-import com.netxforge.netxstudio.NetxstudioPackage;
-import com.netxforge.netxstudio.generics.GenericsFactory;
-import com.netxforge.netxstudio.geo.GeoFactory;
-import com.netxforge.netxstudio.library.LibraryFactory;
-import com.netxforge.netxstudio.operators.OperatorsFactory;
+import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.Netxstudio} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.JobRunContainer} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class NetxstudioItemProvider
+public class JobRunContainerItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -64,7 +61,7 @@ public class NetxstudioItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NetxstudioItemProvider(AdapterFactory adapterFactory) {
+	public JobRunContainerItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -79,8 +76,31 @@ public class NetxstudioItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addJobPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Job feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addJobPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_JobRunContainer_job_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_JobRunContainer_job_feature", "_UI_JobRunContainer_type"),
+				 SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -95,14 +115,7 @@ public class NetxstudioItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__OPERATORS);
-			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__LIBRARIES);
-			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__COMPANIES);
-			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__VENDORS);
-			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__USERS);
-			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__ROLES);
-			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__COUNTRIES);
-			childrenFeatures.add(NetxstudioPackage.Literals.NETXSTUDIO__JOBS);
+			childrenFeatures.add(SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB_RUNS);
 		}
 		return childrenFeatures;
 	}
@@ -121,14 +134,14 @@ public class NetxstudioItemProvider
 	}
 
 	/**
-	 * This returns Netxstudio.gif.
+	 * This returns JobRunContainer.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Netxstudio"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/JobRunContainer"));
 	}
 
 	/**
@@ -139,7 +152,7 @@ public class NetxstudioItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_Netxstudio_type");
+		return getString("_UI_JobRunContainer_type");
 	}
 
 	/**
@@ -153,15 +166,8 @@ public class NetxstudioItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Netxstudio.class)) {
-			case NetxstudioPackage.NETXSTUDIO__OPERATORS:
-			case NetxstudioPackage.NETXSTUDIO__LIBRARIES:
-			case NetxstudioPackage.NETXSTUDIO__COMPANIES:
-			case NetxstudioPackage.NETXSTUDIO__VENDORS:
-			case NetxstudioPackage.NETXSTUDIO__USERS:
-			case NetxstudioPackage.NETXSTUDIO__ROLES:
-			case NetxstudioPackage.NETXSTUDIO__COUNTRIES:
-			case NetxstudioPackage.NETXSTUDIO__JOBS:
+		switch (notification.getFeatureID(JobRunContainer.class)) {
+			case SchedulingPackage.JOB_RUN_CONTAINER__JOB_RUNS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -181,87 +187,8 @@ public class NetxstudioItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__OPERATORS,
-				 OperatorsFactory.eINSTANCE.createOperator()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__LIBRARIES,
-				 LibraryFactory.eINSTANCE.createLibrary()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__COMPANIES,
-				 GenericsFactory.eINSTANCE.createCompany()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__COMPANIES,
-				 LibraryFactory.eINSTANCE.createVendor()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__COMPANIES,
-				 OperatorsFactory.eINSTANCE.createOperator()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__VENDORS,
-				 LibraryFactory.eINSTANCE.createVendor()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__USERS,
-				 GenericsFactory.eINSTANCE.createPerson()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__ROLES,
-				 GenericsFactory.eINSTANCE.createRole()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__COUNTRIES,
-				 GeoFactory.eINSTANCE.createCountry()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
-				 SchedulingFactory.eINSTANCE.createJob()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
-				 SchedulingFactory.eINSTANCE.createMetricSourceJob()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
-				 SchedulingFactory.eINSTANCE.createNetworkJob()));
-	}
-
-	/**
-	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
-		Object childFeature = feature;
-		Object childObject = child;
-
-		boolean qualify =
-			childFeature == NetxstudioPackage.Literals.NETXSTUDIO__OPERATORS ||
-			childFeature == NetxstudioPackage.Literals.NETXSTUDIO__COMPANIES ||
-			childFeature == NetxstudioPackage.Literals.NETXSTUDIO__VENDORS;
-
-		if (qualify) {
-			return getString
-				("_UI_CreateChild_text2",
-				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
-		}
-		return super.getCreateChildText(owner, feature, child, selection);
+				(SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB_RUNS,
+				 SchedulingFactory.eINSTANCE.createJobRun()));
 	}
 
 	/**

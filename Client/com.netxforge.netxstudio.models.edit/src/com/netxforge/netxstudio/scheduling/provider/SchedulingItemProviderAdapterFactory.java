@@ -133,6 +133,29 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.JobRunContainer} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected JobRunContainerItemProvider jobRunContainerItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.JobRunContainer}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createJobRunContainerAdapter() {
+		if (jobRunContainerItemProvider == null) {
+			jobRunContainerItemProvider = new JobRunContainerItemProvider(this);
+		}
+
+		return jobRunContainerItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.MetricSourceJob} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -153,6 +176,29 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		}
 
 		return metricSourceJobItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.NetworkJob} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected NetworkJobItemProvider networkJobItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.NetworkJob}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createNetworkJobAdapter() {
+		if (networkJobItemProvider == null) {
+			networkJobItemProvider = new NetworkJobItemProvider(this);
+		}
+
+		return networkJobItemProvider;
 	}
 
 	/**
@@ -256,7 +302,9 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	public void dispose() {
 		if (jobItemProvider != null) jobItemProvider.dispose();
 		if (jobRunItemProvider != null) jobRunItemProvider.dispose();
+		if (jobRunContainerItemProvider != null) jobRunContainerItemProvider.dispose();
 		if (metricSourceJobItemProvider != null) metricSourceJobItemProvider.dispose();
+		if (networkJobItemProvider != null) networkJobItemProvider.dispose();
 	}
 
 }

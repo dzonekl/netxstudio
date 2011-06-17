@@ -78,7 +78,6 @@ public class JobRunItemProvider
 			super.getPropertyDescriptors(object);
 
 			addEndedPropertyDescriptor(object);
-			addJobRunStatePropertyDescriptor(object);
 			addLogPropertyDescriptor(object);
 			addProgressPropertyDescriptor(object);
 			addProgressMessagePropertyDescriptor(object);
@@ -103,28 +102,6 @@ public class JobRunItemProvider
 				 getString("_UI_JobRun_ended_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_JobRun_ended_feature", "_UI_JobRun_type"),
 				 SchedulingPackage.Literals.JOB_RUN__ENDED,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Job Run State feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addJobRunStatePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_JobRun_jobRunState_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_JobRun_jobRunState_feature", "_UI_JobRun_type"),
-				 SchedulingPackage.Literals.JOB_RUN__JOB_RUN_STATE,
 				 true,
 				 false,
 				 false,
@@ -304,7 +281,6 @@ public class JobRunItemProvider
 
 		switch (notification.getFeatureID(JobRun.class)) {
 			case SchedulingPackage.JOB_RUN__ENDED:
-			case SchedulingPackage.JOB_RUN__JOB_RUN_STATE:
 			case SchedulingPackage.JOB_RUN__LOG:
 			case SchedulingPackage.JOB_RUN__PROGRESS:
 			case SchedulingPackage.JOB_RUN__PROGRESS_MESSAGE:
