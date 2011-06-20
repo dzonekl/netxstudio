@@ -75,7 +75,7 @@ public class ToleranceItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addExpressionPropertyDescriptor(object);
+			addExpressionRefPropertyDescriptor(object);
 			addLevelPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
 		}
@@ -83,23 +83,23 @@ public class ToleranceItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Expression feature.
+	 * This adds a property descriptor for the Expression Ref feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addExpressionPropertyDescriptor(Object object) {
+	protected void addExpressionRefPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Tolerance_expression_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Tolerance_expression_feature", "_UI_Tolerance_type"),
-				 LibraryPackage.Literals.TOLERANCE__EXPRESSION,
+				 getString("_UI_Tolerance_expressionRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Tolerance_expressionRef_feature", "_UI_Tolerance_type"),
+				 LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF,
 				 true,
 				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 true,
+				 null,
 				 null,
 				 null));
 	}
@@ -185,7 +185,6 @@ public class ToleranceItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Tolerance.class)) {
-			case LibraryPackage.TOLERANCE__EXPRESSION:
 			case LibraryPackage.TOLERANCE__LEVEL:
 			case LibraryPackage.TOLERANCE__NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));

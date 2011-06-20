@@ -80,8 +80,8 @@ public class EquipmentItemProvider
 
 			addEquipmentMetricRefsPropertyDescriptor(object);
 			addEquipmentRelationshipRefsPropertyDescriptor(object);
-			addEquipmentExpressionRefsPropertyDescriptor(object);
 			addCapacityExpressionRefPropertyDescriptor(object);
+			addUtilizationExpressionRefPropertyDescriptor(object);
 			addToleranceRefsPropertyDescriptor(object);
 			addProtocolRefsPropertyDescriptor(object);
 			addParameterRefsPropertyDescriptor(object);
@@ -143,28 +143,6 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Equipment Expression Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addEquipmentExpressionRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_equipmentExpressionRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_equipmentExpressionRefs_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_EXPRESSION_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This adds a property descriptor for the Capacity Expression Ref feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -178,6 +156,28 @@ public class EquipmentItemProvider
 				 getString("_UI_Equipment_capacityExpressionRef_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_capacityExpressionRef_feature", "_UI_Equipment_type"),
 				 LibraryPackage.Literals.EQUIPMENT__CAPACITY_EXPRESSION_REF,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Utilization Expression Ref feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUtilizationExpressionRefPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Equipment_utilizationExpressionRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_utilizationExpressionRef_feature", "_UI_Equipment_type"),
+				 LibraryPackage.Literals.EQUIPMENT__UTILIZATION_EXPRESSION_REF,
 				 true,
 				 false,
 				 true,

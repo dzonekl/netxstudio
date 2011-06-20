@@ -179,26 +179,26 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.NetworkJob} instances.
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.RFSServiceJob} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NetworkJobItemProvider networkJobItemProvider;
+	protected RFSServiceJobItemProvider rfsServiceJobItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.NetworkJob}.
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceJob}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createNetworkJobAdapter() {
-		if (networkJobItemProvider == null) {
-			networkJobItemProvider = new NetworkJobItemProvider(this);
+	public Adapter createRFSServiceJobAdapter() {
+		if (rfsServiceJobItemProvider == null) {
+			rfsServiceJobItemProvider = new RFSServiceJobItemProvider(this);
 		}
 
-		return networkJobItemProvider;
+		return rfsServiceJobItemProvider;
 	}
 
 	/**
@@ -304,7 +304,7 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		if (jobRunItemProvider != null) jobRunItemProvider.dispose();
 		if (jobRunContainerItemProvider != null) jobRunContainerItemProvider.dispose();
 		if (metricSourceJobItemProvider != null) metricSourceJobItemProvider.dispose();
-		if (networkJobItemProvider != null) networkJobItemProvider.dispose();
+		if (rfsServiceJobItemProvider != null) rfsServiceJobItemProvider.dispose();
 	}
 
 }

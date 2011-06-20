@@ -32,16 +32,16 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 
-import com.netxforge.netxstudio.scheduling.NetworkJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.NetworkJob} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceJob} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class NetworkJobItemProvider
+public class RFSServiceJobItemProvider
 	extends JobItemProvider
 	implements
 		IEditingDomainItemProvider,
@@ -55,7 +55,7 @@ public class NetworkJobItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NetworkJobItemProvider(AdapterFactory adapterFactory) {
+	public RFSServiceJobItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -70,25 +70,25 @@ public class NetworkJobItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNetworkPropertyDescriptor(object);
+			addRFSServicePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Network feature.
+	 * This adds a property descriptor for the RFS Service feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNetworkPropertyDescriptor(Object object) {
+	protected void addRFSServicePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_NetworkJob_network_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NetworkJob_network_feature", "_UI_NetworkJob_type"),
-				 SchedulingPackage.Literals.NETWORK_JOB__NETWORK,
+				 getString("_UI_RFSServiceJob_rFSService_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_RFSServiceJob_rFSService_feature", "_UI_RFSServiceJob_type"),
+				 SchedulingPackage.Literals.RFS_SERVICE_JOB__RFS_SERVICE,
 				 true,
 				 false,
 				 true,
@@ -98,14 +98,14 @@ public class NetworkJobItemProvider
 	}
 
 	/**
-	 * This returns NetworkJob.gif.
+	 * This returns RFSServiceJob.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/NetworkJob"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/RFSServiceJob"));
 	}
 
 	/**
@@ -116,10 +116,10 @@ public class NetworkJobItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((NetworkJob)object).getName();
+		String label = ((RFSServiceJob)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_NetworkJob_type") :
-			getString("_UI_NetworkJob_type") + " " + label;
+			getString("_UI_RFSServiceJob_type") :
+			getString("_UI_RFSServiceJob_type") + " " + label;
 	}
 
 	/**

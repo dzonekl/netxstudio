@@ -77,8 +77,6 @@ public class ExpressionItemProvider
 
 			addExpressionLinesPropertyDescriptor(object);
 			addEvaluationObjectPropertyDescriptor(object);
-			addEquipmentRefsPropertyDescriptor(object);
-			addFunctionRefsPropertyDescriptor(object);
 			addEquipmentGroupRefsPropertyDescriptor(object);
 			addServiceProfileRefsPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
@@ -122,50 +120,6 @@ public class ExpressionItemProvider
 				 getString("_UI_Expression_evaluationObject_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Expression_evaluationObject_feature", "_UI_Expression_type"),
 				 LibraryPackage.Literals.EXPRESSION__EVALUATION_OBJECT,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Equipment Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addEquipmentRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Expression_equipmentRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Expression_equipmentRefs_feature", "_UI_Expression_type"),
-				 LibraryPackage.Literals.EXPRESSION__EQUIPMENT_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Function Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addFunctionRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Expression_functionRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Expression_functionRefs_feature", "_UI_Expression_type"),
-				 LibraryPackage.Literals.EXPRESSION__FUNCTION_REFS,
 				 true,
 				 false,
 				 true,

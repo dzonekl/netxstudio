@@ -237,7 +237,7 @@ public class NetxstudioItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
-				 SchedulingFactory.eINSTANCE.createNetworkJob()));
+				 SchedulingFactory.eINSTANCE.createRFSServiceJob()));
 	}
 
 	/**
