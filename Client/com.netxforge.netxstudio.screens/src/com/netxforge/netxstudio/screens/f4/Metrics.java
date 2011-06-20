@@ -29,10 +29,8 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
 public class Metrics extends AbstractScreen implements IDataServiceInjection {
@@ -51,11 +49,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	 * @param style
 	 */
 	public Metrics(Composite parent, int style) {
-		this(parent, style, null, null);
-	}
-	
-	public Metrics(Composite parent, int style, IEditingService eService, IScreenFormService sService) {
-		super(parent, style, sService, eService);
+		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -89,7 +83,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 			public void linkActivated(HyperlinkEvent e) {
 				NewEditMetric metricScreen = new NewEditMetric(
 						screenService.getScreenContainer(), SWT.NONE
-								| Screens.OPERATION_NEW, editingService);
+								| Screens.OPERATION_NEW);
 				screenService.setActiveScreen(metricScreen);
 				Metric metric = MetricsFactory.eINSTANCE
 						.createMetric();

@@ -50,8 +50,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -65,16 +64,7 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 	private Table table;
 	
 	public UserActivity(Composite parent, int style) {
-		this(parent, style, null);
-	}
-	
-	/**
-	 * Create the composite.
-	 * @param parent
-	 * @param style
-	 */
-	public UserActivity(Composite parent, int style, IEditingService eService) {
-		super(parent, SWT.BORDER, eService);
+		super(parent, style);
 		
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {

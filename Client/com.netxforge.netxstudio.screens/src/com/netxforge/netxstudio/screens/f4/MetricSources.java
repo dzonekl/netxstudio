@@ -22,10 +22,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 
 public class MetricSources extends AbstractScreen implements IDataServiceInjection {
 
@@ -40,10 +38,7 @@ public class MetricSources extends AbstractScreen implements IDataServiceInjecti
 	 * @param style
 	 */
 	public MetricSources(Composite parent, int style) {
-		this(parent, style, null, null);
-	}
-	public MetricSources(Composite parent, int style, IScreenFormService sService, IEditingService eService) {
-		super(parent, SWT.BORDER, sService, eService);
+		super(parent, style);
 		
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {

@@ -22,8 +22,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
 public class NewEditMetric extends AbstractScreen implements IDataScreenInjection {
@@ -42,11 +41,7 @@ public class NewEditMetric extends AbstractScreen implements IDataScreenInjectio
 	 * @param style
 	 */
 	public NewEditMetric(Composite parent, int style) {
-		this(parent, style, null);
-	}
-	
-	public NewEditMetric(Composite parent, int style, IEditingService eService) {
-		super(parent, style, eService);
+		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();

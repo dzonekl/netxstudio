@@ -36,10 +36,10 @@ import com.netxforge.netxstudio.screens.f4.MappingStatistics;
 import com.netxforge.netxstudio.screens.f4.MetricSources;
 import com.netxforge.netxstudio.screens.f4.MetricValueRange;
 import com.netxforge.netxstudio.screens.f4.Metrics;
-import com.netxforge.netxstudio.screens.f4.NewMappingColumn;
+import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.NewEditMetric;
+import com.netxforge.netxstudio.screens.f4.NewMappingColumn;
 import com.netxforge.netxstudio.screens.f4.NewMetricSource;
-import com.netxforge.netxstudio.screens.f4.NewScheduledJob;
 import com.netxforge.netxstudio.screens.f4.NewXLSMapping;
 import com.netxforge.netxstudio.screens.f4.PurgeMetrics;
 import com.netxforge.netxstudio.screens.f4.ResourceMonitor;
@@ -175,7 +175,7 @@ public class ScreenSelector extends AbstractScreenSelector {
 			public void widgetSelected(SelectionEvent e) {
 //				if (currentComposite instanceof NewScheduledJob)
 //					return;
-				updateComposite(new NewScheduledJob(container,
+				updateComposite(new NewEditJob(container,
 						SWT.NONE));
 			}
 		});

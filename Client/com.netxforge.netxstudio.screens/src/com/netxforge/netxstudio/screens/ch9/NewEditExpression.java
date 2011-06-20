@@ -76,12 +76,11 @@ import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.NetxscriptFactory;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
@@ -121,19 +120,12 @@ public class NewEditExpression extends AbstractScreen implements
 	 * @param style
 	 */
 	public NewEditExpression(Composite parent, int style) {
-		this(parent, style, null);
-	}
-
-	public NewEditExpression(Composite parent, int style,
-			IEditingService eService) {
-		super(parent, style, eService);
+		super(parent, style);
 
 		int widgetStyle = SWT.None;
 		if (Screens.isReadOnlyOperation(getOperation())) {
 			widgetStyle |= SWT.READ_ONLY;
 		}
-
-		this.editingService = eService;
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {

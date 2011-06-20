@@ -5,28 +5,28 @@
          point="org.eclipse.ui.views">
      <view
            category="com.netxforge.netxstudio.ui"
-           class="com.netxforge.netxstudio.screens.parts.AdminScreenSelector"
+           class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.AdminScreenSelector"
            icon="icons/view16/admin_editor.png"
            id="com.netxforge.netxstudio.screens.selector.admin"
            name="Admin">
       </view>
      <view
            category="com.netxforge.netxstudio.ui"
-           class="com.netxforge.netxstudio.screens.parts.MonitoringScreenSelector"
+           class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.MonitoringScreenSelector"
            icon="icons/view16/monitor_editor.png"
            id="com.netxforge.netxstudio.screens.selector.monitoring"
            name="Monitoring">
       </view>
      <view
            category="com.netxforge.netxstudio.ui"
-           class="com.netxforge.netxstudio.screens.parts.LibraryScreenSelector"
+           class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.LibraryScreenSelector"
            icon="icons/view16/library_editor.gif"
            id="com.netxforge.netxstudio.screens.selector.library"
            name="Library">
       </view>
      <view
            category="com.netxforge.netxstudio.ui"
-           class="com.netxforge.netxstudio.screens.parts.DesignScreenSelector"
+           class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.parts.DesignScreenSelector"
            icon="icons/view16/designer_editor.png"
            id="com.netxforge.netxstudio.screens.selector.design"
            name="Design">

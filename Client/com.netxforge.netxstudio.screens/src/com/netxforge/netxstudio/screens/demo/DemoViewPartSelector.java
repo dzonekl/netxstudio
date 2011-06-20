@@ -25,10 +25,10 @@ import com.netxforge.netxstudio.screens.f4.MappingStatistics;
 import com.netxforge.netxstudio.screens.f4.MetricSources;
 import com.netxforge.netxstudio.screens.f4.MetricValueRange;
 import com.netxforge.netxstudio.screens.f4.Metrics;
-import com.netxforge.netxstudio.screens.f4.NewMappingColumn;
+import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.NewEditMetric;
+import com.netxforge.netxstudio.screens.f4.NewMappingColumn;
 import com.netxforge.netxstudio.screens.f4.NewMetricSource;
-import com.netxforge.netxstudio.screens.f4.NewScheduledJob;
 import com.netxforge.netxstudio.screens.f4.NewXLSMapping;
 import com.netxforge.netxstudio.screens.f4.PurgeMetrics;
 import com.netxforge.netxstudio.screens.f4.ResourceMonitor;
@@ -153,9 +153,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnNewJob.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof NewScheduledJob)
+				if (currentComposite instanceof NewEditJob)
 					return;
-				updateComposite(container, new NewScheduledJob(container,
+				updateComposite(container, new NewEditJob(container,
 						SWT.NONE));
 			}
 		});

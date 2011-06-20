@@ -66,10 +66,8 @@ import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
 /**
@@ -97,12 +95,7 @@ public class Expressions extends AbstractScreen implements
 	 * @param style
 	 */
 	public Expressions(Composite parent, int style) {
-		this(parent, style, null, null);
-	}
-
-	public Expressions(Composite parent, int style,
-			IScreenFormService sService, IEditingService eService) {
-		super(parent, SWT.BORDER, sService, eService);
+		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -157,7 +150,7 @@ public class Expressions extends AbstractScreen implements
 					if (screenService != null) {
 						NewEditExpression user = new NewEditExpression(
 								screenService.getScreenContainer(), SWT.NONE
-										| Screens.OPERATION_NEW, editingService);
+										| Screens.OPERATION_NEW);
 						screenService.setActiveScreen(user);
 						Expression exp = LibraryFactory.eINSTANCE
 								.createExpression();
@@ -233,7 +226,7 @@ public class Expressions extends AbstractScreen implements
 							}
 							NewEditExpression editExpression = new NewEditExpression(
 									screenService.getScreenContainer(),
-									widgetStyle, editingService);
+									widgetStyle);
 							editExpression.injectData(library.getExpressions(),
 									o);
 							screenService.setActiveScreen(editExpression);

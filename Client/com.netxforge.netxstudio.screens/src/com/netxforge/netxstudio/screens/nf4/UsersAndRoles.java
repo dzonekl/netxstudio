@@ -50,14 +50,12 @@ import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class UsersAndRoles extends AbstractScreen implements IDataServiceInjection
-		{
+public class UsersAndRoles extends AbstractScreen implements
+		IDataServiceInjection {
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
 
@@ -72,18 +70,7 @@ public class UsersAndRoles extends AbstractScreen implements IDataServiceInjecti
 	private Form frmUsersAndRoles;
 
 	public UsersAndRoles(Composite parent, int style) {
-		this(parent, style, null, null);
-	}
-
-	/**
-	 * Create the composite.
-	 * 
-	 * @param parent
-	 * @param style
-	 */
-	public UsersAndRoles(Composite parent, int style,
-			IScreenFormService sService, IEditingService eService) {
-		super(parent, SWT.BORDER, sService, eService);
+		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -139,7 +126,7 @@ public class UsersAndRoles extends AbstractScreen implements IDataServiceInjecti
 					if (screenService != null) {
 						NewEditUser user = new NewEditUser(screenService
 								.getScreenContainer(), SWT.NONE
-								| Screens.OPERATION_NEW, editingService);
+								| Screens.OPERATION_NEW);
 						screenService.setActiveScreen(user);
 						user.injectData(studio,
 								GenericsFactory.eINSTANCE.createPerson());
@@ -204,7 +191,8 @@ public class UsersAndRoles extends AbstractScreen implements IDataServiceInjecti
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
 						NewEditUser u = new NewEditUser(screenService
-								.getScreenContainer(), Screens.OPERATION_EDIT | SWT.NONE, editingService);
+								.getScreenContainer(), Screens.OPERATION_EDIT
+								| SWT.NONE);
 						u.injectData(studio, o);
 						screenService.setActiveScreen(u);
 					}
@@ -226,7 +214,7 @@ public class UsersAndRoles extends AbstractScreen implements IDataServiceInjecti
 								.getFirstElement();
 						UserActivity u = new UserActivity(screenService
 								.getScreenContainer(), SWT.NONE
-								| Screens.OPERATION_READ_ONLY, editingService);
+								| Screens.OPERATION_READ_ONLY);
 						u.injectData(studio.getUsers(), o);
 						screenService.setActiveScreen(u);
 					}
@@ -377,7 +365,7 @@ public class UsersAndRoles extends AbstractScreen implements IDataServiceInjecti
 	public boolean isValid() {
 		return true;
 	}
-	
+
 	@Override
 	public Form getScreenForm() {
 		return frmUsersAndRoles;

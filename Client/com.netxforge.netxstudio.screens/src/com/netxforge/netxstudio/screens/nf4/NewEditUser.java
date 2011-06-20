@@ -64,13 +64,12 @@ import com.netxforge.netxstudio.common.CommonService;
 import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;
-import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -104,10 +103,6 @@ public class NewEditUser extends AbstractScreen implements
 	private Text txtEmail;
 	private Netxstudio owner;
 
-	public NewEditUser(Composite parent, int style) {
-		this(parent, style, null);
-	}
-
 	private ComboViewer comboViewer;
 	private Combo combo;
 	private Button btnCheck;
@@ -119,8 +114,8 @@ public class NewEditUser extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public NewEditUser(Composite parent, int style, IEditingService eService) {
-		super(parent, SWT.BORDER, eService);
+	public NewEditUser(Composite parent, int style) {
+		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -640,7 +635,6 @@ public class NewEditUser extends AbstractScreen implements
 			} else if (Screens.isNewOperation(getOperation())) {
 				user = (Person) object;
 			}
-			;
 		}
 
 		m_bindingContext = initDataBindings_();
@@ -696,7 +690,7 @@ public class NewEditUser extends AbstractScreen implements
 			editingService.doSave(new NullProgressMonitor());
 		}
 
-		System.out.println(user.cdoID() + "" + user.cdoState());
+//		System.out.println(user.cdoID() + "" + user.cdoState());
 	}
 
 	/*

@@ -42,10 +42,8 @@ import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
 import org.swtchart.LineStyle;
 
-import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreen;
+import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 
 public class ResourceMonitor extends AbstractScreen implements IDataScreenInjection {
 
@@ -55,18 +53,7 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 	private Form frmFunction;
 	
 	public ResourceMonitor(Composite parent, int style) {
-		this(parent, style, null, null);
-	}
-	
-	/**
-	 * Create the composite.
-	 * 
-	 * @param parent
-	 * @param style
-	 */
-	@SuppressWarnings("unused")
-	public ResourceMonitor(Composite parent, int style, IScreenFormService sService, IEditingService eService) {
-		super(parent, SWT.BORDER, sService, eService);
+		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
