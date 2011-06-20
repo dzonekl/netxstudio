@@ -38,4 +38,10 @@ public class ServerCDODataProvider extends CDODataProvider {
 	public void openSession(String uid, String passwd) throws SecurityException {
 		this.openSession();
 	}
+
+	@Override
+	protected boolean createResourceInSeparateTransaction() {
+		return false;
+	}
+
 }
