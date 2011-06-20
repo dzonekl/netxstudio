@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
-import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.google.inject.AbstractModule;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.editing.selector.ScreenFormService;
 
@@ -27,7 +27,7 @@ import com.netxforge.netxstudio.screens.editing.selector.ScreenFormService;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class EditingServiceModule extends CDODataServiceModule {
+public class EditingServiceModule extends AbstractModule {
 
 	/*
 	 * (non-Javadoc)
@@ -36,7 +36,6 @@ public class EditingServiceModule extends CDODataServiceModule {
 	 */
 	@Override
 	protected void configure() {
-		super.configure();
 		this.bind(IEditingService.class).to(CDOEditingService.class);
 		this.bind(IScreenFormService.class).to(ScreenFormService.class);
 	}

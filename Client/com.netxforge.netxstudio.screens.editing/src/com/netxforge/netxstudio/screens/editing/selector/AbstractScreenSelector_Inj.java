@@ -53,8 +53,7 @@ public abstract class AbstractScreenSelector_Inj extends AbstractEditorViewPart_
 		
 		//Our service. 
 		screenFormService.initalize(parent);
-		screenFormService.setEditingService(getEditingService());
-		this.getEditingService().setViewerProvider(this);
+		editingService.setViewerProvider(this);
 		screenFormService.addScreenChangeListener(this);
 		buildSelector();
 	}

@@ -50,7 +50,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.screens.editing.internal.EditingActivator;
 
 /**
  * A ViewPart which acts as an editor.
@@ -76,14 +75,9 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	private GlobalActionsHandler globActionsHandler = new GlobalActionsHandler();
 	
 	@Inject
-	private IEditingService editingService; 
+	protected IEditingService editingService; 
 	
-	public IEditingService getEditingService() {
-		return editingService;
-	}
-
 	public AbstractEditorViewPart_Inj() {
-		EditingActivator.getInjector().injectMembers(this);
 		createActions();
 	}
 	

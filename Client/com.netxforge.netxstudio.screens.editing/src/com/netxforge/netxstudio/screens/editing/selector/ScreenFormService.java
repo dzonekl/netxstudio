@@ -40,6 +40,8 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.cdo.IFixtures;
 import com.netxforge.netxstudio.generics.Role;
@@ -71,6 +73,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
+@Singleton
 public class ScreenFormService implements IScreenFormService {
 
 	private SashForm sashForm;
@@ -191,21 +194,11 @@ public class ScreenFormService implements IScreenFormService {
 			Constructor<?> screenConstructor = null;
 			try {
 				screenConstructor = screen.getConstructor(Composite.class,
-						int.class, IScreenFormService.class,
-						IEditingService.class);
+						int.class);
 			} catch (NoSuchMethodException e2) {
 				System.out
 						.println("TODO, Implement correct screen signature on :"
 								+ screen.getClass().getSimpleName());
-				System.out.println("TODO, should implement:"
-						+ IScreenFormService.class.getName() + ","
-						+ IEditingService.class.getName());
-				try {
-					screenConstructor = screen.getConstructor(Composite.class,
-							int.class);
-				} catch (NoSuchMethodException e3) {
-					e3.printStackTrace();
-				}
 			}
 
 			// We need some finals, to invoke in the listener.
@@ -233,20 +226,14 @@ public class ScreenFormService implements IScreenFormService {
 						return;
 					}
 					// We are a new screen, instantiate and set active.
+					// FIXME, instantiation won't work. 
+					
 					try {
-						Composite target;
-						if (finalScreenConstructor.getParameterTypes().length == 4) {
-							target = (Composite) finalScreenConstructor
-									.newInstance(getScreenContainer(), SWT.NONE
-											| finalOperation,
-											ScreenFormService.this,
-											editingService);
-						} else {
-							// Services not set.
-							target = (Composite) finalScreenConstructor
-									.newInstance(getScreenContainer(), SWT.NONE
-											| finalOperation);
-						}
+						
+						Composite target = (Composite) finalScreenConstructor
+								.newInstance(getScreenContainer(), SWT.NONE
+										| finalOperation);
+						
 						setActiveScreen(target);
 					} catch (IllegalArgumentException e1) {
 						e1.printStackTrace();
@@ -362,15 +349,14 @@ public class ScreenFormService implements IScreenFormService {
 			screenBody.getScreenDeck().topControl = activeScreen;
 			getScreenContainer().layout(true);
 			updateScreenBarActions(activeScreen);
-			
-			
-			// We need to refresh the viewer in case objects have been 
-			// invalidated and need to be updated. 
-			Viewer v = ((IScreen)activeScreen).getViewer();
-			if(v != null){
+
+			// We need to refresh the viewer in case objects have been
+			// invalidated and need to be updated.
+			Viewer v = ((IScreen) activeScreen).getViewer();
+			if (v != null) {
 				v.refresh();
 			}
-			
+
 			fireScreenChanged((IScreen) activeScreen);
 		} else {
 			screenBody.setScreenBarOff();
@@ -437,9 +423,9 @@ public class ScreenFormService implements IScreenFormService {
 						((IDataScreenInjection) getActiveScreen()).addData();
 						restorePreviousScreen();
 					} else {
-						
+
 					}
-				}else{
+				} else {
 					// Should not occure as the save lnk is not show, for
 					// these types of screens.
 					throw new java.lang.IllegalStateException(
@@ -455,11 +441,8 @@ public class ScreenFormService implements IScreenFormService {
 		});
 	}
 
+	@Inject
 	IEditingService editingService;
-
-	public void setEditingService(IEditingService eServ) {
-		editingService = eServ;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -500,9 +483,9 @@ public class ScreenFormService implements IScreenFormService {
 			l.screenChanged(screen);
 		}
 	}
-	
+
 	/**
-	 * Delegate to the screen body composite. 
+	 * Delegate to the screen body composite.
 	 */
 	public Composite getScreenActionBar() {
 		return this.screenBody.getScreenBar();

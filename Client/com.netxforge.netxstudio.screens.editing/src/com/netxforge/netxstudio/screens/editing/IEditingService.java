@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.screens.editing;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -74,8 +75,18 @@ public interface IEditingService {
 	/**
 	 * Call when a screen is changed, also tell us what kind of root 
 	 * data feature is expected, we will return the resource which contains it or can be used..
+	 * @deprecated
 	 */
 	public abstract Resource getData(int feature);
+	
+	
+	/**
+	 * Call to get the data for a specific EClass, we return 
+	 * a resource which contains the data.
+	 * @param clazz
+	 * @return
+	 */
+	public abstract Resource getData(EClass clazz);
 		
 	/**
 	 * Revoke any relation with the data provider. 
