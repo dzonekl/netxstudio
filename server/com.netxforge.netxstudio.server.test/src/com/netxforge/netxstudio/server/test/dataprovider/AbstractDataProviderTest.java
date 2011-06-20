@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 
 public abstract class AbstractDataProviderTest extends TestCase {
@@ -14,7 +15,7 @@ public abstract class AbstractDataProviderTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		injector = Guice.createInjector(new CDODataServiceModule());
+		injector = Guice.createInjector(new CommonModule(), new CDODataServiceModule());
 	}
 
 	@Override

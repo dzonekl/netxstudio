@@ -83,7 +83,7 @@ public class ResourceSetTest extends BaseAuthTest
 
       // Create an object and add it to the resource, using the edit framework. 
       final Country country = GeoFactory.eINSTANCE.createCountry();
-      country.setCountryCode("NL"); //$NON-NLS-1$
+      country.setCountryCode("DE"); //$NON-NLS-1$
       country.setName(name);
       
       // Use the edit framework 
