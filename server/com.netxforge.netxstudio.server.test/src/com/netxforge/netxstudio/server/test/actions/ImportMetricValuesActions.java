@@ -318,7 +318,7 @@ public class ImportMetricValuesActions implements NetxForgeService {
 
 		final Node node = OperatorsFactory.eINSTANCE.createNode();
 		node.setNodeID("RTSGSN3");
-		node.getNodeType().add(nodeType);
+		node.setNodeType(nodeType);
 		node.setOriginalNodeTypeRef(nodeType);
 		return node;
 	}
