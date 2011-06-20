@@ -42,8 +42,8 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContext;
-import com.netxforge.interpreter.IInterpreterContextFactory;
-import com.netxforge.interpreter.IInterpreterFactory;
+import com.netxforge.interpreter.InterpreterContextFactory;
+import com.netxforge.interpreter.InterpreterFactory;
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
@@ -76,10 +76,10 @@ public class ExpressionEngine implements IExpressionEngine {
 	private IResourceFactory xResourceFactory;
 	
 	@Inject
-	private IInterpreterContextFactory<Object> xInterpreterContextFactory;
+	private InterpreterContextFactory<Object> xInterpreterContextFactory;
 	
 	@Inject
-	private IInterpreterFactory xInterpreterFactory;
+	private InterpreterFactory xInterpreterFactory;
 
 	private List<Object> context = new ArrayList<Object>();
 	

@@ -18,9 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic;
 
-import com.netxforge.netxstudio.metrics.MetricSource;
-import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.server.Activator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 
 /**
@@ -36,25 +35,21 @@ public class RFSServiceJobImplementation extends JobImplementation {
 			return new RFSServiceJobImplementation();
 		}
 	}
-	
+
 	@Override
 	public void run() {
 		getDataProvider().openSession();
 		getDataProvider().getTransaction();
 
-		final RFSServiceJob serviceJob = (RFSServiceJob)getJob();
-		
-		final RFSServiceCapacityLogic capacityLogic = new RFSServiceCapacityLogic();
+		final RFSServiceJob serviceJob = (RFSServiceJob) getJob();
+
+		final RFSServiceCapacityLogic capacityLogic = Activator.getInstance()
+				.getInjector().getInstance(RFSServiceCapacityLogic.class);
 		capacityLogic.setDataProvider(getDataProvider());
 		capacityLogic.setRfsService(serviceJob.getRFSService());
 		capacityLogic.setJobMonitor(getJobMonitor());
 		capacityLogic.run();
-		
+
 		getDataProvider().commitTransaction();
 	}
-
-	private MetricSource getMetricSource() {
-		return ((MetricSourceJob) getJob()).getMetricSource();
-	}
-
 }

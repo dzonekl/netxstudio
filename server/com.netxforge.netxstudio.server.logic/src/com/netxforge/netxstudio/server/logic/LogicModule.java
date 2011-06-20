@@ -10,6 +10,8 @@ public class LogicModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		this.bind(IExpressionEngine.class).to(ExpressionEngine.class);
+		this.bind(RFSServiceCapacityLogic.class);
+		this.bind(RFSServiceJobImplementation.class);
 	}
 
 }

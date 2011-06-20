@@ -44,9 +44,7 @@ public class LogicActivator implements BundleActivator {
 		JobImplementation.REGISTRY.register(RFSServiceJob.class, new JobImplementationFactory() {
 			@Override
 			public JobImplementation create() {
-				final RFSServiceJobImplementation jobImpl = new RFSServiceJobImplementation();
-				injector.injectMembers(jobImpl);
-				return jobImpl;
+				return injector.getInstance(RFSServiceJobImplementation.class);
 			}
 		});
 
