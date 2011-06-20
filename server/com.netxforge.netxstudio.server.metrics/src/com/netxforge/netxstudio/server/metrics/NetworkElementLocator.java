@@ -75,17 +75,17 @@ public class NetworkElementLocator {
 	    	}
 	    	if (foundValidNode) {
 	    		boolean allFeaturesValid = true;
-	    		boolean atLeastOnFeatureChecked = false;
+	    		boolean atLeastOneFeatureChecked = false;
 		    	for (final IdentifierValue identifierValue : identifiers) {
 		    		if (identifierValue.getKind().getObjectKind() != ObjectKindType.NODE) {
-		    			atLeastOnFeatureChecked = true;
+		    			atLeastOneFeatureChecked = true;
 		    			if (!isValidObject(source, identifierValue)) {
 		    				allFeaturesValid = false;
 		    				break;
 		    			}
 		    		}
 		    	}
-		    	if (atLeastOnFeatureChecked && allFeaturesValid) {
+		    	if (atLeastOneFeatureChecked && allFeaturesValid) {
 		    		return source;
 		    	}
 	    	}

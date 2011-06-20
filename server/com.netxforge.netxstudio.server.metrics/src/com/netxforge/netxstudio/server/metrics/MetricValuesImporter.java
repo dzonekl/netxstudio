@@ -55,6 +55,7 @@ import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.ServerUtils;
+import com.netxforge.netxstudio.server.job.JobMonitor;
 import com.netxforge.netxstudio.server.metrics.NetworkElementLocator.IdentifierValue;
 
 /**
@@ -65,7 +66,9 @@ import com.netxforge.netxstudio.server.metrics.NetworkElementLocator.IdentifierV
 public class MetricValuesImporter {
 
 	private MetricSource metricSource;
-	
+
+	private JobMonitor jobMonitor;
+
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
@@ -94,6 +97,9 @@ public class MetricValuesImporter {
 		long endTime = startTime;
 		MappingStatistic mappingStatistic = null;
 		try {
+			jobMonitor.setTask("Processing metricsource "
+					+ metricSource.getName());
+
 			final String location = metricSource.getMetricLocation();
 			final InputStream is = (inputStream == null ? this.getClass()
 					.getResourceAsStream(location) : inputStream);
@@ -102,6 +108,9 @@ public class MetricValuesImporter {
 					.getSheetNumber());
 
 			final int totalRows = processRows(sheet);
+
+			jobMonitor.setMsg("Creating mappingstatistics");
+			jobMonitor.incrementProgress(1, true);
 
 			endTime = System.currentTimeMillis();
 			mappingStatistic = createMappingStatistics(startTime, endTime,
@@ -118,23 +127,35 @@ public class MetricValuesImporter {
 	}
 
 	private void storeMetricValues() {
+
+		jobMonitor.setMsg("Storing metric values");
+		jobMonitor.incrementProgress(1, true);
+
 		for (final Metric metric : metricValueRanges.keySet()) {
-			final Map<Object, MetricValueRange> valueRangesByObject = metricValueRanges.get(metric);
+			final Map<Object, MetricValueRange> valueRangesByObject = metricValueRanges
+					.get(metric);
 			for (final Object object : valueRangesByObject.keySet()) {
 				if (object instanceof Function) {
-					final Function function = (Function)object;
-					addToNetXResource(metric, valueRangesByObject.get(object), function.getFunctionResources());
+					final Function function = (Function) object;
+					jobMonitor.setMsg("Storing metric values for Function " + function.getFunctionName());
+					jobMonitor.update();
+					addToNetXResource(metric, valueRangesByObject.get(object),
+							function.getFunctionResources());
 				} else if (object instanceof Equipment) {
-					final Equipment equipment = (Equipment)object;
-					addToNetXResource(metric, valueRangesByObject.get(object), equipment.getEquipmentResources());
+					final Equipment equipment = (Equipment) object;
+					jobMonitor.setMsg("Storing metric values for Equipment " + equipment.getEquipmentName());
+					jobMonitor.update();
+					addToNetXResource(metric, valueRangesByObject.get(object),
+							equipment.getEquipmentResources());
 				}
 			}
 		}
 	}
-	
-	private void addToNetXResource(Metric metric, MetricValueRange metricValueRange, EList<NetXResource> netXResources) {
+
+	private void addToNetXResource(Metric metric,
+			MetricValueRange metricValueRange, EList<NetXResource> netXResources) {
 		NetXResource addToNetXResource = null;
-		for (final NetXResource netXResource: netXResources) {
+		for (final NetXResource netXResource : netXResources) {
 			if (netXResource.getMetricRef() == metric) {
 				addToNetXResource = netXResource;
 			}
@@ -145,11 +166,11 @@ public class MetricValuesImporter {
 			addToNetXResource.setShortName(metric.getName());
 			addToNetXResource.setLongName(metric.getName());
 			addToNetXResource.setUnitRef(metric.getUnitRef());
-			netXResources.add(addToNetXResource);			
+			netXResources.add(addToNetXResource);
 		}
 		addToNetXResource.getMetricValueRanges().add(metricValueRange);
 	}
-	
+
 	// create the mapping statistics on the basis of the errors and
 	// warnings
 	private MappingStatistic createMappingStatistics(long startTime,
@@ -158,10 +179,8 @@ public class MetricValuesImporter {
 				.createMappingStatistic();
 		final DateTimeRange range = GenericsFactory.eINSTANCE
 				.createDateTimeRange();
-		range.setBegin(ServerUtils.getInstance().toXmlDate(
-				new Date(startTime)));
-		range.setEnd(ServerUtils.getInstance().toXmlDate(
-				new Date(endTime)));
+		range.setBegin(ServerUtils.getInstance().toXmlDate(new Date(startTime)));
+		range.setEnd(ServerUtils.getInstance().toXmlDate(new Date(endTime)));
 		statistic.setMappingDuration(range);
 		statistic.setTotalRecords(totalRows);
 		statistic.setMessage(message);
@@ -184,17 +203,21 @@ public class MetricValuesImporter {
 									+ sheet.getLastRowNum() + " rows."));
 			return 0;
 		}
+		jobMonitor.setMsg("Processing rows");
 		int totalRows = 0;
+		jobMonitor.setTotalWork(sheet.getLastRowNum()
+				- getMappingXLS().getFirstDataRow() + 10);
 		for (int rowNum = getMappingXLS().getFirstDataRow(); rowNum <= sheet
 				.getLastRowNum(); rowNum++) {
-			System.err.println("Processing row " + rowNum);
+			jobMonitor.setMsg("Processing row " + rowNum);
+			jobMonitor.incrementProgress(1, (rowNum % 10) == 0);
 			try {
 				totalRows++;
 				final List<IdentifierValue> elementIdentifiers = getIdentifierValues(
 						sheet, rowNum);
 				final Date timeStamp = getTimeStampValue(sheet, rowNum);
 				final int periodHint = getPeriodHint(sheet, rowNum);
-				
+
 				for (final MappingXLSColumn xlsColumn : getMappingXLSColumn()) {
 					if (isMetric(xlsColumn)) {
 						final CDOObject networkElement = getNetworkElementLocator()
@@ -242,8 +265,7 @@ public class MetricValuesImporter {
 			valueRanges.put(networkElement, valueRange);
 		}
 		final Value value = GenericsFactory.eINSTANCE.createValue();
-		value.setTimeStamp(ServerUtils.getInstance()
-				.toXmlDate(timeStamp));
+		value.setTimeStamp(ServerUtils.getInstance().toXmlDate(timeStamp));
 		value.setValue(dblValue);
 		valueRange.getMetricValues().add(value);
 	}
@@ -407,6 +429,14 @@ public class MetricValuesImporter {
 
 	public void setInputStream(InputStream inputStream) {
 		this.inputStream = inputStream;
+	}
+
+	public JobMonitor getJobMonitor() {
+		return jobMonitor;
+	}
+
+	public void setJobMonitor(JobMonitor jobMonitor) {
+		this.jobMonitor = jobMonitor;
 	}
 
 }
