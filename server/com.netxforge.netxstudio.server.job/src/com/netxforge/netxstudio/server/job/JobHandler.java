@@ -47,7 +47,6 @@ import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerModule;
 
 /**
  * Handles jobs, reads the jobs from the database, initializes quartz and
@@ -158,7 +157,7 @@ public class JobHandler {
 	}
 
 	private void activate() {
-		ServerModule.getInjector().injectMembers(this);
+		Activator.getInstance().getInjector().injectMembers(this);
 	}
 
 	private void deActivateInstance() {

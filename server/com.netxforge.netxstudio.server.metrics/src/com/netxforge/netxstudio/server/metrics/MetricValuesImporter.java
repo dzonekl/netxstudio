@@ -53,7 +53,6 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.ServerUtils;
 import com.netxforge.netxstudio.server.job.JobMonitor;
 import com.netxforge.netxstudio.server.metrics.NetworkElementLocator.IdentifierValue;
@@ -87,10 +86,6 @@ public class MetricValuesImporter {
 
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(
 			DATE_PATTERN);
-
-	public MetricValuesImporter() {
-		ServerModule.getInjector().injectMembers(this);
-	}
 
 	public void process() {
 		final long startTime = System.currentTimeMillis();

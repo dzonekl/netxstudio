@@ -18,8 +18,11 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.server;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import static com.google.inject.util.Modules.override;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
@@ -28,23 +31,23 @@ import com.netxforge.netxstudio.data.cdo.ICDOConnection;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class ServerModule extends CDODataServiceModule {
-	
-	private static Injector injector;
-	
-	public static synchronized Injector getInjector() {
-		if (injector == null) {
-			injector = Guice.createInjector(new ServerModule());
-		}
-		return injector;
-	}
+public class ServerModule extends AbstractModule {
 
+	public static Module getModule() {
+		Module om = new ServerModule();
+		om = override(new CDODataServiceModule()).with(new CommonModule());
+		om = override().with(new ServerModule());
+		return om;
+	}
+	
+	private ServerModule(){
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.google.inject.AbstractModule#configure()
 	 */
 	@Override
 	protected void configure() {
-		super.configure();
 		this.bind(ICDOConnection.class).annotatedWith(Server.class).to(ServerCDOConnection.class);
 		this.bind(IDataProvider.class).annotatedWith(Server.class).to(ServerCDODataProvider.class);
 	}

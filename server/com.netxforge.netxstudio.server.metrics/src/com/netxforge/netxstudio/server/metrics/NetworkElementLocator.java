@@ -34,7 +34,6 @@ import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerModule;
 
 /**
  * Is responsible for finding a network element using a set of IdentifierValues.
@@ -46,10 +45,6 @@ public class NetworkElementLocator {
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
-	
-	public NetworkElementLocator() {
-		ServerModule.getInjector().injectMembers(this);
-	}
 	
 	public CDOObject locateNetworkElement(Metric metric, List<IdentifierValue> identifiers) {
 	

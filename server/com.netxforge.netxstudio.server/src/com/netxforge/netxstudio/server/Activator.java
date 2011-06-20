@@ -21,21 +21,35 @@ package com.netxforge.netxstudio.server;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 public class Activator implements BundleActivator {
 
 	private static BundleContext context;
 
+	private static Activator INSTANCE;
+	
 	static BundleContext getContext() {
 		return context;
 	}
 
+	public static Activator getInstance() {
+		return INSTANCE;
+	}
+	
+	private Injector injector;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
 	@Override
 	public void start(BundleContext bundleContext) throws Exception {
+		INSTANCE = this;
 		Activator.context = bundleContext;
+
+		injector = Guice.createInjector(ServerModule.getModule());
 	}
 
 	/*
@@ -46,6 +60,10 @@ public class Activator implements BundleActivator {
 	public void stop(BundleContext bundleContext) throws Exception {
 		Activator.context = null;
 		ServerUtils.getInstance().deActivate();
+	}
+
+	public Injector getInjector() {
+		return injector;
 	}
 
 }

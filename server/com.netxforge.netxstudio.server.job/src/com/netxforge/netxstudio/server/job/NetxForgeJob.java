@@ -39,7 +39,6 @@ import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.ServerUtils;
 
 /**
@@ -60,7 +59,7 @@ public class NetxForgeJob implements org.quartz.Job {
 	private IDataProvider dataProvider;
 
 	public NetxForgeJob() {
-		ServerModule.getInjector().injectMembers(this);
+		Activator.getInstance().getInjector().injectMembers(this);
 	}
 
 	@Override
@@ -71,8 +70,6 @@ public class NetxForgeJob implements org.quartz.Job {
 		setStartRunning();
 		final JobImplementation jobImplementation = 
 				JobImplementation.REGISTRY.getFactory(job.getClass()).create();
-		
-		ServerModule.getInjector().injectMembers(jobImplementation);
 		
 		jobImplementation.setNetxForgeJob(this);
 		try {
