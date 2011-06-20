@@ -78,8 +78,8 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		
 		DateTimeRange timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
 		
-		XMLGregorianCalendar t0 = modelUtils.xmlDate(modelUtils.today());
-		XMLGregorianCalendar t1 = modelUtils.xmlDate(modelUtils.lastWeek());
+		XMLGregorianCalendar t0 = modelUtils.toXMLDate(modelUtils.todayAndNow());
+		XMLGregorianCalendar t1 = modelUtils.toXMLDate(modelUtils.lastWeek());
 		
 		timeRange.setBegin(t1);
 		timeRange.setEnd(t0);
@@ -115,15 +115,15 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		
 		Value v = GenericsFactory.eINSTANCE.createValue();
 		v.setValue(2.0);
-		v.setTimeStamp(modelUtils.xmlDate(modelUtils.yesterday()));
+		v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
 
 		Value v1 = GenericsFactory.eINSTANCE.createValue();
 		v1.setValue(2.1);
-		v1.setTimeStamp(modelUtils.xmlDate(modelUtils.twoDaysAgo()));
+		v1.setTimeStamp(modelUtils.toXMLDate(modelUtils.twoDaysAgo()));
 
 		Value v2 = GenericsFactory.eINSTANCE.createValue();
 		v2.setValue(2.1);
-		v2.setTimeStamp(modelUtils.xmlDate(modelUtils.threeDaysAgo()));
+		v2.setTimeStamp(modelUtils.toXMLDate(modelUtils.threeDaysAgo()));
 		
 		range.getMetricValues().addAll(ImmutableList.of(v,v1,v2));
 		
