@@ -157,8 +157,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	}
 
 	/**
-	 * Opens a CDOSession without credentials unless the connection 
-	 * already handles this.
+	 * Opens a CDOSession without credentials unless the connection already
+	 * handles this.
 	 */
 	public CDOSession openSession() {
 		if (connection.getConfig() == null) {
@@ -168,19 +168,20 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		for (final EPackage ePackage : ePackages) {
 			cdoSession.getPackageRegistry().putEPackage(ePackage);
 		}
+		clientSession = cdoSession;
 		return cdoSession;
 	}
-	
+
 	public Resource getResource(ResourceSet set, EClass feature) {
 		final String res = resolveResourceName(feature);
 		return getResource(set, res);
 	}
-	
+
 	public Resource getResource(ResourceSet set, int feature) {
 		final String res = resolveResourceName(feature);
 		return getResource(set, res);
 	}
-	
+
 	private Resource getResource(ResourceSet set, String resourcePath) {
 		assert resourcePath != null && resourcePath.length() > 0;
 
@@ -208,7 +209,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 				// the CDOView has a transaction.
 				if (view instanceof CDOTransaction) {
 					final CDOTransaction transaction = (CDOTransaction) view;
-					final CDOResource resource = transaction.getOrCreateResource(resourcePath);
+					final CDOResource resource = transaction
+							.getOrCreateResource(resourcePath);
 					return resource;
 				}
 			}
@@ -217,7 +219,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 
 		// We don't have a view, so let's open one.
 		final CDOTransaction transaction = getSession().openTransaction(set);
-		final CDOResource resource = transaction.getOrCreateResource(resourcePath);
+		final CDOResource resource = transaction
+				.getOrCreateResource(resourcePath);
 		return resource;
 	}
 
@@ -225,10 +228,9 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		final String res = resolveResourceName(feature);
 		return getResource(view, res);
 	}
-	
+
 	public Resource getResource(CDOView view, String res) {
 
-		
 		assert res != null && res.length() > 0;
 
 		// Before attempting to open a new CDOView, we want to know what is
@@ -258,7 +260,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 	private String resolveResourceName(EClass clazz) {
 		return "/" + clazz.getName();
 	}
-	
+
 	/**
 	 * Dispatcher to break-up which objects go into which resources.
 	 * 
@@ -297,7 +299,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		assert res != null && res.length() > 0;
 		return this.getResource(res);
 	}
-	
+
 	public Resource getResource(EClass feature) {
 		final String res = resolveResourceName(feature);
 		assert res != null && res.length() > 0;
@@ -319,12 +321,20 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		CDOResource resource = resolveInCurrentView(resourceName);
 
 		if (resource == null) {
-			final CDOTransaction transaction = getSession().openTransaction();
-			resource = transaction.getOrCreateResource(resourceName);
+			if (createResourceInSeparateTransaction()) {
+				final CDOTransaction transaction = getSession()
+						.openTransaction();
+				resource = transaction.getOrCreateResource(resourceName);
+			} else {
+				resource = getTransaction().getOrCreateResource(resourceName);
+			}
 		}
 		return resource;
 	}
-	
+
+	protected boolean createResourceInSeparateTransaction() {
+		return true;
+	}
 
 	private CDOResource resolveInCurrentView(String resourceName) {
 		final CDOView[] views = this.getSession().getViews();
