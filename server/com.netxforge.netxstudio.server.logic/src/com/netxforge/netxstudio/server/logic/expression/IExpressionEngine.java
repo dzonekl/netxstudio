@@ -14,8 +14,10 @@ public interface IExpressionEngine {
 	public abstract void setExpression(Expression expression);
 
 	public abstract List<ExpressionResult> getExpressionResult();
-
-	public abstract void setExpressionResult(
-			List<ExpressionResult> expressionResult);
-
+	
+	public boolean errorOccurred();
+	
+	public Throwable getThrowable();
+	
+	public List<Object> getContext();
 }

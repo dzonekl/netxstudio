@@ -13,39 +13,42 @@
  *  You should have received a copy of the GNU Lesser General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>
  * 
- * Contributors: Martin Taal - initial API and implementation and/or
- * initial documentation
+ * Contributors: 
+ * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic.workflow;
+package com.netxforge.netxstudio.server.logic;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
-
+import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.server.job.JobImplementation;
 
 /**
- * Models a work flow step which executes an expression.
+ * Implements a job runner for a metric source.
  * 
  * @author Martin Taal
  */
-public class ExpressionWorkFlowStep {
+public class RFSServiceJobImplementation extends JobImplementation {
+
+	public class Factory extends JobImplementationFactory {
+		@Override
+		public JobImplementation create() {
+			return new RFSServiceJobImplementation();
+		}
+	}
 	
-	private Expression expression;
-	
-	@Inject
-	private IExpressionEngine expressionEngine;
-	
-	
+	@Override
 	public void run() {
-		expressionEngine.run();		
+		getDataProvider().openSession();
+		getDataProvider().getTransaction();
+
+		final RFSServiceJob serviceJob = (RFSServiceJob)getJob();
+		
+		getDataProvider().commitTransaction();
 	}
 
-	public Expression getExpression() {
-		return expression;
+	private MetricSource getMetricSource() {
+		return ((MetricSourceJob) getJob()).getMetricSource();
 	}
 
-	public void setExpression(Expression expression) {
-		this.expression = expression;
-	}
-	
 }

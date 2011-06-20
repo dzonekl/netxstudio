@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.server.logic.expression;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,6 +41,9 @@ import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import com.netxforge.interpreter.IInterpreter;
+import com.netxforge.interpreter.IInterpreterContext;
+import com.netxforge.interpreter.IInterpreterContextFactory;
+import com.netxforge.interpreter.IInterpreterFactory;
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
@@ -56,14 +60,12 @@ import com.netxforge.netxstudio.server.logic.LogicActivator;
  * 		<li>Expression results not be written out</li>
  * </ul>
  * 
- * 
- * 
  * @author Martin Taal
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 public class ExpressionEngine implements IExpressionEngine {
 	private Expression expression;
-	private List<ExpressionResult> expressionResult;
+	private List<ExpressionResult> expressionResult =  new ArrayList<ExpressionResult>();
 
 	private XtextResource xResource;
 	
@@ -71,42 +73,50 @@ public class ExpressionEngine implements IExpressionEngine {
 	private XtextResourceSet xResourceSet;
 	
 	@Inject
-	IResourceFactory xResourceFactory;
+	private IResourceFactory xResourceFactory;
 	
 	@Inject
-	IInterpreter xInterpreter;
+	private IInterpreterContextFactory<Object> xInterpreterContextFactory;
+	
+	@Inject
+	private IInterpreterFactory xInterpreterFactory;
+
+	private List<Object> context = new ArrayList<Object>();
+	
+	private Throwable throwable;
 	
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#run()
 	 */
+	@SuppressWarnings("unchecked")
 	public void run() {
 		
-		// Hi Martin, the example below doesn't use a context for interpretation. 
-		// You can see an example of this in class: com.netxforge.netxscripts/tests/ContextNetXScriptTest.java 
-		// Have fun! 
+		throwable = null;
+		getExpressionResult().clear();
 		
-		// just do it
-		if( expression == null) return;
-		String asString = this.asString(expression);
+		final String asString = this.asString(expression);
 		try {
 			xResource = getResourceFromString(asString);
 			// Get the parse tree. 
-			Mod m = (Mod) this.getModel(xResource);
-			Object result = xInterpreter.evaluate(m);
+			final Mod m = (Mod) this.getModel(xResource);
 			
-			// TODO. 
-			System.out.println(result);
-			
-			
-			// TODO  Cleanup
-			// - unload the resource
-			// - prepare for GC. 
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+			final List<IInterpreterContext> contextList = new ArrayList<IInterpreterContext>();
+			for (final Object o : context) {
+				contextList.add(xInterpreterContextFactory.createContext(o));
+			}
+			final IInterpreterContext[] contextArray = new IInterpreterContext[contextList.size()];
+			final IInterpreter interpreter = xInterpreterFactory.create(contextList.toArray(contextArray));
+			setExpressionResult((List<ExpressionResult>)interpreter.evaluate(m));
+			xResource.unload();
+		} catch (final Throwable t) {
+			throwable = t;
 		}
 	}
 
+	public boolean errorOccurred() {
+		return throwable != null;
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#getExpression()
 	 */
@@ -141,7 +151,7 @@ public class ExpressionEngine implements IExpressionEngine {
 	
 	private String asString(Expression expression){
 		// TODO, check if the line feed is stored. 
-		Collection<String> lines = expression.getExpressionLines();
+		final Collection<String> lines = expression.getExpressionLines();
 		return Joiner.on("\n").join(lines);
 	}
 	
@@ -160,28 +170,27 @@ public class ExpressionEngine implements IExpressionEngine {
 	}
 	
 	private String getCurrentFileExtension() {
-		String instance = LogicActivator.getInstance().getDefaultInjector().getInstance(Key.get(String.class,Names.named(Constants.FILE_EXTENSIONS)));
+		final String instance = LogicActivator.getInstance().getInjector().getInstance(Key.get(String.class,Names.named(Constants.FILE_EXTENSIONS)));
 		if (instance.indexOf(',')==-1)
 			return instance;
 		return instance.split(",")[0];
 	}
-	
-	
+		
 	private final XtextResource getResource(InputStream in, URI uri) throws Exception {
-		XtextResource resource = doGetResource(in, uri);
-		for(Diagnostic d: resource.getErrors()) {
+		final XtextResource resource = doGetResource(in, uri);
+		for(final Diagnostic d: resource.getErrors()) {
 			if (d instanceof ExceptionDiagnostic){
 					// TODO Do something with the resource erros. 
 			}
 		}
-		for(Diagnostic d: resource.getWarnings())
+		for(final Diagnostic d: resource.getWarnings())
 			System.out.println("Resource Warning: "+d);
 		return resource;
 	}
 	
 	protected XtextResource doGetResource(InputStream in, URI uri) throws Exception {
 		xResourceSet.setClasspathURIContext(getClass());
-		XtextResource resource = (XtextResource)xResourceFactory.createResource(uri);
+		final XtextResource resource = (XtextResource)xResourceFactory.createResource(uri);
 		xResourceSet.getResources().add(resource);
 		resource.load(in, null);
 		if (resource instanceof LazyLinkingResource) {
@@ -191,6 +200,18 @@ public class ExpressionEngine implements IExpressionEngine {
 			EcoreUtil.resolveAll(resource);
 		}
 		return resource;
+	}
+
+	public Throwable getThrowable() {
+		return throwable;
+	}
+
+	public List<Object> getContext() {
+		return context;
+	}
+
+	public void setContext(List<Object> context) {
+		this.context = context;
 	}
 	
 }
