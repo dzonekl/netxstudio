@@ -19,6 +19,8 @@
 package com.netxforge.netxstudio.server.job;
 
 import org.eclipse.emf.cdo.CDOInvalidationNotification;
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOInvalidationPolicy;
@@ -44,6 +46,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.Server;
@@ -60,6 +63,7 @@ public class JobHandler {
 
 	static void createAndInitialize() {
 		instance = new JobHandler();
+		Activator.getInstance().createInjector();
 		instance.activate();
 		instance.initialize();
 	}
@@ -105,6 +109,10 @@ public class JobHandler {
 			if (job.getJobState() == JobState.IN_ACTIVE) {
 				continue;
 			}
+			final int countJobRuns = countJobRuns(job);
+			if (job.getRepeat() > 0 && job.getRepeat() >= countJobRuns) {
+				continue;
+			}
 
 			final JobDataMap map = new JobDataMap();
 			map.put(NetxForgeJob.JOB_PARAMETER, job);
@@ -129,7 +137,7 @@ public class JobHandler {
 				scheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
 			} else if (job.getRepeat() > 0) {
 				scheduleBuilder = SimpleScheduleBuilder
-						.repeatSecondlyForTotalCount(job.getRepeat(),
+						.repeatSecondlyForTotalCount(job.getRepeat() - countJobRuns,
 								job.getInterval() > 10 ? job.getInterval() : 10);
 			} else if (job.getInterval() > 10) {
 				scheduleBuilder = SimpleScheduleBuilder
@@ -160,6 +168,21 @@ public class JobHandler {
 		Activator.getInstance().getInjector().injectMembers(this);
 	}
 
+	private int countJobRuns(Job job) {
+		final CDOID cdoId = job.cdoID();
+		final Resource resource = dataProvider.getResource(
+				SchedulingPackage.eINSTANCE.getJobRunContainer());
+		for (final EObject eObject : resource.getContents()) {
+			final JobRunContainer container = (JobRunContainer) eObject;
+			final Job containerJob = container.getJob();
+			final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
+			if (cdoId.equals(containerJobId)) {
+				return container.getJobRuns().size();
+			}
+		}
+		return 0;
+	}
+	
 	private void deActivateInstance() {
 		try {
 			scheduler.shutdown();

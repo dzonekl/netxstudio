@@ -34,9 +34,9 @@ import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 public class ServerModule extends AbstractModule {
 
 	public static Module getModule() {
-		Module om = new ServerModule();
-		om = override(new CDODataServiceModule()).with(new CommonModule());
-		om = override().with(new ServerModule());
+		Module om = new CommonModule();
+		om = override(om).with(new CDODataServiceModule());
+		om = override(om).with(new ServerModule());
 		return om;
 	}
 	

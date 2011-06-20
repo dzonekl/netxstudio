@@ -44,6 +44,12 @@ public class RFSServiceJobImplementation extends JobImplementation {
 
 		final RFSServiceJob serviceJob = (RFSServiceJob)getJob();
 		
+		final RFSServiceCapacityLogic capacityLogic = new RFSServiceCapacityLogic();
+		capacityLogic.setDataProvider(getDataProvider());
+		capacityLogic.setRfsService(serviceJob.getRFSService());
+		capacityLogic.setJobMonitor(getJobMonitor());
+		capacityLogic.run();
+		
 		getDataProvider().commitTransaction();
 	}
 

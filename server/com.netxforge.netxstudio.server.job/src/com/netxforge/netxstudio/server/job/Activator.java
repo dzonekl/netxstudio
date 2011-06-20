@@ -31,9 +31,12 @@ public class Activator implements BundleActivator {
 		Activator.context = bundleContext;
 		INSTANCE = this;
 
-		injector = Guice.createInjector(ServerModule.getModule());
 	}
 
+	void createInjector() {
+		injector = Guice.createInjector(ServerModule.getModule());
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
