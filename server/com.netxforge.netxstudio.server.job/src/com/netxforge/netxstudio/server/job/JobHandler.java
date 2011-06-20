@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.job;
 
+import org.eclipse.emf.cdo.CDOInvalidationNotification;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOInvalidationPolicy;
@@ -28,8 +29,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.net4j.util.container.IElementProcessor;
 import org.eclipse.net4j.util.container.IManagedContainer;
-import org.eclipse.net4j.util.event.IEvent;
-import org.eclipse.net4j.util.event.IListener;
+import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
+import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
+import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -64,7 +66,9 @@ public class JobHandler {
 	}
 
 	static void deActivate() {
-		instance.deActivateInstance();
+		if (instance != null) {
+			instance.deActivateInstance();
+		}
 		instance = null;
 	}
 
@@ -86,7 +90,10 @@ public class JobHandler {
 			eObject.eAdapters().add(new JobChangeListener());
 		}
 		try {
-			scheduler.clear();
+			if (scheduler != null && !scheduler.isShutdown()) {
+				scheduler.shutdown();
+			}
+			scheduler = StdSchedulerFactory.getDefaultScheduler();
 		} catch (final Exception e) {
 			// TODO: do some form of logging but don't stop
 			e.printStackTrace(System.err);
@@ -109,25 +116,31 @@ public class JobHandler {
 					.withIdentity(jobIdentity).withDescription(job.getName())
 					.usingJobData(map).build();
 			TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder
-					.newTrigger()
-					.withIdentity(jobIdentity);
+					.newTrigger().withIdentity(jobIdentity);
 			if (job.getStartTime() != null) {
-				triggerBuilder = triggerBuilder.startAt(job.getStartTime().toGregorianCalendar().getTime());
+				triggerBuilder = triggerBuilder.startAt(job.getStartTime()
+						.toGregorianCalendar().getTime());
 			} else {
 				triggerBuilder = triggerBuilder.startNow();
 			}
 			final SimpleScheduleBuilder scheduleBuilder;
 			if (job.getEndTime() != null) {
-				triggerBuilder.endAt(job.getEndTime().toGregorianCalendar().getTime());				
-				scheduleBuilder = SimpleScheduleBuilder.simpleSchedule();				
-			} else if (job.getRepeat() > 0){
-				scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForTotalCount(job.getRepeat(), job.getInterval() > 10 ? job.getInterval() : 10);
+				triggerBuilder.endAt(job.getEndTime().toGregorianCalendar()
+						.getTime());
+				scheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
+			} else if (job.getRepeat() > 0) {
+				scheduleBuilder = SimpleScheduleBuilder
+						.repeatSecondlyForTotalCount(job.getRepeat(),
+								job.getInterval() > 10 ? job.getInterval() : 10);
 			} else if (job.getInterval() > 10) {
-				scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(job.getInterval());				
+				scheduleBuilder = SimpleScheduleBuilder
+						.repeatSecondlyForever(job.getInterval());
 			} else {
-				scheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(10);				
+				scheduleBuilder = SimpleScheduleBuilder
+						.repeatSecondlyForever(10);
 			}
-			final Trigger trigger = triggerBuilder.withSchedule(scheduleBuilder).build();
+			final Trigger trigger = triggerBuilder
+					.withSchedule(scheduleBuilder).build();
 			try {
 				scheduler.scheduleJob(jobDetail, trigger);
 			} catch (final Exception e) {
@@ -135,17 +148,17 @@ public class JobHandler {
 				e.printStackTrace(System.err);
 			}
 		}
+		try {
+			scheduler.start();
+		} catch (final Exception e) {
+			// TODO do some form of logging but don't stop everything
+			e.printStackTrace(System.err);
+		}
+		dataProvider.commitTransaction();
 	}
 
 	private void activate() {
-		try {
-			ServerModule.getInjector().injectMembers(this);
-
-			scheduler = StdSchedulerFactory.getDefaultScheduler();
-			scheduler.start();
-		} catch (final Exception e) {
-			throw new IllegalStateException(e);
-		}
+		ServerModule.getInjector().injectMembers(this);
 	}
 
 	private void deActivateInstance() {
@@ -161,7 +174,6 @@ public class JobHandler {
 	}
 
 	private synchronized void reinitialize() {
-		dataProvider.rollbackTransaction();
 		dataProvider.closeSession();
 		initialize();
 	}
@@ -171,7 +183,9 @@ public class JobHandler {
 
 		@Override
 		public void notifyChanged(Notification notification) {
-			JobHandler.this.reinitialize();
+			if (notification instanceof CDOInvalidationNotification) {
+				JobHandler.this.reinitialize();
+			}
 		}
 
 		@Override
@@ -198,18 +212,16 @@ public class JobHandler {
 				String factoryType, String description, Object element) {
 			if (element instanceof IRepository) {
 				final IRepository repository = (IRepository) element;
-				container.addListener(new IListener() {
+				repository.addListener(new LifecycleEventAdapter() {
 					@Override
-					public void notifyEvent(IEvent arg0) {
-//						System.err.println(arg0.getSource());
-//						System.err.println(arg0.toString());
-//						JobHandler.createAndInitialize();
+					public void notifyLifecycleEvent(ILifecycleEvent event) {
+						if (event.getKind() == Kind.ACTIVATED) {
+							JobHandler.createAndInitialize();
+						}
 					}
 				});
 			}
-//			System.err.println(element.toString());
 			return element;
 		}
 	}
-
 }

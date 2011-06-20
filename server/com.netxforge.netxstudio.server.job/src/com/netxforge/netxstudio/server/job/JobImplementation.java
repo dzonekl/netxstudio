@@ -44,10 +44,29 @@ public abstract class JobImplementation {
 	private NetxForgeJob netxForgeJob;
 	private StringBuilder log = new StringBuilder();
 
+	private Job job;
+	private JobMonitor jobMonitor;
+	
 	public abstract void run();
 
 	public NetxForgeJob getNetxForgeJob() {
 		return netxForgeJob;
+	}
+	
+	protected JobMonitor getJobMonitor() {
+		if (jobMonitor == null) {
+			jobMonitor = new JobMonitor();
+			jobMonitor.setTask("Job run");
+			jobMonitor.setMsg("Started");
+		}
+		return jobMonitor;
+	}
+	
+	protected Job getJob() {
+		if (job == null) {
+			job = (Job)getDataProvider().getTransaction().getObject(netxForgeJob.getJob().cdoID());
+		}
+		return job;
 	}
 
 	public void setNetxForgeJob(NetxForgeJob netxForgeJob) {
@@ -88,11 +107,17 @@ public abstract class JobImplementation {
 
 		public JobImplementationFactory getFactory(Class<? extends Job> clz) {
 			final JobImplementationFactory factory = factories.get(clz);
-			if (factory == null) {
-				throw new IllegalArgumentException(
-						"No factory found for job type " + clz);
+			
+			if (factory != null) {
+				return factory;
 			}
-			return factory;
+			for (final Class<?> interf : clz.getInterfaces()) {
+				if (factories.containsKey(interf)) {
+					return factories.get(interf);
+				}
+ 			}
+			throw new IllegalArgumentException(
+					"No factory found for job type " + clz);
 		}
 	}
 

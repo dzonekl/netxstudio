@@ -31,9 +31,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.internal.CommonActivator;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.internal.DataActivator;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
@@ -74,8 +72,7 @@ public class NetxForgeJob implements org.quartz.Job {
 		final JobImplementation jobImplementation = 
 				JobImplementation.REGISTRY.getFactory(job.getClass()).create();
 		
-		DataActivator.getInjector().injectMembers(jobImplementation);
-		CommonActivator.getInstance().getInjector().injectMembers(jobImplementation);
+		ServerModule.getInjector().injectMembers(jobImplementation);
 		
 		jobImplementation.setNetxForgeJob(this);
 		try {
@@ -84,36 +81,27 @@ public class NetxForgeJob implements org.quartz.Job {
 		} catch (final Throwable t) {
 			setFinished(jobImplementation, t);
 		}
-		
 	}
-
+	
 	public void setFinished(JobImplementation jobImplementation, Throwable t) {
 		dataProvider.openSession();
-		dataProvider.getTransaction();
-		final JobRunContainer container = getCreateJobRunContainer(dataProvider.getResource(
-						SchedulingPackage.eINSTANCE.getJobRunContainer()));
-		for (final JobRun jobRun : container.getJobRuns()) {
-			if (jobRun.cdoID().equals(jobRunId)) {
-				String log = jobImplementation.getLog();
-				if (t != null) {
-					jobRun.setState(JobRunState.FINISHED_WITH_ERROR);
-					final StringWriter sw = new StringWriter();
-					final PrintWriter pw = new PrintWriter(sw);					
-					t.printStackTrace(pw);
-					if (log == null) {
-						log = "";
-					}
-					jobRun.setLog(log + "\n" + t.getMessage() + "\n" + sw.toString());
-				} else {
-					jobRun.setState(jobImplementation.getJobRunState());
-					jobRun.setLog(log);
-					jobRun.setProgress(100);
-				}
-				jobRun.setEnded(ServerUtils.getInstance().toXmlDate(new Date()));
-				break;
+		final JobRun jobRun = (JobRun)dataProvider.getTransaction().getObject(jobRunId);
+		String log = jobImplementation.getLog();
+		if (t != null) {
+			jobRun.setState(JobRunState.FINISHED_WITH_ERROR);
+			final StringWriter sw = new StringWriter();
+			final PrintWriter pw = new PrintWriter(sw);					
+			t.printStackTrace(pw);
+			if (log == null) {
+				log = "";
 			}
+			jobRun.setLog(log + "\n" + t.getMessage() + "\n" + sw.toString());
+		} else {
+			jobRun.setState(jobImplementation.getJobRunState());
+			jobRun.setLog(log);
+			jobRun.setProgress(100);
 		}
-		
+		jobRun.setEnded(ServerUtils.getInstance().toXmlDate(new Date()));
 		dataProvider.commitTransaction();
 		dataProvider.closeSession();
 	}
@@ -171,7 +159,7 @@ public class NetxForgeJob implements org.quartz.Job {
 		final Job localJob = (Job) dataProvider.getTransaction()
 				.getObject(cdoId);
 		container.setJob(localJob);
-		resource.getContents().add(localJob);
+		resource.getContents().add(container);
 		return container;
 	}
 
