@@ -34,7 +34,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.library.Tolerance#getExpression <em>Expression</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.Tolerance#getExpressionRef <em>Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Tolerance#getLevel <em>Level</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Tolerance#getName <em>Name</em>}</li>
  * </ul>
@@ -47,30 +47,30 @@ import org.eclipse.emf.cdo.CDOObject;
  */
 public interface Tolerance extends CDOObject {
 	/**
-	 * Returns the value of the '<em><b>Expression</b></em>' attribute.
+	 * Returns the value of the '<em><b>Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Tolerance references, contains 0 or 1 ExpressionLine type.
+	 * The ExpressionRef reference, used to compute the tolerance.
+	 * 				
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Expression</em>' attribute.
-	 * @see #setExpression(String)
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getTolerance_Expression()
-	 * @model dataType="com.netxforge.netxstudio.generics.ExpressionLine"
-	 *        extendedMetaData="kind='attribute' name='Expression'"
+	 * @return the value of the '<em>Expression Ref</em>' reference.
+	 * @see #setExpressionRef(Expression)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getTolerance_ExpressionRef()
+	 * @model extendedMetaData="kind='attribute' name='ExpressionRef'"
 	 * @generated
 	 */
-	String getExpression();
+	Expression getExpressionRef();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Tolerance#getExpression <em>Expression</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Tolerance#getExpressionRef <em>Expression Ref</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Expression</em>' attribute.
-	 * @see #getExpression()
+	 * @param value the new value of the '<em>Expression Ref</em>' reference.
+	 * @see #getExpressionRef()
 	 * @generated
 	 */
-	void setExpression(String value);
+	void setExpressionRef(Expression value);
 
 	/**
 	 * Returns the value of the '<em><b>Level</b></em>' attribute.

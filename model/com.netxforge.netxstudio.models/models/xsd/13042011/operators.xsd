@@ -193,7 +193,7 @@ Examples:
 					<xs:documentation>The Lifecycle reference, contains 0 or 1 Lifecycle types.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="NodeType"
+			<xs:element maxOccurs="1" minOccurs="1" name="NodeType"
 				type="library:NodeType" >
 				<xs:annotation>
 					<xs:documentation>The NodeType reference, contains 0 or more NodeType types.</xs:documentation>

@@ -62,18 +62,18 @@
 	</xs:complexType>
 		
 	<!--_____________________________ -->
-	<!--| NetworkJob | -->
+	<!--| RFSServiceJob | -->
 	<!--|___________________________| -->
-	<xs:complexType name="NetworkJob">
+	<xs:complexType name="RFSServiceJob">
 		<xs:annotation>
-			<xs:documentation>A job walking over a network and computing capacity and other values.</xs:documentation>
+			<xs:documentation>A job computing capacity and utilization for a service.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Job">
 				<xs:sequence>
-					<xs:element name="Network" type="xs:anyURI" ecore:reference="operators:Network" minOccurs="1">
+					<xs:element name="RFSService" type="xs:anyURI" ecore:reference="services:RFSService" minOccurs="1">
 						<xs:annotation>
-							<xs:documentation>Reference to the metric source being imported</xs:documentation>
+							<xs:documentation>Reference to the RFSService for which the job runs.</xs:documentation>
 						</xs:annotation></xs:element>
 				</xs:sequence>
 			</xs:extension>

@@ -191,8 +191,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentResources"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentMetricRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentRelationshipRefs"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentExpressionRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/capacityExpressionRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/utilizationExpressionRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/toleranceRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/protocolRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/parameterRefs"/>
@@ -222,8 +222,6 @@
     <genClasses ecoreClass="library.ecore#//Expression">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Expression/expressionLines"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/evaluationObject"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/equipmentRefs"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/functionRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/equipmentGroupRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/serviceProfileRefs"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Expression/name"/>
@@ -236,7 +234,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Function/functionResources"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/functionMetricRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/functionRelationshipRefs"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/functionExpressionRefs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/utilizationExpressionRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/capacityExpressionRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/toleranceRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/protocolRefs"/>
@@ -299,7 +297,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ProductInfo/underDevelopmentDate"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Tolerance">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Tolerance/expression"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Tolerance/expressionRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Tolerance/level"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Tolerance/name"/>
     </genClasses>
@@ -564,8 +562,8 @@
     <genClasses ecoreClass="scheduling.ecore#//MetricSourceJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//MetricSourceJob/metricSource"/>
     </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//NetworkJob">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//NetworkJob/network"/>
+    <genClasses ecoreClass="scheduling.ecore#//RFSServiceJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceJob/rFSService"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Netxstudio" basePackage="com.netxforge" resource="XML" disposableProviderFactory="true"

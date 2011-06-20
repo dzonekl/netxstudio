@@ -6,6 +6,7 @@
 	<xs:import namespace="http://www.netxforge.com/13042011/metrics" schemaLocation="metrics.xsd"/>
 	<xs:import namespace="http://www.netxforge.com/13042011/geo" schemaLocation="geo.xsd"/>
 	<xs:import namespace="http://www.netxforge.com/13042011/library" schemaLocation="library.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/13042011/services" schemaLocation="services.xsd"/>	
 	<xs:import namespace="http://www.netxforge.com/13042011/scheduling" schemaLocation="scheduling.xsd"/>	
 	<xs:import namespace="http://www.eclipse.org/emf/2002/Ecore" schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xsd"/>
 	<xs:annotation>

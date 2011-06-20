@@ -39,8 +39,6 @@ import com.netxforge.netxstudio.services.ServiceProfile;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getExpressionLines <em>Expression Lines</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getEvaluationObject <em>Evaluation Object</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getEquipmentRefs <em>Equipment Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getFunctionRefs <em>Function Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getEquipmentGroupRefs <em>Equipment Group Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getServiceProfileRefs <em>Service Profile Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getName <em>Name</em>}</li>
@@ -105,26 +103,6 @@ public class ExpressionImpl extends CDOObjectImpl implements Expression {
 	 */
 	public void setEvaluationObject(EObject newEvaluationObject) {
 		eSet(LibraryPackage.Literals.EXPRESSION__EVALUATION_OBJECT, newEvaluationObject);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<Equipment> getEquipmentRefs() {
-		return (EList<Equipment>)eGet(LibraryPackage.Literals.EXPRESSION__EQUIPMENT_REFS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<Function> getFunctionRefs() {
-		return (EList<Function>)eGet(LibraryPackage.Literals.EXPRESSION__FUNCTION_REFS, true);
 	}
 
 	/**

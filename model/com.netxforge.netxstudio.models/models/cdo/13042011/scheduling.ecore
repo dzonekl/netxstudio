@@ -177,22 +177,22 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NetworkJob" eSuperTypes="#//Job">
+  <eClassifiers xsi:type="ecore:EClass" name="RFSServiceJob" eSuperTypes="#//Job">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A job walking over a network and computing capacity and other values."/>
+      <details key="documentation" value="A job computing capacity and utilization for a service."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="NetworkJob"/>
+      <details key="name" value="RFSServiceJob"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="network" lowerBound="1"
-        eType="ecore:EClass operators.ecore#//Network">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rFSService" lowerBound="1"
+        eType="ecore:EClass services.ecore#//RFSService">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Reference to the metric source being imported"/>
+        <details key="documentation" value="Reference to the RFSService for which the job runs."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
-        <details key="name" value="Network"/>
+        <details key="name" value="RFSService"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

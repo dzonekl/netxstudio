@@ -52,8 +52,8 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentResources <em>Equipment Resources</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentMetricRefs <em>Equipment Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentRelationshipRefs <em>Equipment Relationship Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentExpressionRefs <em>Equipment Expression Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getToleranceRefs <em>Tolerance Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getProtocolRefs <em>Protocol Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getParameterRefs <em>Parameter Refs</em>}</li>
@@ -185,16 +185,6 @@ public class EquipmentImpl extends CDOObjectImpl implements Equipment {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	public EList<Expression> getEquipmentExpressionRefs() {
-		return (EList<Expression>)eGet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_EXPRESSION_REFS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Expression getCapacityExpressionRef() {
 		return (Expression)eGet(LibraryPackage.Literals.EQUIPMENT__CAPACITY_EXPRESSION_REF, true);
 	}
@@ -206,6 +196,24 @@ public class EquipmentImpl extends CDOObjectImpl implements Equipment {
 	 */
 	public void setCapacityExpressionRef(Expression newCapacityExpressionRef) {
 		eSet(LibraryPackage.Literals.EQUIPMENT__CAPACITY_EXPRESSION_REF, newCapacityExpressionRef);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Expression getUtilizationExpressionRef() {
+		return (Expression)eGet(LibraryPackage.Literals.EQUIPMENT__UTILIZATION_EXPRESSION_REF, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUtilizationExpressionRef(Expression newUtilizationExpressionRef) {
+		eSet(LibraryPackage.Literals.EQUIPMENT__UTILIZATION_EXPRESSION_REF, newUtilizationExpressionRef);
 	}
 
 	/**

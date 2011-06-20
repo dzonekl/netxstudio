@@ -89,16 +89,6 @@
         <details key="name" value="EquipmentRelationshipRefs"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="equipmentExpressionRefs"
-        upperBound="-1" eType="#//Expression" eOpposite="#//Expression/equipmentRefs">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The EquipmentExpressionRefs reference, refers to 0 or more Expression types.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="EquipmentExpressionRefs"/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="capacityExpressionRef"
         eType="#//Expression">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -107,6 +97,16 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="CapacityExpressionRef"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="utilizationExpressionRef"
+        eType="#//Expression">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The UtilizationExpressionRef reference, used to compute the utilization for the equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="UtilizationExpressionRef"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="toleranceRefs" upperBound="-1"
@@ -388,26 +388,6 @@
         <details key="name" value="EvaluationObject"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="equipmentRefs" upperBound="-1"
-        eType="#//Equipment" eOpposite="#//Equipment/equipmentExpressionRefs">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The EquipmentRefs reference, references 0 or more Equipment types."/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="EquipmentRefs"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="functionRefs" upperBound="-1"
-        eType="#//Function" eOpposite="#//Function/functionExpressionRefs">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The FunctionRefs reference, references 0 or more Function types."/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="FunctionRefs"/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="equipmentGroupRefs" upperBound="-1"
         eType="#//EquipmentGroup" eOpposite="#//EquipmentGroup/expressionRefs">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -524,14 +504,14 @@
         <details key="name" value="FunctionRelationshipRefs"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="functionExpressionRefs"
-        upperBound="-1" eType="#//Expression" eOpposite="#//Expression/functionRefs">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="utilizationExpressionRef"
+        eType="#//Expression">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The FunctionExpressionRefs reference, refers to 0 or more Expression types."/>
+        <details key="documentation" value="The UtilizationExpressionRef reference, used to compute the utilization for the equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
-        <details key="name" value="FunctionExpressionRefs"/>
+        <details key="name" value="UtilizationExpressionRef"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="capacityExpressionRef"
@@ -1130,13 +1110,13 @@
       <details key="name" value="Tolerance"/>
       <details key="kind" value="empty"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType generics.ecore#//ExpressionLine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressionRef" eType="#//Expression">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Tolerance references, contains 0 or 1 ExpressionLine type."/>
+        <details key="documentation" value="The ExpressionRef reference, used to compute the tolerance.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
-        <details key="name" value="Expression"/>
+        <details key="name" value="ExpressionRef"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="#//LevelType"

@@ -74,13 +74,13 @@ public interface SchedulingFactory extends EFactory {
 	MetricSourceJob createMetricSourceJob();
 
 	/**
-	 * Returns a new object of class '<em>Network Job</em>'.
+	 * Returns a new object of class '<em>RFS Service Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Network Job</em>'.
+	 * @return a new object of class '<em>RFS Service Job</em>'.
 	 * @generated
 	 */
-	NetworkJob createNetworkJob();
+	RFSServiceJob createRFSServiceJob();
 
 	/**
 	 * Returns the package supported by this factory.

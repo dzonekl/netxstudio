@@ -27,7 +27,7 @@ import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.NetworkJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
@@ -103,8 +103,8 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 				return createMetricSourceJobAdapter();
 			}
 			@Override
-			public Adapter caseNetworkJob(NetworkJob object) {
-				return createNetworkJobAdapter();
+			public Adapter caseRFSServiceJob(RFSServiceJob object) {
+				return createRFSServiceJobAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -183,16 +183,16 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.NetworkJob <em>Network Job</em>}'.
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.RFSServiceJob <em>RFS Service Job</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.scheduling.NetworkJob
+	 * @see com.netxforge.netxstudio.scheduling.RFSServiceJob
 	 * @generated
 	 */
-	public Adapter createNetworkJobAdapter() {
+	public Adapter createRFSServiceJobAdapter() {
 		return null;
 	}
 

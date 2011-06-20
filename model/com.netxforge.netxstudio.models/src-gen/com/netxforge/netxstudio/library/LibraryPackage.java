@@ -204,22 +204,22 @@ public interface LibraryPackage extends EPackage {
 	int EQUIPMENT__EQUIPMENT_RELATIONSHIP_REFS = 6;
 
 	/**
-	 * The feature id for the '<em><b>Equipment Expression Refs</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EQUIPMENT__EQUIPMENT_EXPRESSION_REFS = 7;
-
-	/**
 	 * The feature id for the '<em><b>Capacity Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__CAPACITY_EXPRESSION_REF = 8;
+	int EQUIPMENT__CAPACITY_EXPRESSION_REF = 7;
+
+	/**
+	 * The feature id for the '<em><b>Utilization Expression Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EQUIPMENT__UTILIZATION_EXPRESSION_REF = 8;
 
 	/**
 	 * The feature id for the '<em><b>Tolerance Refs</b></em>' reference list.
@@ -485,31 +485,13 @@ public interface LibraryPackage extends EPackage {
 	int EXPRESSION__EVALUATION_OBJECT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Equipment Refs</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPRESSION__EQUIPMENT_REFS = 2;
-
-	/**
-	 * The feature id for the '<em><b>Function Refs</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPRESSION__FUNCTION_REFS = 3;
-
-	/**
 	 * The feature id for the '<em><b>Equipment Group Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION__EQUIPMENT_GROUP_REFS = 4;
+	int EXPRESSION__EQUIPMENT_GROUP_REFS = 2;
 
 	/**
 	 * The feature id for the '<em><b>Service Profile Refs</b></em>' reference list.
@@ -518,7 +500,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION__SERVICE_PROFILE_REFS = 5;
+	int EXPRESSION__SERVICE_PROFILE_REFS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -527,7 +509,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION__NAME = 6;
+	int EXPRESSION__NAME = 4;
 
 	/**
 	 * The number of structural features of the '<em>Expression</em>' class.
@@ -536,7 +518,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_FEATURE_COUNT = 7;
+	int EXPRESSION_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl <em>Expression Result</em>}' class.
@@ -622,13 +604,13 @@ public interface LibraryPackage extends EPackage {
 	int FUNCTION__FUNCTION_RELATIONSHIP_REFS = 5;
 
 	/**
-	 * The feature id for the '<em><b>Function Expression Refs</b></em>' reference list.
+	 * The feature id for the '<em><b>Utilization Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FUNCTION__FUNCTION_EXPRESSION_REFS = 6;
+	int FUNCTION__UTILIZATION_EXPRESSION_REF = 6;
 
 	/**
 	 * The feature id for the '<em><b>Capacity Expression Ref</b></em>' reference.
@@ -1195,13 +1177,13 @@ public interface LibraryPackage extends EPackage {
 	int TOLERANCE = 10;
 
 	/**
-	 * The feature id for the '<em><b>Expression</b></em>' attribute.
+	 * The feature id for the '<em><b>Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TOLERANCE__EXPRESSION = 0;
+	int TOLERANCE__EXPRESSION_REF = 0;
 
 	/**
 	 * The feature id for the '<em><b>Level</b></em>' attribute.
@@ -1516,17 +1498,6 @@ public interface LibraryPackage extends EPackage {
 	EReference getEquipment_EquipmentRelationshipRefs();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Equipment#getEquipmentExpressionRefs <em>Equipment Expression Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Equipment Expression Refs</em>'.
-	 * @see com.netxforge.netxstudio.library.Equipment#getEquipmentExpressionRefs()
-	 * @see #getEquipment()
-	 * @generated
-	 */
-	EReference getEquipment_EquipmentExpressionRefs();
-
-	/**
 	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.Equipment#getCapacityExpressionRef <em>Capacity Expression Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1536,6 +1507,17 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEquipment_CapacityExpressionRef();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.Equipment#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Utilization Expression Ref</em>'.
+	 * @see com.netxforge.netxstudio.library.Equipment#getUtilizationExpressionRef()
+	 * @see #getEquipment()
+	 * @generated
+	 */
+	EReference getEquipment_UtilizationExpressionRef();
 
 	/**
 	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Equipment#getToleranceRefs <em>Tolerance Refs</em>}'.
@@ -1833,28 +1815,6 @@ public interface LibraryPackage extends EPackage {
 	EReference getExpression_EvaluationObject();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Expression#getEquipmentRefs <em>Equipment Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Equipment Refs</em>'.
-	 * @see com.netxforge.netxstudio.library.Expression#getEquipmentRefs()
-	 * @see #getExpression()
-	 * @generated
-	 */
-	EReference getExpression_EquipmentRefs();
-
-	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Expression#getFunctionRefs <em>Function Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Function Refs</em>'.
-	 * @see com.netxforge.netxstudio.library.Expression#getFunctionRefs()
-	 * @see #getExpression()
-	 * @generated
-	 */
-	EReference getExpression_FunctionRefs();
-
-	/**
 	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Expression#getEquipmentGroupRefs <em>Equipment Group Refs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1974,15 +1934,15 @@ public interface LibraryPackage extends EPackage {
 	EReference getFunction_FunctionRelationshipRefs();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Function#getFunctionExpressionRefs <em>Function Expression Refs</em>}'.
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.Function#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Function Expression Refs</em>'.
-	 * @see com.netxforge.netxstudio.library.Function#getFunctionExpressionRefs()
+	 * @return the meta object for the reference '<em>Utilization Expression Ref</em>'.
+	 * @see com.netxforge.netxstudio.library.Function#getUtilizationExpressionRef()
 	 * @see #getFunction()
 	 * @generated
 	 */
-	EReference getFunction_FunctionExpressionRefs();
+	EReference getFunction_UtilizationExpressionRef();
 
 	/**
 	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.Function#getCapacityExpressionRef <em>Capacity Expression Ref</em>}'.
@@ -2595,15 +2555,15 @@ public interface LibraryPackage extends EPackage {
 	EClass getTolerance();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Tolerance#getExpression <em>Expression</em>}'.
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.Tolerance#getExpressionRef <em>Expression Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Expression</em>'.
-	 * @see com.netxforge.netxstudio.library.Tolerance#getExpression()
+	 * @return the meta object for the reference '<em>Expression Ref</em>'.
+	 * @see com.netxforge.netxstudio.library.Tolerance#getExpressionRef()
 	 * @see #getTolerance()
 	 * @generated
 	 */
-	EAttribute getTolerance_Expression();
+	EReference getTolerance_ExpressionRef();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Tolerance#getLevel <em>Level</em>}'.
@@ -2857,20 +2817,20 @@ public interface LibraryPackage extends EPackage {
 		EReference EQUIPMENT__EQUIPMENT_RELATIONSHIP_REFS = eINSTANCE.getEquipment_EquipmentRelationshipRefs();
 
 		/**
-		 * The meta object literal for the '<em><b>Equipment Expression Refs</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EQUIPMENT__EQUIPMENT_EXPRESSION_REFS = eINSTANCE.getEquipment_EquipmentExpressionRefs();
-
-		/**
 		 * The meta object literal for the '<em><b>Capacity Expression Ref</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference EQUIPMENT__CAPACITY_EXPRESSION_REF = eINSTANCE.getEquipment_CapacityExpressionRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Utilization Expression Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EQUIPMENT__UTILIZATION_EXPRESSION_REF = eINSTANCE.getEquipment_UtilizationExpressionRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Tolerance Refs</b></em>' reference list feature.
@@ -3093,22 +3053,6 @@ public interface LibraryPackage extends EPackage {
 		EReference EXPRESSION__EVALUATION_OBJECT = eINSTANCE.getExpression_EvaluationObject();
 
 		/**
-		 * The meta object literal for the '<em><b>Equipment Refs</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPRESSION__EQUIPMENT_REFS = eINSTANCE.getExpression_EquipmentRefs();
-
-		/**
-		 * The meta object literal for the '<em><b>Function Refs</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPRESSION__FUNCTION_REFS = eINSTANCE.getExpression_FunctionRefs();
-
-		/**
 		 * The meta object literal for the '<em><b>Equipment Group Refs</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3201,12 +3145,12 @@ public interface LibraryPackage extends EPackage {
 		EReference FUNCTION__FUNCTION_RELATIONSHIP_REFS = eINSTANCE.getFunction_FunctionRelationshipRefs();
 
 		/**
-		 * The meta object literal for the '<em><b>Function Expression Refs</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Utilization Expression Ref</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference FUNCTION__FUNCTION_EXPRESSION_REFS = eINSTANCE.getFunction_FunctionExpressionRefs();
+		EReference FUNCTION__UTILIZATION_EXPRESSION_REF = eINSTANCE.getFunction_UtilizationExpressionRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Capacity Expression Ref</b></em>' reference feature.
@@ -3669,12 +3613,12 @@ public interface LibraryPackage extends EPackage {
 		EClass TOLERANCE = eINSTANCE.getTolerance();
 
 		/**
-		 * The meta object literal for the '<em><b>Expression</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Expression Ref</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TOLERANCE__EXPRESSION = eINSTANCE.getTolerance_Expression();
+		EReference TOLERANCE__EXPRESSION_REF = eINSTANCE.getTolerance_ExpressionRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Level</b></em>' attribute feature.

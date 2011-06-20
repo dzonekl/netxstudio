@@ -56,8 +56,8 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getEquipmentResources <em>Equipment Resources</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getEquipmentMetricRefs <em>Equipment Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getEquipmentRelationshipRefs <em>Equipment Relationship Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.Equipment#getEquipmentExpressionRefs <em>Equipment Expression Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.Equipment#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getToleranceRefs <em>Tolerance Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getProtocolRefs <em>Protocol Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getParameterRefs <em>Parameter Refs</em>}</li>
@@ -207,25 +207,6 @@ public interface Equipment extends CDOObject {
 	EList<EquipmentRelationship> getEquipmentRelationshipRefs();
 
 	/**
-	 * Returns the value of the '<em><b>Equipment Expression Refs</b></em>' reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.library.Expression}.
-	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.library.Expression#getEquipmentRefs <em>Equipment Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The EquipmentExpressionRefs reference, refers to 0 or more Expression types.
-	 * 					
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Equipment Expression Refs</em>' reference list.
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipment_EquipmentExpressionRefs()
-	 * @see com.netxforge.netxstudio.library.Expression#getEquipmentRefs
-	 * @model opposite="equipmentRefs"
-	 *        extendedMetaData="kind='element' name='EquipmentExpressionRefs'"
-	 * @generated
-	 */
-	EList<Expression> getEquipmentExpressionRefs();
-
-	/**
 	 * Returns the value of the '<em><b>Capacity Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -250,6 +231,32 @@ public interface Equipment extends CDOObject {
 	 * @generated
 	 */
 	void setCapacityExpressionRef(Expression value);
+
+	/**
+	 * Returns the value of the '<em><b>Utilization Expression Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The UtilizationExpressionRef reference, used to compute the utilization for the equipment.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Utilization Expression Ref</em>' reference.
+	 * @see #setUtilizationExpressionRef(Expression)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipment_UtilizationExpressionRef()
+	 * @model extendedMetaData="kind='element' name='UtilizationExpressionRef'"
+	 * @generated
+	 */
+	Expression getUtilizationExpressionRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Equipment#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Utilization Expression Ref</em>' reference.
+	 * @see #getUtilizationExpressionRef()
+	 * @generated
+	 */
+	void setUtilizationExpressionRef(Expression value);
 
 	/**
 	 * Returns the value of the '<em><b>Tolerance Refs</b></em>' reference list.

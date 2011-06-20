@@ -20,30 +20,30 @@ package com.netxforge.netxstudio.scheduling.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import com.netxforge.netxstudio.operators.Network;
-import com.netxforge.netxstudio.scheduling.NetworkJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.services.RFSService;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Network Job</b></em>'.
+ * An implementation of the model object '<em><b>RFS Service Job</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.NetworkJobImpl#getNetwork <em>Network</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceJobImpl#getRFSService <em>RFS Service</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class NetworkJobImpl extends JobImpl implements NetworkJob {
+public class RFSServiceJobImpl extends JobImpl implements RFSServiceJob {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NetworkJobImpl() {
+	protected RFSServiceJobImpl() {
 		super();
 	}
 
@@ -54,7 +54,7 @@ public class NetworkJobImpl extends JobImpl implements NetworkJob {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SchedulingPackage.Literals.NETWORK_JOB;
+		return SchedulingPackage.Literals.RFS_SERVICE_JOB;
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class NetworkJobImpl extends JobImpl implements NetworkJob {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Network getNetwork() {
-		return (Network)eGet(SchedulingPackage.Literals.NETWORK_JOB__NETWORK, true);
+	public RFSService getRFSService() {
+		return (RFSService)eGet(SchedulingPackage.Literals.RFS_SERVICE_JOB__RFS_SERVICE, true);
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class NetworkJobImpl extends JobImpl implements NetworkJob {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setNetwork(Network newNetwork) {
-		eSet(SchedulingPackage.Literals.NETWORK_JOB__NETWORK, newNetwork);
+	public void setRFSService(RFSService newRFSService) {
+		eSet(SchedulingPackage.Literals.RFS_SERVICE_JOB__RFS_SERVICE, newRFSService);
 	}
 
-} //NetworkJobImpl
+} //RFSServiceJobImpl

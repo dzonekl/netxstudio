@@ -26,7 +26,7 @@ import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.NetworkJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
@@ -111,10 +111,10 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SchedulingPackage.NETWORK_JOB: {
-				NetworkJob networkJob = (NetworkJob)theEObject;
-				T result = caseNetworkJob(networkJob);
-				if (result == null) result = caseJob(networkJob);
+			case SchedulingPackage.RFS_SERVICE_JOB: {
+				RFSServiceJob rfsServiceJob = (RFSServiceJob)theEObject;
+				T result = caseRFSServiceJob(rfsServiceJob);
+				if (result == null) result = caseJob(rfsServiceJob);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -183,17 +183,17 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Network Job</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>RFS Service Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Network Job</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>RFS Service Job</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNetworkJob(NetworkJob object) {
+	public T caseRFSServiceJob(RFSServiceJob object) {
 		return null;
 	}
 

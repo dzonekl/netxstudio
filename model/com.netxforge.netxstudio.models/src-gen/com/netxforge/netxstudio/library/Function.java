@@ -55,7 +55,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *   <li>{@link com.netxforge.netxstudio.library.Function#getFunctionResources <em>Function Resources</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Function#getFunctionMetricRefs <em>Function Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Function#getFunctionRelationshipRefs <em>Function Relationship Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.Function#getFunctionExpressionRefs <em>Function Expression Refs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.Function#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Function#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Function#getToleranceRefs <em>Tolerance Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Function#getProtocolRefs <em>Protocol Refs</em>}</li>
@@ -181,22 +181,30 @@ public interface Function extends CDOObject {
 	EList<FunctionRelationship> getFunctionRelationshipRefs();
 
 	/**
-	 * Returns the value of the '<em><b>Function Expression Refs</b></em>' reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.library.Expression}.
-	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.library.Expression#getFunctionRefs <em>Function Refs</em>}'.
+	 * Returns the value of the '<em><b>Utilization Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The FunctionExpressionRefs reference, refers to 0 or more Expression types.
+	 * The UtilizationExpressionRef reference, used to compute the utilization for the equipment.
+	 * 					
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Function Expression Refs</em>' reference list.
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getFunction_FunctionExpressionRefs()
-	 * @see com.netxforge.netxstudio.library.Expression#getFunctionRefs
-	 * @model opposite="functionRefs"
-	 *        extendedMetaData="kind='element' name='FunctionExpressionRefs'"
+	 * @return the value of the '<em>Utilization Expression Ref</em>' reference.
+	 * @see #setUtilizationExpressionRef(Expression)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getFunction_UtilizationExpressionRef()
+	 * @model extendedMetaData="kind='element' name='UtilizationExpressionRef'"
 	 * @generated
 	 */
-	EList<Expression> getFunctionExpressionRefs();
+	Expression getUtilizationExpressionRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Function#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Utilization Expression Ref</em>' reference.
+	 * @see #getUtilizationExpressionRef()
+	 * @generated
+	 */
+	void setUtilizationExpressionRef(Expression value);
 
 	/**
 	 * Returns the value of the '<em><b>Capacity Expression Ref</b></em>' reference.

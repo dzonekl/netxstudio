@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.NetworkJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -93,7 +93,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass networkJobEClass = null;
+	private EClass rfsServiceJobEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -398,8 +398,8 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNetworkJob() {
-		return networkJobEClass;
+	public EClass getRFSServiceJob() {
+		return rfsServiceJobEClass;
 	}
 
 	/**
@@ -407,8 +407,8 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNetworkJob_Network() {
-		return (EReference)networkJobEClass.getEStructuralFeatures().get(0);
+	public EReference getRFSServiceJob_RFSService() {
+		return (EReference)rfsServiceJobEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -499,8 +499,8 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		metricSourceJobEClass = createEClass(METRIC_SOURCE_JOB);
 		createEReference(metricSourceJobEClass, METRIC_SOURCE_JOB__METRIC_SOURCE);
 
-		networkJobEClass = createEClass(NETWORK_JOB);
-		createEReference(networkJobEClass, NETWORK_JOB__NETWORK);
+		rfsServiceJobEClass = createEClass(RFS_SERVICE_JOB);
+		createEReference(rfsServiceJobEClass, RFS_SERVICE_JOB__RFS_SERVICE);
 
 		// Create enums
 		jobRunStateEEnum = createEEnum(JOB_RUN_STATE);
@@ -538,7 +538,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
 		MetricsPackage theMetricsPackage = (MetricsPackage)EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI);
-		OperatorsPackage theOperatorsPackage = (OperatorsPackage)EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI);
+		ServicesPackage theServicesPackage = (ServicesPackage)EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -546,7 +546,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		// Add supertypes to classes
 		metricSourceJobEClass.getESuperTypes().add(this.getJob());
-		networkJobEClass.getESuperTypes().add(this.getJob());
+		rfsServiceJobEClass.getESuperTypes().add(this.getJob());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(jobEClass, Job.class, "Job", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -573,8 +573,8 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		initEClass(metricSourceJobEClass, MetricSourceJob.class, "MetricSourceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricSourceJob_MetricSource(), theMetricsPackage.getMetricSource(), null, "metricSource", null, 1, 1, MetricSourceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(networkJobEClass, NetworkJob.class, "NetworkJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNetworkJob_Network(), theOperatorsPackage.getNetwork(), null, "network", null, 1, 1, NetworkJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(rfsServiceJobEClass, RFSServiceJob.class, "RFSServiceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRFSServiceJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, RFSServiceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(jobRunStateEEnum, JobRunState.class, "JobRunState");
@@ -793,18 +793,18 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "name", "MetricSource"
 		   });			
 		addAnnotation
-		  (networkJobEClass, 
+		  (rfsServiceJobEClass, 
 		   source, 
 		   new String[] {
-			 "name", "NetworkJob",
+			 "name", "RFSServiceJob",
 			 "kind", "elementOnly"
 		   });			
 		addAnnotation
-		  (getNetworkJob_Network(), 
+		  (getRFSServiceJob_RFSService(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "Network"
+			 "name", "RFSService"
 		   });
 	}
 

@@ -88,20 +88,30 @@ public interface Node extends CDOObject {
 	void setLifecycle(Lifecycle value);
 
 	/**
-	 * Returns the value of the '<em><b>Node Type</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.library.NodeType}.
+	 * Returns the value of the '<em><b>Node Type</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The NodeType reference, contains 0 or more NodeType types.
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Node Type</em>' containment reference list.
+	 * @return the value of the '<em>Node Type</em>' containment reference.
+	 * @see #setNodeType(NodeType)
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNode_NodeType()
-	 * @model containment="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='NodeType'"
 	 * @generated
 	 */
-	EList<NodeType> getNodeType();
+	NodeType getNodeType();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Node#getNodeType <em>Node Type</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Node Type</em>' containment reference.
+	 * @see #getNodeType()
+	 * @generated
+	 */
+	void setNodeType(NodeType value);
 
 	/**
 	 * Returns the value of the '<em><b>Created By Ref</b></em>' reference.

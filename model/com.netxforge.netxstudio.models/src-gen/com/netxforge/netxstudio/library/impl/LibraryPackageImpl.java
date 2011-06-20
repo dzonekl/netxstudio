@@ -380,7 +380,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_EquipmentExpressionRefs() {
+	public EReference getEquipment_CapacityExpressionRef() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -389,7 +389,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_CapacityExpressionRef() {
+	public EReference getEquipment_UtilizationExpressionRef() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -641,7 +641,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExpression_EquipmentRefs() {
+	public EReference getExpression_EquipmentGroupRefs() {
 		return (EReference)expressionEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -650,7 +650,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExpression_FunctionRefs() {
+	public EReference getExpression_ServiceProfileRefs() {
 		return (EReference)expressionEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -659,26 +659,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExpression_EquipmentGroupRefs() {
-		return (EReference)expressionEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExpression_ServiceProfileRefs() {
-		return (EReference)expressionEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getExpression_Name() {
-		return (EAttribute)expressionEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)expressionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -758,7 +740,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getFunction_FunctionExpressionRefs() {
+	public EReference getFunction_UtilizationExpressionRef() {
 		return (EReference)functionEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -1271,8 +1253,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTolerance_Expression() {
-		return (EAttribute)toleranceEClass.getEStructuralFeatures().get(0);
+	public EReference getTolerance_ExpressionRef() {
+		return (EReference)toleranceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1446,8 +1428,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENT_RESOURCES);
 		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENT_METRIC_REFS);
 		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENT_RELATIONSHIP_REFS);
-		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENT_EXPRESSION_REFS);
 		createEReference(equipmentEClass, EQUIPMENT__CAPACITY_EXPRESSION_REF);
+		createEReference(equipmentEClass, EQUIPMENT__UTILIZATION_EXPRESSION_REF);
 		createEReference(equipmentEClass, EQUIPMENT__TOLERANCE_REFS);
 		createEReference(equipmentEClass, EQUIPMENT__PROTOCOL_REFS);
 		createEReference(equipmentEClass, EQUIPMENT__PARAMETER_REFS);
@@ -1477,8 +1459,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		expressionEClass = createEClass(EXPRESSION);
 		createEAttribute(expressionEClass, EXPRESSION__EXPRESSION_LINES);
 		createEReference(expressionEClass, EXPRESSION__EVALUATION_OBJECT);
-		createEReference(expressionEClass, EXPRESSION__EQUIPMENT_REFS);
-		createEReference(expressionEClass, EXPRESSION__FUNCTION_REFS);
 		createEReference(expressionEClass, EXPRESSION__EQUIPMENT_GROUP_REFS);
 		createEReference(expressionEClass, EXPRESSION__SERVICE_PROFILE_REFS);
 		createEAttribute(expressionEClass, EXPRESSION__NAME);
@@ -1492,7 +1472,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(functionEClass, FUNCTION__FUNCTION_RESOURCES);
 		createEReference(functionEClass, FUNCTION__FUNCTION_METRIC_REFS);
 		createEReference(functionEClass, FUNCTION__FUNCTION_RELATIONSHIP_REFS);
-		createEReference(functionEClass, FUNCTION__FUNCTION_EXPRESSION_REFS);
+		createEReference(functionEClass, FUNCTION__UTILIZATION_EXPRESSION_REF);
 		createEReference(functionEClass, FUNCTION__CAPACITY_EXPRESSION_REF);
 		createEReference(functionEClass, FUNCTION__TOLERANCE_REFS);
 		createEReference(functionEClass, FUNCTION__PROTOCOL_REFS);
@@ -1555,7 +1535,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEAttribute(productInfoEClass, PRODUCT_INFO__UNDER_DEVELOPMENT_DATE);
 
 		toleranceEClass = createEClass(TOLERANCE);
-		createEAttribute(toleranceEClass, TOLERANCE__EXPRESSION);
+		createEReference(toleranceEClass, TOLERANCE__EXPRESSION_REF);
 		createEAttribute(toleranceEClass, TOLERANCE__LEVEL);
 		createEAttribute(toleranceEClass, TOLERANCE__NAME);
 
@@ -1626,8 +1606,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getEquipment_EquipmentResources(), this.getNetXResource(), null, "equipmentResources", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_EquipmentMetricRefs(), theMetricsPackage.getMetric(), null, "equipmentMetricRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_EquipmentRelationshipRefs(), theOperatorsPackage.getEquipmentRelationship(), null, "equipmentRelationshipRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEquipment_EquipmentExpressionRefs(), this.getExpression(), this.getExpression_EquipmentRefs(), "equipmentExpressionRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_CapacityExpressionRef(), this.getExpression(), null, "capacityExpressionRef", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEquipment_UtilizationExpressionRef(), this.getExpression(), null, "utilizationExpressionRef", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_ToleranceRefs(), this.getTolerance(), null, "toleranceRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_ProtocolRefs(), theProtocolsPackage.getProtocol(), null, "protocolRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_ParameterRefs(), this.getParameter(), null, "parameterRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1657,8 +1637,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEClass(expressionEClass, Expression.class, "Expression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExpression_ExpressionLines(), theGenericsPackage.getExpressionLine(), "expressionLines", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExpression_EvaluationObject(), ecorePackage.getEObject(), null, "evaluationObject", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExpression_EquipmentRefs(), this.getEquipment(), this.getEquipment_EquipmentExpressionRefs(), "equipmentRefs", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExpression_FunctionRefs(), this.getFunction(), this.getFunction_FunctionExpressionRefs(), "functionRefs", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExpression_EquipmentGroupRefs(), this.getEquipmentGroup(), this.getEquipmentGroup_ExpressionRefs(), "equipmentGroupRefs", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExpression_ServiceProfileRefs(), theServicesPackage.getServiceProfile(), null, "serviceProfileRefs", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExpression_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1672,7 +1650,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getFunction_FunctionResources(), this.getNetXResource(), null, "functionResources", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_FunctionMetricRefs(), theMetricsPackage.getMetric(), null, "functionMetricRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_FunctionRelationshipRefs(), theOperatorsPackage.getFunctionRelationship(), null, "functionRelationshipRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFunction_FunctionExpressionRefs(), this.getExpression(), this.getExpression_FunctionRefs(), "functionExpressionRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFunction_UtilizationExpressionRef(), this.getExpression(), null, "utilizationExpressionRef", null, 0, 1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_CapacityExpressionRef(), this.getExpression(), null, "capacityExpressionRef", null, 0, 1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_ToleranceRefs(), this.getTolerance(), null, "toleranceRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_ProtocolRefs(), theProtocolsPackage.getProtocol(), null, "protocolRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1735,7 +1713,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEAttribute(getProductInfo_UnderDevelopmentDate(), theXMLTypePackage.getDateTime(), "underDevelopmentDate", null, 0, 1, ProductInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(toleranceEClass, Tolerance.class, "Tolerance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTolerance_Expression(), theGenericsPackage.getExpressionLine(), "expression", null, 0, 1, Tolerance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTolerance_ExpressionRef(), this.getExpression(), null, "expressionRef", null, 0, 1, Tolerance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTolerance_Level(), this.getLevelType(), "level", null, 0, 1, Tolerance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTolerance_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Tolerance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1801,7 +1779,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																
+		   });																																																																																												
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -1881,18 +1859,18 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "EquipmentRelationshipRefs"
 		   });			
 		addAnnotation
-		  (getEquipment_EquipmentExpressionRefs(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "EquipmentExpressionRefs"
-		   });			
-		addAnnotation
 		  (getEquipment_CapacityExpressionRef(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
 			 "name", "CapacityExpressionRef"
+		   });			
+		addAnnotation
+		  (getEquipment_UtilizationExpressionRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "UtilizationExpressionRef"
 		   });			
 		addAnnotation
 		  (getEquipment_ToleranceRefs(), 
@@ -2084,20 +2062,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "EvaluationObject"
 		   });			
 		addAnnotation
-		  (getExpression_EquipmentRefs(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "EquipmentRefs"
-		   });			
-		addAnnotation
-		  (getExpression_FunctionRefs(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "FunctionRefs"
-		   });			
-		addAnnotation
 		  (getExpression_EquipmentGroupRefs(), 
 		   source, 
 		   new String[] {
@@ -2175,11 +2139,11 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "FunctionRelationshipRefs"
 		   });			
 		addAnnotation
-		  (getFunction_FunctionExpressionRefs(), 
+		  (getFunction_UtilizationExpressionRef(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "FunctionExpressionRefs"
+			 "name", "UtilizationExpressionRef"
 		   });			
 		addAnnotation
 		  (getFunction_CapacityExpressionRef(), 
@@ -2613,11 +2577,11 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "kind", "empty"
 		   });			
 		addAnnotation
-		  (getTolerance_Expression(), 
+		  (getTolerance_ExpressionRef(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
-			 "name", "Expression"
+			 "name", "ExpressionRef"
 		   });			
 		addAnnotation
 		  (getTolerance_Level(), 
@@ -2727,7 +2691,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self.equipments->size()\n\t\t\t\t\t\t\t"
-		   });																												
+		   });																								
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -2761,7 +2725,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	protected void createTeneoAnnotations() {
-		String source = "teneo.jpa";																																																																																															
+		String source = "teneo.jpa";																																																																																											
 		addAnnotation
 		  (expressionResultEClass, 
 		   source, 

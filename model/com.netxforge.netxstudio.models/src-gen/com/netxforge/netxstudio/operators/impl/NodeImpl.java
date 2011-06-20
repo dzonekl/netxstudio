@@ -101,8 +101,17 @@ public class NodeImpl extends CDOObjectImpl implements Node {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<NodeType> getNodeType() {
-		return (EList<NodeType>)eGet(OperatorsPackage.Literals.NODE__NODE_TYPE, true);
+	public NodeType getNodeType() {
+		return (NodeType)eGet(OperatorsPackage.Literals.NODE__NODE_TYPE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setNodeType(NodeType newNodeType) {
+		eSet(OperatorsPackage.Literals.NODE__NODE_TYPE, newNodeType);
 	}
 
 	/**

@@ -214,12 +214,14 @@ Examples:
 				<xs:annotation>
 					<xs:documentation>The FunctionRelationshipRefs reference, refers to 0 or more FunctionRelationship types.</xs:documentation>
 				</xs:annotation></xs:element>
-			<xs:element ecore:opposite="FunctionRefs" ecore:reference="Expression"
-				maxOccurs="unbounded" minOccurs="0" name="FunctionExpressionRefs"
-				type="xs:anyURI" >
+			<xs:element 
+				ecore:reference="Expression" minOccurs="0"
+				name="UtilizationExpressionRef" type="xs:anyURI">
 				<xs:annotation>
-					<xs:documentation>The FunctionExpressionRefs reference, refers to 0 or more Expression types.</xs:documentation>
-				</xs:annotation></xs:element>
+					<xs:documentation>The UtilizationExpressionRef reference, used to compute the utilization for the equipment.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element 
 				ecore:reference="Expression" minOccurs="0"
 				name="CapacityExpressionRef" type="xs:anyURI">
@@ -358,19 +360,19 @@ Examples:
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ecore:opposite="EquipmentRefs"
-				ecore:reference="Expression" maxOccurs="unbounded" minOccurs="0"
-				name="EquipmentExpressionRefs" type="xs:anyURI">
-				<xs:annotation>
-					<xs:documentation>The EquipmentExpressionRefs reference, refers to 0 or more Expression types.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element 
 				ecore:reference="Expression" minOccurs="0"
 				name="CapacityExpressionRef" type="xs:anyURI">
 				<xs:annotation>
 					<xs:documentation>The CapacityExpressionRef reference, used to compute the capacity values for the equipment.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element 
+				ecore:reference="Expression" minOccurs="0"
+				name="UtilizationExpressionRef" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>The UtilizationExpressionRef reference, used to compute the utilization for the equipment.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
@@ -885,10 +887,14 @@ A tolerance has a name, an expression to determine if the tolerance is applicabl
         	<xs:annotation>
         		<xs:documentation>The Name attribute holds a name used for presentation.</xs:documentation>
         	</xs:annotation></xs:attribute>
-		<xs:attribute name="Expression" type="gen:ExpressionLine" >
+       	<xs:attribute 
+			ecore:reference="Expression"
+			name="ExpressionRef" type="xs:anyURI">
 			<xs:annotation>
-				<xs:documentation>The Tolerance references, contains 0 or 1 ExpressionLine type.</xs:documentation>
-			</xs:annotation></xs:attribute>
+				<xs:documentation>The ExpressionRef reference, used to compute the tolerance.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attribute name="Level">
             <xs:annotation>
             	<xs:documentation>The Level attribute holds the level of this tolerance.</xs:documentation>
@@ -1006,18 +1012,6 @@ See: The NetXScript specification.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<!-- Non-Contained -->
-			<xs:element ecore:opposite="EquipmentExpressionRefs"
-				ecore:reference="Equipment" maxOccurs="unbounded" minOccurs="0"
-				name="EquipmentRefs" type="xs:anyURI" >
-				<xs:annotation>
-					<xs:documentation>The EquipmentRefs reference, references 0 or more Equipment types.</xs:documentation>
-				</xs:annotation></xs:element>
-			<xs:element ecore:opposite="FunctionExpressionRefs"
-				ecore:reference="Function" maxOccurs="unbounded" minOccurs="0"
-				name="FunctionRefs" type="xs:anyURI" >
-				<xs:annotation>
-					<xs:documentation>The FunctionRefs reference, references 0 or more Function types.</xs:documentation>
-				</xs:annotation></xs:element>
 			<xs:element ecore:opposite="EquipmentGroupExpressionRefs"
 				ecore:reference="EquipmentGroup" maxOccurs="unbounded" minOccurs="0"
 				name="EquipmentGroupRefs" type="xs:anyURI" >

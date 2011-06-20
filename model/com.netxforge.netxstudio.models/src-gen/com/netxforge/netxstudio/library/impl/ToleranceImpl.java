@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import com.netxforge.netxstudio.library.Expression;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
@@ -32,7 +33,7 @@ import com.netxforge.netxstudio.library.Tolerance;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ToleranceImpl#getExpression <em>Expression</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ToleranceImpl#getExpressionRef <em>Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ToleranceImpl#getLevel <em>Level</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ToleranceImpl#getName <em>Name</em>}</li>
  * </ul>
@@ -75,8 +76,8 @@ public class ToleranceImpl extends CDOObjectImpl implements Tolerance {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getExpression() {
-		return (String)eGet(LibraryPackage.Literals.TOLERANCE__EXPRESSION, true);
+	public Expression getExpressionRef() {
+		return (Expression)eGet(LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF, true);
 	}
 
 	/**
@@ -84,8 +85,8 @@ public class ToleranceImpl extends CDOObjectImpl implements Tolerance {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setExpression(String newExpression) {
-		eSet(LibraryPackage.Literals.TOLERANCE__EXPRESSION, newExpression);
+	public void setExpressionRef(Expression newExpressionRef) {
+		eSet(LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF, newExpressionRef);
 	}
 
 	/**

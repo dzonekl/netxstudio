@@ -18,53 +18,53 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
-import com.netxforge.netxstudio.operators.Network;
+import com.netxforge.netxstudio.services.RFSService;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Network Job</b></em>'.
+ * A representation of the model object '<em><b>RFS Service Job</b></em>'.
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A job walking over a network and computing capacity and other values.
+ * A job computing capacity and utilization for a service.
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.NetworkJob#getNetwork <em>Network</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.RFSServiceJob#getRFSService <em>RFS Service</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getNetworkJob()
- * @model extendedMetaData="name='NetworkJob' kind='elementOnly'"
+ * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getRFSServiceJob()
+ * @model extendedMetaData="name='RFSServiceJob' kind='elementOnly'"
  * @generated
  */
-public interface NetworkJob extends Job {
+public interface RFSServiceJob extends Job {
 	/**
-	 * Returns the value of the '<em><b>Network</b></em>' reference.
+	 * Returns the value of the '<em><b>RFS Service</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Reference to the metric source being imported
+	 * Reference to the RFSService for which the job runs.
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Network</em>' reference.
-	 * @see #setNetwork(Network)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getNetworkJob_Network()
+	 * @return the value of the '<em>RFS Service</em>' reference.
+	 * @see #setRFSService(RFSService)
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getRFSServiceJob_RFSService()
 	 * @model required="true"
-	 *        extendedMetaData="kind='element' name='Network'"
+	 *        extendedMetaData="kind='element' name='RFSService'"
 	 * @generated
 	 */
-	Network getNetwork();
+	RFSService getRFSService();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.NetworkJob#getNetwork <em>Network</em>}' reference.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.RFSServiceJob#getRFSService <em>RFS Service</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Network</em>' reference.
-	 * @see #getNetwork()
+	 * @param value the new value of the '<em>RFS Service</em>' reference.
+	 * @see #getRFSService()
 	 * @generated
 	 */
-	void setNetwork(Network value);
+	void setRFSService(RFSService value);
 
-} // NetworkJob
+} // RFSServiceJob

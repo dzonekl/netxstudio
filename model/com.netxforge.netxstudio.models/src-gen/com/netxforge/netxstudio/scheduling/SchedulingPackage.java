@@ -427,14 +427,14 @@ public interface SchedulingPackage extends EPackage {
 	int METRIC_SOURCE_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.NetworkJobImpl <em>Network Job</em>}' class.
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceJobImpl <em>RFS Service Job</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.scheduling.impl.NetworkJobImpl
-	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getNetworkJob()
+	 * @see com.netxforge.netxstudio.scheduling.impl.RFSServiceJobImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceJob()
 	 * @generated
 	 */
-	int NETWORK_JOB = 4;
+	int RFS_SERVICE_JOB = 4;
 
 	/**
 	 * The feature id for the '<em><b>End Time</b></em>' attribute.
@@ -443,7 +443,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK_JOB__END_TIME = JOB__END_TIME;
+	int RFS_SERVICE_JOB__END_TIME = JOB__END_TIME;
 
 	/**
 	 * The feature id for the '<em><b>Interval</b></em>' attribute.
@@ -452,7 +452,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK_JOB__INTERVAL = JOB__INTERVAL;
+	int RFS_SERVICE_JOB__INTERVAL = JOB__INTERVAL;
 
 	/**
 	 * The feature id for the '<em><b>Job State</b></em>' attribute.
@@ -461,7 +461,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK_JOB__JOB_STATE = JOB__JOB_STATE;
+	int RFS_SERVICE_JOB__JOB_STATE = JOB__JOB_STATE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -470,7 +470,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK_JOB__NAME = JOB__NAME;
+	int RFS_SERVICE_JOB__NAME = JOB__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Repeat</b></em>' attribute.
@@ -479,7 +479,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK_JOB__REPEAT = JOB__REPEAT;
+	int RFS_SERVICE_JOB__REPEAT = JOB__REPEAT;
 
 	/**
 	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
@@ -488,25 +488,25 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK_JOB__START_TIME = JOB__START_TIME;
+	int RFS_SERVICE_JOB__START_TIME = JOB__START_TIME;
 
 	/**
-	 * The feature id for the '<em><b>Network</b></em>' reference.
+	 * The feature id for the '<em><b>RFS Service</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK_JOB__NETWORK = JOB_FEATURE_COUNT + 0;
+	int RFS_SERVICE_JOB__RFS_SERVICE = JOB_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Network Job</em>' class.
+	 * The number of structural features of the '<em>RFS Service Job</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
+	int RFS_SERVICE_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}' enum.
@@ -765,25 +765,25 @@ public interface SchedulingPackage extends EPackage {
 	EReference getMetricSourceJob_MetricSource();
 
 	/**
-	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.NetworkJob <em>Network Job</em>}'.
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.RFSServiceJob <em>RFS Service Job</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Network Job</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.NetworkJob
+	 * @return the meta object for class '<em>RFS Service Job</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.RFSServiceJob
 	 * @generated
 	 */
-	EClass getNetworkJob();
+	EClass getRFSServiceJob();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.NetworkJob#getNetwork <em>Network</em>}'.
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.RFSServiceJob#getRFSService <em>RFS Service</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Network</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.NetworkJob#getNetwork()
-	 * @see #getNetworkJob()
+	 * @return the meta object for the reference '<em>RFS Service</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.RFSServiceJob#getRFSService()
+	 * @see #getRFSServiceJob()
 	 * @generated
 	 */
-	EReference getNetworkJob_Network();
+	EReference getRFSServiceJob_RFSService();
 
 	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}'.
@@ -1020,22 +1020,22 @@ public interface SchedulingPackage extends EPackage {
 		EReference METRIC_SOURCE_JOB__METRIC_SOURCE = eINSTANCE.getMetricSourceJob_MetricSource();
 
 		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.NetworkJobImpl <em>Network Job</em>}' class.
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceJobImpl <em>RFS Service Job</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.scheduling.impl.NetworkJobImpl
-		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getNetworkJob()
+		 * @see com.netxforge.netxstudio.scheduling.impl.RFSServiceJobImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceJob()
 		 * @generated
 		 */
-		EClass NETWORK_JOB = eINSTANCE.getNetworkJob();
+		EClass RFS_SERVICE_JOB = eINSTANCE.getRFSServiceJob();
 
 		/**
-		 * The meta object literal for the '<em><b>Network</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>RFS Service</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference NETWORK_JOB__NETWORK = eINSTANCE.getNetworkJob_Network();
+		EReference RFS_SERVICE_JOB__RFS_SERVICE = eINSTANCE.getRFSServiceJob_RFSService();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}' enum.

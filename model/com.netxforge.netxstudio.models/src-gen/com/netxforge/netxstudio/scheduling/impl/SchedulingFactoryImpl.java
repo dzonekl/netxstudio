@@ -31,7 +31,7 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.NetworkJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
@@ -83,7 +83,7 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 			case SchedulingPackage.JOB_RUN: return (EObject)createJobRun();
 			case SchedulingPackage.JOB_RUN_CONTAINER: return (EObject)createJobRunContainer();
 			case SchedulingPackage.METRIC_SOURCE_JOB: return (EObject)createMetricSourceJob();
-			case SchedulingPackage.NETWORK_JOB: return (EObject)createNetworkJob();
+			case SchedulingPackage.RFS_SERVICE_JOB: return (EObject)createRFSServiceJob();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -176,9 +176,9 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NetworkJob createNetworkJob() {
-		NetworkJobImpl networkJob = new NetworkJobImpl();
-		return networkJob;
+	public RFSServiceJob createRFSServiceJob() {
+		RFSServiceJobImpl rfsServiceJob = new RFSServiceJobImpl();
+		return rfsServiceJob;
 	}
 
 	/**

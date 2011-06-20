@@ -585,7 +585,7 @@ public interface OperatorsPackage extends EPackage {
 	int NODE__LIFECYCLE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Node Type</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Node Type</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1246,10 +1246,10 @@ public interface OperatorsPackage extends EPackage {
 	EReference getNode_Lifecycle();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.operators.Node#getNodeType <em>Node Type</em>}'.
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.operators.Node#getNodeType <em>Node Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Node Type</em>'.
+	 * @return the meta object for the containment reference '<em>Node Type</em>'.
 	 * @see com.netxforge.netxstudio.operators.Node#getNodeType()
 	 * @see #getNode()
 	 * @generated
@@ -1850,7 +1850,7 @@ public interface OperatorsPackage extends EPackage {
 		EReference NODE__LIFECYCLE = eINSTANCE.getNode_Lifecycle();
 
 		/**
-		 * The meta object literal for the '<em><b>Node Type</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Node Type</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

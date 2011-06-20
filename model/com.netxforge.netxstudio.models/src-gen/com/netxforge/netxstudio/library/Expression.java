@@ -42,8 +42,6 @@ import com.netxforge.netxstudio.services.ServiceProfile;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getExpressionLines <em>Expression Lines</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getEvaluationObject <em>Evaluation Object</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.Expression#getEquipmentRefs <em>Equipment Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.Expression#getFunctionRefs <em>Function Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getEquipmentGroupRefs <em>Equipment Group Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getServiceProfileRefs <em>Service Profile Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getName <em>Name</em>}</li>
@@ -96,42 +94,6 @@ public interface Expression extends CDOObject {
 	 * @generated
 	 */
 	void setEvaluationObject(EObject value);
-
-	/**
-	 * Returns the value of the '<em><b>Equipment Refs</b></em>' reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.library.Equipment}.
-	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.library.Equipment#getEquipmentExpressionRefs <em>Equipment Expression Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The EquipmentRefs reference, references 0 or more Equipment types.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Equipment Refs</em>' reference list.
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpression_EquipmentRefs()
-	 * @see com.netxforge.netxstudio.library.Equipment#getEquipmentExpressionRefs
-	 * @model opposite="equipmentExpressionRefs"
-	 *        extendedMetaData="kind='element' name='EquipmentRefs'"
-	 * @generated
-	 */
-	EList<Equipment> getEquipmentRefs();
-
-	/**
-	 * Returns the value of the '<em><b>Function Refs</b></em>' reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.library.Function}.
-	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.library.Function#getFunctionExpressionRefs <em>Function Expression Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The FunctionRefs reference, references 0 or more Function types.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Function Refs</em>' reference list.
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpression_FunctionRefs()
-	 * @see com.netxforge.netxstudio.library.Function#getFunctionExpressionRefs
-	 * @model opposite="functionExpressionRefs"
-	 *        extendedMetaData="kind='element' name='FunctionRefs'"
-	 * @generated
-	 */
-	EList<Function> getFunctionRefs();
 
 	/**
 	 * Returns the value of the '<em><b>Equipment Group Refs</b></em>' reference list.
