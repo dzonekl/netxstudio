@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.operators;
 
 import org.eclipse.emf.cdo.CDOObject;
-import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Person;

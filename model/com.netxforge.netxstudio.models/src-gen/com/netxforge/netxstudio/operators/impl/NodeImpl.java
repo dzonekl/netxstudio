@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
@@ -100,7 +99,6 @@ public class NodeImpl extends CDOObjectImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	public NodeType getNodeType() {
 		return (NodeType)eGet(OperatorsPackage.Literals.NODE__NODE_TYPE, true);
 	}

@@ -23,10 +23,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
-import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.services.ServiceProfile;
 

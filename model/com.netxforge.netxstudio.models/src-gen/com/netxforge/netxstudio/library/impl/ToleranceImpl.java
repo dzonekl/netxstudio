@@ -18,10 +18,10 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
-import com.netxforge.netxstudio.library.Expression;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LevelType;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
