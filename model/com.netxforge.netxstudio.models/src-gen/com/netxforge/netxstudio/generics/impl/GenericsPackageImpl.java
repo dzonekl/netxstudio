@@ -1586,7 +1586,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		  (baseEClass, 
 		   source, 
 		   new String[] {
-			 "appinfo", "@MappedSSuperclass"
+			 "appinfo", "@MappedSuperclass"
 		   });																																																																																																															
 	}
 

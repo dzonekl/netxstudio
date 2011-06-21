@@ -23,9 +23,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,7 +35,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl#getJob <em>Job</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl#getJobRuns <em>Job Runs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl#getWorkFlowRuns <em>Work Flow Runs</em>}</li>
  * </ul>
  * </p>
  *
@@ -95,8 +95,8 @@ public class JobRunContainerImpl extends CDOObjectImpl implements JobRunContaine
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<JobRun> getJobRuns() {
-		return (EList<JobRun>)eGet(SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB_RUNS, true);
+	public EList<WorkFlowRun> getWorkFlowRuns() {
+		return (EList<WorkFlowRun>)eGet(SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS, true);
 	}
 
 } //JobRunContainerImpl

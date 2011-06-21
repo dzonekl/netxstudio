@@ -159,6 +159,225 @@ public interface SchedulingPackage extends EPackage {
 	SchedulingPackage eINSTANCE = com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.ExpressionFailureImpl <em>Expression Failure</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.ExpressionFailureImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getExpressionFailure()
+	 * @generated
+	 */
+	int EXPRESSION_FAILURE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Expression Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_FAILURE__EXPRESSION_REF = 0;
+
+	/**
+	 * The feature id for the '<em><b>Component Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_FAILURE__COMPONENT_REF = 1;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_FAILURE__MESSAGE = 2;
+
+	/**
+	 * The number of structural features of the '<em>Expression Failure</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_FAILURE_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl <em>Work Flow Run</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getWorkFlowRun()
+	 * @generated
+	 */
+	int WORK_FLOW_RUN = 6;
+
+	/**
+	 * The feature id for the '<em><b>Ended</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORK_FLOW_RUN__ENDED = 0;
+
+	/**
+	 * The feature id for the '<em><b>Log</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORK_FLOW_RUN__LOG = 1;
+
+	/**
+	 * The feature id for the '<em><b>Progress</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORK_FLOW_RUN__PROGRESS = 2;
+
+	/**
+	 * The feature id for the '<em><b>Progress Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORK_FLOW_RUN__PROGRESS_MESSAGE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Progress Task</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORK_FLOW_RUN__PROGRESS_TASK = 4;
+
+	/**
+	 * The feature id for the '<em><b>Started</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORK_FLOW_RUN__STARTED = 5;
+
+	/**
+	 * The feature id for the '<em><b>State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORK_FLOW_RUN__STATE = 6;
+
+	/**
+	 * The number of structural features of the '<em>Work Flow Run</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WORK_FLOW_RUN_FEATURE_COUNT = 7;
+
+	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.ExpressionWorkFlowRunImpl <em>Expression Work Flow Run</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.ExpressionWorkFlowRunImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getExpressionWorkFlowRun()
+	 * @generated
+	 */
+	int EXPRESSION_WORK_FLOW_RUN = 1;
+
+	/**
+	 * The feature id for the '<em><b>Ended</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_WORK_FLOW_RUN__ENDED = WORK_FLOW_RUN__ENDED;
+
+	/**
+	 * The feature id for the '<em><b>Log</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_WORK_FLOW_RUN__LOG = WORK_FLOW_RUN__LOG;
+
+	/**
+	 * The feature id for the '<em><b>Progress</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_WORK_FLOW_RUN__PROGRESS = WORK_FLOW_RUN__PROGRESS;
+
+	/**
+	 * The feature id for the '<em><b>Progress Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_WORK_FLOW_RUN__PROGRESS_MESSAGE = WORK_FLOW_RUN__PROGRESS_MESSAGE;
+
+	/**
+	 * The feature id for the '<em><b>Progress Task</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_WORK_FLOW_RUN__PROGRESS_TASK = WORK_FLOW_RUN__PROGRESS_TASK;
+
+	/**
+	 * The feature id for the '<em><b>Started</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_WORK_FLOW_RUN__STARTED = WORK_FLOW_RUN__STARTED;
+
+	/**
+	 * The feature id for the '<em><b>State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_WORK_FLOW_RUN__STATE = WORK_FLOW_RUN__STATE;
+
+	/**
+	 * The feature id for the '<em><b>Failure Refs</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS = WORK_FLOW_RUN_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Expression Work Flow Run</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_WORK_FLOW_RUN_FEATURE_COUNT = WORK_FLOW_RUN_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.JobImpl <em>Job</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -166,7 +385,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJob()
 	 * @generated
 	 */
-	int JOB = 0;
+	int JOB = 2;
 
 	/**
 	 * The feature id for the '<em><b>End Time</b></em>' attribute.
@@ -232,88 +451,6 @@ public interface SchedulingPackage extends EPackage {
 	int JOB_FEATURE_COUNT = 6;
 
 	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl <em>Job Run</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.scheduling.impl.JobRunImpl
-	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRun()
-	 * @generated
-	 */
-	int JOB_RUN = 1;
-
-	/**
-	 * The feature id for the '<em><b>Ended</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JOB_RUN__ENDED = 0;
-
-	/**
-	 * The feature id for the '<em><b>Log</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JOB_RUN__LOG = 1;
-
-	/**
-	 * The feature id for the '<em><b>Progress</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JOB_RUN__PROGRESS = 2;
-
-	/**
-	 * The feature id for the '<em><b>Progress Message</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JOB_RUN__PROGRESS_MESSAGE = 3;
-
-	/**
-	 * The feature id for the '<em><b>Progress Task</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JOB_RUN__PROGRESS_TASK = 4;
-
-	/**
-	 * The feature id for the '<em><b>Started</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JOB_RUN__STARTED = 5;
-
-	/**
-	 * The feature id for the '<em><b>State</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JOB_RUN__STATE = 6;
-
-	/**
-	 * The number of structural features of the '<em>Job Run</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int JOB_RUN_FEATURE_COUNT = 7;
-
-	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl <em>Job Run Container</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -321,7 +458,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunContainer()
 	 * @generated
 	 */
-	int JOB_RUN_CONTAINER = 2;
+	int JOB_RUN_CONTAINER = 3;
 
 	/**
 	 * The feature id for the '<em><b>Job</b></em>' reference.
@@ -333,13 +470,13 @@ public interface SchedulingPackage extends EPackage {
 	int JOB_RUN_CONTAINER__JOB = 0;
 
 	/**
-	 * The feature id for the '<em><b>Job Runs</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Work Flow Runs</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JOB_RUN_CONTAINER__JOB_RUNS = 1;
+	int JOB_RUN_CONTAINER__WORK_FLOW_RUNS = 1;
 
 	/**
 	 * The number of structural features of the '<em>Job Run Container</em>' class.
@@ -358,7 +495,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getMetricSourceJob()
 	 * @generated
 	 */
-	int METRIC_SOURCE_JOB = 3;
+	int METRIC_SOURCE_JOB = 4;
 
 	/**
 	 * The feature id for the '<em><b>End Time</b></em>' attribute.
@@ -440,7 +577,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceJob()
 	 * @generated
 	 */
-	int RFS_SERVICE_JOB = 4;
+	int RFS_SERVICE_JOB = 5;
 
 	/**
 	 * The feature id for the '<em><b>End Time</b></em>' attribute.
@@ -515,97 +652,6 @@ public interface SchedulingPackage extends EPackage {
 	int RFS_SERVICE_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceJobRunImpl <em>RFS Service Job Run</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.scheduling.impl.RFSServiceJobRunImpl
-	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceJobRun()
-	 * @generated
-	 */
-	int RFS_SERVICE_JOB_RUN = 5;
-
-	/**
-	 * The feature id for the '<em><b>Ended</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RFS_SERVICE_JOB_RUN__ENDED = JOB_RUN__ENDED;
-
-	/**
-	 * The feature id for the '<em><b>Log</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RFS_SERVICE_JOB_RUN__LOG = JOB_RUN__LOG;
-
-	/**
-	 * The feature id for the '<em><b>Progress</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RFS_SERVICE_JOB_RUN__PROGRESS = JOB_RUN__PROGRESS;
-
-	/**
-	 * The feature id for the '<em><b>Progress Message</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RFS_SERVICE_JOB_RUN__PROGRESS_MESSAGE = JOB_RUN__PROGRESS_MESSAGE;
-
-	/**
-	 * The feature id for the '<em><b>Progress Task</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RFS_SERVICE_JOB_RUN__PROGRESS_TASK = JOB_RUN__PROGRESS_TASK;
-
-	/**
-	 * The feature id for the '<em><b>Started</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RFS_SERVICE_JOB_RUN__STARTED = JOB_RUN__STARTED;
-
-	/**
-	 * The feature id for the '<em><b>State</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RFS_SERVICE_JOB_RUN__STATE = JOB_RUN__STATE;
-
-	/**
-	 * The feature id for the '<em><b>Component Refs</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RFS_SERVICE_JOB_RUN__COMPONENT_REFS = JOB_RUN_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>RFS Service Job Run</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RFS_SERVICE_JOB_RUN_FEATURE_COUNT = JOB_RUN_FEATURE_COUNT + 1;
-
-	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -613,7 +659,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunState()
 	 * @generated
 	 */
-	int JOB_RUN_STATE = 6;
+	int JOB_RUN_STATE = 7;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobState <em>Job State</em>}' enum.
@@ -623,7 +669,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobState()
 	 * @generated
 	 */
-	int JOB_STATE = 7;
+	int JOB_STATE = 8;
 
 	/**
 	 * The meta object id for the '<em>Job Run State Object</em>' data type.
@@ -633,7 +679,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunStateObject()
 	 * @generated
 	 */
-	int JOB_RUN_STATE_OBJECT = 8;
+	int JOB_RUN_STATE_OBJECT = 9;
 
 	/**
 	 * The meta object id for the '<em>Job State Object</em>' data type.
@@ -643,7 +689,71 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobStateObject()
 	 * @generated
 	 */
-	int JOB_STATE_OBJECT = 9;
+	int JOB_STATE_OBJECT = 10;
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure <em>Expression Failure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Expression Failure</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ExpressionFailure
+	 * @generated
+	 */
+	EClass getExpressionFailure();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getExpressionRef <em>Expression Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Expression Ref</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ExpressionFailure#getExpressionRef()
+	 * @see #getExpressionFailure()
+	 * @generated
+	 */
+	EReference getExpressionFailure_ExpressionRef();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getComponentRef <em>Component Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Component Ref</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ExpressionFailure#getComponentRef()
+	 * @see #getExpressionFailure()
+	 * @generated
+	 */
+	EReference getExpressionFailure_ComponentRef();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getMessage <em>Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Message</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ExpressionFailure#getMessage()
+	 * @see #getExpressionFailure()
+	 * @generated
+	 */
+	EAttribute getExpressionFailure_Message();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun <em>Expression Work Flow Run</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Expression Work Flow Run</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun
+	 * @generated
+	 */
+	EClass getExpressionWorkFlowRun();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun#getFailureRefs <em>Failure Refs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Failure Refs</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun#getFailureRefs()
+	 * @see #getExpressionWorkFlowRun()
+	 * @generated
+	 */
+	EReference getExpressionWorkFlowRun_FailureRefs();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.Job <em>Job</em>}'.
@@ -722,93 +832,6 @@ public interface SchedulingPackage extends EPackage {
 	EAttribute getJob_StartTime();
 
 	/**
-	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.JobRun <em>Job Run</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Job Run</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.JobRun
-	 * @generated
-	 */
-	EClass getJobRun();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.JobRun#getEnded <em>Ended</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Ended</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.JobRun#getEnded()
-	 * @see #getJobRun()
-	 * @generated
-	 */
-	EAttribute getJobRun_Ended();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.JobRun#getLog <em>Log</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Log</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.JobRun#getLog()
-	 * @see #getJobRun()
-	 * @generated
-	 */
-	EAttribute getJobRun_Log();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.JobRun#getProgress <em>Progress</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Progress</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.JobRun#getProgress()
-	 * @see #getJobRun()
-	 * @generated
-	 */
-	EAttribute getJobRun_Progress();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.JobRun#getProgressMessage <em>Progress Message</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Progress Message</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.JobRun#getProgressMessage()
-	 * @see #getJobRun()
-	 * @generated
-	 */
-	EAttribute getJobRun_ProgressMessage();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.JobRun#getProgressTask <em>Progress Task</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Progress Task</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.JobRun#getProgressTask()
-	 * @see #getJobRun()
-	 * @generated
-	 */
-	EAttribute getJobRun_ProgressTask();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.JobRun#getStarted <em>Started</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Started</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.JobRun#getStarted()
-	 * @see #getJobRun()
-	 * @generated
-	 */
-	EAttribute getJobRun_Started();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.JobRun#getState <em>State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>State</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.JobRun#getState()
-	 * @see #getJobRun()
-	 * @generated
-	 */
-	EAttribute getJobRun_State();
-
-	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.JobRunContainer <em>Job Run Container</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -830,15 +853,15 @@ public interface SchedulingPackage extends EPackage {
 	EReference getJobRunContainer_Job();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.scheduling.JobRunContainer#getJobRuns <em>Job Runs</em>}'.
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.scheduling.JobRunContainer#getWorkFlowRuns <em>Work Flow Runs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Job Runs</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.JobRunContainer#getJobRuns()
+	 * @return the meta object for the containment reference list '<em>Work Flow Runs</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.JobRunContainer#getWorkFlowRuns()
 	 * @see #getJobRunContainer()
 	 * @generated
 	 */
-	EReference getJobRunContainer_JobRuns();
+	EReference getJobRunContainer_WorkFlowRuns();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.MetricSourceJob <em>Metric Source Job</em>}'.
@@ -883,25 +906,91 @@ public interface SchedulingPackage extends EPackage {
 	EReference getRFSServiceJob_RFSService();
 
 	/**
-	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun <em>RFS Service Job Run</em>}'.
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun <em>Work Flow Run</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>RFS Service Job Run</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.RFSServiceJobRun
+	 * @return the meta object for class '<em>Work Flow Run</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.WorkFlowRun
 	 * @generated
 	 */
-	EClass getRFSServiceJobRun();
+	EClass getWorkFlowRun();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun#getComponentRefs <em>Component Refs</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getEnded <em>Ended</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Component Refs</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.RFSServiceJobRun#getComponentRefs()
-	 * @see #getRFSServiceJobRun()
+	 * @return the meta object for the attribute '<em>Ended</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.WorkFlowRun#getEnded()
+	 * @see #getWorkFlowRun()
 	 * @generated
 	 */
-	EReference getRFSServiceJobRun_ComponentRefs();
+	EAttribute getWorkFlowRun_Ended();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getLog <em>Log</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Log</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.WorkFlowRun#getLog()
+	 * @see #getWorkFlowRun()
+	 * @generated
+	 */
+	EAttribute getWorkFlowRun_Log();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgress <em>Progress</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Progress</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgress()
+	 * @see #getWorkFlowRun()
+	 * @generated
+	 */
+	EAttribute getWorkFlowRun_Progress();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgressMessage <em>Progress Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Progress Message</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgressMessage()
+	 * @see #getWorkFlowRun()
+	 * @generated
+	 */
+	EAttribute getWorkFlowRun_ProgressMessage();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgressTask <em>Progress Task</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Progress Task</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgressTask()
+	 * @see #getWorkFlowRun()
+	 * @generated
+	 */
+	EAttribute getWorkFlowRun_ProgressTask();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getStarted <em>Started</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Started</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.WorkFlowRun#getStarted()
+	 * @see #getWorkFlowRun()
+	 * @generated
+	 */
+	EAttribute getWorkFlowRun_Started();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getState <em>State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>State</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.WorkFlowRun#getState()
+	 * @see #getWorkFlowRun()
+	 * @generated
+	 */
+	EAttribute getWorkFlowRun_State();
 
 	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}'.
@@ -970,6 +1059,58 @@ public interface SchedulingPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.ExpressionFailureImpl <em>Expression Failure</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.scheduling.impl.ExpressionFailureImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getExpressionFailure()
+		 * @generated
+		 */
+		EClass EXPRESSION_FAILURE = eINSTANCE.getExpressionFailure();
+
+		/**
+		 * The meta object literal for the '<em><b>Expression Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPRESSION_FAILURE__EXPRESSION_REF = eINSTANCE.getExpressionFailure_ExpressionRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Component Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPRESSION_FAILURE__COMPONENT_REF = eINSTANCE.getExpressionFailure_ComponentRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPRESSION_FAILURE__MESSAGE = eINSTANCE.getExpressionFailure_Message();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.ExpressionWorkFlowRunImpl <em>Expression Work Flow Run</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.scheduling.impl.ExpressionWorkFlowRunImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getExpressionWorkFlowRun()
+		 * @generated
+		 */
+		EClass EXPRESSION_WORK_FLOW_RUN = eINSTANCE.getExpressionWorkFlowRun();
+
+		/**
+		 * The meta object literal for the '<em><b>Failure Refs</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS = eINSTANCE.getExpressionWorkFlowRun_FailureRefs();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.JobImpl <em>Job</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1028,72 +1169,6 @@ public interface SchedulingPackage extends EPackage {
 		EAttribute JOB__START_TIME = eINSTANCE.getJob_StartTime();
 
 		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl <em>Job Run</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.scheduling.impl.JobRunImpl
-		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRun()
-		 * @generated
-		 */
-		EClass JOB_RUN = eINSTANCE.getJobRun();
-
-		/**
-		 * The meta object literal for the '<em><b>Ended</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JOB_RUN__ENDED = eINSTANCE.getJobRun_Ended();
-
-		/**
-		 * The meta object literal for the '<em><b>Log</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JOB_RUN__LOG = eINSTANCE.getJobRun_Log();
-
-		/**
-		 * The meta object literal for the '<em><b>Progress</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JOB_RUN__PROGRESS = eINSTANCE.getJobRun_Progress();
-
-		/**
-		 * The meta object literal for the '<em><b>Progress Message</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JOB_RUN__PROGRESS_MESSAGE = eINSTANCE.getJobRun_ProgressMessage();
-
-		/**
-		 * The meta object literal for the '<em><b>Progress Task</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JOB_RUN__PROGRESS_TASK = eINSTANCE.getJobRun_ProgressTask();
-
-		/**
-		 * The meta object literal for the '<em><b>Started</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JOB_RUN__STARTED = eINSTANCE.getJobRun_Started();
-
-		/**
-		 * The meta object literal for the '<em><b>State</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute JOB_RUN__STATE = eINSTANCE.getJobRun_State();
-
-		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl <em>Job Run Container</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1112,12 +1187,12 @@ public interface SchedulingPackage extends EPackage {
 		EReference JOB_RUN_CONTAINER__JOB = eINSTANCE.getJobRunContainer_Job();
 
 		/**
-		 * The meta object literal for the '<em><b>Job Runs</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Work Flow Runs</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference JOB_RUN_CONTAINER__JOB_RUNS = eINSTANCE.getJobRunContainer_JobRuns();
+		EReference JOB_RUN_CONTAINER__WORK_FLOW_RUNS = eINSTANCE.getJobRunContainer_WorkFlowRuns();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.MetricSourceJobImpl <em>Metric Source Job</em>}' class.
@@ -1156,22 +1231,70 @@ public interface SchedulingPackage extends EPackage {
 		EReference RFS_SERVICE_JOB__RFS_SERVICE = eINSTANCE.getRFSServiceJob_RFSService();
 
 		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceJobRunImpl <em>RFS Service Job Run</em>}' class.
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl <em>Work Flow Run</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.scheduling.impl.RFSServiceJobRunImpl
-		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceJobRun()
+		 * @see com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getWorkFlowRun()
 		 * @generated
 		 */
-		EClass RFS_SERVICE_JOB_RUN = eINSTANCE.getRFSServiceJobRun();
+		EClass WORK_FLOW_RUN = eINSTANCE.getWorkFlowRun();
 
 		/**
-		 * The meta object literal for the '<em><b>Component Refs</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Ended</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RFS_SERVICE_JOB_RUN__COMPONENT_REFS = eINSTANCE.getRFSServiceJobRun_ComponentRefs();
+		EAttribute WORK_FLOW_RUN__ENDED = eINSTANCE.getWorkFlowRun_Ended();
+
+		/**
+		 * The meta object literal for the '<em><b>Log</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORK_FLOW_RUN__LOG = eINSTANCE.getWorkFlowRun_Log();
+
+		/**
+		 * The meta object literal for the '<em><b>Progress</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORK_FLOW_RUN__PROGRESS = eINSTANCE.getWorkFlowRun_Progress();
+
+		/**
+		 * The meta object literal for the '<em><b>Progress Message</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORK_FLOW_RUN__PROGRESS_MESSAGE = eINSTANCE.getWorkFlowRun_ProgressMessage();
+
+		/**
+		 * The meta object literal for the '<em><b>Progress Task</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORK_FLOW_RUN__PROGRESS_TASK = eINSTANCE.getWorkFlowRun_ProgressTask();
+
+		/**
+		 * The meta object literal for the '<em><b>Started</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORK_FLOW_RUN__STARTED = eINSTANCE.getWorkFlowRun_Started();
+
+		/**
+		 * The meta object literal for the '<em><b>State</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WORK_FLOW_RUN__STATE = eINSTANCE.getWorkFlowRun_State();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}' enum.

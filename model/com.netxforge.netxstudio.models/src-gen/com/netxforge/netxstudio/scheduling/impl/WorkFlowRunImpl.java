@@ -23,36 +23,36 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
-import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Job Run</b></em>'.
+ * An implementation of the model object '<em><b>Work Flow Run</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getEnded <em>Ended</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getLog <em>Log</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getProgress <em>Progress</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getProgressMessage <em>Progress Message</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getProgressTask <em>Progress Task</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getStarted <em>Started</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.JobRunImpl#getState <em>State</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl#getEnded <em>Ended</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl#getLog <em>Log</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl#getProgress <em>Progress</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl#getProgressMessage <em>Progress Message</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl#getProgressTask <em>Progress Task</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl#getStarted <em>Started</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl#getState <em>State</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class JobRunImpl extends CDOObjectImpl implements JobRun {
+public class WorkFlowRunImpl extends CDOObjectImpl implements WorkFlowRun {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected JobRunImpl() {
+	protected WorkFlowRunImpl() {
 		super();
 	}
 
@@ -63,7 +63,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SchedulingPackage.Literals.JOB_RUN;
+		return SchedulingPackage.Literals.WORK_FLOW_RUN;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public XMLGregorianCalendar getEnded() {
-		return (XMLGregorianCalendar)eGet(SchedulingPackage.Literals.JOB_RUN__ENDED, true);
+		return (XMLGregorianCalendar)eGet(SchedulingPackage.Literals.WORK_FLOW_RUN__ENDED, true);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public void setEnded(XMLGregorianCalendar newEnded) {
-		eSet(SchedulingPackage.Literals.JOB_RUN__ENDED, newEnded);
+		eSet(SchedulingPackage.Literals.WORK_FLOW_RUN__ENDED, newEnded);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public String getLog() {
-		return (String)eGet(SchedulingPackage.Literals.JOB_RUN__LOG, true);
+		return (String)eGet(SchedulingPackage.Literals.WORK_FLOW_RUN__LOG, true);
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public void setLog(String newLog) {
-		eSet(SchedulingPackage.Literals.JOB_RUN__LOG, newLog);
+		eSet(SchedulingPackage.Literals.WORK_FLOW_RUN__LOG, newLog);
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public int getProgress() {
-		return (Integer)eGet(SchedulingPackage.Literals.JOB_RUN__PROGRESS, true);
+		return (Integer)eGet(SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS, true);
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public void setProgress(int newProgress) {
-		eSet(SchedulingPackage.Literals.JOB_RUN__PROGRESS, newProgress);
+		eSet(SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS, newProgress);
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public void unsetProgress() {
-		eUnset(SchedulingPackage.Literals.JOB_RUN__PROGRESS);
+		eUnset(SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public boolean isSetProgress() {
-		return eIsSet(SchedulingPackage.Literals.JOB_RUN__PROGRESS);
+		return eIsSet(SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS);
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public String getProgressMessage() {
-		return (String)eGet(SchedulingPackage.Literals.JOB_RUN__PROGRESS_MESSAGE, true);
+		return (String)eGet(SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS_MESSAGE, true);
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public void setProgressMessage(String newProgressMessage) {
-		eSet(SchedulingPackage.Literals.JOB_RUN__PROGRESS_MESSAGE, newProgressMessage);
+		eSet(SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS_MESSAGE, newProgressMessage);
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public String getProgressTask() {
-		return (String)eGet(SchedulingPackage.Literals.JOB_RUN__PROGRESS_TASK, true);
+		return (String)eGet(SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS_TASK, true);
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public void setProgressTask(String newProgressTask) {
-		eSet(SchedulingPackage.Literals.JOB_RUN__PROGRESS_TASK, newProgressTask);
+		eSet(SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS_TASK, newProgressTask);
 	}
 
 	/**
@@ -190,7 +190,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public XMLGregorianCalendar getStarted() {
-		return (XMLGregorianCalendar)eGet(SchedulingPackage.Literals.JOB_RUN__STARTED, true);
+		return (XMLGregorianCalendar)eGet(SchedulingPackage.Literals.WORK_FLOW_RUN__STARTED, true);
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public void setStarted(XMLGregorianCalendar newStarted) {
-		eSet(SchedulingPackage.Literals.JOB_RUN__STARTED, newStarted);
+		eSet(SchedulingPackage.Literals.WORK_FLOW_RUN__STARTED, newStarted);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public JobRunState getState() {
-		return (JobRunState)eGet(SchedulingPackage.Literals.JOB_RUN__STATE, true);
+		return (JobRunState)eGet(SchedulingPackage.Literals.WORK_FLOW_RUN__STATE, true);
 	}
 
 	/**
@@ -217,7 +217,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public void setState(JobRunState newState) {
-		eSet(SchedulingPackage.Literals.JOB_RUN__STATE, newState);
+		eSet(SchedulingPackage.Literals.WORK_FLOW_RUN__STATE, newState);
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public void unsetState() {
-		eUnset(SchedulingPackage.Literals.JOB_RUN__STATE);
+		eUnset(SchedulingPackage.Literals.WORK_FLOW_RUN__STATE);
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class JobRunImpl extends CDOObjectImpl implements JobRun {
 	 * @generated
 	 */
 	public boolean isSetState() {
-		return eIsSet(SchedulingPackage.Literals.JOB_RUN__STATE);
+		return eIsSet(SchedulingPackage.Literals.WORK_FLOW_RUN__STATE);
 	}
 
-} //JobRunImpl
+} //WorkFlowRunImpl

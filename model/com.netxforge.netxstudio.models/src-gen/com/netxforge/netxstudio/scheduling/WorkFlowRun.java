@@ -24,28 +24,28 @@ import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Job Run</b></em>'.
+ * A representation of the model object '<em><b>Work Flow Run</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getEnded <em>Ended</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getLog <em>Log</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getProgress <em>Progress</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getProgressMessage <em>Progress Message</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getProgressTask <em>Progress Task</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getStarted <em>Started</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.JobRun#getState <em>State</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getEnded <em>Ended</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getLog <em>Log</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgress <em>Progress</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgressMessage <em>Progress Message</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgressTask <em>Progress Task</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getStarted <em>Started</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getState <em>State</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRun()
- * @model extendedMetaData="name='JobRun' kind='empty'"
+ * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getWorkFlowRun()
+ * @model extendedMetaData="name='WorkFlowRun' kind='empty'"
  * @extends CDOObject
  * @generated
  */
-public interface JobRun extends CDOObject {
+public interface WorkFlowRun extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Ended</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -56,7 +56,7 @@ public interface JobRun extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ended</em>' attribute.
 	 * @see #setEnded(XMLGregorianCalendar)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRun_Ended()
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getWorkFlowRun_Ended()
 	 * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
 	 *        extendedMetaData="kind='attribute' name='Ended'"
 	 * @generated
@@ -64,7 +64,7 @@ public interface JobRun extends CDOObject {
 	XMLGregorianCalendar getEnded();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getEnded <em>Ended</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getEnded <em>Ended</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Ended</em>' attribute.
@@ -83,7 +83,7 @@ public interface JobRun extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Log</em>' attribute.
 	 * @see #setLog(String)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRun_Log()
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getWorkFlowRun_Log()
 	 * @model dataType="com.netxforge.netxstudio.generics.LongText"
 	 *        extendedMetaData="kind='attribute' name='Log'"
 	 * @generated
@@ -91,7 +91,7 @@ public interface JobRun extends CDOObject {
 	String getLog();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getLog <em>Log</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getLog <em>Log</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Log</em>' attribute.
@@ -112,7 +112,7 @@ public interface JobRun extends CDOObject {
 	 * @see #isSetProgress()
 	 * @see #unsetProgress()
 	 * @see #setProgress(int)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRun_Progress()
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getWorkFlowRun_Progress()
 	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
 	 *        extendedMetaData="kind='attribute' name='Progress'"
 	 * @generated
@@ -120,7 +120,7 @@ public interface JobRun extends CDOObject {
 	int getProgress();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getProgress <em>Progress</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgress <em>Progress</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Progress</em>' attribute.
@@ -132,7 +132,7 @@ public interface JobRun extends CDOObject {
 	void setProgress(int value);
 
 	/**
-	 * Unsets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getProgress <em>Progress</em>}' attribute.
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgress <em>Progress</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #isSetProgress()
@@ -143,7 +143,7 @@ public interface JobRun extends CDOObject {
 	void unsetProgress();
 
 	/**
-	 * Returns whether the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getProgress <em>Progress</em>}' attribute is set.
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgress <em>Progress</em>}' attribute is set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Progress</em>' attribute is set.
@@ -164,7 +164,7 @@ public interface JobRun extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Progress Message</em>' attribute.
 	 * @see #setProgressMessage(String)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRun_ProgressMessage()
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getWorkFlowRun_ProgressMessage()
 	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
 	 *        extendedMetaData="kind='attribute' name='ProgressMessage'"
 	 * @generated
@@ -172,7 +172,7 @@ public interface JobRun extends CDOObject {
 	String getProgressMessage();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getProgressMessage <em>Progress Message</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgressMessage <em>Progress Message</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Progress Message</em>' attribute.
@@ -191,7 +191,7 @@ public interface JobRun extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Progress Task</em>' attribute.
 	 * @see #setProgressTask(String)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRun_ProgressTask()
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getWorkFlowRun_ProgressTask()
 	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
 	 *        extendedMetaData="kind='attribute' name='ProgressTask'"
 	 * @generated
@@ -199,7 +199,7 @@ public interface JobRun extends CDOObject {
 	String getProgressTask();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getProgressTask <em>Progress Task</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getProgressTask <em>Progress Task</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Progress Task</em>' attribute.
@@ -218,7 +218,7 @@ public interface JobRun extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Started</em>' attribute.
 	 * @see #setStarted(XMLGregorianCalendar)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRun_Started()
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getWorkFlowRun_Started()
 	 * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
 	 *        extendedMetaData="kind='attribute' name='Started'"
 	 * @generated
@@ -226,7 +226,7 @@ public interface JobRun extends CDOObject {
 	XMLGregorianCalendar getStarted();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getStarted <em>Started</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getStarted <em>Started</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Started</em>' attribute.
@@ -249,7 +249,7 @@ public interface JobRun extends CDOObject {
 	 * @see #isSetState()
 	 * @see #unsetState()
 	 * @see #setState(JobRunState)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRun_State()
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getWorkFlowRun_State()
 	 * @model unsettable="true"
 	 *        extendedMetaData="kind='attribute' name='State'"
 	 * @generated
@@ -257,7 +257,7 @@ public interface JobRun extends CDOObject {
 	JobRunState getState();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getState <em>State</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getState <em>State</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>State</em>' attribute.
@@ -270,7 +270,7 @@ public interface JobRun extends CDOObject {
 	void setState(JobRunState value);
 
 	/**
-	 * Unsets the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getState <em>State</em>}' attribute.
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getState <em>State</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #isSetState()
@@ -281,7 +281,7 @@ public interface JobRun extends CDOObject {
 	void unsetState();
 
 	/**
-	 * Returns whether the value of the '{@link com.netxforge.netxstudio.scheduling.JobRun#getState <em>State</em>}' attribute is set.
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun#getState <em>State</em>}' attribute is set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return whether the value of the '<em>State</em>' attribute is set.
@@ -292,4 +292,4 @@ public interface JobRun extends CDOObject {
 	 */
 	boolean isSetState();
 
-} // JobRun
+} // WorkFlowRun

@@ -19,11 +19,10 @@
 package com.netxforge.netxstudio.scheduling;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>RFS Service Job Run</b></em>'.
+ * A representation of the model object '<em><b>Expression Work Flow Run</b></em>'.
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
@@ -33,28 +32,29 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun#getComponentRefs <em>Component Refs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun#getFailureRefs <em>Failure Refs</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getRFSServiceJobRun()
- * @model extendedMetaData="name='RFSServiceJobRun' kind='elementOnly'"
+ * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getExpressionWorkFlowRun()
+ * @model extendedMetaData="name='ExpressionWorkFlowRun' kind='elementOnly'"
  * @generated
  */
-public interface RFSServiceJobRun extends JobRun {
+public interface ExpressionWorkFlowRun extends WorkFlowRun {
 	/**
-	 * Returns the value of the '<em><b>Component Refs</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+	 * Returns the value of the '<em><b>Failure Refs</b></em>' containment reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.scheduling.ExpressionFailure}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Reference to the component for which the computation failed.
+	 * Reference to information about failed expressions
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Component Refs</em>' reference list.
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getRFSServiceJobRun_ComponentRefs()
-	 * @model extendedMetaData="kind='element' name='ComponentRefs'"
+	 * @return the value of the '<em>Failure Refs</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getExpressionWorkFlowRun_FailureRefs()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='FailureRefs'"
 	 * @generated
 	 */
-	EList<EObject> getComponentRefs();
+	EList<ExpressionFailure> getFailureRefs();
 
-} // RFSServiceJobRun
+} // ExpressionWorkFlowRun

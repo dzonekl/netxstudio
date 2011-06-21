@@ -22,13 +22,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
+import com.netxforge.netxstudio.scheduling.ExpressionFailure;
+import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceJobRun;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
 /**
  * <!-- begin-user-doc -->
@@ -87,15 +88,22 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case SchedulingPackage.JOB: {
-				Job job = (Job)theEObject;
-				T result = caseJob(job);
+			case SchedulingPackage.EXPRESSION_FAILURE: {
+				ExpressionFailure expressionFailure = (ExpressionFailure)theEObject;
+				T result = caseExpressionFailure(expressionFailure);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SchedulingPackage.JOB_RUN: {
-				JobRun jobRun = (JobRun)theEObject;
-				T result = caseJobRun(jobRun);
+			case SchedulingPackage.EXPRESSION_WORK_FLOW_RUN: {
+				ExpressionWorkFlowRun expressionWorkFlowRun = (ExpressionWorkFlowRun)theEObject;
+				T result = caseExpressionWorkFlowRun(expressionWorkFlowRun);
+				if (result == null) result = caseWorkFlowRun(expressionWorkFlowRun);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SchedulingPackage.JOB: {
+				Job job = (Job)theEObject;
+				T result = caseJob(job);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -119,15 +127,44 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SchedulingPackage.RFS_SERVICE_JOB_RUN: {
-				RFSServiceJobRun rfsServiceJobRun = (RFSServiceJobRun)theEObject;
-				T result = caseRFSServiceJobRun(rfsServiceJobRun);
-				if (result == null) result = caseJobRun(rfsServiceJobRun);
+			case SchedulingPackage.WORK_FLOW_RUN: {
+				WorkFlowRun workFlowRun = (WorkFlowRun)theEObject;
+				T result = caseWorkFlowRun(workFlowRun);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Expression Failure</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Expression Failure</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExpressionFailure(ExpressionFailure object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Expression Work Flow Run</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Expression Work Flow Run</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExpressionWorkFlowRun(ExpressionWorkFlowRun object) {
+		return null;
 	}
 
 	/**
@@ -142,21 +179,6 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseJob(Job object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Job Run</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Job Run</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseJobRun(JobRun object) {
 		return null;
 	}
 
@@ -206,17 +228,17 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>RFS Service Job Run</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Work Flow Run</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>RFS Service Job Run</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Work Flow Run</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseRFSServiceJobRun(RFSServiceJobRun object) {
+	public T caseWorkFlowRun(WorkFlowRun object) {
 		return null;
 	}
 

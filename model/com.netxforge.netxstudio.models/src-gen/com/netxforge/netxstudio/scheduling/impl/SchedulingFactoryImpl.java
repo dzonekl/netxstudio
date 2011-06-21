@@ -25,16 +25,17 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import com.netxforge.netxstudio.scheduling.ExpressionFailure;
+import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceJobRun;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
 /**
  * <!-- begin-user-doc -->
@@ -80,12 +81,13 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case SchedulingPackage.EXPRESSION_FAILURE: return (EObject)createExpressionFailure();
+			case SchedulingPackage.EXPRESSION_WORK_FLOW_RUN: return (EObject)createExpressionWorkFlowRun();
 			case SchedulingPackage.JOB: return (EObject)createJob();
-			case SchedulingPackage.JOB_RUN: return (EObject)createJobRun();
 			case SchedulingPackage.JOB_RUN_CONTAINER: return (EObject)createJobRunContainer();
 			case SchedulingPackage.METRIC_SOURCE_JOB: return (EObject)createMetricSourceJob();
 			case SchedulingPackage.RFS_SERVICE_JOB: return (EObject)createRFSServiceJob();
-			case SchedulingPackage.RFS_SERVICE_JOB_RUN: return (EObject)createRFSServiceJobRun();
+			case SchedulingPackage.WORK_FLOW_RUN: return (EObject)createWorkFlowRun();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -138,9 +140,9 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Job createJob() {
-		JobImpl job = new JobImpl();
-		return job;
+	public ExpressionFailure createExpressionFailure() {
+		ExpressionFailureImpl expressionFailure = new ExpressionFailureImpl();
+		return expressionFailure;
 	}
 
 	/**
@@ -148,9 +150,19 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public JobRun createJobRun() {
-		JobRunImpl jobRun = new JobRunImpl();
-		return jobRun;
+	public ExpressionWorkFlowRun createExpressionWorkFlowRun() {
+		ExpressionWorkFlowRunImpl expressionWorkFlowRun = new ExpressionWorkFlowRunImpl();
+		return expressionWorkFlowRun;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Job createJob() {
+		JobImpl job = new JobImpl();
+		return job;
 	}
 
 	/**
@@ -188,9 +200,9 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RFSServiceJobRun createRFSServiceJobRun() {
-		RFSServiceJobRunImpl rfsServiceJobRun = new RFSServiceJobRunImpl();
-		return rfsServiceJobRun;
+	public WorkFlowRun createWorkFlowRun() {
+		WorkFlowRunImpl workFlowRun = new WorkFlowRunImpl();
+		return workFlowRun;
 	}
 
 	/**

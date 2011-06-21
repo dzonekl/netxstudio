@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.JobRunContainer#getJob <em>Job</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.JobRunContainer#getJobRuns <em>Job Runs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.JobRunContainer#getWorkFlowRuns <em>Work Flow Runs</em>}</li>
  * </ul>
  * </p>
  *
@@ -68,20 +68,20 @@ public interface JobRunContainer extends CDOObject {
 	void setJob(Job value);
 
 	/**
-	 * Returns the value of the '<em><b>Job Runs</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.scheduling.JobRun}.
+	 * Returns the value of the '<em><b>Work Flow Runs</b></em>' containment reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.scheduling.WorkFlowRun}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Job Runs</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Work Flow Runs</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Job Runs</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRunContainer_JobRuns()
+	 * @return the value of the '<em>Work Flow Runs</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobRunContainer_WorkFlowRuns()
 	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='JobRuns'"
+	 *        extendedMetaData="kind='element' name='WorkFlowRuns'"
 	 * @generated
 	 */
-	EList<JobRun> getJobRuns();
+	EList<WorkFlowRun> getWorkFlowRuns();
 
 } // JobRunContainer

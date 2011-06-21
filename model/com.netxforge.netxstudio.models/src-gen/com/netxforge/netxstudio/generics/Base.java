@@ -33,7 +33,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * </p>
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getBase()
- * @model annotation="teneo.jpa appinfo='@MappedSSuperclass'"
+ * @model annotation="teneo.jpa appinfo='@MappedSuperclass'"
  *        extendedMetaData="name='Base' kind='empty'"
  * @extends CDOObject
  * @generated

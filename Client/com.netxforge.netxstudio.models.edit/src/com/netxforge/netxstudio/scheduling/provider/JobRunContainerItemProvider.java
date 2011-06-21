@@ -115,7 +115,7 @@ public class JobRunContainerItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB_RUNS);
+			childrenFeatures.add(SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS);
 		}
 		return childrenFeatures;
 	}
@@ -167,7 +167,7 @@ public class JobRunContainerItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(JobRunContainer.class)) {
-			case SchedulingPackage.JOB_RUN_CONTAINER__JOB_RUNS:
+			case SchedulingPackage.JOB_RUN_CONTAINER__WORK_FLOW_RUNS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -187,13 +187,13 @@ public class JobRunContainerItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB_RUNS,
-				 SchedulingFactory.eINSTANCE.createJobRun()));
+				(SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS,
+				 SchedulingFactory.eINSTANCE.createWorkFlowRun()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB_RUNS,
-				 SchedulingFactory.eINSTANCE.createRFSServiceJobRun()));
+				(SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS,
+				 SchedulingFactory.eINSTANCE.createExpressionWorkFlowRun()));
 	}
 
 	/**

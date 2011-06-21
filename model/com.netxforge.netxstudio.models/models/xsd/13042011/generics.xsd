@@ -588,7 +588,7 @@
 
 	<xs:complexType name="Base">
 		<xs:annotation>
-			<xs:appinfo source="teneo.jpa">@MappedSSuperclass</xs:appinfo>
+			<xs:appinfo source="teneo.jpa">@MappedSuperclass</xs:appinfo>
 		</xs:annotation>
 		<xs:attribute name="Deleted" type="xs:boolean"/>
 	</xs:complexType>

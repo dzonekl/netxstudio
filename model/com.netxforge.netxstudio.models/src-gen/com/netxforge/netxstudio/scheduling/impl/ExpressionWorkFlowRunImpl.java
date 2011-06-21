@@ -20,31 +20,31 @@ package com.netxforge.netxstudio.scheduling.impl;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 
-import com.netxforge.netxstudio.scheduling.RFSServiceJobRun;
+import com.netxforge.netxstudio.scheduling.ExpressionFailure;
+import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>RFS Service Job Run</b></em>'.
+ * An implementation of the model object '<em><b>Expression Work Flow Run</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceJobRunImpl#getComponentRefs <em>Component Refs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.ExpressionWorkFlowRunImpl#getFailureRefs <em>Failure Refs</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class RFSServiceJobRunImpl extends JobRunImpl implements RFSServiceJobRun {
+public class ExpressionWorkFlowRunImpl extends WorkFlowRunImpl implements ExpressionWorkFlowRun {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RFSServiceJobRunImpl() {
+	protected ExpressionWorkFlowRunImpl() {
 		super();
 	}
 
@@ -55,7 +55,7 @@ public class RFSServiceJobRunImpl extends JobRunImpl implements RFSServiceJobRun
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SchedulingPackage.Literals.RFS_SERVICE_JOB_RUN;
+		return SchedulingPackage.Literals.EXPRESSION_WORK_FLOW_RUN;
 	}
 
 	/**
@@ -64,8 +64,8 @@ public class RFSServiceJobRunImpl extends JobRunImpl implements RFSServiceJobRun
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<EObject> getComponentRefs() {
-		return (EList<EObject>)eGet(SchedulingPackage.Literals.RFS_SERVICE_JOB_RUN__COMPONENT_REFS, true);
+	public EList<ExpressionFailure> getFailureRefs() {
+		return (EList<ExpressionFailure>)eGet(SchedulingPackage.Literals.EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS, true);
 	}
 
-} //RFSServiceJobRunImpl
+} //ExpressionWorkFlowRunImpl

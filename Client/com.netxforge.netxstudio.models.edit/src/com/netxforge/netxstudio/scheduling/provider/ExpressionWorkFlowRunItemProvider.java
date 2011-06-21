@@ -26,25 +26,27 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.scheduling.RFSServiceJobRun;
+import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class RFSServiceJobRunItemProvider
-	extends JobRunItemProvider
+public class ExpressionWorkFlowRunItemProvider
+	extends WorkFlowRunItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -57,7 +59,7 @@ public class RFSServiceJobRunItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RFSServiceJobRunItemProvider(AdapterFactory adapterFactory) {
+	public ExpressionWorkFlowRunItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -72,42 +74,49 @@ public class RFSServiceJobRunItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addComponentRefsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Component Refs feature.
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addComponentRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_RFSServiceJobRun_componentRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_RFSServiceJobRun_componentRefs_feature", "_UI_RFSServiceJobRun_type"),
-				 SchedulingPackage.Literals.RFS_SERVICE_JOB_RUN__COMPONENT_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+	@Override
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures.add(SchedulingPackage.Literals.EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS);
+		}
+		return childrenFeatures;
 	}
 
 	/**
-	 * This returns RFSServiceJobRun.gif.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected EStructuralFeature getChildFeature(Object object, Object child) {
+		// Check the type of the specified child object and return the proper feature to use for
+		// adding (see {@link AddCommand}) it as a child.
+
+		return super.getChildFeature(object, child);
+	}
+
+	/**
+	 * This returns ExpressionWorkFlowRun.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/RFSServiceJobRun"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ExpressionWorkFlowRun"));
 	}
 
 	/**
@@ -118,11 +127,11 @@ public class RFSServiceJobRunItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		XMLGregorianCalendar labelValue = ((RFSServiceJobRun)object).getEnded();
+		XMLGregorianCalendar labelValue = ((ExpressionWorkFlowRun)object).getEnded();
 		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
-			getString("_UI_RFSServiceJobRun_type") :
-			getString("_UI_RFSServiceJobRun_type") + " " + label;
+			getString("_UI_ExpressionWorkFlowRun_type") :
+			getString("_UI_ExpressionWorkFlowRun_type") + " " + label;
 	}
 
 	/**
@@ -135,6 +144,12 @@ public class RFSServiceJobRunItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(ExpressionWorkFlowRun.class)) {
+			case SchedulingPackage.EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 
@@ -148,6 +163,11 @@ public class RFSServiceJobRunItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(SchedulingPackage.Literals.EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS,
+				 SchedulingFactory.eINSTANCE.createExpressionFailure()));
 	}
 
 }

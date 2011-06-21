@@ -38,6 +38,24 @@ public interface SchedulingFactory extends EFactory {
 	SchedulingFactory eINSTANCE = com.netxforge.netxstudio.scheduling.impl.SchedulingFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Expression Failure</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Expression Failure</em>'.
+	 * @generated
+	 */
+	ExpressionFailure createExpressionFailure();
+
+	/**
+	 * Returns a new object of class '<em>Expression Work Flow Run</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Expression Work Flow Run</em>'.
+	 * @generated
+	 */
+	ExpressionWorkFlowRun createExpressionWorkFlowRun();
+
+	/**
 	 * Returns a new object of class '<em>Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -45,15 +63,6 @@ public interface SchedulingFactory extends EFactory {
 	 * @generated
 	 */
 	Job createJob();
-
-	/**
-	 * Returns a new object of class '<em>Job Run</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Job Run</em>'.
-	 * @generated
-	 */
-	JobRun createJobRun();
 
 	/**
 	 * Returns a new object of class '<em>Job Run Container</em>'.
@@ -83,13 +92,13 @@ public interface SchedulingFactory extends EFactory {
 	RFSServiceJob createRFSServiceJob();
 
 	/**
-	 * Returns a new object of class '<em>RFS Service Job Run</em>'.
+	 * Returns a new object of class '<em>Work Flow Run</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>RFS Service Job Run</em>'.
+	 * @return a new object of class '<em>Work Flow Run</em>'.
 	 * @generated
 	 */
-	RFSServiceJobRun createRFSServiceJobRun();
+	WorkFlowRun createWorkFlowRun();
 
 	/**
 	 * Returns the package supported by this factory.

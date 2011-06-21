@@ -41,16 +41,17 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.protocols.impl.ProtocolsPackageImpl;
+import com.netxforge.netxstudio.scheduling.ExpressionFailure;
+import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceJobRun;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.services.ServicesPackage;
 import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
 
@@ -66,14 +67,21 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass jobEClass = null;
+	private EClass expressionFailureEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass jobRunEClass = null;
+	private EClass expressionWorkFlowRunEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass jobEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -101,7 +109,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass rfsServiceJobRunEClass = null;
+	private EClass workFlowRunEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -226,6 +234,60 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getExpressionFailure() {
+		return expressionFailureEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpressionFailure_ExpressionRef() {
+		return (EReference)expressionFailureEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpressionFailure_ComponentRef() {
+		return (EReference)expressionFailureEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getExpressionFailure_Message() {
+		return (EAttribute)expressionFailureEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getExpressionWorkFlowRun() {
+		return expressionWorkFlowRunEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpressionWorkFlowRun_FailureRefs() {
+		return (EReference)expressionWorkFlowRunEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getJob() {
 		return jobEClass;
 	}
@@ -289,78 +351,6 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getJobRun() {
-		return jobRunEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJobRun_Ended() {
-		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJobRun_Log() {
-		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJobRun_Progress() {
-		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJobRun_ProgressMessage() {
-		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJobRun_ProgressTask() {
-		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJobRun_Started() {
-		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getJobRun_State() {
-		return (EAttribute)jobRunEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getJobRunContainer() {
 		return jobRunContainerEClass;
 	}
@@ -379,7 +369,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getJobRunContainer_JobRuns() {
+	public EReference getJobRunContainer_WorkFlowRuns() {
 		return (EReference)jobRunContainerEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -424,8 +414,8 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getRFSServiceJobRun() {
-		return rfsServiceJobRunEClass;
+	public EClass getWorkFlowRun() {
+		return workFlowRunEClass;
 	}
 
 	/**
@@ -433,8 +423,62 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRFSServiceJobRun_ComponentRefs() {
-		return (EReference)rfsServiceJobRunEClass.getEStructuralFeatures().get(0);
+	public EAttribute getWorkFlowRun_Ended() {
+		return (EAttribute)workFlowRunEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkFlowRun_Log() {
+		return (EAttribute)workFlowRunEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkFlowRun_Progress() {
+		return (EAttribute)workFlowRunEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkFlowRun_ProgressMessage() {
+		return (EAttribute)workFlowRunEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkFlowRun_ProgressTask() {
+		return (EAttribute)workFlowRunEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkFlowRun_Started() {
+		return (EAttribute)workFlowRunEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkFlowRun_State() {
+		return (EAttribute)workFlowRunEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -501,6 +545,14 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		isCreated = true;
 
 		// Create classes and their features
+		expressionFailureEClass = createEClass(EXPRESSION_FAILURE);
+		createEReference(expressionFailureEClass, EXPRESSION_FAILURE__EXPRESSION_REF);
+		createEReference(expressionFailureEClass, EXPRESSION_FAILURE__COMPONENT_REF);
+		createEAttribute(expressionFailureEClass, EXPRESSION_FAILURE__MESSAGE);
+
+		expressionWorkFlowRunEClass = createEClass(EXPRESSION_WORK_FLOW_RUN);
+		createEReference(expressionWorkFlowRunEClass, EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS);
+
 		jobEClass = createEClass(JOB);
 		createEAttribute(jobEClass, JOB__END_TIME);
 		createEAttribute(jobEClass, JOB__INTERVAL);
@@ -509,18 +561,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		createEAttribute(jobEClass, JOB__REPEAT);
 		createEAttribute(jobEClass, JOB__START_TIME);
 
-		jobRunEClass = createEClass(JOB_RUN);
-		createEAttribute(jobRunEClass, JOB_RUN__ENDED);
-		createEAttribute(jobRunEClass, JOB_RUN__LOG);
-		createEAttribute(jobRunEClass, JOB_RUN__PROGRESS);
-		createEAttribute(jobRunEClass, JOB_RUN__PROGRESS_MESSAGE);
-		createEAttribute(jobRunEClass, JOB_RUN__PROGRESS_TASK);
-		createEAttribute(jobRunEClass, JOB_RUN__STARTED);
-		createEAttribute(jobRunEClass, JOB_RUN__STATE);
-
 		jobRunContainerEClass = createEClass(JOB_RUN_CONTAINER);
 		createEReference(jobRunContainerEClass, JOB_RUN_CONTAINER__JOB);
-		createEReference(jobRunContainerEClass, JOB_RUN_CONTAINER__JOB_RUNS);
+		createEReference(jobRunContainerEClass, JOB_RUN_CONTAINER__WORK_FLOW_RUNS);
 
 		metricSourceJobEClass = createEClass(METRIC_SOURCE_JOB);
 		createEReference(metricSourceJobEClass, METRIC_SOURCE_JOB__METRIC_SOURCE);
@@ -528,8 +571,14 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		rfsServiceJobEClass = createEClass(RFS_SERVICE_JOB);
 		createEReference(rfsServiceJobEClass, RFS_SERVICE_JOB__RFS_SERVICE);
 
-		rfsServiceJobRunEClass = createEClass(RFS_SERVICE_JOB_RUN);
-		createEReference(rfsServiceJobRunEClass, RFS_SERVICE_JOB_RUN__COMPONENT_REFS);
+		workFlowRunEClass = createEClass(WORK_FLOW_RUN);
+		createEAttribute(workFlowRunEClass, WORK_FLOW_RUN__ENDED);
+		createEAttribute(workFlowRunEClass, WORK_FLOW_RUN__LOG);
+		createEAttribute(workFlowRunEClass, WORK_FLOW_RUN__PROGRESS);
+		createEAttribute(workFlowRunEClass, WORK_FLOW_RUN__PROGRESS_MESSAGE);
+		createEAttribute(workFlowRunEClass, WORK_FLOW_RUN__PROGRESS_TASK);
+		createEAttribute(workFlowRunEClass, WORK_FLOW_RUN__STARTED);
+		createEAttribute(workFlowRunEClass, WORK_FLOW_RUN__STATE);
 
 		// Create enums
 		jobRunStateEEnum = createEEnum(JOB_RUN_STATE);
@@ -564,21 +613,30 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
+		LibraryPackage theLibraryPackage = (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
-		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
 		MetricsPackage theMetricsPackage = (MetricsPackage)EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI);
 		ServicesPackage theServicesPackage = (ServicesPackage)EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI);
+		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
 
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		expressionWorkFlowRunEClass.getESuperTypes().add(this.getWorkFlowRun());
 		metricSourceJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceJobEClass.getESuperTypes().add(this.getJob());
-		rfsServiceJobRunEClass.getESuperTypes().add(this.getJobRun());
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(expressionFailureEClass, ExpressionFailure.class, "ExpressionFailure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExpressionFailure_ExpressionRef(), ecorePackage.getEObject(), null, "expressionRef", null, 0, 1, ExpressionFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExpressionFailure_ComponentRef(), theLibraryPackage.getComponent(), null, "componentRef", null, 0, 1, ExpressionFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExpressionFailure_Message(), theXMLTypePackage.getString(), "message", null, 0, 1, ExpressionFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(expressionWorkFlowRunEClass, ExpressionWorkFlowRun.class, "ExpressionWorkFlowRun", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExpressionWorkFlowRun_FailureRefs(), this.getExpressionFailure(), null, "failureRefs", null, 0, -1, ExpressionWorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(jobEClass, Job.class, "Job", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getJob_EndTime(), theXMLTypePackage.getDateTime(), "endTime", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJob_Interval(), theXMLTypePackage.getInt(), "interval", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -587,18 +645,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		initEAttribute(getJob_Repeat(), theXMLTypePackage.getInt(), "repeat", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getJob_StartTime(), theXMLTypePackage.getDateTime(), "startTime", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(jobRunEClass, JobRun.class, "JobRun", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getJobRun_Ended(), theXMLTypePackage.getDateTime(), "ended", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJobRun_Log(), theGenericsPackage.getLongText(), "log", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJobRun_Progress(), theXMLTypePackage.getInt(), "progress", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJobRun_ProgressMessage(), theXMLTypePackage.getString(), "progressMessage", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJobRun_ProgressTask(), theXMLTypePackage.getString(), "progressTask", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJobRun_Started(), theXMLTypePackage.getDateTime(), "started", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getJobRun_State(), this.getJobRunState(), "state", null, 0, 1, JobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(jobRunContainerEClass, JobRunContainer.class, "JobRunContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getJobRunContainer_Job(), this.getJob(), null, "job", null, 1, 1, JobRunContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getJobRunContainer_JobRuns(), this.getJobRun(), null, "jobRuns", null, 0, -1, JobRunContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getJobRunContainer_WorkFlowRuns(), this.getWorkFlowRun(), null, "workFlowRuns", null, 0, -1, JobRunContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(metricSourceJobEClass, MetricSourceJob.class, "MetricSourceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricSourceJob_MetricSource(), theMetricsPackage.getMetricSource(), null, "metricSource", null, 1, 1, MetricSourceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -606,8 +655,14 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		initEClass(rfsServiceJobEClass, RFSServiceJob.class, "RFSServiceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRFSServiceJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, RFSServiceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(rfsServiceJobRunEClass, RFSServiceJobRun.class, "RFSServiceJobRun", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRFSServiceJobRun_ComponentRefs(), ecorePackage.getEObject(), null, "componentRefs", null, 0, -1, RFSServiceJobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(workFlowRunEClass, WorkFlowRun.class, "WorkFlowRun", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getWorkFlowRun_Ended(), theXMLTypePackage.getDateTime(), "ended", null, 0, 1, WorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkFlowRun_Log(), theGenericsPackage.getLongText(), "log", null, 0, 1, WorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkFlowRun_Progress(), theXMLTypePackage.getInt(), "progress", null, 0, 1, WorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkFlowRun_ProgressMessage(), theXMLTypePackage.getString(), "progressMessage", null, 0, 1, WorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkFlowRun_ProgressTask(), theXMLTypePackage.getString(), "progressTask", null, 0, 1, WorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkFlowRun_Started(), theXMLTypePackage.getDateTime(), "started", null, 0, 1, WorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkFlowRun_State(), this.getJobRunState(), "state", null, 0, 1, WorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(jobRunStateEEnum, JobRunState.class, "JobRunState");
@@ -648,7 +703,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																				
+		   });																																												
 	}
 
 	/**
@@ -658,7 +713,49 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";				
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";					
+		addAnnotation
+		  (expressionFailureEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ExpressionFailure",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getExpressionFailure_ExpressionRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ExpressionRef"
+		   });			
+		addAnnotation
+		  (getExpressionFailure_ComponentRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ComponentRef"
+		   });			
+		addAnnotation
+		  (getExpressionFailure_Message(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Message"
+		   });			
+		addAnnotation
+		  (expressionWorkFlowRunEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ExpressionWorkFlowRun",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getExpressionWorkFlowRun_FailureRefs(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "FailureRefs"
+		   });		
 		addAnnotation
 		  (jobEClass, 
 		   source, 
@@ -709,62 +806,6 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "name", "StartTime"
 		   });		
 		addAnnotation
-		  (jobRunEClass, 
-		   source, 
-		   new String[] {
-			 "name", "JobRun",
-			 "kind", "empty"
-		   });		
-		addAnnotation
-		  (getJobRun_Ended(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Ended"
-		   });		
-		addAnnotation
-		  (getJobRun_Log(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Log"
-		   });		
-		addAnnotation
-		  (getJobRun_Progress(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Progress"
-		   });		
-		addAnnotation
-		  (getJobRun_ProgressMessage(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "ProgressMessage"
-		   });		
-		addAnnotation
-		  (getJobRun_ProgressTask(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "ProgressTask"
-		   });		
-		addAnnotation
-		  (getJobRun_Started(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Started"
-		   });		
-		addAnnotation
-		  (getJobRun_State(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "State"
-		   });		
-		addAnnotation
 		  (jobRunContainerEClass, 
 		   source, 
 		   new String[] {
@@ -779,11 +820,11 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "name", "Job"
 		   });		
 		addAnnotation
-		  (getJobRunContainer_JobRuns(), 
+		  (getJobRunContainer_WorkFlowRuns(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "JobRuns"
+			 "name", "WorkFlowRuns"
 		   });			
 		addAnnotation
 		  (jobRunStateEEnum, 
@@ -838,20 +879,62 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   new String[] {
 			 "kind", "element",
 			 "name", "RFSService"
-		   });			
+		   });		
 		addAnnotation
-		  (rfsServiceJobRunEClass, 
+		  (workFlowRunEClass, 
 		   source, 
 		   new String[] {
-			 "name", "RFSServiceJobRun",
-			 "kind", "elementOnly"
-		   });			
+			 "name", "WorkFlowRun",
+			 "kind", "empty"
+		   });		
 		addAnnotation
-		  (getRFSServiceJobRun_ComponentRefs(), 
+		  (getWorkFlowRun_Ended(), 
 		   source, 
 		   new String[] {
-			 "kind", "element",
-			 "name", "ComponentRefs"
+			 "kind", "attribute",
+			 "name", "Ended"
+		   });		
+		addAnnotation
+		  (getWorkFlowRun_Log(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Log"
+		   });		
+		addAnnotation
+		  (getWorkFlowRun_Progress(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Progress"
+		   });		
+		addAnnotation
+		  (getWorkFlowRun_ProgressMessage(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "ProgressMessage"
+		   });		
+		addAnnotation
+		  (getWorkFlowRun_ProgressTask(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "ProgressTask"
+		   });		
+		addAnnotation
+		  (getWorkFlowRun_Started(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Started"
+		   });		
+		addAnnotation
+		  (getWorkFlowRun_State(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "State"
 		   });
 	}
 

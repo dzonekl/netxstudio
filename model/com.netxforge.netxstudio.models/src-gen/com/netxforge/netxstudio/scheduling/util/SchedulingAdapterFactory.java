@@ -23,13 +23,14 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.scheduling.ExpressionFailure;
+import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceJobRun;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
 /**
  * <!-- begin-user-doc -->
@@ -88,12 +89,16 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	protected SchedulingSwitch<Adapter> modelSwitch =
 		new SchedulingSwitch<Adapter>() {
 			@Override
-			public Adapter caseJob(Job object) {
-				return createJobAdapter();
+			public Adapter caseExpressionFailure(ExpressionFailure object) {
+				return createExpressionFailureAdapter();
 			}
 			@Override
-			public Adapter caseJobRun(JobRun object) {
-				return createJobRunAdapter();
+			public Adapter caseExpressionWorkFlowRun(ExpressionWorkFlowRun object) {
+				return createExpressionWorkFlowRunAdapter();
+			}
+			@Override
+			public Adapter caseJob(Job object) {
+				return createJobAdapter();
 			}
 			@Override
 			public Adapter caseJobRunContainer(JobRunContainer object) {
@@ -108,8 +113,8 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 				return createRFSServiceJobAdapter();
 			}
 			@Override
-			public Adapter caseRFSServiceJobRun(RFSServiceJobRun object) {
-				return createRFSServiceJobRunAdapter();
+			public Adapter caseWorkFlowRun(WorkFlowRun object) {
+				return createWorkFlowRunAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -132,6 +137,34 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure <em>Expression Failure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.ExpressionFailure
+	 * @generated
+	 */
+	public Adapter createExpressionFailureAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun <em>Expression Work Flow Run</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun
+	 * @generated
+	 */
+	public Adapter createExpressionWorkFlowRunAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.Job <em>Job</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -142,20 +175,6 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createJobAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.JobRun <em>Job Run</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.scheduling.JobRun
-	 * @generated
-	 */
-	public Adapter createJobRunAdapter() {
 		return null;
 	}
 
@@ -202,16 +221,16 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun <em>RFS Service Job Run</em>}'.
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun <em>Work Flow Run</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.scheduling.RFSServiceJobRun
+	 * @see com.netxforge.netxstudio.scheduling.WorkFlowRun
 	 * @generated
 	 */
-	public Adapter createRFSServiceJobRunAdapter() {
+	public Adapter createWorkFlowRunAdapter() {
 		return null;
 	}
 

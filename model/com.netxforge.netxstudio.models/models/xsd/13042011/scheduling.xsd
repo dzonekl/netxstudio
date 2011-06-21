@@ -38,7 +38,7 @@
 	<xs:complexType name="JobRunContainer">
 		<xs:sequence>
 			<xs:element ecore:reference="Job" name="Job" type="xs:anyURI" maxOccurs="1" minOccurs="1"></xs:element>
-			<xs:element name="JobRuns" type="JobRun" maxOccurs="unbounded" minOccurs="0"></xs:element>
+			<xs:element name="WorkFlowRuns" type="WorkFlowRun" maxOccurs="unbounded" minOccurs="0"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 		
@@ -83,7 +83,7 @@
 	<!--_____________________________ -->
 	<!--| JOBRUN 						| -->
 	<!--|___________________________| -->
-	<xs:complexType name="JobRun">
+	<xs:complexType name="WorkFlowRun">
 		<xs:attribute name="Started" type="xs:dateTime"></xs:attribute>
 		<xs:attribute name="Ended" type="xs:dateTime"></xs:attribute>
 		<xs:attribute name="State" type="JobRunState"></xs:attribute>
@@ -96,20 +96,45 @@
 	<!--_____________________________ -->
 	<!--| RFSServiceJobRun | -->
 	<!--|___________________________| -->
-	<xs:complexType name="RFSServiceJobRun">
+	<xs:complexType name="ExpressionWorkFlowRun">
 		<xs:annotation>
 			<xs:documentation>A job run result with RFSService specific data.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="JobRun">
+			<xs:extension base="WorkFlowRun">
 				<xs:sequence>
-					<xs:element name="ComponentRefs" type="xs:anyURI" ecore:reference="library:Component" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="FailureRefs" type="ExpressionFailure" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>Reference to the component for which the computation failed.</xs:documentation>
+							<xs:documentation>Reference to information about failed expressions</xs:documentation>
 						</xs:annotation></xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+		
+	<!--_____________________________ -->
+	<!--| ExpressionFailure | -->
+	<!--|___________________________| -->
+	<xs:complexType name="ExpressionFailure">
+		<xs:annotation>
+			<xs:documentation>Gives information about a failed expression</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ecore:reference="library:Expression" minOccurs="0"
+				name="ExpressionRef" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>The expression which failed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ComponentRef" type="xs:anyURI" ecore:reference="lib:Component" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reference to the component for which the computation failed.</xs:documentation>
+				</xs:annotation></xs:element>
+			<xs:element name="Message" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Message giving some extra information on the failure</xs:documentation>
+				</xs:annotation></xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<!--_____________________________ -->

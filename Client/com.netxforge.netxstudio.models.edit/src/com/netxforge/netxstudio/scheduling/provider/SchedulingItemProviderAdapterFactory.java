@@ -87,6 +87,52 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.ExpressionFailure} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ExpressionFailureItemProvider expressionFailureItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.ExpressionFailure}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createExpressionFailureAdapter() {
+		if (expressionFailureItemProvider == null) {
+			expressionFailureItemProvider = new ExpressionFailureItemProvider(this);
+		}
+
+		return expressionFailureItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ExpressionWorkFlowRunItemProvider expressionWorkFlowRunItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createExpressionWorkFlowRunAdapter() {
+		if (expressionWorkFlowRunItemProvider == null) {
+			expressionWorkFlowRunItemProvider = new ExpressionWorkFlowRunItemProvider(this);
+		}
+
+		return expressionWorkFlowRunItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.Job} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -107,29 +153,6 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		}
 
 		return jobItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.JobRun} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected JobRunItemProvider jobRunItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.JobRun}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createJobRunAdapter() {
-		if (jobRunItemProvider == null) {
-			jobRunItemProvider = new JobRunItemProvider(this);
-		}
-
-		return jobRunItemProvider;
 	}
 
 	/**
@@ -202,26 +225,26 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun} instances.
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.WorkFlowRun} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RFSServiceJobRunItemProvider rfsServiceJobRunItemProvider;
+	protected WorkFlowRunItemProvider workFlowRunItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun}.
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.WorkFlowRun}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createRFSServiceJobRunAdapter() {
-		if (rfsServiceJobRunItemProvider == null) {
-			rfsServiceJobRunItemProvider = new RFSServiceJobRunItemProvider(this);
+	public Adapter createWorkFlowRunAdapter() {
+		if (workFlowRunItemProvider == null) {
+			workFlowRunItemProvider = new WorkFlowRunItemProvider(this);
 		}
 
-		return rfsServiceJobRunItemProvider;
+		return workFlowRunItemProvider;
 	}
 
 	/**
@@ -323,12 +346,13 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	 * @generated
 	 */
 	public void dispose() {
+		if (expressionFailureItemProvider != null) expressionFailureItemProvider.dispose();
+		if (expressionWorkFlowRunItemProvider != null) expressionWorkFlowRunItemProvider.dispose();
 		if (jobItemProvider != null) jobItemProvider.dispose();
-		if (jobRunItemProvider != null) jobRunItemProvider.dispose();
 		if (jobRunContainerItemProvider != null) jobRunContainerItemProvider.dispose();
 		if (metricSourceJobItemProvider != null) metricSourceJobItemProvider.dispose();
 		if (rfsServiceJobItemProvider != null) rfsServiceJobItemProvider.dispose();
-		if (rfsServiceJobRunItemProvider != null) rfsServiceJobRunItemProvider.dispose();
+		if (workFlowRunItemProvider != null) workFlowRunItemProvider.dispose();
 	}
 
 }
