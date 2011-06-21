@@ -58,7 +58,7 @@ public class Fixtures implements IFixtures {
 	public void loadFixtures(){
 		
 		dService.getProvider().openSession("fixture", "fixture");
-		CDOResource res = (CDOResource) dService.getProvider().getResource(NetxstudioPackage.NETXSTUDIO);
+		CDOResource res = (CDOResource) dService.getProvider().getResource(NetxstudioPackage.Literals.NETXSTUDIO);
 		CDOView view = res.cdoView();
 		
 		res.getContents().clear();
