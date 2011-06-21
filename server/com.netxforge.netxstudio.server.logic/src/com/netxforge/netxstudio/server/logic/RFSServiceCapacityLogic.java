@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -28,10 +29,12 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.server.job.JobMonitor;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceMonitor;
@@ -63,6 +66,8 @@ public class RFSServiceCapacityLogic {
 	private Node filterNode;
 	private Node filterNodeType;
 
+	private List<ExpressionFailure> failures = new ArrayList<ExpressionFailure>();
+	
 	public void run() {
 		setServiceMonitor();
 
@@ -121,24 +126,17 @@ public class RFSServiceCapacityLogic {
 		rfsService.getServiceMonitors().add(serviceMonitor);
 	}
 
-	protected void executeForEquipment(Equipment equipment) {
-		final CapacityLogicEngine.CapacityLogicEquipment capacityLogic = LogicActivator
+	protected void executeFor(Component component) {
+		final CapacityLogicEngine capacityLogic = LogicActivator
 				.getInstance().getInjector()
-				.getInstance(CapacityLogicEngine.CapacityLogicEquipment.class);
-		capacityLogic.setEquipment(equipment);
+				.getInstance(CapacityLogicEngine.class);
+		capacityLogic.setComponent(component);
 		capacityLogic.setDataProvider(dataProvider);
 		capacityLogic.setRange(serviceMonitor.getPeriod());
 		capacityLogic.execute();
-	}
-
-	protected void executeForFunction(Function function) {
-		final CapacityLogicEngine.CapacityLogicFunction capacityLogic = LogicActivator
-				.getInstance().getInjector()
-				.getInstance(CapacityLogicEngine.CapacityLogicFunction.class);
-		capacityLogic.setFunction(function);
-		capacityLogic.setDataProvider(dataProvider);
-		capacityLogic.setRange(serviceMonitor.getPeriod());
-		capacityLogic.execute();
+		if (capacityLogic.getFailure() != null) {
+			failures.add(capacityLogic.getFailure());
+		}
 	}
 
 	protected void processNode(NodeType nodeType) {
@@ -149,7 +147,7 @@ public class RFSServiceCapacityLogic {
 			while (!executeFor.isEmpty()) {
 				final Set<Equipment> newExecuteFor = new HashSet<Equipment>();
 				for (final Equipment equipment : executeFor) {
-					executeForEquipment(equipment);
+					executeFor(equipment);
 					if (equipment.eContainer() instanceof Equipment
 							&& !newExecuteFor.contains(equipment.eContainer())) {
 						newExecuteFor.add((Equipment) equipment.eContainer());
@@ -165,7 +163,7 @@ public class RFSServiceCapacityLogic {
 			while (!executeFor.isEmpty()) {
 				final Set<Function> newExecuteFor = new HashSet<Function>();
 				for (final Function function : executeFor) {
-					executeForFunction(function);
+					executeFor(function);
 					if (function.eContainer() instanceof Function
 							&& !newExecuteFor.contains(function.eContainer())) {
 						newExecuteFor.add((Function) function.eContainer());
@@ -277,6 +275,10 @@ public class RFSServiceCapacityLogic {
 
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+
+	public List<ExpressionFailure> getFailures() {
+		return failures;
 	}
 
 }

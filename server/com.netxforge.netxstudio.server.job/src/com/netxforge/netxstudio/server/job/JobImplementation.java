@@ -25,6 +25,8 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunState;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
 
 /**
@@ -93,6 +95,10 @@ public abstract class JobImplementation {
 		public abstract JobImplementation create();
 	}
 
+	public WorkFlowRun createWorkFlowRunInstance() {
+		return SchedulingFactory.eINSTANCE.createWorkFlowRun();
+	}
+	
 	public static class JobImplementationFactoryRegistry {
 		private Map<Class<? extends Job>, JobImplementationFactory> factories = new HashMap<Class<? extends Job>, JobImplementation.JobImplementationFactory>();
 

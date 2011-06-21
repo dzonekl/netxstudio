@@ -33,11 +33,11 @@ import org.quartz.JobExecutionException;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerUtils;
 
@@ -52,7 +52,7 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	private Job job;
 
-	private CDOID jobRunId;
+	private CDOID wfRunId;
 	
 	@Inject
 	@Server
@@ -82,23 +82,23 @@ public class NetxForgeJob implements org.quartz.Job {
 	
 	public void setFinished(JobImplementation jobImplementation, Throwable t) {
 		dataProvider.openSession();
-		final JobRun jobRun = (JobRun)dataProvider.getTransaction().getObject(jobRunId);
+		final WorkFlowRun wfRun = (WorkFlowRun)dataProvider.getTransaction().getObject(wfRunId);
 		String log = jobImplementation.getLog();
 		if (t != null) {
-			jobRun.setState(JobRunState.FINISHED_WITH_ERROR);
+			wfRun.setState(JobRunState.FINISHED_WITH_ERROR);
 			final StringWriter sw = new StringWriter();
 			final PrintWriter pw = new PrintWriter(sw);					
 			t.printStackTrace(pw);
 			if (log == null) {
 				log = "";
 			}
-			jobRun.setLog(log + "\n" + t.getMessage() + "\n" + sw.toString());
+			wfRun.setLog(log + "\n" + t.getMessage() + "\n" + sw.toString());
 		} else {
-			jobRun.setState(jobImplementation.getJobRunState());
-			jobRun.setLog(log);
-			jobRun.setProgress(100);
+			wfRun.setState(jobImplementation.getJobRunState());
+			wfRun.setLog(log);
+			wfRun.setProgress(100);
 		}
-		jobRun.setEnded(ServerUtils.getInstance().toXmlDate(new Date()));
+		wfRun.setEnded(ServerUtils.getInstance().toXmlDate(new Date()));
 		dataProvider.commitTransaction();
 		dataProvider.closeSession();
 	}
@@ -108,11 +108,11 @@ public class NetxForgeJob implements org.quartz.Job {
 		dataProvider.getTransaction();
 		final JobRunContainer container = getCreateJobRunContainer(dataProvider.getResource(
 						SchedulingPackage.eINSTANCE.getJobRunContainer()));
-		for (final JobRun jobRun : container.getJobRuns()) {
-			if (jobRun.cdoID().equals(jobRunId)) {
-				jobRun.setProgress(progress);
-				jobRun.setProgressMessage(msg);
-				jobRun.setProgressTask(task);
+		for (final WorkFlowRun wfRun : container.getWorkFlowRuns()) {
+			if (wfRun.cdoID().equals(wfRunId)) {
+				wfRun.setProgress(progress);
+				wfRun.setProgressMessage(msg);
+				wfRun.setProgressTask(task);
 				break;
 			}
 		}
@@ -127,15 +127,15 @@ public class NetxForgeJob implements org.quartz.Job {
 		final JobRunContainer container = getCreateJobRunContainer(dataProvider.getResource(
 						SchedulingPackage.eINSTANCE.getJobRunContainer()));
 		
-		final JobRun jobRun = SchedulingFactory.eINSTANCE.createJobRun();
-		jobRun.setState(JobRunState.RUNNING);
-		jobRun.setStarted(ServerUtils.getInstance().toXmlDate(new Date()));
-		jobRun.setProgress(0);
-		container.getJobRuns().add(jobRun);
+		final WorkFlowRun wfRun = SchedulingFactory.eINSTANCE.createWorkFlowRun();
+		wfRun.setState(JobRunState.RUNNING);
+		wfRun.setStarted(ServerUtils.getInstance().toXmlDate(new Date()));
+		wfRun.setProgress(0);
+		container.getWorkFlowRuns().add(wfRun);
 		
 		dataProvider.commitTransaction();
 		dataProvider.closeSession();
-		jobRunId = jobRun.cdoID();
+		wfRunId = wfRun.cdoID();
 	}
 
 	private JobRunContainer getCreateJobRunContainer(Resource resource) {

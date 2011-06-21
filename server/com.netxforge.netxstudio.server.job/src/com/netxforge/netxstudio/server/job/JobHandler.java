@@ -178,7 +178,7 @@ public class JobHandler {
 			final Job containerJob = container.getJob();
 			final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
 			if (cdoId.equals(containerJobId)) {
-				return container.getJobRuns().size();
+				return container.getWorkFlowRuns().size();
 			}
 		}
 		return 0;
@@ -239,7 +239,7 @@ public class JobHandler {
 					@Override
 					public void notifyLifecycleEvent(ILifecycleEvent event) {
 						if (event.getKind() == Kind.ACTIVATED) {
-							ServerUtils.getInstance().initResources();
+							ServerUtils.getInstance().initializeServer(repository);
 							JobHandler.createAndInitialize();
 						}
 					}

@@ -48,6 +48,7 @@ import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.framework.ServiceReference;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.geo.GeoPackage;
@@ -84,8 +85,9 @@ public class ServerUtils {
 	private IJVMAcceptor acceptor;
 	private IConnector connector;
 	private String serverSideLogin = "" + System.currentTimeMillis();
-	private boolean initResourcesDone;
-	
+	private boolean initServerDone;
+	private boolean isInitializing = false;
+
 	public ServerUtils() {
 		try {
 			dataTypeFactory = DatatypeFactory.newInstance();
@@ -121,13 +123,27 @@ public class ServerUtils {
 
 	public CDOSessionConfiguration getSessionConfiguration() {
 		if (sessionConfiguration == null) {
-			initialize();
+			initializeSessionConfiguration();
 		}
 		return sessionConfiguration;
 	}
-	
+
 	public CDOSession openJVMSession() {
 		final CDOSession cdoSession = getSessionConfiguration().openSession();
+
+		// add the epackages
+		cdoSession.getPackageRegistry().putEPackage(GeoPackage.eINSTANCE);
+		cdoSession.getPackageRegistry().putEPackage(GenericsPackage.eINSTANCE);
+		cdoSession.getPackageRegistry()
+				.putEPackage(NetxstudioPackage.eINSTANCE);
+		cdoSession.getPackageRegistry().putEPackage(LibraryPackage.eINSTANCE);
+		cdoSession.getPackageRegistry().putEPackage(MetricsPackage.eINSTANCE);
+		cdoSession.getPackageRegistry().putEPackage(OperatorsPackage.eINSTANCE);
+		cdoSession.getPackageRegistry().putEPackage(ProtocolsPackage.eINSTANCE);
+		cdoSession.getPackageRegistry()
+				.putEPackage(SchedulingPackage.eINSTANCE);
+		cdoSession.getPackageRegistry().putEPackage(ServicesPackage.eINSTANCE);
+
 		return cdoSession;
 	}
 
@@ -140,7 +156,7 @@ public class ServerUtils {
 		}
 	}
 
-	protected void initialize() {
+	private void initializeSessionConfiguration() {
 		// Prepare container
 		final IManagedContainer container = IPluginContainer.INSTANCE;
 		acceptor = JVMUtil.getAcceptor(container, "default");
@@ -156,7 +172,6 @@ public class ServerUtils {
 						serverSideLogin.toCharArray()));
 		sessionConfiguration.getAuthenticator().setCredentialsProvider(
 				credentialsProvider);
-
 	}
 
 	public XMLGregorianCalendar toXmlDate(Date date) {
@@ -183,24 +198,45 @@ public class ServerUtils {
 	public String getServerSideLogin() {
 		return serverSideLogin;
 	}
-	
-	public synchronized void initResources() {
-		if (initResourcesDone) {
+
+	public synchronized void initializeServer(IRepository repository) {
+		if (initServerDone) {
 			return;
 		}
-		
-		final ResourceInitializer resourceInitializer = Activator.getInstance().getInjector().getInstance(ResourceInitializer.class);
-		resourceInitializer.initResources();
-		initResourcesDone = true;
+		isInitializing = true;
+		initializeSessionConfiguration();
+		final ServerInitializer resourceInitializer = Activator.getInstance()
+				.getInjector().getInstance(ServerInitializer.class);
+		resourceInitializer.initialize();
+
+		// must be done after initializing the resources etc.
+		final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(
+				new NetxForgeCommitInfoHandler());
+		asyncCommitInfoHandler.activate();
+		repository
+				.addCommitInfoHandler(asyncCommitInfoHandler);
+
+		initServerDone = true;
+		isInitializing = false;
 	}
-	
-	static class ResourceInitializer {
+
+	public boolean isInitializing() {
+		return isInitializing;
+	}
+
+	static class ServerInitializer {
 		@Inject
+		@Server
 		private IDataProvider dataProvider;
-		
+
+		private void initialize() {
+			initResources();
+		}
+
 		private void initResources() {
 			dataProvider.openSession();
 			dataProvider.getTransaction();
+			dataProvider.getTransaction().getOrCreateResource("/");
 			initResourcesForEPackage(GenericsPackage.eINSTANCE);
 			initResourcesForEPackage(GeoPackage.eINSTANCE);
 			initResourcesForEPackage(LibraryPackage.eINSTANCE);
@@ -211,36 +247,30 @@ public class ServerUtils {
 			initResourcesForEPackage(ServicesPackage.eINSTANCE);
 			dataProvider.commitTransaction();
 		}
-		
+
 		private void initResourcesForEPackage(EPackage ePackage) {
 			for (final EClassifier eClassifier : ePackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
-					final EClass eClass = (EClass)eClassifier;
+					final EClass eClass = (EClass) eClassifier;
 					dataProvider.getResource(eClass);
 				}
 			}
 		}
 	}
-	
-	public static class ServerInitializer implements IElementProcessor {
-		
+
+	public static class ServerElementProcessor implements IElementProcessor {
+
 		@Override
 		public Object process(IManagedContainer container, String productGroup,
 				String factoryType, String description, Object element) {
 			if (element instanceof IRepository) {
-				final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(
-						new NetxForgeCommitInfoHandler());
-				asyncCommitInfoHandler.activate();
-				((IRepository) element)
-						.addCommitInfoHandler(asyncCommitInfoHandler);
-				
 				// create all the resources at startup
 				final IRepository repository = (IRepository) element;
 				repository.addListener(new LifecycleEventAdapter() {
 					@Override
 					public void notifyLifecycleEvent(ILifecycleEvent event) {
 						if (event.getKind() == Kind.ACTIVATED) {
-							getInstance().initResources();
+							getInstance().initializeServer(repository);
 						}
 					}
 				});

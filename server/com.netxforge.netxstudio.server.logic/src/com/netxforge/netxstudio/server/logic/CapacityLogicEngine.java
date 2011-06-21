@@ -23,11 +23,12 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.scheduling.ExpressionFailure;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 
 /**
@@ -35,41 +36,62 @@ import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
  * 
  * @author Martin Taal
  */
-public abstract class CapacityLogicEngine {
+public class CapacityLogicEngine {
 
 	// on purpose no @Inject as we need the same instance
 	// as used in the job implementation
 	private IDataProvider dataProvider;
 
+	private Component component;
+
 	@Inject
 	private IExpressionEngine expressionEngine;
-	
+
 	private DateTimeRange range;
-	
+
+	private ExpressionFailure failure;
+
 	public void execute() {
 		expressionEngine.getContext().add(range);
-		expressionEngine.getContext().add(getTarget());
+		expressionEngine.getContext().add(getComponent());
 		runForExpression(getCapacityExpression());
-		runForExpression(getUtilizationExpression());
-		for (final Tolerance tolerance : getTolerances()) {
-			runForExpression(tolerance.getExpressionRef());
-		}
-	}
-	
-	private void runForExpression(Expression expression) {
-		if (expression == null) {
+		if (failure != null) {
 			return;
 		}
-		expressionEngine.setExpression(expression);
-		expressionEngine.run();
-		if (expressionEngine.errorOccurred()) {
-			// stop here will be logged
-			throw new IllegalStateException(expressionEngine.getThrowable());
+		runForExpression(getUtilizationExpression());
+		if (failure != null) {
+			return;
 		}
-		final List<ExpressionResult> result = expressionEngine.getExpressionResult();
-		// process the result
+		for (final Tolerance tolerance : getTolerances()) {
+			runForExpression(tolerance.getExpressionRef());
+			if (failure != null) {
+				return;
+			}
+		}
 	}
-	
+
+	private void runForExpression(Expression expression) {
+		try {
+			if (expression == null) {
+				return;
+			}
+			expressionEngine.setExpression(expression);
+			expressionEngine.run();
+			if (expressionEngine.errorOccurred()) {
+				// stop here will be logged
+				throw new IllegalStateException(expressionEngine.getThrowable());
+			}
+			final List<ExpressionResult> result = expressionEngine
+					.getExpressionResult();
+			// process the result
+		} catch (final Throwable t) {
+			failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
+			failure.setExpressionRef(expression);
+			failure.setMessage(t.getMessage());
+			failure.setComponentRef(component);
+		}
+	}
+
 	public IDataProvider getDataProvider() {
 		return dataProvider;
 	}
@@ -77,77 +99,17 @@ public abstract class CapacityLogicEngine {
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
 	}
-	
-	protected abstract Object getTarget();
 
-	protected abstract Expression getCapacityExpression();
-	
-	protected abstract Expression getUtilizationExpression();
-	
-	protected abstract List<Tolerance> getTolerances();
-
-	public static class CapacityLogicEquipment extends CapacityLogicEngine {
-		private Equipment equipment;
-		
-		@Override
-		protected Object getTarget() {
-			return equipment;
-		}
-
-		@Override
-		protected Expression getCapacityExpression() {
-			return equipment.getCapacityExpressionRef();
-		}
-		
-		@Override
-		protected Expression getUtilizationExpression() {
-			return equipment.getUtilizationExpressionRef();
-		}
-		
-		@Override
-		protected List<Tolerance> getTolerances() {
-			return equipment.getToleranceRefs();
-		}
-
-		public Equipment getEquipment() {
-			return equipment;
-		}
-
-		public void setEquipment(Equipment equipment) {
-			this.equipment = equipment;
-		}		
+	protected Expression getCapacityExpression() {
+		return component.getCapacityExpressionRef();
 	}
 
-	public static class CapacityLogicFunction extends CapacityLogicEngine {
-		private Function function;
-		
-		@Override
-		protected Object getTarget() {
-			return function;
-		}
+	protected Expression getUtilizationExpression() {
+		return component.getUtilizationExpressionRef();
+	}
 
-		@Override
-		protected Expression getCapacityExpression() {
-			return function.getCapacityExpressionRef();
-		}
-		
-		@Override
-		protected Expression getUtilizationExpression() {
-			return function.getUtilizationExpressionRef();
-		}
-		
-		@Override
-		protected List<Tolerance> getTolerances() {
-			return function.getToleranceRefs();
-		}
-
-		public Function getFunction() {
-			return function;
-		}
-
-		public void setFunction(Function function) {
-			this.function = function;
-		}		
+	protected List<Tolerance> getTolerances() {
+		return component.getToleranceRefs();
 	}
 
 	public DateTimeRange getRange() {
@@ -156,6 +118,22 @@ public abstract class CapacityLogicEngine {
 
 	public void setRange(DateTimeRange range) {
 		this.range = range;
+	}
+
+	public Component getComponent() {
+		return component;
+	}
+
+	public void setComponent(Component component) {
+		this.component = component;
+	}
+
+	public ExpressionFailure getFailure() {
+		return failure;
+	}
+
+	public void setFailure(ExpressionFailure failure) {
+		this.failure = failure;
 	}
 
 }

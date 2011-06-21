@@ -18,7 +18,10 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic;
 
+import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Activator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 
@@ -29,11 +32,15 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
  */
 public class RFSServiceJobImplementation extends JobImplementation {
 
+	private ExpressionWorkFlowRun workFlowRun;
+	
 	@Override
 	public void run() {
 		getDataProvider().openSession();
 		getDataProvider().getTransaction();
 
+		workFlowRun = SchedulingFactory.eINSTANCE.createExpressionWorkFlowRun();
+		
 		final RFSServiceJob serviceJob = (RFSServiceJob) getJob();
 
 		final RFSServiceCapacityLogic capacityLogic = Activator.getInstance()
@@ -42,7 +49,15 @@ public class RFSServiceJobImplementation extends JobImplementation {
 		capacityLogic.setRfsService(serviceJob.getRFSService());
 		capacityLogic.setJobMonitor(getJobMonitor());
 		capacityLogic.run();
-
+		if (!capacityLogic.getFailures().isEmpty()) {
+			workFlowRun.getFailureRefs().addAll(capacityLogic.getFailures());
+		}
 		getDataProvider().commitTransaction();
 	}
+	
+	@Override
+	public WorkFlowRun createWorkFlowRunInstance() {
+		return workFlowRun;
+	}
+
 }

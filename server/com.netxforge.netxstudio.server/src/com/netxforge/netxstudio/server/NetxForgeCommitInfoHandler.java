@@ -53,6 +53,11 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 
 	@Override
 	public synchronized void handleCommitInfo(CDOCommitInfo commitInfo) {
+		// don't do this when the server is initializing
+		if (ServerUtils.getInstance().isInitializing()) {
+			return;
+		}
+		
 		// don't save commit info
 		// check if we are saving the commit info resource
 		// if so bail
@@ -71,7 +76,7 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 		final CDOSession session = ServerUtils.getInstance().openJVMSession();
 		final CDOTransaction transaction = session.openTransaction();
 		final Resource resource = transaction
-				.getOrCreateResource("CDOCommitInfo_" + commitInfo.getUserID());
+				.getOrCreateResource("/CDOCommitInfo_" + commitInfo.getUserID());
 		for (final CDOIDAndVersion cdoIdAndVersion : commitInfo
 				.getDetachedObjects()) {
 			final CommitLogEntry logEntry = GenericsFactory.eINSTANCE
