@@ -16,7 +16,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxscript.Reference#getNodes <em>Nodes</em>}</li>
- *   <li>{@link com.netxforge.netxscript.Reference#getRef <em>Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.Reference#getLeaveRef <em>Leave Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Reference extends Expression, LeafRef
+public interface Reference extends Expression
 {
   /**
    * Returns the value of the '<em><b>Nodes</b></em>' containment reference list.
@@ -43,29 +43,29 @@ public interface Reference extends Expression, LeafRef
   EList<Reference> getNodes();
 
   /**
-   * Returns the value of the '<em><b>Ref</b></em>' containment reference.
+   * Returns the value of the '<em><b>Leave Ref</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Ref</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Leave Ref</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Ref</em>' containment reference.
-   * @see #setRef(LeafRef)
-   * @see com.netxforge.netxscript.NetxscriptPackage#getReference_Ref()
+   * @return the value of the '<em>Leave Ref</em>' containment reference.
+   * @see #setLeaveRef(LeafReference)
+   * @see com.netxforge.netxscript.NetxscriptPackage#getReference_LeaveRef()
    * @model containment="true"
    * @generated
    */
-  LeafRef getRef();
+  LeafReference getLeaveRef();
 
   /**
-   * Sets the value of the '{@link com.netxforge.netxscript.Reference#getRef <em>Ref</em>}' containment reference.
+   * Sets the value of the '{@link com.netxforge.netxscript.Reference#getLeaveRef <em>Leave Ref</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Ref</em>' containment reference.
-   * @see #getRef()
+   * @param value the new value of the '<em>Leave Ref</em>' containment reference.
+   * @see #getLeaveRef()
    * @generated
    */
-  void setRef(LeafRef value);
+  void setLeaveRef(LeafReference value);
 
 } // Reference

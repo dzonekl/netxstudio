@@ -237,5 +237,5 @@
               class="com.netxforge.ui.NetxscriptExecutableExtensionFactory:com.netxforge.ui.scoping.UICDOResourceServiceProvider"
               protocolName="cdo">
         </resourceServiceProvider>
-     </extension>
+     </extension>     
 </plugin>

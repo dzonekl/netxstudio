@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class LinkRefImpl extends ReferenceImpl implements LinkRef
+public class LinkRefImpl extends LeafReferenceImpl implements LinkRef
 {
   /**
    * The cached value of the '{@link #getLink() <em>Link</em>}' reference.

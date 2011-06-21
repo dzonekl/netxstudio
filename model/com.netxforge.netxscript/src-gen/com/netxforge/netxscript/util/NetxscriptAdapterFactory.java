@@ -138,9 +138,9 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createReferenceAdapter();
       }
       @Override
-      public Adapter caseLeafRef(LeafRef object)
+      public Adapter caseLeafReference(LeafReference object)
       {
-        return createLeafRefAdapter();
+        return createLeafReferenceAdapter();
       }
       @Override
       public Adapter caseReturn(Return object)
@@ -278,9 +278,19 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createRangeLiteralAdapter();
       }
       @Override
-      public Adapter caseNodeRef(NodeRef object)
+      public Adapter caseAbsoluteRef(AbsoluteRef object)
       {
-        return createNodeRefAdapter();
+        return createAbsoluteRefAdapter();
+      }
+      @Override
+      public Adapter caseContextRef(ContextRef object)
+      {
+        return createContextRefAdapter();
+      }
+      @Override
+      public Adapter caseFunctionRef(FunctionRef object)
+      {
+        return createFunctionRefAdapter();
       }
       @Override
       public Adapter caseResourceRef(ResourceRef object)
@@ -495,16 +505,16 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.LeafRef <em>Leaf Ref</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.LeafReference <em>Leaf Reference</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.netxscript.LeafRef
+   * @see com.netxforge.netxscript.LeafReference
    * @generated
    */
-  public Adapter createLeafRefAdapter()
+  public Adapter createLeafReferenceAdapter()
   {
     return null;
   }
@@ -915,16 +925,46 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NodeRef <em>Node Ref</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.AbsoluteRef <em>Absolute Ref</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.netxscript.NodeRef
+   * @see com.netxforge.netxscript.AbsoluteRef
    * @generated
    */
-  public Adapter createNodeRefAdapter()
+  public Adapter createAbsoluteRefAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.ContextRef <em>Context Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.ContextRef
+   * @generated
+   */
+  public Adapter createContextRefAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.FunctionRef <em>Function Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.FunctionRef
+   * @generated
+   */
+  public Adapter createFunctionRefAdapter()
   {
     return null;
   }

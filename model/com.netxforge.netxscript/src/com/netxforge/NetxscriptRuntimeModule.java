@@ -56,8 +56,8 @@ public class NetxscriptRuntimeModule extends com.netxforge.AbstractNetxscriptRun
 	}
 	
 	@SuppressWarnings({ "unchecked" })
-	public Class<? extends IInterpreterContextFactory<Object>> bindInterpreterContextFactory(){
-		return (Class<? extends IInterpreterContextFactory<Object>>) InterpreterContextFactory.class;
+	public Class<? extends IInterpreterContextFactory> bindInterpreterContextFactory(){
+		return (Class<? extends IInterpreterContextFactory>) InterpreterContextFactory.class;
 	}
 	
 }

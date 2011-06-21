@@ -7,6 +7,7 @@ import org.eclipse.xtext.ui.guice.AbstractGuiceAwareExecutableExtensionFactory;
 import org.osgi.framework.Bundle;
 
 import com.google.inject.Injector;
+import com.netxforge.ui.internal.override.OverrideNetxscriptActivator;
 
 /**
  * This class was generated. Customizations should only happen in a newly
@@ -16,12 +17,12 @@ public class NetxscriptExecutableExtensionFactory extends AbstractGuiceAwareExec
 
 	@Override
 	protected Bundle getBundle() {
-		return com.netxforge.ui.internal.override.OverrideNetxscriptActivator.getInstance().getBundle();
+		return OverrideNetxscriptActivator.getInstance().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return com.netxforge.ui.internal.override.OverrideNetxscriptActivator.getInstance().getInjector("com.netxforge.Netxscript");
+		return OverrideNetxscriptActivator.getInstance().getInjector("com.netxforge.Netxscript");
 	}
 	
 }

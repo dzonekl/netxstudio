@@ -134,13 +134,13 @@ public interface NetxscriptFactory extends EFactory
   Reference createReference();
 
   /**
-   * Returns a new object of class '<em>Leaf Ref</em>'.
+   * Returns a new object of class '<em>Leaf Reference</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Leaf Ref</em>'.
+   * @return a new object of class '<em>Leaf Reference</em>'.
    * @generated
    */
-  LeafRef createLeafRef();
+  LeafReference createLeafReference();
 
   /**
    * Returns a new object of class '<em>Return</em>'.
@@ -386,13 +386,31 @@ public interface NetxscriptFactory extends EFactory
   RangeLiteral createRangeLiteral();
 
   /**
-   * Returns a new object of class '<em>Node Ref</em>'.
+   * Returns a new object of class '<em>Absolute Ref</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Node Ref</em>'.
+   * @return a new object of class '<em>Absolute Ref</em>'.
    * @generated
    */
-  NodeRef createNodeRef();
+  AbsoluteRef createAbsoluteRef();
+
+  /**
+   * Returns a new object of class '<em>Context Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Context Ref</em>'.
+   * @generated
+   */
+  ContextRef createContextRef();
+
+  /**
+   * Returns a new object of class '<em>Function Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Function Ref</em>'.
+   * @generated
+   */
+  FunctionRef createFunctionRef();
 
   /**
    * Returns a new object of class '<em>Resource Ref</em>'.

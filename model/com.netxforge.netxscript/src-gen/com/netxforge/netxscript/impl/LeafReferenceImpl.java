@@ -5,7 +5,7 @@
  */
 package com.netxforge.netxscript.impl;
 
-import com.netxforge.netxscript.LeafRef;
+import com.netxforge.netxscript.LeafReference;
 import com.netxforge.netxscript.NetxscriptPackage;
 
 import org.eclipse.emf.ecore.EClass;
@@ -14,21 +14,21 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Leaf Ref</b></em>'.
+ * An implementation of the model object '<em><b>Leaf Reference</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class LeafRefImpl extends MinimalEObjectImpl.Container implements LeafRef
+public class LeafReferenceImpl extends MinimalEObjectImpl.Container implements LeafReference
 {
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected LeafRefImpl()
+  protected LeafReferenceImpl()
   {
     super();
   }
@@ -41,7 +41,7 @@ public class LeafRefImpl extends MinimalEObjectImpl.Container implements LeafRef
   @Override
   protected EClass eStaticClass()
   {
-    return NetxscriptPackage.Literals.LEAF_REF;
+    return NetxscriptPackage.Literals.LEAF_REFERENCE;
   }
 
-} //LeafRefImpl
+} //LeafReferenceImpl

@@ -75,7 +75,7 @@ AssignmentStatement returns Statement:
 //	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
 
 ReferenceAssignmentStatement returns Statement:
-	{RefAssignement} ref=ContextRef '=' expression=Expression;
+	{RefAssignment} ref=ContextRef '=' expression=Expression;
 
 	// Expression, all operators extend this class. 
 Expression:
@@ -144,13 +144,18 @@ Range:
 RangeLiteral returns Range:
 	{RangeLiteral} '[' values+=NUMBER (',' values+=NUMBER)* ']';
 
-Reference returns Expression:
-	ContextRef;
-
 enum NativeFunction:
 	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()';
 
-	/**
+Reference returns Expression:
+	ContextRef | AbsoluteRef
+;
+
+AbsoluteRef returns Reference:
+	{AbsoluteRef} nodetypeRef=[library::NodeType] primaryRef=PrimaryRef
+;
+
+/**
  * Contextual reference will be restricted by a container in the scope provider
  * depending on the object representation of 'this', until implemented, all possible 
  * references will be visible.  
@@ -161,20 +166,19 @@ enum NativeFunction:
  * 
  */
 ContextRef returns Reference:
-	'this' NodeRef;
+	{ContextRef} (=>'this' primaryRef=PrimaryRef);
 
 	/**
  * Exteral Node references, these can be nested and finish with a resource reference.
  */
-NodeRef returns Reference:
-	(nodes+=PrimaryNodeRef)+ ('->' ref=LeafRef)?;
+PrimaryRef returns Reference:
+	(nodes+=PrimaryNodeRef)+ ('->' leaveRef=LeafReference)?;
 
 PrimaryNodeRef returns Reference:
-	{NodeRef} '.' node=[library::NodeType];
+	{FunctionRef} '.' function=[library::Function];
 
-LeafRef:
+LeafReference returns LeafReference:
 	ResourceRef | LinkRef;
-
 
 /**
  *  TODO, for resource, we need access to the sub ranges. 
@@ -184,15 +188,19 @@ LeafRef:
  * Res.forecast
  *
  */
-ResourceRef returns Reference:
-	{ResourceRef} 'Res' resource=[library::NetXResource];
+ResourceRef returns LeafReference:
+	{ResourceRef} ('Res' resource=[library::NetXResource] | 'AllRes') valuerange=ValueRange;
+
+enum ValueRange: 
+	METRIC='METRIC' | CAP='CAP' | FORECAST='FORECAST' | FORECAST_CAP='FORECAST_CAP' | TRENDED='TRENDED' | UTILIZATION='UTILIZATION'	
+;
 
 /**
  * TODO, through a link, we should be able to access, the opposite node and 
  * resources. 
  * 
  */
-LinkRef returns Reference:
+LinkRef returns LeafReference:
 	{LinkRef} 'Link' link=[operator::Relationship];
 
 terminal NUMBER returns ecore::EBigDecimal:

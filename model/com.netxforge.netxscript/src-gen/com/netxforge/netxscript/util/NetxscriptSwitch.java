@@ -163,14 +163,13 @@ public class NetxscriptSwitch<T> extends Switch<T>
         Reference reference = (Reference)theEObject;
         T result = caseReference(reference);
         if (result == null) result = caseExpression(reference);
-        if (result == null) result = caseLeafRef(reference);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.LEAF_REF:
+      case NetxscriptPackage.LEAF_REFERENCE:
       {
-        LeafRef leafRef = (LeafRef)theEObject;
-        T result = caseLeafRef(leafRef);
+        LeafReference leafReference = (LeafReference)theEObject;
+        T result = caseLeafReference(leafReference);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -397,13 +396,30 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.NODE_REF:
+      case NetxscriptPackage.ABSOLUTE_REF:
       {
-        NodeRef nodeRef = (NodeRef)theEObject;
-        T result = caseNodeRef(nodeRef);
-        if (result == null) result = caseReference(nodeRef);
-        if (result == null) result = caseExpression(nodeRef);
-        if (result == null) result = caseLeafRef(nodeRef);
+        AbsoluteRef absoluteRef = (AbsoluteRef)theEObject;
+        T result = caseAbsoluteRef(absoluteRef);
+        if (result == null) result = caseReference(absoluteRef);
+        if (result == null) result = caseExpression(absoluteRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.CONTEXT_REF:
+      {
+        ContextRef contextRef = (ContextRef)theEObject;
+        T result = caseContextRef(contextRef);
+        if (result == null) result = caseReference(contextRef);
+        if (result == null) result = caseExpression(contextRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.FUNCTION_REF:
+      {
+        FunctionRef functionRef = (FunctionRef)theEObject;
+        T result = caseFunctionRef(functionRef);
+        if (result == null) result = caseReference(functionRef);
+        if (result == null) result = caseExpression(functionRef);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -411,9 +427,7 @@ public class NetxscriptSwitch<T> extends Switch<T>
       {
         ResourceRef resourceRef = (ResourceRef)theEObject;
         T result = caseResourceRef(resourceRef);
-        if (result == null) result = caseReference(resourceRef);
-        if (result == null) result = caseExpression(resourceRef);
-        if (result == null) result = caseLeafRef(resourceRef);
+        if (result == null) result = caseLeafReference(resourceRef);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -421,9 +435,7 @@ public class NetxscriptSwitch<T> extends Switch<T>
       {
         LinkRef linkRef = (LinkRef)theEObject;
         T result = caseLinkRef(linkRef);
-        if (result == null) result = caseReference(linkRef);
-        if (result == null) result = caseExpression(linkRef);
-        if (result == null) result = caseLeafRef(linkRef);
+        if (result == null) result = caseLeafReference(linkRef);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -624,17 +636,17 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Leaf Ref</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Leaf Reference</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Leaf Ref</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Leaf Reference</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseLeafRef(LeafRef object)
+  public T caseLeafReference(LeafReference object)
   {
     return null;
   }
@@ -1072,17 +1084,49 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Node Ref</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Absolute Ref</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Node Ref</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Absolute Ref</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseNodeRef(NodeRef object)
+  public T caseAbsoluteRef(AbsoluteRef object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Context Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Context Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseContextRef(ContextRef object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Function Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Function Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseFunctionRef(FunctionRef object)
   {
     return null;
   }

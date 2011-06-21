@@ -14,13 +14,16 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.interpreter;
+
+import java.util.List;
 
 import com.google.common.collect.ImmutableMap;
 import com.netxforge.netxscript.Expression;
 import com.netxforge.netxscript.Function;
 import com.netxforge.netxscript.Mod;
+import com.netxforge.netxstudio.library.ExpressionResult;
 
 public interface IInterpreter {
 
@@ -40,20 +43,27 @@ public interface IInterpreter {
 	public abstract Object evaluate(Function function);
 
 	/**
-	 * Evaluate a single expression. 
+	 * Evaluate a single expression.
+	 * 
 	 * @param obj
 	 * @return
 	 */
 	public abstract Object evaluate(Expression obj);
-	
+
 	/**
 	 * Evaluate a single expression, with parameters.
-	 *  
+	 * 
 	 * @param obj
 	 * @param values
 	 * @return
 	 */
 	public abstract Object evaluate(Expression obj,
 			ImmutableMap<String, Object> values);
+
+	/**
+	 * Get the expression result. 
+	 * @return
+	 */
+	public abstract List<ExpressionResult> getResult();
 
 }

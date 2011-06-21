@@ -23,7 +23,7 @@ import com.netxforge.netxstudio.operators.Relationship;
  * @model
  * @generated
  */
-public interface LinkRef extends Reference
+public interface LinkRef extends LeafReference
 {
   /**
    * Returns the value of the '<em><b>Link</b></em>' reference.

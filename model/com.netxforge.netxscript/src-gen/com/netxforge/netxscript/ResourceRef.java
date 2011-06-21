@@ -16,6 +16,7 @@ import com.netxforge.netxstudio.library.NetXResource;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxscript.ResourceRef#getResource <em>Resource</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.ResourceRef#getValuerange <em>Valuerange</em>}</li>
  * </ul>
  * </p>
  *
@@ -23,7 +24,7 @@ import com.netxforge.netxstudio.library.NetXResource;
  * @model
  * @generated
  */
-public interface ResourceRef extends Reference
+public interface ResourceRef extends LeafReference
 {
   /**
    * Returns the value of the '<em><b>Resource</b></em>' reference.
@@ -50,5 +51,34 @@ public interface ResourceRef extends Reference
    * @generated
    */
   void setResource(NetXResource value);
+
+  /**
+   * Returns the value of the '<em><b>Valuerange</b></em>' attribute.
+   * The literals are from the enumeration {@link com.netxforge.netxscript.ValueRange}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Valuerange</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Valuerange</em>' attribute.
+   * @see com.netxforge.netxscript.ValueRange
+   * @see #setValuerange(ValueRange)
+   * @see com.netxforge.netxscript.NetxscriptPackage#getResourceRef_Valuerange()
+   * @model
+   * @generated
+   */
+  ValueRange getValuerange();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.netxscript.ResourceRef#getValuerange <em>Valuerange</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Valuerange</em>' attribute.
+   * @see com.netxforge.netxscript.ValueRange
+   * @see #getValuerange()
+   * @generated
+   */
+  void setValuerange(ValueRange value);
 
 } // ResourceRef

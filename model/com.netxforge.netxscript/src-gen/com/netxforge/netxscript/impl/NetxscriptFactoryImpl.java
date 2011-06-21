@@ -80,7 +80,7 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.EXPRESSION: return createExpression();
       case NetxscriptPackage.RANGE: return createRange();
       case NetxscriptPackage.REFERENCE: return createReference();
-      case NetxscriptPackage.LEAF_REF: return createLeafRef();
+      case NetxscriptPackage.LEAF_REFERENCE: return createLeafReference();
       case NetxscriptPackage.RETURN: return createReturn();
       case NetxscriptPackage.IF: return createIf();
       case NetxscriptPackage.WHILE: return createWhile();
@@ -108,7 +108,9 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.VAR_OR_ARGUMENT_CALL: return createVarOrArgumentCall();
       case NetxscriptPackage.NATIVE_EXPRESSION: return createNativeExpression();
       case NetxscriptPackage.RANGE_LITERAL: return createRangeLiteral();
-      case NetxscriptPackage.NODE_REF: return createNodeRef();
+      case NetxscriptPackage.ABSOLUTE_REF: return createAbsoluteRef();
+      case NetxscriptPackage.CONTEXT_REF: return createContextRef();
+      case NetxscriptPackage.FUNCTION_REF: return createFunctionRef();
       case NetxscriptPackage.RESOURCE_REF: return createResourceRef();
       case NetxscriptPackage.LINK_REF: return createLinkRef();
       default:
@@ -128,6 +130,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
     {
       case NetxscriptPackage.NATIVE_FUNCTION:
         return createNativeFunctionFromString(eDataType, initialValue);
+      case NetxscriptPackage.VALUE_RANGE:
+        return createValueRangeFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -145,6 +149,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
     {
       case NetxscriptPackage.NATIVE_FUNCTION:
         return convertNativeFunctionToString(eDataType, instanceValue);
+      case NetxscriptPackage.VALUE_RANGE:
+        return convertValueRangeToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -287,10 +293,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public LeafRef createLeafRef()
+  public LeafReference createLeafReference()
   {
-    LeafRefImpl leafRef = new LeafRefImpl();
-    return leafRef;
+    LeafReferenceImpl leafReference = new LeafReferenceImpl();
+    return leafReference;
   }
 
   /**
@@ -595,10 +601,32 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public NodeRef createNodeRef()
+  public AbsoluteRef createAbsoluteRef()
   {
-    NodeRefImpl nodeRef = new NodeRefImpl();
-    return nodeRef;
+    AbsoluteRefImpl absoluteRef = new AbsoluteRefImpl();
+    return absoluteRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ContextRef createContextRef()
+  {
+    ContextRefImpl contextRef = new ContextRefImpl();
+    return contextRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public FunctionRef createFunctionRef()
+  {
+    FunctionRefImpl functionRef = new FunctionRefImpl();
+    return functionRef;
   }
 
   /**
@@ -641,6 +669,28 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * @generated
    */
   public String convertNativeFunctionToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ValueRange createValueRangeFromString(EDataType eDataType, String initialValue)
+  {
+    ValueRange result = ValueRange.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertValueRangeToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

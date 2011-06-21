@@ -2,6 +2,7 @@ package com.netxforge.interpreter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -9,15 +10,18 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtext.util.PolymorphicDispatcher;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.netxforge.netxscript.AbsoluteRef;
 import com.netxforge.netxscript.And;
 import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
 import com.netxforge.netxscript.Block;
 import com.netxforge.netxscript.BooleanLiteral;
+import com.netxforge.netxscript.ContextRef;
 import com.netxforge.netxscript.Div;
 import com.netxforge.netxscript.Equal;
 import com.netxforge.netxscript.Expression;
@@ -26,6 +30,7 @@ import com.netxforge.netxscript.FunctionCall;
 import com.netxforge.netxscript.Greater;
 import com.netxforge.netxscript.GreaterEqual;
 import com.netxforge.netxscript.If;
+import com.netxforge.netxscript.LeafReference;
 import com.netxforge.netxscript.Lesser;
 import com.netxforge.netxscript.LesserEqual;
 import com.netxforge.netxscript.LinkRef;
@@ -37,21 +42,28 @@ import com.netxforge.netxscript.NativeExpression;
 import com.netxforge.netxscript.NativeFunction;
 import com.netxforge.netxscript.Negation;
 import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxscript.NodeRef;
 import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.Plus;
 import com.netxforge.netxscript.RangeLiteral;
+import com.netxforge.netxscript.RefAssignement;
 import com.netxforge.netxscript.Reference;
 import com.netxforge.netxscript.ResourceRef;
 import com.netxforge.netxscript.Return;
 import com.netxforge.netxscript.Statement;
 import com.netxforge.netxscript.UnaryPlusMinus;
 import com.netxforge.netxscript.Unequal;
+import com.netxforge.netxscript.ValueRange;
 import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
+import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.ExpressionResult;
+import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.RangeKind;
 
 /**
  * An interpreter for instances of EClasses of the {@link NetxscriptPackage}.
@@ -67,12 +79,11 @@ import com.netxforge.netxstudio.generics.Value;
  */
 public class InterpreterTypeless implements IInterpreter {
 
+	INativeFunctions nativeFunctions = new NativeFunctions();
 
-	@Inject
-	INativeFunctions nativeFunctions;
-	
-	@Inject
-	IPrettyLog pLog;
+	IPrettyLog pLog = new PrettyLog();
+
+	ModelUtils modelUtils = new ModelUtils();
 
 	private PolymorphicDispatcher<BigDecimal> dispatcher = PolymorphicDispatcher
 			.createForSingleTarget("internalEvaluate", 2, 2, this);
@@ -81,11 +92,21 @@ public class InterpreterTypeless implements IInterpreter {
 	// .createForVarTarget("internalEvaluate", this);
 
 	/**
-	 * The first Context always corresponds to 'this' in the grammar.
-	 * Additional context, contain the period range for an expression. 
+	 * The first Context always corresponds to 'this' in the grammar. Additional
+	 * context, contain the period range for an expression.
 	 * 
 	 */
 	private List<IInterpreterContext> contextList = Lists.newArrayList();
+
+	/**
+	 * An index of all context.
+	 */
+	Map<Class<?>, IInterpreterContext> contextIndex = Maps.newHashMap();
+
+	/**
+	 * The result of our expression.
+	 */
+	private List<ExpressionResult> result = Lists.newArrayList();
 
 	/**
 	 * Construct without a root object constraint.
@@ -100,8 +121,9 @@ public class InterpreterTypeless implements IInterpreter {
 	 */
 	public InterpreterTypeless(IInterpreterContext... context) {
 		this.contextList.addAll(Lists.newArrayList(context));
+		this.initialize();
 	}
-	
+
 	/**
 	 * Construct with a single context
 	 * 
@@ -109,6 +131,23 @@ public class InterpreterTypeless implements IInterpreter {
 	 */
 	public InterpreterTypeless(IInterpreterContext context) {
 		this.contextList.add(context);
+		this.initialize();
+
+	}
+
+	private void initialize() {
+		this.generateContextIndex();
+		
+	}
+
+	/**
+	 * The context index provides an easy lookup for expressions, which need
+	 * access to certain types of context.
+	 */
+	private void generateContextIndex() {
+		for (IInterpreterContext context : contextList) {
+			contextIndex.put(context.getContext().getClass(), context);
+		}
 	}
 
 	/*
@@ -119,6 +158,7 @@ public class InterpreterTypeless implements IInterpreter {
 	 * .Mod)
 	 */
 	public Object evaluate(Mod module) {
+		// Create an expression result:
 		if (module.getFunctions().size() > 0) {
 			Function f = module.getFunctions().get(0);
 			// TODO, this is where we need to set the arguments if any.
@@ -211,11 +251,11 @@ public class InterpreterTypeless implements IInterpreter {
 	 * @return
 	 */
 	@SuppressWarnings("unused")
-	private EList<?> evaluateCollection(Expression e,
+	private List<?> evaluateCollection(Expression e,
 			ImmutableMap<String, Object> values) {
 		Object eval = dispatcher.invoke(e, values);
 		if (assertCollection(eval)) {
-			return (EList<?>) eval;
+			return (List<?>) eval;
 		} else {
 			throw new UnsupportedOperationException(e.toString());
 		}
@@ -331,6 +371,60 @@ public class InterpreterTypeless implements IInterpreter {
 
 					}
 				}
+				if (statement instanceof RefAssignement) {
+					RefAssignement refa = (RefAssignement) statement;
+					LeafReference targetReference = refa.getRef().getLeaveRef();
+
+					if ((targetReference instanceof ResourceRef)
+							&& (refa.getExpression() != null)) {
+						Object varEval = dispatcher.invoke(
+								refa.getExpression(),
+								ImmutableMap.copyOf(localVarsAndArguments));
+
+						// We can only store ranges of values in an expression
+						// result.
+						if (varEval instanceof List<?>) {
+							
+							// Create a new expression result. 
+							// TODO, perhas lookup if the target resource is alreay being 
+							// written at????
+							
+							ExpressionResult er = LibraryFactory.eINSTANCE
+									.createExpressionResult();
+							
+							NetXResource res = ((ResourceRef)targetReference).getResource();
+							er.setTargetResource(res);
+							
+							// Nuts, to enums for the same type of info.... 
+							ValueRange range = ((ResourceRef)targetReference).getValuerange();
+							switch(range.getValue()){
+							case ValueRange.CAP_VALUE:{
+								er.setTargetRange(RangeKind.CAP);
+							}break;
+							case ValueRange.FORECAST_VALUE:{
+								er.setTargetRange(RangeKind.FORECAST);
+							}break;
+							case ValueRange.FORECAST_CAP_VALUE:{
+								er.setTargetRange(RangeKind.FORECASTCAP);
+							}break;
+							case ValueRange.UTILIZATION_VALUE:{
+								er.setTargetRange(RangeKind.UTILIZATION);
+							}break;
+							}
+							
+							// We could be of type BigDecimal or Value. 
+							List<?> resultValues = (List<?>) varEval;
+							// TODO, We need to know the type. 
+//							er.getValues().addAll(resultValues);
+							
+						}
+
+						// Whatever was evaluated and should be assigned to a
+						// resource.
+						// is stored in an Expression result.
+
+					}
+				}
 			}
 
 			// Print the evaluation result.
@@ -418,8 +512,8 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	/**
-	 * Replace the referenced variable expression, to the new assignment
-	 * expression.
+	 * Return the variable referenced in the assignement. (The expression
+	 * evaluation is done in a Block evaluation).
 	 * 
 	 * @param statement
 	 * @param values
@@ -427,14 +521,17 @@ public class InterpreterTypeless implements IInterpreter {
 	 */
 	protected Object internalEvaluate(Assignment statement,
 			ImmutableMap<String, Object> values) {
-		// if (statement.getVar() != null
-		// && statement.getVar() instanceof Variable) {
-		// Variable var = (Variable) statement.getVar();
-		// var.setExpression(statement.getExpression());
-		// }
 		return statement.getVar();
 	}
 
+	/**
+	 * Return the variable(self. (The expression evaluation is done in a Block
+	 * evaluation).
+	 * 
+	 * @param var
+	 * @param values
+	 * @return
+	 */
 	protected Object internalEvaluate(Variable var,
 			ImmutableMap<String, Object> values) {
 		return var;
@@ -505,12 +602,12 @@ public class InterpreterTypeless implements IInterpreter {
 			Variable var = (Variable) e.getCall();
 			Object preEvaluated = values.get(var.getName());
 			if (preEvaluated != null) {
-				if (preEvaluated instanceof EList<?>) {
+				if (preEvaluated instanceof List<?>) {
 					if (e.getIndex() != null) {
 						Object eval = dispatcher.invoke(e.getIndex(),
 								ImmutableMap.copyOf(values));
 						if (this.assertNumeric(eval)) {
-							return ((EList<?>) preEvaluated)
+							return ((List<?>) preEvaluated)
 									.get(((BigDecimal) eval).intValue());
 						}
 					}
@@ -534,32 +631,65 @@ public class InterpreterTypeless implements IInterpreter {
 	// REFERENCES
 	// //////////////////////////////////////
 
-	protected Object internalEvaluate(Reference e,
+	protected Object internalEvaluate(RefAssignement e,
 			ImmutableMap<String, Object> params) {
 		Object eval = dispatcher
 				.invoke(e.getRef(), ImmutableMap.copyOf(params));
 		return eval;
 	}
 
-	protected void internalEvaluate(NodeRef e,
-			ImmutableMap<String, Object> values) {
-		// Could be any type of reference, even nested.
-		pLog.log("Found a node reference");
+	protected Object internalEvaluate(Reference e,
+			ImmutableMap<String, Object> params) {
+		Object eval = dispatcher.invoke(e.getLeaveRef(),
+				ImmutableMap.copyOf(params));
+		if (e instanceof AbsoluteRef) {
+			// What do we do here.
+		}
+		if (e instanceof ContextRef) {
+			// What do we do here.
+		}
+		return eval;
 	}
 
+	// TODO, Not implemented yet.
 	protected void internalEvaluate(LinkRef e,
 			ImmutableMap<String, Object> values) {
 		// Could be any type of reference, even nested.
 		pLog.log("Found a link reference", e.getLink());
 	}
 
-	protected EList<Value> internalEvaluate(ResourceRef e,
+	protected List<BigDecimal> internalEvaluate(ResourceRef e,
 			ImmutableMap<String, Object> values) {
 		// This is where we grab the values based on a date range.
-		// FIXME, we can't grab the whole range of values, use contextual
-		// information here See IIntepreterContext.
-		EList<Value> v = e.getResource().getMetricValueRanges().get(0).getMetricValues();
-		return v;
+
+		IInterpreterContext context = contextIndex.get(DateTimeRange.class);
+		DateTimeRange dtr = (DateTimeRange) context.getContext();
+
+		dtr.getBegin();
+		dtr.getEnd();
+
+		Date begin = modelUtils.fromXMLDate(dtr.getBegin());
+		Date end = modelUtils.fromXMLDate(dtr.getEnd());
+
+		// FIXME, use Query from martin.
+		// We need a dataprovider here.
+
+		EList<Value> v = null;
+
+		switch (e.getValuerange().getValue()) {
+		case ValueRange.METRIC_VALUE: {
+			e.getResource().getMetricValueRanges().get(0).getMetricValues();
+		}
+		case ValueRange.CAP_VALUE: {
+			e.getResource().getCapacityValues();
+		}
+		case ValueRange.UTILIZATION_VALUE: {
+			e.getResource().getUtilizationValues();
+		}
+		}
+		
+		// We want the Value object without the timestamp
+		return modelUtils.transformValue(v);
 	}
 
 	// /////////////////////////////////////
@@ -570,17 +700,17 @@ public class InterpreterTypeless implements IInterpreter {
 			ImmutableMap<String, Object> values) {
 
 		// Invocations on a RangeLiteral or Reference.
-		EList<?> range = null;
+		List<?> range = null;
 		if (ne.getRange() != null) {
-			range = (EList<?>) dispatcher.invoke(ne.getRange(),
+			range = (List<?>) dispatcher.invoke(ne.getRange(),
 					ImmutableMap.copyOf(values));
 		}
 
 		if (ne.getRef() != null) {
 			Object eval = dispatcher.invoke(ne.getRef(),
 					ImmutableMap.copyOf(values));
-			if (eval instanceof EList<?>) {
-				range = (EList<?>) eval;
+			if (eval instanceof List<?>) {
+				range = (List<?>) eval;
 			}
 		}
 
@@ -627,9 +757,9 @@ public class InterpreterTypeless implements IInterpreter {
 		return e.getValue();
 	}
 
-	protected EList<BigDecimal> internalEvaluate(RangeLiteral e,
+	protected List<BigDecimal> internalEvaluate(RangeLiteral e,
 			ImmutableMap<String, Object> values) {
-		return e.getValues();
+		return ImmutableList.copyOf(e.getValues());
 	}
 
 	protected BigDecimal internalEvaluate(Plus plus,
@@ -824,14 +954,17 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	protected boolean assertCollection(Object eval) {
-		return (eval instanceof EList<?>);
+		return (eval instanceof List<?>);
 	}
-	
+
 	@Override
 	public String toString() {
 		return Joiner.on(",").join(contextList);
 	}
 
-	
+	@Override
+	public List<ExpressionResult> getResult() {
+		return result;
+	}
 
 }

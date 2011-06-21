@@ -5,10 +5,10 @@
  */
 package com.netxforge.netxscript.impl;
 
+import com.netxforge.netxscript.FunctionRef;
 import com.netxforge.netxscript.NetxscriptPackage;
-import com.netxforge.netxscript.NodeRef;
 
-import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.library.Function;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -19,35 +19,35 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Node Ref</b></em>'.
+ * An implementation of the model object '<em><b>Function Ref</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.impl.NodeRefImpl#getNode <em>Node</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.FunctionRefImpl#getFunction <em>Function</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class NodeRefImpl extends ReferenceImpl implements NodeRef
+public class FunctionRefImpl extends ReferenceImpl implements FunctionRef
 {
   /**
-   * The cached value of the '{@link #getNode() <em>Node</em>}' reference.
+   * The cached value of the '{@link #getFunction() <em>Function</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getNode()
+   * @see #getFunction()
    * @generated
    * @ordered
    */
-  protected NodeType node;
+  protected Function function;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected NodeRefImpl()
+  protected FunctionRefImpl()
   {
     super();
   }
@@ -60,7 +60,7 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
   @Override
   protected EClass eStaticClass()
   {
-    return NetxscriptPackage.Literals.NODE_REF;
+    return NetxscriptPackage.Literals.FUNCTION_REF;
   }
 
   /**
@@ -68,19 +68,19 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public NodeType getNode()
+  public Function getFunction()
   {
-    if (node != null && node.eIsProxy())
+    if (function != null && function.eIsProxy())
     {
-      InternalEObject oldNode = (InternalEObject)node;
-      node = (NodeType)eResolveProxy(oldNode);
-      if (node != oldNode)
+      InternalEObject oldFunction = (InternalEObject)function;
+      function = (Function)eResolveProxy(oldFunction);
+      if (function != oldFunction)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetxscriptPackage.NODE_REF__NODE, oldNode, node));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetxscriptPackage.FUNCTION_REF__FUNCTION, oldFunction, function));
       }
     }
-    return node;
+    return function;
   }
 
   /**
@@ -88,9 +88,9 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public NodeType basicGetNode()
+  public Function basicGetFunction()
   {
-    return node;
+    return function;
   }
 
   /**
@@ -98,12 +98,12 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setNode(NodeType newNode)
+  public void setFunction(Function newFunction)
   {
-    NodeType oldNode = node;
-    node = newNode;
+    Function oldFunction = function;
+    function = newFunction;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.NODE_REF__NODE, oldNode, node));
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.FUNCTION_REF__FUNCTION, oldFunction, function));
   }
 
   /**
@@ -116,9 +116,9 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.NODE_REF__NODE:
-        if (resolve) return getNode();
-        return basicGetNode();
+      case NetxscriptPackage.FUNCTION_REF__FUNCTION:
+        if (resolve) return getFunction();
+        return basicGetFunction();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -133,8 +133,8 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.NODE_REF__NODE:
-        setNode((NodeType)newValue);
+      case NetxscriptPackage.FUNCTION_REF__FUNCTION:
+        setFunction((Function)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -150,8 +150,8 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.NODE_REF__NODE:
-        setNode((NodeType)null);
+      case NetxscriptPackage.FUNCTION_REF__FUNCTION:
+        setFunction((Function)null);
         return;
     }
     super.eUnset(featureID);
@@ -167,10 +167,10 @@ public class NodeRefImpl extends ReferenceImpl implements NodeRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.NODE_REF__NODE:
-        return node != null;
+      case NetxscriptPackage.FUNCTION_REF__FUNCTION:
+        return function != null;
     }
     return super.eIsSet(featureID);
   }
 
-} //NodeRefImpl
+} //FunctionRefImpl
