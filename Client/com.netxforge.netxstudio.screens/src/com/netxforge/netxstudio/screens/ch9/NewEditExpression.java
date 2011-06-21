@@ -20,6 +20,8 @@ package com.netxforge.netxstudio.screens.ch9;
 
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -68,12 +70,19 @@ import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
+import com.google.common.collect.ImmutableList;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.netxforge.interpreter.IInterpreter;
-import com.netxforge.interpreter.InterpreterTypeless;
+import com.netxforge.interpreter.IInterpreterContext;
+import com.netxforge.interpreter.IInterpreterContextFactory;
+import com.netxforge.interpreter.IInterpreterFactory;
 import com.netxforge.netxscript.Function;
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.NetxscriptFactory;
+import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -96,7 +105,15 @@ public class NewEditExpression extends AbstractScreen implements
 	private DataBindingContext m_bindingContext;
 
 	private ValidationService validationService = new ValidationService();
-	private IInterpreter interpreter = new InterpreterTypeless();
+	
+//	private IInterpreter interpreter = new InterpreterTypeless();
+	
+	IInterpreterFactory interpreterFactory;
+	IInterpreterContextFactory interpreterContextFactory;
+	
+	@Inject
+	ModelUtils modelUtils;
+	
 	
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtExpressionName;
@@ -112,6 +129,8 @@ public class NewEditExpression extends AbstractScreen implements
 	private Form frmNewForm;
 
 	private Expression original;
+
+	private Injector netxScriptInjector;
 
 	/**
 	 * Create the composite.
@@ -223,8 +242,12 @@ public class NewEditExpression extends AbstractScreen implements
 
 		client.setLayout(editorLayout);
 
-		Injector injector = InjectorProxy
+		netxScriptInjector = InjectorProxy
 				.getInjector("com.netxforge.Netxscript");
+		
+		interpreterContextFactory = netxScriptInjector.getInstance(IInterpreterContextFactory.class);
+		interpreterFactory = netxScriptInjector.getInstance(IInterpreterFactory.class);
+		
 		// Injector injector =
 		// ArithmeticsActivator.getInstance().getInjector("org.eclipse.xtext.example.arithmetics.Arithmetics");
 		Composite editorComposite = toolkit.createComposite(client, SWT.BORDER);
@@ -232,7 +255,7 @@ public class NewEditExpression extends AbstractScreen implements
 		gl_editorComposite.marginHeight = 0;
 		gl_editorComposite.marginWidth = 0;
 		editorComposite.setLayout(gl_editorComposite);
-		editor = new EmbeddedXtextEditor(editorComposite, injector, SWT.BORDER
+		editor = new EmbeddedXtextEditor(editorComposite, netxScriptInjector, SWT.BORDER
 				| widgetStyle);
 		editor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
@@ -251,13 +274,28 @@ public class NewEditExpression extends AbstractScreen implements
 			// FIXME, PROPER, ERROR HANDLING. 
 			
 			public void linkActivated(HyperlinkEvent e) {
-				// Launch the interpreter. 
+				// Launch the interpreter, with a given context.
+				
+				// NOTE, for testing, the period context is always last week. 
+				DateTimeRange timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
+				
+				XMLGregorianCalendar t0 = modelUtils.toXMLDate(modelUtils.todayAndNow());
+				XMLGregorianCalendar t1 = modelUtils.toXMLDate(modelUtils.lastWeek());
+				
+				timeRange.setBegin(t1);
+				timeRange.setEnd(t0);
+				
+				IInterpreterContext periodContext = interpreterContextFactory.createPeriodContext(timeRange);
+				
+				List<IInterpreterContext> contextList = ImmutableList.of(periodContext);
+				IInterpreterContext[] contextArray = new IInterpreterContext[contextList.size()];
+				final IInterpreter i = interpreterFactory.create(contextList.toArray(contextArray));
+				
 				IXtextDocument doc = editor.getDocument();
 				if (documentHasErrors(doc)) {
 					System.out
 							.println("Intepreter cancelled, as errors exist in script: "
 									+ doc.get());
-					
 				}
 				@SuppressWarnings("unused")
 				String rootElementName = doc
@@ -273,11 +311,11 @@ public class NewEditExpression extends AbstractScreen implements
 								
 								if ((resource.getContents().get(0) instanceof Mod)) {
 									Mod root = (Mod) resource.getContents().get(0);
-									interpreter.evaluate(root);
+									i.evaluate(root);
 								}
 								if ((resource.getContents().get(0) instanceof Function)) {
 									Function root = (Function) resource.getContents().get(0);
-									interpreter.evaluate(root);
+									i.evaluate(root);
 								}
 								return null;
 							}

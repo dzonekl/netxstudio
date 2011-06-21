@@ -27,4 +27,5 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Eclipse-RegisterBuddy: com.netxforge.netxstudio.screens.editing
+Export-Package: com.netxforge.netxstudio.screens.internal
 

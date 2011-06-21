@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -31,7 +33,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
@@ -140,11 +141,6 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 		tblclmnName.setWidth(100);
 		tblclmnName.setText("Name");
 
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnType = tableViewerColumn_3.getColumn();
-		tblclmnType.setWidth(100);
-		tblclmnType.setText("Type");
 
 		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(
 				tableViewer, SWT.NONE);
@@ -157,12 +153,19 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 		TableColumn tblclmnStarttime = tableViewerColumn_2.getColumn();
 		tblclmnStarttime.setWidth(81);
 		tblclmnStarttime.setText("Startime");
+		
+
+		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
+		TableColumn tblclmnType = tableViewerColumn_3.getColumn();
+		tblclmnType.setWidth(100);
+		tblclmnType.setText("Endtime");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnInterval = tableViewerColumn_1.getColumn();
 		tblclmnInterval.setWidth(100);
-		tblclmnInterval.setText("Interval");
+		tblclmnInterval.setText("Repeat");
 
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
@@ -171,23 +174,55 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 		mntmEdit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// TODO, invoke the editor.
 
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					NewEditJob user = new NewEditJob(screenService
+							.getScreenContainer(), SWT.NONE
+							| Screens.OPERATION_EDIT);
+					screenService.setActiveScreen(user);
+					user.injectData(jobsResource, o);
+				}
 			}
 		});
 		mntmEdit.setText("Edit...");
+		
+		MenuItem mntmRuns = new MenuItem(menu, SWT.NONE);
+		mntmRuns.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					JobRuns user = new JobRuns(screenService
+							.getScreenContainer(), SWT.NONE
+							| Screens.OPERATION_READ_ONLY);
+					screenService.setActiveScreen(user);
+					user.injectData(jobsResource, o);
+				}
+				
+				
+			}
+		});
+		mntmRuns.setText("Runs...");
+		
+		if (editingService != null) {
+			injectData();
+		}
+
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-		
-		
-		// TODO, Implement content provider, which also can deal with the type of a job which is defined 
-		// as a job class on it's own. 
+
+		// TODO, Implement content provider, which also can deal with the type
+		// of a job which is defined
+		// as a job class on it's own.
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
-		
-		
 
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
@@ -195,7 +230,8 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 						SchedulingPackage.Literals.JOB__NAME,
 						SchedulingPackage.Literals.JOB__JOB_STATE,
 						SchedulingPackage.Literals.JOB__START_TIME,
-						SchedulingPackage.Literals.JOB__INTERVAL });
+						SchedulingPackage.Literals.JOB__END_TIME,
+						SchedulingPackage.Literals.JOB__REPEAT });
 		tableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 
@@ -204,11 +240,6 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 		tableViewer.setInput(l.observe(jobsResource));
 		return bindingContext;
 	}
-	
-	
-	
-	
-	
 
 	public void injectData() {
 		// Resource jobResource =
@@ -228,7 +259,7 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	public void disposeData() {
-		// We don't have a resource here.
+		editingService.disposeData();
 	}
 
 	@Override
@@ -244,9 +275,5 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public Form getScreenForm() {
 		return frmScheduledJobs;
-	}
-
-	public TableViewer getTableViewer() {
-		return tableViewer;
 	}
 }

@@ -59,6 +59,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -71,8 +72,11 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDateTimeObservableValue;
 import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
+import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
+import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
+import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -101,12 +105,18 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 	private Button btnNever;
 	private TableViewer occurencesTableViewer;
 
+	// Not injected as this service is already injected in the ViePart.
+	private IValidationService validationService = new ValidationService();
+	private EMFDataBindingContext bindingContext;
+	
 	public NewEditJob(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
+				validationService.dispose();
+				validationService.removeValidationListener(NewEditJob.this);
 			}
 		});
 		toolkit.adapt(this);
@@ -135,11 +145,11 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 		sctnDetails.setClient(compositeDetails);
 		compositeDetails.setLayout(new GridLayout(2, false));
 
-		Label lblName = toolkit
+		Label lblJobName = toolkit
 				.createLabel(compositeDetails, "Name:", SWT.NONE);
-		lblName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
+		lblJobName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
-		lblName.setAlignment(SWT.RIGHT);
+		lblJobName.setAlignment(SWT.RIGHT);
 
 		txtJobName = toolkit.createText(compositeDetails, "New Text", SWT.NONE);
 		txtJobName.setText("");
@@ -246,6 +256,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 		Section sctnJobEnd = toolkit.createSection(frmNewJob.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnJobEnd = new FormData();
+		fd_sctnJobEnd.bottom = new FormAttachment(sctnRecurrence, 230);
 		fd_sctnJobEnd.top = new FormAttachment(sctnRecurrence, 12);
 		fd_sctnJobEnd.left = new FormAttachment(sctnDetails, 6);
 		fd_sctnJobEnd.right = new FormAttachment(100, -12);
@@ -302,8 +313,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 
 		Section sctnSummary = toolkit.createSection(frmNewJob.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
-		fd_sctnJobEnd.bottom = new FormAttachment(100, -226);
-		fd_sctnDetails.bottom = new FormAttachment(0, 220);
+		fd_sctnDetails.bottom = new FormAttachment(0, 100);
 		FormData fd_sctnSummary = new FormData();
 		fd_sctnSummary.top = new FormAttachment(sctnJobEnd, 6);
 		fd_sctnSummary.bottom = new FormAttachment(100, -12);
@@ -340,7 +350,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 
 		occurencesTableViewer.setContentProvider(new ArrayContentProvider());
 		occurencesTableViewer.setLabelProvider(new OccurenceLabelProvider());
-
+		
+		validationService.registerAllDecorators(txtJobName, lblJobName);
+		
 	}
 
 	/**
@@ -374,6 +386,11 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
+		
+		// Strategies
+		EMFUpdateValueStrategy nameStrategy = validationService
+				.getUpdateValueStrategyBeforeSet("Name is required");
+		
 		// JOB_NAME
 		IObservableValue textObserveJobName = SWTObservables
 				.observeDelayedValue(400,
@@ -382,7 +399,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 		IEMFValueProperty textJobNameValue = EMFProperties
 				.value(SchedulingPackage.Literals.JOB__NAME);
 		bindingContext.bindValue(textObserveJobName,
-				textJobNameValue.observe(job), null, null);
+				textJobNameValue.observe(job), nameStrategy, null);
 
 		comboViewerOn.setContentProvider(new ArrayContentProvider());
 		comboViewerOn.setLabelProvider(new LabelProvider() {
@@ -663,7 +680,34 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 	}
 
 	public void handleValidationStateChange(ValidationEvent event) {
-		// TODO Auto-generated method stub
+		if (event instanceof FormValidationEvent) {
+			int type = ((FormValidationEvent) event).getMsgType();
+			List<IMessage> list = ((FormValidationEvent) event).getMessages();
+			if (frmNewJob.isDisposed()
+					|| frmNewJob.getHead().isDisposed()) {
+				return;
+			}
+
+			if (type != IMessage.NONE) {
+
+				String errorType = "";
+				if (type == IMessage.ERROR) {
+					errorType = "Error:";
+				}
+				if (type == IMessage.WARNING) {
+					errorType = "Required:";
+				}
+
+				StringBuffer msgBuffer = new StringBuffer();
+				msgBuffer.append(errorType + "(" + list.size() + "), "
+						+ list.get(0).getMessage());
+				frmNewJob.setMessage(msgBuffer.toString(), type,
+						list.toArray(new IMessage[list.size()]));
+
+			} else {
+				frmNewJob.setMessage(null);
+			}
+		}
 
 	}
 
@@ -681,8 +725,13 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 				job = (Job) object;
 			}
 		}
-
-		this.initDataBindings_();
+		
+		bindingContext = initDataBindings_();
+		
+		if (!Screens.isReadOnlyOperation(getOperation())) {
+			validationService.registerBindingContext(bindingContext);
+			validationService.addValidationListener(this);
+		}
 
 	}
 
@@ -734,8 +783,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return true;
+		return validationService.isValid();
 	}
 
 	@Override
