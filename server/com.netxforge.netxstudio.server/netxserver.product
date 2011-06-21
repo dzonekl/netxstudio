@@ -55,6 +55,7 @@
    </features>
 
    <configurations>
+      <plugin id="com.netxforge.netxstudio.server" autoStart="true" startLevel="0" />
       <plugin id="com.netxforge.netxstudio.server.job" autoStart="true" startLevel="0" />
       <plugin id="com.netxforge.netxstudio.server.logic" autoStart="true" startLevel="0" />
       <plugin id="com.netxforge.netxstudio.server.test" autoStart="true" startLevel="0" />

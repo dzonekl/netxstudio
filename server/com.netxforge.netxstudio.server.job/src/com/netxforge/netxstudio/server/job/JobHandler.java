@@ -50,6 +50,7 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.ServerUtils;
 
 /**
  * Handles jobs, reads the jobs from the database, initializes quartz and
@@ -238,6 +239,7 @@ public class JobHandler {
 					@Override
 					public void notifyLifecycleEvent(ILifecycleEvent event) {
 						if (event.getKind() == Kind.ACTIVATED) {
+							ServerUtils.getInstance().initResources();
 							JobHandler.createAndInitialize();
 						}
 					}

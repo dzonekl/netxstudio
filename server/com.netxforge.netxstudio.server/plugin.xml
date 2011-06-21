@@ -30,7 +30,7 @@
     <extension
           point="org.eclipse.net4j.util.elementProcessors">
        <elementProcessor
-             class="com.netxforge.netxstudio.server.ServerUtils$RepositoryCommitLogConfigurer">
+             class="com.netxforge.netxstudio.server.ServerUtils$ServerInitializer">
        </elementProcessor>
     </extension>
 

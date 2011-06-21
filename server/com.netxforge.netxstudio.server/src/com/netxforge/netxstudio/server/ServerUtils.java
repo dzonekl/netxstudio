@@ -30,18 +30,34 @@ import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.session.CDOSession;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.jvm.IJVMAcceptor;
 import org.eclipse.net4j.jvm.JVMUtil;
 import org.eclipse.net4j.util.container.IElementProcessor;
 import org.eclipse.net4j.util.container.IManagedContainer;
 import org.eclipse.net4j.util.container.IPluginContainer;
+import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
+import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
+import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
 import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
 import org.eclipse.net4j.util.security.PasswordCredentials;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.osgi.framework.ServiceReference;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.protocols.ProtocolsPackage;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * Contains convenience methods.
@@ -68,7 +84,8 @@ public class ServerUtils {
 	private IJVMAcceptor acceptor;
 	private IConnector connector;
 	private String serverSideLogin = "" + System.currentTimeMillis();
-
+	private boolean initResourcesDone;
+	
 	public ServerUtils() {
 		try {
 			dataTypeFactory = DatatypeFactory.newInstance();
@@ -166,8 +183,46 @@ public class ServerUtils {
 	public String getServerSideLogin() {
 		return serverSideLogin;
 	}
-
-	public static class RepositoryCommitLogConfigurer implements IElementProcessor {
+	
+	public synchronized void initResources() {
+		if (initResourcesDone) {
+			return;
+		}
+		
+		final ResourceInitializer resourceInitializer = Activator.getInstance().getInjector().getInstance(ResourceInitializer.class);
+		resourceInitializer.initResources();
+		initResourcesDone = true;
+	}
+	
+	static class ResourceInitializer {
+		@Inject
+		private IDataProvider dataProvider;
+		
+		private void initResources() {
+			dataProvider.openSession();
+			dataProvider.getTransaction();
+			initResourcesForEPackage(GenericsPackage.eINSTANCE);
+			initResourcesForEPackage(GeoPackage.eINSTANCE);
+			initResourcesForEPackage(LibraryPackage.eINSTANCE);
+			initResourcesForEPackage(MetricsPackage.eINSTANCE);
+			initResourcesForEPackage(OperatorsPackage.eINSTANCE);
+			initResourcesForEPackage(ProtocolsPackage.eINSTANCE);
+			initResourcesForEPackage(SchedulingPackage.eINSTANCE);
+			initResourcesForEPackage(ServicesPackage.eINSTANCE);
+			dataProvider.commitTransaction();
+		}
+		
+		private void initResourcesForEPackage(EPackage ePackage) {
+			for (final EClassifier eClassifier : ePackage.getEClassifiers()) {
+				if (eClassifier instanceof EClass) {
+					final EClass eClass = (EClass)eClassifier;
+					dataProvider.getResource(eClass);
+				}
+			}
+		}
+	}
+	
+	public static class ServerInitializer implements IElementProcessor {
 		
 		@Override
 		public Object process(IManagedContainer container, String productGroup,
@@ -178,6 +233,18 @@ public class ServerUtils {
 				asyncCommitInfoHandler.activate();
 				((IRepository) element)
 						.addCommitInfoHandler(asyncCommitInfoHandler);
+				
+				// create all the resources at startup
+				final IRepository repository = (IRepository) element;
+				repository.addListener(new LifecycleEventAdapter() {
+					@Override
+					public void notifyLifecycleEvent(ILifecycleEvent event) {
+						if (event.getKind() == Kind.ACTIVATED) {
+							getInstance().initResources();
+						}
+					}
+				});
+
 			}
 
 			return element;
