@@ -45,13 +45,13 @@
       <feature id="org.mortbay.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.ecore"/>
-      <feature id="org.hibernate" version="3.6.0"/>
       <feature id="org.dom4j" version="1.6.1"/>
-      <feature id="javax.persistence" version="2.0.1"/>
+      <feature id="javax.persistence"/>
       <feature id="org.antlr.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="org.apache.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.xtext.artifacts.feature" version="1.0.0.qualifier"/>
       <feature id="org.quartz.artifacts.feature" version="1.0.0.qualifier"/>
+      <feature id="org.hibernate"/>
+      <feature id="org.apache.artifacts.server.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
