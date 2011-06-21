@@ -38,7 +38,6 @@ import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 import org.eclipse.net4j.util.transaction.TransactionException;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
@@ -64,7 +63,6 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-@Singleton
 public class CDODataProvider implements IDataProvider, IFixtures {
 
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
