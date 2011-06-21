@@ -13,7 +13,7 @@ import java.util.Date;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import com.google.inject.internal.ImmutableList;
+import com.google.common.collect.ImmutableList;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IDataService;
@@ -117,21 +117,21 @@ public class ServiceJobTest extends AbstractDataProviderTest {
 
 		final Value v = GenericsFactory.eINSTANCE.createValue();
 		v.setValue(2.0);
-		v.setTimeStamp(modelUtils.xmlDate(modelUtils.yesterday()));
+		v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
 
 		final Value v1 = GenericsFactory.eINSTANCE.createValue();
 		v1.setValue(2.1);
-		v1.setTimeStamp(modelUtils.xmlDate(modelUtils.twoDaysAgo()));
+		v1.setTimeStamp(modelUtils.toXMLDate(modelUtils.twoDaysAgo()));
 
 		final Value v2 = GenericsFactory.eINSTANCE.createValue();
 		v2.setValue(2.1);
-		v2.setTimeStamp(modelUtils.xmlDate(modelUtils.threeDaysAgo()));
+		v2.setTimeStamp(modelUtils.toXMLDate(modelUtils.threeDaysAgo()));
 
 		range.getMetricValues().addAll(ImmutableList.of(v, v1, v2));
 
 		final RFSServiceJob job = SchedulingFactory.eINSTANCE.createRFSServiceJob();
 		job.setRFSService(rfsService);
-		job.setStartTime(modelUtils.xmlDate(new Date(System.currentTimeMillis() + 6000)));
+		job.setStartTime(modelUtils.toXMLDate(new Date(System.currentTimeMillis() + 6000)));
 		job.setInterval(60);
 		job.setName(rfsService.getServiceName());
 		

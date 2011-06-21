@@ -87,7 +87,7 @@ public class MetricSourceJobTest extends AbstractDataProviderTest {
 		msJob.setInterval(60);
 		msJob.setJobState(JobState.ACTIVE);
 		msJob.setName(MSJOBNAME);
-		msJob.setStartTime(modelUtils.xmlDate(new Date(System
+		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		msJob.setMetricSource(createTestMetricSource(MSJOBNAME));
 		resource.getContents().add(msJob);
