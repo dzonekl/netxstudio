@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -30,11 +31,19 @@ import com.netxforge.netxstudio.services.ServiceProfile;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a NetXScript expression. NetXScript is an expression grammar, which is capable
- * to process objects in the NetXStudio data model. Expressions belong to various types, like Equipment, 
- * EquipmentGroup and Function. The NetXStudio application defines, when the expression is evaluated.
+ * A type representing a NetXScript expression.
+ * 				NetXScript is an expression grammar, which is capable
+ * 				to process
+ * 				objects in the NetXStudio data model. Expressions belong to
+ * 				various
+ * 				types, like Equipment,
+ * 				EquipmentGroup and Function. The NetXStudio
+ * 				application defines, when the
+ * 				expression is evaluated.
  * 
- * See: The NetXScript specification.
+ * 				See: The
+ * 				NetXScript specification.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -50,17 +59,19 @@ import com.netxforge.netxstudio.services.ServiceProfile;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getExpression()
  * @model extendedMetaData="name='Expression' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Expression extends CDOObject {
+public interface Expression extends Base {
 	/**
 	 * Returns the value of the '<em><b>Expression Lines</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ExpressionLines reference, contains 0 or more ExpressionLine types.
+	 * The ExpressionLines reference, contains 0 or
+	 * 								more
+	 * 								ExpressionLine types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expression Lines</em>' attribute list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpression_ExpressionLines()
@@ -75,7 +86,9 @@ public interface Expression extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The EvaluationObject reference holds 0 or 1 EObject type
+	 * The EvaluationObject reference holds 0 or 1
+	 * 								EObject type
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Evaluation Object</em>' reference.
 	 * @see #setEvaluationObject(EObject)
@@ -102,7 +115,9 @@ public interface Expression extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The EquipmentGroupExpressionRefs reference, references 0 or more EquipmentGroup types.
+	 * The EquipmentGroupExpressionRefs reference,
+	 * 								references 0 or more EquipmentGroup types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipment Group Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpression_EquipmentGroupRefs()
@@ -119,7 +134,9 @@ public interface Expression extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceProfileExpressionRefs reference, references 0 or more ServiceProfile types.
+	 * The ServiceProfileExpressionRefs reference,
+	 * 								references 0 or more ServiceProfile types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Profile Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpression_ServiceProfileRefs()
@@ -133,7 +150,9 @@ public interface Expression extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds the name of the expression.
+	 * The Name attribute holds the name of the
+	 * 							expression.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)

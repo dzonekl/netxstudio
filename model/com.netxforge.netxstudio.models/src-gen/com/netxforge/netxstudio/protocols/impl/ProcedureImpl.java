@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.protocols.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -40,7 +41,7 @@ import com.netxforge.netxstudio.protocols.ProtocolsPackage;
  *
  * @generated
  */
-public class ProcedureImpl extends CDOObjectImpl implements Procedure {
+public class ProcedureImpl extends BaseImpl implements Procedure {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -58,16 +59,6 @@ public class ProcedureImpl extends CDOObjectImpl implements Procedure {
 	@Override
 	protected EClass eStaticClass() {
 		return ProtocolsPackage.Literals.PROCEDURE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

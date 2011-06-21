@@ -76,34 +76,10 @@ import org.eclipse.emf.ecore.EReference;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
- * 		
  * 
- * 
- * 			Network Data schema Copyright 2008 The schema uses
- * 			ecore
- * 			references syntax, but should easily map into an SQL schema.
- * 			The
- * 			ecore
- * 			references, are mapped into ORM specific DLL (See
- * 			Hibernate or
- * 			other
- * 			ORM. EMF/Hibernate
- * 			however uses a custom mechanism.
- * 
- * 			Don't use
- * 			the
- * 			word
- * 			"Item", as this is appended to the Object
- * 			name in the EMF
- * 			edit
- * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
- * 		
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
  * 
  * 		
  * 
@@ -126,9 +102,39 @@ import org.eclipse.emf.ecore.EReference;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
+ * 		
+ * 
+ * 		
+ * 
+ * 
+ * 			Network Data schema Copyright 2008 The schema uses
+ * 			ecore
+ * 			references syntax, but should easily map into an SQL schema.
+ * 			The
+ * 			ecore
+ * 			references, are mapped into ORM specific DLL (See
+ * 			Hibernate or
+ * 			other
+ * 			ORM. EMF/Hibernate
+ * 			however uses a custom mechanism.
+ * 
+ * 			Don't use
+ * 			the
+ * 			word
+ * 			"Item", as this is appended to the Object
+ * 			name in the EMF
+ * 			edit
+ * 			model.
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
  * 		
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.NetxstudioFactory

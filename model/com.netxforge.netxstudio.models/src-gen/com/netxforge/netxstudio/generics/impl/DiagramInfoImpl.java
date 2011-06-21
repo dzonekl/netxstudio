@@ -39,7 +39,7 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  *
  * @generated
  */
-public class DiagramInfoImpl extends CDOObjectImpl implements DiagramInfo {
+public class DiagramInfoImpl extends BaseImpl implements DiagramInfo {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -57,16 +57,6 @@ public class DiagramInfoImpl extends CDOObjectImpl implements DiagramInfo {
 	@Override
 	protected EClass eStaticClass() {
 		return GenericsPackage.Literals.DIAGRAM_INFO;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

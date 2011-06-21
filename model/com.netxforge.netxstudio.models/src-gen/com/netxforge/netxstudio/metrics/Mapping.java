@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 /**
@@ -28,13 +29,13 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- begin-model-doc -->
  * A type representing the basic information points
  * 				for a mapping specification.
+ * 			
  * <!-- end-model-doc -->
  *
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMapping()
  * @model extendedMetaData="name='Mapping' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface Mapping extends CDOObject {
+public interface Mapping extends Base {
 } // Mapping

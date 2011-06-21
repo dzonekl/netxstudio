@@ -18,12 +18,14 @@
  */
 package com.netxforge.netxstudio.operators.util;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.operators.*;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
@@ -141,6 +143,10 @@ public class OperatorsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseWarehouse(Warehouse object) {
 				return createWarehouseAdapter();
+			}
+			@Override
+			public Adapter caseBase(Base object) {
+				return createBaseAdapter();
 			}
 			@Override
 			public Adapter caseCompany(Company object) {
@@ -331,6 +337,20 @@ public class OperatorsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createWarehouseAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.generics.Base <em>Base</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.generics.Base
+	 * @generated
+	 */
+	public Adapter createBaseAdapter() {
 		return null;
 	}
 

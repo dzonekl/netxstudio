@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 /**
@@ -26,11 +27,17 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a parameter. 
- * A parameter is a container for a static value. It is used in an Expression.
+ * A type representing the basic information points of
+ * 				a parameter.
+ * 				A parameter is a container for a static value. It is
+ * 				used in an
+ * 				Expression.
  * 
- * Examples:
- * 1. A Parameter STM-1_CHANNELS with value of 63 is a static parameter which can be used in an Expression.
+ * 				Examples:
+ * 				1. A Parameter STM-1_CHANNELS with
+ * 				value of 63 is a static parameter
+ * 				which can be used in an Expression.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -46,16 +53,18 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getParameter()
  * @model extendedMetaData="name='Parameter' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface Parameter extends CDOObject {
+public interface Parameter extends Base {
 	/**
 	 * Returns the value of the '<em><b>Description</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Description attribute holds the description of the equipment
+	 * The Description attribute holds the description
+	 * 							of
+	 * 							the equipment
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
@@ -81,10 +90,15 @@ public interface Parameter extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ExpressionName attribute holds a name which is used in the expressions referencing 
-	 * the resource.
+	 * The ExpressionName attribute holds a name which
+	 * 							is
+	 * 							used in the expressions referencing
+	 * 							the resource.
 	 * 
-	 * See: The NetXScript specification.
+	 * 							See: The
+	 * 							NetXScript
+	 * 							specification.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expression Name</em>' attribute.
 	 * @see #setExpressionName(String)
@@ -110,7 +124,9 @@ public interface Parameter extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Modifiable flag tells if the parameter value can be modified by a planner, or if it's locked.
+	 * The Modifiable flag tells if the parameter value
+	 * 							can be modified by a planner, or if it's locked.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Modifiable</em>' attribute.
 	 * @see #isSetModifiable()
@@ -163,7 +179,9 @@ public interface Parameter extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds a name used for presentation.
+	 * The Name attribute holds a name used for
+	 * 							presentation.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -189,7 +207,9 @@ public interface Parameter extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Value attribute holds a value for the Parameter.
+	 * The Value attribute holds a value for the
+	 * 							Parameter.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #isSetValue()

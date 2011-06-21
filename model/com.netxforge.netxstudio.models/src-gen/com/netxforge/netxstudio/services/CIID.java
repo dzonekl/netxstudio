@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 /**
@@ -26,9 +27,15 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a Configuration Item (CI) Identifier.
- * The CI is used within Configuration Management to identify a configuration item.
- * It can be used as an identifier to correlate objects to legacy systems.
+ * A type representing a Configuration Item (CI)
+ * 				Identifier.
+ * 				The CI is used within Configuration Management to
+ * 				identify a
+ * 				configuration item.
+ * 				It can be used as an identifier to
+ * 				correlate objects to legacy
+ * 				systems.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -41,17 +48,17 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getCIID()
  * @model extendedMetaData="name='CI-ID' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface CIID extends CDOObject {
+public interface CIID extends Base {
 	/**
 	 * Returns the value of the '<em><b>Common CIID</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The CommonCI_ID attribute holds a Unique number indicator in international CMS
-	 * 				
+	 * The CommonCI_ID attribute holds a Unique number
+	 * 							indicator in international CMS
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Common CIID</em>' attribute.
 	 * @see #setCommonCIID(String)
@@ -77,8 +84,10 @@ public interface CIID extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The LocalCI_ID attribute holds a Unique identifier indicator in a local CMS (CI-ID)
-	 * 				
+	 * The LocalCI_ID attribute holds a Unique
+	 * 							identifier
+	 * 							indicator in a local CMS (CI-ID)
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Local CIID</em>' attribute.
 	 * @see #setLocalCIID(String)

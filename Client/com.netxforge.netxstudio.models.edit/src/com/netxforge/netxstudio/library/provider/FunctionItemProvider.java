@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -33,15 +32,11 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.library.Function} object.
@@ -50,7 +45,7 @@ import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
  * @generated
  */
 public class FunctionItemProvider
-	extends ItemProviderAdapter
+	extends ComponentItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -78,41 +73,10 @@ public class FunctionItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addFunctionMetricRefsPropertyDescriptor(object);
 			addFunctionRelationshipRefsPropertyDescriptor(object);
-			addUtilizationExpressionRefPropertyDescriptor(object);
-			addCapacityExpressionRefPropertyDescriptor(object);
-			addToleranceRefsPropertyDescriptor(object);
-			addProtocolRefsPropertyDescriptor(object);
-			addParameterRefsPropertyDescriptor(object);
-			addAllFunctionResourcesPropertyDescriptor(object);
 			addAllFunctionsPropertyDescriptor(object);
-			addDescriptionPropertyDescriptor(object);
-			addFunctionNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Function Metric Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addFunctionMetricRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Function_functionMetricRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Function_functionMetricRefs_feature", "_UI_Function_type"),
-				 LibraryPackage.Literals.FUNCTION__FUNCTION_METRIC_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
 	}
 
 	/**
@@ -129,138 +93,6 @@ public class FunctionItemProvider
 				 getString("_UI_Function_functionRelationshipRefs_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Function_functionRelationshipRefs_feature", "_UI_Function_type"),
 				 LibraryPackage.Literals.FUNCTION__FUNCTION_RELATIONSHIP_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Utilization Expression Ref feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addUtilizationExpressionRefPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Function_utilizationExpressionRef_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Function_utilizationExpressionRef_feature", "_UI_Function_type"),
-				 LibraryPackage.Literals.FUNCTION__UTILIZATION_EXPRESSION_REF,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Capacity Expression Ref feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addCapacityExpressionRefPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Function_capacityExpressionRef_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Function_capacityExpressionRef_feature", "_UI_Function_type"),
-				 LibraryPackage.Literals.FUNCTION__CAPACITY_EXPRESSION_REF,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Tolerance Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addToleranceRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Function_toleranceRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Function_toleranceRefs_feature", "_UI_Function_type"),
-				 LibraryPackage.Literals.FUNCTION__TOLERANCE_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Protocol Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addProtocolRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Function_protocolRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Function_protocolRefs_feature", "_UI_Function_type"),
-				 LibraryPackage.Literals.FUNCTION__PROTOCOL_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Parameter Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addParameterRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Function_parameterRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Function_parameterRefs_feature", "_UI_Function_type"),
-				 LibraryPackage.Literals.FUNCTION__PARAMETER_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the All Function Resources feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addAllFunctionResourcesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Function_allFunctionResources_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Function_allFunctionResources_feature", "_UI_Function_type"),
-				 LibraryPackage.Literals.FUNCTION__ALL_FUNCTION_RESOURCES,
 				 true,
 				 false,
 				 true,
@@ -292,50 +124,6 @@ public class FunctionItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Description feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addDescriptionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Function_description_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Function_description_feature", "_UI_Function_type"),
-				 LibraryPackage.Literals.FUNCTION__DESCRIPTION,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Function Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addFunctionNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Function_functionName_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Function_functionName_feature", "_UI_Function_type"),
-				 LibraryPackage.Literals.FUNCTION__FUNCTION_NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -347,10 +135,7 @@ public class FunctionItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(LibraryPackage.Literals.FUNCTION__DIAGRAMS);
-			childrenFeatures.add(LibraryPackage.Literals.FUNCTION__ICONS);
 			childrenFeatures.add(LibraryPackage.Literals.FUNCTION__FUNCTIONS);
-			childrenFeatures.add(LibraryPackage.Literals.FUNCTION__FUNCTION_RESOURCES);
 		}
 		return childrenFeatures;
 	}
@@ -387,7 +172,7 @@ public class FunctionItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Function)object).getFunctionName();
+		String label = ((Function)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Function_type") :
 			getString("_UI_Function_type") + " " + label;
@@ -405,14 +190,7 @@ public class FunctionItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Function.class)) {
-			case LibraryPackage.FUNCTION__DESCRIPTION:
-			case LibraryPackage.FUNCTION__FUNCTION_NAME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case LibraryPackage.FUNCTION__DIAGRAMS:
-			case LibraryPackage.FUNCTION__ICONS:
 			case LibraryPackage.FUNCTION__FUNCTIONS:
-			case LibraryPackage.FUNCTION__FUNCTION_RESOURCES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -432,34 +210,8 @@ public class FunctionItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(LibraryPackage.Literals.FUNCTION__DIAGRAMS,
-				 GenericsFactory.eINSTANCE.createDiagramInfo()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.FUNCTION__ICONS,
-				 GenericsFactory.eINSTANCE.createMultiImage()));
-
-		newChildDescriptors.add
-			(createChildParameter
 				(LibraryPackage.Literals.FUNCTION__FUNCTIONS,
 				 LibraryFactory.eINSTANCE.createFunction()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.FUNCTION__FUNCTION_RESOURCES,
-				 LibraryFactory.eINSTANCE.createNetXResource()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return NetxstudioEditPlugin.INSTANCE;
 	}
 
 }

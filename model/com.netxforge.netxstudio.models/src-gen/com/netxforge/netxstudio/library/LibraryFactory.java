@@ -38,6 +38,15 @@ public interface LibraryFactory extends EFactory {
 	LibraryFactory eINSTANCE = com.netxforge.netxstudio.library.impl.LibraryFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Component</em>'.
+	 * @generated
+	 */
+	Component createComponent();
+
+	/**
 	 * Returns a new object of class '<em>Equipment</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

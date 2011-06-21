@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.util.EList;
@@ -51,7 +52,7 @@ import com.netxforge.netxstudio.library.ProductInfo;
  *
  * @generated
  */
-public class ProductInfoImpl extends CDOObjectImpl implements ProductInfo {
+public class ProductInfoImpl extends BaseImpl implements ProductInfo {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -69,16 +70,6 @@ public class ProductInfoImpl extends CDOObjectImpl implements ProductInfo {
 	@Override
 	protected EClass eStaticClass() {
 		return LibraryPackage.Literals.PRODUCT_INFO;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

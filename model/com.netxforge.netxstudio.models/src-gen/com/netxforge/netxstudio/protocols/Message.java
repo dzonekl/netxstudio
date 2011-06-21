@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.protocols;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 /**
@@ -26,12 +27,16 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a message in a protocol procedure. 
- * THIS TYPE SHOULD NOT BE CONSIDERED FOR NOW. 
+ * A type representing a message in a protocol
+ * 				procedure.
+ * 				THIS TYPE SHOULD NOT BE CONSIDERED FOR NOW.
  * 
- * Examples:
- * 1. The Message type could be for example a "Location Update" message in the MAP protocol.
- * 
+ * 				Examples:
+ * 				1. The
+ * 				Message type could be for example a "Location Update" message
+ * 				in the
+ * 				MAP protocol.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -43,16 +48,17 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.protocols.ProtocolsPackage#getMessage()
  * @model extendedMetaData="name='Message' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface Message extends CDOObject {
+public interface Message extends Base {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds the name of the Message.
+	 * The Name attribute holds the name of the
+	 * 							Message.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)

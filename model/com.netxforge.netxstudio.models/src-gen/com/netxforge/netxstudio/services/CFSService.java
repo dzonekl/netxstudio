@@ -47,7 +47,9 @@ public interface CFSService extends Service {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Provider attributes holds the entity responsible for providing the service.
+	 * The Provider attributes holds the entity
+	 * 							responsible for providing the service.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Provider</em>' attribute.
 	 * @see #setProvider(String)
@@ -73,10 +75,11 @@ public interface CFSService extends Service {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Scenario attribute, holds a scenario for the service. 
+	 * The Scenario attribute, holds a scenario for the
+	 * 							service.
 	 * 
-	 * Examples:
-	 * 1. SMS Mobile 2 Mobile
+	 * 							Examples:
+	 * 							1. SMS Mobile 2 Mobile
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Scenario</em>' attribute.

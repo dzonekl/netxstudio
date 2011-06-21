@@ -33,12 +33,12 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
+import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Parameter;
-import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.library.Parameter} object.
@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
  * @generated
  */
 public class ParameterItemProvider
-	extends ItemProviderAdapter
+	extends BaseItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

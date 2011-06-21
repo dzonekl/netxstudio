@@ -26,16 +26,30 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a real company. 
- * A Company can be a commercial vendor of equipment, a telecommunication service provider or other
- * institution i.e. industry cooperation bodies to promote usage of standards. It is required to organise objects
- * by Company.
+ * A type representing the basic information points of
+ * 				a real company.
+ * 				A Company can be a commercial vendor of equipment, a
+ * 				telecommunication service provider or other
+ * 				institution i.e. industry
+ * 				cooperation bodies to promote usage of standards. It
+ * 				is required to
+ * 				organise objects
+ * 				by Company.
  * 
- * Examples: 
- * 1. The company type is used to organize reports like an expansion Bill of Quantity by vendor. 
- * 2. The company type is used in a UI widget to show equipments from a certain company. 
- * 3. The company type is used in a UI widget to show protocols from a certain standardisation body. 
- * 4. The company type is used in a UI widget to show RSS feed news from a certain company.
+ * 				Examples:
+ * 				1. The company type is used to
+ * 				organize reports like an expansion Bill
+ * 				of Quantity by vendor.
+ * 				2. The
+ * 				company type is used in a UI widget to show equipments from a
+ * 				certain company.
+ * 				3. The company type is used in a UI widget to show
+ * 				protocols from a
+ * 				certain standardisation body.
+ * 				4. The company type is
+ * 				used in a UI widget to show RSS feed news from
+ * 				a certain company.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -52,16 +66,17 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getCompany()
  * @model extendedMetaData="name='Company' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Company extends CDOObject {
+public interface Company extends Base {
 	/**
 	 * Returns the value of the '<em><b>Icons</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Images reference, contains 0 or one MultiImage type.
+	 * The Images reference, contains 0 or one
+	 * 								MultiImage type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Icons</em>' containment reference.
 	 * @see #setIcons(MultiImage)
@@ -88,7 +103,7 @@ public interface Company extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The Name attribute is a free form text.
-	 * 				
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -114,13 +129,17 @@ public interface Company extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The RSSurl attribute should contain a URL to a so-called RSS feed. 
+	 * The RSSurl attribute should contain a URL to a
+	 * 							so-called RSS feed.
 	 * 
-	 * The RSS format is defined here: http://en.wikipedia.org/wiki/RSS
+	 * 							The RSS format is defined here:
+	 * 							http://en.wikipedia.org/wiki/RSS
 	 * 
-	 * Examples: 
-	 * 1. The following URL is an RSS URL: http://isoc.org/wp/ietfjournal/?feed=rss2
-	 * 				
+	 * 							Examples:
+	 * 							1. The following URL is
+	 * 							an RSS URL:
+	 * 							http://isoc.org/wp/ietfjournal/?feed=rss2
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>RS Surl</em>' attribute.
 	 * @see #setRSSurl(String)
@@ -146,10 +165,12 @@ public interface Company extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ShortName attribute is a free form text, but should generally be kept short (3 characters).
+	 * The ShortName attribute is a free form text, but
+	 * 							should generally be kept short (3 characters).
 	 * 
-	 * Examples: 1. The ShortName is used in UI widgets where space is limited.
-	 * 				
+	 * 							Examples: 1. The
+	 * 							ShortName is used in UI widgets where space is limited.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Short Name</em>' attribute.
 	 * @see #setShortName(String)
@@ -175,10 +196,14 @@ public interface Company extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The financial Symbol or ticker attribute, is according to financial market ticker definitions.
+	 * The financial Symbol or ticker attribute, is
+	 * 							according to financial market ticker definitions.
 	 * 
-	 * Examples: 1. The Symbol type can be used to lookup financial information of a Company.
-	 * 				
+	 * 							Examples: 1. The
+	 * 							Symbol type can be used to lookup financial information
+	 * 							of a
+	 * 							Company.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Symbol</em>' attribute.
 	 * @see #setSymbol(String)
@@ -204,12 +229,14 @@ public interface Company extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Website attribute should contain the main web URL of the website. It should be according to
+	 * The Website attribute should contain the main
+	 * 							web URL of the website. It should be according to
 	 * 
-	 * http://en.wikipedia.org/wiki/Uniform_Resource_Locator
+	 * 							http://en.wikipedia.org/wiki/Uniform_Resource_Locator
 	 * 
-	 * Examples: 1. http://www.ietf.org
-	 * 				
+	 * 							Examples: 1.
+	 * 							http://www.ietf.org
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Website</em>' attribute.
 	 * @see #setWebsite(String)

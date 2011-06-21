@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.geo;
 
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -55,9 +56,11 @@ import org.eclipse.emf.ecore.EReference;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
  * 		
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.geo.GeoFactory
@@ -109,13 +112,22 @@ public interface GeoPackage extends EPackage {
 	int COUNTRY = 0;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COUNTRY__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Sites</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTRY__SITES = 0;
+	int COUNTRY__SITES = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Icons</b></em>' containment reference.
@@ -124,7 +136,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTRY__ICONS = 1;
+	int COUNTRY__ICONS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Country Code</b></em>' attribute.
@@ -133,7 +145,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTRY__COUNTRY_CODE = 2;
+	int COUNTRY__COUNTRY_CODE = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -142,7 +154,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTRY__NAME = 3;
+	int COUNTRY__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Country</em>' class.
@@ -151,7 +163,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTRY_FEATURE_COUNT = 4;
+	int COUNTRY_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.geo.impl.RoomImpl <em>Room</em>}' class.
@@ -164,13 +176,22 @@ public interface GeoPackage extends EPackage {
 	int ROOM = 1;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROOM__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ROOM__NAME = 0;
+	int ROOM__NAME = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Shape</b></em>' attribute.
@@ -179,7 +200,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOM__SHAPE = 1;
+	int ROOM__SHAPE = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Room</em>' class.
@@ -188,7 +209,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOM_FEATURE_COUNT = 2;
+	int ROOM_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.geo.impl.SiteImpl <em>Site</em>}' class.
@@ -201,13 +222,22 @@ public interface GeoPackage extends EPackage {
 	int SITE = 2;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Rooms</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__ROOMS = 0;
+	int SITE__ROOMS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Area</b></em>' attribute.
@@ -216,7 +246,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__AREA = 1;
+	int SITE__AREA = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>City</b></em>' attribute.
@@ -225,7 +255,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__CITY = 2;
+	int SITE__CITY = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Housenumber</b></em>' attribute.
@@ -234,7 +264,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__HOUSENUMBER = 3;
+	int SITE__HOUSENUMBER = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Latitude</b></em>' attribute.
@@ -243,7 +273,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__LATITUDE = 4;
+	int SITE__LATITUDE = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Longitude</b></em>' attribute.
@@ -252,7 +282,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__LONGITUDE = 5;
+	int SITE__LONGITUDE = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -261,7 +291,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__NAME = 6;
+	int SITE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Postalcode</b></em>' attribute.
@@ -270,7 +300,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__POSTALCODE = 7;
+	int SITE__POSTALCODE = GenericsPackage.BASE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Region</b></em>' attribute.
@@ -279,7 +309,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__REGION = 8;
+	int SITE__REGION = GenericsPackage.BASE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Sreet</b></em>' attribute.
@@ -288,7 +318,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__SREET = 9;
+	int SITE__SREET = GenericsPackage.BASE_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>Site</em>' class.
@@ -297,7 +327,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE_FEATURE_COUNT = 10;
+	int SITE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 10;
 
 
 	/**

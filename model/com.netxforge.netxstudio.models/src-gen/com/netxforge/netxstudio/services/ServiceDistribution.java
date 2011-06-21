@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -30,20 +31,40 @@ import com.netxforge.netxstudio.library.NetXResource;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing how the service is distributed across the Nodes. 
- * How the service is distributed over network depends on various factors. 
+ * A type representing how the service is distributed
+ * 				across the Nodes.
+ * 				How the service is distributed over network depends
+ * 				on various factors.
  * 
- * 1. Geographical spread of the service. 
- * 2. Service distribution mechanism implemented for functions. 
- * 3. Overall network conditions i.e. load or specific node conditions, and measures for overload. 
+ * 				1. Geographical spread of the service.
+ * 				2. Service
+ * 				distribution mechanism implemented for functions.
+ * 				3. Overall network
+ * 				conditions i.e. load or specific node conditions,
+ * 				and measures for
+ * 				overload.
  * 
- * The service distribution is derived from the node resources. The service distribution contains therefor the definition
- * of "service resources" and expressions to populate these resources. (The expression is expected to add node resource values together 
- * and store the result in the defined Service Resource )
+ * 				The service distribution is derived from the node
+ * 				resources. The
+ * 				service distribution contains therefor the definition
+ * 				of "service resources" and expressions to populate these resources.
+ * 				(The expression is expected to add node resource values together
+ * 				and
+ * 				store the result in the defined Service Resource )
  * 
- * TODO, The distribution should be organized by Function in order to present it as such. As the resource, is likely a copy of the 
- * a Function resource, we could perhaps keep a reference to the node Function, from which the service resource is derived through the 
- * expression. Another option, is to resolve the Function, from the resource name, but this would require additional lookups.
+ * 				TODO, The
+ * 				distribution should be organized by Function in order to
+ * 				present it
+ * 				as such. As the resource, is likely a copy of the
+ * 				a Function
+ * 				resource, we could perhaps keep a reference to the node
+ * 				Function,
+ * 				from which the service resource is derived through the
+ * 				expression.
+ * 				Another option, is to resolve the Function, from the
+ * 				resource name,
+ * 				but this would require additional lookups.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -56,17 +77,19 @@ import com.netxforge.netxstudio.library.NetXResource;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceDistribution()
  * @model extendedMetaData="name='ServiceDistribution' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ServiceDistribution extends CDOObject {
+public interface ServiceDistribution extends Base {
 	/**
 	 * Returns the value of the '<em><b>Service Resources</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.NetXResource}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceResource reference, contains 0 or more Resource types.
+	 * The ServiceResource reference, contains 0 or
+	 * 								more
+	 * 								Resource types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Resources</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceDistribution_ServiceResources()
@@ -82,8 +105,10 @@ public interface ServiceDistribution extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceDistributionExpressionRefs reference, refers to 0 or more Expression types.
-	 * 			
+	 * The ServiceDistributionExpressionRefs
+	 * 								reference,
+	 * 								refers to 0 or more Expression types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expression Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceDistribution_ExpressionRefs()

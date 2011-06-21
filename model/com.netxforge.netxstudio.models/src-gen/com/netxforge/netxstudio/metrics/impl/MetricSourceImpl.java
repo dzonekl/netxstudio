@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -45,7 +46,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  *
  * @generated
  */
-public class MetricSourceImpl extends CDOObjectImpl implements MetricSource {
+public class MetricSourceImpl extends BaseImpl implements MetricSource {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -63,16 +64,6 @@ public class MetricSourceImpl extends CDOObjectImpl implements MetricSource {
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.METRIC_SOURCE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

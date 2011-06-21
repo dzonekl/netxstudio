@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library.util;
 
+import com.netxforge.netxstudio.library.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -117,6 +118,8 @@ public class LibraryValidator extends EObjectValidator {
 	@Override
 	protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		switch (classifierID) {
+			case LibraryPackage.COMPONENT:
+				return validateComponent((Component)value, diagnostics, context);
 			case LibraryPackage.EQUIPMENT:
 				return validateEquipment((Equipment)value, diagnostics, context);
 			case LibraryPackage.EQUIPMENT_GROUP:
@@ -158,6 +161,15 @@ public class LibraryValidator extends EObjectValidator {
 			default:
 				return true;
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateComponent(Component component, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint((EObject)component, diagnostics, context);
 	}
 
 	/**

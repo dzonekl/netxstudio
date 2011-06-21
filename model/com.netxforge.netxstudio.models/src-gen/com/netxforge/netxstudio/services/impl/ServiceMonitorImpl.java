@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -43,7 +44,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  *
  * @generated
  */
-public class ServiceMonitorImpl extends CDOObjectImpl implements ServiceMonitor {
+public class ServiceMonitorImpl extends BaseImpl implements ServiceMonitor {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -61,16 +62,6 @@ public class ServiceMonitorImpl extends CDOObjectImpl implements ServiceMonitor 
 	@Override
 	protected EClass eStaticClass() {
 		return ServicesPackage.Literals.SERVICE_MONITOR;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

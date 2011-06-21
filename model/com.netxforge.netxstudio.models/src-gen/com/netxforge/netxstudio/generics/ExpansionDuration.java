@@ -30,13 +30,14 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
- * A type representing a duration indication used to determine when an expansion should be initiated
+ * A type representing a duration indication used to
+ * 				determine when an expansion should be initiated
  * 
- * Quick less than 6 weeks
- * Short less than 3 months
- * Medium less than 9 months
- * Long  less than 18 months
- * 
+ * 				Quick less than 6
+ * 				weeks Short less than 3 months Medium less than 9
+ * 				months Long less
+ * 				than 18 months
+ * 			
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getExpansionDuration()
  * @model extendedMetaData="name='ExpansionDuration'"

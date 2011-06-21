@@ -22,8 +22,6 @@ package com.netxforge.netxstudio.library.provider;
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -35,12 +33,12 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
+import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.ProductInfo;
-import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.library.ProductInfo} object.
@@ -49,7 +47,7 @@ import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
  * @generated
  */
 public class ProductInfoItemProvider
-	extends ItemProviderAdapter
+	extends BaseItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -307,11 +305,8 @@ public class ProductInfoItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		XMLGregorianCalendar labelValue = ((ProductInfo)object).getAvailableDate();
-		String label = labelValue == null ? null : labelValue.toString();
-		return label == null || label.length() == 0 ?
-			getString("_UI_ProductInfo_type") :
-			getString("_UI_ProductInfo_type") + " " + label;
+		ProductInfo productInfo = (ProductInfo)object;
+		return getString("_UI_ProductInfo_type") + " " + productInfo.isDeleted();
 	}
 
 	/**

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -40,7 +41,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  *
  * @generated
  */
-public class ServiceProfileImpl extends CDOObjectImpl implements ServiceProfile {
+public class ServiceProfileImpl extends BaseImpl implements ServiceProfile {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -58,16 +59,6 @@ public class ServiceProfileImpl extends CDOObjectImpl implements ServiceProfile 
 	@Override
 	protected EClass eStaticClass() {
 		return ServicesPackage.Literals.SERVICE_PROFILE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

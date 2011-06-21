@@ -29,13 +29,6 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
  */
 public class RFSServiceJobImplementation extends JobImplementation {
 
-	public class Factory extends JobImplementationFactory {
-		@Override
-		public JobImplementation create() {
-			return new RFSServiceJobImplementation();
-		}
-	}
-
 	@Override
 	public void run() {
 		getDataProvider().openSession();

@@ -41,7 +41,7 @@ import com.netxforge.netxstudio.generics.MultiImage;
  *
  * @generated
  */
-public class MultiImageImpl extends CDOObjectImpl implements MultiImage {
+public class MultiImageImpl extends BaseImpl implements MultiImage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -59,16 +59,6 @@ public class MultiImageImpl extends CDOObjectImpl implements MultiImage {
 	@Override
 	protected EClass eStaticClass() {
 		return GenericsPackage.Literals.MULTI_IMAGE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

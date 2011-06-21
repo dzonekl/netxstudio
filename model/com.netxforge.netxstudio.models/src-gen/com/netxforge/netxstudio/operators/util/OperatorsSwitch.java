@@ -18,11 +18,13 @@
  */
 package com.netxforge.netxstudio.operators.util;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.operators.*;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
@@ -98,12 +100,14 @@ public class OperatorsSwitch<T> extends Switch<T> {
 				EquipmentRelationship equipmentRelationship = (EquipmentRelationship)theEObject;
 				T result = caseEquipmentRelationship(equipmentRelationship);
 				if (result == null) result = caseRelationship(equipmentRelationship);
+				if (result == null) result = caseBase(equipmentRelationship);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case OperatorsPackage.EXPANSION_EXPERIENCE: {
 				ExpansionExperience expansionExperience = (ExpansionExperience)theEObject;
 				T result = caseExpansionExperience(expansionExperience);
+				if (result == null) result = caseBase(expansionExperience);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -111,24 +115,28 @@ public class OperatorsSwitch<T> extends Switch<T> {
 				FunctionRelationship functionRelationship = (FunctionRelationship)theEObject;
 				T result = caseFunctionRelationship(functionRelationship);
 				if (result == null) result = caseRelationship(functionRelationship);
+				if (result == null) result = caseBase(functionRelationship);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case OperatorsPackage.MARKER: {
 				Marker marker = (Marker)theEObject;
 				T result = caseMarker(marker);
+				if (result == null) result = caseBase(marker);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case OperatorsPackage.NETWORK: {
 				Network network = (Network)theEObject;
 				T result = caseNetwork(network);
+				if (result == null) result = caseBase(network);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case OperatorsPackage.NODE: {
 				Node node = (Node)theEObject;
 				T result = caseNode(node);
+				if (result == null) result = caseBase(node);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -136,36 +144,42 @@ public class OperatorsSwitch<T> extends Switch<T> {
 				Operator operator = (Operator)theEObject;
 				T result = caseOperator(operator);
 				if (result == null) result = caseCompany(operator);
+				if (result == null) result = caseBase(operator);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case OperatorsPackage.RELATIONSHIP: {
 				Relationship relationship = (Relationship)theEObject;
 				T result = caseRelationship(relationship);
+				if (result == null) result = caseBase(relationship);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case OperatorsPackage.RESOURCE_EXPANSION: {
 				ResourceExpansion resourceExpansion = (ResourceExpansion)theEObject;
 				T result = caseResourceExpansion(resourceExpansion);
+				if (result == null) result = caseBase(resourceExpansion);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case OperatorsPackage.RESOURCE_FORECAST: {
 				ResourceForecast resourceForecast = (ResourceForecast)theEObject;
 				T result = caseResourceForecast(resourceForecast);
+				if (result == null) result = caseBase(resourceForecast);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case OperatorsPackage.RESOURCE_MONITOR: {
 				ResourceMonitor resourceMonitor = (ResourceMonitor)theEObject;
 				T result = caseResourceMonitor(resourceMonitor);
+				if (result == null) result = caseBase(resourceMonitor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case OperatorsPackage.WAREHOUSE: {
 				Warehouse warehouse = (Warehouse)theEObject;
 				T result = caseWarehouse(warehouse);
+				if (result == null) result = caseBase(warehouse);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -350,6 +364,21 @@ public class OperatorsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseWarehouse(Warehouse object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBase(Base object) {
 		return null;
 	}
 

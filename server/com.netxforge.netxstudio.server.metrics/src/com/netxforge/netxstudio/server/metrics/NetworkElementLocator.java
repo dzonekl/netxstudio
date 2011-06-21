@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Metric;
@@ -46,15 +47,9 @@ public class NetworkElementLocator {
 	@Server
 	private IDataProvider dataProvider;
 	
-	public CDOObject locateNetworkElement(Metric metric, List<IdentifierValue> identifiers) {
+	public Component locateNetworkElement(Metric metric, List<IdentifierValue> identifiers) {
 	
-		EReference sourceReference = LibraryPackage.eINSTANCE.getFunction_FunctionMetricRefs();
-		for (final IdentifierValue idValue : identifiers) {
-			if (idValue.getKind().getObjectKind() == ObjectKindType.EQUIPMENT) {
-				sourceReference = LibraryPackage.eINSTANCE.getEquipment_EquipmentMetricRefs();
-				break;
-			}
-		}
+		final EReference sourceReference = LibraryPackage.eINSTANCE.getComponent_MetricRefs();
 		
 		// find the cross references to this metric
 	    final List<CDOObjectReference> results = dataProvider.getTransaction().queryXRefs(metric, sourceReference);
@@ -81,7 +76,7 @@ public class NetworkElementLocator {
 		    		}
 		    	}
 		    	if (atLeastOneFeatureChecked && allFeaturesValid) {
-		    		return source;
+		    		return (Component)source;
 		    	}
 	    	}
 	    }

@@ -216,8 +216,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		ServicesPackageImpl theServicesPackage = (ServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) instanceof ServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) : ServicesPackage.eINSTANCE);
 		GenericsPackageImpl theGenericsPackage = (GenericsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI) instanceof GenericsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI) : GenericsPackage.eINSTANCE);
+		ServicesPackageImpl theServicesPackage = (ServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) instanceof ServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) : ServicesPackage.eINSTANCE);
 		LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
 		MetricsPackageImpl theMetricsPackage = (MetricsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) instanceof MetricsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) : MetricsPackage.eINSTANCE);
 		ProtocolsPackageImpl theProtocolsPackage = (ProtocolsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) instanceof ProtocolsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) : ProtocolsPackage.eINSTANCE);
@@ -227,8 +227,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 
 		// Create package meta-data objects
 		theOperatorsPackage.createPackageContents();
-		theServicesPackage.createPackageContents();
 		theGenericsPackage.createPackageContents();
+		theServicesPackage.createPackageContents();
 		theLibraryPackage.createPackageContents();
 		theMetricsPackage.createPackageContents();
 		theProtocolsPackage.createPackageContents();
@@ -238,8 +238,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 
 		// Initialize created meta-data
 		theOperatorsPackage.initializePackageContents();
-		theServicesPackage.initializePackageContents();
 		theGenericsPackage.initializePackageContents();
+		theServicesPackage.initializePackageContents();
 		theLibraryPackage.initializePackageContents();
 		theMetricsPackage.initializePackageContents();
 		theProtocolsPackage.initializePackageContents();
@@ -948,8 +948,17 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 
 		// Add supertypes to classes
 		equipmentRelationshipEClass.getESuperTypes().add(this.getRelationship());
+		expansionExperienceEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		functionRelationshipEClass.getESuperTypes().add(this.getRelationship());
+		markerEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		networkEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		nodeEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		operatorEClass.getESuperTypes().add(theGenericsPackage.getCompany());
+		relationshipEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		resourceExpansionEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		resourceForecastEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		resourceMonitorEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		warehouseEClass.getESuperTypes().add(theGenericsPackage.getBase());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(equipmentRelationshipEClass, EquipmentRelationship.class, "EquipmentRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

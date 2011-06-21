@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.impl;
 
+import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -84,6 +85,7 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 			case SchedulingPackage.JOB_RUN_CONTAINER: return (EObject)createJobRunContainer();
 			case SchedulingPackage.METRIC_SOURCE_JOB: return (EObject)createMetricSourceJob();
 			case SchedulingPackage.RFS_SERVICE_JOB: return (EObject)createRFSServiceJob();
+			case SchedulingPackage.RFS_SERVICE_JOB_RUN: return (EObject)createRFSServiceJobRun();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -179,6 +181,16 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	public RFSServiceJob createRFSServiceJob() {
 		RFSServiceJobImpl rfsServiceJob = new RFSServiceJobImpl();
 		return rfsServiceJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RFSServiceJobRun createRFSServiceJobRun() {
+		RFSServiceJobRunImpl rfsServiceJobRun = new RFSServiceJobRunImpl();
+		return rfsServiceJobRun;
 	}
 
 	/**

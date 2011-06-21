@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -42,7 +43,7 @@ import com.netxforge.netxstudio.library.NodeType;
  *
  * @generated
  */
-public class NodeTypeImpl extends CDOObjectImpl implements NodeType {
+public class NodeTypeImpl extends BaseImpl implements NodeType {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -60,16 +61,6 @@ public class NodeTypeImpl extends CDOObjectImpl implements NodeType {
 	@Override
 	protected EClass eStaticClass() {
 		return LibraryPackage.Literals.NODE_TYPE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

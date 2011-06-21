@@ -31,9 +31,11 @@ import com.netxforge.netxstudio.generics.Value;
  * <!-- begin-model-doc -->
  * A type representing a range of metricvalues. The
  * 				range has a name and provides some hints on the expected
- * 				stored values.
+ * 				stored
+ * 				values.
  * 
- * 				It is expected the metric loading or derived values will consider the
+ * 				It is expected the metric loading or derived values will
+ * 				consider the
  * 				hints, on where to store the metric.
  * 			
  * <!-- end-model-doc -->
@@ -61,6 +63,7 @@ public interface MetricValueRange extends CDOObject {
 	 * <!-- begin-model-doc -->
 	 * The MetricValue reference, contains 0 or more
 	 * 						Value types
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Values</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetricValueRange_MetricValues()

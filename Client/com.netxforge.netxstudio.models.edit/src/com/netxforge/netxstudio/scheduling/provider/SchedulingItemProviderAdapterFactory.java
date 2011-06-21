@@ -202,6 +202,29 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected RFSServiceJobRunItemProvider rfsServiceJobRunItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createRFSServiceJobRunAdapter() {
+		if (rfsServiceJobRunItemProvider == null) {
+			rfsServiceJobRunItemProvider = new RFSServiceJobRunItemProvider(this);
+		}
+
+		return rfsServiceJobRunItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -305,6 +328,7 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		if (jobRunContainerItemProvider != null) jobRunContainerItemProvider.dispose();
 		if (metricSourceJobItemProvider != null) metricSourceJobItemProvider.dispose();
 		if (rfsServiceJobItemProvider != null) rfsServiceJobItemProvider.dispose();
+		if (rfsServiceJobRunItemProvider != null) rfsServiceJobRunItemProvider.dispose();
 	}
 
 }

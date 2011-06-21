@@ -43,7 +43,7 @@ import com.netxforge.netxstudio.generics.MultiImage;
  *
  * @generated
  */
-public class CompanyImpl extends CDOObjectImpl implements Company {
+public class CompanyImpl extends BaseImpl implements Company {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -61,16 +61,6 @@ public class CompanyImpl extends CDOObjectImpl implements Company {
 	@Override
 	protected EClass eStaticClass() {
 		return GenericsPackage.Literals.COMPANY;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

@@ -33,12 +33,12 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
+import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.operators.Marker} object.
@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
  * @generated
  */
 public class MarkerItemProvider
-	extends ItemProviderAdapter
+	extends BaseItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -213,10 +213,8 @@ public class MarkerItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Marker)object).getDescription();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Marker_type") :
-			getString("_UI_Marker_type") + " " + label;
+		Marker marker = (Marker)object;
+		return getString("_UI_Marker_type") + " " + marker.isDeleted();
 	}
 
 	/**

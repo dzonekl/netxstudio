@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.geo;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -29,11 +30,16 @@ import com.netxforge.netxstudio.generics.MultiImage;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a real Country. A Country is used for all geographical
- * related functions like maps, timezones etc...
+ * A type representing the basic information points of
+ * 				a real Country. A Country is used for all geographical
+ * 				related
+ * 				functions like maps, timezones etc...
  * 
- * Examples: 1. The Country type is used to determine the timezone and normalize incoming and outgoing timestamps
- * on metric or other values.
+ * 				Examples: 1. The Country type
+ * 				is used to determine the timezone and normalize
+ * 				incoming and outgoing
+ * 				timestamps
+ * 				on metric or other values.
  * 
  * 			
  * <!-- end-model-doc -->
@@ -50,17 +56,18 @@ import com.netxforge.netxstudio.generics.MultiImage;
  *
  * @see com.netxforge.netxstudio.geo.GeoPackage#getCountry()
  * @model extendedMetaData="name='Country' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Country extends CDOObject {
+public interface Country extends Base {
 	/**
 	 * Returns the value of the '<em><b>Sites</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.geo.Site}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Sites reference, contains 0 or more Site types.
+	 * The Sites reference, contains 0 or more Site
+	 * 								types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Sites</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.geo.GeoPackage#getCountry_Sites()
@@ -75,7 +82,9 @@ public interface Country extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Images reference, contains 0 or one MultiImage type.
+	 * The Images reference, contains 0 or one
+	 * 								MultiImage type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Icons</em>' containment reference.
 	 * @see #setIcons(MultiImage)
@@ -101,12 +110,13 @@ public interface Country extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The CountryCode attribute should be according to ISO
-	 * definitions in:
+	 * The CountryCode attribute should be according to
+	 * 							ISO
+	 * 							definitions in:
 	 * 
 	 * 
-	 * http://www.iso.org/iso/english_country_names_and_code_elements
-	 * 				
+	 * 							http://www.iso.org/iso/english_country_names_and_code_elements
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Country Code</em>' attribute.
 	 * @see #setCountryCode(String)
@@ -133,11 +143,11 @@ public interface Country extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The Name attribute should be according to ISO
-	 * definitions in:
+	 * 							definitions in:
 	 * 
 	 * 
-	 * http://www.iso.org/iso/english_country_names_and_code_elements
-	 * 				
+	 * 							http://www.iso.org/iso/english_country_names_and_code_elements
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)

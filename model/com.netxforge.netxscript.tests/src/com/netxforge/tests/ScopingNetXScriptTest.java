@@ -69,15 +69,15 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 	 */
 	public void testDescriptions() throws Exception {
 
-		Resource resource = this
+		final Resource resource = this
 				.getResourceFromString("mod test\ndef main(){var a = 0;}");
 
-		IQualifiedNameConverter converter = this.getInjector().getInstance(
+		final IQualifiedNameConverter converter = this.getInjector().getInstance(
 				IQualifiedNameConverter.class);
 
-		IResourceDescription description = resourceDescriptionManager
+		final IResourceDescription description = resourceDescriptionManager
 				.getResourceDescription(resource);
-		for (IEObjectDescription eod : description.getExportedObjects()) {
+		for (final IEObjectDescription eod : description.getExportedObjects()) {
 			System.out.println(converter.toString(eod.getQualifiedName()));
 		}
 
@@ -85,19 +85,19 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 
 	public void testLocalScope() throws Exception {
 
-		IScopeProvider scopeProvider = this.getInjector().getInstance(
+		final IScopeProvider scopeProvider = this.getInjector().getInstance(
 				IScopeProvider.class);
-		IQualifiedNameConverter converter = this.getInjector().getInstance(
+		final IQualifiedNameConverter converter = this.getInjector().getInstance(
 				IQualifiedNameConverter.class);
 
-		Mod model = this.getMod("def main(){var a = 0;}");
+		final Mod model = this.getMod("def main(){var a = 0;}");
 
-		IScope scope = scopeProvider.getScope(model,
+		final IScope scope = scopeProvider.getScope(model,
 				NetxscriptPackage.Literals.VAR_OR_ARGUMENT_CALL__CALL);
 		assertNotNull(scope);
 
-		Iterable<IEObjectDescription> candidates = scope.getAllElements();
-		for (IEObjectDescription candidate : candidates) {
+		final Iterable<IEObjectDescription> candidates = scope.getAllElements();
+		for (final IEObjectDescription candidate : candidates) {
 			// For this scope, we should only expect.
 			if (!(candidate instanceof AliasedEObjectDescription)) {
 				System.out.println(converter.toString(candidate
@@ -110,32 +110,32 @@ public class ScopingNetXScriptTest extends AbstractNetXScriptTest {
 	public void testCDOScope() throws Exception {
 
 		// Add some objects, which are referable from our xtext model.
-		Resource res = dataService.getProvider().getResource(
+		final Resource res = dataService.getProvider().getResource(
 				LibraryPackage.Literals.LIBRARY);
-		Library lib = (Library) res.getContents().get(0);
+		final Library lib = (Library) res.getContents().get(0);
 
-		NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
-		Function sgsnFunction = LibraryFactory.eINSTANCE.createFunction();
-		sgsnFunction.setFunctionName("SGSN");
+		final NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
+		final Function sgsnFunction = LibraryFactory.eINSTANCE.createFunction();
+		sgsnFunction.setName("SGSN");
 		sgsnType.getFunctions().add(sgsnFunction);
 		lib.getNodeTypes().add(sgsnType);
 
 		res.save(null);
 
 		// Now invoke the scope provider to find the added reference.
-		IScopeProvider scopeProvider = this.getInjector().getInstance(
+		final IScopeProvider scopeProvider = this.getInjector().getInstance(
 				IScopeProvider.class);
-		IQualifiedNameConverter converter = this.getInjector().getInstance(
+		final IQualifiedNameConverter converter = this.getInjector().getInstance(
 				IQualifiedNameConverter.class);
 
-		Mod model = this.getMod("def main(){var a = 0;}");
+		final Mod model = this.getMod("def main(){var a = 0;}");
 
-		IScope scope = scopeProvider.getScope(model,
+		final IScope scope = scopeProvider.getScope(model,
 				NetxscriptPackage.Literals.NODE_REF__NODE);
 		assertNotNull(scope);
 
-		Iterable<IEObjectDescription> candidates = scope.getAllElements();
-		for (IEObjectDescription candidate : candidates) {
+		final Iterable<IEObjectDescription> candidates = scope.getAllElements();
+		for (final IEObjectDescription candidate : candidates) {
 			// For this scope, we should only expect.
 			if (!(candidate instanceof AliasedEObjectDescription)) {
 				System.out.println(converter.toString(candidate

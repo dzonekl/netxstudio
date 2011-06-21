@@ -28,7 +28,8 @@ package com.netxforge.netxstudio.metrics;
  * A type representing the basic information points
  * 				for mapping an CSV file to the NetXStudio model.
  * 
- * 				THIS TYPE SHOULD NOT BE CONSIDERED FOR NOW.
+ * 				THIS TYPE SHOULD NOT
+ * 				BE CONSIDERED FOR NOW.
  * 			
  * <!-- end-model-doc -->
  *

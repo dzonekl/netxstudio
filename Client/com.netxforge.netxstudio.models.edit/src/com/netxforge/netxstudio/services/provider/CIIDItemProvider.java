@@ -33,9 +33,10 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
+import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -46,7 +47,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * @generated
  */
 public class CIIDItemProvider
-	extends ItemProviderAdapter
+	extends BaseItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -143,10 +144,8 @@ public class CIIDItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((CIID)object).getCommonCIID();
-		return label == null || label.length() == 0 ?
-			getString("_UI_CIID_type") :
-			getString("_UI_CIID_type") + " " + label;
+		CIID ciid = (CIID)object;
+		return getString("_UI_CIID_type") + " " + ciid.isDeleted();
 	}
 
 	/**

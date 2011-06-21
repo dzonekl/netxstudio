@@ -46,24 +46,12 @@ import com.netxforge.netxstudio.protocols.Protocol;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getLifecycle <em>Lifecycle</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getDiagrams <em>Diagrams</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipments <em>Equipments</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentGroups <em>Equipment Groups</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentResources <em>Equipment Resources</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentMetricRefs <em>Equipment Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentRelationshipRefs <em>Equipment Relationship Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getToleranceRefs <em>Tolerance Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getProtocolRefs <em>Protocol Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getParameterRefs <em>Parameter Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getAllEquipmentResources <em>All Equipment Resources</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getAllEquipments <em>All Equipments</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getIcons <em>Icons</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getCount <em>Count</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentCode <em>Equipment Code</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentName <em>Equipment Name</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getRedundancy <em>Redundancy</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getState <em>State</em>}</li>
@@ -72,7 +60,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *
  * @generated
  */
-public class EquipmentImpl extends CDOObjectImpl implements Equipment {
+public class EquipmentImpl extends ComponentImpl implements Equipment {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -97,16 +85,6 @@ public class EquipmentImpl extends CDOObjectImpl implements Equipment {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Lifecycle getLifecycle() {
 		return (Lifecycle)eGet(LibraryPackage.Literals.EQUIPMENT__LIFECYCLE, true);
 	}
@@ -118,16 +96,6 @@ public class EquipmentImpl extends CDOObjectImpl implements Equipment {
 	 */
 	public void setLifecycle(Lifecycle newLifecycle) {
 		eSet(LibraryPackage.Literals.EQUIPMENT__LIFECYCLE, newLifecycle);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<DiagramInfo> getDiagrams() {
-		return (EList<DiagramInfo>)eGet(LibraryPackage.Literals.EQUIPMENT__DIAGRAMS, true);
 	}
 
 	/**
@@ -156,104 +124,8 @@ public class EquipmentImpl extends CDOObjectImpl implements Equipment {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<NetXResource> getEquipmentResources() {
-		return (EList<NetXResource>)eGet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_RESOURCES, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<Metric> getEquipmentMetricRefs() {
-		return (EList<Metric>)eGet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_METRIC_REFS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
 	public EList<EquipmentRelationship> getEquipmentRelationshipRefs() {
 		return (EList<EquipmentRelationship>)eGet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_RELATIONSHIP_REFS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Expression getCapacityExpressionRef() {
-		return (Expression)eGet(LibraryPackage.Literals.EQUIPMENT__CAPACITY_EXPRESSION_REF, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCapacityExpressionRef(Expression newCapacityExpressionRef) {
-		eSet(LibraryPackage.Literals.EQUIPMENT__CAPACITY_EXPRESSION_REF, newCapacityExpressionRef);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Expression getUtilizationExpressionRef() {
-		return (Expression)eGet(LibraryPackage.Literals.EQUIPMENT__UTILIZATION_EXPRESSION_REF, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setUtilizationExpressionRef(Expression newUtilizationExpressionRef) {
-		eSet(LibraryPackage.Literals.EQUIPMENT__UTILIZATION_EXPRESSION_REF, newUtilizationExpressionRef);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<Tolerance> getToleranceRefs() {
-		return (EList<Tolerance>)eGet(LibraryPackage.Literals.EQUIPMENT__TOLERANCE_REFS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<Protocol> getProtocolRefs() {
-		return (EList<Protocol>)eGet(LibraryPackage.Literals.EQUIPMENT__PROTOCOL_REFS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<Parameter> getParameterRefs() {
-		return (EList<Parameter>)eGet(LibraryPackage.Literals.EQUIPMENT__PARAMETER_REFS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<NetXResource> getAllEquipmentResources() {
-		return (EList<NetXResource>)eGet(LibraryPackage.Literals.EQUIPMENT__ALL_EQUIPMENT_RESOURCES, true);
 	}
 
 	/**
@@ -264,24 +136,6 @@ public class EquipmentImpl extends CDOObjectImpl implements Equipment {
 	@SuppressWarnings("unchecked")
 	public EList<Equipment> getAllEquipments() {
 		return (EList<Equipment>)eGet(LibraryPackage.Literals.EQUIPMENT__ALL_EQUIPMENTS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public MultiImage getIcons() {
-		return (MultiImage)eGet(LibraryPackage.Literals.EQUIPMENT__ICONS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIcons(MultiImage newIcons) {
-		eSet(LibraryPackage.Literals.EQUIPMENT__ICONS, newIcons);
 	}
 
 	/**
@@ -325,24 +179,6 @@ public class EquipmentImpl extends CDOObjectImpl implements Equipment {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getDescription() {
-		return (String)eGet(LibraryPackage.Literals.EQUIPMENT__DESCRIPTION, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDescription(String newDescription) {
-		eSet(LibraryPackage.Literals.EQUIPMENT__DESCRIPTION, newDescription);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public String getEquipmentCode() {
 		return (String)eGet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE, true);
 	}
@@ -354,24 +190,6 @@ public class EquipmentImpl extends CDOObjectImpl implements Equipment {
 	 */
 	public void setEquipmentCode(String newEquipmentCode) {
 		eSet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE, newEquipmentCode);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getEquipmentName() {
-		return (String)eGet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_NAME, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEquipmentName(String newEquipmentName) {
-		eSet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_NAME, newEquipmentName);
 	}
 
 	/**

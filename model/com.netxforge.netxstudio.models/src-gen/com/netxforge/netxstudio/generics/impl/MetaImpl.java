@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.generics.Person;
  *
  * @generated
  */
-public class MetaImpl extends CDOObjectImpl implements Meta {
+public class MetaImpl extends BaseImpl implements Meta {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -58,16 +58,6 @@ public class MetaImpl extends CDOObjectImpl implements Meta {
 	@Override
 	protected EClass eStaticClass() {
 		return GenericsPackage.Literals.META;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

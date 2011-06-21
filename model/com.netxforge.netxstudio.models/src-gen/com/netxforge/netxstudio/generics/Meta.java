@@ -26,7 +26,8 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing meta information about this model.
+ * A type representing meta information about this
+ * 				model.
  * 			
  * <!-- end-model-doc -->
  *
@@ -41,16 +42,16 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getMeta()
  * @model extendedMetaData="name='Meta' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Meta extends CDOObject {
+public interface Meta extends Base {
 	/**
 	 * Returns the value of the '<em><b>Author</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The Author reference, references 1 User type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Author</em>' reference.
 	 * @see #setAuthor(Person)
@@ -75,7 +76,10 @@ public interface Meta extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Description attribute holds the description of this datamodel.
+	 * The Description attribute holds the description
+	 * 							of
+	 * 							this datamodel.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
@@ -101,8 +105,9 @@ public interface Meta extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Version attribute holds the version of this datamodel.
-	 * 				
+	 * The Version attribute holds the version of this
+	 * 							datamodel.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #setVersion(String)

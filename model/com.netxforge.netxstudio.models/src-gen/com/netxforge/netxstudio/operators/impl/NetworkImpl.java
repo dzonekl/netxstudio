@@ -26,6 +26,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
@@ -55,7 +56,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  *
  * @generated
  */
-public class NetworkImpl extends CDOObjectImpl implements Network {
+public class NetworkImpl extends BaseImpl implements Network {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -73,16 +74,6 @@ public class NetworkImpl extends CDOObjectImpl implements Network {
 	@Override
 	protected EClass eStaticClass() {
 		return OperatorsPackage.Literals.NETWORK;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

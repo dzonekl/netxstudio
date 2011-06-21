@@ -27,9 +27,11 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * <!-- begin-model-doc -->
  * 
- * 				A type representing the basic information points of a
+ * 				A type representing the basic information points of
+ * 				a
  * 				User in the context of using the application. The Email
- * 				attribute is also the login identifier.
+ * 				attribute is
+ * 				also the login identifier.
  * 
  * 			
  * <!-- end-model-doc -->
@@ -50,10 +52,9 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getPerson()
  * @model extendedMetaData="name='Person' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Person extends CDOObject {
+public interface Person extends Base {
 	/**
 	 * Returns the value of the '<em><b>Roles</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -140,9 +141,10 @@ public interface Person extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					The CompanyRef reference, refers to 0 or 1 Company
-	 * 					type.
-	 * 				
+	 * 							The CompanyRef reference, refers to 0 or 1
+	 * 							Company
+	 * 							type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Company Ref</em>' reference.
 	 * @see #setCompanyRef(Company)
@@ -168,10 +170,11 @@ public interface Person extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					The Email attribute hols the email address of the
-	 * 					user. It is according to regex:
-	 * 					^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$
-	 * 				
+	 * 							The Email attribute hols the email address of
+	 * 							the
+	 * 							user. It is according to regex:
+	 * 							^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Email</em>' attribute.
 	 * @see #setEmail(String)
@@ -198,9 +201,10 @@ public interface Person extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					The FirstName attribute holds the first name of the
-	 * 					person.
-	 * 				
+	 * 							The FirstName attribute holds the first name of
+	 * 							the
+	 * 							person.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>First Name</em>' attribute.
 	 * @see #setFirstName(String)
@@ -227,9 +231,10 @@ public interface Person extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					The LastName attribute holds the last name of the
-	 * 					person.
-	 * 				
+	 * 							The LastName attribute holds the last name of
+	 * 							the
+	 * 							person.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Last Name</em>' attribute.
 	 * @see #setLastName(String)
@@ -256,9 +261,9 @@ public interface Person extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					The Login attribute holds the login ID of the
-	 * 					person.
-	 * 				
+	 * 							The Login attribute holds the login ID of the
+	 * 							person.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Login</em>' attribute.
 	 * @see #setLogin(String)
@@ -285,9 +290,9 @@ public interface Person extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					The Password attribute holds the password of the
-	 * 					user.
-	 * 				
+	 * 							The Password attribute holds the password of the
+	 * 							user.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Password</em>' attribute.
 	 * @see #setPassword(String)

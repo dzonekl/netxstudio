@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.MultiImage;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Site;
@@ -43,7 +44,7 @@ import com.netxforge.netxstudio.geo.Site;
  *
  * @generated
  */
-public class CountryImpl extends CDOObjectImpl implements Country {
+public class CountryImpl extends BaseImpl implements Country {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -61,16 +62,6 @@ public class CountryImpl extends CDOObjectImpl implements Country {
 	@Override
 	protected EClass eStaticClass() {
 		return GeoPackage.Literals.COUNTRY;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

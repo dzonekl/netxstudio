@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -31,20 +32,38 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a resource. 
- * A resource is a container for holding values. Resources are produced/consumed by expressions for 
- * various purposes. Resources belong to either to an Equipment, a Function or an EquipmentGroup 
- * type. 
+ * A type representing the basic information points of
+ * 				a resource.
+ * 				A resource is a container for holding values. Resources
+ * 				are
+ * 				produced/consumed by expressions for
+ * 				various purposes. Resources
+ * 				belong to either to an Equipment, a Function or
+ * 				an EquipmentGroup
+ * 				type.
  * 
- * Note: The Resource values, contain a timestamp. As a resource ultimately belongs to a Network, which has
- * as a Start and End date, the timestamp should be within the Network period. 
+ * 				Note: The Resource values, contain a timestamp. As a resource
+ * 				ultimately
+ * 				belongs to a Network, which has
+ * 				as a Start and End date,
+ * 				the timestamp should be within the Network
+ * 				period.
  * 
- * Examples:
- * 1. A Resource is used to hold Metric values, which is populated from a MetricSource.
- * 2. A Resource is used to hold Capacity values. These are populated by expressions which are defined
- * for an equipment. The capacity values, can also be keyed in manually through an UI Widget.
- * 3. A Resource is used to hold Forecast values. These are populated by expressions which are defined 
- * for an equipment or a function. 
+ * 				Examples:
+ * 				1. A
+ * 				Resource is used to hold Metric values, which is populated from a
+ * 				MetricSource.
+ * 				2. A Resource is used to hold Capacity values. These
+ * 				are populated by
+ * 				expressions which are defined
+ * 				for an equipment. The
+ * 				capacity values, can also be keyed in manually
+ * 				through an UI Widget.
+ * 				3. A Resource is used to hold Forecast values. These are populated
+ * 				by
+ * 				expressions which are defined
+ * 				for an equipment or a function.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -68,17 +87,17 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource()
  * @model extendedMetaData="name='NetXResource' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface NetXResource extends CDOObject {
+public interface NetXResource extends Base {
 	/**
 	 * Returns the value of the '<em><b>Metric Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MetricRef reference, refers to zero or one Metric for which this resource contains values.
-	 * 					
+	 * The MetricRef reference, refers to zero or one
+	 * 								Metric for which this resource contains values.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Ref</em>' reference.
 	 * @see #setMetricRef(Metric)
@@ -104,9 +123,12 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MetricValueRanges reference, contains measured usage values. Metric values are values
-	 * retrieved from the real network element.
-	 *         			
+	 * The MetricValueRanges reference, contains
+	 * 								measured usage values. Metric values are values
+	 * 								retrieved from
+	 * 								the
+	 * 								real network element.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Value Ranges</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_MetricValueRanges()
@@ -122,9 +144,12 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The CapacityValues reference, contains capacity values. Capacity values are populated with
-	 * expressions, imported or entered manually.
-	 *         			
+	 * The CapacityValues reference, contains capacity
+	 * 								values. Capacity values are populated with
+	 * 								expressions, imported
+	 * 								or
+	 * 								entered manually.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Capacity Values</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_CapacityValues()
@@ -140,9 +165,12 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The UtilizationValues reference, contains utilization values. Utilization values are populated through
-	 * a work flow computation run.
-	 *         			
+	 * The UtilizationValues reference, contains
+	 * 								utilization values. Utilization values are populated through
+	 * 								a
+	 * 								work
+	 * 								flow computation run.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Utilization Values</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_UtilizationValues()
@@ -158,9 +186,13 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ForecastCapacityValues reference, contains forecasted capacity values. ForecastedCapacity values are populated with
-	 * expressions in represent the target capacity for a resource (Versus the actual capacity).
-	 *         			
+	 * The ForecastCapacityValues reference, contains
+	 * 								forecasted capacity values. ForecastedCapacity values are
+	 * 								populated with
+	 * 								expressions in represent the target capacity for a
+	 * 								resource (Versus the
+	 * 								actual capacity).
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Forecast Capacity Values</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_ForecastCapacityValues()
@@ -176,9 +208,12 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ForecastValues reference, contains forecast values. Forecast values are populated with
-	 * expressions, imported or entered manually.
-	 *         			
+	 * The ForecastValues reference, contains forecast
+	 * 								values. Forecast values are populated with
+	 * 								expressions, imported
+	 * 								or
+	 * 								entered manually.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Forecast Values</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_ForecastValues()
@@ -194,9 +229,10 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The TrendedValues reference, contains trended values. Trended values are populated with
-	 * expressions.
-	 *         			
+	 * The TrendedValues reference, contains trended
+	 * 								values. Trended values are populated with
+	 * 								expressions.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Trended Values</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_TrendedValues()
@@ -211,7 +247,10 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The DetailDisplay attribute is a flag specifiy if the resource should be displayed in a detailed presentation.
+	 * The DetailDisplay attribute is a flag specifiy
+	 * 							if
+	 * 							the resource should be displayed in a detailed presentation.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Detail Display</em>' attribute.
 	 * @see #isSetDetailDisplay()
@@ -264,10 +303,15 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ExpressionName attribute holds a name which is used in the expressions referencing 
-	 * the resource.
+	 * The ExpressionName attribute holds a name which
+	 * 							is
+	 * 							used in the expressions referencing
+	 * 							the resource.
 	 * 
-	 * See: The NetXScript specification.
+	 * 							See: The
+	 * 							NetXScript
+	 * 							specification.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expression Name</em>' attribute.
 	 * @see #setExpressionName(String)
@@ -293,7 +337,10 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The LongName attribute holds a long name which is used for presentation of the resource.
+	 * The LongName attribute holds a long name which
+	 * 							is
+	 * 							used for presentation of the resource.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Long Name</em>' attribute.
 	 * @see #setLongName(String)
@@ -319,7 +366,9 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ShortName attribute holds a short name which is used for presentation of the resource.
+	 * The ShortName attribute holds a short name which
+	 * 							is used for presentation of the resource.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Short Name</em>' attribute.
 	 * @see #setShortName(String)
@@ -345,7 +394,10 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The SummaryDisplay attribute is a flag specifiy if the resource should be displayed in a summary presentation.
+	 * The SummaryDisplay attribute is a flag specifiy
+	 * 							if
+	 * 							the resource should be displayed in a summary presentation.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Summary Display</em>' attribute.
 	 * @see #isSetSummaryDisplay()
@@ -398,7 +450,9 @@ public interface NetXResource extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The UnitRef reference, refers to 0 or 1 Unit type.
+	 * The UnitRef reference, refers to 0 or 1 Unit
+	 * 							type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Unit Ref</em>' reference.
 	 * @see #setUnitRef(Unit)

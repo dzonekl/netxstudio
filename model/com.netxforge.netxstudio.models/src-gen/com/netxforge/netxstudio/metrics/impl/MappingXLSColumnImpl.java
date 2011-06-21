@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
@@ -39,7 +40,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  *
  * @generated
  */
-public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSColumn {
+public class MappingXLSColumnImpl extends BaseImpl implements MappingXLSColumn {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -57,16 +58,6 @@ public class MappingXLSColumnImpl extends CDOObjectImpl implements MappingXLSCol
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.MAPPING_XLS_COLUMN;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

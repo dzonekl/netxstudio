@@ -74,6 +74,34 @@ public interface GenericsPackage extends EPackage {
 	GenericsPackage eINSTANCE = com.netxforge.netxstudio.generics.impl.GenericsPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.BaseImpl <em>Base</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.generics.impl.BaseImpl
+	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getBase()
+	 * @generated
+	 */
+	int BASE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE__DELETED = 0;
+
+	/**
+	 * The number of structural features of the '<em>Base</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.CommitLogEntryImpl <em>Commit Log Entry</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -81,7 +109,16 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getCommitLogEntry()
 	 * @generated
 	 */
-	int COMMIT_LOG_ENTRY = 0;
+	int COMMIT_LOG_ENTRY = 1;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMMIT_LOG_ENTRY__DELETED = BASE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Action</b></em>' attribute.
@@ -90,7 +127,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMMIT_LOG_ENTRY__ACTION = 0;
+	int COMMIT_LOG_ENTRY__ACTION = BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Change</b></em>' attribute.
@@ -99,7 +136,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMMIT_LOG_ENTRY__CHANGE = 1;
+	int COMMIT_LOG_ENTRY__CHANGE = BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Object Id</b></em>' attribute.
@@ -108,7 +145,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMMIT_LOG_ENTRY__OBJECT_ID = 2;
+	int COMMIT_LOG_ENTRY__OBJECT_ID = BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Time Stamp</b></em>' attribute.
@@ -117,7 +154,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMMIT_LOG_ENTRY__TIME_STAMP = 3;
+	int COMMIT_LOG_ENTRY__TIME_STAMP = BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>User</b></em>' attribute.
@@ -126,7 +163,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMMIT_LOG_ENTRY__USER = 4;
+	int COMMIT_LOG_ENTRY__USER = BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Commit Log Entry</em>' class.
@@ -135,7 +172,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMMIT_LOG_ENTRY_FEATURE_COUNT = 5;
+	int COMMIT_LOG_ENTRY_FEATURE_COUNT = BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.CompanyImpl <em>Company</em>}' class.
@@ -145,7 +182,16 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getCompany()
 	 * @generated
 	 */
-	int COMPANY = 1;
+	int COMPANY = 2;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPANY__DELETED = BASE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Icons</b></em>' containment reference.
@@ -154,7 +200,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPANY__ICONS = 0;
+	int COMPANY__ICONS = BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -163,7 +209,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPANY__NAME = 1;
+	int COMPANY__NAME = BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>RS Surl</b></em>' attribute.
@@ -172,7 +218,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPANY__RS_SURL = 2;
+	int COMPANY__RS_SURL = BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
@@ -181,7 +227,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPANY__SHORT_NAME = 3;
+	int COMPANY__SHORT_NAME = BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Symbol</b></em>' attribute.
@@ -190,7 +236,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPANY__SYMBOL = 4;
+	int COMPANY__SYMBOL = BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Website</b></em>' attribute.
@@ -199,7 +245,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPANY__WEBSITE = 5;
+	int COMPANY__WEBSITE = BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Company</em>' class.
@@ -208,7 +254,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPANY_FEATURE_COUNT = 6;
+	int COMPANY_FEATURE_COUNT = BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.DateTimeRangeImpl <em>Date Time Range</em>}' class.
@@ -218,7 +264,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDateTimeRange()
 	 * @generated
 	 */
-	int DATE_TIME_RANGE = 2;
+	int DATE_TIME_RANGE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Begin</b></em>' attribute.
@@ -255,7 +301,16 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDiagramInfo()
 	 * @generated
 	 */
-	int DIAGRAM_INFO = 3;
+	int DIAGRAM_INFO = 4;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM_INFO__DELETED = BASE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Diagram Kind</b></em>' attribute.
@@ -264,7 +319,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_INFO__DIAGRAM_KIND = 0;
+	int DIAGRAM_INFO__DIAGRAM_KIND = BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -273,7 +328,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_INFO__LOCATION = 1;
+	int DIAGRAM_INFO__LOCATION = BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Diagram Info</em>' class.
@@ -282,7 +337,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_INFO_FEATURE_COUNT = 2;
+	int DIAGRAM_INFO_FEATURE_COUNT = BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.LifecycleImpl <em>Lifecycle</em>}' class.
@@ -292,7 +347,16 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getLifecycle()
 	 * @generated
 	 */
-	int LIFECYCLE = 4;
+	int LIFECYCLE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIFECYCLE__DELETED = BASE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Construction Date</b></em>' attribute.
@@ -301,7 +365,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIFECYCLE__CONSTRUCTION_DATE = 0;
+	int LIFECYCLE__CONSTRUCTION_DATE = BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>In Service Date</b></em>' attribute.
@@ -310,7 +374,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIFECYCLE__IN_SERVICE_DATE = 1;
+	int LIFECYCLE__IN_SERVICE_DATE = BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Out Of Service Date</b></em>' attribute.
@@ -319,7 +383,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIFECYCLE__OUT_OF_SERVICE_DATE = 2;
+	int LIFECYCLE__OUT_OF_SERVICE_DATE = BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Planned Date</b></em>' attribute.
@@ -328,7 +392,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIFECYCLE__PLANNED_DATE = 3;
+	int LIFECYCLE__PLANNED_DATE = BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Proposed</b></em>' attribute.
@@ -337,7 +401,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIFECYCLE__PROPOSED = 4;
+	int LIFECYCLE__PROPOSED = BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Lifecycle</em>' class.
@@ -346,7 +410,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LIFECYCLE_FEATURE_COUNT = 5;
+	int LIFECYCLE_FEATURE_COUNT = BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.MetaImpl <em>Meta</em>}' class.
@@ -356,7 +420,16 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getMeta()
 	 * @generated
 	 */
-	int META = 5;
+	int META = 6;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META__DELETED = BASE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Author</b></em>' reference.
@@ -365,7 +438,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int META__AUTHOR = 0;
+	int META__AUTHOR = BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -374,7 +447,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int META__DESCRIPTION = 1;
+	int META__DESCRIPTION = BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Version</b></em>' attribute.
@@ -383,7 +456,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int META__VERSION = 2;
+	int META__VERSION = BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Meta</em>' class.
@@ -392,7 +465,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int META_FEATURE_COUNT = 3;
+	int META_FEATURE_COUNT = BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.MultiImageImpl <em>Multi Image</em>}' class.
@@ -402,7 +475,16 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getMultiImage()
 	 * @generated
 	 */
-	int MULTI_IMAGE = 6;
+	int MULTI_IMAGE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_IMAGE__DELETED = BASE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Obj16</b></em>' attribute.
@@ -411,7 +493,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_IMAGE__OBJ16 = 0;
+	int MULTI_IMAGE__OBJ16 = BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Obj32</b></em>' attribute.
@@ -420,7 +502,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_IMAGE__OBJ32 = 1;
+	int MULTI_IMAGE__OBJ32 = BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Obj48</b></em>' attribute.
@@ -429,7 +511,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_IMAGE__OBJ48 = 2;
+	int MULTI_IMAGE__OBJ48 = BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Obj96</b></em>' attribute.
@@ -438,7 +520,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_IMAGE__OBJ96 = 3;
+	int MULTI_IMAGE__OBJ96 = BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Obj128</b></em>' attribute.
@@ -447,7 +529,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_IMAGE__OBJ128 = 4;
+	int MULTI_IMAGE__OBJ128 = BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Multi Image</em>' class.
@@ -456,7 +538,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_IMAGE_FEATURE_COUNT = 5;
+	int MULTI_IMAGE_FEATURE_COUNT = BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.PersonImpl <em>Person</em>}' class.
@@ -466,7 +548,16 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getPerson()
 	 * @generated
 	 */
-	int PERSON = 7;
+	int PERSON = 8;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERSON__DELETED = BASE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Roles</b></em>' reference.
@@ -475,7 +566,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__ROLES = 0;
+	int PERSON__ROLES = BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Active</b></em>' attribute.
@@ -484,7 +575,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__ACTIVE = 1;
+	int PERSON__ACTIVE = BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Company Ref</b></em>' reference.
@@ -493,7 +584,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__COMPANY_REF = 2;
+	int PERSON__COMPANY_REF = BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Email</b></em>' attribute.
@@ -502,7 +593,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__EMAIL = 3;
+	int PERSON__EMAIL = BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>First Name</b></em>' attribute.
@@ -511,7 +602,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__FIRST_NAME = 4;
+	int PERSON__FIRST_NAME = BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Last Name</b></em>' attribute.
@@ -520,7 +611,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__LAST_NAME = 5;
+	int PERSON__LAST_NAME = BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Login</b></em>' attribute.
@@ -529,7 +620,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__LOGIN = 6;
+	int PERSON__LOGIN = BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Password</b></em>' attribute.
@@ -538,7 +629,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__PASSWORD = 7;
+	int PERSON__PASSWORD = BASE_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Person</em>' class.
@@ -547,7 +638,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON_FEATURE_COUNT = 8;
+	int PERSON_FEATURE_COUNT = BASE_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.RoleImpl <em>Role</em>}' class.
@@ -557,7 +648,16 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getRole()
 	 * @generated
 	 */
-	int ROLE = 8;
+	int ROLE = 9;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROLE__DELETED = BASE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -566,7 +666,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROLE__NAME = 0;
+	int ROLE__NAME = BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Role</em>' class.
@@ -575,7 +675,7 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROLE_FEATURE_COUNT = 1;
+	int ROLE_FEATURE_COUNT = BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.ValueImpl <em>Value</em>}' class.
@@ -585,7 +685,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getValue()
 	 * @generated
 	 */
-	int VALUE = 9;
+	int VALUE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Time Stamp</b></em>' attribute.
@@ -622,7 +722,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getActionType()
 	 * @generated
 	 */
-	int ACTION_TYPE = 10;
+	int ACTION_TYPE = 11;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.DiagramKindType <em>Diagram Kind Type</em>}' enum.
@@ -632,7 +732,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDiagramKindType()
 	 * @generated
 	 */
-	int DIAGRAM_KIND_TYPE = 11;
+	int DIAGRAM_KIND_TYPE = 12;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.ExpansionDuration <em>Expansion Duration</em>}' enum.
@@ -642,7 +742,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpansionDuration()
 	 * @generated
 	 */
-	int EXPANSION_DURATION = 12;
+	int EXPANSION_DURATION = 13;
 
 	/**
 	 * The meta object id for the '<em>Action Type Object</em>' data type.
@@ -652,7 +752,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getActionTypeObject()
 	 * @generated
 	 */
-	int ACTION_TYPE_OBJECT = 13;
+	int ACTION_TYPE_OBJECT = 14;
 
 	/**
 	 * The meta object id for the '<em>Description2000</em>' data type.
@@ -662,7 +762,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDescription2000()
 	 * @generated
 	 */
-	int DESCRIPTION2000 = 14;
+	int DESCRIPTION2000 = 15;
 
 	/**
 	 * The meta object id for the '<em>Diagram Kind Type Object</em>' data type.
@@ -672,7 +772,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDiagramKindTypeObject()
 	 * @generated
 	 */
-	int DIAGRAM_KIND_TYPE_OBJECT = 15;
+	int DIAGRAM_KIND_TYPE_OBJECT = 16;
 
 	/**
 	 * The meta object id for the '<em>Expansion Duration Object</em>' data type.
@@ -682,7 +782,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpansionDurationObject()
 	 * @generated
 	 */
-	int EXPANSION_DURATION_OBJECT = 16;
+	int EXPANSION_DURATION_OBJECT = 17;
 
 	/**
 	 * The meta object id for the '<em>Expression Line</em>' data type.
@@ -692,7 +792,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpressionLine()
 	 * @generated
 	 */
-	int EXPRESSION_LINE = 17;
+	int EXPRESSION_LINE = 18;
 
 	/**
 	 * The meta object id for the '<em>Long Text</em>' data type.
@@ -702,7 +802,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getLongText()
 	 * @generated
 	 */
-	int LONG_TEXT = 18;
+	int LONG_TEXT = 19;
 
 	/**
 	 * The meta object id for the '<em>Name255</em>' data type.
@@ -712,7 +812,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getName255()
 	 * @generated
 	 */
-	int NAME255 = 19;
+	int NAME255 = 20;
 
 	/**
 	 * The meta object id for the '<em>Unit Code</em>' data type.
@@ -722,7 +822,28 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getUnitCode()
 	 * @generated
 	 */
-	int UNIT_CODE = 20;
+	int UNIT_CODE = 21;
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.generics.Base <em>Base</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Base</em>'.
+	 * @see com.netxforge.netxstudio.generics.Base
+	 * @generated
+	 */
+	EClass getBase();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.generics.Base#isDeleted <em>Deleted</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Deleted</em>'.
+	 * @see com.netxforge.netxstudio.generics.Base#isDeleted()
+	 * @see #getBase()
+	 * @generated
+	 */
+	EAttribute getBase_Deleted();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.generics.CommitLogEntry <em>Commit Log Entry</em>}'.
@@ -1401,6 +1522,24 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 */
 	interface Literals {
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.generics.impl.BaseImpl <em>Base</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.generics.impl.BaseImpl
+		 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getBase()
+		 * @generated
+		 */
+		EClass BASE = eINSTANCE.getBase();
+
+		/**
+		 * The meta object literal for the '<em><b>Deleted</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BASE__DELETED = eINSTANCE.getBase_Deleted();
+
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.generics.impl.CommitLogEntryImpl <em>Commit Log Entry</em>}' class.
 		 * <!-- begin-user-doc -->

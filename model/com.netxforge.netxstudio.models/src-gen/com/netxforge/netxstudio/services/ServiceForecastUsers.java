@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -29,8 +30,10 @@ import com.netxforge.netxstudio.generics.Value;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a ServiceForecastUser. A ServiceForecastUser is a user of a service, which
- * is forecasted over time. It has values and references a ServiceUser.
+ * A type representing a ServiceForecastUser. A
+ * 				ServiceForecastUser is a user of a service, which
+ * 				is forecasted over
+ * 				time. It has values and references a ServiceUser.
  * 			
  * <!-- end-model-doc -->
  *
@@ -44,18 +47,18 @@ import com.netxforge.netxstudio.generics.Value;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceForecastUsers()
  * @model extendedMetaData="name='ServiceForecastUsers' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ServiceForecastUsers extends CDOObject {
+public interface ServiceForecastUsers extends Base {
 	/**
 	 * Returns the value of the '<em><b>User Values</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.generics.Value}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The UserValues reference, contains expected service user values for a service.
-	 * 					
+	 * The UserValues reference, contains expected
+	 * 								service user values for a service.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>User Values</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceForecastUsers_UserValues()
@@ -70,7 +73,9 @@ public interface ServiceForecastUsers extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceUser reference, references 0 or 1 ServiceUser type.
+	 * The ServiceUser reference, references 0 or 1
+	 * 								ServiceUser type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service User Ref</em>' reference.
 	 * @see #setServiceUserRef(ServiceUser)

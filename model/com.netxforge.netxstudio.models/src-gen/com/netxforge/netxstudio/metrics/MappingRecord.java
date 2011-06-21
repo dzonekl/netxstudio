@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 /**
@@ -28,6 +29,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- begin-model-doc -->
  * A type representing the information points of a
  * 				mapping record
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -39,18 +41,18 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRecord()
  * @model extendedMetaData="name='MappingRecord' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface MappingRecord extends CDOObject {
+public interface MappingRecord extends Base {
 
 	/**
 	 * Returns the value of the '<em><b>Message</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The message giving information about this record.
-	 * 				
+	 * The message giving information about this
+	 * 							record.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Message</em>' attribute.
 	 * @see #setMessage(String)

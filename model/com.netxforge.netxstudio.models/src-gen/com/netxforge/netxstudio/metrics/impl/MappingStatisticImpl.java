@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -43,7 +44,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  *
  * @generated
  */
-public class MappingStatisticImpl extends CDOObjectImpl implements MappingStatistic {
+public class MappingStatisticImpl extends BaseImpl implements MappingStatistic {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -61,16 +62,6 @@ public class MappingStatisticImpl extends CDOObjectImpl implements MappingStatis
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.MAPPING_STATISTIC;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 import com.netxforge.netxstudio.protocols.Protocol;
@@ -28,8 +29,13 @@ import com.netxforge.netxstudio.protocols.Protocol;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a Relationship. This is also often referred to as a Connection or Link. 
- * Both Function and Equipment Relationship extend on this Base type. It holds both ends of the Node.
+ * A type representing the basic information points of
+ * 				a Relationship. This is also often referred to as a Connection or
+ * 				Link.
+ * 				Both Function and Equipment Relationship extend on this Base
+ * 				type. It
+ * 				holds both ends of the Node.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -44,16 +50,17 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getRelationship()
  * @model extendedMetaData="name='Relationship' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface Relationship extends CDOObject {
+public interface Relationship extends Base {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds a name used for presentation.
+	 * The Name attribute holds a name used for
+	 * 							presentation.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -79,7 +86,9 @@ public interface Relationship extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The NodeID1Ref attribute, references a Node type.
+	 * The NodeID1Ref attribute, references a Node
+	 * 							type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Node ID1 Ref</em>' reference.
 	 * @see #setNodeID1Ref(Node)
@@ -104,7 +113,9 @@ public interface Relationship extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The NodeID1Ref attribute, references a Node type.
+	 * The NodeID1Ref attribute, references a Node
+	 * 							type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Node ID2 Ref</em>' reference.
 	 * @see #setNodeID2Ref(Node)
@@ -129,8 +140,9 @@ public interface Relationship extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ProtocolRef reference, refers to 0 or 1 Protocol type.
-	 * 				
+	 * The ProtocolRef reference, refers to 0 or 1
+	 * 							Protocol type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Protocol Ref</em>' reference.
 	 * @see #setProtocolRef(Protocol)

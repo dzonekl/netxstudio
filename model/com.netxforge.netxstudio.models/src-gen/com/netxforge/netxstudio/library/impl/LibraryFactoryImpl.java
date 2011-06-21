@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import com.netxforge.netxstudio.library.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -88,6 +89,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case LibraryPackage.COMPONENT: return (EObject)createComponent();
 			case LibraryPackage.EQUIPMENT: return (EObject)createEquipment();
 			case LibraryPackage.EQUIPMENT_GROUP: return (EObject)createEquipmentGroup();
 			case LibraryPackage.EXPRESSION: return (EObject)createExpression();
@@ -154,6 +156,16 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Component createComponent() {
+		ComponentImpl component = new ComponentImpl();
+		return component;
 	}
 
 	/**

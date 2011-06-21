@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.ExpansionDuration;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -40,7 +41,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  *
  * @generated
  */
-public class ExpansionExperienceImpl extends CDOObjectImpl implements ExpansionExperience {
+public class ExpansionExperienceImpl extends BaseImpl implements ExpansionExperience {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -58,16 +59,6 @@ public class ExpansionExperienceImpl extends CDOObjectImpl implements ExpansionE
 	@Override
 	protected EClass eStaticClass() {
 		return OperatorsPackage.Literals.EXPANSION_EXPERIENCE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

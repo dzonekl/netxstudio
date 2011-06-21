@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -45,7 +46,7 @@ import com.netxforge.netxstudio.services.ServiceProfile;
  *
  * @generated
  */
-public class ExpressionImpl extends CDOObjectImpl implements Expression {
+public class ExpressionImpl extends BaseImpl implements Expression {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -63,16 +64,6 @@ public class ExpressionImpl extends CDOObjectImpl implements Expression {
 	@Override
 	protected EClass eStaticClass() {
 		return LibraryPackage.Literals.EXPRESSION;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

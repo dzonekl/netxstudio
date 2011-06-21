@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -39,7 +40,7 @@ import com.netxforge.netxstudio.operators.ResourceForecast;
  *
  * @generated
  */
-public class ResourceForecastImpl extends CDOObjectImpl implements ResourceForecast {
+public class ResourceForecastImpl extends BaseImpl implements ResourceForecast {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -57,16 +58,6 @@ public class ResourceForecastImpl extends CDOObjectImpl implements ResourceForec
 	@Override
 	protected EClass eStaticClass() {
 		return OperatorsPackage.Literals.RESOURCE_FORECAST;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

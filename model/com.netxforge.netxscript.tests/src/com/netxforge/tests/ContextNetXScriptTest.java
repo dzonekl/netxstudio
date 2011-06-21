@@ -76,18 +76,18 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		
 		this.createModelData();
 		
-		DateTimeRange timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
+		final DateTimeRange timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
 		
-		XMLGregorianCalendar t0 = modelUtils.toXMLDate(modelUtils.todayAndNow());
-		XMLGregorianCalendar t1 = modelUtils.toXMLDate(modelUtils.lastWeek());
+		final XMLGregorianCalendar t0 = modelUtils.toXMLDate(modelUtils.todayAndNow());
+		final XMLGregorianCalendar t1 = modelUtils.toXMLDate(modelUtils.lastWeek());
 		
 		timeRange.setBegin(t1);
 		timeRange.setEnd(t0);
 		
-		IInterpreterContext periodContext = interpreterContextFactory.createPeriodContext(timeRange);
-		List<IInterpreterContext> contextList = ImmutableList.of(periodContext);
-		IInterpreterContext[] contextArray = new IInterpreterContext[contextList.size()];
-		IInterpreter i = interpreterFactory.create(contextList.toArray(contextArray));
+		final IInterpreterContext periodContext = interpreterContextFactory.createPeriodContext(timeRange);
+		final List<IInterpreterContext> contextList = ImmutableList.of(periodContext);
+		final IInterpreterContext[] contextArray = new IInterpreterContext[contextList.size()];
+		final IInterpreter i = interpreterFactory.create(contextList.toArray(contextArray));
 		System.out.println(i.toString());
 		// TODO, the interpretation, currently our interpreter doesn't do anything with the context. 
 		
@@ -96,32 +96,32 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 	
 	private void createModelData(){
 		// Add some objects, which are referable from our xtext model.
-		Resource res = dataService.getProvider().getResource(
+		final Resource res = dataService.getProvider().getResource(
 				LibraryPackage.Literals.LIBRARY);
-		Library lib = (Library) res.getContents().get(0);
+		final Library lib = (Library) res.getContents().get(0);
 
-		NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
-		Function sgsnFunction = LibraryFactory.eINSTANCE.createFunction();
-		sgsnFunction.setFunctionName("SGSN");
+		final NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
+		final Function sgsnFunction = LibraryFactory.eINSTANCE.createFunction();
+		sgsnFunction.setName("SGSN");
 		sgsnType.getFunctions().add(sgsnFunction);
 		
 		lib.getNodeTypes().add(sgsnType);
 		
-		NetXResource sgsnRes = LibraryFactory.eINSTANCE.createNetXResource();
-		MetricValueRange range = MetricsFactory.eINSTANCE.createMetricValueRange();
+		final NetXResource sgsnRes = LibraryFactory.eINSTANCE.createNetXResource();
+		final MetricValueRange range = MetricsFactory.eINSTANCE.createMetricValueRange();
 		sgsnRes.getMetricValueRanges().add(range);
 		
-		sgsnFunction.getFunctionResources().add(sgsnRes);
+		sgsnFunction.getResources().add(sgsnRes);
 		
-		Value v = GenericsFactory.eINSTANCE.createValue();
+		final Value v = GenericsFactory.eINSTANCE.createValue();
 		v.setValue(2.0);
 		v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
 
-		Value v1 = GenericsFactory.eINSTANCE.createValue();
+		final Value v1 = GenericsFactory.eINSTANCE.createValue();
 		v1.setValue(2.1);
 		v1.setTimeStamp(modelUtils.toXMLDate(modelUtils.twoDaysAgo()));
 
-		Value v2 = GenericsFactory.eINSTANCE.createValue();
+		final Value v2 = GenericsFactory.eINSTANCE.createValue();
 		v2.setValue(2.1);
 		v2.setTimeStamp(modelUtils.toXMLDate(modelUtils.threeDaysAgo()));
 		

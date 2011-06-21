@@ -29,7 +29,8 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * <!-- begin-model-doc -->
  * 
- * 				Represents the changes done by a user for a certain object/user.
+ * 				Represents the changes done by a user for a certain
+ * 				object/user.
  * 			
  * <!-- end-model-doc -->
  *
@@ -46,10 +47,9 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getCommitLogEntry()
  * @model extendedMetaData="name='CommitLogEntry' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface CommitLogEntry extends CDOObject {
+public interface CommitLogEntry extends Base {
 	/**
 	 * Returns the value of the '<em><b>Action</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.netxforge.netxstudio.generics.ActionType}.
@@ -112,8 +112,8 @@ public interface CommitLogEntry extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					The type uri of the object being changed
-	 * 				
+	 * 							The type uri of the object being changed
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Change</em>' attribute.
 	 * @see #setChange(String)
@@ -140,8 +140,8 @@ public interface CommitLogEntry extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					The id/uri of the object being changed
-	 * 				
+	 * 							The id/uri of the object being changed
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Object Id</em>' attribute.
 	 * @see #setObjectId(String)
@@ -167,7 +167,9 @@ public interface CommitLogEntry extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The TimeStamp attribute holds the time of the commit.
+	 * The TimeStamp attribute holds the time of the
+	 * 							commit.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Time Stamp</em>' attribute.
 	 * @see #setTimeStamp(XMLGregorianCalendar)
@@ -194,8 +196,8 @@ public interface CommitLogEntry extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					The user name
-	 * 				
+	 * 							The user name
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>User</em>' attribute.
 	 * @see #setUser(String)

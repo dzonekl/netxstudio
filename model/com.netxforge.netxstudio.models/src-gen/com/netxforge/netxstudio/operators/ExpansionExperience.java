@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 import com.netxforge.netxstudio.generics.ExpansionDuration;
@@ -29,7 +30,8 @@ import com.netxforge.netxstudio.library.Equipment;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the gained experience on expending an equipment.
+ * A type representing the gained experience on
+ * 				expending an equipment.
  * 			
  * <!-- end-model-doc -->
  *
@@ -43,16 +45,18 @@ import com.netxforge.netxstudio.library.Equipment;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getExpansionExperience()
  * @model extendedMetaData="name='ExpansionExperience' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ExpansionExperience extends CDOObject {
+public interface ExpansionExperience extends Base {
 	/**
 	 * Returns the value of the '<em><b>Equipment Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The EquipmentRef reference, references the 0 or 1 Equipment type, for which this duration applies.
+	 * The EquipmentRef reference, references the 0 or
+	 * 								1
+	 * 								Equipment type, for which this duration applies.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipment Ref</em>' reference.
 	 * @see #setEquipmentRef(Equipment)
@@ -78,7 +82,10 @@ public interface ExpansionExperience extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Duration attribute, holds the typical duration for the expansion of an Equipment. 
+	 * The Duration attribute, holds the typical
+	 * 							duration
+	 * 							for the expansion of an Equipment.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Duration</em>' attribute.
 	 * @see com.netxforge.netxstudio.generics.ExpansionDuration

@@ -30,7 +30,8 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
- * The KindHintType defines if a metric value is a BusyHour or AVG.
+ * The KindHintType defines if a metric value is a
+ * 				BusyHour or AVG.
  * 			
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getKindHintType()

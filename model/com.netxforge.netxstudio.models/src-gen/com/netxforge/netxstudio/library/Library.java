@@ -31,7 +31,9 @@ import com.netxforge.netxstudio.metrics.MetricSource;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * The Library is a container for most types. Types can copy from the Library or reference from the Library.
+ * The Library is a container for most types. Types
+ * 				can copy from the Library or reference from the Library.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -64,7 +66,8 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Functions reference, contains 0 or more Function type.
+	 * The Functions reference, contains 0 or more
+	 * 						Function type.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Functions</em>' containment reference list.
@@ -81,7 +84,8 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The NodeTypes reference, contains 0 or more NodeType type.
+	 * The NodeTypes reference, contains 0 or more
+	 * 						NodeType type.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Node Types</em>' containment reference list.
@@ -98,7 +102,8 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Equipments reference, contains 0 or more Equipment type.
+	 * The Equipments reference, contains 0 or more
+	 * 						Equipment type.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipments</em>' containment reference list.
@@ -115,7 +120,8 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Metrics reference, contains 0 or more Metric type.
+	 * The Metrics reference, contains 0 or more Metric
+	 * 						type.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metrics</em>' containment reference list.
@@ -132,7 +138,8 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MetricSources reference, contains 0 or more MetricSource type.
+	 * The MetricSources reference, contains 0 or more
+	 * 						MetricSource type.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Sources</em>' containment reference list.
@@ -149,7 +156,8 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Parameters reference, contains 0 or more Parameter type.
+	 * The Parameters reference, contains 0 or more
+	 * 						Parameter type.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Parameters</em>' containment reference list.
@@ -166,7 +174,8 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Protocols reference, contains 0 or more Protocol type.
+	 * The Protocols reference, contains 0 or more
+	 * 						Protocol type.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Protocols</em>' attribute list.
@@ -183,7 +192,8 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Tolerance reference, contains 0 or more Tolerance type.
+	 * The Tolerance reference, contains 0 or more
+	 * 						Tolerance type.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Tolerances</em>' containment reference list.
@@ -200,7 +210,8 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Expressions reference, contains 0 or more Expression type.
+	 * The Expressions reference, contains 0 or more
+	 * 						Expression type.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expressions</em>' containment reference list.
@@ -217,7 +228,8 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Units reference, contains 0 or more Unit type.
+	 * The Units reference, contains 0 or more Unit
+	 * 						type.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Units</em>' containment reference list.
@@ -233,7 +245,9 @@ public interface Library extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Versions reference, contains 0 or more Meta types.
+	 * The Versions reference, contains 0 or more Meta
+	 * 						types.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Version</em>' containment reference.
 	 * @see #setVersion(Meta)
@@ -261,6 +275,7 @@ public interface Library extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The Name attribute holds the name of the Library.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #isSetName()

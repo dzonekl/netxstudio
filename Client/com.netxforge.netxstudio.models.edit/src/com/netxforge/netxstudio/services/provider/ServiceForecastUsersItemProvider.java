@@ -33,10 +33,11 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
+import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.services.ServiceForecastUsers;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -47,7 +48,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * @generated
  */
 public class ServiceForecastUsersItemProvider
-	extends ItemProviderAdapter
+	extends BaseItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -151,7 +152,8 @@ public class ServiceForecastUsersItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_ServiceForecastUsers_type");
+		ServiceForecastUsers serviceForecastUsers = (ServiceForecastUsers)object;
+		return getString("_UI_ServiceForecastUsers_type") + " " + serviceForecastUsers.isDeleted();
 	}
 
 	/**

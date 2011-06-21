@@ -38,6 +38,15 @@ public interface GenericsFactory extends EFactory {
 	GenericsFactory eINSTANCE = com.netxforge.netxstudio.generics.impl.GenericsFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Base</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Base</em>'.
+	 * @generated
+	 */
+	Base createBase();
+
+	/**
 	 * Returns a new object of class '<em>Commit Log Entry</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

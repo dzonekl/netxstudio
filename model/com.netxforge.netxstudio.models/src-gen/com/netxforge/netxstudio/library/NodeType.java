@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -27,10 +28,15 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a real telecommunications Node. This is also often referred
- * to as a Network Element type.  A NodeType type is a plannable Node with Functions and Equipments. As the NodeType has no attribute, 
- * it will be identified by the name of the root function and the root equipment. 
- * 
+ * A type representing the basic information points of
+ * 				a real telecommunications Node. This is also often referred
+ * 				to as a
+ * 				Network Element type. A NodeType type is a plannable Node with
+ * 				Functions and Equipments. As the NodeType has no attribute,
+ * 				it will
+ * 				be identified by the name of the root function and the root
+ * 				equipment.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -46,17 +52,18 @@ import org.eclipse.emf.common.util.EList;
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='\n\t\t\t\tValidNodeID\n\t\t\t'"
  *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL ValidNodeID='\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t'"
  *        extendedMetaData="name='NodeType' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface NodeType extends CDOObject {
+public interface NodeType extends Base {
 	/**
 	 * Returns the value of the '<em><b>Functions</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.Function}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Functions reference, contains 0 or more Function types.
+	 * The Functions reference, contains 0 or more
+	 * 								Function types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Functions</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNodeType_Functions()
@@ -72,7 +79,9 @@ public interface NodeType extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Equipments reference, contains 0 or more Equipment types.
+	 * The Equipments reference, contains 0 or more
+	 * 								Equipment types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipments</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNodeType_Equipments()

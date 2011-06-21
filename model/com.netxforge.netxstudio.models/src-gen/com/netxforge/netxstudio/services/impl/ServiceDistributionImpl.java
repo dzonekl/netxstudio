@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -41,7 +42,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  *
  * @generated
  */
-public class ServiceDistributionImpl extends CDOObjectImpl implements ServiceDistribution {
+public class ServiceDistributionImpl extends BaseImpl implements ServiceDistribution {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -59,16 +60,6 @@ public class ServiceDistributionImpl extends CDOObjectImpl implements ServiceDis
 	@Override
 	protected EClass eStaticClass() {
 		return ServicesPackage.Literals.SERVICE_DISTRIBUTION;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

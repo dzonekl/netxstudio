@@ -26,11 +26,18 @@ import com.netxforge.netxstudio.library.Function;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a function relationship. (Also known as a Logical Connection).
- * The FunctionRelationship type extends the Relationship type and contains references to a first and second function.
+ * A type representing the basic information points of
+ * 				a function relationship. (Also known as a Logical Connection).
+ * 				The
+ * 				FunctionRelationship type extends the Relationship type and
+ * 				contains
+ * 				references to a first and second function.
  * 
- * Examples:
- * 1. A Relationship between two functions representing a logical connection.
+ * 				Examples:
+ * 				1. A Relationship
+ * 				between two functions representing a logical
+ * 				connection.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -51,7 +58,8 @@ public interface FunctionRelationship extends Relationship {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Function1Ref reference, references 1 function type.
+	 * The Function1Ref reference, references 1
+	 * 							function type.
 	 * 
 	 * 						
 	 * <!-- end-model-doc -->
@@ -78,7 +86,9 @@ public interface FunctionRelationship extends Relationship {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Function2Ref reference, references 1 function type.
+	 * The Function2Ref reference, references 1
+	 * 							function type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Function2 Ref</em>' reference.
 	 * @see #setFunction2Ref(Function)

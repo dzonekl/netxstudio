@@ -37,8 +37,7 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
@@ -78,7 +77,7 @@ public class MetricValuesImporter {
 	private List<ImportWarning> warnings = new ArrayList<ImportWarning>();
 
 	// object is node/function/equipment
-	private Map<Metric, Map<Object, MetricValueRange>> metricValueRanges = new HashMap<Metric, Map<Object, MetricValueRange>>();
+	private Map<Metric, Map<Component, MetricValueRange>> metricValueRanges = new HashMap<Metric, Map<Component, MetricValueRange>>();
 
 	private InputStream inputStream = null;
 
@@ -127,22 +126,14 @@ public class MetricValuesImporter {
 		jobMonitor.incrementProgress(1, true);
 
 		for (final Metric metric : metricValueRanges.keySet()) {
-			final Map<Object, MetricValueRange> valueRangesByObject = metricValueRanges
+			final Map<Component, MetricValueRange> valueRangesByObject = metricValueRanges
 					.get(metric);
-			for (final Object object : valueRangesByObject.keySet()) {
-				if (object instanceof Function) {
-					final Function function = (Function) object;
-					jobMonitor.setMsg("Storing metric values for Function " + function.getFunctionName());
-					jobMonitor.update();
-					addToNetXResource(metric, valueRangesByObject.get(object),
-							function.getFunctionResources());
-				} else if (object instanceof Equipment) {
-					final Equipment equipment = (Equipment) object;
-					jobMonitor.setMsg("Storing metric values for Equipment " + equipment.getEquipmentName());
-					jobMonitor.update();
-					addToNetXResource(metric, valueRangesByObject.get(object),
-							equipment.getEquipmentResources());
-				}
+			for (final Component component : valueRangesByObject.keySet()) {
+				jobMonitor.setMsg("Storing metric values for "
+						+ component.getName());
+				jobMonitor.update();
+				addToNetXResource(metric, valueRangesByObject.get(component),
+						component.getResources());
 			}
 		}
 	}
@@ -215,7 +206,7 @@ public class MetricValuesImporter {
 
 				for (final MappingXLSColumn xlsColumn : getMappingXLSColumn()) {
 					if (isMetric(xlsColumn)) {
-						final CDOObject networkElement = getNetworkElementLocator()
+						final Component networkElement = getNetworkElementLocator()
 								.locateNetworkElement(
 										getValueDataKind(xlsColumn)
 												.getMetricRef(),
@@ -244,12 +235,12 @@ public class MetricValuesImporter {
 	}
 
 	private void addMetricValue(MappingXLSColumn xlsColumn, Date timeStamp,
-			Object networkElement, Double dblValue, int periodHint) {
+			Component networkElement, Double dblValue, int periodHint) {
 		final ValueDataKind valueDataKind = getValueDataKind(xlsColumn);
-		Map<Object, MetricValueRange> valueRanges = metricValueRanges
+		Map<Component, MetricValueRange> valueRanges = metricValueRanges
 				.get(valueDataKind.getMetricRef());
 		if (valueRanges == null) {
-			valueRanges = new HashMap<Object, MetricValueRange>();
+			valueRanges = new HashMap<Component, MetricValueRange>();
 			metricValueRanges.put(valueDataKind.getMetricRef(), valueRanges);
 		}
 		MetricValueRange valueRange = valueRanges.get(networkElement);

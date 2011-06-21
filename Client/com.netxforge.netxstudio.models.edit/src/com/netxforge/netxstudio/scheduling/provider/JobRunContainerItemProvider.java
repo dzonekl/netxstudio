@@ -36,10 +36,10 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.JobRunContainer} object.
@@ -189,6 +189,11 @@ public class JobRunContainerItemProvider
 			(createChildParameter
 				(SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB_RUNS,
 				 SchedulingFactory.eINSTANCE.createJobRun()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(SchedulingPackage.Literals.JOB_RUN_CONTAINER__JOB_RUNS,
+				 SchedulingFactory.eINSTANCE.createRFSServiceJobRun()));
 	}
 
 	/**

@@ -44,7 +44,7 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  *
  * @generated
  */
-public class CommitLogEntryImpl extends CDOObjectImpl implements CommitLogEntry {
+public class CommitLogEntryImpl extends BaseImpl implements CommitLogEntry {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -62,16 +62,6 @@ public class CommitLogEntryImpl extends CDOObjectImpl implements CommitLogEntry 
 	@Override
 	protected EClass eStaticClass() {
 		return GenericsPackage.Literals.COMMIT_LOG_ENTRY;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

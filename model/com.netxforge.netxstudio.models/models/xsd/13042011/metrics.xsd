@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns="http://www.netxforge.com/13042011/metrics"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:library="http://www.netxforge.com/13042011/library" xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:operators="http://www.netxforge.com/13042011/operators"
-	id="metrics" targetNamespace="http://www.netxforge.com/13042011/metrics"
+	xmlns:library="http://www.netxforge.com/13042011/library" xmlns:gen="http://www.netxforge.com/13042011/generics"
+	xmlns:operators="http://www.netxforge.com/13042011/operators" id="metrics"
+	targetNamespace="http://www.netxforge.com/13042011/metrics"
 	ecore:package="com.netxforge.netxstudio.metrics">
 	<xs:import schemaLocation="generics.xsd"
 		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
@@ -19,74 +20,96 @@
 		<xs:annotation>
 			<xs:documentation>A type representing a metric in an a telecom
 				equipment. This is often also referred to as counter or KPI.
-				Metric types can be nested to form a hiarchical structure in similar
+				Metric
+				types can be nested to form a hiarchical structure in similar
 				fashion to a real KPI hiarchy.
 
-				The Metric type (and/or it's children) is first part of the Library
-				type, and then referenced from a Node type when
+				The Metric type (and/or it's children)
+				is first part of the Library
+				type, and then referenced from a Node
+				type when
 				created.
 
 				Examples:
-				1. The Metric type "SGSN Attached subscribers" reprents a KPI on a
+				1. The Metric type "SGSN Attached
+				subscribers" reprents a KPI on a
 				SGSN function.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Metrics"
-				type="Metric">
-				<xs:annotation>
-					<xs:documentation>The Metrics reference, contains 0 or more Metric
-						types.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Metrics"
+						type="Metric">
+						<xs:annotation>
+							<xs:documentation>The Metrics reference, contains 0 or more
+								Metric
+								types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
 
-		<xs:attribute name="Name" type="gen:Name255">
-			<xs:annotation>
-				<xs:documentation>The Name attribute holds the name of the metric.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="Description" type="gen:Description2000">
-			<xs:annotation>
-				<xs:documentation>The Description attribute holds the description of
-					the metric.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute ecore:reference="library:Unit" name="UnitRef" type="xs:anyURI" >
-			<xs:annotation>
-				<xs:documentation>The UnitRef reference, refers to 0 or 1 Unit type.</xs:documentation>
-		</xs:annotation></xs:attribute>
-		<xs:attribute name="MeasurementPoint" type="gen:Description2000">
-			<xs:annotation>
-				<xs:documentation>The MeasurementPoint Attribute describes textually
-					at which point in a procedure
-					the measurement takes place.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute ecore:reference="MetricSource"
-			ecore:opposite="MetricRefs" name="MetricSourceRef" type="xs:anyURI">
-			<xs:annotation>
-				<xs:documentation>The MetricSourceRef references, references a
-					MetricSource type.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="MeasurementKind" type="xs:string">
-			<xs:annotation>
-				<xs:documentation>The MeasurementKind attribute is a free form text
-					field which can hold information about which
-					category or group a Metric belongs.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="MetricCalculation" type="gen:ExpressionLine">
-			<xs:annotation>
-				<xs:documentation>The MetricCalculation references, contains 0 or 1
-					ExpressionLine type.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
+				<xs:attribute name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds the name of the metric.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Description" type="gen:Description2000">
+					<xs:annotation>
+						<xs:documentation>The Description attribute holds the description
+							of
+							the metric.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="library:Unit" name="UnitRef"
+					type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The UnitRef reference, refers to 0 or 1 Unit
+							type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="MeasurementPoint" type="gen:Description2000">
+					<xs:annotation>
+						<xs:documentation>The MeasurementPoint Attribute describes
+							textually
+							at which point in a procedure
+							the measurement takes
+							place.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute ecore:reference="MetricSource"
+					ecore:opposite="MetricRefs" name="MetricSourceRef" type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>The MetricSourceRef references, references a
+							MetricSource type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="MeasurementKind" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The MeasurementKind attribute is a free form
+							text
+							field which can hold information about which
+							category or group
+							a Metric belongs.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="MetricCalculation" type="gen:ExpressionLine">
+					<xs:annotation>
+						<xs:documentation>The MetricCalculation references, contains 0 or
+							1
+							ExpressionLine type.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<!--_______________________ -->
@@ -97,59 +120,71 @@
 		<xs:annotation>
 			<xs:documentation>A type representing the information points of a
 				source which provides metric values.
-				A source, is an external data source like an RDBMS or an Excel or CSV
-				file. The MetricSource type will contain all necessary
-				to access, and map the metric values of the source to the correct
+				A source, is an external data
+				source like an RDBMS or an Excel or CSV
+				file. The MetricSource type
+				will contain all necessary
+				to access, and map the metric values of
+				the source to the correct
 				Object. (Most commonly a Node).
 
 			</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:element ecore:reference="Metric" ecore:opposite="MetricSourceRef"
-				minOccurs="0" maxOccurs="unbounded" name="MetricRefs" type="xs:anyURI">
-				<xs:annotation>
-					<xs:documentation>The MetricRefs reference, refers to one or more
-						Metric types for which this source provides values.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="MetricMapping" type="Mapping" maxOccurs="1"
-				minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Will not be persisted in the DB, but would use a
-						.properties file for now.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Statistics" type="MappingStatistic"
-				maxOccurs="unbounded" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The Statistics reference, contains one or more
-						MappingStatistic types.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="Name" type="gen:Name255">
-			<xs:annotation>
-				<xs:documentation>The Name attribute holds the name of the
-					MetricSource as it will be presented.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="MetricLocation" type="xs:anyURI">
-			<xs:annotation>
-				<xs:documentation>a URI representation of the location additional
-					information like login/password can be appended to the URI.
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<xs:element ecore:reference="Metric" ecore:opposite="MetricSourceRef"
+						minOccurs="0" maxOccurs="unbounded" name="MetricRefs" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The MetricRefs reference, refers to one or more
+								Metric types for which this source provides values.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MetricMapping" type="Mapping"
+						maxOccurs="1" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Will not be persisted in the DB, but would use
+								a
+								.properties file for now.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Statistics" type="MappingStatistic"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The Statistics reference, contains one or more
+								MappingStatistic types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="Name" type="gen:Name255">
+					<xs:annotation>
+						<xs:documentation>The Name attribute holds the name of the
+							MetricSource as it will be presented.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="MetricLocation" type="xs:anyURI">
+					<xs:annotation>
+						<xs:documentation>a URI representation of the location additional
+							information like login/password can be appended to the URI.
 
-					Examples:
-					1. For an XLS file this could be
-					file://path_to_where_the_xls_files_are_stored/
-					2. For an RDMS this could be: jdbc:mysql://localhost:3306/DB (In this
-					case a JDBC URL to access the DB). The login/password can be
-					appended to the URI.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
+							Examples:
+							1. For an XLS file this could be
+							file://path_to_where_the_xls_files_are_stored/
+							2. For an RDMS this
+							could be: jdbc:mysql://localhost:3306/DB (In
+							this
+							case a JDBC URL
+							to access the DB). The login/password can be
+							appended to the URI.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<!--_______________________ -->
@@ -159,8 +194,13 @@
 	<xs:complexType name="Mapping">
 		<xs:annotation>
 			<xs:documentation>A type representing the basic information points
-				for a mapping specification.</xs:documentation>
+				for a mapping specification.
+			</xs:documentation>
 		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<!--_______________________ -->
@@ -172,7 +212,8 @@
 			<xs:documentation>A type representing the basic information points
 				for mapping an RDMS file to the NetXStudio model.
 
-				THIS TYPE SHOULD NOT BE CONSIDERED FOR NOW.
+				THIS TYPE SHOULD
+				NOT BE CONSIDERED FOR NOW.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -189,12 +230,16 @@
 		<xs:annotation>
 			<xs:documentation>A type representing the basic information points
 				for mapping an XLS file to the NetXStudio model.
-				The mapping interprets the sheet index, the header row, the data row(s)
-				and the types of data to be interpreted.
+				The mapping
+				interprets the sheet index, the header row, the data row(s)
+				and the
+				types of data to be interpreted.
 
-				The types, are either a value or identifier. (Each having it's own
+				The types, are either a value or
+				identifier. (Each having it's own
 				specialized type).
-				Multiple identifiers can be defined, the mapping will succeed if all
+				Multiple
+				identifiers can be defined, the mapping will succeed if all
 				identifications succeed.
 
 			</xs:documentation>
@@ -216,13 +261,15 @@
 				<xs:attribute name="HeaderRow" type="xs:int">
 					<xs:annotation>
 						<xs:documentation>The HeaderRow attribute holds the row number
-							which contains the header. </xs:documentation>
+							which contains the header.
+						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="FirstDataRow" type="xs:int">
 					<xs:annotation>
 						<xs:documentation>The FirstDataRow attribute holds the row number
-							of the first row containing data.</xs:documentation>
+							of the first row containing data.
+						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 			</xs:extension>
@@ -238,7 +285,8 @@
 			<xs:documentation>A type representing the basic information points
 				for mapping an CSV file to the NetXStudio model.
 
-				THIS TYPE SHOULD NOT BE CONSIDERED FOR NOW.
+				THIS TYPE SHOULD NOT
+				BE CONSIDERED FOR NOW.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -254,7 +302,8 @@
 	<xs:complexType name="DataKind">
 		<xs:annotation>
 			<xs:documentation>A type representing the basic information points
-				for a DataKind.</xs:documentation>
+				for a DataKind.
+			</xs:documentation>
 		</xs:annotation>
 	</xs:complexType>
 
@@ -266,14 +315,19 @@
 			<xs:documentation>A specialized type, for representing an identifier
 				in the mapping. The identifier should contain the target object and
 				the target attribute of the object.
-				The target object and target attribute are used to find the Object, in
-				which the values will be stored.
+				The target object and target
+				attribute are used to find the Object, in
+				which the values will be
+				stored.
 
 				Examples:
-				1. If the ObjectName is "Node" and the ObjectAttribute is "NodeID",
-				the value of the column in the XLS with with this
+				1. If the ObjectName is "Node" and the
+				ObjectAttribute is "NodeID",
+				the value of the column in the XLS with
+				with this
 				IdentifierDataType, will be interpreted
-				as the Node->NodeID identifier.
+				as the Node->NodeID
+				identifier.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -282,8 +336,10 @@
 					<xs:annotation>
 						<xs:documentation>The ObjectKind attributes holds the textual name
 							of the target object we are looking for.
-							Note: Most often this will be a "Node", but also a child of a "Node"
-							like an "Equipment", it can also be a "Relationship" on a "Node".
+							Note: Most often this
+							will be a "Node", but also a child of a "Node"
+							like an
+							"Equipment", it can also be a "Relationship" on a "Node".
 						</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
@@ -299,7 +355,8 @@
 					<xs:annotation>
 						<xs:documentation>The ObjectProperty attribute holds the the
 							textual name of the target attribute we are looking for.
-							Note: Most often this will be the "NodeID" but it can also be a
+							Note:
+							Most often this will be the "NodeID" but it can also be a
 							"Position" identifier or anything else.
 						</xs:documentation>
 					</xs:annotation>
@@ -315,13 +372,16 @@
 		<xs:annotation>
 			<xs:documentation>A specialized type, for representing a value in the
 				mapping. The valuekind can be either a datetime or a metric.
-				To ignore a column, provide the "null" type as the valuekind, for that
+				To
+				ignore a column, provide the "null" type as the valuekind, for that
 				for that column.
 
 				Examples:
-				1. If the valueKind is metric, the mapping will store the value as a
+				1. If the valueKind is metric, the mapping
+				will store the value as a
 				numeric value in a new Value object.
-				2. if the valueKind is datetime, the mapping will store the value as a
+				2. if
+				the valueKind is datetime, the mapping will store the value as a
 				timestamp in a new Value object
 			</xs:documentation>
 		</xs:annotation>
@@ -352,7 +412,7 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
-				<xs:attribute name="KindHint" type="KindHintType" use="optional"/>
+				<xs:attribute name="KindHint" type="KindHintType" use="optional" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -366,40 +426,48 @@
 				statistic for each time a source was accessed.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:sequence>
-			<xs:annotation>
-				<xs:documentation>The FailedRecords reference, contains 0 or more
-					MappingRecord type.
-					It holds a the number of failed records for this mapping run.
-				</xs:documentation>
-			</xs:annotation>
-			<xs:element name="FailedRecords" type="MappingRecord"
-				maxOccurs="unbounded" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The FailedRecords reference, contains 0 or more
-						MappingRecord types.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="MappingDuration" type="gen:DateTimeRange">
-				<xs:annotation>
-					<xs:documentation>The MappingDuration reference, refers to a
-						DateTimeRange type.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="TotalRecords" type="xs:int">
-			<xs:annotation>
-				<xs:documentation>The TotalRecords attribute holds a the number of
-					records for this mapping run.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="Message" type="xs:string">
-			<xs:annotation>
-				<xs:documentation>A global error or information message
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>The FailedRecords reference, contains 0 or more
+							MappingRecord type.
+							It holds a the number of failed records for
+							this
+							mapping run.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:element name="FailedRecords" type="MappingRecord"
+						maxOccurs="unbounded" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The FailedRecords reference, contains 0 or more
+								MappingRecord types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MappingDuration" type="gen:DateTimeRange">
+						<xs:annotation>
+							<xs:documentation>The MappingDuration reference, refers to a
+								DateTimeRange type.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="TotalRecords" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>The TotalRecords attribute holds a the number of
+							records for this mapping run.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Message" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>A global error or information message
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<!--_______________________ -->
@@ -409,14 +477,20 @@
 	<xs:complexType name="MappingRecord">
 		<xs:annotation>
 			<xs:documentation>A type representing the information points of a
-				mapping record</xs:documentation>
+				mapping record
+			</xs:documentation>
 		</xs:annotation>
-		<xs:attribute name="Message" type="xs:string">
-			<xs:annotation>
-				<xs:documentation>The message giving information about this record.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:attribute name="Message" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The message giving information about this
+							record.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<!--_______________________ -->
@@ -453,9 +527,11 @@
 		<xs:annotation>
 			<xs:documentation>A type representing a range of metricvalues. The
 				range has a name and provides some hints on the expected
-				stored values.
+				stored
+				values.
 
-				It is expected the metric loading or derived values will consider the
+				It is expected the metric loading or derived values will
+				consider the
 				hints, on where to store the metric.
 			</xs:documentation>
 		</xs:annotation>
@@ -464,7 +540,8 @@
 				maxOccurs="unbounded" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The MetricValue reference, contains 0 or more
-						Value types</xs:documentation>
+						Value types
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -475,29 +552,35 @@
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="KindHint" type="KindHintType"/>
+		<xs:attribute name="KindHint" type="KindHintType" />
 	</xs:complexType>
 
 	<xs:complexType name="MappingXLSColumn">
-		<xs:sequence>
-			<xs:element name="DataType" type="DataKind" minOccurs="0"
-				maxOccurs="1">
-				<xs:annotation>
-					<xs:documentation>The ColumnDataKind reference, contains 1 DataKind
-						type. The DataKind is either an Identifer or a Value.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="column" type="xs:int"/>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<xs:element name="DataType" type="DataKind" minOccurs="0"
+						maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The ColumnDataKind reference, contains 1
+								DataKind
+								type. The DataKind is either an Identifer or a Value.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="column" type="xs:int" />
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
-	
+
 	<!--_______________________ -->
 	<!-- KindHintType -->
 	<!--_______________________ -->
 	<xs:simpleType name="KindHintType">
 		<xs:annotation>
-			<xs:documentation>The KindHintType defines if a metric value is a BusyHour or AVG.
+			<xs:documentation>The KindHintType defines if a metric value is a
+				BusyHour or AVG.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
@@ -505,5 +588,5 @@
 			<xs:enumeration value="AVG" />
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 </xs:schema>

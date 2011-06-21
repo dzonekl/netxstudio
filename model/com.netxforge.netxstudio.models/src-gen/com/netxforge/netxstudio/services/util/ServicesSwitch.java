@@ -18,6 +18,8 @@
  */
 package com.netxforge.netxstudio.services.util;
 
+import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.services.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -95,12 +97,14 @@ public class ServicesSwitch<T> extends Switch<T> {
 				CFSService cfsService = (CFSService)theEObject;
 				T result = caseCFSService(cfsService);
 				if (result == null) result = caseService(cfsService);
+				if (result == null) result = caseBase(cfsService);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ServicesPackage.CIID: {
 				CIID ciid = (CIID)theEObject;
 				T result = caseCIID(ciid);
+				if (result == null) result = caseBase(ciid);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -108,48 +112,56 @@ public class ServicesSwitch<T> extends Switch<T> {
 				RFSService rfsService = (RFSService)theEObject;
 				T result = caseRFSService(rfsService);
 				if (result == null) result = caseService(rfsService);
+				if (result == null) result = caseBase(rfsService);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ServicesPackage.SERVICE: {
 				Service service = (Service)theEObject;
 				T result = caseService(service);
+				if (result == null) result = caseBase(service);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ServicesPackage.SERVICE_DISTRIBUTION: {
 				ServiceDistribution serviceDistribution = (ServiceDistribution)theEObject;
 				T result = caseServiceDistribution(serviceDistribution);
+				if (result == null) result = caseBase(serviceDistribution);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ServicesPackage.SERVICE_FORECAST: {
 				ServiceForecast serviceForecast = (ServiceForecast)theEObject;
 				T result = caseServiceForecast(serviceForecast);
+				if (result == null) result = caseBase(serviceForecast);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ServicesPackage.SERVICE_FORECAST_USERS: {
 				ServiceForecastUsers serviceForecastUsers = (ServiceForecastUsers)theEObject;
 				T result = caseServiceForecastUsers(serviceForecastUsers);
+				if (result == null) result = caseBase(serviceForecastUsers);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ServicesPackage.SERVICE_MONITOR: {
 				ServiceMonitor serviceMonitor = (ServiceMonitor)theEObject;
 				T result = caseServiceMonitor(serviceMonitor);
+				if (result == null) result = caseBase(serviceMonitor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ServicesPackage.SERVICE_PROFILE: {
 				ServiceProfile serviceProfile = (ServiceProfile)theEObject;
 				T result = caseServiceProfile(serviceProfile);
+				if (result == null) result = caseBase(serviceProfile);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ServicesPackage.SERVICE_USER: {
 				ServiceUser serviceUser = (ServiceUser)theEObject;
 				T result = caseServiceUser(serviceUser);
+				if (result == null) result = caseBase(serviceUser);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -304,6 +316,21 @@ public class ServicesSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseServiceUser(ServiceUser object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBase(Base object) {
 		return null;
 	}
 

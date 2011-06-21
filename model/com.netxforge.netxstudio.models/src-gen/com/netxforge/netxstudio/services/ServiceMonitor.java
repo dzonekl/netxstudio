@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -30,10 +31,16 @@ import com.netxforge.netxstudio.operators.ResourceMonitor;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a ServiceMonitor. A ServiceMonitoris a monitoring run for a service, which 
- * has consumed resources. The Monitor applies to a period. The monitor has a name and a revision.
+ * A type representing a ServiceMonitor. A
+ * 				ServiceMonitoris a monitoring run for a service, which
+ * 				has consumed
+ * 				resources. The Monitor applies to a period. The monitor
+ * 				has a name
+ * 				and a revision.
  * 
- * The Monitor can be seen as a window covering a period, for the service, and underlying resources.
+ * 				The Monitor can be seen as a window covering a
+ * 				period, for the service,
+ * 				and underlying resources.
  * 			
  * <!-- end-model-doc -->
  *
@@ -49,17 +56,17 @@ import com.netxforge.netxstudio.operators.ResourceMonitor;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceMonitor()
  * @model extendedMetaData="name='ServiceMonitor' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ServiceMonitor extends CDOObject {
+public interface ServiceMonitor extends Base {
 	/**
 	 * Returns the value of the '<em><b>Period</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Period reference, contains 0 or 1 DatetimeRange types.
-	 * 				
+	 * The Period reference, contains 0 or 1
+	 * 								DatetimeRange types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Period</em>' containment reference.
 	 * @see #setPeriod(DateTimeRange)
@@ -86,7 +93,9 @@ public interface ServiceMonitor extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ResourceMonitors reference, contains 0 or more ResourceForcast type.
+	 * The ResourceMonitors reference, contains 0 or
+	 * 								more ResourceForcast type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Resource Monitors</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceMonitor_ResourceMonitors()
@@ -101,7 +110,9 @@ public interface ServiceMonitor extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds the name of the ServiceMonitor.
+	 * The Name attribute holds the name of the
+	 * 							ServiceMonitor.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -127,7 +138,10 @@ public interface ServiceMonitor extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Revision attribute holds the revision of this monitor.
+	 * The Revision attribute holds the revision of
+	 * 							this
+	 * 							monitor.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Revision</em>' attribute.
 	 * @see #setRevision(String)

@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.generics.ActionType;
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -68,6 +69,13 @@ import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
  * @generated
  */
 public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass baseEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -268,8 +276,8 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		ServicesPackageImpl theServicesPackage = (ServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) instanceof ServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) : ServicesPackage.eINSTANCE);
 		LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
 		MetricsPackageImpl theMetricsPackage = (MetricsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) instanceof MetricsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) : MetricsPackage.eINSTANCE);
-		OperatorsPackageImpl theOperatorsPackage = (OperatorsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) instanceof OperatorsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) : OperatorsPackage.eINSTANCE);
 		ProtocolsPackageImpl theProtocolsPackage = (ProtocolsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) instanceof ProtocolsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) : ProtocolsPackage.eINSTANCE);
+		OperatorsPackageImpl theOperatorsPackage = (OperatorsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) instanceof OperatorsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) : OperatorsPackage.eINSTANCE);
 		GeoPackageImpl theGeoPackage = (GeoPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) instanceof GeoPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) : GeoPackage.eINSTANCE);
 		SchedulingPackageImpl theSchedulingPackage = (SchedulingPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SchedulingPackage.eNS_URI) instanceof SchedulingPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SchedulingPackage.eNS_URI) : SchedulingPackage.eINSTANCE);
 		NetxstudioPackageImpl theNetxstudioPackage = (NetxstudioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) instanceof NetxstudioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) : NetxstudioPackage.eINSTANCE);
@@ -279,8 +287,8 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		theServicesPackage.createPackageContents();
 		theLibraryPackage.createPackageContents();
 		theMetricsPackage.createPackageContents();
-		theOperatorsPackage.createPackageContents();
 		theProtocolsPackage.createPackageContents();
+		theOperatorsPackage.createPackageContents();
 		theGeoPackage.createPackageContents();
 		theSchedulingPackage.createPackageContents();
 		theNetxstudioPackage.createPackageContents();
@@ -290,8 +298,8 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		theServicesPackage.initializePackageContents();
 		theLibraryPackage.initializePackageContents();
 		theMetricsPackage.initializePackageContents();
-		theOperatorsPackage.initializePackageContents();
 		theProtocolsPackage.initializePackageContents();
+		theOperatorsPackage.initializePackageContents();
 		theGeoPackage.initializePackageContents();
 		theSchedulingPackage.initializePackageContents();
 		theNetxstudioPackage.initializePackageContents();
@@ -312,6 +320,24 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(GenericsPackage.eNS_URI, theGenericsPackage);
 		return theGenericsPackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBase() {
+		return baseEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBase_Deleted() {
+		return (EAttribute)baseEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -882,6 +908,9 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		isCreated = true;
 
 		// Create classes and their features
+		baseEClass = createEClass(BASE);
+		createEAttribute(baseEClass, BASE__DELETED);
+
 		commitLogEntryEClass = createEClass(COMMIT_LOG_ENTRY);
 		createEAttribute(commitLogEntryEClass, COMMIT_LOG_ENTRY__ACTION);
 		createEAttribute(commitLogEntryEClass, COMMIT_LOG_ENTRY__CHANGE);
@@ -988,8 +1017,19 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		commitLogEntryEClass.getESuperTypes().add(this.getBase());
+		companyEClass.getESuperTypes().add(this.getBase());
+		diagramInfoEClass.getESuperTypes().add(this.getBase());
+		lifecycleEClass.getESuperTypes().add(this.getBase());
+		metaEClass.getESuperTypes().add(this.getBase());
+		multiImageEClass.getESuperTypes().add(this.getBase());
+		personEClass.getESuperTypes().add(this.getBase());
+		roleEClass.getESuperTypes().add(this.getBase());
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(baseEClass, Base.class, "Base", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getBase_Deleted(), theXMLTypePackage.getBoolean(), "deleted", null, 0, 1, Base.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(commitLogEntryEClass, CommitLogEntry.class, "CommitLogEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCommitLogEntry_Action(), this.getActionType(), "action", null, 0, 1, CommitLogEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCommitLogEntry_Change(), this.getDescription2000(), "change", null, 0, 1, CommitLogEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1084,6 +1124,8 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		// Create annotations
 		// http:///org/eclipse/emf/ecore/util/ExtendedMetaData
 		createExtendedMetaDataAnnotations();
+		// teneo.jpa
+		createTeneoAnnotations();
 	}
 
 	/**
@@ -1106,6 +1148,20 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		   new String[] {
 			 "name", "Action_._type:Object",
 			 "baseType", "Action_._type"
+		   });			
+		addAnnotation
+		  (baseEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Base",
+			 "kind", "empty"
+		   });		
+		addAnnotation
+		  (getBase_Deleted(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Deleted"
 		   });			
 		addAnnotation
 		  (commitLogEntryEClass, 
@@ -1516,6 +1572,22 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 			 "kind", "attribute",
 			 "name", "Value"
 		   });
+	}
+
+	/**
+	 * Initializes the annotations for <b>teneo.jpa</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createTeneoAnnotations() {
+		String source = "teneo.jpa";				
+		addAnnotation
+		  (baseEClass, 
+		   source, 
+		   new String[] {
+			 "appinfo", "@Mappedsuperclass"
+		   });																																																																																																															
 	}
 
 } //GenericsPackageImpl

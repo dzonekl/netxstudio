@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -30,7 +31,8 @@ import com.netxforge.netxstudio.library.Function;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing an expansion of the network. It references either node(s) or equipment(s).
+ * A type representing an expansion of the network. It
+ * 				references either node(s) or equipment(s).
  * 			
  * <!-- end-model-doc -->
  *
@@ -45,17 +47,18 @@ import com.netxforge.netxstudio.library.Function;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceExpansion()
  * @model extendedMetaData="name='ResourceExpansion' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ResourceExpansion extends CDOObject {
+public interface ResourceExpansion extends Base {
 	/**
 	 * Returns the value of the '<em><b>Node Refs</b></em>' reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.operators.Node}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Node reference, references 1 or more Node types.
+	 * The Node reference, references 1 or more Node
+	 * 								types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Node Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceExpansion_NodeRefs()
@@ -70,7 +73,9 @@ public interface ResourceExpansion extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Equipment reference, references 1 or more Equipment types.
+	 * The Equipment reference, references 1 or more
+	 * 								Equipment types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipment Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceExpansion_EquipmentRefs()
@@ -85,7 +90,9 @@ public interface ResourceExpansion extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Function reference, references 1 or more Function types.
+	 * The Function reference, references 1 or more
+	 * 								Function types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Function Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceExpansion_FunctionRefs()

@@ -17,9 +17,25 @@
       <details key="baseType" value="Action_._type"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CommitLogEntry">
+  <eClassifiers xsi:type="ecore:EClass" name="Base">
+    <eAnnotations source="teneo.jpa">
+      <details key="appinfo" value="@Mappedsuperclass"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Base"/>
+      <details key="kind" value="empty"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deleted" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        unsettable="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="Deleted"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CommitLogEntry" eSuperTypes="#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;Represents the changes done by a user for a certain object/user.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;Represents the changes done by a user for a certain&#xA;&#x9;&#x9;&#x9;&#x9;object/user.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="CommitLogEntry"/>
@@ -37,7 +53,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="change" eType="#//Description2000">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;The type uri of the object being changed&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The type uri of the object being changed&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -46,7 +62,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectId" eType="#//Description2000">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;The id/uri of the object being changed&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The id/uri of the object being changed&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -55,7 +71,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStamp" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The TimeStamp attribute holds the time of the commit."/>
+        <details key="documentation" value="The TimeStamp attribute holds the time of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;commit.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -64,7 +80,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="user" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;The user name&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The user name&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -72,9 +88,9 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Company">
+  <eClassifiers xsi:type="ecore:EClass" name="Company" eSuperTypes="#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information points of a real company. &#xA;A Company can be a commercial vendor of equipment, a telecommunication service provider or other&#xA;institution i.e. industry cooperation bodies to promote usage of standards. It is required to organise objects&#xA;by Company.&#xA;&#xA;Examples: &#xA;1. The company type is used to organize reports like an expansion Bill of Quantity by vendor. &#xA;2. The company type is used in a UI widget to show equipments from a certain company. &#xA;3. The company type is used in a UI widget to show protocols from a certain standardisation body. &#xA;4. The company type is used in a UI widget to show RSS feed news from a certain company."/>
+      <details key="documentation" value="A type representing the basic information points of&#xA;&#x9;&#x9;&#x9;&#x9;a real company.&#xA;&#x9;&#x9;&#x9;&#x9;A Company can be a commercial vendor of equipment, a&#xA;&#x9;&#x9;&#x9;&#x9;telecommunication service provider or other&#xA;&#x9;&#x9;&#x9;&#x9;institution i.e. industry&#xA;&#x9;&#x9;&#x9;&#x9;cooperation bodies to promote usage of standards. It&#xA;&#x9;&#x9;&#x9;&#x9;is required to&#xA;&#x9;&#x9;&#x9;&#x9;organise objects&#xA;&#x9;&#x9;&#x9;&#x9;by Company.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. The company type is used to&#xA;&#x9;&#x9;&#x9;&#x9;organize reports like an expansion Bill&#xA;&#x9;&#x9;&#x9;&#x9;of Quantity by vendor.&#xA;&#x9;&#x9;&#x9;&#x9;2. The&#xA;&#x9;&#x9;&#x9;&#x9;company type is used in a UI widget to show equipments from a&#xA;&#x9;&#x9;&#x9;&#x9;certain company.&#xA;&#x9;&#x9;&#x9;&#x9;3. The company type is used in a UI widget to show&#xA;&#x9;&#x9;&#x9;&#x9;protocols from a&#xA;&#x9;&#x9;&#x9;&#x9;certain standardisation body.&#xA;&#x9;&#x9;&#x9;&#x9;4. The company type is&#xA;&#x9;&#x9;&#x9;&#x9;used in a UI widget to show RSS feed news from&#xA;&#x9;&#x9;&#x9;&#x9;a certain company.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Company"/>
@@ -83,7 +99,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="icons" eType="#//MultiImage"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Images reference, contains 0 or one MultiImage type."/>
+        <details key="documentation" value="The Images reference, contains 0 or one&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;MultiImage type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -92,7 +108,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Name attribute is a free form text.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The Name attribute is a free form text.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -101,7 +117,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rSSurl" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The RSSurl attribute should contain a URL to a so-called RSS feed. &#xA;&#xA;The RSS format is defined here: http://en.wikipedia.org/wiki/RSS&#xA;&#xA;Examples: &#xA;1. The following URL is an RSS URL: http://isoc.org/wp/ietfjournal/?feed=rss2&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The RSSurl attribute should contain a URL to a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;so-called RSS feed.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The RSS format is defined here:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;http://en.wikipedia.org/wiki/RSS&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1. The following URL is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;an RSS URL:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;http://isoc.org/wp/ietfjournal/?feed=rss2&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -110,7 +126,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="shortName" eType="#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ShortName attribute is a free form text, but should generally be kept short (3 characters).&#xA;&#xA;Examples: 1. The ShortName is used in UI widgets where space is limited.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The ShortName attribute is a free form text, but&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;should generally be kept short (3 characters).&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples: 1. The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ShortName is used in UI widgets where space is limited.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -119,7 +135,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="symbol" eType="#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The financial Symbol or ticker attribute, is according to financial market ticker definitions.&#xA;&#xA;Examples: 1. The Symbol type can be used to lookup financial information of a Company.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The financial Symbol or ticker attribute, is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;according to financial market ticker definitions.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples: 1. The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Symbol type can be used to lookup financial information&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;of a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Company.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -128,7 +144,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="website" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Website attribute should contain the main web URL of the website. It should be according to&#xA;&#xA;http://en.wikipedia.org/wiki/Uniform_Resource_Locator&#xA;&#xA;Examples: 1. http://www.ietf.org&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The Website attribute should contain the main&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;web URL of the website. It should be according to&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;http://en.wikipedia.org/wiki/Uniform_Resource_Locator&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples: 1.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;http://www.ietf.org&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -138,7 +154,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DateTimeRange">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information point for a DateTime Range or a period.&#xA;A range with a start and end timestamp."/>
+      <details key="documentation" value="A type representing the basic information point for&#xA;&#x9;&#x9;&#x9;&#x9;a DateTime Range or a period.&#xA;&#x9;&#x9;&#x9;&#x9;A range with a start and end timestamp.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DateTimeRange"/>
@@ -146,7 +162,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="begin" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Begin attribute holds the starting date time of the range."/>
+        <details key="documentation" value="The Begin attribute holds the starting date time&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;of the range.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -155,7 +171,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="end" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The End attribute holds the end date time of the range."/>
+        <details key="documentation" value="The End attribute holds the end date time of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;range.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -173,9 +189,9 @@
       <details key="maxLength" value="2000"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DiagramInfo">
+  <eClassifiers xsi:type="ecore:EClass" name="DiagramInfo" eSuperTypes="#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information point Diagram.&#xA;It consists of a location (Where the diagram is stored), and the type of diagram.&#xA;Diagrams can be attached to various objects, to visual the object relations.&#xA;&#xA;The Diagram model is expected to be a Notation model, which refers to the NetXStudio model.&#xA;"/>
+      <details key="documentation" value="A type representing the basic information point&#xA;&#x9;&#x9;&#x9;&#x9;Diagram.&#xA;&#x9;&#x9;&#x9;&#x9;It consists of a location (Where the diagram is stored), and&#xA;&#x9;&#x9;&#x9;&#x9;the type&#xA;&#x9;&#x9;&#x9;&#x9;of diagram.&#xA;&#x9;&#x9;&#x9;&#x9;Diagrams can be attached to various objects, to&#xA;&#x9;&#x9;&#x9;&#x9;visual the object relations.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;The Diagram model is expected to be a&#xA;&#x9;&#x9;&#x9;&#x9;Notation model, which refers&#xA;&#x9;&#x9;&#x9;&#x9;to the NetXStudio model.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DiagramInfo"/>
@@ -184,7 +200,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="diagramKind" eType="#//DiagramKindType"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The DiagramKind attribute holds a reference to the kind of diagram, to open the correct editor."/>
+        <details key="documentation" value="The DiagramKind attribute holds a reference to&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;kind of diagram, to open the correct editor.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -193,7 +209,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Location attribute holds a reference to the location where the diagram is stored. "/>
+        <details key="documentation" value="The Location attribute holds a reference to the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;location where the diagram is stored.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -219,7 +235,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ExpansionDuration">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing a duration indication used to determine when an expansion should be initiated&#xA;&#xA;Quick less than 6 weeks&#xA;Short less than 3 months&#xA;Medium less than 9 months&#xA;Long  less than 18 months&#xA;"/>
+      <details key="documentation" value="A type representing a duration indication used to&#xA;&#x9;&#x9;&#x9;&#x9;determine when an expansion should be initiated&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Quick less than 6&#xA;&#x9;&#x9;&#x9;&#x9;weeks Short less than 3 months Medium less than 9&#xA;&#x9;&#x9;&#x9;&#x9;months Long less&#xA;&#x9;&#x9;&#x9;&#x9;than 18 months&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ExpansionDuration"/>
@@ -237,7 +253,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ExpressionLine" instanceClassName="java.lang.String">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing an expression. &#xA;See NetXScript specification"/>
+      <details key="documentation" value="A type representing an expression.&#xA;&#x9;&#x9;&#x9;&#x9;See NetXScript&#xA;&#x9;&#x9;&#x9;&#x9;specification&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ExpressionLine"/>
@@ -245,9 +261,9 @@
       <details key="maxLength" value="1000"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Lifecycle">
+  <eClassifiers xsi:type="ecore:EClass" name="Lifecycle" eSuperTypes="#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the lifecycle."/>
+      <details key="documentation" value="A type representing the lifecycle.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Lifecycle"/>
@@ -255,7 +271,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="constructionDate" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ConstructionDate attribute holds the date and time when constructed."/>
+        <details key="documentation" value="The ConstructionDate attribute holds the date&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;time when constructed.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -264,7 +280,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="inServiceDate" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The InServiceDate attribute holds the date and time when brought into service."/>
+        <details key="documentation" value="The InServiceDate attribute holds the date and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;time when brought into service.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -273,7 +289,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="outOfServiceDate" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The OutOfServiceDate attribute holds the date and time when out of service."/>
+        <details key="documentation" value="The OutOfServiceDate attribute holds the date&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;time when out of service.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -282,7 +298,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="plannedDate" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The PlannedDate attribute holds the date and time when planned."/>
+        <details key="documentation" value="The PlannedDate attribute holds the date and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;time&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;when planned.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -291,7 +307,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="proposed" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Proposed attribute holds the date and time when proposed."/>
+        <details key="documentation" value="The Proposed attribute holds the date and time&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;when proposed.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -309,9 +325,9 @@
       <details key="maxLength" value="20000"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Meta">
+  <eClassifiers xsi:type="ecore:EClass" name="Meta" eSuperTypes="#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing meta information about this model.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing meta information about this&#xA;&#x9;&#x9;&#x9;&#x9;model.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Meta"/>
@@ -319,7 +335,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="author" eType="#//Person">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Author reference, references 1 User type."/>
+        <details key="documentation" value="The Author reference, references 1 User type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -328,7 +344,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="#//Description2000">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Description attribute holds the description of this datamodel."/>
+        <details key="documentation" value="The Description attribute holds the description&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;this datamodel.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -337,7 +353,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Version attribute holds the version of this datamodel.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The Version attribute holds the version of this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;datamodel.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -345,9 +361,9 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MultiImage">
+  <eClassifiers xsi:type="ecore:EClass" name="MultiImage" eSuperTypes="#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing an image. The image can be specified for various sizes from 16x16 upto 128x128."/>
+      <details key="documentation" value="A type representing an image. The image can be&#xA;&#x9;&#x9;&#x9;&#x9;specified for various sizes from 16x16 upto 128x128.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MultiImage"/>
@@ -355,7 +371,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="obj16" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The obj16 attribute, refers to a 16x16 URI of type png or gif."/>
+        <details key="documentation" value="The obj16 attribute, refers to a 16x16 URI of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type png or gif.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -364,7 +380,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="obj32" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The obj32 attribute, refers to a 32x32 URI of type png or gif."/>
+        <details key="documentation" value="The obj32 attribute, refers to a 32x32 URI of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type png or gif.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -373,7 +389,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="obj48" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The obj48 attribute, refers to a 48x48 URI of type png or gif."/>
+        <details key="documentation" value="The obj48 attribute, refers to a 48x48 URI of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type png or gif.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -382,7 +398,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="obj96" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The obj96 attribute, refers to a 96x96 URI of type png or gif."/>
+        <details key="documentation" value="The obj96 attribute, refers to a 96x96 URI of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type png or gif.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -391,7 +407,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="obj128" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The obj128 attribute, refers to a 128x128 URI of type png or gif."/>
+        <details key="documentation" value="The obj128 attribute, refers to a 128x128 URI&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type png or gif.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -409,9 +425,9 @@
       <details key="maxLength" value="255"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Person">
+  <eClassifiers xsi:type="ecore:EClass" name="Person" eSuperTypes="#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;A type representing the basic information points of a&#xA;&#x9;&#x9;&#x9;&#x9;User in the context of using the application. The Email&#xA;&#x9;&#x9;&#x9;&#x9;attribute is also the login identifier.&#xA;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;A type representing the basic information points of&#xA;&#x9;&#x9;&#x9;&#x9;a&#xA;&#x9;&#x9;&#x9;&#x9;User in the context of using the application. The Email&#xA;&#x9;&#x9;&#x9;&#x9;attribute is&#xA;&#x9;&#x9;&#x9;&#x9;also the login identifier.&#xA;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Person"/>
@@ -432,7 +448,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="companyRef" eType="#//Company">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;The CompanyRef reference, refers to 0 or 1 Company&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The CompanyRef reference, refers to 0 or 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Company&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -441,7 +457,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="email" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;The Email attribute hols the email address of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;user. It is according to regex:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The Email attribute hols the email address of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;user. It is according to regex:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -450,7 +466,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstName" eType="#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;The FirstName attribute holds the first name of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;person.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The FirstName attribute holds the first name of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;person.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -459,7 +475,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastName" eType="#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;The LastName attribute holds the last name of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;person.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The LastName attribute holds the last name of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;person.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -468,7 +484,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="login" eType="#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;The Login attribute holds the login ID of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;person.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The Login attribute holds the login ID of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;person.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -477,7 +493,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;The Password attribute holds the password of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;user.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The Password attribute holds the password of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;user.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -485,7 +501,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Role">
+  <eClassifiers xsi:type="ecore:EClass" name="Role" eSuperTypes="#//Base">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Role"/>
       <details key="kind" value="empty"/>
@@ -499,7 +515,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="UnitCode" instanceClassName="java.lang.String">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing a Unit as in a measurement unit. The Unit, is a three character string&#xA;which demarks the resource unit for displaying purposes. (The Unit as such is not interpreted).&#xA;Units can be freely defined (Not implied by enumeration). &#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing a Unit as in a measurement&#xA;&#x9;&#x9;&#x9;&#x9;unit. The Unit, is a three character string&#xA;&#x9;&#x9;&#x9;&#x9;which demarks the&#xA;&#x9;&#x9;&#x9;&#x9;resource unit for displaying purposes. (The Unit as&#xA;&#x9;&#x9;&#x9;&#x9;such is not&#xA;&#x9;&#x9;&#x9;&#x9;interpreted).&#xA;&#x9;&#x9;&#x9;&#x9;Units can be freely defined (Not implied by&#xA;&#x9;&#x9;&#x9;&#x9;enumeration).&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="UnitCode"/>
@@ -509,7 +525,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Value">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing a numeric value and a timestamp"/>
+      <details key="documentation" value="A type representing a numeric value and a timestamp&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Value"/>
@@ -517,7 +533,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStamp" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//DateTime">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The TimeStamp attribute holds the time date for which the value applies."/>
+        <details key="documentation" value="The TimeStamp attribute holds the time date for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;which the value applies.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -527,7 +543,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Value attribute holds the numeric value"/>
+        <details key="documentation" value="The Value attribute holds the numeric value&#xA;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>

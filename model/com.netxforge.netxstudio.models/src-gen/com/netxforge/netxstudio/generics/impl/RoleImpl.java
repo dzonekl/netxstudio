@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.generics.Role;
  *
  * @generated
  */
-public class RoleImpl extends CDOObjectImpl implements Role {
+public class RoleImpl extends BaseImpl implements Role {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -55,16 +55,6 @@ public class RoleImpl extends CDOObjectImpl implements Role {
 	@Override
 	protected EClass eStaticClass() {
 		return GenericsPackage.Literals.ROLE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

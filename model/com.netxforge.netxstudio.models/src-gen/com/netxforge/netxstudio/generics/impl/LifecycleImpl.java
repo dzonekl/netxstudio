@@ -43,7 +43,7 @@ import com.netxforge.netxstudio.generics.Lifecycle;
  *
  * @generated
  */
-public class LifecycleImpl extends CDOObjectImpl implements Lifecycle {
+public class LifecycleImpl extends BaseImpl implements Lifecycle {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -61,16 +61,6 @@ public class LifecycleImpl extends CDOObjectImpl implements Lifecycle {
 	@Override
 	protected EClass eStaticClass() {
 		return GenericsPackage.Literals.LIFECYCLE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

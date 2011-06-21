@@ -18,11 +18,13 @@
  */
 package com.netxforge.netxstudio.library.util;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.library.*;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
@@ -95,21 +97,32 @@ public class LibrarySwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case LibraryPackage.COMPONENT: {
+				Component component = (Component)theEObject;
+				T result = caseComponent(component);
+				if (result == null) result = caseBase(component);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case LibraryPackage.EQUIPMENT: {
 				Equipment equipment = (Equipment)theEObject;
 				T result = caseEquipment(equipment);
+				if (result == null) result = caseComponent(equipment);
+				if (result == null) result = caseBase(equipment);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case LibraryPackage.EQUIPMENT_GROUP: {
 				EquipmentGroup equipmentGroup = (EquipmentGroup)theEObject;
 				T result = caseEquipmentGroup(equipmentGroup);
+				if (result == null) result = caseBase(equipmentGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case LibraryPackage.EXPRESSION: {
 				Expression expression = (Expression)theEObject;
 				T result = caseExpression(expression);
+				if (result == null) result = caseBase(expression);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -122,6 +135,8 @@ public class LibrarySwitch<T> extends Switch<T> {
 			case LibraryPackage.FUNCTION: {
 				Function function = (Function)theEObject;
 				T result = caseFunction(function);
+				if (result == null) result = caseComponent(function);
+				if (result == null) result = caseBase(function);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -134,36 +149,42 @@ public class LibrarySwitch<T> extends Switch<T> {
 			case LibraryPackage.NET_XRESOURCE: {
 				NetXResource netXResource = (NetXResource)theEObject;
 				T result = caseNetXResource(netXResource);
+				if (result == null) result = caseBase(netXResource);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case LibraryPackage.NODE_TYPE: {
 				NodeType nodeType = (NodeType)theEObject;
 				T result = caseNodeType(nodeType);
+				if (result == null) result = caseBase(nodeType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case LibraryPackage.PARAMETER: {
 				Parameter parameter = (Parameter)theEObject;
 				T result = caseParameter(parameter);
+				if (result == null) result = caseBase(parameter);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case LibraryPackage.PRODUCT_INFO: {
 				ProductInfo productInfo = (ProductInfo)theEObject;
 				T result = caseProductInfo(productInfo);
+				if (result == null) result = caseBase(productInfo);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case LibraryPackage.TOLERANCE: {
 				Tolerance tolerance = (Tolerance)theEObject;
 				T result = caseTolerance(tolerance);
+				if (result == null) result = caseBase(tolerance);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case LibraryPackage.UNIT: {
 				Unit unit = (Unit)theEObject;
 				T result = caseUnit(unit);
+				if (result == null) result = caseBase(unit);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -171,11 +192,27 @@ public class LibrarySwitch<T> extends Switch<T> {
 				Vendor vendor = (Vendor)theEObject;
 				T result = caseVendor(vendor);
 				if (result == null) result = caseCompany(vendor);
+				if (result == null) result = caseBase(vendor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Component</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseComponent(Component object) {
+		return null;
 	}
 
 	/**
@@ -370,6 +407,21 @@ public class LibrarySwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseVendor(Vendor object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBase(Base object) {
 		return null;
 	}
 

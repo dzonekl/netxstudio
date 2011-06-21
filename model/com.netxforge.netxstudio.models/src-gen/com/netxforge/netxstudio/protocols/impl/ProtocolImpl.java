@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.protocols.OSIType;
 import com.netxforge.netxstudio.protocols.Procedure;
 import com.netxforge.netxstudio.protocols.Protocol;
@@ -46,7 +47,7 @@ import com.netxforge.netxstudio.protocols.ProtocolsPackage;
  *
  * @generated
  */
-public class ProtocolImpl extends CDOObjectImpl implements Protocol {
+public class ProtocolImpl extends BaseImpl implements Protocol {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -64,16 +65,6 @@ public class ProtocolImpl extends CDOObjectImpl implements Protocol {
 	@Override
 	protected EClass eStaticClass() {
 		return ProtocolsPackage.Literals.PROTOCOL;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

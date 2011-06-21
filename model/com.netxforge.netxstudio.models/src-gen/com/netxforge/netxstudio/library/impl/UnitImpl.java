@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.MultiImage;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Unit;
 
@@ -41,7 +42,7 @@ import com.netxforge.netxstudio.library.Unit;
  *
  * @generated
  */
-public class UnitImpl extends CDOObjectImpl implements Unit {
+public class UnitImpl extends BaseImpl implements Unit {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -59,16 +60,6 @@ public class UnitImpl extends CDOObjectImpl implements Unit {
 	@Override
 	protected EClass eStaticClass() {
 		return LibraryPackage.Literals.UNIT;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

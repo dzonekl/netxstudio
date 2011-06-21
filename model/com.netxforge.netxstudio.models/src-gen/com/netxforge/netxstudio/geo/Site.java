@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.geo;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -27,7 +28,9 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a real physical site. A Site is part of a country.
+ * A type representing the basic information points of
+ * 				a real physical site. A Site is part of a country.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -48,10 +51,9 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see com.netxforge.netxstudio.geo.GeoPackage#getSite()
  * @model extendedMetaData="name='Site' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Site extends CDOObject {
+public interface Site extends Base {
 	/**
 	 * Returns the value of the '<em><b>Rooms</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.geo.Room}.
@@ -59,6 +61,7 @@ public interface Site extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The Room reference, contains 0 or more rooms
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Rooms</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.geo.GeoPackage#getSite_Rooms()
@@ -73,7 +76,9 @@ public interface Site extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Area attribute holds the area name of the site
+	 * The Area attribute holds the area name of the
+	 * 							site
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Area</em>' attribute.
 	 * @see #setArea(String)
@@ -99,7 +104,10 @@ public interface Site extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The City attribute holds the city/town name of the site
+	 * The City attribute holds the city/town name of
+	 * 							the
+	 * 							site
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>City</em>' attribute.
 	 * @see #setCity(String)
@@ -125,7 +133,9 @@ public interface Site extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Housenumber attribute holds the house or building number of the site
+	 * The Housenumber attribute holds the house or
+	 * 							building number of the site
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Housenumber</em>' attribute.
 	 * @see #setHousenumber(String)
@@ -151,10 +161,12 @@ public interface Site extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Latitude attribute holds the latitude of the site geo location.
+	 * The Latitude attribute holds the latitude of the
+	 * 							site geo location.
 	 * 
-	 * See: http://en.wikipedia.org/wiki/Geographic_coordinates
-	 * 				
+	 * 							See:
+	 * 							http://en.wikipedia.org/wiki/Geographic_coordinates
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Latitude</em>' attribute.
 	 * @see #setLatitude(String)
@@ -180,10 +192,13 @@ public interface Site extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Longitude attribute holds the longitude of the site geo location.
+	 * The Longitude attribute holds the longitude of
+	 * 							the
+	 * 							site geo location.
 	 * 
-	 * See: http://en.wikipedia.org/wiki/Geographic_coordinates
-	 * 				
+	 * 							See:
+	 * 							http://en.wikipedia.org/wiki/Geographic_coordinates
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Longitude</em>' attribute.
 	 * @see #setLongitude(String)
@@ -209,7 +224,9 @@ public interface Site extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds a name used for presentation.
+	 * The Name attribute holds a name used for
+	 * 							presentation.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -235,7 +252,10 @@ public interface Site extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Postalcode attribute holds the postal code of the site
+	 * The Postalcode attribute holds the postal code
+	 * 							of
+	 * 							the site
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Postalcode</em>' attribute.
 	 * @see #setPostalcode(String)
@@ -261,7 +281,9 @@ public interface Site extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The region attribute holds the area name of the site
+	 * The region attribute holds the area name of the
+	 * 							site
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Region</em>' attribute.
 	 * @see #setRegion(String)
@@ -287,7 +309,10 @@ public interface Site extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Street attribute holds the street name of the site
+	 * The Street attribute holds the street name of
+	 * 							the
+	 * 							site
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Sreet</em>' attribute.
 	 * @see #setSreet(String)

@@ -30,8 +30,11 @@ import com.netxforge.netxstudio.services.ServiceUser;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the information points of a telecommunications Operator. It contains various aspects like the network(s)
- * , the Wharehouse(s), the services etc...			
+ * A type representing the information points of a
+ * 				telecommunications Operator. It contains various aspects like the
+ * 				network(s)
+ * 				, the Wharehouse(s), the services etc...
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -57,7 +60,9 @@ public interface Operator extends Company {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Networks reference, contains 0 or more Network type
+	 * The Networks reference, contains 0 or more
+	 * 								Network type
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Networks</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getOperator_Networks()
@@ -73,7 +78,9 @@ public interface Operator extends Company {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Wharehouses reference, contains 0 or more Wharehouse type
+	 * The Wharehouses reference, contains 0 or more
+	 * 								Wharehouse type
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Warehouses</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getOperator_Warehouses()
@@ -89,7 +96,9 @@ public interface Operator extends Company {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Services reference, contains 0 or more Service type.
+	 * The Services reference, contains 0 or more
+	 * 								Service type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Services</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getOperator_Services()
@@ -105,7 +114,9 @@ public interface Operator extends Company {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceUsers reference, contains 0 or more ServiceUser type.
+	 * The ServiceUsers reference, contains 0 or more
+	 * 								ServiceUser type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Users</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getOperator_ServiceUsers()
@@ -121,7 +132,9 @@ public interface Operator extends Company {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Services reference, contains 0 or more Service type.
+	 * The Services reference, contains 0 or more
+	 * 								Service type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Resource Expansions</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getOperator_ResourceExpansions()
@@ -137,7 +150,9 @@ public interface Operator extends Company {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ExpansionExperiences reference, contains 0 or more ExpansionExperience type.
+	 * The ExpansionExperiences reference, contains 0
+	 * 								or more ExpansionExperience type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expansion Experiences</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getOperator_ExpansionExperiences()

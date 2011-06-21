@@ -197,7 +197,7 @@ public class MappingXLSItemProvider
 	@Override
 	public String getText(Object object) {
 		MappingXLS mappingXLS = (MappingXLS)object;
-		return getString("_UI_MappingXLS_type") + " " + mappingXLS.getFirstDataRow();
+		return getString("_UI_MappingXLS_type") + " " + mappingXLS.isDeleted();
 	}
 
 	/**

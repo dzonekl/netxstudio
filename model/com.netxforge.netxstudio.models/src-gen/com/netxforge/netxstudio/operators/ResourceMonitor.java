@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -27,8 +28,11 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a resource monitoring run. The resources in the Nodes will contain the monitoring values, 
- * this object however holds the time markers which result from the monitoring.
+ * A type representing a resource monitoring run. The
+ * 				resources in the Nodes will contain the monitoring values,
+ * 				this
+ * 				object however holds the time markers which result from the
+ * 				monitoring.
  * 			
  * <!-- end-model-doc -->
  *
@@ -41,17 +45,19 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceMonitor()
  * @model extendedMetaData="name='ResourceMonitor' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ResourceMonitor extends CDOObject {
+public interface ResourceMonitor extends Base {
 	/**
 	 * Returns the value of the '<em><b>Markers</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.operators.Marker}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Markers reference, contains 0 or more Marker types.
+	 * The Markers reference, contains 0 or more
+	 * 								Marker
+	 * 								types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Markers</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceMonitor_Markers()

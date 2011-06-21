@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -27,9 +28,14 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of  a wharehouse .
- * A Warehouse can have nodes and loose pieces of equipment in storage. When a piece of equipment is taken out
- * of service (See Lifecycle) it can be stored in the wharehouse.
+ * A type representing the basic information points of
+ * 				a wharehouse .
+ * 				A Warehouse can have nodes and loose pieces of
+ * 				equipment in storage.
+ * 				When a piece of equipment is taken out
+ * 				of
+ * 				service (See Lifecycle) it can be stored in the wharehouse.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -44,17 +50,18 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getWarehouse()
  * @model extendedMetaData="name='Warehouse' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Warehouse extends CDOObject {
+public interface Warehouse extends Base {
 	/**
 	 * Returns the value of the '<em><b>Nodes</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.operators.Node}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Nodes reference, contains 0 or more Node types.
+	 * The Nodes reference, contains 0 or more Node
+	 * 								types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Nodes</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getWarehouse_Nodes()
@@ -70,7 +77,9 @@ public interface Warehouse extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Equipments reference, contains 0 or more Equipment types.
+	 * The Equipments reference, contains 0 or more
+	 * 								Equipment types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipments</em>' attribute list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getWarehouse_Equipments()
@@ -85,7 +94,9 @@ public interface Warehouse extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Description attribute holds the description of the network.
+	 * The Description attribute holds the description
+	 * 							of the network.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
@@ -112,7 +123,9 @@ public interface Warehouse extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds the name of the network.
+	 * The Name attribute holds the name of the
+	 * 							network.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #isSetName()

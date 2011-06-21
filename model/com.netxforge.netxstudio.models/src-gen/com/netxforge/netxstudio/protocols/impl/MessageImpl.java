@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.protocols.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
@@ -37,7 +38,7 @@ import com.netxforge.netxstudio.protocols.ProtocolsPackage;
  *
  * @generated
  */
-public class MessageImpl extends CDOObjectImpl implements Message {
+public class MessageImpl extends BaseImpl implements Message {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -55,16 +56,6 @@ public class MessageImpl extends CDOObjectImpl implements Message {
 	@Override
 	protected EClass eStaticClass() {
 		return ProtocolsPackage.Literals.MESSAGE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.generics.util;
 
+import com.netxforge.netxstudio.generics.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -123,6 +124,8 @@ public class GenericsValidator extends EObjectValidator {
 	@Override
 	protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		switch (classifierID) {
+			case GenericsPackage.BASE:
+				return validateBase((Base)value, diagnostics, context);
 			case GenericsPackage.COMMIT_LOG_ENTRY:
 				return validateCommitLogEntry((CommitLogEntry)value, diagnostics, context);
 			case GenericsPackage.COMPANY:
@@ -168,6 +171,15 @@ public class GenericsValidator extends EObjectValidator {
 			default:
 				return true;
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateBase(Base base, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint((EObject)base, diagnostics, context);
 	}
 
 	/**

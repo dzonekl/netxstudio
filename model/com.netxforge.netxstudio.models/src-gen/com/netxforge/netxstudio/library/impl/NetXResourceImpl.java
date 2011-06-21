@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Unit;
@@ -54,7 +55,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  *
  * @generated
  */
-public class NetXResourceImpl extends CDOObjectImpl implements NetXResource {
+public class NetXResourceImpl extends BaseImpl implements NetXResource {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -72,16 +73,6 @@ public class NetXResourceImpl extends CDOObjectImpl implements NetXResource {
 	@Override
 	protected EClass eStaticClass() {
 		return LibraryPackage.Literals.NET_XRESOURCE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

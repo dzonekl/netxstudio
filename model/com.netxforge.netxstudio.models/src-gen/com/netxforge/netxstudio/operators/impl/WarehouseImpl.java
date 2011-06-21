@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
@@ -42,7 +43,7 @@ import com.netxforge.netxstudio.operators.Warehouse;
  *
  * @generated
  */
-public class WarehouseImpl extends CDOObjectImpl implements Warehouse {
+public class WarehouseImpl extends BaseImpl implements Warehouse {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -60,16 +61,6 @@ public class WarehouseImpl extends CDOObjectImpl implements Warehouse {
 	@Override
 	protected EClass eStaticClass() {
 		return OperatorsPackage.Literals.WAREHOUSE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

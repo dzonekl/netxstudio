@@ -26,12 +26,18 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information point Diagram.
- * It consists of a location (Where the diagram is stored), and the type of diagram.
- * Diagrams can be attached to various objects, to visual the object relations.
+ * A type representing the basic information point
+ * 				Diagram.
+ * 				It consists of a location (Where the diagram is stored), and
+ * 				the type
+ * 				of diagram.
+ * 				Diagrams can be attached to various objects, to
+ * 				visual the object relations.
  * 
- * The Diagram model is expected to be a Notation model, which refers to the NetXStudio model.
- * 
+ * 				The Diagram model is expected to be a
+ * 				Notation model, which refers
+ * 				to the NetXStudio model.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -44,17 +50,19 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getDiagramInfo()
  * @model extendedMetaData="name='DiagramInfo' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface DiagramInfo extends CDOObject {
+public interface DiagramInfo extends Base {
 	/**
 	 * Returns the value of the '<em><b>Diagram Kind</b></em>' attribute.
 	 * The literals are from the enumeration {@link com.netxforge.netxstudio.generics.DiagramKindType}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The DiagramKind attribute holds a reference to the kind of diagram, to open the correct editor.
+	 * The DiagramKind attribute holds a reference to
+	 * 							the
+	 * 							kind of diagram, to open the correct editor.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Diagram Kind</em>' attribute.
 	 * @see com.netxforge.netxstudio.generics.DiagramKindType
@@ -109,7 +117,9 @@ public interface DiagramInfo extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Location attribute holds a reference to the location where the diagram is stored. 
+	 * The Location attribute holds a reference to the
+	 * 							location where the diagram is stored.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Location</em>' attribute.
 	 * @see #setLocation(String)

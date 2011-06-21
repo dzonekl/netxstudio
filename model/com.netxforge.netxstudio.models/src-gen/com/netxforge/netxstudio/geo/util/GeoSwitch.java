@@ -18,6 +18,8 @@
  */
 package com.netxforge.netxstudio.geo.util;
 
+import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.geo.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -87,18 +89,21 @@ public class GeoSwitch<T> extends Switch<T> {
 			case GeoPackage.COUNTRY: {
 				Country country = (Country)theEObject;
 				T result = caseCountry(country);
+				if (result == null) result = caseBase(country);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case GeoPackage.ROOM: {
 				Room room = (Room)theEObject;
 				T result = caseRoom(room);
+				if (result == null) result = caseBase(room);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case GeoPackage.SITE: {
 				Site site = (Site)theEObject;
 				T result = caseSite(site);
+				if (result == null) result = caseBase(site);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -148,6 +153,21 @@ public class GeoSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSite(Site object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBase(Base object) {
 		return null;
 	}
 

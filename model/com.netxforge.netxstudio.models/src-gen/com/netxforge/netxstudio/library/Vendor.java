@@ -29,6 +29,7 @@ import com.netxforge.netxstudio.generics.Company;
  *
  * <!-- begin-model-doc -->
  * A type representing a network equipments vendor.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -49,7 +50,9 @@ public interface Vendor extends Company {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Products reference, contains 0 or more ProductInfo types.
+	 * The Products reference, contains 0 or more
+	 * 								ProductInfo types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Products</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getVendor_Products()

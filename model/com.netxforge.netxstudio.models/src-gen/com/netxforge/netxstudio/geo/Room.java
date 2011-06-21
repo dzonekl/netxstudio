@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.geo;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 /**
@@ -26,7 +27,9 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a real physical room. A room is part of a Site.
+ * A type representing the basic information points of
+ * 				a real physical room. A room is part of a Site.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -39,16 +42,17 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.geo.GeoPackage#getRoom()
  * @model extendedMetaData="name='Room' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface Room extends CDOObject {
+public interface Room extends Base {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds a name used for presentation.
+	 * The Name attribute holds a name used for
+	 * 							presentation.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -75,6 +79,7 @@ public interface Room extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * THIS ATTRIBUTE SHOULD NOT BE CONSIDERED FOR NOW.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Shape</em>' attribute.
 	 * @see #setShape(String)

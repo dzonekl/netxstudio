@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.generics.impl;
 
+import com.netxforge.netxstudio.generics.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -87,6 +88,7 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case GenericsPackage.BASE: return (EObject)createBase();
 			case GenericsPackage.COMMIT_LOG_ENTRY: return (EObject)createCommitLogEntry();
 			case GenericsPackage.COMPANY: return (EObject)createCompany();
 			case GenericsPackage.DATE_TIME_RANGE: return (EObject)createDateTimeRange();
@@ -170,6 +172,16 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Base createBase() {
+		BaseImpl base = new BaseImpl();
+		return base;
 	}
 
 	/**

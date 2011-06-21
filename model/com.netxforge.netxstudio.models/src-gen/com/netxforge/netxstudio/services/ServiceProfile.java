@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -29,9 +30,12 @@ import com.netxforge.netxstudio.library.NetXResource;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the profile of a service. The Service profile can be generic for the service or location specific. 
- * The profile contains service parameters which drive the utilization of resources on elements tight to this
- * service.
+ * A type representing the profile of a service. The
+ * 				Service profile can be generic for the service or location specific.
+ * 				The profile contains service parameters which drive the utilization
+ * 				of resources on elements tight to this
+ * 				service.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -44,17 +48,18 @@ import com.netxforge.netxstudio.library.NetXResource;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceProfile()
  * @model extendedMetaData="name='ServiceProfile' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ServiceProfile extends CDOObject {
+public interface ServiceProfile extends Base {
 	/**
 	 * Returns the value of the '<em><b>Profile Resources</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.NetXResource}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ProfileResource reference, contains 0 or more Resource types.
+	 * The ProfileResource reference, contains 0 or
+	 * 								more Resource types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Profile Resources</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceProfile_ProfileResources()
@@ -69,7 +74,9 @@ public interface ServiceProfile extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The  Name attribute holds the name of the ServiceProfile.
+	 * The Name attribute holds the name of the
+	 * 							ServiceProfile.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)

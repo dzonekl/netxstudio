@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
@@ -33,7 +34,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  *
  * @generated
  */
-public class MappingImpl extends CDOObjectImpl implements Mapping {
+public class MappingImpl extends BaseImpl implements Mapping {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -51,16 +52,6 @@ public class MappingImpl extends CDOObjectImpl implements Mapping {
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.MAPPING;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 } //MappingImpl

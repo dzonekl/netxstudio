@@ -26,13 +26,16 @@ import com.netxforge.netxstudio.library.Equipment;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of an equipment relationship. (Also known as a Physical Connection).
- * The EquipmentRelationship type extends the Relationship type and contains references to a first and second equipment.
+ * A type representing the basic information points of
+ * 				an equipment relationship. (Also known as a Physical Connection).
+ * 				The EquipmentRelationship type extends the Relationship type and
+ * 				contains references to a first and second equipment.
  * 
- * Examples:
- * 1. A Relationship between two Equipment representing a connection. 
+ * 				Examples:
+ * 				1. A
+ * 				Relationship between two Equipment representing a connection.
  * 
- * 
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -53,8 +56,9 @@ public interface EquipmentRelationship extends Relationship {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Equipment1Ref reference, references 1 Equipment type.
-	 * 
+	 * The Equipment1Ref reference, references 1
+	 * 							Equipment type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipment1 Ref</em>' reference.
 	 * @see #setEquipment1Ref(Equipment)
@@ -79,7 +83,9 @@ public interface EquipmentRelationship extends Relationship {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Equipment2Ref reference, references 1 Equipment type.
+	 * The Equipment2Ref reference, references 1
+	 * 							Equipment type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipment2 Ref</em>' reference.
 	 * @see #setEquipment2Ref(Equipment)

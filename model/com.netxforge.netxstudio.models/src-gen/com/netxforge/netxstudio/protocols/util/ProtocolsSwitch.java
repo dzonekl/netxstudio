@@ -18,6 +18,8 @@
  */
 package com.netxforge.netxstudio.protocols.util;
 
+import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.protocols.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -87,18 +89,21 @@ public class ProtocolsSwitch<T> extends Switch<T> {
 			case ProtocolsPackage.MESSAGE: {
 				Message message = (Message)theEObject;
 				T result = caseMessage(message);
+				if (result == null) result = caseBase(message);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ProtocolsPackage.PROCEDURE: {
 				Procedure procedure = (Procedure)theEObject;
 				T result = caseProcedure(procedure);
+				if (result == null) result = caseBase(procedure);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ProtocolsPackage.PROTOCOL: {
 				Protocol protocol = (Protocol)theEObject;
 				T result = caseProtocol(protocol);
+				if (result == null) result = caseBase(protocol);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -148,6 +153,21 @@ public class ProtocolsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseProtocol(Protocol object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBase(Base object) {
 		return null;
 	}
 

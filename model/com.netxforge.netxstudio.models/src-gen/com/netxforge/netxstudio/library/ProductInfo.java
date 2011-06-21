@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library;
 
+import com.netxforge.netxstudio.generics.Base;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
@@ -29,10 +30,14 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a Product as perceived by a manufacturer.
+ * A type representing the basic information points of
+ * 				a Product as perceived by a manufacturer.
  * 
- * Examples: 1. The product code for Equipment board UAB is 12CXSUY, the Sales Code is another code used in a
- * pricelist.
+ * 				Examples: 1. The product
+ * 				code for Equipment board UAB is 12CXSUY, the Sales
+ * 				Code is another
+ * 				code used in a
+ * 				pricelist.
  * 			
  * <!-- end-model-doc -->
  *
@@ -53,17 +58,19 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getProductInfo()
  * @model extendedMetaData="name='ProductInfo' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ProductInfo extends CDOObject {
+public interface ProductInfo extends Base {
 	/**
 	 * Returns the value of the '<em><b>Equipment Ref</b></em>' reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.Equipment}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The EquipmentRef reference, references 0 or more Equipment types.
+	 * The EquipmentRef reference, references 0 or
+	 * 								more
+	 * 								Equipment types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipment Ref</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getProductInfo_EquipmentRef()
@@ -78,7 +85,9 @@ public interface ProductInfo extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The LicensedFunctionRef reference, references 0 or more Function types.
+	 * The LicensedFunctionRef reference, references 0
+	 * 								or more Function types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Licensed Function Ref</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getProductInfo_LicensedFunctionRef()
@@ -93,7 +102,9 @@ public interface ProductInfo extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The LicensedFunctionRef reference, references 0 or more Function types.
+	 * The LicensedFunctionRef reference, references 0
+	 * 								or more Function types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Node Type Ref</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getProductInfo_NodeTypeRef()
@@ -107,8 +118,9 @@ public interface ProductInfo extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The AvailableDate attribute holds the date and time when the node is available (for sale).
-	 * 				
+	 * The AvailableDate attribute holds the date and
+	 * 							time when the node is available (for sale).
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Available Date</em>' attribute.
 	 * @see #setAvailableDate(XMLGregorianCalendar)
@@ -134,8 +146,9 @@ public interface ProductInfo extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The EndOfSaleDate attribute holds the date and time when the node is not for sale anymore.
-	 * 				
+	 * The EndOfSaleDate attribute holds the date and
+	 * 							time when the node is not for sale anymore.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>End Of Sales Date</em>' attribute.
 	 * @see #setEndOfSalesDate(XMLGregorianCalendar)
@@ -161,9 +174,12 @@ public interface ProductInfo extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The EndOfSupportDate attribute holds the date and time when the node is not supported by the
-	 * manufacturer anymore.
-	 * 				
+	 * The EndOfSupportDate attribute holds the date
+	 * 							and
+	 * 							time when the node is not supported by the
+	 * 							manufacturer
+	 * 							anymore.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>End Of Support Date</em>' attribute.
 	 * @see #setEndOfSupportDate(XMLGregorianCalendar)
@@ -189,8 +205,9 @@ public interface ProductInfo extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ProductCode attribute holds the product code as defined by the manufacturer.
-	 * 				
+	 * The ProductCode attribute holds the product code
+	 * 							as defined by the manufacturer.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Product Code</em>' attribute.
 	 * @see #setProductCode(String)
@@ -216,8 +233,9 @@ public interface ProductInfo extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The SalesCode attribute holds the sales code as defined by the manufacturer.
-	 * 				
+	 * The SalesCode attribute holds the sales code as
+	 * 							defined by the manufacturer.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Sales Code</em>' attribute.
 	 * @see #setSalesCode(String)
@@ -243,8 +261,10 @@ public interface ProductInfo extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The UnderDevelopmentDate attribute holds the date and time when the node is developed.
-	 * 				
+	 * The UnderDevelopmentDate attribute holds the
+	 * 							date
+	 * 							and time when the node is developed.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Under Development Date</em>' attribute.
 	 * @see #setUnderDevelopmentDate(XMLGregorianCalendar)

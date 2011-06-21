@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -31,13 +32,20 @@ import com.netxforge.netxstudio.library.NodeType;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a real telecommunications Node. This is also often referred
- * to as a Network Element.  A Node type is a real instance of a vendor equipment with functions. 
+ * A type representing the basic information points of
+ * 				a real telecommunications Node. This is also often referred
+ * 				to as a
+ * 				Network Element. A Node type is a real instance of a vendor
+ * 				equipment with functions.
  * 
- * A Node, has a unique ID, it has a lifecycle. It is also placed in a Room.
+ * 				A Node, has a unique ID, it has a
+ * 				lifecycle. It is also placed in a
+ * 				Room.
  * 
- * Examples: 
- * 1. The AMSSGSN, is the ID of the Amsterdam SGSN Node.
+ * 				Examples:
+ * 				1. The AMSSGSN, is
+ * 				the ID of the Amsterdam SGSN Node.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -56,16 +64,17 @@ import com.netxforge.netxstudio.library.NodeType;
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='\n\t\t\t\tValidNodeID\n\t\t\t'"
  *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL ValidNodeID='\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t'"
  *        extendedMetaData="name='Node' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Node extends CDOObject {
+public interface Node extends Base {
 	/**
 	 * Returns the value of the '<em><b>Lifecycle</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Lifecycle reference, contains 0 or 1 Lifecycle types.
+	 * The Lifecycle reference, contains 0 or 1
+	 * 								Lifecycle types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Lifecycle</em>' containment reference.
 	 * @see #setLifecycle(Lifecycle)
@@ -91,7 +100,9 @@ public interface Node extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The NodeType reference, contains 0 or more NodeType types.
+	 * The NodeType reference, contains 0 or more
+	 * 								NodeType types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Node Type</em>' containment reference.
 	 * @see #setNodeType(NodeType)
@@ -117,7 +128,9 @@ public interface Node extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The CreatedByRef references, refers to the User type.
+	 * The CreatedByRef references, refers to the User
+	 * 							type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Created By Ref</em>' reference.
 	 * @see #setCreatedByRef(Person)
@@ -142,12 +155,16 @@ public interface Node extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The NodeID attribute holds a unique identifier for the node. 
-	 * It is according to guidelines for so-called Configuration Items (CI). 
+	 * The NodeID attribute holds a unique identifier
+	 * 							for
+	 * 							the node.
+	 * 							It is according to guidelines for so-called
+	 * 							Configuration
+	 * 							Items (CI).
 	 * 
-	 * Example:
-	 * [Location][Nodetype_abbreviation][Sequencenumber]
-	 * 				
+	 * 							Example:
+	 * 							[Location][Nodetype_abbreviation][Sequencenumber]
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Node ID</em>' attribute.
 	 * @see #setNodeID(String)
@@ -173,7 +190,9 @@ public interface Node extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The OriginalNodeTypeRef reference, refers to the original NodeType type from the library.
+	 * The OriginalNodeTypeRef reference, refers to the
+	 * 							original NodeType type from the library.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Original Node Type Ref</em>' reference.
 	 * @see #setOriginalNodeTypeRef(NodeType)
@@ -199,6 +218,7 @@ public interface Node extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The RoomRef reference, refers to a Room type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Room Ref</em>' reference.
 	 * @see #setRoomRef(Room)

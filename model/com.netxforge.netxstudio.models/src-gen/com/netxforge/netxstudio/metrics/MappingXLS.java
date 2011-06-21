@@ -28,12 +28,16 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-model-doc -->
  * A type representing the basic information points
  * 				for mapping an XLS file to the NetXStudio model.
- * 				The mapping interprets the sheet index, the header row, the data row(s)
- * 				and the types of data to be interpreted.
+ * 				The mapping
+ * 				interprets the sheet index, the header row, the data row(s)
+ * 				and the
+ * 				types of data to be interpreted.
  * 
- * 				The types, are either a value or identifier. (Each having it's own
+ * 				The types, are either a value or
+ * 				identifier. (Each having it's own
  * 				specialized type).
- * 				Multiple identifiers can be defined, the mapping will succeed if all
+ * 				Multiple
+ * 				identifiers can be defined, the mapping will succeed if all
  * 				identifications succeed.
  * 
  * 			
@@ -78,6 +82,7 @@ public interface MappingXLS extends Mapping {
 	 * <!-- begin-model-doc -->
 	 * The FirstDataRow attribute holds the row number
 	 * 							of the first row containing data.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>First Data Row</em>' attribute.
 	 * @see #isSetFirstDataRow()
@@ -131,7 +136,8 @@ public interface MappingXLS extends Mapping {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The HeaderRow attribute holds the row number
-	 * 							which contains the header. 
+	 * 							which contains the header.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Header Row</em>' attribute.
 	 * @see #isSetHeaderRow()

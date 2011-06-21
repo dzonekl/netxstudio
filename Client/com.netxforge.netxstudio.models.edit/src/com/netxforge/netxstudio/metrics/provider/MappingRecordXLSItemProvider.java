@@ -141,10 +141,8 @@ public class MappingRecordXLSItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((MappingRecordXLS)object).getMessage();
-		return label == null || label.length() == 0 ?
-			getString("_UI_MappingRecordXLS_type") :
-			getString("_UI_MappingRecordXLS_type") + " " + label;
+		MappingRecordXLS mappingRecordXLS = (MappingRecordXLS)object;
+		return getString("_UI_MappingRecordXLS_type") + " " + mappingRecordXLS.isDeleted();
 	}
 
 	/**

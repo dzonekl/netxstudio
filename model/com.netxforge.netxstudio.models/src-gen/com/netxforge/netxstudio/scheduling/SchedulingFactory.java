@@ -83,6 +83,15 @@ public interface SchedulingFactory extends EFactory {
 	RFSServiceJob createRFSServiceJob();
 
 	/**
+	 * Returns a new object of class '<em>RFS Service Job Run</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>RFS Service Job Run</em>'.
+	 * @generated
+	 */
+	RFSServiceJobRun createRFSServiceJobRun();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

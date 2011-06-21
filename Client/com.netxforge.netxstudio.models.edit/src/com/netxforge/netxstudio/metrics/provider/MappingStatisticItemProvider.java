@@ -34,14 +34,14 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
+import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.metrics.MappingStatistic} object.
@@ -50,7 +50,7 @@ import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
  * @generated
  */
 public class MappingStatisticItemProvider
-	extends ItemProviderAdapter
+	extends BaseItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -178,10 +178,8 @@ public class MappingStatisticItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((MappingStatistic)object).getMessage();
-		return label == null || label.length() == 0 ?
-			getString("_UI_MappingStatistic_type") :
-			getString("_UI_MappingStatistic_type") + " " + label;
+		MappingStatistic mappingStatistic = (MappingStatistic)object;
+		return getString("_UI_MappingStatistic_type") + " " + mappingStatistic.isDeleted();
 	}
 
 	/**

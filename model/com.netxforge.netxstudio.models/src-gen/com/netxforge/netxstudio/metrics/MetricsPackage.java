@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics;
 
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -57,9 +58,11 @@ import org.eclipse.emf.ecore.EReference;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
  * 		
  * 
  * 
@@ -81,9 +84,11 @@ import org.eclipse.emf.ecore.EReference;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
  * 		
  * 
  * 		
@@ -195,13 +200,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING = 2;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The number of structural features of the '<em>Mapping</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_FEATURE_COUNT = 0;
+	int MAPPING_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingCSVImpl <em>Mapping CSV</em>}' class.
@@ -212,6 +226,15 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	int MAPPING_CSV = 3;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_CSV__DELETED = MAPPING__DELETED;
 
 	/**
 	 * The number of structural features of the '<em>Mapping CSV</em>' class.
@@ -233,6 +256,15 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_RDBMS = 4;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RDBMS__DELETED = MAPPING__DELETED;
+
+	/**
 	 * The number of structural features of the '<em>Mapping RDBMS</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -252,13 +284,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_RECORD = 5;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RECORD__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Message</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RECORD__MESSAGE = 0;
+	int MAPPING_RECORD__MESSAGE = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Mapping Record</em>' class.
@@ -267,7 +308,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RECORD_FEATURE_COUNT = 1;
+	int MAPPING_RECORD_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRecordXLSImpl <em>Mapping Record XLS</em>}' class.
@@ -278,6 +319,15 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	int MAPPING_RECORD_XLS = 6;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RECORD_XLS__DELETED = MAPPING_RECORD__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Message</b></em>' attribute.
@@ -326,13 +376,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_STATISTIC = 7;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_STATISTIC__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Failed Records</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_STATISTIC__FAILED_RECORDS = 0;
+	int MAPPING_STATISTIC__FAILED_RECORDS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Mapping Duration</b></em>' containment reference.
@@ -341,7 +400,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_STATISTIC__MAPPING_DURATION = 1;
+	int MAPPING_STATISTIC__MAPPING_DURATION = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Message</b></em>' attribute.
@@ -350,7 +409,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_STATISTIC__MESSAGE = 2;
+	int MAPPING_STATISTIC__MESSAGE = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Total Records</b></em>' attribute.
@@ -359,7 +418,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_STATISTIC__TOTAL_RECORDS = 3;
+	int MAPPING_STATISTIC__TOTAL_RECORDS = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Mapping Statistic</em>' class.
@@ -368,7 +427,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_STATISTIC_FEATURE_COUNT = 4;
+	int MAPPING_STATISTIC_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl <em>Mapping XLS</em>}' class.
@@ -379,6 +438,15 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	int MAPPING_XLS = 8;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_XLS__DELETED = MAPPING__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Mapping Columns</b></em>' containment reference list.
@@ -436,13 +504,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_XLS_COLUMN = 9;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_XLS_COLUMN__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Data Type</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS_COLUMN__DATA_TYPE = 0;
+	int MAPPING_XLS_COLUMN__DATA_TYPE = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Column</b></em>' attribute.
@@ -451,7 +528,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS_COLUMN__COLUMN = 1;
+	int MAPPING_XLS_COLUMN__COLUMN = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Mapping XLS Column</em>' class.
@@ -460,7 +537,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS_COLUMN_FEATURE_COUNT = 2;
+	int MAPPING_XLS_COLUMN_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricImpl <em>Metric</em>}' class.
@@ -473,13 +550,22 @@ public interface MetricsPackage extends EPackage {
 	int METRIC = 10;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Metrics</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__METRICS = 0;
+	int METRIC__METRICS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -488,7 +574,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__DESCRIPTION = 1;
+	int METRIC__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Measurement Kind</b></em>' attribute.
@@ -497,7 +583,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__MEASUREMENT_KIND = 2;
+	int METRIC__MEASUREMENT_KIND = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Measurement Point</b></em>' attribute.
@@ -506,7 +592,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__MEASUREMENT_POINT = 3;
+	int METRIC__MEASUREMENT_POINT = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Metric Calculation</b></em>' attribute.
@@ -515,7 +601,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__METRIC_CALCULATION = 4;
+	int METRIC__METRIC_CALCULATION = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Metric Source Ref</b></em>' reference.
@@ -524,7 +610,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__METRIC_SOURCE_REF = 5;
+	int METRIC__METRIC_SOURCE_REF = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -533,7 +619,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__NAME = 6;
+	int METRIC__NAME = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Unit Ref</b></em>' reference.
@@ -542,7 +628,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__UNIT_REF = 7;
+	int METRIC__UNIT_REF = GenericsPackage.BASE_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Metric</em>' class.
@@ -551,7 +637,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_FEATURE_COUNT = 8;
+	int METRIC_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl <em>Metric Source</em>}' class.
@@ -564,13 +650,22 @@ public interface MetricsPackage extends EPackage {
 	int METRIC_SOURCE = 11;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_SOURCE__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Metric Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__METRIC_REFS = 0;
+	int METRIC_SOURCE__METRIC_REFS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Metric Mapping</b></em>' containment reference.
@@ -579,7 +674,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__METRIC_MAPPING = 1;
+	int METRIC_SOURCE__METRIC_MAPPING = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Statistics</b></em>' containment reference list.
@@ -588,7 +683,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__STATISTICS = 2;
+	int METRIC_SOURCE__STATISTICS = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Metric Location</b></em>' attribute.
@@ -597,7 +692,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__METRIC_LOCATION = 3;
+	int METRIC_SOURCE__METRIC_LOCATION = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -606,7 +701,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__NAME = 4;
+	int METRIC_SOURCE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Metric Source</em>' class.
@@ -615,7 +710,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE_FEATURE_COUNT = 5;
+	int METRIC_SOURCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl <em>Metric Value Range</em>}' class.

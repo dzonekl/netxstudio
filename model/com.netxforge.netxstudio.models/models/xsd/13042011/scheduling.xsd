@@ -92,6 +92,25 @@
 		<xs:attribute name="ProgressMessage" type="xs:string"></xs:attribute>
 		<xs:attribute name="Log" type="gen:LongText"></xs:attribute>		
 	</xs:complexType>
+		
+	<!--_____________________________ -->
+	<!--| RFSServiceJobRun | -->
+	<!--|___________________________| -->
+	<xs:complexType name="RFSServiceJobRun">
+		<xs:annotation>
+			<xs:documentation>A job run result with RFSService specific data.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="JobRun">
+				<xs:sequence>
+					<xs:element name="ComponentRefs" type="xs:anyURI" ecore:reference="library:Component" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Reference to the component for which the computation failed.</xs:documentation>
+						</xs:annotation></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
 	<!--_____________________________ -->
 	<!--| JOBSTATE 					| -->

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -46,10 +47,9 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingStatistic()
  * @model extendedMetaData="name='MappingStatistic' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface MappingStatistic extends CDOObject {
+public interface MappingStatistic extends Base {
 	/**
 	 * Returns the value of the '<em><b>Failed Records</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.MappingRecord}.
@@ -57,7 +57,8 @@ public interface MappingStatistic extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The FailedRecords reference, contains 0 or more
-	 * 						MappingRecord types.
+	 * 								MappingRecord types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Failed Records</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingStatistic_FailedRecords()
@@ -73,7 +74,8 @@ public interface MappingStatistic extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The MappingDuration reference, refers to a
-	 * 						DateTimeRange type.
+	 * 								DateTimeRange type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Mapping Duration</em>' containment reference.
 	 * @see #setMappingDuration(DateTimeRange)
@@ -100,7 +102,7 @@ public interface MappingStatistic extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * A global error or information message
-	 * 				
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Message</em>' attribute.
 	 * @see #setMessage(String)
@@ -127,8 +129,8 @@ public interface MappingStatistic extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The TotalRecords attribute holds a the number of
-	 * 					records for this mapping run.
-	 * 				
+	 * 							records for this mapping run.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Total Records</em>' attribute.
 	 * @see #isSetTotalRecords()

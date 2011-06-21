@@ -28,8 +28,10 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information point for a DateTime Range or a period.
- * A range with a start and end timestamp.
+ * A type representing the basic information point for
+ * 				a DateTime Range or a period.
+ * 				A range with a start and end timestamp.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -51,7 +53,9 @@ public interface DateTimeRange extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Begin attribute holds the starting date time of the range.
+	 * The Begin attribute holds the starting date time
+	 * 					of the range.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Begin</em>' attribute.
 	 * @see #setBegin(XMLGregorianCalendar)
@@ -77,7 +81,9 @@ public interface DateTimeRange extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The End attribute holds the end date time of the range.
+	 * The End attribute holds the end date time of the
+	 * 					range.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>End</em>' attribute.
 	 * @see #setEnd(XMLGregorianCalendar)

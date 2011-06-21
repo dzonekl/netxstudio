@@ -178,7 +178,7 @@ public class ImportMetricValuesActions implements NetxForgeService {
 	private MetricSource createTestMetricSource(String name)
 			throws CommitException {
 		final Resource resource = dataService.getProvider().getResource(
-				MetricsPackage.eINSTANCE.getMetricSource().getClassifierID());
+				MetricsPackage.eINSTANCE.getMetricSource());
 
 		// create the Metricsource
 		final MetricSource metricSource = MetricsFactory.eINSTANCE
@@ -226,7 +226,7 @@ public class ImportMetricValuesActions implements NetxForgeService {
 						OperatorsPackage.eINSTANCE.getNode_NodeID().getName()));
 		mappingXLS.getMappingColumns().add(
 				createIdentifierColumn(3, 10, ObjectKindType.FUNCTION,
-						LibraryPackage.eINSTANCE.getFunction_FunctionName()
+						LibraryPackage.eINSTANCE.getComponent_Name()
 								.getName()));
 	}
 
@@ -260,7 +260,7 @@ public class ImportMetricValuesActions implements NetxForgeService {
 
 	private Metric getMetric(MetricSource metricSource, String name) {
 		final Resource resource = dataService.getProvider().getResource(
-				MetricsPackage.eINSTANCE.getMetric().getClassifierID());
+				MetricsPackage.eINSTANCE.getMetric());
 		for (final EObject eObject : resource.getContents()) {
 			if (eObject instanceof Metric) {
 				final Metric metric = (Metric) eObject;
@@ -282,7 +282,7 @@ public class ImportMetricValuesActions implements NetxForgeService {
 
 	private Unit getUnit(String unitCode) {
 		final Resource resource = dataService.getProvider().getResource(
-				LibraryPackage.eINSTANCE.getUnit().getClassifierID());
+				LibraryPackage.eINSTANCE.getUnit());
 		for (final EObject eObject : resource.getContents()) {
 			if (eObject instanceof Unit) {
 				final Unit unit = (Unit) eObject;
@@ -312,8 +312,8 @@ public class ImportMetricValuesActions implements NetxForgeService {
 		final NodeType nodeType = LibraryFactory.eINSTANCE.createNodeType();
 		final Function function = LibraryFactory.eINSTANCE.createFunction();
 		function.setDescription("RTSGSN3");
-		function.setFunctionName("RTSGSN3");
-		function.getFunctionMetricRefs().addAll(metricSource.getMetricRefs());
+		function.setName("RTSGSN3");
+		function.getMetricRefs().addAll(metricSource.getMetricRefs());
 		nodeType.getFunctions().add(function);
 
 		final Node node = OperatorsFactory.eINSTANCE.createNode();

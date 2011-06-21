@@ -46,7 +46,7 @@ import com.netxforge.netxstudio.generics.Role;
  *
  * @generated
  */
-public class PersonImpl extends CDOObjectImpl implements Person {
+public class PersonImpl extends BaseImpl implements Person {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -64,16 +64,6 @@ public class PersonImpl extends CDOObjectImpl implements Person {
 	@Override
 	protected EClass eStaticClass() {
 		return GenericsPackage.Literals.PERSON;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

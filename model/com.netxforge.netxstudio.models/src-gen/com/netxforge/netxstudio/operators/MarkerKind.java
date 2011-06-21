@@ -30,8 +30,9 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
- * A type representing the kinds of possible markers which could apply on a resource value
- * 
+ * A type representing the kinds of possible markers
+ * 				which could apply on a resource value
+ * 			
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarkerKind()
  * @model extendedMetaData="name='MarkerKind'"

@@ -200,8 +200,8 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		GenericsPackageImpl theGenericsPackage = (GenericsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI) instanceof GenericsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI) : GenericsPackage.eINSTANCE);
 		LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
 		MetricsPackageImpl theMetricsPackage = (MetricsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) instanceof MetricsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) : MetricsPackage.eINSTANCE);
-		OperatorsPackageImpl theOperatorsPackage = (OperatorsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) instanceof OperatorsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) : OperatorsPackage.eINSTANCE);
 		ProtocolsPackageImpl theProtocolsPackage = (ProtocolsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) instanceof ProtocolsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) : ProtocolsPackage.eINSTANCE);
+		OperatorsPackageImpl theOperatorsPackage = (OperatorsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) instanceof OperatorsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) : OperatorsPackage.eINSTANCE);
 		GeoPackageImpl theGeoPackage = (GeoPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) instanceof GeoPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) : GeoPackage.eINSTANCE);
 		SchedulingPackageImpl theSchedulingPackage = (SchedulingPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SchedulingPackage.eNS_URI) instanceof SchedulingPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SchedulingPackage.eNS_URI) : SchedulingPackage.eINSTANCE);
 		NetxstudioPackageImpl theNetxstudioPackage = (NetxstudioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) instanceof NetxstudioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) : NetxstudioPackage.eINSTANCE);
@@ -211,8 +211,8 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		theGenericsPackage.createPackageContents();
 		theLibraryPackage.createPackageContents();
 		theMetricsPackage.createPackageContents();
-		theOperatorsPackage.createPackageContents();
 		theProtocolsPackage.createPackageContents();
+		theOperatorsPackage.createPackageContents();
 		theGeoPackage.createPackageContents();
 		theSchedulingPackage.createPackageContents();
 		theNetxstudioPackage.createPackageContents();
@@ -222,8 +222,8 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		theGenericsPackage.initializePackageContents();
 		theLibraryPackage.initializePackageContents();
 		theMetricsPackage.initializePackageContents();
-		theOperatorsPackage.initializePackageContents();
 		theProtocolsPackage.initializePackageContents();
+		theOperatorsPackage.initializePackageContents();
 		theGeoPackage.initializePackageContents();
 		theSchedulingPackage.initializePackageContents();
 		theNetxstudioPackage.initializePackageContents();
@@ -785,7 +785,15 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 
 		// Add supertypes to classes
 		cfsServiceEClass.getESuperTypes().add(this.getService());
+		ciidEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		rfsServiceEClass.getESuperTypes().add(this.getService());
+		serviceEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		serviceDistributionEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		serviceForecastEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		serviceForecastUsersEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		serviceMonitorEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		serviceProfileEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		serviceUserEClass.getESuperTypes().add(theGenericsPackage.getBase());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(cfsServiceEClass, CFSService.class, "CFSService", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

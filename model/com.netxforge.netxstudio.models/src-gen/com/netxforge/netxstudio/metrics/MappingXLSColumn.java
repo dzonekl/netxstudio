@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.metrics;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 /**
@@ -35,18 +36,18 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingXLSColumn()
  * @model extendedMetaData="name='MappingXLSColumn' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface MappingXLSColumn extends CDOObject {
+public interface MappingXLSColumn extends Base {
 	/**
 	 * Returns the value of the '<em><b>Data Type</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ColumnDataKind reference, contains 1 DataKind
-	 * 						type. The DataKind is either an Identifer or a Value.
-	 * 					
+	 * The ColumnDataKind reference, contains 1
+	 * 								DataKind
+	 * 								type. The DataKind is either an Identifer or a Value.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Data Type</em>' containment reference.
 	 * @see #setDataType(DataKind)

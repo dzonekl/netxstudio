@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
@@ -41,7 +42,7 @@ import com.netxforge.netxstudio.library.Parameter;
  *
  * @generated
  */
-public class ParameterImpl extends CDOObjectImpl implements Parameter {
+public class ParameterImpl extends BaseImpl implements Parameter {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -59,16 +60,6 @@ public class ParameterImpl extends CDOObjectImpl implements Parameter {
 	@Override
 	protected EClass eStaticClass() {
 		return LibraryPackage.Literals.PARAMETER;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

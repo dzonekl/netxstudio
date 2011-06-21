@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.impl;
 
+import com.netxforge.netxstudio.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;

@@ -34,10 +34,9 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getRole()
  * @model extendedMetaData="name='Role' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface Role extends CDOObject {
+public interface Role extends Base {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

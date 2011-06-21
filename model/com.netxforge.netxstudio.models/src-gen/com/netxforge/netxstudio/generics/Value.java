@@ -29,6 +29,7 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * <!-- begin-model-doc -->
  * A type representing a numeric value and a timestamp
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -50,7 +51,9 @@ public interface Value extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The TimeStamp attribute holds the time date for which the value applies.
+	 * The TimeStamp attribute holds the time date for
+	 * 					which the value applies.
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Time Stamp</em>' attribute.
 	 * @see #setTimeStamp(XMLGregorianCalendar)
@@ -77,6 +80,7 @@ public interface Value extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The Value attribute holds the numeric value
+	 * 				
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #isSetValue()

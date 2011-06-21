@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
@@ -45,7 +46,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  *
  * @generated
  */
-public class MarkerImpl extends CDOObjectImpl implements Marker {
+public class MarkerImpl extends BaseImpl implements Marker {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -63,16 +64,6 @@ public class MarkerImpl extends CDOObjectImpl implements Marker {
 	@Override
 	protected EClass eStaticClass() {
 		return OperatorsPackage.Literals.MARKER;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

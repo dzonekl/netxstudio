@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -27,7 +28,9 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a service. A Service has a name, a Description, a Category and other information.
+ * A type representing a service. A Service has a
+ * 				name, a Description, a Category and other information.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -48,10 +51,9 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getService()
  * @model extendedMetaData="name='Service' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Service extends CDOObject {
+public interface Service extends Base {
 	/**
 	 * Returns the value of the '<em><b>CIID</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.services.CIID}.
@@ -59,11 +61,13 @@ public interface Service extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 						The CIID reference, contains 0 or more CI-ID
-	 * 						type. This is to map capacity management with
-	 * 						other processes in the Service Assurance domain.
-	 * 						(Incident, Problem and Change management).
-	 * 					
+	 * 								The CIID reference, contains 0 or more CI-ID
+	 * 								type. This is to map capacity management with
+	 * 								other processes in
+	 * 								the Service Assurance domain.
+	 * 								(Incident, Problem and Change
+	 * 								management).
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>CIID</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getService_CIID()
@@ -80,9 +84,9 @@ public interface Service extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 						The Services reference, contains 0 or more
-	 * 						Service types.
-	 * 					
+	 * 								The Services reference, contains 0 or more
+	 * 								Service types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Services</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getService_Services()
@@ -99,9 +103,9 @@ public interface Service extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 						The ServiceForecasts reference, contains 0 or
-	 * 						more ServiceForecast types.
-	 * 					
+	 * 								The ServiceForecasts reference, contains 0 or
+	 * 								more ServiceForecast types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Forecasts</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getService_ServiceForecasts()
@@ -118,9 +122,10 @@ public interface Service extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 						The ServiceMonitors reference, contains 0 or
-	 * 						more ServiceMonitor types.
-	 * 					
+	 * 								The ServiceMonitors reference, contains 0 or
+	 * 								more
+	 * 								ServiceMonitor types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Monitors</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getService_ServiceMonitors()
@@ -137,9 +142,9 @@ public interface Service extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 						The ServiceUserRefs reference, references 0 or
-	 * 						more ServiceUserRef types.
-	 * 					
+	 * 								The ServiceUserRefs reference, references 0 or
+	 * 								more ServiceUserRef types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service User Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getService_ServiceUserRefs()
@@ -153,7 +158,10 @@ public interface Service extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceDistrubution reference, contains 0 or 1 ServiceDistribution type
+	 * The ServiceDistrubution reference, contains 0
+	 * 								or
+	 * 								1 ServiceDistribution type
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Distribution</em>' containment reference.
 	 * @see #setServiceDistribution(ServiceDistribution)
@@ -179,15 +187,21 @@ public interface Service extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * CI Group / OM Service Group (Service Category) The Service Category is used for a logical cluster of
-	 * the service
+	 * CI Group / OM Service Group (Service Category)
+	 * 							The
+	 * 							Service Category is used for a logical cluster of
+	 * 							the service
 	 * 
-	 * Examples: 
-	 * 1. Voice/Telephony (peer to peer) 
-	 * 2. Voice and Video conferencing (multi peer) 
-	 * 3. Content delivery Data delivery Messaging 
-	 * 4. Customer Self Administration
-	 * 5. Customer Care Administration
+	 * 							Examples:
+	 * 							1. Voice/Telephony (peer to peer)
+	 * 							2. Voice and Video
+	 * 							conferencing (multi peer)
+	 * 							3. Content delivery Data delivery
+	 * 							Messaging
+	 * 							4. Customer Self Administration
+	 * 							5. Customer Care
+	 * 							Administration
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Category</em>' attribute.
 	 * @see #setServiceCategory(String)
@@ -214,8 +228,9 @@ public interface Service extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Offered classes of provided service: Gold/Silver/Bronze This is implicite the business priority
-	 * 				
+	 * Offered classes of provided service:
+	 * 							Gold/Silver/Bronze This is implicite the business priority
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Class</em>' attribute.
 	 * @see com.netxforge.netxstudio.services.ServiceClassType
@@ -270,8 +285,9 @@ public interface Service extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceDescription attribute, holds the Description of the service.
-	 *         			
+	 * The ServiceDescription attribute, holds the
+	 * 							Description of the service.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Description</em>' attribute.
 	 * @see #setServiceDescription(String)
@@ -297,8 +313,9 @@ public interface Service extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceName attribute, holds the name of the service.
-	 * 				
+	 * The ServiceName attribute, holds the name of the
+	 * 							service.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Name</em>' attribute.
 	 * @see #setServiceName(String)

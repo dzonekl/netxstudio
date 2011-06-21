@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.protocols;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -29,13 +30,17 @@ import com.netxforge.netxstudio.generics.Company;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a protocol. A communications protocol is a formal description of digital message formats 
- * and the rules for exchanging those messages.
+ * A type representing the basic information points of
+ * 				a protocol. A communications protocol is a formal description of
+ * 				digital message formats
+ * 				and the rules for exchanging those messages.
  * 
  * 
- * Examples: 
+ * 				Examples:
  * 
- * 1. The ISUP protocol is defined and referred to by a Function ISDN User part. 
+ * 				1. The ISUP protocol is defined and referred to by a
+ * 				Function ISDN
+ * 				User part.
  * 			
  * <!-- end-model-doc -->
  *
@@ -53,17 +58,18 @@ import com.netxforge.netxstudio.generics.Company;
  *
  * @see com.netxforge.netxstudio.protocols.ProtocolsPackage#getProtocol()
  * @model extendedMetaData="name='Protocol' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Protocol extends CDOObject {
+public interface Protocol extends Base {
 	/**
 	 * Returns the value of the '<em><b>Procedures</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.protocols.Procedure}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Procedures reference, contains 0 or more Procedure types.
+	 * The Procedures reference, contains 0 or more
+	 * 								Procedure types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Procedures</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.protocols.ProtocolsPackage#getProtocol_Procedures()
@@ -78,7 +84,10 @@ public interface Protocol extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The BodyRef reference, refers to a Company type. In this case we refer to standardisation bodies responsible for maintaining the protocol.
+	 * The BodyRef reference, refers to a Company type.
+	 * 							In this case we refer to standardisation bodies responsible for
+	 * 							maintaining the protocol.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Body Ref</em>' reference.
 	 * @see #setBodyRef(Company)
@@ -103,7 +112,9 @@ public interface Protocol extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Description attribute holds the description of the equipment
+	 * The Description attribute holds the description
+	 * 							of the equipment
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
@@ -129,7 +140,9 @@ public interface Protocol extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds a name used for presentation.
+	 * The Name attribute holds a name used for
+	 * 							presentation.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -156,8 +169,9 @@ public interface Protocol extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The OSI attribute refers to the OSI layer in which the protocol operates.
-	 * 				
+	 * The OSI attribute refers to the OSI layer in
+	 * 							which the protocol operates.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>OSI</em>' attribute.
 	 * @see com.netxforge.netxstudio.protocols.OSIType
@@ -212,10 +226,13 @@ public interface Protocol extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Specification attribute holds a reference to a specification code. 
+	 * The Specification attribute holds a reference to
+	 * 							a specification code.
 	 * 
-	 * Example:
-	 * The specification could be: RFC 1234 or Q.711				
+	 * 							Example:
+	 * 							The specification could be: RFC 1234
+	 * 							or Q.711
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Specification</em>' attribute.
 	 * @see #setSpecification(String)

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
@@ -38,7 +39,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  *
  * @generated
  */
-public class CIIDImpl extends CDOObjectImpl implements CIID {
+public class CIIDImpl extends BaseImpl implements CIID {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -56,16 +57,6 @@ public class CIIDImpl extends CDOObjectImpl implements CIID {
 	@Override
 	protected EClass eStaticClass() {
 		return ServicesPackage.Literals.CIID;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

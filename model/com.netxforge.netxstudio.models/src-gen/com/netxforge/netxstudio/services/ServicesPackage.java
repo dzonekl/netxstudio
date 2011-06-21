@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services;
 
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -59,9 +60,11 @@ import org.eclipse.emf.ecore.EReference;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
  * 		
  * 
  * 
@@ -83,9 +86,11 @@ import org.eclipse.emf.ecore.EReference;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
  * 		
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.services.ServicesFactory
@@ -137,13 +142,22 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE = 3;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>CIID</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__CIID = 0;
+	int SERVICE__CIID = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Services</b></em>' containment reference list.
@@ -152,7 +166,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICES = 1;
+	int SERVICE__SERVICES = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Service Forecasts</b></em>' containment reference list.
@@ -161,7 +175,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_FORECASTS = 2;
+	int SERVICE__SERVICE_FORECASTS = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Service Monitors</b></em>' containment reference list.
@@ -170,7 +184,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_MONITORS = 3;
+	int SERVICE__SERVICE_MONITORS = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Service User Refs</b></em>' reference list.
@@ -179,7 +193,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_USER_REFS = 4;
+	int SERVICE__SERVICE_USER_REFS = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Service Distribution</b></em>' containment reference.
@@ -188,7 +202,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_DISTRIBUTION = 5;
+	int SERVICE__SERVICE_DISTRIBUTION = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Service Category</b></em>' attribute.
@@ -197,7 +211,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_CATEGORY = 6;
+	int SERVICE__SERVICE_CATEGORY = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Service Class</b></em>' attribute.
@@ -206,7 +220,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_CLASS = 7;
+	int SERVICE__SERVICE_CLASS = GenericsPackage.BASE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Service Description</b></em>' attribute.
@@ -215,7 +229,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_DESCRIPTION = 8;
+	int SERVICE__SERVICE_DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Service Name</b></em>' attribute.
@@ -224,7 +238,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_NAME = 9;
+	int SERVICE__SERVICE_NAME = GenericsPackage.BASE_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>Service</em>' class.
@@ -233,7 +247,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FEATURE_COUNT = 10;
+	int SERVICE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 10;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.CFSServiceImpl <em>CFS Service</em>}' class.
@@ -244,6 +258,15 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 */
 	int CFS_SERVICE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CFS_SERVICE__DELETED = SERVICE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>CIID</b></em>' containment reference list.
@@ -373,13 +396,22 @@ public interface ServicesPackage extends EPackage {
 	int CIID = 1;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CIID__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Common CIID</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CIID__COMMON_CIID = 0;
+	int CIID__COMMON_CIID = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Local CIID</b></em>' attribute.
@@ -388,7 +420,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CIID__LOCAL_CIID = 1;
+	int CIID__LOCAL_CIID = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>CIID</em>' class.
@@ -397,7 +429,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CIID_FEATURE_COUNT = 2;
+	int CIID_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.RFSServiceImpl <em>RFS Service</em>}' class.
@@ -408,6 +440,15 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 */
 	int RFS_SERVICE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE__DELETED = SERVICE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>CIID</b></em>' containment reference list.
@@ -546,13 +587,22 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_DISTRIBUTION = 4;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_DISTRIBUTION__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Service Resources</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_DISTRIBUTION__SERVICE_RESOURCES = 0;
+	int SERVICE_DISTRIBUTION__SERVICE_RESOURCES = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Expression Refs</b></em>' reference list.
@@ -561,7 +611,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_DISTRIBUTION__EXPRESSION_REFS = 1;
+	int SERVICE_DISTRIBUTION__EXPRESSION_REFS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Service Distribution</em>' class.
@@ -570,7 +620,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_DISTRIBUTION_FEATURE_COUNT = 2;
+	int SERVICE_DISTRIBUTION_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.ServiceForecastImpl <em>Service Forecast</em>}' class.
@@ -583,13 +633,22 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_FORECAST = 5;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_FORECAST__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Period</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FORECAST__PERIOD = 0;
+	int SERVICE_FORECAST__PERIOD = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Service Forecast Users</b></em>' containment reference list.
@@ -598,7 +657,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FORECAST__SERVICE_FORECAST_USERS = 1;
+	int SERVICE_FORECAST__SERVICE_FORECAST_USERS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Resource Forecasts</b></em>' containment reference list.
@@ -607,7 +666,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FORECAST__RESOURCE_FORECASTS = 2;
+	int SERVICE_FORECAST__RESOURCE_FORECASTS = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -616,7 +675,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FORECAST__NAME = 3;
+	int SERVICE_FORECAST__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Revision</b></em>' attribute.
@@ -625,7 +684,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FORECAST__REVISION = 4;
+	int SERVICE_FORECAST__REVISION = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Service Forecast</em>' class.
@@ -634,7 +693,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FORECAST_FEATURE_COUNT = 5;
+	int SERVICE_FORECAST_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.ServiceForecastUsersImpl <em>Service Forecast Users</em>}' class.
@@ -647,13 +706,22 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_FORECAST_USERS = 6;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_FORECAST_USERS__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>User Values</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FORECAST_USERS__USER_VALUES = 0;
+	int SERVICE_FORECAST_USERS__USER_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Service User Ref</b></em>' reference.
@@ -662,7 +730,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FORECAST_USERS__SERVICE_USER_REF = 1;
+	int SERVICE_FORECAST_USERS__SERVICE_USER_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Service Forecast Users</em>' class.
@@ -671,7 +739,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FORECAST_USERS_FEATURE_COUNT = 2;
+	int SERVICE_FORECAST_USERS_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.ServiceMonitorImpl <em>Service Monitor</em>}' class.
@@ -684,13 +752,22 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_MONITOR = 7;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_MONITOR__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Period</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_MONITOR__PERIOD = 0;
+	int SERVICE_MONITOR__PERIOD = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Resource Monitors</b></em>' containment reference list.
@@ -699,7 +776,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_MONITOR__RESOURCE_MONITORS = 1;
+	int SERVICE_MONITOR__RESOURCE_MONITORS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -708,7 +785,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_MONITOR__NAME = 2;
+	int SERVICE_MONITOR__NAME = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Revision</b></em>' attribute.
@@ -717,7 +794,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_MONITOR__REVISION = 3;
+	int SERVICE_MONITOR__REVISION = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Service Monitor</em>' class.
@@ -726,7 +803,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_MONITOR_FEATURE_COUNT = 4;
+	int SERVICE_MONITOR_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.ServiceProfileImpl <em>Service Profile</em>}' class.
@@ -739,13 +816,22 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_PROFILE = 8;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Profile Resources</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_PROFILE__PROFILE_RESOURCES = 0;
+	int SERVICE_PROFILE__PROFILE_RESOURCES = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -754,7 +840,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_PROFILE__NAME = 1;
+	int SERVICE_PROFILE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Service Profile</em>' class.
@@ -763,7 +849,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_PROFILE_FEATURE_COUNT = 2;
+	int SERVICE_PROFILE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl <em>Service User</em>}' class.
@@ -776,13 +862,22 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_USER = 9;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_USER__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Service Profile</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER__SERVICE_PROFILE = 0;
+	int SERVICE_USER__SERVICE_PROFILE = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Expression Refs</b></em>' reference list.
@@ -791,7 +886,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER__EXPRESSION_REFS = 1;
+	int SERVICE_USER__EXPRESSION_REFS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -800,7 +895,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER__NAME = 2;
+	int SERVICE_USER__NAME = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Service User</em>' class.
@@ -809,7 +904,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER_FEATURE_COUNT = 3;
+	int SERVICE_USER_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.ServiceClassType <em>Service Class Type</em>}' enum.

@@ -53,7 +53,9 @@ public interface RFSService extends Service {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Nodes reference, references 0 or more Node types
+	 * The Nodes reference, references 0 or more Node
+	 * 								types
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Nodes</em>' reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getRFSService_Nodes()
@@ -68,7 +70,9 @@ public interface RFSService extends Service {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ToleranceRefs reference, refers to 0 or more Tolerance types.
+	 * The ToleranceRefs reference, refers to 0 or
+	 * 								more Tolerance types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Tolerance Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getRFSService_ToleranceRefs()
@@ -82,7 +86,9 @@ public interface RFSService extends Service {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The functionalCategory attribute holds the category of the service.
+	 * The functionalCategory attribute holds the
+	 * 							category of the service.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Functional Category</em>' attribute.
 	 * @see #setFunctionalCategory(String)

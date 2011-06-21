@@ -28,6 +28,7 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- begin-model-doc -->
  * A type representing the basic information points
  * 				for a DataKind.
+ * 			
  * <!-- end-model-doc -->
  *
  *

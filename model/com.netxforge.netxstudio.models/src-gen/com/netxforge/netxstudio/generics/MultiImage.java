@@ -26,7 +26,9 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing an image. The image can be specified for various sizes from 16x16 upto 128x128.
+ * A type representing an image. The image can be
+ * 				specified for various sizes from 16x16 upto 128x128.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -42,16 +44,17 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getMultiImage()
  * @model extendedMetaData="name='MultiImage' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface MultiImage extends CDOObject {
+public interface MultiImage extends Base {
 	/**
 	 * Returns the value of the '<em><b>Obj16</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The obj16 attribute, refers to a 16x16 URI of type png or gif.
+	 * The obj16 attribute, refers to a 16x16 URI of
+	 * 								type png or gif.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Obj16</em>' attribute.
 	 * @see #setObj16(String)
@@ -77,7 +80,9 @@ public interface MultiImage extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The obj32 attribute, refers to a 32x32 URI of type png or gif.
+	 * The obj32 attribute, refers to a 32x32 URI of
+	 * 								type png or gif.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Obj32</em>' attribute.
 	 * @see #setObj32(String)
@@ -103,7 +108,9 @@ public interface MultiImage extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The obj48 attribute, refers to a 48x48 URI of type png or gif.
+	 * The obj48 attribute, refers to a 48x48 URI of
+	 * 								type png or gif.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Obj48</em>' attribute.
 	 * @see #setObj48(String)
@@ -129,7 +136,9 @@ public interface MultiImage extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The obj96 attribute, refers to a 96x96 URI of type png or gif.
+	 * The obj96 attribute, refers to a 96x96 URI of
+	 * 								type png or gif.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Obj96</em>' attribute.
 	 * @see #setObj96(String)
@@ -155,7 +164,10 @@ public interface MultiImage extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The obj128 attribute, refers to a 128x128 URI of type png or gif.
+	 * The obj128 attribute, refers to a 128x128 URI
+	 * 								of
+	 * 								type png or gif.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Obj128</em>' attribute.
 	 * @see #setObj128(String)

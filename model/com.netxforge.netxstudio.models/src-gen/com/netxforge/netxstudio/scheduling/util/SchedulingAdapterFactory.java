@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.util;
 
+import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -107,6 +108,10 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 				return createRFSServiceJobAdapter();
 			}
 			@Override
+			public Adapter caseRFSServiceJobRun(RFSServiceJobRun object) {
+				return createRFSServiceJobRunAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -193,6 +198,20 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRFSServiceJobAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun <em>RFS Service Job Run</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.RFSServiceJobRun
+	 * @generated
+	 */
+	public Adapter createRFSServiceJobRunAdapter() {
 		return null;
 	}
 

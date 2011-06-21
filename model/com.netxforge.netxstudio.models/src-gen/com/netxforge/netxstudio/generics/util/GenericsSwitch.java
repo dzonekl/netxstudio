@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.generics.util;
 
+import com.netxforge.netxstudio.generics.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -91,15 +92,23 @@ public class GenericsSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case GenericsPackage.BASE: {
+				Base base = (Base)theEObject;
+				T result = caseBase(base);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case GenericsPackage.COMMIT_LOG_ENTRY: {
 				CommitLogEntry commitLogEntry = (CommitLogEntry)theEObject;
 				T result = caseCommitLogEntry(commitLogEntry);
+				if (result == null) result = caseBase(commitLogEntry);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case GenericsPackage.COMPANY: {
 				Company company = (Company)theEObject;
 				T result = caseCompany(company);
+				if (result == null) result = caseBase(company);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -112,36 +121,42 @@ public class GenericsSwitch<T> extends Switch<T> {
 			case GenericsPackage.DIAGRAM_INFO: {
 				DiagramInfo diagramInfo = (DiagramInfo)theEObject;
 				T result = caseDiagramInfo(diagramInfo);
+				if (result == null) result = caseBase(diagramInfo);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case GenericsPackage.LIFECYCLE: {
 				Lifecycle lifecycle = (Lifecycle)theEObject;
 				T result = caseLifecycle(lifecycle);
+				if (result == null) result = caseBase(lifecycle);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case GenericsPackage.META: {
 				Meta meta = (Meta)theEObject;
 				T result = caseMeta(meta);
+				if (result == null) result = caseBase(meta);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case GenericsPackage.MULTI_IMAGE: {
 				MultiImage multiImage = (MultiImage)theEObject;
 				T result = caseMultiImage(multiImage);
+				if (result == null) result = caseBase(multiImage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case GenericsPackage.PERSON: {
 				Person person = (Person)theEObject;
 				T result = casePerson(person);
+				if (result == null) result = caseBase(person);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case GenericsPackage.ROLE: {
 				Role role = (Role)theEObject;
 				T result = caseRole(role);
+				if (result == null) result = caseBase(role);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -153,6 +168,21 @@ public class GenericsSwitch<T> extends Switch<T> {
 			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBase(Base object) {
+		return null;
 	}
 
 	/**

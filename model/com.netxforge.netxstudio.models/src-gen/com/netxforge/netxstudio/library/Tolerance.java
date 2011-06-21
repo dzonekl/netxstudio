@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 /**
@@ -26,9 +27,13 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a tolerance. This is also known as a threshold. 
- * A tolerance has a name, an expression to determine if the tolerance is applicable and a an Action.
- * 
+ * A type representing the basic information points of
+ * 				a tolerance. This is also known as a threshold.
+ * 				A tolerance has a
+ * 				name, an expression to determine if the tolerance
+ * 				is applicable and a
+ * 				an Action.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -42,17 +47,17 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getTolerance()
  * @model extendedMetaData="name='Tolerance' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface Tolerance extends CDOObject {
+public interface Tolerance extends Base {
 	/**
 	 * Returns the value of the '<em><b>Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ExpressionRef reference, used to compute the tolerance.
-	 * 				
+	 * The ExpressionRef reference, used to compute the
+	 * 							tolerance.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expression Ref</em>' reference.
 	 * @see #setExpressionRef(Expression)
@@ -78,7 +83,9 @@ public interface Tolerance extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Level attribute holds the level of this tolerance.
+	 * The Level attribute holds the level of this
+	 * 							tolerance.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Level</em>' attribute.
 	 * @see com.netxforge.netxstudio.library.LevelType
@@ -133,7 +140,9 @@ public interface Tolerance extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds a name used for presentation.
+	 * The Name attribute holds a name used for
+	 * 							presentation.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)

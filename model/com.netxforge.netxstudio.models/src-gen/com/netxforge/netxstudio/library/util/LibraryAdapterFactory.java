@@ -18,12 +18,14 @@
  */
 package com.netxforge.netxstudio.library.util;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.library.*;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
@@ -96,6 +98,10 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 	protected LibrarySwitch<Adapter> modelSwitch =
 		new LibrarySwitch<Adapter>() {
 			@Override
+			public Adapter caseComponent(Component object) {
+				return createComponentAdapter();
+			}
+			@Override
 			public Adapter caseEquipment(Equipment object) {
 				return createEquipmentAdapter();
 			}
@@ -148,6 +154,10 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 				return createVendorAdapter();
 			}
 			@Override
+			public Adapter caseBase(Base object) {
+				return createBaseAdapter();
+			}
+			@Override
 			public Adapter caseCompany(Company object) {
 				return createCompanyAdapter();
 			}
@@ -170,6 +180,20 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.library.Component <em>Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.library.Component
+	 * @generated
+	 */
+	public Adapter createComponentAdapter() {
+		return null;
+	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.library.Equipment <em>Equipment</em>}'.
@@ -350,6 +374,20 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createVendorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.generics.Base <em>Base</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.generics.Base
+	 * @generated
+	 */
+	public Adapter createBaseAdapter() {
 		return null;
 	}
 

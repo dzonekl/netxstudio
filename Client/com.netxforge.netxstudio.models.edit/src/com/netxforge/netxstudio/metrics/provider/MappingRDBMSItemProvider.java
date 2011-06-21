@@ -31,6 +31,8 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 
+import com.netxforge.netxstudio.metrics.MappingRDBMS;
+
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.metrics.MappingRDBMS} object.
  * <!-- begin-user-doc -->
@@ -89,7 +91,8 @@ public class MappingRDBMSItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_MappingRDBMS_type");
+		MappingRDBMS mappingRDBMS = (MappingRDBMS)object;
+		return getString("_UI_MappingRDBMS_type") + " " + mappingRDBMS.isDeleted();
 	}
 
 	/**

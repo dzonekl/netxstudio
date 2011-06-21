@@ -9,15 +9,18 @@ import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 
 public abstract class AbstractDataProviderTest extends TestCase {
 
-	
 	private Injector injector;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		injector = Guice.createInjector(new CommonModule(), new CDODataServiceModule());
+		injector = createInjector();
 	}
-
+	
+	protected Injector createInjector() {
+		return Guice.createInjector(new CommonModule(), new CDODataServiceModule());
+	}
+	
 	@Override
 	protected void tearDown() throws Exception {
 		// TODO Auto-generated method stub

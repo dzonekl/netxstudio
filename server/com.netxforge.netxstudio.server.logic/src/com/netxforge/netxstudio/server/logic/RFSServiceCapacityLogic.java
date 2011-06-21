@@ -57,18 +57,20 @@ public class RFSServiceCapacityLogic {
 
 	@Inject
 	private ModelUtils modelUtils;
-	
+
 	private ServiceMonitor serviceMonitor;
+
+	private Node filterNode;
+	private Node filterNodeType;
 
 	public void run() {
 		setServiceMonitor();
-		
+
 		int count = 0;
 		// first go through the leave nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (isActiveNode(node)) {
+			if (isValidNode(node)) {
 				count++;
-				processNode(node.getNodeType());
 			}
 		}
 
@@ -77,7 +79,7 @@ public class RFSServiceCapacityLogic {
 
 		// first go through the leave nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (isActiveNode(node) && node.getNodeType().isLeafNode()) {
+			if (isValidNode(node) && node.getNodeType().isLeafNode()) {
 				jobMonitor.setTask("Computing Capacity Data for node "
 						+ node.getNodeID());
 				processNode(node.getNodeType());
@@ -85,7 +87,7 @@ public class RFSServiceCapacityLogic {
 		}
 		// and then the other nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (isActiveNode(node) && !node.getNodeType().isLeafNode()) {
+			if (isValidNode(node) && !node.getNodeType().isLeafNode()) {
 				jobMonitor.setTask("Computing Capacity Data for node "
 						+ node.getNodeID());
 				processNode(node.getNodeType());
@@ -94,19 +96,24 @@ public class RFSServiceCapacityLogic {
 	}
 
 	private void setServiceMonitor() {
-		startTime = new Date(0);
-		if (!rfsService.getServiceMonitors().isEmpty()) {
-			final Date previousEndTime = rfsService.getServiceMonitors()
-					.get(rfsService.getServiceMonitors().size() - 1)
-					.getPeriod().getEnd().toGregorianCalendar().getTime();
-			startTime = new Date(previousEndTime.getTime() + 1);
+		if (startTime != null) {
+			startTime = new Date(0);
+			if (!rfsService.getServiceMonitors().isEmpty()) {
+				final Date previousEndTime = rfsService.getServiceMonitors()
+						.get(rfsService.getServiceMonitors().size() - 1)
+						.getPeriod().getEnd().toGregorianCalendar().getTime();
+				startTime = new Date(previousEndTime.getTime() + 1);
+			}
 		}
-		endTime = new Date(System.currentTimeMillis());
-		
-		final DateTimeRange timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
+		if (endTime != null) {
+			endTime = new Date(System.currentTimeMillis());
+		}
+
+		final DateTimeRange timeRange = GenericsFactory.eINSTANCE
+				.createDateTimeRange();
 		timeRange.setBegin(modelUtils.toXMLDate(startTime));
 		timeRange.setEnd(modelUtils.toXMLDate(endTime));
-		
+
 		serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
 		// what name should a servicemonitor have?
 		serviceMonitor.setName(rfsService.getServiceName());
@@ -115,7 +122,9 @@ public class RFSServiceCapacityLogic {
 	}
 
 	protected void executeForEquipment(Equipment equipment) {
-		final CapacityLogicEngine.CapacityLogicEquipment capacityLogic = new CapacityLogicEngine.CapacityLogicEquipment();
+		final CapacityLogicEngine.CapacityLogicEquipment capacityLogic = LogicActivator
+				.getInstance().getInjector()
+				.getInstance(CapacityLogicEngine.CapacityLogicEquipment.class);
 		capacityLogic.setEquipment(equipment);
 		capacityLogic.setDataProvider(dataProvider);
 		capacityLogic.setRange(serviceMonitor.getPeriod());
@@ -123,7 +132,9 @@ public class RFSServiceCapacityLogic {
 	}
 
 	protected void executeForFunction(Function function) {
-		final CapacityLogicEngine.CapacityLogicFunction capacityLogic = new CapacityLogicEngine.CapacityLogicFunction();
+		final CapacityLogicEngine.CapacityLogicFunction capacityLogic = LogicActivator
+				.getInstance().getInjector()
+				.getInstance(CapacityLogicEngine.CapacityLogicFunction.class);
 		capacityLogic.setFunction(function);
 		capacityLogic.setDataProvider(dataProvider);
 		capacityLogic.setRange(serviceMonitor.getPeriod());
@@ -187,7 +198,14 @@ public class RFSServiceCapacityLogic {
 		}
 	}
 
-	private boolean isActiveNode(Node node) {
+	private boolean isValidNode(Node node) {
+		if (filterNode != null && !node.cdoID().equals(filterNode.cdoID())) {
+			return false;
+		}
+		if (filterNodeType != null
+				&& !node.getNodeType().cdoID().equals(filterNodeType.cdoID())) {
+			return false;
+		}
 		if (node.getLifecycle() == null) {
 			return true;
 		}
@@ -227,6 +245,38 @@ public class RFSServiceCapacityLogic {
 
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
+	}
+
+	public Node getFilterNode() {
+		return filterNode;
+	}
+
+	public void setFilterNode(Node filterNode) {
+		this.filterNode = filterNode;
+	}
+
+	public Node getFilterNodeType() {
+		return filterNodeType;
+	}
+
+	public void setFilterNodeType(Node filterNodeType) {
+		this.filterNodeType = filterNodeType;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 }

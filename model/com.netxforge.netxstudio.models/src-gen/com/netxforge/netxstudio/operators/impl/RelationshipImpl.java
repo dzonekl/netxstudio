@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
@@ -42,7 +43,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *
  * @generated
  */
-public class RelationshipImpl extends CDOObjectImpl implements Relationship {
+public class RelationshipImpl extends BaseImpl implements Relationship {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -60,16 +61,6 @@ public class RelationshipImpl extends CDOObjectImpl implements Relationship {
 	@Override
 	protected EClass eStaticClass() {
 		return OperatorsPackage.Literals.RELATIONSHIP;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

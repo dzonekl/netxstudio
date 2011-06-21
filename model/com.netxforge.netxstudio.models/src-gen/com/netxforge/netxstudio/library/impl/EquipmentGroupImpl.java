@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.DiagramInfo;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
@@ -52,7 +53,7 @@ import com.netxforge.netxstudio.library.Parameter;
  *
  * @generated
  */
-public class EquipmentGroupImpl extends CDOObjectImpl implements EquipmentGroup {
+public class EquipmentGroupImpl extends BaseImpl implements EquipmentGroup {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -70,16 +71,6 @@ public class EquipmentGroupImpl extends CDOObjectImpl implements EquipmentGroup 
 	@Override
 	protected EClass eStaticClass() {
 		return LibraryPackage.Literals.EQUIPMENT_GROUP;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

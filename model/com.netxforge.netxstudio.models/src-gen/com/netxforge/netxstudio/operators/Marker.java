@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 import com.netxforge.netxstudio.library.Equipment;
@@ -31,7 +32,8 @@ import com.netxforge.netxstudio.library.NetXResource;
  *
  * <!-- begin-model-doc -->
  * 
- * 				A type representing a resource marker. The marker references a value and an Equipment or Function.
+ * 				A type representing a resource marker. The marker
+ * 				references a value and an Equipment or Function.
  * 			
  * <!-- end-model-doc -->
  *
@@ -48,16 +50,17 @@ import com.netxforge.netxstudio.library.NetXResource;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarker()
  * @model extendedMetaData="name='Marker' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Marker extends CDOObject {
+public interface Marker extends Base {
 	/**
 	 * Returns the value of the '<em><b>Equipment Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The EquipmentRef reference, references 0 or 1 Equipment types.
+	 * The EquipmentRef reference, references 0 or 1
+	 * 								Equipment types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipment Ref</em>' reference.
 	 * @see #setEquipmentRef(Equipment)
@@ -82,7 +85,9 @@ public interface Marker extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The FunctionRef reference, references 0 or 1 Function types.
+	 * The FunctionRef reference, references 0 or 1
+	 * 								Function types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Function Ref</em>' reference.
 	 * @see #setFunctionRef(Function)
@@ -107,7 +112,9 @@ public interface Marker extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MarkerResource reference, references 0 or 1 Resource type
+	 * The MarkerResource reference, references 0 or 1
+	 * 								Resource type
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Marker Resource Ref</em>' reference.
 	 * @see #setMarkerResourceRef(NetXResource)
@@ -132,7 +139,9 @@ public interface Marker extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Description attribute holds the description for this marker.
+	 * The Description attribute holds the description
+	 * 							for this marker.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
@@ -159,7 +168,9 @@ public interface Marker extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Kind attribute holds the kind of Marker this Marker is. (See MarkerKind). 
+	 * The Kind attribute holds the kind of Marker this
+	 * 							Marker is. (See MarkerKind).
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Kind</em>' attribute.
 	 * @see com.netxforge.netxstudio.operators.MarkerKind

@@ -59,34 +59,10 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
- * 		
  * 
- * 
- * 			Network Data schema Copyright 2008 The schema uses
- * 			ecore
- * 			references syntax, but should easily map into an SQL schema.
- * 			The
- * 			ecore
- * 			references, are mapped into ORM specific DLL (See
- * 			Hibernate or
- * 			other
- * 			ORM. EMF/Hibernate
- * 			however uses a custom mechanism.
- * 
- * 			Don't use
- * 			the
- * 			word
- * 			"Item", as this is appended to the Object
- * 			name in the EMF
- * 			edit
- * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
- * 		
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
  * 
  * 		
  * 
@@ -109,9 +85,39 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
+ * 		
+ * 
+ * 		
+ * 
+ * 
+ * 			Network Data schema Copyright 2008 The schema uses
+ * 			ecore
+ * 			references syntax, but should easily map into an SQL schema.
+ * 			The
+ * 			ecore
+ * 			references, are mapped into ORM specific DLL (See
+ * 			Hibernate or
+ * 			other
+ * 			ORM. EMF/Hibernate
+ * 			however uses a custom mechanism.
+ * 
+ * 			Don't use
+ * 			the
+ * 			word
+ * 			"Item", as this is appended to the Object
+ * 			name in the EMF
+ * 			edit
+ * 			model.
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
  * 		
  * 
  * 		
@@ -165,13 +171,22 @@ public interface OperatorsPackage extends EPackage {
 	int RELATIONSHIP = 7;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__NAME = 0;
+	int RELATIONSHIP__NAME = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Node ID1 Ref</b></em>' reference.
@@ -180,7 +195,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__NODE_ID1_REF = 1;
+	int RELATIONSHIP__NODE_ID1_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Node ID2 Ref</b></em>' reference.
@@ -189,7 +204,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__NODE_ID2_REF = 2;
+	int RELATIONSHIP__NODE_ID2_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Protocol Ref</b></em>' reference.
@@ -198,7 +213,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__PROTOCOL_REF = 3;
+	int RELATIONSHIP__PROTOCOL_REF = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Relationship</em>' class.
@@ -207,7 +222,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP_FEATURE_COUNT = 4;
+	int RELATIONSHIP_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.EquipmentRelationshipImpl <em>Equipment Relationship</em>}' class.
@@ -218,6 +233,15 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 */
 	int EQUIPMENT_RELATIONSHIP = 0;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EQUIPMENT_RELATIONSHIP__DELETED = RELATIONSHIP__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -293,13 +317,22 @@ public interface OperatorsPackage extends EPackage {
 	int EXPANSION_EXPERIENCE = 1;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_EXPERIENCE__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Equipment Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPANSION_EXPERIENCE__EQUIPMENT_REF = 0;
+	int EXPANSION_EXPERIENCE__EQUIPMENT_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Duration</b></em>' attribute.
@@ -308,7 +341,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPANSION_EXPERIENCE__DURATION = 1;
+	int EXPANSION_EXPERIENCE__DURATION = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Expansion Experience</em>' class.
@@ -317,7 +350,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPANSION_EXPERIENCE_FEATURE_COUNT = 2;
+	int EXPANSION_EXPERIENCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.FunctionRelationshipImpl <em>Function Relationship</em>}' class.
@@ -328,6 +361,15 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 */
 	int FUNCTION_RELATIONSHIP = 2;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTION_RELATIONSHIP__DELETED = RELATIONSHIP__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -403,13 +445,22 @@ public interface OperatorsPackage extends EPackage {
 	int MARKER = 3;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Equipment Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__EQUIPMENT_REF = 0;
+	int MARKER__EQUIPMENT_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Function Ref</b></em>' reference.
@@ -418,7 +469,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__FUNCTION_REF = 1;
+	int MARKER__FUNCTION_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Marker Resource Ref</b></em>' reference.
@@ -427,7 +478,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__MARKER_RESOURCE_REF = 2;
+	int MARKER__MARKER_RESOURCE_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -436,7 +487,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__DESCRIPTION = 3;
+	int MARKER__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -445,7 +496,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__KIND = 4;
+	int MARKER__KIND = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Marker</em>' class.
@@ -454,7 +505,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_FEATURE_COUNT = 5;
+	int MARKER_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.NetworkImpl <em>Network</em>}' class.
@@ -467,13 +518,22 @@ public interface OperatorsPackage extends EPackage {
 	int NETWORK = 4;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NETWORK__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Diagrams</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK__DIAGRAMS = 0;
+	int NETWORK__DIAGRAMS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
@@ -482,7 +542,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK__NODES = 1;
+	int NETWORK__NODES = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Networks</b></em>' containment reference list.
@@ -491,7 +551,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK__NETWORKS = 2;
+	int NETWORK__NETWORKS = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Function Relationships</b></em>' containment reference list.
@@ -500,7 +560,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK__FUNCTION_RELATIONSHIPS = 3;
+	int NETWORK__FUNCTION_RELATIONSHIPS = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Equipment Relationships</b></em>' containment reference list.
@@ -509,7 +569,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK__EQUIPMENT_RELATIONSHIPS = 4;
+	int NETWORK__EQUIPMENT_RELATIONSHIPS = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Metric Sources</b></em>' containment reference list.
@@ -518,7 +578,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK__METRIC_SOURCES = 5;
+	int NETWORK__METRIC_SOURCES = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Created By Ref</b></em>' reference.
@@ -527,7 +587,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK__CREATED_BY_REF = 6;
+	int NETWORK__CREATED_BY_REF = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Created Date</b></em>' attribute.
@@ -536,7 +596,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK__CREATED_DATE = 7;
+	int NETWORK__CREATED_DATE = GenericsPackage.BASE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -545,7 +605,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK__DESCRIPTION = 8;
+	int NETWORK__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -554,7 +614,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK__NAME = 9;
+	int NETWORK__NAME = GenericsPackage.BASE_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>Network</em>' class.
@@ -563,7 +623,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK_FEATURE_COUNT = 10;
+	int NETWORK_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 10;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.NodeImpl <em>Node</em>}' class.
@@ -576,13 +636,22 @@ public interface OperatorsPackage extends EPackage {
 	int NODE = 5;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Lifecycle</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__LIFECYCLE = 0;
+	int NODE__LIFECYCLE = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Node Type</b></em>' containment reference.
@@ -591,7 +660,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__NODE_TYPE = 1;
+	int NODE__NODE_TYPE = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Created By Ref</b></em>' reference.
@@ -600,7 +669,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__CREATED_BY_REF = 2;
+	int NODE__CREATED_BY_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Node ID</b></em>' attribute.
@@ -609,7 +678,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__NODE_ID = 3;
+	int NODE__NODE_ID = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Original Node Type Ref</b></em>' reference.
@@ -618,7 +687,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__ORIGINAL_NODE_TYPE_REF = 4;
+	int NODE__ORIGINAL_NODE_TYPE_REF = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Room Ref</b></em>' reference.
@@ -627,7 +696,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__ROOM_REF = 5;
+	int NODE__ROOM_REF = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Node</em>' class.
@@ -636,7 +705,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = 6;
+	int NODE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.OperatorImpl <em>Operator</em>}' class.
@@ -647,6 +716,15 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 */
 	int OPERATOR = 6;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR__DELETED = GenericsPackage.COMPANY__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Icons</b></em>' containment reference.
@@ -776,13 +854,22 @@ public interface OperatorsPackage extends EPackage {
 	int RESOURCE_EXPANSION = 8;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_EXPANSION__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Node Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_EXPANSION__NODE_REFS = 0;
+	int RESOURCE_EXPANSION__NODE_REFS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Equipment Refs</b></em>' reference list.
@@ -791,7 +878,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_EXPANSION__EQUIPMENT_REFS = 1;
+	int RESOURCE_EXPANSION__EQUIPMENT_REFS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Function Refs</b></em>' reference list.
@@ -800,7 +887,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_EXPANSION__FUNCTION_REFS = 2;
+	int RESOURCE_EXPANSION__FUNCTION_REFS = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Resource Expansion</em>' class.
@@ -809,7 +896,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_EXPANSION_FEATURE_COUNT = 3;
+	int RESOURCE_EXPANSION_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.ResourceForecastImpl <em>Resource Forecast</em>}' class.
@@ -822,13 +909,22 @@ public interface OperatorsPackage extends EPackage {
 	int RESOURCE_FORECAST = 9;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_FORECAST__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_FORECAST__MARKERS = 0;
+	int RESOURCE_FORECAST__MARKERS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Resource Forecast</em>' class.
@@ -837,7 +933,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_FORECAST_FEATURE_COUNT = 1;
+	int RESOURCE_FORECAST_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.ResourceMonitorImpl <em>Resource Monitor</em>}' class.
@@ -850,13 +946,22 @@ public interface OperatorsPackage extends EPackage {
 	int RESOURCE_MONITOR = 10;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_MONITOR__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Markers</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_MONITOR__MARKERS = 0;
+	int RESOURCE_MONITOR__MARKERS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Resource Monitor</em>' class.
@@ -865,7 +970,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_MONITOR_FEATURE_COUNT = 1;
+	int RESOURCE_MONITOR_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.WarehouseImpl <em>Warehouse</em>}' class.
@@ -878,13 +983,22 @@ public interface OperatorsPackage extends EPackage {
 	int WAREHOUSE = 11;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WAREHOUSE__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WAREHOUSE__NODES = 0;
+	int WAREHOUSE__NODES = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Equipments</b></em>' attribute list.
@@ -893,7 +1007,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WAREHOUSE__EQUIPMENTS = 1;
+	int WAREHOUSE__EQUIPMENTS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -902,7 +1016,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WAREHOUSE__DESCRIPTION = 2;
+	int WAREHOUSE__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -911,7 +1025,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WAREHOUSE__NAME = 3;
+	int WAREHOUSE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Warehouse</em>' class.
@@ -920,7 +1034,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WAREHOUSE_FEATURE_COUNT = 4;
+	int WAREHOUSE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.MarkerKind <em>Marker Kind</em>}' enum.

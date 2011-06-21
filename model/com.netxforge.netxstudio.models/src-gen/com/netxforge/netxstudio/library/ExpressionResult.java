@@ -26,7 +26,9 @@ import org.eclipse.emf.cdo.CDOObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the results of an expression run. 
+ * A type representing the results of an expression
+ * 				run.
+ * 			
  * <!-- end-model-doc -->
  *
  *

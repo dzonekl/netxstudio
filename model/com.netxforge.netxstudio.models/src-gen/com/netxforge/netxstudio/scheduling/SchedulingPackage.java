@@ -57,34 +57,10 @@ import org.eclipse.emf.ecore.EReference;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
- * 		
  * 
- * 
- * 			Network Data schema Copyright 2008 The schema uses
- * 			ecore
- * 			references syntax, but should easily map into an SQL schema.
- * 			The
- * 			ecore
- * 			references, are mapped into ORM specific DLL (See
- * 			Hibernate or
- * 			other
- * 			ORM. EMF/Hibernate
- * 			however uses a custom mechanism.
- * 
- * 			Don't use
- * 			the
- * 			word
- * 			"Item", as this is appended to the Object
- * 			name in the EMF
- * 			edit
- * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
- * 		
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
  * 
  * 		
  * 
@@ -107,9 +83,39 @@ import org.eclipse.emf.ecore.EReference;
  * 			name in the EMF
  * 			edit
  * 			model.
- * 			
- * 			Validation with pattern is not used, considering the limited capabilities of XSD patterns. 
- * 			
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
+ * 		
+ * 
+ * 		
+ * 
+ * 
+ * 			Network Data schema Copyright 2008 The schema uses
+ * 			ecore
+ * 			references syntax, but should easily map into an SQL schema.
+ * 			The
+ * 			ecore
+ * 			references, are mapped into ORM specific DLL (See
+ * 			Hibernate or
+ * 			other
+ * 			ORM. EMF/Hibernate
+ * 			however uses a custom mechanism.
+ * 
+ * 			Don't use
+ * 			the
+ * 			word
+ * 			"Item", as this is appended to the Object
+ * 			name in the EMF
+ * 			edit
+ * 			model.
+ * 
+ * 			Validation with pattern is not used, considering the limited
+ * 			capabilities of
+ * 			XSD patterns.
+ * 
  * 		
  * 
  * 		
@@ -509,6 +515,97 @@ public interface SchedulingPackage extends EPackage {
 	int RFS_SERVICE_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceJobRunImpl <em>RFS Service Job Run</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.RFSServiceJobRunImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceJobRun()
+	 * @generated
+	 */
+	int RFS_SERVICE_JOB_RUN = 5;
+
+	/**
+	 * The feature id for the '<em><b>Ended</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_JOB_RUN__ENDED = JOB_RUN__ENDED;
+
+	/**
+	 * The feature id for the '<em><b>Log</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_JOB_RUN__LOG = JOB_RUN__LOG;
+
+	/**
+	 * The feature id for the '<em><b>Progress</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_JOB_RUN__PROGRESS = JOB_RUN__PROGRESS;
+
+	/**
+	 * The feature id for the '<em><b>Progress Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_JOB_RUN__PROGRESS_MESSAGE = JOB_RUN__PROGRESS_MESSAGE;
+
+	/**
+	 * The feature id for the '<em><b>Progress Task</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_JOB_RUN__PROGRESS_TASK = JOB_RUN__PROGRESS_TASK;
+
+	/**
+	 * The feature id for the '<em><b>Started</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_JOB_RUN__STARTED = JOB_RUN__STARTED;
+
+	/**
+	 * The feature id for the '<em><b>State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_JOB_RUN__STATE = JOB_RUN__STATE;
+
+	/**
+	 * The feature id for the '<em><b>Component Refs</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_JOB_RUN__COMPONENT_REFS = JOB_RUN_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>RFS Service Job Run</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_JOB_RUN_FEATURE_COUNT = JOB_RUN_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -516,7 +613,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunState()
 	 * @generated
 	 */
-	int JOB_RUN_STATE = 5;
+	int JOB_RUN_STATE = 6;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobState <em>Job State</em>}' enum.
@@ -526,7 +623,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobState()
 	 * @generated
 	 */
-	int JOB_STATE = 6;
+	int JOB_STATE = 7;
 
 	/**
 	 * The meta object id for the '<em>Job Run State Object</em>' data type.
@@ -536,7 +633,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunStateObject()
 	 * @generated
 	 */
-	int JOB_RUN_STATE_OBJECT = 7;
+	int JOB_RUN_STATE_OBJECT = 8;
 
 	/**
 	 * The meta object id for the '<em>Job State Object</em>' data type.
@@ -546,7 +643,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobStateObject()
 	 * @generated
 	 */
-	int JOB_STATE_OBJECT = 8;
+	int JOB_STATE_OBJECT = 9;
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.Job <em>Job</em>}'.
@@ -784,6 +881,27 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRFSServiceJob_RFSService();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun <em>RFS Service Job Run</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RFS Service Job Run</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.RFSServiceJobRun
+	 * @generated
+	 */
+	EClass getRFSServiceJobRun();
+
+	/**
+	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.scheduling.RFSServiceJobRun#getComponentRefs <em>Component Refs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Component Refs</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.RFSServiceJobRun#getComponentRefs()
+	 * @see #getRFSServiceJobRun()
+	 * @generated
+	 */
+	EReference getRFSServiceJobRun_ComponentRefs();
 
 	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}'.
@@ -1036,6 +1154,24 @@ public interface SchedulingPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RFS_SERVICE_JOB__RFS_SERVICE = eINSTANCE.getRFSServiceJob_RFSService();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceJobRunImpl <em>RFS Service Job Run</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.scheduling.impl.RFSServiceJobRunImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceJobRun()
+		 * @generated
+		 */
+		EClass RFS_SERVICE_JOB_RUN = eINSTANCE.getRFSServiceJobRun();
+
+		/**
+		 * The meta object literal for the '<em><b>Component Refs</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RFS_SERVICE_JOB_RUN__COMPONENT_REFS = eINSTANCE.getRFSServiceJobRun_ComponentRefs();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}' enum.

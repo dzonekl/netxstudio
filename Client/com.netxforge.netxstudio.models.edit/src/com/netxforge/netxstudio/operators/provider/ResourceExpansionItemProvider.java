@@ -32,10 +32,11 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
+import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
+import com.netxforge.netxstudio.operators.ResourceExpansion;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.operators.ResourceExpansion} object.
@@ -44,7 +45,7 @@ import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
  * @generated
  */
 public class ResourceExpansionItemProvider
-	extends ItemProviderAdapter
+	extends BaseItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -164,7 +165,8 @@ public class ResourceExpansionItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_ResourceExpansion_type");
+		ResourceExpansion resourceExpansion = (ResourceExpansion)object;
+		return getString("_UI_ResourceExpansion_type") + " " + resourceExpansion.isDeleted();
 	}
 
 	/**

@@ -29,6 +29,7 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * <!-- begin-model-doc -->
  * A type representing the lifecycle.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -44,16 +45,18 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.generics.GenericsPackage#getLifecycle()
  * @model extendedMetaData="name='Lifecycle' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface Lifecycle extends CDOObject {
+public interface Lifecycle extends Base {
 	/**
 	 * Returns the value of the '<em><b>Construction Date</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ConstructionDate attribute holds the date and time when constructed.
+	 * The ConstructionDate attribute holds the date
+	 * 							and
+	 * 							time when constructed.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Construction Date</em>' attribute.
 	 * @see #setConstructionDate(XMLGregorianCalendar)
@@ -79,7 +82,9 @@ public interface Lifecycle extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The InServiceDate attribute holds the date and time when brought into service.
+	 * The InServiceDate attribute holds the date and
+	 * 							time when brought into service.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>In Service Date</em>' attribute.
 	 * @see #setInServiceDate(XMLGregorianCalendar)
@@ -105,7 +110,10 @@ public interface Lifecycle extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The OutOfServiceDate attribute holds the date and time when out of service.
+	 * The OutOfServiceDate attribute holds the date
+	 * 							and
+	 * 							time when out of service.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Out Of Service Date</em>' attribute.
 	 * @see #setOutOfServiceDate(XMLGregorianCalendar)
@@ -131,7 +139,10 @@ public interface Lifecycle extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The PlannedDate attribute holds the date and time when planned.
+	 * The PlannedDate attribute holds the date and
+	 * 							time
+	 * 							when planned.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Planned Date</em>' attribute.
 	 * @see #setPlannedDate(XMLGregorianCalendar)
@@ -157,7 +168,9 @@ public interface Lifecycle extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Proposed attribute holds the date and time when proposed.
+	 * The Proposed attribute holds the date and time
+	 * 							when proposed.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Proposed</em>' attribute.
 	 * @see #setProposed(XMLGregorianCalendar)

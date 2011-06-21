@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -34,14 +33,12 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.library.Equipment} object.
@@ -50,7 +47,7 @@ import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
  * @generated
  */
 public class EquipmentItemProvider
-	extends ItemProviderAdapter
+	extends ComponentItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -78,46 +75,15 @@ public class EquipmentItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addEquipmentMetricRefsPropertyDescriptor(object);
 			addEquipmentRelationshipRefsPropertyDescriptor(object);
-			addCapacityExpressionRefPropertyDescriptor(object);
-			addUtilizationExpressionRefPropertyDescriptor(object);
-			addToleranceRefsPropertyDescriptor(object);
-			addProtocolRefsPropertyDescriptor(object);
-			addParameterRefsPropertyDescriptor(object);
-			addAllEquipmentResourcesPropertyDescriptor(object);
 			addAllEquipmentsPropertyDescriptor(object);
 			addCountPropertyDescriptor(object);
-			addDescriptionPropertyDescriptor(object);
 			addEquipmentCodePropertyDescriptor(object);
-			addEquipmentNamePropertyDescriptor(object);
 			addPositionPropertyDescriptor(object);
 			addRedundancyPropertyDescriptor(object);
 			addStatePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Equipment Metric Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addEquipmentMetricRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_equipmentMetricRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_equipmentMetricRefs_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_METRIC_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
 	}
 
 	/**
@@ -134,138 +100,6 @@ public class EquipmentItemProvider
 				 getString("_UI_Equipment_equipmentRelationshipRefs_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_equipmentRelationshipRefs_feature", "_UI_Equipment_type"),
 				 LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_RELATIONSHIP_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Capacity Expression Ref feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addCapacityExpressionRefPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_capacityExpressionRef_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_capacityExpressionRef_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__CAPACITY_EXPRESSION_REF,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Utilization Expression Ref feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addUtilizationExpressionRefPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_utilizationExpressionRef_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_utilizationExpressionRef_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__UTILIZATION_EXPRESSION_REF,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Tolerance Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addToleranceRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_toleranceRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_toleranceRefs_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__TOLERANCE_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Protocol Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addProtocolRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_protocolRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_protocolRefs_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__PROTOCOL_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Parameter Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addParameterRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_parameterRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_parameterRefs_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__PARAMETER_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the All Equipment Resources feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addAllEquipmentResourcesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_allEquipmentResources_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_allEquipmentResources_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__ALL_EQUIPMENT_RESOURCES,
 				 true,
 				 false,
 				 true,
@@ -319,28 +153,6 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Description feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addDescriptionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_description_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_description_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__DESCRIPTION,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This adds a property descriptor for the Equipment Code feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -354,28 +166,6 @@ public class EquipmentItemProvider
 				 getString("_UI_Equipment_equipmentCode_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_equipmentCode_feature", "_UI_Equipment_type"),
 				 LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Equipment Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addEquipmentNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_equipmentName_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_equipmentName_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_NAME,
 				 true,
 				 false,
 				 false,
@@ -463,11 +253,8 @@ public class EquipmentItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(LibraryPackage.Literals.EQUIPMENT__LIFECYCLE);
-			childrenFeatures.add(LibraryPackage.Literals.EQUIPMENT__DIAGRAMS);
 			childrenFeatures.add(LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
 			childrenFeatures.add(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_GROUPS);
-			childrenFeatures.add(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_RESOURCES);
-			childrenFeatures.add(LibraryPackage.Literals.EQUIPMENT__ICONS);
 		}
 		return childrenFeatures;
 	}
@@ -504,7 +291,7 @@ public class EquipmentItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Equipment)object).getEquipmentName();
+		String label = ((Equipment)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Equipment_type") :
 			getString("_UI_Equipment_type") + " " + label;
@@ -523,20 +310,15 @@ public class EquipmentItemProvider
 
 		switch (notification.getFeatureID(Equipment.class)) {
 			case LibraryPackage.EQUIPMENT__COUNT:
-			case LibraryPackage.EQUIPMENT__DESCRIPTION:
 			case LibraryPackage.EQUIPMENT__EQUIPMENT_CODE:
-			case LibraryPackage.EQUIPMENT__EQUIPMENT_NAME:
 			case LibraryPackage.EQUIPMENT__POSITION:
 			case LibraryPackage.EQUIPMENT__REDUNDANCY:
 			case LibraryPackage.EQUIPMENT__STATE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case LibraryPackage.EQUIPMENT__LIFECYCLE:
-			case LibraryPackage.EQUIPMENT__DIAGRAMS:
 			case LibraryPackage.EQUIPMENT__EQUIPMENTS:
 			case LibraryPackage.EQUIPMENT__EQUIPMENT_GROUPS:
-			case LibraryPackage.EQUIPMENT__EQUIPMENT_RESOURCES:
-			case LibraryPackage.EQUIPMENT__ICONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -561,11 +343,6 @@ public class EquipmentItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(LibraryPackage.Literals.EQUIPMENT__DIAGRAMS,
-				 GenericsFactory.eINSTANCE.createDiagramInfo()));
-
-		newChildDescriptors.add
-			(createChildParameter
 				(LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
 				 LibraryFactory.eINSTANCE.createEquipment()));
 
@@ -573,27 +350,6 @@ public class EquipmentItemProvider
 			(createChildParameter
 				(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_GROUPS,
 				 LibraryFactory.eINSTANCE.createEquipmentGroup()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_RESOURCES,
-				 LibraryFactory.eINSTANCE.createNetXResource()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.EQUIPMENT__ICONS,
-				 GenericsFactory.eINSTANCE.createMultiImage()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return NetxstudioEditPlugin.INSTANCE;
 	}
 
 }

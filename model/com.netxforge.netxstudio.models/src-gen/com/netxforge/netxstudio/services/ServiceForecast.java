@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -30,9 +31,15 @@ import com.netxforge.netxstudio.operators.ResourceForecast;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a ServiceForecast. A ServiceForecast is a forecast of a service, which 
- * impacts the consumption of resources when using a service. The Forecast applies to a period, and contains Service forecast users.
- * The forecast also has a name and a revision
+ * A type representing a ServiceForecast. A
+ * 				ServiceForecast is a forecast of a service, which
+ * 				impacts the
+ * 				consumption of resources when using a service. The Forecast
+ * 				applies
+ * 				to a period, and contains Service forecast users.
+ * 				The forecast also
+ * 				has a name and a revision
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -48,17 +55,17 @@ import com.netxforge.netxstudio.operators.ResourceForecast;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceForecast()
  * @model extendedMetaData="name='ServiceForecast' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ServiceForecast extends CDOObject {
+public interface ServiceForecast extends Base {
 	/**
 	 * Returns the value of the '<em><b>Period</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Period reference, contains 0 or 1 DatetimeRange types.
-	 * 				
+	 * The Period reference, contains 0 or 1
+	 * 								DatetimeRange types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Period</em>' containment reference.
 	 * @see #setPeriod(DateTimeRange)
@@ -85,7 +92,9 @@ public interface ServiceForecast extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceUser reference, contains 0 or more ServiceForecastUsers type.
+	 * The ServiceUser reference, contains 0 or more
+	 * 								ServiceForecastUsers type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Forecast Users</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceForecast_ServiceForecastUsers()
@@ -101,7 +110,9 @@ public interface ServiceForecast extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ResourceForcasts reference, contains 0 or more ResourceForcast type.
+	 * The ResourceForcasts reference, contains 0 or
+	 * 								more ResourceForcast type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Resource Forecasts</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceForecast_ResourceForecasts()
@@ -116,7 +127,9 @@ public interface ServiceForecast extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds the name of the ServiceForecast.
+	 * The Name attribute holds the name of the
+	 * 							ServiceForecast.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -142,7 +155,10 @@ public interface ServiceForecast extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Revision attribute holds the revision of this forecast.
+	 * The Revision attribute holds the revision of
+	 * 							this
+	 * 							forecast.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Revision</em>' attribute.
 	 * @see #setRevision(String)

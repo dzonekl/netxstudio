@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.protocols;
 
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -89,13 +90,22 @@ public interface ProtocolsPackage extends EPackage {
 	int MESSAGE = 0;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MESSAGE__NAME = 0;
+	int MESSAGE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Message</em>' class.
@@ -104,7 +114,7 @@ public interface ProtocolsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MESSAGE_FEATURE_COUNT = 1;
+	int MESSAGE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.protocols.impl.ProcedureImpl <em>Procedure</em>}' class.
@@ -117,13 +127,22 @@ public interface ProtocolsPackage extends EPackage {
 	int PROCEDURE = 1;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCEDURE__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Messages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROCEDURE__MESSAGES = 0;
+	int PROCEDURE__MESSAGES = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -132,7 +151,7 @@ public interface ProtocolsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCEDURE__NAME = 1;
+	int PROCEDURE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Procedure</em>' class.
@@ -141,7 +160,7 @@ public interface ProtocolsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROCEDURE_FEATURE_COUNT = 2;
+	int PROCEDURE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.protocols.impl.ProtocolImpl <em>Protocol</em>}' class.
@@ -154,13 +173,22 @@ public interface ProtocolsPackage extends EPackage {
 	int PROTOCOL = 2;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROTOCOL__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>Procedures</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROTOCOL__PROCEDURES = 0;
+	int PROTOCOL__PROCEDURES = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Body Ref</b></em>' reference.
@@ -169,7 +197,7 @@ public interface ProtocolsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROTOCOL__BODY_REF = 1;
+	int PROTOCOL__BODY_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -178,7 +206,7 @@ public interface ProtocolsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROTOCOL__DESCRIPTION = 2;
+	int PROTOCOL__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -187,7 +215,7 @@ public interface ProtocolsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROTOCOL__NAME = 3;
+	int PROTOCOL__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>OSI</b></em>' attribute.
@@ -196,7 +224,7 @@ public interface ProtocolsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROTOCOL__OSI = 4;
+	int PROTOCOL__OSI = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Specification</b></em>' attribute.
@@ -205,7 +233,7 @@ public interface ProtocolsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROTOCOL__SPECIFICATION = 5;
+	int PROTOCOL__SPECIFICATION = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Protocol</em>' class.
@@ -214,7 +242,7 @@ public interface ProtocolsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROTOCOL_FEATURE_COUNT = 6;
+	int PROTOCOL_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.protocols.OSIType <em>OSI Type</em>}' enum.

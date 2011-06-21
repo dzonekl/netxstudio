@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 
 import com.netxforge.netxstudio.generics.MultiImage;
@@ -28,12 +29,14 @@ import com.netxforge.netxstudio.generics.MultiImage;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a real world unit like Erlang, Subs or any other metric defined. It is used for metrics and
- * resources It has a Name, a description and a Code (two characters)
+ * A type representing a real world unit like Erlang,
+ * 				Subs or any other metric defined. It is used for metrics and
+ * 				resources It has a Name, a description and a Code (two characters)
  * 
- * Examples: 
- * 1. The Unit Erlang is defined with code EL 
- * 2. The Unit Subscribers is defined with code SU
+ * 				Examples:
+ * 				1. The Unit Erlang is defined with code EL
+ * 				2. The Unit
+ * 				Subscribers is defined with code SU
  * 			
  * <!-- end-model-doc -->
  *
@@ -49,16 +52,17 @@ import com.netxforge.netxstudio.generics.MultiImage;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getUnit()
  * @model extendedMetaData="name='Unit' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Unit extends CDOObject {
+public interface Unit extends Base {
 	/**
 	 * Returns the value of the '<em><b>Icons</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Images reference, contains 0 or one MultiImage type.
+	 * The Images reference, contains 0 or one
+	 * 								MultiImage type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Icons</em>' containment reference.
 	 * @see #setIcons(MultiImage)
@@ -85,7 +89,7 @@ public interface Unit extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The Code attribute holds the code of the unit.
-	 * 				
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Code</em>' attribute.
 	 * @see #setCode(String)
@@ -111,8 +115,10 @@ public interface Unit extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Description attribute holds the description of the equipment
-	 * 				
+	 * The Description attribute holds the description
+	 * 							of
+	 * 							the equipment
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
@@ -138,8 +144,9 @@ public interface Unit extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds a name used for presentation.
-	 * 				
+	 * The Name attribute holds a name used for
+	 * 							presentation.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)

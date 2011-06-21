@@ -18,6 +18,8 @@
  */
 package com.netxforge.netxstudio.metrics.util;
 
+import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.metrics.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
@@ -111,6 +113,7 @@ public class MetricsSwitch<T> extends Switch<T> {
 			case MetricsPackage.MAPPING: {
 				Mapping mapping = (Mapping)theEObject;
 				T result = caseMapping(mapping);
+				if (result == null) result = caseBase(mapping);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -118,6 +121,7 @@ public class MetricsSwitch<T> extends Switch<T> {
 				MappingCSV mappingCSV = (MappingCSV)theEObject;
 				T result = caseMappingCSV(mappingCSV);
 				if (result == null) result = caseMapping(mappingCSV);
+				if (result == null) result = caseBase(mappingCSV);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -125,12 +129,14 @@ public class MetricsSwitch<T> extends Switch<T> {
 				MappingRDBMS mappingRDBMS = (MappingRDBMS)theEObject;
 				T result = caseMappingRDBMS(mappingRDBMS);
 				if (result == null) result = caseMapping(mappingRDBMS);
+				if (result == null) result = caseBase(mappingRDBMS);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case MetricsPackage.MAPPING_RECORD: {
 				MappingRecord mappingRecord = (MappingRecord)theEObject;
 				T result = caseMappingRecord(mappingRecord);
+				if (result == null) result = caseBase(mappingRecord);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -138,12 +144,14 @@ public class MetricsSwitch<T> extends Switch<T> {
 				MappingRecordXLS mappingRecordXLS = (MappingRecordXLS)theEObject;
 				T result = caseMappingRecordXLS(mappingRecordXLS);
 				if (result == null) result = caseMappingRecord(mappingRecordXLS);
+				if (result == null) result = caseBase(mappingRecordXLS);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case MetricsPackage.MAPPING_STATISTIC: {
 				MappingStatistic mappingStatistic = (MappingStatistic)theEObject;
 				T result = caseMappingStatistic(mappingStatistic);
+				if (result == null) result = caseBase(mappingStatistic);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -151,24 +159,28 @@ public class MetricsSwitch<T> extends Switch<T> {
 				MappingXLS mappingXLS = (MappingXLS)theEObject;
 				T result = caseMappingXLS(mappingXLS);
 				if (result == null) result = caseMapping(mappingXLS);
+				if (result == null) result = caseBase(mappingXLS);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case MetricsPackage.MAPPING_XLS_COLUMN: {
 				MappingXLSColumn mappingXLSColumn = (MappingXLSColumn)theEObject;
 				T result = caseMappingXLSColumn(mappingXLSColumn);
+				if (result == null) result = caseBase(mappingXLSColumn);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case MetricsPackage.METRIC: {
 				Metric metric = (Metric)theEObject;
 				T result = caseMetric(metric);
+				if (result == null) result = caseBase(metric);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case MetricsPackage.METRIC_SOURCE: {
 				MetricSource metricSource = (MetricSource)theEObject;
 				T result = caseMetricSource(metricSource);
+				if (result == null) result = caseBase(metricSource);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -396,6 +408,21 @@ public class MetricsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseValueDataKind(ValueDataKind object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBase(Base object) {
 		return null;
 	}
 

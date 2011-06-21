@@ -27,13 +27,16 @@ package com.netxforge.netxstudio.metrics;
  * <!-- begin-model-doc -->
  * A specialized type, for representing a value in the
  * 				mapping. The valuekind can be either a datetime or a metric.
- * 				To ignore a column, provide the "null" type as the valuekind, for that
+ * 				To
+ * 				ignore a column, provide the "null" type as the valuekind, for that
  * 				for that column.
  * 
  * 				Examples:
- * 				1. If the valueKind is metric, the mapping will store the value as a
+ * 				1. If the valueKind is metric, the mapping
+ * 				will store the value as a
  * 				numeric value in a new Value object.
- * 				2. if the valueKind is datetime, the mapping will store the value as a
+ * 				2. if
+ * 				the valueKind is datetime, the mapping will store the value as a
  * 				timestamp in a new Value object
  * 			
  * <!-- end-model-doc -->

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.library;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -29,13 +30,23 @@ import com.netxforge.netxstudio.generics.DiagramInfo;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a group of equipment which have a relationship. 
- * An EquipmentGroup is used to group equipments and evaluate expressions on resources of the group. 
+ * A type representing a group of equipment which have
+ * 				a relationship.
+ * 				An EquipmentGroup is used to group equipments and
+ * 				evaluate expressions
+ * 				on resources of the group.
  * 
- * Examples:
- * 1. The EquipmentGroup type can have resources which hold the distribution of traffic amongst the 
- * equipment in the group. An Expression is used to derive the distribution.
- * 2. The EquipmentGroup type can have resources which hold the redudancy schema of a 
+ * 				Examples:
+ * 				1. The
+ * 				EquipmentGroup type can have resources which hold the
+ * 				distribution of
+ * 				traffic amongst the
+ * 				equipment in the group. An Expression is used to
+ * 				derive the distribution.
+ * 				2. The EquipmentGroup type can have
+ * 				resources which hold the redudancy
+ * 				schema of a
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -56,17 +67,18 @@ import com.netxforge.netxstudio.generics.DiagramInfo;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup()
  * @model extendedMetaData="name='EquipmentGroup' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface EquipmentGroup extends CDOObject {
+public interface EquipmentGroup extends Base {
 	/**
 	 * Returns the value of the '<em><b>Diagrams</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.generics.DiagramInfo}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Diagrams reference, contains 0 or more DiagramInfo types.
+	 * The Diagrams reference, contains 0 or more
+	 * 								DiagramInfo types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Diagrams</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup_Diagrams()
@@ -82,7 +94,10 @@ public interface EquipmentGroup extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The EquipmentGroupResources reference, contains 0 or more Resource types.
+	 * The EquipmentGroupResources reference, contains
+	 * 								0
+	 * 								or more Resource types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipment Group Resources</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup_EquipmentGroupResources()
@@ -99,8 +114,10 @@ public interface EquipmentGroup extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ExpressionRefs reference, refers to 0 or more Expression types.
-	 * 
+	 * The ExpressionRefs reference, refers to 0 or
+	 * 								more
+	 * 								Expression types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expression Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup_ExpressionRefs()
@@ -117,8 +134,9 @@ public interface EquipmentGroup extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Equipments reference, references 0 or more Equipment types.
-	 * 					
+	 * The Equipments reference, references 0 or more
+	 * 								Equipment types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipment Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup_EquipmentRefs()
@@ -133,8 +151,10 @@ public interface EquipmentGroup extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ParameterRefs reference, refers to 0 or more Parameter types.
-	 * 
+	 * The ParameterRefs reference, refers to 0 or
+	 * 								more
+	 * 								Parameter types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Parameter Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup_ParameterRefs()
@@ -150,12 +170,12 @@ public interface EquipmentGroup extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * OCL derived feature: Retrieves all resources
-	 * 					
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>All Equipment Resources</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup_AllEquipmentResources()
 	 * @model transient="true" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL derivation='self->closure(equipmentRefs).equipmentResources->asOrderedSet()\n\t\t\t\t\t'"
+	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL derivation='self->closure(equipmentRefs).equipmentResources->asOrderedSet()\n\t\t\t\t\t\t\t'"
 	 *        extendedMetaData="kind='element' name='AllEquipmentResources'"
 	 * @generated
 	 */
@@ -167,12 +187,15 @@ public interface EquipmentGroup extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * OCL derived feature: Retrieve all elements with a non-empty product code. 
+	 * OCL derived feature: Retrieve all elements with
+	 * 								a
+	 * 								non-empty product code.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>All Equipments</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup_AllEquipments()
 	 * @model transient="true" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL derivation='\n\t\t\t\t\t\tself->closure(equipmentRefs)->asOrderedSet()\n\t\t\t\t\t'"
+	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL derivation='\n\t\t\t\t\t\t\t\tself->closure(equipmentRefs)->asOrderedSet()\n\t\t\t\t\t\t\t'"
 	 *        extendedMetaData="kind='element' name='AllEquipments'"
 	 * @generated
 	 */
@@ -184,7 +207,7 @@ public interface EquipmentGroup extends CDOObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * OCL derived feature: Count all equipments.
-	 * 				
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Count</em>' attribute.
 	 * @see #isSetCount()
@@ -192,7 +215,7 @@ public interface EquipmentGroup extends CDOObject {
 	 * @see #setCount(int)
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup_Count()
 	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" transient="true" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL derivation='self.equipments->size()\n\t\t\t\t\t\t\t'"
+	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL derivation='self.equipments->size()\n\t\t\t\t\t\t'"
 	 *        extendedMetaData="kind='attribute' name='Count'"
 	 * @generated
 	 */
@@ -238,7 +261,10 @@ public interface EquipmentGroup extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Description attribute holds the description of the equipment group.
+	 * The Description attribute holds the description
+	 * 							of
+	 * 							the equipment group.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
@@ -264,7 +290,10 @@ public interface EquipmentGroup extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds the name of the equipment group.
+	 * The Name attribute holds the name of the
+	 * 							equipment
+	 * 							group.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)

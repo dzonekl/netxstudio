@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.services;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -29,13 +30,16 @@ import com.netxforge.netxstudio.library.Expression;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a ServiceUser. A ServiceUser is a user of a service, which impacts the consumption of
- * resources when using a service. A ServiceUser has a profile, and a name. 
+ * A type representing a ServiceUser. A ServiceUser is
+ * 				a user of a service, which impacts the consumption of
+ * 				resources when
+ * 				using a service. A ServiceUser has a profile, and a name.
  * 
- * Examples: 
- * 1. A Service user postpaid subscriber is defined. It's profile is a postpaid subscriber profile with several
- * values for. 				
- * 				
+ * 				Examples:
+ * 				1. A Service user postpaid subscriber is defined. It's profile is a
+ * 				postpaid subscriber profile with several
+ * 				values for.
+ * 
  * 			
  * <!-- end-model-doc -->
  *
@@ -50,16 +54,17 @@ import com.netxforge.netxstudio.library.Expression;
  *
  * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceUser()
  * @model extendedMetaData="name='ServiceUser' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ServiceUser extends CDOObject {
+public interface ServiceUser extends Base {
 	/**
 	 * Returns the value of the '<em><b>Service Profile</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceProfile reference, contains 0 or 1 ServiceProfile type.
+	 * The ServiceProfile reference, contains 0 or 1
+	 * 								ServiceProfile type.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Service Profile</em>' containment reference.
 	 * @see #setServiceProfile(ServiceProfile)
@@ -86,8 +91,10 @@ public interface ServiceUser extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ExpressionRefs reference, refers to 0 or more Expression types.
-	 * 			
+	 * The ExpressionRefs reference, refers to 0 or
+	 * 								more
+	 * 								Expression types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expression Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceUser_ExpressionRefs()
@@ -101,7 +108,9 @@ public interface ServiceUser extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds the name of the ServiceUser.
+	 * The Name attribute holds the name of the
+	 * 							ServiceUser.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)

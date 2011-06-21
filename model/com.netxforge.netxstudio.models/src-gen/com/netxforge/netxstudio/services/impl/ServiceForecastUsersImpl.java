@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.services.ServiceForecastUsers;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -41,7 +42,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  *
  * @generated
  */
-public class ServiceForecastUsersImpl extends CDOObjectImpl implements ServiceForecastUsers {
+public class ServiceForecastUsersImpl extends BaseImpl implements ServiceForecastUsers {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -59,16 +60,6 @@ public class ServiceForecastUsersImpl extends CDOObjectImpl implements ServiceFo
 	@Override
 	protected EClass eStaticClass() {
 		return ServicesPackage.Literals.SERVICE_FORECAST_USERS;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

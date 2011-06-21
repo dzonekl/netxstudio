@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import com.netxforge.netxstudio.generics.Base;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
@@ -33,15 +34,28 @@ import com.netxforge.netxstudio.metrics.MetricSource;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a real telecommunications network or part of a network.
- * A Network type can have a parent Network. It also can contain nodes and relationships. A Network can have different phases 
- * which represents how the network evolves over time. The start and end date of the network provide reference on the period for which a phase applies.
- * applies. Network phases are also linked together. 
+ * A type representing the basic information points of
+ * 				a real telecommunications network or part of a network.
+ * 				A Network
+ * 				type can have a parent Network. It also can contain nodes
+ * 				and
+ * 				relationships. A Network can have different phases
+ * 				which represents
+ * 				how the network evolves over time. The start and end
+ * 				date of the
+ * 				network provide reference on the period for which a
+ * 				phase applies.
+ * 				applies. Network phases are also linked together.
  * 
- * Examples: 
- * 1. A "Core Network" is defined which holds Nodes belonging to the "Core Network". Relationships are also stored
- * in this network.
- * 1. A "Core Network" has 2 phases, each covering 1 calendar year.
+ * 				Examples:
+ * 				1. A "Core
+ * 				Network" is defined which holds Nodes belonging to the
+ * 				"Core
+ * 				Network". Relationships are also stored
+ * 				in this network.
+ * 				1. A "Core
+ * 				Network" has 2 phases, each covering 1 calendar year.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -62,17 +76,18 @@ import com.netxforge.netxstudio.metrics.MetricSource;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNetwork()
  * @model extendedMetaData="name='Network' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Network extends CDOObject {
+public interface Network extends Base {
 	/**
 	 * Returns the value of the '<em><b>Diagrams</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.generics.DiagramInfo}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Diagrams reference, contains 0 or more DiagramInfo types.
+	 * The Diagrams reference, contains 0 or more
+	 * 								DiagramInfo types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Diagrams</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNetwork_Diagrams()
@@ -88,7 +103,9 @@ public interface Network extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Nodes reference, contains 0 or more Node types.
+	 * The Nodes reference, contains 0 or more Node
+	 * 								types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Nodes</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNetwork_Nodes()
@@ -104,8 +121,10 @@ public interface Network extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Networks reference, contains 0 or more Network types.
-	 * These are sub networks.
+	 * The Networks reference, contains 0 or more
+	 * 								Network types.
+	 * 								These are sub networks.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Networks</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNetwork_Networks()
@@ -121,7 +140,9 @@ public interface Network extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The FunctionRelationships reference, contains 0 or more FunctionRelationship types.
+	 * The FunctionRelationships reference, contains 0
+	 * 								or more FunctionRelationship types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Function Relationships</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNetwork_FunctionRelationships()
@@ -137,7 +158,10 @@ public interface Network extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The EquipmentRelationships reference, contains 0 or more EquipmentRelationship types.
+	 * The EquipmentRelationships reference, contains
+	 * 								0
+	 * 								or more EquipmentRelationship types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Equipment Relationships</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNetwork_EquipmentRelationships()
@@ -153,7 +177,9 @@ public interface Network extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The MetricSources reference, contains 0 or more MetricSource types
+	 * The MetricSources reference, contains 0 or more
+	 * 								MetricSource types
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Sources</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNetwork_MetricSources()
@@ -168,7 +194,9 @@ public interface Network extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The CreatedByRef references, refers to the User type.
+	 * The CreatedByRef references, refers to the User
+	 * 							type.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Created By Ref</em>' reference.
 	 * @see #setCreatedByRef(Person)
@@ -193,7 +221,9 @@ public interface Network extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The CreatedDate attribute is populated with the actual creation date of the Network.
+	 * The CreatedDate attribute is populated with the
+	 * 							actual creation date of the Network.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Created Date</em>' attribute.
 	 * @see #setCreatedDate(XMLGregorianCalendar)
@@ -219,7 +249,10 @@ public interface Network extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Description attribute holds the description of the network.
+	 * The Description attribute holds the description
+	 * 							of
+	 * 							the network.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
@@ -246,7 +279,9 @@ public interface Network extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds the name of the network.
+	 * The Name attribute holds the name of the
+	 * 							network.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #isSetName()

@@ -4,7 +4,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metrics"
     nsURI="http://www.netxforge.com/13042011/metrics" nsPrefix="metrics">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-    <details key="documentation" value="&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited capabilities of XSD patterns. &#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited capabilities of XSD patterns. &#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;"/>
+    <details key="documentation" value="&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited&#xA;&#x9;&#x9;&#x9;capabilities of&#xA;&#x9;&#x9;&#x9;XSD patterns.&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited&#xA;&#x9;&#x9;&#x9;capabilities of&#xA;&#x9;&#x9;&#x9;XSD patterns.&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;"/>
   </eAnnotations>
   <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
     <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL&#xA;http://www.eclipse.org/emf/2002/Ecore/OCL&#xA;http://www.eclipse.org/emf/2002/Ecore/OCL"/>
@@ -13,7 +13,7 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="DataKind">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for a DataKind."/>
+      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for a DataKind.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DataKind"/>
@@ -22,7 +22,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IdentifierDataKind" eSuperTypes="#//DataKind">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A specialized type, for representing an identifier&#xA;&#x9;&#x9;&#x9;&#x9;in the mapping. The identifier should contain the target object and&#xA;&#x9;&#x9;&#x9;&#x9;the target attribute of the object.&#xA;&#x9;&#x9;&#x9;&#x9;The target object and target attribute are used to find the Object, in&#xA;&#x9;&#x9;&#x9;&#x9;which the values will be stored.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. If the ObjectName is &quot;Node&quot; and the ObjectAttribute is &quot;NodeID&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;the value of the column in the XLS with with this&#xA;&#x9;&#x9;&#x9;&#x9;IdentifierDataType, will be interpreted&#xA;&#x9;&#x9;&#x9;&#x9;as the Node->NodeID identifier.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A specialized type, for representing an identifier&#xA;&#x9;&#x9;&#x9;&#x9;in the mapping. The identifier should contain the target object and&#xA;&#x9;&#x9;&#x9;&#x9;the target attribute of the object.&#xA;&#x9;&#x9;&#x9;&#x9;The target object and target&#xA;&#x9;&#x9;&#x9;&#x9;attribute are used to find the Object, in&#xA;&#x9;&#x9;&#x9;&#x9;which the values will be&#xA;&#x9;&#x9;&#x9;&#x9;stored.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. If the ObjectName is &quot;Node&quot; and the&#xA;&#x9;&#x9;&#x9;&#x9;ObjectAttribute is &quot;NodeID&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;the value of the column in the XLS with&#xA;&#x9;&#x9;&#x9;&#x9;with this&#xA;&#x9;&#x9;&#x9;&#x9;IdentifierDataType, will be interpreted&#xA;&#x9;&#x9;&#x9;&#x9;as the Node->NodeID&#xA;&#x9;&#x9;&#x9;&#x9;identifier.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="IdentifierDataKind"/>
@@ -31,7 +31,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectKind" eType="#//ObjectKindType"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ObjectKind attributes holds the textual name&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;of the target object we are looking for.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Note: Most often this will be a &quot;Node&quot;, but also a child of a &quot;Node&quot;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;like an &quot;Equipment&quot;, it can also be a &quot;Relationship&quot; on a &quot;Node&quot;.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The ObjectKind attributes holds the textual name&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;of the target object we are looking for.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Note: Most often this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;will be a &quot;Node&quot;, but also a child of a &quot;Node&quot;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;like an&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;Equipment&quot;, it can also be a &quot;Relationship&quot; on a &quot;Node&quot;.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -40,7 +40,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ObjectProperty attribute holds the the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;textual name of the target attribute we are looking for.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Note: Most often this will be the &quot;NodeID&quot; but it can also be a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;Position&quot; identifier or anything else.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The ObjectProperty attribute holds the the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;textual name of the target attribute we are looking for.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Note:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Most often this will be the &quot;NodeID&quot; but it can also be a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;Position&quot; identifier or anything else.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -50,7 +50,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="KindHintType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="The KindHintType defines if a metric value is a BusyHour or AVG.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="The KindHintType defines if a metric value is a&#xA;&#x9;&#x9;&#x9;&#x9;BusyHour or AVG.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="KindHintType"/>
@@ -64,9 +64,9 @@
       <details key="baseType" value="KindHintType"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
+  <eClassifiers xsi:type="ecore:EClass" name="Mapping" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for a mapping specification."/>
+      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for a mapping specification.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Mapping"/>
@@ -75,7 +75,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MappingCSV" eSuperTypes="#//Mapping">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for mapping an CSV file to the NetXStudio model.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;THIS TYPE SHOULD NOT BE CONSIDERED FOR NOW.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for mapping an CSV file to the NetXStudio model.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;THIS TYPE SHOULD NOT&#xA;&#x9;&#x9;&#x9;&#x9;BE CONSIDERED FOR NOW.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MappingCSV"/>
@@ -84,16 +84,16 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MappingRDBMS" eSuperTypes="#//Mapping">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for mapping an RDMS file to the NetXStudio model.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;THIS TYPE SHOULD NOT BE CONSIDERED FOR NOW.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for mapping an RDMS file to the NetXStudio model.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;THIS TYPE SHOULD&#xA;&#x9;&#x9;&#x9;&#x9;NOT BE CONSIDERED FOR NOW.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MappingRDBMS"/>
       <details key="kind" value="empty"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MappingRecord">
+  <eClassifiers xsi:type="ecore:EClass" name="MappingRecord" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the information points of a&#xA;&#x9;&#x9;&#x9;&#x9;mapping record"/>
+      <details key="documentation" value="A type representing the information points of a&#xA;&#x9;&#x9;&#x9;&#x9;mapping record&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MappingRecord"/>
@@ -101,7 +101,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The message giving information about this record.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The message giving information about this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;record.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -138,7 +138,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MappingStatistic">
+  <eClassifiers xsi:type="ecore:EClass" name="MappingStatistic" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A type representing the information points of a&#xA;&#x9;&#x9;&#x9;&#x9;statistic for each time a source was accessed.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
@@ -149,7 +149,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="failedRecords" upperBound="-1"
         eType="#//MappingRecord" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The FailedRecords reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;MappingRecord types."/>
+        <details key="documentation" value="The FailedRecords reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;MappingRecord types.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -159,7 +159,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="mappingDuration" lowerBound="1"
         eType="ecore:EClass generics.ecore#//DateTimeRange" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The MappingDuration reference, refers to a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;DateTimeRange type."/>
+        <details key="documentation" value="The MappingDuration reference, refers to a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;DateTimeRange type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -168,7 +168,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="A global error or information message&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="A global error or information message&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -178,7 +178,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalRecords" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The TotalRecords attribute holds a the number of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;records for this mapping run.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The TotalRecords attribute holds a the number of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;records for this mapping run.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -188,7 +188,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MappingXLS" eSuperTypes="#//Mapping">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for mapping an XLS file to the NetXStudio model.&#xA;&#x9;&#x9;&#x9;&#x9;The mapping interprets the sheet index, the header row, the data row(s)&#xA;&#x9;&#x9;&#x9;&#x9;and the types of data to be interpreted.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;The types, are either a value or identifier. (Each having it's own&#xA;&#x9;&#x9;&#x9;&#x9;specialized type).&#xA;&#x9;&#x9;&#x9;&#x9;Multiple identifiers can be defined, the mapping will succeed if all&#xA;&#x9;&#x9;&#x9;&#x9;identifications succeed.&#xA;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for mapping an XLS file to the NetXStudio model.&#xA;&#x9;&#x9;&#x9;&#x9;The mapping&#xA;&#x9;&#x9;&#x9;&#x9;interprets the sheet index, the header row, the data row(s)&#xA;&#x9;&#x9;&#x9;&#x9;and the&#xA;&#x9;&#x9;&#x9;&#x9;types of data to be interpreted.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;The types, are either a value or&#xA;&#x9;&#x9;&#x9;&#x9;identifier. (Each having it's own&#xA;&#x9;&#x9;&#x9;&#x9;specialized type).&#xA;&#x9;&#x9;&#x9;&#x9;Multiple&#xA;&#x9;&#x9;&#x9;&#x9;identifiers can be defined, the mapping will succeed if all&#xA;&#x9;&#x9;&#x9;&#x9;identifications succeed.&#xA;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MappingXLS"/>
@@ -204,7 +204,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstDataRow" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The FirstDataRow attribute holds the row number&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;of the first row containing data."/>
+        <details key="documentation" value="The FirstDataRow attribute holds the row number&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;of the first row containing data.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -214,7 +214,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="headerRow" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The HeaderRow attribute holds the row number&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;which contains the header. "/>
+        <details key="documentation" value="The HeaderRow attribute holds the row number&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;which contains the header.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -232,7 +232,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MappingXLSColumn">
+  <eClassifiers xsi:type="ecore:EClass" name="MappingXLSColumn" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MappingXLSColumn"/>
       <details key="kind" value="elementOnly"/>
@@ -240,7 +240,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="dataType" eType="#//DataKind"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ColumnDataKind reference, contains 1 DataKind&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type. The DataKind is either an Identifer or a Value.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The ColumnDataKind reference, contains 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;DataKind&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type. The DataKind is either an Identifer or a Value.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -255,9 +255,9 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Metric">
+  <eClassifiers xsi:type="ecore:EClass" name="Metric" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing a metric in an a telecom&#xA;&#x9;&#x9;&#x9;&#x9;equipment. This is often also referred to as counter or KPI.&#xA;&#x9;&#x9;&#x9;&#x9;Metric types can be nested to form a hiarchical structure in similar&#xA;&#x9;&#x9;&#x9;&#x9;fashion to a real KPI hiarchy.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;The Metric type (and/or it's children) is first part of the Library&#xA;&#x9;&#x9;&#x9;&#x9;type, and then referenced from a Node type when&#xA;&#x9;&#x9;&#x9;&#x9;created.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. The Metric type &quot;SGSN Attached subscribers&quot; reprents a KPI on a&#xA;&#x9;&#x9;&#x9;&#x9;SGSN function.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing a metric in an a telecom&#xA;&#x9;&#x9;&#x9;&#x9;equipment. This is often also referred to as counter or KPI.&#xA;&#x9;&#x9;&#x9;&#x9;Metric&#xA;&#x9;&#x9;&#x9;&#x9;types can be nested to form a hiarchical structure in similar&#xA;&#x9;&#x9;&#x9;&#x9;fashion to a real KPI hiarchy.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;The Metric type (and/or it's children)&#xA;&#x9;&#x9;&#x9;&#x9;is first part of the Library&#xA;&#x9;&#x9;&#x9;&#x9;type, and then referenced from a Node&#xA;&#x9;&#x9;&#x9;&#x9;type when&#xA;&#x9;&#x9;&#x9;&#x9;created.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. The Metric type &quot;SGSN Attached&#xA;&#x9;&#x9;&#x9;&#x9;subscribers&quot; reprents a KPI on a&#xA;&#x9;&#x9;&#x9;&#x9;SGSN function.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Metric"/>
@@ -266,7 +266,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="metrics" upperBound="-1"
         eType="#//Metric" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Metrics reference, contains 0 or more Metric&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;types.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The Metrics reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Metric&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;types.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -275,7 +275,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType generics.ecore#//Description2000">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Description attribute holds the description of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;the metric."/>
+        <details key="documentation" value="The Description attribute holds the description&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the metric.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -284,7 +284,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="measurementKind" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The MeasurementKind attribute is a free form text&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;field which can hold information about which&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;category or group a Metric belongs.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The MeasurementKind attribute is a free form&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;text&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;field which can hold information about which&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;category or group&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;a Metric belongs.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -293,7 +293,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="measurementPoint" eType="ecore:EDataType generics.ecore#//Description2000">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The MeasurementPoint Attribute describes textually&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;at which point in a procedure&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;the measurement takes place.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The MeasurementPoint Attribute describes&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;textually&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;at which point in a procedure&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the measurement takes&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;place.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -302,7 +302,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="metricCalculation" eType="ecore:EDataType generics.ecore#//ExpressionLine">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The MetricCalculation references, contains 0 or 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;ExpressionLine type."/>
+        <details key="documentation" value="The MetricCalculation references, contains 0 or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ExpressionLine type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -312,7 +312,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="metricSourceRef" eType="#//MetricSource"
         eOpposite="#//MetricSource/metricRefs">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The MetricSourceRef references, references a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;MetricSource type."/>
+        <details key="documentation" value="The MetricSourceRef references, references a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;MetricSource type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -321,7 +321,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType generics.ecore#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Name attribute holds the name of the metric.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The Name attribute holds the name of the metric.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -330,7 +330,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unitRef" eType="ecore:EClass library.ecore#//Unit">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The UnitRef reference, refers to 0 or 1 Unit type."/>
+        <details key="documentation" value="The UnitRef reference, refers to 0 or 1 Unit&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -338,9 +338,9 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MetricSource">
+  <eClassifiers xsi:type="ecore:EClass" name="MetricSource" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the information points of a&#xA;&#x9;&#x9;&#x9;&#x9;source which provides metric values.&#xA;&#x9;&#x9;&#x9;&#x9;A source, is an external data source like an RDBMS or an Excel or CSV&#xA;&#x9;&#x9;&#x9;&#x9;file. The MetricSource type will contain all necessary&#xA;&#x9;&#x9;&#x9;&#x9;to access, and map the metric values of the source to the correct&#xA;&#x9;&#x9;&#x9;&#x9;Object. (Most commonly a Node).&#xA;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing the information points of a&#xA;&#x9;&#x9;&#x9;&#x9;source which provides metric values.&#xA;&#x9;&#x9;&#x9;&#x9;A source, is an external data&#xA;&#x9;&#x9;&#x9;&#x9;source like an RDBMS or an Excel or CSV&#xA;&#x9;&#x9;&#x9;&#x9;file. The MetricSource type&#xA;&#x9;&#x9;&#x9;&#x9;will contain all necessary&#xA;&#x9;&#x9;&#x9;&#x9;to access, and map the metric values of&#xA;&#x9;&#x9;&#x9;&#x9;the source to the correct&#xA;&#x9;&#x9;&#x9;&#x9;Object. (Most commonly a Node).&#xA;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MetricSource"/>
@@ -349,7 +349,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="metricRefs" upperBound="-1"
         eType="#//Metric" eOpposite="#//Metric/metricSourceRef">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The MetricRefs reference, refers to one or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Metric types for which this source provides values.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The MetricRefs reference, refers to one or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Metric types for which this source provides values.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -359,7 +359,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="metricMapping" eType="#//Mapping"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Will not be persisted in the DB, but would use a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;.properties file for now.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Will not be persisted in the DB, but would use&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;.properties file for now.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -369,7 +369,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="statistics" upperBound="-1"
         eType="#//MappingStatistic" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Statistics reference, contains one or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;MappingStatistic types."/>
+        <details key="documentation" value="The Statistics reference, contains one or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;MappingStatistic types.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -378,7 +378,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="metricLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="a URI representation of the location additional&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;information like login/password can be appended to the URI.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;1. For an XLS file this could be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;file://path_to_where_the_xls_files_are_stored/&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;2. For an RDMS this could be: jdbc:mysql://localhost:3306/DB (In this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;case a JDBC URL to access the DB). The login/password can be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;appended to the URI.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="a URI representation of the location additional&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;information like login/password can be appended to the URI.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1. For an XLS file this could be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;file://path_to_where_the_xls_files_are_stored/&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;2. For an RDMS this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;could be: jdbc:mysql://localhost:3306/DB (In&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case a JDBC URL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to access the DB). The login/password can be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;appended to the URI.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -387,7 +387,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType generics.ecore#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Name attribute holds the name of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;MetricSource as it will be presented.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The Name attribute holds the name of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;MetricSource as it will be presented.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -397,7 +397,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MetricValueRange">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing a range of metricvalues. The&#xA;&#x9;&#x9;&#x9;&#x9;range has a name and provides some hints on the expected&#xA;&#x9;&#x9;&#x9;&#x9;stored values.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;It is expected the metric loading or derived values will consider the&#xA;&#x9;&#x9;&#x9;&#x9;hints, on where to store the metric.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing a range of metricvalues. The&#xA;&#x9;&#x9;&#x9;&#x9;range has a name and provides some hints on the expected&#xA;&#x9;&#x9;&#x9;&#x9;stored&#xA;&#x9;&#x9;&#x9;&#x9;values.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;It is expected the metric loading or derived values will&#xA;&#x9;&#x9;&#x9;&#x9;consider the&#xA;&#x9;&#x9;&#x9;&#x9;hints, on where to store the metric.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MetricValueRange"/>
@@ -406,7 +406,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="metricValues" upperBound="-1"
         eType="ecore:EClass generics.ecore#//Value" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The MetricValue reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Value types"/>
+        <details key="documentation" value="The MetricValue reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Value types&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -448,7 +448,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ValueDataKind" eSuperTypes="#//DataKind">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A specialized type, for representing a value in the&#xA;&#x9;&#x9;&#x9;&#x9;mapping. The valuekind can be either a datetime or a metric.&#xA;&#x9;&#x9;&#x9;&#x9;To ignore a column, provide the &quot;null&quot; type as the valuekind, for that&#xA;&#x9;&#x9;&#x9;&#x9;for that column.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. If the valueKind is metric, the mapping will store the value as a&#xA;&#x9;&#x9;&#x9;&#x9;numeric value in a new Value object.&#xA;&#x9;&#x9;&#x9;&#x9;2. if the valueKind is datetime, the mapping will store the value as a&#xA;&#x9;&#x9;&#x9;&#x9;timestamp in a new Value object&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A specialized type, for representing a value in the&#xA;&#x9;&#x9;&#x9;&#x9;mapping. The valuekind can be either a datetime or a metric.&#xA;&#x9;&#x9;&#x9;&#x9;To&#xA;&#x9;&#x9;&#x9;&#x9;ignore a column, provide the &quot;null&quot; type as the valuekind, for that&#xA;&#x9;&#x9;&#x9;&#x9;for that column.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. If the valueKind is metric, the mapping&#xA;&#x9;&#x9;&#x9;&#x9;will store the value as a&#xA;&#x9;&#x9;&#x9;&#x9;numeric value in a new Value object.&#xA;&#x9;&#x9;&#x9;&#x9;2. if&#xA;&#x9;&#x9;&#x9;&#x9;the valueKind is datetime, the mapping will store the value as a&#xA;&#x9;&#x9;&#x9;&#x9;timestamp in a new Value object&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ValueDataKind"/>

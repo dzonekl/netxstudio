@@ -48,6 +48,7 @@ import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceJobRun;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -94,6 +95,13 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * @generated
 	 */
 	private EClass rfsServiceJobEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rfsServiceJobRunEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -173,34 +181,34 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		ServicesPackageImpl theServicesPackage = (ServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) instanceof ServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) : ServicesPackage.eINSTANCE);
 		GenericsPackageImpl theGenericsPackage = (GenericsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI) instanceof GenericsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI) : GenericsPackage.eINSTANCE);
+		ServicesPackageImpl theServicesPackage = (ServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) instanceof ServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) : ServicesPackage.eINSTANCE);
 		LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
 		MetricsPackageImpl theMetricsPackage = (MetricsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) instanceof MetricsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) : MetricsPackage.eINSTANCE);
-		OperatorsPackageImpl theOperatorsPackage = (OperatorsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) instanceof OperatorsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) : OperatorsPackage.eINSTANCE);
 		ProtocolsPackageImpl theProtocolsPackage = (ProtocolsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) instanceof ProtocolsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) : ProtocolsPackage.eINSTANCE);
+		OperatorsPackageImpl theOperatorsPackage = (OperatorsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) instanceof OperatorsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) : OperatorsPackage.eINSTANCE);
 		GeoPackageImpl theGeoPackage = (GeoPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) instanceof GeoPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) : GeoPackage.eINSTANCE);
 		NetxstudioPackageImpl theNetxstudioPackage = (NetxstudioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) instanceof NetxstudioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) : NetxstudioPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theSchedulingPackage.createPackageContents();
-		theServicesPackage.createPackageContents();
 		theGenericsPackage.createPackageContents();
+		theServicesPackage.createPackageContents();
 		theLibraryPackage.createPackageContents();
 		theMetricsPackage.createPackageContents();
-		theOperatorsPackage.createPackageContents();
 		theProtocolsPackage.createPackageContents();
+		theOperatorsPackage.createPackageContents();
 		theGeoPackage.createPackageContents();
 		theNetxstudioPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theSchedulingPackage.initializePackageContents();
-		theServicesPackage.initializePackageContents();
 		theGenericsPackage.initializePackageContents();
+		theServicesPackage.initializePackageContents();
 		theLibraryPackage.initializePackageContents();
 		theMetricsPackage.initializePackageContents();
-		theOperatorsPackage.initializePackageContents();
 		theProtocolsPackage.initializePackageContents();
+		theOperatorsPackage.initializePackageContents();
 		theGeoPackage.initializePackageContents();
 		theNetxstudioPackage.initializePackageContents();
 
@@ -416,6 +424,24 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRFSServiceJobRun() {
+		return rfsServiceJobRunEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRFSServiceJobRun_ComponentRefs() {
+		return (EReference)rfsServiceJobRunEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getJobRunState() {
 		return jobRunStateEEnum;
 	}
@@ -502,6 +528,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		rfsServiceJobEClass = createEClass(RFS_SERVICE_JOB);
 		createEReference(rfsServiceJobEClass, RFS_SERVICE_JOB__RFS_SERVICE);
 
+		rfsServiceJobRunEClass = createEClass(RFS_SERVICE_JOB_RUN);
+		createEReference(rfsServiceJobRunEClass, RFS_SERVICE_JOB_RUN__COMPONENT_REFS);
+
 		// Create enums
 		jobRunStateEEnum = createEEnum(JOB_RUN_STATE);
 		jobStateEEnum = createEEnum(JOB_STATE);
@@ -547,6 +576,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		// Add supertypes to classes
 		metricSourceJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceJobEClass.getESuperTypes().add(this.getJob());
+		rfsServiceJobRunEClass.getESuperTypes().add(this.getJobRun());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(jobEClass, Job.class, "Job", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -575,6 +605,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		initEClass(rfsServiceJobEClass, RFSServiceJob.class, "RFSServiceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRFSServiceJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, RFSServiceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(rfsServiceJobRunEClass, RFSServiceJobRun.class, "RFSServiceJobRun", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRFSServiceJobRun_ComponentRefs(), ecorePackage.getEObject(), null, "componentRefs", null, 0, -1, RFSServiceJobRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(jobRunStateEEnum, JobRunState.class, "JobRunState");
@@ -615,7 +648,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																
+		   });																																				
 	}
 
 	/**
@@ -805,6 +838,20 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   new String[] {
 			 "kind", "element",
 			 "name", "RFSService"
+		   });			
+		addAnnotation
+		  (rfsServiceJobRunEClass, 
+		   source, 
+		   new String[] {
+			 "name", "RFSServiceJobRun",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getRFSServiceJobRun_ComponentRefs(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ComponentRefs"
 		   });
 	}
 

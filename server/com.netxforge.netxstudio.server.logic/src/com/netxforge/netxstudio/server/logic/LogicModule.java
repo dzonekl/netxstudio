@@ -12,6 +12,8 @@ public class LogicModule extends AbstractModule {
 		this.bind(IExpressionEngine.class).to(ExpressionEngine.class);
 		this.bind(RFSServiceCapacityLogic.class);
 		this.bind(RFSServiceJobImplementation.class);
+		this.bind(CapacityLogicEngine.CapacityLogicEquipment.class);
+		this.bind(CapacityLogicEngine.CapacityLogicFunction.class);
 	}
 
 }

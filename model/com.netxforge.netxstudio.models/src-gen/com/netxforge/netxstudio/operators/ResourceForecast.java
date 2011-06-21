@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -27,8 +28,10 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing a resource forecast run. The resources in the Nodes will contain the forecast values, this type however hold the 
- * 			time markers which result from the forecast.
+ * A type representing a resource forecast run. The
+ * 				resources in the Nodes will contain the forecast values, this type
+ * 				however hold the
+ * 				time markers which result from the forecast.
  * 			
  * <!-- end-model-doc -->
  *
@@ -41,17 +44,19 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceForecast()
  * @model extendedMetaData="name='ResourceForecast' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ResourceForecast extends CDOObject {
+public interface ResourceForecast extends Base {
 	/**
 	 * Returns the value of the '<em><b>Markers</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.operators.Marker}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Markers reference, contains 0 or more Marker types.
+	 * The Markers reference, contains 0 or more
+	 * 								Marker
+	 * 								types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Markers</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceForecast_Markers()

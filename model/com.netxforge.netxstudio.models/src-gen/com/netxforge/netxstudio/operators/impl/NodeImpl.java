@@ -23,6 +23,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.geo.Room;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -46,7 +47,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  *
  * @generated
  */
-public class NodeImpl extends CDOObjectImpl implements Node {
+public class NodeImpl extends BaseImpl implements Node {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -64,16 +65,6 @@ public class NodeImpl extends CDOObjectImpl implements Node {
 	@Override
 	protected EClass eStaticClass() {
 		return OperatorsPackage.Literals.NODE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

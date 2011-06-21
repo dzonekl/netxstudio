@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.geo.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
@@ -38,7 +39,7 @@ import com.netxforge.netxstudio.geo.Room;
  *
  * @generated
  */
-public class RoomImpl extends CDOObjectImpl implements Room {
+public class RoomImpl extends BaseImpl implements Room {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -56,16 +57,6 @@ public class RoomImpl extends CDOObjectImpl implements Room {
 	@Override
 	protected EClass eStaticClass() {
 		return GeoPackage.Literals.ROOM;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

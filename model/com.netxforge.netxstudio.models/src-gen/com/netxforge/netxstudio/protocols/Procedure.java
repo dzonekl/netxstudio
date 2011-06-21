@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.protocols;
 
+import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
@@ -27,16 +28,23 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of a protocol procedure. A procedure is a sequence of messages in a protocol. The order in which the messages are expected, is the order in which
- * the messages are stored in the messages reference.
- * 				
- * THIS TYPE SHOULD NOT BE CONSIDERED FOR NOW.
+ * A type representing the basic information points of
+ * 				a protocol procedure. A procedure is a sequence of messages in a
+ * 				protocol. The order in which the messages are expected, is the order
+ * 				in which
+ * 				the messages are stored in the messages reference.
  * 
- * Examples: 
- * 1. The routing procedure for a terminating cal consists of the following messages. 
- * 	- Send Routing Information 
- * 	- Provide Roaming Number. 
- * 	- etc..
+ * 				THIS TYPE
+ * 				SHOULD NOT BE CONSIDERED FOR NOW.
+ * 
+ * 				Examples:
+ * 				1. The routing procedure
+ * 				for a terminating cal consists of the
+ * 				following messages.
+ * 				- Send
+ * 				Routing Information
+ * 				- Provide Roaming Number.
+ * 				- etc..
  * 			
  * <!-- end-model-doc -->
  *
@@ -50,17 +58,18 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see com.netxforge.netxstudio.protocols.ProtocolsPackage#getProcedure()
  * @model extendedMetaData="name='Procedure' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface Procedure extends CDOObject {
+public interface Procedure extends Base {
 	/**
 	 * Returns the value of the '<em><b>Messages</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.protocols.Message}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Messages reference, refers to 0 or more Message types.
+	 * The Messages reference, refers to 0 or more
+	 * 								Message types.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Messages</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.protocols.ProtocolsPackage#getProcedure_Messages()
@@ -75,7 +84,9 @@ public interface Procedure extends CDOObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The Name attribute holds a name used for presentation.
+	 * The Name attribute holds a name used for
+	 * 							presentation.
+	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
