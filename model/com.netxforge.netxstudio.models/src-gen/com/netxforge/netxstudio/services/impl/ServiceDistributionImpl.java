@@ -18,11 +18,10 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
-import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.services.ServiceDistribution;

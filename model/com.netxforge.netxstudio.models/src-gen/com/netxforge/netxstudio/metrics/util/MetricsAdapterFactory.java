@@ -18,13 +18,12 @@
  */
 package com.netxforge.netxstudio.metrics.util;
 
-import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.metrics.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;

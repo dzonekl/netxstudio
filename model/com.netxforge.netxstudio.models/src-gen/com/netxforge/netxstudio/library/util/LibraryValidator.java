@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.library.util;
 
-import com.netxforge.netxstudio.library.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -28,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;

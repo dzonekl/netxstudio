@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.operators;
 
-import com.netxforge.netxstudio.generics.Base;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.metrics.MetricSource;

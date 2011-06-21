@@ -18,13 +18,12 @@
  */
 package com.netxforge.netxstudio.geo.util;
 
-import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.geo.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Room;

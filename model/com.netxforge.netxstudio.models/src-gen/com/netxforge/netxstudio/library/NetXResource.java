@@ -18,10 +18,9 @@
  */
 package com.netxforge.netxstudio.library;
 
-import com.netxforge.netxstudio.generics.Base;
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricValueRange;

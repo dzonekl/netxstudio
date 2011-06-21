@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.protocols.util;
 
-import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.protocols.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.Procedure;
 import com.netxforge.netxstudio.protocols.Protocol;

@@ -18,10 +18,9 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
-import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.MappingXLSColumn;
 import com.netxforge.netxstudio.metrics.MetricsPackage;

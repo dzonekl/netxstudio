@@ -19,7 +19,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Base">
     <eAnnotations source="teneo.jpa">
-      <details key="appinfo" value="@Mappedsuperclass"/>
+      <details key="appinfo" value="@MappedSSuperclass"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Base"/>

@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.services;
 
 import com.netxforge.netxstudio.generics.Base;
-import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->

@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.services.util;
 
-import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.services.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.RFSService;

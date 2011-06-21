@@ -18,25 +18,20 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.MultiImage;
-
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
-
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.Tolerance;
-
 import com.netxforge.netxstudio.metrics.Metric;
-
 import com.netxforge.netxstudio.protocols.Protocol;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

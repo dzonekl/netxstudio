@@ -18,15 +18,10 @@
  */
 package com.netxforge.netxstudio.library;
 
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
-import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.Lifecycle;
-import com.netxforge.netxstudio.generics.MultiImage;
-import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
-import com.netxforge.netxstudio.protocols.Protocol;
 
 /**
  * <!-- begin-user-doc -->

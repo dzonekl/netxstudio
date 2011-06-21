@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.scheduling.util;
 
-import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
@@ -29,6 +28,7 @@ import com.netxforge.netxstudio.scheduling.JobRun;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceJobRun;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**

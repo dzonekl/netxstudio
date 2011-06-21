@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.generics.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.DiagramKindType;

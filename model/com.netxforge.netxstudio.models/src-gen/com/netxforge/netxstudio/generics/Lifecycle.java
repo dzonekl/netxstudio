@@ -20,8 +20,6 @@ package com.netxforge.netxstudio.generics;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.cdo.CDOObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Lifecycle</b></em>'.

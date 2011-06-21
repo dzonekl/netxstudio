@@ -18,11 +18,11 @@
  */
 package com.netxforge.netxstudio.library;
 
-import com.netxforge.netxstudio.generics.Base;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
+
+import com.netxforge.netxstudio.generics.Base;
 
 /**
  * <!-- begin-user-doc -->

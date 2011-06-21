@@ -18,14 +18,14 @@
  */
 package com.netxforge.netxstudio.library.util;
 
-import com.netxforge.netxstudio.generics.Base;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Company;
-import com.netxforge.netxstudio.library.*;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;

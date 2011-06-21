@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.geo;
 
 import com.netxforge.netxstudio.generics.Base;
-import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->

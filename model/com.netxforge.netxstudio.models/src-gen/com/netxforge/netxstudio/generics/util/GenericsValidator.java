@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.generics.util;
 
-import com.netxforge.netxstudio.generics.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -29,6 +28,7 @@ import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeValidator;
 
 import com.netxforge.netxstudio.generics.ActionType;
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.DateTimeRange;

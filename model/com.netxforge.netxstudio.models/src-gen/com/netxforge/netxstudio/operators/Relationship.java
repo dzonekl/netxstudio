@@ -19,8 +19,6 @@
 package com.netxforge.netxstudio.operators;
 
 import com.netxforge.netxstudio.generics.Base;
-import org.eclipse.emf.cdo.CDOObject;
-
 import com.netxforge.netxstudio.protocols.Protocol;
 
 /**

@@ -18,11 +18,12 @@
  */
 package com.netxforge.netxstudio.geo;
 
-import com.netxforge.netxstudio.generics.GenericsPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
+import com.netxforge.netxstudio.generics.GenericsPackage;
 
 /**
  * <!-- begin-user-doc -->

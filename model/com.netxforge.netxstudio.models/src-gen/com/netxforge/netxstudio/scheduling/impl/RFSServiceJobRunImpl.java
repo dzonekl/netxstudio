@@ -18,13 +18,12 @@
  */
 package com.netxforge.netxstudio.scheduling.impl;
 
-import com.netxforge.netxstudio.scheduling.RFSServiceJobRun;
-import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+
+import com.netxforge.netxstudio.scheduling.RFSServiceJobRun;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
  * <!-- begin-user-doc -->

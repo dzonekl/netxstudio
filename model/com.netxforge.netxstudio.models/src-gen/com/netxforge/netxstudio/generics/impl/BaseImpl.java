@@ -18,12 +18,11 @@
  */
 package com.netxforge.netxstudio.generics.impl;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.GenericsPackage;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 /**
  * <!-- begin-user-doc -->

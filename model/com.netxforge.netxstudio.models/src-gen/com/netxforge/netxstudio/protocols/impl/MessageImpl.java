@@ -18,10 +18,9 @@
  */
 package com.netxforge.netxstudio.protocols.impl;
 
-import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 

@@ -19,8 +19,6 @@
 package com.netxforge.netxstudio.operators;
 
 import com.netxforge.netxstudio.generics.Base;
-import org.eclipse.emf.cdo.CDOObject;
-
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.geo.Room;
