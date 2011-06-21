@@ -63,7 +63,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class CDODataProvider implements IDataProvider, IFixtures {
+public abstract class CDODataProvider implements IDataProvider, IFixtures {
 
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
@@ -87,10 +87,6 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		return this.getSession().getUserID();
 	}
 
-	private CDOSession clientSession = null;
-
-	private CDOTransaction transaction = null;
-
 	public void openSession(String uid, String passwd) throws SecurityException {
 
 		if (connection.getConfig() == null) {
@@ -103,7 +99,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		// this very same config.
 		if (connection.getConfig().isSessionOpen()) {
 			final CDOSession openSession = connection.getConfig().openSession();
-			clientSession = openSession;
+			setSession(openSession);
 			return;
 		}
 
@@ -114,35 +110,34 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 				.setCredentialsProvider(credentialsProvider);
 
 		try {
-			clientSession = connection.getConfig().openSession();
+			setSession(connection.getConfig().openSession());
 			for (final EPackage ePackage : ePackages) {
-				clientSession.getPackageRegistry().putEPackage(ePackage);
+				getSession().getPackageRegistry().putEPackage(ePackage);
 			}
 		} catch (final SecurityException se) {
 			throw new SecurityException(se);
 		}
 	}
 
+	public abstract CDOSession getSession();
+
+	public abstract CDOTransaction getTransaction();
+
+	protected abstract boolean isTransactionSet();
+
+	protected abstract void setSession(CDOSession session);
+
+	protected abstract void setTransaction(CDOTransaction transaction);
+
 	/**
 	 * Close the session.
 	 */
 	public void closeSession() {
-		if (clientSession != null) {
-			if (!clientSession.isClosed()) {
-				clientSession.close();
+		if (getSession() != null) {
+			if (!getSession().isClosed()) {
+				getSession().close();
 			}
-		}
-	}
-
-	public CDOSession getSession() {
-		if (clientSession == null) {
-			// We can't get a session, which has not be opened and
-			// authenticated.
-			throw new java.lang.IllegalStateException();
-		} else {
-			// System.out.println("Currrent session instance:"
-			// + clientSession.toString());
-			return clientSession;
+			setSession(null);
 		}
 	}
 
@@ -158,7 +153,7 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		for (final EPackage ePackage : ePackages) {
 			cdoSession.getPackageRegistry().putEPackage(ePackage);
 		}
-		clientSession = cdoSession;
+		setSession(cdoSession);
 		return cdoSession;
 	}
 
@@ -194,9 +189,10 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 					return resource;
 				}
 				// We haven't found this resource in the current view's set,
-				// but we can't create a new transaction, so we have to see if
+				// but we can't create a new getTransaction(), so we have to see
+				// if
 				// the
-				// the CDOView has a transaction.
+				// the CDOView has a getTransaction().
 				if (view instanceof CDOTransaction) {
 					final CDOTransaction transaction = (CDOTransaction) view;
 					final CDOResource resource = transaction
@@ -204,7 +200,6 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 					return resource;
 				}
 			}
-
 		}
 
 		// We don't have a view, so let's open one.
@@ -236,8 +231,8 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		}
 
 		// We haven't found this resource in the current view's and set's,
-		// but we can't create a new transaction, so we have to see if the
-		// the CDOView has a transaction.
+		// but we can't create a new getTransaction(), so we have to see if the
+		// the CDOView has a getTransaction().
 		if (view instanceof CDOTransaction) {
 			final CDOTransaction transaction = (CDOTransaction) view;
 			// Should create in the set.
@@ -294,7 +289,6 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		final String res = resolveResourceName(feature);
 		assert res != null && res.length() > 0;
 		return this.getResource(res);
-
 	}
 
 	public Resource getCommitInfoResource(String userID) {
@@ -399,34 +393,34 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		}
 	}
 
-	public CDOTransaction getTransaction() {
-		if (transaction == null) {
-			transaction = getSession().openTransaction();
+	public CDOTransaction getgetTransaction() {
+		if (getTransaction() == null) {
+			setTransaction(getSession().openTransaction());
 		}
-		return transaction;
+		return getTransaction();
 	}
 
 	public void commitTransaction() {
 		try {
-			if (transaction != null) {
-				transaction.commit();
+			if (isTransactionSet()) {
+				getTransaction().commit();
 			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		} finally {
-			transaction = null;
+			setTransaction(null);
 		}
 	}
 
 	public void rollbackTransaction() {
 		try {
-			if (transaction != null) {
-				transaction.rollback();
+			if (isTransactionSet()) {
+				getTransaction().rollback();
 			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		} finally {
-			transaction = null;
+			setTransaction(null);
 		}
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) May 12, 2011 NetXForge.
+ * Copyright (c) May 3, 2011 NetXForge.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,41 +15,32 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
-package com.netxforge.netxstudio.server;
+ *******************************************************************************/
+package com.netxforge.netxstudio.data.cdo;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.cdo.CDODataProvider;
-import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import com.google.inject.Singleton;
 
 /**
- * Uses a jvm connection to connect to the repository.
- *  
- * @author Martin Taal
+ * A CDO Data provider, for single threaded clients. The session and transaction
+ * are stored in a static member and this object is a singleton.
+ * 
+ * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class ServerCDODataProvider extends CDODataProvider {
+@Singleton
+public class ClientCDODataProvider extends CDODataProvider {
 
 	@Inject
-	public ServerCDODataProvider(@Server ICDOConnection conn) {
+	public ClientCDODataProvider(ICDOConnection conn) {
 		super(conn);
-	}	
-
-	@Override
-	public void openSession(String uid, String passwd) throws SecurityException {
-		this.openSession();
 	}
 
-	@Override
-	protected boolean createResourceInSeparateTransaction() {
-		return false;
-	}
+	private static CDOSession session = null;
 
-	private CDOSession session = null;
-
-	private CDOTransaction transaction = null;
+	private static CDOTransaction transaction = null;
 
 	@Override
 	public CDOSession getSession() {
@@ -79,12 +70,12 @@ public class ServerCDODataProvider extends CDODataProvider {
 
 	@Override
 	protected void setSession(CDOSession session) {
-		this.session = session;
+		ClientCDODataProvider.session = session;
 	}
 
 	@Override
 	protected void setTransaction(CDOTransaction transaction) {
-		this.transaction = transaction;
+		ClientCDODataProvider.transaction = transaction;
 	}
 
 }

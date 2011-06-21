@@ -34,7 +34,7 @@ public class CDODataServiceModule extends DataServiceModule {
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IDataProvider.class).to(CDODataProvider.class);
+		this.bind(IDataProvider.class).to(ClientCDODataProvider.class);
 		this.bind(IDataService.class).to(CDODataService.class);
 		this.bind(ICDOConnection.class).to(CDODataConnection.class);
 		this.bind(IRoleHandler.class).to(CDORoleHandler.class);
