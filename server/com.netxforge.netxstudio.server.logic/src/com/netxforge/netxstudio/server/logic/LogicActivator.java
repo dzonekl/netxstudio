@@ -9,6 +9,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.NetxscriptRuntimeModule;
+import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
@@ -50,6 +51,7 @@ public class LogicActivator implements BundleActivator {
 
 		Module om = override(new NetxscriptRuntimeModule()).with(ServerModule.getModule());
 		om = override(om).with(new LogicModule());
+		om = override(om).with(new CommonModule());
 		injector = createInjector(om);
 	}
 

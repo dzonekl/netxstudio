@@ -76,7 +76,7 @@ public class ExpressionEngine implements IExpressionEngine {
 	private IResourceFactory xResourceFactory;
 	
 	@Inject
-	private IInterpreterContextFactory<Object> xInterpreterContextFactory;
+	private IInterpreterContextFactory xInterpreterContextFactory;
 	
 	@Inject
 	private IInterpreterFactory xInterpreterFactory;
