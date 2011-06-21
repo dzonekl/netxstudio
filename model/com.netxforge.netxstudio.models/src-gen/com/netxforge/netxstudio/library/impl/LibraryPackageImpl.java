@@ -48,6 +48,7 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.ProductInfo;
+import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.RedundancyType;
 import com.netxforge.netxstudio.library.StateType;
 import com.netxforge.netxstudio.library.Tolerance;
@@ -182,6 +183,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EEnum rangeKindEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum redundancyTypeEEnum = null;
 
 	/**
@@ -197,6 +205,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	private EDataType levelTypeObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType rangeKindObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -687,6 +702,33 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 */
 	public EClass getExpressionResult() {
 		return expressionResultEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpressionResult_TargetResource() {
+		return (EReference)expressionResultEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getExpressionResult_TargetRange() {
+		return (EAttribute)expressionResultEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getExpressionResult_Values() {
+		return (EAttribute)expressionResultEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1261,6 +1303,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getRangeKind() {
+		return rangeKindEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getRedundancyType() {
 		return redundancyTypeEEnum;
 	}
@@ -1281,6 +1332,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 */
 	public EDataType getLevelTypeObject() {
 		return levelTypeObjectEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getRangeKindObject() {
+		return rangeKindObjectEDataType;
 	}
 
 	/**
@@ -1375,6 +1435,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEAttribute(expressionEClass, EXPRESSION__NAME);
 
 		expressionResultEClass = createEClass(EXPRESSION_RESULT);
+		createEReference(expressionResultEClass, EXPRESSION_RESULT__TARGET_RESOURCE);
+		createEAttribute(expressionResultEClass, EXPRESSION_RESULT__TARGET_RANGE);
+		createEAttribute(expressionResultEClass, EXPRESSION_RESULT__VALUES);
 
 		functionEClass = createEClass(FUNCTION);
 		createEReference(functionEClass, FUNCTION__FUNCTIONS);
@@ -1449,11 +1512,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		// Create enums
 		levelTypeEEnum = createEEnum(LEVEL_TYPE);
+		rangeKindEEnum = createEEnum(RANGE_KIND);
 		redundancyTypeEEnum = createEEnum(REDUNDANCY_TYPE);
 		stateTypeEEnum = createEEnum(STATE_TYPE);
 
 		// Create data types
 		levelTypeObjectEDataType = createEDataType(LEVEL_TYPE_OBJECT);
+		rangeKindObjectEDataType = createEDataType(RANGE_KIND_OBJECT);
 		redundancyTypeObjectEDataType = createEDataType(REDUNDANCY_TYPE_OBJECT);
 		stateTypeObjectEDataType = createEDataType(STATE_TYPE_OBJECT);
 	}
@@ -1554,6 +1619,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEAttribute(getExpression_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(expressionResultEClass, ExpressionResult.class, "ExpressionResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExpressionResult_TargetResource(), this.getNetXResource(), null, "targetResource", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExpressionResult_TargetRange(), this.getRangeKind(), "targetRange", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExpressionResult_Values(), theXMLTypePackage.getDouble(), "values", null, 0, -1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(functionEClass, Function.class, "Function", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFunction_Functions(), this.getFunction(), null, "functions", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1633,6 +1701,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		addEEnumLiteral(levelTypeEEnum, LevelType.GREEN);
 		addEEnumLiteral(levelTypeEEnum, LevelType.YELLOW);
 
+		initEEnum(rangeKindEEnum, RangeKind.class, "RangeKind");
+		addEEnumLiteral(rangeKindEEnum, RangeKind.CAP);
+		addEEnumLiteral(rangeKindEEnum, RangeKind.FORECAST);
+		addEEnumLiteral(rangeKindEEnum, RangeKind.FORECASTCAP);
+		addEEnumLiteral(rangeKindEEnum, RangeKind.TRENDED);
+		addEEnumLiteral(rangeKindEEnum, RangeKind.UTILIZATION);
+
 		initEEnum(redundancyTypeEEnum, RedundancyType.class, "RedundancyType");
 		addEEnumLiteral(redundancyTypeEEnum, RedundancyType.N);
 		addEEnumLiteral(redundancyTypeEEnum, RedundancyType.N1);
@@ -1647,6 +1722,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		// Initialize data types
 		initEDataType(levelTypeObjectEDataType, LevelType.class, "LevelTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(rangeKindObjectEDataType, RangeKind.class, "RangeKindObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(redundancyTypeObjectEDataType, RedundancyType.class, "RedundancyTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(stateTypeObjectEDataType, StateType.class, "StateTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1679,7 +1755,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																														
+		   });																																																																																																	
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -1691,7 +1767,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidNodeID\n\t\t\t"
-		   });																																																																		
+		   });																																																																				
 	}
 
 	/**
@@ -1994,7 +2070,28 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "name", "ExpressionResult",
-			 "kind", "empty"
+			 "kind", "elementOnly"
+		   });		
+		addAnnotation
+		  (getExpressionResult_TargetResource(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "TargetResource"
+		   });		
+		addAnnotation
+		  (getExpressionResult_TargetRange(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "TargetRange"
+		   });		
+		addAnnotation
+		  (getExpressionResult_Values(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Values"
 		   });					
 		addAnnotation
 		  (functionEClass, 
@@ -2367,6 +2464,19 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "UnderDevelopmentDate"
 		   });		
 		addAnnotation
+		  (rangeKindEEnum, 
+		   source, 
+		   new String[] {
+			 "name", "RangeKind"
+		   });		
+		addAnnotation
+		  (rangeKindObjectEDataType, 
+		   source, 
+		   new String[] {
+			 "name", "RangeKind:Object",
+			 "baseType", "RangeKind"
+		   });		
+		addAnnotation
 		  (redundancyTypeEEnum, 
 		   source, 
 		   new String[] {
@@ -2514,7 +2624,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self.equipments->size()\n\t\t\t\t\t\t"
-		   });																								
+		   });																											
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -2532,7 +2642,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "ValidNodeID", "\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t"
-		   });																																																																	
+		   });																																																																			
 	}
 
 	/**
@@ -2548,7 +2658,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "appinfo", "@Transient"
-		   });																																																																																																																																								
+		   });																																																																																																																																													
 	}
 
 } //LibraryPackageImpl

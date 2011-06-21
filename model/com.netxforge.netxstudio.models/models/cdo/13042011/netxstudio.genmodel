@@ -171,6 +171,13 @@
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelType/GREEN"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelType/YELLOW"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//RangeKind">
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/CAP"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECAST"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECASTCAP"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/TRENDED"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/UTILIZATION"/>
+    </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//RedundancyType">
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RedundancyType/n"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RedundancyType/n1"/>
@@ -184,6 +191,7 @@
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//StateType/RESERVED"/>
     </genEnums>
     <genDataTypes ecoreDataType="library.ecore#//LevelTypeObject"/>
+    <genDataTypes ecoreDataType="library.ecore#//RangeKindObject"/>
     <genDataTypes ecoreDataType="library.ecore#//RedundancyTypeObject"/>
     <genDataTypes ecoreDataType="library.ecore#//StateTypeObject"/>
     <genClasses ecoreClass="library.ecore#//Component">
@@ -231,7 +239,11 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Expression/serviceProfileRefs"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Expression/name"/>
     </genClasses>
-    <genClasses ecoreClass="library.ecore#//ExpressionResult"/>
+    <genClasses ecoreClass="library.ecore#//ExpressionResult">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ExpressionResult/targetResource"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetRange"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/values"/>
+    </genClasses>
     <genClasses ecoreClass="library.ecore#//Function">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Function/functions"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/functionRelationshipRefs"/>

@@ -698,13 +698,40 @@ public interface LibraryPackage extends EPackage {
 	int EXPRESSION_RESULT = 4;
 
 	/**
+	 * The feature id for the '<em><b>Target Resource</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_RESULT__TARGET_RESOURCE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Target Range</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_RESULT__TARGET_RANGE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Values</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_RESULT__VALUES = 2;
+
+	/**
 	 * The number of structural features of the '<em>Expression Result</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT_FEATURE_COUNT = 0;
+	int EXPRESSION_RESULT_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.FunctionImpl <em>Function</em>}' class.
@@ -1599,6 +1626,16 @@ public interface LibraryPackage extends EPackage {
 	int LEVEL_TYPE = 14;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.library.RangeKind <em>Range Kind</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.library.RangeKind
+	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRangeKind()
+	 * @generated
+	 */
+	int RANGE_KIND = 15;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.RedundancyType <em>Redundancy Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1606,7 +1643,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRedundancyType()
 	 * @generated
 	 */
-	int REDUNDANCY_TYPE = 15;
+	int REDUNDANCY_TYPE = 16;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.StateType <em>State Type</em>}' enum.
@@ -1616,7 +1653,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getStateType()
 	 * @generated
 	 */
-	int STATE_TYPE = 16;
+	int STATE_TYPE = 17;
 
 	/**
 	 * The meta object id for the '<em>Level Type Object</em>' data type.
@@ -1626,7 +1663,17 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelTypeObject()
 	 * @generated
 	 */
-	int LEVEL_TYPE_OBJECT = 17;
+	int LEVEL_TYPE_OBJECT = 18;
+
+	/**
+	 * The meta object id for the '<em>Range Kind Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.library.RangeKind
+	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRangeKindObject()
+	 * @generated
+	 */
+	int RANGE_KIND_OBJECT = 19;
 
 	/**
 	 * The meta object id for the '<em>Redundancy Type Object</em>' data type.
@@ -1636,7 +1683,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRedundancyTypeObject()
 	 * @generated
 	 */
-	int REDUNDANCY_TYPE_OBJECT = 18;
+	int REDUNDANCY_TYPE_OBJECT = 20;
 
 	/**
 	 * The meta object id for the '<em>State Type Object</em>' data type.
@@ -1646,7 +1693,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getStateTypeObject()
 	 * @generated
 	 */
-	int STATE_TYPE_OBJECT = 19;
+	int STATE_TYPE_OBJECT = 21;
 
 
 	/**
@@ -2105,6 +2152,39 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getExpressionResult();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetResource <em>Target Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target Resource</em>'.
+	 * @see com.netxforge.netxstudio.library.ExpressionResult#getTargetResource()
+	 * @see #getExpressionResult()
+	 * @generated
+	 */
+	EReference getExpressionResult_TargetResource();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetRange <em>Target Range</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Target Range</em>'.
+	 * @see com.netxforge.netxstudio.library.ExpressionResult#getTargetRange()
+	 * @see #getExpressionResult()
+	 * @generated
+	 */
+	EAttribute getExpressionResult_TargetRange();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link com.netxforge.netxstudio.library.ExpressionResult#getValues <em>Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Values</em>'.
+	 * @see com.netxforge.netxstudio.library.ExpressionResult#getValues()
+	 * @see #getExpressionResult()
+	 * @generated
+	 */
+	EAttribute getExpressionResult_Values();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.Function <em>Function</em>}'.
@@ -2790,6 +2870,16 @@ public interface LibraryPackage extends EPackage {
 	EEnum getLevelType();
 
 	/**
+	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.library.RangeKind <em>Range Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Range Kind</em>'.
+	 * @see com.netxforge.netxstudio.library.RangeKind
+	 * @generated
+	 */
+	EEnum getRangeKind();
+
+	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.library.RedundancyType <em>Redundancy Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2820,6 +2910,18 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getLevelTypeObject();
+
+	/**
+	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.library.RangeKind <em>Range Kind Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Range Kind Object</em>'.
+	 * @see com.netxforge.netxstudio.library.RangeKind
+	 * @model instanceClass="com.netxforge.netxstudio.library.RangeKind"
+	 *        extendedMetaData="name='RangeKind:Object' baseType='RangeKind'"
+	 * @generated
+	 */
+	EDataType getRangeKindObject();
 
 	/**
 	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.library.RedundancyType <em>Redundancy Type Object</em>}'.
@@ -3212,6 +3314,30 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EClass EXPRESSION_RESULT = eINSTANCE.getExpressionResult();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Resource</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPRESSION_RESULT__TARGET_RESOURCE = eINSTANCE.getExpressionResult_TargetResource();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Range</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPRESSION_RESULT__TARGET_RANGE = eINSTANCE.getExpressionResult_TargetRange();
+
+		/**
+		 * The meta object literal for the '<em><b>Values</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPRESSION_RESULT__VALUES = eINSTANCE.getExpressionResult_Values();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.FunctionImpl <em>Function</em>}' class.
@@ -3738,6 +3864,16 @@ public interface LibraryPackage extends EPackage {
 		EEnum LEVEL_TYPE = eINSTANCE.getLevelType();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.RangeKind <em>Range Kind</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.library.RangeKind
+		 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRangeKind()
+		 * @generated
+		 */
+		EEnum RANGE_KIND = eINSTANCE.getRangeKind();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.RedundancyType <em>Redundancy Type</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3766,6 +3902,16 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType LEVEL_TYPE_OBJECT = eINSTANCE.getLevelTypeObject();
+
+		/**
+		 * The meta object literal for the '<em>Range Kind Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.library.RangeKind
+		 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRangeKindObject()
+		 * @generated
+		 */
+		EDataType RANGE_KIND_OBJECT = eINSTANCE.getRangeKindObject();
 
 		/**
 		 * The meta object literal for the '<em>Redundancy Type Object</em>' data type.

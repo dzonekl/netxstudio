@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.library.util;
 
-import com.netxforge.netxstudio.library.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -41,6 +40,7 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.ProductInfo;
+import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.RedundancyType;
 import com.netxforge.netxstudio.library.StateType;
 import com.netxforge.netxstudio.library.Tolerance;
@@ -149,12 +149,16 @@ public class LibraryValidator extends EObjectValidator {
 				return validateVendor((Vendor)value, diagnostics, context);
 			case LibraryPackage.LEVEL_TYPE:
 				return validateLevelType((LevelType)value, diagnostics, context);
+			case LibraryPackage.RANGE_KIND:
+				return validateRangeKind((RangeKind)value, diagnostics, context);
 			case LibraryPackage.REDUNDANCY_TYPE:
 				return validateRedundancyType((RedundancyType)value, diagnostics, context);
 			case LibraryPackage.STATE_TYPE:
 				return validateStateType((StateType)value, diagnostics, context);
 			case LibraryPackage.LEVEL_TYPE_OBJECT:
 				return validateLevelTypeObject((LevelType)value, diagnostics, context);
+			case LibraryPackage.RANGE_KIND_OBJECT:
+				return validateRangeKindObject((RangeKind)value, diagnostics, context);
 			case LibraryPackage.REDUNDANCY_TYPE_OBJECT:
 				return validateRedundancyTypeObject((RedundancyType)value, diagnostics, context);
 			case LibraryPackage.STATE_TYPE_OBJECT:
@@ -386,6 +390,15 @@ public class LibraryValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean validateRangeKind(RangeKind rangeKind, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean validateRedundancyType(RedundancyType redundancyType, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
 	}
@@ -405,6 +418,15 @@ public class LibraryValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateLevelTypeObject(LevelType levelTypeObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateRangeKindObject(RangeKind rangeKindObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
 	}
 

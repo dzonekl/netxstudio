@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
-import com.netxforge.netxstudio.library.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -40,6 +39,7 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Parameter;
 import com.netxforge.netxstudio.library.ProductInfo;
+import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.RedundancyType;
 import com.netxforge.netxstudio.library.StateType;
 import com.netxforge.netxstudio.library.Tolerance;
@@ -119,12 +119,16 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 		switch (eDataType.getClassifierID()) {
 			case LibraryPackage.LEVEL_TYPE:
 				return createLevelTypeFromString(eDataType, initialValue);
+			case LibraryPackage.RANGE_KIND:
+				return createRangeKindFromString(eDataType, initialValue);
 			case LibraryPackage.REDUNDANCY_TYPE:
 				return createRedundancyTypeFromString(eDataType, initialValue);
 			case LibraryPackage.STATE_TYPE:
 				return createStateTypeFromString(eDataType, initialValue);
 			case LibraryPackage.LEVEL_TYPE_OBJECT:
 				return createLevelTypeObjectFromString(eDataType, initialValue);
+			case LibraryPackage.RANGE_KIND_OBJECT:
+				return createRangeKindObjectFromString(eDataType, initialValue);
 			case LibraryPackage.REDUNDANCY_TYPE_OBJECT:
 				return createRedundancyTypeObjectFromString(eDataType, initialValue);
 			case LibraryPackage.STATE_TYPE_OBJECT:
@@ -144,12 +148,16 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 		switch (eDataType.getClassifierID()) {
 			case LibraryPackage.LEVEL_TYPE:
 				return convertLevelTypeToString(eDataType, instanceValue);
+			case LibraryPackage.RANGE_KIND:
+				return convertRangeKindToString(eDataType, instanceValue);
 			case LibraryPackage.REDUNDANCY_TYPE:
 				return convertRedundancyTypeToString(eDataType, instanceValue);
 			case LibraryPackage.STATE_TYPE:
 				return convertStateTypeToString(eDataType, instanceValue);
 			case LibraryPackage.LEVEL_TYPE_OBJECT:
 				return convertLevelTypeObjectToString(eDataType, instanceValue);
+			case LibraryPackage.RANGE_KIND_OBJECT:
+				return convertRangeKindObjectToString(eDataType, instanceValue);
 			case LibraryPackage.REDUNDANCY_TYPE_OBJECT:
 				return convertRedundancyTypeObjectToString(eDataType, instanceValue);
 			case LibraryPackage.STATE_TYPE_OBJECT:
@@ -324,6 +332,26 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public RangeKind createRangeKindFromString(EDataType eDataType, String initialValue) {
+		RangeKind result = RangeKind.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRangeKindToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public RedundancyType createRedundancyTypeFromString(EDataType eDataType, String initialValue) {
 		RedundancyType result = RedundancyType.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -375,6 +403,24 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	 */
 	public String convertLevelTypeObjectToString(EDataType eDataType, Object instanceValue) {
 		return convertLevelTypeToString(LibraryPackage.Literals.LEVEL_TYPE, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RangeKind createRangeKindObjectFromString(EDataType eDataType, String initialValue) {
+		return createRangeKindFromString(LibraryPackage.Literals.RANGE_KIND, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRangeKindObjectToString(EDataType eDataType, Object instanceValue) {
+		return convertRangeKindToString(LibraryPackage.Literals.RANGE_KIND, instanceValue);
 	}
 
 	/**

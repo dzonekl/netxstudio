@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.library;
 
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,12 +32,120 @@ import org.eclipse.emf.cdo.CDOObject;
  * 			
  * <!-- end-model-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetResource <em>Target Resource</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetRange <em>Target Range</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getValues <em>Values</em>}</li>
+ * </ul>
+ * </p>
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult()
  * @model annotation="teneo.jpa appinfo='@Transient'"
- *        extendedMetaData="name='ExpressionResult' kind='empty'"
+ *        extendedMetaData="name='ExpressionResult' kind='elementOnly'"
  * @extends CDOObject
  * @generated
  */
 public interface ExpressionResult extends CDOObject {
+
+	/**
+	 * Returns the value of the '<em><b>Target Resource</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target Resource</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Resource</em>' reference.
+	 * @see #setTargetResource(NetXResource)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult_TargetResource()
+	 * @model extendedMetaData="kind='element' name='TargetResource'"
+	 * @generated
+	 */
+	NetXResource getTargetResource();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetResource <em>Target Resource</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target Resource</em>' reference.
+	 * @see #getTargetResource()
+	 * @generated
+	 */
+	void setTargetResource(NetXResource value);
+
+	/**
+	 * Returns the value of the '<em><b>Target Range</b></em>' attribute.
+	 * The literals are from the enumeration {@link com.netxforge.netxstudio.library.RangeKind}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target Range</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Range</em>' attribute.
+	 * @see com.netxforge.netxstudio.library.RangeKind
+	 * @see #isSetTargetRange()
+	 * @see #unsetTargetRange()
+	 * @see #setTargetRange(RangeKind)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult_TargetRange()
+	 * @model unsettable="true"
+	 *        extendedMetaData="kind='element' name='TargetRange'"
+	 * @generated
+	 */
+	RangeKind getTargetRange();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetRange <em>Target Range</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target Range</em>' attribute.
+	 * @see com.netxforge.netxstudio.library.RangeKind
+	 * @see #isSetTargetRange()
+	 * @see #unsetTargetRange()
+	 * @see #getTargetRange()
+	 * @generated
+	 */
+	void setTargetRange(RangeKind value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetRange <em>Target Range</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetTargetRange()
+	 * @see #getTargetRange()
+	 * @see #setTargetRange(RangeKind)
+	 * @generated
+	 */
+	void unsetTargetRange();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetRange <em>Target Range</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Target Range</em>' attribute is set.
+	 * @see #unsetTargetRange()
+	 * @see #getTargetRange()
+	 * @see #setTargetRange(RangeKind)
+	 * @generated
+	 */
+	boolean isSetTargetRange();
+
+	/**
+	 * Returns the value of the '<em><b>Values</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.Double}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Values</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Values</em>' attribute list.
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult_Values()
+	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 *        extendedMetaData="kind='element' name='Values'"
+	 * @generated
+	 */
+	EList<Double> getValues();
 } // ExpressionResult

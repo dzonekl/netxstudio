@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns="http://www.netxforge.com/13042011/library"
-	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gen="http://www.netxforge.com/13042011/generics"
-	xmlns:metrics="http://www.netxforge.com/13042011/metrics"
-	xmlns:services="http://www.netxforge.com/13042011/services"
-	xmlns:operators="http://www.netxforge.com/13042011/operators"
-	xmlns:protocols="http://www.netxforge.com/13042011/protocols" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	ecore:package="com.netxforge.netxstudio.library" id="library"
-	targetNamespace="http://www.netxforge.com/13042011/library">
-	<xs:import namespace="http://www.netxforge.com/13042011/generics"
-		schemaLocation="generics.xsd" />
-	<xs:import namespace="http://www.netxforge.com/13042011/metrics"
-		schemaLocation="metrics.xsd" />
-	<xs:import namespace="http://www.netxforge.com/13042011/services"
-		schemaLocation="services.xsd" />
-	<xs:import namespace="http://www.netxforge.com/13042011/operators"
-		schemaLocation="operators.xsd" />
-	<xs:import namespace="http://www.netxforge.com/13042011/protocols"
-		schemaLocation="protocols.xsd" />
+<xs:schema xmlns="http://www.netxforge.com/13042011/library" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:metrics="http://www.netxforge.com/13042011/metrics" xmlns:operators="http://www.netxforge.com/13042011/operators" xmlns:protocols="http://www.netxforge.com/13042011/protocols" xmlns:services="http://www.netxforge.com/13042011/services" xmlns:xs="http://www.w3.org/2001/XMLSchema" ecore:package="com.netxforge.netxstudio.library" id="library" targetNamespace="http://www.netxforge.com/13042011/library">
+	<xs:import namespace="http://www.netxforge.com/13042011/generics" schemaLocation="generics.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/13042011/metrics" schemaLocation="metrics.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/13042011/services" schemaLocation="services.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/13042011/operators" schemaLocation="operators.xsd"/>
+	<xs:import namespace="http://www.netxforge.com/13042011/protocols" schemaLocation="protocols.xsd"/>
 	<xs:annotation>
 		<xs:documentation>
 
@@ -44,12 +32,9 @@
 			XSD patterns.
 
 		</xs:documentation>
-		<xs:appinfo ecore:key="validationDelegates"
-			source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
-		<xs:appinfo ecore:key="settingDelegates"
-			source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
-		<xs:appinfo ecore:key="invocationDelegates"
-			source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="validationDelegates" source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="settingDelegates" source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
+		<xs:appinfo ecore:key="invocationDelegates" source="http://www.eclipse.org/emf/2002/Ecore">http://www.eclipse.org/emf/2002/Ecore/OCL</xs:appinfo>
 	</xs:annotation>
 
 
@@ -59,8 +44,7 @@
 
 	<xs:complexType name="Library">
 		<xs:annotation>
-			<xs:appinfo source="http://www.eclipse.org/emf/2002/Ecore"
-				ecore:key="operations">
+			<xs:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
 				<operation name="test" type="xs:int">
 				</operation>
 			</xs:appinfo>
@@ -69,88 +53,77 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions"
-				type="Function">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions" type="Function">
 				<xs:annotation>
 					<xs:documentation>The Functions reference, contains 0 or more
 						Function type.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="NodeTypes"
-				type="NodeType">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="NodeTypes" type="NodeType">
 				<xs:annotation>
 					<xs:documentation>The NodeTypes reference, contains 0 or more
 						NodeType type.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments"
-				type="Equipment">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments" type="Equipment">
 				<xs:annotation>
 					<xs:documentation>The Equipments reference, contains 0 or more
 						Equipment type.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Metrics"
-				type="metrics:Metric">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Metrics" type="metrics:Metric">
 				<xs:annotation>
 					<xs:documentation>The Metrics reference, contains 0 or more Metric
 						type.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0"
-				name="MetricSources" type="metrics:MetricSource">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricSources" type="metrics:MetricSource">
 				<xs:annotation>
 					<xs:documentation>The MetricSources reference, contains 0 or more
 						MetricSource type.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Parameters"
-				type="Parameter">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Parameters" type="Parameter">
 				<xs:annotation>
 					<xs:documentation>The Parameters reference, contains 0 or more
 						Parameter type.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Protocols"
-				type="xs:string">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Protocols" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The Protocols reference, contains 0 or more
 						Protocol type.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Tolerances"
-				type="Tolerance">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Tolerances" type="Tolerance">
 				<xs:annotation>
 					<xs:documentation>The Tolerance reference, contains 0 or more
 						Tolerance type.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Expressions"
-				type="Expression">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Expressions" type="Expression">
 				<xs:annotation>
 					<xs:documentation>The Expressions reference, contains 0 or more
 						Expression type.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Units"
-				type="Unit">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Units" type="Unit">
 				<xs:annotation>
 					<xs:documentation>The Units reference, contains 0 or more Unit
 						type.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Version" type="gen:Meta" maxOccurs="1"
-				minOccurs="0">
+			<xs:element maxOccurs="1" minOccurs="0" name="Version" type="gen:Meta">
 				<xs:annotation>
 					<xs:documentation>The Versions reference, contains 0 or more Meta
 						types.
@@ -181,8 +154,7 @@
 
 				<xs:sequence>
 					<!-- Contained -->
-					<xs:element maxOccurs="unbounded" minOccurs="0" name="Resources"
-						type="NetXResource">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Resources" type="NetXResource">
 						<xs:annotation>
 							<xs:documentation>The EquipmentResources reference, contains 0 or
 								more EquipmentResource types.
@@ -191,8 +163,7 @@
 					</xs:element>
 
 					<!-- Non-Contained -->
-					<xs:element ecore:reference="metrics:Metric" maxOccurs="unbounded"
-						minOccurs="0" name="MetricRefs" type="xs:anyURI">
+					<xs:element ecore:reference="metrics:Metric" maxOccurs="unbounded" minOccurs="0" name="MetricRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The EquipmentMetricRefs reference, refers to 0
 								or
@@ -200,24 +171,21 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:reference="Expression" minOccurs="0"
-						name="CapacityExpressionRef" type="xs:anyURI">
+					<xs:element ecore:reference="Expression" minOccurs="0" name="CapacityExpressionRef" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The CapacityExpressionRef reference, used to
 								compute the capacity values for the equipment.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:reference="Expression" minOccurs="0"
-						name="UtilizationExpressionRef" type="xs:anyURI">
+					<xs:element ecore:reference="Expression" minOccurs="0" name="UtilizationExpressionRef" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The UtilizationExpressionRef reference, used to
 								compute the utilization for the equipment.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:reference="Tolerance" maxOccurs="unbounded"
-						minOccurs="0" name="ToleranceRefs" type="xs:anyURI">
+					<xs:element ecore:reference="Tolerance" maxOccurs="unbounded" minOccurs="0" name="ToleranceRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The ToleranceRefs reference, refers to 0 or
 								more
@@ -225,16 +193,14 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:reference="protocols:Protocol"
-						maxOccurs="unbounded" minOccurs="0" name="ProtocolRefs" type="xs:anyURI">
+					<xs:element ecore:reference="protocols:Protocol" maxOccurs="unbounded" minOccurs="0" name="ProtocolRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The ProtocolRefs reference, refers to 0 or more
 								Protocol types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:reference="Parameter" maxOccurs="unbounded"
-						minOccurs="0" name="ParameterRefs" type="xs:anyURI">
+					<xs:element ecore:reference="Parameter" maxOccurs="unbounded" minOccurs="0" name="ParameterRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The ParameterRefs reference, refers to 0 or
 								more
@@ -244,29 +210,24 @@
 					</xs:element>
 
 					<!-- OCL Derived features -->
-					<xs:element ecore:derived="true" ecore:reference="NetXResource"
-						ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded"
-						minOccurs="0" name="AllResources" type="xs:anyURI">
+					<xs:element ecore:derived="true" ecore:reference="NetXResource" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllResources" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>OCL derived feature: Retrieves all resources
 							</xs:documentation>
-							<xs:appinfo ecore:key="derivation"
-								source="http://www.eclipse.org/emf/2002/Ecore/OCL">
-								self->closure(equipments).equipmentResources->asOrderedSet()
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+								self-&gt;closure(equipments).equipmentResources-&gt;asOrderedSet()
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 					<!-- Contained -->
-					<xs:element maxOccurs="unbounded" minOccurs="0" name="Diagrams"
-						type="gen:DiagramInfo">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Diagrams" type="gen:DiagramInfo">
 						<xs:annotation>
 							<xs:documentation>The Diagrams reference, contains 0 or more
 								DiagramInfo types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="Icons" type="gen:MultiImage"
-						maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="0" name="Icons" type="gen:MultiImage">
 						<xs:annotation>
 							<xs:documentation>The Images reference, contains 0 or one
 								MultiImage type.
@@ -321,17 +282,15 @@
 
 				Examples:
 				1. The Function type typical structure is: System
-				-> Subsystem ->
+				-&gt; Subsystem -&gt;
 				Module etc..
 				2. The Function type can be "Mobility
 				Management".
 			</xs:documentation>
-			<xs:appinfo ecore:key="constraints"
-				source="http://www.eclipse.org/emf/2002/Ecore">
+			<xs:appinfo ecore:key="constraints" source="http://www.eclipse.org/emf/2002/Ecore">
 				ValidFunctionName
 			</xs:appinfo>
-			<xs:appinfo ecore:key="ValidFunctionName"
-				source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+			<xs:appinfo ecore:key="ValidFunctionName" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
 				not self.functionName.oclIsUndefined()
 			</xs:appinfo>
 		</xs:annotation>
@@ -339,17 +298,14 @@
 			<xs:extension base="Component">
 				<xs:sequence>
 					<!-- Contained -->
-					<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions"
-						type="Function">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions" type="Function">
 						<xs:annotation>
 							<xs:documentation>The Functions reference, contains 0 or more
 								Function types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element maxOccurs="unbounded" minOccurs="0"
-						name="FunctionRelationshipRefs" ecore:reference="operators:FunctionRelationship"
-						type="xs:anyURI">
+					<xs:element ecore:reference="operators:FunctionRelationship" maxOccurs="unbounded" minOccurs="0" name="FunctionRelationshipRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The FunctionRelationshipRefs reference, refers
 								to 0 or more FunctionRelationship types.
@@ -359,14 +315,11 @@
 
 					<!-- OCL Derived features -->
 
-					<xs:element ecore:derived="true" ecore:reference="Function"
-						ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded"
-						minOccurs="0" name="AllFunctions" type="xs:anyURI">
+					<xs:element ecore:derived="true" ecore:reference="Function" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllFunctions" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>OCL derived feature: Retrieve all functions
 							</xs:documentation>
-							<xs:appinfo ecore:key="derivation"
-								source="http://www.eclipse.org/emf/2002/Ecore/OCL">self->closure(functions)->asOrderedSet()
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(functions)-&gt;asOrderedSet()
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -382,12 +335,9 @@
 	<xs:complexType name="Equipment">
 		<xs:annotation>
 			<!-- Custom operation -->
-			<xs:appinfo source="http://www.eclipse.org/emf/2002/Ecore"
-				ecore:key="operations">
-				<operation name="increment" type="xs:string" lowerBound="1"
-					upperBound="-1" exceptions="Exception">
-					<parameter name="x" type="xs:string" lowerBound="1"
-						upperBound="-1" />
+			<xs:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+				<operation exceptions="Exception" lowerBound="1" name="increment" type="xs:string" upperBound="-1">
+					<parameter lowerBound="1" name="x" type="xs:string" upperBound="-1"/>
 
 				</operation>
 			</xs:appinfo>
@@ -409,9 +359,9 @@
 
 				Examples:
 				1. The Equipment
-				type typical structure is: Cabinets -> Rack -> Slots
-				-> Boards ->
-				Ports -> Cabling
+				type typical structure is: Cabinets -&gt; Rack -&gt; Slots
+				-&gt; Boards -&gt;
+				Ports -&gt; Cabling
 				2. The Equipment type can be constructed with a
 				specif UI widget like
 				a Node Editor.
@@ -421,24 +371,21 @@
 			<xs:extension base="Component">
 				<xs:sequence>
 					<!-- Contained -->
-					<xs:element name="Lifecycle" type="gen:Lifecycle"
-						minOccurs="0" maxOccurs="1">
+					<xs:element maxOccurs="1" minOccurs="0" name="Lifecycle" type="gen:Lifecycle">
 						<xs:annotation>
 							<xs:documentation>The Lifecycle reference, contains 0 or 1
 								Lifecycle types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments"
-						type="Equipment">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments" type="Equipment">
 						<xs:annotation>
 							<xs:documentation>The Equipments reference, contains 0 or more
 								Equipment types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element maxOccurs="unbounded" minOccurs="0"
-						name="EquipmentGroups" type="EquipmentGroup">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="EquipmentGroups" type="EquipmentGroup">
 						<xs:annotation>
 							<xs:documentation>The EquipmentGroups reference, contains 0 or
 								more
@@ -448,9 +395,7 @@
 					</xs:element>
 
 					<!-- Non-Contained -->
-					<xs:element maxOccurs="unbounded" minOccurs="0"
-						name="EquipmentRelationshipRefs" ecore:reference="operators:EquipmentRelationship"
-						type="xs:anyURI">
+					<xs:element ecore:reference="operators:EquipmentRelationship" maxOccurs="unbounded" minOccurs="0" name="EquipmentRelationshipRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The EquipmentRelationshipRefs reference, refers
 								to 0 or more EquipmentRelationship types.
@@ -460,30 +405,25 @@
 
 					<!-- OCL Derived features -->
 
-					<xs:element ecore:derived="true" ecore:reference="Equipment"
-						ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded"
-						minOccurs="0" name="AllEquipments" type="xs:anyURI">
+					<xs:element ecore:derived="true" ecore:reference="Equipment" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllEquipments" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>OCL derived feature: Retrieve all elements with
 								a
 								non-empty product code. These are
 							</xs:documentation>
-							<xs:appinfo ecore:key="derivation"
-								source="http://www.eclipse.org/emf/2002/Ecore/OCL">
-								self->closure(equipments)->asOrderedSet()
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+								self-&gt;closure(equipments)-&gt;asOrderedSet()
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
 
 				<!-- Derived attributes -->
-				<xs:attribute ecore:derived="true" ecore:transient="true"
-					ecore:volatile="true" name="Count" type="xs:int">
+				<xs:attribute ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="Count" type="xs:int">
 					<xs:annotation>
 						<xs:documentation>OCL derived feature: Count all equipments.
 						</xs:documentation>
-						<xs:appinfo ecore:key="derivation"
-							source="http://www.eclipse.org/emf/2002/Ecore/OCL">self.equipments->size()
+						<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self.equipments-&gt;size()
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:attribute>
@@ -523,14 +463,14 @@
 
 							The following options are possible:
 
-							n =>
+							n =&gt;
 							The
 							equipment is not operating in any redundancy schema
-							n+1 => The
+							n+1 =&gt; The
 							equipment is part of an n+1 schema. (1 stand-by for n
 							number of
 							active equipment).
-							1+1 => The equipment is paired with another
+							1+1 =&gt; The equipment is paired with another
 							equipment.
 
 							It should be considered, that the permitted load and
@@ -562,9 +502,9 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="n" />
-							<xs:enumeration value="n+1" />
-							<xs:enumeration value="1+1" />
+							<xs:enumeration value="n"/>
+							<xs:enumeration value="n+1"/>
+							<xs:enumeration value="1+1"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
@@ -575,22 +515,22 @@
 
 							The following options are possible:
 
-							Active => The
+							Active =&gt; The
 							equipment is operating.
-							Stand-by => The equipment is Stand-by.
+							Stand-by =&gt; The equipment is Stand-by.
 							Idle
-							=> The equipment is not configured and does not participate
+							=&gt; The equipment is not configured and does not participate
 							in
 							Active nor Stand-by and there for in the redudancy schema. An
 							Idle
 							e
 							Equipment can however be reserved.
-							Defect => The equipment is
+							Defect =&gt; The equipment is
 							defect and does not participate in Active nor
 							Stand-by and there
 							for
 							in the redudancy schema.
-							Reserved => The equipment is reserved
+							Reserved =&gt; The equipment is reserved
 							for
 							future use.
 
@@ -609,11 +549,11 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="ACTIVE" />
-							<xs:enumeration value="STANDBY" />
-							<xs:enumeration value="IDLE" />
-							<xs:enumeration value="DEFECT" />
-							<xs:enumeration value="RESERVED" />
+							<xs:enumeration value="ACTIVE"/>
+							<xs:enumeration value="STANDBY"/>
+							<xs:enumeration value="IDLE"/>
+							<xs:enumeration value="DEFECT"/>
+							<xs:enumeration value="RESERVED"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
@@ -650,16 +590,14 @@
 			<xs:extension base="gen:Base">
 				<xs:sequence>
 					<!-- Contained -->
-					<xs:element maxOccurs="unbounded" minOccurs="0" name="Diagrams"
-						type="gen:DiagramInfo">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Diagrams" type="gen:DiagramInfo">
 						<xs:annotation>
 							<xs:documentation>The Diagrams reference, contains 0 or more
 								DiagramInfo types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element maxOccurs="unbounded" minOccurs="0"
-						name="EquipmentGroupResources" type="NetXResource">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="EquipmentGroupResources" type="NetXResource">
 						<xs:annotation>
 							<xs:documentation>The EquipmentGroupResources reference, contains
 								0
@@ -669,9 +607,7 @@
 					</xs:element>
 
 					<!-- Non-Contained -->
-					<xs:element ecore:opposite="EquipmentGroupRefs"
-						ecore:reference="Expression" maxOccurs="unbounded" minOccurs="0"
-						name="ExpressionRefs" type="xs:anyURI">
+					<xs:element ecore:opposite="EquipmentGroupRefs" ecore:reference="Expression" maxOccurs="unbounded" minOccurs="0" name="ExpressionRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The ExpressionRefs reference, refers to 0 or
 								more
@@ -679,8 +615,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:reference="Equipment" maxOccurs="unbounded"
-						minOccurs="0" name="EquipmentRefs" type="xs:anyURI">
+					<xs:element ecore:reference="Equipment" maxOccurs="unbounded" minOccurs="0" name="EquipmentRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The Equipments reference, references 0 or more
 								Equipment types.
@@ -688,8 +623,7 @@
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element ecore:reference="Parameter" maxOccurs="unbounded"
-						minOccurs="0" name="ParameterRefs" type="xs:anyURI">
+					<xs:element ecore:reference="Parameter" maxOccurs="unbounded" minOccurs="0" name="ParameterRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The ParameterRefs reference, refers to 0 or
 								more
@@ -699,42 +633,34 @@
 					</xs:element>
 
 					<!-- OCL Derived features -->
-					<xs:element ecore:derived="true" ecore:reference="NetXResource"
-						ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded"
-						minOccurs="0" name="AllEquipmentResources" type="xs:anyURI">
+					<xs:element ecore:derived="true" ecore:reference="NetXResource" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllEquipmentResources" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>OCL derived feature: Retrieves all resources
 							</xs:documentation>
-							<xs:appinfo ecore:key="derivation"
-								source="http://www.eclipse.org/emf/2002/Ecore/OCL">self->closure(equipmentRefs).equipmentResources->asOrderedSet()
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(equipmentRefs).equipmentResources-&gt;asOrderedSet()
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 
-					<xs:element ecore:derived="true" ecore:reference="Equipment"
-						ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded"
-						minOccurs="0" name="AllEquipments" type="xs:anyURI">
+					<xs:element ecore:derived="true" ecore:reference="Equipment" ecore:transient="true" ecore:volatile="true" maxOccurs="unbounded" minOccurs="0" name="AllEquipments" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>OCL derived feature: Retrieve all elements with
 								a
 								non-empty product code.
 							</xs:documentation>
-							<xs:appinfo ecore:key="derivation"
-								source="http://www.eclipse.org/emf/2002/Ecore/OCL">
-								self->closure(equipmentRefs)->asOrderedSet()
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+								self-&gt;closure(equipmentRefs)-&gt;asOrderedSet()
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
 
 				<!-- Derived attributes -->
-				<xs:attribute ecore:derived="true" ecore:transient="true"
-					ecore:volatile="true" name="Count" type="xs:int">
+				<xs:attribute ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="Count" type="xs:int">
 					<xs:annotation>
 						<xs:documentation>OCL derived feature: Count all equipments.
 						</xs:documentation>
-						<xs:appinfo ecore:key="derivation"
-							source="http://www.eclipse.org/emf/2002/Ecore/OCL">self.equipments->size()
+						<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self.equipments-&gt;size()
 						</xs:appinfo>
 					</xs:annotation>
 				</xs:attribute>
@@ -779,8 +705,7 @@
 				<xs:sequence>
 					<!-- Contained -->
 					<!-- Non-Contained -->
-					<xs:element ecore:reference="Equipment" name="EquipmentRef"
-						type="xs:anyURI" maxOccurs="unbounded" minOccurs="0">
+					<xs:element ecore:reference="Equipment" maxOccurs="unbounded" minOccurs="0" name="EquipmentRef" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The EquipmentRef reference, references 0 or
 								more
@@ -788,16 +713,14 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:reference="Function" name="LicensedFunctionRef"
-						type="xs:anyURI" maxOccurs="unbounded" minOccurs="0">
+					<xs:element ecore:reference="Function" maxOccurs="unbounded" minOccurs="0" name="LicensedFunctionRef" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The LicensedFunctionRef reference, references 0
 								or more Function types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:reference="NodeType" name="NodeTypeRef"
-						type="xs:anyURI" maxOccurs="unbounded" minOccurs="0">
+					<xs:element ecore:reference="NodeType" maxOccurs="unbounded" minOccurs="0" name="NodeTypeRef" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The LicensedFunctionRef reference, references 0
 								or more Function types.
@@ -891,12 +814,10 @@
 				equipment.
 			</xs:documentation>
 
-			<xs:appinfo ecore:key="constraints"
-				source="http://www.eclipse.org/emf/2002/Ecore">
+			<xs:appinfo ecore:key="constraints" source="http://www.eclipse.org/emf/2002/Ecore">
 				ValidNodeID
 			</xs:appinfo>
-			<xs:appinfo ecore:key="ValidNodeID"
-				source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+			<xs:appinfo ecore:key="ValidNodeID" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
 				not self.nodeID.oclIsUndefined()
 			</xs:appinfo>
 		</xs:annotation>
@@ -904,16 +825,14 @@
 			<xs:extension base="gen:Base">
 				<xs:sequence>
 					<!-- Contained -->
-					<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions"
-						type="Function">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Functions" type="Function">
 						<xs:annotation>
 							<xs:documentation>The Functions reference, contains 0 or more
 								Function types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments"
-						type="Equipment">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments" type="Equipment">
 						<xs:annotation>
 							<xs:documentation>The Equipments reference, contains 0 or more
 								Equipment types.
@@ -924,10 +843,9 @@
 					<!-- Non-Contained -->
 					<!-- OCL Derived features -->
 				</xs:sequence>
-				<xs:attribute name="LeafNode" type="xs:boolean"
-					default="false">
+				<xs:attribute default="false" name="LeafNode" type="xs:boolean">
 					<xs:annotation>
-						<xs:documentation></xs:documentation>
+						<xs:documentation/>
 					</xs:annotation>
 				</xs:attribute>
 			</xs:extension>
@@ -980,16 +898,14 @@
 						<xs:documentation>
 						</xs:documentation>
 					</xs:annotation>
-					<xs:element ecore:reference="metrics:Metric" minOccurs="0"
-						maxOccurs="1" name="MetricRef" type="xs:anyURI">
+					<xs:element ecore:reference="metrics:Metric" maxOccurs="1" minOccurs="0" name="MetricRef" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The MetricRef reference, refers to zero or one
 								Metric for which this resource contains values.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="MetricValueRanges" type="metrics:MetricValueRange"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="MetricValueRanges" type="metrics:MetricValueRange">
 						<xs:annotation>
 							<xs:documentation>The MetricValueRanges reference, contains
 								measured usage values. Metric values are values
@@ -999,8 +915,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="CapacityValues" type="gen:Value"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="CapacityValues" type="gen:Value">
 						<xs:annotation>
 							<xs:documentation>The CapacityValues reference, contains capacity
 								values. Capacity values are populated with
@@ -1010,8 +925,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="UtilizationValues" type="gen:Value"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="UtilizationValues" type="gen:Value">
 						<xs:annotation>
 							<xs:documentation>The UtilizationValues reference, contains
 								utilization values. Utilization values are populated through
@@ -1021,8 +935,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ForecastCapacityValues" type="gen:Value"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ForecastCapacityValues" type="gen:Value">
 						<xs:annotation>
 							<xs:documentation>The ForecastCapacityValues reference, contains
 								forecasted capacity values. ForecastedCapacity values are
@@ -1033,8 +946,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ForecastValues" type="gen:Value"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ForecastValues" type="gen:Value">
 						<xs:annotation>
 							<xs:documentation>The ForecastValues reference, contains forecast
 								values. Forecast values are populated with
@@ -1044,8 +956,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="TrendedValues" type="gen:Value"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="TrendedValues" type="gen:Value">
 						<xs:annotation>
 							<xs:documentation>The TrendedValues reference, contains trended
 								values. Trended values are populated with
@@ -1084,8 +995,7 @@
 				</xs:attribute>
 				<!-- TODO Remove later <xs:attribute name="ValueSource" type="gen:ResourceKind" 
 					/> -->
-				<xs:attribute ecore:reference="Unit" name="UnitRef"
-					type="xs:anyURI">
+				<xs:attribute ecore:reference="Unit" name="UnitRef" type="xs:anyURI">
 					<xs:annotation>
 						<xs:documentation>The UnitRef reference, refers to 0 or 1 Unit
 							type.
@@ -1135,8 +1045,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute ecore:reference="Expression" name="ExpressionRef"
-					type="xs:anyURI">
+				<xs:attribute ecore:reference="Expression" name="ExpressionRef" type="xs:anyURI">
 					<xs:annotation>
 						<xs:documentation>The ExpressionRef reference, used to compute the
 							tolerance.
@@ -1151,10 +1060,10 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="RED" />
-							<xs:enumeration value="AMBER" />
-							<xs:enumeration value="GREEN" />
-							<xs:enumeration value="YELLOW" />
+							<xs:enumeration value="RED"/>
+							<xs:enumeration value="AMBER"/>
+							<xs:enumeration value="GREEN"/>
+							<xs:enumeration value="YELLOW"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
@@ -1248,8 +1157,7 @@
 			<xs:extension base="gen:Base">
 
 				<xs:sequence>
-					<xs:element name="Icons" type="gen:MultiImage"
-						maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="0" name="Icons" type="gen:MultiImage">
 						<xs:annotation>
 							<xs:documentation>The Images reference, contains 0 or one
 								MultiImage type.
@@ -1307,8 +1215,7 @@
 
 				<xs:sequence>
 					<!-- Contained -->
-					<xs:element name="ExpressionLines" maxOccurs="unbounded"
-						minOccurs="0" type="gen:ExpressionLine">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ExpressionLines" type="gen:ExpressionLine">
 						<xs:annotation>
 							<xs:documentation>The ExpressionLines reference, contains 0 or
 								more
@@ -1316,8 +1223,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:reference="ecore:EObject" name="EvaluationObject"
-						type="xs:anyURI" maxOccurs="1" minOccurs="0">
+					<xs:element ecore:reference="ecore:EObject" maxOccurs="1" minOccurs="0" name="EvaluationObject" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The EvaluationObject reference holds 0 or 1
 								EObject type
@@ -1325,18 +1231,14 @@
 						</xs:annotation>
 					</xs:element>
 					<!-- Non-Contained -->
-					<xs:element ecore:opposite="EquipmentGroupExpressionRefs"
-						ecore:reference="EquipmentGroup" maxOccurs="unbounded" minOccurs="0"
-						name="EquipmentGroupRefs" type="xs:anyURI">
+					<xs:element ecore:opposite="EquipmentGroupExpressionRefs" ecore:reference="EquipmentGroup" maxOccurs="unbounded" minOccurs="0" name="EquipmentGroupRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The EquipmentGroupExpressionRefs reference,
 								references 0 or more EquipmentGroup types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:opposite="ServiceProfileExpressionRefs"
-						ecore:reference="services:ServiceProfile" maxOccurs="unbounded"
-						minOccurs="0" name="ServiceProfileRefs" type="xs:anyURI">
+					<xs:element ecore:opposite="ServiceProfileExpressionRefs" ecore:reference="services:ServiceProfile" maxOccurs="unbounded" minOccurs="0" name="ServiceProfileRefs" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The ServiceProfileExpressionRefs reference,
 								references 0 or more ServiceProfile types.
@@ -1366,8 +1268,27 @@
 			</xs:documentation>
 			<xs:appinfo source="teneo.jpa">@Transient</xs:appinfo>
 		</xs:annotation>
+		<xs:sequence>
+			<xs:element ecore:reference="NetXResource" name="TargetResource" type="xs:anyURI"  maxOccurs="1" minOccurs="0"/>
+			<xs:element name="TargetRange" type="RangeKind"  maxOccurs="1" minOccurs="0"/>
+			<xs:element name="Values" type="xs:double"  maxOccurs="unbounded" minOccurs="0"/>
+		</xs:sequence>
 	</xs:complexType>
-
+	
+	
+	<!--_____________________________ -->
+	<!--| RANGEKIND 				| -->
+	<!--|___________________________| -->
+	<xs:simpleType name ="RangeKind">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CAP"/>
+			<xs:enumeration value="FORECAST"/>
+			<xs:enumeration value="FORECAST_CAP"/>
+			<xs:enumeration value="TRENDED"/>
+			<xs:enumeration value="UTILIZATION"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	
 	<!--_____________________________ -->
 	<!--| VENDOR | -->
 	<!--|___________________________| -->
@@ -1379,8 +1300,7 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Company">
 				<xs:sequence>
-					<xs:element name="Products" type="ProductInfo"
-						maxOccurs="unbounded" minOccurs="0">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Products" type="ProductInfo">
 						<xs:annotation>
 							<xs:documentation>The Products reference, contains 0 or more
 								ProductInfo types.

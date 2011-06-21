@@ -18,17 +18,26 @@
  */
 package com.netxforge.netxstudio.library.impl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.RangeKind;
 
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Expression Result</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetResource <em>Target Resource</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetRange <em>Target Range</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getValues <em>Values</em>}</li>
+ * </ul>
  * </p>
  *
  * @generated
@@ -61,6 +70,70 @@ public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionRes
 	@Override
 	protected int eStaticFeatureCount() {
 		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NetXResource getTargetResource() {
+		return (NetXResource)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_RESOURCE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTargetResource(NetXResource newTargetResource) {
+		eSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_RESOURCE, newTargetResource);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RangeKind getTargetRange() {
+		return (RangeKind)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_RANGE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTargetRange(RangeKind newTargetRange) {
+		eSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_RANGE, newTargetRange);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetTargetRange() {
+		eUnset(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_RANGE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetTargetRange() {
+		return eIsSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_RANGE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<Double> getValues() {
+		return (EList<Double>)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__VALUES, true);
 	}
 
 } //ExpressionResultImpl
