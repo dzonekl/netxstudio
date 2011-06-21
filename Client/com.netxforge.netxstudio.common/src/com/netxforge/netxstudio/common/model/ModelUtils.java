@@ -1,5 +1,6 @@
 package com.netxforge.netxstudio.common.model;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.generics.Value;
 
 public class ModelUtils {
 
@@ -378,6 +380,21 @@ public class ModelUtils {
 
 		return refCal.compareTo(variantCal) < 0;
 
+	}
+	
+	/**
+	 * Transform a list of Value object, to only the value part of the Value Object. 
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public List<BigDecimal> transformValue(List<Value> values){
+		Function<Value, BigDecimal> valueToBigDecimal = new Function<Value, BigDecimal>(){
+			public BigDecimal apply(Value from) {
+				return new BigDecimal(from.getValue());
+			}
+		};
+		return Lists.transform(values, valueToBigDecimal);
 	}
 
 }
