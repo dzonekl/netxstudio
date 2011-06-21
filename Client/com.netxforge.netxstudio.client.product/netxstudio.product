@@ -86,6 +86,7 @@
    <configurations>
       <plugin id="com.netxforge.netxstudio.data" autoStart="true" startLevel="0" />
       <plugin id="com.netxforge.netxstudio.data.fixtures" autoStart="true" startLevel="3" />
+      <plugin id="com.netxforge.netxstudio.screens" autoStart="true" startLevel="0" />
       <plugin id="com.netxforge.netxstudio.ui.activities" autoStart="true" startLevel="0" />
    </configurations>
 

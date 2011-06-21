@@ -24,9 +24,6 @@ import com.netxforge.netxstudio.data.internal.DataActivator;
 /**
  * @since 3.3
  * 
- * TODO, use an extensionfactory, to instantiate this class and have the bindings 
- * done automaticly. 
- * 
  */
 public class InteractiveSplashHandler extends AbstractSplashHandler {
 
@@ -153,9 +150,8 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		// any password
 		if ((username.length() > 0) && (password.length() > 0)) {
 
-			// THis would create a new instanceof.
 			DataActivator.getInjector().injectMembers(this);
-
+			
 			// We will open a session here, this will be along running
 			// operation.
 
