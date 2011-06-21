@@ -89,17 +89,9 @@ public class CDODataProvider implements IDataProvider, IFixtures {
 		return this.getSession().getUserID();
 	}
 
-	/**
-	 * Our session, we keep it static, as Google Guice, Singleton instantiates
-	 * another instance.
-	 */
-	private static CDOSession clientSession = null;
+	private CDOSession clientSession = null;
 
-	/**
-	 * Our transcation, we keep it static, as Google Guice, Singleton
-	 * instantiates another instance.
-	 */
-	private static CDOTransaction transaction = null;
+	private CDOTransaction transaction = null;
 
 	public void openSession(String uid, String passwd) throws SecurityException {
 
