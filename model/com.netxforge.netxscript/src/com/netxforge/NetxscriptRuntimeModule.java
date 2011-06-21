@@ -24,6 +24,7 @@ import com.netxforge.scoping.SimpleCDOScopeProvider;
  */
 public class NetxscriptRuntimeModule extends com.netxforge.AbstractNetxscriptRuntimeModule {
 
+	@Override
 	public Class<? extends org.eclipse.xtext.scoping.IGlobalScopeProvider> bindIGlobalScopeProvider() {
 		return SimpleCDOScopeProvider.class;
 	}
@@ -32,6 +33,7 @@ public class NetxscriptRuntimeModule extends com.netxforge.AbstractNetxscriptRun
 		return CDOResourceServiceProvider.class;
 	}
 	
+	@Override
 	public Class<? extends org.eclipse.xtext.naming.IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return SimpleCDONameProvider.class;
 	}
@@ -53,9 +55,9 @@ public class NetxscriptRuntimeModule extends com.netxforge.AbstractNetxscriptRun
 		return InterpreterFactory.class;
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public Class<? extends IInterpreterContextFactory> bindInterpreterContextFactory(){
-		return InterpreterContextFactory.class;
+	@SuppressWarnings({ "unchecked" })
+	public Class<? extends IInterpreterContextFactory<Object>> bindInterpreterContextFactory(){
+		return (Class<? extends IInterpreterContextFactory<Object>>) InterpreterContextFactory.class;
 	}
 	
 }
