@@ -104,8 +104,8 @@ public class RFSServiceCapacityLogic {
 		endTime = new Date(System.currentTimeMillis());
 		
 		final DateTimeRange timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
-		timeRange.setBegin(modelUtils.xmlDate(startTime));
-		timeRange.setEnd(modelUtils.xmlDate(endTime));
+		timeRange.setBegin(modelUtils.toXMLDate(startTime));
+		timeRange.setEnd(modelUtils.toXMLDate(endTime));
 		
 		serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
 		// what name should a servicemonitor have?
