@@ -32,6 +32,7 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.operators.Network;
@@ -73,19 +74,39 @@ public class MetricValueQueryTest extends AbstractDataProviderTest {
 		dataProvider.closeSession();
 	}
 
-	/**
-	 * @throws Exception
-	 */
 	@Test
-	public void testQuery() throws Exception {
+	public void testMetricValuesQuery() throws Exception {
 		final String name = "name";
 		final CDOTransaction transaction = dataProvider.getTransaction();
 		final CDOQuery cdoQuery = transaction
 				.createQuery(
 						"hql",
 						"select v from Value v, MetricValueRange mvr, NetXResource res where "
-								+ "v in elements(mvr.metricValues) and v.timeStamp >= :dateFrom and " +
-								"v.timeStamp <= :dateTo and mvr in elements(res.metricValueRanges) and res.shortName=:name");
+								+ "v in elements(mvr.metricValues) " 
+								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
+								+ "and mvr.periodHint=:periodHint and mvr.kindHint = :kindHint "
+								+ "and mvr in elements(res.metricValueRanges) and res.shortName=:name");
+		cdoQuery.setParameter("name", name);
+		cdoQuery.setParameter("dateFrom", dateString());
+		cdoQuery.setParameter("dateTo", dateString());
+		cdoQuery.setParameter("periodHint", 60);
+		cdoQuery.setParameter("kindHint", KindHintType.AVG);
+		cdoQuery.setParameter(IHibernateStore.CACHE_RESULTS, true);
+		final List<Value> values = cdoQuery.getResult(Value.class);
+		dataProvider.commitTransaction();
+	}
+
+	@Test
+	public void testCapacityValuesQuery() throws Exception {
+		final String name = "name";
+		final CDOTransaction transaction = dataProvider.getTransaction();
+		final CDOQuery cdoQuery = transaction
+				.createQuery(
+						"hql",
+						"select v from Value v, NetXResource res where "
+								+ "v in elements(res.capacityValues) " 
+								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
+								+ "and res.shortName=:name");
 		cdoQuery.setParameter("name", name);
 		cdoQuery.setParameter("dateFrom", dateString());
 		cdoQuery.setParameter("dateTo", dateString());
