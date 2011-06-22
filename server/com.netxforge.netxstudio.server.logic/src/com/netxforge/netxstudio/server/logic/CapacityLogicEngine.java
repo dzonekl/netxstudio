@@ -20,12 +20,17 @@ package com.netxforge.netxstudio.server.logic;
 
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -84,6 +89,17 @@ public class CapacityLogicEngine {
 			final List<ExpressionResult> result = expressionEngine
 					.getExpressionResult();
 			// process the result
+			
+			for(ExpressionResult er : result){
+				
+				// Hi martin, there should be sufficient info to write to the correct range. 
+				// the period context 
+				RangeKind rk = er.getTargetRange();
+				NetXResource resource = er.getTargetResource();
+				EList<Value> values = er.getTargetValues();
+				
+			}
+			
 		} catch (final Throwable t) {
 			failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
 			failure.setExpressionRef(expression);

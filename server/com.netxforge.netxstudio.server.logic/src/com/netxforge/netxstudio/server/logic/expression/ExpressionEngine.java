@@ -43,7 +43,6 @@ import com.google.inject.name.Names;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;
-import com.netxforge.interpreter.IInterpreterFactory;
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
@@ -79,8 +78,9 @@ public class ExpressionEngine implements IExpressionEngine {
 	private IInterpreterContextFactory xInterpreterContextFactory;
 	
 	@Inject
-	private IInterpreterFactory xInterpreterFactory;
-
+	private IInterpreter xInterpreter;
+	
+	
 	private List<Object> context = new ArrayList<Object>();
 	
 	private Throwable throwable;
@@ -88,7 +88,6 @@ public class ExpressionEngine implements IExpressionEngine {
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#run()
 	 */
-	@SuppressWarnings("unchecked")
 	public void run() {
 		
 		throwable = null;
@@ -105,8 +104,16 @@ public class ExpressionEngine implements IExpressionEngine {
 				contextList.add(xInterpreterContextFactory.createContext(o));
 			}
 			final IInterpreterContext[] contextArray = new IInterpreterContext[contextList.size()];
-			final IInterpreter interpreter = xInterpreterFactory.create(contextList.toArray(contextArray));
-			setExpressionResult((List<ExpressionResult>)interpreter.evaluate(m));
+			contextList.toArray(contextArray);
+			
+			// Set the context. 
+			xInterpreter.setContext(contextArray);
+			
+			// What is returned from the evaluation are temporary variables from the last scope.
+			
+			@SuppressWarnings("unused")
+			Object tempVars = xInterpreter.evaluate(m);
+			setExpressionResult(xInterpreter.getResult());
 			xResource.unload();
 		} catch (final Throwable t) {
 			throwable = t;
