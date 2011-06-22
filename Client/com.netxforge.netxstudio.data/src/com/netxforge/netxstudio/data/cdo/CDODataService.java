@@ -7,15 +7,10 @@ import com.netxforge.netxstudio.data.IQueryService;
 
 public class CDODataService extends DataService {
 	
-	private CDOQueryService queryService;
 	
 	@Inject
 	public CDODataService(IDataProvider provider, IQueryService queryService, CDOQueryUtil queryUtil) {
 		super(provider, queryService);
-	}
-
-	public CDOQueryService getQueryService() {
-		return queryService;
 	}
 
 }

@@ -18,7 +18,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -33,6 +32,7 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.metrics.KindHintType;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -42,6 +42,7 @@ public class CDOQueryService implements IQueryService {
 
 	private IDataProvider provider;
 	private CDOQueryUtil queryService;
+	@SuppressWarnings("unused")
 	private ModelUtils modelUtils;
 
 	@Inject
@@ -80,50 +81,33 @@ public class CDOQueryService implements IQueryService {
 		}
 	}
 
-	public List<Value> getValuesFromResource(String shortName,
-			XMLGregorianCalendar from, XMLGregorianCalendar to) {
-		final String name = "name";
+	public List<Value> getValuesFromResource(String expressionName,
+			XMLGregorianCalendar from, XMLGregorianCalendar to, int periodHint, KindHintType kindHint) {
 		final CDOTransaction transaction = provider.getTransaction();
 		final CDOQuery cdoQuery = transaction
 				.createQuery(
 						"hql",
 						"select v from Value v, MetricValueRange mvr, NetXResource res where "
-								+ "v in elements(mvr.metricValues) and v.timeStamp >= :dateFrom and "
-								+ "v.timeStamp <= :dateTo and mvr in elements(res.metricValueRanges) and res.shortName=:name");
-		cdoQuery.setParameter("name", name);
+								+ "v in elements(mvr.metricValues) " 
+								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
+								+ "and mvr.periodHint=:periodHint and mvr.kindHint = :kindHint "
+								+ "and mvr in elements(res.metricValueRanges) and res.expressionName=:name");
+		cdoQuery.setParameter("name", expressionName);
 		cdoQuery.setParameter("dateFrom", dateString(from));
 		cdoQuery.setParameter("dateTo", dateString(to));
-		// cdoQuery.setParameter(IHibernateStore.CACHE_RESULTS, true);
+		cdoQuery.setParameter("periodHint", new Integer(periodHint).toString());
+		cdoQuery.setParameter("kindHint", kindHint);
+		
 		queryService.setCacheParameter(cdoQuery);
 		final List<Value> values = cdoQuery.getResult(Value.class);
 		provider.commitTransaction();// ? What do we need to commit?
 		return values;
 	}
 
-	public List<Value> getValuesFromResource(String shortName, Date from,
-			Date to) {
-		final String name = "name";
-		final CDOTransaction transaction = provider.getTransaction();
-		final CDOQuery cdoQuery = transaction
-				.createQuery(
-						"hql",
-						"select v from Value v, MetricValueRange mvr, NetXResource res where "
-								+ "v in elements(mvr.metricValues) and v.timeStamp >= :dateFrom and "
-								+ "v.timeStamp <= :dateTo and mvr in elements(res.metricValueRanges) and res.shortName=:name");
-		cdoQuery.setParameter("name", name);
-		cdoQuery.setParameter("dateFrom", dateString(from));
-		cdoQuery.setParameter("dateTo", dateString(to));
-		// cdoQuery.setParameter(IHibernateStore.CACHE_RESULTS, true);
-		queryService.setCacheParameter(cdoQuery);
-		final List<Value> values = cdoQuery.getResult(Value.class);
-		provider.commitTransaction();// ? What do we need to commit?
-		return values;
-	}
-
-	private String dateString(Date date) {
-		return XMLTypeFactory.eINSTANCE.convertDateTime(modelUtils
-				.toXMLDate(date));
-	}
+//	private String dateString(Date date) {
+//		return XMLTypeFactory.eINSTANCE.convertDateTime(modelUtils
+//				.toXMLDate(date));
+//	}
 
 	private String dateString(XMLGregorianCalendar date) {
 		return XMLTypeFactory.eINSTANCE.convertDateTime(date);
