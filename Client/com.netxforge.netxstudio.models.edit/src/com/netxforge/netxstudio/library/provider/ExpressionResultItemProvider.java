@@ -26,8 +26,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -39,6 +37,7 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -141,7 +140,7 @@ public class ExpressionResultItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(LibraryPackage.Literals.EXPRESSION_RESULT__VALUES);
+			childrenFeatures.add(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_VALUES);
 		}
 		return childrenFeatures;
 	}
@@ -200,7 +199,7 @@ public class ExpressionResultItemProvider
 			case LibraryPackage.EXPRESSION_RESULT__TARGET_RANGE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case LibraryPackage.EXPRESSION_RESULT__VALUES:
+			case LibraryPackage.EXPRESSION_RESULT__TARGET_VALUES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -220,8 +219,8 @@ public class ExpressionResultItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(LibraryPackage.Literals.EXPRESSION_RESULT__VALUES,
-				 XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.DOUBLE, "0")));
+				(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_VALUES,
+				 GenericsFactory.eINSTANCE.createValue()));
 	}
 
 	/**
