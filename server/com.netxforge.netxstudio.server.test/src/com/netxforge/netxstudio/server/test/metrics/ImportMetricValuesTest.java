@@ -36,14 +36,6 @@ public class ImportMetricValuesTest extends TestCase {
 //	private static final String MS_NAME_1 = "SGSN attached users (Gb_IuPS)(10192010 1611)";
 	private static final String MS_NAME_1 = "SGSN_Attached_Users";
 
-	public void testCreateTestData() throws Exception {
-		final Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put(NetxForgeService.SERVICE_PARAM_NAME, ImportMetricValuesActions.class.getName());
-		parameters.put(NetxForgeService.COMMAND_PARAM_NAME, ImportMetricValuesActions.CREATE_TEST_DATA_COMMAND);		
-		parameters.put(ImportMetricValuesActions.METRIC_SOURCE_NAME_PARAM, MS_NAME_1);
-		ServerUtils.getInstance().runService(parameters);
-	}
-
 	public void testImportSGSNMetricSource() throws Exception {
 		final Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put(NetxForgeService.SERVICE_PARAM_NAME, ImportMetricValuesActions.class.getName());
