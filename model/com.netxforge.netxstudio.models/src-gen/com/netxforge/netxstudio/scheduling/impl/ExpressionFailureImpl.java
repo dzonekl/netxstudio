@@ -94,7 +94,6 @@ public class ExpressionFailureImpl extends CDOObjectImpl implements ExpressionFa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	public Component getComponentRef() {
 		return (Component)eGet(SchedulingPackage.Literals.EXPRESSION_FAILURE__COMPONENT_REF, true);
 	}

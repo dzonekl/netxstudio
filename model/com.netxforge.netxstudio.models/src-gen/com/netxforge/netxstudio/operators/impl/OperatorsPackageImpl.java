@@ -747,6 +747,24 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getResourceMonitor_NodeRef() {
+		return (EReference)resourceMonitorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResourceMonitor_ResourceRef() {
+		return (EReference)resourceMonitorEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getWarehouse() {
 		return warehouseEClass;
 	}
@@ -896,6 +914,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 
 		resourceMonitorEClass = createEClass(RESOURCE_MONITOR);
 		createEReference(resourceMonitorEClass, RESOURCE_MONITOR__MARKERS);
+		createEReference(resourceMonitorEClass, RESOURCE_MONITOR__NODE_REF);
+		createEReference(resourceMonitorEClass, RESOURCE_MONITOR__RESOURCE_REF);
 
 		warehouseEClass = createEClass(WAREHOUSE);
 		createEReference(warehouseEClass, WAREHOUSE__NODES);
@@ -1024,6 +1044,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 
 		initEClass(resourceMonitorEClass, ResourceMonitor.class, "ResourceMonitor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getResourceMonitor_Markers(), this.getMarker(), null, "markers", null, 0, -1, ResourceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResourceMonitor_NodeRef(), this.getNode(), null, "nodeRef", null, 0, 1, ResourceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResourceMonitor_ResourceRef(), theLibraryPackage.getNetXResource(), null, "resourceRef", null, 0, 1, ResourceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(warehouseEClass, Warehouse.class, "Warehouse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getWarehouse_Nodes(), this.getNode(), null, "nodes", null, 0, -1, Warehouse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1075,7 +1097,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidNodeID\n\t\t\t"
-		   });																																																																
+		   });																																																																				
 	}
 
 	/**
@@ -1471,6 +1493,20 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 			 "name", "Markers"
 		   });			
 		addAnnotation
+		  (getResourceMonitor_NodeRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "NodeRef"
+		   });			
+		addAnnotation
+		  (getResourceMonitor_ResourceRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ResourceRef"
+		   });			
+		addAnnotation
 		  (warehouseEClass, 
 		   source, 
 		   new String[] {
@@ -1520,7 +1556,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		   source, 
 		   new String[] {
 			 "ValidNodeID", "\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t"
-		   });																																																															
+		   });																																																																			
 	}
 
 } //OperatorsPackageImpl

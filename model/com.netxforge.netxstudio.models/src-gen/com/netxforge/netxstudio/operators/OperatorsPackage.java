@@ -964,13 +964,31 @@ public interface OperatorsPackage extends EPackage {
 	int RESOURCE_MONITOR__MARKERS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Node Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_MONITOR__NODE_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Resource Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_MONITOR__RESOURCE_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Resource Monitor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_MONITOR_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int RESOURCE_MONITOR_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.WarehouseImpl <em>Warehouse</em>}' class.
@@ -1630,6 +1648,28 @@ public interface OperatorsPackage extends EPackage {
 	EReference getResourceMonitor_Markers();
 
 	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getNodeRef <em>Node Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Node Ref</em>'.
+	 * @see com.netxforge.netxstudio.operators.ResourceMonitor#getNodeRef()
+	 * @see #getResourceMonitor()
+	 * @generated
+	 */
+	EReference getResourceMonitor_NodeRef();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getResourceRef <em>Resource Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Resource Ref</em>'.
+	 * @see com.netxforge.netxstudio.operators.ResourceMonitor#getResourceRef()
+	 * @see #getResourceMonitor()
+	 * @generated
+	 */
+	EReference getResourceMonitor_ResourceRef();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.operators.Warehouse <em>Warehouse</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2172,6 +2212,22 @@ public interface OperatorsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RESOURCE_MONITOR__MARKERS = eINSTANCE.getResourceMonitor_Markers();
+
+		/**
+		 * The meta object literal for the '<em><b>Node Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RESOURCE_MONITOR__NODE_REF = eINSTANCE.getResourceMonitor_NodeRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Resource Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RESOURCE_MONITOR__RESOURCE_REF = eINSTANCE.getResourceMonitor_ResourceRef();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.operators.impl.WarehouseImpl <em>Warehouse</em>}' class.

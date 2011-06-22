@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.operators;
 import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.library.NetXResource;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,6 +41,8 @@ import com.netxforge.netxstudio.generics.Base;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getMarkers <em>Markers</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getNodeRef <em>Node Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getResourceRef <em>Resource Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,5 +69,59 @@ public interface ResourceMonitor extends Base {
 	 * @generated
 	 */
 	EList<Marker> getMarkers();
+
+	/**
+	 * Returns the value of the '<em><b>Node Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The Node reference, references 1 Node
+	 * 								type.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Node Ref</em>' reference.
+	 * @see #setNodeRef(Node)
+	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceMonitor_NodeRef()
+	 * @model extendedMetaData="kind='element' name='NodeRef'"
+	 * @generated
+	 */
+	Node getNodeRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getNodeRef <em>Node Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Node Ref</em>' reference.
+	 * @see #getNodeRef()
+	 * @generated
+	 */
+	void setNodeRef(Node value);
+
+	/**
+	 * Returns the value of the '<em><b>Resource Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The Resource reference, references 1
+	 * 								Resource type.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Resource Ref</em>' reference.
+	 * @see #setResourceRef(NetXResource)
+	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceMonitor_ResourceRef()
+	 * @model extendedMetaData="kind='element' name='ResourceRef'"
+	 * @generated
+	 */
+	NetXResource getResourceRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getResourceRef <em>Resource Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Resource Ref</em>' reference.
+	 * @see #getResourceRef()
+	 * @generated
+	 */
+	void setResourceRef(NetXResource value);
 
 } // ResourceMonitor

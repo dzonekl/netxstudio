@@ -618,6 +618,22 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element ecore:reference="Node" name="NodeRef" type="xs:anyURI"
+						maxOccurs="1" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The Node reference, references 1 Node
+								type.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ecore:reference="library:NetXResource" name="ResourceRef"
+						type="xs:anyURI" maxOccurs="1" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The Resource reference, references 1
+								Resource type.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

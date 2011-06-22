@@ -497,6 +497,8 @@
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//ResourceMonitor">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/markers"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/nodeRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/resourceRef"/>
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//Warehouse">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Warehouse/nodes"/>
