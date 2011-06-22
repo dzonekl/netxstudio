@@ -242,7 +242,7 @@
     <genClasses ecoreClass="library.ecore#//ExpressionResult">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ExpressionResult/targetResource"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetRange"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/values"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//ExpressionResult/targetValues"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Function">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Function/functions"/>

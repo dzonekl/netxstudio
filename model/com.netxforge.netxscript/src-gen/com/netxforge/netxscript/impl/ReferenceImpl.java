@@ -31,8 +31,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getNodes <em>Nodes</em>}</li>
- *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getLeaveRef <em>Leave Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getLeafRef <em>Leaf Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -41,24 +41,24 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class ReferenceImpl extends ExpressionImpl implements Reference
 {
   /**
-   * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
+   * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getNodes()
+   * @see #getChildren()
    * @generated
    * @ordered
    */
-  protected EList<Reference> nodes;
+  protected EList<Reference> children;
 
   /**
-   * The cached value of the '{@link #getLeaveRef() <em>Leave Ref</em>}' containment reference.
+   * The cached value of the '{@link #getLeafRef() <em>Leaf Ref</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getLeaveRef()
+   * @see #getLeafRef()
    * @generated
    * @ordered
    */
-  protected LeafReference leaveRef;
+  protected LeafReference leafRef;
 
   /**
    * <!-- begin-user-doc -->
@@ -86,13 +86,13 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<Reference> getNodes()
+  public EList<Reference> getChildren()
   {
-    if (nodes == null)
+    if (children == null)
     {
-      nodes = new EObjectContainmentEList<Reference>(Reference.class, this, NetxscriptPackage.REFERENCE__NODES);
+      children = new EObjectContainmentEList<Reference>(Reference.class, this, NetxscriptPackage.REFERENCE__CHILDREN);
     }
-    return nodes;
+    return children;
   }
 
   /**
@@ -100,9 +100,9 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  public LeafReference getLeaveRef()
+  public LeafReference getLeafRef()
   {
-    return leaveRef;
+    return leafRef;
   }
 
   /**
@@ -110,13 +110,13 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetLeaveRef(LeafReference newLeaveRef, NotificationChain msgs)
+  public NotificationChain basicSetLeafRef(LeafReference newLeafRef, NotificationChain msgs)
   {
-    LeafReference oldLeaveRef = leaveRef;
-    leaveRef = newLeaveRef;
+    LeafReference oldLeafRef = leafRef;
+    leafRef = newLeafRef;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REFERENCE__LEAVE_REF, oldLeaveRef, newLeaveRef);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REFERENCE__LEAF_REF, oldLeafRef, newLeafRef);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -127,20 +127,20 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setLeaveRef(LeafReference newLeaveRef)
+  public void setLeafRef(LeafReference newLeafRef)
   {
-    if (newLeaveRef != leaveRef)
+    if (newLeafRef != leafRef)
     {
       NotificationChain msgs = null;
-      if (leaveRef != null)
-        msgs = ((InternalEObject)leaveRef).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REFERENCE__LEAVE_REF, null, msgs);
-      if (newLeaveRef != null)
-        msgs = ((InternalEObject)newLeaveRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REFERENCE__LEAVE_REF, null, msgs);
-      msgs = basicSetLeaveRef(newLeaveRef, msgs);
+      if (leafRef != null)
+        msgs = ((InternalEObject)leafRef).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REFERENCE__LEAF_REF, null, msgs);
+      if (newLeafRef != null)
+        msgs = ((InternalEObject)newLeafRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REFERENCE__LEAF_REF, null, msgs);
+      msgs = basicSetLeafRef(newLeafRef, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REFERENCE__LEAVE_REF, newLeaveRef, newLeaveRef));
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REFERENCE__LEAF_REF, newLeafRef, newLeafRef));
   }
 
   /**
@@ -153,10 +153,10 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__NODES:
-        return ((InternalEList<?>)getNodes()).basicRemove(otherEnd, msgs);
-      case NetxscriptPackage.REFERENCE__LEAVE_REF:
-        return basicSetLeaveRef(null, msgs);
+      case NetxscriptPackage.REFERENCE__CHILDREN:
+        return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
+      case NetxscriptPackage.REFERENCE__LEAF_REF:
+        return basicSetLeafRef(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -171,10 +171,10 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__NODES:
-        return getNodes();
-      case NetxscriptPackage.REFERENCE__LEAVE_REF:
-        return getLeaveRef();
+      case NetxscriptPackage.REFERENCE__CHILDREN:
+        return getChildren();
+      case NetxscriptPackage.REFERENCE__LEAF_REF:
+        return getLeafRef();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -190,12 +190,12 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__NODES:
-        getNodes().clear();
-        getNodes().addAll((Collection<? extends Reference>)newValue);
+      case NetxscriptPackage.REFERENCE__CHILDREN:
+        getChildren().clear();
+        getChildren().addAll((Collection<? extends Reference>)newValue);
         return;
-      case NetxscriptPackage.REFERENCE__LEAVE_REF:
-        setLeaveRef((LeafReference)newValue);
+      case NetxscriptPackage.REFERENCE__LEAF_REF:
+        setLeafRef((LeafReference)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -211,11 +211,11 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__NODES:
-        getNodes().clear();
+      case NetxscriptPackage.REFERENCE__CHILDREN:
+        getChildren().clear();
         return;
-      case NetxscriptPackage.REFERENCE__LEAVE_REF:
-        setLeaveRef((LeafReference)null);
+      case NetxscriptPackage.REFERENCE__LEAF_REF:
+        setLeafRef((LeafReference)null);
         return;
     }
     super.eUnset(featureID);
@@ -231,10 +231,10 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__NODES:
-        return nodes != null && !nodes.isEmpty();
-      case NetxscriptPackage.REFERENCE__LEAVE_REF:
-        return leaveRef != null;
+      case NetxscriptPackage.REFERENCE__CHILDREN:
+        return children != null && !children.isEmpty();
+      case NetxscriptPackage.REFERENCE__LEAF_REF:
+        return leafRef != null;
     }
     return super.eIsSet(featureID);
   }

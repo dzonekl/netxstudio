@@ -20,6 +20,7 @@ public class SimpleCDONameProvider extends SimpleNameProvider {
 			return qName;
 		}
 		String name = null;
+		
 		// TODO, a Nodetype should be identifiable by it's first function name.
 		if (obj instanceof NodeType) {
 			final NodeType nt = (NodeType) obj;
@@ -27,6 +28,7 @@ public class SimpleCDONameProvider extends SimpleNameProvider {
 				name = nt.getFunctions().get(0).getName();
 			}
 		}
+		
 		if(name != null){
 			return qualifiedNameConverter.toQualifiedName(name);
 		}

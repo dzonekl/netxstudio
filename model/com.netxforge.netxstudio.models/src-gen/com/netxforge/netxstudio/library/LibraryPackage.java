@@ -716,13 +716,13 @@ public interface LibraryPackage extends EPackage {
 	int EXPRESSION_RESULT__TARGET_RANGE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Values</b></em>' attribute list.
+	 * The feature id for the '<em><b>Target Values</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT__VALUES = 2;
+	int EXPRESSION_RESULT__TARGET_VALUES = 2;
 
 	/**
 	 * The number of structural features of the '<em>Expression Result</em>' class.
@@ -2176,15 +2176,15 @@ public interface LibraryPackage extends EPackage {
 	EAttribute getExpressionResult_TargetRange();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link com.netxforge.netxstudio.library.ExpressionResult#getValues <em>Values</em>}'.
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetValues <em>Target Values</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Values</em>'.
-	 * @see com.netxforge.netxstudio.library.ExpressionResult#getValues()
+	 * @return the meta object for the containment reference list '<em>Target Values</em>'.
+	 * @see com.netxforge.netxstudio.library.ExpressionResult#getTargetValues()
 	 * @see #getExpressionResult()
 	 * @generated
 	 */
-	EAttribute getExpressionResult_Values();
+	EReference getExpressionResult_TargetValues();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.Function <em>Function</em>}'.
@@ -3332,12 +3332,12 @@ public interface LibraryPackage extends EPackage {
 		EAttribute EXPRESSION_RESULT__TARGET_RANGE = eINSTANCE.getExpressionResult_TargetRange();
 
 		/**
-		 * The meta object literal for the '<em><b>Values</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>Target Values</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EXPRESSION_RESULT__VALUES = eINSTANCE.getExpressionResult_Values();
+		EReference EXPRESSION_RESULT__TARGET_VALUES = eINSTANCE.getExpressionResult_TargetValues();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.FunctionImpl <em>Function</em>}' class.

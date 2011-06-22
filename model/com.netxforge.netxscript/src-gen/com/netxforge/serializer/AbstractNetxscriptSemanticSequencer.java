@@ -8,7 +8,6 @@ import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
 import com.netxforge.netxscript.Block;
 import com.netxforge.netxscript.BooleanLiteral;
-import com.netxforge.netxscript.Context;
 import com.netxforge.netxscript.ContextRef;
 import com.netxforge.netxscript.Div;
 import com.netxforge.netxscript.Equal;
@@ -33,7 +32,7 @@ import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.Plus;
 import com.netxforge.netxscript.RangeLiteral;
-import com.netxforge.netxscript.RefAssignement;
+import com.netxforge.netxscript.RefAssignment;
 import com.netxforge.netxscript.Reference;
 import com.netxforge.netxscript.ResourceRef;
 import com.netxforge.netxscript.Return;
@@ -189,12 +188,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 					return; 
 				}
 				else break;
-			case NetxscriptPackage.CONTEXT:
-				if(context == grammarAccess.getContextRule()) {
-					sequence_Context_Context(context, (Context) semanticObject); 
-					return; 
-				}
-				else break;
 			case NetxscriptPackage.CONTEXT_REF:
 				if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
@@ -314,8 +307,8 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				}
 				else break;
 			case NetxscriptPackage.FUNCTION_REF:
-				if(context == grammarAccess.getPrimaryNodeRefRule()) {
-					sequence_PrimaryNodeRef_FunctionRef(context, (FunctionRef) semanticObject); 
+				if(context == grammarAccess.getChildrenRefRule()) {
+					sequence_ChildrenRef_FunctionRef(context, (FunctionRef) semanticObject); 
 					return; 
 				}
 				else break;
@@ -701,10 +694,10 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 					return; 
 				}
 				else break;
-			case NetxscriptPackage.REF_ASSIGNEMENT:
+			case NetxscriptPackage.REF_ASSIGNMENT:
 				if(context == grammarAccess.getStatementRule() ||
 				   context == grammarAccess.getReferenceAssignmentStatementRule()) {
-					sequence_ReferenceAssignmentStatement_RefAssignement(context, (RefAssignement) semanticObject); 
+					sequence_ReferenceAssignmentStatement_RefAssignment(context, (RefAssignment) semanticObject); 
 					return; 
 				}
 				else break;
@@ -789,7 +782,11 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				}
 				else break;
 			case NetxscriptPackage.VAR_OR_ARGUMENT_CALL:
-				if(context == grammarAccess.getExpressionRule() ||
+				if(context == grammarAccess.getVarOrArgumentCallRule()) {
+					sequence_VarOrArgumentCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
+					return; 
+				}
+				else if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
 				   context == grammarAccess.getLogicalAccess().getAndLeftAction_1_0_0_0() ||
 				   context == grammarAccess.getLogicalAccess().getOrLeftAction_1_0_1_0() ||
@@ -813,10 +810,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				   context == grammarAccess.getParenthesizedExpressionRule() ||
 				   context == grammarAccess.getIndexedCallRule()) {
 					sequence_IndexedCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
-					return; 
-				}
-				else if(context == grammarAccess.getVarOrArgumentCallRule()) {
-					sequence_VarOrArgumentCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
 					return; 
 				}
 				else break;
@@ -934,6 +927,18 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
+	 *     function=[Function|ID]
+	 *
+	 * Features:
+	 *    function[1, 1]
+	 */
+	protected void sequence_ChildrenRef_FunctionRef(EObject context, FunctionRef semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (left=Comparison_Greater_1_0_2_0 right=Addition)
 	 *
 	 * Features:
@@ -993,25 +998,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 */
 	protected void sequence_ContextRef_ContextRef(EObject context, ContextRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     context=[EObject|ID]
-	 *
-	 * Features:
-	 *    context[1, 1]
-	 */
-	protected void sequence_Context_Context(EObject context, Context semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.CONTEXT__CONTEXT) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.CONTEXT__CONTEXT));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getContextAccess().getContextEObjectIDTerminalRuleCall_1_0_1(), semanticObject.getContext());
-		feeder.finish();
 	}
 	
 	
@@ -1257,23 +1243,11 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     function=[Function|ID]
+	 *     (children+=ChildrenRef+ leafRef=LeafReference?)
 	 *
 	 * Features:
-	 *    function[1, 1]
-	 */
-	protected void sequence_PrimaryNodeRef_FunctionRef(EObject context, FunctionRef semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     (nodes+=PrimaryNodeRef+ leaveRef=LeafReference?)
-	 *
-	 * Features:
-	 *    nodes[1, *]
-	 *    leaveRef[0, 1]
+	 *    children[1, *]
+	 *    leafRef[0, 1]
 	 */
 	protected void sequence_PrimaryRef_Reference(EObject context, Reference semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1300,12 +1274,12 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 *    expression[1, 1]
 	 *    ref[1, 1]
 	 */
-	protected void sequence_ReferenceAssignmentStatement_RefAssignement(EObject context, RefAssignement semanticObject) {
+	protected void sequence_ReferenceAssignmentStatement_RefAssignment(EObject context, RefAssignment semanticObject) {
 		if(errorAcceptor != null) {
 			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.STATEMENT__EXPRESSION) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.STATEMENT__EXPRESSION));
-			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.REF_ASSIGNEMENT__REF) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.REF_ASSIGNEMENT__REF));
+			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.REF_ASSIGNMENT__REF) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.REF_ASSIGNMENT__REF));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
@@ -1317,11 +1291,13 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (resource=[NetXResource|ID]? valuerange=ValueRange)
+	 *     (resource=[NetXResource|ID]? valuerange=ValueRange kind=ValueKind? period=NUMBER)
 	 *
 	 * Features:
 	 *    resource[0, 1]
 	 *    valuerange[1, 1]
+	 *    kind[0, 1]
+	 *    period[1, 1]
 	 */
 	protected void sequence_ResourceRef_ResourceRef(EObject context, ResourceRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

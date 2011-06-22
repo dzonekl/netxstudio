@@ -1271,7 +1271,7 @@
 		<xs:sequence>
 			<xs:element ecore:reference="NetXResource" name="TargetResource" type="xs:anyURI"  maxOccurs="1" minOccurs="0"/>
 			<xs:element name="TargetRange" type="RangeKind"  maxOccurs="1" minOccurs="0"/>
-			<xs:element name="Values" type="xs:double"  maxOccurs="unbounded" minOccurs="0"/>
+			<xs:element name="TargetValues" type="gen:Value"  maxOccurs="unbounded" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	

@@ -22,7 +22,6 @@ import com.netxforge.NetxscriptStandaloneSetup;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;
-import com.netxforge.interpreter.IInterpreterFactory;
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataService;
@@ -48,7 +47,7 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
 public class ContextNetXScriptTest extends AbstractXtextTests {
 
 	IDataService dataService;
-	IInterpreterFactory interpreterFactory;
+	IInterpreter interpreter;
 	IInterpreterContextFactory interpreterContextFactory;
 	ModelUtils modelUtils;
 
@@ -60,7 +59,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		// Inject whatever we need.
 		dataService = get(IDataService.class);
 		modelUtils = get(ModelUtils.class);
-		interpreterFactory = get(IInterpreterFactory.class);
+		interpreter = get(IInterpreter.class);
 		interpreterContextFactory = get(IInterpreterContextFactory.class);
 		dataService.getProvider().openSession("admin", "admin");
 	}
@@ -95,16 +94,18 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				.of(periodContext);
 		final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
 				.size()];
-		final IInterpreter i = interpreterFactory.create(contextList
-				.toArray(contextArray));
-		System.out.println(i.toString());
+
+		interpreter.setContext(contextList.toArray(contextArray));
+		System.out.println(interpreter.toString());
 
 		Mod m = (Mod) this.getModel("var a = [1,2,3,4];a;");
-		Object result = i.evaluate(m); // Returns the intermediate results.
-		List<ExpressionResult> expressionresults = i.getResult(); // Returns the
-																	// model
-																	// impacting
-																	// results.
+		Object result = interpreter.evaluate(m); // Returns the intermediate
+													// results.
+		List<ExpressionResult> expressionresults = interpreter.getResult(); // Returns
+																			// the
+		// model
+		// impacting
+		// results.
 		System.out.println(result);
 
 	}
@@ -163,10 +164,10 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		{
 			final CDOResource res = (CDOResource) dataService.getProvider()
 					.getResource(LibraryPackage.Literals.LIBRARY);
-			
-			Library lib = (Library)res.getContents().get(0);
+
+			Library lib = (Library) res.getContents().get(0);
 			EList<NodeType> nts = lib.getNodeTypes();
-			for(NodeType nt: nts){
+			for (NodeType nt : nts) {
 				EList<Function> fcs = nt.getFunctions();
 			}
 		}

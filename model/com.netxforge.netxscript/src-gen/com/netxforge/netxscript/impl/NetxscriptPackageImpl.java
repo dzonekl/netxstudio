@@ -13,7 +13,6 @@ import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
 import com.netxforge.netxscript.Block;
 import com.netxforge.netxscript.BooleanLiteral;
-import com.netxforge.netxscript.Context;
 import com.netxforge.netxscript.ContextRef;
 import com.netxforge.netxscript.Div;
 import com.netxforge.netxscript.Equal;
@@ -43,13 +42,14 @@ import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.Plus;
 import com.netxforge.netxscript.Range;
 import com.netxforge.netxscript.RangeLiteral;
-import com.netxforge.netxscript.RefAssignement;
+import com.netxforge.netxscript.RefAssignment;
 import com.netxforge.netxscript.Reference;
 import com.netxforge.netxscript.ResourceRef;
 import com.netxforge.netxscript.Return;
 import com.netxforge.netxscript.Statement;
 import com.netxforge.netxscript.UnaryPlusMinus;
 import com.netxforge.netxscript.Unequal;
+import com.netxforge.netxscript.ValueKind;
 import com.netxforge.netxscript.ValueRange;
 import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
@@ -91,13 +91,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * @generated
    */
   private EClass modEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass contextEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -216,7 +209,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass refAssignementEClass = null;
+  private EClass refAssignmentEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -415,6 +408,13 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
   private EEnum valueRangeEEnum = null;
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum valueKindEEnum = null;
+
+  /**
    * Creates an instance of the model <b>Package</b>, registered with
    * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
    * package URI value.
@@ -534,26 +534,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
   public EReference getMod_Statements()
   {
     return (EReference)modEClass.getEStructuralFeatures().get(3);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getContext()
-  {
-    return contextEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getContext_Context()
-  {
-    return (EReference)contextEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -741,7 +721,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getReference_Nodes()
+  public EReference getReference_Children()
   {
     return (EReference)referenceEClass.getEStructuralFeatures().get(0);
   }
@@ -751,7 +731,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getReference_LeaveRef()
+  public EReference getReference_LeafRef()
   {
     return (EReference)referenceEClass.getEStructuralFeatures().get(1);
   }
@@ -891,9 +871,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getRefAssignement()
+  public EClass getRefAssignment()
   {
-    return refAssignementEClass;
+    return refAssignmentEClass;
   }
 
   /**
@@ -901,9 +881,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getRefAssignement_Ref()
+  public EReference getRefAssignment_Ref()
   {
-    return (EReference)refAssignementEClass.getEStructuralFeatures().get(0);
+    return (EReference)refAssignmentEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1611,6 +1591,26 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getResourceRef_Kind()
+  {
+    return (EAttribute)resourceRefEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getResourceRef_Period()
+  {
+    return (EAttribute)resourceRefEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getLinkRef()
   {
     return linkRefEClass;
@@ -1651,6 +1651,16 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EEnum getValueKind()
+  {
+    return valueKindEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public NetxscriptFactory getNetxscriptFactory()
   {
     return (NetxscriptFactory)getEFactoryInstance();
@@ -1682,9 +1692,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     createEReference(modEClass, MOD__FUNCTIONS);
     createEReference(modEClass, MOD__STATEMENTS);
 
-    contextEClass = createEClass(CONTEXT);
-    createEReference(contextEClass, CONTEXT__CONTEXT);
-
     importEClass = createEClass(IMPORT);
     createEAttribute(importEClass, IMPORT__IMPORT_URI);
 
@@ -1712,8 +1719,8 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     rangeEClass = createEClass(RANGE);
 
     referenceEClass = createEClass(REFERENCE);
-    createEReference(referenceEClass, REFERENCE__NODES);
-    createEReference(referenceEClass, REFERENCE__LEAVE_REF);
+    createEReference(referenceEClass, REFERENCE__CHILDREN);
+    createEReference(referenceEClass, REFERENCE__LEAF_REF);
 
     leafReferenceEClass = createEClass(LEAF_REFERENCE);
 
@@ -1734,8 +1741,8 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     assignmentEClass = createEClass(ASSIGNMENT);
     createEReference(assignmentEClass, ASSIGNMENT__VAR);
 
-    refAssignementEClass = createEClass(REF_ASSIGNEMENT);
-    createEReference(refAssignementEClass, REF_ASSIGNEMENT__REF);
+    refAssignmentEClass = createEClass(REF_ASSIGNMENT);
+    createEReference(refAssignmentEClass, REF_ASSIGNMENT__REF);
 
     andEClass = createEClass(AND);
     createEReference(andEClass, AND__LEFT);
@@ -1831,6 +1838,8 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     resourceRefEClass = createEClass(RESOURCE_REF);
     createEReference(resourceRefEClass, RESOURCE_REF__RESOURCE);
     createEAttribute(resourceRefEClass, RESOURCE_REF__VALUERANGE);
+    createEAttribute(resourceRefEClass, RESOURCE_REF__KIND);
+    createEAttribute(resourceRefEClass, RESOURCE_REF__PERIOD);
 
     linkRefEClass = createEClass(LINK_REF);
     createEReference(linkRefEClass, LINK_REF__LINK);
@@ -1838,6 +1847,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     // Create enums
     nativeFunctionEEnum = createEEnum(NATIVE_FUNCTION);
     valueRangeEEnum = createEEnum(VALUE_RANGE);
+    valueKindEEnum = createEEnum(VALUE_KIND);
   }
 
   /**
@@ -1884,7 +1894,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     whileEClass.getESuperTypes().add(this.getStatement());
     variableEClass.getESuperTypes().add(this.getStatement());
     assignmentEClass.getESuperTypes().add(this.getStatement());
-    refAssignementEClass.getESuperTypes().add(this.getStatement());
+    refAssignmentEClass.getESuperTypes().add(this.getStatement());
     andEClass.getESuperTypes().add(this.getExpression());
     orEClass.getESuperTypes().add(this.getExpression());
     equalEClass.getESuperTypes().add(this.getExpression());
@@ -1919,9 +1929,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEReference(getMod_Functions(), this.getFunction(), null, "functions", null, 0, -1, Mod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMod_Statements(), this.getStatement(), null, "statements", null, 0, -1, Mod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(contextEClass, Context.class, "Context", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getContext_Context(), ecorePackage.getEObject(), null, "context", null, 0, 1, Context.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
     initEClass(importEClass, Import.class, "Import", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getImport_ImportURI(), ecorePackage.getEString(), "importURI", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1949,8 +1956,8 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEClass(rangeEClass, Range.class, "Range", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(referenceEClass, Reference.class, "Reference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getReference_Nodes(), this.getReference(), null, "nodes", null, 0, -1, Reference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getReference_LeaveRef(), this.getLeafReference(), null, "leaveRef", null, 0, 1, Reference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getReference_Children(), this.getReference(), null, "children", null, 0, -1, Reference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getReference_LeafRef(), this.getLeafReference(), null, "leafRef", null, 0, 1, Reference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(leafReferenceEClass, LeafReference.class, "LeafReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1971,8 +1978,8 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEClass(assignmentEClass, Assignment.class, "Assignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getAssignment_Var(), this.getAbstractVarOrArgument(), null, "var", null, 0, 1, Assignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(refAssignementEClass, RefAssignement.class, "RefAssignement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getRefAssignement_Ref(), this.getReference(), null, "ref", null, 0, 1, RefAssignement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(refAssignmentEClass, RefAssignment.class, "RefAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getRefAssignment_Ref(), this.getReference(), null, "ref", null, 0, 1, RefAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(andEClass, And.class, "And", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getAnd_Left(), this.getExpression(), null, "left", null, 0, 1, And.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2068,6 +2075,8 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEClass(resourceRefEClass, ResourceRef.class, "ResourceRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getResourceRef_Resource(), theLibraryPackage.getNetXResource(), null, "resource", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getResourceRef_Valuerange(), this.getValueRange(), "valuerange", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getResourceRef_Kind(), this.getValueKind(), "kind", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getResourceRef_Period(), ecorePackage.getEBigDecimal(), "period", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(linkRefEClass, LinkRef.class, "LinkRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getLinkRef_Link(), theOperatorsPackage.getRelationship(), null, "link", null, 0, 1, LinkRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2088,6 +2097,10 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     addEEnumLiteral(valueRangeEEnum, ValueRange.FORECAST_CAP);
     addEEnumLiteral(valueRangeEEnum, ValueRange.TRENDED);
     addEEnumLiteral(valueRangeEEnum, ValueRange.UTILIZATION);
+
+    initEEnum(valueKindEEnum, ValueKind.class, "ValueKind");
+    addEEnumLiteral(valueKindEEnum, ValueKind.AVG);
+    addEEnumLiteral(valueKindEEnum, ValueKind.BH);
 
     // Create resource
     createResource(eNS_URI);

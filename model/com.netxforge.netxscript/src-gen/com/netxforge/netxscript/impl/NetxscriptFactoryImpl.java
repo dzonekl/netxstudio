@@ -69,7 +69,6 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
     switch (eClass.getClassifierID())
     {
       case NetxscriptPackage.MOD: return createMod();
-      case NetxscriptPackage.CONTEXT: return createContext();
       case NetxscriptPackage.IMPORT: return createImport();
       case NetxscriptPackage.FUNCTION: return createFunction();
       case NetxscriptPackage.ARGUMENT: return createArgument();
@@ -86,7 +85,7 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.WHILE: return createWhile();
       case NetxscriptPackage.VARIABLE: return createVariable();
       case NetxscriptPackage.ASSIGNMENT: return createAssignment();
-      case NetxscriptPackage.REF_ASSIGNEMENT: return createRefAssignement();
+      case NetxscriptPackage.REF_ASSIGNMENT: return createRefAssignment();
       case NetxscriptPackage.AND: return createAnd();
       case NetxscriptPackage.OR: return createOr();
       case NetxscriptPackage.EQUAL: return createEqual();
@@ -132,6 +131,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
         return createNativeFunctionFromString(eDataType, initialValue);
       case NetxscriptPackage.VALUE_RANGE:
         return createValueRangeFromString(eDataType, initialValue);
+      case NetxscriptPackage.VALUE_KIND:
+        return createValueKindFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -151,6 +152,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
         return convertNativeFunctionToString(eDataType, instanceValue);
       case NetxscriptPackage.VALUE_RANGE:
         return convertValueRangeToString(eDataType, instanceValue);
+      case NetxscriptPackage.VALUE_KIND:
+        return convertValueKindToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -165,17 +168,6 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
   {
     ModImpl mod = new ModImpl();
     return mod;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Context createContext()
-  {
-    ContextImpl context = new ContextImpl();
-    return context;
   }
 
   /**
@@ -359,10 +351,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public RefAssignement createRefAssignement()
+  public RefAssignment createRefAssignment()
   {
-    RefAssignementImpl refAssignement = new RefAssignementImpl();
-    return refAssignement;
+    RefAssignmentImpl refAssignment = new RefAssignmentImpl();
+    return refAssignment;
   }
 
   /**
@@ -691,6 +683,28 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * @generated
    */
   public String convertValueRangeToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ValueKind createValueKindFromString(EDataType eDataType, String initialValue)
+  {
+    ValueKind result = ValueKind.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertValueKindToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

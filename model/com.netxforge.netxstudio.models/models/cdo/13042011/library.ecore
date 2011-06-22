@@ -451,11 +451,11 @@
         <details key="name" value="TargetRange"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetValues" upperBound="-1"
+        eType="ecore:EClass generics.ecore#//Value" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
-        <details key="name" value="Values"/>
+        <details key="name" value="TargetValues"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

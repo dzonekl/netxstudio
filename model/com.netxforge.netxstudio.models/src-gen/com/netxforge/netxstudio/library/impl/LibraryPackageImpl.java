@@ -727,8 +727,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getExpressionResult_Values() {
-		return (EAttribute)expressionResultEClass.getEStructuralFeatures().get(2);
+	public EReference getExpressionResult_TargetValues() {
+		return (EReference)expressionResultEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1437,7 +1437,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		expressionResultEClass = createEClass(EXPRESSION_RESULT);
 		createEReference(expressionResultEClass, EXPRESSION_RESULT__TARGET_RESOURCE);
 		createEAttribute(expressionResultEClass, EXPRESSION_RESULT__TARGET_RANGE);
-		createEAttribute(expressionResultEClass, EXPRESSION_RESULT__VALUES);
+		createEReference(expressionResultEClass, EXPRESSION_RESULT__TARGET_VALUES);
 
 		functionEClass = createEClass(FUNCTION);
 		createEReference(functionEClass, FUNCTION__FUNCTIONS);
@@ -1621,7 +1621,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEClass(expressionResultEClass, ExpressionResult.class, "ExpressionResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExpressionResult_TargetResource(), this.getNetXResource(), null, "targetResource", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExpressionResult_TargetRange(), this.getRangeKind(), "targetRange", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExpressionResult_Values(), theXMLTypePackage.getDouble(), "values", null, 0, -1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExpressionResult_TargetValues(), theGenericsPackage.getValue(), null, "targetValues", null, 0, -1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(functionEClass, Function.class, "Function", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFunction_Functions(), this.getFunction(), null, "functions", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2087,11 +2087,11 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "TargetRange"
 		   });		
 		addAnnotation
-		  (getExpressionResult_Values(), 
+		  (getExpressionResult_TargetValues(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "Values"
+			 "name", "TargetValues"
 		   });					
 		addAnnotation
 		  (functionEClass, 

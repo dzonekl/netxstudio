@@ -83,11 +83,6 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createModAdapter();
       }
       @Override
-      public Adapter caseContext(Context object)
-      {
-        return createContextAdapter();
-      }
-      @Override
       public Adapter caseImport(Import object)
       {
         return createImportAdapter();
@@ -168,9 +163,9 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createAssignmentAdapter();
       }
       @Override
-      public Adapter caseRefAssignement(RefAssignement object)
+      public Adapter caseRefAssignment(RefAssignment object)
       {
-        return createRefAssignementAdapter();
+        return createRefAssignmentAdapter();
       }
       @Override
       public Adapter caseAnd(And object)
@@ -335,21 +330,6 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createModAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.Context <em>Context</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.netxscript.Context
-   * @generated
-   */
-  public Adapter createContextAdapter()
   {
     return null;
   }
@@ -595,16 +575,16 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.RefAssignement <em>Ref Assignement</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.RefAssignment <em>Ref Assignment</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.netxscript.RefAssignement
+   * @see com.netxforge.netxscript.RefAssignment
    * @generated
    */
-  public Adapter createRefAssignementAdapter()
+  public Adapter createRefAssignmentAdapter()
   {
     return null;
   }

@@ -35,15 +35,6 @@ public interface NetxscriptFactory extends EFactory
   Mod createMod();
 
   /**
-   * Returns a new object of class '<em>Context</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Context</em>'.
-   * @generated
-   */
-  Context createContext();
-
-  /**
    * Returns a new object of class '<em>Import</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -188,13 +179,13 @@ public interface NetxscriptFactory extends EFactory
   Assignment createAssignment();
 
   /**
-   * Returns a new object of class '<em>Ref Assignement</em>'.
+   * Returns a new object of class '<em>Ref Assignment</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Ref Assignement</em>'.
+   * @return a new object of class '<em>Ref Assignment</em>'.
    * @generated
    */
-  RefAssignement createRefAssignement();
+  RefAssignment createRefAssignment();
 
   /**
    * Returns a new object of class '<em>And</em>'.

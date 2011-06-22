@@ -206,7 +206,7 @@ public class ScreenFormService implements IScreenFormService {
 			final Class<?> finalScreen = screen;
 
 			// We operride the operation, depending on the user role.
-			Role r = editingService.getDataService().getRoleHandler()
+			Role r = editingService.getDataService().getQueryService()
 					.getCurrentRole();
 			if (r.getName().equals(IFixtures.ROLE_READONLY)) {
 				operation = Screens.OPERATION_READ_ONLY;

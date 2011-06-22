@@ -15,9 +15,6 @@
         eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Context">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="context" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Import">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
@@ -56,10 +53,10 @@
     <eLiterals name="DEVIATION" value="5" literal="deviation()"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Reference" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="leaveRef" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leafRef" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LeafReference"/>
@@ -70,6 +67,10 @@
     <eLiterals name="FORECAST_CAP" value="3" literal="FORECAST_CAP"/>
     <eLiterals name="TRENDED" value="4" literal="TRENDED"/>
     <eLiterals name="UTILIZATION" value="5" literal="UTILIZATION"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ValueKind">
+    <eLiterals name="AVG" literal="AVG"/>
+    <eLiterals name="BH" value="1" literal="BH"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Return" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement"/>
   <eClassifiers xsi:type="ecore:EClass" name="If" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement">
@@ -92,7 +93,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="var" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//AbstractVarOrArgument"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RefAssignement" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement">
+  <eClassifiers xsi:type="ecore:EClass" name="RefAssignment" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference"
         containment="true"/>
   </eClassifiers>
@@ -224,6 +225,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="ResourceRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="resource" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore#//NetXResource"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="valuerange" eType="ecore:EEnum platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueRange"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EEnum platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LinkRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="link" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/operators.ecore#//Relationship"/>

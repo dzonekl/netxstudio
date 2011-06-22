@@ -19,6 +19,7 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 //import "platform:/resource/com.netxforge.model.a/model/library.ecore" as library
 import "platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore" as library
 import "platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/operators.ecore" as operator
+import "platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/metrics.ecore" as metric
 
 Mod:
 	('mod' name=ID)?
@@ -26,8 +27,9 @@ Mod:
 	((functions+=Function)+ |
 	(statements+=Statement)+);
 
-Context:
-	'context' context=[ecore::EObject];
+// TODO, DO WE NEED A CONTEXT HINT?
+//Context:
+//	'context' context=[ecore::EObject];
 
 Import:
 	'import' importURI=STRING;
@@ -172,28 +174,25 @@ ContextRef returns Reference:
  * Exteral Node references, these can be nested and finish with a resource reference.
  */
 PrimaryRef returns Reference:
-	(nodes+=PrimaryNodeRef)+ ('->' leaveRef=LeafReference)?;
+	(children+=ChildrenRef)+ ('->' leafRef=LeafReference)?;
 
-PrimaryNodeRef returns Reference:
+ChildrenRef returns Reference:
 	{FunctionRef} '.' function=[library::Function];
 
 LeafReference returns LeafReference:
-	ResourceRef | LinkRef;
+	ResourceRef | LinkRef ;
 
-/**
- *  TODO, for resource, we need access to the sub ranges. 
- * This could be: 
- * Res.metric.period=?
- * Res.cap
- * Res.forecast
- *
- */
 ResourceRef returns LeafReference:
-	{ResourceRef} ('Res' resource=[library::NetXResource] | 'AllRes') valuerange=ValueRange;
+	{ResourceRef} ('Res' resource=[library::NetXResource] | 'AllRes') valuerange=ValueRange (kind=ValueKind)? period=NUMBER;
 
 enum ValueRange: 
 	METRIC='METRIC' | CAP='CAP' | FORECAST='FORECAST' | FORECAST_CAP='FORECAST_CAP' | TRENDED='TRENDED' | UTILIZATION='UTILIZATION'	
 ;
+
+enum ValueKind: 
+	AVG='AVG' | BH='BH'
+;
+
 
 /**
  * TODO, through a link, we should be able to access, the opposite node and 

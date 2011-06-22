@@ -21,6 +21,8 @@ package com.netxforge.netxstudio.library;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
+import com.netxforge.netxstudio.generics.Value;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Expression Result</b></em>'.
@@ -37,7 +39,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetResource <em>Target Resource</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetRange <em>Target Range</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getValues <em>Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetValues <em>Target Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -133,19 +135,19 @@ public interface ExpressionResult extends CDOObject {
 	boolean isSetTargetRange();
 
 	/**
-	 * Returns the value of the '<em><b>Values</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.Double}.
+	 * Returns the value of the '<em><b>Target Values</b></em>' containment reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.generics.Value}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Values</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Target Values</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Values</em>' attribute list.
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult_Values()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.Double"
-	 *        extendedMetaData="kind='element' name='Values'"
+	 * @return the value of the '<em>Target Values</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult_TargetValues()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='TargetValues'"
 	 * @generated
 	 */
-	EList<Double> getValues();
+	EList<Value> getTargetValues();
 } // ExpressionResult

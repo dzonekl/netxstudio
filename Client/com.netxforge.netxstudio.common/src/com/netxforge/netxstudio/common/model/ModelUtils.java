@@ -388,7 +388,7 @@ public class ModelUtils {
 	 * @param values
 	 * @return
 	 */
-	public List<BigDecimal> transformValue(List<Value> values){
+	public List<BigDecimal> transformValueToBigDecimal(List<Value> values){
 		Function<Value, BigDecimal> valueToBigDecimal = new Function<Value, BigDecimal>(){
 			public BigDecimal apply(Value from) {
 				return new BigDecimal(from.getValue());
@@ -396,5 +396,16 @@ public class ModelUtils {
 		};
 		return Lists.transform(values, valueToBigDecimal);
 	}
-
+	
+	public List<Double> transformBigDecimalToDouble(List<BigDecimal> values){
+		Function<BigDecimal, Double> valueToBigDecimal = new Function<BigDecimal, Double>(){
+			public Double apply(BigDecimal from) {
+				return from.doubleValue();
+			}
+		};
+		return Lists.transform(values, valueToBigDecimal);
+	}
+	
+	
+	
 }

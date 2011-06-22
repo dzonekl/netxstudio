@@ -18,20 +18,19 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.ui.activities;
 
-import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.google.inject.AbstractModule;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public class ActivityAndRoleServiceModule extends CDODataServiceModule {
+public class ActivityAndRoleServiceModule extends AbstractModule {
 
 	/* (non-Javadoc)
 	 * @see com.google.inject.AbstractModule#configure()
 	 */
 	@Override
 	protected void configure() {
-		super.configure();
 		this.bind(IActivityAndRoleService.class).to(ActivityAndRoleService.class);
 	}
 }

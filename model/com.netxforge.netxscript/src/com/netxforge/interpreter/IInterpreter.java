@@ -66,4 +66,23 @@ public interface IInterpreter {
 	 */
 	public abstract List<ExpressionResult> getResult();
 
+	
+	/**
+	 * Set multiple context for this interpretation.  
+	 * @param context
+	 */
+	public void setContext(IInterpreterContext... context);
+
+	
+	/**
+	 * Set a single interpretation context. 
+	 * @param context
+	 */
+	public void setContext(IInterpreterContext context);
+	
+	
+	/**
+	 * Clear the context and the results. 
+	 */
+	public void clear();
 }

@@ -30,6 +30,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 
 public class RuntimeActivator implements BundleActivator {
@@ -78,6 +79,7 @@ public class RuntimeActivator implements BundleActivator {
 		// om = override(om).with(getSharedStateModule());
 		// om = override(om).with(getUiModule(language));
 		om = override(om).with(this.getDataProviderModule());
+		om = override(om).with(new CommonModule());
 		// ... add next module here.
 		injectors.put(language, createInjector(om));
 	}

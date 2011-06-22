@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
+import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -36,7 +37,7 @@ import com.netxforge.netxstudio.library.RangeKind;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetResource <em>Target Resource</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetRange <em>Target Range</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getValues <em>Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetValues <em>Target Values</em>}</li>
  * </ul>
  * </p>
  *
@@ -132,8 +133,8 @@ public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionRes
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<Double> getValues() {
-		return (EList<Double>)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__VALUES, true);
+	public EList<Value> getTargetValues() {
+		return (EList<Value>)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_VALUES, true);
 	}
 
 } //ExpressionResultImpl

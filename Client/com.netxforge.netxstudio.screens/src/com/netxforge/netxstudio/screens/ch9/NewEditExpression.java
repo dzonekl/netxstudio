@@ -76,7 +76,6 @@ import com.google.inject.Injector;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;
-import com.netxforge.interpreter.IInterpreterFactory;
 import com.netxforge.netxscript.Function;
 import com.netxforge.netxscript.Mod;
 import com.netxforge.netxscript.NetxscriptFactory;
@@ -106,9 +105,6 @@ public class NewEditExpression extends AbstractScreen implements
 
 	private ValidationService validationService = new ValidationService();
 	
-//	private IInterpreter interpreter = new InterpreterTypeless();
-	
-	IInterpreterFactory interpreterFactory;
 	IInterpreterContextFactory interpreterContextFactory;
 	
 	@Inject
@@ -130,7 +126,7 @@ public class NewEditExpression extends AbstractScreen implements
 
 	private Expression original;
 
-	private Injector netxScriptInjector;
+	private final Injector netxScriptInjector;
 
 	/**
 	 * Create the composite.
@@ -246,7 +242,7 @@ public class NewEditExpression extends AbstractScreen implements
 				.getInjector("com.netxforge.Netxscript");
 		
 		interpreterContextFactory = netxScriptInjector.getInstance(IInterpreterContextFactory.class);
-		interpreterFactory = netxScriptInjector.getInstance(IInterpreterFactory.class);
+		
 		
 		// Injector injector =
 		// ArithmeticsActivator.getInstance().getInjector("org.eclipse.xtext.example.arithmetics.Arithmetics");
@@ -289,7 +285,8 @@ public class NewEditExpression extends AbstractScreen implements
 				
 				List<IInterpreterContext> contextList = ImmutableList.of(periodContext);
 				IInterpreterContext[] contextArray = new IInterpreterContext[contextList.size()];
-				final IInterpreter i = interpreterFactory.create(contextList.toArray(contextArray));
+				final IInterpreter i = netxScriptInjector.getInstance(IInterpreter.class);
+				i.setContext(contextList.toArray(contextArray));
 				
 				IXtextDocument doc = editor.getDocument();
 				if (documentHasErrors(doc)) {
@@ -317,6 +314,8 @@ public class NewEditExpression extends AbstractScreen implements
 									Function root = (Function) resource.getContents().get(0);
 									i.evaluate(root);
 								}
+								
+								
 								return null;
 							}
 						});

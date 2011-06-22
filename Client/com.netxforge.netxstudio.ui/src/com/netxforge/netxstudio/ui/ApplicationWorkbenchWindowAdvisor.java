@@ -88,7 +88,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		
 		String currentUser = dService.getProvider().getSessionUserID();
 		
-		List<Role> roles = dService.getRoleHandler().getRole(currentUser);
+		List<Role> roles = dService.getQueryService().getRole(currentUser);
 		
 		// Extract the first role.
 		if (roles.size() == 1) {
