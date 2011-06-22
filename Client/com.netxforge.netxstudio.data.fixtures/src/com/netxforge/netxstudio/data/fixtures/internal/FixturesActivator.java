@@ -16,7 +16,6 @@ public class FixturesActivator implements BundleActivator {
 	// The shared instance
 	private static FixturesActivator plugin;
 
-	private Injector injector;
 	
 	/**
 	 * The constructor
@@ -30,11 +29,6 @@ public class FixturesActivator implements BundleActivator {
 	 */
 	public void start(BundleContext context) throws Exception {
 		plugin = this;
-//		injector = Guice.createInjector(new FixturesModule());
-	}
-
-	public Injector getInjector() {
-		return injector;
 	}
 
 	/*

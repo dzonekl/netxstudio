@@ -30,12 +30,12 @@ import com.google.inject.Singleton;
 public class DataService implements IDataService {
 	
 	private final IDataProvider provider;
-	private final IRoleHandler roleHandler;
+	private final IQueryService queryService;
 	
 	@Inject
-	public DataService(IDataProvider provider, IRoleHandler roleHandler) {
+	public DataService(IDataProvider provider, IQueryService queryService) {
 		this.provider = provider;
-		this.roleHandler = roleHandler;
+		this.queryService = queryService;
 	}
 	
 	public IDataProvider getProvider(){
@@ -45,7 +45,7 @@ public class DataService implements IDataService {
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.data.IDataService#getRoleHandler()
 	 */
-	public IRoleHandler getRoleHandler() {
-		return roleHandler;
+	public IQueryService getQueryService() {
+		return queryService;
 	}
 }

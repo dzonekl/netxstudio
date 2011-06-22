@@ -1,10 +1,14 @@
 package com.netxforge.netxstudio.data.internal;
 
+import static com.google.inject.util.Modules.override;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 
 public class DataActivator implements BundleActivator {
@@ -23,7 +27,9 @@ public class DataActivator implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		DataActivator.context = bundleContext;
-		injector = Guice.createInjector(new CDODataServiceModule());
+		Module om = new CDODataServiceModule();
+		om = override(om).with(new CommonModule());
+		injector = Guice.createInjector(om);
 	}
 
 	/*

@@ -18,10 +18,11 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data.cdo;
 
+import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.DataServiceModule;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.IRoleHandler;
+import com.netxforge.netxstudio.data.IQueryService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -34,10 +35,10 @@ public class CDODataServiceModule extends DataServiceModule {
 	 */
 	@Override
 	protected void configure() {
-		this.bind(IDataProvider.class).to(ClientCDODataProvider.class);
+		this.bind(IDataProvider.class).to(ClientCDODataProvider.class).in(Singleton.class);
 		this.bind(IDataService.class).to(CDODataService.class);
 		this.bind(ICDOConnection.class).to(CDODataConnection.class);
-		this.bind(IRoleHandler.class).to(CDORoleHandler.class);
+		this.bind(IQueryService.class).to(CDOQueryService.class);
 		this.bind(CDOQueryUtil.class);
 	}
 }

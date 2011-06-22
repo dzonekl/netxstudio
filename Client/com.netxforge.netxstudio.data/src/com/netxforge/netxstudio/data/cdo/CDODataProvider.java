@@ -18,11 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
@@ -35,17 +32,11 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
 import org.eclipse.net4j.util.security.PasswordCredentials;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
-import org.eclipse.net4j.util.transaction.TransactionException;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.Netxstudio;
-import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
-import com.netxforge.netxstudio.generics.Person;
-import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -63,7 +54,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public abstract class CDODataProvider implements IDataProvider, IFixtures {
+public abstract class CDODataProvider implements IDataProvider {
 
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
@@ -332,65 +323,6 @@ public abstract class CDODataProvider implements IDataProvider, IFixtures {
 			}
 		}
 		return null;
-	}
-
-	public void loadFixtures() {
-
-		final CDOResource res = (CDOResource) getResource(NetxstudioPackage.NETXSTUDIO);
-		final CDOView view = res.cdoView();
-
-		// Should do some basic import data validation.
-		if (res.getContents() != null && (res.getContents().size() > 0)) {
-			if (res.getContents().get(0) instanceof Netxstudio) {
-				return;
-			}
-		}
-
-		// Anything else than checked before, is bogus so we start from scratch.
-		res.getContents().clear();
-		final Netxstudio studio = NetxstudioFactory.eINSTANCE
-				.createNetxstudio();
-
-		// Add the fixture roles.
-		{
-			final Role r = GenericsFactory.eINSTANCE.createRole();
-			r.setName(ROLE_ADMIN);
-			studio.getRoles().add(r);
-
-			// FIXME, the admin user is hard coded for now.
-			{
-				final Person p = GenericsFactory.eINSTANCE.createPerson();
-				p.setLogin("admin");
-				p.setFirstName("admin");
-				p.setLastName("admin");
-				// p.setPassword("admin");
-				p.setActive(true);
-				p.setRoles(r);
-				studio.getUsers().add(p);
-			}
-		}
-		{
-			final Role r = GenericsFactory.eINSTANCE.createRole();
-			r.setName(ROLE_PLANNER);
-			studio.getRoles().add(r);
-		}
-		{
-			final Role r = GenericsFactory.eINSTANCE.createRole();
-			r.setName(ROLE_READONLY);
-			studio.getRoles().add(r);
-		}
-
-		res.getContents().add(studio);
-
-		@SuppressWarnings("unused")
-		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
-		try {
-			res.save(null);
-		} catch (final TransactionException e) {
-			((CDOTransaction) view).rollback();
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public CDOTransaction getgetTransaction() {

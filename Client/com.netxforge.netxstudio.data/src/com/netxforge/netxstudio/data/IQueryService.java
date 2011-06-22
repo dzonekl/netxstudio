@@ -18,15 +18,19 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.generics.Value;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  *
  */
-public interface IRoleHandler {
+public interface IQueryService {
 	
 	
 	/**
@@ -42,5 +46,34 @@ public interface IRoleHandler {
 	 * @return
 	 */
 	public Role getCurrentRole();
+	
+	
+	/**
+	 * Get the values for a period from a resource. 
+	 * As the resource has multiple value ranges, we return 
+	 * from the index. 
+	 * 
+	 * 
+	 * @param shortName
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public List<Value> getValuesFromResource(String shortName, Date from, Date to);
+	
+	
+	/**
+	 * Get the values for a period from a resource. 
+	 * As the resource has multiple value ranges, we return 
+	 * from the index.
+	 * 
+	 * @param shortName
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public List<Value> getValuesFromResource(String shortName,
+			XMLGregorianCalendar from, XMLGregorianCalendar to);
+	
 
 }

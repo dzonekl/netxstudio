@@ -18,11 +18,35 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.net4j.util.transaction.TransactionException;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.netxforge.netxstudio.Netxstudio;
+import com.netxforge.netxstudio.NetxstudioFactory;
+import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.Person;
+import com.netxforge.netxstudio.generics.Role;
+import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.Library;
+import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsFactory;
 
 /**
  * A CDO Data provider, for single threaded clients. The session and transaction
@@ -31,8 +55,12 @@ import com.google.inject.Singleton;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 @Singleton
-public class ClientCDODataProvider extends CDODataProvider {
-
+public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
+	
+	
+	@Inject
+	ModelUtils modelUtils;
+	
 	@Inject
 	public ClientCDODataProvider(ICDOConnection conn) {
 		super(conn);
@@ -77,5 +105,127 @@ public class ClientCDODataProvider extends CDODataProvider {
 	protected void setTransaction(CDOTransaction transaction) {
 		ClientCDODataProvider.transaction = transaction;
 	}
+	
+	
+	public void loadFixtures(){
+		loadRoles();
+		loadLibrary();
+	}
+	private void loadRoles() {
 
+		final CDOResource res = (CDOResource) getResource(NetxstudioPackage.Literals.NETXSTUDIO);
+		final CDOView view = res.cdoView();
+
+		// Should do some basic import data validation.
+		if (res.getContents() != null && (res.getContents().size() > 0)) {
+			if (res.getContents().get(0) instanceof Netxstudio) {
+				return;
+			}
+		}
+
+		// Anything else than checked before, is bogus so we start from scratch.
+		res.getContents().clear();
+		final Netxstudio studio = NetxstudioFactory.eINSTANCE
+				.createNetxstudio();
+
+		// Add the fixture roles.
+		{
+			final Role r = GenericsFactory.eINSTANCE.createRole();
+			r.setName(ROLE_ADMIN);
+			studio.getRoles().add(r);
+
+			// FIXME, the admin user is hard coded for now.
+			{
+				final Person p = GenericsFactory.eINSTANCE.createPerson();
+				p.setLogin("admin");
+				p.setFirstName("admin");
+				p.setLastName("admin");
+				// p.setPassword("admin");
+				p.setActive(true);
+				p.setRoles(r);
+				studio.getUsers().add(p);
+			}
+		}
+		{
+			final Role r = GenericsFactory.eINSTANCE.createRole();
+			r.setName(ROLE_PLANNER);
+			studio.getRoles().add(r);
+		}
+		{
+			final Role r = GenericsFactory.eINSTANCE.createRole();
+			r.setName(ROLE_READONLY);
+			studio.getRoles().add(r);
+		}
+		
+		
+		res.getContents().add(studio);
+
+		@SuppressWarnings("unused")
+		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+		try {
+			res.save(null);
+		} catch (final TransactionException e) {
+			((CDOTransaction) view).rollback();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void loadLibrary() {
+
+		final CDOResource res = (CDOResource) getResource(LibraryPackage.Literals.LIBRARY);
+		final CDOView view = res.cdoView();
+		
+		Library lib = null;
+		// Should do some basic import data validation.
+		if (res.getContents() != null && (res.getContents().size() > 0)) {
+			if (res.getContents().get(0) instanceof Library) {
+				// Ok, proceed. 
+				lib = (Library) res.getContents().get(0);
+			}
+		}else{
+			lib = LibraryFactory.eINSTANCE.createLibrary();
+			res.getContents().add(lib);
+		}
+		
+		final NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
+		final Function sgsnFunction = LibraryFactory.eINSTANCE
+				.createFunction();
+		sgsnFunction.setName("SGSN");
+		sgsnType.getFunctions().add(sgsnFunction);
+
+		lib.getNodeTypes().add(sgsnType);
+
+		final NetXResource sgsnRes = LibraryFactory.eINSTANCE
+				.createNetXResource();
+		final MetricValueRange range = MetricsFactory.eINSTANCE
+				.createMetricValueRange();
+		sgsnRes.getMetricValueRanges().add(range);
+
+		sgsnFunction.getResources().add(sgsnRes);
+
+		final Value v = GenericsFactory.eINSTANCE.createValue();
+		v.setValue(2.0);
+		v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
+
+		final Value v1 = GenericsFactory.eINSTANCE.createValue();
+		v1.setValue(2.1);
+		v1.setTimeStamp(modelUtils.toXMLDate(modelUtils.twoDaysAgo()));
+
+		final Value v2 = GenericsFactory.eINSTANCE.createValue();
+		v2.setValue(2.1);
+		v2.setTimeStamp(modelUtils.toXMLDate(modelUtils.threeDaysAgo()));
+
+		range.getMetricValues().addAll(ImmutableList.of(v, v1, v2));
+
+		try {
+			res.save(null);
+		} catch (final TransactionException e) {
+			((CDOTransaction) view).rollback();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 }
