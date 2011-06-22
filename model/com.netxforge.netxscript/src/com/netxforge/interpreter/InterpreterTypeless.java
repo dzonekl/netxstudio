@@ -131,18 +131,17 @@ public class InterpreterTypeless implements IInterpreter {
 	 * Construct without a root object constraint.
 	 */
 	public InterpreterTypeless() {
-		
+
 	}
-	
+
 	/**
-	 * Clear the interpreter if it's re-used. 
+	 * Clear the interpreter if it's re-used.
 	 */
-	public void clear(){
+	public void clear() {
 		result.clear();
 		contextIndex.clear();
 		contextList.clear();
 	}
-	
 
 	public void setContext(IInterpreterContext... context) {
 		this.contextList.addAll(Lists.newArrayList(context));
@@ -392,9 +391,21 @@ public class InterpreterTypeless implements IInterpreter {
 				}
 				if (statement instanceof RefAssignment) {
 					RefAssignment refa = (RefAssignment) statement;
-					LeafReference targetReference = refa.getRef().getLeafRef();
 
-					if ((targetReference instanceof ResourceRef)
+					// We unfortunately, can't use the dispatched to get to the
+					// leaf
+					// reference, so we use a recursive way to get it.
+					Reference targetReference = refa.getRef();
+					LeafReference resourceRef = null;
+					if (targetReference instanceof AbsoluteRef) {
+						resourceRef = ((AbsoluteRef) targetReference)
+								.getPrimaryRef().getLeafRef();
+					}
+					if (targetReference instanceof ContextRef) {
+						resourceRef = ((ContextRef) targetReference)
+								.getPrimaryRef().getLeafRef();
+					}
+					if ((resourceRef instanceof ResourceRef)
 							&& (refa.getExpression() != null)) {
 						Object varEval = dispatcher.invoke(
 								refa.getExpression(),
@@ -412,14 +423,19 @@ public class InterpreterTypeless implements IInterpreter {
 							ExpressionResult er = LibraryFactory.eINSTANCE
 									.createExpressionResult();
 
-							NetXResource res = ((ResourceRef) targetReference)
+							NetXResource res = ((ResourceRef) resourceRef)
 									.getResource();
 							er.setTargetResource(res);
 
 							// Nuts, to enums for the same type of info....
-							ValueRange range = ((ResourceRef) targetReference)
+							ValueRange range = ((ResourceRef) resourceRef)
 									.getValuerange();
 							switch (range.getValue()) {
+							case ValueRange.METRIC_VALUE: {
+								
+								// TODO, No Range for Metric. 
+//								er.setTargetRange(RangeKind.MCAP);
+							}
 							case ValueRange.CAP_VALUE: {
 								er.setTargetRange(RangeKind.CAP);
 							}
@@ -439,24 +455,25 @@ public class InterpreterTypeless implements IInterpreter {
 							}
 
 							List<?> resultValues = (List<?>) varEval;
-							for(Object entry : resultValues){
-								if(entry instanceof Value){
-									// rather clumsy way to check the type of a list.
-									er.getTargetValues().addAll((Collection<? extends Value>) resultValues);
+							for (Object entry : resultValues) {
+								if (entry instanceof Value) {
+									// rather clumsy way to check the type of a
+									// list.
+									er.getTargetValues()
+											.addAll((Collection<? extends Value>) resultValues);
 									break;
 								}
-								if(entry instanceof BigDecimal){
-									// TODO populate a value list, with timestamp to make it a Value. 
+								if (entry instanceof BigDecimal) {
+									// TODO populate a value list, with
+									// timestamp to make it a Value.
 								}
 							}
 							result.add(er);
-							
-						}
 
+						}
 						// Whatever was evaluated and should be assigned to a
 						// resource.
 						// is stored in an Expression result.
-
 					}
 				}
 			}
@@ -668,9 +685,14 @@ public class InterpreterTypeless implements IInterpreter {
 
 	protected Object internalEvaluate(RefAssignment e,
 			ImmutableMap<String, Object> params) {
-		Object eval = dispatcher
-				.invoke(e.getRef(), ImmutableMap.copyOf(params));
-		return eval;
+		// This is a reference call, which should not do anything
+		// really....
+		return null;
+
+		// TODO, Remove later.
+		// Object eval = dispatcher
+		// .invoke(e.getRef(), ImmutableMap.copyOf(params));
+		// return eval;
 	}
 
 	protected Object internalEvaluate(Reference e,
@@ -678,7 +700,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 		Object eval = null;
 
-		// Evaluate a leaf reference.
+		// Evaluate a leaf reference (Actually get the values).
 		if (e.getLeafRef() != null) {
 			eval = dispatcher.invoke(e.getLeafRef(),
 					ImmutableMap.copyOf(params));
@@ -722,22 +744,19 @@ public class InterpreterTypeless implements IInterpreter {
 			dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
 		}
 
-		IQueryService qService = dataService.getQueryService();
-
-		
 		// The period hint is 60 Minutes, but should be able to return
 		// values for if this range is not available.
 		NetXResource resource = e.getResource();
 		boolean targetRangeAvailable = false;
-		
+
 		// Feed the query with the kind hint.
-		int targetKind = -1;
+		KindHintType targetKind = null;
 		if (e.getKind() != null) {
 			if (e.getKind() == ValueKind.AVG) {
-				targetKind = KindHintType.AVG_VALUE;
+				targetKind = KindHintType.AVG;
 			}
 			if (e.getKind() == ValueKind.BH) {
-				targetKind = KindHintType.BH_VALUE;
+				targetKind = KindHintType.BH;
 			}
 		}
 
@@ -749,17 +768,19 @@ public class InterpreterTypeless implements IInterpreter {
 			// TODO MAKE THIS AN OPTIONAL PART, IN EXPRESSION AND APP WIDE>
 			targetPeriod = 60;
 		}
-		
-		// Loop the ranges, to find the correct range. 
+
+		// Loop the ranges, to find the correct range.
 		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 			int period = mvr.getPeriodHint();
-			int kht = mvr.getKindHint().getValue();
+			KindHintType kht = mvr.getKindHint();
 			if (period == targetPeriod && kht == targetKind) {
 				targetRangeAvailable = true;
+				break;
 			}
 		}
-		
-		// We can only get the range, if it's actually available. 
+
+		IQueryService qService = dataService.getQueryService();
+		// We can only get the range, if it's actually available.
 		if (targetRangeAvailable) {
 
 			switch (e.getValuerange().getValue()) {
@@ -767,25 +788,29 @@ public class InterpreterTypeless implements IInterpreter {
 				// v = e.getResource().getMetricValueRanges().get(0)
 				// .getMetricValues();
 				// TODO, we should really accept the expression name here?
-				v = qService.getValuesFromResource(resource.getShortName(),
-						dtr.getBegin(), dtr.getEnd());
+				v = qService.getValuesFromResource(
+						resource.getExpressionName(), dtr.getBegin(),
+						dtr.getEnd(), targetPeriod, targetKind);
 			}
+				break;
 			case ValueRange.CAP_VALUE: {
 				v = e.getResource().getCapacityValues();
 				// TODO, need query for this!
 			}
+				break;
 			case ValueRange.UTILIZATION_VALUE: {
 				v = e.getResource().getUtilizationValues();
 				// TODO, need query for this!
 			}
+				break;
 			}
 
 			// We want the Value object without the timestamp, as we know the
 			// period
 			// context.
 			return v;
-		}else{
-			pLog.log("Target range is not available", new Object[]{});
+		} else {
+			pLog.log("Target range is not available", new Object[] {});
 			return null;
 		}
 	}
@@ -874,8 +899,8 @@ public class InterpreterTypeless implements IInterpreter {
 
 	protected BigDecimal internalEvaluate(Div div,
 			ImmutableMap<String, Object> values) {
-		
-		// Evaluate as single value or range. 
+
+		// Evaluate as single value or range.
 		BigDecimal left = evaluateNumeric(div.getLeft(), values);
 		BigDecimal right = evaluateNumeric(div.getRight(), values);
 		return left.divide(right, 20, RoundingMode.HALF_UP);

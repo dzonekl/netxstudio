@@ -154,7 +154,7 @@ Reference returns Expression:
 ;
 
 AbsoluteRef returns Reference:
-	{AbsoluteRef} nodetypeRef=[library::NodeType] primaryRef=PrimaryRef
+	{AbsoluteRef} primaryRef=PrimaryRef
 ;
 
 /**

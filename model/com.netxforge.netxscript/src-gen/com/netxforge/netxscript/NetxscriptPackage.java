@@ -1658,22 +1658,13 @@ public interface NetxscriptPackage extends EPackage
   int ABSOLUTE_REF__LEAF_REF = REFERENCE__LEAF_REF;
 
   /**
-   * The feature id for the '<em><b>Nodetype Ref</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ABSOLUTE_REF__NODETYPE_REF = REFERENCE_FEATURE_COUNT + 0;
-
-  /**
    * The feature id for the '<em><b>Primary Ref</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ABSOLUTE_REF__PRIMARY_REF = REFERENCE_FEATURE_COUNT + 1;
+  int ABSOLUTE_REF__PRIMARY_REF = REFERENCE_FEATURE_COUNT + 0;
 
   /**
    * The number of structural features of the '<em>Absolute Ref</em>' class.
@@ -1682,7 +1673,7 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ABSOLUTE_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 2;
+  int ABSOLUTE_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.ContextRefImpl <em>Context Ref</em>}' class.
@@ -2980,17 +2971,6 @@ public interface NetxscriptPackage extends EPackage
   EClass getAbsoluteRef();
 
   /**
-   * Returns the meta object for the reference '{@link com.netxforge.netxscript.AbsoluteRef#getNodetypeRef <em>Nodetype Ref</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Nodetype Ref</em>'.
-   * @see com.netxforge.netxscript.AbsoluteRef#getNodetypeRef()
-   * @see #getAbsoluteRef()
-   * @generated
-   */
-  EReference getAbsoluteRef_NodetypeRef();
-
-  /**
    * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.AbsoluteRef#getPrimaryRef <em>Primary Ref</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4058,14 +4038,6 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EClass ABSOLUTE_REF = eINSTANCE.getAbsoluteRef();
-
-    /**
-     * The meta object literal for the '<em><b>Nodetype Ref</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference ABSOLUTE_REF__NODETYPE_REF = eINSTANCE.getAbsoluteRef_NodetypeRef();
 
     /**
      * The meta object literal for the '<em><b>Primary Ref</b></em>' containment reference feature.

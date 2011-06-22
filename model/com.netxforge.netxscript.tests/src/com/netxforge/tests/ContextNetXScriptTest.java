@@ -9,12 +9,12 @@
 package com.netxforge.tests;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtext.junit.AbstractXtextTests;
 
 import com.google.common.collect.ImmutableList;
@@ -35,6 +35,7 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 
@@ -95,32 +96,109 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
 				.size()];
 
-		interpreter.setContext(contextList.toArray(contextArray));
 		System.out.println(interpreter.toString());
 
-		Mod m = (Mod) this.getModel("var a = [1,2,3,4];a;");
-		Object result = interpreter.evaluate(m); // Returns the intermediate
-													// results.
-		List<ExpressionResult> expressionresults = interpreter.getResult(); // Returns
-																			// the
-		// model
-		// impacting
-		// results.
-		System.out.println(result);
+		// An expression which assigns a range of values to a var.
+		// WARNING: The syntax of the expression is subject to change.
+
+		interpreter.clear(); // Clear the interpreter.
+		interpreter.setContext(contextList.toArray(contextArray));
+
+		{
+
+			Mod m = (Mod) this.getModel("var a = [1,2,3,4];a;");
+			@SuppressWarnings("unused")
+			Object result = interpreter.evaluate(m); // Returns the intermediate
+														// results.
+			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			printExpressionResult(expressionResults);
+
+		}
+
+		// An expression which performs native function calls on a range.
+		// The range arithmetics.
+
+		{
+
+			Mod m = (Mod) this.getModel("var a = [1,2,3,4].sum();a;");
+			@SuppressWarnings("unused")
+			Object result = interpreter.evaluate(m); // Returns the intermediate
+														// results.
+			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			printExpressionResult(expressionResults);
+		}
+
+		// An expression which reads values from a resource.
+		// WARNING: The syntax of the expression is subject to change.
+
+		interpreter.clear(); // Clear the interpreter.
+		interpreter.setContext(contextList.toArray(contextArray)); // Set a
+																	// context.
+
+		{
+			Mod m = (Mod) this
+					.getModel("var a = .SGSN->Res RES1 METRIC AVG 60;a;");
+			@SuppressWarnings("unused")
+			Object result = interpreter.evaluate(m); // Returns the intermediate
+			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			printExpressionResult(expressionResults);
+
+		}
+
+		// An expression which reads values from a resource, and writes them to
+		// another resource.
+		// WARNING: The syntax of the expression is subject to change.
+
+		interpreter.clear(); // Clear the interpreter.
+		interpreter.setContext(contextList.toArray(contextArray)); // Set a
+																	// context.
+
+		{
+			Mod m = (Mod) this
+					.getModel("this.SGSN->Res RES2 UTILIZATION AVG 60 = .SGSN->Res RES1 METRIC AVG 60;");
+			@SuppressWarnings("unused")
+			Object result = interpreter.evaluate(m); // Returns the intermediate
+			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			printExpressionResult(expressionResults);
+
+		}
 
 	}
 
+	private void printExpressionResult(List<ExpressionResult> result) {
+		for (ExpressionResult er : result) {
+			System.out.println("On Resource:"
+					+ er.getTargetResource().getShortName());
+			System.out.println("In Range:" + er.getTargetRange().getName());
+			System.out.println("With values:");
+			for (Value v : er.getTargetValues()) {
+
+				System.out.println("Value: " + v.getValue());
+				Date d = modelUtils.fromXMLDate(v.getTimeStamp());
+				System.out.println(modelUtils.date(d) + ", "
+						+ modelUtils.time(d));
+			}
+		}
+	}
+
+	/**
+	 * Warning, we erase on the live DB!!!
+	 */
 	private void createModelData() {
 		{
 			// Add some objects, which are referable from our xtext model.
 			final CDOResource res = (CDOResource) dataService.getProvider()
 					.getResource(LibraryPackage.Literals.LIBRARY);
 
+			res.getContents().clear(); // Clear the Library resource from it's
+										// contents.
+
 			Library lib;
 			if (res.getContents().size() > 0) {
 				lib = (Library) res.getContents().get(0);
 			} else {
 				lib = LibraryFactory.eINSTANCE.createLibrary();
+				res.getContents().add(lib);
 			}
 
 			final NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
@@ -131,27 +209,83 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 
 			lib.getNodeTypes().add(sgsnType);
 
-			final NetXResource sgsnRes = LibraryFactory.eINSTANCE
-					.createNetXResource();
-			final MetricValueRange range = MetricsFactory.eINSTANCE
-					.createMetricValueRange();
-			sgsnRes.getMetricValueRanges().add(range);
+			{
+				final NetXResource sgsnRes = LibraryFactory.eINSTANCE
+						.createNetXResource();
+				sgsnRes.setShortName("RES1");
+				sgsnRes.setExpressionName("RES1");
 
-			sgsnFunction.getResources().add(sgsnRes);
+				// Create various ranges for AVG, BH.
 
-			final Value v = GenericsFactory.eINSTANCE.createValue();
-			v.setValue(2.0);
-			v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
+				{
 
-			final Value v1 = GenericsFactory.eINSTANCE.createValue();
-			v1.setValue(2.1);
-			v1.setTimeStamp(modelUtils.toXMLDate(modelUtils.twoDaysAgo()));
+					final MetricValueRange range = MetricsFactory.eINSTANCE
+							.createMetricValueRange();
 
-			final Value v2 = GenericsFactory.eINSTANCE.createValue();
-			v2.setValue(2.1);
-			v2.setTimeStamp(modelUtils.toXMLDate(modelUtils.threeDaysAgo()));
+					range.setKindHint(KindHintType.AVG); // Average values.
+					range.setPeriodHint(60); // A 60 minute range.
+					sgsnRes.getMetricValueRanges().add(range); // Index 0.
+					final Value v = GenericsFactory.eINSTANCE.createValue();
+					v.setValue(10.0);
+					v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
 
-			range.getMetricValues().addAll(ImmutableList.of(v, v1, v2));
+					final Value v1 = GenericsFactory.eINSTANCE.createValue();
+					v1.setValue(10.1);
+					v1.setTimeStamp(modelUtils.toXMLDate(modelUtils
+							.twoDaysAgo()));
+
+					final Value v2 = GenericsFactory.eINSTANCE.createValue();
+					v2.setValue(9.8);
+					v2.setTimeStamp(modelUtils.toXMLDate(modelUtils
+							.threeDaysAgo()));
+
+					final Value v3 = GenericsFactory.eINSTANCE.createValue();
+					v3.setValue(10.2);
+					v3.setTimeStamp(modelUtils.toXMLDate(modelUtils
+							.fourDaysAgo()));
+					range.getMetricValues().addAll(
+							ImmutableList.of(v, v1, v2, v3));
+				}
+
+				{
+
+					final MetricValueRange range = MetricsFactory.eINSTANCE
+							.createMetricValueRange();
+
+					range.setKindHint(KindHintType.BH); // Average values.
+					range.setPeriodHint(60 * 24); // A one day range.
+					sgsnRes.getMetricValueRanges().add(range); // Index 0.
+					final Value v = GenericsFactory.eINSTANCE.createValue();
+					v.setValue(2.0);
+					v.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
+
+					final Value v1 = GenericsFactory.eINSTANCE.createValue();
+					v1.setValue(2.1);
+					v1.setTimeStamp(modelUtils.toXMLDate(modelUtils
+							.twoDaysAgo()));
+
+					final Value v2 = GenericsFactory.eINSTANCE.createValue();
+					v2.setValue(2.2);
+					v2.setTimeStamp(modelUtils.toXMLDate(modelUtils
+							.threeDaysAgo()));
+
+					final Value v3 = GenericsFactory.eINSTANCE.createValue();
+					v3.setValue(1.5);
+					v3.setTimeStamp(modelUtils.toXMLDate(modelUtils
+							.fourDaysAgo()));
+					range.getMetricValues().addAll(
+							ImmutableList.of(v, v1, v2, v3));
+				}
+
+				sgsnFunction.getResources().add(sgsnRes);
+			}
+			{
+				final NetXResource sgsnRes = LibraryFactory.eINSTANCE
+						.createNetXResource();
+				sgsnRes.setShortName("RES2");
+				sgsnRes.setExpressionName("RES2");
+				sgsnFunction.getResources().add(sgsnRes);
+			}
 
 			try {
 				res.save(null);
@@ -160,18 +294,6 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				e.printStackTrace();
 			}
 		}
-
-		{
-			final CDOResource res = (CDOResource) dataService.getProvider()
-					.getResource(LibraryPackage.Literals.LIBRARY);
-
-			Library lib = (Library) res.getContents().get(0);
-			EList<NodeType> nts = lib.getNodeTypes();
-			for (NodeType nt : nts) {
-				EList<Function> fcs = nt.getFunctions();
-			}
-		}
-
 	}
 
 }

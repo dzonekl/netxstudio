@@ -42,15 +42,10 @@ public class NetxscriptRuntimeModule extends
 		return NativeFunctions.class;
 	}
 
-	public Class<? extends IInterpreter> bindInterpreterFunctions() {
-		return InterpreterTypeless.class;
-	}
-
 	public Class<? extends IPrettyLog> bindPrettyLog() {
 		return PrettyLog.class;
 	}
 
-	@SuppressWarnings({ "unchecked" })
 	public Class<? extends IInterpreterContextFactory> bindInterpreterContextFactory() {
 		return (Class<? extends IInterpreterContextFactory>) InterpreterContextFactory.class;
 	}

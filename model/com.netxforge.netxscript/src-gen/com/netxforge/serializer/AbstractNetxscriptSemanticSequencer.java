@@ -834,10 +834,9 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (nodetypeRef=[NodeType|ID] primaryRef=PrimaryRef)
+	 *     primaryRef=PrimaryRef
 	 *
 	 * Features:
-	 *    nodetypeRef[1, 1]
 	 *    primaryRef[1, 1]
 	 */
 	protected void sequence_AbsoluteRef_AbsoluteRef(EObject context, AbsoluteRef semanticObject) {

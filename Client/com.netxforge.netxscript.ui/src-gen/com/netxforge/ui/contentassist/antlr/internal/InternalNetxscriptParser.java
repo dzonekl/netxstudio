@@ -3511,7 +3511,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             if ( (LA3_0==32) ) {
                 alt3=1;
             }
-            else if ( (LA3_0==RULE_ID||LA3_0==RULE_NUMBER||(LA3_0>=12 && LA3_0<=14)||LA3_0==33||LA3_0==36||(LA3_0>=39 && LA3_0<=40)||(LA3_0>=42 && LA3_0<=43)||LA3_0==56||LA3_0==59||(LA3_0>=63 && LA3_0<=64)) ) {
+            else if ( (LA3_0==RULE_ID||LA3_0==RULE_NUMBER||(LA3_0>=12 && LA3_0<=14)||LA3_0==33||LA3_0==36||(LA3_0>=39 && LA3_0<=40)||(LA3_0>=42 && LA3_0<=43)||LA3_0==56||(LA3_0>=58 && LA3_0<=59)||(LA3_0>=63 && LA3_0<=64)) ) {
                 alt3=2;
             }
             else {
@@ -3639,7 +3639,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
                         int alt2=2;
                         int LA2_0 = input.LA(1);
 
-                        if ( (LA2_0==RULE_ID||LA2_0==RULE_NUMBER||(LA2_0>=12 && LA2_0<=14)||LA2_0==33||LA2_0==36||(LA2_0>=39 && LA2_0<=40)||(LA2_0>=42 && LA2_0<=43)||LA2_0==56||LA2_0==59||(LA2_0>=63 && LA2_0<=64)) ) {
+                        if ( (LA2_0==RULE_ID||LA2_0==RULE_NUMBER||(LA2_0>=12 && LA2_0<=14)||LA2_0==33||LA2_0==36||(LA2_0>=39 && LA2_0<=40)||(LA2_0>=42 && LA2_0<=43)||LA2_0==56||(LA2_0>=58 && LA2_0<=59)||(LA2_0>=63 && LA2_0<=64)) ) {
                             alt2=1;
                         }
 
@@ -3710,6 +3710,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             case 39:
             case 43:
             case 56:
+            case 58:
             case 59:
             case 63:
             case 64:
@@ -4626,7 +4627,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             int alt11=2;
             int LA11_0 = input.LA(1);
 
-            if ( (LA11_0==RULE_ID||LA11_0==RULE_NUMBER||LA11_0==14||LA11_0==33||LA11_0==56||LA11_0==59||LA11_0==64) ) {
+            if ( (LA11_0==RULE_ID||LA11_0==RULE_NUMBER||LA11_0==14||LA11_0==33||LA11_0==56||(LA11_0>=58 && LA11_0<=59)||LA11_0==64) ) {
                 alt11=1;
             }
             else if ( ((LA11_0>=12 && LA11_0<=13)||LA11_0==63) ) {
@@ -5276,7 +5277,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             if ( (LA17_0==56) ) {
                 alt17=1;
             }
-            else if ( (LA17_0==RULE_ID||LA17_0==59) ) {
+            else if ( ((LA17_0>=58 && LA17_0<=59)) ) {
                 alt17=2;
             }
             else {
@@ -5376,7 +5377,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             if ( (LA18_0==59) ) {
                 alt18=1;
             }
-            else if ( (LA18_0==RULE_ID) ) {
+            else if ( (LA18_0==58) ) {
                 alt18=2;
             }
             else {
@@ -7851,7 +7852,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
                 int alt28=2;
                 int LA28_0 = input.LA(1);
 
-                if ( (LA28_0==RULE_ID||LA28_0==RULE_NUMBER||(LA28_0>=12 && LA28_0<=14)||LA28_0==33||LA28_0==36||(LA28_0>=39 && LA28_0<=40)||(LA28_0>=42 && LA28_0<=43)||LA28_0==56||LA28_0==59||(LA28_0>=63 && LA28_0<=64)) ) {
+                if ( (LA28_0==RULE_ID||LA28_0==RULE_NUMBER||(LA28_0>=12 && LA28_0<=14)||LA28_0==33||LA28_0==36||(LA28_0>=39 && LA28_0<=40)||(LA28_0>=42 && LA28_0<=43)||LA28_0==56||(LA28_0>=58 && LA28_0<=59)||(LA28_0>=63 && LA28_0<=64)) ) {
                     alt28=1;
                 }
 
@@ -8346,7 +8347,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             int alt29=2;
             int LA29_0 = input.LA(1);
 
-            if ( (LA29_0==RULE_ID||LA29_0==RULE_NUMBER||(LA29_0>=12 && LA29_0<=14)||LA29_0==33||LA29_0==56||LA29_0==59||(LA29_0>=63 && LA29_0<=64)) ) {
+            if ( (LA29_0==RULE_ID||LA29_0==RULE_NUMBER||(LA29_0>=12 && LA29_0<=14)||LA29_0==33||LA29_0==56||(LA29_0>=58 && LA29_0<=59)||(LA29_0>=63 && LA29_0<=64)) ) {
                 alt29=1;
             }
             switch (alt29) {
@@ -15941,7 +15942,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             int alt37=2;
             int LA37_0 = input.LA(1);
 
-            if ( (LA37_0==RULE_ID||LA37_0==RULE_NUMBER||(LA37_0>=12 && LA37_0<=14)||LA37_0==33||LA37_0==56||LA37_0==59||(LA37_0>=63 && LA37_0<=64)) ) {
+            if ( (LA37_0==RULE_ID||LA37_0==RULE_NUMBER||(LA37_0>=12 && LA37_0<=14)||LA37_0==33||LA37_0==56||(LA37_0>=58 && LA37_0<=59)||(LA37_0>=63 && LA37_0<=64)) ) {
                 alt37=1;
             }
             switch (alt37) {
@@ -17996,22 +17997,17 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__AbsoluteRef__Group__1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6308:1: rule__AbsoluteRef__Group__1 : rule__AbsoluteRef__Group__1__Impl rule__AbsoluteRef__Group__2 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6308:1: rule__AbsoluteRef__Group__1 : rule__AbsoluteRef__Group__1__Impl ;
     public final void rule__AbsoluteRef__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6312:1: ( rule__AbsoluteRef__Group__1__Impl rule__AbsoluteRef__Group__2 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6313:2: rule__AbsoluteRef__Group__1__Impl rule__AbsoluteRef__Group__2
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6312:1: ( rule__AbsoluteRef__Group__1__Impl )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6313:2: rule__AbsoluteRef__Group__1__Impl
             {
             pushFollow(FOLLOW_rule__AbsoluteRef__Group__1__Impl_in_rule__AbsoluteRef__Group__112747);
             rule__AbsoluteRef__Group__1__Impl();
-
-            state._fsp--;
-            if (state.failed) return ;
-            pushFollow(FOLLOW_rule__AbsoluteRef__Group__2_in_rule__AbsoluteRef__Group__112750);
-            rule__AbsoluteRef__Group__2();
 
             state._fsp--;
             if (state.failed) return ;
@@ -18034,26 +18030,26 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__AbsoluteRef__Group__1__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6320:1: rule__AbsoluteRef__Group__1__Impl : ( ( rule__AbsoluteRef__NodetypeRefAssignment_1 ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6319:1: rule__AbsoluteRef__Group__1__Impl : ( ( rule__AbsoluteRef__PrimaryRefAssignment_1 ) ) ;
     public final void rule__AbsoluteRef__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6324:1: ( ( ( rule__AbsoluteRef__NodetypeRefAssignment_1 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6325:1: ( ( rule__AbsoluteRef__NodetypeRefAssignment_1 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6323:1: ( ( ( rule__AbsoluteRef__PrimaryRefAssignment_1 ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6324:1: ( ( rule__AbsoluteRef__PrimaryRefAssignment_1 ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6325:1: ( ( rule__AbsoluteRef__NodetypeRefAssignment_1 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6326:1: ( rule__AbsoluteRef__NodetypeRefAssignment_1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6324:1: ( ( rule__AbsoluteRef__PrimaryRefAssignment_1 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6325:1: ( rule__AbsoluteRef__PrimaryRefAssignment_1 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getAbsoluteRefAccess().getNodetypeRefAssignment_1()); 
+               before(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_1()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6327:1: ( rule__AbsoluteRef__NodetypeRefAssignment_1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6327:2: rule__AbsoluteRef__NodetypeRefAssignment_1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6326:1: ( rule__AbsoluteRef__PrimaryRefAssignment_1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6326:2: rule__AbsoluteRef__PrimaryRefAssignment_1
             {
-            pushFollow(FOLLOW_rule__AbsoluteRef__NodetypeRefAssignment_1_in_rule__AbsoluteRef__Group__1__Impl12777);
-            rule__AbsoluteRef__NodetypeRefAssignment_1();
+            pushFollow(FOLLOW_rule__AbsoluteRef__PrimaryRefAssignment_1_in_rule__AbsoluteRef__Group__1__Impl12774);
+            rule__AbsoluteRef__PrimaryRefAssignment_1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -18061,7 +18057,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getAbsoluteRefAccess().getNodetypeRefAssignment_1()); 
+               after(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_1()); 
             }
 
             }
@@ -18084,106 +18080,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     // $ANTLR end "rule__AbsoluteRef__Group__1__Impl"
 
 
-    // $ANTLR start "rule__AbsoluteRef__Group__2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6337:1: rule__AbsoluteRef__Group__2 : rule__AbsoluteRef__Group__2__Impl ;
-    public final void rule__AbsoluteRef__Group__2() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-            
-        try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6341:1: ( rule__AbsoluteRef__Group__2__Impl )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6342:2: rule__AbsoluteRef__Group__2__Impl
-            {
-            pushFollow(FOLLOW_rule__AbsoluteRef__Group__2__Impl_in_rule__AbsoluteRef__Group__212807);
-            rule__AbsoluteRef__Group__2__Impl();
-
-            state._fsp--;
-            if (state.failed) return ;
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__AbsoluteRef__Group__2"
-
-
-    // $ANTLR start "rule__AbsoluteRef__Group__2__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6348:1: rule__AbsoluteRef__Group__2__Impl : ( ( rule__AbsoluteRef__PrimaryRefAssignment_2 ) ) ;
-    public final void rule__AbsoluteRef__Group__2__Impl() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-            
-        try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6352:1: ( ( ( rule__AbsoluteRef__PrimaryRefAssignment_2 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6353:1: ( ( rule__AbsoluteRef__PrimaryRefAssignment_2 ) )
-            {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6353:1: ( ( rule__AbsoluteRef__PrimaryRefAssignment_2 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6354:1: ( rule__AbsoluteRef__PrimaryRefAssignment_2 )
-            {
-            if ( state.backtracking==0 ) {
-               before(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_2()); 
-            }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6355:1: ( rule__AbsoluteRef__PrimaryRefAssignment_2 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6355:2: rule__AbsoluteRef__PrimaryRefAssignment_2
-            {
-            pushFollow(FOLLOW_rule__AbsoluteRef__PrimaryRefAssignment_2_in_rule__AbsoluteRef__Group__2__Impl12834);
-            rule__AbsoluteRef__PrimaryRefAssignment_2();
-
-            state._fsp--;
-            if (state.failed) return ;
-
-            }
-
-            if ( state.backtracking==0 ) {
-               after(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_2()); 
-            }
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__AbsoluteRef__Group__2__Impl"
-
-
     // $ANTLR start "rule__ContextRef__Group__0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6371:1: rule__ContextRef__Group__0 : rule__ContextRef__Group__0__Impl rule__ContextRef__Group__1 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6340:1: rule__ContextRef__Group__0 : rule__ContextRef__Group__0__Impl rule__ContextRef__Group__1 ;
     public final void rule__ContextRef__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6375:1: ( rule__ContextRef__Group__0__Impl rule__ContextRef__Group__1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6376:2: rule__ContextRef__Group__0__Impl rule__ContextRef__Group__1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6344:1: ( rule__ContextRef__Group__0__Impl rule__ContextRef__Group__1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6345:2: rule__ContextRef__Group__0__Impl rule__ContextRef__Group__1
             {
-            pushFollow(FOLLOW_rule__ContextRef__Group__0__Impl_in_rule__ContextRef__Group__012870);
+            pushFollow(FOLLOW_rule__ContextRef__Group__0__Impl_in_rule__ContextRef__Group__012808);
             rule__ContextRef__Group__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__ContextRef__Group__1_in_rule__ContextRef__Group__012873);
+            pushFollow(FOLLOW_rule__ContextRef__Group__1_in_rule__ContextRef__Group__012811);
             rule__ContextRef__Group__1();
 
             state._fsp--;
@@ -18207,23 +18119,23 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ContextRef__Group__0__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6383:1: rule__ContextRef__Group__0__Impl : ( () ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6352:1: rule__ContextRef__Group__0__Impl : ( () ) ;
     public final void rule__ContextRef__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6387:1: ( ( () ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6388:1: ( () )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6356:1: ( ( () ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6357:1: ( () )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6388:1: ( () )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6389:1: ()
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6357:1: ( () )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6358:1: ()
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getContextRefAccess().getContextRefAction_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6390:1: ()
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6392:1: 
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6359:1: ()
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6361:1: 
             {
             }
 
@@ -18248,16 +18160,16 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ContextRef__Group__1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6402:1: rule__ContextRef__Group__1 : rule__ContextRef__Group__1__Impl ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6371:1: rule__ContextRef__Group__1 : rule__ContextRef__Group__1__Impl ;
     public final void rule__ContextRef__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6406:1: ( rule__ContextRef__Group__1__Impl )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6407:2: rule__ContextRef__Group__1__Impl
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6375:1: ( rule__ContextRef__Group__1__Impl )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6376:2: rule__ContextRef__Group__1__Impl
             {
-            pushFollow(FOLLOW_rule__ContextRef__Group__1__Impl_in_rule__ContextRef__Group__112931);
+            pushFollow(FOLLOW_rule__ContextRef__Group__1__Impl_in_rule__ContextRef__Group__112869);
             rule__ContextRef__Group__1__Impl();
 
             state._fsp--;
@@ -18281,25 +18193,25 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ContextRef__Group__1__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6413:1: rule__ContextRef__Group__1__Impl : ( ( rule__ContextRef__Group_1__0 ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6382:1: rule__ContextRef__Group__1__Impl : ( ( rule__ContextRef__Group_1__0 ) ) ;
     public final void rule__ContextRef__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6417:1: ( ( ( rule__ContextRef__Group_1__0 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6418:1: ( ( rule__ContextRef__Group_1__0 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6386:1: ( ( ( rule__ContextRef__Group_1__0 ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6387:1: ( ( rule__ContextRef__Group_1__0 ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6418:1: ( ( rule__ContextRef__Group_1__0 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6419:1: ( rule__ContextRef__Group_1__0 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6387:1: ( ( rule__ContextRef__Group_1__0 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6388:1: ( rule__ContextRef__Group_1__0 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getContextRefAccess().getGroup_1()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6420:1: ( rule__ContextRef__Group_1__0 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6420:2: rule__ContextRef__Group_1__0
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6389:1: ( rule__ContextRef__Group_1__0 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6389:2: rule__ContextRef__Group_1__0
             {
-            pushFollow(FOLLOW_rule__ContextRef__Group_1__0_in_rule__ContextRef__Group__1__Impl12958);
+            pushFollow(FOLLOW_rule__ContextRef__Group_1__0_in_rule__ContextRef__Group__1__Impl12896);
             rule__ContextRef__Group_1__0();
 
             state._fsp--;
@@ -18332,21 +18244,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ContextRef__Group_1__0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6434:1: rule__ContextRef__Group_1__0 : rule__ContextRef__Group_1__0__Impl rule__ContextRef__Group_1__1 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6403:1: rule__ContextRef__Group_1__0 : rule__ContextRef__Group_1__0__Impl rule__ContextRef__Group_1__1 ;
     public final void rule__ContextRef__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6438:1: ( rule__ContextRef__Group_1__0__Impl rule__ContextRef__Group_1__1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6439:2: rule__ContextRef__Group_1__0__Impl rule__ContextRef__Group_1__1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6407:1: ( rule__ContextRef__Group_1__0__Impl rule__ContextRef__Group_1__1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6408:2: rule__ContextRef__Group_1__0__Impl rule__ContextRef__Group_1__1
             {
-            pushFollow(FOLLOW_rule__ContextRef__Group_1__0__Impl_in_rule__ContextRef__Group_1__012992);
+            pushFollow(FOLLOW_rule__ContextRef__Group_1__0__Impl_in_rule__ContextRef__Group_1__012930);
             rule__ContextRef__Group_1__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__ContextRef__Group_1__1_in_rule__ContextRef__Group_1__012995);
+            pushFollow(FOLLOW_rule__ContextRef__Group_1__1_in_rule__ContextRef__Group_1__012933);
             rule__ContextRef__Group_1__1();
 
             state._fsp--;
@@ -18370,25 +18282,25 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ContextRef__Group_1__0__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6446:1: rule__ContextRef__Group_1__0__Impl : ( ( 'this' ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6415:1: rule__ContextRef__Group_1__0__Impl : ( ( 'this' ) ) ;
     public final void rule__ContextRef__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6450:1: ( ( ( 'this' ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6451:1: ( ( 'this' ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6419:1: ( ( ( 'this' ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6420:1: ( ( 'this' ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6451:1: ( ( 'this' ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6452:1: ( 'this' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6420:1: ( ( 'this' ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6421:1: ( 'this' )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getContextRefAccess().getThisKeyword_1_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6453:1: ( 'this' )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6454:2: 'this'
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6422:1: ( 'this' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6423:2: 'this'
             {
-            match(input,59,FOLLOW_59_in_rule__ContextRef__Group_1__0__Impl13024); if (state.failed) return ;
+            match(input,59,FOLLOW_59_in_rule__ContextRef__Group_1__0__Impl12962); if (state.failed) return ;
 
             }
 
@@ -18417,16 +18329,16 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ContextRef__Group_1__1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6465:1: rule__ContextRef__Group_1__1 : rule__ContextRef__Group_1__1__Impl ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6434:1: rule__ContextRef__Group_1__1 : rule__ContextRef__Group_1__1__Impl ;
     public final void rule__ContextRef__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6469:1: ( rule__ContextRef__Group_1__1__Impl )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6470:2: rule__ContextRef__Group_1__1__Impl
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6438:1: ( rule__ContextRef__Group_1__1__Impl )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6439:2: rule__ContextRef__Group_1__1__Impl
             {
-            pushFollow(FOLLOW_rule__ContextRef__Group_1__1__Impl_in_rule__ContextRef__Group_1__113056);
+            pushFollow(FOLLOW_rule__ContextRef__Group_1__1__Impl_in_rule__ContextRef__Group_1__112994);
             rule__ContextRef__Group_1__1__Impl();
 
             state._fsp--;
@@ -18450,25 +18362,25 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ContextRef__Group_1__1__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6476:1: rule__ContextRef__Group_1__1__Impl : ( ( rule__ContextRef__PrimaryRefAssignment_1_1 ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6445:1: rule__ContextRef__Group_1__1__Impl : ( ( rule__ContextRef__PrimaryRefAssignment_1_1 ) ) ;
     public final void rule__ContextRef__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6480:1: ( ( ( rule__ContextRef__PrimaryRefAssignment_1_1 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6481:1: ( ( rule__ContextRef__PrimaryRefAssignment_1_1 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6449:1: ( ( ( rule__ContextRef__PrimaryRefAssignment_1_1 ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6450:1: ( ( rule__ContextRef__PrimaryRefAssignment_1_1 ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6481:1: ( ( rule__ContextRef__PrimaryRefAssignment_1_1 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6482:1: ( rule__ContextRef__PrimaryRefAssignment_1_1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6450:1: ( ( rule__ContextRef__PrimaryRefAssignment_1_1 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6451:1: ( rule__ContextRef__PrimaryRefAssignment_1_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getContextRefAccess().getPrimaryRefAssignment_1_1()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6483:1: ( rule__ContextRef__PrimaryRefAssignment_1_1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6483:2: rule__ContextRef__PrimaryRefAssignment_1_1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6452:1: ( rule__ContextRef__PrimaryRefAssignment_1_1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6452:2: rule__ContextRef__PrimaryRefAssignment_1_1
             {
-            pushFollow(FOLLOW_rule__ContextRef__PrimaryRefAssignment_1_1_in_rule__ContextRef__Group_1__1__Impl13083);
+            pushFollow(FOLLOW_rule__ContextRef__PrimaryRefAssignment_1_1_in_rule__ContextRef__Group_1__1__Impl13021);
             rule__ContextRef__PrimaryRefAssignment_1_1();
 
             state._fsp--;
@@ -18501,21 +18413,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__PrimaryRef__Group__0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6497:1: rule__PrimaryRef__Group__0 : rule__PrimaryRef__Group__0__Impl rule__PrimaryRef__Group__1 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6466:1: rule__PrimaryRef__Group__0 : rule__PrimaryRef__Group__0__Impl rule__PrimaryRef__Group__1 ;
     public final void rule__PrimaryRef__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6501:1: ( rule__PrimaryRef__Group__0__Impl rule__PrimaryRef__Group__1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6502:2: rule__PrimaryRef__Group__0__Impl rule__PrimaryRef__Group__1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6470:1: ( rule__PrimaryRef__Group__0__Impl rule__PrimaryRef__Group__1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6471:2: rule__PrimaryRef__Group__0__Impl rule__PrimaryRef__Group__1
             {
-            pushFollow(FOLLOW_rule__PrimaryRef__Group__0__Impl_in_rule__PrimaryRef__Group__013117);
+            pushFollow(FOLLOW_rule__PrimaryRef__Group__0__Impl_in_rule__PrimaryRef__Group__013055);
             rule__PrimaryRef__Group__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__PrimaryRef__Group__1_in_rule__PrimaryRef__Group__013120);
+            pushFollow(FOLLOW_rule__PrimaryRef__Group__1_in_rule__PrimaryRef__Group__013058);
             rule__PrimaryRef__Group__1();
 
             state._fsp--;
@@ -18539,28 +18451,28 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__PrimaryRef__Group__0__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6509:1: rule__PrimaryRef__Group__0__Impl : ( ( ( rule__PrimaryRef__ChildrenAssignment_0 ) ) ( ( rule__PrimaryRef__ChildrenAssignment_0 )* ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6478:1: rule__PrimaryRef__Group__0__Impl : ( ( ( rule__PrimaryRef__ChildrenAssignment_0 ) ) ( ( rule__PrimaryRef__ChildrenAssignment_0 )* ) ) ;
     public final void rule__PrimaryRef__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6513:1: ( ( ( ( rule__PrimaryRef__ChildrenAssignment_0 ) ) ( ( rule__PrimaryRef__ChildrenAssignment_0 )* ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6514:1: ( ( ( rule__PrimaryRef__ChildrenAssignment_0 ) ) ( ( rule__PrimaryRef__ChildrenAssignment_0 )* ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6482:1: ( ( ( ( rule__PrimaryRef__ChildrenAssignment_0 ) ) ( ( rule__PrimaryRef__ChildrenAssignment_0 )* ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6483:1: ( ( ( rule__PrimaryRef__ChildrenAssignment_0 ) ) ( ( rule__PrimaryRef__ChildrenAssignment_0 )* ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6514:1: ( ( ( rule__PrimaryRef__ChildrenAssignment_0 ) ) ( ( rule__PrimaryRef__ChildrenAssignment_0 )* ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6515:1: ( ( rule__PrimaryRef__ChildrenAssignment_0 ) ) ( ( rule__PrimaryRef__ChildrenAssignment_0 )* )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6483:1: ( ( ( rule__PrimaryRef__ChildrenAssignment_0 ) ) ( ( rule__PrimaryRef__ChildrenAssignment_0 )* ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6484:1: ( ( rule__PrimaryRef__ChildrenAssignment_0 ) ) ( ( rule__PrimaryRef__ChildrenAssignment_0 )* )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6515:1: ( ( rule__PrimaryRef__ChildrenAssignment_0 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6516:1: ( rule__PrimaryRef__ChildrenAssignment_0 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6484:1: ( ( rule__PrimaryRef__ChildrenAssignment_0 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6485:1: ( rule__PrimaryRef__ChildrenAssignment_0 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getPrimaryRefAccess().getChildrenAssignment_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6517:1: ( rule__PrimaryRef__ChildrenAssignment_0 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6517:2: rule__PrimaryRef__ChildrenAssignment_0
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6486:1: ( rule__PrimaryRef__ChildrenAssignment_0 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6486:2: rule__PrimaryRef__ChildrenAssignment_0
             {
-            pushFollow(FOLLOW_rule__PrimaryRef__ChildrenAssignment_0_in_rule__PrimaryRef__Group__0__Impl13149);
+            pushFollow(FOLLOW_rule__PrimaryRef__ChildrenAssignment_0_in_rule__PrimaryRef__Group__0__Impl13087);
             rule__PrimaryRef__ChildrenAssignment_0();
 
             state._fsp--;
@@ -18574,13 +18486,13 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
             }
 
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6520:1: ( ( rule__PrimaryRef__ChildrenAssignment_0 )* )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6521:1: ( rule__PrimaryRef__ChildrenAssignment_0 )*
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6489:1: ( ( rule__PrimaryRef__ChildrenAssignment_0 )* )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6490:1: ( rule__PrimaryRef__ChildrenAssignment_0 )*
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getPrimaryRefAccess().getChildrenAssignment_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6522:1: ( rule__PrimaryRef__ChildrenAssignment_0 )*
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6491:1: ( rule__PrimaryRef__ChildrenAssignment_0 )*
             loop41:
             do {
                 int alt41=2;
@@ -18599,9 +18511,9 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
                 switch (alt41) {
             	case 1 :
-            	    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6522:2: rule__PrimaryRef__ChildrenAssignment_0
+            	    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6491:2: rule__PrimaryRef__ChildrenAssignment_0
             	    {
-            	    pushFollow(FOLLOW_rule__PrimaryRef__ChildrenAssignment_0_in_rule__PrimaryRef__Group__0__Impl13161);
+            	    pushFollow(FOLLOW_rule__PrimaryRef__ChildrenAssignment_0_in_rule__PrimaryRef__Group__0__Impl13099);
             	    rule__PrimaryRef__ChildrenAssignment_0();
 
             	    state._fsp--;
@@ -18643,16 +18555,16 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__PrimaryRef__Group__1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6533:1: rule__PrimaryRef__Group__1 : rule__PrimaryRef__Group__1__Impl ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6502:1: rule__PrimaryRef__Group__1 : rule__PrimaryRef__Group__1__Impl ;
     public final void rule__PrimaryRef__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6537:1: ( rule__PrimaryRef__Group__1__Impl )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6538:2: rule__PrimaryRef__Group__1__Impl
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6506:1: ( rule__PrimaryRef__Group__1__Impl )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6507:2: rule__PrimaryRef__Group__1__Impl
             {
-            pushFollow(FOLLOW_rule__PrimaryRef__Group__1__Impl_in_rule__PrimaryRef__Group__113194);
+            pushFollow(FOLLOW_rule__PrimaryRef__Group__1__Impl_in_rule__PrimaryRef__Group__113132);
             rule__PrimaryRef__Group__1__Impl();
 
             state._fsp--;
@@ -18676,22 +18588,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__PrimaryRef__Group__1__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6544:1: rule__PrimaryRef__Group__1__Impl : ( ( rule__PrimaryRef__Group_1__0 )? ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6513:1: rule__PrimaryRef__Group__1__Impl : ( ( rule__PrimaryRef__Group_1__0 )? ) ;
     public final void rule__PrimaryRef__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6548:1: ( ( ( rule__PrimaryRef__Group_1__0 )? ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6549:1: ( ( rule__PrimaryRef__Group_1__0 )? )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6517:1: ( ( ( rule__PrimaryRef__Group_1__0 )? ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6518:1: ( ( rule__PrimaryRef__Group_1__0 )? )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6549:1: ( ( rule__PrimaryRef__Group_1__0 )? )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6550:1: ( rule__PrimaryRef__Group_1__0 )?
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6518:1: ( ( rule__PrimaryRef__Group_1__0 )? )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6519:1: ( rule__PrimaryRef__Group_1__0 )?
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getPrimaryRefAccess().getGroup_1()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6551:1: ( rule__PrimaryRef__Group_1__0 )?
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6520:1: ( rule__PrimaryRef__Group_1__0 )?
             int alt42=2;
             int LA42_0 = input.LA(1);
 
@@ -18700,9 +18612,9 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             }
             switch (alt42) {
                 case 1 :
-                    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6551:2: rule__PrimaryRef__Group_1__0
+                    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6520:2: rule__PrimaryRef__Group_1__0
                     {
-                    pushFollow(FOLLOW_rule__PrimaryRef__Group_1__0_in_rule__PrimaryRef__Group__1__Impl13221);
+                    pushFollow(FOLLOW_rule__PrimaryRef__Group_1__0_in_rule__PrimaryRef__Group__1__Impl13159);
                     rule__PrimaryRef__Group_1__0();
 
                     state._fsp--;
@@ -18738,21 +18650,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__PrimaryRef__Group_1__0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6565:1: rule__PrimaryRef__Group_1__0 : rule__PrimaryRef__Group_1__0__Impl rule__PrimaryRef__Group_1__1 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6534:1: rule__PrimaryRef__Group_1__0 : rule__PrimaryRef__Group_1__0__Impl rule__PrimaryRef__Group_1__1 ;
     public final void rule__PrimaryRef__Group_1__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6569:1: ( rule__PrimaryRef__Group_1__0__Impl rule__PrimaryRef__Group_1__1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6570:2: rule__PrimaryRef__Group_1__0__Impl rule__PrimaryRef__Group_1__1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6538:1: ( rule__PrimaryRef__Group_1__0__Impl rule__PrimaryRef__Group_1__1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6539:2: rule__PrimaryRef__Group_1__0__Impl rule__PrimaryRef__Group_1__1
             {
-            pushFollow(FOLLOW_rule__PrimaryRef__Group_1__0__Impl_in_rule__PrimaryRef__Group_1__013256);
+            pushFollow(FOLLOW_rule__PrimaryRef__Group_1__0__Impl_in_rule__PrimaryRef__Group_1__013194);
             rule__PrimaryRef__Group_1__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__PrimaryRef__Group_1__1_in_rule__PrimaryRef__Group_1__013259);
+            pushFollow(FOLLOW_rule__PrimaryRef__Group_1__1_in_rule__PrimaryRef__Group_1__013197);
             rule__PrimaryRef__Group_1__1();
 
             state._fsp--;
@@ -18776,22 +18688,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__PrimaryRef__Group_1__0__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6577:1: rule__PrimaryRef__Group_1__0__Impl : ( '->' ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6546:1: rule__PrimaryRef__Group_1__0__Impl : ( '->' ) ;
     public final void rule__PrimaryRef__Group_1__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6581:1: ( ( '->' ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6582:1: ( '->' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6550:1: ( ( '->' ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6551:1: ( '->' )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6582:1: ( '->' )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6583:1: '->'
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6551:1: ( '->' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6552:1: '->'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getPrimaryRefAccess().getHyphenMinusGreaterThanSignKeyword_1_0()); 
             }
-            match(input,60,FOLLOW_60_in_rule__PrimaryRef__Group_1__0__Impl13287); if (state.failed) return ;
+            match(input,60,FOLLOW_60_in_rule__PrimaryRef__Group_1__0__Impl13225); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getPrimaryRefAccess().getHyphenMinusGreaterThanSignKeyword_1_0()); 
             }
@@ -18817,16 +18729,16 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__PrimaryRef__Group_1__1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6596:1: rule__PrimaryRef__Group_1__1 : rule__PrimaryRef__Group_1__1__Impl ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6565:1: rule__PrimaryRef__Group_1__1 : rule__PrimaryRef__Group_1__1__Impl ;
     public final void rule__PrimaryRef__Group_1__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6600:1: ( rule__PrimaryRef__Group_1__1__Impl )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6601:2: rule__PrimaryRef__Group_1__1__Impl
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6569:1: ( rule__PrimaryRef__Group_1__1__Impl )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6570:2: rule__PrimaryRef__Group_1__1__Impl
             {
-            pushFollow(FOLLOW_rule__PrimaryRef__Group_1__1__Impl_in_rule__PrimaryRef__Group_1__113318);
+            pushFollow(FOLLOW_rule__PrimaryRef__Group_1__1__Impl_in_rule__PrimaryRef__Group_1__113256);
             rule__PrimaryRef__Group_1__1__Impl();
 
             state._fsp--;
@@ -18850,25 +18762,25 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__PrimaryRef__Group_1__1__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6607:1: rule__PrimaryRef__Group_1__1__Impl : ( ( rule__PrimaryRef__LeafRefAssignment_1_1 ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6576:1: rule__PrimaryRef__Group_1__1__Impl : ( ( rule__PrimaryRef__LeafRefAssignment_1_1 ) ) ;
     public final void rule__PrimaryRef__Group_1__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6611:1: ( ( ( rule__PrimaryRef__LeafRefAssignment_1_1 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6612:1: ( ( rule__PrimaryRef__LeafRefAssignment_1_1 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6580:1: ( ( ( rule__PrimaryRef__LeafRefAssignment_1_1 ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6581:1: ( ( rule__PrimaryRef__LeafRefAssignment_1_1 ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6612:1: ( ( rule__PrimaryRef__LeafRefAssignment_1_1 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6613:1: ( rule__PrimaryRef__LeafRefAssignment_1_1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6581:1: ( ( rule__PrimaryRef__LeafRefAssignment_1_1 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6582:1: ( rule__PrimaryRef__LeafRefAssignment_1_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getPrimaryRefAccess().getLeafRefAssignment_1_1()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6614:1: ( rule__PrimaryRef__LeafRefAssignment_1_1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6614:2: rule__PrimaryRef__LeafRefAssignment_1_1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6583:1: ( rule__PrimaryRef__LeafRefAssignment_1_1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6583:2: rule__PrimaryRef__LeafRefAssignment_1_1
             {
-            pushFollow(FOLLOW_rule__PrimaryRef__LeafRefAssignment_1_1_in_rule__PrimaryRef__Group_1__1__Impl13345);
+            pushFollow(FOLLOW_rule__PrimaryRef__LeafRefAssignment_1_1_in_rule__PrimaryRef__Group_1__1__Impl13283);
             rule__PrimaryRef__LeafRefAssignment_1_1();
 
             state._fsp--;
@@ -18901,21 +18813,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ChildrenRef__Group__0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6628:1: rule__ChildrenRef__Group__0 : rule__ChildrenRef__Group__0__Impl rule__ChildrenRef__Group__1 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6597:1: rule__ChildrenRef__Group__0 : rule__ChildrenRef__Group__0__Impl rule__ChildrenRef__Group__1 ;
     public final void rule__ChildrenRef__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6632:1: ( rule__ChildrenRef__Group__0__Impl rule__ChildrenRef__Group__1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6633:2: rule__ChildrenRef__Group__0__Impl rule__ChildrenRef__Group__1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6601:1: ( rule__ChildrenRef__Group__0__Impl rule__ChildrenRef__Group__1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6602:2: rule__ChildrenRef__Group__0__Impl rule__ChildrenRef__Group__1
             {
-            pushFollow(FOLLOW_rule__ChildrenRef__Group__0__Impl_in_rule__ChildrenRef__Group__013379);
+            pushFollow(FOLLOW_rule__ChildrenRef__Group__0__Impl_in_rule__ChildrenRef__Group__013317);
             rule__ChildrenRef__Group__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__ChildrenRef__Group__1_in_rule__ChildrenRef__Group__013382);
+            pushFollow(FOLLOW_rule__ChildrenRef__Group__1_in_rule__ChildrenRef__Group__013320);
             rule__ChildrenRef__Group__1();
 
             state._fsp--;
@@ -18939,23 +18851,23 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ChildrenRef__Group__0__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6640:1: rule__ChildrenRef__Group__0__Impl : ( () ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6609:1: rule__ChildrenRef__Group__0__Impl : ( () ) ;
     public final void rule__ChildrenRef__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6644:1: ( ( () ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6645:1: ( () )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6613:1: ( ( () ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6614:1: ( () )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6645:1: ( () )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6646:1: ()
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6614:1: ( () )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6615:1: ()
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getChildrenRefAccess().getFunctionRefAction_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6647:1: ()
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6649:1: 
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6616:1: ()
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6618:1: 
             {
             }
 
@@ -18980,21 +18892,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ChildrenRef__Group__1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6659:1: rule__ChildrenRef__Group__1 : rule__ChildrenRef__Group__1__Impl rule__ChildrenRef__Group__2 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6628:1: rule__ChildrenRef__Group__1 : rule__ChildrenRef__Group__1__Impl rule__ChildrenRef__Group__2 ;
     public final void rule__ChildrenRef__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6663:1: ( rule__ChildrenRef__Group__1__Impl rule__ChildrenRef__Group__2 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6664:2: rule__ChildrenRef__Group__1__Impl rule__ChildrenRef__Group__2
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6632:1: ( rule__ChildrenRef__Group__1__Impl rule__ChildrenRef__Group__2 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6633:2: rule__ChildrenRef__Group__1__Impl rule__ChildrenRef__Group__2
             {
-            pushFollow(FOLLOW_rule__ChildrenRef__Group__1__Impl_in_rule__ChildrenRef__Group__113440);
+            pushFollow(FOLLOW_rule__ChildrenRef__Group__1__Impl_in_rule__ChildrenRef__Group__113378);
             rule__ChildrenRef__Group__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__ChildrenRef__Group__2_in_rule__ChildrenRef__Group__113443);
+            pushFollow(FOLLOW_rule__ChildrenRef__Group__2_in_rule__ChildrenRef__Group__113381);
             rule__ChildrenRef__Group__2();
 
             state._fsp--;
@@ -19018,22 +18930,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ChildrenRef__Group__1__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6671:1: rule__ChildrenRef__Group__1__Impl : ( '.' ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6640:1: rule__ChildrenRef__Group__1__Impl : ( '.' ) ;
     public final void rule__ChildrenRef__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6675:1: ( ( '.' ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6676:1: ( '.' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6644:1: ( ( '.' ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6645:1: ( '.' )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6676:1: ( '.' )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6677:1: '.'
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6645:1: ( '.' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6646:1: '.'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getChildrenRefAccess().getFullStopKeyword_1()); 
             }
-            match(input,58,FOLLOW_58_in_rule__ChildrenRef__Group__1__Impl13471); if (state.failed) return ;
+            match(input,58,FOLLOW_58_in_rule__ChildrenRef__Group__1__Impl13409); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getChildrenRefAccess().getFullStopKeyword_1()); 
             }
@@ -19059,16 +18971,16 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ChildrenRef__Group__2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6690:1: rule__ChildrenRef__Group__2 : rule__ChildrenRef__Group__2__Impl ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6659:1: rule__ChildrenRef__Group__2 : rule__ChildrenRef__Group__2__Impl ;
     public final void rule__ChildrenRef__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6694:1: ( rule__ChildrenRef__Group__2__Impl )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6695:2: rule__ChildrenRef__Group__2__Impl
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6663:1: ( rule__ChildrenRef__Group__2__Impl )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6664:2: rule__ChildrenRef__Group__2__Impl
             {
-            pushFollow(FOLLOW_rule__ChildrenRef__Group__2__Impl_in_rule__ChildrenRef__Group__213502);
+            pushFollow(FOLLOW_rule__ChildrenRef__Group__2__Impl_in_rule__ChildrenRef__Group__213440);
             rule__ChildrenRef__Group__2__Impl();
 
             state._fsp--;
@@ -19092,25 +19004,25 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ChildrenRef__Group__2__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6701:1: rule__ChildrenRef__Group__2__Impl : ( ( rule__ChildrenRef__FunctionAssignment_2 ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6670:1: rule__ChildrenRef__Group__2__Impl : ( ( rule__ChildrenRef__FunctionAssignment_2 ) ) ;
     public final void rule__ChildrenRef__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6705:1: ( ( ( rule__ChildrenRef__FunctionAssignment_2 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6706:1: ( ( rule__ChildrenRef__FunctionAssignment_2 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6674:1: ( ( ( rule__ChildrenRef__FunctionAssignment_2 ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6675:1: ( ( rule__ChildrenRef__FunctionAssignment_2 ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6706:1: ( ( rule__ChildrenRef__FunctionAssignment_2 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6707:1: ( rule__ChildrenRef__FunctionAssignment_2 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6675:1: ( ( rule__ChildrenRef__FunctionAssignment_2 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6676:1: ( rule__ChildrenRef__FunctionAssignment_2 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getChildrenRefAccess().getFunctionAssignment_2()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6708:1: ( rule__ChildrenRef__FunctionAssignment_2 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6708:2: rule__ChildrenRef__FunctionAssignment_2
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6677:1: ( rule__ChildrenRef__FunctionAssignment_2 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6677:2: rule__ChildrenRef__FunctionAssignment_2
             {
-            pushFollow(FOLLOW_rule__ChildrenRef__FunctionAssignment_2_in_rule__ChildrenRef__Group__2__Impl13529);
+            pushFollow(FOLLOW_rule__ChildrenRef__FunctionAssignment_2_in_rule__ChildrenRef__Group__2__Impl13467);
             rule__ChildrenRef__FunctionAssignment_2();
 
             state._fsp--;
@@ -19143,21 +19055,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group__0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6724:1: rule__ResourceRef__Group__0 : rule__ResourceRef__Group__0__Impl rule__ResourceRef__Group__1 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6693:1: rule__ResourceRef__Group__0 : rule__ResourceRef__Group__0__Impl rule__ResourceRef__Group__1 ;
     public final void rule__ResourceRef__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6728:1: ( rule__ResourceRef__Group__0__Impl rule__ResourceRef__Group__1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6729:2: rule__ResourceRef__Group__0__Impl rule__ResourceRef__Group__1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6697:1: ( rule__ResourceRef__Group__0__Impl rule__ResourceRef__Group__1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6698:2: rule__ResourceRef__Group__0__Impl rule__ResourceRef__Group__1
             {
-            pushFollow(FOLLOW_rule__ResourceRef__Group__0__Impl_in_rule__ResourceRef__Group__013565);
+            pushFollow(FOLLOW_rule__ResourceRef__Group__0__Impl_in_rule__ResourceRef__Group__013503);
             rule__ResourceRef__Group__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__ResourceRef__Group__1_in_rule__ResourceRef__Group__013568);
+            pushFollow(FOLLOW_rule__ResourceRef__Group__1_in_rule__ResourceRef__Group__013506);
             rule__ResourceRef__Group__1();
 
             state._fsp--;
@@ -19181,23 +19093,23 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group__0__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6736:1: rule__ResourceRef__Group__0__Impl : ( () ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6705:1: rule__ResourceRef__Group__0__Impl : ( () ) ;
     public final void rule__ResourceRef__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6740:1: ( ( () ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6741:1: ( () )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6709:1: ( ( () ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6710:1: ( () )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6741:1: ( () )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6742:1: ()
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6710:1: ( () )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6711:1: ()
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getResourceRefAction_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6743:1: ()
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6745:1: 
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6712:1: ()
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6714:1: 
             {
             }
 
@@ -19222,21 +19134,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group__1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6755:1: rule__ResourceRef__Group__1 : rule__ResourceRef__Group__1__Impl rule__ResourceRef__Group__2 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6724:1: rule__ResourceRef__Group__1 : rule__ResourceRef__Group__1__Impl rule__ResourceRef__Group__2 ;
     public final void rule__ResourceRef__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6759:1: ( rule__ResourceRef__Group__1__Impl rule__ResourceRef__Group__2 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6760:2: rule__ResourceRef__Group__1__Impl rule__ResourceRef__Group__2
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6728:1: ( rule__ResourceRef__Group__1__Impl rule__ResourceRef__Group__2 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6729:2: rule__ResourceRef__Group__1__Impl rule__ResourceRef__Group__2
             {
-            pushFollow(FOLLOW_rule__ResourceRef__Group__1__Impl_in_rule__ResourceRef__Group__113626);
+            pushFollow(FOLLOW_rule__ResourceRef__Group__1__Impl_in_rule__ResourceRef__Group__113564);
             rule__ResourceRef__Group__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__ResourceRef__Group__2_in_rule__ResourceRef__Group__113629);
+            pushFollow(FOLLOW_rule__ResourceRef__Group__2_in_rule__ResourceRef__Group__113567);
             rule__ResourceRef__Group__2();
 
             state._fsp--;
@@ -19260,25 +19172,25 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group__1__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6767:1: rule__ResourceRef__Group__1__Impl : ( ( rule__ResourceRef__Alternatives_1 ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6736:1: rule__ResourceRef__Group__1__Impl : ( ( rule__ResourceRef__Alternatives_1 ) ) ;
     public final void rule__ResourceRef__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6771:1: ( ( ( rule__ResourceRef__Alternatives_1 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6772:1: ( ( rule__ResourceRef__Alternatives_1 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6740:1: ( ( ( rule__ResourceRef__Alternatives_1 ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6741:1: ( ( rule__ResourceRef__Alternatives_1 ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6772:1: ( ( rule__ResourceRef__Alternatives_1 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6773:1: ( rule__ResourceRef__Alternatives_1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6741:1: ( ( rule__ResourceRef__Alternatives_1 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6742:1: ( rule__ResourceRef__Alternatives_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getAlternatives_1()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6774:1: ( rule__ResourceRef__Alternatives_1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6774:2: rule__ResourceRef__Alternatives_1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6743:1: ( rule__ResourceRef__Alternatives_1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6743:2: rule__ResourceRef__Alternatives_1
             {
-            pushFollow(FOLLOW_rule__ResourceRef__Alternatives_1_in_rule__ResourceRef__Group__1__Impl13656);
+            pushFollow(FOLLOW_rule__ResourceRef__Alternatives_1_in_rule__ResourceRef__Group__1__Impl13594);
             rule__ResourceRef__Alternatives_1();
 
             state._fsp--;
@@ -19311,21 +19223,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group__2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6784:1: rule__ResourceRef__Group__2 : rule__ResourceRef__Group__2__Impl rule__ResourceRef__Group__3 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6753:1: rule__ResourceRef__Group__2 : rule__ResourceRef__Group__2__Impl rule__ResourceRef__Group__3 ;
     public final void rule__ResourceRef__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6788:1: ( rule__ResourceRef__Group__2__Impl rule__ResourceRef__Group__3 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6789:2: rule__ResourceRef__Group__2__Impl rule__ResourceRef__Group__3
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6757:1: ( rule__ResourceRef__Group__2__Impl rule__ResourceRef__Group__3 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6758:2: rule__ResourceRef__Group__2__Impl rule__ResourceRef__Group__3
             {
-            pushFollow(FOLLOW_rule__ResourceRef__Group__2__Impl_in_rule__ResourceRef__Group__213686);
+            pushFollow(FOLLOW_rule__ResourceRef__Group__2__Impl_in_rule__ResourceRef__Group__213624);
             rule__ResourceRef__Group__2__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__ResourceRef__Group__3_in_rule__ResourceRef__Group__213689);
+            pushFollow(FOLLOW_rule__ResourceRef__Group__3_in_rule__ResourceRef__Group__213627);
             rule__ResourceRef__Group__3();
 
             state._fsp--;
@@ -19349,25 +19261,25 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group__2__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6796:1: rule__ResourceRef__Group__2__Impl : ( ( rule__ResourceRef__ValuerangeAssignment_2 ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6765:1: rule__ResourceRef__Group__2__Impl : ( ( rule__ResourceRef__ValuerangeAssignment_2 ) ) ;
     public final void rule__ResourceRef__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6800:1: ( ( ( rule__ResourceRef__ValuerangeAssignment_2 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6801:1: ( ( rule__ResourceRef__ValuerangeAssignment_2 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6769:1: ( ( ( rule__ResourceRef__ValuerangeAssignment_2 ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6770:1: ( ( rule__ResourceRef__ValuerangeAssignment_2 ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6801:1: ( ( rule__ResourceRef__ValuerangeAssignment_2 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6802:1: ( rule__ResourceRef__ValuerangeAssignment_2 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6770:1: ( ( rule__ResourceRef__ValuerangeAssignment_2 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6771:1: ( rule__ResourceRef__ValuerangeAssignment_2 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getValuerangeAssignment_2()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6803:1: ( rule__ResourceRef__ValuerangeAssignment_2 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6803:2: rule__ResourceRef__ValuerangeAssignment_2
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6772:1: ( rule__ResourceRef__ValuerangeAssignment_2 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6772:2: rule__ResourceRef__ValuerangeAssignment_2
             {
-            pushFollow(FOLLOW_rule__ResourceRef__ValuerangeAssignment_2_in_rule__ResourceRef__Group__2__Impl13716);
+            pushFollow(FOLLOW_rule__ResourceRef__ValuerangeAssignment_2_in_rule__ResourceRef__Group__2__Impl13654);
             rule__ResourceRef__ValuerangeAssignment_2();
 
             state._fsp--;
@@ -19400,21 +19312,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group__3"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6813:1: rule__ResourceRef__Group__3 : rule__ResourceRef__Group__3__Impl rule__ResourceRef__Group__4 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6782:1: rule__ResourceRef__Group__3 : rule__ResourceRef__Group__3__Impl rule__ResourceRef__Group__4 ;
     public final void rule__ResourceRef__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6817:1: ( rule__ResourceRef__Group__3__Impl rule__ResourceRef__Group__4 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6818:2: rule__ResourceRef__Group__3__Impl rule__ResourceRef__Group__4
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6786:1: ( rule__ResourceRef__Group__3__Impl rule__ResourceRef__Group__4 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6787:2: rule__ResourceRef__Group__3__Impl rule__ResourceRef__Group__4
             {
-            pushFollow(FOLLOW_rule__ResourceRef__Group__3__Impl_in_rule__ResourceRef__Group__313746);
+            pushFollow(FOLLOW_rule__ResourceRef__Group__3__Impl_in_rule__ResourceRef__Group__313684);
             rule__ResourceRef__Group__3__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__ResourceRef__Group__4_in_rule__ResourceRef__Group__313749);
+            pushFollow(FOLLOW_rule__ResourceRef__Group__4_in_rule__ResourceRef__Group__313687);
             rule__ResourceRef__Group__4();
 
             state._fsp--;
@@ -19438,22 +19350,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group__3__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6825:1: rule__ResourceRef__Group__3__Impl : ( ( rule__ResourceRef__KindAssignment_3 )? ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6794:1: rule__ResourceRef__Group__3__Impl : ( ( rule__ResourceRef__KindAssignment_3 )? ) ;
     public final void rule__ResourceRef__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6829:1: ( ( ( rule__ResourceRef__KindAssignment_3 )? ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6830:1: ( ( rule__ResourceRef__KindAssignment_3 )? )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6798:1: ( ( ( rule__ResourceRef__KindAssignment_3 )? ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6799:1: ( ( rule__ResourceRef__KindAssignment_3 )? )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6830:1: ( ( rule__ResourceRef__KindAssignment_3 )? )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6831:1: ( rule__ResourceRef__KindAssignment_3 )?
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6799:1: ( ( rule__ResourceRef__KindAssignment_3 )? )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6800:1: ( rule__ResourceRef__KindAssignment_3 )?
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getKindAssignment_3()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6832:1: ( rule__ResourceRef__KindAssignment_3 )?
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6801:1: ( rule__ResourceRef__KindAssignment_3 )?
             int alt43=2;
             int LA43_0 = input.LA(1);
 
@@ -19462,9 +19374,9 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             }
             switch (alt43) {
                 case 1 :
-                    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6832:2: rule__ResourceRef__KindAssignment_3
+                    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6801:2: rule__ResourceRef__KindAssignment_3
                     {
-                    pushFollow(FOLLOW_rule__ResourceRef__KindAssignment_3_in_rule__ResourceRef__Group__3__Impl13776);
+                    pushFollow(FOLLOW_rule__ResourceRef__KindAssignment_3_in_rule__ResourceRef__Group__3__Impl13714);
                     rule__ResourceRef__KindAssignment_3();
 
                     state._fsp--;
@@ -19500,16 +19412,16 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group__4"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6842:1: rule__ResourceRef__Group__4 : rule__ResourceRef__Group__4__Impl ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6811:1: rule__ResourceRef__Group__4 : rule__ResourceRef__Group__4__Impl ;
     public final void rule__ResourceRef__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6846:1: ( rule__ResourceRef__Group__4__Impl )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6847:2: rule__ResourceRef__Group__4__Impl
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6815:1: ( rule__ResourceRef__Group__4__Impl )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6816:2: rule__ResourceRef__Group__4__Impl
             {
-            pushFollow(FOLLOW_rule__ResourceRef__Group__4__Impl_in_rule__ResourceRef__Group__413807);
+            pushFollow(FOLLOW_rule__ResourceRef__Group__4__Impl_in_rule__ResourceRef__Group__413745);
             rule__ResourceRef__Group__4__Impl();
 
             state._fsp--;
@@ -19533,25 +19445,25 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group__4__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6853:1: rule__ResourceRef__Group__4__Impl : ( ( rule__ResourceRef__PeriodAssignment_4 ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6822:1: rule__ResourceRef__Group__4__Impl : ( ( rule__ResourceRef__PeriodAssignment_4 ) ) ;
     public final void rule__ResourceRef__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6857:1: ( ( ( rule__ResourceRef__PeriodAssignment_4 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6858:1: ( ( rule__ResourceRef__PeriodAssignment_4 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6826:1: ( ( ( rule__ResourceRef__PeriodAssignment_4 ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6827:1: ( ( rule__ResourceRef__PeriodAssignment_4 ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6858:1: ( ( rule__ResourceRef__PeriodAssignment_4 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6859:1: ( rule__ResourceRef__PeriodAssignment_4 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6827:1: ( ( rule__ResourceRef__PeriodAssignment_4 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6828:1: ( rule__ResourceRef__PeriodAssignment_4 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getPeriodAssignment_4()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6860:1: ( rule__ResourceRef__PeriodAssignment_4 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6860:2: rule__ResourceRef__PeriodAssignment_4
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6829:1: ( rule__ResourceRef__PeriodAssignment_4 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6829:2: rule__ResourceRef__PeriodAssignment_4
             {
-            pushFollow(FOLLOW_rule__ResourceRef__PeriodAssignment_4_in_rule__ResourceRef__Group__4__Impl13834);
+            pushFollow(FOLLOW_rule__ResourceRef__PeriodAssignment_4_in_rule__ResourceRef__Group__4__Impl13772);
             rule__ResourceRef__PeriodAssignment_4();
 
             state._fsp--;
@@ -19584,21 +19496,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group_1_0__0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6880:1: rule__ResourceRef__Group_1_0__0 : rule__ResourceRef__Group_1_0__0__Impl rule__ResourceRef__Group_1_0__1 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6849:1: rule__ResourceRef__Group_1_0__0 : rule__ResourceRef__Group_1_0__0__Impl rule__ResourceRef__Group_1_0__1 ;
     public final void rule__ResourceRef__Group_1_0__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6884:1: ( rule__ResourceRef__Group_1_0__0__Impl rule__ResourceRef__Group_1_0__1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6885:2: rule__ResourceRef__Group_1_0__0__Impl rule__ResourceRef__Group_1_0__1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6853:1: ( rule__ResourceRef__Group_1_0__0__Impl rule__ResourceRef__Group_1_0__1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6854:2: rule__ResourceRef__Group_1_0__0__Impl rule__ResourceRef__Group_1_0__1
             {
-            pushFollow(FOLLOW_rule__ResourceRef__Group_1_0__0__Impl_in_rule__ResourceRef__Group_1_0__013874);
+            pushFollow(FOLLOW_rule__ResourceRef__Group_1_0__0__Impl_in_rule__ResourceRef__Group_1_0__013812);
             rule__ResourceRef__Group_1_0__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__ResourceRef__Group_1_0__1_in_rule__ResourceRef__Group_1_0__013877);
+            pushFollow(FOLLOW_rule__ResourceRef__Group_1_0__1_in_rule__ResourceRef__Group_1_0__013815);
             rule__ResourceRef__Group_1_0__1();
 
             state._fsp--;
@@ -19622,22 +19534,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group_1_0__0__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6892:1: rule__ResourceRef__Group_1_0__0__Impl : ( 'Res' ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6861:1: rule__ResourceRef__Group_1_0__0__Impl : ( 'Res' ) ;
     public final void rule__ResourceRef__Group_1_0__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6896:1: ( ( 'Res' ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6897:1: ( 'Res' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6865:1: ( ( 'Res' ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6866:1: ( 'Res' )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6897:1: ( 'Res' )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6898:1: 'Res'
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6866:1: ( 'Res' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6867:1: 'Res'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getResKeyword_1_0_0()); 
             }
-            match(input,61,FOLLOW_61_in_rule__ResourceRef__Group_1_0__0__Impl13905); if (state.failed) return ;
+            match(input,61,FOLLOW_61_in_rule__ResourceRef__Group_1_0__0__Impl13843); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getResourceRefAccess().getResKeyword_1_0_0()); 
             }
@@ -19663,16 +19575,16 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group_1_0__1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6911:1: rule__ResourceRef__Group_1_0__1 : rule__ResourceRef__Group_1_0__1__Impl ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6880:1: rule__ResourceRef__Group_1_0__1 : rule__ResourceRef__Group_1_0__1__Impl ;
     public final void rule__ResourceRef__Group_1_0__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6915:1: ( rule__ResourceRef__Group_1_0__1__Impl )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6916:2: rule__ResourceRef__Group_1_0__1__Impl
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6884:1: ( rule__ResourceRef__Group_1_0__1__Impl )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6885:2: rule__ResourceRef__Group_1_0__1__Impl
             {
-            pushFollow(FOLLOW_rule__ResourceRef__Group_1_0__1__Impl_in_rule__ResourceRef__Group_1_0__113936);
+            pushFollow(FOLLOW_rule__ResourceRef__Group_1_0__1__Impl_in_rule__ResourceRef__Group_1_0__113874);
             rule__ResourceRef__Group_1_0__1__Impl();
 
             state._fsp--;
@@ -19696,25 +19608,25 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__Group_1_0__1__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6922:1: rule__ResourceRef__Group_1_0__1__Impl : ( ( rule__ResourceRef__ResourceAssignment_1_0_1 ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6891:1: rule__ResourceRef__Group_1_0__1__Impl : ( ( rule__ResourceRef__ResourceAssignment_1_0_1 ) ) ;
     public final void rule__ResourceRef__Group_1_0__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6926:1: ( ( ( rule__ResourceRef__ResourceAssignment_1_0_1 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6927:1: ( ( rule__ResourceRef__ResourceAssignment_1_0_1 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6895:1: ( ( ( rule__ResourceRef__ResourceAssignment_1_0_1 ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6896:1: ( ( rule__ResourceRef__ResourceAssignment_1_0_1 ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6927:1: ( ( rule__ResourceRef__ResourceAssignment_1_0_1 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6928:1: ( rule__ResourceRef__ResourceAssignment_1_0_1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6896:1: ( ( rule__ResourceRef__ResourceAssignment_1_0_1 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6897:1: ( rule__ResourceRef__ResourceAssignment_1_0_1 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getResourceAssignment_1_0_1()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6929:1: ( rule__ResourceRef__ResourceAssignment_1_0_1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6929:2: rule__ResourceRef__ResourceAssignment_1_0_1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6898:1: ( rule__ResourceRef__ResourceAssignment_1_0_1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6898:2: rule__ResourceRef__ResourceAssignment_1_0_1
             {
-            pushFollow(FOLLOW_rule__ResourceRef__ResourceAssignment_1_0_1_in_rule__ResourceRef__Group_1_0__1__Impl13963);
+            pushFollow(FOLLOW_rule__ResourceRef__ResourceAssignment_1_0_1_in_rule__ResourceRef__Group_1_0__1__Impl13901);
             rule__ResourceRef__ResourceAssignment_1_0_1();
 
             state._fsp--;
@@ -19747,21 +19659,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__LinkRef__Group__0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6943:1: rule__LinkRef__Group__0 : rule__LinkRef__Group__0__Impl rule__LinkRef__Group__1 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6912:1: rule__LinkRef__Group__0 : rule__LinkRef__Group__0__Impl rule__LinkRef__Group__1 ;
     public final void rule__LinkRef__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6947:1: ( rule__LinkRef__Group__0__Impl rule__LinkRef__Group__1 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6948:2: rule__LinkRef__Group__0__Impl rule__LinkRef__Group__1
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6916:1: ( rule__LinkRef__Group__0__Impl rule__LinkRef__Group__1 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6917:2: rule__LinkRef__Group__0__Impl rule__LinkRef__Group__1
             {
-            pushFollow(FOLLOW_rule__LinkRef__Group__0__Impl_in_rule__LinkRef__Group__013997);
+            pushFollow(FOLLOW_rule__LinkRef__Group__0__Impl_in_rule__LinkRef__Group__013935);
             rule__LinkRef__Group__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__LinkRef__Group__1_in_rule__LinkRef__Group__014000);
+            pushFollow(FOLLOW_rule__LinkRef__Group__1_in_rule__LinkRef__Group__013938);
             rule__LinkRef__Group__1();
 
             state._fsp--;
@@ -19785,23 +19697,23 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__LinkRef__Group__0__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6955:1: rule__LinkRef__Group__0__Impl : ( () ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6924:1: rule__LinkRef__Group__0__Impl : ( () ) ;
     public final void rule__LinkRef__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6959:1: ( ( () ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6960:1: ( () )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6928:1: ( ( () ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6929:1: ( () )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6960:1: ( () )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6961:1: ()
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6929:1: ( () )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6930:1: ()
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getLinkRefAccess().getLinkRefAction_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6962:1: ()
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6964:1: 
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6931:1: ()
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6933:1: 
             {
             }
 
@@ -19826,21 +19738,21 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__LinkRef__Group__1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6974:1: rule__LinkRef__Group__1 : rule__LinkRef__Group__1__Impl rule__LinkRef__Group__2 ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6943:1: rule__LinkRef__Group__1 : rule__LinkRef__Group__1__Impl rule__LinkRef__Group__2 ;
     public final void rule__LinkRef__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6978:1: ( rule__LinkRef__Group__1__Impl rule__LinkRef__Group__2 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6979:2: rule__LinkRef__Group__1__Impl rule__LinkRef__Group__2
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6947:1: ( rule__LinkRef__Group__1__Impl rule__LinkRef__Group__2 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6948:2: rule__LinkRef__Group__1__Impl rule__LinkRef__Group__2
             {
-            pushFollow(FOLLOW_rule__LinkRef__Group__1__Impl_in_rule__LinkRef__Group__114058);
+            pushFollow(FOLLOW_rule__LinkRef__Group__1__Impl_in_rule__LinkRef__Group__113996);
             rule__LinkRef__Group__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
-            pushFollow(FOLLOW_rule__LinkRef__Group__2_in_rule__LinkRef__Group__114061);
+            pushFollow(FOLLOW_rule__LinkRef__Group__2_in_rule__LinkRef__Group__113999);
             rule__LinkRef__Group__2();
 
             state._fsp--;
@@ -19864,22 +19776,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__LinkRef__Group__1__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6986:1: rule__LinkRef__Group__1__Impl : ( 'Link' ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6955:1: rule__LinkRef__Group__1__Impl : ( 'Link' ) ;
     public final void rule__LinkRef__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6990:1: ( ( 'Link' ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6991:1: ( 'Link' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6959:1: ( ( 'Link' ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6960:1: ( 'Link' )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6991:1: ( 'Link' )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6992:1: 'Link'
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6960:1: ( 'Link' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6961:1: 'Link'
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getLinkRefAccess().getLinkKeyword_1()); 
             }
-            match(input,62,FOLLOW_62_in_rule__LinkRef__Group__1__Impl14089); if (state.failed) return ;
+            match(input,62,FOLLOW_62_in_rule__LinkRef__Group__1__Impl14027); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getLinkRefAccess().getLinkKeyword_1()); 
             }
@@ -19905,16 +19817,16 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__LinkRef__Group__2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7005:1: rule__LinkRef__Group__2 : rule__LinkRef__Group__2__Impl ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6974:1: rule__LinkRef__Group__2 : rule__LinkRef__Group__2__Impl ;
     public final void rule__LinkRef__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7009:1: ( rule__LinkRef__Group__2__Impl )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7010:2: rule__LinkRef__Group__2__Impl
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6978:1: ( rule__LinkRef__Group__2__Impl )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6979:2: rule__LinkRef__Group__2__Impl
             {
-            pushFollow(FOLLOW_rule__LinkRef__Group__2__Impl_in_rule__LinkRef__Group__214120);
+            pushFollow(FOLLOW_rule__LinkRef__Group__2__Impl_in_rule__LinkRef__Group__214058);
             rule__LinkRef__Group__2__Impl();
 
             state._fsp--;
@@ -19938,25 +19850,25 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__LinkRef__Group__2__Impl"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7016:1: rule__LinkRef__Group__2__Impl : ( ( rule__LinkRef__LinkAssignment_2 ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6985:1: rule__LinkRef__Group__2__Impl : ( ( rule__LinkRef__LinkAssignment_2 ) ) ;
     public final void rule__LinkRef__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7020:1: ( ( ( rule__LinkRef__LinkAssignment_2 ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7021:1: ( ( rule__LinkRef__LinkAssignment_2 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6989:1: ( ( ( rule__LinkRef__LinkAssignment_2 ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6990:1: ( ( rule__LinkRef__LinkAssignment_2 ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7021:1: ( ( rule__LinkRef__LinkAssignment_2 ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7022:1: ( rule__LinkRef__LinkAssignment_2 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6990:1: ( ( rule__LinkRef__LinkAssignment_2 ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6991:1: ( rule__LinkRef__LinkAssignment_2 )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getLinkRefAccess().getLinkAssignment_2()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7023:1: ( rule__LinkRef__LinkAssignment_2 )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7023:2: rule__LinkRef__LinkAssignment_2
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6992:1: ( rule__LinkRef__LinkAssignment_2 )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:6992:2: rule__LinkRef__LinkAssignment_2
             {
-            pushFollow(FOLLOW_rule__LinkRef__LinkAssignment_2_in_rule__LinkRef__Group__2__Impl14147);
+            pushFollow(FOLLOW_rule__LinkRef__LinkAssignment_2_in_rule__LinkRef__Group__2__Impl14085);
             rule__LinkRef__LinkAssignment_2();
 
             state._fsp--;
@@ -19989,22 +19901,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Mod__NameAssignment_0_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7040:1: rule__Mod__NameAssignment_0_1 : ( RULE_ID ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7009:1: rule__Mod__NameAssignment_0_1 : ( RULE_ID ) ;
     public final void rule__Mod__NameAssignment_0_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7044:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7045:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7013:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7014:1: ( RULE_ID )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7045:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7046:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7014:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7015:1: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getModAccess().getNameIDTerminalRuleCall_0_1_0()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__Mod__NameAssignment_0_114188); if (state.failed) return ;
+            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__Mod__NameAssignment_0_114126); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getModAccess().getNameIDTerminalRuleCall_0_1_0()); 
             }
@@ -20030,22 +19942,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Mod__ImportsAssignment_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7055:1: rule__Mod__ImportsAssignment_1 : ( ruleImport ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7024:1: rule__Mod__ImportsAssignment_1 : ( ruleImport ) ;
     public final void rule__Mod__ImportsAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7059:1: ( ( ruleImport ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7060:1: ( ruleImport )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7028:1: ( ( ruleImport ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7029:1: ( ruleImport )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7060:1: ( ruleImport )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7061:1: ruleImport
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7029:1: ( ruleImport )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7030:1: ruleImport
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getModAccess().getImportsImportParserRuleCall_1_0()); 
             }
-            pushFollow(FOLLOW_ruleImport_in_rule__Mod__ImportsAssignment_114219);
+            pushFollow(FOLLOW_ruleImport_in_rule__Mod__ImportsAssignment_114157);
             ruleImport();
 
             state._fsp--;
@@ -20075,22 +19987,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Mod__FunctionsAssignment_2_0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7070:1: rule__Mod__FunctionsAssignment_2_0 : ( ruleFunction ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7039:1: rule__Mod__FunctionsAssignment_2_0 : ( ruleFunction ) ;
     public final void rule__Mod__FunctionsAssignment_2_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7074:1: ( ( ruleFunction ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7075:1: ( ruleFunction )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7043:1: ( ( ruleFunction ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7044:1: ( ruleFunction )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7075:1: ( ruleFunction )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7076:1: ruleFunction
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7044:1: ( ruleFunction )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7045:1: ruleFunction
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getModAccess().getFunctionsFunctionParserRuleCall_2_0_0()); 
             }
-            pushFollow(FOLLOW_ruleFunction_in_rule__Mod__FunctionsAssignment_2_014250);
+            pushFollow(FOLLOW_ruleFunction_in_rule__Mod__FunctionsAssignment_2_014188);
             ruleFunction();
 
             state._fsp--;
@@ -20120,22 +20032,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Mod__StatementsAssignment_2_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7085:1: rule__Mod__StatementsAssignment_2_1 : ( ruleStatement ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7054:1: rule__Mod__StatementsAssignment_2_1 : ( ruleStatement ) ;
     public final void rule__Mod__StatementsAssignment_2_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7089:1: ( ( ruleStatement ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7090:1: ( ruleStatement )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7058:1: ( ( ruleStatement ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7059:1: ( ruleStatement )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7090:1: ( ruleStatement )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7091:1: ruleStatement
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7059:1: ( ruleStatement )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7060:1: ruleStatement
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getModAccess().getStatementsStatementParserRuleCall_2_1_0()); 
             }
-            pushFollow(FOLLOW_ruleStatement_in_rule__Mod__StatementsAssignment_2_114281);
+            pushFollow(FOLLOW_ruleStatement_in_rule__Mod__StatementsAssignment_2_114219);
             ruleStatement();
 
             state._fsp--;
@@ -20165,22 +20077,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Import__ImportURIAssignment_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7100:1: rule__Import__ImportURIAssignment_1 : ( RULE_STRING ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7069:1: rule__Import__ImportURIAssignment_1 : ( RULE_STRING ) ;
     public final void rule__Import__ImportURIAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7104:1: ( ( RULE_STRING ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7105:1: ( RULE_STRING )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7073:1: ( ( RULE_STRING ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7074:1: ( RULE_STRING )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7105:1: ( RULE_STRING )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7106:1: RULE_STRING
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7074:1: ( RULE_STRING )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7075:1: RULE_STRING
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getImportAccess().getImportURISTRINGTerminalRuleCall_1_0()); 
             }
-            match(input,RULE_STRING,FOLLOW_RULE_STRING_in_rule__Import__ImportURIAssignment_114312); if (state.failed) return ;
+            match(input,RULE_STRING,FOLLOW_RULE_STRING_in_rule__Import__ImportURIAssignment_114250); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getImportAccess().getImportURISTRINGTerminalRuleCall_1_0()); 
             }
@@ -20206,22 +20118,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Function__NameAssignment_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7115:1: rule__Function__NameAssignment_1 : ( RULE_ID ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7084:1: rule__Function__NameAssignment_1 : ( RULE_ID ) ;
     public final void rule__Function__NameAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7119:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7120:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7088:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7089:1: ( RULE_ID )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7120:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7121:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7089:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7090:1: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getFunctionAccess().getNameIDTerminalRuleCall_1_0()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__Function__NameAssignment_114343); if (state.failed) return ;
+            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__Function__NameAssignment_114281); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getFunctionAccess().getNameIDTerminalRuleCall_1_0()); 
             }
@@ -20247,22 +20159,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Function__ArgsAssignment_3_0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7130:1: rule__Function__ArgsAssignment_3_0 : ( ruleArgument ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7099:1: rule__Function__ArgsAssignment_3_0 : ( ruleArgument ) ;
     public final void rule__Function__ArgsAssignment_3_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7134:1: ( ( ruleArgument ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7135:1: ( ruleArgument )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7103:1: ( ( ruleArgument ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7104:1: ( ruleArgument )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7135:1: ( ruleArgument )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7136:1: ruleArgument
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7104:1: ( ruleArgument )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7105:1: ruleArgument
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getFunctionAccess().getArgsArgumentParserRuleCall_3_0_0()); 
             }
-            pushFollow(FOLLOW_ruleArgument_in_rule__Function__ArgsAssignment_3_014374);
+            pushFollow(FOLLOW_ruleArgument_in_rule__Function__ArgsAssignment_3_014312);
             ruleArgument();
 
             state._fsp--;
@@ -20292,22 +20204,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Function__ArgsAssignment_3_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7145:1: rule__Function__ArgsAssignment_3_1_1 : ( ruleArgument ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7114:1: rule__Function__ArgsAssignment_3_1_1 : ( ruleArgument ) ;
     public final void rule__Function__ArgsAssignment_3_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7149:1: ( ( ruleArgument ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7150:1: ( ruleArgument )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7118:1: ( ( ruleArgument ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7119:1: ( ruleArgument )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7150:1: ( ruleArgument )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7151:1: ruleArgument
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7119:1: ( ruleArgument )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7120:1: ruleArgument
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getFunctionAccess().getArgsArgumentParserRuleCall_3_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleArgument_in_rule__Function__ArgsAssignment_3_1_114405);
+            pushFollow(FOLLOW_ruleArgument_in_rule__Function__ArgsAssignment_3_1_114343);
             ruleArgument();
 
             state._fsp--;
@@ -20337,22 +20249,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Function__BlockAssignment_5"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7160:1: rule__Function__BlockAssignment_5 : ( ruleBlock ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7129:1: rule__Function__BlockAssignment_5 : ( ruleBlock ) ;
     public final void rule__Function__BlockAssignment_5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7164:1: ( ( ruleBlock ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7165:1: ( ruleBlock )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7133:1: ( ( ruleBlock ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7134:1: ( ruleBlock )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7165:1: ( ruleBlock )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7166:1: ruleBlock
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7134:1: ( ruleBlock )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7135:1: ruleBlock
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getFunctionAccess().getBlockBlockParserRuleCall_5_0()); 
             }
-            pushFollow(FOLLOW_ruleBlock_in_rule__Function__BlockAssignment_514436);
+            pushFollow(FOLLOW_ruleBlock_in_rule__Function__BlockAssignment_514374);
             ruleBlock();
 
             state._fsp--;
@@ -20382,22 +20294,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Argument__NameAssignment"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7175:1: rule__Argument__NameAssignment : ( RULE_ID ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7144:1: rule__Argument__NameAssignment : ( RULE_ID ) ;
     public final void rule__Argument__NameAssignment() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7179:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7180:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7148:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7149:1: ( RULE_ID )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7180:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7181:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7149:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7150:1: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getArgumentAccess().getNameIDTerminalRuleCall_0()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__Argument__NameAssignment14467); if (state.failed) return ;
+            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__Argument__NameAssignment14405); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getArgumentAccess().getNameIDTerminalRuleCall_0()); 
             }
@@ -20423,22 +20335,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Block__StatementsAssignment_2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7190:1: rule__Block__StatementsAssignment_2 : ( ruleStatement ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7159:1: rule__Block__StatementsAssignment_2 : ( ruleStatement ) ;
     public final void rule__Block__StatementsAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7194:1: ( ( ruleStatement ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7195:1: ( ruleStatement )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7163:1: ( ( ruleStatement ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7164:1: ( ruleStatement )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7195:1: ( ruleStatement )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7196:1: ruleStatement
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7164:1: ( ruleStatement )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7165:1: ruleStatement
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getBlockAccess().getStatementsStatementParserRuleCall_2_0()); 
             }
-            pushFollow(FOLLOW_ruleStatement_in_rule__Block__StatementsAssignment_214498);
+            pushFollow(FOLLOW_ruleStatement_in_rule__Block__StatementsAssignment_214436);
             ruleStatement();
 
             state._fsp--;
@@ -20468,22 +20380,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Statement__ExpressionAssignment_0_0_3"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7205:1: rule__Statement__ExpressionAssignment_0_0_3 : ( ruleExpression ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7174:1: rule__Statement__ExpressionAssignment_0_0_3 : ( ruleExpression ) ;
     public final void rule__Statement__ExpressionAssignment_0_0_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7209:1: ( ( ruleExpression ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7210:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7178:1: ( ( ruleExpression ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7179:1: ( ruleExpression )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7210:1: ( ruleExpression )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7211:1: ruleExpression
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7179:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7180:1: ruleExpression
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getStatementAccess().getExpressionExpressionParserRuleCall_0_0_3_0()); 
             }
-            pushFollow(FOLLOW_ruleExpression_in_rule__Statement__ExpressionAssignment_0_0_314529);
+            pushFollow(FOLLOW_ruleExpression_in_rule__Statement__ExpressionAssignment_0_0_314467);
             ruleExpression();
 
             state._fsp--;
@@ -20513,22 +20425,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ReturnStatement__ExpressionAssignment_2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7220:1: rule__ReturnStatement__ExpressionAssignment_2 : ( ruleExpression ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7189:1: rule__ReturnStatement__ExpressionAssignment_2 : ( ruleExpression ) ;
     public final void rule__ReturnStatement__ExpressionAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7224:1: ( ( ruleExpression ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7225:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7193:1: ( ( ruleExpression ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7194:1: ( ruleExpression )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7225:1: ( ruleExpression )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7226:1: ruleExpression
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7194:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7195:1: ruleExpression
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getReturnStatementAccess().getExpressionExpressionParserRuleCall_2_0()); 
             }
-            pushFollow(FOLLOW_ruleExpression_in_rule__ReturnStatement__ExpressionAssignment_214560);
+            pushFollow(FOLLOW_ruleExpression_in_rule__ReturnStatement__ExpressionAssignment_214498);
             ruleExpression();
 
             state._fsp--;
@@ -20558,22 +20470,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__IfStatement__IfAssignment_3"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7235:1: rule__IfStatement__IfAssignment_3 : ( ruleLogical ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7204:1: rule__IfStatement__IfAssignment_3 : ( ruleLogical ) ;
     public final void rule__IfStatement__IfAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7239:1: ( ( ruleLogical ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7240:1: ( ruleLogical )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7208:1: ( ( ruleLogical ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7209:1: ( ruleLogical )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7240:1: ( ruleLogical )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7241:1: ruleLogical
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7209:1: ( ruleLogical )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7210:1: ruleLogical
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getIfStatementAccess().getIfLogicalParserRuleCall_3_0()); 
             }
-            pushFollow(FOLLOW_ruleLogical_in_rule__IfStatement__IfAssignment_314591);
+            pushFollow(FOLLOW_ruleLogical_in_rule__IfStatement__IfAssignment_314529);
             ruleLogical();
 
             state._fsp--;
@@ -20603,22 +20515,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__IfStatement__ThenAssignment_5"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7250:1: rule__IfStatement__ThenAssignment_5 : ( ruleBlock ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7219:1: rule__IfStatement__ThenAssignment_5 : ( ruleBlock ) ;
     public final void rule__IfStatement__ThenAssignment_5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7254:1: ( ( ruleBlock ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7255:1: ( ruleBlock )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7223:1: ( ( ruleBlock ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7224:1: ( ruleBlock )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7255:1: ( ruleBlock )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7256:1: ruleBlock
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7224:1: ( ruleBlock )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7225:1: ruleBlock
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getIfStatementAccess().getThenBlockParserRuleCall_5_0()); 
             }
-            pushFollow(FOLLOW_ruleBlock_in_rule__IfStatement__ThenAssignment_514622);
+            pushFollow(FOLLOW_ruleBlock_in_rule__IfStatement__ThenAssignment_514560);
             ruleBlock();
 
             state._fsp--;
@@ -20648,22 +20560,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__IfStatement__ElseAssignment_6_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7265:1: rule__IfStatement__ElseAssignment_6_1 : ( ruleBlock ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7234:1: rule__IfStatement__ElseAssignment_6_1 : ( ruleBlock ) ;
     public final void rule__IfStatement__ElseAssignment_6_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7269:1: ( ( ruleBlock ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7270:1: ( ruleBlock )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7238:1: ( ( ruleBlock ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7239:1: ( ruleBlock )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7270:1: ( ruleBlock )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7271:1: ruleBlock
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7239:1: ( ruleBlock )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7240:1: ruleBlock
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getIfStatementAccess().getElseBlockParserRuleCall_6_1_0()); 
             }
-            pushFollow(FOLLOW_ruleBlock_in_rule__IfStatement__ElseAssignment_6_114653);
+            pushFollow(FOLLOW_ruleBlock_in_rule__IfStatement__ElseAssignment_6_114591);
             ruleBlock();
 
             state._fsp--;
@@ -20693,22 +20605,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__WhileStatement__PredicateAssignment_3"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7280:1: rule__WhileStatement__PredicateAssignment_3 : ( ruleLogical ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7249:1: rule__WhileStatement__PredicateAssignment_3 : ( ruleLogical ) ;
     public final void rule__WhileStatement__PredicateAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7284:1: ( ( ruleLogical ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7285:1: ( ruleLogical )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7253:1: ( ( ruleLogical ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7254:1: ( ruleLogical )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7285:1: ( ruleLogical )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7286:1: ruleLogical
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7254:1: ( ruleLogical )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7255:1: ruleLogical
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getWhileStatementAccess().getPredicateLogicalParserRuleCall_3_0()); 
             }
-            pushFollow(FOLLOW_ruleLogical_in_rule__WhileStatement__PredicateAssignment_314684);
+            pushFollow(FOLLOW_ruleLogical_in_rule__WhileStatement__PredicateAssignment_314622);
             ruleLogical();
 
             state._fsp--;
@@ -20738,22 +20650,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__WhileStatement__BodyAssignment_5"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7295:1: rule__WhileStatement__BodyAssignment_5 : ( ruleBlock ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7264:1: rule__WhileStatement__BodyAssignment_5 : ( ruleBlock ) ;
     public final void rule__WhileStatement__BodyAssignment_5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7299:1: ( ( ruleBlock ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7300:1: ( ruleBlock )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7268:1: ( ( ruleBlock ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7269:1: ( ruleBlock )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7300:1: ( ruleBlock )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7301:1: ruleBlock
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7269:1: ( ruleBlock )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7270:1: ruleBlock
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getWhileStatementAccess().getBodyBlockParserRuleCall_5_0()); 
             }
-            pushFollow(FOLLOW_ruleBlock_in_rule__WhileStatement__BodyAssignment_514715);
+            pushFollow(FOLLOW_ruleBlock_in_rule__WhileStatement__BodyAssignment_514653);
             ruleBlock();
 
             state._fsp--;
@@ -20783,22 +20695,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__VariableStatement__NameAssignment_2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7310:1: rule__VariableStatement__NameAssignment_2 : ( RULE_ID ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7279:1: rule__VariableStatement__NameAssignment_2 : ( RULE_ID ) ;
     public final void rule__VariableStatement__NameAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7314:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7315:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7283:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7284:1: ( RULE_ID )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7315:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7316:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7284:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7285:1: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getVariableStatementAccess().getNameIDTerminalRuleCall_2_0()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__VariableStatement__NameAssignment_214746); if (state.failed) return ;
+            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__VariableStatement__NameAssignment_214684); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getVariableStatementAccess().getNameIDTerminalRuleCall_2_0()); 
             }
@@ -20824,22 +20736,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__VariableStatement__ExpressionAssignment_3_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7325:1: rule__VariableStatement__ExpressionAssignment_3_1 : ( ruleExpression ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7294:1: rule__VariableStatement__ExpressionAssignment_3_1 : ( ruleExpression ) ;
     public final void rule__VariableStatement__ExpressionAssignment_3_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7329:1: ( ( ruleExpression ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7330:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7298:1: ( ( ruleExpression ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7299:1: ( ruleExpression )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7330:1: ( ruleExpression )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7331:1: ruleExpression
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7299:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7300:1: ruleExpression
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getVariableStatementAccess().getExpressionExpressionParserRuleCall_3_1_0()); 
             }
-            pushFollow(FOLLOW_ruleExpression_in_rule__VariableStatement__ExpressionAssignment_3_114777);
+            pushFollow(FOLLOW_ruleExpression_in_rule__VariableStatement__ExpressionAssignment_3_114715);
             ruleExpression();
 
             state._fsp--;
@@ -20869,28 +20781,28 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__AssignmentStatement__VarAssignment_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7340:1: rule__AssignmentStatement__VarAssignment_1 : ( ( RULE_ID ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7309:1: rule__AssignmentStatement__VarAssignment_1 : ( ( RULE_ID ) ) ;
     public final void rule__AssignmentStatement__VarAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7344:1: ( ( ( RULE_ID ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7345:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7313:1: ( ( ( RULE_ID ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7314:1: ( ( RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7345:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7346:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7314:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7315:1: ( RULE_ID )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getAssignmentStatementAccess().getVarAbstractVarOrArgumentCrossReference_1_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7347:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7348:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7316:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7317:1: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getAssignmentStatementAccess().getVarAbstractVarOrArgumentIDTerminalRuleCall_1_0_1()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__AssignmentStatement__VarAssignment_114812); if (state.failed) return ;
+            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__AssignmentStatement__VarAssignment_114750); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getAssignmentStatementAccess().getVarAbstractVarOrArgumentIDTerminalRuleCall_1_0_1()); 
             }
@@ -20922,22 +20834,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__AssignmentStatement__ExpressionAssignment_3"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7359:1: rule__AssignmentStatement__ExpressionAssignment_3 : ( ruleExpression ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7328:1: rule__AssignmentStatement__ExpressionAssignment_3 : ( ruleExpression ) ;
     public final void rule__AssignmentStatement__ExpressionAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7363:1: ( ( ruleExpression ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7364:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7332:1: ( ( ruleExpression ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7333:1: ( ruleExpression )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7364:1: ( ruleExpression )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7365:1: ruleExpression
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7333:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7334:1: ruleExpression
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getAssignmentStatementAccess().getExpressionExpressionParserRuleCall_3_0()); 
             }
-            pushFollow(FOLLOW_ruleExpression_in_rule__AssignmentStatement__ExpressionAssignment_314847);
+            pushFollow(FOLLOW_ruleExpression_in_rule__AssignmentStatement__ExpressionAssignment_314785);
             ruleExpression();
 
             state._fsp--;
@@ -20967,22 +20879,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ReferenceAssignmentStatement__RefAssignment_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7374:1: rule__ReferenceAssignmentStatement__RefAssignment_1 : ( ruleContextRef ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7343:1: rule__ReferenceAssignmentStatement__RefAssignment_1 : ( ruleContextRef ) ;
     public final void rule__ReferenceAssignmentStatement__RefAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7378:1: ( ( ruleContextRef ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7379:1: ( ruleContextRef )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7347:1: ( ( ruleContextRef ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7348:1: ( ruleContextRef )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7379:1: ( ruleContextRef )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7380:1: ruleContextRef
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7348:1: ( ruleContextRef )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7349:1: ruleContextRef
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getReferenceAssignmentStatementAccess().getRefContextRefParserRuleCall_1_0()); 
             }
-            pushFollow(FOLLOW_ruleContextRef_in_rule__ReferenceAssignmentStatement__RefAssignment_114878);
+            pushFollow(FOLLOW_ruleContextRef_in_rule__ReferenceAssignmentStatement__RefAssignment_114816);
             ruleContextRef();
 
             state._fsp--;
@@ -21012,22 +20924,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ReferenceAssignmentStatement__ExpressionAssignment_3"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7389:1: rule__ReferenceAssignmentStatement__ExpressionAssignment_3 : ( ruleExpression ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7358:1: rule__ReferenceAssignmentStatement__ExpressionAssignment_3 : ( ruleExpression ) ;
     public final void rule__ReferenceAssignmentStatement__ExpressionAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7393:1: ( ( ruleExpression ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7394:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7362:1: ( ( ruleExpression ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7363:1: ( ruleExpression )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7394:1: ( ruleExpression )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7395:1: ruleExpression
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7363:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7364:1: ruleExpression
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getReferenceAssignmentStatementAccess().getExpressionExpressionParserRuleCall_3_0()); 
             }
-            pushFollow(FOLLOW_ruleExpression_in_rule__ReferenceAssignmentStatement__ExpressionAssignment_314909);
+            pushFollow(FOLLOW_ruleExpression_in_rule__ReferenceAssignmentStatement__ExpressionAssignment_314847);
             ruleExpression();
 
             state._fsp--;
@@ -21057,22 +20969,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Logical__RightAssignment_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7404:1: rule__Logical__RightAssignment_1_1 : ( ruleEquality ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7373:1: rule__Logical__RightAssignment_1_1 : ( ruleEquality ) ;
     public final void rule__Logical__RightAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7408:1: ( ( ruleEquality ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7409:1: ( ruleEquality )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7377:1: ( ( ruleEquality ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7378:1: ( ruleEquality )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7409:1: ( ruleEquality )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7410:1: ruleEquality
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7378:1: ( ruleEquality )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7379:1: ruleEquality
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getLogicalAccess().getRightEqualityParserRuleCall_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleEquality_in_rule__Logical__RightAssignment_1_114940);
+            pushFollow(FOLLOW_ruleEquality_in_rule__Logical__RightAssignment_1_114878);
             ruleEquality();
 
             state._fsp--;
@@ -21102,22 +21014,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Equality__RightAssignment_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7419:1: rule__Equality__RightAssignment_1_1 : ( ruleComparison ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7388:1: rule__Equality__RightAssignment_1_1 : ( ruleComparison ) ;
     public final void rule__Equality__RightAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7423:1: ( ( ruleComparison ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7424:1: ( ruleComparison )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7392:1: ( ( ruleComparison ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7393:1: ( ruleComparison )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7424:1: ( ruleComparison )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7425:1: ruleComparison
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7393:1: ( ruleComparison )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7394:1: ruleComparison
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getEqualityAccess().getRightComparisonParserRuleCall_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleComparison_in_rule__Equality__RightAssignment_1_114971);
+            pushFollow(FOLLOW_ruleComparison_in_rule__Equality__RightAssignment_1_114909);
             ruleComparison();
 
             state._fsp--;
@@ -21147,22 +21059,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Comparison__RightAssignment_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7434:1: rule__Comparison__RightAssignment_1_1 : ( ruleAddition ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7403:1: rule__Comparison__RightAssignment_1_1 : ( ruleAddition ) ;
     public final void rule__Comparison__RightAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7438:1: ( ( ruleAddition ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7439:1: ( ruleAddition )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7407:1: ( ( ruleAddition ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7408:1: ( ruleAddition )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7439:1: ( ruleAddition )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7440:1: ruleAddition
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7408:1: ( ruleAddition )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7409:1: ruleAddition
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getComparisonAccess().getRightAdditionParserRuleCall_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleAddition_in_rule__Comparison__RightAssignment_1_115002);
+            pushFollow(FOLLOW_ruleAddition_in_rule__Comparison__RightAssignment_1_114940);
             ruleAddition();
 
             state._fsp--;
@@ -21192,22 +21104,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Addition__RightAssignment_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7449:1: rule__Addition__RightAssignment_1_1 : ( ruleMultiplication ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7418:1: rule__Addition__RightAssignment_1_1 : ( ruleMultiplication ) ;
     public final void rule__Addition__RightAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7453:1: ( ( ruleMultiplication ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7454:1: ( ruleMultiplication )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7422:1: ( ( ruleMultiplication ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7423:1: ( ruleMultiplication )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7454:1: ( ruleMultiplication )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7455:1: ruleMultiplication
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7423:1: ( ruleMultiplication )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7424:1: ruleMultiplication
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getAdditionAccess().getRightMultiplicationParserRuleCall_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleMultiplication_in_rule__Addition__RightAssignment_1_115033);
+            pushFollow(FOLLOW_ruleMultiplication_in_rule__Addition__RightAssignment_1_114971);
             ruleMultiplication();
 
             state._fsp--;
@@ -21237,22 +21149,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Multiplication__RightAssignment_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7464:1: rule__Multiplication__RightAssignment_1_1 : ( ruleUnary ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7433:1: rule__Multiplication__RightAssignment_1_1 : ( ruleUnary ) ;
     public final void rule__Multiplication__RightAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7468:1: ( ( ruleUnary ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7469:1: ( ruleUnary )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7437:1: ( ( ruleUnary ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7438:1: ( ruleUnary )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7469:1: ( ruleUnary )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7470:1: ruleUnary
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7438:1: ( ruleUnary )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7439:1: ruleUnary
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getMultiplicationAccess().getRightUnaryParserRuleCall_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleUnary_in_rule__Multiplication__RightAssignment_1_115064);
+            pushFollow(FOLLOW_ruleUnary_in_rule__Multiplication__RightAssignment_1_115002);
             ruleUnary();
 
             state._fsp--;
@@ -21282,28 +21194,28 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Unary__OpAssignment_1_0_0_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7479:1: rule__Unary__OpAssignment_1_0_0_1 : ( ( '!' ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7448:1: rule__Unary__OpAssignment_1_0_0_1 : ( ( '!' ) ) ;
     public final void rule__Unary__OpAssignment_1_0_0_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7483:1: ( ( ( '!' ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7484:1: ( ( '!' ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7452:1: ( ( ( '!' ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7453:1: ( ( '!' ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7484:1: ( ( '!' ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7485:1: ( '!' )
-            {
-            if ( state.backtracking==0 ) {
-               before(grammarAccess.getUnaryAccess().getOpExclamationMarkKeyword_1_0_0_1_0()); 
-            }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7486:1: ( '!' )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7487:1: '!'
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7453:1: ( ( '!' ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7454:1: ( '!' )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUnaryAccess().getOpExclamationMarkKeyword_1_0_0_1_0()); 
             }
-            match(input,63,FOLLOW_63_in_rule__Unary__OpAssignment_1_0_0_115100); if (state.failed) return ;
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7455:1: ( '!' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7456:1: '!'
+            {
+            if ( state.backtracking==0 ) {
+               before(grammarAccess.getUnaryAccess().getOpExclamationMarkKeyword_1_0_0_1_0()); 
+            }
+            match(input,63,FOLLOW_63_in_rule__Unary__OpAssignment_1_0_0_115038); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getUnaryAccess().getOpExclamationMarkKeyword_1_0_0_1_0()); 
             }
@@ -21335,22 +21247,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Unary__OpAssignment_1_0_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7502:1: rule__Unary__OpAssignment_1_0_1_1 : ( ruleUnaryOperator ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7471:1: rule__Unary__OpAssignment_1_0_1_1 : ( ruleUnaryOperator ) ;
     public final void rule__Unary__OpAssignment_1_0_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7506:1: ( ( ruleUnaryOperator ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7507:1: ( ruleUnaryOperator )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7475:1: ( ( ruleUnaryOperator ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7476:1: ( ruleUnaryOperator )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7507:1: ( ruleUnaryOperator )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7508:1: ruleUnaryOperator
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7476:1: ( ruleUnaryOperator )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7477:1: ruleUnaryOperator
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUnaryAccess().getOpUnaryOperatorParserRuleCall_1_0_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleUnaryOperator_in_rule__Unary__OpAssignment_1_0_1_115139);
+            pushFollow(FOLLOW_ruleUnaryOperator_in_rule__Unary__OpAssignment_1_0_1_115077);
             ruleUnaryOperator();
 
             state._fsp--;
@@ -21380,22 +21292,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Unary__RightAssignment_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7517:1: rule__Unary__RightAssignment_1_1 : ( ruleUnary ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7486:1: rule__Unary__RightAssignment_1_1 : ( ruleUnary ) ;
     public final void rule__Unary__RightAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7521:1: ( ( ruleUnary ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7522:1: ( ruleUnary )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7490:1: ( ( ruleUnary ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7491:1: ( ruleUnary )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7522:1: ( ruleUnary )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7523:1: ruleUnary
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7491:1: ( ruleUnary )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7492:1: ruleUnary
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getUnaryAccess().getRightUnaryParserRuleCall_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleUnary_in_rule__Unary__RightAssignment_1_115170);
+            pushFollow(FOLLOW_ruleUnary_in_rule__Unary__RightAssignment_1_115108);
             ruleUnary();
 
             state._fsp--;
@@ -21425,28 +21337,28 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__Literal__ConditionAssignment_1_1_0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7532:1: rule__Literal__ConditionAssignment_1_1_0 : ( ( 'true' ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7501:1: rule__Literal__ConditionAssignment_1_1_0 : ( ( 'true' ) ) ;
     public final void rule__Literal__ConditionAssignment_1_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7536:1: ( ( ( 'true' ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7537:1: ( ( 'true' ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7505:1: ( ( ( 'true' ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7506:1: ( ( 'true' ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7537:1: ( ( 'true' ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7538:1: ( 'true' )
-            {
-            if ( state.backtracking==0 ) {
-               before(grammarAccess.getLiteralAccess().getConditionTrueKeyword_1_1_0_0()); 
-            }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7539:1: ( 'true' )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7540:1: 'true'
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7506:1: ( ( 'true' ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7507:1: ( 'true' )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getLiteralAccess().getConditionTrueKeyword_1_1_0_0()); 
             }
-            match(input,64,FOLLOW_64_in_rule__Literal__ConditionAssignment_1_1_015206); if (state.failed) return ;
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7508:1: ( 'true' )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7509:1: 'true'
+            {
+            if ( state.backtracking==0 ) {
+               before(grammarAccess.getLiteralAccess().getConditionTrueKeyword_1_1_0_0()); 
+            }
+            match(input,64,FOLLOW_64_in_rule__Literal__ConditionAssignment_1_1_015144); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getLiteralAccess().getConditionTrueKeyword_1_1_0_0()); 
             }
@@ -21478,22 +21390,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__NumberLiteral__ValueAssignment_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7555:1: rule__NumberLiteral__ValueAssignment_1 : ( RULE_NUMBER ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7524:1: rule__NumberLiteral__ValueAssignment_1 : ( RULE_NUMBER ) ;
     public final void rule__NumberLiteral__ValueAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7559:1: ( ( RULE_NUMBER ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7560:1: ( RULE_NUMBER )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7528:1: ( ( RULE_NUMBER ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7529:1: ( RULE_NUMBER )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7560:1: ( RULE_NUMBER )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7561:1: RULE_NUMBER
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7529:1: ( RULE_NUMBER )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7530:1: RULE_NUMBER
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getNumberLiteralAccess().getValueNUMBERTerminalRuleCall_1_0()); 
             }
-            match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_rule__NumberLiteral__ValueAssignment_115245); if (state.failed) return ;
+            match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_rule__NumberLiteral__ValueAssignment_115183); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getNumberLiteralAccess().getValueNUMBERTerminalRuleCall_1_0()); 
             }
@@ -21519,28 +21431,28 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__FunctionCall__FuncAssignment_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7570:1: rule__FunctionCall__FuncAssignment_1 : ( ( RULE_ID ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7539:1: rule__FunctionCall__FuncAssignment_1 : ( ( RULE_ID ) ) ;
     public final void rule__FunctionCall__FuncAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7574:1: ( ( ( RULE_ID ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7575:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7543:1: ( ( ( RULE_ID ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7544:1: ( ( RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7575:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7576:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7544:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7545:1: ( RULE_ID )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getFunctionCallAccess().getFuncAbstractFunctionCrossReference_1_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7577:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7578:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7546:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7547:1: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getFunctionCallAccess().getFuncAbstractFunctionIDTerminalRuleCall_1_0_1()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__FunctionCall__FuncAssignment_115280); if (state.failed) return ;
+            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__FunctionCall__FuncAssignment_115218); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getFunctionCallAccess().getFuncAbstractFunctionIDTerminalRuleCall_1_0_1()); 
             }
@@ -21572,22 +21484,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__FunctionCall__ArgsAssignment_3_0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7589:1: rule__FunctionCall__ArgsAssignment_3_0 : ( ruleExpression ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7558:1: rule__FunctionCall__ArgsAssignment_3_0 : ( ruleExpression ) ;
     public final void rule__FunctionCall__ArgsAssignment_3_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7593:1: ( ( ruleExpression ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7594:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7562:1: ( ( ruleExpression ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7563:1: ( ruleExpression )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7594:1: ( ruleExpression )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7595:1: ruleExpression
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7563:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7564:1: ruleExpression
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getFunctionCallAccess().getArgsExpressionParserRuleCall_3_0_0()); 
             }
-            pushFollow(FOLLOW_ruleExpression_in_rule__FunctionCall__ArgsAssignment_3_015315);
+            pushFollow(FOLLOW_ruleExpression_in_rule__FunctionCall__ArgsAssignment_3_015253);
             ruleExpression();
 
             state._fsp--;
@@ -21617,22 +21529,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__FunctionCall__ArgsAssignment_3_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7604:1: rule__FunctionCall__ArgsAssignment_3_1_1 : ( ruleExpression ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7573:1: rule__FunctionCall__ArgsAssignment_3_1_1 : ( ruleExpression ) ;
     public final void rule__FunctionCall__ArgsAssignment_3_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7608:1: ( ( ruleExpression ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7609:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7577:1: ( ( ruleExpression ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7578:1: ( ruleExpression )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7609:1: ( ruleExpression )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7610:1: ruleExpression
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7578:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7579:1: ruleExpression
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getFunctionCallAccess().getArgsExpressionParserRuleCall_3_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleExpression_in_rule__FunctionCall__ArgsAssignment_3_1_115346);
+            pushFollow(FOLLOW_ruleExpression_in_rule__FunctionCall__ArgsAssignment_3_1_115284);
             ruleExpression();
 
             state._fsp--;
@@ -21662,22 +21574,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__IndexedCall__IndexAssignment_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7619:1: rule__IndexedCall__IndexAssignment_1_1 : ( ruleExpression ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7588:1: rule__IndexedCall__IndexAssignment_1_1 : ( ruleExpression ) ;
     public final void rule__IndexedCall__IndexAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7623:1: ( ( ruleExpression ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7624:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7592:1: ( ( ruleExpression ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7593:1: ( ruleExpression )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7624:1: ( ruleExpression )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7625:1: ruleExpression
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7593:1: ( ruleExpression )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7594:1: ruleExpression
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getIndexedCallAccess().getIndexExpressionParserRuleCall_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleExpression_in_rule__IndexedCall__IndexAssignment_1_115377);
+            pushFollow(FOLLOW_ruleExpression_in_rule__IndexedCall__IndexAssignment_1_115315);
             ruleExpression();
 
             state._fsp--;
@@ -21707,28 +21619,28 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__VarOrArgumentCall__CallAssignment_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7634:1: rule__VarOrArgumentCall__CallAssignment_1 : ( ( RULE_ID ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7603:1: rule__VarOrArgumentCall__CallAssignment_1 : ( ( RULE_ID ) ) ;
     public final void rule__VarOrArgumentCall__CallAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7638:1: ( ( ( RULE_ID ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7639:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7607:1: ( ( ( RULE_ID ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7608:1: ( ( RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7639:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7640:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7608:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7609:1: ( RULE_ID )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getVarOrArgumentCallAccess().getCallAbstractVarOrArgumentCrossReference_1_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7641:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7642:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7610:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7611:1: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getVarOrArgumentCallAccess().getCallAbstractVarOrArgumentIDTerminalRuleCall_1_0_1()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__VarOrArgumentCall__CallAssignment_115412); if (state.failed) return ;
+            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__VarOrArgumentCall__CallAssignment_115350); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getVarOrArgumentCallAccess().getCallAbstractVarOrArgumentIDTerminalRuleCall_1_0_1()); 
             }
@@ -21760,22 +21672,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__NativeExpression__RangeAssignment_1_0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7653:1: rule__NativeExpression__RangeAssignment_1_0 : ( ruleRangeLiteral ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7622:1: rule__NativeExpression__RangeAssignment_1_0 : ( ruleRangeLiteral ) ;
     public final void rule__NativeExpression__RangeAssignment_1_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7657:1: ( ( ruleRangeLiteral ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7658:1: ( ruleRangeLiteral )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7626:1: ( ( ruleRangeLiteral ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7627:1: ( ruleRangeLiteral )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7658:1: ( ruleRangeLiteral )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7659:1: ruleRangeLiteral
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7627:1: ( ruleRangeLiteral )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7628:1: ruleRangeLiteral
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getNativeExpressionAccess().getRangeRangeLiteralParserRuleCall_1_0_0()); 
             }
-            pushFollow(FOLLOW_ruleRangeLiteral_in_rule__NativeExpression__RangeAssignment_1_015447);
+            pushFollow(FOLLOW_ruleRangeLiteral_in_rule__NativeExpression__RangeAssignment_1_015385);
             ruleRangeLiteral();
 
             state._fsp--;
@@ -21805,22 +21717,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__NativeExpression__RefAssignment_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7668:1: rule__NativeExpression__RefAssignment_1_1 : ( ruleReference ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7637:1: rule__NativeExpression__RefAssignment_1_1 : ( ruleReference ) ;
     public final void rule__NativeExpression__RefAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7672:1: ( ( ruleReference ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7673:1: ( ruleReference )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7641:1: ( ( ruleReference ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7642:1: ( ruleReference )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7673:1: ( ruleReference )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7674:1: ruleReference
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7642:1: ( ruleReference )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7643:1: ruleReference
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getNativeExpressionAccess().getRefReferenceParserRuleCall_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleReference_in_rule__NativeExpression__RefAssignment_1_115478);
+            pushFollow(FOLLOW_ruleReference_in_rule__NativeExpression__RefAssignment_1_115416);
             ruleReference();
 
             state._fsp--;
@@ -21850,22 +21762,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__NativeExpression__NativeFunctionAssignment_3"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7683:1: rule__NativeExpression__NativeFunctionAssignment_3 : ( ruleNativeFunction ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7652:1: rule__NativeExpression__NativeFunctionAssignment_3 : ( ruleNativeFunction ) ;
     public final void rule__NativeExpression__NativeFunctionAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7687:1: ( ( ruleNativeFunction ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7688:1: ( ruleNativeFunction )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7656:1: ( ( ruleNativeFunction ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7657:1: ( ruleNativeFunction )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7688:1: ( ruleNativeFunction )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7689:1: ruleNativeFunction
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7657:1: ( ruleNativeFunction )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7658:1: ruleNativeFunction
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getNativeExpressionAccess().getNativeFunctionNativeFunctionEnumRuleCall_3_0()); 
             }
-            pushFollow(FOLLOW_ruleNativeFunction_in_rule__NativeExpression__NativeFunctionAssignment_315509);
+            pushFollow(FOLLOW_ruleNativeFunction_in_rule__NativeExpression__NativeFunctionAssignment_315447);
             ruleNativeFunction();
 
             state._fsp--;
@@ -21895,22 +21807,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__RangeLiteral__ValuesAssignment_2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7698:1: rule__RangeLiteral__ValuesAssignment_2 : ( RULE_NUMBER ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7667:1: rule__RangeLiteral__ValuesAssignment_2 : ( RULE_NUMBER ) ;
     public final void rule__RangeLiteral__ValuesAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7702:1: ( ( RULE_NUMBER ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7703:1: ( RULE_NUMBER )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7671:1: ( ( RULE_NUMBER ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7672:1: ( RULE_NUMBER )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7703:1: ( RULE_NUMBER )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7704:1: RULE_NUMBER
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7672:1: ( RULE_NUMBER )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7673:1: RULE_NUMBER
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getRangeLiteralAccess().getValuesNUMBERTerminalRuleCall_2_0()); 
             }
-            match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_rule__RangeLiteral__ValuesAssignment_215540); if (state.failed) return ;
+            match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_rule__RangeLiteral__ValuesAssignment_215478); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getRangeLiteralAccess().getValuesNUMBERTerminalRuleCall_2_0()); 
             }
@@ -21936,22 +21848,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__RangeLiteral__ValuesAssignment_3_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7713:1: rule__RangeLiteral__ValuesAssignment_3_1 : ( RULE_NUMBER ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7682:1: rule__RangeLiteral__ValuesAssignment_3_1 : ( RULE_NUMBER ) ;
     public final void rule__RangeLiteral__ValuesAssignment_3_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7717:1: ( ( RULE_NUMBER ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7718:1: ( RULE_NUMBER )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7686:1: ( ( RULE_NUMBER ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7687:1: ( RULE_NUMBER )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7718:1: ( RULE_NUMBER )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7719:1: RULE_NUMBER
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7687:1: ( RULE_NUMBER )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7688:1: RULE_NUMBER
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getRangeLiteralAccess().getValuesNUMBERTerminalRuleCall_3_1_0()); 
             }
-            match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_rule__RangeLiteral__ValuesAssignment_3_115571); if (state.failed) return ;
+            match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_rule__RangeLiteral__ValuesAssignment_3_115509); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getRangeLiteralAccess().getValuesNUMBERTerminalRuleCall_3_1_0()); 
             }
@@ -21976,82 +21888,29 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     // $ANTLR end "rule__RangeLiteral__ValuesAssignment_3_1"
 
 
-    // $ANTLR start "rule__AbsoluteRef__NodetypeRefAssignment_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7728:1: rule__AbsoluteRef__NodetypeRefAssignment_1 : ( ( RULE_ID ) ) ;
-    public final void rule__AbsoluteRef__NodetypeRefAssignment_1() throws RecognitionException {
+    // $ANTLR start "rule__AbsoluteRef__PrimaryRefAssignment_1"
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7697:1: rule__AbsoluteRef__PrimaryRefAssignment_1 : ( rulePrimaryRef ) ;
+    public final void rule__AbsoluteRef__PrimaryRefAssignment_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7732:1: ( ( ( RULE_ID ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7733:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7701:1: ( ( rulePrimaryRef ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7702:1: ( rulePrimaryRef )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7733:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7734:1: ( RULE_ID )
-            {
-            if ( state.backtracking==0 ) {
-               before(grammarAccess.getAbsoluteRefAccess().getNodetypeRefNodeTypeCrossReference_1_0()); 
-            }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7735:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7736:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7702:1: ( rulePrimaryRef )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7703:1: rulePrimaryRef
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getAbsoluteRefAccess().getNodetypeRefNodeTypeIDTerminalRuleCall_1_0_1()); 
+               before(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_0()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__AbsoluteRef__NodetypeRefAssignment_115606); if (state.failed) return ;
-            if ( state.backtracking==0 ) {
-               after(grammarAccess.getAbsoluteRefAccess().getNodetypeRefNodeTypeIDTerminalRuleCall_1_0_1()); 
-            }
-
-            }
-
-            if ( state.backtracking==0 ) {
-               after(grammarAccess.getAbsoluteRefAccess().getNodetypeRefNodeTypeCrossReference_1_0()); 
-            }
-
-            }
-
-
-            }
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-        }
-        finally {
-
-            	restoreStackSize(stackSize);
-
-        }
-        return ;
-    }
-    // $ANTLR end "rule__AbsoluteRef__NodetypeRefAssignment_1"
-
-
-    // $ANTLR start "rule__AbsoluteRef__PrimaryRefAssignment_2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7747:1: rule__AbsoluteRef__PrimaryRefAssignment_2 : ( rulePrimaryRef ) ;
-    public final void rule__AbsoluteRef__PrimaryRefAssignment_2() throws RecognitionException {
-
-        		int stackSize = keepStackSize();
-            
-        try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7751:1: ( ( rulePrimaryRef ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7752:1: ( rulePrimaryRef )
-            {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7752:1: ( rulePrimaryRef )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7753:1: rulePrimaryRef
-            {
-            if ( state.backtracking==0 ) {
-               before(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_2_0()); 
-            }
-            pushFollow(FOLLOW_rulePrimaryRef_in_rule__AbsoluteRef__PrimaryRefAssignment_215641);
+            pushFollow(FOLLOW_rulePrimaryRef_in_rule__AbsoluteRef__PrimaryRefAssignment_115540);
             rulePrimaryRef();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_2_0()); 
+               after(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_0()); 
             }
 
             }
@@ -22071,26 +21930,26 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
         }
         return ;
     }
-    // $ANTLR end "rule__AbsoluteRef__PrimaryRefAssignment_2"
+    // $ANTLR end "rule__AbsoluteRef__PrimaryRefAssignment_1"
 
 
     // $ANTLR start "rule__ContextRef__PrimaryRefAssignment_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7762:1: rule__ContextRef__PrimaryRefAssignment_1_1 : ( rulePrimaryRef ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7712:1: rule__ContextRef__PrimaryRefAssignment_1_1 : ( rulePrimaryRef ) ;
     public final void rule__ContextRef__PrimaryRefAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7766:1: ( ( rulePrimaryRef ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7767:1: ( rulePrimaryRef )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7716:1: ( ( rulePrimaryRef ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7717:1: ( rulePrimaryRef )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7767:1: ( rulePrimaryRef )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7768:1: rulePrimaryRef
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7717:1: ( rulePrimaryRef )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7718:1: rulePrimaryRef
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getContextRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_1_0()); 
             }
-            pushFollow(FOLLOW_rulePrimaryRef_in_rule__ContextRef__PrimaryRefAssignment_1_115672);
+            pushFollow(FOLLOW_rulePrimaryRef_in_rule__ContextRef__PrimaryRefAssignment_1_115571);
             rulePrimaryRef();
 
             state._fsp--;
@@ -22120,22 +21979,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__PrimaryRef__ChildrenAssignment_0"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7777:1: rule__PrimaryRef__ChildrenAssignment_0 : ( ruleChildrenRef ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7727:1: rule__PrimaryRef__ChildrenAssignment_0 : ( ruleChildrenRef ) ;
     public final void rule__PrimaryRef__ChildrenAssignment_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7781:1: ( ( ruleChildrenRef ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7782:1: ( ruleChildrenRef )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7731:1: ( ( ruleChildrenRef ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7732:1: ( ruleChildrenRef )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7782:1: ( ruleChildrenRef )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7783:1: ruleChildrenRef
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7732:1: ( ruleChildrenRef )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7733:1: ruleChildrenRef
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getPrimaryRefAccess().getChildrenChildrenRefParserRuleCall_0_0()); 
             }
-            pushFollow(FOLLOW_ruleChildrenRef_in_rule__PrimaryRef__ChildrenAssignment_015703);
+            pushFollow(FOLLOW_ruleChildrenRef_in_rule__PrimaryRef__ChildrenAssignment_015602);
             ruleChildrenRef();
 
             state._fsp--;
@@ -22165,22 +22024,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__PrimaryRef__LeafRefAssignment_1_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7792:1: rule__PrimaryRef__LeafRefAssignment_1_1 : ( ruleLeafReference ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7742:1: rule__PrimaryRef__LeafRefAssignment_1_1 : ( ruleLeafReference ) ;
     public final void rule__PrimaryRef__LeafRefAssignment_1_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7796:1: ( ( ruleLeafReference ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7797:1: ( ruleLeafReference )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7746:1: ( ( ruleLeafReference ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7747:1: ( ruleLeafReference )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7797:1: ( ruleLeafReference )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7798:1: ruleLeafReference
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7747:1: ( ruleLeafReference )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7748:1: ruleLeafReference
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getPrimaryRefAccess().getLeafRefLeafReferenceParserRuleCall_1_1_0()); 
             }
-            pushFollow(FOLLOW_ruleLeafReference_in_rule__PrimaryRef__LeafRefAssignment_1_115734);
+            pushFollow(FOLLOW_ruleLeafReference_in_rule__PrimaryRef__LeafRefAssignment_1_115633);
             ruleLeafReference();
 
             state._fsp--;
@@ -22210,28 +22069,28 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ChildrenRef__FunctionAssignment_2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7807:1: rule__ChildrenRef__FunctionAssignment_2 : ( ( RULE_ID ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7757:1: rule__ChildrenRef__FunctionAssignment_2 : ( ( RULE_ID ) ) ;
     public final void rule__ChildrenRef__FunctionAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7811:1: ( ( ( RULE_ID ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7812:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7761:1: ( ( ( RULE_ID ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7762:1: ( ( RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7812:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7813:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7762:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7763:1: ( RULE_ID )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getChildrenRefAccess().getFunctionFunctionCrossReference_2_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7814:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7815:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7764:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7765:1: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getChildrenRefAccess().getFunctionFunctionIDTerminalRuleCall_2_0_1()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__ChildrenRef__FunctionAssignment_215769); if (state.failed) return ;
+            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__ChildrenRef__FunctionAssignment_215668); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getChildrenRefAccess().getFunctionFunctionIDTerminalRuleCall_2_0_1()); 
             }
@@ -22263,28 +22122,28 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__ResourceAssignment_1_0_1"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7826:1: rule__ResourceRef__ResourceAssignment_1_0_1 : ( ( RULE_ID ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7776:1: rule__ResourceRef__ResourceAssignment_1_0_1 : ( ( RULE_ID ) ) ;
     public final void rule__ResourceRef__ResourceAssignment_1_0_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7830:1: ( ( ( RULE_ID ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7831:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7780:1: ( ( ( RULE_ID ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7781:1: ( ( RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7831:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7832:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7781:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7782:1: ( RULE_ID )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getResourceNetXResourceCrossReference_1_0_1_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7833:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7834:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7783:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7784:1: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getResourceNetXResourceIDTerminalRuleCall_1_0_1_0_1()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__ResourceRef__ResourceAssignment_1_0_115808); if (state.failed) return ;
+            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__ResourceRef__ResourceAssignment_1_0_115707); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getResourceRefAccess().getResourceNetXResourceIDTerminalRuleCall_1_0_1_0_1()); 
             }
@@ -22316,22 +22175,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__ValuerangeAssignment_2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7845:1: rule__ResourceRef__ValuerangeAssignment_2 : ( ruleValueRange ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7795:1: rule__ResourceRef__ValuerangeAssignment_2 : ( ruleValueRange ) ;
     public final void rule__ResourceRef__ValuerangeAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7849:1: ( ( ruleValueRange ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7850:1: ( ruleValueRange )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7799:1: ( ( ruleValueRange ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7800:1: ( ruleValueRange )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7850:1: ( ruleValueRange )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7851:1: ruleValueRange
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7800:1: ( ruleValueRange )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7801:1: ruleValueRange
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getValuerangeValueRangeEnumRuleCall_2_0()); 
             }
-            pushFollow(FOLLOW_ruleValueRange_in_rule__ResourceRef__ValuerangeAssignment_215843);
+            pushFollow(FOLLOW_ruleValueRange_in_rule__ResourceRef__ValuerangeAssignment_215742);
             ruleValueRange();
 
             state._fsp--;
@@ -22361,22 +22220,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__KindAssignment_3"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7860:1: rule__ResourceRef__KindAssignment_3 : ( ruleValueKind ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7810:1: rule__ResourceRef__KindAssignment_3 : ( ruleValueKind ) ;
     public final void rule__ResourceRef__KindAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7864:1: ( ( ruleValueKind ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7865:1: ( ruleValueKind )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7814:1: ( ( ruleValueKind ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7815:1: ( ruleValueKind )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7865:1: ( ruleValueKind )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7866:1: ruleValueKind
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7815:1: ( ruleValueKind )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7816:1: ruleValueKind
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getKindValueKindEnumRuleCall_3_0()); 
             }
-            pushFollow(FOLLOW_ruleValueKind_in_rule__ResourceRef__KindAssignment_315874);
+            pushFollow(FOLLOW_ruleValueKind_in_rule__ResourceRef__KindAssignment_315773);
             ruleValueKind();
 
             state._fsp--;
@@ -22406,22 +22265,22 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__ResourceRef__PeriodAssignment_4"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7875:1: rule__ResourceRef__PeriodAssignment_4 : ( RULE_NUMBER ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7825:1: rule__ResourceRef__PeriodAssignment_4 : ( RULE_NUMBER ) ;
     public final void rule__ResourceRef__PeriodAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7879:1: ( ( RULE_NUMBER ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7880:1: ( RULE_NUMBER )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7829:1: ( ( RULE_NUMBER ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7830:1: ( RULE_NUMBER )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7880:1: ( RULE_NUMBER )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7881:1: RULE_NUMBER
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7830:1: ( RULE_NUMBER )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7831:1: RULE_NUMBER
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getResourceRefAccess().getPeriodNUMBERTerminalRuleCall_4_0()); 
             }
-            match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_rule__ResourceRef__PeriodAssignment_415905); if (state.failed) return ;
+            match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_rule__ResourceRef__PeriodAssignment_415804); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getResourceRefAccess().getPeriodNUMBERTerminalRuleCall_4_0()); 
             }
@@ -22447,28 +22306,28 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
 
 
     // $ANTLR start "rule__LinkRef__LinkAssignment_2"
-    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7890:1: rule__LinkRef__LinkAssignment_2 : ( ( RULE_ID ) ) ;
+    // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7840:1: rule__LinkRef__LinkAssignment_2 : ( ( RULE_ID ) ) ;
     public final void rule__LinkRef__LinkAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7894:1: ( ( ( RULE_ID ) ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7895:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7844:1: ( ( ( RULE_ID ) ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7845:1: ( ( RULE_ID ) )
             {
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7895:1: ( ( RULE_ID ) )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7896:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7845:1: ( ( RULE_ID ) )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7846:1: ( RULE_ID )
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getLinkRefAccess().getLinkRelationshipCrossReference_2_0()); 
             }
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7897:1: ( RULE_ID )
-            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7898:1: RULE_ID
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7847:1: ( RULE_ID )
+            // ../com.netxforge.netxscript.ui/src-gen/com/netxforge/ui/contentassist/antlr/internal/InternalNetxscript.g:7848:1: RULE_ID
             {
             if ( state.backtracking==0 ) {
                before(grammarAccess.getLinkRefAccess().getLinkRelationshipIDTerminalRuleCall_2_0_1()); 
             }
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__LinkRef__LinkAssignment_215940); if (state.failed) return ;
+            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__LinkRef__LinkAssignment_215839); if (state.failed) return ;
             if ( state.backtracking==0 ) {
                after(grammarAccess.getLinkRefAccess().getLinkRelationshipIDTerminalRuleCall_2_0_1()); 
             }
@@ -22511,17 +22370,17 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
         "\1\4\1\uffff\1\14\1\72\3\uffff\1\4\1\14\1\4\1\17\1\uffff\1\14\1"+
         "\4\1\26\1\4\1\26\6\6\1\14\2\6\1\14";
     static final String DFA5_maxS =
-        "\1\100\1\uffff\2\72\3\uffff\1\4\1\74\1\25\1\76\1\uffff\1\74\1\4"+
-        "\1\33\1\4\1\33\6\35\1\72\2\6\1\72";
+        "\1\100\1\uffff\1\70\1\72\3\uffff\1\4\1\74\1\25\1\76\1\uffff\1\74"+
+        "\1\4\1\33\1\4\1\33\6\35\1\72\2\6\1\72";
     static final String DFA5_acceptS =
         "\1\uffff\1\1\2\uffff\1\4\1\5\1\2\4\uffff\1\3\17\uffff";
     static final String DFA5_specialS =
         "\33\uffff}>";
     static final String[] DFA5_transitionS = {
             "\1\2\1\uffff\1\4\5\uffff\3\4\22\uffff\1\4\5\uffff\1\5\3\uffff"+
-            "\1\1\14\uffff\1\4\2\uffff\1\3\3\uffff\2\4",
+            "\1\1\14\uffff\1\4\1\uffff\1\4\1\3\3\uffff\2\4",
             "",
-            "\2\4\23\uffff\1\4\4\uffff\1\4\5\uffff\1\6\14\4\1\uffff\1\4",
+            "\2\4\23\uffff\1\4\4\uffff\1\4\5\uffff\1\6\14\4",
             "\1\7",
             "",
             "",
@@ -22586,55 +22445,56 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     static final String DFA14_eotS =
         "\65\uffff";
     static final String DFA14_eofS =
-        "\4\uffff\1\11\7\uffff\1\20\2\24\10\uffff\1\24\3\uffff\1\24\12\uffff"+
-        "\1\24\7\uffff\1\24\2\uffff\1\24\2\uffff\1\24";
+        "\5\uffff\1\12\3\uffff\1\21\3\uffff\1\23\1\21\10\uffff\1\21\3\uffff"+
+        "\1\21\12\uffff\1\21\7\uffff\1\21\2\uffff\1\21\2\uffff\1\21";
     static final String DFA14_minS =
-        "\1\4\1\uffff\1\6\1\72\1\14\1\uffff\1\43\2\4\2\uffff\1\6\3\14\1\43"+
-        "\2\uffff\1\4\1\17\1\uffff\1\4\1\17\1\14\1\4\1\26\1\4\1\14\1\4\1"+
-        "\26\1\4\1\26\6\6\1\14\1\26\6\6\1\14\2\6\1\14\2\6\1\14";
+        "\1\4\1\uffff\1\6\1\72\1\4\1\14\1\uffff\1\43\1\4\1\14\2\uffff\1\6"+
+        "\2\14\1\4\1\17\1\uffff\1\43\2\uffff\1\4\1\17\1\14\1\4\1\26\1\4\1"+
+        "\14\1\4\1\26\1\4\1\26\6\6\1\14\1\26\6\6\1\14\2\6\1\14\2\6\1\14";
     static final String DFA14_maxS =
-        "\1\100\1\uffff\1\6\2\72\1\uffff\1\71\2\4\2\uffff\1\6\1\72\2\74\1"+
-        "\71\2\uffff\1\25\1\76\1\uffff\1\25\1\76\1\74\1\4\1\33\1\4\1\74\1"+
-        "\4\1\33\1\4\1\33\6\35\1\72\1\33\6\35\1\72\2\6\1\72\2\6\1\72";
+        "\1\100\1\uffff\1\6\1\72\1\4\1\71\1\uffff\1\71\1\4\1\74\2\uffff\1"+
+        "\6\1\72\1\74\1\25\1\76\1\uffff\1\71\2\uffff\1\25\1\76\1\74\1\4\1"+
+        "\33\1\4\1\74\1\4\1\33\1\4\1\33\6\35\1\72\1\33\6\35\1\72\2\6\1\72"+
+        "\2\6\1\72";
     static final String DFA14_acceptS =
-        "\1\uffff\1\1\3\uffff\1\7\3\uffff\1\6\1\5\5\uffff\1\2\1\3\2\uffff"+
-        "\1\4\40\uffff";
+        "\1\uffff\1\1\4\uffff\1\7\3\uffff\1\6\1\5\5\uffff\1\4\1\uffff\1\2"+
+        "\1\3\40\uffff";
     static final String DFA14_specialS =
         "\65\uffff}>";
     static final String[] DFA14_transitionS = {
-            "\1\4\1\uffff\1\1\7\uffff\1\1\22\uffff\1\5\26\uffff\1\2\2\uffff"+
-            "\1\3\4\uffff\1\1",
+            "\1\5\1\uffff\1\1\7\uffff\1\1\22\uffff\1\6\26\uffff\1\2\1\uffff"+
+            "\1\4\1\3\4\uffff\1\1",
             "",
-            "\1\6",
             "\1\7",
-            "\2\11\23\uffff\1\12\2\11\2\uffff\1\11\6\uffff\15\11\1\10",
+            "\1\10",
+            "\1\11",
+            "\2\12\23\uffff\1\13\2\12\2\uffff\1\12\6\uffff\15\12",
             "",
-            "\1\13\25\uffff\1\14",
-            "\1\15",
+            "\1\14\25\uffff\1\15",
             "\1\16",
+            "\2\21\24\uffff\2\21\2\uffff\1\21\6\uffff\13\21\1\uffff\1\21"+
+            "\1\17\1\uffff\1\20",
             "",
             "",
-            "\1\17",
-            "\2\20\24\uffff\2\20\2\uffff\1\20\6\uffff\13\20\1\uffff\1\20"+
-            "\1\21",
-            "\2\24\24\uffff\2\24\2\uffff\1\24\6\uffff\13\24\1\uffff\1\24"+
-            "\1\22\1\uffff\1\23",
-            "\2\24\24\uffff\2\24\2\uffff\1\24\6\uffff\13\24\1\uffff\1\24"+
+            "\1\22",
+            "\2\23\24\uffff\2\23\2\uffff\1\23\6\uffff\13\23\1\uffff\1\23"+
+            "\1\24",
+            "\2\21\24\uffff\2\21\2\uffff\1\21\6\uffff\13\21\1\uffff\1\21"+
             "\1\25\1\uffff\1\26",
-            "\1\13\25\uffff\1\14",
-            "",
-            "",
-            "\1\27\13\uffff\6\21",
+            "\1\27\13\uffff\6\24",
             "\1\31\55\uffff\1\30\1\32",
             "",
-            "\1\33\13\uffff\6\21",
+            "\1\14\25\uffff\1\15",
+            "",
+            "",
+            "\1\33\13\uffff\6\24",
             "\1\35\55\uffff\1\34\1\36",
-            "\2\24\24\uffff\2\24\2\uffff\1\24\6\uffff\13\24\1\uffff\1\24"+
-            "\1\22\1\uffff\1\23",
+            "\2\21\24\uffff\2\21\2\uffff\1\21\6\uffff\13\21\1\uffff\1\21"+
+            "\1\17\1\uffff\1\20",
             "\1\37",
             "\1\40\1\41\1\42\1\43\1\44\1\45",
             "\1\46",
-            "\2\24\24\uffff\2\24\2\uffff\1\24\6\uffff\13\24\1\uffff\1\24"+
+            "\2\21\24\uffff\2\21\2\uffff\1\21\6\uffff\13\21\1\uffff\1\21"+
             "\1\25\1\uffff\1\26",
             "\1\47",
             "\1\50\1\51\1\52\1\53\1\54\1\55",
@@ -22646,8 +22506,8 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             "\1\61\25\uffff\1\57\1\60",
             "\1\61\25\uffff\1\57\1\60",
             "\1\61\25\uffff\1\57\1\60",
-            "\2\24\24\uffff\2\24\2\uffff\1\24\6\uffff\13\24\1\uffff\1\24"+
-            "\1\21",
+            "\2\21\24\uffff\2\21\2\uffff\1\21\6\uffff\13\21\1\uffff\1\21"+
+            "\1\24",
             "\1\50\1\51\1\52\1\53\1\54\1\55",
             "\1\64\25\uffff\1\62\1\63",
             "\1\64\25\uffff\1\62\1\63",
@@ -22655,16 +22515,16 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
             "\1\64\25\uffff\1\62\1\63",
             "\1\64\25\uffff\1\62\1\63",
             "\1\64\25\uffff\1\62\1\63",
-            "\2\24\24\uffff\2\24\2\uffff\1\24\6\uffff\13\24\1\uffff\1\24"+
-            "\1\21",
+            "\2\21\24\uffff\2\21\2\uffff\1\21\6\uffff\13\21\1\uffff\1\21"+
+            "\1\24",
             "\1\61",
             "\1\61",
-            "\2\24\24\uffff\2\24\2\uffff\1\24\6\uffff\13\24\1\uffff\1\24"+
-            "\1\21",
+            "\2\21\24\uffff\2\21\2\uffff\1\21\6\uffff\13\21\1\uffff\1\21"+
+            "\1\24",
             "\1\64",
             "\1\64",
-            "\2\24\24\uffff\2\24\2\uffff\1\24\6\uffff\13\24\1\uffff\1\24"+
-            "\1\21"
+            "\2\21\24\uffff\2\21\2\uffff\1\21\6\uffff\13\21\1\uffff\1\21"+
+            "\1\24"
     };
 
     static final short[] DFA14_eot = DFA.unpackEncodedString(DFA14_eotS);
@@ -22821,8 +22681,8 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__ValueKind__Alternatives_in_ruleValueKind2431 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Mod__FunctionsAssignment_2_0_in_rule__Mod__Alternatives_22468 = new BitSet(new long[]{0x0000000100000002L});
     public static final BitSet FOLLOW_rule__Mod__FunctionsAssignment_2_0_in_rule__Mod__Alternatives_22480 = new BitSet(new long[]{0x0000000100000002L});
-    public static final BitSet FOLLOW_rule__Mod__StatementsAssignment_2_1_in_rule__Mod__Alternatives_22503 = new BitSet(new long[]{0x89000D9200007052L,0x0000000000000001L});
-    public static final BitSet FOLLOW_rule__Mod__StatementsAssignment_2_1_in_rule__Mod__Alternatives_22515 = new BitSet(new long[]{0x89000D9200007052L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Mod__StatementsAssignment_2_1_in_rule__Mod__Alternatives_22503 = new BitSet(new long[]{0x8D000D9200007052L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Mod__StatementsAssignment_2_1_in_rule__Mod__Alternatives_22515 = new BitSet(new long[]{0x8D000D9200007052L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Statement__Group_0__0_in_rule__Statement__Alternatives2552 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleIfStatement_in_rule__Statement__Alternatives2570 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleWhileStatement_in_rule__Statement__Alternatives2587 = new BitSet(new long[]{0x0000000000000002L});
@@ -22884,10 +22744,10 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_27_in_rule__ValueRange__Alternatives3888 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_28_in_rule__ValueKind__Alternatives3924 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_29_in_rule__ValueKind__Alternatives3945 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Mod__Group__0__Impl_in_rule__Mod__Group__03978 = new BitSet(new long[]{0x89000D9380007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Mod__Group__0__Impl_in_rule__Mod__Group__03978 = new BitSet(new long[]{0x8D000D9380007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Mod__Group__1_in_rule__Mod__Group__03981 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Mod__Group_0__0_in_rule__Mod__Group__0__Impl4008 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Mod__Group__1__Impl_in_rule__Mod__Group__14039 = new BitSet(new long[]{0x89000D9380007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Mod__Group__1__Impl_in_rule__Mod__Group__14039 = new BitSet(new long[]{0x8D000D9380007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Mod__Group__2_in_rule__Mod__Group__14042 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Mod__ImportsAssignment_1_in_rule__Mod__Group__1__Impl4069 = new BitSet(new long[]{0x0000000080000002L});
     public static final BitSet FOLLOW_rule__Mod__Group__2__Impl_in_rule__Mod__Group__24100 = new BitSet(new long[]{0x0000000000000002L});
@@ -22914,7 +22774,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__Function__Group__3__Impl_in_rule__Function__Group__34593 = new BitSet(new long[]{0x0000000400000010L});
     public static final BitSet FOLLOW_rule__Function__Group__4_in_rule__Function__Group__34596 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Function__Group_3__0_in_rule__Function__Group__3__Impl4623 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Function__Group__4__Impl_in_rule__Function__Group__44654 = new BitSet(new long[]{0x89000D9200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Function__Group__4__Impl_in_rule__Function__Group__44654 = new BitSet(new long[]{0x8D000D9200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Function__Group__5_in_rule__Function__Group__44657 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_34_in_rule__Function__Group__4__Impl4685 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Function__Group__5__Impl_in_rule__Function__Group__54716 = new BitSet(new long[]{0x0000000000000002L});
@@ -22929,14 +22789,14 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_35_in_rule__Function__Group_3_1__0__Impl4938 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Function__Group_3_1__1__Impl_in_rule__Function__Group_3_1__14969 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Function__ArgsAssignment_3_1_1_in_rule__Function__Group_3_1__1__Impl4996 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Block__Group__0__Impl_in_rule__Block__Group__05030 = new BitSet(new long[]{0x89000D9200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Block__Group__0__Impl_in_rule__Block__Group__05030 = new BitSet(new long[]{0x8D000D9200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Block__Group__1_in_rule__Block__Group__05033 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Block__Group__1__Impl_in_rule__Block__Group__15091 = new BitSet(new long[]{0x89000DB200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Block__Group__1__Impl_in_rule__Block__Group__15091 = new BitSet(new long[]{0x8D000DB200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Block__Group__2_in_rule__Block__Group__15094 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_36_in_rule__Block__Group__1__Impl5122 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Block__Group__2__Impl_in_rule__Block__Group__25153 = new BitSet(new long[]{0x89000DB200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Block__Group__2__Impl_in_rule__Block__Group__25153 = new BitSet(new long[]{0x8D000DB200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Block__Group__3_in_rule__Block__Group__25156 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Block__StatementsAssignment_2_in_rule__Block__Group__2__Impl5183 = new BitSet(new long[]{0x89000D9200007052L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Block__StatementsAssignment_2_in_rule__Block__Group__2__Impl5183 = new BitSet(new long[]{0x8D000D9200007052L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Block__Group__3__Impl_in_rule__Block__Group__35214 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_37_in_rule__Block__Group__3__Impl5242 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Statement__Group_0__0__Impl_in_rule__Statement__Group_0__05281 = new BitSet(new long[]{0x0000004000000000L});
@@ -22944,9 +22804,9 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__Statement__Alternatives_0_0_in_rule__Statement__Group_0__0__Impl5311 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Statement__Group_0__1__Impl_in_rule__Statement__Group_0__15341 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_38_in_rule__Statement__Group_0__1__Impl5369 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ReturnStatement__Group__0__Impl_in_rule__ReturnStatement__Group__05404 = new BitSet(new long[]{0x8900088200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__ReturnStatement__Group__0__Impl_in_rule__ReturnStatement__Group__05404 = new BitSet(new long[]{0x8D00088200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__ReturnStatement__Group__1_in_rule__ReturnStatement__Group__05407 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ReturnStatement__Group__1__Impl_in_rule__ReturnStatement__Group__15465 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__ReturnStatement__Group__1__Impl_in_rule__ReturnStatement__Group__15465 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__ReturnStatement__Group__2_in_rule__ReturnStatement__Group__15468 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_39_in_rule__ReturnStatement__Group__1__Impl5496 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__ReturnStatement__Group__2__Impl_in_rule__ReturnStatement__Group__25527 = new BitSet(new long[]{0x0000000000000002L});
@@ -22956,13 +22816,13 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__IfStatement__Group__1__Impl_in_rule__IfStatement__Group__15652 = new BitSet(new long[]{0x0000000200000000L});
     public static final BitSet FOLLOW_rule__IfStatement__Group__2_in_rule__IfStatement__Group__15655 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_40_in_rule__IfStatement__Group__1__Impl5683 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__IfStatement__Group__2__Impl_in_rule__IfStatement__Group__25714 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__IfStatement__Group__2__Impl_in_rule__IfStatement__Group__25714 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__IfStatement__Group__3_in_rule__IfStatement__Group__25717 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_33_in_rule__IfStatement__Group__2__Impl5745 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__IfStatement__Group__3__Impl_in_rule__IfStatement__Group__35776 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_rule__IfStatement__Group__4_in_rule__IfStatement__Group__35779 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__IfStatement__IfAssignment_3_in_rule__IfStatement__Group__3__Impl5806 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__IfStatement__Group__4__Impl_in_rule__IfStatement__Group__45836 = new BitSet(new long[]{0x89000D9200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__IfStatement__Group__4__Impl_in_rule__IfStatement__Group__45836 = new BitSet(new long[]{0x8D000D9200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__IfStatement__Group__5_in_rule__IfStatement__Group__45839 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_34_in_rule__IfStatement__Group__4__Impl5867 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__IfStatement__Group__5__Impl_in_rule__IfStatement__Group__55898 = new BitSet(new long[]{0x0000020000000000L});
@@ -22970,7 +22830,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__IfStatement__ThenAssignment_5_in_rule__IfStatement__Group__5__Impl5928 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__IfStatement__Group__6__Impl_in_rule__IfStatement__Group__65958 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__IfStatement__Group_6__0_in_rule__IfStatement__Group__6__Impl5985 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__IfStatement__Group_6__0__Impl_in_rule__IfStatement__Group_6__06030 = new BitSet(new long[]{0x89000D9200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__IfStatement__Group_6__0__Impl_in_rule__IfStatement__Group_6__06030 = new BitSet(new long[]{0x8D000D9200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__IfStatement__Group_6__1_in_rule__IfStatement__Group_6__06033 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_41_in_rule__IfStatement__Group_6__0__Impl6061 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__IfStatement__Group_6__1__Impl_in_rule__IfStatement__Group_6__16092 = new BitSet(new long[]{0x0000000000000002L});
@@ -22980,13 +22840,13 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__WhileStatement__Group__1__Impl_in_rule__WhileStatement__Group__16214 = new BitSet(new long[]{0x0000000200000000L});
     public static final BitSet FOLLOW_rule__WhileStatement__Group__2_in_rule__WhileStatement__Group__16217 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_42_in_rule__WhileStatement__Group__1__Impl6245 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__WhileStatement__Group__2__Impl_in_rule__WhileStatement__Group__26276 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__WhileStatement__Group__2__Impl_in_rule__WhileStatement__Group__26276 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__WhileStatement__Group__3_in_rule__WhileStatement__Group__26279 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_33_in_rule__WhileStatement__Group__2__Impl6307 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__WhileStatement__Group__3__Impl_in_rule__WhileStatement__Group__36338 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_rule__WhileStatement__Group__4_in_rule__WhileStatement__Group__36341 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__WhileStatement__PredicateAssignment_3_in_rule__WhileStatement__Group__3__Impl6368 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__WhileStatement__Group__4__Impl_in_rule__WhileStatement__Group__46398 = new BitSet(new long[]{0x89000D9200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__WhileStatement__Group__4__Impl_in_rule__WhileStatement__Group__46398 = new BitSet(new long[]{0x8D000D9200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__WhileStatement__Group__5_in_rule__WhileStatement__Group__46401 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_34_in_rule__WhileStatement__Group__4__Impl6429 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__WhileStatement__Group__5__Impl_in_rule__WhileStatement__Group__56460 = new BitSet(new long[]{0x0000000000000002L});
@@ -23001,7 +22861,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__VariableStatement__NameAssignment_2_in_rule__VariableStatement__Group__2__Impl6682 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__VariableStatement__Group__3__Impl_in_rule__VariableStatement__Group__36712 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__VariableStatement__Group_3__0_in_rule__VariableStatement__Group__3__Impl6739 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__VariableStatement__Group_3__0__Impl_in_rule__VariableStatement__Group_3__06778 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__VariableStatement__Group_3__0__Impl_in_rule__VariableStatement__Group_3__06778 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__VariableStatement__Group_3__1_in_rule__VariableStatement__Group_3__06781 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_44_in_rule__VariableStatement__Group_3__0__Impl6809 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__VariableStatement__Group_3__1__Impl_in_rule__VariableStatement__Group_3__16840 = new BitSet(new long[]{0x0000000000000002L});
@@ -23011,7 +22871,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__AssignmentStatement__Group__1__Impl_in_rule__AssignmentStatement__Group__16962 = new BitSet(new long[]{0x0000100000000000L});
     public static final BitSet FOLLOW_rule__AssignmentStatement__Group__2_in_rule__AssignmentStatement__Group__16965 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__AssignmentStatement__VarAssignment_1_in_rule__AssignmentStatement__Group__1__Impl6992 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__AssignmentStatement__Group__2__Impl_in_rule__AssignmentStatement__Group__27022 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__AssignmentStatement__Group__2__Impl_in_rule__AssignmentStatement__Group__27022 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__AssignmentStatement__Group__3_in_rule__AssignmentStatement__Group__27025 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_44_in_rule__AssignmentStatement__Group__2__Impl7053 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__AssignmentStatement__Group__3__Impl_in_rule__AssignmentStatement__Group__37084 = new BitSet(new long[]{0x0000000000000002L});
@@ -23021,7 +22881,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__ReferenceAssignmentStatement__Group__1__Impl_in_rule__ReferenceAssignmentStatement__Group__17210 = new BitSet(new long[]{0x0000100000000000L});
     public static final BitSet FOLLOW_rule__ReferenceAssignmentStatement__Group__2_in_rule__ReferenceAssignmentStatement__Group__17213 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__ReferenceAssignmentStatement__RefAssignment_1_in_rule__ReferenceAssignmentStatement__Group__1__Impl7240 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ReferenceAssignmentStatement__Group__2__Impl_in_rule__ReferenceAssignmentStatement__Group__27270 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__ReferenceAssignmentStatement__Group__2__Impl_in_rule__ReferenceAssignmentStatement__Group__27270 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__ReferenceAssignmentStatement__Group__3_in_rule__ReferenceAssignmentStatement__Group__27273 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_44_in_rule__ReferenceAssignmentStatement__Group__2__Impl7301 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__ReferenceAssignmentStatement__Group__3__Impl_in_rule__ReferenceAssignmentStatement__Group__37332 = new BitSet(new long[]{0x0000000000000002L});
@@ -23031,7 +22891,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_ruleEquality_in_rule__Logical__Group__0__Impl7427 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Logical__Group__1__Impl_in_rule__Logical__Group__17456 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Logical__Group_1__0_in_rule__Logical__Group__1__Impl7483 = new BitSet(new long[]{0x0000600000000002L});
-    public static final BitSet FOLLOW_rule__Logical__Group_1__0__Impl_in_rule__Logical__Group_1__07518 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Logical__Group_1__0__Impl_in_rule__Logical__Group_1__07518 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Logical__Group_1__1_in_rule__Logical__Group_1__07521 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Logical__Alternatives_1_0_in_rule__Logical__Group_1__0__Impl7548 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Logical__Group_1__1__Impl_in_rule__Logical__Group_1__17578 = new BitSet(new long[]{0x0000000000000002L});
@@ -23049,7 +22909,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_ruleComparison_in_rule__Equality__Group__0__Impl7917 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Equality__Group__1__Impl_in_rule__Equality__Group__17946 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Equality__Group_1__0_in_rule__Equality__Group__1__Impl7973 = new BitSet(new long[]{0x0001800000000002L});
-    public static final BitSet FOLLOW_rule__Equality__Group_1__0__Impl_in_rule__Equality__Group_1__08008 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Equality__Group_1__0__Impl_in_rule__Equality__Group_1__08008 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Equality__Group_1__1_in_rule__Equality__Group_1__08011 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Equality__Alternatives_1_0_in_rule__Equality__Group_1__0__Impl8038 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Equality__Group_1__1__Impl_in_rule__Equality__Group_1__18068 = new BitSet(new long[]{0x0000000000000002L});
@@ -23067,7 +22927,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_ruleAddition_in_rule__Comparison__Group__0__Impl8407 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Comparison__Group__1__Impl_in_rule__Comparison__Group__18436 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Comparison__Group_1__0_in_rule__Comparison__Group__1__Impl8463 = new BitSet(new long[]{0x001E000000000002L});
-    public static final BitSet FOLLOW_rule__Comparison__Group_1__0__Impl_in_rule__Comparison__Group_1__08498 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Comparison__Group_1__0__Impl_in_rule__Comparison__Group_1__08498 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Comparison__Group_1__1_in_rule__Comparison__Group_1__08501 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Comparison__Alternatives_1_0_in_rule__Comparison__Group_1__0__Impl8528 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Comparison__Group_1__1__Impl_in_rule__Comparison__Group_1__18558 = new BitSet(new long[]{0x0000000000000002L});
@@ -23093,7 +22953,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_ruleMultiplication_in_rule__Addition__Group__0__Impl9145 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Addition__Group__1__Impl_in_rule__Addition__Group__19174 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Addition__Group_1__0_in_rule__Addition__Group__1__Impl9201 = new BitSet(new long[]{0x0000000000003002L});
-    public static final BitSet FOLLOW_rule__Addition__Group_1__0__Impl_in_rule__Addition__Group_1__09236 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Addition__Group_1__0__Impl_in_rule__Addition__Group_1__09236 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Addition__Group_1__1_in_rule__Addition__Group_1__09239 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Addition__Alternatives_1_0_in_rule__Addition__Group_1__0__Impl9266 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Addition__Group_1__1__Impl_in_rule__Addition__Group_1__19296 = new BitSet(new long[]{0x0000000000000002L});
@@ -23111,7 +22971,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_ruleUnary_in_rule__Multiplication__Group__0__Impl9635 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Multiplication__Group__1__Impl_in_rule__Multiplication__Group__19664 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Multiplication__Group_1__0_in_rule__Multiplication__Group__1__Impl9691 = new BitSet(new long[]{0x00E0000000000002L});
-    public static final BitSet FOLLOW_rule__Multiplication__Group_1__0__Impl_in_rule__Multiplication__Group_1__09726 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Multiplication__Group_1__0__Impl_in_rule__Multiplication__Group_1__09726 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Multiplication__Group_1__1_in_rule__Multiplication__Group_1__09729 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Multiplication__Alternatives_1_0_in_rule__Multiplication__Group_1__0__Impl9756 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Multiplication__Group_1__1__Impl_in_rule__Multiplication__Group_1__19786 = new BitSet(new long[]{0x0000000000000002L});
@@ -23128,7 +22988,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__Multiplication__Group_1_0_2__1_in_rule__Multiplication__Group_1_0_2__010098 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Multiplication__Group_1_0_2__1__Impl_in_rule__Multiplication__Group_1_0_2__110156 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_55_in_rule__Multiplication__Group_1_0_2__1__Impl10184 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Unary__Group_1__0__Impl_in_rule__Unary__Group_1__010219 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Unary__Group_1__0__Impl_in_rule__Unary__Group_1__010219 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Unary__Group_1__1_in_rule__Unary__Group_1__010222 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Unary__Alternatives_1_0_in_rule__Unary__Group_1__0__Impl10249 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Unary__Group_1__1__Impl_in_rule__Unary__Group_1__110279 = new BitSet(new long[]{0x0000000000000002L});
@@ -23137,7 +22997,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__Unary__Group_1_0_0__1_in_rule__Unary__Group_1_0_0__010343 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Unary__Group_1_0_0__1__Impl_in_rule__Unary__Group_1_0_0__110401 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Unary__OpAssignment_1_0_0_1_in_rule__Unary__Group_1_0_0__1__Impl10428 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__Unary__Group_1_0_1__0__Impl_in_rule__Unary__Group_1_0_1__010462 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__Unary__Group_1_0_1__0__Impl_in_rule__Unary__Group_1_0_1__010462 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__Unary__Group_1_0_1__1_in_rule__Unary__Group_1_0_1__010465 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Unary__Group_1_0_1__1__Impl_in_rule__Unary__Group_1_0_1__110523 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__Unary__OpAssignment_1_0_1_1_in_rule__Unary__Group_1_0_1__1__Impl10550 = new BitSet(new long[]{0x0000000000000002L});
@@ -23149,7 +23009,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__NumberLiteral__Group__1_in_rule__NumberLiteral__Group__010709 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__NumberLiteral__Group__1__Impl_in_rule__NumberLiteral__Group__110767 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__NumberLiteral__ValueAssignment_1_in_rule__NumberLiteral__Group__1__Impl10794 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ParenthesizedExpression__Group__0__Impl_in_rule__ParenthesizedExpression__Group__010828 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__ParenthesizedExpression__Group__0__Impl_in_rule__ParenthesizedExpression__Group__010828 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__ParenthesizedExpression__Group__1_in_rule__ParenthesizedExpression__Group__010831 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_33_in_rule__ParenthesizedExpression__Group__0__Impl10859 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__ParenthesizedExpression__Group__1__Impl_in_rule__ParenthesizedExpression__Group__110890 = new BitSet(new long[]{0x0000000400000000L});
@@ -23162,10 +23022,10 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__FunctionCall__Group__1__Impl_in_rule__FunctionCall__Group__111075 = new BitSet(new long[]{0x0000000200000000L});
     public static final BitSet FOLLOW_rule__FunctionCall__Group__2_in_rule__FunctionCall__Group__111078 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__FunctionCall__FuncAssignment_1_in_rule__FunctionCall__Group__1__Impl11105 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__FunctionCall__Group__2__Impl_in_rule__FunctionCall__Group__211135 = new BitSet(new long[]{0x8900000600007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__FunctionCall__Group__2__Impl_in_rule__FunctionCall__Group__211135 = new BitSet(new long[]{0x8D00000600007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__FunctionCall__Group__3_in_rule__FunctionCall__Group__211138 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_33_in_rule__FunctionCall__Group__2__Impl11166 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__FunctionCall__Group__3__Impl_in_rule__FunctionCall__Group__311197 = new BitSet(new long[]{0x8900000600007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__FunctionCall__Group__3__Impl_in_rule__FunctionCall__Group__311197 = new BitSet(new long[]{0x8D00000600007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__FunctionCall__Group__4_in_rule__FunctionCall__Group__311200 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__FunctionCall__Group_3__0_in_rule__FunctionCall__Group__3__Impl11227 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__FunctionCall__Group__4__Impl_in_rule__FunctionCall__Group__411258 = new BitSet(new long[]{0x0000000000000002L});
@@ -23175,7 +23035,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__FunctionCall__ArgsAssignment_3_0_in_rule__FunctionCall__Group_3__0__Impl11357 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__FunctionCall__Group_3__1__Impl_in_rule__FunctionCall__Group_3__111387 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__FunctionCall__Group_3_1__0_in_rule__FunctionCall__Group_3__1__Impl11414 = new BitSet(new long[]{0x0000000800000002L});
-    public static final BitSet FOLLOW_rule__FunctionCall__Group_3_1__0__Impl_in_rule__FunctionCall__Group_3_1__011449 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__FunctionCall__Group_3_1__0__Impl_in_rule__FunctionCall__Group_3_1__011449 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__FunctionCall__Group_3_1__1_in_rule__FunctionCall__Group_3_1__011452 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_35_in_rule__FunctionCall__Group_3_1__0__Impl11480 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__FunctionCall__Group_3_1__1__Impl_in_rule__FunctionCall__Group_3_1__111511 = new BitSet(new long[]{0x0000000000000002L});
@@ -23185,7 +23045,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_ruleVarOrArgumentCall_in_rule__IndexedCall__Group__0__Impl11602 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__IndexedCall__Group__1__Impl_in_rule__IndexedCall__Group__111631 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__IndexedCall__Group_1__0_in_rule__IndexedCall__Group__1__Impl11658 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__IndexedCall__Group_1__0__Impl_in_rule__IndexedCall__Group_1__011693 = new BitSet(new long[]{0x8900000200007050L,0x0000000000000001L});
+    public static final BitSet FOLLOW_rule__IndexedCall__Group_1__0__Impl_in_rule__IndexedCall__Group_1__011693 = new BitSet(new long[]{0x8D00000200007050L,0x0000000000000001L});
     public static final BitSet FOLLOW_rule__IndexedCall__Group_1__1_in_rule__IndexedCall__Group_1__011696 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_56_in_rule__IndexedCall__Group_1__0__Impl11724 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__IndexedCall__Group_1__1__Impl_in_rule__IndexedCall__Group_1__111755 = new BitSet(new long[]{0x0200000000000000L});
@@ -23197,7 +23057,7 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_rule__VarOrArgumentCall__Group__1_in_rule__VarOrArgumentCall__Group__011883 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__VarOrArgumentCall__Group__1__Impl_in_rule__VarOrArgumentCall__Group__111941 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__VarOrArgumentCall__CallAssignment_1_in_rule__VarOrArgumentCall__Group__1__Impl11968 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__NativeExpression__Group__0__Impl_in_rule__NativeExpression__Group__012002 = new BitSet(new long[]{0x0900000000000010L});
+    public static final BitSet FOLLOW_rule__NativeExpression__Group__0__Impl_in_rule__NativeExpression__Group__012002 = new BitSet(new long[]{0x0D00000000000000L});
     public static final BitSet FOLLOW_rule__NativeExpression__Group__1_in_rule__NativeExpression__Group__012005 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__NativeExpression__Group__1__Impl_in_rule__NativeExpression__Group__112063 = new BitSet(new long[]{0x0400000000000000L});
     public static final BitSet FOLLOW_rule__NativeExpression__Group__2_in_rule__NativeExpression__Group__112066 = new BitSet(new long[]{0x0000000000000002L});
@@ -23225,119 +23085,115 @@ public class InternalNetxscriptParser extends AbstractInternalContentAssistParse
     public static final BitSet FOLLOW_35_in_rule__RangeLiteral__Group_3__0__Impl12594 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__RangeLiteral__Group_3__1__Impl_in_rule__RangeLiteral__Group_3__112625 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rule__RangeLiteral__ValuesAssignment_3_1_in_rule__RangeLiteral__Group_3__1__Impl12652 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__AbsoluteRef__Group__0__Impl_in_rule__AbsoluteRef__Group__012686 = new BitSet(new long[]{0x0900000000000010L});
+    public static final BitSet FOLLOW_rule__AbsoluteRef__Group__0__Impl_in_rule__AbsoluteRef__Group__012686 = new BitSet(new long[]{0x0D00000000000000L});
     public static final BitSet FOLLOW_rule__AbsoluteRef__Group__1_in_rule__AbsoluteRef__Group__012689 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__AbsoluteRef__Group__1__Impl_in_rule__AbsoluteRef__Group__112747 = new BitSet(new long[]{0x0400000000000000L});
-    public static final BitSet FOLLOW_rule__AbsoluteRef__Group__2_in_rule__AbsoluteRef__Group__112750 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__AbsoluteRef__NodetypeRefAssignment_1_in_rule__AbsoluteRef__Group__1__Impl12777 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__AbsoluteRef__Group__2__Impl_in_rule__AbsoluteRef__Group__212807 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__AbsoluteRef__PrimaryRefAssignment_2_in_rule__AbsoluteRef__Group__2__Impl12834 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ContextRef__Group__0__Impl_in_rule__ContextRef__Group__012870 = new BitSet(new long[]{0x0800000000000000L});
-    public static final BitSet FOLLOW_rule__ContextRef__Group__1_in_rule__ContextRef__Group__012873 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ContextRef__Group__1__Impl_in_rule__ContextRef__Group__112931 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ContextRef__Group_1__0_in_rule__ContextRef__Group__1__Impl12958 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ContextRef__Group_1__0__Impl_in_rule__ContextRef__Group_1__012992 = new BitSet(new long[]{0x0400000000000000L});
-    public static final BitSet FOLLOW_rule__ContextRef__Group_1__1_in_rule__ContextRef__Group_1__012995 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_59_in_rule__ContextRef__Group_1__0__Impl13024 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ContextRef__Group_1__1__Impl_in_rule__ContextRef__Group_1__113056 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ContextRef__PrimaryRefAssignment_1_1_in_rule__ContextRef__Group_1__1__Impl13083 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__PrimaryRef__Group__0__Impl_in_rule__PrimaryRef__Group__013117 = new BitSet(new long[]{0x1000000000000000L});
-    public static final BitSet FOLLOW_rule__PrimaryRef__Group__1_in_rule__PrimaryRef__Group__013120 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__PrimaryRef__ChildrenAssignment_0_in_rule__PrimaryRef__Group__0__Impl13149 = new BitSet(new long[]{0x0400000000000002L});
-    public static final BitSet FOLLOW_rule__PrimaryRef__ChildrenAssignment_0_in_rule__PrimaryRef__Group__0__Impl13161 = new BitSet(new long[]{0x0400000000000002L});
-    public static final BitSet FOLLOW_rule__PrimaryRef__Group__1__Impl_in_rule__PrimaryRef__Group__113194 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__PrimaryRef__Group_1__0_in_rule__PrimaryRef__Group__1__Impl13221 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__PrimaryRef__Group_1__0__Impl_in_rule__PrimaryRef__Group_1__013256 = new BitSet(new long[]{0x6000000000008000L});
-    public static final BitSet FOLLOW_rule__PrimaryRef__Group_1__1_in_rule__PrimaryRef__Group_1__013259 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_60_in_rule__PrimaryRef__Group_1__0__Impl13287 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__PrimaryRef__Group_1__1__Impl_in_rule__PrimaryRef__Group_1__113318 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__PrimaryRef__LeafRefAssignment_1_1_in_rule__PrimaryRef__Group_1__1__Impl13345 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ChildrenRef__Group__0__Impl_in_rule__ChildrenRef__Group__013379 = new BitSet(new long[]{0x0400000000000000L});
-    public static final BitSet FOLLOW_rule__ChildrenRef__Group__1_in_rule__ChildrenRef__Group__013382 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ChildrenRef__Group__1__Impl_in_rule__ChildrenRef__Group__113440 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_rule__ChildrenRef__Group__2_in_rule__ChildrenRef__Group__113443 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_58_in_rule__ChildrenRef__Group__1__Impl13471 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ChildrenRef__Group__2__Impl_in_rule__ChildrenRef__Group__213502 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ChildrenRef__FunctionAssignment_2_in_rule__ChildrenRef__Group__2__Impl13529 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group__0__Impl_in_rule__ResourceRef__Group__013565 = new BitSet(new long[]{0x2000000000008000L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group__1_in_rule__ResourceRef__Group__013568 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group__1__Impl_in_rule__ResourceRef__Group__113626 = new BitSet(new long[]{0x000000000FC00000L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group__2_in_rule__ResourceRef__Group__113629 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Alternatives_1_in_rule__ResourceRef__Group__1__Impl13656 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group__2__Impl_in_rule__ResourceRef__Group__213686 = new BitSet(new long[]{0x0000000030000040L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group__3_in_rule__ResourceRef__Group__213689 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__ValuerangeAssignment_2_in_rule__ResourceRef__Group__2__Impl13716 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group__3__Impl_in_rule__ResourceRef__Group__313746 = new BitSet(new long[]{0x0000000030000040L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group__4_in_rule__ResourceRef__Group__313749 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__KindAssignment_3_in_rule__ResourceRef__Group__3__Impl13776 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group__4__Impl_in_rule__ResourceRef__Group__413807 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__PeriodAssignment_4_in_rule__ResourceRef__Group__4__Impl13834 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group_1_0__0__Impl_in_rule__ResourceRef__Group_1_0__013874 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group_1_0__1_in_rule__ResourceRef__Group_1_0__013877 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_61_in_rule__ResourceRef__Group_1_0__0__Impl13905 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__Group_1_0__1__Impl_in_rule__ResourceRef__Group_1_0__113936 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__ResourceRef__ResourceAssignment_1_0_1_in_rule__ResourceRef__Group_1_0__1__Impl13963 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__LinkRef__Group__0__Impl_in_rule__LinkRef__Group__013997 = new BitSet(new long[]{0x6000000000008000L});
-    public static final BitSet FOLLOW_rule__LinkRef__Group__1_in_rule__LinkRef__Group__014000 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__LinkRef__Group__1__Impl_in_rule__LinkRef__Group__114058 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_rule__LinkRef__Group__2_in_rule__LinkRef__Group__114061 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_62_in_rule__LinkRef__Group__1__Impl14089 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__LinkRef__Group__2__Impl_in_rule__LinkRef__Group__214120 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rule__LinkRef__LinkAssignment_2_in_rule__LinkRef__Group__2__Impl14147 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__Mod__NameAssignment_0_114188 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleImport_in_rule__Mod__ImportsAssignment_114219 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleFunction_in_rule__Mod__FunctionsAssignment_2_014250 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleStatement_in_rule__Mod__StatementsAssignment_2_114281 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_STRING_in_rule__Import__ImportURIAssignment_114312 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__Function__NameAssignment_114343 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleArgument_in_rule__Function__ArgsAssignment_3_014374 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleArgument_in_rule__Function__ArgsAssignment_3_1_114405 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleBlock_in_rule__Function__BlockAssignment_514436 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__Argument__NameAssignment14467 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleStatement_in_rule__Block__StatementsAssignment_214498 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleExpression_in_rule__Statement__ExpressionAssignment_0_0_314529 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleExpression_in_rule__ReturnStatement__ExpressionAssignment_214560 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLogical_in_rule__IfStatement__IfAssignment_314591 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleBlock_in_rule__IfStatement__ThenAssignment_514622 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleBlock_in_rule__IfStatement__ElseAssignment_6_114653 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLogical_in_rule__WhileStatement__PredicateAssignment_314684 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleBlock_in_rule__WhileStatement__BodyAssignment_514715 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__VariableStatement__NameAssignment_214746 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleExpression_in_rule__VariableStatement__ExpressionAssignment_3_114777 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__AssignmentStatement__VarAssignment_114812 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleExpression_in_rule__AssignmentStatement__ExpressionAssignment_314847 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleContextRef_in_rule__ReferenceAssignmentStatement__RefAssignment_114878 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleExpression_in_rule__ReferenceAssignmentStatement__ExpressionAssignment_314909 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleEquality_in_rule__Logical__RightAssignment_1_114940 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleComparison_in_rule__Equality__RightAssignment_1_114971 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleAddition_in_rule__Comparison__RightAssignment_1_115002 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleMultiplication_in_rule__Addition__RightAssignment_1_115033 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleUnary_in_rule__Multiplication__RightAssignment_1_115064 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_63_in_rule__Unary__OpAssignment_1_0_0_115100 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleUnaryOperator_in_rule__Unary__OpAssignment_1_0_1_115139 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleUnary_in_rule__Unary__RightAssignment_1_115170 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_64_in_rule__Literal__ConditionAssignment_1_1_015206 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NUMBER_in_rule__NumberLiteral__ValueAssignment_115245 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__FunctionCall__FuncAssignment_115280 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleExpression_in_rule__FunctionCall__ArgsAssignment_3_015315 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleExpression_in_rule__FunctionCall__ArgsAssignment_3_1_115346 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleExpression_in_rule__IndexedCall__IndexAssignment_1_115377 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__VarOrArgumentCall__CallAssignment_115412 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleRangeLiteral_in_rule__NativeExpression__RangeAssignment_1_015447 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleReference_in_rule__NativeExpression__RefAssignment_1_115478 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleNativeFunction_in_rule__NativeExpression__NativeFunctionAssignment_315509 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NUMBER_in_rule__RangeLiteral__ValuesAssignment_215540 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NUMBER_in_rule__RangeLiteral__ValuesAssignment_3_115571 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__AbsoluteRef__NodetypeRefAssignment_115606 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rulePrimaryRef_in_rule__AbsoluteRef__PrimaryRefAssignment_215641 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rulePrimaryRef_in_rule__ContextRef__PrimaryRefAssignment_1_115672 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleChildrenRef_in_rule__PrimaryRef__ChildrenAssignment_015703 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLeafReference_in_rule__PrimaryRef__LeafRefAssignment_1_115734 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__ChildrenRef__FunctionAssignment_215769 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__ResourceRef__ResourceAssignment_1_0_115808 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleValueRange_in_rule__ResourceRef__ValuerangeAssignment_215843 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleValueKind_in_rule__ResourceRef__KindAssignment_315874 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_NUMBER_in_rule__ResourceRef__PeriodAssignment_415905 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__LinkRef__LinkAssignment_215940 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__AbsoluteRef__Group__1__Impl_in_rule__AbsoluteRef__Group__112747 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__AbsoluteRef__PrimaryRefAssignment_1_in_rule__AbsoluteRef__Group__1__Impl12774 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ContextRef__Group__0__Impl_in_rule__ContextRef__Group__012808 = new BitSet(new long[]{0x0800000000000000L});
+    public static final BitSet FOLLOW_rule__ContextRef__Group__1_in_rule__ContextRef__Group__012811 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ContextRef__Group__1__Impl_in_rule__ContextRef__Group__112869 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ContextRef__Group_1__0_in_rule__ContextRef__Group__1__Impl12896 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ContextRef__Group_1__0__Impl_in_rule__ContextRef__Group_1__012930 = new BitSet(new long[]{0x0D00000000000000L});
+    public static final BitSet FOLLOW_rule__ContextRef__Group_1__1_in_rule__ContextRef__Group_1__012933 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_59_in_rule__ContextRef__Group_1__0__Impl12962 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ContextRef__Group_1__1__Impl_in_rule__ContextRef__Group_1__112994 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ContextRef__PrimaryRefAssignment_1_1_in_rule__ContextRef__Group_1__1__Impl13021 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__PrimaryRef__Group__0__Impl_in_rule__PrimaryRef__Group__013055 = new BitSet(new long[]{0x1000000000000000L});
+    public static final BitSet FOLLOW_rule__PrimaryRef__Group__1_in_rule__PrimaryRef__Group__013058 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__PrimaryRef__ChildrenAssignment_0_in_rule__PrimaryRef__Group__0__Impl13087 = new BitSet(new long[]{0x0D00000000000002L});
+    public static final BitSet FOLLOW_rule__PrimaryRef__ChildrenAssignment_0_in_rule__PrimaryRef__Group__0__Impl13099 = new BitSet(new long[]{0x0D00000000000002L});
+    public static final BitSet FOLLOW_rule__PrimaryRef__Group__1__Impl_in_rule__PrimaryRef__Group__113132 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__PrimaryRef__Group_1__0_in_rule__PrimaryRef__Group__1__Impl13159 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__PrimaryRef__Group_1__0__Impl_in_rule__PrimaryRef__Group_1__013194 = new BitSet(new long[]{0x6000000000008000L});
+    public static final BitSet FOLLOW_rule__PrimaryRef__Group_1__1_in_rule__PrimaryRef__Group_1__013197 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_60_in_rule__PrimaryRef__Group_1__0__Impl13225 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__PrimaryRef__Group_1__1__Impl_in_rule__PrimaryRef__Group_1__113256 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__PrimaryRef__LeafRefAssignment_1_1_in_rule__PrimaryRef__Group_1__1__Impl13283 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ChildrenRef__Group__0__Impl_in_rule__ChildrenRef__Group__013317 = new BitSet(new long[]{0x0D00000000000000L});
+    public static final BitSet FOLLOW_rule__ChildrenRef__Group__1_in_rule__ChildrenRef__Group__013320 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ChildrenRef__Group__1__Impl_in_rule__ChildrenRef__Group__113378 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_rule__ChildrenRef__Group__2_in_rule__ChildrenRef__Group__113381 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_58_in_rule__ChildrenRef__Group__1__Impl13409 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ChildrenRef__Group__2__Impl_in_rule__ChildrenRef__Group__213440 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ChildrenRef__FunctionAssignment_2_in_rule__ChildrenRef__Group__2__Impl13467 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group__0__Impl_in_rule__ResourceRef__Group__013503 = new BitSet(new long[]{0x2000000000008000L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group__1_in_rule__ResourceRef__Group__013506 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group__1__Impl_in_rule__ResourceRef__Group__113564 = new BitSet(new long[]{0x000000000FC00000L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group__2_in_rule__ResourceRef__Group__113567 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Alternatives_1_in_rule__ResourceRef__Group__1__Impl13594 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group__2__Impl_in_rule__ResourceRef__Group__213624 = new BitSet(new long[]{0x0000000030000040L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group__3_in_rule__ResourceRef__Group__213627 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__ValuerangeAssignment_2_in_rule__ResourceRef__Group__2__Impl13654 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group__3__Impl_in_rule__ResourceRef__Group__313684 = new BitSet(new long[]{0x0000000030000040L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group__4_in_rule__ResourceRef__Group__313687 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__KindAssignment_3_in_rule__ResourceRef__Group__3__Impl13714 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group__4__Impl_in_rule__ResourceRef__Group__413745 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__PeriodAssignment_4_in_rule__ResourceRef__Group__4__Impl13772 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group_1_0__0__Impl_in_rule__ResourceRef__Group_1_0__013812 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group_1_0__1_in_rule__ResourceRef__Group_1_0__013815 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_61_in_rule__ResourceRef__Group_1_0__0__Impl13843 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__Group_1_0__1__Impl_in_rule__ResourceRef__Group_1_0__113874 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__ResourceRef__ResourceAssignment_1_0_1_in_rule__ResourceRef__Group_1_0__1__Impl13901 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__LinkRef__Group__0__Impl_in_rule__LinkRef__Group__013935 = new BitSet(new long[]{0x6000000000008000L});
+    public static final BitSet FOLLOW_rule__LinkRef__Group__1_in_rule__LinkRef__Group__013938 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__LinkRef__Group__1__Impl_in_rule__LinkRef__Group__113996 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_rule__LinkRef__Group__2_in_rule__LinkRef__Group__113999 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_62_in_rule__LinkRef__Group__1__Impl14027 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__LinkRef__Group__2__Impl_in_rule__LinkRef__Group__214058 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rule__LinkRef__LinkAssignment_2_in_rule__LinkRef__Group__2__Impl14085 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_rule__Mod__NameAssignment_0_114126 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleImport_in_rule__Mod__ImportsAssignment_114157 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleFunction_in_rule__Mod__FunctionsAssignment_2_014188 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleStatement_in_rule__Mod__StatementsAssignment_2_114219 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_STRING_in_rule__Import__ImportURIAssignment_114250 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_rule__Function__NameAssignment_114281 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleArgument_in_rule__Function__ArgsAssignment_3_014312 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleArgument_in_rule__Function__ArgsAssignment_3_1_114343 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleBlock_in_rule__Function__BlockAssignment_514374 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_rule__Argument__NameAssignment14405 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleStatement_in_rule__Block__StatementsAssignment_214436 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleExpression_in_rule__Statement__ExpressionAssignment_0_0_314467 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleExpression_in_rule__ReturnStatement__ExpressionAssignment_214498 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLogical_in_rule__IfStatement__IfAssignment_314529 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleBlock_in_rule__IfStatement__ThenAssignment_514560 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleBlock_in_rule__IfStatement__ElseAssignment_6_114591 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLogical_in_rule__WhileStatement__PredicateAssignment_314622 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleBlock_in_rule__WhileStatement__BodyAssignment_514653 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_rule__VariableStatement__NameAssignment_214684 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleExpression_in_rule__VariableStatement__ExpressionAssignment_3_114715 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_rule__AssignmentStatement__VarAssignment_114750 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleExpression_in_rule__AssignmentStatement__ExpressionAssignment_314785 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleContextRef_in_rule__ReferenceAssignmentStatement__RefAssignment_114816 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleExpression_in_rule__ReferenceAssignmentStatement__ExpressionAssignment_314847 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleEquality_in_rule__Logical__RightAssignment_1_114878 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleComparison_in_rule__Equality__RightAssignment_1_114909 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleAddition_in_rule__Comparison__RightAssignment_1_114940 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleMultiplication_in_rule__Addition__RightAssignment_1_114971 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleUnary_in_rule__Multiplication__RightAssignment_1_115002 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_63_in_rule__Unary__OpAssignment_1_0_0_115038 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleUnaryOperator_in_rule__Unary__OpAssignment_1_0_1_115077 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleUnary_in_rule__Unary__RightAssignment_1_115108 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_64_in_rule__Literal__ConditionAssignment_1_1_015144 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NUMBER_in_rule__NumberLiteral__ValueAssignment_115183 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_rule__FunctionCall__FuncAssignment_115218 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleExpression_in_rule__FunctionCall__ArgsAssignment_3_015253 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleExpression_in_rule__FunctionCall__ArgsAssignment_3_1_115284 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleExpression_in_rule__IndexedCall__IndexAssignment_1_115315 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_rule__VarOrArgumentCall__CallAssignment_115350 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleRangeLiteral_in_rule__NativeExpression__RangeAssignment_1_015385 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleReference_in_rule__NativeExpression__RefAssignment_1_115416 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleNativeFunction_in_rule__NativeExpression__NativeFunctionAssignment_315447 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NUMBER_in_rule__RangeLiteral__ValuesAssignment_215478 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NUMBER_in_rule__RangeLiteral__ValuesAssignment_3_115509 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rulePrimaryRef_in_rule__AbsoluteRef__PrimaryRefAssignment_115540 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rulePrimaryRef_in_rule__ContextRef__PrimaryRefAssignment_1_115571 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleChildrenRef_in_rule__PrimaryRef__ChildrenAssignment_015602 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLeafReference_in_rule__PrimaryRef__LeafRefAssignment_1_115633 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_rule__ChildrenRef__FunctionAssignment_215668 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_rule__ResourceRef__ResourceAssignment_1_0_115707 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleValueRange_in_rule__ResourceRef__ValuerangeAssignment_215742 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleValueKind_in_rule__ResourceRef__KindAssignment_315773 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NUMBER_in_rule__ResourceRef__PeriodAssignment_415804 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_rule__LinkRef__LinkAssignment_215839 = new BitSet(new long[]{0x0000000000000002L});
 
 }

@@ -1380,36 +1380,24 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "AbsoluteRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cAbsoluteRefAction_0 = (Action)cGroup.eContents().get(0);
-		private final Assignment cNodetypeRefAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final CrossReference cNodetypeRefNodeTypeCrossReference_1_0 = (CrossReference)cNodetypeRefAssignment_1.eContents().get(0);
-		private final RuleCall cNodetypeRefNodeTypeIDTerminalRuleCall_1_0_1 = (RuleCall)cNodetypeRefNodeTypeCrossReference_1_0.eContents().get(1);
-		private final Assignment cPrimaryRefAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cPrimaryRefPrimaryRefParserRuleCall_2_0 = (RuleCall)cPrimaryRefAssignment_2.eContents().get(0);
+		private final Assignment cPrimaryRefAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cPrimaryRefPrimaryRefParserRuleCall_1_0 = (RuleCall)cPrimaryRefAssignment_1.eContents().get(0);
 		
 		//AbsoluteRef returns Reference:
-		//	{AbsoluteRef} nodetypeRef=[library::NodeType] primaryRef=PrimaryRef;
+		//	{AbsoluteRef} primaryRef=PrimaryRef;
 		public ParserRule getRule() { return rule; }
 
-		//{AbsoluteRef} nodetypeRef=[library::NodeType] primaryRef=PrimaryRef
+		//{AbsoluteRef} primaryRef=PrimaryRef
 		public Group getGroup() { return cGroup; }
 
 		//{AbsoluteRef}
 		public Action getAbsoluteRefAction_0() { return cAbsoluteRefAction_0; }
 
-		//nodetypeRef=[library::NodeType]
-		public Assignment getNodetypeRefAssignment_1() { return cNodetypeRefAssignment_1; }
-
-		//[library::NodeType]
-		public CrossReference getNodetypeRefNodeTypeCrossReference_1_0() { return cNodetypeRefNodeTypeCrossReference_1_0; }
-
-		//ID
-		public RuleCall getNodetypeRefNodeTypeIDTerminalRuleCall_1_0_1() { return cNodetypeRefNodeTypeIDTerminalRuleCall_1_0_1; }
-
 		//primaryRef=PrimaryRef
-		public Assignment getPrimaryRefAssignment_2() { return cPrimaryRefAssignment_2; }
+		public Assignment getPrimaryRefAssignment_1() { return cPrimaryRefAssignment_1; }
 
 		//PrimaryRef
-		public RuleCall getPrimaryRefPrimaryRefParserRuleCall_2_0() { return cPrimaryRefPrimaryRefParserRuleCall_2_0; }
+		public RuleCall getPrimaryRefPrimaryRefParserRuleCall_1_0() { return cPrimaryRefPrimaryRefParserRuleCall_1_0; }
 	}
 
 	public class ContextRefElements extends AbstractParserRuleElementFinder {
@@ -2223,7 +2211,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//AbsoluteRef returns Reference:
-	//	{AbsoluteRef} nodetypeRef=[library::NodeType] primaryRef=PrimaryRef;
+	//	{AbsoluteRef} primaryRef=PrimaryRef;
 	public AbsoluteRefElements getAbsoluteRefAccess() {
 		return (pAbsoluteRef != null) ? pAbsoluteRef : (pAbsoluteRef = new AbsoluteRefElements());
 	}

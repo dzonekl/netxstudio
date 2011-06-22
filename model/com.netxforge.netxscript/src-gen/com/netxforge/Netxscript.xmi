@@ -729,14 +729,6 @@
             <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/Netxscript#//AbsoluteRef"/>
           </type>
         </elements>
-        <elements xsi:type="xtext:Assignment" feature="nodetypeRef" operator="=">
-          <terminal xsi:type="xtext:CrossReference">
-            <type metamodel="/0/@metamodelDeclarations.2">
-              <classifier xsi:type="ecore:EClass" href="http://www.netxforge.com/13042011/library#//NodeType"/>
-            </type>
-            <terminal xsi:type="xtext:RuleCall" rule="/1/@rules.0"/>
-          </terminal>
-        </elements>
         <elements xsi:type="xtext:Assignment" feature="primaryRef" operator="=">
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
         </elements>

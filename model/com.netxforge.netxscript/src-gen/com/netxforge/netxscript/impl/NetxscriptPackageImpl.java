@@ -1501,19 +1501,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getAbsoluteRef_NodetypeRef()
-  {
-    return (EReference)absoluteRefEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EReference getAbsoluteRef_PrimaryRef()
   {
-    return (EReference)absoluteRefEClass.getEStructuralFeatures().get(1);
+    return (EReference)absoluteRefEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1826,7 +1816,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     createEAttribute(rangeLiteralEClass, RANGE_LITERAL__VALUES);
 
     absoluteRefEClass = createEClass(ABSOLUTE_REF);
-    createEReference(absoluteRefEClass, ABSOLUTE_REF__NODETYPE_REF);
     createEReference(absoluteRefEClass, ABSOLUTE_REF__PRIMARY_REF);
 
     contextRefEClass = createEClass(CONTEXT_REF);
@@ -2063,7 +2052,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEAttribute(getRangeLiteral_Values(), ecorePackage.getEBigDecimal(), "values", null, 0, -1, RangeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(absoluteRefEClass, AbsoluteRef.class, "AbsoluteRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getAbsoluteRef_NodetypeRef(), theLibraryPackage.getNodeType(), null, "nodetypeRef", null, 0, 1, AbsoluteRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getAbsoluteRef_PrimaryRef(), this.getReference(), null, "primaryRef", null, 0, 1, AbsoluteRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(contextRefEClass, ContextRef.class, "ContextRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

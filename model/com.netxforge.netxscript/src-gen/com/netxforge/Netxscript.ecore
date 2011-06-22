@@ -211,7 +211,6 @@
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbsoluteRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nodetypeRef" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore#//NodeType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="primaryRef" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference"
         containment="true"/>
   </eClassifiers>

@@ -9,8 +9,6 @@ import com.netxforge.netxscript.AbsoluteRef;
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.Reference;
 
-import com.netxforge.netxstudio.library.NodeType;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -26,7 +24,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.impl.AbsoluteRefImpl#getNodetypeRef <em>Nodetype Ref</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.AbsoluteRefImpl#getPrimaryRef <em>Primary Ref</em>}</li>
  * </ul>
  * </p>
@@ -35,16 +32,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class AbsoluteRefImpl extends ReferenceImpl implements AbsoluteRef
 {
-  /**
-   * The cached value of the '{@link #getNodetypeRef() <em>Nodetype Ref</em>}' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getNodetypeRef()
-   * @generated
-   * @ordered
-   */
-  protected NodeType nodetypeRef;
-
   /**
    * The cached value of the '{@link #getPrimaryRef() <em>Primary Ref</em>}' containment reference.
    * <!-- begin-user-doc -->
@@ -74,49 +61,6 @@ public class AbsoluteRefImpl extends ReferenceImpl implements AbsoluteRef
   protected EClass eStaticClass()
   {
     return NetxscriptPackage.Literals.ABSOLUTE_REF;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NodeType getNodetypeRef()
-  {
-    if (nodetypeRef != null && nodetypeRef.eIsProxy())
-    {
-      InternalEObject oldNodetypeRef = (InternalEObject)nodetypeRef;
-      nodetypeRef = (NodeType)eResolveProxy(oldNodetypeRef);
-      if (nodetypeRef != oldNodetypeRef)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetxscriptPackage.ABSOLUTE_REF__NODETYPE_REF, oldNodetypeRef, nodetypeRef));
-      }
-    }
-    return nodetypeRef;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NodeType basicGetNodetypeRef()
-  {
-    return nodetypeRef;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setNodetypeRef(NodeType newNodetypeRef)
-  {
-    NodeType oldNodetypeRef = nodetypeRef;
-    nodetypeRef = newNodetypeRef;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.ABSOLUTE_REF__NODETYPE_REF, oldNodetypeRef, nodetypeRef));
   }
 
   /**
@@ -193,9 +137,6 @@ public class AbsoluteRefImpl extends ReferenceImpl implements AbsoluteRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.ABSOLUTE_REF__NODETYPE_REF:
-        if (resolve) return getNodetypeRef();
-        return basicGetNodetypeRef();
       case NetxscriptPackage.ABSOLUTE_REF__PRIMARY_REF:
         return getPrimaryRef();
     }
@@ -212,9 +153,6 @@ public class AbsoluteRefImpl extends ReferenceImpl implements AbsoluteRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.ABSOLUTE_REF__NODETYPE_REF:
-        setNodetypeRef((NodeType)newValue);
-        return;
       case NetxscriptPackage.ABSOLUTE_REF__PRIMARY_REF:
         setPrimaryRef((Reference)newValue);
         return;
@@ -232,9 +170,6 @@ public class AbsoluteRefImpl extends ReferenceImpl implements AbsoluteRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.ABSOLUTE_REF__NODETYPE_REF:
-        setNodetypeRef((NodeType)null);
-        return;
       case NetxscriptPackage.ABSOLUTE_REF__PRIMARY_REF:
         setPrimaryRef((Reference)null);
         return;
@@ -252,8 +187,6 @@ public class AbsoluteRefImpl extends ReferenceImpl implements AbsoluteRef
   {
     switch (featureID)
     {
-      case NetxscriptPackage.ABSOLUTE_REF__NODETYPE_REF:
-        return nodetypeRef != null;
       case NetxscriptPackage.ABSOLUTE_REF__PRIMARY_REF:
         return primaryRef != null;
     }

@@ -2148,30 +2148,17 @@ ruleAbsoluteRef returns [EObject current=null]
     }
 )(
 (
-		{
-			if ($current==null) {
-	            $current = createModelElement(grammarAccess.getAbsoluteRefRule());
-	        }
-        }
-	otherlv_1=RULE_ID
-	{
-		newLeafNode(otherlv_1, grammarAccess.getAbsoluteRefAccess().getNodetypeRefNodeTypeCrossReference_1_0()); 
-	}
-
-)
-)(
-(
 		{ 
-	        newCompositeNode(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_2_0()); 
+	        newCompositeNode(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_0()); 
 	    }
-		lv_primaryRef_2_0=rulePrimaryRef		{
+		lv_primaryRef_1_0=rulePrimaryRef		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getAbsoluteRefRule());
 	        }
        		set(
        			$current, 
        			"primaryRef",
-        		lv_primaryRef_2_0, 
+        		lv_primaryRef_1_0, 
         		"PrimaryRef");
 	        afterParserOrEnumRuleCall();
 	    }

@@ -6311,7 +6311,6 @@ rule__AbsoluteRef__Group__1
     }
 :
 	rule__AbsoluteRef__Group__1__Impl
-	rule__AbsoluteRef__Group__2
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -6323,45 +6322,15 @@ rule__AbsoluteRef__Group__1__Impl
     }
 :
 (
-{ before(grammarAccess.getAbsoluteRefAccess().getNodetypeRefAssignment_1()); }
-(rule__AbsoluteRef__NodetypeRefAssignment_1)
-{ after(grammarAccess.getAbsoluteRefAccess().getNodetypeRefAssignment_1()); }
+{ before(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_1()); }
+(rule__AbsoluteRef__PrimaryRefAssignment_1)
+{ after(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_1()); }
 )
 
 ;
 finally {
 	restoreStackSize(stackSize);
 }
-
-
-rule__AbsoluteRef__Group__2
-    @init {
-		int stackSize = keepStackSize();
-    }
-:
-	rule__AbsoluteRef__Group__2__Impl
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__AbsoluteRef__Group__2__Impl
-    @init {
-		int stackSize = keepStackSize();
-    }
-:
-(
-{ before(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_2()); }
-(rule__AbsoluteRef__PrimaryRefAssignment_2)
-{ after(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_2()); }
-)
-
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
 
 
 
@@ -7725,33 +7694,14 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__AbsoluteRef__NodetypeRefAssignment_1
+rule__AbsoluteRef__PrimaryRefAssignment_1
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getAbsoluteRefAccess().getNodetypeRefNodeTypeCrossReference_1_0()); }
-(
-{ before(grammarAccess.getAbsoluteRefAccess().getNodetypeRefNodeTypeIDTerminalRuleCall_1_0_1()); }
-	RULE_ID{ after(grammarAccess.getAbsoluteRefAccess().getNodetypeRefNodeTypeIDTerminalRuleCall_1_0_1()); }
-)
-{ after(grammarAccess.getAbsoluteRefAccess().getNodetypeRefNodeTypeCrossReference_1_0()); }
-)
-
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__AbsoluteRef__PrimaryRefAssignment_2
-    @init {
-		int stackSize = keepStackSize();
-    }
-:
-(
-{ before(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_2_0()); }
-	rulePrimaryRef{ after(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_2_0()); }
+{ before(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_0()); }
+	rulePrimaryRef{ after(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_0()); }
 )
 
 ;

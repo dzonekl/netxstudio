@@ -166,8 +166,7 @@ public class NetxscriptParser extends AbstractContentAssistParser {
 					put(grammarAccess.getNativeExpressionAccess().getNativeFunctionAssignment_3(), "rule__NativeExpression__NativeFunctionAssignment_3");
 					put(grammarAccess.getRangeLiteralAccess().getValuesAssignment_2(), "rule__RangeLiteral__ValuesAssignment_2");
 					put(grammarAccess.getRangeLiteralAccess().getValuesAssignment_3_1(), "rule__RangeLiteral__ValuesAssignment_3_1");
-					put(grammarAccess.getAbsoluteRefAccess().getNodetypeRefAssignment_1(), "rule__AbsoluteRef__NodetypeRefAssignment_1");
-					put(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_2(), "rule__AbsoluteRef__PrimaryRefAssignment_2");
+					put(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_1(), "rule__AbsoluteRef__PrimaryRefAssignment_1");
 					put(grammarAccess.getContextRefAccess().getPrimaryRefAssignment_1_1(), "rule__ContextRef__PrimaryRefAssignment_1_1");
 					put(grammarAccess.getPrimaryRefAccess().getChildrenAssignment_0(), "rule__PrimaryRef__ChildrenAssignment_0");
 					put(grammarAccess.getPrimaryRefAccess().getLeafRefAssignment_1_1(), "rule__PrimaryRef__LeafRefAssignment_1_1");
