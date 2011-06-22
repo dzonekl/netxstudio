@@ -20,22 +20,12 @@ package com.netxforge.netxstudio.server.logic;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.GenericsFactory;
-import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
+import org.eclipse.emf.cdo.common.id.CDOID;
+
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.server.job.JobMonitor;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServicesFactory;
@@ -45,62 +35,14 @@ import com.netxforge.netxstudio.services.ServicesFactory;
  * 
  * @author Martin Taal
  */
-public class RFSServiceCapacityLogic {
-
-	private JobMonitor jobMonitor;
+public class RFSServiceCapacityLogic extends BaseCapacityLogic {
 
 	private RFSService rfsService;
 
-	// on purpose no @Inject as we need the same instance
-	// as used in the job implementation
-	private IDataProvider dataProvider;
-
-	private Date startTime;
-	private Date endTime;
-
-	@Inject
-	private ModelUtils modelUtils;
-
 	private ServiceMonitor serviceMonitor;
-
-	private Node filterNode;
-	private Node filterNodeType;
-
-	private List<ExpressionFailure> failures = new ArrayList<ExpressionFailure>();
 	
-	public void run() {
-		setServiceMonitor();
-
-		int count = 0;
-		// first go through the leave nodes
-		for (final Node node : rfsService.getNodes()) {
-			if (isValidNode(node)) {
-				count++;
-			}
-		}
-
-		jobMonitor.setTotalWork(count);
-		jobMonitor.setTask("Computing Capacity Data");
-
-		// first go through the leave nodes
-		for (final Node node : rfsService.getNodes()) {
-			if (isValidNode(node) && node.getNodeType().isLeafNode()) {
-				jobMonitor.setTask("Computing Capacity Data for node "
-						+ node.getNodeID());
-				processNode(node.getNodeType());
-			}
-		}
-		// and then the other nodes
-		for (final Node node : rfsService.getNodes()) {
-			if (isValidNode(node) && !node.getNodeType().isLeafNode()) {
-				jobMonitor.setTask("Computing Capacity Data for node "
-						+ node.getNodeID());
-				processNode(node.getNodeType());
-			}
-		}
-	}
-
-	private void setServiceMonitor() {
+	void initializeServiceMonitor() {
+		Date startTime = getStartTime();
 		if (startTime != null) {
 			startTime = new Date(0);
 			if (!rfsService.getServiceMonitors().isEmpty()) {
@@ -109,101 +51,49 @@ public class RFSServiceCapacityLogic {
 						.getPeriod().getEnd().toGregorianCalendar().getTime();
 				startTime = new Date(previousEndTime.getTime() + 1);
 			}
+			setStartTime(startTime);
 		}
+		Date endTime = getEndTime();
 		if (endTime != null) {
 			endTime = new Date(System.currentTimeMillis());
+			setEndTime(endTime);
 		}
-
-		final DateTimeRange timeRange = GenericsFactory.eINSTANCE
-				.createDateTimeRange();
-		timeRange.setBegin(modelUtils.toXMLDate(startTime));
-		timeRange.setEnd(modelUtils.toXMLDate(endTime));
 
 		serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
 		// what name should a servicemonitor have?
 		serviceMonitor.setName(rfsService.getServiceName());
-		serviceMonitor.setPeriod(timeRange);
+		serviceMonitor.setPeriod(getTimeRange());
 		rfsService.getServiceMonitors().add(serviceMonitor);
 	}
 
-	protected void executeFor(Component component) {
-		final CapacityLogicEngine capacityLogic = LogicActivator
-				.getInstance().getInjector()
-				.getInstance(CapacityLogicEngine.class);
-		capacityLogic.setComponent(component);
-		capacityLogic.setDataProvider(dataProvider);
-		capacityLogic.setRange(serviceMonitor.getPeriod());
-		capacityLogic.execute();
-		if (capacityLogic.getFailure() != null) {
-			failures.add(capacityLogic.getFailure());
-		}
+	public RFSService getRfsService() {
+		return rfsService;
 	}
 
-	protected void processNode(NodeType nodeType) {
-		{
-			final Set<Equipment> leafEquipments = new HashSet<Equipment>();
-			getLeafEquipments(nodeType.getEquipments(), leafEquipments);
-			Set<Equipment> executeFor = leafEquipments;
-			while (!executeFor.isEmpty()) {
-				final Set<Equipment> newExecuteFor = new HashSet<Equipment>();
-				for (final Equipment equipment : executeFor) {
-					executeFor(equipment);
-					if (equipment.eContainer() instanceof Equipment
-							&& !newExecuteFor.contains(equipment.eContainer())) {
-						newExecuteFor.add((Equipment) equipment.eContainer());
-					}
-					executeFor = newExecuteFor;
-				}
-			}
-		}
-		{
-			final Set<Function> leafFunctions = new HashSet<Function>();
-			getLeafFunctions(nodeType.getFunctions(), leafFunctions);
-			Set<Function> executeFor = leafFunctions;
-			while (!executeFor.isEmpty()) {
-				final Set<Function> newExecuteFor = new HashSet<Function>();
-				for (final Function function : executeFor) {
-					executeFor(function);
-					if (function.eContainer() instanceof Function
-							&& !newExecuteFor.contains(function.eContainer())) {
-						newExecuteFor.add((Function) function.eContainer());
-					}
-					executeFor = newExecuteFor;
-				}
-			}
-		}
+	public void setRfsService(CDOID cdoId) {
+		// read the rfsservice in the transaction of the run
+		this.rfsService = (RFSService)getDataProvider().getTransaction().getObject(cdoId);
 	}
 
-	private void getLeafEquipments(List<Equipment> equipments,
-			Set<Equipment> leafEquipments) {
-		for (final Equipment equipment : equipments) {
-			if (equipment.getEquipments().isEmpty()) {
-				leafEquipments.add(equipment);
-			} else {
-				getLeafEquipments(equipment.getEquipments(), leafEquipments);
+	@Override
+	protected List<NodeType> getNodeTypesToExecuteFor() {
+		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
+		// first go through the leave nodes
+		for (final Node node : rfsService.getNodes()) {
+			if (isValidNode(node) && node.getNodeType().isLeafNode()) {
+				nodeTypes.add(node.getNodeType());
 			}
 		}
-	}
-
-	private void getLeafFunctions(List<Function> functions,
-			Set<Function> leafFunctions) {
-		for (final Function function : functions) {
-			if (function.getFunctions().isEmpty()) {
-				leafFunctions.add(function);
-			} else {
-				getLeafFunctions(function.getFunctions(), leafFunctions);
+		// and then the other nodes
+		for (final Node node : rfsService.getNodes()) {
+			if (isValidNode(node) && !node.getNodeType().isLeafNode()) {
+				nodeTypes.add(node.getNodeType());
 			}
 		}
+		return nodeTypes;
 	}
 
 	private boolean isValidNode(Node node) {
-		if (filterNode != null && !node.cdoID().equals(filterNode.cdoID())) {
-			return false;
-		}
-		if (filterNodeType != null
-				&& !node.getNodeType().cdoID().equals(filterNodeType.cdoID())) {
-			return false;
-		}
 		if (node.getLifecycle() == null) {
 			return true;
 		}
@@ -220,65 +110,4 @@ public class RFSServiceCapacityLogic {
 		}
 		return true;
 	}
-
-	public JobMonitor getJobMonitor() {
-		return jobMonitor;
-	}
-
-	public void setJobMonitor(JobMonitor jobMonitor) {
-		this.jobMonitor = jobMonitor;
-	}
-
-	public RFSService getRfsService() {
-		return rfsService;
-	}
-
-	public void setRfsService(RFSService rfsService) {
-		this.rfsService = rfsService;
-	}
-
-	public IDataProvider getDataProvider() {
-		return dataProvider;
-	}
-
-	public void setDataProvider(IDataProvider dataProvider) {
-		this.dataProvider = dataProvider;
-	}
-
-	public Node getFilterNode() {
-		return filterNode;
-	}
-
-	public void setFilterNode(Node filterNode) {
-		this.filterNode = filterNode;
-	}
-
-	public Node getFilterNodeType() {
-		return filterNodeType;
-	}
-
-	public void setFilterNodeType(Node filterNodeType) {
-		this.filterNodeType = filterNodeType;
-	}
-
-	public Date getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-
-	public List<ExpressionFailure> getFailures() {
-		return failures;
-	}
-
 }

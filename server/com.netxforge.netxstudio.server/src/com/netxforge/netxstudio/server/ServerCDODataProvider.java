@@ -54,14 +54,9 @@ public class ServerCDODataProvider extends CDODataProvider {
 	@Override
 	public CDOSession getSession() {
 		if (session == null) {
-			// We can't get a session, which has not be opened and
-			// authenticated.
-			throw new java.lang.IllegalStateException();
-		} else {
-			// System.out.println("Currrent session instance:"
-			// + clientSession.toString());
-			return session;
+			this.openSession();
 		}
+		return session;
 	}
 
 	@Override

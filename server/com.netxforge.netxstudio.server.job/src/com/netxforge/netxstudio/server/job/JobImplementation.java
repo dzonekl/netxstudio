@@ -44,24 +44,14 @@ public abstract class JobImplementation {
 	private IDataProvider dataProvider;
 
 	private NetxForgeJob netxForgeJob;
-	private StringBuilder log = new StringBuilder();
 
 	private Job job;
-	private JobMonitor jobMonitor;
+	private WorkFlowRunMonitor runMonitor;
 	
 	public abstract void run();
 
 	public NetxForgeJob getNetxForgeJob() {
 		return netxForgeJob;
-	}
-	
-	protected JobMonitor getJobMonitor() {
-		if (jobMonitor == null) {
-			jobMonitor = new JobMonitor();
-			jobMonitor.setTask("Job run");
-			jobMonitor.setMsg("Started");
-		}
-		return jobMonitor;
 	}
 	
 	protected Job getJob() {
@@ -77,14 +67,6 @@ public abstract class JobImplementation {
 
 	protected IDataProvider getDataProvider() {
 		return dataProvider;
-	}
-
-	protected void appendToLog(String logStatement) {
-		log.append("\n" + logStatement);
-	}
-
-	public String getLog() {
-		return log.toString();
 	}
 
 	public JobRunState getJobRunState() {
@@ -125,6 +107,14 @@ public abstract class JobImplementation {
 			throw new IllegalArgumentException(
 					"No factory found for job type " + clz);
 		}
+	}
+
+	public WorkFlowRunMonitor getRunMonitor() {
+		return runMonitor;
+	}
+
+	public void setRunMonitor(WorkFlowRunMonitor runMonitor) {
+		this.runMonitor = runMonitor;
 	}
 
 }

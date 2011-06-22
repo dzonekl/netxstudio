@@ -3,6 +3,8 @@ package com.netxforge.netxstudio.server.logic;
 import static com.google.inject.Guice.createInjector;
 import static com.google.inject.util.Modules.override;
 
+import java.util.Hashtable;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -14,6 +16,7 @@ import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
+import com.netxforge.netxstudio.server.job.JobModule;
 
 public class LogicActivator implements BundleActivator {
 
@@ -50,9 +53,12 @@ public class LogicActivator implements BundleActivator {
 		});
 
 		Module om = override(new NetxscriptRuntimeModule()).with(ServerModule.getModule());
+		om = override(om).with(new JobModule());
 		om = override(om).with(new LogicModule());
 		om = override(om).with(new CommonModule());
 		injector = createInjector(om);
+
+		bundleContext.registerService(CapacityService.class, new CapacityService(), new Hashtable<String, String>());
 	}
 
 	/*

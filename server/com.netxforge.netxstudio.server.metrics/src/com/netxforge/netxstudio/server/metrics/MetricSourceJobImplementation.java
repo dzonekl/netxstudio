@@ -47,7 +47,7 @@ public class MetricSourceJobImplementation extends JobImplementation {
 		final InputStream is = this.getClass().getResourceAsStream(
 				fileName);
 		if (is == null) {
-			appendToLog("File " + fileName + " not present, not executing import");
+			getRunMonitor().appendToLog("File " + fileName + " not present, not executing import");
 			getDataProvider().commitTransaction();
 			return;
 		}

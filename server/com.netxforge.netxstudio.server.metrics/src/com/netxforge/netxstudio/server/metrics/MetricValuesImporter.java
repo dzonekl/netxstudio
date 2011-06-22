@@ -22,14 +22,11 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
 import com.google.inject.Inject;
@@ -53,7 +50,7 @@ import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerUtils;
-import com.netxforge.netxstudio.server.job.JobMonitor;
+import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.metrics.NetworkElementLocator.IdentifierValue;
 
 /**
@@ -65,7 +62,7 @@ public class MetricValuesImporter {
 
 	private MetricSource metricSource;
 
-	private JobMonitor jobMonitor;
+	private WorkFlowRunMonitor jobMonitor;
 
 	@Inject
 	@Server
@@ -75,9 +72,6 @@ public class MetricValuesImporter {
 	private List<MappingRecordXLS> failedRecords = new ArrayList<MappingRecordXLS>();
 
 	private List<ImportWarning> warnings = new ArrayList<ImportWarning>();
-
-	// object is node/function/equipment
-	private Map<Metric, Map<Component, MetricValueRange>> metricValueRanges = new HashMap<Metric, Map<Component, MetricValueRange>>();
 
 	private InputStream inputStream = null;
 
@@ -116,45 +110,7 @@ public class MetricValuesImporter {
 					e.getMessage());
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
-		storeMetricValues();
 		dataProvider.commitTransaction();
-	}
-
-	private void storeMetricValues() {
-
-		jobMonitor.setMsg("Storing metric values");
-		jobMonitor.incrementProgress(1, true);
-
-		for (final Metric metric : metricValueRanges.keySet()) {
-			final Map<Component, MetricValueRange> valueRangesByObject = metricValueRanges
-					.get(metric);
-			for (final Component component : valueRangesByObject.keySet()) {
-				jobMonitor.setMsg("Storing metric values for "
-						+ component.getName());
-				jobMonitor.update();
-				addToNetXResource(metric, valueRangesByObject.get(component),
-						component.getResources());
-			}
-		}
-	}
-
-	private void addToNetXResource(Metric metric,
-			MetricValueRange metricValueRange, EList<NetXResource> netXResources) {
-		NetXResource addToNetXResource = null;
-		for (final NetXResource netXResource : netXResources) {
-			if (netXResource.getMetricRef() == metric) {
-				addToNetXResource = netXResource;
-			}
-		}
-		if (addToNetXResource == null) {
-			addToNetXResource = LibraryFactory.eINSTANCE.createNetXResource();
-			addToNetXResource.setMetricRef(metric);
-			addToNetXResource.setShortName(metric.getName());
-			addToNetXResource.setLongName(metric.getName());
-			addToNetXResource.setUnitRef(metric.getUnitRef());
-			netXResources.add(addToNetXResource);
-		}
-		addToNetXResource.getMetricValueRanges().add(metricValueRange);
 	}
 
 	// create the mapping statistics on the basis of the errors and
@@ -237,23 +193,40 @@ public class MetricValuesImporter {
 	private void addMetricValue(MappingXLSColumn xlsColumn, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint) {
 		final ValueDataKind valueDataKind = getValueDataKind(xlsColumn);
-		Map<Component, MetricValueRange> valueRanges = metricValueRanges
-				.get(valueDataKind.getMetricRef());
-		if (valueRanges == null) {
-			valueRanges = new HashMap<Component, MetricValueRange>();
-			metricValueRanges.put(valueDataKind.getMetricRef(), valueRanges);
+		final Metric metric = valueDataKind.getMetricRef();
+		NetXResource foundNetXResource = null;
+		for (final NetXResource netXResource : networkElement.getResources()) {
+			if (netXResource.getMetricRef() == metric) {
+				foundNetXResource = netXResource;
+				break;
+			}
 		}
-		MetricValueRange valueRange = valueRanges.get(networkElement);
-		if (valueRange == null) {
-			valueRange = MetricsFactory.eINSTANCE.createMetricValueRange();
-			valueRange.setKindHint(valueDataKind.getKindHint());
-			valueRange.setPeriodHint(periodHint);
-			valueRanges.put(networkElement, valueRange);
+		if (foundNetXResource == null) {
+			foundNetXResource = LibraryFactory.eINSTANCE.createNetXResource();
+			foundNetXResource.setMetricRef(metric);
+			foundNetXResource.setShortName(metric.getName());
+			foundNetXResource.setLongName(metric.getName());
+			foundNetXResource.setUnitRef(metric.getUnitRef());
+			networkElement.getResources().add(foundNetXResource);
+		}
+		MetricValueRange foundMvr = null;
+		for (final MetricValueRange mvr : foundNetXResource.getMetricValueRanges()) {
+			if (mvr.getKindHint() == valueDataKind.getKindHint() && 
+					mvr.getPeriodHint() == periodHint) {
+				foundMvr = mvr;
+				break;
+			}
+		}
+		if (foundMvr == null) {
+			foundMvr = MetricsFactory.eINSTANCE.createMetricValueRange();
+			foundMvr.setKindHint(valueDataKind.getKindHint());
+			foundMvr.setPeriodHint(periodHint);
+			foundNetXResource.getMetricValueRanges().add(foundMvr);
 		}
 		final Value value = GenericsFactory.eINSTANCE.createValue();
 		value.setTimeStamp(ServerUtils.getInstance().toXmlDate(timeStamp));
 		value.setValue(dblValue);
-		valueRange.getMetricValues().add(value);
+		foundMvr.getMetricValues().add(value);
 	}
 
 	private ValueDataKind getValueDataKind(MappingXLSColumn column) {
@@ -417,11 +390,11 @@ public class MetricValuesImporter {
 		this.inputStream = inputStream;
 	}
 
-	public JobMonitor getJobMonitor() {
+	public WorkFlowRunMonitor getJobMonitor() {
 		return jobMonitor;
 	}
 
-	public void setJobMonitor(JobMonitor jobMonitor) {
+	public void setJobMonitor(WorkFlowRunMonitor jobMonitor) {
 		this.jobMonitor = jobMonitor;
 	}
 

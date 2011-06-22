@@ -33,30 +33,25 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
 public class RFSServiceJobImplementation extends JobImplementation {
 
 	private ExpressionWorkFlowRun workFlowRun;
-	
+
 	@Override
 	public void run() {
-		getDataProvider().openSession();
-		getDataProvider().getTransaction();
-
-		workFlowRun = SchedulingFactory.eINSTANCE.createExpressionWorkFlowRun();
-		
 		final RFSServiceJob serviceJob = (RFSServiceJob) getJob();
-
 		final RFSServiceCapacityLogic capacityLogic = Activator.getInstance()
 				.getInjector().getInstance(RFSServiceCapacityLogic.class);
-		capacityLogic.setDataProvider(getDataProvider());
-		capacityLogic.setRfsService(serviceJob.getRFSService());
-		capacityLogic.setJobMonitor(getJobMonitor());
+		capacityLogic.setRfsService(serviceJob.getRFSService().cdoID());
+		capacityLogic.setJobMonitor(getRunMonitor());
+		capacityLogic.initializeServiceMonitor();
 		capacityLogic.run();
-		if (!capacityLogic.getFailures().isEmpty()) {
-			workFlowRun.getFailureRefs().addAll(capacityLogic.getFailures());
-		}
 		getDataProvider().commitTransaction();
 	}
-	
+
 	@Override
 	public WorkFlowRun createWorkFlowRunInstance() {
+		if (workFlowRun == null) {
+			workFlowRun = SchedulingFactory.eINSTANCE
+					.createExpressionWorkFlowRun();
+		}
 		return workFlowRun;
 	}
 
