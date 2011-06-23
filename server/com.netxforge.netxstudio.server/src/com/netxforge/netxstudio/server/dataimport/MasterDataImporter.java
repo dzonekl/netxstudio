@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.server.dataimport;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,15 +29,13 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.data.internal.DataActivator;
-import com.netxforge.netxstudio.server.Server;
 
 /**
  * Imports metrics and units from an excel sheet.
@@ -47,45 +44,46 @@ import com.netxforge.netxstudio.server.Server;
  */
 public class MasterDataImporter {
 
-	@Inject
-	@Server
 	private IDataProvider dataProvider;
 
 	private List<EStructuralFeature> eFeatures = new ArrayList<EStructuralFeature>();
 
 	private EClass eClassToImport;
 
-	public MasterDataImporter() {
-		DataActivator.getInjector().injectMembers(this);
-	}
+	private List<EObject> objects = new ArrayList<EObject>();
+
+	private List<RowResult> rowResults = new ArrayList<RowResult>();
+
+	private List<String> unresolvedReferences = new ArrayList<String>();
 
 	public void process(HSSFWorkbook workBook) {
-		dataProvider.openSession("test", "test");
 		try {
-			final List<EObject> result = new ArrayList<EObject>();
 			for (int i = 0; i < workBook.getNumberOfSheets(); i++) {
-				result.addAll(processWorkSheet(workBook.getSheetAt(i)));
+				processWorkSheet(i, workBook.getSheetAt(i));
 			}
 
-			final Resource resource = dataProvider.getResource(
-					eClassToImport);
-			resource.getContents().clear();
-			resource.getContents().addAll(result);
-			resource.save(Collections.emptyMap());
+			for (final RowResult rowResult : rowResults) {
+				processEReferences(rowResult.getEObject(), rowResult.getRow());
+				final Resource resource = dataProvider.getResource(rowResult.getEObject().eClass());
+				resource.getContents().add(rowResult.getEObject());
+			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
-		} finally {
-			dataProvider.getSession().close();
 		}
 	}
 
-	private List<EObject> processWorkSheet(HSSFSheet sheet) {
+	private List<EObject> processWorkSheet(int index, HSSFSheet sheet) {
 		final List<EObject> result = new ArrayList<EObject>();
 		setEFeatures(sheet);
 		for (int i = 2; i <= sheet.getLastRowNum(); i++) {
 			final EObject eObject = processRow(sheet.getRow(i));
 			if (eObject != null) {
 				result.add(eObject);
+				objects.add(eObject);
+				final RowResult rowResult = new RowResult();
+				rowResult.setRow(sheet.getRow(i));
+				rowResult.setEObject(eObject);
+				rowResults.add(rowResult);
 			}
 		}
 		return result;
@@ -112,18 +110,39 @@ public class MasterDataImporter {
 		}
 		final EObject result = EcoreUtil.create(eClassToImport);
 		for (int i = 0; i < eFeatures.size(); i++) {
+			final EStructuralFeature eFeature = eFeatures.get(i);
 			if (row.getCell(i) == null) {
 				continue;
 			}
+			if (eFeature instanceof EReference) {
+				continue;
+			}
 			final String value = row.getCell(i).getStringCellValue();
-			final int maxLength = ExtendedMetaData.INSTANCE.getMaxLengthFacet(((EAttribute)eFeatures.get(i)).getEAttributeType());
+			final int maxLength = ExtendedMetaData.INSTANCE
+					.getMaxLengthFacet(((EAttribute) eFeature)
+							.getEAttributeType());
 			if (maxLength > 0 && value != null && value.length() > maxLength) {
-				result.eSet(eFeatures.get(i), value.substring(0, maxLength));
+				result.eSet(eFeature, value.substring(0, maxLength));
 			} else {
-				result.eSet(eFeatures.get(i), value);
+				result.eSet(eFeature, value);
 			}
 		}
 		return result;
+	}
+
+	private void processEReferences(EObject result, HSSFRow row) {
+		for (int i = 0; i < eFeatures.size(); i++) {
+			final EStructuralFeature eFeature = eFeatures.get(i);
+			if (row.getCell(i) == null) {
+				continue;
+			}
+			if (eFeature instanceof EAttribute) {
+				continue;
+			}
+			final String value = row.getCell(i).getStringCellValue();
+			final EReference eReference = (EReference) eFeature;
+			result.eSet(eFeature, getObject(eReference, value));
+		}
 	}
 
 	public EClass getEClassToImport() {
@@ -134,4 +153,67 @@ public class MasterDataImporter {
 		this.eClassToImport = eClassToImport;
 	}
 
+	public IDataProvider getDataProvider() {
+		return dataProvider;
+	}
+
+	public void setDataProvider(IDataProvider dataProvider) {
+		this.dataProvider = dataProvider;
+	}
+
+	private EObject getObject(EReference eReference, String identifier) {
+		final EClass expectedEClass = eReference.getEReferenceType();
+		for (final EObject eObject : objects) {
+			if (eObject.eClass() == expectedEClass) {
+				for (final EAttribute eAttribute : eObject.eClass()
+						.getEAllAttributes()) {
+					final Object value = eObject.eGet(eAttribute);
+					if (value instanceof String
+							&& ((String) value).compareToIgnoreCase(identifier) == 0) {
+						return eObject;
+					}
+				}
+			}
+		}
+
+		// not found, maybe it can be found in an existing resource
+		final Resource res = dataProvider.getResource(expectedEClass);
+		for (final EObject eObject : res.getContents()) {
+			if (eObject.eClass() == expectedEClass) {
+				for (final EAttribute eAttribute : eObject.eClass()
+						.getEAllAttributes()) {
+					final Object value = eObject.eGet(eAttribute);
+					if (value instanceof String
+							&& ((String) value).compareToIgnoreCase(identifier) == 0) {
+						return eObject;
+					}
+				}
+			}
+		}
+		
+		unresolvedReferences.add("From " + eReference.getName() + " --> "
+				+ expectedEClass.getName() + " using " + identifier);
+		return null;
+	}
+
+	private static class RowResult {
+		private HSSFRow row;
+		private EObject eObject;
+
+		public HSSFRow getRow() {
+			return row;
+		}
+
+		public void setRow(HSSFRow row) {
+			this.row = row;
+		}
+
+		public EObject getEObject() {
+			return eObject;
+		}
+
+		public void setEObject(EObject eObject) {
+			this.eObject = eObject;
+		}
+	}
 }

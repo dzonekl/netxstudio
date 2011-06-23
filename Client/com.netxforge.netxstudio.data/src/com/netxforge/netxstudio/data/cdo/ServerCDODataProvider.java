@@ -16,14 +16,12 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.server;
+package com.netxforge.netxstudio.data.cdo;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.cdo.CDODataProvider;
-import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 
 /**
  * Uses a jvm connection to connect to the repository.
@@ -33,19 +31,9 @@ import com.netxforge.netxstudio.data.cdo.ICDOConnection;
 public class ServerCDODataProvider extends CDODataProvider {
 
 	@Inject
-	public ServerCDODataProvider(@Server ICDOConnection conn) {
+	public ServerCDODataProvider(ICDOConnection conn) {
 		super(conn);
 	}	
-
-	@Override
-	public void openSession(String uid, String passwd) throws SecurityException {
-		this.openSession();
-	}
-
-	@Override
-	protected boolean doGetResourceFromOwnTransaction() {
-		return false;
-	}
 
 	private CDOSession session = null;
 
@@ -80,6 +68,11 @@ public class ServerCDODataProvider extends CDODataProvider {
 	@Override
 	protected void setTransaction(CDOTransaction transaction) {
 		this.transaction = transaction;
+	}
+
+	@Override
+	protected boolean doGetResourceFromOwnTransaction() {
+		return false;
 	}
 
 }

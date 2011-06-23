@@ -58,7 +58,8 @@ public abstract class CDODataProvider implements IDataProvider {
 
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
-
+	private boolean doGetResourceFromOwnTransaction = true;
+	
 	@Inject
 	public CDODataProvider(ICDOConnection conn) {
 		this.connection = conn;
@@ -293,22 +294,22 @@ public abstract class CDODataProvider implements IDataProvider {
 	}
 
 	private Resource getResource(String resourceName) {
-		CDOResource resource = resolveInCurrentView(resourceName);
+		if (doGetResourceFromOwnTransaction()) {
+			final CDOResource resource = resolveInCurrentView(resourceName);
 
-		if (resource == null) {
-			if (createResourceInSeparateTransaction()) {
+			if (resource == null) {
 				final CDOTransaction transaction = getSession()
 						.openTransaction();
-				resource = transaction.getOrCreateResource(resourceName);
-			} else {
-				resource = getTransaction().getOrCreateResource(resourceName);
+				return transaction.getOrCreateResource(resourceName);
 			}
+			return resource;
+		} else {
+			return getTransaction().getOrCreateResource(resourceName);
 		}
-		return resource;
 	}
 
-	protected boolean createResourceInSeparateTransaction() {
-		return true;
+	protected boolean doGetResourceFromOwnTransaction() {
+		return doGetResourceFromOwnTransaction;
 	}
 
 	private CDOResource resolveInCurrentView(String resourceName) {
@@ -354,6 +355,11 @@ public abstract class CDODataProvider implements IDataProvider {
 		} finally {
 			setTransaction(null);
 		}
+	}
+
+	public void setDoGetResourceFromOwnTransaction(
+			boolean doGetResourceFromOwnTransaction) {
+		this.doGetResourceFromOwnTransaction = doGetResourceFromOwnTransaction;
 	}
 
 }

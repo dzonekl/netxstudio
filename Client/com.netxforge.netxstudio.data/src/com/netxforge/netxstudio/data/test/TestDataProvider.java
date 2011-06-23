@@ -155,4 +155,9 @@ public class TestDataProvider implements IDataProvider {
 		return null;
 	}
 	
+	public void setDoGetResourceFromOwnTransaction(
+			boolean createResourceInSeparateTransaction) {
+		
+	}
+
 }
