@@ -4,6 +4,7 @@ Bundle-Name: Test
 Bundle-SymbolicName: com.netxforge.netxstudio.server.test
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: NETXFORGE
+Eclipse-RegisterBuddy: com.netxforge.netxstudio.server.metrics
 Require-Bundle: org.eclipse.core.runtime,
  org.junit4;bundle-version="4.8.1",
  org.eclipse.emf.cdo;bundle-version="4.0.0",
@@ -24,9 +25,13 @@ Require-Bundle: org.eclipse.core.runtime,
  com.google.collect;bundle-version="1.0.0",
  com.netxforge.netxstudio.server.logic;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: com.netxforge.netxstudio.server.test.actions,
+Export-Package: com.netxforge.netxstudio.server.test,
+ com.netxforge.netxstudio.server.test.actions,
+ com.netxforge.netxstudio.server.test.actions.data,
  com.netxforge.netxstudio.server.test.base,
  com.netxforge.netxstudio.server.test.common,
+ com.netxforge.netxstudio.server.test.dataprovider,
+ com.netxforge.netxstudio.server.test.job,
  com.netxforge.netxstudio.server.test.metrics
 Bundle-Activator: com.netxforge.netxstudio.server.test.Activator
 Bundle-ActivationPolicy: lazy
