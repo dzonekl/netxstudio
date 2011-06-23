@@ -162,6 +162,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 		final RFSServiceJob job = SchedulingFactory.eINSTANCE
 				.createRFSServiceJob();
 		job.setRFSService(rfsService);
+		job.setJobState(JobState.ACTIVE);
 		job.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		job.setInterval(600);
