@@ -111,7 +111,12 @@ public class MetricValuesImporter {
 			int totalRows = 0;
 			boolean noFiles = true;
 			final File rootFile = new File(fileOrDirectory);
-			if (rootFile.isFile()) {
+			if (!rootFile.exists()) {
+				jobMonitor.appendToLog("Root directory/file ("
+						+ rootFile.getAbsolutePath() + ") does not exist");
+				noFiles = true;
+				errorOccurred = true;
+			} else if (rootFile.isFile()) {
 				if (rootFile.getName().endsWith(".xls")) {
 					try {
 						final int beforeFailedSize = getFailedRecords().size();
