@@ -105,51 +105,54 @@ public class JobHandler {
 
 		// now initialize quartz
 		for (final EObject eObject : jobResource.getContents()) {
-			final Job job = (Job) eObject;
-
-			if (job.getJobState() == JobState.IN_ACTIVE) {
-				continue;
-			}
-			final int countJobRuns = countJobRuns(job);
-			if (job.getRepeat() > 0 && job.getRepeat() >= countJobRuns) {
-				continue;
-			}
-
-			final JobDataMap map = new JobDataMap();
-			map.put(NetxForgeJob.JOB_PARAMETER, job);
-
-			final String jobIdentity = job.cdoID().toString();
-
-			final JobDetail jobDetail = JobBuilder.newJob(NetxForgeJob.class)
-					.withIdentity(jobIdentity).withDescription(job.getName())
-					.usingJobData(map).build();
-			TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder
-					.newTrigger().withIdentity(jobIdentity);
-			if (job.getStartTime() != null) {
-				triggerBuilder = triggerBuilder.startAt(job.getStartTime()
-						.toGregorianCalendar().getTime());
-			} else {
-				triggerBuilder = triggerBuilder.startNow();
-			}
-			final SimpleScheduleBuilder scheduleBuilder;
-			if (job.getEndTime() != null) {
-				triggerBuilder.endAt(job.getEndTime().toGregorianCalendar()
-						.getTime());
-				scheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
-			} else if (job.getRepeat() > 0) {
-				scheduleBuilder = SimpleScheduleBuilder
-						.repeatSecondlyForTotalCount(job.getRepeat() - countJobRuns,
-								job.getInterval() > 10 ? job.getInterval() : 10);
-			} else if (job.getInterval() > 10) {
-				scheduleBuilder = SimpleScheduleBuilder
-						.repeatSecondlyForever(job.getInterval());
-			} else {
-				scheduleBuilder = SimpleScheduleBuilder
-						.repeatSecondlyForever(10);
-			}
-			final Trigger trigger = triggerBuilder
-					.withSchedule(scheduleBuilder).build();
 			try {
+				final Job job = (Job) eObject;
+
+				if (job.getJobState() == JobState.IN_ACTIVE) {
+					continue;
+				}
+				final int countJobRuns = countJobRuns(job);
+				if (job.getRepeat() > 0 && job.getRepeat() >= countJobRuns) {
+					continue;
+				}
+
+				final JobDataMap map = new JobDataMap();
+				map.put(NetxForgeJob.JOB_PARAMETER, job);
+
+				final String jobIdentity = job.cdoID().toString();
+
+				final JobDetail jobDetail = JobBuilder
+						.newJob(NetxForgeJob.class).withIdentity(jobIdentity)
+						.withDescription(job.getName()).usingJobData(map)
+						.build();
+				TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder
+						.newTrigger().withIdentity(jobIdentity);
+				if (job.getStartTime() != null) {
+					triggerBuilder = triggerBuilder.startAt(job.getStartTime()
+							.toGregorianCalendar().getTime());
+				} else {
+					triggerBuilder = triggerBuilder.startNow();
+				}
+				final SimpleScheduleBuilder scheduleBuilder;
+				if (job.getEndTime() != null) {
+					triggerBuilder.endAt(job.getEndTime().toGregorianCalendar()
+							.getTime());
+					scheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
+				} else if (job.getRepeat() > 0) {
+					scheduleBuilder = SimpleScheduleBuilder
+							.repeatSecondlyForTotalCount(job.getRepeat()
+									- countJobRuns,
+									job.getInterval() > 10 ? job.getInterval()
+											: 10);
+				} else if (job.getInterval() > 10) {
+					scheduleBuilder = SimpleScheduleBuilder
+							.repeatSecondlyForever(job.getInterval());
+				} else {
+					scheduleBuilder = SimpleScheduleBuilder
+							.repeatSecondlyForever(10);
+				}
+				final Trigger trigger = triggerBuilder.withSchedule(
+						scheduleBuilder).build();
 				scheduler.scheduleJob(jobDetail, trigger);
 			} catch (final Exception e) {
 				// TODO do some form of logging but don't stop everything
@@ -171,8 +174,8 @@ public class JobHandler {
 
 	private int countJobRuns(Job job) {
 		final CDOID cdoId = job.cdoID();
-		final Resource resource = dataProvider.getResource(
-				SchedulingPackage.eINSTANCE.getJobRunContainer());
+		final Resource resource = dataProvider
+				.getResource(SchedulingPackage.eINSTANCE.getJobRunContainer());
 		for (final EObject eObject : resource.getContents()) {
 			final JobRunContainer container = (JobRunContainer) eObject;
 			final Job containerJob = container.getJob();
@@ -183,7 +186,7 @@ public class JobHandler {
 		}
 		return 0;
 	}
-	
+
 	private void deActivateInstance() {
 		try {
 			scheduler.shutdown();
@@ -239,7 +242,8 @@ public class JobHandler {
 					@Override
 					public void notifyLifecycleEvent(ILifecycleEvent event) {
 						if (event.getKind() == Kind.ACTIVATED) {
-							ServerUtils.getInstance().initializeServer(repository);
+							ServerUtils.getInstance().initializeServer(
+									repository);
 							JobHandler.createAndInitialize();
 						}
 					}
