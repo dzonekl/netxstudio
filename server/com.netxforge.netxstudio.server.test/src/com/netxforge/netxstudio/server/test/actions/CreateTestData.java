@@ -234,8 +234,6 @@ public class CreateTestData extends AbstractDataProviderTest {
 		// add to the job resource, that one is watched by the jobhandler
 		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
 				.add(msJob);
-
-		addToResource(msJob);
 		return metricSource;
 	}
 
