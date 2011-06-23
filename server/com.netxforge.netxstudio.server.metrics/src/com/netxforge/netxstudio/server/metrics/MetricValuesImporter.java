@@ -49,6 +49,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
+import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerUtils;
 import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
@@ -83,7 +84,14 @@ public class MetricValuesImporter {
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(
 			DATE_PATTERN);
 
+	private Throwable throwable;
+	
 	public void process() {
+		// force that the same dataprovider is used
+		// so that components retrieved by the networkElementLocator
+		// participate in the same transaction
+		networkElementLocator.setDataProvider(dataProvider);
+		
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
 		MappingStatistic mappingStatistic = null;
@@ -94,6 +102,11 @@ public class MetricValuesImporter {
 			final String location = metricSource.getMetricLocation();
 			final InputStream is = (inputStream == null ? this.getClass()
 					.getResourceAsStream(location) : inputStream);
+			if (is == null) {
+				jobMonitor.appendToLog("File " + location + " not found, not importing");
+				jobMonitor.setFinished(JobRunState.FINISHED_SUCCESSFULLY, null);
+				return;
+			}
 			final HSSFWorkbook workBook = new HSSFWorkbook(is);
 			final HSSFSheet sheet = workBook.getSheetAt(getMappingXLS()
 					.getSheetNumber());
@@ -106,11 +119,16 @@ public class MetricValuesImporter {
 			endTime = System.currentTimeMillis();
 			mappingStatistic = createMappingStatistics(startTime, endTime,
 					totalRows, null);
-		} catch (final Exception e) {
-			// TODO; improve logging
-			e.printStackTrace(System.err);
+			if (getFailedRecords().size() > 0) {
+				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);				
+			} else {
+				jobMonitor.setFinished(JobRunState.FINISHED_SUCCESSFULLY, null);
+			}
+		} catch (final Throwable t) {
+			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
+			t.printStackTrace(System.err);
 			mappingStatistic = createMappingStatistics(startTime, endTime, 0,
-					e.getMessage());
+					t.getMessage());
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
 		dataProvider.commitTransaction();
@@ -403,6 +421,14 @@ public class MetricValuesImporter {
 	
 	public void setMetricSourceWithId(CDOID cdoID) {
 		metricSource = (MetricSource)dataProvider.getTransaction().getObject(cdoID);
+	}
+
+	public Throwable getThrowable() {
+		return throwable;
+	}
+
+	public void setThrowable(Throwable throwable) {
+		this.throwable = throwable;
 	}
 
 }

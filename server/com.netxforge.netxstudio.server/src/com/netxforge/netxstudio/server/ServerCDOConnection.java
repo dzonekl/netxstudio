@@ -35,7 +35,7 @@ public class ServerCDOConnection implements ICDOConnection {
 
 	@Override
 	public CDOSessionConfiguration getConfig() {
-		return ServerUtils.getInstance().getSessionConfiguration();
+		return ServerUtils.getInstance().createSessionConfiguration();
 	}
 	
 }

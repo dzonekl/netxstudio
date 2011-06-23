@@ -77,7 +77,7 @@ public class WorkFlowRunMonitor {
 		if (workDone > totalWork) {
 			return 100;
 		}
-		return (workDone / totalWork) * 100;
+		return (100 * workDone / totalWork);
 	}
 
 	public int getTotalWork() {
@@ -142,7 +142,9 @@ public class WorkFlowRunMonitor {
 			wfRun.setLog(log + "\n" + t.getMessage() + "\n" + sw.toString());
 		} else {
 			wfRun.setState(state);
-			wfRun.setLog(log.toString());
+			if (log.length() > 0) {
+				wfRun.setLog(log.toString());				
+			}
 			wfRun.setProgress(100);
 		}
 		wfRun.setEnded(ServerUtils.getInstance().toXmlDate(new Date()));

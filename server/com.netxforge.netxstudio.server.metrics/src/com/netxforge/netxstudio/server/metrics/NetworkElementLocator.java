@@ -127,4 +127,12 @@ public class NetworkElementLocator {
 		}
 
 	}
+
+	public IDataProvider getDataProvider() {
+		return dataProvider;
+	}
+
+	public void setDataProvider(IDataProvider dataProvider) {
+		this.dataProvider = dataProvider;
+	}
 }

@@ -81,7 +81,6 @@ public class ServerUtils {
 		ServerUtils.instance = instance;
 	}
 
-	private CDOSessionConfiguration sessionConfiguration = null;
 	private IJVMAcceptor acceptor;
 	private IConnector connector;
 	private String serverSideLogin = "" + System.currentTimeMillis();
@@ -120,16 +119,9 @@ public class ServerUtils {
 					+ repository.getName() + " it must be " + REPO_NAME);
 		}
 	}
-
-	public CDOSessionConfiguration getSessionConfiguration() {
-		if (sessionConfiguration == null) {
-			initializeSessionConfiguration();
-		}
-		return sessionConfiguration;
-	}
-
+	
 	public CDOSession openJVMSession() {
-		final CDOSession cdoSession = getSessionConfiguration().openSession();
+		final CDOSession cdoSession = createSessionConfiguration().openSession();
 
 		// add the epackages
 		cdoSession.getPackageRegistry().putEPackage(GeoPackage.eINSTANCE);
@@ -156,14 +148,14 @@ public class ServerUtils {
 		}
 	}
 
-	private void initializeSessionConfiguration() {
+	public CDOSessionConfiguration createSessionConfiguration() {
 		// Prepare container
 		final IManagedContainer container = IPluginContainer.INSTANCE;
 		acceptor = JVMUtil.getAcceptor(container, "default");
 		connector = JVMUtil.getConnector(container, "default");
 
 		// Create configuration
-		sessionConfiguration = CDONet4jUtil.createSessionConfiguration();
+		final CDOSessionConfiguration sessionConfiguration = CDONet4jUtil.createSessionConfiguration();
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 
@@ -172,6 +164,9 @@ public class ServerUtils {
 						serverSideLogin.toCharArray()));
 		sessionConfiguration.getAuthenticator().setCredentialsProvider(
 				credentialsProvider);
+		// set to a minute
+		sessionConfiguration.setSignalTimeout(60 * 1000);
+		return sessionConfiguration;
 	}
 
 	public XMLGregorianCalendar toXmlDate(Date date) {
@@ -204,7 +199,6 @@ public class ServerUtils {
 			return;
 		}
 		isInitializing = true;
-		initializeSessionConfiguration();
 		final ServerInitializer resourceInitializer = Activator.getInstance()
 				.getInjector().getInstance(ServerInitializer.class);
 		resourceInitializer.initialize();
