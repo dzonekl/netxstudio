@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.metrics;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,6 +64,8 @@ import com.netxforge.netxstudio.server.metrics.NetworkElementLocator.IdentifierV
  */
 public class MetricValuesImporter {
 
+	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
+
 	private MetricSource metricSource;
 
 	private WorkFlowRunMonitor jobMonitor;
@@ -69,7 +73,7 @@ public class MetricValuesImporter {
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
-	
+
 	@Inject
 	private NetworkElementLocator networkElementLocator;
 
@@ -77,41 +81,83 @@ public class MetricValuesImporter {
 
 	private List<ImportWarning> warnings = new ArrayList<ImportWarning>();
 
-	private InputStream inputStream = null;
-
 	private static final String DATE_PATTERN = "MM/dd/yyyy hh:mm:ss";
 
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(
 			DATE_PATTERN);
 
 	private Throwable throwable;
-	
+
 	public void process() {
 		// force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
 		// participate in the same transaction
 		networkElementLocator.setDataProvider(dataProvider);
-		
+
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
+		boolean errorOccurred = false;
 		MappingStatistic mappingStatistic = null;
 		try {
 			jobMonitor.setTask("Processing metricsource "
 					+ metricSource.getName());
 
-			final String location = metricSource.getMetricLocation();
-			final InputStream is = (inputStream == null ? this.getClass()
-					.getResourceAsStream(location) : inputStream);
-			if (is == null) {
-				jobMonitor.appendToLog("File " + location + " not found, not importing");
-				jobMonitor.setFinished(JobRunState.FINISHED_SUCCESSFULLY, null);
-				return;
+			final String msLocation = metricSource.getMetricLocation();
+			String rootUrl = System.getProperty(ROOT_SYSTEM_PROPERTY);
+			if (!rootUrl.endsWith("/") && !msLocation.startsWith("/")) {
+				rootUrl += "/";
 			}
-			final HSSFWorkbook workBook = new HSSFWorkbook(is);
-			final HSSFSheet sheet = workBook.getSheetAt(getMappingXLS()
-					.getSheetNumber());
+			final String fileOrDirectory = rootUrl + msLocation;
+			int totalRows = 0;
+			boolean noFiles = true;
+			final File rootFile = new File(fileOrDirectory);
+			if (rootFile.isFile()) {
+				if (rootFile.getName().endsWith(".xls")) {
+					try {
+						final int beforeFailedSize = getFailedRecords().size();
+						noFiles = false;
+						jobMonitor.setMsg("Processing file "
+								+ rootFile.getAbsolutePath());
+						jobMonitor.appendToLog("Processing file "
+								+ rootFile.getAbsolutePath());
+						totalRows += processFile(new FileInputStream(rootFile));
+						moveFile(rootFile,
+								getFailedRecords().size() > beforeFailedSize);
+					} catch (final Throwable t) {
+						errorOccurred = true;
+						jobMonitor.appendToLog("Error (" + t.getMessage()
+								+ ") while processing file "
+								+ rootFile.getAbsolutePath());
+					}
+				}
+			} else {
+				for (final File file : rootFile.listFiles()) {
+					if (file.getName().endsWith(".xls")) {
+						try {
+							final int beforeFailedSize = getFailedRecords()
+									.size();
+							noFiles = false;
+							jobMonitor.setMsg("Processing file "
+									+ file.getAbsolutePath());
+							jobMonitor.appendToLog("Processing file "
+									+ file.getAbsolutePath());
+							totalRows += processFile(new FileInputStream(file));
+							moveFile(
+									file,
+									getFailedRecords().size() > beforeFailedSize);
+						} catch (final Throwable t) {
+							errorOccurred = true;
+							jobMonitor.appendToLog("Error (" + t.getMessage()
+									+ ") while processing file "
+									+ file.getAbsolutePath());
+						}
+					}
+				}
+			}
 
-			final int totalRows = processRows(sheet);
+			if (noFiles) {
+				jobMonitor.appendToLog("No files found for processing");
+			}
 
 			jobMonitor.setMsg("Creating mappingstatistics");
 			jobMonitor.incrementProgress(1, true);
@@ -119,8 +165,8 @@ public class MetricValuesImporter {
 			endTime = System.currentTimeMillis();
 			mappingStatistic = createMappingStatistics(startTime, endTime,
 					totalRows, null);
-			if (getFailedRecords().size() > 0) {
-				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);				
+			if (errorOccurred || getFailedRecords().size() > 0) {
+				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
 			} else {
 				jobMonitor.setFinished(JobRunState.FINISHED_SUCCESSFULLY, null);
 			}
@@ -132,6 +178,23 @@ public class MetricValuesImporter {
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
 		dataProvider.commitTransaction();
+	}
+
+	private void moveFile(File file, boolean error) {
+		if (error) {
+			file.renameTo(new File(file.getAbsolutePath()
+					+ ".done_with_failures"));
+		} else {
+			file.renameTo(new File(file.getAbsolutePath() + ".done"));
+		}
+	}
+
+	private int processFile(InputStream is) throws Exception {
+		final HSSFWorkbook workBook = new HSSFWorkbook(is);
+		final HSSFSheet sheet = workBook.getSheetAt(getMappingXLS()
+				.getSheetNumber());
+
+		return processRows(sheet);
 	}
 
 	// create the mapping statistics on the basis of the errors and
@@ -231,9 +294,10 @@ public class MetricValuesImporter {
 			networkElement.getResources().add(foundNetXResource);
 		}
 		MetricValueRange foundMvr = null;
-		for (final MetricValueRange mvr : foundNetXResource.getMetricValueRanges()) {
-			if (mvr.getKindHint() == valueDataKind.getKindHint() && 
-					mvr.getPeriodHint() == periodHint) {
+		for (final MetricValueRange mvr : foundNetXResource
+				.getMetricValueRanges()) {
+			if (mvr.getKindHint() == valueDataKind.getKindHint()
+					&& mvr.getPeriodHint() == periodHint) {
 				foundMvr = mvr;
 				break;
 			}
@@ -403,14 +467,6 @@ public class MetricValuesImporter {
 		this.failedRecords = failedRecords;
 	}
 
-	public InputStream getInputStream() {
-		return inputStream;
-	}
-
-	public void setInputStream(InputStream inputStream) {
-		this.inputStream = inputStream;
-	}
-
 	public WorkFlowRunMonitor getJobMonitor() {
 		return jobMonitor;
 	}
@@ -418,9 +474,10 @@ public class MetricValuesImporter {
 	public void setJobMonitor(WorkFlowRunMonitor jobMonitor) {
 		this.jobMonitor = jobMonitor;
 	}
-	
+
 	public void setMetricSourceWithId(CDOID cdoID) {
-		metricSource = (MetricSource)dataProvider.getTransaction().getObject(cdoID);
+		metricSource = (MetricSource) dataProvider.getTransaction().getObject(
+				cdoID);
 	}
 
 	public Throwable getThrowable() {

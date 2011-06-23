@@ -18,8 +18,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.metrics;
 
-import java.io.InputStream;
-
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.server.job.JobImplementation;
@@ -31,29 +29,17 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
  */
 public class MetricSourceJobImplementation extends JobImplementation {
 
+	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
+	
 	@Override
 	public void run() {
-		getDataProvider().openSession();
-		getDataProvider().getTransaction();
-
 		// read a new metricsource so that it is part of this
 		// transaction/session
 		final MetricSource metricSource = getMetricSource();
-
-		final MetricValuesImporter metricsImporter = new MetricValuesImporter();
-
-		metricsImporter.setMetricSource(metricSource);
-		final String fileName = "data/" + metricSource.getName() + ".xls";
-		final InputStream is = this.getClass().getResourceAsStream(
-				fileName);
-		if (is == null) {
-			getRunMonitor().appendToLog("File " + fileName + " not present, not executing import");
-			getDataProvider().commitTransaction();
-			return;
-		}
-		metricsImporter.setInputStream(is);
+		final MetricValuesImporter metricsImporter = Activator.getInstance().getInjector().getInstance(MetricValuesImporter.class);
+		metricsImporter.setMetricSourceWithId(metricSource.cdoID());
+		metricsImporter.setJobMonitor(getRunMonitor());
 		metricsImporter.process();
-		getDataProvider().commitTransaction();
 	}
 
 	private MetricSource getMetricSource() {

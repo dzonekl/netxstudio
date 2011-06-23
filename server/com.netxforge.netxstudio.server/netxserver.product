@@ -13,7 +13,8 @@
 -Ddebug=true
 -Dlog4j.debug=true
 -Dnet4j.config=&quot;${resource_loc:/com.netxforge.netxstudio.server/config}&quot;
--Dorg.osgi.service.http.port=8080</vmArgs>
+-Dorg.osgi.service.http.port=8080
+-DmetricSourceRoot=/home/mtaal/mydata/dev/tmobile/projects/server/com.netxforge.netxstudio.server.test/data</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 

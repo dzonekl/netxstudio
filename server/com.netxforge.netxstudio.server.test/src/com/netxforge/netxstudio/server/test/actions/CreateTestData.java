@@ -209,9 +209,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 		final MetricSource metricSource = MetricsFactory.eINSTANCE
 				.createMetricSource();
 		metricSource.setName(MS_NAME);
-		metricSource
-				.setMetricLocation("/com/netxforge/netxstudio/server/test/actions/data/"
-						+ MS_NAME + ".xls");
+		metricSource.setMetricLocation("SGSN"); // /" + MS_NAME + ".xls
 
 		final MappingXLS mappingXLS = MetricsFactory.eINSTANCE
 				.createMappingXLS();
@@ -353,8 +351,10 @@ public class CreateTestData extends AbstractDataProviderTest {
 			equipments.add(equipment);
 			if (level == 0 && i == 0) {
 				equipment.setName(id);
-				equipment.getMetricRefs().add(getMetric("Gb mode max attached users(number)"));
-				equipment.getMetricRefs().add(getMetric("Iu mode max attached users(number)"));
+				equipment.getMetricRefs().add(
+						getMetric("Gb mode max attached users(number)"));
+				equipment.getMetricRefs().add(
+						getMetric("Iu mode max attached users(number)"));
 			} else {
 				equipment.setName(id + "_" + level + "_" + i);
 			}
@@ -374,8 +374,10 @@ public class CreateTestData extends AbstractDataProviderTest {
 			functions.add(function);
 			if (level == 0 && i == 0) {
 				function.setName(id);
-				function.getMetricRefs().add(getMetric("Gb mode max attached users(number)"));
-				function.getMetricRefs().add(getMetric("Iu mode max attached users(number)"));
+				function.getMetricRefs().add(
+						getMetric("Gb mode max attached users(number)"));
+				function.getMetricRefs().add(
+						getMetric("Iu mode max attached users(number)"));
 			} else {
 				function.setName(id + "_" + level + "_" + i);
 			}
