@@ -1,5 +1,7 @@
 package com.netxforge.netxstudio.server.metrics;
 
+import java.util.Hashtable;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -12,6 +14,8 @@ import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
+import com.netxforge.netxstudio.server.job.JobModule;
+import com.netxforge.netxstudio.server.metrics.MetricSourceImportService.ServiceRunner;
 
 public class Activator implements BundleActivator {
 
@@ -42,7 +46,10 @@ public class Activator implements BundleActivator {
 
 		Module om = new MetricModule();
 		om = Modules.override(om).with(ServerModule.getModule());
+		om = Modules.override(om).with(new JobModule());
 		injector = Guice.createInjector(om);
+
+		bundleContext.registerService(MetricSourceImportService.class, new MetricSourceImportService(), new Hashtable<String, String>());
 
 		// register our new MetricSourceJob creator
 		JobImplementation.REGISTRY.register(MetricSourceJob.class,
@@ -76,6 +83,9 @@ public class Activator implements BundleActivator {
 		@Override
 		protected void configure() {
 			this.bind(MetricSourceJobImplementation.class);
+			this.bind(MetricValuesImporter.class);
+			this.bind(NetworkElementLocator.class);
+			this.bind(ServiceRunner.class);
 		}
 	}
 }

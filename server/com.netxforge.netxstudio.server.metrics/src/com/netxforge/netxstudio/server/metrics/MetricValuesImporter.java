@@ -27,6 +27,7 @@ import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.common.util.EList;
 
 import com.google.inject.Inject;
@@ -67,7 +68,9 @@ public class MetricValuesImporter {
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
-	private NetworkElementLocator networkElementLocator = new NetworkElementLocator();
+	
+	@Inject
+	private NetworkElementLocator networkElementLocator;
 
 	private List<MappingRecordXLS> failedRecords = new ArrayList<MappingRecordXLS>();
 
@@ -396,6 +399,10 @@ public class MetricValuesImporter {
 
 	public void setJobMonitor(WorkFlowRunMonitor jobMonitor) {
 		this.jobMonitor = jobMonitor;
+	}
+	
+	public void setMetricSourceWithId(CDOID cdoID) {
+		metricSource = (MetricSource)dataProvider.getTransaction().getObject(cdoID);
 	}
 
 }
