@@ -14,8 +14,6 @@ public class LogicModule extends AbstractModule {
 		this.bind(RFSServiceCapacityLogic.class);
 		this.bind(RFSServiceJobImplementation.class);
 		this.bind(CapacityLogicEngine.class);
-		this.bind(RFSServiceCapacityLogic.class);
-		this.bind(NodeCapacityLogic.class);
 		this.bind(NodeCapacityLogic.class);
 		this.bind(CapacityServiceRunner.class);
 	}

@@ -110,7 +110,7 @@ public abstract class BaseCapacityLogic {
 		}
 		timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
 		timeRange.setBegin(getModelUtils().toXMLDate(getStartTime()));
-		timeRange.setEnd(getModelUtils().toXMLDate(endTime));
+		timeRange.setEnd(getModelUtils().toXMLDate(getEndTime()));
 		return timeRange;
 	}
 

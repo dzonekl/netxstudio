@@ -21,7 +21,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.aopalliance;bundle-version="1.0.0",
  com.netxforge.netxstudio.server.metrics;bundle-version="1.0.0",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
- com.google.collect;bundle-version="1.0.0"
+ com.google.collect;bundle-version="1.0.0",
+ com.netxforge.netxstudio.server.logic;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.netxforge.netxstudio.server.test.actions,
  com.netxforge.netxstudio.server.test.base,

@@ -341,6 +341,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		} finally {
+			getTransaction().close();
 			setTransaction(null);
 		}
 	}
@@ -353,6 +354,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		} finally {
+			getTransaction().close();
 			setTransaction(null);
 		}
 	}

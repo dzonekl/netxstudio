@@ -26,6 +26,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
+import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
@@ -52,12 +53,13 @@ public class CapacityService implements NetxForgeService {
 	public static final String NODE_PARAM = "node";
 	public static final String NODETYPE_PARAM = "nodeType";
 	public static final String START_TIME_PARAM = "startTime";
-	public static final String END_TIME_PARAM = "endTime";	
+	public static final String END_TIME_PARAM = "endTime";
 
 	public Object run(Map<String, String> parameters) {
 		final CapacityServiceRunner runner = LogicActivator.getInstance()
 				.getInjector().getInstance(CapacityServiceRunner.class);
-		return runner.run();
+		runner.setParameters(parameters);
+		return ((AbstractCDOIDLong)runner.run()).getLongValue();
 	}
 
 	public static class CapacityServiceRunner {
@@ -67,21 +69,27 @@ public class CapacityService implements NetxForgeService {
 
 		private Map<String, String> parameters;
 
-		private Object run() {
+		private CDOID run() {
 			final WorkFlowRunMonitor monitor = createMonitor();
 			final BaseCapacityLogic capacityLogic;
 			if (parameters.containsKey(SERVICE_PARAM)) {
-				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM), ServicesPackage.Literals.RFS_SERVICE);
-				capacityLogic = LogicActivator.getInstance().getInjector().getInstance(RFSServiceCapacityLogic.class);
-				((RFSServiceCapacityLogic)capacityLogic).setRfsService(id);
+				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
+						ServicesPackage.Literals.RFS_SERVICE);
+				capacityLogic = LogicActivator.getInstance().getInjector()
+						.getInstance(RFSServiceCapacityLogic.class);
+				((RFSServiceCapacityLogic) capacityLogic).setRfsService(id);
 			} else if (parameters.containsKey(NODE_PARAM)) {
-				final CDOID id = getCDOID(parameters.get(NODE_PARAM), OperatorsPackage.Literals.NODE);
-				capacityLogic = LogicActivator.getInstance().getInjector().getInstance(NodeCapacityLogic.class);
-				((NodeCapacityLogic)capacityLogic).setNode(id);
+				final CDOID id = getCDOID(parameters.get(NODE_PARAM),
+						OperatorsPackage.Literals.NODE);
+				capacityLogic = LogicActivator.getInstance().getInjector()
+						.getInstance(NodeCapacityLogic.class);
+				((NodeCapacityLogic) capacityLogic).setNode(id);
 			} else if (parameters.containsKey(NODETYPE_PARAM)) {
-				final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM), LibraryPackage.Literals.NODE_TYPE);
-				capacityLogic = LogicActivator.getInstance().getInjector().getInstance(NodeCapacityLogic.class);
-				((NodeCapacityLogic)capacityLogic).setNodeType(id);
+				final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
+						LibraryPackage.Literals.NODE_TYPE);
+				capacityLogic = LogicActivator.getInstance().getInjector()
+						.getInstance(NodeCapacityLogic.class);
+				((NodeCapacityLogic) capacityLogic).setNodeType(id);
 			} else {
 				throw new IllegalArgumentException("No valid parameters found");
 			}
@@ -92,7 +100,7 @@ public class CapacityService implements NetxForgeService {
 			new Thread() {
 				@Override
 				public void run() {
-					// sleep to give the system 
+					// sleep to give the system
 					// time to return
 					try {
 						sleep(100);
@@ -106,36 +114,40 @@ public class CapacityService implements NetxForgeService {
 		}
 
 		private Date getStartTime(Map<String, String> parameters) {
-			final XMLGregorianCalendar xmlDate = XMLTypeFactory.eINSTANCE.createDateTime(parameters.get(START_TIME_PARAM));
+			final XMLGregorianCalendar xmlDate = XMLTypeFactory.eINSTANCE
+					.createDateTime(parameters.get(START_TIME_PARAM));
 			return xmlDate.toGregorianCalendar().getTime();
 		}
-		
+
 		private Date getEndTime(Map<String, String> parameters) {
-			final XMLGregorianCalendar xmlDate = XMLTypeFactory.eINSTANCE.createDateTime(parameters.get(END_TIME_PARAM));
+			final XMLGregorianCalendar xmlDate = XMLTypeFactory.eINSTANCE
+					.createDateTime(parameters.get(END_TIME_PARAM));
 			return xmlDate.toGregorianCalendar().getTime();
 		}
-		
+
 		private WorkFlowRunMonitor createMonitor() {
-			final WorkFlowRunMonitor runMonitor = LogicActivator.getInstance().getInjector().getInstance(WorkFlowRunMonitor.class);
+			final WorkFlowRunMonitor runMonitor = LogicActivator.getInstance()
+					.getInjector().getInstance(WorkFlowRunMonitor.class);
 			dataProvider.openSession();
 			dataProvider.getTransaction();
-			final Resource res = dataProvider.getResource(SchedulingPackage.Literals.EXPRESSION_WORK_FLOW_RUN);
-			
-			final WorkFlowRun wfRun =SchedulingFactory.eINSTANCE
+			final Resource res = dataProvider
+					.getResource(SchedulingPackage.Literals.EXPRESSION_WORK_FLOW_RUN);
+
+			final WorkFlowRun wfRun = SchedulingFactory.eINSTANCE
 					.createExpressionWorkFlowRun();
 			res.getContents().add(wfRun);
-			
+
 			dataProvider.commitTransaction();
 			dataProvider.closeSession();
 			runMonitor.setWorkFlowRunId(wfRun.cdoID());
 			runMonitor.setStartRunning();
 			return runMonitor;
 		}
-		
-		private CDOID getCDOID(String idString, org.eclipse.emf.ecore.EClass eClass) {
-			return CDOIDUtil
-					.createLongWithClassifier(new CDOClassifierRef(eClass), Long
-							.parseLong(idString));
+
+		private CDOID getCDOID(String idString,
+				org.eclipse.emf.ecore.EClass eClass) {
+			return CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(
+					eClass), Long.parseLong(idString));
 		}
 
 		public Map<String, String> getParameters() {
