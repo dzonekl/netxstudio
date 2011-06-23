@@ -140,6 +140,7 @@ public abstract class CDODataProvider implements IDataProvider {
 	public CDOSession openSession() {
 		if (connection.getConfig() == null) {
 			connection.initialize();
+			connection.getConfig().setSignalTimeout(60 * 1000);
 		}
 		final CDOSession cdoSession = connection.getConfig().openSession();
 		for (final EPackage ePackage : ePackages) {
@@ -324,13 +325,6 @@ public abstract class CDODataProvider implements IDataProvider {
 			}
 		}
 		return null;
-	}
-
-	public CDOTransaction getgetTransaction() {
-		if (getTransaction() == null) {
-			setTransaction(getSession().openTransaction());
-		}
-		return getTransaction();
 	}
 
 	public void commitTransaction() {
