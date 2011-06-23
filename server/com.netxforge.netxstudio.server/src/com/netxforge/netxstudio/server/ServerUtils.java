@@ -165,7 +165,7 @@ public class ServerUtils {
 		sessionConfiguration.getAuthenticator().setCredentialsProvider(
 				credentialsProvider);
 		// set to a minute
-		sessionConfiguration.setSignalTimeout(60 * 1000);
+		sessionConfiguration.setSignalTimeout(IDataProvider.SIGNAL_TIME_OUT);
 		return sessionConfiguration;
 	}
 

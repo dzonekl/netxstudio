@@ -30,6 +30,11 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 public interface IDataProvider {
 
 	/**
+	 * The timeout time.
+	 */
+	public static final long SIGNAL_TIME_OUT = 60 * 1000;
+	
+	/**
 	 * Get the resource in the the provided set, with the provided resourcePath.
 	 * 
 	 * @param set

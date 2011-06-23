@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -313,12 +315,32 @@ public class MetricValuesImporter {
 			foundMvr.setPeriodHint(periodHint);
 			foundNetXResource.getMetricValueRanges().add(foundMvr);
 		}
-		final Value value = GenericsFactory.eINSTANCE.createValue();
+		
+		final long timeInMillis = timeStamp.getTime();
+		Value value = null;
+		for (final Value lookValue : foundMvr.getMetricValues()) {
+			if (isSameTime(periodHint, timeInMillis, lookValue.getTimeStamp())) {
+				value = lookValue;
+				break;
+			}
+		}
+		
+		if (value == null) {
+			value = GenericsFactory.eINSTANCE.createValue();
+		}
 		value.setTimeStamp(ServerUtils.getInstance().toXmlDate(timeStamp));
 		value.setValue(dblValue);
 		foundMvr.getMetricValues().add(value);
 	}
 
+	private boolean isSameTime(int period, long time1, XMLGregorianCalendar time2) {
+		long diff = time1 - time2.toGregorianCalendar().getTimeInMillis();
+		if (diff < 0) {
+			diff = diff * -1;
+		}
+		return diff < (period * 60 * 1000 - 1);
+	}
+	
 	private ValueDataKind getValueDataKind(MappingXLSColumn column) {
 		return (ValueDataKind) column.getDataType();
 	}

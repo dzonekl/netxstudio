@@ -84,6 +84,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		if (connection.getConfig() == null) {
 			connection.initialize();
 		}
+		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
 
 		// Session Config and Sessions go hand in hand.
 		// Recover our session, if some reason we try to reopen for the same
@@ -140,8 +141,8 @@ public abstract class CDODataProvider implements IDataProvider {
 	public CDOSession openSession() {
 		if (connection.getConfig() == null) {
 			connection.initialize();
-			connection.getConfig().setSignalTimeout(60 * 1000);
 		}
+		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
 		final CDOSession cdoSession = connection.getConfig().openSession();
 		for (final EPackage ePackage : ePackages) {
 			cdoSession.getPackageRegistry().putEPackage(ePackage);
