@@ -16,6 +16,7 @@ package com.netxforge.netxscript;
  * <ul>
  *   <li>{@link com.netxforge.netxscript.NativeExpression#getRange <em>Range</em>}</li>
  *   <li>{@link com.netxforge.netxscript.NativeExpression#getRef <em>Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.NativeExpression#getVar <em>Var</em>}</li>
  *   <li>{@link com.netxforge.netxscript.NativeExpression#getNativeFunction <em>Native Function</em>}</li>
  * </ul>
  * </p>
@@ -77,6 +78,32 @@ public interface NativeExpression extends Expression
    * @generated
    */
   void setRef(Expression value);
+
+  /**
+   * Returns the value of the '<em><b>Var</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Var</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Var</em>' containment reference.
+   * @see #setVar(Expression)
+   * @see com.netxforge.netxscript.NetxscriptPackage#getNativeExpression_Var()
+   * @model containment="true"
+   * @generated
+   */
+  Expression getVar();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.netxscript.NativeExpression#getVar <em>Var</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Var</em>' containment reference.
+   * @see #getVar()
+   * @generated
+   */
+  void setVar(Expression value);
 
   /**
    * Returns the value of the '<em><b>Native Function</b></em>' attribute.

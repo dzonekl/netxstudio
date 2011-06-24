@@ -790,4 +790,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 	public Form getScreenForm() {
 		return frmNewJob;
 	}
+
+	public void disposeData() {
+		// N/A
+		
+	}
 }

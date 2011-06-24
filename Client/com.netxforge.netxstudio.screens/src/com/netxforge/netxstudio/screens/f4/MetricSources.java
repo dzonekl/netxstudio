@@ -1,16 +1,32 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import java.util.List;
+
+import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -19,153 +35,307 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.server.actions.ServerRequest;
+import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.data.cdo.ICDOQueries;
+import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricsFactory;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class MetricSources extends AbstractScreen implements IDataServiceInjection {
+public class MetricSources extends AbstractScreen implements
+		IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
 	private Text txtFilterText;
 	private Form frmMetricSources;
-	
+	private TableViewer tableViewer;
+	private Resource msResource;
+
+	@Inject
+	ServerRequest serverActions;
+
 	/**
 	 * Create the composite.
+	 * 
 	 * @param parent
 	 * @param style
 	 */
 	public MetricSources(Composite parent, int style) {
 		super(parent, style);
-		
+
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+				disposeData();
 				toolkit.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
-		
+
 		frmMetricSources = toolkit.createForm(this);
 		frmMetricSources.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmMetricSources);
 		frmMetricSources.setText("Metric Sources");
-		frmMetricSources.getBody().setLayout(new GridLayout(2, false));
-		
-		Label lblFilterLabel = toolkit.createLabel(frmMetricSources.getBody(), "Filter:", SWT.NONE);
-		lblFilterLabel.setAlignment(SWT.RIGHT);
-		GridData gd_lblFilterLabel = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_lblFilterLabel.widthHint = 70;
-		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
-		
-		txtFilterText = toolkit.createText(frmMetricSources.getBody(), "New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
+		frmMetricSources.getBody().setLayout(new GridLayout(3, false));
+
+		@SuppressWarnings("unused")
+		Label lblFilterLabel = toolkit.createLabel(frmMetricSources.getBody(),
+				"Filter:", SWT.NONE);
+
+		txtFilterText = toolkit.createText(frmMetricSources.getBody(),
+				"New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
-		txtFilterText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		new Label(frmMetricSources.getBody(), SWT.NONE);
-		
-		TableViewer tableViewer = new TableViewer(frmMetricSources.getBody(), SWT.BORDER | SWT.FULL_SELECTION);
+		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_txtFilterText.widthHint = 200;
+		txtFilterText.setLayoutData(gd_txtFilterText);
+
+		ImageHyperlink mghprlnkNewImagehyperlink = toolkit
+				.createImageHyperlink(frmMetricSources.getBody(), SWT.NONE);
+		mghprlnkNewImagehyperlink
+				.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkActivated(HyperlinkEvent e) {
+						NewEditMetricSource msScreen = new NewEditMetricSource(
+								screenService.getScreenContainer(), SWT.NONE
+										| Screens.OPERATION_NEW);
+						screenService.setActiveScreen(msScreen);
+						msScreen.injectData(msResource,
+								MetricsFactory.eINSTANCE.createMetricSource());
+
+					}
+
+					public void linkEntered(HyperlinkEvent e) {
+					}
+
+					public void linkExited(HyperlinkEvent e) {
+					}
+				});
+		mghprlnkNewImagehyperlink.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/ctool16/Metricsource_E.png"));
+		mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
+		toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
+		mghprlnkNewImagehyperlink.setText("New");
+
+		tableViewer = new TableViewer(frmMetricSources.getBody(), SWT.BORDER
+				| SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
-		
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
 		tblclmnNewColumn.setWidth(100);
 		tblclmnNewColumn.setText("Name");
-		
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnLocationUrl = tableViewerColumn_1.getColumn();
 		tblclmnLocationUrl.setWidth(100);
 		tblclmnLocationUrl.setText("Location URL");
-		
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn_1 = tableViewerColumn_2.getColumn();
 		tblclmnNewColumn_1.setWidth(100);
 		tblclmnNewColumn_1.setText("Statistics");
-		
+
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
-		
+
+		MenuItem mntmEditMetricSource = new MenuItem(menu, SWT.NONE);
+		mntmEditMetricSource.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (screenService != null) {
+					ISelection selection = getViewer().getSelection();
+					if (selection instanceof IStructuredSelection) {
+						Object o = ((IStructuredSelection) selection)
+								.getFirstElement();
+						NewEditMetricSource editMetricSourceScreen = new NewEditMetricSource(
+								screenService.getScreenContainer(),
+								Screens.OPERATION_EDIT | SWT.NONE);
+						editMetricSourceScreen.injectData(msResource, o);
+						screenService.setActiveScreen(editMetricSourceScreen);
+					}
+				}
+
+			}
+		});
+		mntmEditMetricSource.setText("Edit...");
+
+		new MenuItem(menu, SWT.SEPARATOR);
+
 		MenuItem mntmScheduleCollectionJob = new MenuItem(menu, SWT.NONE);
+		mntmScheduleCollectionJob.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (screenService != null) {
+					ISelection selection = getViewer().getSelection();
+					if (selection instanceof IStructuredSelection) {
+						Object o = ((IStructuredSelection) selection)
+								.getFirstElement();
+						if (o instanceof MetricSource) {
+
+							int operation = -1;
+
+							List<Job> matchingJobs = editingService
+									.getDataService().getQueryService()
+									.getJobWithMetricSource((MetricSource) o);
+
+							Resource jobResource = editingService
+									.getData(SchedulingPackage.Literals.JOB);
+							Job job = null;
+
+							// Edit or New if the MetricSource has a job or not.
+							if (matchingJobs.size() == 1) {
+								operation = Screens.OPERATION_EDIT;
+								job = matchingJobs.get(0);
+							} else {
+								operation = Screens.OPERATION_NEW;
+								job = SchedulingFactory.eINSTANCE
+										.createMetricSourceJob();
+							}
+
+							NewEditJob newEditJob = new NewEditJob(
+									screenService.getScreenContainer(),
+									operation | SWT.NONE);
+							newEditJob.injectData(jobResource, job);
+							screenService.setActiveScreen(newEditJob);
+						}
+					}
+				}
+			}
+		});
 		mntmScheduleCollectionJob.setText("Schedule Collection Job...");
-		
+
 		MenuItem mntmCollectNow = new MenuItem(menu, SWT.NONE);
-		mntmCollectNow.setText("Collect Now");
-		
+		mntmCollectNow.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (o instanceof MetricSource) {
+						MetricSource ms = (MetricSource) o;
+						try {
+							String result = serverActions
+									.callMetricImportAction(ms);
+							if (result
+									.equals(ServerRequest.DEFAULT_SUCCESS_RESULT)) {
+								MessageDialog.openInformation(
+										MetricSources.this.getShell(),
+										"Collect now succeeded:",
+										"Collection of data from metric source: "
+												+ ms.getName()
+												+ "\n has been initiated on the server. Select the view shoung current jobs, to monitor it's status");
+
+							}
+
+						} catch (Exception e1) {
+							e1.printStackTrace();
+							MessageDialog.openError(
+									MetricSources.this.getShell(),
+									"Collect now failed:",
+									"Collection of data from metric source: "
+											+ ms.getName()
+											+ "\n failed. Consult the log for information on the failure");
+
+						}
+
+					}
+				}
+			}
+		});
+		mntmCollectNow.setText("Collect Now...");
+
 		MenuItem mntmDeleteCollection = new MenuItem(menu, SWT.NONE);
+		mntmDeleteCollection.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				// TODO Delete the collection.
+
+			}
+		});
 		mntmDeleteCollection.setText("Delete Collection...");
-		
-		Button btnAddButton = toolkit.createButton(frmMetricSources.getBody(), "+", SWT.NONE);
-		GridData gd_btnAddButton = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_btnAddButton.widthHint = 18;
-		gd_btnAddButton.heightHint = 18;
-		btnAddButton.setLayoutData(gd_btnAddButton);
-		
-		Button btnRemoveButton_1 = toolkit.createButton(frmMetricSources.getBody(), "-", SWT.NONE);
-		GridData gd_btnRemoveButton_1 = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_btnRemoveButton_1.widthHint = 18;
-		gd_btnRemoveButton_1.heightHint = 18;
-		btnRemoveButton_1.setLayoutData(gd_btnRemoveButton_1);
-		new Label(frmMetricSources.getBody(), SWT.NONE);
+
+		if (editingService != null) {
+			injectData();
+		}
 	}
 
 	public Viewer getViewer() {
-		// TODO Auto-generated method stub
-		return null;
+		return tableViewer;
 	}
 
 	public void injectData() {
-//		Resource res = editingService.getData(OperatorsPackage.NETXSTUDIO);
-//		if (res.getContents().size() == 0) {
-//			Netxstudio netx = NetxstudioFactory.eINSTANCE.createNetxstudio();
-//			res.getContents().add(netx);
-//			studio = netx;
-//		} else {
-//			studio = (Netxstudio) res.getContents().get(0);
-//		}
-//		m_bindingContext = initDataBindings_();
+		IDataService dService = editingService.getDataService();
+		CDOTransaction t = dService.getProvider().getSession()
+				.openTransaction();
+		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS);
+		q.setParameter(ICDOQueries.CACHE_RESULTS, true);
+		List<MetricSource> metricSources = q.getResult(MetricSource.class);
+
+		// Get a resource, to store our query.
+		msResource = editingService
+				.getData(MetricsPackage.Literals.METRIC_SOURCE);
+		msResource.getContents().addAll(metricSources);
+
+		initDataBindings_();
+
 	}
-	
-	
+
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-//		//
-//		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-//		tableViewer.setContentProvider(listContentProvider);
-//		//
-//		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-//				listContentProvider.getKnownElements(),
-//				new EStructuralFeature[] { MetricsPackage.Literals.METRIC_SOURCE__NAME,
-//						Literals.PERSON__LAST_NAME, Literals.PERSON__LOGIN,
-//						Literals.PERSON__EMAIL });
-//		tableViewer
-//				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
-//
-//		IEMFListProperty l = EMFEditProperties.list(
-//				editingService.getEditingDomain(),
-//				NetxstudioPackage.Literals.NETXSTUDIO__USERS);
-//
-//		tableViewer.setInput(l.observe(studio));
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		tableViewer.setContentProvider(listContentProvider);
+
+		IObservableMap[] observeMaps = EMFObservables.observeMaps(
+				listContentProvider.getKnownElements(),
+				new EStructuralFeature[] {
+						MetricsPackage.Literals.METRIC_SOURCE__NAME,
+						MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION,
+						MetricsPackage.Literals.METRIC_SOURCE__STATISTICS });
+		tableViewer
+				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		IEMFListProperty l = EMFProperties.resource();
+		tableViewer.setInput(l.observe(msResource));
 		return bindingContext;
 	}
 
-	
 	public void disposeData() {
 		if (editingService != null) {
 			editingService.disposeData();
-		}		
+		}
 	}
+
 	public boolean isValid() {
-		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	public Form getScreenForm() {
 		return this.frmMetricSources;

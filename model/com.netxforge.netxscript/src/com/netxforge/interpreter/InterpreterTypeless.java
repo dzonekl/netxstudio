@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.util.PolymorphicDispatcher;
 
 import com.google.common.base.Joiner;
@@ -16,6 +17,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxscript.AbsoluteRef;
+import com.netxforge.netxscript.AbstractVarOrArgument;
 import com.netxforge.netxscript.And;
 import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
@@ -41,10 +43,12 @@ import com.netxforge.netxscript.Multi;
 import com.netxforge.netxscript.NativeExpression;
 import com.netxforge.netxscript.NativeFunction;
 import com.netxforge.netxscript.Negation;
+import com.netxforge.netxscript.NetxscriptFactory;
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.Plus;
+import com.netxforge.netxscript.PlusAssignment;
 import com.netxforge.netxscript.RangeLiteral;
 import com.netxforge.netxscript.RefAssignment;
 import com.netxforge.netxscript.Reference;
@@ -353,6 +357,9 @@ public class InterpreterTypeless implements IInterpreter {
 				return statement;
 			}
 
+			// FIXME, SHOULD REALLY SKIP EVALUATION, IF WE DEAL WITH AN
+			// ASSIGNEMNT
+			// TYPE STATEMENT.
 			Object eval = dispatcher.invoke(statement,
 					ImmutableMap.copyOf(localVarsAndArguments));
 
@@ -370,6 +377,11 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 
 			{ // Pre-evaluation of variables and assignments.
+
+				if (statement instanceof Argument) {
+					// We don't reassign values to arguments.
+				}
+
 				if (statement instanceof Variable) {
 					Variable v = (Variable) statement;
 					if (v.getExpression() != null) {
@@ -380,6 +392,9 @@ public class InterpreterTypeless implements IInterpreter {
 				}
 				if (statement instanceof Assignment) {
 					Assignment a = (Assignment) statement;
+					// We now need to get 'left' as the expression will not have
+					// been assigned to this.
+
 					if (a.getExpression() != null) {
 
 						Object varEval = dispatcher.invoke(a.getExpression(),
@@ -389,6 +404,36 @@ public class InterpreterTypeless implements IInterpreter {
 
 					}
 				}
+
+				if (statement instanceof PlusAssignment) {
+					PlusAssignment pa = (PlusAssignment) statement;
+					AbstractVarOrArgument var = pa.getVar();
+
+					// TODO, supportin indexed assignements.
+//					if (pa.getExpression().getIndex() != null) {
+//					}
+
+					VarOrArgumentCall call = NetxscriptFactory.eINSTANCE
+							.createVarOrArgumentCall();
+					call.setCall(var);
+
+					// Now we need to construct a new Plus expression.
+					// Left is our assigned variable made as a call.
+					Plus p = NetxscriptFactory.eINSTANCE.createPlus();
+
+					p.setLeft(call);
+					// Oops, make a copy. 
+					Expression eCopy = EcoreUtil.copy(pa.getExpression());
+					p.setRight(eCopy);
+
+					Object varEval = dispatcher.invoke(p,
+							ImmutableMap.copyOf(localVarsAndArguments));
+
+					localVarsAndArguments.put(((Variable) var).getName(),
+							varEval);
+
+				}
+
 				if (statement instanceof RefAssignment) {
 					RefAssignment refa = (RefAssignment) statement;
 
@@ -432,9 +477,9 @@ public class InterpreterTypeless implements IInterpreter {
 									.getValuerange();
 							switch (range.getValue()) {
 							case ValueRange.METRIC_VALUE: {
-								
-								// TODO, No Range for Metric. 
-//								er.setTargetRange(RangeKind.MCAP);
+
+								// TODO, No Range for Metric.
+								// er.setTargetRange(RangeKind.MCAP);
 							}
 							case ValueRange.CAP_VALUE: {
 								er.setTargetRange(RangeKind.CAP);
@@ -466,6 +511,8 @@ public class InterpreterTypeless implements IInterpreter {
 								if (entry instanceof BigDecimal) {
 									// TODO populate a value list, with
 									// timestamp to make it a Value.
+									
+									
 								}
 							}
 							result.add(er);
@@ -688,11 +735,6 @@ public class InterpreterTypeless implements IInterpreter {
 		// This is a reference call, which should not do anything
 		// really....
 		return null;
-
-		// TODO, Remove later.
-		// Object eval = dispatcher
-		// .invoke(e.getRef(), ImmutableMap.copyOf(params));
-		// return eval;
 	}
 
 	protected Object internalEvaluate(Reference e,
@@ -836,6 +878,16 @@ public class InterpreterTypeless implements IInterpreter {
 				range = (List<?>) eval;
 			}
 		}
+		if (ne.getVar() != null) {
+			// Lookup the variable, by it's expression.
+			if (ne.getVar() != null) {
+				Object eval = dispatcher.invoke(ne.getVar(),
+						ImmutableMap.copyOf(values));
+				if (eval instanceof List<?>) {
+					range = (List<?>) eval;
+				}
+			}
+		}
 
 		if (range != null && ne.getNativeFunction() != null) {
 			NativeFunction nf = ne.getNativeFunction();
@@ -882,13 +934,47 @@ public class InterpreterTypeless implements IInterpreter {
 
 	protected List<BigDecimal> internalEvaluate(RangeLiteral e,
 			ImmutableMap<String, Object> values) {
-		return ImmutableList.copyOf(e.getValues());
+
+		// check for an empty range.
+		if (e.getValues() == null) {
+			return Lists.newArrayList();
+		} else {
+			return ImmutableList.copyOf(e.getValues());
+		}
 	}
 
-	protected BigDecimal internalEvaluate(Plus plus,
+	protected Object internalEvaluate(Plus plus,
 			ImmutableMap<String, Object> values) {
-		return evaluateNumeric(plus.getLeft(), values).add(
-				evaluateNumeric(plus.getRight(), values));
+
+		// Various adding combinations.
+		//
+		Object leftEval = evaluate(plus.getLeft(), values);
+		Object rightEval = evaluate(plus.getRight(), values);
+
+		if (assertNumeric(leftEval)) {
+			if (assertNumeric(rightEval)) {
+				return ((BigDecimal) leftEval).add((BigDecimal) rightEval);
+			}
+		}
+		if (assertCollection(leftEval)) {
+			List<Object> leftEvalAsList = Lists
+					.newArrayList((List<?>) leftEval);
+			if (assertNumeric(rightEval)) {
+				// Build a new list.
+				leftEvalAsList.add(rightEval);
+				return ImmutableList.copyOf(leftEvalAsList);
+			}
+			if(assertValue(rightEval)){
+				Value v = (Value)rightEval;
+				leftEvalAsList.add(new BigDecimal(v.getValue()));
+				return ImmutableList.copyOf(leftEvalAsList);
+			}
+		}
+		
+
+		throw new UnsupportedOperationException(
+				"Plus expression for invalid types");
+
 	}
 
 	protected BigDecimal internalEvaluate(Minus minus,
@@ -1071,6 +1157,14 @@ public class InterpreterTypeless implements IInterpreter {
 
 	protected boolean assertNumeric(Object eval) {
 		return (eval instanceof BigDecimal);
+	}
+	
+	protected boolean assertValue(Object eval) {
+		return (eval instanceof Value);
+	}
+	
+	protected boolean assertValueOrNumeric(Object eval) {
+		return assertNumeric(eval) || assertValue(eval);
 	}
 
 	protected boolean assertNumeric(Object left, Object right) {

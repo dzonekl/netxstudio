@@ -33,6 +33,8 @@ import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.metrics.KindHintType;
+import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.scheduling.Job;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -67,6 +69,16 @@ public class CDOQueryService implements IQueryService {
 		q.setParameter("name", userID);
 		queryService.setCacheParameter(q);
 		return q.getResult(Role.class);
+	}
+	
+	
+	public List<Job> getJobWithMetricSource(MetricSource source) {
+
+		CDOTransaction t = provider.getSession().openTransaction();
+		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS_WITH_METRICSOURCE);
+		q.setParameter("metricSource", source);
+		queryService.setCacheParameter(q);
+		return q.getResult(Job.class);
 	}
 
 	public Role getCurrentRole() {

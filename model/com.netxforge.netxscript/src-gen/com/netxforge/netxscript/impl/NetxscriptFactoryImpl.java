@@ -85,6 +85,7 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.WHILE: return createWhile();
       case NetxscriptPackage.VARIABLE: return createVariable();
       case NetxscriptPackage.ASSIGNMENT: return createAssignment();
+      case NetxscriptPackage.PLUS_ASSIGNMENT: return createPlusAssignment();
       case NetxscriptPackage.REF_ASSIGNMENT: return createRefAssignment();
       case NetxscriptPackage.AND: return createAnd();
       case NetxscriptPackage.OR: return createOr();
@@ -104,8 +105,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.BOOLEAN_LITERAL: return createBooleanLiteral();
       case NetxscriptPackage.NUMBER_LITERAL: return createNumberLiteral();
       case NetxscriptPackage.FUNCTION_CALL: return createFunctionCall();
-      case NetxscriptPackage.VAR_OR_ARGUMENT_CALL: return createVarOrArgumentCall();
       case NetxscriptPackage.NATIVE_EXPRESSION: return createNativeExpression();
+      case NetxscriptPackage.VAR_OR_ARGUMENT_CALL: return createVarOrArgumentCall();
       case NetxscriptPackage.RANGE_LITERAL: return createRangeLiteral();
       case NetxscriptPackage.ABSOLUTE_REF: return createAbsoluteRef();
       case NetxscriptPackage.CONTEXT_REF: return createContextRef();
@@ -351,6 +352,17 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
+  public PlusAssignment createPlusAssignment()
+  {
+    PlusAssignmentImpl plusAssignment = new PlusAssignmentImpl();
+    return plusAssignment;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public RefAssignment createRefAssignment()
   {
     RefAssignmentImpl refAssignment = new RefAssignmentImpl();
@@ -560,10 +572,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public VarOrArgumentCall createVarOrArgumentCall()
+  public NativeExpression createNativeExpression()
   {
-    VarOrArgumentCallImpl varOrArgumentCall = new VarOrArgumentCallImpl();
-    return varOrArgumentCall;
+    NativeExpressionImpl nativeExpression = new NativeExpressionImpl();
+    return nativeExpression;
   }
 
   /**
@@ -571,10 +583,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public NativeExpression createNativeExpression()
+  public VarOrArgumentCall createVarOrArgumentCall()
   {
-    NativeExpressionImpl nativeExpression = new NativeExpressionImpl();
-    return nativeExpression;
+    VarOrArgumentCallImpl varOrArgumentCall = new VarOrArgumentCallImpl();
+    return varOrArgumentCall;
   }
 
   /**

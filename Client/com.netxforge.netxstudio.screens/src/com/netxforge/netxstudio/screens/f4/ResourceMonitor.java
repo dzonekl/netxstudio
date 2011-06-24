@@ -57,6 +57,7 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
+				disposeData();
 			}
 		});
 		toolkit.adapt(this);
@@ -404,5 +405,10 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 	@Override
 	public Form getScreenForm() {
 		return this.frmFunction;
+	}
+
+	public void disposeData() {
+		editingService.disposeData();
+		
 	}
 }

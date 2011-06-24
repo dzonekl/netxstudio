@@ -179,6 +179,15 @@ public interface NetxscriptFactory extends EFactory
   Assignment createAssignment();
 
   /**
+   * Returns a new object of class '<em>Plus Assignment</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Plus Assignment</em>'.
+   * @generated
+   */
+  PlusAssignment createPlusAssignment();
+
+  /**
    * Returns a new object of class '<em>Ref Assignment</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -350,15 +359,6 @@ public interface NetxscriptFactory extends EFactory
   FunctionCall createFunctionCall();
 
   /**
-   * Returns a new object of class '<em>Var Or Argument Call</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Var Or Argument Call</em>'.
-   * @generated
-   */
-  VarOrArgumentCall createVarOrArgumentCall();
-
-  /**
    * Returns a new object of class '<em>Native Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -366,6 +366,15 @@ public interface NetxscriptFactory extends EFactory
    * @generated
    */
   NativeExpression createNativeExpression();
+
+  /**
+   * Returns a new object of class '<em>Var Or Argument Call</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Var Or Argument Call</em>'.
+   * @generated
+   */
+  VarOrArgumentCall createVarOrArgumentCall();
 
   /**
    * Returns a new object of class '<em>Range Literal</em>'.

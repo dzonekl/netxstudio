@@ -661,7 +661,7 @@ public class NewEditUser extends AbstractScreen implements
 		if (Screens.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new AddCommand(editingService.getEditingDomain(),
-					((Netxstudio) owner).getUsers(), user);
+					owner.getUsers(), user);
 			editingService.getEditingDomain().getCommandStack().execute(c);
 		} else if (Screens.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
@@ -679,7 +679,7 @@ public class NewEditUser extends AbstractScreen implements
 			}
 
 			Command c = new ReplaceCommand(editingService.getEditingDomain(),
-					((Netxstudio) owner).getUsers(), original, user);
+					owner.getUsers(), original, user);
 			editingService.getEditingDomain().getCommandStack().execute(c);
 
 			System.out.println(user.cdoID() + "" + user.cdoState());
@@ -690,7 +690,7 @@ public class NewEditUser extends AbstractScreen implements
 			editingService.doSave(new NullProgressMonitor());
 		}
 
-//		System.out.println(user.cdoID() + "" + user.cdoState());
+		// System.out.println(user.cdoID() + "" + user.cdoState());
 	}
 
 	/*
@@ -807,5 +807,10 @@ public class NewEditUser extends AbstractScreen implements
 	@Override
 	public Form getScreenForm() {
 		return this.frmNewEditUser;
+	}
+
+	public void disposeData() {
+		// N/A
+
 	}
 }

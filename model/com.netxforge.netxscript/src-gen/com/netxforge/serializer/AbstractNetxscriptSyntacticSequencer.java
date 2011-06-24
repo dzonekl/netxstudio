@@ -16,18 +16,18 @@ import org.eclipse.xtext.serializer.sequencer.AbstractSyntacticSequencer;
 public class AbstractNetxscriptSyntacticSequencer extends AbstractSyntacticSequencer {
 
 	protected NetxscriptGrammarAccess grammarAccess;
-	protected AbstractElementAlias match_Literal_ParenthesizedExpression_LeftParenthesisKeyword_0_a_FalseKeyword_1_1_1_RightParenthesisKeyword_2_p;
 	protected AbstractElementAlias match_Literal_ParenthesizedExpression_LeftParenthesisKeyword_0_p_FalseKeyword_1_1_1_RightParenthesisKeyword_2_p;
 	protected AbstractElementAlias match_ParenthesizedExpression_LeftParenthesisKeyword_0_a;
 	protected AbstractElementAlias match_ParenthesizedExpression_LeftParenthesisKeyword_0_p;
+	protected AbstractElementAlias match_ParenthesizedExpression_RangeLiteral_LeftParenthesisKeyword_0_p_LeftSquareBracketKeyword_1_RightSquareBracketKeyword_3_RightParenthesisKeyword_2_p;
 	
 	@Inject
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (NetxscriptGrammarAccess) access;
-		match_Literal_ParenthesizedExpression_LeftParenthesisKeyword_0_a_FalseKeyword_1_1_1_RightParenthesisKeyword_2_p = new GroupAlias(false, false, new TokenAlias(true, true, grammarAccess.getParenthesizedExpressionAccess().getLeftParenthesisKeyword_0()), new TokenAlias(false, false, grammarAccess.getLiteralAccess().getFalseKeyword_1_1_1()), new TokenAlias(false, true, grammarAccess.getParenthesizedExpressionAccess().getRightParenthesisKeyword_2()));
 		match_Literal_ParenthesizedExpression_LeftParenthesisKeyword_0_p_FalseKeyword_1_1_1_RightParenthesisKeyword_2_p = new GroupAlias(false, false, new TokenAlias(false, true, grammarAccess.getParenthesizedExpressionAccess().getLeftParenthesisKeyword_0()), new TokenAlias(false, false, grammarAccess.getLiteralAccess().getFalseKeyword_1_1_1()), new TokenAlias(false, true, grammarAccess.getParenthesizedExpressionAccess().getRightParenthesisKeyword_2()));
 		match_ParenthesizedExpression_LeftParenthesisKeyword_0_a = new TokenAlias(true, true, grammarAccess.getParenthesizedExpressionAccess().getLeftParenthesisKeyword_0());
 		match_ParenthesizedExpression_LeftParenthesisKeyword_0_p = new TokenAlias(false, true, grammarAccess.getParenthesizedExpressionAccess().getLeftParenthesisKeyword_0());
+		match_ParenthesizedExpression_RangeLiteral_LeftParenthesisKeyword_0_p_LeftSquareBracketKeyword_1_RightSquareBracketKeyword_3_RightParenthesisKeyword_2_p = new GroupAlias(false, false, new TokenAlias(false, true, grammarAccess.getParenthesizedExpressionAccess().getLeftParenthesisKeyword_0()), new TokenAlias(false, false, grammarAccess.getRangeLiteralAccess().getLeftSquareBracketKeyword_1()), new TokenAlias(false, false, grammarAccess.getRangeLiteralAccess().getRightSquareBracketKeyword_3()), new TokenAlias(false, true, grammarAccess.getParenthesizedExpressionAccess().getRightParenthesisKeyword_2()));
 	}
 	
 	@Override
@@ -40,25 +40,17 @@ public class AbstractNetxscriptSyntacticSequencer extends AbstractSyntacticSeque
 	protected void emitUnassignedTokens(EObject semanticObject, ISynTransition transition, INode fromNode, INode toNode) {
 		if (!transition.isSyntacticallyAmbiguous())
 			return;
-		if(match_Literal_ParenthesizedExpression_LeftParenthesisKeyword_0_a_FalseKeyword_1_1_1_RightParenthesisKeyword_2_p.equals(transition.getAmbiguousSyntax()))
-			emit_Literal_ParenthesizedExpression_LeftParenthesisKeyword_0_a_FalseKeyword_1_1_1_RightParenthesisKeyword_2_p(semanticObject, transition, fromNode, toNode);
-		else if(match_Literal_ParenthesizedExpression_LeftParenthesisKeyword_0_p_FalseKeyword_1_1_1_RightParenthesisKeyword_2_p.equals(transition.getAmbiguousSyntax()))
+		if(match_Literal_ParenthesizedExpression_LeftParenthesisKeyword_0_p_FalseKeyword_1_1_1_RightParenthesisKeyword_2_p.equals(transition.getAmbiguousSyntax()))
 			emit_Literal_ParenthesizedExpression_LeftParenthesisKeyword_0_p_FalseKeyword_1_1_1_RightParenthesisKeyword_2_p(semanticObject, transition, fromNode, toNode);
 		else if(match_ParenthesizedExpression_LeftParenthesisKeyword_0_a.equals(transition.getAmbiguousSyntax()))
 			emit_ParenthesizedExpression_LeftParenthesisKeyword_0_a(semanticObject, transition, fromNode, toNode);
 		else if(match_ParenthesizedExpression_LeftParenthesisKeyword_0_p.equals(transition.getAmbiguousSyntax()))
 			emit_ParenthesizedExpression_LeftParenthesisKeyword_0_p(semanticObject, transition, fromNode, toNode);
+		else if(match_ParenthesizedExpression_RangeLiteral_LeftParenthesisKeyword_0_p_LeftSquareBracketKeyword_1_RightSquareBracketKeyword_3_RightParenthesisKeyword_2_p.equals(transition.getAmbiguousSyntax()))
+			emit_ParenthesizedExpression_RangeLiteral_LeftParenthesisKeyword_0_p_LeftSquareBracketKeyword_1_RightSquareBracketKeyword_3_RightParenthesisKeyword_2_p(semanticObject, transition, fromNode, toNode);
 		else acceptNodes(transition, fromNode, toNode);
 	}
 
-	/**
-	 * Syntax:
-	 *     '('* 'false' ')'+
-	 */
-	protected void emit_Literal_ParenthesizedExpression_LeftParenthesisKeyword_0_a_FalseKeyword_1_1_1_RightParenthesisKeyword_2_p(EObject semanticObject, ISynTransition transition, INode fromNode, INode toNode) {
-		acceptNodes(transition, fromNode, toNode);
-	}
-	
 	/**
 	 * Syntax:
 	 *     '('+ 'false' ')'+
@@ -80,6 +72,14 @@ public class AbstractNetxscriptSyntacticSequencer extends AbstractSyntacticSeque
 	 *     '('+
 	 */
 	protected void emit_ParenthesizedExpression_LeftParenthesisKeyword_0_p(EObject semanticObject, ISynTransition transition, INode fromNode, INode toNode) {
+		acceptNodes(transition, fromNode, toNode);
+	}
+	
+	/**
+	 * Syntax:
+	 *     '('+ '[' ']' ')'+
+	 */
+	protected void emit_ParenthesizedExpression_RangeLiteral_LeftParenthesisKeyword_0_p_LeftSquareBracketKeyword_1_RightSquareBracketKeyword_3_RightParenthesisKeyword_2_p(EObject semanticObject, ISynTransition transition, INode fromNode, INode toNode) {
 		acceptNodes(transition, fromNode, toNode);
 	}
 	

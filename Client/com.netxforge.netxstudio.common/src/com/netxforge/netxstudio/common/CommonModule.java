@@ -23,6 +23,7 @@ import javax.xml.datatype.DatatypeFactory;
 import com.google.inject.Provides;
 import com.netxforge.netxstudio.common.jca.JCAServiceModule;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.server.actions.ServerRequest;
 
 
 /**
@@ -38,6 +39,7 @@ public class CommonModule extends JCAServiceModule {
 	protected void configure() {
 		super.configure();
 		this.bind(ModelUtils.class);
+		this.bind(ServerRequest.class);
 		
 	}
 	

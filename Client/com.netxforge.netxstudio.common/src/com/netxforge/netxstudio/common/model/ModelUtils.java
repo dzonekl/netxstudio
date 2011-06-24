@@ -406,6 +406,29 @@ public class ModelUtils {
 		return Lists.transform(values, valueToBigDecimal);
 	}
 	
+	public List<Double> transformValueToDouble(List<Value> values){
+		Function<Value, Double> valueToDouble = new Function<Value, Double>(){
+			public Double apply(Value from) {
+				return from.getValue();
+			}
+		};
+		return Lists.transform(values, valueToDouble);
+	}
 	
+	
+	/**
+	 * FIXME, No other way that iterator through. 
+	 * @param values
+	 * @return
+	 */
+	public double[] transformToDoublePrimitiveArray(List<Double> values){
+		double[] doubles = new double[values.size()];
+		int i = 0;
+		for(Double d: values){
+			doubles[i] = d.doubleValue();
+			i++;
+		}
+		return doubles;
+	}
 	
 }

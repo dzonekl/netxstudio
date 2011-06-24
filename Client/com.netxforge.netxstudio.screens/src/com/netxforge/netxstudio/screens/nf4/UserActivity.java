@@ -231,4 +231,8 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 	public Form getScreenForm() {
 		return frmActivities;
 	}
+
+	public void disposeData() {
+		// N/A
+	}
 }

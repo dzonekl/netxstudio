@@ -211,6 +211,15 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case NetxscriptPackage.PLUS_ASSIGNMENT:
+      {
+        PlusAssignment plusAssignment = (PlusAssignment)theEObject;
+        T result = casePlusAssignment(plusAssignment);
+        if (result == null) result = caseStatement(plusAssignment);
+        if (result == null) result = caseAbstractVarOrArgument(plusAssignment);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case NetxscriptPackage.REF_ASSIGNMENT:
       {
         RefAssignment refAssignment = (RefAssignment)theEObject;
@@ -364,19 +373,19 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.VAR_OR_ARGUMENT_CALL:
-      {
-        VarOrArgumentCall varOrArgumentCall = (VarOrArgumentCall)theEObject;
-        T result = caseVarOrArgumentCall(varOrArgumentCall);
-        if (result == null) result = caseExpression(varOrArgumentCall);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case NetxscriptPackage.NATIVE_EXPRESSION:
       {
         NativeExpression nativeExpression = (NativeExpression)theEObject;
         T result = caseNativeExpression(nativeExpression);
         if (result == null) result = caseExpression(nativeExpression);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case NetxscriptPackage.VAR_OR_ARGUMENT_CALL:
+      {
+        VarOrArgumentCall varOrArgumentCall = (VarOrArgumentCall)theEObject;
+        T result = caseVarOrArgumentCall(varOrArgumentCall);
+        if (result == null) result = caseExpression(varOrArgumentCall);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -709,6 +718,22 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Plus Assignment</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Plus Assignment</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T casePlusAssignment(PlusAssignment object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Ref Assignment</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1013,22 +1038,6 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Var Or Argument Call</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Var Or Argument Call</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseVarOrArgumentCall(VarOrArgumentCall object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>Native Expression</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -1040,6 +1049,22 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseNativeExpression(NativeExpression object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Var Or Argument Call</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Var Or Argument Call</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseVarOrArgumentCall(VarOrArgumentCall object)
   {
     return null;
   }

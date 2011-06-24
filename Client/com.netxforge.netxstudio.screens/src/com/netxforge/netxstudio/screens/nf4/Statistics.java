@@ -90,4 +90,9 @@ public class Statistics extends AbstractScreen {
 		return null;
 	}
 
+	public void disposeData() {
+		// N/A
+		
+	}
+
 }

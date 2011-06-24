@@ -12,27 +12,16 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Map;
 
-import com.netxforge.netxstudio.data.IDataService;
-
 public class BasicNetXScriptTest extends AbstractNetXScriptTest {
-	
-	IDataService dataService;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		// Inject whatever we need.
-		dataService = get(IDataService.class);
-		
-		// As we have no global scoping in these tests, 
-		// CDO connection is not required. 
-		// dataService.getProvider().openSession("admin", "admin");
 	}
 	
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		dataService.getProvider().closeSession();
 	}
 	
 
@@ -47,7 +36,11 @@ public class BasicNetXScriptTest extends AbstractNetXScriptTest {
 		checkModule("var a = 2%3;", testMap("a", new BigDecimal(2)));
 		checkModule("var a = 1/2;", testMap("a", new BigDecimal(0.5)));
 		checkModule("var a = 0.5 + 0.5;", testMap("a", new BigDecimal(1)));
-
+		
+		// Incremental assignements
+		checkModule("var a = 1;a += 1;", testMap("a", new BigDecimal(2)));
+		
+		
 		// Numerical, with re-assignments.
 		// A variable is pre-assigned, but not re-assigned in an expression, so
 		// the old value is kept.

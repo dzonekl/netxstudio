@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <ul>
  *   <li>{@link com.netxforge.netxscript.impl.NativeExpressionImpl#getRange <em>Range</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.NativeExpressionImpl#getRef <em>Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.NativeExpressionImpl#getVar <em>Var</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.NativeExpressionImpl#getNativeFunction <em>Native Function</em>}</li>
  * </ul>
  * </p>
@@ -55,6 +56,16 @@ public class NativeExpressionImpl extends ExpressionImpl implements NativeExpres
    * @ordered
    */
   protected Expression ref;
+
+  /**
+   * The cached value of the '{@link #getVar() <em>Var</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getVar()
+   * @generated
+   * @ordered
+   */
+  protected Expression var;
 
   /**
    * The default value of the '{@link #getNativeFunction() <em>Native Function</em>}' attribute.
@@ -198,6 +209,54 @@ public class NativeExpressionImpl extends ExpressionImpl implements NativeExpres
    * <!-- end-user-doc -->
    * @generated
    */
+  public Expression getVar()
+  {
+    return var;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetVar(Expression newVar, NotificationChain msgs)
+  {
+    Expression oldVar = var;
+    var = newVar;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.NATIVE_EXPRESSION__VAR, oldVar, newVar);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setVar(Expression newVar)
+  {
+    if (newVar != var)
+    {
+      NotificationChain msgs = null;
+      if (var != null)
+        msgs = ((InternalEObject)var).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.NATIVE_EXPRESSION__VAR, null, msgs);
+      if (newVar != null)
+        msgs = ((InternalEObject)newVar).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.NATIVE_EXPRESSION__VAR, null, msgs);
+      msgs = basicSetVar(newVar, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.NATIVE_EXPRESSION__VAR, newVar, newVar));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public NativeFunction getNativeFunction()
   {
     return nativeFunction;
@@ -230,6 +289,8 @@ public class NativeExpressionImpl extends ExpressionImpl implements NativeExpres
         return basicSetRange(null, msgs);
       case NetxscriptPackage.NATIVE_EXPRESSION__REF:
         return basicSetRef(null, msgs);
+      case NetxscriptPackage.NATIVE_EXPRESSION__VAR:
+        return basicSetVar(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -248,6 +309,8 @@ public class NativeExpressionImpl extends ExpressionImpl implements NativeExpres
         return getRange();
       case NetxscriptPackage.NATIVE_EXPRESSION__REF:
         return getRef();
+      case NetxscriptPackage.NATIVE_EXPRESSION__VAR:
+        return getVar();
       case NetxscriptPackage.NATIVE_EXPRESSION__NATIVE_FUNCTION:
         return getNativeFunction();
     }
@@ -269,6 +332,9 @@ public class NativeExpressionImpl extends ExpressionImpl implements NativeExpres
         return;
       case NetxscriptPackage.NATIVE_EXPRESSION__REF:
         setRef((Expression)newValue);
+        return;
+      case NetxscriptPackage.NATIVE_EXPRESSION__VAR:
+        setVar((Expression)newValue);
         return;
       case NetxscriptPackage.NATIVE_EXPRESSION__NATIVE_FUNCTION:
         setNativeFunction((NativeFunction)newValue);
@@ -293,6 +359,9 @@ public class NativeExpressionImpl extends ExpressionImpl implements NativeExpres
       case NetxscriptPackage.NATIVE_EXPRESSION__REF:
         setRef((Expression)null);
         return;
+      case NetxscriptPackage.NATIVE_EXPRESSION__VAR:
+        setVar((Expression)null);
+        return;
       case NetxscriptPackage.NATIVE_EXPRESSION__NATIVE_FUNCTION:
         setNativeFunction(NATIVE_FUNCTION_EDEFAULT);
         return;
@@ -314,6 +383,8 @@ public class NativeExpressionImpl extends ExpressionImpl implements NativeExpres
         return range != null;
       case NetxscriptPackage.NATIVE_EXPRESSION__REF:
         return ref != null;
+      case NetxscriptPackage.NATIVE_EXPRESSION__VAR:
+        return var != null;
       case NetxscriptPackage.NATIVE_EXPRESSION__NATIVE_FUNCTION:
         return nativeFunction != NATIVE_FUNCTION_EDEFAULT;
     }

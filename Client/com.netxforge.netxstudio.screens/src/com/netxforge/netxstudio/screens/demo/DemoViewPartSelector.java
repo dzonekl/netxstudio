@@ -28,8 +28,8 @@ import com.netxforge.netxstudio.screens.f4.Metrics;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.NewEditMetric;
 import com.netxforge.netxstudio.screens.f4.NewMappingColumn;
-import com.netxforge.netxstudio.screens.f4.NewMetricSource;
-import com.netxforge.netxstudio.screens.f4.NewXLSMapping;
+import com.netxforge.netxstudio.screens.f4.NewEditMetricSource;
+import com.netxforge.netxstudio.screens.f4.NewEditXLSMapping;
 import com.netxforge.netxstudio.screens.f4.PurgeMetrics;
 import com.netxforge.netxstudio.screens.f4.ResourceMonitor;
 import com.netxforge.netxstudio.screens.f4.Scheduler;
@@ -327,9 +327,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnNewXlsMapping.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof NewXLSMapping)
+				if (currentComposite instanceof NewEditXLSMapping)
 					return;
-				updateComposite(container, new NewXLSMapping(container,
+				updateComposite(container, new NewEditXLSMapping(container,
 						SWT.NONE));
 			}
 		});
@@ -345,9 +345,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnNewMetricSource.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof NewMetricSource)
+				if (currentComposite instanceof NewEditMetricSource)
 					return;
-				updateComposite(container, new NewMetricSource(container,
+				updateComposite(container, new NewEditMetricSource(container,
 						SWT.NONE));
 			}
 		});

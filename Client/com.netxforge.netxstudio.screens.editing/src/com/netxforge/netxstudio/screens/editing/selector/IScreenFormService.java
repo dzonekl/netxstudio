@@ -53,6 +53,10 @@ public interface IScreenFormService {
 	
 	/**
 	 * Set the active screen to this composite.
+	 * Pushes the previous screen on a screen stack. 
+	 * It's best to clear the cache when switching a branch of 
+	 * screens. 
+	 * 
 	 * 
 	 * @param control
 	 */
@@ -63,7 +67,7 @@ public interface IScreenFormService {
 	 * Check if there is a previous screen.
 	 * @return
 	 */
-	public abstract boolean hasPreviousScreen();
+//	public abstract boolean hasPreviousScreen();
 	
 	
 	/**
@@ -71,7 +75,7 @@ public interface IScreenFormService {
 	 * @param proposedScreen
 	 * @return
 	 */
-	public abstract boolean isPreviousScreen(Class<?> proposedScreen);
+//	public abstract boolean isPreviousScreen(Class<?> proposedScreen);
 	
 	/**
 	 * Initialize the service with the parent.
@@ -112,11 +116,7 @@ public interface IScreenFormService {
 	public abstract Composite addScreenSelector(Composite above, String name,
 			String iconPath, Class<?> screen, int position, int operation);
 	
-	/**
-	 * Restores the previously shown screened, if any, this is for  multi(two)-step
-	 * UI data entry.  
-	 */
-	public abstract void restorePreviousScreen();
+//	public abstract void restorePreviousScreen();
 	
 	/**
 	 * Get the selector form. 

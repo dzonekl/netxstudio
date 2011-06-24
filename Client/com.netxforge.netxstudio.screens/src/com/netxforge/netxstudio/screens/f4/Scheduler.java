@@ -197,11 +197,11 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					JobRuns user = new JobRuns(screenService
+					JobRuns jobRunsScreen = new JobRuns(screenService
 							.getScreenContainer(), SWT.NONE
 							| Screens.OPERATION_READ_ONLY);
-					screenService.setActiveScreen(user);
-					user.injectData(jobsResource, o);
+					screenService.setActiveScreen(jobRunsScreen);
+					jobRunsScreen.injectData(jobsResource, o);
 				}
 				
 				

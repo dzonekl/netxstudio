@@ -55,7 +55,7 @@ Block:
 	{Block} '{' statements+=Statement* '}';
 
 Statement:
-	(VariableStatement | AssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement) ';'
+	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement) ';'
 	| IfStatement | WhileStatement | Block;
 
 ReturnStatement returns Statement:
@@ -71,7 +71,10 @@ VariableStatement returns Statement:
 	{Variable} 'var' name=ID (('=') expression=Expression)?;
 
 AssignmentStatement returns Statement:
-	{Assignment} var=[AbstractVarOrArgument]  '=' expression=Expression;
+	{Assignment} var=[AbstractVarOrArgument]  '='  expression=Expression;
+
+PlusAssignmentStatement returns Statement:
+	{PlusAssignment} var=[AbstractVarOrArgument]  '+='  expression=Expression;
 
 //AssignmentStatement returns Statement:
 //	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
@@ -134,20 +137,20 @@ IndexedCall returns Expression:
 	VarOrArgumentCall ('[' index=Expression ']')?
 ;
 
+NativeExpression returns Expression:
+	{NativeExpression} (range=RangeLiteral | ref=Reference | var=VarOrArgumentCall) '.' nativeFunction=NativeFunction;
+
 VarOrArgumentCall returns Expression:
 	{VarOrArgumentCall} call=[AbstractVarOrArgument] ;
-
-NativeExpression returns Expression:
-	{NativeExpression} (range=RangeLiteral | ref=Reference) '.' nativeFunction=NativeFunction;
 
 Range:
 	RangeLiteral;
 
 RangeLiteral returns Range:
-	{RangeLiteral} '[' values+=NUMBER (',' values+=NUMBER)* ']';
+	{RangeLiteral} '[' (values+=NUMBER (',' values+=NUMBER)*)? ']';
 
 enum NativeFunction:
-	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()';
+	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()' | ERLANGB='erlangB()';
 
 Reference returns Expression:
 	ContextRef | AbsoluteRef

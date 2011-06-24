@@ -718,5 +718,9 @@ public class NewEditExpression extends AbstractScreen implements
 					}
 				}));
 	}
+
+	public void disposeData() {
+		// N/A
+	}
 	
 }

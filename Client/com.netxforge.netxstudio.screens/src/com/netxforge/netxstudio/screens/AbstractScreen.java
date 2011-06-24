@@ -25,7 +25,6 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
-import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 
 /**
@@ -47,7 +46,7 @@ public abstract class AbstractScreen extends Composite implements IScreen {
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
 		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
-		ScreensActivator.getDefault().getInjector().injectMembers(this);
+//		ScreensActivator.getDefault().getInjector().injectMembers(this);
 	}
 
 	public abstract Viewer getViewer();

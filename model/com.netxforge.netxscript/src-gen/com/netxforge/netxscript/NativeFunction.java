@@ -80,7 +80,17 @@ public enum NativeFunction implements Enumerator
    * @generated
    * @ordered
    */
-  DEVIATION(5, "DEVIATION", "deviation()");
+  DEVIATION(5, "DEVIATION", "deviation()"),
+
+  /**
+   * The '<em><b>ERLANGB</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #ERLANGB_VALUE
+   * @generated
+   * @ordered
+   */
+  ERLANGB(6, "ERLANGB", "erlangB()");
 
   /**
    * The '<em><b>COUNT</b></em>' literal value.
@@ -173,6 +183,21 @@ public enum NativeFunction implements Enumerator
   public static final int DEVIATION_VALUE = 5;
 
   /**
+   * The '<em><b>ERLANGB</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>ERLANGB</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #ERLANGB
+   * @model literal="erlangB()"
+   * @generated
+   * @ordered
+   */
+  public static final int ERLANGB_VALUE = 6;
+
+  /**
    * An array of all the '<em><b>Native Function</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -187,6 +212,7 @@ public enum NativeFunction implements Enumerator
       MAX,
       MEAN,
       DEVIATION,
+      ERLANGB,
     };
 
   /**
@@ -251,6 +277,7 @@ public enum NativeFunction implements Enumerator
       case MAX_VALUE: return MAX;
       case MEAN_VALUE: return MEAN;
       case DEVIATION_VALUE: return DEVIATION;
+      case ERLANGB_VALUE: return ERLANGB;
     }
     return null;
   }

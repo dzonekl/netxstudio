@@ -25,6 +25,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.metrics.KindHintType;
+import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.scheduling.Job;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -47,6 +49,13 @@ public interface IQueryService {
 	 */
 	public Role getCurrentRole();
 	
+	
+	/**
+	 * Get a list of job for a specified metric source. 
+	 * @param source
+	 * @return
+	 */
+	public List<Job> getJobWithMetricSource(MetricSource source);
 	
 	/**
 	 * Get the values for a period from a resource. 

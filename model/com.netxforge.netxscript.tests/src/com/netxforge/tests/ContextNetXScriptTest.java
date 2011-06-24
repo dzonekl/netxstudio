@@ -101,19 +101,6 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		// An expression which assigns a range of values to a var.
 		// WARNING: The syntax of the expression is subject to change.
 
-		interpreter.clear(); // Clear the interpreter.
-		interpreter.setContext(contextList.toArray(contextArray));
-
-		{
-
-			Mod m = (Mod) this.getModel("var a = [1,2,3,4];a;");
-			@SuppressWarnings("unused")
-			Object result = interpreter.evaluate(m); // Returns the intermediate
-														// results.
-			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
-			printExpressionResult(expressionResults);
-
-		}
 
 		// An expression which performs native function calls on a range.
 		// The range arithmetics.
@@ -141,9 +128,10 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			@SuppressWarnings("unused")
 			Object result = interpreter.evaluate(m); // Returns the intermediate
 			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
-			printExpressionResult(expressionResults);
+			printExpressionResult(expressionResults); // Should print all values. 
 
 		}
+		
 
 		// An expression which reads values from a resource, and writes them to
 		// another resource.
@@ -162,7 +150,43 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			printExpressionResult(expressionResults);
 
 		}
+		
+		
+		//  An expression which reads values from a resource and does an indirect write to another resource.  
+		interpreter.clear(); // Clear the interpreter.
+		interpreter.setContext(contextList.toArray(contextArray)); // Set a
+																	// context.
+		{
 
+			Mod m = (Mod) this
+					.getModel("var a = .SGSN->Res RES1 METRIC AVG 60;this.SGSN->Res RES2 UTILIZATION AVG 60 = a;");
+			@SuppressWarnings("unused")
+			Object result = interpreter.evaluate(m); // Returns the intermediate
+			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			printExpressionResult(expressionResults);
+			
+		}
+		
+		//  An expression which reads values from a resource, performs an operation on each of the values and writes the result
+		// to another resource. .  
+		interpreter.clear(); // Clear the interpreter.
+		interpreter.setContext(contextList.toArray(contextArray)); // Set a
+																	// context.
+		{
+
+			Mod m = (Mod) this
+					.getModel("var a = .SGSN->Res RES1 METRIC AVG 60; var i = 0; var c = []; while( i < a.count()){ c += a[i];  i+=1;} this.SGSN->Res RES2 UTILIZATION AVG 60 = c;");
+			@SuppressWarnings("unused")
+			Object result = interpreter.evaluate(m); // Returns the intermediate
+			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			printExpressionResult(expressionResults);
+			
+		}
+		
+		
+		
+		
+		
 	}
 
 	private void printExpressionResult(List<ExpressionResult> result) {

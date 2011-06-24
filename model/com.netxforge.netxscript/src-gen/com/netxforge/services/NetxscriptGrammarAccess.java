@@ -258,28 +258,31 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives_0_0 = (Alternatives)cGroup_0.eContents().get(0);
 		private final RuleCall cVariableStatementParserRuleCall_0_0_0 = (RuleCall)cAlternatives_0_0.eContents().get(0);
 		private final RuleCall cAssignmentStatementParserRuleCall_0_0_1 = (RuleCall)cAlternatives_0_0.eContents().get(1);
-		private final RuleCall cReferenceAssignmentStatementParserRuleCall_0_0_2 = (RuleCall)cAlternatives_0_0.eContents().get(2);
-		private final Assignment cExpressionAssignment_0_0_3 = (Assignment)cAlternatives_0_0.eContents().get(3);
-		private final RuleCall cExpressionExpressionParserRuleCall_0_0_3_0 = (RuleCall)cExpressionAssignment_0_0_3.eContents().get(0);
-		private final RuleCall cReturnStatementParserRuleCall_0_0_4 = (RuleCall)cAlternatives_0_0.eContents().get(4);
+		private final RuleCall cPlusAssignmentStatementParserRuleCall_0_0_2 = (RuleCall)cAlternatives_0_0.eContents().get(2);
+		private final RuleCall cReferenceAssignmentStatementParserRuleCall_0_0_3 = (RuleCall)cAlternatives_0_0.eContents().get(3);
+		private final Assignment cExpressionAssignment_0_0_4 = (Assignment)cAlternatives_0_0.eContents().get(4);
+		private final RuleCall cExpressionExpressionParserRuleCall_0_0_4_0 = (RuleCall)cExpressionAssignment_0_0_4.eContents().get(0);
+		private final RuleCall cReturnStatementParserRuleCall_0_0_5 = (RuleCall)cAlternatives_0_0.eContents().get(5);
 		private final Keyword cSemicolonKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
 		private final RuleCall cIfStatementParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cWhileStatementParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cBlockParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//Statement:
-		//	(VariableStatement | AssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement) ";"
-		//	| IfStatement | WhileStatement | Block;
+		//	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
+		//	expression=Expression | ReturnStatement) ";" | IfStatement | WhileStatement | Block;
 		public ParserRule getRule() { return rule; }
 
-		//(VariableStatement | AssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement) ";" |
-		//IfStatement | WhileStatement | Block
+		//(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
+		//expression=Expression | ReturnStatement) ";" | IfStatement | WhileStatement | Block
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//(VariableStatement | AssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement) ";"
+		//(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
+		//expression=Expression | ReturnStatement) ";"
 		public Group getGroup_0() { return cGroup_0; }
 
-		//VariableStatement | AssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement
+		//VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement | expression=Expression
+		//| ReturnStatement
 		public Alternatives getAlternatives_0_0() { return cAlternatives_0_0; }
 
 		//VariableStatement
@@ -288,17 +291,20 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//AssignmentStatement
 		public RuleCall getAssignmentStatementParserRuleCall_0_0_1() { return cAssignmentStatementParserRuleCall_0_0_1; }
 
+		//PlusAssignmentStatement
+		public RuleCall getPlusAssignmentStatementParserRuleCall_0_0_2() { return cPlusAssignmentStatementParserRuleCall_0_0_2; }
+
 		//ReferenceAssignmentStatement
-		public RuleCall getReferenceAssignmentStatementParserRuleCall_0_0_2() { return cReferenceAssignmentStatementParserRuleCall_0_0_2; }
+		public RuleCall getReferenceAssignmentStatementParserRuleCall_0_0_3() { return cReferenceAssignmentStatementParserRuleCall_0_0_3; }
 
 		//expression=Expression
-		public Assignment getExpressionAssignment_0_0_3() { return cExpressionAssignment_0_0_3; }
+		public Assignment getExpressionAssignment_0_0_4() { return cExpressionAssignment_0_0_4; }
 
 		//Expression
-		public RuleCall getExpressionExpressionParserRuleCall_0_0_3_0() { return cExpressionExpressionParserRuleCall_0_0_3_0; }
+		public RuleCall getExpressionExpressionParserRuleCall_0_0_4_0() { return cExpressionExpressionParserRuleCall_0_0_4_0; }
 
 		//ReturnStatement
-		public RuleCall getReturnStatementParserRuleCall_0_0_4() { return cReturnStatementParserRuleCall_0_0_4; }
+		public RuleCall getReturnStatementParserRuleCall_0_0_5() { return cReturnStatementParserRuleCall_0_0_5; }
 
 		//";"
 		public Keyword getSemicolonKeyword_0_1() { return cSemicolonKeyword_0_1; }
@@ -521,6 +527,46 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//"="
 		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+
+		//expression=Expression
+		public Assignment getExpressionAssignment_3() { return cExpressionAssignment_3; }
+
+		//Expression
+		public RuleCall getExpressionExpressionParserRuleCall_3_0() { return cExpressionExpressionParserRuleCall_3_0; }
+	}
+
+	public class PlusAssignmentStatementElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "PlusAssignmentStatement");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cPlusAssignmentAction_0 = (Action)cGroup.eContents().get(0);
+		private final Assignment cVarAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final CrossReference cVarAbstractVarOrArgumentCrossReference_1_0 = (CrossReference)cVarAssignment_1.eContents().get(0);
+		private final RuleCall cVarAbstractVarOrArgumentIDTerminalRuleCall_1_0_1 = (RuleCall)cVarAbstractVarOrArgumentCrossReference_1_0.eContents().get(1);
+		private final Keyword cPlusSignEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cExpressionAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cExpressionExpressionParserRuleCall_3_0 = (RuleCall)cExpressionAssignment_3.eContents().get(0);
+		
+		//PlusAssignmentStatement returns Statement:
+		//	{PlusAssignment} var=[AbstractVarOrArgument] "+=" expression=Expression;
+		public ParserRule getRule() { return rule; }
+
+		//{PlusAssignment} var=[AbstractVarOrArgument] "+=" expression=Expression
+		public Group getGroup() { return cGroup; }
+
+		//{PlusAssignment}
+		public Action getPlusAssignmentAction_0() { return cPlusAssignmentAction_0; }
+
+		//var=[AbstractVarOrArgument]
+		public Assignment getVarAssignment_1() { return cVarAssignment_1; }
+
+		//[AbstractVarOrArgument]
+		public CrossReference getVarAbstractVarOrArgumentCrossReference_1_0() { return cVarAbstractVarOrArgumentCrossReference_1_0; }
+
+		//ID
+		public RuleCall getVarAbstractVarOrArgumentIDTerminalRuleCall_1_0_1() { return cVarAbstractVarOrArgumentIDTerminalRuleCall_1_0_1; }
+
+		//"+="
+		public Keyword getPlusSignEqualsSignKeyword_2() { return cPlusSignEqualsSignKeyword_2; }
 
 		//expression=Expression
 		public Assignment getExpressionAssignment_3() { return cExpressionAssignment_3; }
@@ -1220,6 +1266,62 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getRightSquareBracketKeyword_1_2() { return cRightSquareBracketKeyword_1_2; }
 	}
 
+	public class NativeExpressionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NativeExpression");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cNativeExpressionAction_0 = (Action)cGroup.eContents().get(0);
+		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
+		private final Assignment cRangeAssignment_1_0 = (Assignment)cAlternatives_1.eContents().get(0);
+		private final RuleCall cRangeRangeLiteralParserRuleCall_1_0_0 = (RuleCall)cRangeAssignment_1_0.eContents().get(0);
+		private final Assignment cRefAssignment_1_1 = (Assignment)cAlternatives_1.eContents().get(1);
+		private final RuleCall cRefReferenceParserRuleCall_1_1_0 = (RuleCall)cRefAssignment_1_1.eContents().get(0);
+		private final Assignment cVarAssignment_1_2 = (Assignment)cAlternatives_1.eContents().get(2);
+		private final RuleCall cVarVarOrArgumentCallParserRuleCall_1_2_0 = (RuleCall)cVarAssignment_1_2.eContents().get(0);
+		private final Keyword cFullStopKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cNativeFunctionAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cNativeFunctionNativeFunctionEnumRuleCall_3_0 = (RuleCall)cNativeFunctionAssignment_3.eContents().get(0);
+		
+		//NativeExpression returns Expression:
+		//	{NativeExpression} (range=RangeLiteral | ref=Reference | var=VarOrArgumentCall) "." nativeFunction=NativeFunction;
+		public ParserRule getRule() { return rule; }
+
+		//{NativeExpression} (range=RangeLiteral | ref=Reference | var=VarOrArgumentCall) "." nativeFunction=NativeFunction
+		public Group getGroup() { return cGroup; }
+
+		//{NativeExpression}
+		public Action getNativeExpressionAction_0() { return cNativeExpressionAction_0; }
+
+		//range=RangeLiteral | ref=Reference | var=VarOrArgumentCall
+		public Alternatives getAlternatives_1() { return cAlternatives_1; }
+
+		//range=RangeLiteral
+		public Assignment getRangeAssignment_1_0() { return cRangeAssignment_1_0; }
+
+		//RangeLiteral
+		public RuleCall getRangeRangeLiteralParserRuleCall_1_0_0() { return cRangeRangeLiteralParserRuleCall_1_0_0; }
+
+		//ref=Reference
+		public Assignment getRefAssignment_1_1() { return cRefAssignment_1_1; }
+
+		//Reference
+		public RuleCall getRefReferenceParserRuleCall_1_1_0() { return cRefReferenceParserRuleCall_1_1_0; }
+
+		//var=VarOrArgumentCall
+		public Assignment getVarAssignment_1_2() { return cVarAssignment_1_2; }
+
+		//VarOrArgumentCall
+		public RuleCall getVarVarOrArgumentCallParserRuleCall_1_2_0() { return cVarVarOrArgumentCallParserRuleCall_1_2_0; }
+
+		//"."
+		public Keyword getFullStopKeyword_2() { return cFullStopKeyword_2; }
+
+		//nativeFunction=NativeFunction
+		public Assignment getNativeFunctionAssignment_3() { return cNativeFunctionAssignment_3; }
+
+		//NativeFunction
+		public RuleCall getNativeFunctionNativeFunctionEnumRuleCall_3_0() { return cNativeFunctionNativeFunctionEnumRuleCall_3_0; }
+	}
+
 	public class VarOrArgumentCallElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "VarOrArgumentCall");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1248,54 +1350,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getCallAbstractVarOrArgumentIDTerminalRuleCall_1_0_1() { return cCallAbstractVarOrArgumentIDTerminalRuleCall_1_0_1; }
 	}
 
-	public class NativeExpressionElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NativeExpression");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cNativeExpressionAction_0 = (Action)cGroup.eContents().get(0);
-		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
-		private final Assignment cRangeAssignment_1_0 = (Assignment)cAlternatives_1.eContents().get(0);
-		private final RuleCall cRangeRangeLiteralParserRuleCall_1_0_0 = (RuleCall)cRangeAssignment_1_0.eContents().get(0);
-		private final Assignment cRefAssignment_1_1 = (Assignment)cAlternatives_1.eContents().get(1);
-		private final RuleCall cRefReferenceParserRuleCall_1_1_0 = (RuleCall)cRefAssignment_1_1.eContents().get(0);
-		private final Keyword cFullStopKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cNativeFunctionAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cNativeFunctionNativeFunctionEnumRuleCall_3_0 = (RuleCall)cNativeFunctionAssignment_3.eContents().get(0);
-		
-		//NativeExpression returns Expression:
-		//	{NativeExpression} (range=RangeLiteral | ref=Reference) "." nativeFunction=NativeFunction;
-		public ParserRule getRule() { return rule; }
-
-		//{NativeExpression} (range=RangeLiteral | ref=Reference) "." nativeFunction=NativeFunction
-		public Group getGroup() { return cGroup; }
-
-		//{NativeExpression}
-		public Action getNativeExpressionAction_0() { return cNativeExpressionAction_0; }
-
-		//range=RangeLiteral | ref=Reference
-		public Alternatives getAlternatives_1() { return cAlternatives_1; }
-
-		//range=RangeLiteral
-		public Assignment getRangeAssignment_1_0() { return cRangeAssignment_1_0; }
-
-		//RangeLiteral
-		public RuleCall getRangeRangeLiteralParserRuleCall_1_0_0() { return cRangeRangeLiteralParserRuleCall_1_0_0; }
-
-		//ref=Reference
-		public Assignment getRefAssignment_1_1() { return cRefAssignment_1_1; }
-
-		//Reference
-		public RuleCall getRefReferenceParserRuleCall_1_1_0() { return cRefReferenceParserRuleCall_1_1_0; }
-
-		//"."
-		public Keyword getFullStopKeyword_2() { return cFullStopKeyword_2; }
-
-		//nativeFunction=NativeFunction
-		public Assignment getNativeFunctionAssignment_3() { return cNativeFunctionAssignment_3; }
-
-		//NativeFunction
-		public RuleCall getNativeFunctionNativeFunctionEnumRuleCall_3_0() { return cNativeFunctionNativeFunctionEnumRuleCall_3_0; }
-	}
-
 	public class RangeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Range");
 		private final RuleCall cRangeLiteralParserRuleCall = (RuleCall)rule.eContents().get(1);
@@ -1313,19 +1367,20 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cRangeLiteralAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cLeftSquareBracketKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cValuesAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cValuesNUMBERTerminalRuleCall_2_0 = (RuleCall)cValuesAssignment_2.eContents().get(0);
-		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
-		private final Keyword cCommaKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
-		private final Assignment cValuesAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
-		private final RuleCall cValuesNUMBERTerminalRuleCall_3_1_0 = (RuleCall)cValuesAssignment_3_1.eContents().get(0);
-		private final Keyword cRightSquareBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Assignment cValuesAssignment_2_0 = (Assignment)cGroup_2.eContents().get(0);
+		private final RuleCall cValuesNUMBERTerminalRuleCall_2_0_0 = (RuleCall)cValuesAssignment_2_0.eContents().get(0);
+		private final Group cGroup_2_1 = (Group)cGroup_2.eContents().get(1);
+		private final Keyword cCommaKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
+		private final Assignment cValuesAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
+		private final RuleCall cValuesNUMBERTerminalRuleCall_2_1_1_0 = (RuleCall)cValuesAssignment_2_1_1.eContents().get(0);
+		private final Keyword cRightSquareBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
 		//RangeLiteral returns Range:
-		//	{RangeLiteral} "[" values+=NUMBER ("," values+=NUMBER)* "]";
+		//	{RangeLiteral} "[" (values+=NUMBER ("," values+=NUMBER)*)? "]";
 		public ParserRule getRule() { return rule; }
 
-		//{RangeLiteral} "[" values+=NUMBER ("," values+=NUMBER)* "]"
+		//{RangeLiteral} "[" (values+=NUMBER ("," values+=NUMBER)*)? "]"
 		public Group getGroup() { return cGroup; }
 
 		//{RangeLiteral}
@@ -1334,26 +1389,29 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//"["
 		public Keyword getLeftSquareBracketKeyword_1() { return cLeftSquareBracketKeyword_1; }
 
+		//(values+=NUMBER ("," values+=NUMBER)*)?
+		public Group getGroup_2() { return cGroup_2; }
+
 		//values+=NUMBER
-		public Assignment getValuesAssignment_2() { return cValuesAssignment_2; }
+		public Assignment getValuesAssignment_2_0() { return cValuesAssignment_2_0; }
 
 		//NUMBER
-		public RuleCall getValuesNUMBERTerminalRuleCall_2_0() { return cValuesNUMBERTerminalRuleCall_2_0; }
+		public RuleCall getValuesNUMBERTerminalRuleCall_2_0_0() { return cValuesNUMBERTerminalRuleCall_2_0_0; }
 
 		//("," values+=NUMBER)*
-		public Group getGroup_3() { return cGroup_3; }
+		public Group getGroup_2_1() { return cGroup_2_1; }
 
 		//","
-		public Keyword getCommaKeyword_3_0() { return cCommaKeyword_3_0; }
+		public Keyword getCommaKeyword_2_1_0() { return cCommaKeyword_2_1_0; }
 
 		//values+=NUMBER
-		public Assignment getValuesAssignment_3_1() { return cValuesAssignment_3_1; }
+		public Assignment getValuesAssignment_2_1_1() { return cValuesAssignment_2_1_1; }
 
 		//NUMBER
-		public RuleCall getValuesNUMBERTerminalRuleCall_3_1_0() { return cValuesNUMBERTerminalRuleCall_3_1_0; }
+		public RuleCall getValuesNUMBERTerminalRuleCall_2_1_1_0() { return cValuesNUMBERTerminalRuleCall_2_1_1_0; }
 
 		//"]"
-		public Keyword getRightSquareBracketKeyword_4() { return cRightSquareBracketKeyword_4; }
+		public Keyword getRightSquareBracketKeyword_3() { return cRightSquareBracketKeyword_3; }
 	}
 
 	public class ReferenceElements extends AbstractParserRuleElementFinder {
@@ -1651,12 +1709,16 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cMEANMeanKeyword_4_0 = (Keyword)cMEANEnumLiteralDeclaration_4.eContents().get(0);
 		private final EnumLiteralDeclaration cDEVIATIONEnumLiteralDeclaration_5 = (EnumLiteralDeclaration)cAlternatives.eContents().get(5);
 		private final Keyword cDEVIATIONDeviationKeyword_5_0 = (Keyword)cDEVIATIONEnumLiteralDeclaration_5.eContents().get(0);
+		private final EnumLiteralDeclaration cERLANGBEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
+		private final Keyword cERLANGBErlangBKeyword_6_0 = (Keyword)cERLANGBEnumLiteralDeclaration_6.eContents().get(0);
 		
 		//enum NativeFunction:
-		//	COUNT="count()" | SUM="sum()" | MIN="min()" | MAX="max()" | MEAN="mean()" | DEVIATION="deviation()";
+		//	COUNT="count()" | SUM="sum()" | MIN="min()" | MAX="max()" | MEAN="mean()" | DEVIATION="deviation()" |
+		//	ERLANGB="erlangB()";
 		public EnumRule getRule() { return rule; }
 
-		//COUNT="count()" | SUM="sum()" | MIN="min()" | MAX="max()" | MEAN="mean()" | DEVIATION="deviation()"
+		//COUNT="count()" | SUM="sum()" | MIN="min()" | MAX="max()" | MEAN="mean()" | DEVIATION="deviation()" |
+		//ERLANGB="erlangB()"
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//COUNT="count()"
@@ -1694,6 +1756,12 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//"deviation()"
 		public Keyword getDEVIATIONDeviationKeyword_5_0() { return cDEVIATIONDeviationKeyword_5_0; }
+
+		//ERLANGB="erlangB()"
+		public EnumLiteralDeclaration getERLANGBEnumLiteralDeclaration_6() { return cERLANGBEnumLiteralDeclaration_6; }
+
+		//"erlangB()"
+		public Keyword getERLANGBErlangBKeyword_6_0() { return cERLANGBErlangBKeyword_6_0; }
 	}
 
 	public class ValueRangeElements extends AbstractEnumRuleElementFinder {
@@ -1797,6 +1865,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private WhileStatementElements pWhileStatement;
 	private VariableStatementElements pVariableStatement;
 	private AssignmentStatementElements pAssignmentStatement;
+	private PlusAssignmentStatementElements pPlusAssignmentStatement;
 	private ReferenceAssignmentStatementElements pReferenceAssignmentStatement;
 	private ExpressionElements pExpression;
 	private LogicalElements pLogical;
@@ -1812,8 +1881,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private ParenthesizedExpressionElements pParenthesizedExpression;
 	private FunctionCallElements pFunctionCall;
 	private IndexedCallElements pIndexedCall;
-	private VarOrArgumentCallElements pVarOrArgumentCall;
 	private NativeExpressionElements pNativeExpression;
+	private VarOrArgumentCallElements pVarOrArgumentCall;
 	private RangeElements pRange;
 	private RangeLiteralElements pRangeLiteral;
 	private NativeFunctionElements unknownRuleNativeFunction;
@@ -1928,8 +1997,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Statement:
-	//	(VariableStatement | AssignmentStatement | ReferenceAssignmentStatement | expression=Expression | ReturnStatement) ";"
-	//	| IfStatement | WhileStatement | Block;
+	//	(VariableStatement | AssignmentStatement | PlusAssignmentStatement | ReferenceAssignmentStatement |
+	//	expression=Expression | ReturnStatement) ";" | IfStatement | WhileStatement | Block;
 	public StatementElements getStatementAccess() {
 		return (pStatement != null) ? pStatement : (pStatement = new StatementElements());
 	}
@@ -1986,6 +2055,16 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getAssignmentStatementRule() {
 		return getAssignmentStatementAccess().getRule();
+	}
+
+	//PlusAssignmentStatement returns Statement:
+	//	{PlusAssignment} var=[AbstractVarOrArgument] "+=" expression=Expression;
+	public PlusAssignmentStatementElements getPlusAssignmentStatementAccess() {
+		return (pPlusAssignmentStatement != null) ? pPlusAssignmentStatement : (pPlusAssignmentStatement = new PlusAssignmentStatementElements());
+	}
+	
+	public ParserRule getPlusAssignmentStatementRule() {
+		return getPlusAssignmentStatementAccess().getRule();
 	}
 
 	////AssignmentStatement returns Statement:
@@ -2150,6 +2229,16 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getIndexedCallAccess().getRule();
 	}
 
+	//NativeExpression returns Expression:
+	//	{NativeExpression} (range=RangeLiteral | ref=Reference | var=VarOrArgumentCall) "." nativeFunction=NativeFunction;
+	public NativeExpressionElements getNativeExpressionAccess() {
+		return (pNativeExpression != null) ? pNativeExpression : (pNativeExpression = new NativeExpressionElements());
+	}
+	
+	public ParserRule getNativeExpressionRule() {
+		return getNativeExpressionAccess().getRule();
+	}
+
 	//VarOrArgumentCall returns Expression:
 	//	{VarOrArgumentCall} call=[AbstractVarOrArgument];
 	public VarOrArgumentCallElements getVarOrArgumentCallAccess() {
@@ -2158,16 +2247,6 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getVarOrArgumentCallRule() {
 		return getVarOrArgumentCallAccess().getRule();
-	}
-
-	//NativeExpression returns Expression:
-	//	{NativeExpression} (range=RangeLiteral | ref=Reference) "." nativeFunction=NativeFunction;
-	public NativeExpressionElements getNativeExpressionAccess() {
-		return (pNativeExpression != null) ? pNativeExpression : (pNativeExpression = new NativeExpressionElements());
-	}
-	
-	public ParserRule getNativeExpressionRule() {
-		return getNativeExpressionAccess().getRule();
 	}
 
 	//Range:
@@ -2181,7 +2260,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//RangeLiteral returns Range:
-	//	{RangeLiteral} "[" values+=NUMBER ("," values+=NUMBER)* "]";
+	//	{RangeLiteral} "[" (values+=NUMBER ("," values+=NUMBER)*)? "]";
 	public RangeLiteralElements getRangeLiteralAccess() {
 		return (pRangeLiteral != null) ? pRangeLiteral : (pRangeLiteral = new RangeLiteralElements());
 	}
@@ -2191,7 +2270,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//enum NativeFunction:
-	//	COUNT="count()" | SUM="sum()" | MIN="min()" | MAX="max()" | MEAN="mean()" | DEVIATION="deviation()";
+	//	COUNT="count()" | SUM="sum()" | MIN="min()" | MAX="max()" | MEAN="mean()" | DEVIATION="deviation()" |
+	//	ERLANGB="erlangB()";
 	public NativeFunctionElements getNativeFunctionAccess() {
 		return (unknownRuleNativeFunction != null) ? unknownRuleNativeFunction : (unknownRuleNativeFunction = new NativeFunctionElements());
 	}

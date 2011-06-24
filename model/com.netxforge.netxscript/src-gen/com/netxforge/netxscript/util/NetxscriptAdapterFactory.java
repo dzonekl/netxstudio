@@ -163,6 +163,11 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createAssignmentAdapter();
       }
       @Override
+      public Adapter casePlusAssignment(PlusAssignment object)
+      {
+        return createPlusAssignmentAdapter();
+      }
+      @Override
       public Adapter caseRefAssignment(RefAssignment object)
       {
         return createRefAssignmentAdapter();
@@ -258,14 +263,14 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createFunctionCallAdapter();
       }
       @Override
-      public Adapter caseVarOrArgumentCall(VarOrArgumentCall object)
-      {
-        return createVarOrArgumentCallAdapter();
-      }
-      @Override
       public Adapter caseNativeExpression(NativeExpression object)
       {
         return createNativeExpressionAdapter();
+      }
+      @Override
+      public Adapter caseVarOrArgumentCall(VarOrArgumentCall object)
+      {
+        return createVarOrArgumentCallAdapter();
       }
       @Override
       public Adapter caseRangeLiteral(RangeLiteral object)
@@ -575,6 +580,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.PlusAssignment <em>Plus Assignment</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.PlusAssignment
+   * @generated
+   */
+  public Adapter createPlusAssignmentAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.RefAssignment <em>Ref Assignment</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -860,21 +880,6 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.VarOrArgumentCall <em>Var Or Argument Call</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see com.netxforge.netxscript.VarOrArgumentCall
-   * @generated
-   */
-  public Adapter createVarOrArgumentCallAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NativeExpression <em>Native Expression</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -885,6 +890,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createNativeExpressionAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.VarOrArgumentCall <em>Var Or Argument Call</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.VarOrArgumentCall
+   * @generated
+   */
+  public Adapter createVarOrArgumentCallAdapter()
   {
     return null;
   }

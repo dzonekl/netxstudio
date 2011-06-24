@@ -298,8 +298,7 @@ public class UsersAndRoles extends AbstractScreen implements
 	 * @see com.netxforge.netxstudio.data.IDataInjection#injectData()
 	 */
 	public void injectData() {
-
-		Resource res = editingService.getData(NetxstudioPackage.NETXSTUDIO);
+		Resource res = editingService.getData(NetxstudioPackage.Literals.NETXSTUDIO);
 		if (res.getContents().size() == 0) {
 			Netxstudio netx = NetxstudioFactory.eINSTANCE.createNetxstudio();
 			res.getContents().add(netx);

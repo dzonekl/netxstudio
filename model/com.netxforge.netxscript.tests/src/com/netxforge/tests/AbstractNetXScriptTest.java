@@ -9,6 +9,7 @@
 package com.netxforge.tests;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.AssertionFailedError;
@@ -86,9 +87,11 @@ public class AbstractNetXScriptTest extends AbstractXtextTests {
 						assertEquals(0,
 								((BigDecimal) eResult)
 										.compareTo((BigDecimal) expected));
-					} else {
+					} 
+					else {
 						/**
 						 * Object equality will work?
+						 * - Should work for Lists. 
 						 */
 						assertEquals(expected, eResult);
 					}

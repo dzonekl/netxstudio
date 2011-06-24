@@ -40,6 +40,7 @@ import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.Plus;
+import com.netxforge.netxscript.PlusAssignment;
 import com.netxforge.netxscript.Range;
 import com.netxforge.netxscript.RangeLiteral;
 import com.netxforge.netxscript.RefAssignment;
@@ -209,6 +210,13 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass plusAssignmentEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass refAssignmentEClass = null;
 
   /**
@@ -342,14 +350,14 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass varOrArgumentCallEClass = null;
+  private EClass nativeExpressionEClass = null;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass nativeExpressionEClass = null;
+  private EClass varOrArgumentCallEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -864,6 +872,26 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
   public EReference getAssignment_Var()
   {
     return (EReference)assignmentEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getPlusAssignment()
+  {
+    return plusAssignmentEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getPlusAssignment_Var()
+  {
+    return (EReference)plusAssignmentEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1411,26 +1439,6 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getVarOrArgumentCall()
-  {
-    return varOrArgumentCallEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getVarOrArgumentCall_Call()
-  {
-    return (EReference)varOrArgumentCallEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EClass getNativeExpression()
   {
     return nativeExpressionEClass;
@@ -1461,9 +1469,39 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getNativeExpression_Var()
+  {
+    return (EReference)nativeExpressionEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EAttribute getNativeExpression_NativeFunction()
   {
-    return (EAttribute)nativeExpressionEClass.getEStructuralFeatures().get(2);
+    return (EAttribute)nativeExpressionEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getVarOrArgumentCall()
+  {
+    return varOrArgumentCallEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getVarOrArgumentCall_Call()
+  {
+    return (EReference)varOrArgumentCallEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1731,6 +1769,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     assignmentEClass = createEClass(ASSIGNMENT);
     createEReference(assignmentEClass, ASSIGNMENT__VAR);
 
+    plusAssignmentEClass = createEClass(PLUS_ASSIGNMENT);
+    createEReference(plusAssignmentEClass, PLUS_ASSIGNMENT__VAR);
+
     refAssignmentEClass = createEClass(REF_ASSIGNMENT);
     createEReference(refAssignmentEClass, REF_ASSIGNMENT__REF);
 
@@ -1804,13 +1845,14 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     createEReference(functionCallEClass, FUNCTION_CALL__FUNC);
     createEReference(functionCallEClass, FUNCTION_CALL__ARGS);
 
-    varOrArgumentCallEClass = createEClass(VAR_OR_ARGUMENT_CALL);
-    createEReference(varOrArgumentCallEClass, VAR_OR_ARGUMENT_CALL__CALL);
-
     nativeExpressionEClass = createEClass(NATIVE_EXPRESSION);
     createEReference(nativeExpressionEClass, NATIVE_EXPRESSION__RANGE);
     createEReference(nativeExpressionEClass, NATIVE_EXPRESSION__REF);
+    createEReference(nativeExpressionEClass, NATIVE_EXPRESSION__VAR);
     createEAttribute(nativeExpressionEClass, NATIVE_EXPRESSION__NATIVE_FUNCTION);
+
+    varOrArgumentCallEClass = createEClass(VAR_OR_ARGUMENT_CALL);
+    createEReference(varOrArgumentCallEClass, VAR_OR_ARGUMENT_CALL__CALL);
 
     rangeLiteralEClass = createEClass(RANGE_LITERAL);
     createEAttribute(rangeLiteralEClass, RANGE_LITERAL__VALUES);
@@ -1883,6 +1925,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     whileEClass.getESuperTypes().add(this.getStatement());
     variableEClass.getESuperTypes().add(this.getStatement());
     assignmentEClass.getESuperTypes().add(this.getStatement());
+    plusAssignmentEClass.getESuperTypes().add(this.getStatement());
     refAssignmentEClass.getESuperTypes().add(this.getStatement());
     andEClass.getESuperTypes().add(this.getExpression());
     orEClass.getESuperTypes().add(this.getExpression());
@@ -1902,8 +1945,8 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     booleanLiteralEClass.getESuperTypes().add(this.getExpression());
     numberLiteralEClass.getESuperTypes().add(this.getExpression());
     functionCallEClass.getESuperTypes().add(this.getExpression());
-    varOrArgumentCallEClass.getESuperTypes().add(this.getExpression());
     nativeExpressionEClass.getESuperTypes().add(this.getExpression());
+    varOrArgumentCallEClass.getESuperTypes().add(this.getExpression());
     rangeLiteralEClass.getESuperTypes().add(this.getRange());
     absoluteRefEClass.getESuperTypes().add(this.getReference());
     contextRefEClass.getESuperTypes().add(this.getReference());
@@ -1966,6 +2009,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
 
     initEClass(assignmentEClass, Assignment.class, "Assignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getAssignment_Var(), this.getAbstractVarOrArgument(), null, "var", null, 0, 1, Assignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(plusAssignmentEClass, PlusAssignment.class, "PlusAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getPlusAssignment_Var(), this.getAbstractVarOrArgument(), null, "var", null, 0, 1, PlusAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(refAssignmentEClass, RefAssignment.class, "RefAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getRefAssignment_Ref(), this.getReference(), null, "ref", null, 0, 1, RefAssignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2040,13 +2086,14 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEReference(getFunctionCall_Func(), this.getAbstractFunction(), null, "func", null, 0, 1, FunctionCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getFunctionCall_Args(), this.getExpression(), null, "args", null, 0, -1, FunctionCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(varOrArgumentCallEClass, VarOrArgumentCall.class, "VarOrArgumentCall", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getVarOrArgumentCall_Call(), this.getAbstractVarOrArgument(), null, "call", null, 0, 1, VarOrArgumentCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
     initEClass(nativeExpressionEClass, NativeExpression.class, "NativeExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getNativeExpression_Range(), this.getRange(), null, "range", null, 0, 1, NativeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getNativeExpression_Ref(), this.getExpression(), null, "ref", null, 0, 1, NativeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getNativeExpression_Var(), this.getExpression(), null, "var", null, 0, 1, NativeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getNativeExpression_NativeFunction(), this.getNativeFunction(), "nativeFunction", null, 0, 1, NativeExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(varOrArgumentCallEClass, VarOrArgumentCall.class, "VarOrArgumentCall", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getVarOrArgumentCall_Call(), this.getAbstractVarOrArgument(), null, "call", null, 0, 1, VarOrArgumentCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(rangeLiteralEClass, RangeLiteral.class, "RangeLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getRangeLiteral_Values(), ecorePackage.getEBigDecimal(), "values", null, 0, -1, RangeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2077,6 +2124,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     addEEnumLiteral(nativeFunctionEEnum, NativeFunction.MAX);
     addEEnumLiteral(nativeFunctionEEnum, NativeFunction.MEAN);
     addEEnumLiteral(nativeFunctionEEnum, NativeFunction.DEVIATION);
+    addEEnumLiteral(nativeFunctionEEnum, NativeFunction.ERLANGB);
 
     initEEnum(valueRangeEEnum, ValueRange.class, "ValueRange");
     addEEnumLiteral(valueRangeEEnum, ValueRange.METRIC);

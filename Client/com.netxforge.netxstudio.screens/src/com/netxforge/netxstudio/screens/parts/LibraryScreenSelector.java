@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.parts;
 
 import org.eclipse.swt.widgets.Composite;
@@ -25,6 +25,7 @@ import com.netxforge.netxstudio.screens.ch9.Expressions;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector_Inj;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.Resource;
+import com.netxforge.netxstudio.screens.f4.Metrics;
 
 public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
 
@@ -36,8 +37,8 @@ public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
 	}
 
 	/**
-	 * A dynamic selector screen selector. 
-	 * Extends an Editor view part for dirtyness, editing domain, command stack etc...
+	 * A dynamic selector screen selector. Extends an Editor view part for
+	 * dirtyness, editing domain, command stack etc...
 	 * 
 	 * 
 	 * @param parent
@@ -48,14 +49,20 @@ public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
 		screenFormService.getSelectorForm().setText("Library");
 	}
 
-	public void buildSelector(){
+	public void buildSelector() {
 		Composite result;
-		
-		result = screenFormService.addScreenSelector("Expressions","icons/full/obj16/Expression_H.png", Expressions.class, 1, Screens.OPERATION_EDIT);
-		screenFormService.addScreenSelector( result, "Resource", "icons/full/obj16/Equipment_H.png",  Resource.class, Screens.OPERATION_EDIT);
+
+		result = screenFormService.addScreenSelector("Expressions",
+				"icons/full/obj16/Expression_H.png", Expressions.class, 1,
+				Screens.OPERATION_EDIT);
+		screenFormService.addScreenSelector(result, "Expressions",
+				"icons/full/obj16/Metric_H.png", Metrics.class,
+				Screens.OPERATION_EDIT);
+		screenFormService.addScreenSelector(result, "Resource",
+				"icons/full/obj16/Equipment_H.png", Resource.class,
+				Screens.OPERATION_EDIT);
 	}
-	
-	
+
 	public void dispose() {
 		toolkit.dispose();
 		super.dispose();
@@ -66,15 +73,19 @@ public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
 		// Set the focus
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart#initBindings
+	 * ()
 	 */
-	
+
 	@Override
 	protected void initBindings() {
 		// TODO Auto-generated method stub
-		// Static initialization of bindings. We need a dynamic form for this. 
-		// 
-		
+		// Static initialization of bindings. We need a dynamic form for this.
+		//
+
 	}
 }
