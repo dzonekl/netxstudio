@@ -63,10 +63,16 @@ public class CapacityLogicEngine {
 		if (failure != null) {
 			return;
 		}
-		runForExpression(getUtilizationExpression());
-		if (failure != null) {
-			return;
+		for (final NetXResource netXResource : getComponent().getResources()) {
+			expressionEngine.getContext().remove(1);
+			expressionEngine.getContext().add(netXResource);
+			runForExpression(getUtilizationExpression());
+			if (failure != null) {
+				return;
+			}			
 		}
+		expressionEngine.getContext().remove(1);
+		expressionEngine.getContext().add(getComponent());
 		for (final Tolerance tolerance : getTolerances()) {
 			runForExpression(tolerance.getExpressionRef());
 			if (failure != null) {
@@ -90,13 +96,13 @@ public class CapacityLogicEngine {
 					.getExpressionResult();
 			// process the result
 			
-			for(ExpressionResult er : result){
+			for(final ExpressionResult er : result){
 				
 				// Hi martin, there should be sufficient info to write to the correct range. 
 				// the period context 
-				RangeKind rk = er.getTargetRange();
-				NetXResource resource = er.getTargetResource();
-				EList<Value> values = er.getTargetValues();
+				final RangeKind rk = er.getTargetRange();
+				final NetXResource resource = er.getTargetResource();
+				final EList<Value> values = er.getTargetValues();
 				
 			}
 			
