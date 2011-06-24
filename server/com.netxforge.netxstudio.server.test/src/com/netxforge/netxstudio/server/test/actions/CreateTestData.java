@@ -80,8 +80,8 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  */
 public class CreateTestData extends AbstractDataProviderTest {
 
-	private static final int HIERARCHY_DEPTH = 3;
-	private static final int HIERARCHY_BREADTH = 3;
+	private static final int HIERARCHY_DEPTH = 2;
+	private static final int HIERARCHY_BREADTH = 2;
 	private static final String RFS_NAME = "Speech";
 	private static final String MS_NAME = "SGSN_Attached_Users";
 	private static final int MINUTE = 60000;
