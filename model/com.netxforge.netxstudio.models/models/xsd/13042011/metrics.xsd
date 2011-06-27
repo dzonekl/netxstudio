@@ -133,14 +133,6 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
-					<xs:element ecore:reference="Metric" ecore:opposite="MetricSourceRef"
-						minOccurs="0" maxOccurs="unbounded" name="MetricRefs" type="xs:anyURI">
-						<xs:annotation>
-							<xs:documentation>The MetricRefs reference, refers to one or more
-								Metric types for which this source provides values.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
 					<xs:element name="MetricMapping" type="Mapping"
 						maxOccurs="1" minOccurs="0">
 						<xs:annotation>
@@ -199,6 +191,47 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<xs:element name="HeaderMappingColumns" type="MappingColumn"
+						maxOccurs="unbounded" minOccurs="0">
+					</xs:element>
+					<xs:element name="MappingColumns" type="MappingColumn"
+						maxOccurs="unbounded" minOccurs="0">
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="HeaderRow" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>The HeaderRow attribute holds the row number
+							which contains the header.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="FirstDataRow" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>The FirstDataRow attribute holds the row number
+							of the first row containing data.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="MappingColumn">
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:sequence>
+					<xs:element name="DataType" type="DataKind" minOccurs="0"
+						maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The ColumnDataKind reference, contains 1
+								DataKind
+								type. The DataKind is either an Identifer or a Value.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="column" type="xs:int" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -246,29 +279,10 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Mapping">
-				<xs:sequence>
-					<xs:element name="MappingColumns" type="MappingXLSColumn"
-						maxOccurs="unbounded" minOccurs="0">
-					</xs:element>
-				</xs:sequence>
 				<xs:attribute name="SheetNumber" type="xs:int">
 					<xs:annotation>
 						<xs:documentation>The SheetNumber attribute holds the index of the
 							XLS sheet to be mapped from.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="HeaderRow" type="xs:int">
-					<xs:annotation>
-						<xs:documentation>The HeaderRow attribute holds the row number
-							which contains the header.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="FirstDataRow" type="xs:int">
-					<xs:annotation>
-						<xs:documentation>The FirstDataRow attribute holds the row number
-							of the first row containing data.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -284,13 +298,16 @@
 		<xs:annotation>
 			<xs:documentation>A type representing the basic information points
 				for mapping an CSV file to the NetXStudio model.
-
-				THIS TYPE SHOULD NOT
-				BE CONSIDERED FOR NOW.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Mapping">
+				<xs:attribute name="Delimiter" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The delimiter character(s).
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -406,6 +423,8 @@
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
 							<xs:enumeration value="PERIOD"></xs:enumeration>
+							<xs:enumeration value="PERIODSTART"></xs:enumeration>
+							<xs:enumeration value="PERIODEND"></xs:enumeration>
 							<xs:enumeration value="DATETIME"></xs:enumeration>
 							<xs:enumeration value="NULL"></xs:enumeration>
 							<xs:enumeration value="METRIC"></xs:enumeration>
@@ -453,15 +472,6 @@
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
-<!--				
-				<xs:attribute name="Source" type="xs:string">
-						<xs:annotation>
-							<xs:documentation>The source of the mapping holds the actual source which was processed
-							like a file name.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:attribute>
--->					
 				<xs:attribute name="TotalRecords" type="xs:int">
 					<xs:annotation>
 						<xs:documentation>The TotalRecords attribute holds a the number of
@@ -498,30 +508,15 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-
-	<!--_______________________ -->
-	<!-- MAPPING RECORD XLS -->
-	<!--_______________________ -->
-	<xs:complexType name="MappingRecordXLS">
-		<xs:annotation>
-			<xs:documentation>A specialized type representing the information
-				points of a XLS mapping record.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="MappingRecord">
-				<xs:attribute name="Row" type="xs:int">
+				<xs:attribute name="Row" type="xs:string">
 					<xs:annotation>
-						<xs:documentation>The Row attribute holds the row number.
+						<xs:documentation>The Row attribute holds the row identifier.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="Column" type="xs:int">
+				<xs:attribute name="Column" type="xs:string">
 					<xs:annotation>
-						<xs:documentation>The Column attribute holds the column number.
+						<xs:documentation>The Column attribute holds the column identifier.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -562,25 +557,6 @@
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="KindHint" type="KindHintType" />
-	</xs:complexType>
-
-	<xs:complexType name="MappingXLSColumn">
-		<xs:complexContent>
-			<xs:extension base="gen:Base">
-				<xs:sequence>
-					<xs:element name="DataType" type="DataKind" minOccurs="0"
-						maxOccurs="1">
-						<xs:annotation>
-							<xs:documentation>The ColumnDataKind reference, contains 1
-								DataKind
-								type. The DataKind is either an Identifer or a Value.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-				<xs:attribute name="column" type="xs:int" />
-			</xs:extension>
-		</xs:complexContent>
 	</xs:complexType>
 
 	<!--_______________________ -->

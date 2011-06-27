@@ -43,6 +43,22 @@ public enum ValueKindType implements Enumerator {
 	 * @ordered
 	 */
 	PERIOD(0, "PERIOD", "PERIOD"), /**
+	 * The '<em><b>PERIODSTART</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #PERIODSTART_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	PERIODSTART(1, "PERIODSTART", "PERIODSTART"), /**
+	 * The '<em><b>PERIODEND</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #PERIODEND_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	PERIODEND(2, "PERIODEND", "PERIODEND"), /**
 	 * The '<em><b>DATETIME</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -50,7 +66,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DATETIME(1, "DATETIME", "DATETIME"),
+	DATETIME(3, "DATETIME", "DATETIME"),
 
 	/**
 	 * The '<em><b>NULL</b></em>' literal object.
@@ -60,7 +76,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NULL(2, "NULL", "NULL"),
+	NULL(4, "NULL", "NULL"),
 
 	/**
 	 * The '<em><b>METRIC</b></em>' literal object.
@@ -70,7 +86,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	METRIC(3, "METRIC", "METRIC");
+	METRIC(5, "METRIC", "METRIC");
 
 	/**
 	 * The '<em><b>PERIOD</b></em>' literal value.
@@ -88,6 +104,36 @@ public enum ValueKindType implements Enumerator {
 	public static final int PERIOD_VALUE = 0;
 
 	/**
+	 * The '<em><b>PERIODSTART</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>PERIODSTART</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #PERIODSTART
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PERIODSTART_VALUE = 1;
+
+	/**
+	 * The '<em><b>PERIODEND</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>PERIODEND</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #PERIODEND
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PERIODEND_VALUE = 2;
+
+	/**
 	 * The '<em><b>DATETIME</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -100,7 +146,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int DATETIME_VALUE = 1;
+	public static final int DATETIME_VALUE = 3;
 
 	/**
 	 * The '<em><b>NULL</b></em>' literal value.
@@ -115,7 +161,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NULL_VALUE = 2;
+	public static final int NULL_VALUE = 4;
 
 	/**
 	 * The '<em><b>METRIC</b></em>' literal value.
@@ -130,7 +176,7 @@ public enum ValueKindType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int METRIC_VALUE = 3;
+	public static final int METRIC_VALUE = 5;
 
 	/**
 	 * An array of all the '<em><b>Value Kind Type</b></em>' enumerators.
@@ -141,6 +187,8 @@ public enum ValueKindType implements Enumerator {
 	private static final ValueKindType[] VALUES_ARRAY =
 		new ValueKindType[] {
 			PERIOD,
+			PERIODSTART,
+			PERIODEND,
 			DATETIME,
 			NULL,
 			METRIC,
@@ -195,6 +243,8 @@ public enum ValueKindType implements Enumerator {
 	public static ValueKindType get(int value) {
 		switch (value) {
 			case PERIOD_VALUE: return PERIOD;
+			case PERIODSTART_VALUE: return PERIODSTART;
+			case PERIODEND_VALUE: return PERIODEND;
 			case DATETIME_VALUE: return DATETIME;
 			case NULL_VALUE: return NULL;
 			case METRIC_VALUE: return METRIC;

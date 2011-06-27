@@ -28,6 +28,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingXLS;
+import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -45,12 +48,11 @@ public class MetricSourceImportService implements NetxForgeService {
 
 	public static final String MS_PARAM = "metricSource";
 
-	@Override
 	public Object run(Map<String, String> parameters) {
-		final ServiceRunner runner = Activator.getInstance()
-				.getInjector().getInstance(ServiceRunner.class);
+		final ServiceRunner runner = Activator.getInstance().getInjector()
+				.getInstance(ServiceRunner.class);
 		runner.setParameters(parameters);
-		return ((AbstractCDOIDLong)runner.run()).getLongValue();
+		return ((AbstractCDOIDLong) runner.run()).getLongValue();
 	}
 
 	public static class ServiceRunner {
@@ -58,13 +60,26 @@ public class MetricSourceImportService implements NetxForgeService {
 		@Server
 		private IDataProvider dataProvider;
 
-		@Inject
 		private MetricValuesImporter importer;
-		
+
 		private Map<String, String> parameters;
 
 		private CDOID run() {
-			final CDOID msId = getCDOID(parameters.get(MS_PARAM), MetricsPackage.Literals.METRIC_SOURCE);
+			final CDOID msId = getCDOID(parameters.get(MS_PARAM),
+					MetricsPackage.Literals.METRIC_SOURCE);
+			final MetricSource metricSource = (MetricSource) dataProvider
+					.getTransaction().getObject(msId);
+			if (metricSource.getMetricMapping() instanceof MappingXLS) {
+				importer = Activator.getInstance().getInjector()
+						.getInstance(XLSMetricValuesImporter.class);
+			} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
+				importer = Activator.getInstance().getInjector()
+						.getInstance(XLSMetricValuesImporter.class);
+			} else {
+				throw new IllegalArgumentException(
+						"Mapping type not supported "
+								+ metricSource.getMetricMapping());
+			}
 			importer.setMetricSourceWithId(msId);
 			final WorkFlowRunMonitor monitor = createMonitor();
 			importer.setJobMonitor(monitor);

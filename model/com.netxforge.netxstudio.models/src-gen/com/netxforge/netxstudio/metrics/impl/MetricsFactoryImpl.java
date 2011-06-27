@@ -30,12 +30,11 @@ import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingRecord;
-import com.netxforge.netxstudio.metrics.MappingRecordXLS;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MappingXLS;
-import com.netxforge.netxstudio.metrics.MappingXLSColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -92,13 +91,12 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 			case MetricsPackage.DATA_KIND: return (EObject)createDataKind();
 			case MetricsPackage.IDENTIFIER_DATA_KIND: return (EObject)createIdentifierDataKind();
 			case MetricsPackage.MAPPING: return (EObject)createMapping();
+			case MetricsPackage.MAPPING_COLUMN: return (EObject)createMappingColumn();
 			case MetricsPackage.MAPPING_CSV: return (EObject)createMappingCSV();
 			case MetricsPackage.MAPPING_RDBMS: return (EObject)createMappingRDBMS();
 			case MetricsPackage.MAPPING_RECORD: return (EObject)createMappingRecord();
-			case MetricsPackage.MAPPING_RECORD_XLS: return (EObject)createMappingRecordXLS();
 			case MetricsPackage.MAPPING_STATISTIC: return (EObject)createMappingStatistic();
 			case MetricsPackage.MAPPING_XLS: return (EObject)createMappingXLS();
-			case MetricsPackage.MAPPING_XLS_COLUMN: return (EObject)createMappingXLSColumn();
 			case MetricsPackage.METRIC: return (EObject)createMetric();
 			case MetricsPackage.METRIC_SOURCE: return (EObject)createMetricSource();
 			case MetricsPackage.METRIC_VALUE_RANGE: return (EObject)createMetricValueRange();
@@ -193,6 +191,16 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public MappingColumn createMappingColumn() {
+		MappingColumnImpl mappingColumn = new MappingColumnImpl();
+		return mappingColumn;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public MappingCSV createMappingCSV() {
 		MappingCSVImpl mappingCSV = new MappingCSVImpl();
 		return mappingCSV;
@@ -223,16 +231,6 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MappingRecordXLS createMappingRecordXLS() {
-		MappingRecordXLSImpl mappingRecordXLS = new MappingRecordXLSImpl();
-		return mappingRecordXLS;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public MappingStatistic createMappingStatistic() {
 		MappingStatisticImpl mappingStatistic = new MappingStatisticImpl();
 		return mappingStatistic;
@@ -246,16 +244,6 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	public MappingXLS createMappingXLS() {
 		MappingXLSImpl mappingXLS = new MappingXLSImpl();
 		return mappingXLS;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public MappingXLSColumn createMappingXLSColumn() {
-		MappingXLSColumnImpl mappingXLSColumn = new MappingXLSColumnImpl();
-		return mappingXLSColumn;
 	}
 
 	/**

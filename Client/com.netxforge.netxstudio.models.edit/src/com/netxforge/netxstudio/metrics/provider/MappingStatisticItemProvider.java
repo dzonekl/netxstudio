@@ -224,11 +224,6 @@ public class MappingStatisticItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(MetricsPackage.Literals.MAPPING_STATISTIC__FAILED_RECORDS,
-				 MetricsFactory.eINSTANCE.createMappingRecordXLS()));
-
-		newChildDescriptors.add
-			(createChildParameter
 				(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION,
 				 GenericsFactory.eINSTANCE.createDateTimeRange()));
 	}

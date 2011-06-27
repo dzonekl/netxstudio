@@ -28,6 +28,10 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * An implementation of the model object '<em><b>Mapping CSV</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingCSVImpl#getDelimiter <em>Delimiter</em>}</li>
+ * </ul>
  * </p>
  *
  * @generated
@@ -50,6 +54,24 @@ public class MappingCSVImpl extends MappingImpl implements MappingCSV {
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.MAPPING_CSV;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDelimiter() {
+		return (String)eGet(MetricsPackage.Literals.MAPPING_CSV__DELIMITER, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDelimiter(String newDelimiter) {
+		eSet(MetricsPackage.Literals.MAPPING_CSV__DELIMITER, newDelimiter);
 	}
 
 } //MappingCSVImpl

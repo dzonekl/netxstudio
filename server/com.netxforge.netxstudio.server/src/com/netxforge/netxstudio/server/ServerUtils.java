@@ -30,15 +30,22 @@ import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.cdo.server.IRepository;
 import org.eclipse.emf.cdo.session.CDOSession;
+import org.eclipse.emf.cdo.spi.server.InternalSession;
+import org.eclipse.emf.cdo.spi.server.InternalSessionManager;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.net4j.connector.IConnector;
 import org.eclipse.net4j.jvm.IJVMAcceptor;
 import org.eclipse.net4j.jvm.JVMUtil;
+import org.eclipse.net4j.signal.SignalProtocol;
+import org.eclipse.net4j.util.container.IContainerDelta;
 import org.eclipse.net4j.util.container.IElementProcessor;
 import org.eclipse.net4j.util.container.IManagedContainer;
 import org.eclipse.net4j.util.container.IPluginContainer;
+import org.eclipse.net4j.util.container.SingleDeltaContainerEvent;
+import org.eclipse.net4j.util.event.IEvent;
+import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
@@ -199,6 +206,19 @@ public class ServerUtils {
 			return;
 		}
 		isInitializing = true;
+		
+        repository.getSessionManager().addListener(new IListener() {
+            public void notifyEvent(IEvent event) {
+                if (event instanceof SingleDeltaContainerEvent<?>) {
+                    final SingleDeltaContainerEvent<?> e = (SingleDeltaContainerEvent<?>) event;
+                    if (e.getSource() instanceof InternalSessionManager && e.getDeltaKind() == IContainerDelta.Kind.ADDED) {
+                        final InternalSession s = (InternalSession) e.getDelta().getElement();
+                        ((SignalProtocol<?>) s.getProtocol()).setTimeout(IDataProvider.SIGNAL_TIME_OUT);
+                    }
+                }
+            }
+        });
+
 		final ServerInitializer resourceInitializer = Activator.getInstance()
 				.getInjector().getInstance(ServerInitializer.class);
 		resourceInitializer.initialize();
@@ -254,7 +274,6 @@ public class ServerUtils {
 
 	public static class ServerElementProcessor implements IElementProcessor {
 
-		@Override
 		public Object process(IManagedContainer container, String productGroup,
 				String factoryType, String description, Object element) {
 			if (element instanceof IRepository) {

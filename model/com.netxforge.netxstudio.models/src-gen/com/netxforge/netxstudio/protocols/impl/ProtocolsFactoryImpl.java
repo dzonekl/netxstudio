@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.protocols.impl;
 
+import com.netxforge.netxstudio.protocols.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;

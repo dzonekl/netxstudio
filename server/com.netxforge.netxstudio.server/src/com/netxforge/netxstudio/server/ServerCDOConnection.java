@@ -29,11 +29,9 @@ import com.netxforge.netxstudio.data.cdo.ICDOConnection;
  */
 public class ServerCDOConnection implements ICDOConnection {
 
-	@Override
 	public void initialize() {
 	}
 
-	@Override
 	public CDOSessionConfiguration getConfig() {
 		return ServerUtils.getInstance().createSessionConfiguration();
 	}

@@ -35,7 +35,7 @@ package com.netxforge.netxstudio.metrics;
  *
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRDBMS()
- * @model extendedMetaData="name='MappingRDBMS' kind='empty'"
+ * @model extendedMetaData="name='MappingRDBMS' kind='elementOnly'"
  * @generated
  */
 public interface MappingRDBMS extends Mapping {

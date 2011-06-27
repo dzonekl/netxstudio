@@ -75,9 +75,33 @@ public class MappingRecordItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addColumnPropertyDescriptor(object);
 			addMessagePropertyDescriptor(object);
+			addRowPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Column feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addColumnPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingRecord_column_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRecord_column_feature", "_UI_MappingRecord_type"),
+				 MetricsPackage.Literals.MAPPING_RECORD__COLUMN,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -94,6 +118,28 @@ public class MappingRecordItemProvider
 				 getString("_UI_MappingRecord_message_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRecord_message_feature", "_UI_MappingRecord_type"),
 				 MetricsPackage.Literals.MAPPING_RECORD__MESSAGE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Row feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRowPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingRecord_row_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRecord_row_feature", "_UI_MappingRecord_type"),
+				 MetricsPackage.Literals.MAPPING_RECORD__ROW,
 				 true,
 				 false,
 				 false,
@@ -137,7 +183,9 @@ public class MappingRecordItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(MappingRecord.class)) {
+			case MetricsPackage.MAPPING_RECORD__COLUMN:
 			case MetricsPackage.MAPPING_RECORD__MESSAGE:
+			case MetricsPackage.MAPPING_RECORD__ROW:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

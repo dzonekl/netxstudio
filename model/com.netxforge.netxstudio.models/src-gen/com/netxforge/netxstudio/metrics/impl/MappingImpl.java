@@ -18,10 +18,12 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.metrics.Mapping;
+import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
@@ -29,6 +31,13 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * An implementation of the model object '<em><b>Mapping</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getHeaderMappingColumns <em>Header Mapping Columns</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getMappingColumns <em>Mapping Columns</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getFirstDataRow <em>First Data Row</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getHeaderRow <em>Header Row</em>}</li>
+ * </ul>
  * </p>
  *
  * @generated
@@ -51,6 +60,98 @@ public class MappingImpl extends BaseImpl implements Mapping {
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.MAPPING;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<MappingColumn> getHeaderMappingColumns() {
+		return (EList<MappingColumn>)eGet(MetricsPackage.Literals.MAPPING__HEADER_MAPPING_COLUMNS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	public EList<MappingColumn> getMappingColumns() {
+		return (EList<MappingColumn>)eGet(MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getFirstDataRow() {
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFirstDataRow(int newFirstDataRow) {
+		eSet(MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW, newFirstDataRow);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetFirstDataRow() {
+		eUnset(MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetFirstDataRow() {
+		return eIsSet(MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getHeaderRow() {
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING__HEADER_ROW, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setHeaderRow(int newHeaderRow) {
+		eSet(MetricsPackage.Literals.MAPPING__HEADER_ROW, newHeaderRow);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetHeaderRow() {
+		eUnset(MetricsPackage.Literals.MAPPING__HEADER_ROW);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetHeaderRow() {
+		return eIsSet(MetricsPackage.Literals.MAPPING__HEADER_ROW);
 	}
 
 } //MappingImpl

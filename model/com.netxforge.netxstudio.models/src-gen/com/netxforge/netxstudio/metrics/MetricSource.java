@@ -44,7 +44,6 @@ import com.netxforge.netxstudio.generics.Base;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.metrics.MetricSource#getMetricRefs <em>Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricSource#getMetricMapping <em>Metric Mapping</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricSource#getStatistics <em>Statistics</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricSource#getMetricLocation <em>Metric Location</em>}</li>
@@ -57,26 +56,6 @@ import com.netxforge.netxstudio.generics.Base;
  * @generated
  */
 public interface MetricSource extends Base {
-	/**
-	 * Returns the value of the '<em><b>Metric Refs</b></em>' reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.Metric}.
-	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.metrics.Metric#getMetricSourceRef <em>Metric Source Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The MetricRefs reference, refers to one or more
-	 * 								Metric types for which this source provides values.
-	 * 							
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Metric Refs</em>' reference list.
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetricSource_MetricRefs()
-	 * @see com.netxforge.netxstudio.metrics.Metric#getMetricSourceRef
-	 * @model opposite="metricSourceRef"
-	 *        extendedMetaData="kind='element' name='MetricRefs'"
-	 * @generated
-	 */
-	EList<Metric> getMetricRefs();
-
 	/**
 	 * Returns the value of the '<em><b>Metric Mapping</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

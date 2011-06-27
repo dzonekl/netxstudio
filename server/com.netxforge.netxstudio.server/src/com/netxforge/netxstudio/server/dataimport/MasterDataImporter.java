@@ -76,6 +76,10 @@ public class MasterDataImporter {
 		final List<EObject> result = new ArrayList<EObject>();
 		setEFeatures(sheet);
 		for (int i = 2; i <= sheet.getLastRowNum(); i++) {
+			if (isEmptyRow(sheet.getRow(i))) {
+				continue;
+			}
+
 			final EObject eObject = processRow(sheet.getRow(i));
 			if (eObject != null) {
 				result.add(eObject);
@@ -108,6 +112,10 @@ public class MasterDataImporter {
 		if (row == null) {
 			return null;
 		}
+		if (isEmptyRow(row)) {
+			return null;
+		}
+		
 		final EObject result = EcoreUtil.create(eClassToImport);
 		for (int i = 0; i < eFeatures.size(); i++) {
 			final EStructuralFeature eFeature = eFeatures.get(i);
@@ -121,6 +129,9 @@ public class MasterDataImporter {
 			final int maxLength = ExtendedMetaData.INSTANCE
 					.getMaxLengthFacet(((EAttribute) eFeature)
 							.getEAttributeType());
+			if (value == null || value.trim().length() == 0) {
+				continue;
+			}
 			if (maxLength > 0 && value != null && value.length() > maxLength) {
 				result.eSet(eFeature, value.substring(0, maxLength));
 			} else {
@@ -130,6 +141,21 @@ public class MasterDataImporter {
 		return result;
 	}
 
+	private boolean isEmptyRow(HSSFRow row) {
+		if (row == null) {
+			return true;
+		}
+		final Iterator<Cell> cellIterator = row.cellIterator();
+		while (cellIterator.hasNext()) {
+			final Cell cell = cellIterator.next();
+			final String value = cell.getStringCellValue();
+			if (value != null && value.trim().length() > 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	private void processEReferences(EObject result, HSSFRow row) {
 		for (int i = 0; i < eFeatures.size(); i++) {
 			final EStructuralFeature eFeature = eFeatures.get(i);
@@ -140,6 +166,9 @@ public class MasterDataImporter {
 				continue;
 			}
 			final String value = row.getCell(i).getStringCellValue();
+			if (value == null || value.trim().length() == 0) {
+				continue;
+			}
 			final EReference eReference = (EReference) eFeature;
 			result.eSet(eFeature, getObject(eReference, value));
 		}

@@ -28,12 +28,11 @@ import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingRecord;
-import com.netxforge.netxstudio.metrics.MappingRecordXLS;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MappingXLS;
-import com.netxforge.netxstudio.metrics.MappingXLSColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -109,6 +108,10 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 				return createMappingAdapter();
 			}
 			@Override
+			public Adapter caseMappingColumn(MappingColumn object) {
+				return createMappingColumnAdapter();
+			}
+			@Override
 			public Adapter caseMappingCSV(MappingCSV object) {
 				return createMappingCSVAdapter();
 			}
@@ -121,20 +124,12 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 				return createMappingRecordAdapter();
 			}
 			@Override
-			public Adapter caseMappingRecordXLS(MappingRecordXLS object) {
-				return createMappingRecordXLSAdapter();
-			}
-			@Override
 			public Adapter caseMappingStatistic(MappingStatistic object) {
 				return createMappingStatisticAdapter();
 			}
 			@Override
 			public Adapter caseMappingXLS(MappingXLS object) {
 				return createMappingXLSAdapter();
-			}
-			@Override
-			public Adapter caseMappingXLSColumn(MappingXLSColumn object) {
-				return createMappingXLSColumnAdapter();
 			}
 			@Override
 			public Adapter caseMetric(Metric object) {
@@ -219,6 +214,20 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.metrics.MappingColumn <em>Mapping Column</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.metrics.MappingColumn
+	 * @generated
+	 */
+	public Adapter createMappingColumnAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.metrics.MappingCSV <em>Mapping CSV</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -261,20 +270,6 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.metrics.MappingRecordXLS <em>Mapping Record XLS</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.metrics.MappingRecordXLS
-	 * @generated
-	 */
-	public Adapter createMappingRecordXLSAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.metrics.MappingStatistic <em>Mapping Statistic</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -299,20 +294,6 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMappingXLSAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn <em>Mapping XLS Column</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn
-	 * @generated
-	 */
-	public Adapter createMappingXLSColumnAdapter() {
 		return null;
 	}
 

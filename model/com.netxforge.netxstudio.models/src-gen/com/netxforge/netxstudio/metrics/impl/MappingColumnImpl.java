@@ -22,30 +22,30 @@ import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.metrics.DataKind;
-import com.netxforge.netxstudio.metrics.MappingXLSColumn;
+import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Mapping XLS Column</b></em>'.
+ * An implementation of the model object '<em><b>Mapping Column</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getDataType <em>Data Type</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl#getColumn <em>Column</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingColumnImpl#getDataType <em>Data Type</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingColumnImpl#getColumn <em>Column</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class MappingXLSColumnImpl extends BaseImpl implements MappingXLSColumn {
+public class MappingColumnImpl extends BaseImpl implements MappingColumn {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected MappingXLSColumnImpl() {
+	protected MappingColumnImpl() {
 		super();
 	}
 
@@ -56,7 +56,7 @@ public class MappingXLSColumnImpl extends BaseImpl implements MappingXLSColumn {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return MetricsPackage.Literals.MAPPING_XLS_COLUMN;
+		return MetricsPackage.Literals.MAPPING_COLUMN;
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class MappingXLSColumnImpl extends BaseImpl implements MappingXLSColumn {
 	 * @generated
 	 */
 	public DataKind getDataType() {
-		return (DataKind)eGet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__DATA_TYPE, true);
+		return (DataKind)eGet(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE, true);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class MappingXLSColumnImpl extends BaseImpl implements MappingXLSColumn {
 	 * @generated
 	 */
 	public void setDataType(DataKind newDataType) {
-		eSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__DATA_TYPE, newDataType);
+		eSet(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE, newDataType);
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class MappingXLSColumnImpl extends BaseImpl implements MappingXLSColumn {
 	 * @generated
 	 */
 	public int getColumn() {
-		return (Integer)eGet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN, true);
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING_COLUMN__COLUMN, true);
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class MappingXLSColumnImpl extends BaseImpl implements MappingXLSColumn {
 	 * @generated
 	 */
 	public void setColumn(int newColumn) {
-		eSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN, newColumn);
+		eSet(MetricsPackage.Literals.MAPPING_COLUMN__COLUMN, newColumn);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class MappingXLSColumnImpl extends BaseImpl implements MappingXLSColumn {
 	 * @generated
 	 */
 	public void unsetColumn() {
-		eUnset(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN);
+		eUnset(MetricsPackage.Literals.MAPPING_COLUMN__COLUMN);
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class MappingXLSColumnImpl extends BaseImpl implements MappingXLSColumn {
 	 * @generated
 	 */
 	public boolean isSetColumn() {
-		return eIsSet(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN);
+		return eIsSet(MetricsPackage.Literals.MAPPING_COLUMN__COLUMN);
 	}
 
-} //MappingXLSColumnImpl
+} //MappingColumnImpl

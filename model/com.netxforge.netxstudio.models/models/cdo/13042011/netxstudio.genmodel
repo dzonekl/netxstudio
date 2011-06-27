@@ -330,6 +330,8 @@
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//ValueKindType">
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/PERIOD"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/PERIODSTART"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/PERIODEND"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/DATETIME"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/NULL"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/METRIC"/>
@@ -342,15 +344,24 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/objectKind"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/objectProperty"/>
     </genClasses>
-    <genClasses ecoreClass="metrics.ecore#//Mapping"/>
-    <genClasses ecoreClass="metrics.ecore#//MappingCSV"/>
+    <genClasses ecoreClass="metrics.ecore#//Mapping">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Mapping/headerMappingColumns"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Mapping/mappingColumns"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/firstDataRow"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/headerRow"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MappingColumn">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingColumn/dataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingColumn/column"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MappingCSV">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingCSV/delimiter"/>
+    </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingRDBMS"/>
     <genClasses ecoreClass="metrics.ecore#//MappingRecord">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/column"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/message"/>
-    </genClasses>
-    <genClasses ecoreClass="metrics.ecore#//MappingRecordXLS">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecordXLS/column"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecordXLS/row"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/row"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingStatistic">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingStatistic/failedRecords"/>
@@ -359,14 +370,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingStatistic/totalRecords"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingXLS">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingXLS/mappingColumns"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLS/firstDataRow"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLS/headerRow"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLS/sheetNumber"/>
-    </genClasses>
-    <genClasses ecoreClass="metrics.ecore#//MappingXLSColumn">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingXLSColumn/dataType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingXLSColumn/column"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//Metric">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Metric/metrics"/>
@@ -379,7 +383,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EReference metrics.ecore#//Metric/unitRef"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MetricSource">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/metricRefs"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/metricMapping"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/statistics"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricSource/metricLocation"/>

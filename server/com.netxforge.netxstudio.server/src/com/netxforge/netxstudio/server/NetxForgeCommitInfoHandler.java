@@ -51,7 +51,6 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 
 	private static final int MAX_CHANGE_LENGTH = 2000;
 
-	@Override
 	public synchronized void handleCommitInfo(CDOCommitInfo commitInfo) {
 		// don't do this when the server is initializing
 		if (ServerUtils.getInstance().isInitializing()) {

@@ -18,11 +18,9 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.metrics.MappingXLS;
-import com.netxforge.netxstudio.metrics.MappingXLSColumn;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
@@ -32,9 +30,6 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getMappingColumns <em>Mapping Columns</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getFirstDataRow <em>First Data Row</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getHeaderRow <em>Header Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl#getSheetNumber <em>Sheet Number</em>}</li>
  * </ul>
  * </p>
@@ -59,88 +54,6 @@ public class MappingXLSImpl extends MappingImpl implements MappingXLS {
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.MAPPING_XLS;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<MappingXLSColumn> getMappingColumns() {
-		return (EList<MappingXLSColumn>)eGet(MetricsPackage.Literals.MAPPING_XLS__MAPPING_COLUMNS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getFirstDataRow() {
-		return (Integer)eGet(MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setFirstDataRow(int newFirstDataRow) {
-		eSet(MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW, newFirstDataRow);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetFirstDataRow() {
-		eUnset(MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetFirstDataRow() {
-		return eIsSet(MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getHeaderRow() {
-		return (Integer)eGet(MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setHeaderRow(int newHeaderRow) {
-		eSet(MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW, newHeaderRow);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetHeaderRow() {
-		eUnset(MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetHeaderRow() {
-		return eIsSet(MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW);
 	}
 
 	/**

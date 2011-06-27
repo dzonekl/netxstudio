@@ -210,13 +210,95 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
+	 * The feature id for the '<em><b>Header Mapping Columns</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__HEADER_MAPPING_COLUMNS = GenericsPackage.BASE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Mapping Columns</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__MAPPING_COLUMNS = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>First Data Row</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__FIRST_DATA_ROW = GenericsPackage.BASE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Header Row</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__HEADER_ROW = GenericsPackage.BASE_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Mapping</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 0;
+	int MAPPING_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingColumnImpl <em>Mapping Column</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.metrics.impl.MappingColumnImpl
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingColumn()
+	 * @generated
+	 */
+	int MAPPING_COLUMN = 3;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_COLUMN__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Data Type</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_COLUMN__DATA_TYPE = GenericsPackage.BASE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Column</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_COLUMN__COLUMN = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Mapping Column</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_COLUMN_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingCSVImpl <em>Mapping CSV</em>}' class.
@@ -226,7 +308,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingCSV()
 	 * @generated
 	 */
-	int MAPPING_CSV = 3;
+	int MAPPING_CSV = 4;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -238,13 +320,58 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_CSV__DELETED = MAPPING__DELETED;
 
 	/**
+	 * The feature id for the '<em><b>Header Mapping Columns</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_CSV__HEADER_MAPPING_COLUMNS = MAPPING__HEADER_MAPPING_COLUMNS;
+
+	/**
+	 * The feature id for the '<em><b>Mapping Columns</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_CSV__MAPPING_COLUMNS = MAPPING__MAPPING_COLUMNS;
+
+	/**
+	 * The feature id for the '<em><b>First Data Row</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_CSV__FIRST_DATA_ROW = MAPPING__FIRST_DATA_ROW;
+
+	/**
+	 * The feature id for the '<em><b>Header Row</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_CSV__HEADER_ROW = MAPPING__HEADER_ROW;
+
+	/**
+	 * The feature id for the '<em><b>Delimiter</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_CSV__DELIMITER = MAPPING_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Mapping CSV</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_CSV_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 0;
+	int MAPPING_CSV_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl <em>Mapping RDBMS</em>}' class.
@@ -254,7 +381,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingRDBMS()
 	 * @generated
 	 */
-	int MAPPING_RDBMS = 4;
+	int MAPPING_RDBMS = 5;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -264,6 +391,42 @@ public interface MetricsPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAPPING_RDBMS__DELETED = MAPPING__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Header Mapping Columns</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RDBMS__HEADER_MAPPING_COLUMNS = MAPPING__HEADER_MAPPING_COLUMNS;
+
+	/**
+	 * The feature id for the '<em><b>Mapping Columns</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RDBMS__MAPPING_COLUMNS = MAPPING__MAPPING_COLUMNS;
+
+	/**
+	 * The feature id for the '<em><b>First Data Row</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RDBMS__FIRST_DATA_ROW = MAPPING__FIRST_DATA_ROW;
+
+	/**
+	 * The feature id for the '<em><b>Header Row</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RDBMS__HEADER_ROW = MAPPING__HEADER_ROW;
 
 	/**
 	 * The number of structural features of the '<em>Mapping RDBMS</em>' class.
@@ -282,7 +445,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingRecord()
 	 * @generated
 	 */
-	int MAPPING_RECORD = 5;
+	int MAPPING_RECORD = 6;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -294,59 +457,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_RECORD__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Message</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_RECORD__MESSAGE = GenericsPackage.BASE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Mapping Record</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_RECORD_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRecordXLSImpl <em>Mapping Record XLS</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.metrics.impl.MappingRecordXLSImpl
-	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingRecordXLS()
-	 * @generated
-	 */
-	int MAPPING_RECORD_XLS = 6;
-
-	/**
-	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_RECORD_XLS__DELETED = MAPPING_RECORD__DELETED;
-
-	/**
-	 * The feature id for the '<em><b>Message</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_RECORD_XLS__MESSAGE = MAPPING_RECORD__MESSAGE;
-
-	/**
 	 * The feature id for the '<em><b>Column</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RECORD_XLS__COLUMN = MAPPING_RECORD_FEATURE_COUNT + 0;
+	int MAPPING_RECORD__COLUMN = GenericsPackage.BASE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RECORD__MESSAGE = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Row</b></em>' attribute.
@@ -355,16 +481,16 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RECORD_XLS__ROW = MAPPING_RECORD_FEATURE_COUNT + 1;
+	int MAPPING_RECORD__ROW = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Mapping Record XLS</em>' class.
+	 * The number of structural features of the '<em>Mapping Record</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RECORD_XLS_FEATURE_COUNT = MAPPING_RECORD_FEATURE_COUNT + 2;
+	int MAPPING_RECORD_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl <em>Mapping Statistic</em>}' class.
@@ -450,13 +576,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_XLS__DELETED = MAPPING__DELETED;
 
 	/**
+	 * The feature id for the '<em><b>Header Mapping Columns</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_XLS__HEADER_MAPPING_COLUMNS = MAPPING__HEADER_MAPPING_COLUMNS;
+
+	/**
 	 * The feature id for the '<em><b>Mapping Columns</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS__MAPPING_COLUMNS = MAPPING_FEATURE_COUNT + 0;
+	int MAPPING_XLS__MAPPING_COLUMNS = MAPPING__MAPPING_COLUMNS;
 
 	/**
 	 * The feature id for the '<em><b>First Data Row</b></em>' attribute.
@@ -465,7 +600,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS__FIRST_DATA_ROW = MAPPING_FEATURE_COUNT + 1;
+	int MAPPING_XLS__FIRST_DATA_ROW = MAPPING__FIRST_DATA_ROW;
 
 	/**
 	 * The feature id for the '<em><b>Header Row</b></em>' attribute.
@@ -474,7 +609,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS__HEADER_ROW = MAPPING_FEATURE_COUNT + 2;
+	int MAPPING_XLS__HEADER_ROW = MAPPING__HEADER_ROW;
 
 	/**
 	 * The feature id for the '<em><b>Sheet Number</b></em>' attribute.
@@ -483,7 +618,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS__SHEET_NUMBER = MAPPING_FEATURE_COUNT + 3;
+	int MAPPING_XLS__SHEET_NUMBER = MAPPING_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Mapping XLS</em>' class.
@@ -492,53 +627,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 4;
-
-	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl <em>Mapping XLS Column</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl
-	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingXLSColumn()
-	 * @generated
-	 */
-	int MAPPING_XLS_COLUMN = 9;
-
-	/**
-	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_XLS_COLUMN__DELETED = GenericsPackage.BASE__DELETED;
-
-	/**
-	 * The feature id for the '<em><b>Data Type</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_XLS_COLUMN__DATA_TYPE = GenericsPackage.BASE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Column</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_XLS_COLUMN__COLUMN = GenericsPackage.BASE_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Mapping XLS Column</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_XLS_COLUMN_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int MAPPING_XLS_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricImpl <em>Metric</em>}' class.
@@ -548,7 +637,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetric()
 	 * @generated
 	 */
-	int METRIC = 10;
+	int METRIC = 9;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -648,7 +737,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricSource()
 	 * @generated
 	 */
-	int METRIC_SOURCE = 11;
+	int METRIC_SOURCE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -660,22 +749,13 @@ public interface MetricsPackage extends EPackage {
 	int METRIC_SOURCE__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Metric Refs</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METRIC_SOURCE__METRIC_REFS = GenericsPackage.BASE_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Metric Mapping</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__METRIC_MAPPING = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int METRIC_SOURCE__METRIC_MAPPING = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Statistics</b></em>' containment reference list.
@@ -684,7 +764,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__STATISTICS = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int METRIC_SOURCE__STATISTICS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Metric Location</b></em>' attribute.
@@ -693,7 +773,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__METRIC_LOCATION = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int METRIC_SOURCE__METRIC_LOCATION = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -702,7 +782,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int METRIC_SOURCE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Metric Source</em>' class.
@@ -711,7 +791,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
+	int METRIC_SOURCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl <em>Metric Value Range</em>}' class.
@@ -721,7 +801,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricValueRange()
 	 * @generated
 	 */
-	int METRIC_VALUE_RANGE = 12;
+	int METRIC_VALUE_RANGE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Metric Values</b></em>' containment reference list.
@@ -767,7 +847,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getValueDataKind()
 	 * @generated
 	 */
-	int VALUE_DATA_KIND = 13;
+	int VALUE_DATA_KIND = 12;
 
 	/**
 	 * The feature id for the '<em><b>Metric Ref</b></em>' reference.
@@ -813,7 +893,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getKindHintType()
 	 * @generated
 	 */
-	int KIND_HINT_TYPE = 14;
+	int KIND_HINT_TYPE = 13;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.ObjectKindType <em>Object Kind Type</em>}' enum.
@@ -823,7 +903,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectKindType()
 	 * @generated
 	 */
-	int OBJECT_KIND_TYPE = 15;
+	int OBJECT_KIND_TYPE = 14;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.ValueKindType <em>Value Kind Type</em>}' enum.
@@ -833,7 +913,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getValueKindType()
 	 * @generated
 	 */
-	int VALUE_KIND_TYPE = 16;
+	int VALUE_KIND_TYPE = 15;
 
 	/**
 	 * The meta object id for the '<em>Kind Hint Type Object</em>' data type.
@@ -843,7 +923,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getKindHintTypeObject()
 	 * @generated
 	 */
-	int KIND_HINT_TYPE_OBJECT = 17;
+	int KIND_HINT_TYPE_OBJECT = 16;
 
 	/**
 	 * The meta object id for the '<em>Object Kind Type Object</em>' data type.
@@ -853,7 +933,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectKindTypeObject()
 	 * @generated
 	 */
-	int OBJECT_KIND_TYPE_OBJECT = 18;
+	int OBJECT_KIND_TYPE_OBJECT = 17;
 
 	/**
 	 * The meta object id for the '<em>Value Kind Type Object</em>' data type.
@@ -863,7 +943,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getValueKindTypeObject()
 	 * @generated
 	 */
-	int VALUE_KIND_TYPE_OBJECT = 19;
+	int VALUE_KIND_TYPE_OBJECT = 18;
 
 
 	/**
@@ -919,6 +999,82 @@ public interface MetricsPackage extends EPackage {
 	EClass getMapping();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.metrics.Mapping#getHeaderMappingColumns <em>Header Mapping Columns</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Header Mapping Columns</em>'.
+	 * @see com.netxforge.netxstudio.metrics.Mapping#getHeaderMappingColumns()
+	 * @see #getMapping()
+	 * @generated
+	 */
+	EReference getMapping_HeaderMappingColumns();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.metrics.Mapping#getMappingColumns <em>Mapping Columns</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Mapping Columns</em>'.
+	 * @see com.netxforge.netxstudio.metrics.Mapping#getMappingColumns()
+	 * @see #getMapping()
+	 * @generated
+	 */
+	EReference getMapping_MappingColumns();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.Mapping#getFirstDataRow <em>First Data Row</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>First Data Row</em>'.
+	 * @see com.netxforge.netxstudio.metrics.Mapping#getFirstDataRow()
+	 * @see #getMapping()
+	 * @generated
+	 */
+	EAttribute getMapping_FirstDataRow();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.Mapping#getHeaderRow <em>Header Row</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Header Row</em>'.
+	 * @see com.netxforge.netxstudio.metrics.Mapping#getHeaderRow()
+	 * @see #getMapping()
+	 * @generated
+	 */
+	EAttribute getMapping_HeaderRow();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingColumn <em>Mapping Column</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Mapping Column</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingColumn
+	 * @generated
+	 */
+	EClass getMappingColumn();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.metrics.MappingColumn#getDataType <em>Data Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Data Type</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingColumn#getDataType()
+	 * @see #getMappingColumn()
+	 * @generated
+	 */
+	EReference getMappingColumn_DataType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingColumn#getColumn <em>Column</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Column</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingColumn#getColumn()
+	 * @see #getMappingColumn()
+	 * @generated
+	 */
+	EAttribute getMappingColumn_Column();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingCSV <em>Mapping CSV</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -927,6 +1083,17 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getMappingCSV();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingCSV#getDelimiter <em>Delimiter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Delimiter</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingCSV#getDelimiter()
+	 * @see #getMappingCSV()
+	 * @generated
+	 */
+	EAttribute getMappingCSV_Delimiter();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingRDBMS <em>Mapping RDBMS</em>}'.
@@ -949,6 +1116,17 @@ public interface MetricsPackage extends EPackage {
 	EClass getMappingRecord();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRecord#getColumn <em>Column</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Column</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingRecord#getColumn()
+	 * @see #getMappingRecord()
+	 * @generated
+	 */
+	EAttribute getMappingRecord_Column();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRecord#getMessage <em>Message</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -960,36 +1138,15 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getMappingRecord_Message();
 
 	/**
-	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingRecordXLS <em>Mapping Record XLS</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Mapping Record XLS</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingRecordXLS
-	 * @generated
-	 */
-	EClass getMappingRecordXLS();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRecordXLS#getColumn <em>Column</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Column</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingRecordXLS#getColumn()
-	 * @see #getMappingRecordXLS()
-	 * @generated
-	 */
-	EAttribute getMappingRecordXLS_Column();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRecordXLS#getRow <em>Row</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRecord#getRow <em>Row</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Row</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingRecordXLS#getRow()
-	 * @see #getMappingRecordXLS()
+	 * @see com.netxforge.netxstudio.metrics.MappingRecord#getRow()
+	 * @see #getMappingRecord()
 	 * @generated
 	 */
-	EAttribute getMappingRecordXLS_Row();
+	EAttribute getMappingRecord_Row();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingStatistic <em>Mapping Statistic</em>}'.
@@ -1056,39 +1213,6 @@ public interface MetricsPackage extends EPackage {
 	EClass getMappingXLS();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.metrics.MappingXLS#getMappingColumns <em>Mapping Columns</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Mapping Columns</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLS#getMappingColumns()
-	 * @see #getMappingXLS()
-	 * @generated
-	 */
-	EReference getMappingXLS_MappingColumns();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLS#getFirstDataRow <em>First Data Row</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>First Data Row</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLS#getFirstDataRow()
-	 * @see #getMappingXLS()
-	 * @generated
-	 */
-	EAttribute getMappingXLS_FirstDataRow();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLS#getHeaderRow <em>Header Row</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Header Row</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLS#getHeaderRow()
-	 * @see #getMappingXLS()
-	 * @generated
-	 */
-	EAttribute getMappingXLS_HeaderRow();
-
-	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLS#getSheetNumber <em>Sheet Number</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1098,38 +1222,6 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMappingXLS_SheetNumber();
-
-	/**
-	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn <em>Mapping XLS Column</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Mapping XLS Column</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn
-	 * @generated
-	 */
-	EClass getMappingXLSColumn();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getDataType <em>Data Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Data Type</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn#getDataType()
-	 * @see #getMappingXLSColumn()
-	 * @generated
-	 */
-	EReference getMappingXLSColumn_DataType();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumn <em>Column</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Column</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingXLSColumn#getColumn()
-	 * @see #getMappingXLSColumn()
-	 * @generated
-	 */
-	EAttribute getMappingXLSColumn_Column();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.Metric <em>Metric</em>}'.
@@ -1238,17 +1330,6 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getMetricSource();
-
-	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.metrics.MetricSource#getMetricRefs <em>Metric Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Metric Refs</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MetricSource#getMetricRefs()
-	 * @see #getMetricSource()
-	 * @generated
-	 */
-	EReference getMetricSource_MetricRefs();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.metrics.MetricSource#getMetricMapping <em>Metric Mapping</em>}'.
@@ -1515,6 +1596,64 @@ public interface MetricsPackage extends EPackage {
 		EClass MAPPING = eINSTANCE.getMapping();
 
 		/**
+		 * The meta object literal for the '<em><b>Header Mapping Columns</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MAPPING__HEADER_MAPPING_COLUMNS = eINSTANCE.getMapping_HeaderMappingColumns();
+
+		/**
+		 * The meta object literal for the '<em><b>Mapping Columns</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MAPPING__MAPPING_COLUMNS = eINSTANCE.getMapping_MappingColumns();
+
+		/**
+		 * The meta object literal for the '<em><b>First Data Row</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING__FIRST_DATA_ROW = eINSTANCE.getMapping_FirstDataRow();
+
+		/**
+		 * The meta object literal for the '<em><b>Header Row</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING__HEADER_ROW = eINSTANCE.getMapping_HeaderRow();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingColumnImpl <em>Mapping Column</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.metrics.impl.MappingColumnImpl
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingColumn()
+		 * @generated
+		 */
+		EClass MAPPING_COLUMN = eINSTANCE.getMappingColumn();
+
+		/**
+		 * The meta object literal for the '<em><b>Data Type</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MAPPING_COLUMN__DATA_TYPE = eINSTANCE.getMappingColumn_DataType();
+
+		/**
+		 * The meta object literal for the '<em><b>Column</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_COLUMN__COLUMN = eINSTANCE.getMappingColumn_Column();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingCSVImpl <em>Mapping CSV</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1523,6 +1662,14 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass MAPPING_CSV = eINSTANCE.getMappingCSV();
+
+		/**
+		 * The meta object literal for the '<em><b>Delimiter</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_CSV__DELIMITER = eINSTANCE.getMappingCSV_Delimiter();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl <em>Mapping RDBMS</em>}' class.
@@ -1545,6 +1692,14 @@ public interface MetricsPackage extends EPackage {
 		EClass MAPPING_RECORD = eINSTANCE.getMappingRecord();
 
 		/**
+		 * The meta object literal for the '<em><b>Column</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_RECORD__COLUMN = eINSTANCE.getMappingRecord_Column();
+
+		/**
 		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1553,30 +1708,12 @@ public interface MetricsPackage extends EPackage {
 		EAttribute MAPPING_RECORD__MESSAGE = eINSTANCE.getMappingRecord_Message();
 
 		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRecordXLSImpl <em>Mapping Record XLS</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.metrics.impl.MappingRecordXLSImpl
-		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingRecordXLS()
-		 * @generated
-		 */
-		EClass MAPPING_RECORD_XLS = eINSTANCE.getMappingRecordXLS();
-
-		/**
-		 * The meta object literal for the '<em><b>Column</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MAPPING_RECORD_XLS__COLUMN = eINSTANCE.getMappingRecordXLS_Column();
-
-		/**
 		 * The meta object literal for the '<em><b>Row</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MAPPING_RECORD_XLS__ROW = eINSTANCE.getMappingRecordXLS_Row();
+		EAttribute MAPPING_RECORD__ROW = eINSTANCE.getMappingRecord_Row();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl <em>Mapping Statistic</em>}' class.
@@ -1631,62 +1768,12 @@ public interface MetricsPackage extends EPackage {
 		EClass MAPPING_XLS = eINSTANCE.getMappingXLS();
 
 		/**
-		 * The meta object literal for the '<em><b>Mapping Columns</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MAPPING_XLS__MAPPING_COLUMNS = eINSTANCE.getMappingXLS_MappingColumns();
-
-		/**
-		 * The meta object literal for the '<em><b>First Data Row</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MAPPING_XLS__FIRST_DATA_ROW = eINSTANCE.getMappingXLS_FirstDataRow();
-
-		/**
-		 * The meta object literal for the '<em><b>Header Row</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MAPPING_XLS__HEADER_ROW = eINSTANCE.getMappingXLS_HeaderRow();
-
-		/**
 		 * The meta object literal for the '<em><b>Sheet Number</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute MAPPING_XLS__SHEET_NUMBER = eINSTANCE.getMappingXLS_SheetNumber();
-
-		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl <em>Mapping XLS Column</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.metrics.impl.MappingXLSColumnImpl
-		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingXLSColumn()
-		 * @generated
-		 */
-		EClass MAPPING_XLS_COLUMN = eINSTANCE.getMappingXLSColumn();
-
-		/**
-		 * The meta object literal for the '<em><b>Data Type</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MAPPING_XLS_COLUMN__DATA_TYPE = eINSTANCE.getMappingXLSColumn_DataType();
-
-		/**
-		 * The meta object literal for the '<em><b>Column</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MAPPING_XLS_COLUMN__COLUMN = eINSTANCE.getMappingXLSColumn_Column();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MetricImpl <em>Metric</em>}' class.
@@ -1771,14 +1858,6 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass METRIC_SOURCE = eINSTANCE.getMetricSource();
-
-		/**
-		 * The meta object literal for the '<em><b>Metric Refs</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference METRIC_SOURCE__METRIC_REFS = eINSTANCE.getMetricSource_MetricRefs();
 
 		/**
 		 * The meta object literal for the '<em><b>Metric Mapping</b></em>' containment reference feature.

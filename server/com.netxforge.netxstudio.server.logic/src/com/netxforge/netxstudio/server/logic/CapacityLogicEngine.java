@@ -74,6 +74,9 @@ public class CapacityLogicEngine {
 		expressionEngine.getContext().remove(1);
 		expressionEngine.getContext().add(getComponent());
 		for (final Tolerance tolerance : getTolerances()) {
+			// resultaat van de tolerance is een percentage
+			// loop door de capacity/utilization heen
+			// genereer markers per nieuwe overschrijding
 			runForExpression(tolerance.getExpressionRef());
 			if (failure != null) {
 				return;

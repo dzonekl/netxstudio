@@ -77,33 +77,10 @@ public class MetricSourceItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addMetricRefsPropertyDescriptor(object);
 			addMetricLocationPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Metric Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addMetricRefsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_MetricSource_metricRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MetricSource_metricRefs_feature", "_UI_MetricSource_type"),
-				 MetricsPackage.Literals.METRIC_SOURCE__METRIC_REFS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
 	}
 
 	/**

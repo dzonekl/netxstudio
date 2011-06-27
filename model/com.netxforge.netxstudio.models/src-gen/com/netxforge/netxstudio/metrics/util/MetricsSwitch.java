@@ -27,12 +27,11 @@ import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingRecord;
-import com.netxforge.netxstudio.metrics.MappingRecordXLS;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MappingXLS;
-import com.netxforge.netxstudio.metrics.MappingXLSColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -116,6 +115,13 @@ public class MetricsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case MetricsPackage.MAPPING_COLUMN: {
+				MappingColumn mappingColumn = (MappingColumn)theEObject;
+				T result = caseMappingColumn(mappingColumn);
+				if (result == null) result = caseBase(mappingColumn);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case MetricsPackage.MAPPING_CSV: {
 				MappingCSV mappingCSV = (MappingCSV)theEObject;
 				T result = caseMappingCSV(mappingCSV);
@@ -139,14 +145,6 @@ public class MetricsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MetricsPackage.MAPPING_RECORD_XLS: {
-				MappingRecordXLS mappingRecordXLS = (MappingRecordXLS)theEObject;
-				T result = caseMappingRecordXLS(mappingRecordXLS);
-				if (result == null) result = caseMappingRecord(mappingRecordXLS);
-				if (result == null) result = caseBase(mappingRecordXLS);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case MetricsPackage.MAPPING_STATISTIC: {
 				MappingStatistic mappingStatistic = (MappingStatistic)theEObject;
 				T result = caseMappingStatistic(mappingStatistic);
@@ -159,13 +157,6 @@ public class MetricsSwitch<T> extends Switch<T> {
 				T result = caseMappingXLS(mappingXLS);
 				if (result == null) result = caseMapping(mappingXLS);
 				if (result == null) result = caseBase(mappingXLS);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case MetricsPackage.MAPPING_XLS_COLUMN: {
-				MappingXLSColumn mappingXLSColumn = (MappingXLSColumn)theEObject;
-				T result = caseMappingXLSColumn(mappingXLSColumn);
-				if (result == null) result = caseBase(mappingXLSColumn);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -246,6 +237,21 @@ public class MetricsSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Mapping Column</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Mapping Column</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMappingColumn(MappingColumn object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Mapping CSV</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -291,21 +297,6 @@ public class MetricsSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Mapping Record XLS</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Mapping Record XLS</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseMappingRecordXLS(MappingRecordXLS object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Mapping Statistic</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -332,21 +323,6 @@ public class MetricsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMappingXLS(MappingXLS object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Mapping XLS Column</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Mapping XLS Column</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseMappingXLSColumn(MappingXLSColumn object) {
 		return null;
 	}
 

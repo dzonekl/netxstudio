@@ -207,24 +207,20 @@ public class JobHandler {
 	private class JobChangeListener implements Adapter {
 		private Notifier target;
 
-		@Override
 		public void notifyChanged(Notification notification) {
 			if (notification instanceof CDOInvalidationNotification) {
 				JobHandler.this.reinitialize();
 			}
 		}
 
-		@Override
 		public Notifier getTarget() {
 			return target;
 		}
 
-		@Override
 		public void setTarget(Notifier newTarget) {
 			target = newTarget;
 		}
 
-		@Override
 		public boolean isAdapterForType(Object type) {
 			return type instanceof Job || type instanceof Resource;
 		}
@@ -233,7 +229,6 @@ public class JobHandler {
 
 	public static class Initializer implements IElementProcessor {
 
-		@Override
 		public Object process(IManagedContainer container, String productGroup,
 				String factoryType, String description, Object element) {
 			if (element instanceof IRepository) {

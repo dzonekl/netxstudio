@@ -39,7 +39,6 @@ public class Activator implements BundleActivator {
 	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
 	 * )
 	 */
-	@Override
 	public void start(BundleContext bundleContext) throws Exception {
 		INSTANCE = this;
 		Activator.context = bundleContext;
@@ -68,7 +67,6 @@ public class Activator implements BundleActivator {
 	 * @see
 	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
-	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
 		Activator.context = null;
 	}
@@ -83,7 +81,8 @@ public class Activator implements BundleActivator {
 		@Override
 		protected void configure() {
 			this.bind(MetricSourceJobImplementation.class);
-			this.bind(MetricValuesImporter.class);
+			this.bind(XLSMetricValuesImporter.class);
+			this.bind(CSVMetricValuesImporter.class);
 			this.bind(NetworkElementLocator.class);
 			this.bind(ServiceRunner.class);
 		}

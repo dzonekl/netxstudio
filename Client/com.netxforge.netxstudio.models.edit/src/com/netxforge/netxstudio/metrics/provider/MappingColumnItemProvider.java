@@ -19,13 +19,23 @@
 package com.netxforge.netxstudio.metrics.provider;
 
 
+import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
+import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
+
+import com.netxforge.netxstudio.metrics.MappingColumn;
+import com.netxforge.netxstudio.metrics.MetricsFactory;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
+
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -36,19 +46,13 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
-import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
-import com.netxforge.netxstudio.metrics.MappingXLSColumn;
-import com.netxforge.netxstudio.metrics.MetricsFactory;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
-
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.metrics.MappingXLSColumn} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.metrics.MappingColumn} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class MappingXLSColumnItemProvider
+public class MappingColumnItemProvider
 	extends BaseItemProvider
 	implements
 		IEditingDomainItemProvider,
@@ -62,7 +66,7 @@ public class MappingXLSColumnItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MappingXLSColumnItemProvider(AdapterFactory adapterFactory) {
+	public MappingColumnItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -93,9 +97,9 @@ public class MappingXLSColumnItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_MappingXLSColumn_column_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MappingXLSColumn_column_feature", "_UI_MappingXLSColumn_type"),
-				 MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN,
+				 getString("_UI_MappingColumn_column_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingColumn_column_feature", "_UI_MappingColumn_type"),
+				 MetricsPackage.Literals.MAPPING_COLUMN__COLUMN,
 				 true,
 				 false,
 				 false,
@@ -116,7 +120,7 @@ public class MappingXLSColumnItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(MetricsPackage.Literals.MAPPING_XLS_COLUMN__DATA_TYPE);
+			childrenFeatures.add(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
 		}
 		return childrenFeatures;
 	}
@@ -135,14 +139,14 @@ public class MappingXLSColumnItemProvider
 	}
 
 	/**
-	 * This returns MappingXLSColumn.gif.
+	 * This returns MappingColumn.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/MappingXLSColumn"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/MappingColumn"));
 	}
 
 	/**
@@ -153,8 +157,8 @@ public class MappingXLSColumnItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		MappingXLSColumn mappingXLSColumn = (MappingXLSColumn)object;
-		return getString("_UI_MappingXLSColumn_type") + " " + mappingXLSColumn.isDeleted();
+		MappingColumn mappingColumn = (MappingColumn)object;
+		return getString("_UI_MappingColumn_type") + " " + mappingColumn.isDeleted();
 	}
 
 	/**
@@ -168,11 +172,11 @@ public class MappingXLSColumnItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(MappingXLSColumn.class)) {
-			case MetricsPackage.MAPPING_XLS_COLUMN__COLUMN:
+		switch (notification.getFeatureID(MappingColumn.class)) {
+			case MetricsPackage.MAPPING_COLUMN__COLUMN:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case MetricsPackage.MAPPING_XLS_COLUMN__DATA_TYPE:
+			case MetricsPackage.MAPPING_COLUMN__DATA_TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -192,17 +196,17 @@ public class MappingXLSColumnItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(MetricsPackage.Literals.MAPPING_XLS_COLUMN__DATA_TYPE,
+				(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
 				 MetricsFactory.eINSTANCE.createDataKind()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(MetricsPackage.Literals.MAPPING_XLS_COLUMN__DATA_TYPE,
+				(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
 				 MetricsFactory.eINSTANCE.createIdentifierDataKind()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(MetricsPackage.Literals.MAPPING_XLS_COLUMN__DATA_TYPE,
+				(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
 				 MetricsFactory.eINSTANCE.createValueDataKind()));
 	}
 

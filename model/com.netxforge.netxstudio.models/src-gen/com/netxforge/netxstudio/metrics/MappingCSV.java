@@ -27,16 +27,46 @@ package com.netxforge.netxstudio.metrics;
  * <!-- begin-model-doc -->
  * A type representing the basic information points
  * 				for mapping an CSV file to the NetXStudio model.
- * 
- * 				THIS TYPE SHOULD NOT
- * 				BE CONSIDERED FOR NOW.
  * 			
  * <!-- end-model-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingCSV#getDelimiter <em>Delimiter</em>}</li>
+ * </ul>
+ * </p>
  *
  * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingCSV()
- * @model extendedMetaData="name='MappingCSV' kind='empty'"
+ * @model extendedMetaData="name='MappingCSV' kind='elementOnly'"
  * @generated
  */
 public interface MappingCSV extends Mapping {
+
+	/**
+	 * Returns the value of the '<em><b>Delimiter</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The delimiter character(s).
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Delimiter</em>' attribute.
+	 * @see #setDelimiter(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingCSV_Delimiter()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='Delimiter'"
+	 * @generated
+	 */
+	String getDelimiter();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingCSV#getDelimiter <em>Delimiter</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Delimiter</em>' attribute.
+	 * @see #getDelimiter()
+	 * @generated
+	 */
+	void setDelimiter(String value);
 } // MappingCSV

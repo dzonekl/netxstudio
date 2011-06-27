@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.metrics;
 
+import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.server.job.JobImplementation;
@@ -36,7 +38,15 @@ public class MetricSourceJobImplementation extends JobImplementation {
 		// read a new metricsource so that it is part of this
 		// transaction/session
 		final MetricSource metricSource = getMetricSource();
-		final MetricValuesImporter metricsImporter = Activator.getInstance().getInjector().getInstance(MetricValuesImporter.class);
+		final MetricValuesImporter metricsImporter;
+		if (metricSource.getMetricMapping() instanceof MappingXLS) {
+			metricsImporter = Activator.getInstance().getInjector().getInstance(XLSMetricValuesImporter.class);
+		} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
+			metricsImporter = Activator.getInstance().getInjector().getInstance(CSVMetricValuesImporter.class);
+		} else {
+			throw new IllegalArgumentException("Mapping type not supported: " + metricSource.getMetricMapping());
+		}
+		
 		metricsImporter.setMetricSourceWithId(metricSource.cdoID());
 		metricsImporter.setJobMonitor(getRunMonitor());
 		metricsImporter.process();

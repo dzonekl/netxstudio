@@ -42,8 +42,8 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
+import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MappingXLS;
-import com.netxforge.netxstudio.metrics.MappingXLSColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -259,10 +259,10 @@ public class CreateTestData extends AbstractDataProviderTest {
 						LibraryPackage.eINSTANCE.getComponent_Name().getName()));
 	}
 
-	private MappingXLSColumn createIdentifierColumn(int columnNo,
+	private MappingColumn createIdentifierColumn(int columnNo,
 			int headerRow, ObjectKindType objectKind, String objectProperty) {
-		final MappingXLSColumn column = MetricsFactory.eINSTANCE
-				.createMappingXLSColumn();
+		final MappingColumn column = MetricsFactory.eINSTANCE
+				.createMappingColumn();
 		column.setColumn(columnNo);
 		final IdentifierDataKind kind = MetricsFactory.eINSTANCE
 				.createIdentifierDataKind();
@@ -272,10 +272,10 @@ public class CreateTestData extends AbstractDataProviderTest {
 		return column;
 	}
 
-	private MappingXLSColumn createValueColumn(String metricName, int columnNo,
+	private MappingColumn createValueColumn(String metricName, int columnNo,
 			ValueKindType valueKindType) {
-		final MappingXLSColumn column = MetricsFactory.eINSTANCE
-				.createMappingXLSColumn();
+		final MappingColumn column = MetricsFactory.eINSTANCE
+				.createMappingColumn();
 		column.setColumn(columnNo);
 		final ValueDataKind valueDataKind = MetricsFactory.eINSTANCE
 				.createValueDataKind();

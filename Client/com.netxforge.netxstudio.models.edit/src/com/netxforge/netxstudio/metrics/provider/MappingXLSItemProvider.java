@@ -74,55 +74,9 @@ public class MappingXLSItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addFirstDataRowPropertyDescriptor(object);
-			addHeaderRowPropertyDescriptor(object);
 			addSheetNumberPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the First Data Row feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addFirstDataRowPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_MappingXLS_firstDataRow_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MappingXLS_firstDataRow_feature", "_UI_MappingXLS_type"),
-				 MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Header Row feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addHeaderRowPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_MappingXLS_headerRow_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MappingXLS_headerRow_feature", "_UI_MappingXLS_type"),
-				 MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -145,36 +99,6 @@ public class MappingXLSItemProvider
 				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
-	}
-
-	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(MetricsPackage.Literals.MAPPING_XLS__MAPPING_COLUMNS);
-		}
-		return childrenFeatures;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-
-		return super.getChildFeature(object, child);
 	}
 
 	/**
@@ -212,13 +136,8 @@ public class MappingXLSItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(MappingXLS.class)) {
-			case MetricsPackage.MAPPING_XLS__FIRST_DATA_ROW:
-			case MetricsPackage.MAPPING_XLS__HEADER_ROW:
 			case MetricsPackage.MAPPING_XLS__SHEET_NUMBER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case MetricsPackage.MAPPING_XLS__MAPPING_COLUMNS:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -234,11 +153,29 @@ public class MappingXLSItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+	}
 
-		newChildDescriptors.add
-			(createChildParameter
-				(MetricsPackage.Literals.MAPPING_XLS__MAPPING_COLUMNS,
-				 MetricsFactory.eINSTANCE.createMappingXLSColumn()));
+	/**
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify =
+			childFeature == MetricsPackage.Literals.MAPPING__HEADER_MAPPING_COLUMNS ||
+			childFeature == MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 }

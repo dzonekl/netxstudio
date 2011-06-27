@@ -208,7 +208,6 @@ public interface Metric extends Base {
 
 	/**
 	 * Returns the value of the '<em><b>Metric Source Ref</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.metrics.MetricSource#getMetricRefs <em>Metric Refs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -219,9 +218,7 @@ public interface Metric extends Base {
 	 * @return the value of the '<em>Metric Source Ref</em>' reference.
 	 * @see #setMetricSourceRef(MetricSource)
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetric_MetricSourceRef()
-	 * @see com.netxforge.netxstudio.metrics.MetricSource#getMetricRefs
-	 * @model opposite="metricRefs"
-	 *        extendedMetaData="kind='attribute' name='MetricSourceRef'"
+	 * @model extendedMetaData="kind='attribute' name='MetricSourceRef'"
 	 * @generated
 	 */
 	MetricSource getMetricSourceRef();

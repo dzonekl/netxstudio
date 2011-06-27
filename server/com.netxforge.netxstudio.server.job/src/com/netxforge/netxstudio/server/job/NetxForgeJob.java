@@ -56,7 +56,6 @@ public class NetxForgeJob implements org.quartz.Job {
 		Activator.getInstance().getInjector().injectMembers(this);
 	}
 
-	@Override
 	public void execute(JobExecutionContext context)
 			throws JobExecutionException {
 		final JobDataMap dataMap = context.getJobDetail().getJobDataMap();

@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EClass;
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
-import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 
@@ -35,7 +34,6 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl#getMetricRefs <em>Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl#getMetricMapping <em>Metric Mapping</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl#getStatistics <em>Statistics</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl#getMetricLocation <em>Metric Location</em>}</li>
@@ -63,16 +61,6 @@ public class MetricSourceImpl extends BaseImpl implements MetricSource {
 	@Override
 	protected EClass eStaticClass() {
 		return MetricsPackage.Literals.METRIC_SOURCE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<Metric> getMetricRefs() {
-		return (EList<Metric>)eGet(MetricsPackage.Literals.METRIC_SOURCE__METRIC_REFS, true);
 	}
 
 	/**

@@ -26,7 +26,7 @@ Require-Bundle: org.eclipse.core.runtime,
  javax.servlet;bundle-version="2.5.0",
  org.eclipse.equinox.http.registry;bundle-version="1.1.100",
  com.netxforge.netxstudio.common;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.server,
  com.netxforge.netxstudio.server.dataimport,

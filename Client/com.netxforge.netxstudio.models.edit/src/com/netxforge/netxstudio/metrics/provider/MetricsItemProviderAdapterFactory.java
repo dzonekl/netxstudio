@@ -156,6 +156,29 @@ public class MetricsItemProviderAdapterFactory extends MetricsAdapterFactory imp
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.metrics.MappingColumn} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MappingColumnItemProvider mappingColumnItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.metrics.MappingColumn}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMappingColumnAdapter() {
+		if (mappingColumnItemProvider == null) {
+			mappingColumnItemProvider = new MappingColumnItemProvider(this);
+		}
+
+		return mappingColumnItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.metrics.MappingCSV} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -225,29 +248,6 @@ public class MetricsItemProviderAdapterFactory extends MetricsAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.metrics.MappingRecordXLS} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected MappingRecordXLSItemProvider mappingRecordXLSItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.metrics.MappingRecordXLS}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createMappingRecordXLSAdapter() {
-		if (mappingRecordXLSItemProvider == null) {
-			mappingRecordXLSItemProvider = new MappingRecordXLSItemProvider(this);
-		}
-
-		return mappingRecordXLSItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.metrics.MappingStatistic} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -291,29 +291,6 @@ public class MetricsItemProviderAdapterFactory extends MetricsAdapterFactory imp
 		}
 
 		return mappingXLSItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.metrics.MappingXLSColumn} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected MappingXLSColumnItemProvider mappingXLSColumnItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.metrics.MappingXLSColumn}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createMappingXLSColumnAdapter() {
-		if (mappingXLSColumnItemProvider == null) {
-			mappingXLSColumnItemProvider = new MappingXLSColumnItemProvider(this);
-		}
-
-		return mappingXLSColumnItemProvider;
 	}
 
 	/**
@@ -510,13 +487,12 @@ public class MetricsItemProviderAdapterFactory extends MetricsAdapterFactory imp
 		if (dataKindItemProvider != null) dataKindItemProvider.dispose();
 		if (identifierDataKindItemProvider != null) identifierDataKindItemProvider.dispose();
 		if (mappingItemProvider != null) mappingItemProvider.dispose();
+		if (mappingColumnItemProvider != null) mappingColumnItemProvider.dispose();
 		if (mappingCSVItemProvider != null) mappingCSVItemProvider.dispose();
 		if (mappingRDBMSItemProvider != null) mappingRDBMSItemProvider.dispose();
 		if (mappingRecordItemProvider != null) mappingRecordItemProvider.dispose();
-		if (mappingRecordXLSItemProvider != null) mappingRecordXLSItemProvider.dispose();
 		if (mappingStatisticItemProvider != null) mappingStatisticItemProvider.dispose();
 		if (mappingXLSItemProvider != null) mappingXLSItemProvider.dispose();
-		if (mappingXLSColumnItemProvider != null) mappingXLSColumnItemProvider.dispose();
 		if (metricItemProvider != null) metricItemProvider.dispose();
 		if (metricSourceItemProvider != null) metricSourceItemProvider.dispose();
 		if (metricValueRangeItemProvider != null) metricValueRangeItemProvider.dispose();

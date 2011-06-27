@@ -65,6 +65,15 @@ public interface MetricsFactory extends EFactory {
 	Mapping createMapping();
 
 	/**
+	 * Returns a new object of class '<em>Mapping Column</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Mapping Column</em>'.
+	 * @generated
+	 */
+	MappingColumn createMappingColumn();
+
+	/**
 	 * Returns a new object of class '<em>Mapping CSV</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -92,15 +101,6 @@ public interface MetricsFactory extends EFactory {
 	MappingRecord createMappingRecord();
 
 	/**
-	 * Returns a new object of class '<em>Mapping Record XLS</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Mapping Record XLS</em>'.
-	 * @generated
-	 */
-	MappingRecordXLS createMappingRecordXLS();
-
-	/**
 	 * Returns a new object of class '<em>Mapping Statistic</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -117,15 +117,6 @@ public interface MetricsFactory extends EFactory {
 	 * @generated
 	 */
 	MappingXLS createMappingXLS();
-
-	/**
-	 * Returns a new object of class '<em>Mapping XLS Column</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Mapping XLS Column</em>'.
-	 * @generated
-	 */
-	MappingXLSColumn createMappingXLSColumn();
 
 	/**
 	 * Returns a new object of class '<em>Metric</em>'.

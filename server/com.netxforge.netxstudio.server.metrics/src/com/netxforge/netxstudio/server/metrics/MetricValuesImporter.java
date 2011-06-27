@@ -19,8 +19,6 @@
 package com.netxforge.netxstudio.server.metrics;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,9 +26,6 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.common.util.EList;
 
@@ -43,10 +38,10 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
-import com.netxforge.netxstudio.metrics.MappingRecordXLS;
+import com.netxforge.netxstudio.metrics.Mapping;
+import com.netxforge.netxstudio.metrics.MappingColumn;
+import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
-import com.netxforge.netxstudio.metrics.MappingXLS;
-import com.netxforge.netxstudio.metrics.MappingXLSColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -64,7 +59,7 @@ import com.netxforge.netxstudio.server.metrics.NetworkElementLocator.IdentifierV
  * 
  * @author Martin Taal
  */
-public class MetricValuesImporter {
+public abstract class MetricValuesImporter {
 
 	public static final String ROOT_SYSTEM_PROPERTY = "metricSourceRoot";
 
@@ -79,7 +74,7 @@ public class MetricValuesImporter {
 	@Inject
 	private NetworkElementLocator networkElementLocator;
 
-	private List<MappingRecordXLS> failedRecords = new ArrayList<MappingRecordXLS>();
+	private List<MappingRecord> failedRecords = new ArrayList<MappingRecord>();
 
 	private List<ImportWarning> warnings = new ArrayList<ImportWarning>();
 
@@ -90,6 +85,9 @@ public class MetricValuesImporter {
 
 	private Throwable throwable;
 
+	private Long startPeriodTime;
+	private Long endPeriodTime;
+	
 	public void process() {
 		// force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
@@ -112,6 +110,7 @@ public class MetricValuesImporter {
 			final String fileOrDirectory = rootUrl + msLocation;
 			int totalRows = 0;
 			boolean noFiles = true;
+			final StringBuilder fileList = new StringBuilder();
 			final File rootFile = new File(fileOrDirectory);
 			if (!rootFile.exists()) {
 				jobMonitor.appendToLog("Root directory/file ("
@@ -119,15 +118,16 @@ public class MetricValuesImporter {
 				noFiles = true;
 				errorOccurred = true;
 			} else if (rootFile.isFile()) {
-				if (rootFile.getName().endsWith(".xls")) {
+				if (rootFile.getName().endsWith(getFileExtension())) {
 					try {
 						final int beforeFailedSize = getFailedRecords().size();
 						noFiles = false;
+						fileList.append(rootFile.getAbsolutePath());
 						jobMonitor.setMsg("Processing file "
 								+ rootFile.getAbsolutePath());
 						jobMonitor.appendToLog("Processing file "
 								+ rootFile.getAbsolutePath());
-						totalRows += processFile(new FileInputStream(rootFile));
+						totalRows += processFile(rootFile);
 						moveFile(rootFile,
 								getFailedRecords().size() > beforeFailedSize);
 					} catch (final Throwable t) {
@@ -139,16 +139,18 @@ public class MetricValuesImporter {
 				}
 			} else {
 				for (final File file : rootFile.listFiles()) {
-					if (file.getName().endsWith(".xls")) {
+					if (file.getName().endsWith(getFileExtension())) {
 						try {
 							final int beforeFailedSize = getFailedRecords()
 									.size();
 							noFiles = false;
+							fileList.append((fileList.length() > 0 ? "\n" : "") + file.getAbsolutePath());
+
 							jobMonitor.setMsg("Processing file "
 									+ file.getAbsolutePath());
 							jobMonitor.appendToLog("Processing file "
 									+ file.getAbsolutePath());
-							totalRows += processFile(new FileInputStream(file));
+							totalRows += processFile(file);
 							moveFile(
 									file,
 									getFailedRecords().size() > beforeFailedSize);
@@ -172,6 +174,11 @@ public class MetricValuesImporter {
 			endTime = System.currentTimeMillis();
 			mappingStatistic = createMappingStatistics(startTime, endTime,
 					totalRows, null);
+			if (noFiles) {
+				mappingStatistic.setMessage("No files processed");
+			} else {
+				mappingStatistic.setMessage(fileList.toString());
+			}
 			if (errorOccurred || getFailedRecords().size() > 0) {
 				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
 			} else {
@@ -186,6 +193,8 @@ public class MetricValuesImporter {
 		getMetricSource().getStatistics().add(mappingStatistic);
 		dataProvider.commitTransaction();
 	}
+	
+	protected abstract String getFileExtension();
 
 	private void moveFile(File file, boolean error) {
 		if (error) {
@@ -196,13 +205,7 @@ public class MetricValuesImporter {
 		}
 	}
 
-	private int processFile(InputStream is) throws Exception {
-		final HSSFWorkbook workBook = new HSSFWorkbook(is);
-		final HSSFSheet sheet = workBook.getSheetAt(getMappingXLS()
-				.getSheetNumber());
-
-		return processRows(sheet);
-	}
+	protected abstract int processFile(File file) throws Exception;
 
 	// create the mapping statistics on the basis of the errors and
 	// warnings
@@ -224,66 +227,68 @@ public class MetricValuesImporter {
 		return statistic;
 	}
 
-	private int processRows(HSSFSheet sheet) {
-		if (sheet.getLastRowNum() < getMappingXLS().getFirstDataRow()) {
-			getFailedRecords().add(
-					createMappingRecordXLS(
-							-1,
-							-1,
-							"There is no data in the sheet, first data row is "
-									+ getMappingXLS().getFirstDataRow()
-									+ " but the sheet has only "
-									+ sheet.getLastRowNum() + " rows."));
-			return 0;
-		}
+	protected abstract int getTotalRows();
+	
+	protected int processRows() {
+		jobMonitor.setMsg("Processing header row");
+		
 		jobMonitor.setMsg("Processing rows");
 		int totalRows = 0;
-		jobMonitor.setTotalWork(sheet.getLastRowNum()
-				- getMappingXLS().getFirstDataRow() + 10);
-		for (int rowNum = getMappingXLS().getFirstDataRow(); rowNum <= sheet
-				.getLastRowNum(); rowNum++) {
+		jobMonitor.setTotalWork(getTotalRows()
+				- getMapping().getFirstDataRow() + 10);
+		for (int rowNum = getMapping().getFirstDataRow(); rowNum <= getTotalRows(); rowNum++) {
 			jobMonitor.setMsg("Processing row " + rowNum);
 			jobMonitor.incrementProgress(1, (rowNum % 10) == 0);
 			try {
 				totalRows++;
-				final List<IdentifierValue> elementIdentifiers = getIdentifierValues(
-						sheet, rowNum);
-				final Date timeStamp = getTimeStampValue(sheet, rowNum);
-				final int periodHint = getPeriodHint(sheet, rowNum);
+				final List<IdentifierValue> elementIdentifiers = getIdentifierValues(rowNum);
+				final Date timeStamp = getTimeStampValue(rowNum);
+				final int periodHint = getPeriodHint(rowNum);
 
-				for (final MappingXLSColumn xlsColumn : getMappingXLSColumn()) {
-					if (isMetric(xlsColumn)) {
+				for (final MappingColumn column : getMappingColumn()) {
+					if (isMetric(column)) {
 						final Component networkElement = getNetworkElementLocator()
 								.locateNetworkElement(
-										getValueDataKind(xlsColumn)
+										getValueDataKind(column)
 												.getMetricRef(),
 										elementIdentifiers);
 						if (networkElement == null) {
 							getFailedRecords()
-									.add(createMappingRecordXLS(rowNum, -1,
+									.add(createMappingRecord(rowNum, -1,
 											"Could not locate network element for this row."));
 							continue;
 						}
 
-						final Double value = sheet.getRow(rowNum)
-								.getCell(xlsColumn.getColumn())
-								.getNumericCellValue();
-						addMetricValue(xlsColumn, timeStamp, networkElement,
+						final Double value = getNumericCellValue(rowNum, column.getColumn());
+						addMetricValue(column, timeStamp, networkElement,
 								value, periodHint);
 					}
 				}
 			} catch (final Exception e) {
 				e.printStackTrace(System.err);
 				getFailedRecords().add(
-						createMappingRecordXLS(rowNum, -1, e.getMessage()));
+						createMappingRecord(rowNum, -1, e.getMessage()));
 			}
 		}
 		return totalRows;
 	}
 
-	private void addMetricValue(MappingXLSColumn xlsColumn, Date timeStamp,
+	protected void processHeaderRow() {
+		final int headerRow = getMapping().getHeaderRow();
+		if (headerRow <= 0) {
+			return;
+		}
+
+		for (final MappingColumn column : getMapping().getHeaderMappingColumns()) {
+			if (column.getDataType() instanceof ValueDataKind
+					&& ((ValueDataKind) column.getDataType()).getValueKind() == ValueKindType.DATETIME) {
+			}		
+		}		
+	}
+
+	private void addMetricValue(MappingColumn column, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint) {
-		final ValueDataKind valueDataKind = getValueDataKind(xlsColumn);
+		final ValueDataKind valueDataKind = getValueDataKind(column);
 		final Metric metric = valueDataKind.getMetricRef();
 		NetXResource foundNetXResource = null;
 		for (final NetXResource netXResource : networkElement.getResources()) {
@@ -341,11 +346,11 @@ public class MetricValuesImporter {
 		return diff < (period * 60 * 1000 - 1);
 	}
 	
-	private ValueDataKind getValueDataKind(MappingXLSColumn column) {
+	private ValueDataKind getValueDataKind(MappingColumn column) {
 		return (ValueDataKind) column.getDataType();
 	}
 
-	private boolean isMetric(MappingXLSColumn column) {
+	private boolean isMetric(MappingColumn column) {
 		if (!(column.getDataType() instanceof ValueDataKind)) {
 			return false;
 		}
@@ -353,24 +358,22 @@ public class MetricValuesImporter {
 		return valueDataKind.getValueKind() == ValueKindType.METRIC;
 	}
 
-	private MappingRecordXLS createMappingRecordXLS(int row, int column,
+	protected MappingRecord createMappingRecord(int row, int column,
 			String message) {
-		final MappingRecordXLS record = MetricsFactory.eINSTANCE
-				.createMappingRecordXLS();
-		record.setColumn(column);
-		record.setRow(row);
+		final MappingRecord record = MetricsFactory.eINSTANCE
+				.createMappingRecord();
+		record.setColumn(column + "");
+		record.setRow(row + "");
 		record.setMessage(message);
 		return record;
 	}
 
-	private Date getTimeStampValue(HSSFSheet sheet, int rowNum) {
-		for (final MappingXLSColumn xlsColumn : getMappingXLSColumn()) {
-			if (xlsColumn.getDataType() instanceof ValueDataKind
-					&& ((ValueDataKind) xlsColumn.getDataType()).getValueKind() == ValueKindType.DATETIME) {
-				final Cell cell = sheet.getRow(rowNum).getCell(
-						xlsColumn.getColumn());
+	private Date getTimeStampValue(int rowNum) {
+		for (final MappingColumn column : getMappingColumn()) {
+			if (column.getDataType() instanceof ValueDataKind
+					&& ((ValueDataKind) column.getDataType()).getValueKind() == ValueKindType.DATETIME) {
 				try {
-					return dateFormat.parse(cell.getStringCellValue());
+					return dateFormat.parse(getStringCellValue(rowNum, column.getColumn()));
 				} catch (final Exception e) {
 					throw new IllegalStateException(e);
 				}
@@ -379,14 +382,12 @@ public class MetricValuesImporter {
 		return null;
 	}
 
-	private int getPeriodHint(HSSFSheet sheet, int rowNum) {
-		for (final MappingXLSColumn xlsColumn : getMappingXLSColumn()) {
-			if (xlsColumn.getDataType() instanceof ValueDataKind
-					&& ((ValueDataKind) xlsColumn.getDataType()).getValueKind() == ValueKindType.PERIOD) {
-				final Cell cell = sheet.getRow(rowNum).getCell(
-						xlsColumn.getColumn());
+	private int getPeriodHint(int rowNum) {
+		for (final MappingColumn column : getMappingColumn()) {
+			if (column.getDataType() instanceof ValueDataKind
+					&& ((ValueDataKind) column.getDataType()).getValueKind() == ValueKindType.PERIOD) {
 				try {
-					return new Double(cell.getNumericCellValue()).intValue();
+					return new Double(getNumericCellValue(rowNum, column.getColumn())).intValue();
 				} catch (final Exception e) {
 					throw new IllegalStateException(e);
 				}
@@ -395,28 +396,31 @@ public class MetricValuesImporter {
 		return -1;
 	}
 
-	private EList<MappingXLSColumn> getMappingXLSColumn() {
-		return getMappingXLS().getMappingColumns();
+	private EList<MappingColumn> getMappingColumn() {
+		return getMapping().getMappingColumns();
 	}
 
-	private List<IdentifierValue> getIdentifierValues(HSSFSheet sheet, int row) {
+	private List<IdentifierValue> getIdentifierValues(int row) {
 		final List<IdentifierValue> result = new ArrayList<NetworkElementLocator.IdentifierValue>();
-		for (final MappingXLSColumn xlsColumn : getMappingXLSColumn()) {
-			if (xlsColumn.getDataType() instanceof IdentifierDataKind) {
-				final IdentifierDataKind identifierDataKind = (IdentifierDataKind) xlsColumn
+		for (final MappingColumn column : getMappingColumn()) {
+			if (column.getDataType() instanceof IdentifierDataKind) {
+				final IdentifierDataKind identifierDataKind = (IdentifierDataKind) column
 						.getDataType();
 				final IdentifierValue identifierValue = new IdentifierValue();
 				identifierValue.setKind(identifierDataKind);
-				identifierValue.setValue(sheet.getRow(row)
-						.getCell(xlsColumn.getColumn()).getStringCellValue());
+				identifierValue.setValue(getStringCellValue(row, column.getColumn()));
 				result.add(identifierValue);
 			}
 		}
 		return result;
 	}
+	
+	protected abstract String getStringCellValue(int row, int column);
+	
+	protected abstract double getNumericCellValue(int row, int column);
 
-	private MappingXLS getMappingXLS() {
-		return (MappingXLS) metricSource.getMetricMapping();
+	protected Mapping getMapping() {
+		return metricSource.getMetricMapping();
 	}
 
 	public MetricSource getMetricSource() {
@@ -486,11 +490,11 @@ public class MetricValuesImporter {
 		this.networkElementLocator = networkElementLocator;
 	}
 
-	public List<MappingRecordXLS> getFailedRecords() {
+	public List<MappingRecord> getFailedRecords() {
 		return failedRecords;
 	}
 
-	public void setFailedRecords(List<MappingRecordXLS> failedRecords) {
+	public void setFailedRecords(List<MappingRecord> failedRecords) {
 		this.failedRecords = failedRecords;
 	}
 
