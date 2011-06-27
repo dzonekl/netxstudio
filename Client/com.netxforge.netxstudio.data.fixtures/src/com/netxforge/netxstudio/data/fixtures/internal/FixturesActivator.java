@@ -3,8 +3,6 @@ package com.netxforge.netxstudio.data.fixtures.internal;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Injector;
-
 /**
  * The activator class controls the plug-in life cycle
  */
