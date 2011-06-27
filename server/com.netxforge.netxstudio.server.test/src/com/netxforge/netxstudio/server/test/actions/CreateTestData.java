@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.server.test.actions;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -30,12 +31,14 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -118,6 +121,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 		createMetricSource();
 		dataProvider.commitTransaction();
 	}
+
 
 	private void clearData() {
 		dataProvider.getTransaction();
@@ -235,6 +239,38 @@ public class CreateTestData extends AbstractDataProviderTest {
 		return metricSource;
 	}
 
+
+	private Expression createUtilizationExpression() {
+		// Utilization expression. 
+		final Expression utilizationExpression = LibraryFactory.eINSTANCE.createExpression();
+		utilizationExpression.setName("Utilization Expression");
+		
+		// Context is a NetXResource
+		String eAsString = "this UTILIZATION = this METRIC 60 / this CAP}";
+		utilizationExpression.getExpressionLines().addAll(getExpressionLines(eAsString));
+		return utilizationExpression;
+	}
+
+	
+	private Expression createCapacityExpression() {
+		// Utilization expression. 
+		final Expression utilizationExpression = LibraryFactory.eINSTANCE.createExpression();
+		utilizationExpression.setName("Capacity Expression");
+		
+		// Context is a Node
+		String eAsString = "this CAP = this METRIC 60 / (NODE.BOARD.count() * 5);}";
+		utilizationExpression.getExpressionLines().addAll(getExpressionLines(eAsString));
+		return utilizationExpression;
+	}
+
+	
+	private Collection<String> getExpressionLines(String Expression){
+		String[] splitByNewLine = Expression.split("\n");
+		Collection<String> collection = Lists.newArrayList(splitByNewLine);
+		return collection;
+	}
+	
+	
 	private void setMSName1Mapping(MappingXLS mappingXLS) {
 		mappingXLS.setFirstDataRow(11);
 		mappingXLS.setHeaderRow(10);
@@ -378,6 +414,11 @@ public class CreateTestData extends AbstractDataProviderTest {
 						getMetric("Gb mode max attached users(number)"));
 				function.getMetricRefs().add(
 						getMetric("Iu mode max attached users(number)"));
+				
+//				function.setUtilizationExpressionRef(value); // TODO
+//				function.setCapacityExpressionRef(value); // TODO
+//				function.getToleranceRefs().add(); // TODO
+				
 			} else {
 				function.setName(id + "_" + level + "_" + i);
 			}
@@ -387,4 +428,8 @@ public class CreateTestData extends AbstractDataProviderTest {
 		}
 		return functions;
 	}
+	
+	
+	
+	
 }
