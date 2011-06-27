@@ -151,13 +151,16 @@ public class TestDataProvider implements IDataProvider {
 	}
 
 	public CDOSession openSession() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new java.lang.UnsupportedOperationException();
 	}
 	
 	public void setDoGetResourceFromOwnTransaction(
 			boolean createResourceInSeparateTransaction) {
-		
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public void openSession(String username, String password, String server) {
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 }

@@ -57,6 +57,13 @@ public class CDODataConnection implements ICDOConnection {
 	 * which is stored in a member of this class.
 	 */
 	public void initialize() {
+		this.initialize(CONNECTION_ADDRESS);
+	}
+
+	public void initialize(String server) {
+		if(server == null || server.length() == 0){
+			server = CONNECTION_ADDRESS;
+		}
 
 		OMPlatform.INSTANCE.setDebugging(true);
 		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
@@ -69,11 +76,14 @@ public class CDODataConnection implements ICDOConnection {
 		CDONet4jUtil.prepareContainer(container); // Register CDO factories
 		// LifecycleUtil.activate(container);
 		container.activate();
-
+		
+		
+		// TODO, We should decompose the Server string, to: 
+		// URL => protocol (Scheme) :// server / repo
+		
 		// Create connector
 		final IConnector connector = TCPUtil.getConnector(container,
-				CONNECTION_ADDRESS);
-
+				server);
 		// Create configuration
 		sessionConfiguration = CDONet4jUtil.createSessionConfiguration();
 		sessionConfiguration.setConnector(connector);

@@ -16,6 +16,7 @@ import org.eclipse.ui.splash.AbstractSplashHandler;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.client.product.ProductActivator;
 import com.netxforge.netxstudio.common.CommonService;
 import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.data.IDataService;
@@ -35,11 +36,13 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 
 	private final static int F_COLUMN_COUNT = 3;
 
-	private Composite fCompositeLogin;
+	private Composite fCompositeLogin_1;
 
 	private Text fTextUsername;
 
 	private Text fTextPassword;
+
+	private Text fTextServer;
 
 	private Button fButtonOK;
 
@@ -56,7 +59,6 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 * 
 	 */
 	public InteractiveSplashHandler() {
-		fCompositeLogin = null;
 		fTextUsername = null;
 		fTextPassword = null;
 		fButtonOK = null;
@@ -82,10 +84,24 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		createUIListeners();
 		// Force the splash screen to layout
 		splash.layout(true);
+
+		// Set the initial values.
+		setInitialValues();
+
 		// Keep the splash screen visible and prevent the RCP application from
 		// loading until the close button is clicked.
 		doEventLoop();
 	}
+
+	private void setInitialValues() {
+		if( ProductActivator.getDefault().getProperties().containsKey(ProductActivator.NETXSTUDIO_LASTUSER)){
+			this.fTextUsername.setText(ProductActivator.getDefault().getProperties().getProperty(ProductActivator.NETXSTUDIO_LASTUSER));
+		} 
+		if( ProductActivator.getDefault().getProperties().containsKey(ProductActivator.NETXSTUDIO_SERVER)){
+			this.fTextServer.setText(ProductActivator.getDefault().getProperties().getProperty(ProductActivator.NETXSTUDIO_SERVER));
+		} 
+		
+ 	}
 
 	/**
 	 * 
@@ -144,14 +160,16 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 * 
 	 */
 	private void handleButtonOKWidgetSelected() {
+		String server = fTextServer.getText();
 		String username = fTextUsername.getText();
 		String password = fTextPassword.getText();
+		
 		// Aunthentication is successful if a user provides any username and
 		// any password
 		if ((username.length() > 0) && (password.length() > 0)) {
 
 			DataActivator.getInjector().injectMembers(this);
-			
+
 			// We will open a session here, this will be along running
 			// operation.
 
@@ -165,8 +183,13 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 						throw new java.lang.IllegalAccessException();
 					}
 				}
-				dataService.getProvider().openSession(username, password);
+				
+				dataService.getProvider().openSession(username, password, server);
 				fAuthenticated = true;
+				// Store the last user value.
+				ProductActivator.getDefault().getProperties().setProperty(ProductActivator.NETXSTUDIO_LASTUSER, username);
+				ProductActivator.getDefault().getProperties().setProperty(ProductActivator.NETXSTUDIO_SERVER, this.fTextServer.getText());
+				
 			} catch (SecurityException se) {
 				fAuthenticated = false;
 				MessageDialog.openError(getSplash(), "Authentication Failed",
@@ -194,6 +217,8 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		createUICompositeLogin();
 		// Create the blank spanner
 		createUICompositeBlank();
+		
+		createUIServer();
 		// Create the user name label
 		createUILabelUserName();
 		// Create the user name text widget
@@ -215,7 +240,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 */
 	private void createUIButtonCancel() {
 		// Create the button
-		fButtonCancel = new Button(fCompositeLogin, SWT.PUSH);
+		fButtonCancel = new Button(fCompositeLogin_1, SWT.PUSH);
 		fButtonCancel.setText("Cancel"); //$NON-NLS-1$
 		// Configure layout data
 		GridData data = new GridData(SWT.NONE, SWT.NONE, false, false);
@@ -229,7 +254,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 */
 	private void createUIButtonOK() {
 		// Create the button
-		fButtonOK = new Button(fCompositeLogin, SWT.PUSH);
+		fButtonOK = new Button(fCompositeLogin_1, SWT.PUSH);
 		fButtonOK.setText("OK"); //$NON-NLS-1$
 		// Configure layout data
 		GridData data = new GridData(SWT.NONE, SWT.NONE, false, false);
@@ -244,7 +269,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 * 
 	 */
 	private void createUILabelBlank() {
-		Label label = new Label(fCompositeLogin, SWT.NONE);
+		Label label = new Label(fCompositeLogin_1, SWT.NONE);
 		label.setVisible(false);
 	}
 
@@ -254,7 +279,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	private void createUITextPassword() {
 		// Create the text widget
 		int style = SWT.PASSWORD | SWT.BORDER;
-		fTextPassword = new Text(fCompositeLogin, style);
+		fTextPassword = new Text(fCompositeLogin_1, style);
 		// Configure layout data
 		GridData data = new GridData(SWT.NONE, SWT.NONE, false, false);
 		data.widthHint = F_TEXT_WIDTH_HINT;
@@ -267,7 +292,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 */
 	private void createUILabelPassword() {
 		// Create the label
-		Label label = new Label(fCompositeLogin, SWT.NONE);
+		Label label = new Label(fCompositeLogin_1, SWT.NONE);
 		label.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		label.setText("&Password:"); //$NON-NLS-1$
 		// Configure layout data
@@ -281,7 +306,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 */
 	private void createUITextUserName() {
 		// Create the text widget
-		fTextUsername = new Text(fCompositeLogin, SWT.BORDER);
+		fTextUsername = new Text(fCompositeLogin_1, SWT.BORDER);
 		// Configure layout data
 		GridData data = new GridData(SWT.NONE, SWT.NONE, false, false);
 		data.widthHint = F_TEXT_WIDTH_HINT;
@@ -293,8 +318,11 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 * 
 	 */
 	private void createUILabelUserName() {
+
+		
+
 		// Create the label
-		Label label = new Label(fCompositeLogin, SWT.NONE);
+		Label label = new Label(fCompositeLogin_1, SWT.NONE);
 		label.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		label.setText("&User Name:"); //$NON-NLS-1$
 		// Configure layout data
@@ -303,11 +331,24 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		label.setLayoutData(data);
 	}
 
+	private void createUIServer() {
+		Label lblServer = new Label(fCompositeLogin_1, SWT.NONE);
+		lblServer.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblServer.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		lblServer.setText("Server");
+		fTextServer = new Text(fCompositeLogin_1, SWT.BORDER);
+		GridData gd_text = new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
+				1);
+		gd_text.widthHint = 175;
+		fTextServer.setLayoutData(gd_text);
+	}
+
 	/**
 	 * 
 	 */
 	private void createUICompositeBlank() {
-		Composite spanner = new Composite(fCompositeLogin, SWT.NONE);
+		Composite spanner = new Composite(fCompositeLogin_1, SWT.NONE);
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.horizontalSpan = F_COLUMN_COUNT;
 		spanner.setLayoutData(data);
@@ -318,9 +359,9 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 */
 	private void createUICompositeLogin() {
 		// Create the composite
-		fCompositeLogin = new Composite(getSplash(), SWT.BORDER);
-		GridLayout layout = new GridLayout(F_COLUMN_COUNT, false);
-		fCompositeLogin.setLayout(layout);
+		fCompositeLogin_1 = new Composite(getSplash(), SWT.BORDER);
+		GridLayout layout = new GridLayout(3, false);
+		fCompositeLogin_1.setLayout(layout);
 	}
 
 	/**
@@ -333,5 +374,4 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		// Force shell to inherit the splash background
 		getSplash().setBackgroundMode(SWT.INHERIT_DEFAULT);
 	}
-
 }

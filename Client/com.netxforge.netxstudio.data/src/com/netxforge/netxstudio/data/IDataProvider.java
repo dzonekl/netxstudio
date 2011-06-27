@@ -89,13 +89,22 @@ public interface IDataProvider {
 	public CDOSession openSession();
 
 	/**
-	 * Open a session for the user credentials.
+	 * Open a session for the user credentials on the local host. .
 	 * 
 	 * @param uid
 	 * @param passwd
 	 */
 	public void openSession(String uid, String passwd);
-
+	
+	
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 * @param server
+	 */
+	public void openSession(String username, String password, String server);
+	
 	/**
 	 * Gets the current transaction if no current transaction then a new one
 	 * will be opened.
@@ -142,5 +151,7 @@ public interface IDataProvider {
 	 */
 	public void setDoGetResourceFromOwnTransaction(
 			boolean createResourceInSeparateTransaction);
+
+	
 
 }

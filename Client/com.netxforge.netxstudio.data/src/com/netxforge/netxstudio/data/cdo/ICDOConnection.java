@@ -26,8 +26,21 @@ import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
  */
 public interface ICDOConnection {
 	
+	/**
+	 * Initialize the data connection on the local host. 
+	 */
 	public void initialize();
 	
+	/**
+	 * Initialize a data connection on the given server. 
+	 * @param server
+	 */
+	public void initialize(String server);
+	
+	/**
+	 * Get the CDO configuration
+	 * @return
+	 */
 	public CDOSessionConfiguration getConfig();
 
 }

@@ -59,7 +59,7 @@ public abstract class CDODataProvider implements IDataProvider {
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
 	private boolean doGetResourceFromOwnTransaction = true;
-	
+
 	@Inject
 	public CDODataProvider(ICDOConnection conn) {
 		this.connection = conn;
@@ -80,9 +80,14 @@ public abstract class CDODataProvider implements IDataProvider {
 	}
 
 	public void openSession(String uid, String passwd) throws SecurityException {
+		this.openSession(uid,passwd);
+	}
+
+	public void openSession(String uid, String passwd, String server)
+			throws SecurityException {
 
 		if (connection.getConfig() == null) {
-			connection.initialize();
+			connection.initialize(server);
 		}
 		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
 
