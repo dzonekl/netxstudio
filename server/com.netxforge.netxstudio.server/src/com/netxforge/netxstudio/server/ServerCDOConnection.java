@@ -35,5 +35,8 @@ public class ServerCDOConnection implements ICDOConnection {
 	public CDOSessionConfiguration getConfig() {
 		return ServerUtils.getInstance().createSessionConfiguration();
 	}
+
+	public void initialize(String server) {
+	}
 	
 }
