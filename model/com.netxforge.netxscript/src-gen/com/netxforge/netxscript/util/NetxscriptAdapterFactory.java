@@ -288,9 +288,9 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createContextRefAdapter();
       }
       @Override
-      public Adapter caseFunctionRef(FunctionRef object)
+      public Adapter caseComponentRef(ComponentRef object)
       {
-        return createFunctionRefAdapter();
+        return createComponentRefAdapter();
       }
       @Override
       public Adapter caseResourceRef(ResourceRef object)
@@ -955,16 +955,16 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.FunctionRef <em>Function Ref</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.ComponentRef <em>Component Ref</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.netxscript.FunctionRef
+   * @see com.netxforge.netxscript.ComponentRef
    * @generated
    */
-  public Adapter createFunctionRefAdapter()
+  public Adapter createComponentRefAdapter()
   {
     return null;
   }

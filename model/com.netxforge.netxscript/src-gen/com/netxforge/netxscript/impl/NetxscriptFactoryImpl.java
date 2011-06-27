@@ -110,7 +110,7 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.RANGE_LITERAL: return createRangeLiteral();
       case NetxscriptPackage.ABSOLUTE_REF: return createAbsoluteRef();
       case NetxscriptPackage.CONTEXT_REF: return createContextRef();
-      case NetxscriptPackage.FUNCTION_REF: return createFunctionRef();
+      case NetxscriptPackage.COMPONENT_REF: return createComponentRef();
       case NetxscriptPackage.RESOURCE_REF: return createResourceRef();
       case NetxscriptPackage.LINK_REF: return createLinkRef();
       default:
@@ -627,10 +627,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public FunctionRef createFunctionRef()
+  public ComponentRef createComponentRef()
   {
-    FunctionRefImpl functionRef = new FunctionRefImpl();
-    return functionRef;
+    ComponentRefImpl componentRef = new ComponentRefImpl();
+    return componentRef;
   }
 
   /**

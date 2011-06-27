@@ -396,13 +396,13 @@ public interface NetxscriptPackage extends EPackage
   int REFERENCE__INDEX = EXPRESSION__INDEX;
 
   /**
-   * The feature id for the '<em><b>Children</b></em>' containment reference list.
+   * The feature id for the '<em><b>Components</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int REFERENCE__CHILDREN = EXPRESSION_FEATURE_COUNT + 0;
+  int REFERENCE__COMPONENTS = EXPRESSION_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
@@ -1686,13 +1686,13 @@ public interface NetxscriptPackage extends EPackage
   int ABSOLUTE_REF__INDEX = REFERENCE__INDEX;
 
   /**
-   * The feature id for the '<em><b>Children</b></em>' containment reference list.
+   * The feature id for the '<em><b>Components</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ABSOLUTE_REF__CHILDREN = REFERENCE__CHILDREN;
+  int ABSOLUTE_REF__COMPONENTS = REFERENCE__COMPONENTS;
 
   /**
    * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
@@ -1741,13 +1741,13 @@ public interface NetxscriptPackage extends EPackage
   int CONTEXT_REF__INDEX = REFERENCE__INDEX;
 
   /**
-   * The feature id for the '<em><b>Children</b></em>' containment reference list.
+   * The feature id for the '<em><b>Components</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int CONTEXT_REF__CHILDREN = REFERENCE__CHILDREN;
+  int CONTEXT_REF__COMPONENTS = REFERENCE__COMPONENTS;
 
   /**
    * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
@@ -1777,14 +1777,14 @@ public interface NetxscriptPackage extends EPackage
   int CONTEXT_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link com.netxforge.netxscript.impl.FunctionRefImpl <em>Function Ref</em>}' class.
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.ComponentRefImpl <em>Component Ref</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see com.netxforge.netxscript.impl.FunctionRefImpl
-   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getFunctionRef()
+   * @see com.netxforge.netxscript.impl.ComponentRefImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getComponentRef()
    * @generated
    */
-  int FUNCTION_REF = 42;
+  int COMPONENT_REF = 42;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1793,16 +1793,16 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    * @ordered
    */
-  int FUNCTION_REF__INDEX = REFERENCE__INDEX;
+  int COMPONENT_REF__INDEX = REFERENCE__INDEX;
 
   /**
-   * The feature id for the '<em><b>Children</b></em>' containment reference list.
+   * The feature id for the '<em><b>Components</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FUNCTION_REF__CHILDREN = REFERENCE__CHILDREN;
+  int COMPONENT_REF__COMPONENTS = REFERENCE__COMPONENTS;
 
   /**
    * The feature id for the '<em><b>Leaf Ref</b></em>' containment reference.
@@ -1811,7 +1811,7 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    * @ordered
    */
-  int FUNCTION_REF__LEAF_REF = REFERENCE__LEAF_REF;
+  int COMPONENT_REF__LEAF_REF = REFERENCE__LEAF_REF;
 
   /**
    * The feature id for the '<em><b>Function</b></em>' reference.
@@ -1820,16 +1820,25 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    * @ordered
    */
-  int FUNCTION_REF__FUNCTION = REFERENCE_FEATURE_COUNT + 0;
+  int COMPONENT_REF__FUNCTION = REFERENCE_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the '<em>Function Ref</em>' class.
+   * The feature id for the '<em><b>Equipment</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int FUNCTION_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 1;
+  int COMPONENT_REF__EQUIPMENT = REFERENCE_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Component Ref</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int COMPONENT_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.ResourceRefImpl <em>Resource Ref</em>}' class.
@@ -2188,15 +2197,15 @@ public interface NetxscriptPackage extends EPackage
   EClass getReference();
 
   /**
-   * Returns the meta object for the containment reference list '{@link com.netxforge.netxscript.Reference#getChildren <em>Children</em>}'.
+   * Returns the meta object for the containment reference list '{@link com.netxforge.netxscript.Reference#getComponents <em>Components</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Children</em>'.
-   * @see com.netxforge.netxscript.Reference#getChildren()
+   * @return the meta object for the containment reference list '<em>Components</em>'.
+   * @see com.netxforge.netxscript.Reference#getComponents()
    * @see #getReference()
    * @generated
    */
-  EReference getReference_Children();
+  EReference getReference_Components();
 
   /**
    * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.Reference#getLeafRef <em>Leaf Ref</em>}'.
@@ -3081,25 +3090,36 @@ public interface NetxscriptPackage extends EPackage
   EReference getContextRef_PrimaryRef();
 
   /**
-   * Returns the meta object for class '{@link com.netxforge.netxscript.FunctionRef <em>Function Ref</em>}'.
+   * Returns the meta object for class '{@link com.netxforge.netxscript.ComponentRef <em>Component Ref</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Function Ref</em>'.
-   * @see com.netxforge.netxscript.FunctionRef
+   * @return the meta object for class '<em>Component Ref</em>'.
+   * @see com.netxforge.netxscript.ComponentRef
    * @generated
    */
-  EClass getFunctionRef();
+  EClass getComponentRef();
 
   /**
-   * Returns the meta object for the reference '{@link com.netxforge.netxscript.FunctionRef#getFunction <em>Function</em>}'.
+   * Returns the meta object for the reference '{@link com.netxforge.netxscript.ComponentRef#getFunction <em>Function</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the reference '<em>Function</em>'.
-   * @see com.netxforge.netxscript.FunctionRef#getFunction()
-   * @see #getFunctionRef()
+   * @see com.netxforge.netxscript.ComponentRef#getFunction()
+   * @see #getComponentRef()
    * @generated
    */
-  EReference getFunctionRef_Function();
+  EReference getComponentRef_Function();
+
+  /**
+   * Returns the meta object for the reference '{@link com.netxforge.netxscript.ComponentRef#getEquipment <em>Equipment</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Equipment</em>'.
+   * @see com.netxforge.netxscript.ComponentRef#getEquipment()
+   * @see #getComponentRef()
+   * @generated
+   */
+  EReference getComponentRef_Equipment();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.ResourceRef <em>Resource Ref</em>}'.
@@ -3436,12 +3456,12 @@ public interface NetxscriptPackage extends EPackage
     EClass REFERENCE = eINSTANCE.getReference();
 
     /**
-     * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Components</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference REFERENCE__CHILDREN = eINSTANCE.getReference_Children();
+    EReference REFERENCE__COMPONENTS = eINSTANCE.getReference_Components();
 
     /**
      * The meta object literal for the '<em><b>Leaf Ref</b></em>' containment reference feature.
@@ -4170,14 +4190,14 @@ public interface NetxscriptPackage extends EPackage
     EReference CONTEXT_REF__PRIMARY_REF = eINSTANCE.getContextRef_PrimaryRef();
 
     /**
-     * The meta object literal for the '{@link com.netxforge.netxscript.impl.FunctionRefImpl <em>Function Ref</em>}' class.
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.ComponentRefImpl <em>Component Ref</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see com.netxforge.netxscript.impl.FunctionRefImpl
-     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getFunctionRef()
+     * @see com.netxforge.netxscript.impl.ComponentRefImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getComponentRef()
      * @generated
      */
-    EClass FUNCTION_REF = eINSTANCE.getFunctionRef();
+    EClass COMPONENT_REF = eINSTANCE.getComponentRef();
 
     /**
      * The meta object literal for the '<em><b>Function</b></em>' reference feature.
@@ -4185,7 +4205,15 @@ public interface NetxscriptPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference FUNCTION_REF__FUNCTION = eINSTANCE.getFunctionRef_Function();
+    EReference COMPONENT_REF__FUNCTION = eINSTANCE.getComponentRef_Function();
+
+    /**
+     * The meta object literal for the '<em><b>Equipment</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference COMPONENT_REF__EQUIPMENT = eINSTANCE.getComponentRef_Equipment();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.ResourceRefImpl <em>Resource Ref</em>}' class.

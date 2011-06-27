@@ -112,7 +112,6 @@ public class CDOQueryService implements IQueryService {
 		
 		queryService.setCacheParameter(cdoQuery);
 		final List<Value> values = cdoQuery.getResult(Value.class);
-		provider.commitTransaction();// ? What do we need to commit?
 		return values;
 	}
 

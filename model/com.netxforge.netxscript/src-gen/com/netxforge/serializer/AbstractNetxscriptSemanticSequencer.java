@@ -8,12 +8,12 @@ import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
 import com.netxforge.netxscript.Block;
 import com.netxforge.netxscript.BooleanLiteral;
+import com.netxforge.netxscript.ComponentRef;
 import com.netxforge.netxscript.ContextRef;
 import com.netxforge.netxscript.Div;
 import com.netxforge.netxscript.Equal;
 import com.netxforge.netxscript.Function;
 import com.netxforge.netxscript.FunctionCall;
-import com.netxforge.netxscript.FunctionRef;
 import com.netxforge.netxscript.Greater;
 import com.netxforge.netxscript.GreaterEqual;
 import com.netxforge.netxscript.If;
@@ -189,6 +189,12 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 					return; 
 				}
 				else break;
+			case NetxscriptPackage.COMPONENT_REF:
+				if(context == grammarAccess.getComponentRefRule()) {
+					sequence_ComponentRef_ComponentRef(context, (ComponentRef) semanticObject); 
+					return; 
+				}
+				else break;
 			case NetxscriptPackage.CONTEXT_REF:
 				if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
@@ -304,12 +310,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				   context == grammarAccess.getParenthesizedExpressionRule() ||
 				   context == grammarAccess.getFunctionCallRule()) {
 					sequence_FunctionCall_FunctionCall(context, (FunctionCall) semanticObject); 
-					return; 
-				}
-				else break;
-			case NetxscriptPackage.FUNCTION_REF:
-				if(context == grammarAccess.getChildrenRefRule()) {
-					sequence_ChildrenRef_FunctionRef(context, (FunctionRef) semanticObject); 
 					return; 
 				}
 				else break;
@@ -934,18 +934,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     function=[Function|ID]
-	 *
-	 * Features:
-	 *    function[1, 1]
-	 */
-	protected void sequence_ChildrenRef_FunctionRef(EObject context, FunctionRef semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
 	 *     (left=Comparison_Greater_1_0_2_0 right=Addition)
 	 *
 	 * Features:
@@ -992,6 +980,21 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	 *    right[1, 1]
 	 */
 	protected void sequence_Comparison_LesserEqual(EObject context, LesserEqual semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (function=[Function|ID] | equipment=[Equipment|ID])
+	 *
+	 * Features:
+	 *    function[0, 1]
+	 *         EXCLUDE_IF_SET equipment
+	 *    equipment[0, 1]
+	 *         EXCLUDE_IF_SET function
+	 */
+	protected void sequence_ComponentRef_ComponentRef(EObject context, ComponentRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1278,10 +1281,10 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (children+=ChildrenRef+ leafRef=LeafReference?)
+	 *     (components+=ComponentRef+ leafRef=LeafReference?)
 	 *
 	 * Features:
-	 *    children[1, *]
+	 *    components[1, *]
 	 *    leafRef[0, 1]
 	 */
 	protected void sequence_PrimaryRef_Reference(EObject context, Reference semanticObject) {

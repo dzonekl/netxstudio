@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.screens.ch9;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
@@ -84,9 +85,10 @@ public class Expressions extends AbstractScreen implements
 	private Library library;
 
 	private TableViewer tableViewer;
-	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
 	private Form frmExpressions;
+//	private ObservablesManager mgr;
+	private ObservableListContentProvider listContentProvider;
 
 	/**
 	 * Create the composite.
@@ -99,6 +101,11 @@ public class Expressions extends AbstractScreen implements
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+//				listContentProvider.dispose();
+//				try{
+//				mgr.dispose(); // dispose all observables.
+//				}catch(Exception ex){
+//				}
 				toolkit.dispose();
 				disposeData();
 			}
@@ -305,22 +312,28 @@ public class Expressions extends AbstractScreen implements
 
 	public EMFDataBindingContext initDataBindings_() {
 
+//		mgr = new ObservablesManager();
+//		mgr.runAndCollect(new Runnable() {
+//			public void run() {
+				
+				listContentProvider = new ObservableListContentProvider();
+				tableViewer.setContentProvider(listContentProvider);
+				//
+				IObservableMap[] observeMaps = EMFObservables.observeMaps(
+						listContentProvider.getKnownElements(),
+						new EStructuralFeature[] { Literals.EXPRESSION__NAME });
+				tableViewer.setLabelProvider(new ObservableMapLabelProvider(
+						observeMaps));
+
+				IEMFListProperty l = EMFEditProperties.list(
+						editingService.getEditingDomain(),
+						LibraryPackage.Literals.LIBRARY__EXPRESSIONS);
+
+				tableViewer.setInput(l.observe(library));
+				
+//			}
+//		});
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-		//
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		tableViewer.setContentProvider(listContentProvider);
-		//
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] { Literals.EXPRESSION__NAME });
-		tableViewer
-				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
-
-		IEMFListProperty l = EMFEditProperties.list(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.LIBRARY__EXPRESSIONS);
-
-		tableViewer.setInput(l.observe(library));
 		return bindingContext;
 	}
 

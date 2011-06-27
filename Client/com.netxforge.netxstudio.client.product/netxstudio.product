@@ -81,6 +81,7 @@
       <feature id="org.eclipse.xtext.ui.artifacts.feature"/>
       <feature id="org.eclipse.emf.cdo.client.artifacts.feature"/>
       <feature id="org.eclipse.jdt.artifacts.feature"/>
+      <feature id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>

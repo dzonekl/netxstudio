@@ -124,7 +124,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 
 		{
 			Mod m = (Mod) this
-					.getModel("var a = .SGSN->Res RES1 METRIC AVG 60;a;");
+					.getModel("var a = this.FUNCTION SGSN->RES RES1 METRIC AVG 60;a;");
 			@SuppressWarnings("unused")
 			Object result = interpreter.evaluate(m); // Returns the intermediate
 			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
@@ -143,7 +143,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 
 		{
 			Mod m = (Mod) this
-					.getModel("this.SGSN->Res RES2 UTILIZATION AVG 60 = .SGSN->Res RES1 METRIC AVG 60;");
+					.getModel("this.FUNCTION SGSN->RES RES2 UTILIZATION AVG 60 = this.FUNCTION SGSN->RES RES1 METRIC AVG 60;");
 			@SuppressWarnings("unused")
 			Object result = interpreter.evaluate(m); // Returns the intermediate
 			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
@@ -159,7 +159,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		{
 
 			Mod m = (Mod) this
-					.getModel("var a = .SGSN->Res RES1 METRIC AVG 60;this.SGSN->Res RES2 UTILIZATION AVG 60 = a;");
+					.getModel("var a = this.FUNCTION SGSN->RES RES1 METRIC AVG 60;this.FUNCTION SGSN->RES RES2 UTILIZATION AVG 60 = a;");
 			@SuppressWarnings("unused")
 			Object result = interpreter.evaluate(m); // Returns the intermediate
 			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
@@ -175,7 +175,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		{
 
 			Mod m = (Mod) this
-					.getModel("var a = .SGSN->Res RES1 METRIC AVG 60; var i = 0; var c = []; while( i < a.count()){ c += a[i];  i+=1;} this.SGSN->Res RES2 UTILIZATION AVG 60 = c;");
+					.getModel("var a = this.FUNCTION SGSN->RES RES1 METRIC AVG 60; var i = 0; var c = []; while( i < a.count()){ c += a[i];  i+=1;} this.FUNCTION SGSN->RES RES2 UTILIZATION AVG 60 = c;");
 			@SuppressWarnings("unused")
 			Object result = interpreter.evaluate(m); // Returns the intermediate
 			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
@@ -184,8 +184,20 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		}
 		
 		
+		// An expression which takes a model object. 
 		
-		
+		interpreter.clear(); // Clear the interpreter.
+		interpreter.setContext(contextList.toArray(contextArray)); // Set a
+																	// context.
+		{
+			Mod m = (Mod) this
+					.getModel("var a = NODE.FUNCTION SGSN.count();");
+			@SuppressWarnings("unused")
+			Object result = interpreter.evaluate(m); // Returns the intermediate
+			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			printExpressionResult(expressionResults);
+			
+		}
 		
 	}
 

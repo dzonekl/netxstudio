@@ -114,6 +114,8 @@ public class ScreenFormService implements IScreenFormService {
 //		return previousScreen != null;
 //	}
 	
+	Composite tmpScreen;
+	
 	private void pushScreen(Composite screen){
 		
 		if (activeScreen != null) {
@@ -279,18 +281,6 @@ public class ScreenFormService implements IScreenFormService {
 					if (isActiveScreen(finalScreen)) {
 						return; // Ignore we are there already.
 					}
-					// We might be cached, if a child is currently active, 
-					// but it's better to dispose the complete list and restart. 
-					
-					while(!screenStack.empty()){
-						Composite screen = screenStack.pop();
-						screen.dispose();
-					}
-					
-//					if (isPreviousScreen(finalScreen)) {
-//						restorePreviousScreen(); // We are still cached restore.
-//						return;
-//					}
 					
 					// We are a new screen, instantiate and set active.
 					try {
@@ -298,8 +288,13 @@ public class ScreenFormService implements IScreenFormService {
 						Composite target = (Composite) finalScreenConstructor
 								.newInstance(getScreenContainer(), SWT.NONE
 										| finalOperation);
-						
+						tmpScreen = activeScreen;
+						activeScreen = null;
+						reset();
 						setActiveScreen(target);
+//						if(tmpScreen != null){
+//							tmpScreen.dispose();
+//						}
 					} catch (IllegalArgumentException e1) {
 						e1.printStackTrace();
 					} catch (InstantiationException e1) {
@@ -342,6 +337,14 @@ public class ScreenFormService implements IScreenFormService {
 		return null;
 	}
 
+	private void reset(){
+		// We might be cached, if a child is currently active, 
+		// but it's better to dispose the complete list and restart. 
+		while(!screenStack.empty()){
+			screenStack.pop();
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

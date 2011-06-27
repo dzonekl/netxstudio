@@ -8,10 +8,8 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -45,12 +43,14 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -68,6 +68,9 @@ public class UsersAndRoles extends AbstractScreen implements
 
 	private TableViewer tableViewer;
 	private Form frmUsersAndRoles;
+	
+	@Inject
+	private SearchFilter searchFilter;
 
 	public UsersAndRoles(Composite parent, int style) {
 		super(parent, style);
@@ -229,7 +232,7 @@ public class UsersAndRoles extends AbstractScreen implements
 		tblclmnEmail.setWidth(100);
 		tblclmnEmail.setText("Email");
 
-		tableViewer.addFilter(new SearchFilter());
+		tableViewer.addFilter(searchFilter);
 
 		if (editingService != null) {
 			injectData();
@@ -307,32 +310,6 @@ public class UsersAndRoles extends AbstractScreen implements
 			studio = (Netxstudio) res.getContents().get(0);
 		}
 		m_bindingContext = initDataBindings_();
-	}
-
-	public class SearchFilter extends ViewerFilter {
-
-		private String searchString;
-
-		public void setSearchText(String s) {
-			// Search must be a substring of the existing value
-			this.searchString = ".*" + s + ".*"; //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
-		@Override
-		public boolean select(Viewer viewer, Object parentElement,
-				Object element) {
-			if (searchString == null || searchString.length() == 0) {
-				return true;
-			}
-
-			if (element instanceof EObject) {
-
-				String match = new AdapterFactoryItemDelegator(
-						editingService.getAdapterFactory()).getText(element);
-				return match.matches(searchString);
-			}
-			return false;
-		}
 	}
 
 	/*

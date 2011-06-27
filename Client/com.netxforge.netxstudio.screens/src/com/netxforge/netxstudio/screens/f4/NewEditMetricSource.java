@@ -1,23 +1,18 @@
 package com.netxforge.netxstudio.screens.f4;
 
-import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
-import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -32,26 +27,23 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.netxstudio.metrics.Mapping;
+import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingRDBMS;
+import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f4.support.MetricTreeFactory;
-import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
-import com.netxforge.netxstudio.screens.f4.support.MetricTreeStructureAdvisor;
 
 public class NewEditMetricSource extends AbstractScreen implements
 		IDataScreenInjection {
@@ -62,7 +54,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 	private MetricSource metricSource;
 	private MetricSource original;
 	private Resource owner;
-	private TreeViewer treeViewer;
 	private Form frmNewEditMetricSource;
 
 	/**
@@ -88,13 +79,14 @@ public class NewEditMetricSource extends AbstractScreen implements
 
 		String title = Screens.isNewOperation(getOperation()) ? "New" : "Edit";
 
-		frmNewEditMetricSource.setText(title + "Metric Source");
+		frmNewEditMetricSource.setText(title + " Metric Source");
 		frmNewEditMetricSource.getBody().setLayout(new FormLayout());
 
-		Section sctnNewSection = toolkit.createSection(frmNewEditMetricSource.getBody(),
-				Section.EXPANDED | Section.TITLE_BAR);
+		Section sctnNewSection = toolkit.createSection(
+				frmNewEditMetricSource.getBody(), Section.EXPANDED
+						| Section.TITLE_BAR);
 		FormData fd_sctnNewSection = new FormData();
-		fd_sctnNewSection.top = new FormAttachment(0, 28);
+		fd_sctnNewSection.top = new FormAttachment(0, 12);
 		fd_sctnNewSection.right = new FormAttachment(100, -12);
 		fd_sctnNewSection.left = new FormAttachment(0, 12);
 		sctnNewSection.setLayoutData(fd_sctnNewSection);
@@ -144,14 +136,53 @@ public class NewEditMetricSource extends AbstractScreen implements
 				"Mapping", SWT.NONE);
 		hprlnkAddMapping.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
+				Mapping mapping = null;
+				int operation = Screens.OPERATION_NEW;
+				if (metricSource.getMetricMapping() == null) {
 
-				// We are add, or edit.
+					MappingTypeDialog mdg = new MappingTypeDialog(
+							NewEditMetricSource.this.getShell());
+					mdg.open();
+					int result = mdg.getReturnCode();
+					if (result == Dialog.CANCEL) {
+						return;
+					}
+					switch (mdg.getSelection()) {
+					case MappingTypeDialog.MAPPING_XLS: {
+						mapping = MetricsFactory.eINSTANCE.createMappingXLS();
 
-				NewEditXLSMapping mapping = new NewEditXLSMapping(screenService
-						.getScreenContainer(), SWT.NONE | Screens.OPERATION_NEW);
-				screenService.setActiveScreen(mapping);
-				mapping.injectData(metricSource,
-						MetricsFactory.eINSTANCE.createMappingXLS());
+					}
+						break;
+					case MappingTypeDialog.MAPPING_CSV: {
+						mapping = MetricsFactory.eINSTANCE.createMappingCSV();
+					}
+						break;
+
+					case MappingTypeDialog.MAPPING_RDBMS: {
+						mapping = MetricsFactory.eINSTANCE.createMappingRDBMS();
+					}
+						break;
+
+					}
+				} else {
+					mapping = metricSource.getMetricMapping();
+					operation = Screens.OPERATION_EDIT;
+				}
+
+				if (mapping instanceof MappingXLS) {
+					NewEditMappingXLS mappingScreen = new NewEditMappingXLS(
+							screenService.getScreenContainer(), SWT.NONE
+									| operation);
+					mappingScreen.injectData(metricSource, mapping);
+					screenService.setActiveScreen(mappingScreen);
+
+				}
+				if (mapping instanceof MappingCSV) {
+					// TODO
+				}
+				if (mapping instanceof MappingRDBMS) {
+					// TODO
+				}
 
 			}
 
@@ -162,127 +193,53 @@ public class NewEditMetricSource extends AbstractScreen implements
 			}
 		});
 		toolkit.paintBordersFor(hprlnkAddMapping);
+		fd_sctnNewSection.bottom = new FormAttachment(0, 120);
 
-		Label lblNewEditSchedule = toolkit.createLabel(composite_1,
-				"Schedule:", SWT.NONE);
-		lblNewEditSchedule.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-
-		Hyperlink hprlnkScheduleTheData = toolkit.createHyperlink(composite_1,
-				"Add a Job to schedule the metrics collection", SWT.NONE);
-		hprlnkScheduleTheData.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		toolkit.paintBordersFor(hprlnkScheduleTheData);
-
-		Section sctnMetrics = toolkit.createSection(frmNewEditMetricSource.getBody(),
-				Section.EXPANDED | Section.TITLE_BAR);
-		fd_sctnNewSection.bottom = new FormAttachment(sctnMetrics, -6);
-		FormData fd_sctnMetrics = new FormData();
-		fd_sctnMetrics.bottom = new FormAttachment(100, -12);
-		fd_sctnMetrics.right = new FormAttachment(100, -12);
-		fd_sctnMetrics.left = new FormAttachment(sctnNewSection, 0, SWT.LEFT);
-		fd_sctnMetrics.top = new FormAttachment(0, 171);
-		sctnMetrics.setLayoutData(fd_sctnMetrics);
-		toolkit.paintBordersFor(sctnMetrics);
-		sctnMetrics.setText("Metrics");
-
-		Composite composite_2 = toolkit.createComposite(sctnMetrics, SWT.NONE);
-		toolkit.paintBordersFor(composite_2);
-		sctnMetrics.setClient(composite_2);
-		composite_2.setLayout(new GridLayout(2, false));
-
-		treeViewer = new TreeViewer(composite_2, SWT.BORDER);
-		treeViewer.setAutoExpandLevel(3);
-		treeViewer.setColumnProperties(new String[] {});
-		Tree tree = treeViewer.getTree();
-		tree.setLinesVisible(true);
-		tree.setHeaderVisible(true);
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 4));
-		toolkit.paintBordersFor(tree);
-
-		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(treeViewer,
-				SWT.NONE);
-		TreeColumn trclmnName = treeViewerColumn.getColumn();
-		trclmnName.setWidth(100);
-		trclmnName.setText("Name");
-
-		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(treeViewer,
-				SWT.NONE);
-		TreeColumn trclmnDescription = treeViewerColumn_1.getColumn();
-		trclmnDescription.setWidth(100);
-		trclmnDescription.setText("Description");
-
-		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(sctnMetrics,
-				SWT.NONE);
-		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				// TODO Add a new Metric, select from a list of existing metrics. 
-				//
-				
-				
-			}
-			public void linkEntered(HyperlinkEvent e) {
-			}
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNew.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/Metric_E.png"));
-		toolkit.paintBordersFor(mghprlnkNew);
-		sctnMetrics.setTextClient(mghprlnkNew);
-		mghprlnkNew.setText("New");
-		
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		IObservableValue nameObservable = SWTObservables.observeText(txtName);
+		IObservableValue nameObservable = SWTObservables.observeText(txtName,
+				SWT.Modify);
+		IObservableValue locationObservable = SWTObservables.observeText(
+				this.txtLocationUrl, SWT.Modify);
+
 		IEMFValueProperty nameProperty = EMFProperties
 				.value(MetricsPackage.Literals.METRIC_SOURCE__NAME);
-		context.bindValue(nameObservable, nameProperty.observe(metricSource), null, null);
-
-		IObservableValue locationObservable = SWTObservables
-				.observeText(this.txtLocationUrl);
 		IEMFValueProperty locationProperty = EMFProperties
 				.value(MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION);
-		context.bindValue(locationObservable, locationProperty.observe(metricSource),
+
+		context.bindValue(nameObservable, nameProperty.observe(metricSource),
 				null, null);
+		context.bindValue(locationObservable,
+				locationProperty.observe(metricSource), null, null);
 
-		ObservableListTreeContentProvider listTreeContentProvider = new ObservableListTreeContentProvider(
-				new MetricTreeFactory(), new MetricTreeStructureAdvisor());
-		this.treeViewer.setContentProvider(listTreeContentProvider);
+		// No more metrics in the MetricSource.
+		// ObservableListTreeContentProvider listTreeContentProvider = new
+		// ObservableListTreeContentProvider(
+		// new MetricTreeFactory(), new MetricTreeStructureAdvisor());
+		// this.treeViewer.setContentProvider(listTreeContentProvider);
+		//
+		// IObservableSet set = listTreeContentProvider.getKnownElements();
+		// IObservableMap[] map = new IObservableMap[2];
+		//
+		// map[0] = EMFProperties.value(MetricsPackage.Literals.METRIC__NAME)
+		// .observeDetail(set);
+		//
+		// map[1] = EMFProperties.value(
+		// MetricsPackage.Literals.METRIC__DESCRIPTION).observeDetail(set);
+		//
+		// treeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
+		//
+		// IEMFListProperty metricsProperty = EMFProperties
+		// .list(MetricsPackage.Literals.METRIC_SOURCE__METRIC_REFS);
+		// treeViewer.setInput(metricsProperty.observe(metricSource));
 
-		IObservableSet set = listTreeContentProvider.getKnownElements();
-		IObservableMap[] map = new IObservableMap[2];
-
-		map[0] = EMFProperties
-				.value(MetricsPackage.Literals.METRIC__NAME)
-				.observeDetail(set);
-
-		map[1] = EMFProperties.value(
-				MetricsPackage.Literals.METRIC__DESCRIPTION).observeDetail(set);
-
-		treeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
-		
-		IEMFListProperty metricsProperty = EMFProperties
-				.list(MetricsPackage.Literals.METRIC_SOURCE__METRIC_REFS);
-		treeViewer.setInput(metricsProperty.observe(metricSource));
-		
 		return context;
 	}
 
-	
 	// Needed for the tree stuff.
 
 	public void injectData(Object owner, Object object) {
@@ -332,7 +289,8 @@ public class NewEditMetricSource extends AbstractScreen implements
 					owner.getContents(), original, metricSource);
 			editingService.getEditingDomain().getCommandStack().execute(c);
 
-			System.out.println(metricSource.cdoID() + "" + metricSource.cdoState());
+			System.out.println(metricSource.cdoID() + ""
+					+ metricSource.cdoState());
 
 		}
 		// After our edit, we shall be dirty
@@ -358,7 +316,7 @@ public class NewEditMetricSource extends AbstractScreen implements
 	}
 
 	public void disposeData() {
-		//N/A
-		
+		// N/A
+
 	}
 }

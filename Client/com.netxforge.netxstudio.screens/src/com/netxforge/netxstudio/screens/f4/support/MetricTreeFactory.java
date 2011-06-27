@@ -11,12 +11,15 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 public class MetricTreeFactory implements IObservableFactory {
 	private IEMFListProperty singleList = EMFProperties
-			.list(MetricsPackage.Literals.METRIC_SOURCE__METRIC_REFS);
+			.list(MetricsPackage.Literals.METRIC__METRICS);
 
 	public IObservable createObservable(final Object target) {
 		if (target instanceof IObservableList) {
 			return (IObservable) target;
-		} else if (target instanceof Metric) {
+		} 
+		else 
+			
+		if (target instanceof Metric) {
 			return singleList.observe(target);
 		}
 		return null;

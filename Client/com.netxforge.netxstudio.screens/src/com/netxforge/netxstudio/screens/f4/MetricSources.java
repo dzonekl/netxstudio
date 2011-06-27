@@ -3,8 +3,6 @@ package com.netxforge.netxstudio.screens.f4;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFProperties;
@@ -19,9 +17,12 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
@@ -44,8 +45,6 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.server.actions.ServerRequest;
-import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.cdo.ICDOQueries;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -53,6 +52,7 @@ import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -63,11 +63,14 @@ public class MetricSources extends AbstractScreen implements
 	private Table table;
 	private Text txtFilterText;
 	private Form frmMetricSources;
-	private TableViewer tableViewer;
+	private TableViewer metricSourceTableViewer;
 	private Resource msResource;
 
 	@Inject
 	ServerRequest serverActions;
+
+	@Inject
+	SearchFilter searchFilter;
 
 	/**
 	 * Create the composite.
@@ -106,6 +109,19 @@ public class MetricSources extends AbstractScreen implements
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 
+		txtFilterText.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent ke) {
+				metricSourceTableViewer.refresh();
+				ViewerFilter[] filters = metricSourceTableViewer.getFilters();
+				for (ViewerFilter viewerFilter : filters) {
+					if (viewerFilter instanceof SearchFilter) {
+						((SearchFilter) viewerFilter)
+								.setSearchText(txtFilterText.getText());
+					}
+				}
+			}
+		});
+
 		ImageHyperlink mghprlnkNewImagehyperlink = toolkit
 				.createImageHyperlink(frmMetricSources.getBody(), SWT.NONE);
 		mghprlnkNewImagehyperlink
@@ -134,31 +150,27 @@ public class MetricSources extends AbstractScreen implements
 		toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
 		mghprlnkNewImagehyperlink.setText("New");
 
-		tableViewer = new TableViewer(frmMetricSources.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION);
-		table = tableViewer.getTable();
+		metricSourceTableViewer = new TableViewer(frmMetricSources.getBody(),
+				SWT.BORDER | SWT.FULL_SELECTION);
+		table = metricSourceTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				metricSourceTableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
 		tblclmnNewColumn.setWidth(100);
 		tblclmnNewColumn.setText("Name");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				metricSourceTableViewer, SWT.NONE);
 		TableColumn tblclmnLocationUrl = tableViewerColumn_1.getColumn();
 		tblclmnLocationUrl.setWidth(100);
 		tblclmnLocationUrl.setText("Location URL");
 
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnNewColumn_1 = tableViewerColumn_2.getColumn();
-		tblclmnNewColumn_1.setWidth(100);
-		tblclmnNewColumn_1.setText("Statistics");
+		metricSourceTableViewer.addFilter(searchFilter);
 
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
@@ -242,8 +254,10 @@ public class MetricSources extends AbstractScreen implements
 						try {
 							String result = serverActions
 									.callMetricImportAction(ms);
-							if (result
-									.equals(ServerRequest.DEFAULT_SUCCESS_RESULT)) {
+							
+							// TODO, We get the workflow run ID back. 
+//							if (result
+//									.equals(ServerRequest.DEFAULT_SUCCESS_RESULT)) {
 								MessageDialog.openInformation(
 										MetricSources.this.getShell(),
 										"Collect now succeeded:",
@@ -251,7 +265,7 @@ public class MetricSources extends AbstractScreen implements
 												+ ms.getName()
 												+ "\n has been initiated on the server. Select the view shoung current jobs, to monitor it's status");
 
-							}
+//							}
 
 						} catch (Exception e1) {
 							e1.printStackTrace();
@@ -281,27 +295,51 @@ public class MetricSources extends AbstractScreen implements
 		});
 		mntmDeleteCollection.setText("Delete Collection...");
 
+		new MenuItem(menu, SWT.SEPARATOR);
+
+		MenuItem mntmNewItem = new MenuItem(menu, SWT.NONE);
+		mntmNewItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+
+					MappingStatistics stats = new MappingStatistics(
+							screenService.getScreenContainer(), SWT.None
+									| Screens.OPERATION_READ_ONLY);
+
+					stats.injectData(null, o);
+					screenService.setActiveScreen(stats);
+
+				}
+			}
+		});
+		mntmNewItem.setText("Statistics...");
+
 		if (editingService != null) {
 			injectData();
 		}
 	}
 
 	public Viewer getViewer() {
-		return tableViewer;
+		return metricSourceTableViewer;
 	}
 
 	public void injectData() {
-		IDataService dService = editingService.getDataService();
-		CDOTransaction t = dService.getProvider().getSession()
-				.openTransaction();
-		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS);
-		q.setParameter(ICDOQueries.CACHE_RESULTS, true);
-		List<MetricSource> metricSources = q.getResult(MetricSource.class);
+		// IDataService dService = editingService.getDataService();
+		// CDOTransaction t = dService.getProvider().getSession()
+		// .openTransaction();
+		// CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS);
+		// q.setParameter(ICDOQueries.CACHE_RESULTS, true);
+		// List<MetricSource> metricSources = q.getResult(MetricSource.class);
 
 		// Get a resource, to store our query.
 		msResource = editingService
 				.getData(MetricsPackage.Literals.METRIC_SOURCE);
-		msResource.getContents().addAll(metricSources);
+		// msResource.getContents().addAll(metricSources);
 
 		initDataBindings_();
 
@@ -311,18 +349,17 @@ public class MetricSources extends AbstractScreen implements
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		tableViewer.setContentProvider(listContentProvider);
+		metricSourceTableViewer.setContentProvider(listContentProvider);
 
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
 				new EStructuralFeature[] {
 						MetricsPackage.Literals.METRIC_SOURCE__NAME,
-						MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION,
-						MetricsPackage.Literals.METRIC_SOURCE__STATISTICS });
-		tableViewer
+						MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION});
+		metricSourceTableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		IEMFListProperty l = EMFProperties.resource();
-		tableViewer.setInput(l.observe(msResource));
+		metricSourceTableViewer.setInput(l.observe(msResource));
 		return bindingContext;
 	}
 

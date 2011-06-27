@@ -39,7 +39,6 @@ public class RuntimeActivator implements BundleActivator {
 	private BundleContext context;
 	private Map<String, Injector> injectors = new HashMap<String, Injector>();
 
-	@Override
 	public void start(BundleContext context) throws Exception {
 		INSTANCE = this;
 		this.context = context;
@@ -56,7 +55,6 @@ public class RuntimeActivator implements BundleActivator {
 		}
 	}
 
-	@Override
 	public void stop(BundleContext context) throws Exception {
 
 	}

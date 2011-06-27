@@ -453,6 +453,15 @@
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
+<!--				
+				<xs:attribute name="Source" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>The source of the mapping holds the actual source which was processed
+							like a file name.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+-->					
 				<xs:attribute name="TotalRecords" type="xs:int">
 					<xs:annotation>
 						<xs:documentation>The TotalRecords attribute holds a the number of

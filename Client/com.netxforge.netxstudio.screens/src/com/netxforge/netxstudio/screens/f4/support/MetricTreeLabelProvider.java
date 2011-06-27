@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4.support;
 
 import java.util.Set;
@@ -29,86 +29,66 @@ import org.eclipse.jface.viewers.ViewerCell;
 
 import com.netxforge.netxstudio.metrics.Metric;
 
-public class MetricTreeLabelProvider
-extends StyledCellLabelProvider
-{
-private IMapChangeListener mapChangeListener =
-  new IMapChangeListener()
-  {
-    public void handleMapChange(MapChangeEvent event)
-    {
-      Set<?> affectedElements =
-        event.diff.getChangedKeys();
-      if (!affectedElements.isEmpty())
-      {
-        LabelProviderChangedEvent newEvent =
-          new LabelProviderChangedEvent(
-            MetricTreeLabelProvider.this,
-            affectedElements.toArray()
-        );
-        fireLabelProviderChanged(newEvent);
-      }
-    }
-  };
+public class MetricTreeLabelProvider extends StyledCellLabelProvider {
+	private IMapChangeListener mapChangeListener = new IMapChangeListener() {
+		public void handleMapChange(MapChangeEvent event) {
+			Set<?> affectedElements = event.diff.getChangedKeys();
+			if (!affectedElements.isEmpty()) {
+				LabelProviderChangedEvent newEvent = new LabelProviderChangedEvent(
+						MetricTreeLabelProvider.this,
+						affectedElements.toArray());
+				fireLabelProviderChanged(newEvent);
+			}
+		}
+	};
 
-public MetricTreeLabelProvider(
-  IObservableMap... attributeMaps)
-{
-  for (int i = 0; i < attributeMaps.length; i++)
-  {
-    attributeMaps[i].addMapChangeListener(
-      mapChangeListener
-    );
-  }
-}
+	public MetricTreeLabelProvider(IObservableMap... attributeMaps) {
+		for (int i = 0; i < attributeMaps.length; i++) {
+			attributeMaps[i].addMapChangeListener(mapChangeListener);
+		}
+	}
 
-@Override
-public String getToolTipText(Object element)
-{
-  return "#dummy#";
-}
+//	@Override
+//	public String getToolTipText(Object element) {
+//		return "#dummy#";
+//	}
 
-@Override
-public void update(ViewerCell cell)
-{
-  if (cell.getElement() instanceof Metric)
-  {
-    Metric metric = (Metric)cell.getElement();
+	@Override
+	public void update(ViewerCell cell) {
 
-    StyledString styledString = new StyledString(
-      metric.getName()!=null ? metric.getName():"*noname*",
-      null
-    );
-//    String decoration = " (" +
-//      metric.getCommitters().size() + " Committers)";
-//    styledString.append(
-//      decoration,
-//      StyledString.COUNTER_STYLER
-//    );
-    cell.setText(styledString.getString());
-//    cell.setImage(projectImage);
-    cell.setStyleRanges(styledString.getStyleRanges());
-  }
-//  else if (cell.getElement() instanceof CommitterShip)
-//  {
-//    Person p = (
-//      (CommitterShip)cell.getElement()
-//    ).getPerson();
-//    String value = "*noname*";
-//    if (p != null)
-//    {
-//      value = p.getLastname() + ", " + p.getFirstname();
-//    }
-//    StyledString styledString = new StyledString(
-//      value, null);
-//    cell.setText(styledString.getString());
-//    cell.setForeground(
-//      cell.getControl().getDisplay().getSystemColor(
-//        SWT.COLOR_DARK_GRAY
-//      )
-//    );
-//    cell.setImage(committerImage);
-//    cell.setStyleRanges(styledString.getStyleRanges());
-//  }
-}
+		if (cell.getElement() instanceof Metric) {
+			Metric metric = (Metric) cell.getElement();
+			String txt = "";
+			switch (cell.getColumnIndex()) {
+
+			case 0: {
+				txt = metric.getName() != null ? metric.getName() : "";
+			}
+				break;
+			case 1: {
+				txt = metric.getDescription() != null ? metric.getDescription()
+						: "";
+			}
+				break;
+
+			case 2: {
+				txt = metric.getUnitRef() != null ? metric.getUnitRef()
+						.getName() : "";
+			}
+				break;
+
+			}
+
+			StyledString styledString = new StyledString(txt, null);
+			// String decoration = " (" +
+			// metric.getCommitters().size() + " Committers)";
+			// styledString.append(
+			// decoration,
+			// StyledString.COUNTER_STYLER
+			// );
+			cell.setText(styledString.getString());
+			// cell.setImage(projectImage);
+			cell.setStyleRanges(styledString.getStyleRanges());
+		}
+	}
 }

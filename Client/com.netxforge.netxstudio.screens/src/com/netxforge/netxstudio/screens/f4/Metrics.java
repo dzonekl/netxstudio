@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) Jun 25, 2011 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f4;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -7,18 +24,27 @@ import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
@@ -29,13 +55,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.library.Library;
-import com.netxforge.netxstudio.library.LibraryFactory;
-import com.netxforge.netxstudio.library.LibraryPackage;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeFactory;
@@ -46,11 +71,16 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
-	private Library library;
+	private Resource metricResource;
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext bindingContext;
 	private Form frmMetrics;
 	private TreeViewer metricsTreeViewer;
+	// private ObservablesManager mgr;
+	private ObservableListTreeContentProvider listTreeContentProvider;
+
+	@Inject
+	private SearchFilter searchFilter;
 
 	/**
 	 * Create the composite.
@@ -86,7 +116,20 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 		txtFilterText = toolkit.createText(frmMetrics.getBody(), "New Text",
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
+		txtFilterText.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent ke) {
+				metricsTreeViewer.refresh();
+				ViewerFilter[] filters = metricsTreeViewer.getFilters();
+				for (ViewerFilter viewerFilter : filters) {
+					if (viewerFilter instanceof SearchFilter) {
+						((SearchFilter) viewerFilter)
+								.setSearchText(txtFilterText.getText());
+					}
+				}
+			}
+		});
 		txtFilterText.setText("");
+
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, true,
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
@@ -98,9 +141,10 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 			public void linkActivated(HyperlinkEvent e) {
 				NewEditMetric metricScreen = new NewEditMetric(screenService
 						.getScreenContainer(), SWT.NONE | Screens.OPERATION_NEW);
-				screenService.setActiveScreen(metricScreen);
 				Metric metric = MetricsFactory.eINSTANCE.createMetric();
-				metricScreen.injectData(library, metric);
+				metricScreen.injectData(metricResource, metric);
+
+				screenService.setActiveScreen(metricScreen);
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -122,31 +166,89 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(tree);
 
-		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(metricsTreeViewer,
-				SWT.NONE);
+		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
+				metricsTreeViewer, SWT.NONE);
 		TreeColumn trclmnName = treeViewerColumn.getColumn();
 		trclmnName.setWidth(100);
 		trclmnName.setText("Name");
 
-		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(metricsTreeViewer,
-				SWT.NONE);
+		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
+				metricsTreeViewer, SWT.NONE);
 		TreeColumn trclmnDescription = treeViewerColumn_1.getColumn();
 		trclmnDescription.setWidth(100);
 		trclmnDescription.setText("Description");
 
-		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(metricsTreeViewer,
-				SWT.NONE);
+		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
+				metricsTreeViewer, SWT.NONE);
 		TreeColumn trclmnUnit = treeViewerColumn_2.getColumn();
 		trclmnUnit.setWidth(100);
 		trclmnUnit.setText("Unit");
+
+		metricsTreeViewer.addFilter(searchFilter);
+
+		Menu menu = new Menu(tree);
+		tree.setMenu(menu);
+		MenuItem mntmNew = new MenuItem(menu, SWT.NONE);
+		mntmNew.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (screenService != null) {
+					ISelection selection = getViewer().getSelection();
+					if (selection instanceof IStructuredSelection) {
+						Object subowner = ((IStructuredSelection) selection)
+								.getFirstElement();
+
+						NewEditMetric metricScreen = new NewEditMetric(
+								screenService.getScreenContainer(), SWT.NONE
+										| Screens.OPERATION_NEW);
+						Metric metric = MetricsFactory.eINSTANCE.createMetric();
+
+						metricScreen.injectData(metricResource, subowner,
+								metric);
+						screenService.setActiveScreen(metricScreen);
+					}
+				}
+			}
+		});
+		mntmNew.setText("New...");
+
+		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
+		mntmEdit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (screenService != null) {
+					ISelection selection = getViewer().getSelection();
+					if (selection instanceof IStructuredSelection) {
+						Object o = ((IStructuredSelection) selection)
+								.getFirstElement();
+						NewEditMetric metricScreen = new NewEditMetric(
+								screenService.getScreenContainer(), SWT.NONE
+										| Screens.OPERATION_EDIT);
+						Object subowner = null;
+						if (o instanceof Metric) {
+							if (((Metric) o).eContainer() instanceof Metric) {
+								subowner = ((Metric) o).eContainer();
+							}
+						}
+						metricScreen.injectData(metricResource, subowner, o);
+						screenService.setActiveScreen(metricScreen);
+					}
+				}
+			}
+		});
+		mntmEdit.setText("Edit...");
+
+		this.injectData();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
-		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		ObservableListTreeContentProvider listTreeContentProvider = new ObservableListTreeContentProvider(
+		// mgr.runAndCollect(new Runnable() {
+		// public void run() {
+		// your code which creates observables
+		listTreeContentProvider = new ObservableListTreeContentProvider(
 				new MetricTreeFactory(), new MetricTreeStructureAdvisor());
-		this.metricsTreeViewer.setContentProvider(listTreeContentProvider);
+		metricsTreeViewer.setContentProvider(listTreeContentProvider);
 
 		IObservableSet set = listTreeContentProvider.getKnownElements();
 		IObservableMap[] map = new IObservableMap[2];
@@ -159,23 +261,17 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 		metricsTreeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
 
-		IEMFListProperty metricsProperty = EMFProperties
-				.list(LibraryPackage.Literals.LIBRARY__METRICS);
-		metricsTreeViewer.setInput(metricsProperty.observe(library));
+		IEMFListProperty metricsProperty = EMFProperties.resource();
+		metricsTreeViewer.setInput(metricsProperty.observe(metricResource));
+		// }
+		// });
 
+		EMFDataBindingContext context = new EMFDataBindingContext();
 		return context;
 	}
 
 	public void injectData() {
-		Resource res = editingService.getData(LibraryPackage.Literals.LIBRARY);
-		if (res.getContents().size() == 0) {
-			Library lib = LibraryFactory.eINSTANCE.createLibrary();
-			res.getContents().add(lib);
-			this.library = lib;
-		} else {
-			this.library = (Library) res.getContents().get(0);
-		}
-
+		metricResource = editingService.getData(MetricsPackage.Literals.METRIC);
 		bindingContext = initDataBindings_();
 	}
 

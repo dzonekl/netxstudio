@@ -657,7 +657,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	}
 
 	/**
-	 * 
+	 * Browse the workspace and return multiple selected paths. 
 	 * @param shell
 	 * @return
 	 */

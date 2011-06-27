@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getComponents <em>Components</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.ReferenceImpl#getLeafRef <em>Leaf Ref</em>}</li>
  * </ul>
  * </p>
@@ -41,14 +41,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class ReferenceImpl extends ExpressionImpl implements Reference
 {
   /**
-   * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
+   * The cached value of the '{@link #getComponents() <em>Components</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getChildren()
+   * @see #getComponents()
    * @generated
    * @ordered
    */
-  protected EList<Reference> children;
+  protected EList<Reference> components;
 
   /**
    * The cached value of the '{@link #getLeafRef() <em>Leaf Ref</em>}' containment reference.
@@ -86,13 +86,13 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<Reference> getChildren()
+  public EList<Reference> getComponents()
   {
-    if (children == null)
+    if (components == null)
     {
-      children = new EObjectContainmentEList<Reference>(Reference.class, this, NetxscriptPackage.REFERENCE__CHILDREN);
+      components = new EObjectContainmentEList<Reference>(Reference.class, this, NetxscriptPackage.REFERENCE__COMPONENTS);
     }
-    return children;
+    return components;
   }
 
   /**
@@ -153,8 +153,8 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__CHILDREN:
-        return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
+      case NetxscriptPackage.REFERENCE__COMPONENTS:
+        return ((InternalEList<?>)getComponents()).basicRemove(otherEnd, msgs);
       case NetxscriptPackage.REFERENCE__LEAF_REF:
         return basicSetLeafRef(null, msgs);
     }
@@ -171,8 +171,8 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__CHILDREN:
-        return getChildren();
+      case NetxscriptPackage.REFERENCE__COMPONENTS:
+        return getComponents();
       case NetxscriptPackage.REFERENCE__LEAF_REF:
         return getLeafRef();
     }
@@ -190,9 +190,9 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__CHILDREN:
-        getChildren().clear();
-        getChildren().addAll((Collection<? extends Reference>)newValue);
+      case NetxscriptPackage.REFERENCE__COMPONENTS:
+        getComponents().clear();
+        getComponents().addAll((Collection<? extends Reference>)newValue);
         return;
       case NetxscriptPackage.REFERENCE__LEAF_REF:
         setLeafRef((LeafReference)newValue);
@@ -211,8 +211,8 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__CHILDREN:
-        getChildren().clear();
+      case NetxscriptPackage.REFERENCE__COMPONENTS:
+        getComponents().clear();
         return;
       case NetxscriptPackage.REFERENCE__LEAF_REF:
         setLeafRef((LeafReference)null);
@@ -231,8 +231,8 @@ public class ReferenceImpl extends ExpressionImpl implements Reference
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REFERENCE__CHILDREN:
-        return children != null && !children.isEmpty();
+      case NetxscriptPackage.REFERENCE__COMPONENTS:
+        return components != null && !components.isEmpty();
       case NetxscriptPackage.REFERENCE__LEAF_REF:
         return leafRef != null;
     }

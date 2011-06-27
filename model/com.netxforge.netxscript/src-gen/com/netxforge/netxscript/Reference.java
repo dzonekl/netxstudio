@@ -15,7 +15,7 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.Reference#getChildren <em>Children</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.Reference#getComponents <em>Components</em>}</li>
  *   <li>{@link com.netxforge.netxscript.Reference#getLeafRef <em>Leaf Ref</em>}</li>
  * </ul>
  * </p>
@@ -27,20 +27,20 @@ import org.eclipse.emf.common.util.EList;
 public interface Reference extends Expression
 {
   /**
-   * Returns the value of the '<em><b>Children</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Components</b></em>' containment reference list.
    * The list contents are of type {@link com.netxforge.netxscript.Reference}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Children</em>' containment reference list isn't clear,
+   * If the meaning of the '<em>Components</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Children</em>' containment reference list.
-   * @see com.netxforge.netxscript.NetxscriptPackage#getReference_Children()
+   * @return the value of the '<em>Components</em>' containment reference list.
+   * @see com.netxforge.netxscript.NetxscriptPackage#getReference_Components()
    * @model containment="true"
    * @generated
    */
-  EList<Reference> getChildren();
+  EList<Reference> getComponents();
 
   /**
    * Returns the value of the '<em><b>Leaf Ref</b></em>' containment reference.

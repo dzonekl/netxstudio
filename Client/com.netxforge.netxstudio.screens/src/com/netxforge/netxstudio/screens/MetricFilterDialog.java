@@ -32,10 +32,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.library.Unit;
+import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class UnitFilterDialog extends FilteredItemsSelectionDialog {
+public class MetricFilterDialog extends FilteredItemsSelectionDialog {
 	private final Resource resource;
 
 	/**
@@ -46,7 +46,7 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public UnitFilterDialog(Shell shell, Resource resource) {
+	public MetricFilterDialog(Shell shell, Resource resource) {
 		super(shell);
 		this.resource = resource;
 
@@ -56,9 +56,9 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return UnitFilterDialog.this.getText(
+				return MetricFilterDialog.this.getText(
 
-				(Unit) element
+				(Metric) element
 
 				);
 			}
@@ -70,13 +70,13 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return UnitFilterDialog.this.getText((Unit) element);
+				return MetricFilterDialog.this.getText((Metric) element);
 			}
 		});
 	}
 
-	private String getText(Unit p) {
-		return p.getName() + "[" + p.getCode() + "] -" + p.getDescription();
+	private String getText(Metric p) {
+		return p.getName()  + p.getDescription();
 	}
 
 	@Override
@@ -86,9 +86,9 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Unit>() {
+		return new Comparator<Metric>() {
 
-			public int compare(Unit o1, Unit o2) {
+			public int compare(Metric o1, Metric o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -96,18 +96,18 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		Unit p = (Unit) item;
+		Metric p = (Metric) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("unitdialog");
+				.getDialogSettings().getSection("Metricdialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("unitdialog");
+					.addNewSection("Metricdialog");
 		}
 		return settings;
 	}
@@ -137,9 +137,8 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Unit p = (Unit) item;
-				return matches(p.getName() + "[" + p.getCode() + "] -"
-						+ p.getDescription());
+				Metric p = (Metric) item;
+				return matches(p.getName()  + p.getDescription());
 			}
 
 		};

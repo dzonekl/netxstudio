@@ -55,7 +55,7 @@ public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
 		result = screenFormService.addScreenSelector("Expressions",
 				"icons/full/obj16/Expression_H.png", Expressions.class, 1,
 				Screens.OPERATION_EDIT);
-		screenFormService.addScreenSelector(result, "Expressions",
+		result = screenFormService.addScreenSelector(result, "Metrics",
 				"icons/full/obj16/Metric_H.png", Metrics.class,
 				Screens.OPERATION_EDIT);
 		screenFormService.addScreenSelector(result, "Resource",

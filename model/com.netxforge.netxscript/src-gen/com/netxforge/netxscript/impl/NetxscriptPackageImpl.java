@@ -13,13 +13,13 @@ import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
 import com.netxforge.netxscript.Block;
 import com.netxforge.netxscript.BooleanLiteral;
+import com.netxforge.netxscript.ComponentRef;
 import com.netxforge.netxscript.ContextRef;
 import com.netxforge.netxscript.Div;
 import com.netxforge.netxscript.Equal;
 import com.netxforge.netxscript.Expression;
 import com.netxforge.netxscript.Function;
 import com.netxforge.netxscript.FunctionCall;
-import com.netxforge.netxscript.FunctionRef;
 import com.netxforge.netxscript.Greater;
 import com.netxforge.netxscript.GreaterEqual;
 import com.netxforge.netxscript.If;
@@ -385,7 +385,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass functionRefEClass = null;
+  private EClass componentRefEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -729,7 +729,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getReference_Children()
+  public EReference getReference_Components()
   {
     return (EReference)referenceEClass.getEStructuralFeatures().get(0);
   }
@@ -1569,9 +1569,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getFunctionRef()
+  public EClass getComponentRef()
   {
-    return functionRefEClass;
+    return componentRefEClass;
   }
 
   /**
@@ -1579,9 +1579,19 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getFunctionRef_Function()
+  public EReference getComponentRef_Function()
   {
-    return (EReference)functionRefEClass.getEStructuralFeatures().get(0);
+    return (EReference)componentRefEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getComponentRef_Equipment()
+  {
+    return (EReference)componentRefEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -1747,7 +1757,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     rangeEClass = createEClass(RANGE);
 
     referenceEClass = createEClass(REFERENCE);
-    createEReference(referenceEClass, REFERENCE__CHILDREN);
+    createEReference(referenceEClass, REFERENCE__COMPONENTS);
     createEReference(referenceEClass, REFERENCE__LEAF_REF);
 
     leafReferenceEClass = createEClass(LEAF_REFERENCE);
@@ -1863,8 +1873,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     contextRefEClass = createEClass(CONTEXT_REF);
     createEReference(contextRefEClass, CONTEXT_REF__PRIMARY_REF);
 
-    functionRefEClass = createEClass(FUNCTION_REF);
-    createEReference(functionRefEClass, FUNCTION_REF__FUNCTION);
+    componentRefEClass = createEClass(COMPONENT_REF);
+    createEReference(componentRefEClass, COMPONENT_REF__FUNCTION);
+    createEReference(componentRefEClass, COMPONENT_REF__EQUIPMENT);
 
     resourceRefEClass = createEClass(RESOURCE_REF);
     createEReference(resourceRefEClass, RESOURCE_REF__RESOURCE);
@@ -1950,7 +1961,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     rangeLiteralEClass.getESuperTypes().add(this.getRange());
     absoluteRefEClass.getESuperTypes().add(this.getReference());
     contextRefEClass.getESuperTypes().add(this.getReference());
-    functionRefEClass.getESuperTypes().add(this.getReference());
+    componentRefEClass.getESuperTypes().add(this.getReference());
     resourceRefEClass.getESuperTypes().add(this.getLeafReference());
     linkRefEClass.getESuperTypes().add(this.getLeafReference());
 
@@ -1988,7 +1999,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEClass(rangeEClass, Range.class, "Range", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(referenceEClass, Reference.class, "Reference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getReference_Children(), this.getReference(), null, "children", null, 0, -1, Reference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getReference_Components(), this.getReference(), null, "components", null, 0, -1, Reference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getReference_LeafRef(), this.getLeafReference(), null, "leafRef", null, 0, 1, Reference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(leafReferenceEClass, LeafReference.class, "LeafReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2104,8 +2115,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEClass(contextRefEClass, ContextRef.class, "ContextRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getContextRef_PrimaryRef(), this.getReference(), null, "primaryRef", null, 0, 1, ContextRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(functionRefEClass, FunctionRef.class, "FunctionRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getFunctionRef_Function(), theLibraryPackage.getFunction(), null, "function", null, 0, 1, FunctionRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(componentRefEClass, ComponentRef.class, "ComponentRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getComponentRef_Function(), theLibraryPackage.getFunction(), null, "function", null, 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getComponentRef_Equipment(), theLibraryPackage.getEquipment(), null, "equipment", null, 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(resourceRefEClass, ResourceRef.class, "ResourceRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getResourceRef_Resource(), theLibraryPackage.getNetXResource(), null, "resource", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

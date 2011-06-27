@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
+import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 
 /**

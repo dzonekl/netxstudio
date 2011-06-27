@@ -60,7 +60,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	public void preWindowOpen() {
 		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-		configurer.setInitialSize(new Point(700, 550));
+		configurer.setInitialSize(new Point(1200, 1000));
 		// Note: Whenever we have cool toolbar icons to show, turn this on.
 		configurer.setShowCoolBar(false);
 		configurer.setShowStatusLine(true);
@@ -80,8 +80,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		// Kick of activities.
 		// Inject the data service.
 		ActivitiesActivator.getInjector().injectMembers(this);
-			
-		
 		if( dService.getProvider() instanceof IFixtures){
 			((IFixtures)dService.getProvider()).loadFixtures();
 		}

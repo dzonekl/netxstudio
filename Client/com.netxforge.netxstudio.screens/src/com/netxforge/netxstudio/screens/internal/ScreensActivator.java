@@ -10,6 +10,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.netxstudio.screens.ScreensModule;
 import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
 
 /**
@@ -22,14 +23,13 @@ public class ScreensActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static ScreensActivator plugin;
-	
-	private Injector injector; 
-	
 
-	public Injector getInjector(){
+	private Injector injector;
+
+	public Injector getInjector() {
 		return injector;
 	}
-	
+
 	/**
 	 * The constructor
 	 */
@@ -38,23 +38,30 @@ public class ScreensActivator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		
-		// Bind our modules. 
-		Module om = new CommonModule();
+
+		// Bind our modules.
+		Module om = new ScreensModule();
+		om = override(om).with(new CommonModule());
 		om = override(om).with(new CDODataServiceModule());
 		om = override(om).with(new EditingServiceModule());
 		injector = Guice.createInjector(om);
-		
+
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
@@ -63,11 +70,11 @@ public class ScreensActivator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 *
+	 * 
 	 * @return the shared instance
 	 */
 	public static ScreensActivator getDefault() {
 		return plugin;
 	}
-	
+
 }

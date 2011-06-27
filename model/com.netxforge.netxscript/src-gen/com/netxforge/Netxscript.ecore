@@ -54,7 +54,7 @@
     <eLiterals name="ERLANGB" value="6" literal="erlangB()"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Reference" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
         eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="leafRef" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference"
@@ -224,8 +224,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="primaryRef" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FunctionRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference">
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="function" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore#//Function"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equipment" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore#//Equipment"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResourceRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="resource" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore#//NetXResource"/>

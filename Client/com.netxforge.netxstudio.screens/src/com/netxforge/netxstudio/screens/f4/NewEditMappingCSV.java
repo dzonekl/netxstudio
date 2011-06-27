@@ -60,7 +60,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
-public class NewEditXLSMapping extends AbstractScreen implements
+public class NewEditMappingCSV extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -82,7 +82,7 @@ public class NewEditXLSMapping extends AbstractScreen implements
 	 * @param style
 	 */
 	@SuppressWarnings("unused")
-	public NewEditXLSMapping(Composite parent, int style) {
+	public NewEditMappingCSV(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -179,10 +179,17 @@ public class NewEditXLSMapping extends AbstractScreen implements
 			public void widgetSelected(SelectionEvent e) {
 
 				IPath[] paths = WorkspaceUtil.INSTANCE
-						.browseWorkspace(NewEditXLSMapping.this.getShell());
+						.browseWorkspace(NewEditMappingCSV.this.getShell());
 				if (paths == null || paths.length == 0)
 					return;
-				// DO something with the path.
+				
+				// TODO something with the path.
+				txtSelectedXLSPath.setText(paths.toString());
+				
+				
+				String file = "";
+				fillGrid(file);
+				
 			}
 		});
 
@@ -212,13 +219,6 @@ public class NewEditXLSMapping extends AbstractScreen implements
 		toolkit.paintBordersFor(scrolledComposite);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
-
-		// CDateTime dateTime = new CDateTime(scrolledComposite, CDT.NONE);
-		// toolkit.adapt(dateTime);
-		// toolkit.paintBordersFor(dateTime);
-
-		// CTabItem tabItem_1 = new CTabItem(tabFolder, SWT.NONE);
-		// tabItem_1.setText("New Item");
 
 		GridTableViewer gridTableViewer = new GridTableViewer(
 				scrolledComposite, SWT.BORDER);
@@ -330,13 +330,7 @@ public class NewEditXLSMapping extends AbstractScreen implements
 				mappingColumnsTableViewer, SWT.NONE);
 		TableColumn tblclmnDatHeader = tableViewerColumn.getColumn();
 		tblclmnDatHeader.setWidth(100);
-		tblclmnDatHeader.setText("Header");
-
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				mappingColumnsTableViewer, SWT.NONE);
-		TableColumn tblclmnType = tableViewerColumn_1.getColumn();
-		tblclmnType.setWidth(59);
-		tblclmnType.setText("Type");
+		tblclmnDatHeader.setText("Type");
 
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
 				mappingColumnsTableViewer, SWT.NONE);
@@ -362,6 +356,20 @@ public class NewEditXLSMapping extends AbstractScreen implements
 
 	}
 
+	protected void fillGrid(String file) {
+			
+		// process the file with POI. 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
@@ -369,38 +377,34 @@ public class NewEditXLSMapping extends AbstractScreen implements
 		// TODO, Validations and strategies.
 
 		IObservableValue sheetNumberObservableValue = SWTObservables
-				.observeText(txtSheetNumber);
+				.observeText(txtSheetNumber, SWT.Modify);
+		IObservableValue firstDataRowObservableValue = SWTObservables
+				.observeText(txtFirstDataRow, SWT.Modify);
+		IObservableValue headerRowObservableValue = SWTObservables.observeText(
+				txtFirstHeaderRow, SWT.Modify);
+
 		IEMFValueProperty sheetNumberProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
-
-		context.bindValue(sheetNumberObservableValue,
-				sheetNumberProperty.observe(mapping), null, null);
-
-		IObservableValue firstDataRowObservableValue = SWTObservables
-				.observeText(txtFirstDataRow);
 		IEMFValueProperty firstDataRowProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW);
-
-		context.bindValue(firstDataRowObservableValue,
-				firstDataRowProperty.observe(mapping), null, null);
-
-		IObservableValue headerRowObservableValue = SWTObservables
-				.observeText(txtFirstHeaderRow);
 		IEMFValueProperty headerRowProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW);
 
+		context.bindValue(sheetNumberObservableValue,
+				sheetNumberProperty.observe(mapping), null, null);
+		context.bindValue(firstDataRowObservableValue,
+				firstDataRowProperty.observe(mapping), null, null);
 		context.bindValue(headerRowObservableValue,
 				headerRowProperty.observe(mapping), null, null);
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		this.mappingColumnsTableViewer.setContentProvider(listContentProvider);
 
-		IObservableMap[] observeMaps = EMFObservables
-				.observeMaps(
-						listContentProvider.getKnownElements(),
-						new EStructuralFeature[] {
-								MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN,
-								MetricsPackage.Literals.MAPPING_XLS_COLUMN__DATA_TYPE });
+		IObservableMap[] observeMaps = EMFObservables.observeMaps(
+				listContentProvider.getKnownElements(),
+				new EStructuralFeature[] {
+						MetricsPackage.Literals.MAPPING_XLS_COLUMN__DATA_TYPE,
+						MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN });
 		this.mappingColumnsTableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		IEMFListProperty l = EMFProperties
@@ -475,14 +479,12 @@ public class NewEditXLSMapping extends AbstractScreen implements
 
 	@Override
 	public Viewer getViewer() {
-		// TODO Auto-generated method stub
-		return null;
+		return null; // N/A
 	}
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -492,6 +494,6 @@ public class NewEditXLSMapping extends AbstractScreen implements
 
 	public void disposeData() {
 		// N/A
-		
+
 	}
 }

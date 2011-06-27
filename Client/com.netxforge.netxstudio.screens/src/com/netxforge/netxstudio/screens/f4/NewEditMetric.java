@@ -7,6 +7,7 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.ReplaceCommand;
@@ -30,12 +31,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.Metric;
@@ -54,13 +57,13 @@ public class NewEditMetric extends AbstractScreen implements
 	private Text txtUnit;
 	private Text txtMeasurementPoint;
 	private Text txtMeasurementKind;
-	private Text txtExpression;
 	private Form frmNewEditMetric;
-	private Library owner;
+	private Resource owner;
 	private Metric metric;
 	private Metric original;
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
+	private Metric subowner;
 
 	/**
 	 * Create the composite.
@@ -106,8 +109,11 @@ public class NewEditMetric extends AbstractScreen implements
 		composite_1.setLayout(new GridLayout(3, false));
 
 		Label lblName = toolkit.createLabel(composite_1, "Name:", SWT.NONE);
-		lblName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1));
+		lblName.setAlignment(SWT.RIGHT);
+		GridData gd_lblName = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
+				1, 1);
+		gd_lblName.widthHint = 83;
+		lblName.setLayoutData(gd_lblName);
 
 		txtName = toolkit.createText(composite_1, "New Text", SWT.NONE);
 		txtName.setText("");
@@ -146,11 +152,12 @@ public class NewEditMetric extends AbstractScreen implements
 		btnSelect.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				Resource unitResource = editingService.getData(LibraryPackage.Literals.UNIT);
 				UnitFilterDialog dialog = new UnitFilterDialog(
-						NewEditMetric.this.getShell(), owner);
+						NewEditMetric.this.getShell(), unitResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Unit u = (Unit) dialog.getFirstResult();
-					metric.setUnitRef(u); // Should now show with databinding. 
+					metric.setUnitRef(u); // Should now show with databinding.
 				}
 			}
 		});
@@ -204,58 +211,82 @@ public class NewEditMetric extends AbstractScreen implements
 				SWT.NONE);
 		lblExpression.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false,
 				false, 1, 1));
-
-		txtExpression = toolkit.createText(composite_3, "New Text", SWT.WRAP
-				| SWT.MULTI);
-		txtExpression.setText("");
-		GridData gd_txtExpression = new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1);
-		gd_txtExpression.heightHint = 70;
-		txtExpression.setLayoutData(gd_txtExpression);
+		
+		ImageHyperlink mghprlnkEdit = toolkit.createImageHyperlink(composite_3, SWT.NONE);
+		mghprlnkEdit.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				// TODO, we need a single-line expression editor...
+//				NewEditExpression expressionScreen = new NewEditExpression(screenService.getScreenContainer(), SWT.NONE | Screens.OPERATION_EDIT);
+//				expressionScreen.injectData(e, metric.getMetricCalculation());
+//				screenService.setActiveScreen(expressionScreen);
+			}
+			public void linkEntered(HyperlinkEvent e) {
+			}
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		toolkit.paintBordersFor(mghprlnkEdit);
+		mghprlnkEdit.setText("Edit...");
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		IObservableValue nameObservable = SWTObservables.observeText(txtName);
-		IObservableValue descriptionObservable = SWTObservables
-				.observeText(txtDescription);
+		IObservableValue nameObservable = SWTObservables.observeText(txtName,
+				SWT.Modify);
+		IObservableValue descriptionObservable = SWTObservables.observeText(
+				txtDescription, SWT.Modify);
+		IObservableValue unitObservable = SWTObservables.observeText(
+				txtUnit, SWT.Modify);
 		IObservableValue measurementPointObservable = SWTObservables
-				.observeText(txtMeasurementPoint);
+				.observeText(txtMeasurementPoint, SWT.Modify);
 		IObservableValue measurementKindObservable = SWTObservables
-				.observeText(txtMeasurementKind);
-		IObservableValue expressionObservable = SWTObservables
-				.observeText(txtExpression);
+				.observeText(txtMeasurementKind, SWT.Modify);
+		
+//		IObservableValue expressionObservable = SWTObservables.observeText(
+//				txtExpression, SWT.Modify);
 
 		IEMFValueProperty nameProperty = EMFProperties
 				.value(MetricsPackage.Literals.METRIC__NAME);
 		IEMFValueProperty descriptionProperty = EMFProperties
 				.value(MetricsPackage.Literals.METRIC__DESCRIPTION);
+		IEMFValueProperty unitProperty = EMFProperties
+				.value(FeaturePath.fromList(MetricsPackage.Literals.METRIC__UNIT_REF, LibraryPackage.Literals.UNIT__NAME));
 		IEMFValueProperty measurementPointProperty = EMFProperties
 				.value(MetricsPackage.Literals.METRIC__MEASUREMENT_POINT);
 		IEMFValueProperty measurementKindProperty = EMFProperties
 				.value(MetricsPackage.Literals.METRIC__MEASUREMENT_KIND);
-		IEMFValueProperty expressionProperty = EMFProperties.value(FeaturePath
-				.fromList(MetricsPackage.Literals.METRIC__METRIC_CALCULATION,
-						LibraryPackage.Literals.EXPRESSION__EXPRESSION_LINES));
+		
+//		IEMFValueProperty expressionProperty = EMFProperties.value(FeaturePath
+//				.fromList(MetricsPackage.Literals.METRIC__METRIC_CALCULATION,
+//						LibraryPackage.Literals.EXPRESSION__EXPRESSION_LINES));
 
 		context.bindValue(nameObservable, nameProperty.observe(metric), null,
 				null);
 		context.bindValue(descriptionObservable,
 				descriptionProperty.observe(metric), null, null);
+		context.bindValue(unitObservable,
+				unitProperty.observe(metric), null, null);
 		context.bindValue(measurementPointObservable,
 				measurementPointProperty.observe(metric), null, null);
 		context.bindValue(measurementKindObservable,
 				measurementKindProperty.observe(metric), null, null);
-		context.bindValue(expressionObservable,
-				expressionProperty.observe(metric), null, null);
+//		context.bindValue(expressionObservable,
+//				expressionProperty.observe(metric), null, null);
 
 		return context;
 	}
 
+	public void injectData(Object owner, Object subowner, Object object) {
+		if (subowner != null && subowner instanceof Metric) {
+			this.subowner = (Metric) subowner;
+		}
+		this.injectData(owner, object);
+	}
+
 	public void injectData(Object owner, Object object) {
-		if (owner instanceof Library) {
-			this.owner = (Library) owner;
+		if (owner instanceof Resource) {
+			this.owner = (Resource) owner;
 		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
@@ -276,8 +307,15 @@ public class NewEditMetric extends AbstractScreen implements
 	public void addData() {
 		if (Screens.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
-			Command c = new AddCommand(editingService.getEditingDomain(),
-					owner.getMetrics(), metric);
+			Command c;
+			if (subowner != null) {
+				c = new AddCommand(editingService.getEditingDomain(),
+						subowner.getMetrics(), metric);
+			} else {
+				c = new AddCommand(editingService.getEditingDomain(),
+						owner.getContents(), metric);
+			}
+
 			editingService.getEditingDomain().getCommandStack().execute(c);
 		} else if (Screens.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
@@ -294,8 +332,15 @@ public class NewEditMetric extends AbstractScreen implements
 				return;
 			}
 
-			Command c = new ReplaceCommand(editingService.getEditingDomain(),
-					owner.getMetrics(), original, metric);
+			Command c;
+			if (subowner != null) {
+				c = new ReplaceCommand(editingService.getEditingDomain(),
+						subowner.getMetrics(), original, metric);
+			} else {
+				c = new ReplaceCommand(editingService.getEditingDomain(),
+						owner.getContents(), original, metric);
+
+			}
 			editingService.getEditingDomain().getCommandStack().execute(c);
 
 			System.out.println(metric.cdoID() + "" + metric.cdoState());
@@ -315,7 +360,6 @@ public class NewEditMetric extends AbstractScreen implements
 
 	@Override
 	public boolean isValid() {
-
 		// TODO, Validation
 		return true;
 	}
@@ -327,6 +371,5 @@ public class NewEditMetric extends AbstractScreen implements
 
 	public void disposeData() {
 		// N/A
-
 	}
 }

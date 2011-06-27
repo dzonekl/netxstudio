@@ -404,13 +404,13 @@ public interface NetxscriptFactory extends EFactory
   ContextRef createContextRef();
 
   /**
-   * Returns a new object of class '<em>Function Ref</em>'.
+   * Returns a new object of class '<em>Component Ref</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Function Ref</em>'.
+   * @return a new object of class '<em>Component Ref</em>'.
    * @generated
    */
-  FunctionRef createFunctionRef();
+  ComponentRef createComponentRef();
 
   /**
    * Returns a new object of class '<em>Resource Ref</em>'.

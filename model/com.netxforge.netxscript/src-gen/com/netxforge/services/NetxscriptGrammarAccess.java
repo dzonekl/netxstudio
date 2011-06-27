@@ -1438,24 +1438,30 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "AbsoluteRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cAbsoluteRefAction_0 = (Action)cGroup.eContents().get(0);
-		private final Assignment cPrimaryRefAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cPrimaryRefPrimaryRefParserRuleCall_1_0 = (RuleCall)cPrimaryRefAssignment_1.eContents().get(0);
+		private final Keyword cNODEKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cPrimaryRefAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cPrimaryRefPrimaryRefParserRuleCall_2_0 = (RuleCall)cPrimaryRefAssignment_2.eContents().get(0);
 		
-		//AbsoluteRef returns Reference:
-		//	{AbsoluteRef} primaryRef=PrimaryRef;
+		/// **
+		// * The Node context can be found with NODE if available.
+		// * / AbsoluteRef returns Reference:
+		//	{AbsoluteRef} "NODE" primaryRef=PrimaryRef;
 		public ParserRule getRule() { return rule; }
 
-		//{AbsoluteRef} primaryRef=PrimaryRef
+		//{AbsoluteRef} "NODE" primaryRef=PrimaryRef
 		public Group getGroup() { return cGroup; }
 
 		//{AbsoluteRef}
 		public Action getAbsoluteRefAction_0() { return cAbsoluteRefAction_0; }
 
+		//"NODE"
+		public Keyword getNODEKeyword_1() { return cNODEKeyword_1; }
+
 		//primaryRef=PrimaryRef
-		public Assignment getPrimaryRefAssignment_1() { return cPrimaryRefAssignment_1; }
+		public Assignment getPrimaryRefAssignment_2() { return cPrimaryRefAssignment_2; }
 
 		//PrimaryRef
-		public RuleCall getPrimaryRefPrimaryRefParserRuleCall_1_0() { return cPrimaryRefPrimaryRefParserRuleCall_1_0; }
+		public RuleCall getPrimaryRefPrimaryRefParserRuleCall_2_0() { return cPrimaryRefPrimaryRefParserRuleCall_2_0; }
 	}
 
 	public class ContextRefElements extends AbstractParserRuleElementFinder {
@@ -1502,8 +1508,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	public class PrimaryRefElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "PrimaryRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cChildrenAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cChildrenChildrenRefParserRuleCall_0_0 = (RuleCall)cChildrenAssignment_0.eContents().get(0);
+		private final Assignment cComponentsAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cComponentsComponentRefParserRuleCall_0_0 = (RuleCall)cComponentsAssignment_0.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final Keyword cHyphenMinusGreaterThanSignKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final Assignment cLeafRefAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
@@ -1512,17 +1518,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		/// **
 		// * Exteral Node references, these can be nested and finish with a resource reference.
 		// * / PrimaryRef returns Reference:
-		//	children+=ChildrenRef+ ("->" leafRef=LeafReference)?;
+		//	components+=ComponentRef+ ("->" leafRef=LeafReference)?;
 		public ParserRule getRule() { return rule; }
 
-		//children+=ChildrenRef+ ("->" leafRef=LeafReference)?
+		//components+=ComponentRef+ ("->" leafRef=LeafReference)?
 		public Group getGroup() { return cGroup; }
 
-		//children+=ChildrenRef+
-		public Assignment getChildrenAssignment_0() { return cChildrenAssignment_0; }
+		//components+=ComponentRef+
+		public Assignment getComponentsAssignment_0() { return cComponentsAssignment_0; }
 
-		//ChildrenRef
-		public RuleCall getChildrenChildrenRefParserRuleCall_0_0() { return cChildrenChildrenRefParserRuleCall_0_0; }
+		//ComponentRef
+		public RuleCall getComponentsComponentRefParserRuleCall_0_0() { return cComponentsComponentRefParserRuleCall_0_0; }
 
 		//("->" leafRef=LeafReference)?
 		public Group getGroup_1() { return cGroup_1; }
@@ -1537,36 +1543,68 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getLeafRefLeafReferenceParserRuleCall_1_1_0() { return cLeafRefLeafReferenceParserRuleCall_1_1_0; }
 	}
 
-	public class ChildrenRefElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ChildrenRef");
+	public class ComponentRefElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ComponentRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cFunctionRefAction_0 = (Action)cGroup.eContents().get(0);
+		private final Action cComponentRefAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cFullStopKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cFunctionAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final CrossReference cFunctionFunctionCrossReference_2_0 = (CrossReference)cFunctionAssignment_2.eContents().get(0);
-		private final RuleCall cFunctionFunctionIDTerminalRuleCall_2_0_1 = (RuleCall)cFunctionFunctionCrossReference_2_0.eContents().get(1);
+		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
+		private final Group cGroup_2_0 = (Group)cAlternatives_2.eContents().get(0);
+		private final Keyword cFUNCTIONKeyword_2_0_0 = (Keyword)cGroup_2_0.eContents().get(0);
+		private final Assignment cFunctionAssignment_2_0_1 = (Assignment)cGroup_2_0.eContents().get(1);
+		private final CrossReference cFunctionFunctionCrossReference_2_0_1_0 = (CrossReference)cFunctionAssignment_2_0_1.eContents().get(0);
+		private final RuleCall cFunctionFunctionIDTerminalRuleCall_2_0_1_0_1 = (RuleCall)cFunctionFunctionCrossReference_2_0_1_0.eContents().get(1);
+		private final Group cGroup_2_1 = (Group)cAlternatives_2.eContents().get(1);
+		private final Keyword cEQUIPMENTKeyword_2_1_0 = (Keyword)cGroup_2_1.eContents().get(0);
+		private final Assignment cEquipmentAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
+		private final CrossReference cEquipmentEquipmentCrossReference_2_1_1_0 = (CrossReference)cEquipmentAssignment_2_1_1.eContents().get(0);
+		private final RuleCall cEquipmentEquipmentIDTerminalRuleCall_2_1_1_0_1 = (RuleCall)cEquipmentEquipmentCrossReference_2_1_1_0.eContents().get(1);
 		
-		//ChildrenRef returns Reference:
-		//	{FunctionRef} "." function=[library::Function];
+		//ComponentRef returns Reference:
+		//	{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment]);
 		public ParserRule getRule() { return rule; }
 
-		//{FunctionRef} "." function=[library::Function]
+		//{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment])
 		public Group getGroup() { return cGroup; }
 
-		//{FunctionRef}
-		public Action getFunctionRefAction_0() { return cFunctionRefAction_0; }
+		//{ComponentRef}
+		public Action getComponentRefAction_0() { return cComponentRefAction_0; }
 
 		//"."
 		public Keyword getFullStopKeyword_1() { return cFullStopKeyword_1; }
 
+		//"FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment]
+		public Alternatives getAlternatives_2() { return cAlternatives_2; }
+
+		//"FUNCTION" function=[library::Function]
+		public Group getGroup_2_0() { return cGroup_2_0; }
+
+		//"FUNCTION"
+		public Keyword getFUNCTIONKeyword_2_0_0() { return cFUNCTIONKeyword_2_0_0; }
+
 		//function=[library::Function]
-		public Assignment getFunctionAssignment_2() { return cFunctionAssignment_2; }
+		public Assignment getFunctionAssignment_2_0_1() { return cFunctionAssignment_2_0_1; }
 
 		//[library::Function]
-		public CrossReference getFunctionFunctionCrossReference_2_0() { return cFunctionFunctionCrossReference_2_0; }
+		public CrossReference getFunctionFunctionCrossReference_2_0_1_0() { return cFunctionFunctionCrossReference_2_0_1_0; }
 
 		//ID
-		public RuleCall getFunctionFunctionIDTerminalRuleCall_2_0_1() { return cFunctionFunctionIDTerminalRuleCall_2_0_1; }
+		public RuleCall getFunctionFunctionIDTerminalRuleCall_2_0_1_0_1() { return cFunctionFunctionIDTerminalRuleCall_2_0_1_0_1; }
+
+		//"EQUIPMENT" equipment=[library::Equipment]
+		public Group getGroup_2_1() { return cGroup_2_1; }
+
+		//"EQUIPMENT"
+		public Keyword getEQUIPMENTKeyword_2_1_0() { return cEQUIPMENTKeyword_2_1_0; }
+
+		//equipment=[library::Equipment]
+		public Assignment getEquipmentAssignment_2_1_1() { return cEquipmentAssignment_2_1_1; }
+
+		//[library::Equipment]
+		public CrossReference getEquipmentEquipmentCrossReference_2_1_1_0() { return cEquipmentEquipmentCrossReference_2_1_1_0; }
+
+		//ID
+		public RuleCall getEquipmentEquipmentIDTerminalRuleCall_2_1_1_0_1() { return cEquipmentEquipmentIDTerminalRuleCall_2_1_1_0_1; }
 	}
 
 	public class LeafReferenceElements extends AbstractParserRuleElementFinder {
@@ -1593,75 +1631,71 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ResourceRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cResourceRefAction_0 = (Action)cGroup.eContents().get(0);
-		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
-		private final Group cGroup_1_0 = (Group)cAlternatives_1.eContents().get(0);
-		private final Keyword cResKeyword_1_0_0 = (Keyword)cGroup_1_0.eContents().get(0);
-		private final Assignment cResourceAssignment_1_0_1 = (Assignment)cGroup_1_0.eContents().get(1);
-		private final CrossReference cResourceNetXResourceCrossReference_1_0_1_0 = (CrossReference)cResourceAssignment_1_0_1.eContents().get(0);
-		private final RuleCall cResourceNetXResourceIDTerminalRuleCall_1_0_1_0_1 = (RuleCall)cResourceNetXResourceCrossReference_1_0_1_0.eContents().get(1);
-		private final Keyword cAllResKeyword_1_1 = (Keyword)cAlternatives_1.eContents().get(1);
-		private final Assignment cValuerangeAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cValuerangeValueRangeEnumRuleCall_2_0 = (RuleCall)cValuerangeAssignment_2.eContents().get(0);
-		private final Assignment cKindAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cKindValueKindEnumRuleCall_3_0 = (RuleCall)cKindAssignment_3.eContents().get(0);
-		private final Assignment cPeriodAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final RuleCall cPeriodNUMBERTerminalRuleCall_4_0 = (RuleCall)cPeriodAssignment_4.eContents().get(0);
+		private final Keyword cRESKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
+		private final Assignment cResourceAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
+		private final CrossReference cResourceNetXResourceCrossReference_2_0_0 = (CrossReference)cResourceAssignment_2_0.eContents().get(0);
+		private final RuleCall cResourceNetXResourceIDTerminalRuleCall_2_0_0_1 = (RuleCall)cResourceNetXResourceCrossReference_2_0_0.eContents().get(1);
+		private final Keyword cALLKeyword_2_1 = (Keyword)cAlternatives_2.eContents().get(1);
+		private final Assignment cValuerangeAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cValuerangeValueRangeEnumRuleCall_3_0 = (RuleCall)cValuerangeAssignment_3.eContents().get(0);
+		private final Assignment cKindAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cKindValueKindEnumRuleCall_4_0 = (RuleCall)cKindAssignment_4.eContents().get(0);
+		private final Assignment cPeriodAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final RuleCall cPeriodNUMBERTerminalRuleCall_5_0 = (RuleCall)cPeriodAssignment_5.eContents().get(0);
 		
 		//ResourceRef returns LeafReference:
-		//	{ResourceRef} ("Res" resource=[library::NetXResource] | "AllRes") valuerange=ValueRange kind=ValueKind? period=NUMBER;
+		//	{ResourceRef} "RES" (resource=[library::NetXResource] | "ALL") valuerange=ValueRange kind=ValueKind? period=NUMBER;
 		public ParserRule getRule() { return rule; }
 
-		//{ResourceRef} ("Res" resource=[library::NetXResource] | "AllRes") valuerange=ValueRange kind=ValueKind? period=NUMBER
+		//{ResourceRef} "RES" (resource=[library::NetXResource] | "ALL") valuerange=ValueRange kind=ValueKind? period=NUMBER
 		public Group getGroup() { return cGroup; }
 
 		//{ResourceRef}
 		public Action getResourceRefAction_0() { return cResourceRefAction_0; }
 
-		//"Res" resource=[library::NetXResource] | "AllRes"
-		public Alternatives getAlternatives_1() { return cAlternatives_1; }
+		//"RES"
+		public Keyword getRESKeyword_1() { return cRESKeyword_1; }
 
-		//"Res" resource=[library::NetXResource]
-		public Group getGroup_1_0() { return cGroup_1_0; }
-
-		//"Res"
-		public Keyword getResKeyword_1_0_0() { return cResKeyword_1_0_0; }
+		//resource=[library::NetXResource] | "ALL"
+		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
 		//resource=[library::NetXResource]
-		public Assignment getResourceAssignment_1_0_1() { return cResourceAssignment_1_0_1; }
+		public Assignment getResourceAssignment_2_0() { return cResourceAssignment_2_0; }
 
 		//[library::NetXResource]
-		public CrossReference getResourceNetXResourceCrossReference_1_0_1_0() { return cResourceNetXResourceCrossReference_1_0_1_0; }
+		public CrossReference getResourceNetXResourceCrossReference_2_0_0() { return cResourceNetXResourceCrossReference_2_0_0; }
 
 		//ID
-		public RuleCall getResourceNetXResourceIDTerminalRuleCall_1_0_1_0_1() { return cResourceNetXResourceIDTerminalRuleCall_1_0_1_0_1; }
+		public RuleCall getResourceNetXResourceIDTerminalRuleCall_2_0_0_1() { return cResourceNetXResourceIDTerminalRuleCall_2_0_0_1; }
 
-		//"AllRes"
-		public Keyword getAllResKeyword_1_1() { return cAllResKeyword_1_1; }
+		//"ALL"
+		public Keyword getALLKeyword_2_1() { return cALLKeyword_2_1; }
 
 		//valuerange=ValueRange
-		public Assignment getValuerangeAssignment_2() { return cValuerangeAssignment_2; }
+		public Assignment getValuerangeAssignment_3() { return cValuerangeAssignment_3; }
 
 		//ValueRange
-		public RuleCall getValuerangeValueRangeEnumRuleCall_2_0() { return cValuerangeValueRangeEnumRuleCall_2_0; }
+		public RuleCall getValuerangeValueRangeEnumRuleCall_3_0() { return cValuerangeValueRangeEnumRuleCall_3_0; }
 
 		//kind=ValueKind?
-		public Assignment getKindAssignment_3() { return cKindAssignment_3; }
+		public Assignment getKindAssignment_4() { return cKindAssignment_4; }
 
 		//ValueKind
-		public RuleCall getKindValueKindEnumRuleCall_3_0() { return cKindValueKindEnumRuleCall_3_0; }
+		public RuleCall getKindValueKindEnumRuleCall_4_0() { return cKindValueKindEnumRuleCall_4_0; }
 
 		//period=NUMBER
-		public Assignment getPeriodAssignment_4() { return cPeriodAssignment_4; }
+		public Assignment getPeriodAssignment_5() { return cPeriodAssignment_5; }
 
 		//NUMBER
-		public RuleCall getPeriodNUMBERTerminalRuleCall_4_0() { return cPeriodNUMBERTerminalRuleCall_4_0; }
+		public RuleCall getPeriodNUMBERTerminalRuleCall_5_0() { return cPeriodNUMBERTerminalRuleCall_5_0; }
 	}
 
 	public class LinkRefElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "LinkRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cLinkRefAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cLinkKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Keyword cLINKKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cLinkAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final CrossReference cLinkRelationshipCrossReference_2_0 = (CrossReference)cLinkAssignment_2.eContents().get(0);
 		private final RuleCall cLinkRelationshipIDTerminalRuleCall_2_0_1 = (RuleCall)cLinkRelationshipCrossReference_2_0.eContents().get(1);
@@ -1671,17 +1705,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		// * resources. 
 		// * 
 		// * / LinkRef returns LeafReference:
-		//	{LinkRef} "Link" link=[operator::Relationship];
+		//	{LinkRef} "LINK" link=[operator::Relationship];
 		public ParserRule getRule() { return rule; }
 
-		//{LinkRef} "Link" link=[operator::Relationship]
+		//{LinkRef} "LINK" link=[operator::Relationship]
 		public Group getGroup() { return cGroup; }
 
 		//{LinkRef}
 		public Action getLinkRefAction_0() { return cLinkRefAction_0; }
 
-		//"Link"
-		public Keyword getLinkKeyword_1() { return cLinkKeyword_1; }
+		//"LINK"
+		public Keyword getLINKKeyword_1() { return cLINKKeyword_1; }
 
 		//link=[operator::Relationship]
 		public Assignment getLinkAssignment_2() { return cLinkAssignment_2; }
@@ -1890,7 +1924,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private AbsoluteRefElements pAbsoluteRef;
 	private ContextRefElements pContextRef;
 	private PrimaryRefElements pPrimaryRef;
-	private ChildrenRefElements pChildrenRef;
+	private ComponentRefElements pComponentRef;
 	private LeafReferenceElements pLeafReference;
 	private ResourceRefElements pResourceRef;
 	private ValueRangeElements unknownRuleValueRange;
@@ -2290,8 +2324,10 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getReferenceAccess().getRule();
 	}
 
-	//AbsoluteRef returns Reference:
-	//	{AbsoluteRef} primaryRef=PrimaryRef;
+	/// **
+	// * The Node context can be found with NODE if available.
+	// * / AbsoluteRef returns Reference:
+	//	{AbsoluteRef} "NODE" primaryRef=PrimaryRef;
 	public AbsoluteRefElements getAbsoluteRefAccess() {
 		return (pAbsoluteRef != null) ? pAbsoluteRef : (pAbsoluteRef = new AbsoluteRefElements());
 	}
@@ -2322,7 +2358,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	/// **
 	// * Exteral Node references, these can be nested and finish with a resource reference.
 	// * / PrimaryRef returns Reference:
-	//	children+=ChildrenRef+ ("->" leafRef=LeafReference)?;
+	//	components+=ComponentRef+ ("->" leafRef=LeafReference)?;
 	public PrimaryRefElements getPrimaryRefAccess() {
 		return (pPrimaryRef != null) ? pPrimaryRef : (pPrimaryRef = new PrimaryRefElements());
 	}
@@ -2331,14 +2367,14 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getPrimaryRefAccess().getRule();
 	}
 
-	//ChildrenRef returns Reference:
-	//	{FunctionRef} "." function=[library::Function];
-	public ChildrenRefElements getChildrenRefAccess() {
-		return (pChildrenRef != null) ? pChildrenRef : (pChildrenRef = new ChildrenRefElements());
+	//ComponentRef returns Reference:
+	//	{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment]);
+	public ComponentRefElements getComponentRefAccess() {
+		return (pComponentRef != null) ? pComponentRef : (pComponentRef = new ComponentRefElements());
 	}
 	
-	public ParserRule getChildrenRefRule() {
-		return getChildrenRefAccess().getRule();
+	public ParserRule getComponentRefRule() {
+		return getComponentRefAccess().getRule();
 	}
 
 	//LeafReference:
@@ -2352,7 +2388,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ResourceRef returns LeafReference:
-	//	{ResourceRef} ("Res" resource=[library::NetXResource] | "AllRes") valuerange=ValueRange kind=ValueKind? period=NUMBER;
+	//	{ResourceRef} "RES" (resource=[library::NetXResource] | "ALL") valuerange=ValueRange kind=ValueKind? period=NUMBER;
 	public ResourceRefElements getResourceRefAccess() {
 		return (pResourceRef != null) ? pResourceRef : (pResourceRef = new ResourceRefElements());
 	}
@@ -2386,7 +2422,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	// * resources. 
 	// * 
 	// * / LinkRef returns LeafReference:
-	//	{LinkRef} "Link" link=[operator::Relationship];
+	//	{LinkRef} "LINK" link=[operator::Relationship];
 	public LinkRefElements getLinkRefAccess() {
 		return (pLinkRef != null) ? pLinkRef : (pLinkRef = new LinkRefElements());
 	}

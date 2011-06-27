@@ -23,6 +23,7 @@ import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
 import com.netxforge.netxscript.Block;
 import com.netxforge.netxscript.BooleanLiteral;
+import com.netxforge.netxscript.ComponentRef;
 import com.netxforge.netxscript.ContextRef;
 import com.netxforge.netxscript.Div;
 import com.netxforge.netxscript.Equal;
@@ -69,6 +70,7 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.generics.impl.DateTimeRangeImpl;
+import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -741,27 +743,56 @@ public class InterpreterTypeless implements IInterpreter {
 			ImmutableMap<String, Object> params) {
 
 		Object eval = null;
-
+		if (e instanceof AbsoluteRef) {
+			// What do we do here.
+			Reference ref = ((AbsoluteRef) e).getPrimaryRef();
+			eval = dispatcher.invoke(ref, ImmutableMap.copyOf(params));
+			if(eval == null && ref.getComponents() != null){
+				// We get an empty evaluation, so we use the children to return an eval. 
+				Reference lastRef = ref.getComponents().get(ref.getComponents().size()-1);
+				if(lastRef instanceof ComponentRef){
+					// return either the functions or equipments. 
+					ComponentRef cr = (ComponentRef)lastRef; 
+					if( cr.getEquipment() != null){
+						return cr.getEquipment();
+					} 
+					if( cr.getFunction() != null) {
+						return cr.getFunction();
+					}
+				}
+			}
+		}
+		if (e instanceof ContextRef) {
+			// find the actual context. 
+			Reference ref = ((ContextRef) e).getPrimaryRef();
+			eval = dispatcher.invoke(ref, ImmutableMap.copyOf(params));
+			if(eval == null && ref.getComponents() != null){
+				// We get an empty evaluation, so we use the children to return an eval. 
+				Reference lastRef = ref.getComponents().get(ref.getComponents().size());
+				if(lastRef instanceof ComponentRef){
+					// return either the functions or equipments. 
+					ComponentRef cr = (ComponentRef)lastRef; 
+					if( cr.getEquipment() != null){
+						return cr.getEquipment();
+					} 
+					if( cr.getFunction() != null) {
+						return cr.getFunction();
+					}
+				}
+			}
+		}
+		
 		// Evaluate a leaf reference (Actually get the values).
 		if (e.getLeafRef() != null) {
 			eval = dispatcher.invoke(e.getLeafRef(),
 					ImmutableMap.copyOf(params));
 		} else {
 			// We hit a reference, with no end leaf.
-			// So we propably mean the
-			if (e instanceof AbsoluteRef) {
-				// What do we do here.
-				Reference ref = ((AbsoluteRef) e).getPrimaryRef();
-				eval = dispatcher.invoke(ref, ImmutableMap.copyOf(params));
-			}
-			if (e instanceof ContextRef) {
-				// What do we do here.
-				Reference ref = ((ContextRef) e).getPrimaryRef();
-				eval = dispatcher.invoke(ref, ImmutableMap.copyOf(params));
-			}
+			// So we propably mean the actual object.
 		}
 		return eval;
 	}
+	
 
 	// TODO, Not implemented yet.
 	protected void internalEvaluate(LinkRef e,
@@ -876,6 +907,15 @@ public class InterpreterTypeless implements IInterpreter {
 					ImmutableMap.copyOf(values));
 			if (eval instanceof List<?>) {
 				range = (List<?>) eval;
+			}
+			if( eval instanceof com.netxforge.netxstudio.library.Function){
+				// TODO, we need an ocl expression for this. 
+//				range = ((com.netxforge.netxstudio.library.Function)eval).getAllFunctions();
+				System.out.println("TODO : range =  the number of functions from this");
+			}
+			if(eval instanceof Equipment){
+//				range = ((Equipment)eval).getAllEquipments();
+				System.out.println("TODO : range =  the number of equipments from this");
 			}
 		}
 		if (ne.getVar() != null) {
@@ -1180,7 +1220,6 @@ public class InterpreterTypeless implements IInterpreter {
 		return Joiner.on(",").join(contextList);
 	}
 
-	@Override
 	public List<ExpressionResult> getResult() {
 		return result;
 	}
