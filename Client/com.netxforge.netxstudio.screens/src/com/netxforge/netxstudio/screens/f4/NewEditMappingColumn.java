@@ -45,8 +45,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MappingXLS;
-import com.netxforge.netxstudio.metrics.MappingXLSColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
@@ -66,8 +66,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private Text txtIndentifier;
 	private Text txtMetric;
 	private MappingXLS owner;
-	private MappingXLSColumn mxlsColumn;
-	private MappingXLSColumn original;
+	private MappingColumn mxlsColumn;
+	private MappingColumn original;
 	private Text txtColumn;
 	private Button btnTimestamp;
 	private Button btnIdentifier;
@@ -277,7 +277,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
 		IObservableValue columnObservable = SWTObservables.observeText(txtColumn);
-		IEMFValueProperty columnProperty = EMFProperties.value(MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN);
+		IEMFValueProperty columnProperty = EMFProperties.value(MetricsPackage.Literals.MAPPING_COLUMN__COLUMN);
 		context.bindValue(columnObservable, columnProperty.observe(mxlsColumn));
 		
 		IObservableValue dataKindWritableValue = new WritableValue();
@@ -325,7 +325,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		periodPatternObservable.addValueChangeListener(aggregate);
 		
 		IEMFValueProperty datatypeValueProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_XLS_COLUMN__DATA_TYPE);
+				.value(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
 		
 		IObservableValue dataTypeObservable = datatypeValueProperty.observe(mxlsColumn);
 		dataTypeObservable.addValueChangeListener(aggregate);
@@ -430,14 +430,14 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		if (owner instanceof MappingXLS) {
 			this.owner = (MappingXLS) owner;
 		}
-		if (object != null && object instanceof MappingXLSColumn) {
+		if (object != null && object instanceof MappingColumn) {
 			if (Screens.isEditOperation(this.getOperation())) {
-				MappingXLSColumn copy = EcoreUtil
-						.copy((MappingXLSColumn) object);
+				MappingColumn copy = EcoreUtil
+						.copy((MappingColumn) object);
 				mxlsColumn = copy;
-				original = (MappingXLSColumn) object;
+				original = (MappingColumn) object;
 			} else if (Screens.isNewOperation(getOperation())) {
-				mxlsColumn = (MappingXLSColumn) object;
+				mxlsColumn = (MappingColumn) object;
 			}
 		}
 		this.initDataBindings_();

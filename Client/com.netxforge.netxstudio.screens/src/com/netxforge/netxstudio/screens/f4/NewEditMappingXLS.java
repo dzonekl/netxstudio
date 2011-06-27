@@ -70,7 +70,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import com.google.common.collect.ImmutableMap;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.MappingXLS;
-import com.netxforge.netxstudio.metrics.MappingXLSColumn;
+import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -297,7 +297,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 								| Screens.OPERATION_NEW);
 
 				mappingColumnScreen.injectData(mapping,
-						MetricsFactory.eINSTANCE.createMappingXLSColumn());
+						MetricsFactory.eINSTANCE.createMappingColumn());
 				screenService.setActiveScreen(mappingColumnScreen);
 
 			}
@@ -423,9 +423,9 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		IEMFValueProperty sheetNumberProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
 		IEMFValueProperty firstDataRowProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_XLS__FIRST_DATA_ROW);
+				.value(MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
 		IEMFValueProperty headerRowProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_XLS__HEADER_ROW);
+				.value(MetricsPackage.Literals.MAPPING__HEADER_ROW);
 
 		context.bindValue(sheetNumberObservableValue,
 				sheetNumberProperty.observe(mapping), null, null);
@@ -440,13 +440,13 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
 				new EStructuralFeature[] {
-						MetricsPackage.Literals.MAPPING_XLS_COLUMN__DATA_TYPE,
-						MetricsPackage.Literals.MAPPING_XLS_COLUMN__COLUMN });
+						MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
+						MetricsPackage.Literals.MAPPING_COLUMN__COLUMN });
 		this.mappingColumnsTableViewer
 				.setLabelProvider(new ColumnObservableMapLabelProvider(
 						observeMaps));
 		IEMFListProperty l = EMFProperties
-				.list(MetricsPackage.Literals.MAPPING_XLS__MAPPING_COLUMNS);
+				.list(MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS);
 
 		this.mappingColumnsTableViewer.setInput(l.observe(mapping));
 
@@ -537,7 +537,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 0) {
 				// This is the type Column.
-				MappingXLSColumn c = (MappingXLSColumn) element;
+				MappingColumn c = (MappingColumn) element;
 				DataKind k = c.getDataType();
 				if (k != null) {
 					return dataKindMap.get(k.getClass());

@@ -47,7 +47,7 @@ public abstract class AbstractScreen extends Composite implements IScreen {
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
 		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
-//		ScreensActivator.getDefault().getInjector().injectMembers(this);
+		ScreensActivator.getDefault().getInjector().injectMembers(this);
 	}
 
 	public abstract Viewer getViewer();
