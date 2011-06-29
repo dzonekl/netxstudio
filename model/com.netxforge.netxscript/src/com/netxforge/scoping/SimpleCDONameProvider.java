@@ -29,7 +29,7 @@ public class SimpleCDONameProvider extends SimpleNameProvider {
 				name = nt.getFunctions().get(0).getName();
 			}
 		}
-		
+
 		if( obj instanceof NetXResource){
 			final NetXResource r = (NetXResource) obj;
 			name = r.getExpressionName();

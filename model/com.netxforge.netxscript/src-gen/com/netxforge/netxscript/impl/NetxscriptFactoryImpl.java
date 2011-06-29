@@ -80,6 +80,7 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.RANGE: return createRange();
       case NetxscriptPackage.REFERENCE: return createReference();
       case NetxscriptPackage.LEAF_REFERENCE: return createLeafReference();
+      case NetxscriptPackage.RANGE_REF: return createRangeRef();
       case NetxscriptPackage.RETURN: return createReturn();
       case NetxscriptPackage.IF: return createIf();
       case NetxscriptPackage.WHILE: return createWhile();
@@ -290,6 +291,17 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
   {
     LeafReferenceImpl leafReference = new LeafReferenceImpl();
     return leafReference;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public RangeRef createRangeRef()
+  {
+    RangeRefImpl rangeRef = new RangeRefImpl();
+    return rangeRef;
   }
 
   /**

@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.impl.RefAssignmentImpl#getRef <em>Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.RefAssignmentImpl#getAssignmentRef <em>Assignment Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -33,14 +33,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 public class RefAssignmentImpl extends StatementImpl implements RefAssignment
 {
   /**
-   * The cached value of the '{@link #getRef() <em>Ref</em>}' containment reference.
+   * The cached value of the '{@link #getAssignmentRef() <em>Assignment Ref</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getRef()
+   * @see #getAssignmentRef()
    * @generated
    * @ordered
    */
-  protected Reference ref;
+  protected Reference assignmentRef;
 
   /**
    * <!-- begin-user-doc -->
@@ -68,9 +68,9 @@ public class RefAssignmentImpl extends StatementImpl implements RefAssignment
    * <!-- end-user-doc -->
    * @generated
    */
-  public Reference getRef()
+  public Reference getAssignmentRef()
   {
-    return ref;
+    return assignmentRef;
   }
 
   /**
@@ -78,13 +78,13 @@ public class RefAssignmentImpl extends StatementImpl implements RefAssignment
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetRef(Reference newRef, NotificationChain msgs)
+  public NotificationChain basicSetAssignmentRef(Reference newAssignmentRef, NotificationChain msgs)
   {
-    Reference oldRef = ref;
-    ref = newRef;
+    Reference oldAssignmentRef = assignmentRef;
+    assignmentRef = newAssignmentRef;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REF_ASSIGNMENT__REF, oldRef, newRef);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REF_ASSIGNMENT__ASSIGNMENT_REF, oldAssignmentRef, newAssignmentRef);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -95,20 +95,20 @@ public class RefAssignmentImpl extends StatementImpl implements RefAssignment
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setRef(Reference newRef)
+  public void setAssignmentRef(Reference newAssignmentRef)
   {
-    if (newRef != ref)
+    if (newAssignmentRef != assignmentRef)
     {
       NotificationChain msgs = null;
-      if (ref != null)
-        msgs = ((InternalEObject)ref).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REF_ASSIGNMENT__REF, null, msgs);
-      if (newRef != null)
-        msgs = ((InternalEObject)newRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REF_ASSIGNMENT__REF, null, msgs);
-      msgs = basicSetRef(newRef, msgs);
+      if (assignmentRef != null)
+        msgs = ((InternalEObject)assignmentRef).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REF_ASSIGNMENT__ASSIGNMENT_REF, null, msgs);
+      if (newAssignmentRef != null)
+        msgs = ((InternalEObject)newAssignmentRef).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.REF_ASSIGNMENT__ASSIGNMENT_REF, null, msgs);
+      msgs = basicSetAssignmentRef(newAssignmentRef, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REF_ASSIGNMENT__REF, newRef, newRef));
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.REF_ASSIGNMENT__ASSIGNMENT_REF, newAssignmentRef, newAssignmentRef));
   }
 
   /**
@@ -121,8 +121,8 @@ public class RefAssignmentImpl extends StatementImpl implements RefAssignment
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REF_ASSIGNMENT__REF:
-        return basicSetRef(null, msgs);
+      case NetxscriptPackage.REF_ASSIGNMENT__ASSIGNMENT_REF:
+        return basicSetAssignmentRef(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -137,8 +137,8 @@ public class RefAssignmentImpl extends StatementImpl implements RefAssignment
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REF_ASSIGNMENT__REF:
-        return getRef();
+      case NetxscriptPackage.REF_ASSIGNMENT__ASSIGNMENT_REF:
+        return getAssignmentRef();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -153,8 +153,8 @@ public class RefAssignmentImpl extends StatementImpl implements RefAssignment
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REF_ASSIGNMENT__REF:
-        setRef((Reference)newValue);
+      case NetxscriptPackage.REF_ASSIGNMENT__ASSIGNMENT_REF:
+        setAssignmentRef((Reference)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -170,8 +170,8 @@ public class RefAssignmentImpl extends StatementImpl implements RefAssignment
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REF_ASSIGNMENT__REF:
-        setRef((Reference)null);
+      case NetxscriptPackage.REF_ASSIGNMENT__ASSIGNMENT_REF:
+        setAssignmentRef((Reference)null);
         return;
     }
     super.eUnset(featureID);
@@ -187,8 +187,8 @@ public class RefAssignmentImpl extends StatementImpl implements RefAssignment
   {
     switch (featureID)
     {
-      case NetxscriptPackage.REF_ASSIGNMENT__REF:
-        return ref != null;
+      case NetxscriptPackage.REF_ASSIGNMENT__ASSIGNMENT_REF:
+        return assignmentRef != null;
     }
     return super.eIsSet(featureID);
   }

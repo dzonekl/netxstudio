@@ -138,6 +138,11 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createLeafReferenceAdapter();
       }
       @Override
+      public Adapter caseRangeRef(RangeRef object)
+      {
+        return createRangeRefAdapter();
+      }
+      @Override
       public Adapter caseReturn(Return object)
       {
         return createReturnAdapter();
@@ -500,6 +505,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createLeafReferenceAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.RangeRef <em>Range Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.RangeRef
+   * @generated
+   */
+  public Adapter createRangeRefAdapter()
   {
     return null;
   }

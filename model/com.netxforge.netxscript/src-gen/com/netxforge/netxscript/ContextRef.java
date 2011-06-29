@@ -15,6 +15,7 @@ package com.netxforge.netxscript;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxscript.ContextRef#getPrimaryRef <em>Primary Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.ContextRef#getRangeRef <em>Range Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,5 +50,31 @@ public interface ContextRef extends Reference
    * @generated
    */
   void setPrimaryRef(Reference value);
+
+  /**
+   * Returns the value of the '<em><b>Range Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Range Ref</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Range Ref</em>' containment reference.
+   * @see #setRangeRef(RangeRef)
+   * @see com.netxforge.netxscript.NetxscriptPackage#getContextRef_RangeRef()
+   * @model containment="true"
+   * @generated
+   */
+  RangeRef getRangeRef();
+
+  /**
+   * Sets the value of the '{@link com.netxforge.netxscript.ContextRef#getRangeRef <em>Range Ref</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Range Ref</em>' containment reference.
+   * @see #getRangeRef()
+   * @generated
+   */
+  void setRangeRef(RangeRef value);
 
 } // ContextRef

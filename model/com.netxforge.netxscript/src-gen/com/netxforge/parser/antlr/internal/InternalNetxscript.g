@@ -971,20 +971,38 @@ ruleReferenceAssignmentStatement returns [EObject current=null]
     }
 )(
 (
+(
 		{ 
-	        newCompositeNode(grammarAccess.getReferenceAssignmentStatementAccess().getRefContextRefParserRuleCall_1_0()); 
+	        newCompositeNode(grammarAccess.getReferenceAssignmentStatementAccess().getAssignmentRefContextRefParserRuleCall_1_0_0()); 
 	    }
-		lv_ref_1_0=ruleContextRef		{
+		lv_assignmentRef_1_1=ruleContextRef		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getReferenceAssignmentStatementRule());
 	        }
        		set(
        			$current, 
-       			"ref",
-        		lv_ref_1_0, 
+       			"assignmentRef",
+        		lv_assignmentRef_1_1, 
         		"ContextRef");
 	        afterParserOrEnumRuleCall();
 	    }
+
+    |		{ 
+	        newCompositeNode(grammarAccess.getReferenceAssignmentStatementAccess().getAssignmentRefAbsoluteRefParserRuleCall_1_0_1()); 
+	    }
+		lv_assignmentRef_1_2=ruleAbsoluteRef		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getReferenceAssignmentStatementRule());
+	        }
+       		set(
+       			$current, 
+       			"assignmentRef",
+        		lv_assignmentRef_1_2, 
+        		"AbsoluteRef");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
 
 )
 )	otherlv_2='=' 
@@ -2243,17 +2261,30 @@ ruleAbsoluteRef returns [EObject current=null]
     }
 (
 (
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getAbsoluteRefRule());
+	        }
+        }
+	otherlv_2=RULE_ID
+	{
+		newLeafNode(otherlv_2, grammarAccess.getAbsoluteRefAccess().getNodeNodeTypeCrossReference_2_0()); 
+	}
+
+)
+)(
+(
 		{ 
-	        newCompositeNode(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_2_0()); 
+	        newCompositeNode(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_3_0()); 
 	    }
-		lv_primaryRef_2_0=rulePrimaryRef		{
+		lv_primaryRef_3_0=rulePrimaryRef		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getAbsoluteRefRule());
 	        }
        		set(
        			$current, 
        			"primaryRef",
-        		lv_primaryRef_2_0, 
+        		lv_primaryRef_3_0, 
         		"PrimaryRef");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -2291,10 +2322,10 @@ ruleContextRef returns [EObject current=null]
     {
     	newLeafNode(otherlv_1, grammarAccess.getContextRefAccess().getThisKeyword_1_0());
     }
-)(
+)((
 (
 		{ 
-	        newCompositeNode(grammarAccess.getContextRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_1_0()); 
+	        newCompositeNode(grammarAccess.getContextRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_1_0_0()); 
 	    }
 		lv_primaryRef_2_0=rulePrimaryRef		{
 	        if ($current==null) {
@@ -2309,7 +2340,26 @@ ruleContextRef returns [EObject current=null]
 	    }
 
 )
-)))
+)
+    |(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getContextRefAccess().getRangeRefRangeRefParserRuleCall_1_1_1_0()); 
+	    }
+		lv_rangeRef_3_0=ruleRangeRef		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getContextRefRule());
+	        }
+       		set(
+       			$current, 
+       			"rangeRef",
+        		lv_rangeRef_3_0, 
+        		"RangeRef");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))))
 ;
 
 
@@ -2503,9 +2553,9 @@ ruleResourceRef returns [EObject current=null]
             grammarAccess.getResourceRefAccess().getResourceRefAction_0(),
             $current);
     }
-)	otherlv_1='RES' 
+)	otherlv_1='RESOURCE' 
     {
-    	newLeafNode(otherlv_1, grammarAccess.getResourceRefAccess().getRESKeyword_1());
+    	newLeafNode(otherlv_1, grammarAccess.getResourceRefAccess().getRESOURCEKeyword_1());
     }
 ((
 (
@@ -2528,16 +2578,55 @@ ruleResourceRef returns [EObject current=null]
 )(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getResourceRefAccess().getValuerangeValueRangeEnumRuleCall_3_0()); 
+	        newCompositeNode(grammarAccess.getResourceRefAccess().getRangeRefRangeRefParserRuleCall_3_0()); 
 	    }
-		lv_valuerange_4_0=ruleValueRange		{
+		lv_rangeRef_4_0=ruleRangeRef		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getResourceRefRule());
 	        }
        		set(
        			$current, 
+       			"rangeRef",
+        		lv_rangeRef_4_0, 
+        		"RangeRef");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))
+;
+
+
+
+
+
+// Entry rule entryRuleRangeRef
+entryRuleRangeRef returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getRangeRefRule()); }
+	 iv_ruleRangeRef=ruleRangeRef 
+	 { $current=$iv_ruleRangeRef.current; } 
+	 EOF 
+;
+
+// Rule RangeRef
+ruleRangeRef returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+(
+		{ 
+	        newCompositeNode(grammarAccess.getRangeRefAccess().getValuerangeValueRangeEnumRuleCall_0_0()); 
+	    }
+		lv_valuerange_0_0=ruleValueRange		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getRangeRefRule());
+	        }
+       		set(
+       			$current, 
        			"valuerange",
-        		lv_valuerange_4_0, 
+        		lv_valuerange_0_0, 
         		"ValueRange");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -2546,16 +2635,16 @@ ruleResourceRef returns [EObject current=null]
 )(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getResourceRefAccess().getKindValueKindEnumRuleCall_4_0()); 
+	        newCompositeNode(grammarAccess.getRangeRefAccess().getKindValueKindEnumRuleCall_1_0()); 
 	    }
-		lv_kind_5_0=ruleValueKind		{
+		lv_kind_1_0=ruleValueKind		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getResourceRefRule());
+	            $current = createModelElementForParent(grammarAccess.getRangeRefRule());
 	        }
        		set(
        			$current, 
        			"kind",
-        		lv_kind_5_0, 
+        		lv_kind_1_0, 
         		"ValueKind");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -2563,18 +2652,18 @@ ruleResourceRef returns [EObject current=null]
 )
 )?(
 (
-		lv_period_6_0=RULE_NUMBER
+		lv_period_2_0=RULE_NUMBER
 		{
-			newLeafNode(lv_period_6_0, grammarAccess.getResourceRefAccess().getPeriodNUMBERTerminalRuleCall_5_0()); 
+			newLeafNode(lv_period_2_0, grammarAccess.getRangeRefAccess().getPeriodNUMBERTerminalRuleCall_2_0()); 
 		}
 		{
 	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getResourceRefRule());
+	            $current = createModelElement(grammarAccess.getRangeRefRule());
 	        }
        		setWithLastConsumed(
        			$current, 
        			"period",
-        		lv_period_6_0, 
+        		lv_period_2_0, 
         		"NUMBER");
 	    }
 

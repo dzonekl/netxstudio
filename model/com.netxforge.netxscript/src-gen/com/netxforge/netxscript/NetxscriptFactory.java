@@ -134,6 +134,15 @@ public interface NetxscriptFactory extends EFactory
   LeafReference createLeafReference();
 
   /**
+   * Returns a new object of class '<em>Range Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Range Ref</em>'.
+   * @generated
+   */
+  RangeRef createRangeRef();
+
+  /**
    * Returns a new object of class '<em>Return</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

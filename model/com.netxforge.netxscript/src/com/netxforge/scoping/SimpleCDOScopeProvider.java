@@ -46,6 +46,10 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 		
 		// FIXME, perhaps we can find a better way to get CDO uri's, which will be 
 		// resolved further on. 
+		
+		// FIXME, Also we need to have access to other resources which store objects based on the 
+		// eclass name. 
+		
 		uniqueImportURIs.add(URI.createURI("cdo://repo1/library"));
 		
 		IResourceDescriptions descriptions = getResourceDescriptions(resource, uniqueImportURIs);

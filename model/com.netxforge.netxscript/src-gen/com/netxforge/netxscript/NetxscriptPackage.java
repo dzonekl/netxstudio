@@ -442,6 +442,52 @@ public interface NetxscriptPackage extends EPackage
   int LEAF_REFERENCE_FEATURE_COUNT = 0;
 
   /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.RangeRefImpl <em>Range Ref</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.RangeRefImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getRangeRef()
+   * @generated
+   */
+  int RANGE_REF = 12;
+
+  /**
+   * The feature id for the '<em><b>Valuerange</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RANGE_REF__VALUERANGE = 0;
+
+  /**
+   * The feature id for the '<em><b>Kind</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RANGE_REF__KIND = 1;
+
+  /**
+   * The feature id for the '<em><b>Period</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RANGE_REF__PERIOD = 2;
+
+  /**
+   * The number of structural features of the '<em>Range Ref</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RANGE_REF_FEATURE_COUNT = 3;
+
+  /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.ReturnImpl <em>Return</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -449,7 +495,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getReturn()
    * @generated
    */
-  int RETURN = 12;
+  int RETURN = 13;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -477,7 +523,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getIf()
    * @generated
    */
-  int IF = 13;
+  int IF = 14;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -532,7 +578,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getWhile()
    * @generated
    */
-  int WHILE = 14;
+  int WHILE = 15;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -578,7 +624,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getVariable()
    * @generated
    */
-  int VARIABLE = 15;
+  int VARIABLE = 16;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -615,7 +661,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getAssignment()
    * @generated
    */
-  int ASSIGNMENT = 16;
+  int ASSIGNMENT = 17;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -652,7 +698,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getPlusAssignment()
    * @generated
    */
-  int PLUS_ASSIGNMENT = 17;
+  int PLUS_ASSIGNMENT = 18;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -689,7 +735,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getRefAssignment()
    * @generated
    */
-  int REF_ASSIGNMENT = 18;
+  int REF_ASSIGNMENT = 19;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -701,13 +747,13 @@ public interface NetxscriptPackage extends EPackage
   int REF_ASSIGNMENT__EXPRESSION = STATEMENT__EXPRESSION;
 
   /**
-   * The feature id for the '<em><b>Ref</b></em>' containment reference.
+   * The feature id for the '<em><b>Assignment Ref</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int REF_ASSIGNMENT__REF = STATEMENT_FEATURE_COUNT + 0;
+  int REF_ASSIGNMENT__ASSIGNMENT_REF = STATEMENT_FEATURE_COUNT + 0;
 
   /**
    * The number of structural features of the '<em>Ref Assignment</em>' class.
@@ -726,7 +772,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getAnd()
    * @generated
    */
-  int AND = 19;
+  int AND = 20;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -772,7 +818,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getOr()
    * @generated
    */
-  int OR = 20;
+  int OR = 21;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -818,7 +864,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getEqual()
    * @generated
    */
-  int EQUAL = 21;
+  int EQUAL = 22;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -864,7 +910,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getUnequal()
    * @generated
    */
-  int UNEQUAL = 22;
+  int UNEQUAL = 23;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -910,7 +956,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getLesser()
    * @generated
    */
-  int LESSER = 23;
+  int LESSER = 24;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -956,7 +1002,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getLesserEqual()
    * @generated
    */
-  int LESSER_EQUAL = 24;
+  int LESSER_EQUAL = 25;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1002,7 +1048,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getGreater()
    * @generated
    */
-  int GREATER = 25;
+  int GREATER = 26;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1048,7 +1094,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getGreaterEqual()
    * @generated
    */
-  int GREATER_EQUAL = 26;
+  int GREATER_EQUAL = 27;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1094,7 +1140,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getPlus()
    * @generated
    */
-  int PLUS = 27;
+  int PLUS = 28;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1140,7 +1186,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getMinus()
    * @generated
    */
-  int MINUS = 28;
+  int MINUS = 29;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1186,7 +1232,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getMulti()
    * @generated
    */
-  int MULTI = 29;
+  int MULTI = 30;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1232,7 +1278,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getDiv()
    * @generated
    */
-  int DIV = 30;
+  int DIV = 31;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1278,7 +1324,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getModulo()
    * @generated
    */
-  int MODULO = 31;
+  int MODULO = 32;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1324,7 +1370,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNegation()
    * @generated
    */
-  int NEGATION = 32;
+  int NEGATION = 33;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1370,7 +1416,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getUnaryPlusMinus()
    * @generated
    */
-  int UNARY_PLUS_MINUS = 33;
+  int UNARY_PLUS_MINUS = 34;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1416,7 +1462,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getBooleanLiteral()
    * @generated
    */
-  int BOOLEAN_LITERAL = 34;
+  int BOOLEAN_LITERAL = 35;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1453,7 +1499,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNumberLiteral()
    * @generated
    */
-  int NUMBER_LITERAL = 35;
+  int NUMBER_LITERAL = 36;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1490,7 +1536,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getFunctionCall()
    * @generated
    */
-  int FUNCTION_CALL = 36;
+  int FUNCTION_CALL = 37;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1536,7 +1582,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNativeExpression()
    * @generated
    */
-  int NATIVE_EXPRESSION = 37;
+  int NATIVE_EXPRESSION = 38;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1600,7 +1646,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getVarOrArgumentCall()
    * @generated
    */
-  int VAR_OR_ARGUMENT_CALL = 38;
+  int VAR_OR_ARGUMENT_CALL = 39;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1637,7 +1683,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getRangeLiteral()
    * @generated
    */
-  int RANGE_LITERAL = 39;
+  int RANGE_LITERAL = 40;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1674,7 +1720,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getAbsoluteRef()
    * @generated
    */
-  int ABSOLUTE_REF = 40;
+  int ABSOLUTE_REF = 41;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1704,13 +1750,22 @@ public interface NetxscriptPackage extends EPackage
   int ABSOLUTE_REF__LEAF_REF = REFERENCE__LEAF_REF;
 
   /**
+   * The feature id for the '<em><b>Node</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ABSOLUTE_REF__NODE = REFERENCE_FEATURE_COUNT + 0;
+
+  /**
    * The feature id for the '<em><b>Primary Ref</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ABSOLUTE_REF__PRIMARY_REF = REFERENCE_FEATURE_COUNT + 0;
+  int ABSOLUTE_REF__PRIMARY_REF = REFERENCE_FEATURE_COUNT + 1;
 
   /**
    * The number of structural features of the '<em>Absolute Ref</em>' class.
@@ -1719,7 +1774,7 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ABSOLUTE_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 1;
+  int ABSOLUTE_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.ContextRefImpl <em>Context Ref</em>}' class.
@@ -1729,7 +1784,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getContextRef()
    * @generated
    */
-  int CONTEXT_REF = 41;
+  int CONTEXT_REF = 42;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1768,13 +1823,22 @@ public interface NetxscriptPackage extends EPackage
   int CONTEXT_REF__PRIMARY_REF = REFERENCE_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Range Ref</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONTEXT_REF__RANGE_REF = REFERENCE_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>Context Ref</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int CONTEXT_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 1;
+  int CONTEXT_REF_FEATURE_COUNT = REFERENCE_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.ComponentRefImpl <em>Component Ref</em>}' class.
@@ -1784,7 +1848,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getComponentRef()
    * @generated
    */
-  int COMPONENT_REF = 42;
+  int COMPONENT_REF = 43;
 
   /**
    * The feature id for the '<em><b>Index</b></em>' containment reference.
@@ -1848,7 +1912,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getResourceRef()
    * @generated
    */
-  int RESOURCE_REF = 43;
+  int RESOURCE_REF = 44;
 
   /**
    * The feature id for the '<em><b>Resource</b></em>' reference.
@@ -1860,31 +1924,13 @@ public interface NetxscriptPackage extends EPackage
   int RESOURCE_REF__RESOURCE = LEAF_REFERENCE_FEATURE_COUNT + 0;
 
   /**
-   * The feature id for the '<em><b>Valuerange</b></em>' attribute.
+   * The feature id for the '<em><b>Range Ref</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int RESOURCE_REF__VALUERANGE = LEAF_REFERENCE_FEATURE_COUNT + 1;
-
-  /**
-   * The feature id for the '<em><b>Kind</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int RESOURCE_REF__KIND = LEAF_REFERENCE_FEATURE_COUNT + 2;
-
-  /**
-   * The feature id for the '<em><b>Period</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int RESOURCE_REF__PERIOD = LEAF_REFERENCE_FEATURE_COUNT + 3;
+  int RESOURCE_REF__RANGE_REF = LEAF_REFERENCE_FEATURE_COUNT + 1;
 
   /**
    * The number of structural features of the '<em>Resource Ref</em>' class.
@@ -1893,7 +1939,7 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    * @ordered
    */
-  int RESOURCE_REF_FEATURE_COUNT = LEAF_REFERENCE_FEATURE_COUNT + 4;
+  int RESOURCE_REF_FEATURE_COUNT = LEAF_REFERENCE_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.LinkRefImpl <em>Link Ref</em>}' class.
@@ -1903,7 +1949,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getLinkRef()
    * @generated
    */
-  int LINK_REF = 44;
+  int LINK_REF = 45;
 
   /**
    * The feature id for the '<em><b>Link</b></em>' reference.
@@ -1931,7 +1977,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNativeFunction()
    * @generated
    */
-  int NATIVE_FUNCTION = 45;
+  int NATIVE_FUNCTION = 46;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.ValueRange <em>Value Range</em>}' enum.
@@ -1941,7 +1987,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getValueRange()
    * @generated
    */
-  int VALUE_RANGE = 46;
+  int VALUE_RANGE = 47;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.ValueKind <em>Value Kind</em>}' enum.
@@ -1951,7 +1997,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getValueKind()
    * @generated
    */
-  int VALUE_KIND = 47;
+  int VALUE_KIND = 48;
 
 
   /**
@@ -2229,6 +2275,49 @@ public interface NetxscriptPackage extends EPackage
   EClass getLeafReference();
 
   /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.RangeRef <em>Range Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Range Ref</em>'.
+   * @see com.netxforge.netxscript.RangeRef
+   * @generated
+   */
+  EClass getRangeRef();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.RangeRef#getValuerange <em>Valuerange</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Valuerange</em>'.
+   * @see com.netxforge.netxscript.RangeRef#getValuerange()
+   * @see #getRangeRef()
+   * @generated
+   */
+  EAttribute getRangeRef_Valuerange();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.RangeRef#getKind <em>Kind</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Kind</em>'.
+   * @see com.netxforge.netxscript.RangeRef#getKind()
+   * @see #getRangeRef()
+   * @generated
+   */
+  EAttribute getRangeRef_Kind();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.RangeRef#getPeriod <em>Period</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Period</em>'.
+   * @see com.netxforge.netxscript.RangeRef#getPeriod()
+   * @see #getRangeRef()
+   * @generated
+   */
+  EAttribute getRangeRef_Period();
+
+  /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.Return <em>Return</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2387,15 +2476,15 @@ public interface NetxscriptPackage extends EPackage
   EClass getRefAssignment();
 
   /**
-   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.RefAssignment#getRef <em>Ref</em>}'.
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.RefAssignment#getAssignmentRef <em>Assignment Ref</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Ref</em>'.
-   * @see com.netxforge.netxscript.RefAssignment#getRef()
+   * @return the meta object for the containment reference '<em>Assignment Ref</em>'.
+   * @see com.netxforge.netxscript.RefAssignment#getAssignmentRef()
    * @see #getRefAssignment()
    * @generated
    */
-  EReference getRefAssignment_Ref();
+  EReference getRefAssignment_AssignmentRef();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.And <em>And</em>}'.
@@ -3058,6 +3147,17 @@ public interface NetxscriptPackage extends EPackage
   EClass getAbsoluteRef();
 
   /**
+   * Returns the meta object for the reference '{@link com.netxforge.netxscript.AbsoluteRef#getNode <em>Node</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Node</em>'.
+   * @see com.netxforge.netxscript.AbsoluteRef#getNode()
+   * @see #getAbsoluteRef()
+   * @generated
+   */
+  EReference getAbsoluteRef_Node();
+
+  /**
    * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.AbsoluteRef#getPrimaryRef <em>Primary Ref</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3088,6 +3188,17 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   EReference getContextRef_PrimaryRef();
+
+  /**
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.ContextRef#getRangeRef <em>Range Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Range Ref</em>'.
+   * @see com.netxforge.netxscript.ContextRef#getRangeRef()
+   * @see #getContextRef()
+   * @generated
+   */
+  EReference getContextRef_RangeRef();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.ComponentRef <em>Component Ref</em>}'.
@@ -3143,37 +3254,15 @@ public interface NetxscriptPackage extends EPackage
   EReference getResourceRef_Resource();
 
   /**
-   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.ResourceRef#getValuerange <em>Valuerange</em>}'.
+   * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.ResourceRef#getRangeRef <em>Range Ref</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Valuerange</em>'.
-   * @see com.netxforge.netxscript.ResourceRef#getValuerange()
+   * @return the meta object for the containment reference '<em>Range Ref</em>'.
+   * @see com.netxforge.netxscript.ResourceRef#getRangeRef()
    * @see #getResourceRef()
    * @generated
    */
-  EAttribute getResourceRef_Valuerange();
-
-  /**
-   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.ResourceRef#getKind <em>Kind</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Kind</em>'.
-   * @see com.netxforge.netxscript.ResourceRef#getKind()
-   * @see #getResourceRef()
-   * @generated
-   */
-  EAttribute getResourceRef_Kind();
-
-  /**
-   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.ResourceRef#getPeriod <em>Period</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Period</em>'.
-   * @see com.netxforge.netxscript.ResourceRef#getPeriod()
-   * @see #getResourceRef()
-   * @generated
-   */
-  EAttribute getResourceRef_Period();
+  EReference getResourceRef_RangeRef();
 
   /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.LinkRef <em>Link Ref</em>}'.
@@ -3482,6 +3571,40 @@ public interface NetxscriptPackage extends EPackage
     EClass LEAF_REFERENCE = eINSTANCE.getLeafReference();
 
     /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.RangeRefImpl <em>Range Ref</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.RangeRefImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getRangeRef()
+     * @generated
+     */
+    EClass RANGE_REF = eINSTANCE.getRangeRef();
+
+    /**
+     * The meta object literal for the '<em><b>Valuerange</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RANGE_REF__VALUERANGE = eINSTANCE.getRangeRef_Valuerange();
+
+    /**
+     * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RANGE_REF__KIND = eINSTANCE.getRangeRef_Kind();
+
+    /**
+     * The meta object literal for the '<em><b>Period</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RANGE_REF__PERIOD = eINSTANCE.getRangeRef_Period();
+
+    /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.ReturnImpl <em>Return</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3616,12 +3739,12 @@ public interface NetxscriptPackage extends EPackage
     EClass REF_ASSIGNMENT = eINSTANCE.getRefAssignment();
 
     /**
-     * The meta object literal for the '<em><b>Ref</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Assignment Ref</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference REF_ASSIGNMENT__REF = eINSTANCE.getRefAssignment_Ref();
+    EReference REF_ASSIGNMENT__ASSIGNMENT_REF = eINSTANCE.getRefAssignment_AssignmentRef();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.AndImpl <em>And</em>}' class.
@@ -4164,6 +4287,14 @@ public interface NetxscriptPackage extends EPackage
     EClass ABSOLUTE_REF = eINSTANCE.getAbsoluteRef();
 
     /**
+     * The meta object literal for the '<em><b>Node</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ABSOLUTE_REF__NODE = eINSTANCE.getAbsoluteRef_Node();
+
+    /**
      * The meta object literal for the '<em><b>Primary Ref</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4188,6 +4319,14 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EReference CONTEXT_REF__PRIMARY_REF = eINSTANCE.getContextRef_PrimaryRef();
+
+    /**
+     * The meta object literal for the '<em><b>Range Ref</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CONTEXT_REF__RANGE_REF = eINSTANCE.getContextRef_RangeRef();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.ComponentRefImpl <em>Component Ref</em>}' class.
@@ -4234,28 +4373,12 @@ public interface NetxscriptPackage extends EPackage
     EReference RESOURCE_REF__RESOURCE = eINSTANCE.getResourceRef_Resource();
 
     /**
-     * The meta object literal for the '<em><b>Valuerange</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Range Ref</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute RESOURCE_REF__VALUERANGE = eINSTANCE.getResourceRef_Valuerange();
-
-    /**
-     * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute RESOURCE_REF__KIND = eINSTANCE.getResourceRef_Kind();
-
-    /**
-     * The meta object literal for the '<em><b>Period</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute RESOURCE_REF__PERIOD = eINSTANCE.getResourceRef_Period();
+    EReference RESOURCE_REF__RANGE_REF = eINSTANCE.getResourceRef_RangeRef();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.LinkRefImpl <em>Link Ref</em>}' class.

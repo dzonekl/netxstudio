@@ -166,6 +166,13 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case NetxscriptPackage.RANGE_REF:
+      {
+        RangeRef rangeRef = (RangeRef)theEObject;
+        T result = caseRangeRef(rangeRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case NetxscriptPackage.RETURN:
       {
         Return return_ = (Return)theEObject;
@@ -633,6 +640,22 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseLeafReference(LeafReference object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Range Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Range Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseRangeRef(RangeRef object)
   {
     return null;
   }

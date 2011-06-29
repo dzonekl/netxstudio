@@ -15,6 +15,7 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.junit.AbstractXtextTests;
 
 import com.google.common.collect.ImmutableList;
@@ -28,6 +29,7 @@ import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.Library;
@@ -77,7 +79,10 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 	public void testContext() throws Exception {
 
 		this.createModelData();
-
+		
+		
+		//  Set a period context. 
+		
 		final DateTimeRange timeRange = GenericsFactory.eINSTANCE
 				.createDateTimeRange();
 
@@ -89,8 +94,11 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 		timeRange.setBegin(t1);
 		timeRange.setEnd(t0);
 
+		
 		final IInterpreterContext periodContext = interpreterContextFactory
 				.createPeriodContext(timeRange);
+		
+		
 		final List<IInterpreterContext> contextList = ImmutableList
 				.of(periodContext);
 		final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
@@ -100,7 +108,6 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 
 		// An expression which assigns a range of values to a var.
 		// WARNING: The syntax of the expression is subject to change.
-
 
 		// An expression which performs native function calls on a range.
 		// The range arithmetics.
@@ -115,9 +122,10 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			printExpressionResult(expressionResults);
 		}
 
+		
+		
+		// CONTEXTUAL REFERENCES
 		// An expression which reads values from a resource.
-		// WARNING: The syntax of the expression is subject to change.
-
 		interpreter.clear(); // Clear the interpreter.
 		interpreter.setContext(contextList.toArray(contextArray)); // Set a
 																	// context.
@@ -128,10 +136,10 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			@SuppressWarnings("unused")
 			Object result = interpreter.evaluate(m); // Returns the intermediate
 			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
-			printExpressionResult(expressionResults); // Should print all values. 
+			printExpressionResult(expressionResults); // Should print all
+														// values.
 
 		}
-		
 
 		// An expression which reads values from a resource, and writes them to
 		// another resource.
@@ -150,9 +158,9 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			printExpressionResult(expressionResults);
 
 		}
-		
-		
-		//  An expression which reads values from a resource and does an indirect write to another resource.  
+
+		// An expression which reads values from a resource and does an indirect
+		// write to another resource.
 		interpreter.clear(); // Clear the interpreter.
 		interpreter.setContext(contextList.toArray(contextArray)); // Set a
 																	// context.
@@ -164,14 +172,38 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			Object result = interpreter.evaluate(m); // Returns the intermediate
 			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
 			printExpressionResult(expressionResults);
-			
+
 		}
-		
-		//  An expression which reads values from a resource, performs an operation on each of the values and writes the result
-		// to another resource. .  
+
+		// An expression which writes a single value to a Capacity range.
 		interpreter.clear(); // Clear the interpreter.
 		interpreter.setContext(contextList.toArray(contextArray)); // Set a
-																	// context.
+		{
+			Mod m = (Mod) this
+					.getModel("this.FUNCTION SGSN->RES RES1 CAP 60 = 30 * 60;");
+			@SuppressWarnings("unused")
+			Object result = interpreter.evaluate(m); // Returns the intermediate
+			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			printExpressionResult(expressionResults);
+		}
+
+		// An expression which reads capacity values from a resource,
+		interpreter.clear(); // Clear the interpreter.
+		interpreter.setContext(contextList.toArray(contextArray)); // Set a
+		{
+			Mod m = (Mod) this
+					.getModel("var a = this.FUNCTION SGSN->RES RES1 CAP 60;");
+			@SuppressWarnings("unused")
+			Object result = interpreter.evaluate(m); // Returns the intermediate
+			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			printExpressionResult(expressionResults);
+		}
+
+		// An expression which reads values from a resource, performs an
+		// operation on each of the values and writes the result
+		// to another resource. .
+		interpreter.clear(); // Clear the interpreter.
+		interpreter.setContext(contextList.toArray(contextArray)); // Set a
 		{
 
 			Mod m = (Mod) this
@@ -180,25 +212,42 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			Object result = interpreter.evaluate(m); // Returns the intermediate
 			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
 			printExpressionResult(expressionResults);
-			
+
 		}
-		
-		
-		// An expression which takes a model object. 
-		
+
+		// An expression which reads values from a resource, performs an
+		// operation on each of the values and writes the result
+		// to another range from that resource.
+		// Notice how an empty temp range, transports the range type (Value) to
+		// the expression result. (Cool typeless system).
+
 		interpreter.clear(); // Clear the interpreter.
 		interpreter.setContext(contextList.toArray(contextArray)); // Set a
-																	// context.
 		{
+
 			Mod m = (Mod) this
-					.getModel("var a = NODE.FUNCTION SGSN.count();");
+					.getModel("var metric = this.FUNCTION SGSN->RES RES1 METRIC AVG 60; var i = 0; var temp = []; while( i < metric.count()){ temp += metric[i] ;  i+=1;} this.FUNCTION SGSN->RES RES2 UTILIZATION AVG 60 = temp;");
 			@SuppressWarnings("unused")
 			Object result = interpreter.evaluate(m); // Returns the intermediate
 			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
 			printExpressionResult(expressionResults);
-			
+
 		}
-		
+
+		// An expression which takes a model object and applies a native
+		// expression.
+
+		interpreter.clear(); // Clear the interpreter.
+		interpreter.setContext(contextList.toArray(contextArray)); // Set a
+																	// context.
+		{
+			Mod m = (Mod) this.getModel("var a = NODE.EQUIPMENT BOARD.count();");
+			@SuppressWarnings("unused")
+			Object result = interpreter.evaluate(m); // Returns the intermediate
+			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			printExpressionResult(expressionResults);
+
+		}
 	}
 
 	private void printExpressionResult(List<ExpressionResult> result) {
@@ -237,13 +286,14 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				res.getContents().add(lib);
 			}
 
-			final NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
+			final NodeType sgsnNodeType = LibraryFactory.eINSTANCE
+					.createNodeType();
 			final Function sgsnFunction = LibraryFactory.eINSTANCE
 					.createFunction();
 			sgsnFunction.setName("SGSN");
-			sgsnType.getFunctions().add(sgsnFunction);
+			sgsnNodeType.getFunctions().add(sgsnFunction);
 
-			lib.getNodeTypes().add(sgsnType);
+			lib.getNodeTypes().add(sgsnNodeType);
 
 			{
 				final NetXResource sgsnRes = LibraryFactory.eINSTANCE
@@ -313,6 +363,26 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 							ImmutableList.of(v, v1, v2, v3));
 				}
 
+				{
+					// Create capacity values.
+					final Value c1 = GenericsFactory.eINSTANCE.createValue();
+					c1.setValue(5.0);
+					c1.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
+
+					final Value c2 = GenericsFactory.eINSTANCE.createValue();
+					c2.setValue(5.0);
+					c2.setTimeStamp(modelUtils.toXMLDate(modelUtils
+							.twoDaysAgo()));
+
+					final Value c3 = GenericsFactory.eINSTANCE.createValue();
+					c3.setValue(5.0);
+					c3.setTimeStamp(modelUtils.toXMLDate(modelUtils
+							.threeDaysAgo()));
+
+					sgsnRes.getCapacityValues().addAll(
+							ImmutableList.of(c1, c2, c3));
+				}
+
 				sgsnFunction.getResources().add(sgsnRes);
 			}
 			{
@@ -321,6 +391,15 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				sgsnRes.setShortName("RES2");
 				sgsnRes.setExpressionName("RES2");
 				sgsnFunction.getResources().add(sgsnRes);
+			}
+
+			// Create some equipment:
+			final Equipment board = LibraryFactory.eINSTANCE.createEquipment();
+			board.setName("BOARD");
+
+			// Copy 10 equipments.
+			for (int i = 0; i < 10; i++) {
+				sgsnNodeType.getEquipments().add(EcoreUtil.copy(board));
 			}
 
 			try {

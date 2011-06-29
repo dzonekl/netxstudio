@@ -80,7 +80,7 @@ PlusAssignmentStatement returns Statement:
 //	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
 
 ReferenceAssignmentStatement returns Statement:
-	{RefAssignment} ref=ContextRef '=' expression=Expression;
+	{RefAssignment} assignmentRef=(ContextRef | AbsoluteRef )'=' expression=Expression;
 
 	// Expression, all operators extend this class. 
 Expression:
@@ -161,7 +161,7 @@ Reference returns Expression:
  * The Node context can be found with NODE if available.
  */
 AbsoluteRef returns Reference:
-	{AbsoluteRef} 'NODE' primaryRef=PrimaryRef
+	{AbsoluteRef} 'NODE' node=[library::NodeType] primaryRef=PrimaryRef
 ;
 
 /**
@@ -174,12 +174,14 @@ AbsoluteRef returns Reference:
  * like 'Node'  
  * 
  */
-ContextRef returns Reference:
-	{ContextRef} (=>'this' primaryRef=PrimaryRef);
 
-	/**
+ContextRef returns Reference:
+	{ContextRef} (=>'this' (primaryRef=PrimaryRef | rangeRef=RangeRef));
+
+/**
  * Exteral Node references, these can be nested and finish with a resource reference.
  */
+ 
 PrimaryRef returns Reference:
 	(components+=ComponentRef)+ ('->' leafRef=LeafReference)?;
 
@@ -191,7 +193,13 @@ LeafReference returns LeafReference:
 	ResourceRef | LinkRef ;
 
 ResourceRef returns LeafReference:
-	{ResourceRef} 'RES' (resource=[library::NetXResource] | 'ALL') valuerange=ValueRange (kind=ValueKind)? period=NUMBER;
+	{ResourceRef} 'RESOURCE' (resource=[library::NetXResource] | 'ALL') rangeRef=RangeRef;
+
+
+RangeRef:
+	valuerange=ValueRange (kind=ValueKind)? period=NUMBER
+;
+
 
 enum ValueRange: 
 	METRIC='METRIC' | CAP='CAP' | FORECAST='FORECAST' | FORECAST_CAP='FORECAST_CAP' | TRENDED='TRENDED' | UTILIZATION='UTILIZATION'	
@@ -200,7 +208,6 @@ enum ValueRange:
 enum ValueKind: 
 	AVG='AVG' | BH='BH'
 ;
-
 
 /**
  * TODO, through a link, we should be able to access, the opposite node and 

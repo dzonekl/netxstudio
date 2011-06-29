@@ -33,6 +33,7 @@ import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.Plus;
 import com.netxforge.netxscript.PlusAssignment;
 import com.netxforge.netxscript.RangeLiteral;
+import com.netxforge.netxscript.RangeRef;
 import com.netxforge.netxscript.RefAssignment;
 import com.netxforge.netxscript.Reference;
 import com.netxforge.netxscript.ResourceRef;
@@ -702,6 +703,12 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 					return; 
 				}
 				else break;
+			case NetxscriptPackage.RANGE_REF:
+				if(context == grammarAccess.getRangeRefRule()) {
+					sequence_RangeRef_RangeRef(context, (RangeRef) semanticObject); 
+					return; 
+				}
+				else break;
 			case NetxscriptPackage.REF_ASSIGNMENT:
 				if(context == grammarAccess.getStatementRule() ||
 				   context == grammarAccess.getReferenceAssignmentStatementRule()) {
@@ -842,9 +849,10 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     primaryRef=PrimaryRef
+	 *     (node=[NodeType|ID] primaryRef=PrimaryRef)
 	 *
 	 * Features:
+	 *    node[1, 1]
 	 *    primaryRef[1, 1]
 	 */
 	protected void sequence_AbsoluteRef_AbsoluteRef(EObject context, AbsoluteRef semanticObject) {
@@ -1001,10 +1009,13 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     primaryRef=PrimaryRef
+	 *     (primaryRef=PrimaryRef | rangeRef=RangeRef)
 	 *
 	 * Features:
-	 *    primaryRef[1, 1]
+	 *    primaryRef[0, 1]
+	 *         EXCLUDE_IF_SET rangeRef
+	 *    rangeRef[0, 1]
+	 *         EXCLUDE_IF_SET primaryRef
 	 */
 	protected void sequence_ContextRef_ContextRef(EObject context, ContextRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1306,36 +1317,38 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (ref=ContextRef expression=Expression)
+	 *     (valuerange=ValueRange kind=ValueKind? period=NUMBER)
 	 *
 	 * Features:
-	 *    expression[1, 1]
-	 *    ref[1, 1]
+	 *    valuerange[1, 1]
+	 *    kind[0, 1]
+	 *    period[1, 1]
 	 */
-	protected void sequence_ReferenceAssignmentStatement_RefAssignment(EObject context, RefAssignment semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.STATEMENT__EXPRESSION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.STATEMENT__EXPRESSION));
-			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.REF_ASSIGNMENT__REF) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.REF_ASSIGNMENT__REF));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getReferenceAssignmentStatementAccess().getRefContextRefParserRuleCall_1_0(), semanticObject.getRef());
-		feeder.accept(grammarAccess.getReferenceAssignmentStatementAccess().getExpressionExpressionParserRuleCall_3_0(), semanticObject.getExpression());
-		feeder.finish();
+	protected void sequence_RangeRef_RangeRef(EObject context, RangeRef semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (resource=[NetXResource|ID]? valuerange=ValueRange kind=ValueKind? period=NUMBER)
+	 *     ((assignmentRef=ContextRef | assignmentRef=AbsoluteRef) expression=Expression)
+	 *
+	 * Features:
+	 *    expression[1, 1]
+	 *    assignmentRef[0, 2]
+	 */
+	protected void sequence_ReferenceAssignmentStatement_RefAssignment(EObject context, RefAssignment semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (resource=[NetXResource|ID]? rangeRef=RangeRef)
 	 *
 	 * Features:
 	 *    resource[0, 1]
-	 *    valuerange[1, 1]
-	 *    kind[0, 1]
-	 *    period[1, 1]
+	 *    rangeRef[1, 1]
 	 */
 	protected void sequence_ResourceRef_ResourceRef(EObject context, ResourceRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

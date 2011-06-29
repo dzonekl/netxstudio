@@ -64,6 +64,11 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference/leafRef"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference"/>
+    <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RangeRef">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RangeRef/valuerange"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RangeRef/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RangeRef/period"/>
+    </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Return"/>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//If">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//If/if"/>
@@ -84,7 +89,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//PlusAssignment/var"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RefAssignment">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RefAssignment/ref"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RefAssignment/assignmentRef"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//And">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//And/left"/>
@@ -169,10 +174,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RangeLiteral/values"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//AbsoluteRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//AbsoluteRef/node"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//AbsoluteRef/primaryRef"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ContextRef">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ContextRef/primaryRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ContextRef/rangeRef"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ComponentRef">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ComponentRef/function"/>
@@ -180,9 +187,7 @@
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ResourceRef">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ResourceRef/resource"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ResourceRef/valuerange"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ResourceRef/kind"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ResourceRef/period"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ResourceRef/rangeRef"/>
     </genClasses>
     <genClasses ecoreClass="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LinkRef">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LinkRef/link"/>
