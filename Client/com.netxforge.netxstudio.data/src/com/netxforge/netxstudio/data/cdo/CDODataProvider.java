@@ -80,7 +80,7 @@ public abstract class CDODataProvider implements IDataProvider {
 	}
 
 	public void openSession(String uid, String passwd) throws SecurityException {
-		this.openSession(uid,passwd);
+		openSession(uid,passwd,null);
 	}
 
 	public void openSession(String uid, String passwd, String server)

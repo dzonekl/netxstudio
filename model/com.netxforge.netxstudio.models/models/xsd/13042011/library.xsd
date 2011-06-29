@@ -1273,6 +1273,7 @@
 			<xs:element name="TargetRange" type="RangeKind"  maxOccurs="1" minOccurs="0"/>
 			<xs:element name="TargetValues" type="gen:Value"  maxOccurs="unbounded" minOccurs="0"/>
 		</xs:sequence>
+		<xs:attribute name="TargetPeriod" type="xs:int"/>
 	</xs:complexType>
 	
 	
@@ -1281,6 +1282,7 @@
 	<!--|___________________________| -->
 	<xs:simpleType name ="RangeKind">
 		<xs:restriction base="xs:string">
+			<xs:enumeration value="METRIC"/>
 			<xs:enumeration value="CAP"/>
 			<xs:enumeration value="FORECAST"/>
 			<xs:enumeration value="FORECAST_CAP"/>

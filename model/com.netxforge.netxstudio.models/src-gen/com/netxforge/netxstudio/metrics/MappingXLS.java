@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.metrics;
 
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->

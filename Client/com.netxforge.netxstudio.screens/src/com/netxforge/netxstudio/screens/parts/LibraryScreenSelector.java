@@ -25,6 +25,7 @@ import com.netxforge.netxstudio.screens.ch9.Expressions;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector_Inj;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.Resource;
+import com.netxforge.netxstudio.screens.f2.Tolerances;
 import com.netxforge.netxstudio.screens.f4.Metrics;
 
 public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
@@ -58,6 +59,11 @@ public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
 		result = screenFormService.addScreenSelector(result, "Metrics",
 				"icons/full/obj16/Metric_H.png", Metrics.class,
 				Screens.OPERATION_EDIT);
+		
+		result = screenFormService.addScreenSelector(result, "Tolerances",
+				"icons/full/obj16/Tolerance_H.png", Tolerances.class,
+				Screens.OPERATION_EDIT);
+		
 		screenFormService.addScreenSelector(result, "Resource",
 				"icons/full/obj16/Equipment_H.png", Resource.class,
 				Screens.OPERATION_EDIT);

@@ -458,6 +458,13 @@
         <details key="name" value="TargetValues"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetPeriod" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+        unsettable="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="TargetPeriod"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Function" eSuperTypes="#//Component">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -984,11 +991,12 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="RangeKind"/>
     </eAnnotations>
-    <eLiterals name="CAP"/>
-    <eLiterals name="FORECAST" value="1"/>
-    <eLiterals name="FORECASTCAP" value="2" literal="FORECAST_CAP"/>
-    <eLiterals name="TRENDED" value="3"/>
-    <eLiterals name="UTILIZATION" value="4"/>
+    <eLiterals name="METRIC"/>
+    <eLiterals name="CAP" value="1"/>
+    <eLiterals name="FORECAST" value="2"/>
+    <eLiterals name="FORECASTCAP" value="3" literal="FORECAST_CAP"/>
+    <eLiterals name="TRENDED" value="4"/>
+    <eLiterals name="UTILIZATION" value="5"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="RangeKindObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

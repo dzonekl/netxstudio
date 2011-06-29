@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.eclipse.emf.cdo.CDOObject;
@@ -40,9 +41,11 @@ import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LevelType;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.MappingColumn;
@@ -94,6 +97,9 @@ public class CreateTestData extends AbstractDataProviderTest {
 	private IDataProvider dataProvider;
 	@Inject
 	private ModelUtils modelUtils;
+	private List<Tolerance> tl = Lists.newArrayList();
+	private Expression utilizationExpression = null;
+	private Expression capacityExpression = null;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -121,7 +127,6 @@ public class CreateTestData extends AbstractDataProviderTest {
 		createMetricSource();
 		dataProvider.commitTransaction();
 	}
-
 
 	private void clearData() {
 		dataProvider.getTransaction();
@@ -239,38 +244,45 @@ public class CreateTestData extends AbstractDataProviderTest {
 		return metricSource;
 	}
 
+	private Expression createOrGetUtilizationExpression() {
 
-	private Expression createUtilizationExpression() {
-		// Utilization expression. 
-		final Expression utilizationExpression = LibraryFactory.eINSTANCE.createExpression();
+		if (utilizationExpression != null) {
+			return utilizationExpression;
+		}
+
+		// Utilization expression.
+		utilizationExpression = LibraryFactory.eINSTANCE.createExpression();
 		utilizationExpression.setName("Utilization Expression");
-		
-		// Context is a NetXResource
+
+		// 1st Context is a NetXResource
+		// 2nd Context is the Resource monitoring period. 
 		String eAsString = "this UTILIZATION = this METRIC 60 / this CAP}";
-		utilizationExpression.getExpressionLines().addAll(getExpressionLines(eAsString));
+		utilizationExpression.getExpressionLines().addAll(
+				getExpressionLines(eAsString));
+		addToResource(utilizationExpression);
 		return utilizationExpression;
 	}
 
-	
-	private Expression createCapacityExpression() {
-		// Utilization expression. 
-		final Expression utilizationExpression = LibraryFactory.eINSTANCE.createExpression();
-		utilizationExpression.setName("Capacity Expression");
-		
+	private Expression createOrCapacityExpression() {
+		if (capacityExpression != null) {
+			return capacityExpression;
+		}
+		capacityExpression = LibraryFactory.eINSTANCE.createExpression();
+		capacityExpression.setName("Capacity Expression");
 		// Context is a Node
 		String eAsString = "this CAP = this METRIC 60 / (NODE.BOARD.count() * 5);}";
-		utilizationExpression.getExpressionLines().addAll(getExpressionLines(eAsString));
-		return utilizationExpression;
+		capacityExpression.getExpressionLines().addAll(
+				getExpressionLines(eAsString));
+		addToResource(capacityExpression);
+		return capacityExpression;
 	}
 
-	
-	private Collection<String> getExpressionLines(String Expression){
+	private Collection<String> getExpressionLines(String Expression) {
 		String[] splitByNewLine = Expression.split("\n");
 		Collection<String> collection = Lists.newArrayList(splitByNewLine);
 		return collection;
 	}
-	
-	
+
 	private void setMSName1Mapping(MappingXLS mappingXLS) {
 		mappingXLS.setFirstDataRow(11);
 		mappingXLS.setHeaderRow(10);
@@ -295,8 +307,8 @@ public class CreateTestData extends AbstractDataProviderTest {
 						LibraryPackage.eINSTANCE.getComponent_Name().getName()));
 	}
 
-	private MappingColumn createIdentifierColumn(int columnNo,
-			int headerRow, ObjectKindType objectKind, String objectProperty) {
+	private MappingColumn createIdentifierColumn(int columnNo, int headerRow,
+			ObjectKindType objectKind, String objectProperty) {
 		final MappingColumn column = MetricsFactory.eINSTANCE
 				.createMappingColumn();
 		column.setColumn(columnNo);
@@ -405,6 +417,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 
 	private java.util.List<Function> createFunctions(String id, int level) {
 		final java.util.List<Function> functions = new ArrayList<Function>();
+		List<Tolerance> tls = createOrGetTolerances();
 		for (int i = 0; i < HIERARCHY_BREADTH; i++) {
 			final Function function = LibraryFactory.eINSTANCE.createFunction();
 			functions.add(function);
@@ -414,11 +427,17 @@ public class CreateTestData extends AbstractDataProviderTest {
 						getMetric("Gb mode max attached users(number)"));
 				function.getMetricRefs().add(
 						getMetric("Iu mode max attached users(number)"));
-				
-//				function.setUtilizationExpressionRef(value); // TODO
-//				function.setCapacityExpressionRef(value); // TODO
-//				function.getToleranceRefs().add(); // TODO
-				
+				{ // Load the utilization expression.
+					Expression e = this.createOrGetUtilizationExpression();
+					function.setUtilizationExpressionRef(e);
+				}
+				{// Load the cap expression.
+					Expression e = this.createOrCapacityExpression();
+					function.setCapacityExpressionRef(e);
+				}
+				{// Add various tolerance refs.
+					function.getToleranceRefs().addAll(tls);
+				}
 			} else {
 				function.setName(id + "_" + level + "_" + i);
 			}
@@ -428,8 +447,83 @@ public class CreateTestData extends AbstractDataProviderTest {
 		}
 		return functions;
 	}
-	
-	
-	
-	
+
+	/**
+	 * Create various tolerance levels, with each an own expression.
+	 * 
+	 * 
+	 * 
+	 * @return
+	 */
+	private List<Tolerance> createOrGetTolerances() {
+
+		if (tl.size() != 0) {
+			return tl;
+		}
+
+		{
+			Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			t.setLevel(LevelType.RED);
+			t.setName("Tolerance Red");
+
+			Expression te = LibraryFactory.eINSTANCE.createExpression();
+			String eAsString = "this CAP * 0.9";
+			te.getExpressionLines().addAll(getExpressionLines(eAsString));
+			addToResource(te);
+			t.setExpressionRef(te);
+
+			// Context is a Node
+			tl.add(t);
+			this.addToResource(t);
+		}
+		{
+			Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			t.setLevel(LevelType.AMBER);
+			t.setName("Tolerance Amber");
+
+			Expression te = LibraryFactory.eINSTANCE.createExpression();
+			// Context is a Node
+			String eAsString = "this CAP * 0.7";
+			te.getExpressionLines().addAll(getExpressionLines(eAsString));
+			addToResource(te);
+			t.setExpressionRef(te);
+
+			tl.add(t);
+			this.addToResource(t);
+		}
+		{
+			Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			t.setLevel(LevelType.GREEN);
+			t.setName("Tolerance Green");
+
+			Expression te = LibraryFactory.eINSTANCE.createExpression();
+			// Context is a Node
+			String eAsString = "this CAP * 0.5";
+			te.getExpressionLines().addAll(getExpressionLines(eAsString));
+
+			addToResource(te);
+			t.setExpressionRef(te);
+
+			tl.add(t);
+			this.addToResource(t);
+		}
+		{
+			Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			t.setLevel(LevelType.GREEN);
+			t.setName("Tolerance Yellow");
+
+			Expression te = LibraryFactory.eINSTANCE.createExpression();
+			// Context is a Node
+			String eAsString = "this CAP * 0.3";
+			te.getExpressionLines().addAll(getExpressionLines(eAsString));
+			this.addToResource(te);
+			
+			t.setExpressionRef(te);
+
+			tl.add(t);
+			this.addToResource(t);
+		}
+		return tl;
+	}
+
 }

@@ -172,6 +172,7 @@
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelType/YELLOW"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//RangeKind">
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/METRIC"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/CAP"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECAST"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECASTCAP"/>
@@ -243,6 +244,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ExpressionResult/targetResource"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetRange"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//ExpressionResult/targetValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetPeriod"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Function">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Function/functions"/>

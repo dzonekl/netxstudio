@@ -38,6 +38,7 @@ import com.netxforge.netxstudio.library.RangeKind;
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetResource <em>Target Resource</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetRange <em>Target Range</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetValues <em>Target Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetPeriod <em>Target Period</em>}</li>
  * </ul>
  * </p>
  *
@@ -135,6 +136,42 @@ public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionRes
 	@SuppressWarnings("unchecked")
 	public EList<Value> getTargetValues() {
 		return (EList<Value>)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_VALUES, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getTargetPeriod() {
+		return (Integer)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_PERIOD, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTargetPeriod(int newTargetPeriod) {
+		eSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_PERIOD, newTargetPeriod);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetTargetPeriod() {
+		eUnset(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_PERIOD);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetTargetPeriod() {
+		return eIsSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_PERIOD);
 	}
 
 } //ExpressionResultImpl

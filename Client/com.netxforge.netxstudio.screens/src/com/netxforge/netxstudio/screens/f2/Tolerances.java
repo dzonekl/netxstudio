@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.ch9;
+package com.netxforge.netxstudio.screens.f2;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -24,10 +24,8 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -61,12 +59,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.Library;
-import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -74,20 +69,19 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Expressions extends AbstractScreen implements
-		IDataServiceInjection {
+public class Tolerances extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
 	private Table table;
 
-	private Library library;
-
 	private TableViewer tableViewer;
+	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
-	private Form frmExpressions;
-//	private ObservablesManager mgr;
+	private Form frmTolerances;
+	// private ObservablesManager mgr;
 	private ObservableListContentProvider listContentProvider;
+	private Resource toleranceResource;
 
 	/**
 	 * Create the composite.
@@ -95,16 +89,16 @@ public class Expressions extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public Expressions(Composite parent, int style) {
+	public Tolerances(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-//				listContentProvider.dispose();
-//				try{
-//				mgr.dispose(); // dispose all observables.
-//				}catch(Exception ex){
-//				}
+				// listContentProvider.dispose();
+				// try{
+				// mgr.dispose(); // dispose all observables.
+				// }catch(Exception ex){
+				// }
 				toolkit.dispose();
 				disposeData();
 			}
@@ -113,21 +107,21 @@ public class Expressions extends AbstractScreen implements
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		frmExpressions = toolkit.createForm(this);
-		frmExpressions.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmExpressions);
-		frmExpressions.setText("Expression");
-		frmExpressions.getBody().setLayout(new GridLayout(3, false));
+		frmTolerances = toolkit.createForm(this);
+		frmTolerances.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmTolerances);
+		frmTolerances.setText("Tolerances");
+		frmTolerances.getBody().setLayout(new GridLayout(3, false));
 
-		Label lblFilterLabel = toolkit.createLabel(frmExpressions.getBody(),
+		Label lblFilterLabel = toolkit.createLabel(frmTolerances.getBody(),
 				"Filter:", SWT.NONE);
 		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblFilterLabel.widthHint = 36;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmExpressions.getBody(),
-				"New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
+		txtFilterText = toolkit.createText(frmTolerances.getBody(), "New Text",
+				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, true,
 				false, 1, 1);
@@ -150,26 +144,25 @@ public class Expressions extends AbstractScreen implements
 		// Conditional widget.
 		if (!Screens.isReadOnlyOperation(this.getOperation())) {
 			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-					frmExpressions.getBody(), SWT.NONE);
+					frmTolerances.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
-					if (screenService != null) {
-						NewEditExpression user = new NewEditExpression(
-								screenService.getScreenContainer(), SWT.NONE
-										| Screens.OPERATION_NEW);
-						screenService.setActiveScreen(user);
-						Expression exp = LibraryFactory.eINSTANCE
-								.createExpression();
+					// NewEditExpression user = new NewEditExpression(
+					// screenService.getScreenContainer(), SWT.NONE
+					// | Screens.OPERATION_NEW);
+					// screenService.setActiveScreen(user);
+					// Expression exp = LibraryFactory.eINSTANCE
+					// .createExpression();
+					//
+					// // New Expressions always need an evaluation object.
+					// // What ever object is set as evaluation object, should
+					// // be
+					// // the root object
+					// // of our expression language.
+					// // Model m = NetxscriptFactory.eINSTANCE.createModel();
+					// // exp.setEvaluationObject(m);
+					// user.injectData(library.getExpressions(), exp);
 
-						// New Expressions always need an evaluation object.
-						// What ever object is set as evaluation object, should
-						// be
-						// the root object
-						// of our expression language.
-						// Model m = NetxscriptFactory.eINSTANCE.createModel();
-						// exp.setEvaluationObject(m);
-						user.injectData(library.getExpressions(), exp);
-					}
 				}
 
 				public void linkEntered(HyperlinkEvent e) {
@@ -182,14 +175,15 @@ public class Expressions extends AbstractScreen implements
 					false, false, 1, 1));
 			mghprlnkNew.setImage(ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",
-					"icons/full/obj16/Expression_H.png"));
+					"icons/full/ctool16/Threshold_E.png"));
 			mghprlnkNew.setBounds(0, 0, 114, 17);
 			toolkit.paintBordersFor(mghprlnkNew);
 			mghprlnkNew.setText("New");
 
 		}
+		new Label(frmTolerances.getBody(), SWT.NONE);
 
-		tableViewer = new TableViewer(frmExpressions.getBody(), SWT.BORDER
+		tableViewer = new TableViewer(frmTolerances.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
@@ -207,7 +201,7 @@ public class Expressions extends AbstractScreen implements
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnOwnedBy = tableViewerColumn_1.getColumn();
 		tblclmnOwnedBy.setWidth(100);
-		tblclmnOwnedBy.setText("Owned by");
+		tblclmnOwnedBy.setText("Level");
 
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
@@ -223,19 +217,21 @@ public class Expressions extends AbstractScreen implements
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
 						if (o != null) {
-							int widgetStyle = SWT.None;
-							// Conditional widget.
-							if (Screens.isReadOnlyOperation(getOperation())) {
-								widgetStyle |= Screens.OPERATION_READ_ONLY;
-							} else {
-								widgetStyle |= Screens.OPERATION_EDIT;
-							}
-							NewEditExpression editExpression = new NewEditExpression(
-									screenService.getScreenContainer(),
-									widgetStyle);
-							editExpression.injectData(library.getExpressions(),
-									o);
-							screenService.setActiveScreen(editExpression);
+							// int widgetStyle = SWT.None;
+							// // Conditional widget.
+							// if (Screens.isReadOnlyOperation(getOperation()))
+							// {
+							// widgetStyle |= Screens.OPERATION_READ_ONLY;
+							// } else {
+							// widgetStyle |= Screens.OPERATION_EDIT;
+							// }
+							// NewEditExpression editExpression = new
+							// NewEditExpression(
+							// screenService.getScreenContainer(),
+							// widgetStyle);
+							// editExpression.injectData(library.getExpressions(),
+							// o);
+							// screenService.setActiveScreen(editExpression);
 						}
 					}
 				}
@@ -249,7 +245,13 @@ public class Expressions extends AbstractScreen implements
 			detailedAction = "Edit";
 		}
 		mntmEdit.setText(detailedAction + "...");
-		tableViewer.addFilter(new SearchFilter());
+
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
+		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
+		tblclmnExpression.setWidth(100);
+		tblclmnExpression.setText("Expression");
+		tableViewer.addFilter(new SearchFilter(editingService));
 
 		if (editingService != null) {
 			injectData();
@@ -260,46 +262,14 @@ public class Expressions extends AbstractScreen implements
 		return tableViewer;
 	}
 
-	public class SearchFilter extends ViewerFilter {
-
-		private String searchString;
-
-		public void setSearchText(String s) {
-			// Search must be a substring of the existing value
-			this.searchString = ".*" + s + ".*"; //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
-		@Override
-		public boolean select(Viewer viewer, Object parentElement,
-				Object element) {
-			if (searchString == null || searchString.length() == 0) {
-				return true;
-			}
-
-			if (element instanceof EObject) {
-
-				String match = new AdapterFactoryItemDelegator(
-						editingService.getAdapterFactory()).getText(element);
-				return match.matches(searchString);
-			}
-			return false;
-		}
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
-		Resource res = editingService.getData(LibraryPackage.LIBRARY);
-		if (res.getContents().size() == 0) {
-			Library lib = LibraryFactory.eINSTANCE.createLibrary();
-			res.getContents().add(lib);
-			this.library = lib;
-		} else {
-			this.library = (Library) res.getContents().get(0);
-		}
+		toleranceResource = editingService
+				.getData(LibraryPackage.Literals.TOLERANCE);
 		bindingContext = initDataBindings_();
 	}
 
@@ -311,27 +281,29 @@ public class Expressions extends AbstractScreen implements
 
 	public EMFDataBindingContext initDataBindings_() {
 
-//		mgr = new ObservablesManager();
-//		mgr.runAndCollect(new Runnable() {
-//			public void run() {
-				
-				listContentProvider = new ObservableListContentProvider();
-				tableViewer.setContentProvider(listContentProvider);
-				//
-				IObservableMap[] observeMaps = EMFObservables.observeMaps(
-						listContentProvider.getKnownElements(),
-						new EStructuralFeature[] { Literals.EXPRESSION__NAME });
-				tableViewer.setLabelProvider(new ObservableMapLabelProvider(
-						observeMaps));
+		// mgr = new ObservablesManager();
+		// mgr.runAndCollect(new Runnable() {
+		// public void run() {
 
-				IEMFListProperty l = EMFEditProperties.list(
-						editingService.getEditingDomain(),
-						LibraryPackage.Literals.LIBRARY__EXPRESSIONS);
+		listContentProvider = new ObservableListContentProvider();
+		tableViewer.setContentProvider(listContentProvider);
+		//
+		IObservableMap[] observeMaps = EMFObservables.observeMaps(
+				listContentProvider.getKnownElements(),
+				new EStructuralFeature[] {
+						LibraryPackage.Literals.TOLERANCE__NAME,
+						LibraryPackage.Literals.TOLERANCE__LEVEL,
+						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF });
+		tableViewer
+				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 
-				tableViewer.setInput(l.observe(library));
-				
-//			}
-//		});
+		IEMFListProperty l = EMFEditProperties.resource(editingService
+				.getEditingDomain());
+
+		tableViewer.setInput(l.observe(toleranceResource));
+
+		// }
+		// });
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		return bindingContext;
 	}
@@ -356,7 +328,7 @@ public class Expressions extends AbstractScreen implements
 
 	@Override
 	public Form getScreenForm() {
-		return this.frmExpressions;
+		return this.frmTolerances;
 	}
 
 }

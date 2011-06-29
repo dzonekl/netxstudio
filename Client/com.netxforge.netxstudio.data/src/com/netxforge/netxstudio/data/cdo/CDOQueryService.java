@@ -32,6 +32,9 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -93,7 +96,56 @@ public class CDOQueryService implements IQueryService {
 		}
 	}
 
-	public List<Value> getValuesFromResource(String expressionName,
+	public List<Equipment> getEquipments(String nodeID, String equipmentCode) {
+		final CDOTransaction transaction = provider.getTransaction();
+		final CDOQuery cdoQuery = transaction
+				.createQuery(
+						"hql",
+						"select e from Equipment e, Node n"
+								+ "e in elements(n.equipments) " 
+								+ "and e.equipmentCode=:equipmentCode and n.nodeID=:nodeid");
+		cdoQuery.setParameter("nodeid", nodeID);
+		cdoQuery.setParameter("equipmentCode", equipmentCode);
+		
+		queryService.setCacheParameter(cdoQuery);
+		final List<Equipment> equipments = cdoQuery.getResult(Equipment.class);
+		return equipments;
+	}
+
+	public List<Function> getFunctions(String nodeID, String name) {
+		final CDOTransaction transaction = provider.getTransaction();
+		final CDOQuery cdoQuery = transaction
+				.createQuery(
+						"hql",
+						"select e from Function e, Node n"
+								+ "e in elements(n.functions) " 
+								+ "and e.name=:name and n.nodeID=:nodeid");
+		cdoQuery.setParameter("nodeid", nodeID);
+		cdoQuery.setParameter("equipmentCode", name);
+		
+		queryService.setCacheParameter(cdoQuery);
+		final List<Function> functions = cdoQuery.getResult(Function.class);
+		return functions;
+	}
+
+	public List<NetXResource> getResources(String nodeID, String expressionName) {
+		final CDOTransaction transaction = provider.getTransaction();
+		final CDOQuery cdoQuery = transaction
+				.createQuery(
+						"hql",
+						"select r from NetXResource r, Component c, Node n"
+								+ "r in elements(c.resources) " 
+								+ "and r.name=:expressionName and n.nodeID=:nodeid");
+		cdoQuery.setParameter("nodeid", nodeID);
+		cdoQuery.setParameter("expressioName", expressionName);
+		
+		queryService.setCacheParameter(cdoQuery);
+		final List<NetXResource> resources = cdoQuery.getResult(NetXResource.class);
+		return resources;	
+	}
+	
+	
+	public List<Value> getMetricsFromResource(String expressionName,
 			XMLGregorianCalendar from, XMLGregorianCalendar to, int periodHint, KindHintType kindHint) {
 		final CDOTransaction transaction = provider.getTransaction();
 		final CDOQuery cdoQuery = transaction
@@ -115,13 +167,49 @@ public class CDOQueryService implements IQueryService {
 		return values;
 	}
 
-//	private String dateString(Date date) {
-//		return XMLTypeFactory.eINSTANCE.convertDateTime(modelUtils
-//				.toXMLDate(date));
-//	}
+	
+	public List<Value> getCapacityFromResource(String expressionName,
+			XMLGregorianCalendar from, XMLGregorianCalendar to) {
+		final CDOTransaction transaction = provider.getTransaction();
+		final CDOQuery cdoQuery = transaction
+				.createQuery(
+						"hql",
+								"select v from Value v, NetXResource res where "
+								+"v in elements(res.capacityValues) "
+								+"and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
+								+"and res.expressionName=:name");
+		cdoQuery.setParameter("name", expressionName);
+		cdoQuery.setParameter("dateFrom", dateString(from));
+		cdoQuery.setParameter("dateTo", dateString(to));
+		
+		queryService.setCacheParameter(cdoQuery);
+		final List<Value> values = cdoQuery.getResult(Value.class);
+		return values;
+	}
+
+	public List<Value> getUtilizationFromResource(String expressionName,
+			XMLGregorianCalendar from, XMLGregorianCalendar to) {
+		final CDOTransaction transaction = provider.getTransaction();
+		final CDOQuery cdoQuery = transaction
+				.createQuery(
+						"hql",
+						"select v from Value v, NetXResource res where "
+								+ "v in elements(res.utilizationValues) " 
+								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
+								+ "and res.expressionName=:name");
+		cdoQuery.setParameter("name", expressionName);
+		cdoQuery.setParameter("dateFrom", dateString(from));
+		cdoQuery.setParameter("dateTo", dateString(to));
+		
+		queryService.setCacheParameter(cdoQuery);
+		final List<Value> values = cdoQuery.getResult(Value.class);
+		return values;
+	}
 
 	private String dateString(XMLGregorianCalendar date) {
 		return XMLTypeFactory.eINSTANCE.convertDateTime(date);
 	}
 
+
+	
 }

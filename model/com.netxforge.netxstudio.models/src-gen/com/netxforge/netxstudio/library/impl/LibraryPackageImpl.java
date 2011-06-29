@@ -736,6 +736,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getExpressionResult_TargetPeriod() {
+		return (EAttribute)expressionResultEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFunction() {
 		return functionEClass;
 	}
@@ -1438,6 +1447,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(expressionResultEClass, EXPRESSION_RESULT__TARGET_RESOURCE);
 		createEAttribute(expressionResultEClass, EXPRESSION_RESULT__TARGET_RANGE);
 		createEReference(expressionResultEClass, EXPRESSION_RESULT__TARGET_VALUES);
+		createEAttribute(expressionResultEClass, EXPRESSION_RESULT__TARGET_PERIOD);
 
 		functionEClass = createEClass(FUNCTION);
 		createEReference(functionEClass, FUNCTION__FUNCTIONS);
@@ -1622,6 +1632,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getExpressionResult_TargetResource(), this.getNetXResource(), null, "targetResource", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExpressionResult_TargetRange(), this.getRangeKind(), "targetRange", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExpressionResult_TargetValues(), theGenericsPackage.getValue(), null, "targetValues", null, 0, -1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExpressionResult_TargetPeriod(), theXMLTypePackage.getInt(), "targetPeriod", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(functionEClass, Function.class, "Function", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFunction_Functions(), this.getFunction(), null, "functions", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1702,6 +1713,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		addEEnumLiteral(levelTypeEEnum, LevelType.YELLOW);
 
 		initEEnum(rangeKindEEnum, RangeKind.class, "RangeKind");
+		addEEnumLiteral(rangeKindEEnum, RangeKind.METRIC);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.CAP);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.FORECAST);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.FORECASTCAP);
@@ -1755,7 +1767,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																	
+		   });																																																																																																		
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -2092,6 +2104,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "TargetValues"
+		   });		
+		addAnnotation
+		  (getExpressionResult_TargetPeriod(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "TargetPeriod"
 		   });					
 		addAnnotation
 		  (functionEClass, 
@@ -2624,7 +2643,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self.equipments->size()\n\t\t\t\t\t\t"
-		   });																											
+		   });																												
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -2658,7 +2677,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "appinfo", "@Transient"
-		   });																																																																																																																																													
+		   });																																																																																																																																														
 	}
 
 } //LibraryPackageImpl

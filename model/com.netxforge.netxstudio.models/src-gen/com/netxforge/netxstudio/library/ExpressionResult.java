@@ -40,6 +40,7 @@ import com.netxforge.netxstudio.generics.Value;
  *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetResource <em>Target Resource</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetRange <em>Target Range</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetValues <em>Target Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod <em>Target Period</em>}</li>
  * </ul>
  * </p>
  *
@@ -150,4 +151,58 @@ public interface ExpressionResult extends CDOObject {
 	 * @generated
 	 */
 	EList<Value> getTargetValues();
+
+	/**
+	 * Returns the value of the '<em><b>Target Period</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target Period</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Period</em>' attribute.
+	 * @see #isSetTargetPeriod()
+	 * @see #unsetTargetPeriod()
+	 * @see #setTargetPeriod(int)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult_TargetPeriod()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 *        extendedMetaData="kind='attribute' name='TargetPeriod'"
+	 * @generated
+	 */
+	int getTargetPeriod();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod <em>Target Period</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target Period</em>' attribute.
+	 * @see #isSetTargetPeriod()
+	 * @see #unsetTargetPeriod()
+	 * @see #getTargetPeriod()
+	 * @generated
+	 */
+	void setTargetPeriod(int value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod <em>Target Period</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetTargetPeriod()
+	 * @see #getTargetPeriod()
+	 * @see #setTargetPeriod(int)
+	 * @generated
+	 */
+	void unsetTargetPeriod();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod <em>Target Period</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Target Period</em>' attribute is set.
+	 * @see #unsetTargetPeriod()
+	 * @see #getTargetPeriod()
+	 * @see #setTargetPeriod(int)
+	 * @generated
+	 */
+	boolean isSetTargetPeriod();
 } // ExpressionResult

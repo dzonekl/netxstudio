@@ -725,13 +725,22 @@ public interface LibraryPackage extends EPackage {
 	int EXPRESSION_RESULT__TARGET_VALUES = 2;
 
 	/**
+	 * The feature id for the '<em><b>Target Period</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_RESULT__TARGET_PERIOD = 3;
+
+	/**
 	 * The number of structural features of the '<em>Expression Result</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT_FEATURE_COUNT = 3;
+	int EXPRESSION_RESULT_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.FunctionImpl <em>Function</em>}' class.
@@ -2187,6 +2196,17 @@ public interface LibraryPackage extends EPackage {
 	EReference getExpressionResult_TargetValues();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod <em>Target Period</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Target Period</em>'.
+	 * @see com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod()
+	 * @see #getExpressionResult()
+	 * @generated
+	 */
+	EAttribute getExpressionResult_TargetPeriod();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.Function <em>Function</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3338,6 +3358,14 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EXPRESSION_RESULT__TARGET_VALUES = eINSTANCE.getExpressionResult_TargetValues();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Period</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPRESSION_RESULT__TARGET_PERIOD = eINSTANCE.getExpressionResult_TargetPeriod();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.FunctionImpl <em>Function</em>}' class.

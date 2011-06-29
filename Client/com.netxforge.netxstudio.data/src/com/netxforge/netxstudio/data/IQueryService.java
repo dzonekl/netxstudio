@@ -24,6 +24,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -58,17 +61,62 @@ public interface IQueryService {
 	public List<Job> getJobWithMetricSource(MetricSource source);
 	
 	/**
-	 * Get the values for a period from a resource. 
-	 * As the resource has multiple value ranges, we return 
-	 * from the index.
+	 * Get the metric values for a period from a resource. 
+	 * The period and kind hint, tell use which range exactly should be read. 
 	 * 
-	 * @param shortName
+	 * @param expressionName
 	 * @param from
 	 * @param to
+	 * @return A list of Value type. 
+	 */
+	public List<Value> getMetricsFromResource(String expressionName,
+			XMLGregorianCalendar from, XMLGregorianCalendar to, int periodHint, KindHintType kindHint);
+		
+	/**
+	 * Get the capacity values from a resource. 
+	 * 
+	 * @param expressionName
+	 * @param from
+	 * @param to
+	 * @return A list of Value type. 
+	 */
+	public List<Value> getCapacityFromResource(String expressionName,
+			XMLGregorianCalendar from, XMLGregorianCalendar to);
+
+	/**
+	 * Get the utilization from a resource.  
+	 * @param expressionName
+	 * @param from
+	 * @param to
+	 * @return A list of Value type. 
+	 */
+	public List<Value> getUtilizationFromResource(String expressionName,
+			XMLGregorianCalendar from, XMLGregorianCalendar to);
+	
+	/**
+	 * 
+	 * @param nodeID
+	 * @param equipmentCode
 	 * @return
 	 */
-	public List<Value> getValuesFromResource(String shortName,
-			XMLGregorianCalendar from, XMLGregorianCalendar to, int periodHint, KindHintType kindHint);
+	public List<Equipment> getEquipments(String nodeID, String equipmentCode);
 	
-
+	/**
+	 * 
+	 * @param nodeID
+	 * @param name
+	 * @return
+	 */
+	public List<Function> getFunctions(String nodeID, String name);
+	
+	
+	/**
+	 * 
+	 * @param nodeID
+	 * @param expressionName
+	 * @return
+	 */
+	public List<NetXResource> getResources(String nodeID, String expressionName);
+	
+	
 }

@@ -80,6 +80,7 @@ public class ExpressionResultItemProvider
 
 			addTargetResourcePropertyDescriptor(object);
 			addTargetRangePropertyDescriptor(object);
+			addTargetPeriodPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -124,6 +125,28 @@ public class ExpressionResultItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Target Period feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTargetPeriodPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ExpressionResult_targetPeriod_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ExpressionResult_targetPeriod_feature", "_UI_ExpressionResult_type"),
+				 LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_PERIOD,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -197,6 +220,7 @@ public class ExpressionResultItemProvider
 
 		switch (notification.getFeatureID(ExpressionResult.class)) {
 			case LibraryPackage.EXPRESSION_RESULT__TARGET_RANGE:
+			case LibraryPackage.EXPRESSION_RESULT__TARGET_PERIOD:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case LibraryPackage.EXPRESSION_RESULT__TARGET_VALUES:
