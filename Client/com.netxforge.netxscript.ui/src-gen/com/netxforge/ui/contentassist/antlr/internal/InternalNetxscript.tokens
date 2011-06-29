@@ -64,7 +64,6 @@ T__37=37
 T__38=38
 T__39=39
 RULE_WS=10
-'RES'=66
 'METRIC'=23
 '>='=54
 '=='=49
@@ -85,6 +84,7 @@ RULE_WS=10
 'import'=32
 'mean()'=20
 'true'=69
+'RESOURCE'=66
 'count()'=16
 'min()'=18
 'else'=42
