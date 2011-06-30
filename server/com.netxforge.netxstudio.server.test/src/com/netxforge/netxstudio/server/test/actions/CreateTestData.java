@@ -256,21 +256,21 @@ public class CreateTestData extends AbstractDataProviderTest {
 
 		// 1st Context is a NetXResource
 		// 2nd Context is the Resource monitoring period. 
-		String eAsString = "this UTILIZATION = this METRIC 60 / this CAP}";
+		String eAsString = "this UTILIZATION = this METRIC 60 / this CAP 60 }";
 		utilizationExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(utilizationExpression);
 		return utilizationExpression;
 	}
 
-	private Expression createOrCapacityExpression() {
+	private Expression createOrGetCapacityExpression() {
 		if (capacityExpression != null) {
 			return capacityExpression;
 		}
 		capacityExpression = LibraryFactory.eINSTANCE.createExpression();
 		capacityExpression.setName("Capacity Expression");
 		// Context is a Node
-		String eAsString = "this CAP = this METRIC 60 / (NODE.BOARD.count() * 5);}";
+		String eAsString = "this.FUNCTION SGSN -> RESOURCE sgsn_attached_users CAP 60 = this.EQUIPMENT BOARD.count() * 5;}";
 		capacityExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(capacityExpression);
@@ -432,7 +432,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 					function.setUtilizationExpressionRef(e);
 				}
 				{// Load the cap expression.
-					Expression e = this.createOrCapacityExpression();
+					Expression e = this.createOrGetCapacityExpression();
 					function.setCapacityExpressionRef(e);
 				}
 				{// Add various tolerance refs.

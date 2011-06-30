@@ -1488,53 +1488,44 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ContextRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cContextRefAction_0 = (Action)cGroup.eContents().get(0);
-		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Keyword cThisKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
-		private final Alternatives cAlternatives_1_1 = (Alternatives)cGroup_1.eContents().get(1);
-		private final Assignment cPrimaryRefAssignment_1_1_0 = (Assignment)cAlternatives_1_1.eContents().get(0);
-		private final RuleCall cPrimaryRefPrimaryRefParserRuleCall_1_1_0_0 = (RuleCall)cPrimaryRefAssignment_1_1_0.eContents().get(0);
-		private final Assignment cRangeRefAssignment_1_1_1 = (Assignment)cAlternatives_1_1.eContents().get(1);
-		private final RuleCall cRangeRefRangeRefParserRuleCall_1_1_1_0 = (RuleCall)cRangeRefAssignment_1_1_1.eContents().get(0);
+		private final Keyword cThisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
+		private final Assignment cPrimaryRefAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
+		private final RuleCall cPrimaryRefPrimaryRefParserRuleCall_2_0_0 = (RuleCall)cPrimaryRefAssignment_2_0.eContents().get(0);
+		private final Assignment cRangeRefAssignment_2_1 = (Assignment)cAlternatives_2.eContents().get(1);
+		private final RuleCall cRangeRefRangeRefParserRuleCall_2_1_0 = (RuleCall)cRangeRefAssignment_2_1.eContents().get(0);
 		
 		/// **
 		// * Contextual reference will be restricted by a container in the scope provider
 		// * depending on the object representation of 'this', until implemented, all possible 
 		// * references will be visible.  
-		// * 
-		// * TODO:
-		// * As an alternative to this, implement hooks into the object types, with a literal string 
-		// * like 'Node'  
-		// * 
 		// * / ContextRef returns Reference:
-		//	{ContextRef} ("this" (primaryRef=PrimaryRef | rangeRef=RangeRef));
+		//	{ContextRef} "this" (primaryRef=PrimaryRef | rangeRef=RangeRef);
 		public ParserRule getRule() { return rule; }
 
-		//{ContextRef} ("this" (primaryRef=PrimaryRef | rangeRef=RangeRef))
+		//{ContextRef} "this" (primaryRef=PrimaryRef | rangeRef=RangeRef)
 		public Group getGroup() { return cGroup; }
 
 		//{ContextRef}
 		public Action getContextRefAction_0() { return cContextRefAction_0; }
 
-		//=> "this" (primaryRef=PrimaryRef | rangeRef=RangeRef)
-		public Group getGroup_1() { return cGroup_1; }
-
-		//=> "this"
-		public Keyword getThisKeyword_1_0() { return cThisKeyword_1_0; }
+		//"this"
+		public Keyword getThisKeyword_1() { return cThisKeyword_1; }
 
 		//primaryRef=PrimaryRef | rangeRef=RangeRef
-		public Alternatives getAlternatives_1_1() { return cAlternatives_1_1; }
+		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
 		//primaryRef=PrimaryRef
-		public Assignment getPrimaryRefAssignment_1_1_0() { return cPrimaryRefAssignment_1_1_0; }
+		public Assignment getPrimaryRefAssignment_2_0() { return cPrimaryRefAssignment_2_0; }
 
 		//PrimaryRef
-		public RuleCall getPrimaryRefPrimaryRefParserRuleCall_1_1_0_0() { return cPrimaryRefPrimaryRefParserRuleCall_1_1_0_0; }
+		public RuleCall getPrimaryRefPrimaryRefParserRuleCall_2_0_0() { return cPrimaryRefPrimaryRefParserRuleCall_2_0_0; }
 
 		//rangeRef=RangeRef
-		public Assignment getRangeRefAssignment_1_1_1() { return cRangeRefAssignment_1_1_1; }
+		public Assignment getRangeRefAssignment_2_1() { return cRangeRefAssignment_2_1; }
 
 		//RangeRef
-		public RuleCall getRangeRefRangeRefParserRuleCall_1_1_1_0() { return cRangeRefRangeRefParserRuleCall_1_1_1_0; }
+		public RuleCall getRangeRefRangeRefParserRuleCall_2_1_0() { return cRangeRefRangeRefParserRuleCall_2_1_0; }
 	}
 
 	public class PrimaryRefElements extends AbstractParserRuleElementFinder {
@@ -2393,13 +2384,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	// * Contextual reference will be restricted by a container in the scope provider
 	// * depending on the object representation of 'this', until implemented, all possible 
 	// * references will be visible.  
-	// * 
-	// * TODO:
-	// * As an alternative to this, implement hooks into the object types, with a literal string 
-	// * like 'Node'  
-	// * 
 	// * / ContextRef returns Reference:
-	//	{ContextRef} ("this" (primaryRef=PrimaryRef | rangeRef=RangeRef));
+	//	{ContextRef} "this" (primaryRef=PrimaryRef | rangeRef=RangeRef);
 	public ContextRefElements getContextRefAccess() {
 		return (pContextRef != null) ? pContextRef : (pContextRef = new ContextRefElements());
 	}
@@ -2501,7 +2487,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	} 
 
 	//terminal INT returns ecore::EInt:
-	//	"this one has been deactivated";
+	//	"zzzzzzzzz";
 	public TerminalRule getINTRule() {
 		return (tINT != null) ? tINT : (tINT = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "INT"));
 	} 

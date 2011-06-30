@@ -80,7 +80,7 @@ PlusAssignmentStatement returns Statement:
 //	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
 
 ReferenceAssignmentStatement returns Statement:
-	{RefAssignment} assignmentRef=(ContextRef | AbsoluteRef )'=' expression=Expression;
+	{RefAssignment} assignmentRef=Reference '=' expression=Expression;
 
 	// Expression, all operators extend this class. 
 Expression:
@@ -152,16 +152,20 @@ RangeLiteral returns Range:
 enum NativeFunction:
 	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()' | ERLANGB='erlangB()';
 
-Reference returns Expression:
-	ContextRef | AbsoluteRef
-;
 
+Reference returns Expression:
+	( ContextRef | AbsoluteRef) primaryRef=PrimaryRef? rangeRef=RangeRef?
+;
 
 /**
  * The Node context can be found with NODE if available.
  */
 AbsoluteRef returns Reference:
-	{AbsoluteRef} 'NODE' node=[library::NodeType] primaryRef=PrimaryRef
+	{AbsoluteRef} 'NODE' node=[library::NodeType] 
+;
+
+ContextRef returns Reference:
+	{ContextRef} 'this'
 ;
 
 /**
@@ -170,31 +174,10 @@ AbsoluteRef returns Reference:
  * references will be visible.  
  */
 
-ContextRef returns Reference:
-	{ContextRef} 'this' (primaryRef=PrimaryRef | rangeRef=RangeRef);
 
-/**
- * Exteral Node references, these can be nested and finish with a resource reference.
- */
- 
-PrimaryRef returns Reference:
-	(components+=ComponentRef)+ ('->' leafRef=LeafReference)?;
-
-ComponentRef returns Reference:
-	{ComponentRef} '.' ( 'FUNCTION' function=[library::Function] | 'EQUIPMENT' equipment=[library::Equipment])
+RangeRef returns Reference:
+	{RangeRef} valuerange=ValueRange (kind=ValueKind)? period=NUMBER
 ;
-
-LeafReference returns LeafReference:
-	ResourceRef | LinkRef ;
-
-ResourceRef returns LeafReference:
-	{ResourceRef} 'RESOURCE' (resource=[library::NetXResource] | 'ALL') rangeRef=RangeRef;
-
-
-RangeRef:
-	valuerange=ValueRange (kind=ValueKind)? period=NUMBER
-;
-
 
 enum ValueRange: 
 	METRIC='METRIC' | CAP='CAP' | FORECAST='FORECAST' | FORECAST_CAP='FORECAST_CAP' | TRENDED='TRENDED' | UTILIZATION='UTILIZATION'	
@@ -203,6 +186,23 @@ enum ValueRange:
 enum ValueKind: 
 	AVG='AVG' | BH='BH'
 ;
+
+/**
+ * Exteral Node references, these can be nested and finish with a resource reference.
+ */
+PrimaryRef returns Reference:
+	(components+=ComponentRef)+  leafRef=LeafReference?;
+
+ComponentRef returns Reference:
+	{ComponentRef} '.' ( 'FUNCTION' function=[library::Function] | 'EQUIPMENT' equipment=[library::Equipment])
+;
+
+LeafReference returns LeafReference:
+	'->' (ResourceRef | LinkRef);
+
+ResourceRef returns LeafReference:
+	{ResourceRef} 'RESOURCE' (resource=[library::NetXResource] | 'ALL');
+
 
 /**
  * TODO, through a link, we should be able to access, the opposite node and 
@@ -216,4 +216,4 @@ terminal NUMBER returns ecore::EBigDecimal:
 	('0'..'9')* ('.' ('0'..'9')+)?;
 
 terminal INT returns ecore::EInt:
-	'zzzzzzzzz';
+	'zzzzzzzzzzzz';

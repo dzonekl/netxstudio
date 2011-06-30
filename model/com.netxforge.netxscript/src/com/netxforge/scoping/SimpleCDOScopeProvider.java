@@ -50,6 +50,8 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 		// FIXME, Also we need to have access to other resources which store objects based on the 
 		// eclass name. 
 		
+		
+		// FIXME The URI is not, used 
 		uniqueImportURIs.add(URI.createURI("cdo://repo1/library"));
 		
 		IResourceDescriptions descriptions = getResourceDescriptions(resource, uniqueImportURIs);
@@ -93,6 +95,9 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 	public IResourceDescriptions getResourceDescriptions(Resource resource, Collection<URI> importUris) {
 		IResourceDescriptions result = getResourceDescriptions(resource);
 		CDOLoadOnDemandResourceDescriptions demandResourceDescriptions = loadOnDemandDescriptions.get();
+		
+		
+		// TODO, Initialize EClass, which can be used by the data provider. 
 		demandResourceDescriptions.initialize(result, importUris, resource);
 		return demandResourceDescriptions;
 	}

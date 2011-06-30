@@ -341,7 +341,8 @@ public class ScreenFormService implements IScreenFormService {
 		// We might be cached, if a child is currently active, 
 		// but it's better to dispose the complete list and restart. 
 		while(!screenStack.empty()){
-			screenStack.pop();
+			Composite c = screenStack.pop();
+			c.dispose();
 		}
 	}
 	

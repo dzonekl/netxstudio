@@ -17,11 +17,68 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.NetXResource;
 
 public class ModelUtils {
 
 	@Inject
 	private DatatypeFactory dataTypeFactory;
+
+	public List<com.netxforge.netxstudio.library.Function> functionsWithName(List<com.netxforge.netxstudio.library.Function> functions,
+			String name) {
+		List<com.netxforge.netxstudio.library.Function> fl = Lists.newArrayList();
+		for (com.netxforge.netxstudio.library.Function f : functions) {
+			if (f.getName().equals(name)) {
+				fl.add(f);
+			}
+			fl.addAll(this.functionsWithName(f.getFunctions(), name));
+		}
+		return fl;
+	}
+
+	public List<Equipment> equimentsWithCode(List<Equipment> equips, String code) {
+		List<Equipment> el = Lists.newArrayList();
+		for (Equipment e : equips) {
+			if (e.getEquipmentCode().equals(code)) {
+				el.add(e);
+			}
+			el.addAll(this.equimentsWithCode(e.getEquipments(), code));
+		}
+		return el;
+	}
+	
+	/**
+	 * Resources with this name. 
+	 * Notice: Matching is on regular expression, i.e. name = .* is all resources. 
+	 * 
+	 * @param components
+	 * @param name
+	 * @return
+	 */
+	public List<NetXResource> resourcesWithName(List<Component> components, String name) {
+		List<NetXResource> rl = Lists.newArrayList();
+		List<Component> cl = Lists.newArrayList();
+		for (Component c : components) {
+			for(NetXResource r : c.getResources()){
+				
+				
+				if(r.getExpressionName().matches(name)){
+					rl.add(r);
+				}
+			}
+			if(c instanceof Equipment){
+				cl.addAll(((Equipment)c).getEquipments());
+			}
+			if(c instanceof com.netxforge.netxstudio.library.Function){
+				cl.addAll(((com.netxforge.netxstudio.library.Function)c).getFunctions());
+			}
+			rl.addAll(this.resourcesWithName(cl, name));
+		}
+		return rl;
+	}
+	
 
 	public static final int SECONDS_IN_A_MINUTE = 60;
 	public static final int SECONDS_IN_A_QUARTER = SECONDS_IN_A_MINUTE * 15;
@@ -306,7 +363,7 @@ public class ModelUtils {
 		List<Date> occurences = Lists.newArrayList();
 		Date occurenceDate = start;
 		occurences.add(start);
-		
+
 		if (repeat > 0 && interval > 60 * 10) {
 			// We roll on the interval from the start date until repeat is
 			// reached.
@@ -316,21 +373,21 @@ public class ModelUtils {
 			}
 			return occurences;
 		}
-		if( end != null  && interval > 60 * 10) {
+		if (end != null && interval > 60 * 10) {
 			// We roll on the interval from the start date until the end date.
 			int i = 0;
 			while (i < maxEntries) {
 				occurenceDate = rollSeconds(occurenceDate, interval);
-				if(!crossedDate(end, occurenceDate)){
+				if (!crossedDate(end, occurenceDate)) {
 					occurences.add(occurenceDate);
-				}else{
+				} else {
 					break;
 				}
 				i++;
 			}
 			return occurences;
 		}
-		if(repeat == -1 && interval > 60*10){
+		if (repeat == -1 && interval > 60 * 10) {
 			int i = 0;
 			while (i < maxEntries) {
 				occurenceDate = rollSeconds(occurenceDate, interval);
@@ -339,8 +396,7 @@ public class ModelUtils {
 			}
 			return occurences;
 		}
-		
-		
+
 		return occurences;
 	}
 
@@ -381,54 +437,55 @@ public class ModelUtils {
 		return refCal.compareTo(variantCal) < 0;
 
 	}
-	
+
 	/**
-	 * Transform a list of Value object, to only the value part of the Value Object. 
+	 * Transform a list of Value object, to only the value part of the Value
+	 * Object.
 	 * 
 	 * @param values
 	 * @return
 	 */
-	public List<BigDecimal> transformValueToBigDecimal(List<Value> values){
-		Function<Value, BigDecimal> valueToBigDecimal = new Function<Value, BigDecimal>(){
+	public List<BigDecimal> transformValueToBigDecimal(List<Value> values) {
+		Function<Value, BigDecimal> valueToBigDecimal = new Function<Value, BigDecimal>() {
 			public BigDecimal apply(Value from) {
 				return new BigDecimal(from.getValue());
 			}
 		};
 		return Lists.transform(values, valueToBigDecimal);
 	}
-	
-	public List<Double> transformBigDecimalToDouble(List<BigDecimal> values){
-		Function<BigDecimal, Double> valueToBigDecimal = new Function<BigDecimal, Double>(){
+
+	public List<Double> transformBigDecimalToDouble(List<BigDecimal> values) {
+		Function<BigDecimal, Double> valueToBigDecimal = new Function<BigDecimal, Double>() {
 			public Double apply(BigDecimal from) {
 				return from.doubleValue();
 			}
 		};
 		return Lists.transform(values, valueToBigDecimal);
 	}
-	
-	public List<Double> transformValueToDouble(List<Value> values){
-		Function<Value, Double> valueToDouble = new Function<Value, Double>(){
+
+	public List<Double> transformValueToDouble(List<Value> values) {
+		Function<Value, Double> valueToDouble = new Function<Value, Double>() {
 			public Double apply(Value from) {
 				return from.getValue();
 			}
 		};
 		return Lists.transform(values, valueToDouble);
 	}
-	
-	
+
 	/**
-	 * FIXME, No other way that iterator through. 
+	 * FIXME, No other way that iterator through.
+	 * 
 	 * @param values
 	 * @return
 	 */
-	public double[] transformToDoublePrimitiveArray(List<Double> values){
+	public double[] transformToDoublePrimitiveArray(List<Double> values) {
 		double[] doubles = new double[values.size()];
 		int i = 0;
-		for(Double d: values){
+		for (Double d : values) {
 			doubles[i] = d.doubleValue();
 			i++;
 		}
 		return doubles;
 	}
-	
+
 }

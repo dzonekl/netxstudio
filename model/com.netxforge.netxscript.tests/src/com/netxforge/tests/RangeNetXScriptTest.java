@@ -35,7 +35,6 @@ public class RangeNetXScriptTest extends AbstractNetXScriptTest {
 		// dataService.getProvider().closeSession();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testRanges() throws Exception {
 		// Assigns a range to a and returns the range.
 		checkModule(

@@ -3,6 +3,7 @@ package com.netxforge.interpreter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +72,7 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.generics.impl.DateTimeRangeImpl;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -524,11 +526,6 @@ public class InterpreterTypeless implements IInterpreter {
 									.createExpressionResult();
 
 							// Set the target resource to write.
-
-							// Create a new expression result.
-							// TODO, perhaps lookup if the target resource is
-							// already populated.
-
 							er.setTargetResource(targetResource);
 
 							BigDecimal targetPeriod = targetRangeReference
@@ -595,9 +592,12 @@ public class InterpreterTypeless implements IInterpreter {
 										break;
 									}
 									if (entry instanceof BigDecimal) {
-										// TODO populate a value list, with
-										// timestamp to make it a Value.
+										Value v = GenericsFactory.eINSTANCE.createValue();
+										v.setValue(((BigDecimal)entry).doubleValue());
+										// FIXME, We don't set a timestamp! 
+										er.getTargetValues().add(v);
 									}
+									
 								}
 								result.add(er);
 							}
@@ -877,19 +877,30 @@ public class InterpreterTypeless implements IInterpreter {
 				// the context "Node",
 				// Let's get the last component referenced.
 				Reference lastRef = ref.getComponents().get(
-						ref.getComponents().size());
+						ref.getComponents().size() - 1);
 				if (lastRef instanceof ComponentRef) {
 					// return either the functions or equipments.
 					ComponentRef cr = (ComponentRef) lastRef;
 					if (cr.getEquipment() != null) {
 						String eCode = cr.getEquipment().getEquipmentCode();
-						dataService.getQueryService().getEquipments(
-								node.getNodeID(), eCode);
+						List<Equipment> equipments = modelUtils
+								.equimentsWithCode(node.getNodeType()
+										.getEquipments(), eCode);
+						return equipments;
+
+						// dataService.getQueryService().getEquipments(
+						// node.getNodeID(), eCode);
 					}
 					if (cr.getFunction() != null) {
+
 						String name = cr.getFunction().getName();
-						dataService.getQueryService().getFunctions(
-								node.getNodeID(), name);
+						List<com.netxforge.netxstudio.library.Function> functions = modelUtils
+								.functionsWithName(node.getNodeType()
+										.getFunctions(), name);
+						return functions;
+
+						// dataService.getQueryService().getFunctions(
+						// node.getNodeID(), name);
 					}
 				}
 			}
@@ -912,16 +923,20 @@ public class InterpreterTypeless implements IInterpreter {
 		pLog.log("Found a link reference", e.getLink());
 	}
 
-	protected List<Value> internalEvaluate(ResourceRef e,
+	protected List<?> internalEvaluate(ResourceRef e,
 			ImmutableMap<String, Object> values) {
 
 		Node n = (Node) values.get("node");
-		// Check if we have a single node. 
+		// Check if we have a single node.
 		if (n != null) {
 			NetXResource resource = e.getResource();
 			String expressionName = resource.getExpressionName();
-			List<NetXResource> resources = dataService.getQueryService()
-					.getResources(n.getNodeID(), expressionName);
+			List<Component> cl = Lists.newArrayList();
+			cl.addAll(n.getNodeType().getEquipments());
+			cl.addAll(n.getNodeType().getFunctions());
+			List<NetXResource> resources = modelUtils.resourcesWithName(cl,
+					expressionName);
+
 			if (resources.size() == 1) {
 				return internalEvaluate(e.getRangeRef(),
 						ImmutableMap.of("resource", resources.get(0)));
@@ -929,8 +944,8 @@ public class InterpreterTypeless implements IInterpreter {
 				throw new UnsupportedOperationException(
 						"The name of a resource must be unique for a Node");
 			}
-		}else{
-			// . 
+		} else {
+			// .
 			throw new UnsupportedOperationException(
 					"TODO the referenced resource should be looked up for all nodes");
 		}
@@ -944,7 +959,7 @@ public class InterpreterTypeless implements IInterpreter {
 	 * @param values
 	 * @return
 	 */
-	protected List<Value> internalEvaluate(RangeRef e,
+	protected List<?> internalEvaluate(RangeRef e,
 			ImmutableMap<String, NetXResource> values) {
 		boolean targetRangeAvailable = false;
 
@@ -975,7 +990,9 @@ public class InterpreterTypeless implements IInterpreter {
 			targetPeriod = 60;
 		}
 
-		// Loop the ranges, to find the correct range.
+		// Loop the metric ranges, to find the correct range, doesn't apply to
+		// any other range
+		// than the CAP range.
 		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 			int period = mvr.getPeriodHint();
 			KindHintType kht = mvr.getKindHint();
@@ -985,11 +1002,10 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 		}
 
-		List<Value> v = null; // Will be populated with the ranges.
-		IQueryService qService = dataService.getQueryService();
 		// We can only get the range, if it's actually available.
 		if (targetRangeAvailable) {
-
+			List<Value> v = null; // Will be populated with the ranges.
+			IQueryService qService = dataService.getQueryService();
 			switch (e.getValuerange().getValue()) {
 			case ValueRange.METRIC_VALUE: {
 				v = qService.getMetricsFromResource(
@@ -1017,7 +1033,7 @@ public class InterpreterTypeless implements IInterpreter {
 			return v;
 		} else {
 			pLog.log("Target range is not available", new Object[] {});
-			return null;
+			return Collections.EMPTY_LIST;
 		}
 	}
 
@@ -1034,26 +1050,15 @@ public class InterpreterTypeless implements IInterpreter {
 			range = (List<?>) dispatcher.invoke(ne.getRange(),
 					ImmutableMap.copyOf(values));
 		}
-
+		// Invocation on a reference.
 		if (ne.getRef() != null) {
 			Object eval = dispatcher.invoke(ne.getRef(),
 					ImmutableMap.copyOf(values));
 			if (eval instanceof List<?>) {
 				range = (List<?>) eval;
 			}
-			if (eval instanceof com.netxforge.netxstudio.library.Function) {
-				// TODO, we need an ocl expression for this.
-				range = ((com.netxforge.netxstudio.library.Function) eval)
-						.getAllFunctions();
-				System.out
-						.println("TODO : range =  the number of functions from this");
-			}
-			if (eval instanceof Equipment) {
-				// range = ((Equipment)eval).getAllEquipments();
-				System.out
-						.println("TODO : range =  the number of equipments from this");
-			}
 		}
+		// Invocation on a variable.
 		if (ne.getVar() != null) {
 			// Lookup the variable, by it's expression.
 			if (ne.getVar() != null) {
@@ -1142,13 +1147,14 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 			if (assertValue(rightEval)) {
 				Value v = (Value) rightEval;
+				// TODO How do we know the list can deal with a Value.
 				leftEvalAsList.add(v);
 				return ImmutableList.copyOf(leftEvalAsList);
 			}
 		}
 
 		throw new UnsupportedOperationException(
-				"Plus expression for invalid types");
+				"Plus expression for invalid types, i.e. this could be adding a Range to a Numbers");
 
 	}
 
@@ -1158,13 +1164,102 @@ public class InterpreterTypeless implements IInterpreter {
 				evaluateNumeric(minus.getRight(), values));
 	}
 
-	protected BigDecimal internalEvaluate(Div div,
+	protected Object internalEvaluate(Div div,
 			ImmutableMap<String, Object> values) {
 
-		// Evaluate as single value or range.
-		BigDecimal left = evaluateNumeric(div.getLeft(), values);
-		BigDecimal right = evaluateNumeric(div.getRight(), values);
-		return left.divide(right, 20, RoundingMode.HALF_UP);
+		//
+		Object leftEval = evaluate(div.getLeft(), values);
+		Object rightEval = evaluate(div.getRight(), values);
+
+		if (assertNumeric(leftEval)) {
+			if (assertNumeric(rightEval)) {
+				return ((BigDecimal) leftEval).divide((BigDecimal) rightEval,
+						20, RoundingMode.HALF_UP);
+			}
+		}
+
+		if (assertCollection(leftEval)) {
+			List<Object> resultList = Lists.newArrayList();
+			if (assertNumeric(rightEval)) {
+				// Divide all contents of the left list by the numeric provided.
+				for (Object leftO : (List<?>) leftEval) {
+					if (assertNumeric(leftO)) {
+						BigDecimal d = ((BigDecimal) leftEval).divide(
+								(BigDecimal) rightEval, 20,
+								RoundingMode.HALF_UP);
+						resultList.add(d);
+						continue;
+					}
+					if (assertValue(leftO)) {
+						Value v = (Value) leftO;
+						BigDecimal dValue = new BigDecimal(v.getValue());
+						BigDecimal d = dValue.divide((BigDecimal) rightEval,
+								20, RoundingMode.HALF_UP);
+						resultList.add(d);
+						continue;
+					}
+				}
+
+				// Assert the number of entries are the same.
+				assert resultList.size() == ((List<?>) leftEval).size() : new UnsupportedOperationException(
+						"Dividing computation error, result collection is a non-equal size to the left value");
+				return ImmutableList.copyOf(resultList);
+			}
+			if (assertValue(rightEval)) {
+				BigDecimal rightDividor = new BigDecimal(
+						((Value) rightEval).getValue());
+				// Divide all contents of the left list by the numeric provided.
+				for (Object leftO : (List<?>) leftEval) {
+					if (assertNumeric(leftO)) {
+						BigDecimal d = ((BigDecimal) leftEval).divide(
+								rightDividor, 20, RoundingMode.HALF_UP);
+						resultList.add(d);
+						continue;
+					}
+					if (assertValue(leftO)) {
+						Value v = (Value) leftO;
+						BigDecimal dValue = new BigDecimal(v.getValue());
+						BigDecimal d = dValue.divide(rightDividor, 20,
+								RoundingMode.HALF_UP);
+						resultList.add(d);
+						continue;
+					}
+				}
+
+				// Assert the number of entries are the same.
+				assert resultList.size() == ((List<?>) leftEval).size() : new UnsupportedOperationException(
+						"Dividing computation error, result range is a non-equal size to the left range");
+				return ImmutableList.copyOf(resultList);
+			}
+			if (assertCollection(rightEval)) {
+				// divide two collections.
+				assert ((List<?>) leftEval).size() == ((List<?>) rightEval)
+						.size() : new UnsupportedOperationException(
+						"Dividing computation error, left and right range are not equal size");
+
+				for (int j = 0; j < ((List<?>) leftEval).size(); j++) {
+					Object leftVal = ((List<?>) leftEval).get(j);
+					Object rightVal = ((List<?>) rightEval).get(j);
+					if (assertNumeric(leftVal) && assertNumeric(rightVal)) {
+						BigDecimal d = ((BigDecimal) leftVal)
+								.divide((BigDecimal) rightVal, 20,
+										RoundingMode.HALF_UP);
+						resultList.add(d);
+					}
+					if (assertValue(leftVal) && assertValue(rightVal)) {
+						BigDecimal d = new BigDecimal(
+								((Value) leftVal).getValue()).divide(
+								new BigDecimal(((Value) rightVal).getValue()),
+								20, RoundingMode.HALF_UP);
+						resultList.add(d);
+					}
+				}
+				return ImmutableList.copyOf(resultList);
+			}
+		}
+
+		throw new UnsupportedOperationException(
+				"Div expression for invalid types, i.e. This could be dividing a Number by a Range.");
 	}
 
 	protected BigDecimal internalEvaluate(Multi multi,

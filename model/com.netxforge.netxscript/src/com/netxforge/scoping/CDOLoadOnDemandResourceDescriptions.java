@@ -33,6 +33,11 @@ import com.netxforge.netxstudio.library.LibraryPackage;
  * provider instead.
  * 
  * 
+ * Note: This xResourceDescriptions, is likely not capable to be notified of 
+ * model changes, and re-index based on this.  
+ * 
+ * 
+ * 
  * @author Sebastian Zarnekow - Initial contribution and API
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */

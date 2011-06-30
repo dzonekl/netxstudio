@@ -2317,15 +2317,14 @@ ruleContextRef returns [EObject current=null]
             grammarAccess.getContextRefAccess().getContextRefAction_0(),
             $current);
     }
-)(((	'this' 
-)=>	otherlv_1='this' 
+)	otherlv_1='this' 
     {
-    	newLeafNode(otherlv_1, grammarAccess.getContextRefAccess().getThisKeyword_1_0());
+    	newLeafNode(otherlv_1, grammarAccess.getContextRefAccess().getThisKeyword_1());
     }
-)((
+((
 (
 		{ 
-	        newCompositeNode(grammarAccess.getContextRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_1_0_0()); 
+	        newCompositeNode(grammarAccess.getContextRefAccess().getPrimaryRefPrimaryRefParserRuleCall_2_0_0()); 
 	    }
 		lv_primaryRef_2_0=rulePrimaryRef		{
 	        if ($current==null) {
@@ -2344,7 +2343,7 @@ ruleContextRef returns [EObject current=null]
     |(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getContextRefAccess().getRangeRefRangeRefParserRuleCall_1_1_1_0()); 
+	        newCompositeNode(grammarAccess.getContextRefAccess().getRangeRefRangeRefParserRuleCall_2_1_0()); 
 	    }
 		lv_rangeRef_3_0=ruleRangeRef		{
 	        if ($current==null) {
@@ -2359,7 +2358,7 @@ ruleContextRef returns [EObject current=null]
 	    }
 
 )
-))))
+)))
 ;
 
 
@@ -2832,7 +2831,7 @@ ruleValueKind returns [Enumerator current=null]
 
 RULE_NUMBER : ('0'..'9')* ('.' ('0'..'9')+)?;
 
-RULE_INT : 'this one has been deactivated';
+RULE_INT : 'zzzzzzzzz';
 
 RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 

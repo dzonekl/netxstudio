@@ -5,7 +5,6 @@ grammar InternalNetxscript;
 
 options {
 	superClass=AbstractInternalContentAssistParser;
-	backtrack=true;
 	
 }
 
@@ -1725,21 +1724,21 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__ContextRef__Alternatives_1_1
+rule__ContextRef__Alternatives_2
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getContextRefAccess().getPrimaryRefAssignment_1_1_0()); }
-(rule__ContextRef__PrimaryRefAssignment_1_1_0)
-{ after(grammarAccess.getContextRefAccess().getPrimaryRefAssignment_1_1_0()); }
+{ before(grammarAccess.getContextRefAccess().getPrimaryRefAssignment_2_0()); }
+(rule__ContextRef__PrimaryRefAssignment_2_0)
+{ after(grammarAccess.getContextRefAccess().getPrimaryRefAssignment_2_0()); }
 )
 
     |(
-{ before(grammarAccess.getContextRefAccess().getRangeRefAssignment_1_1_1()); }
-(rule__ContextRef__RangeRefAssignment_1_1_1)
-{ after(grammarAccess.getContextRefAccess().getRangeRefAssignment_1_1_1()); }
+{ before(grammarAccess.getContextRefAccess().getRangeRefAssignment_2_1()); }
+(rule__ContextRef__RangeRefAssignment_2_1)
+{ after(grammarAccess.getContextRefAccess().getRangeRefAssignment_2_1()); }
 )
 
 ;
@@ -6736,6 +6735,7 @@ rule__ContextRef__Group__1
     }
 :
 	rule__ContextRef__Group__1__Impl
+	rule__ContextRef__Group__2
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -6747,44 +6747,11 @@ rule__ContextRef__Group__1__Impl
     }
 :
 (
-{ before(grammarAccess.getContextRefAccess().getGroup_1()); }
-(rule__ContextRef__Group_1__0)
-{ after(grammarAccess.getContextRefAccess().getGroup_1()); }
-)
+{ before(grammarAccess.getContextRefAccess().getThisKeyword_1()); }
 
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
-
-
-
-
-rule__ContextRef__Group_1__0
-    @init {
-		int stackSize = keepStackSize();
-    }
-:
-	rule__ContextRef__Group_1__0__Impl
-	rule__ContextRef__Group_1__1
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__ContextRef__Group_1__0__Impl
-    @init {
-		int stackSize = keepStackSize();
-    }
-:
-(
-{ before(grammarAccess.getContextRefAccess().getThisKeyword_1_0()); }
-(
 	'this' 
-)
-{ after(grammarAccess.getContextRefAccess().getThisKeyword_1_0()); }
+
+{ after(grammarAccess.getContextRefAccess().getThisKeyword_1()); }
 )
 
 ;
@@ -6793,32 +6760,34 @@ finally {
 }
 
 
-rule__ContextRef__Group_1__1
+rule__ContextRef__Group__2
     @init {
 		int stackSize = keepStackSize();
     }
 :
-	rule__ContextRef__Group_1__1__Impl
+	rule__ContextRef__Group__2__Impl
 ;
 finally {
 	restoreStackSize(stackSize);
 }
 
-rule__ContextRef__Group_1__1__Impl
+rule__ContextRef__Group__2__Impl
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getContextRefAccess().getAlternatives_1_1()); }
-(rule__ContextRef__Alternatives_1_1)
-{ after(grammarAccess.getContextRefAccess().getAlternatives_1_1()); }
+{ before(grammarAccess.getContextRefAccess().getAlternatives_2()); }
+(rule__ContextRef__Alternatives_2)
+{ after(grammarAccess.getContextRefAccess().getAlternatives_2()); }
 )
 
 ;
 finally {
 	restoreStackSize(stackSize);
 }
+
+
 
 
 
@@ -8266,14 +8235,14 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__ContextRef__PrimaryRefAssignment_1_1_0
+rule__ContextRef__PrimaryRefAssignment_2_0
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getContextRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_1_0_0()); }
-	rulePrimaryRef{ after(grammarAccess.getContextRefAccess().getPrimaryRefPrimaryRefParserRuleCall_1_1_0_0()); }
+{ before(grammarAccess.getContextRefAccess().getPrimaryRefPrimaryRefParserRuleCall_2_0_0()); }
+	rulePrimaryRef{ after(grammarAccess.getContextRefAccess().getPrimaryRefPrimaryRefParserRuleCall_2_0_0()); }
 )
 
 ;
@@ -8281,14 +8250,14 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__ContextRef__RangeRefAssignment_1_1_1
+rule__ContextRef__RangeRefAssignment_2_1
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getContextRefAccess().getRangeRefRangeRefParserRuleCall_1_1_1_0()); }
-	ruleRangeRef{ after(grammarAccess.getContextRefAccess().getRangeRefRangeRefParserRuleCall_1_1_1_0()); }
+{ before(grammarAccess.getContextRefAccess().getRangeRefRangeRefParserRuleCall_2_1_0()); }
+	ruleRangeRef{ after(grammarAccess.getContextRefAccess().getRangeRefRangeRefParserRuleCall_2_1_0()); }
 )
 
 ;
@@ -8465,7 +8434,7 @@ finally {
 
 RULE_NUMBER : ('0'..'9')* ('.' ('0'..'9')+)?;
 
-RULE_INT : 'this one has been deactivated';
+RULE_INT : 'zzzzzzzzz';
 
 RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 
