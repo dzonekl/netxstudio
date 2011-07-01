@@ -80,7 +80,17 @@ public enum ValueRange implements Enumerator
    * @generated
    * @ordered
    */
-  UTILIZATION(5, "UTILIZATION", "UTILIZATION");
+  UTILIZATION(5, "UTILIZATION", "UTILIZATION"),
+
+  /**
+   * The '<em><b>TOLERANCE</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #TOLERANCE_VALUE
+   * @generated
+   * @ordered
+   */
+  TOLERANCE(6, "TOLERANCE", "TOLERANCE");
 
   /**
    * The '<em><b>METRIC</b></em>' literal value.
@@ -173,6 +183,21 @@ public enum ValueRange implements Enumerator
   public static final int UTILIZATION_VALUE = 5;
 
   /**
+   * The '<em><b>TOLERANCE</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>TOLERANCE</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #TOLERANCE
+   * @model
+   * @generated
+   * @ordered
+   */
+  public static final int TOLERANCE_VALUE = 6;
+
+  /**
    * An array of all the '<em><b>Value Range</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -187,6 +212,7 @@ public enum ValueRange implements Enumerator
       FORECAST_CAP,
       TRENDED,
       UTILIZATION,
+      TOLERANCE,
     };
 
   /**
@@ -251,6 +277,7 @@ public enum ValueRange implements Enumerator
       case FORECAST_CAP_VALUE: return FORECAST_CAP;
       case TRENDED_VALUE: return TRENDED;
       case UTILIZATION_VALUE: return UTILIZATION;
+      case TOLERANCE_VALUE: return TOLERANCE;
     }
     return null;
   }

@@ -1856,12 +1856,14 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cTRENDEDTRENDEDKeyword_4_0 = (Keyword)cTRENDEDEnumLiteralDeclaration_4.eContents().get(0);
 		private final EnumLiteralDeclaration cUTILIZATIONEnumLiteralDeclaration_5 = (EnumLiteralDeclaration)cAlternatives.eContents().get(5);
 		private final Keyword cUTILIZATIONUTILIZATIONKeyword_5_0 = (Keyword)cUTILIZATIONEnumLiteralDeclaration_5.eContents().get(0);
+		private final EnumLiteralDeclaration cTOLERANCEEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
+		private final Keyword cTOLERANCETOLERANCEKeyword_6_0 = (Keyword)cTOLERANCEEnumLiteralDeclaration_6.eContents().get(0);
 		
 		//enum ValueRange:
-		//	METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION;
+		//	METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION | TOLERANCE;
 		public EnumRule getRule() { return rule; }
 
-		//METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION
+		//METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION | TOLERANCE
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//METRIC
@@ -1899,6 +1901,12 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//"UTILIZATION"
 		public Keyword getUTILIZATIONUTILIZATIONKeyword_5_0() { return cUTILIZATIONUTILIZATIONKeyword_5_0; }
+
+		//TOLERANCE
+		public EnumLiteralDeclaration getTOLERANCEEnumLiteralDeclaration_6() { return cTOLERANCEEnumLiteralDeclaration_6; }
+
+		//"TOLERANCE"
+		public Keyword getTOLERANCETOLERANCEKeyword_6_0() { return cTOLERANCETOLERANCEKeyword_6_0; }
 	}
 
 	public class ValueKindElements extends AbstractEnumRuleElementFinder {
@@ -2447,7 +2455,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//enum ValueRange:
-	//	METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION;
+	//	METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION | TOLERANCE;
 	public ValueRangeElements getValueRangeAccess() {
 		return (unknownRuleValueRange != null) ? unknownRuleValueRange : (unknownRuleValueRange = new ValueRangeElements());
 	}

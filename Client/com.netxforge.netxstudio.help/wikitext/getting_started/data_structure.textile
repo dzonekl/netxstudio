@@ -22,7 +22,8 @@ The following objects are defined in the Library.
 * Company
 * Tolerance
 * Unit
-* Expressions
+* Expression
+* Resource
 
 In the diagram below, as an example we provide a definition of a system named as  MSC-S. 
 
@@ -36,6 +37,50 @@ The following objects can be nested to provide the needed representation of a Te
 * Function
 * Equipment
 * Metric
+
+h3. Metric
+
+A metric is an identifier with a name which refers to a statistics counter produced by a telecommunication equipment 
+vendor. Metrics should be defined for each relevant capacity metric required to be monitored. A Metric is referenced by 
+a metric source. 
+
+h3. Resource
+
+Resource contain various so-called ranges, which store information about the resource. 
+These are: 
+
+* Multiple Metric Ranges
+
+* Capacity Range
+
+* Utilization Range
+
+[TBD various other ranges related to trending, forecasting etc...]
+
+Metric ranges are created when reading metrics from the defined sources. A metric source 
+will tell for each metric and corresponding resource the characteristics of the metric being stored in the resource. 
+The characteristics are: 
+
+- Are these Average or Busy Hour values, identified as AVG and BH
+- What is the interval of measurement in minutes. I.e an interval of '60' means an interval of one hour between each measurement. 
+
+Example: 
+
+For a metric which produces hourly busy hour value, the following metric range will be created in the resource. 
+
+METRIC BH 60 (This is actually the syntax used by the NetXScript expression grammar).
+
+h3. Metric vs Resource what is the difference? 
+
+It can be confusing the see the difference between a metric and a resource. 
+The difference should be become clear considering the following. 
+
+A Resource is holding the values of a metric, but also the results of calculations. 
+In contrary a metric, is specified by the vendor of the telecommunications equipment.
+
+A Resource is created automaticly when reading in metric values, we actually give it the name of the metric.
+A resource can however also be created manually and populated with the results from expressions. This is also referred
+to as a derived resource.   
 
 
 h2. Operator
@@ -57,10 +102,6 @@ The following objects can be nested to provide the needed representation of a Te
 
 * Network
 
-
-h2. Metrics
-
-[TBD]
 
 
 h2. Geographical

@@ -90,7 +90,15 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	UTILIZATION(5, "UTILIZATION", "UTILIZATION");
+	UTILIZATION(5, "UTILIZATION", "UTILIZATION"), /**
+	 * The '<em><b>TOLERANCE</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #TOLERANCE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	TOLERANCE(6, "TOLERANCE", "TOLERANCE");
 
 	/**
 	 * The '<em><b>METRIC</b></em>' literal value.
@@ -183,6 +191,21 @@ public enum RangeKind implements Enumerator {
 	public static final int UTILIZATION_VALUE = 5;
 
 	/**
+	 * The '<em><b>TOLERANCE</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>TOLERANCE</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #TOLERANCE
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int TOLERANCE_VALUE = 6;
+
+	/**
 	 * An array of all the '<em><b>Range Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -196,6 +219,7 @@ public enum RangeKind implements Enumerator {
 			FORECASTCAP,
 			TRENDED,
 			UTILIZATION,
+			TOLERANCE,
 		};
 
 	/**
@@ -252,6 +276,7 @@ public enum RangeKind implements Enumerator {
 			case FORECASTCAP_VALUE: return FORECASTCAP;
 			case TRENDED_VALUE: return TRENDED;
 			case UTILIZATION_VALUE: return UTILIZATION;
+			case TOLERANCE_VALUE: return TOLERANCE;
 		}
 		return null;
 	}

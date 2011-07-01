@@ -1719,6 +1719,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		addEEnumLiteral(rangeKindEEnum, RangeKind.FORECASTCAP);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.TRENDED);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.UTILIZATION);
+		addEEnumLiteral(rangeKindEEnum, RangeKind.TOLERANCE);
 
 		initEEnum(redundancyTypeEEnum, RedundancyType.class, "RedundancyType");
 		addEEnumLiteral(redundancyTypeEEnum, RedundancyType.N);

@@ -2203,6 +2203,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     addEEnumLiteral(valueRangeEEnum, ValueRange.FORECAST_CAP);
     addEEnumLiteral(valueRangeEEnum, ValueRange.TRENDED);
     addEEnumLiteral(valueRangeEEnum, ValueRange.UTILIZATION);
+    addEEnumLiteral(valueRangeEEnum, ValueRange.TOLERANCE);
 
     initEEnum(valueKindEEnum, ValueKind.class, "ValueKind");
     addEEnumLiteral(valueKindEEnum, ValueKind.AVG);

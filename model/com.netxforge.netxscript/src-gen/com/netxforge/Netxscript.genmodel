@@ -25,6 +25,7 @@
       <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueRange/FORECAST_CAP"/>
       <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueRange/TRENDED"/>
       <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueRange/UTILIZATION"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueRange/TOLERANCE"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueKind">
       <genEnumLiterals ecoreEnumLiteral="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueKind/AVG"/>

@@ -73,6 +73,7 @@
     <eLiterals name="FORECAST_CAP" value="3" literal="FORECAST_CAP"/>
     <eLiterals name="TRENDED" value="4" literal="TRENDED"/>
     <eLiterals name="UTILIZATION" value="5" literal="UTILIZATION"/>
+    <eLiterals name="TOLERANCE" value="6" literal="TOLERANCE"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ValueKind">
     <eLiterals name="AVG" literal="AVG"/>

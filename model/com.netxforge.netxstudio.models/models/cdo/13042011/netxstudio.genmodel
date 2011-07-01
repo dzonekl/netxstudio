@@ -178,6 +178,7 @@
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECASTCAP"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/TRENDED"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/UTILIZATION"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/TOLERANCE"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//RedundancyType">
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RedundancyType/n"/>

@@ -997,6 +997,7 @@
     <eLiterals name="FORECASTCAP" value="3" literal="FORECAST_CAP"/>
     <eLiterals name="TRENDED" value="4"/>
     <eLiterals name="UTILIZATION" value="5"/>
+    <eLiterals name="TOLERANCE" value="6"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="RangeKindObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

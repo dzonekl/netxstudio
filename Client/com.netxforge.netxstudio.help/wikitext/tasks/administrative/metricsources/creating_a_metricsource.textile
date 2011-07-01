@@ -1,0 +1,24 @@
+h1. Creating a Metric Source. 
+
+When creating a Metric SOurce the following screen will appear.
+
+[TODO screenshot]
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/metricsources/creating_a_metricsource.png!
+
+The following data should be entered 
+
+*General Information*
+
+* The metric source name
+* The First name
+* The Last name
+* The Email address
+* If the user is Active
+
+*Authentication*
+
+* The password, confirmed when entered twice. 
+
+*Role*
+
+* The role of the User.

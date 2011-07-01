@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_NUMBER", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'mod'", "'import'", "'def'", "'('", "','", "')'", "'{'", "'}'", "';'", "'return'", "'if'", "'else'", "'while'", "'var'", "'='", "'+='", "'&&'", "'||'", "'=='", "'!='", "'<'", "'<='", "'>'", "'>='", "'+'", "'-'", "'*'", "'/'", "'%'", "'!'", "'true'", "'false'", "'['", "']'", "'.'", "'NODE'", "'this'", "'->'", "'FUNCTION'", "'EQUIPMENT'", "'RESOURCE'", "'ALL'", "'LINK'", "'count()'", "'sum()'", "'min()'", "'max()'", "'mean()'", "'deviation()'", "'erlangB()'", "'METRIC'", "'CAP'", "'FORECAST'", "'FORECAST_CAP'", "'TRENDED'", "'UTILIZATION'", "'AVG'", "'BH'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_NUMBER", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'mod'", "'import'", "'def'", "'('", "','", "')'", "'{'", "'}'", "';'", "'return'", "'if'", "'else'", "'while'", "'var'", "'='", "'+='", "'&&'", "'||'", "'=='", "'!='", "'<'", "'<='", "'>'", "'>='", "'+'", "'-'", "'*'", "'/'", "'%'", "'!'", "'true'", "'false'", "'['", "']'", "'.'", "'NODE'", "'this'", "'->'", "'FUNCTION'", "'EQUIPMENT'", "'RESOURCE'", "'ALL'", "'LINK'", "'count()'", "'sum()'", "'min()'", "'max()'", "'mean()'", "'deviation()'", "'erlangB()'", "'METRIC'", "'CAP'", "'FORECAST'", "'FORECAST_CAP'", "'TRENDED'", "'UTILIZATION'", "'TOLERANCE'", "'AVG'", "'BH'"
     };
     public static final int T__68=68;
     public static final int T__69=69;
@@ -86,6 +86,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final int T__33=33;
     public static final int T__34=34;
     public static final int T__35=35;
+    public static final int T__70=70;
     public static final int T__36=36;
     public static final int T__37=37;
     public static final int T__38=38;
@@ -6164,7 +6165,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             if ( (LA38_0==46) ) {
                 alt38=1;
             }
-            else if ( ((LA38_0>=62 && LA38_0<=67)) ) {
+            else if ( ((LA38_0>=62 && LA38_0<=68)) ) {
                 alt38=2;
             }
             else {
@@ -7039,7 +7040,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             int alt44=2;
             int LA44_0 = input.LA(1);
 
-            if ( ((LA44_0>=68 && LA44_0<=69)) ) {
+            if ( ((LA44_0>=69 && LA44_0<=70)) ) {
                 alt44=1;
             }
             switch (alt44) {
@@ -7436,7 +7437,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleValueRange"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2771:1: ruleValueRange returns [Enumerator current=null] : ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) ) ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2771:1: ruleValueRange returns [Enumerator current=null] : ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) ) ;
     public final Enumerator ruleValueRange() throws RecognitionException {
         Enumerator current = null;
 
@@ -7446,14 +7447,15 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
         Token enumLiteral_3=null;
         Token enumLiteral_4=null;
         Token enumLiteral_5=null;
+        Token enumLiteral_6=null;
 
          enterRule(); 
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2773:28: ( ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2774:1: ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2773:28: ( ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2774:1: ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2774:1: ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) )
-            int alt46=6;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2774:1: ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) )
+            int alt46=7;
             switch ( input.LA(1) ) {
             case 62:
                 {
@@ -7483,6 +7485,11 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             case 67:
                 {
                 alt46=6;
+                }
+                break;
+            case 68:
+                {
+                alt46=7;
                 }
                 break;
             default:
@@ -7595,6 +7602,23 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
                     }
                     break;
+                case 7 :
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2810:6: (enumLiteral_6= 'TOLERANCE' )
+                    {
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2810:6: (enumLiteral_6= 'TOLERANCE' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2810:8: enumLiteral_6= 'TOLERANCE'
+                    {
+                    enumLiteral_6=(Token)match(input,68,FOLLOW_68_in_ruleValueRange6472); 
+
+                            current = grammarAccess.getValueRangeAccess().getTOLERANCEEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
+                            newLeafNode(enumLiteral_6, grammarAccess.getValueRangeAccess().getTOLERANCEEnumLiteralDeclaration_6()); 
+                        
+
+                    }
+
+
+                    }
+                    break;
 
             }
 
@@ -7616,7 +7640,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleValueKind"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2814:1: ruleValueKind returns [Enumerator current=null] : ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) ) ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2820:1: ruleValueKind returns [Enumerator current=null] : ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) ) ;
     public final Enumerator ruleValueKind() throws RecognitionException {
         Enumerator current = null;
 
@@ -7625,17 +7649,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
          enterRule(); 
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2816:28: ( ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2817:1: ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2822:28: ( ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2823:1: ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2817:1: ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2823:1: ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) )
             int alt47=2;
             int LA47_0 = input.LA(1);
 
-            if ( (LA47_0==68) ) {
+            if ( (LA47_0==69) ) {
                 alt47=1;
             }
-            else if ( (LA47_0==69) ) {
+            else if ( (LA47_0==70) ) {
                 alt47=2;
             }
             else {
@@ -7646,12 +7670,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             }
             switch (alt47) {
                 case 1 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2817:2: (enumLiteral_0= 'AVG' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2823:2: (enumLiteral_0= 'AVG' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2817:2: (enumLiteral_0= 'AVG' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2817:4: enumLiteral_0= 'AVG'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2823:2: (enumLiteral_0= 'AVG' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2823:4: enumLiteral_0= 'AVG'
                     {
-                    enumLiteral_0=(Token)match(input,68,FOLLOW_68_in_ruleValueKind6500); 
+                    enumLiteral_0=(Token)match(input,69,FOLLOW_69_in_ruleValueKind6517); 
 
                             current = grammarAccess.getValueKindAccess().getAVGEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_0, grammarAccess.getValueKindAccess().getAVGEnumLiteralDeclaration_0()); 
@@ -7663,12 +7687,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2823:6: (enumLiteral_1= 'BH' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2829:6: (enumLiteral_1= 'BH' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2823:6: (enumLiteral_1= 'BH' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2823:8: enumLiteral_1= 'BH'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2829:6: (enumLiteral_1= 'BH' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2829:8: enumLiteral_1= 'BH'
                     {
-                    enumLiteral_1=(Token)match(input,69,FOLLOW_69_in_ruleValueKind6517); 
+                    enumLiteral_1=(Token)match(input,70,FOLLOW_70_in_ruleValueKind6534); 
 
                             current = grammarAccess.getValueKindAccess().getBHEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_1, grammarAccess.getValueKindAccess().getBHEnumLiteralDeclaration_1()); 
@@ -7704,86 +7728,89 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     protected DFA9 dfa9 = new DFA9(this);
     protected DFA28 dfa28 = new DFA28(this);
     static final String DFA9_eotS =
-        "\76\uffff";
+        "\101\uffff";
     static final String DFA9_eofS =
-        "\76\uffff";
+        "\101\uffff";
     static final String DFA9_minS =
-        "\1\4\1\uffff\1\17\1\56\1\4\4\uffff\1\62\6\6\1\56\2\4\2\6\1\24\1"+
+        "\1\4\1\uffff\1\17\1\56\1\4\4\uffff\1\62\7\6\1\56\2\4\2\6\1\24\1"+
         "\62\2\24\1\uffff\2\4\1\64\1\62\2\24\2\4\1\64\1\62\2\76\1\24\2\4"+
-        "\6\6\2\76\1\24\2\6\1\24\10\6\1\24";
+        "\7\6\2\76\1\24\2\6\1\24\11\6\1\24";
     static final String DFA9_maxS =
-        "\1\60\1\uffff\1\56\1\103\1\4\4\uffff\1\63\6\105\1\56\2\4\2\6\1\56"+
-        "\1\63\2\61\1\uffff\2\4\1\66\1\75\2\61\1\65\1\4\1\66\1\75\2\103\1"+
-        "\56\1\65\1\4\6\105\2\103\1\56\2\6\1\56\6\105\2\6\1\56";
+        "\1\60\1\uffff\1\56\1\104\1\4\4\uffff\1\63\7\106\1\56\2\4\2\6\1\56"+
+        "\1\63\2\61\1\uffff\2\4\1\66\1\75\2\61\1\65\1\4\1\66\1\75\2\104\1"+
+        "\56\1\65\1\4\7\106\2\104\1\56\2\6\1\56\7\106\2\6\1\56";
     static final String DFA9_acceptS =
-        "\1\uffff\1\1\3\uffff\1\5\1\6\1\3\1\2\20\uffff\1\4\44\uffff";
+        "\1\uffff\1\1\3\uffff\1\5\1\6\1\3\1\2\21\uffff\1\4\46\uffff";
     static final String DFA9_specialS =
-        "\76\uffff}>";
+        "\101\uffff}>";
     static final String[] DFA9_transitionS = {
             "\1\2\1\uffff\1\5\10\uffff\1\5\5\uffff\1\6\3\uffff\1\1\12\uffff"+
             "\2\5\3\uffff\4\5\2\uffff\1\4\1\3",
             "",
             "\1\5\4\uffff\1\5\5\uffff\1\10\1\7\15\5\3\uffff\1\5\1\uffff"+
             "\1\5",
-            "\1\11\17\uffff\1\12\1\13\1\14\1\15\1\16\1\17",
-            "\1\20",
+            "\1\11\17\uffff\1\12\1\13\1\14\1\15\1\16\1\17\1\20",
+            "\1\21",
             "",
             "",
             "",
             "",
-            "\1\21\1\22",
-            "\1\25\75\uffff\1\23\1\24",
-            "\1\25\75\uffff\1\23\1\24",
-            "\1\25\75\uffff\1\23\1\24",
-            "\1\25\75\uffff\1\23\1\24",
-            "\1\25\75\uffff\1\23\1\24",
-            "\1\25\75\uffff\1\23\1\24",
-            "\1\26",
+            "\1\22\1\23",
+            "\1\26\76\uffff\1\24\1\25",
+            "\1\26\76\uffff\1\24\1\25",
+            "\1\26\76\uffff\1\24\1\25",
+            "\1\26\76\uffff\1\24\1\25",
+            "\1\26\76\uffff\1\24\1\25",
+            "\1\26\76\uffff\1\24\1\25",
+            "\1\26\76\uffff\1\24\1\25",
             "\1\27",
             "\1\30",
-            "\1\25",
-            "\1\25",
-            "\1\5\5\uffff\1\31\1\uffff\15\5\5\uffff\1\5",
-            "\1\32\1\33",
-            "\1\5\5\uffff\1\31\1\uffff\15\5\5\uffff\1\35\2\uffff\1\34",
-            "\1\5\5\uffff\1\31\1\uffff\15\5\5\uffff\1\35\2\uffff\1\34",
+            "\1\31",
+            "\1\26",
+            "\1\26",
+            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
+            "\1\33\1\34",
+            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\36\2\uffff\1\35",
+            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\36\2\uffff\1\35",
             "",
-            "\1\36",
             "\1\37",
-            "\1\40\1\uffff\1\41",
-            "\1\21\1\22\3\uffff\7\5",
-            "\1\5\5\uffff\1\31\1\uffff\15\5\5\uffff\1\43\2\uffff\1\42",
-            "\1\5\5\uffff\1\31\1\uffff\15\5\5\uffff\1\43\2\uffff\1\42",
-            "\1\44\60\uffff\1\45",
-            "\1\46",
-            "\1\47\1\uffff\1\50",
-            "\1\32\1\33\3\uffff\7\5",
-            "\1\51\1\52\1\53\1\54\1\55\1\56",
-            "\1\51\1\52\1\53\1\54\1\55\1\56",
-            "\1\5\5\uffff\1\31\1\uffff\15\5\5\uffff\1\5",
-            "\1\57\60\uffff\1\60",
-            "\1\61",
-            "\1\64\75\uffff\1\62\1\63",
-            "\1\64\75\uffff\1\62\1\63",
-            "\1\64\75\uffff\1\62\1\63",
-            "\1\64\75\uffff\1\62\1\63",
-            "\1\64\75\uffff\1\62\1\63",
-            "\1\64\75\uffff\1\62\1\63",
-            "\1\65\1\66\1\67\1\70\1\71\1\72",
-            "\1\65\1\66\1\67\1\70\1\71\1\72",
-            "\1\5\5\uffff\1\31\1\uffff\15\5\5\uffff\1\5",
-            "\1\64",
-            "\1\64",
-            "\1\5\5\uffff\1\31\1\uffff\15\5\5\uffff\1\5",
-            "\1\75\75\uffff\1\73\1\74",
-            "\1\75\75\uffff\1\73\1\74",
-            "\1\75\75\uffff\1\73\1\74",
-            "\1\75\75\uffff\1\73\1\74",
-            "\1\75\75\uffff\1\73\1\74",
-            "\1\75\75\uffff\1\73\1\74",
-            "\1\75",
-            "\1\75",
-            "\1\5\5\uffff\1\31\1\uffff\15\5\5\uffff\1\5"
+            "\1\40",
+            "\1\41\1\uffff\1\42",
+            "\1\22\1\23\3\uffff\7\5",
+            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\44\2\uffff\1\43",
+            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\44\2\uffff\1\43",
+            "\1\45\60\uffff\1\46",
+            "\1\47",
+            "\1\50\1\uffff\1\51",
+            "\1\33\1\34\3\uffff\7\5",
+            "\1\52\1\53\1\54\1\55\1\56\1\57\1\60",
+            "\1\52\1\53\1\54\1\55\1\56\1\57\1\60",
+            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
+            "\1\61\60\uffff\1\62",
+            "\1\63",
+            "\1\66\76\uffff\1\64\1\65",
+            "\1\66\76\uffff\1\64\1\65",
+            "\1\66\76\uffff\1\64\1\65",
+            "\1\66\76\uffff\1\64\1\65",
+            "\1\66\76\uffff\1\64\1\65",
+            "\1\66\76\uffff\1\64\1\65",
+            "\1\66\76\uffff\1\64\1\65",
+            "\1\67\1\70\1\71\1\72\1\73\1\74\1\75",
+            "\1\67\1\70\1\71\1\72\1\73\1\74\1\75",
+            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
+            "\1\66",
+            "\1\66",
+            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
+            "\1\100\76\uffff\1\76\1\77",
+            "\1\100\76\uffff\1\76\1\77",
+            "\1\100\76\uffff\1\76\1\77",
+            "\1\100\76\uffff\1\76\1\77",
+            "\1\100\76\uffff\1\76\1\77",
+            "\1\100\76\uffff\1\76\1\77",
+            "\1\100\76\uffff\1\76\1\77",
+            "\1\100",
+            "\1\100",
+            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5"
     };
 
     static final short[] DFA9_eot = DFA.unpackEncodedString(DFA9_eotS);
@@ -7820,98 +7847,101 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
         }
     }
     static final String DFA28_eotS =
-        "\104\uffff";
+        "\107\uffff";
     static final String DFA28_eofS =
-        "\5\uffff\1\23\2\uffff\1\25\21\uffff\1\37\2\uffff\2\37\5\uffff\2"+
-        "\37\6\uffff\1\37\12\uffff\1\37\2\uffff\1\37\10\uffff\1\37";
+        "\5\uffff\1\24\2\uffff\1\26\22\uffff\1\40\2\uffff\2\40\5\uffff\2"+
+        "\40\6\uffff\1\40\13\uffff\1\40\2\uffff\1\40\11\uffff\1\40";
     static final String DFA28_minS =
-        "\1\4\1\uffff\1\6\1\56\1\4\1\17\1\uffff\2\20\1\62\6\6\1\56\3\uffff"+
+        "\1\4\1\uffff\1\6\1\56\1\4\1\17\1\uffff\2\20\1\62\7\6\1\56\3\uffff"+
         "\1\6\1\uffff\2\4\2\6\1\20\1\62\3\20\1\uffff\2\4\1\64\1\62\2\20\2"+
-        "\4\1\64\1\62\2\76\1\20\2\4\6\6\2\76\1\20\2\6\1\20\10\6\1\20";
+        "\4\1\64\1\62\2\76\1\20\2\4\7\6\2\76\1\20\2\6\1\20\11\6\1\20";
     static final String DFA28_maxS =
-        "\1\60\1\uffff\1\55\1\103\1\4\1\56\1\uffff\1\55\1\56\1\63\6\105\1"+
+        "\1\60\1\uffff\1\55\1\104\1\4\1\56\1\uffff\1\55\1\56\1\63\7\106\1"+
         "\56\3\uffff\1\6\1\uffff\2\4\2\6\1\56\1\63\1\55\2\61\1\uffff\2\4"+
-        "\1\66\1\75\2\61\1\65\1\4\1\66\1\75\2\103\1\56\1\65\1\4\6\105\2\103"+
-        "\1\56\2\6\1\56\6\105\2\6\1\56";
+        "\1\66\1\75\2\61\1\65\1\4\1\66\1\75\2\104\1\56\1\65\1\4\7\106\2\104"+
+        "\1\56\2\6\1\56\7\106\2\6\1\56";
     static final String DFA28_acceptS =
-        "\1\uffff\1\1\4\uffff\1\7\12\uffff\1\5\1\3\1\6\1\uffff\1\2\11\uffff"+
-        "\1\4\44\uffff";
+        "\1\uffff\1\1\4\uffff\1\7\13\uffff\1\5\1\3\1\6\1\uffff\1\2\11\uffff"+
+        "\1\4\46\uffff";
     static final String DFA28_specialS =
-        "\104\uffff}>";
+        "\107\uffff}>";
     static final String[] DFA28_transitionS = {
             "\1\5\1\uffff\1\1\10\uffff\1\6\32\uffff\2\1\1\2\2\uffff\1\4\1"+
             "\3",
             "",
             "\1\7\46\uffff\1\10",
-            "\1\11\17\uffff\1\12\1\13\1\14\1\15\1\16\1\17",
-            "\1\20",
-            "\1\21\2\23\2\uffff\1\23\7\uffff\15\23\3\uffff\2\23\1\22",
+            "\1\11\17\uffff\1\12\1\13\1\14\1\15\1\16\1\17\1\20",
+            "\1\21",
+            "\1\22\2\24\2\uffff\1\24\7\uffff\15\24\3\uffff\2\24\1\23",
             "",
-            "\1\24\34\uffff\1\10",
-            "\2\25\2\uffff\1\25\7\uffff\15\25\4\uffff\1\25\1\22",
-            "\1\26\1\27",
-            "\1\32\75\uffff\1\30\1\31",
-            "\1\32\75\uffff\1\30\1\31",
-            "\1\32\75\uffff\1\30\1\31",
-            "\1\32\75\uffff\1\30\1\31",
-            "\1\32\75\uffff\1\30\1\31",
-            "\1\32\75\uffff\1\30\1\31",
-            "\1\33",
-            "",
-            "",
-            "",
+            "\1\25\34\uffff\1\10",
+            "\2\26\2\uffff\1\26\7\uffff\15\26\4\uffff\1\26\1\23",
+            "\1\27\1\30",
+            "\1\33\76\uffff\1\31\1\32",
+            "\1\33\76\uffff\1\31\1\32",
+            "\1\33\76\uffff\1\31\1\32",
+            "\1\33\76\uffff\1\31\1\32",
+            "\1\33\76\uffff\1\31\1\32",
+            "\1\33\76\uffff\1\31\1\32",
+            "\1\33\76\uffff\1\31\1\32",
             "\1\34",
             "",
-            "\1\35",
-            "\1\36",
-            "\1\32",
-            "\1\32",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\22",
-            "\1\40\1\41",
-            "\1\24\34\uffff\1\10",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\43\2\uffff"+
-            "\1\42",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\43\2\uffff"+
-            "\1\42",
             "",
-            "\1\44",
+            "",
+            "\1\35",
+            "",
+            "\1\36",
+            "\1\37",
+            "\1\33",
+            "\1\33",
+            "\2\40\2\uffff\1\40\7\uffff\15\40\4\uffff\1\40\1\23",
+            "\1\41\1\42",
+            "\1\25\34\uffff\1\10",
+            "\2\40\2\uffff\1\40\7\uffff\15\40\4\uffff\1\40\1\44\2\uffff"+
+            "\1\43",
+            "\2\40\2\uffff\1\40\7\uffff\15\40\4\uffff\1\40\1\44\2\uffff"+
+            "\1\43",
+            "",
             "\1\45",
-            "\1\46\1\uffff\1\47",
-            "\1\26\1\27\3\uffff\7\22",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\51\2\uffff"+
-            "\1\50",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\51\2\uffff"+
-            "\1\50",
-            "\1\52\60\uffff\1\53",
-            "\1\54",
-            "\1\55\1\uffff\1\56",
-            "\1\40\1\41\3\uffff\7\22",
-            "\1\57\1\60\1\61\1\62\1\63\1\64",
-            "\1\57\1\60\1\61\1\62\1\63\1\64",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\22",
-            "\1\65\60\uffff\1\66",
-            "\1\67",
-            "\1\72\75\uffff\1\70\1\71",
-            "\1\72\75\uffff\1\70\1\71",
-            "\1\72\75\uffff\1\70\1\71",
-            "\1\72\75\uffff\1\70\1\71",
-            "\1\72\75\uffff\1\70\1\71",
-            "\1\72\75\uffff\1\70\1\71",
-            "\1\73\1\74\1\75\1\76\1\77\1\100",
-            "\1\73\1\74\1\75\1\76\1\77\1\100",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\22",
-            "\1\72",
-            "\1\72",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\22",
-            "\1\103\75\uffff\1\101\1\102",
-            "\1\103\75\uffff\1\101\1\102",
-            "\1\103\75\uffff\1\101\1\102",
-            "\1\103\75\uffff\1\101\1\102",
-            "\1\103\75\uffff\1\101\1\102",
-            "\1\103\75\uffff\1\101\1\102",
-            "\1\103",
-            "\1\103",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\22"
+            "\1\46",
+            "\1\47\1\uffff\1\50",
+            "\1\27\1\30\3\uffff\7\23",
+            "\2\40\2\uffff\1\40\7\uffff\15\40\4\uffff\1\40\1\52\2\uffff"+
+            "\1\51",
+            "\2\40\2\uffff\1\40\7\uffff\15\40\4\uffff\1\40\1\52\2\uffff"+
+            "\1\51",
+            "\1\53\60\uffff\1\54",
+            "\1\55",
+            "\1\56\1\uffff\1\57",
+            "\1\41\1\42\3\uffff\7\23",
+            "\1\60\1\61\1\62\1\63\1\64\1\65\1\66",
+            "\1\60\1\61\1\62\1\63\1\64\1\65\1\66",
+            "\2\40\2\uffff\1\40\7\uffff\15\40\4\uffff\1\40\1\23",
+            "\1\67\60\uffff\1\70",
+            "\1\71",
+            "\1\74\76\uffff\1\72\1\73",
+            "\1\74\76\uffff\1\72\1\73",
+            "\1\74\76\uffff\1\72\1\73",
+            "\1\74\76\uffff\1\72\1\73",
+            "\1\74\76\uffff\1\72\1\73",
+            "\1\74\76\uffff\1\72\1\73",
+            "\1\74\76\uffff\1\72\1\73",
+            "\1\75\1\76\1\77\1\100\1\101\1\102\1\103",
+            "\1\75\1\76\1\77\1\100\1\101\1\102\1\103",
+            "\2\40\2\uffff\1\40\7\uffff\15\40\4\uffff\1\40\1\23",
+            "\1\74",
+            "\1\74",
+            "\2\40\2\uffff\1\40\7\uffff\15\40\4\uffff\1\40\1\23",
+            "\1\106\76\uffff\1\104\1\105",
+            "\1\106\76\uffff\1\104\1\105",
+            "\1\106\76\uffff\1\104\1\105",
+            "\1\106\76\uffff\1\104\1\105",
+            "\1\106\76\uffff\1\104\1\105",
+            "\1\106\76\uffff\1\104\1\105",
+            "\1\106\76\uffff\1\104\1\105",
+            "\1\106",
+            "\1\106",
+            "\2\40\2\uffff\1\40\7\uffff\15\40\4\uffff\1\40\1\23"
     };
 
     static final short[] DFA28_eot = DFA.unpackEncodedString(DFA28_eotS);
@@ -8145,7 +8175,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_rulePrimaryRef_in_ruleAbsoluteRef5214 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleContextRef_in_entryRuleContextRef5250 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleContextRef5260 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_48_in_ruleContextRef5306 = new BitSet(new long[]{0xC000400000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_48_in_ruleContextRef5306 = new BitSet(new long[]{0xC000400000000000L,0x000000000000001FL});
     public static final BitSet FOLLOW_rulePrimaryRef_in_ruleContextRef5328 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleRangeRef_in_ruleContextRef5355 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rulePrimaryRef_in_entryRulePrimaryRef5392 = new BitSet(new long[]{0x0000000000000000L});
@@ -8167,12 +8197,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_ruleResourceRef_in_entryRuleResourceRef5808 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleResourceRef5818 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_52_in_ruleResourceRef5864 = new BitSet(new long[]{0x0020000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleResourceRef5885 = new BitSet(new long[]{0xC000400000000000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_53_in_ruleResourceRef5903 = new BitSet(new long[]{0xC000400000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleResourceRef5885 = new BitSet(new long[]{0xC000400000000000L,0x000000000000001FL});
+    public static final BitSet FOLLOW_53_in_ruleResourceRef5903 = new BitSet(new long[]{0xC000400000000000L,0x000000000000001FL});
     public static final BitSet FOLLOW_ruleRangeRef_in_ruleResourceRef5925 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleRangeRef_in_entryRuleRangeRef5961 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleRangeRef5971 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleValueRange_in_ruleRangeRef6017 = new BitSet(new long[]{0x0000000000000040L,0x0000000000000030L});
+    public static final BitSet FOLLOW_ruleValueRange_in_ruleRangeRef6017 = new BitSet(new long[]{0x0000000000000040L,0x0000000000000060L});
     public static final BitSet FOLLOW_ruleValueKind_in_ruleRangeRef6038 = new BitSet(new long[]{0x0000000000000040L});
     public static final BitSet FOLLOW_RULE_NUMBER_in_ruleRangeRef6056 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleLinkRef_in_entryRuleLinkRef6097 = new BitSet(new long[]{0x0000000000000000L});
@@ -8192,7 +8222,8 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_65_in_ruleValueRange6421 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_66_in_ruleValueRange6438 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_67_in_ruleValueRange6455 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_68_in_ruleValueKind6500 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_68_in_ruleValueRange6472 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_69_in_ruleValueKind6517 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_70_in_ruleValueKind6534 = new BitSet(new long[]{0x0000000000000002L});
 
 }

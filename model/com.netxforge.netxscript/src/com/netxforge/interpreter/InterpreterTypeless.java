@@ -545,6 +545,9 @@ public class InterpreterTypeless implements IInterpreter {
 							case ValueRange.METRIC_VALUE: {
 								er.setTargetRange(RangeKind.METRIC);
 							}
+							case ValueRange.TOLERANCE_VALUE: {
+								er.setTargetRange(RangeKind.TOLERANCE);
+							}
 							case ValueRange.CAP_VALUE: {
 								er.setTargetRange(RangeKind.CAP);
 							}

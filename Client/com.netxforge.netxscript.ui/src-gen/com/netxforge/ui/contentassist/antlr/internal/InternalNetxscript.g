@@ -1920,6 +1920,13 @@ rule__ValueRange__Alternatives
 { after(grammarAccess.getValueRangeAccess().getUTILIZATIONEnumLiteralDeclaration_5()); }
 )
 
+    |(
+{ before(grammarAccess.getValueRangeAccess().getTOLERANCEEnumLiteralDeclaration_6()); }
+(	'TOLERANCE' 
+)
+{ after(grammarAccess.getValueRangeAccess().getTOLERANCEEnumLiteralDeclaration_6()); }
+)
+
 ;
 finally {
 	restoreStackSize(stackSize);

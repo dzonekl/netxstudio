@@ -1,0 +1,48 @@
+h1. Metric Sources
+
+Metric Sources management consists of viewing, creating and modifying metric sources 
+Users have a single role, which determines the permission to use tasks of the user in the system. 
+
+* "Create or Modifying a User":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/users/creating_a_user.html
+
+The Metric Sources screen
+
+[TODO, create shot]
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/metricsources/metricsources.png!
+
+
+*New* => Click on the upright link to create a new Metric Source
+*Edit* => Right-click on a Metric Source in the table and select edit. 
+*Filter* => Type text to filter Metric Sources containing the text
+
+h2. User roles
+
+The following roles are defined: 
+
+* Administrator 
+
+* Planner
+
+* Viewer
+
+
+h3. Admininistrator
+
+An administrator has full read and write access on all tasks of the system. Mainly the administrator as access to the Administrative task. 
+
+h3. Planner
+
+A planner has full read and write access to the tasks of the system, except the Administrator task. 
+
+h3. Viewer (TODO). 
+
+A viewer has has only read access to the tasks of the sytems, except the Administrator task. 
+
+h2. Users screen
+
+To access the user screen select the task Administrative
+
+
+
+
+

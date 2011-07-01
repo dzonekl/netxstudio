@@ -1276,7 +1276,6 @@
 		<xs:attribute name="TargetPeriod" type="xs:int"/>
 	</xs:complexType>
 	
-	
 	<!--_____________________________ -->
 	<!--| RANGEKIND 				| -->
 	<!--|___________________________| -->
@@ -1288,6 +1287,7 @@
 			<xs:enumeration value="FORECAST_CAP"/>
 			<xs:enumeration value="TRENDED"/>
 			<xs:enumeration value="UTILIZATION"/>
+			<xs:enumeration value="TOLERANCE"/>
 		</xs:restriction>
 	</xs:simpleType>	
 	
