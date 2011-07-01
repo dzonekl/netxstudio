@@ -256,6 +256,8 @@ public class CreateTestData extends AbstractDataProviderTest {
 
 		// 1st Context is a NetXResource
 		// 2nd Context is the Resource monitoring period. 
+		// This returns an expressionresult with a list of values dividing the metrics values by the capacity values. 
+		// The Timestamp of the result is not set at the moment. 
 		String eAsString = "this UTILIZATION = this METRIC 60 / this CAP 60 }";
 		utilizationExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
@@ -269,8 +271,14 @@ public class CreateTestData extends AbstractDataProviderTest {
 		}
 		capacityExpression = LibraryFactory.eINSTANCE.createExpression();
 		capacityExpression.setName("Capacity Expression");
-		// Context is a Node
-		String eAsString = "this.FUNCTION SGSN -> RESOURCE sgsn_attached_users CAP 60 = this.EQUIPMENT BOARD.count() * 5;}";
+		// For this expression: 
+		// The context should be a NODE which has:
+		// -Equipments with equipment code = BOARD
+		// -Function named SGSN which has a resource expression name ="Gb_mode_max_attached_users(number)"
+		// Note I: The grammar can't deal with spaces in the reference to the Resource expression name, so 
+		// when you create the resource, you should add underscores in the expression name of the resource.
+		// Note II: The expression result, will return a single value, which should be populated accross the whole period context. 
+		String eAsString = "this.FUNCTION SGSN -> RESOURCE Gb_mode_max_attached_users(number) CAP 60 = this.EQUIPMENT BOARD.count() * 5;}";
 		capacityExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(capacityExpression);
@@ -467,7 +475,13 @@ public class CreateTestData extends AbstractDataProviderTest {
 			t.setName("Tolerance Red");
 
 			Expression te = LibraryFactory.eINSTANCE.createExpression();
-			String eAsString = "this CAP * 0.9";
+			
+			// Context is a NetXResource
+			// Takes the capacity range and multiplies it by a factor someting.
+			// No expression result will be created, as we don't assign the result to a range. 
+			// you could use the result set of the last scope (this is what the evaluation returns). 
+			
+			String eAsString = "this CAP 60 * 0.9";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			addToResource(te);
 			t.setExpressionRef(te);

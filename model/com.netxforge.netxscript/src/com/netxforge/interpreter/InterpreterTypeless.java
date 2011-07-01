@@ -1167,7 +1167,6 @@ public class InterpreterTypeless implements IInterpreter {
 	protected Object internalEvaluate(Div div,
 			ImmutableMap<String, Object> values) {
 
-		//
 		Object leftEval = evaluate(div.getLeft(), values);
 		Object rightEval = evaluate(div.getRight(), values);
 
@@ -1202,7 +1201,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 				// Assert the number of entries are the same.
 				assert resultList.size() == ((List<?>) leftEval).size() : new UnsupportedOperationException(
-						"Dividing computation error, result collection is a non-equal size to the left value");
+						"Dividing computation error, result range is a non-equal size to the left value");
 				return ImmutableList.copyOf(resultList);
 			}
 			if (assertValue(rightEval)) {
@@ -1262,10 +1261,93 @@ public class InterpreterTypeless implements IInterpreter {
 				"Div expression for invalid types, i.e. This could be dividing a Number by a Range.");
 	}
 
-	protected BigDecimal internalEvaluate(Multi multi,
+	protected Object internalEvaluate(Multi multi,
 			ImmutableMap<String, Object> values) {
-		return evaluateNumeric(multi.getLeft(), values).multiply(
-				evaluateNumeric(multi.getRight(), values));
+		
+		Object leftEval = evaluate(multi.getLeft(), values);
+		Object rightEval = evaluate(multi.getRight(), values);
+
+		if (assertNumeric(leftEval)) {
+			if (assertNumeric(rightEval)) {
+				return ((BigDecimal) leftEval).multiply((BigDecimal) rightEval);
+			}
+		}
+
+		if(assertCollection(leftEval)){
+			List<Object> resultList = Lists.newArrayList();
+			if (assertNumeric(rightEval)) {
+				// Divide all contents of the left list by the numeric provided.
+				for (Object leftO : (List<?>) leftEval) {
+					if (assertNumeric(leftO)) {
+						BigDecimal d = ((BigDecimal) leftEval).multiply(
+								(BigDecimal) rightEval);
+						resultList.add(d);
+						continue;
+					}
+					if (assertValue(leftO)) {
+						Value v = (Value) leftO;
+						BigDecimal dValue = new BigDecimal(v.getValue());
+						BigDecimal d = dValue.multiply((BigDecimal) rightEval);
+						resultList.add(d);
+						continue;
+					}
+				}
+				// Assert the number of entries are the same.
+				assert resultList.size() == ((List<?>) leftEval).size() : new UnsupportedOperationException(
+						"Multiplication computation error, result range is a non-equal size to the left range");
+				return ImmutableList.copyOf(resultList);
+			}
+			if (assertValue(rightEval)) {
+				BigDecimal rightMultiplier = new BigDecimal(
+						((Value) rightEval).getValue());
+				// Divide all contents of the left list by the numeric provided.
+				for (Object leftO : (List<?>) leftEval) {
+					if (assertNumeric(leftO)) {
+						BigDecimal d = ((BigDecimal) leftEval).multiply(rightMultiplier);
+						resultList.add(d);
+						continue;
+					}
+					if (assertValue(leftO)) {
+						Value v = (Value) leftO;
+						BigDecimal dValue = new BigDecimal(v.getValue());
+						BigDecimal d = dValue.multiply(rightMultiplier);
+						resultList.add(d);
+						continue;
+					}
+				}
+
+				// Assert the number of entries are the same.
+				assert resultList.size() == ((List<?>) leftEval).size() : new UnsupportedOperationException(
+						"Multiplication computation error, result range is a non-equal size to the left range");
+				return ImmutableList.copyOf(resultList);
+			}
+			if (assertCollection(rightEval)) {
+				// divide two collections.
+				assert ((List<?>) leftEval).size() == ((List<?>) rightEval)
+						.size() : new UnsupportedOperationException(
+						"Multiplication computation error, left and right range are not equal size");
+
+				for (int j = 0; j < ((List<?>) leftEval).size(); j++) {
+					Object leftVal = ((List<?>) leftEval).get(j);
+					Object rightVal = ((List<?>) rightEval).get(j);
+					if (assertNumeric(leftVal) && assertNumeric(rightVal)) {
+						BigDecimal d = ((BigDecimal) leftVal)
+								.multiply((BigDecimal) rightVal);
+						resultList.add(d);
+					}
+					if (assertValue(leftVal) && assertValue(rightVal)) {
+						BigDecimal d = new BigDecimal(
+								((Value) leftVal).getValue()).multiply(
+								new BigDecimal(((Value) rightVal).getValue()));
+						resultList.add(d);
+					}
+				}
+				return ImmutableList.copyOf(resultList);
+			}
+		}
+		
+		throw new UnsupportedOperationException(
+				"Multiplication expression for invalid types, i.e. This could be multiplying a Number by a Range.");
 	}
 
 	protected BigDecimal internalEvaluate(Modulo mod,

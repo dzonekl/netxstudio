@@ -45,11 +45,15 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.netxforge.netxstudio.metrics.DataKind;
+import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
+import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.MetricFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
@@ -284,9 +288,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		DatakindAggregate aggregate = new DatakindAggregate(
 				dataKindWritableValue);
 
-//		dataKindWritableValue.addValueChangeListener(aggregate);
-
-		// final IObservableValue dataKindReturnValue = new WritableValue();
 
 		IObservableValue identifierObservable = SWTObservables
 				.observeSelection(btnIdentifier);
@@ -387,20 +388,40 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				if (control.equals(btnPeriod)) {
 					this.period = (Boolean) newValue;
 				}
-
-//				if(cont)
 				
 			}
 			allSet();
 		}
 
 		private boolean allSet() {
-			
-			
-			
-			
 			// Create the DataKindObject, actually only on save.
 			System.out.println("I T V P=" + identifier + timestamp + value + period);
+			DataKind dk = null; 
+			if(period){	
+				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				vdk.setValueKind(ValueKindType.PERIOD);
+				// Set more options. 
+				dk = vdk;
+			}
+			if(identifier){
+				IdentifierDataKind idk = MetricsFactory.eINSTANCE.createIdentifierDataKind();
+				// Set more options. 
+				//idk.setObjectKind(value)
+				dk = idk;
+			}
+			if(value){
+				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				vdk.setValueKind(ValueKindType.METRIC);
+				//vdk.setMetricRef(value)
+				dk = vdk;
+			}
+			if(timestamp){
+				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+				vdk.setValueKind(ValueKindType.DATETIME);
+				dk = vdk;
+			}
+			
+			dataKindObservable.setValue(dk);
 			return true;
 		}
 

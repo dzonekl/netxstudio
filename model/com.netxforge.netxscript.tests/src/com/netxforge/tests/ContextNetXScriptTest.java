@@ -335,6 +335,45 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				}
 			}
 		}
+		
+		
+
+		// Resource context expressions which calculates the tolerance. .
+		{
+
+			List<Component> cl = Lists.newArrayList();
+			cl.addAll(node.getNodeType().getEquipments());
+			cl.addAll(node.getNodeType().getFunctions());
+			List<NetXResource> allResources = modelUtils.resourcesWithName(cl,
+					".*"); // All resources.
+			for (NetXResource r : allResources) {
+				contextList.clear();
+				contextList.add(periodContext);
+				IInterpreterContext resourceContext = this.interpreterContextFactory
+						.createContext(r);
+				contextList.add(resourceContext);
+				final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
+						.size()];
+				// An expression which takes a model object and applies a native
+				// expression.
+				{
+
+					interpreter.clear(); // Clear the interpreter.
+					interpreter.setContext(contextList.toArray(contextArray)); // Set
+
+					Mod m = (Mod) this
+							.getModel("this CAP 60 * 0.9;");
+					@SuppressWarnings("unused")
+					Object result = interpreter.evaluate(m); // Returns the
+																// intermediate
+					List<ExpressionResult> expressionResults = interpreter
+							.getResult(); // Returns
+					printExpressionResult(expressionResults);
+
+				}
+			}
+		}
+		
 	}
 
 	private void printExpressionResult(List<ExpressionResult> result) {
@@ -391,11 +430,9 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 						.createNetXResource();
 				sgsnRes.setShortName("RES1");
 				sgsnRes.setExpressionName("RES1");
-
 				// Create various ranges for AVG, BH.
 
 				{
-
 					final MetricValueRange range = MetricsFactory.eINSTANCE
 							.createMetricValueRange();
 
@@ -488,6 +525,9 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				sgsnRes.setExpressionName("RES2");
 				sgsnFunction.getResources().add(sgsnRes);
 			}
+			
+			
+			
 
 			// Create some equipment:
 			final Equipment board = LibraryFactory.eINSTANCE.createEquipment();
