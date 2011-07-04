@@ -360,7 +360,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMarker_EquipmentRef() {
+	public EReference getMarker_ComponentRef() {
 		return (EReference)markerEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -369,7 +369,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMarker_FunctionRef() {
+	public EReference getMarker_ValueRef() {
 		return (EReference)markerEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -864,8 +864,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		createEReference(functionRelationshipEClass, FUNCTION_RELATIONSHIP__FUNCTION2_REF);
 
 		markerEClass = createEClass(MARKER);
-		createEReference(markerEClass, MARKER__EQUIPMENT_REF);
-		createEReference(markerEClass, MARKER__FUNCTION_REF);
+		createEReference(markerEClass, MARKER__COMPONENT_REF);
+		createEReference(markerEClass, MARKER__VALUE_REF);
 		createEReference(markerEClass, MARKER__MARKER_RESOURCE_REF);
 		createEAttribute(markerEClass, MARKER__DESCRIPTION);
 		createEAttribute(markerEClass, MARKER__KIND);
@@ -994,8 +994,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		initEReference(getFunctionRelationship_Function2Ref(), theLibraryPackage.getFunction(), null, "function2Ref", null, 0, 1, FunctionRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(markerEClass, Marker.class, "Marker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMarker_EquipmentRef(), theLibraryPackage.getEquipment(), null, "equipmentRef", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMarker_FunctionRef(), theLibraryPackage.getFunction(), null, "functionRef", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMarker_ComponentRef(), theLibraryPackage.getComponent(), null, "componentRef", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMarker_ValueRef(), theGenericsPackage.getValue(), null, "valueRef", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMarker_MarkerResourceRef(), theLibraryPackage.getNetXResource(), null, "markerResourceRef", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMarker_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMarker_Kind(), this.getMarkerKind(), "kind", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1179,18 +1179,18 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 			 "kind", "elementOnly"
 		   });			
 		addAnnotation
-		  (getMarker_EquipmentRef(), 
+		  (getMarker_ComponentRef(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "EquipmentRef"
+			 "name", "ComponentRef"
 		   });			
 		addAnnotation
-		  (getMarker_FunctionRef(), 
+		  (getMarker_ValueRef(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "FunctionRef"
+			 "name", "ValueRef"
 		   });			
 		addAnnotation
 		  (getMarker_MarkerResourceRef(), 

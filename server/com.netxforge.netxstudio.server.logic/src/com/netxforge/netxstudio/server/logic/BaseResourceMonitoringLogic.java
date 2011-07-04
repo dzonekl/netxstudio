@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
  * 
  * @author Martin Taal
  */
-public abstract class BaseCapacityLogic {
+public abstract class BaseResourceMonitoringLogic {
 
 	private WorkFlowRunMonitor jobMonitor;
 
@@ -145,8 +145,8 @@ public abstract class BaseCapacityLogic {
 		jobMonitor
 				.setTask("Computing Capacity Data for " + component.getName());
 		jobMonitor.incrementProgress(1, false);
-		final CapacityLogicEngine capacityLogic = LogicActivator.getInstance()
-				.getInjector().getInstance(CapacityLogicEngine.class);
+		final ResourceMonitoringEngine capacityLogic = LogicActivator.getInstance()
+				.getInjector().getInstance(ResourceMonitoringEngine.class);
 		capacityLogic.setComponent(component);
 		capacityLogic.setDataProvider(dataProvider);
 		capacityLogic.setRange(getTimeRange());

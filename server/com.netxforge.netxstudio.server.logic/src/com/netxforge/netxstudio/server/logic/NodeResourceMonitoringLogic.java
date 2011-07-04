@@ -31,7 +31,7 @@ import com.netxforge.netxstudio.operators.Node;
  * 
  * @author Martin Taal
  */
-public class NodeCapacityLogic extends BaseCapacityLogic {
+public class NodeResourceMonitoringLogic extends BaseResourceMonitoringLogic {
 	
 	private Node node;
 

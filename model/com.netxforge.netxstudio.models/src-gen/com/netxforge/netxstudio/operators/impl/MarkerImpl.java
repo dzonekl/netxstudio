@@ -18,9 +18,11 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
+import com.netxforge.netxstudio.generics.Value;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -35,8 +37,8 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getEquipmentRef <em>Equipment Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getFunctionRef <em>Function Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getComponentRef <em>Component Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getValueRef <em>Value Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getMarkerResourceRef <em>Marker Resource Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getKind <em>Kind</em>}</li>
@@ -70,8 +72,8 @@ public class MarkerImpl extends BaseImpl implements Marker {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Equipment getEquipmentRef() {
-		return (Equipment)eGet(OperatorsPackage.Literals.MARKER__EQUIPMENT_REF, true);
+	public Component getComponentRef() {
+		return (Component)eGet(OperatorsPackage.Literals.MARKER__COMPONENT_REF, true);
 	}
 
 	/**
@@ -79,8 +81,8 @@ public class MarkerImpl extends BaseImpl implements Marker {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEquipmentRef(Equipment newEquipmentRef) {
-		eSet(OperatorsPackage.Literals.MARKER__EQUIPMENT_REF, newEquipmentRef);
+	public void setComponentRef(Component newComponentRef) {
+		eSet(OperatorsPackage.Literals.MARKER__COMPONENT_REF, newComponentRef);
 	}
 
 	/**
@@ -88,8 +90,8 @@ public class MarkerImpl extends BaseImpl implements Marker {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Function getFunctionRef() {
-		return (Function)eGet(OperatorsPackage.Literals.MARKER__FUNCTION_REF, true);
+	public Value getValueRef() {
+		return (Value)eGet(OperatorsPackage.Literals.MARKER__VALUE_REF, true);
 	}
 
 	/**
@@ -97,8 +99,8 @@ public class MarkerImpl extends BaseImpl implements Marker {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setFunctionRef(Function newFunctionRef) {
-		eSet(OperatorsPackage.Literals.MARKER__FUNCTION_REF, newFunctionRef);
+	public void setValueRef(Value newValueRef) {
+		eSet(OperatorsPackage.Literals.MARKER__VALUE_REF, newValueRef);
 	}
 
 	/**

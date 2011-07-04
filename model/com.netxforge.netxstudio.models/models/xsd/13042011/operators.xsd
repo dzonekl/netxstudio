@@ -686,19 +686,19 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
-					<xs:element name="EquipmentRef" type="xs:anyURI"
-						ecore:reference="library:Equipment" maxOccurs="1" minOccurs="0">
+					<xs:element name="ComponentRef" type="xs:anyURI"
+						ecore:reference="library:Component" maxOccurs="1" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>The EquipmentRef reference, references 0 or 1
-								Equipment types.
+							<xs:documentation>The ComponentRef reference, references 0 or 1
+								Equipment/Function types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="FunctionRef" type="xs:anyURI"
-						ecore:reference="library:Function" maxOccurs="1" minOccurs="0">
+					<xs:element name="ValueRef" type="xs:anyURI"
+						ecore:reference="gen:Value" maxOccurs="1" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>The FunctionRef reference, references 0 or 1
-								Function types.
+							<xs:documentation>The ValueRef reference, references 0 or 1
+								Values.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>

@@ -35,7 +35,7 @@ import com.netxforge.netxstudio.services.ServicesFactory;
  * 
  * @author Martin Taal
  */
-public class RFSServiceCapacityLogic extends BaseCapacityLogic {
+public class RFSServiceResourceMonitoringLogic extends BaseResourceMonitoringLogic {
 
 	private RFSService rfsService;
 
@@ -44,7 +44,8 @@ public class RFSServiceCapacityLogic extends BaseCapacityLogic {
 	void initializeServiceMonitor() {
 		Date startTime = getStartTime();
 		if (startTime == null) {
-			startTime = new Date(0);
+			// as a default start 30 days in the past
+			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60 * 1000);
 			if (!rfsService.getServiceMonitors().isEmpty()) {
 				final Date previousEndTime = rfsService.getServiceMonitors()
 						.get(rfsService.getServiceMonitors().size() - 1)

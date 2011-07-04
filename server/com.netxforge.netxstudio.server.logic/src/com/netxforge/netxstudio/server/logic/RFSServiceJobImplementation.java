@@ -37,8 +37,8 @@ public class RFSServiceJobImplementation extends JobImplementation {
 	@Override
 	public void run() {
 		final RFSServiceJob serviceJob = (RFSServiceJob) getJob();
-		final RFSServiceCapacityLogic capacityLogic = Activator.getInstance()
-				.getInjector().getInstance(RFSServiceCapacityLogic.class);
+		final RFSServiceResourceMonitoringLogic capacityLogic = Activator.getInstance()
+				.getInjector().getInstance(RFSServiceResourceMonitoringLogic.class);
 		capacityLogic.setRfsService(serviceJob.getRFSService().cdoID());
 		capacityLogic.setJobMonitor(getRunMonitor());
 		capacityLogic.initializeServiceMonitor();

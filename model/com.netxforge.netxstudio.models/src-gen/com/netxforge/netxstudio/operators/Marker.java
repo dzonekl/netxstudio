@@ -19,6 +19,8 @@
 package com.netxforge.netxstudio.operators;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -38,8 +40,8 @@ import com.netxforge.netxstudio.library.NetXResource;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.operators.Marker#getEquipmentRef <em>Equipment Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.Marker#getFunctionRef <em>Function Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.Marker#getComponentRef <em>Component Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.Marker#getValueRef <em>Value Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Marker#getMarkerResourceRef <em>Marker Resource Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Marker#getDescription <em>Description</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Marker#getKind <em>Kind</em>}</li>
@@ -52,58 +54,58 @@ import com.netxforge.netxstudio.library.NetXResource;
  */
 public interface Marker extends Base {
 	/**
-	 * Returns the value of the '<em><b>Equipment Ref</b></em>' reference.
+	 * Returns the value of the '<em><b>Component Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The EquipmentRef reference, references 0 or 1
-	 * 								Equipment types.
+	 * The ComponentRef reference, references 0 or 1
+	 * 								Equipment/Function types.
 	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Equipment Ref</em>' reference.
-	 * @see #setEquipmentRef(Equipment)
-	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarker_EquipmentRef()
-	 * @model extendedMetaData="kind='element' name='EquipmentRef'"
+	 * @return the value of the '<em>Component Ref</em>' reference.
+	 * @see #setComponentRef(Component)
+	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarker_ComponentRef()
+	 * @model extendedMetaData="kind='element' name='ComponentRef'"
 	 * @generated
 	 */
-	Equipment getEquipmentRef();
+	Component getComponentRef();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Marker#getEquipmentRef <em>Equipment Ref</em>}' reference.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Marker#getComponentRef <em>Component Ref</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Equipment Ref</em>' reference.
-	 * @see #getEquipmentRef()
+	 * @param value the new value of the '<em>Component Ref</em>' reference.
+	 * @see #getComponentRef()
 	 * @generated
 	 */
-	void setEquipmentRef(Equipment value);
+	void setComponentRef(Component value);
 
 	/**
-	 * Returns the value of the '<em><b>Function Ref</b></em>' reference.
+	 * Returns the value of the '<em><b>Value Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The FunctionRef reference, references 0 or 1
-	 * 								Function types.
+	 * The ValueRef reference, references 0 or 1
+	 * 								Values.
 	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Function Ref</em>' reference.
-	 * @see #setFunctionRef(Function)
-	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarker_FunctionRef()
-	 * @model extendedMetaData="kind='element' name='FunctionRef'"
+	 * @return the value of the '<em>Value Ref</em>' reference.
+	 * @see #setValueRef(Value)
+	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarker_ValueRef()
+	 * @model extendedMetaData="kind='element' name='ValueRef'"
 	 * @generated
 	 */
-	Function getFunctionRef();
+	Value getValueRef();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Marker#getFunctionRef <em>Function Ref</em>}' reference.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Marker#getValueRef <em>Value Ref</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Function Ref</em>' reference.
-	 * @see #getFunctionRef()
+	 * @param value the new value of the '<em>Value Ref</em>' reference.
+	 * @see #getValueRef()
 	 * @generated
 	 */
-	void setFunctionRef(Function value);
+	void setValueRef(Value value);
 
 	/**
 	 * Returns the value of the '<em><b>Marker Resource Ref</b></em>' reference.

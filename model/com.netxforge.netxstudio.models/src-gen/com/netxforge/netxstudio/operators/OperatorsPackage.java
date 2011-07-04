@@ -454,22 +454,22 @@ public interface OperatorsPackage extends EPackage {
 	int MARKER__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Equipment Ref</b></em>' reference.
+	 * The feature id for the '<em><b>Component Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__EQUIPMENT_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
+	int MARKER__COMPONENT_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Function Ref</b></em>' reference.
+	 * The feature id for the '<em><b>Value Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__FUNCTION_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int MARKER__VALUE_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Marker Resource Ref</b></em>' reference.
@@ -1182,26 +1182,26 @@ public interface OperatorsPackage extends EPackage {
 	EClass getMarker();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Marker#getEquipmentRef <em>Equipment Ref</em>}'.
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Marker#getComponentRef <em>Component Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Equipment Ref</em>'.
-	 * @see com.netxforge.netxstudio.operators.Marker#getEquipmentRef()
+	 * @return the meta object for the reference '<em>Component Ref</em>'.
+	 * @see com.netxforge.netxstudio.operators.Marker#getComponentRef()
 	 * @see #getMarker()
 	 * @generated
 	 */
-	EReference getMarker_EquipmentRef();
+	EReference getMarker_ComponentRef();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Marker#getFunctionRef <em>Function Ref</em>}'.
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Marker#getValueRef <em>Value Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Function Ref</em>'.
-	 * @see com.netxforge.netxstudio.operators.Marker#getFunctionRef()
+	 * @return the meta object for the reference '<em>Value Ref</em>'.
+	 * @see com.netxforge.netxstudio.operators.Marker#getValueRef()
 	 * @see #getMarker()
 	 * @generated
 	 */
-	EReference getMarker_FunctionRef();
+	EReference getMarker_ValueRef();
 
 	/**
 	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Marker#getMarkerResourceRef <em>Marker Resource Ref</em>}'.
@@ -1856,20 +1856,20 @@ public interface OperatorsPackage extends EPackage {
 		EClass MARKER = eINSTANCE.getMarker();
 
 		/**
-		 * The meta object literal for the '<em><b>Equipment Ref</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Component Ref</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MARKER__EQUIPMENT_REF = eINSTANCE.getMarker_EquipmentRef();
+		EReference MARKER__COMPONENT_REF = eINSTANCE.getMarker_ComponentRef();
 
 		/**
-		 * The meta object literal for the '<em><b>Function Ref</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Value Ref</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MARKER__FUNCTION_REF = eINSTANCE.getMarker_FunctionRef();
+		EReference MARKER__VALUE_REF = eINSTANCE.getMarker_ValueRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Marker Resource Ref</b></em>' reference feature.

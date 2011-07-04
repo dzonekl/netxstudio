@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Martin Taal
  */
-public class CapacityService implements NetxForgeService {
+public class ResourceMonitoringService implements NetxForgeService {
 
 	public static final String SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
@@ -71,25 +71,25 @@ public class CapacityService implements NetxForgeService {
 
 		private CDOID run() {
 			final WorkFlowRunMonitor monitor = createMonitor();
-			final BaseCapacityLogic capacityLogic;
+			final BaseResourceMonitoringLogic capacityLogic;
 			if (parameters.containsKey(SERVICE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
 						ServicesPackage.Literals.RFS_SERVICE);
 				capacityLogic = LogicActivator.getInstance().getInjector()
-						.getInstance(RFSServiceCapacityLogic.class);
-				((RFSServiceCapacityLogic) capacityLogic).setRfsService(id);
+						.getInstance(RFSServiceResourceMonitoringLogic.class);
+				((RFSServiceResourceMonitoringLogic) capacityLogic).setRfsService(id);
 			} else if (parameters.containsKey(NODE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(NODE_PARAM),
 						OperatorsPackage.Literals.NODE);
 				capacityLogic = LogicActivator.getInstance().getInjector()
-						.getInstance(NodeCapacityLogic.class);
-				((NodeCapacityLogic) capacityLogic).setNode(id);
+						.getInstance(NodeResourceMonitoringLogic.class);
+				((NodeResourceMonitoringLogic) capacityLogic).setNode(id);
 			} else if (parameters.containsKey(NODETYPE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
 						LibraryPackage.Literals.NODE_TYPE);
 				capacityLogic = LogicActivator.getInstance().getInjector()
-						.getInstance(NodeCapacityLogic.class);
-				((NodeCapacityLogic) capacityLogic).setNodeType(id);
+						.getInstance(NodeResourceMonitoringLogic.class);
+				((NodeResourceMonitoringLogic) capacityLogic).setNodeType(id);
 			} else {
 				throw new IllegalArgumentException("No valid parameters found");
 			}

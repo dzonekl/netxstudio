@@ -18,24 +18,21 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic;
 
+import java.util.Date;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.Tolerance;
-import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.server.CommonLogic;
 import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 
 /**
@@ -43,7 +40,7 @@ import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
  * 
  * @author Martin Taal
  */
-public class CapacityLogicEngine {
+public class ResourceMonitoringEngine {
 
 	// on purpose no @Inject as we need the same instance
 	// as used in the job implementation
@@ -54,17 +51,29 @@ public class CapacityLogicEngine {
 	@Inject
 	private IExpressionEngine expressionEngine;
 
+	@Inject
+	private CommonLogic commonLogic;
+	
+	@Inject
+	private ModelUtils modelUtils;
+	
 	private DateTimeRange range;
+	private Date start;
+	private Date end;
 
 	private ExpressionFailure failure;
 
 	public void execute() {
+		start = modelUtils.fromXMLDate(range.getBegin());
+		end = modelUtils.fromXMLDate(range.getEnd());
+		
 		expressionEngine.getContext().add(range);
-		expressionEngine.getContext().add(getNode(getComponent()));
+		expressionEngine.getContext().add(commonLogic.getNode(getComponent()));
 		runForExpression(getCapacityExpression());
 		if (failure != null) {
 			return;
 		}
+
 		for (final NetXResource netXResource : getComponent().getResources()) {
 			// remove the last entry
 			if (expressionEngine.getContext().get(
@@ -89,16 +98,6 @@ public class CapacityLogicEngine {
 		}
 	}
 
-	private Node getNode(EObject eObject) {
-		if (eObject == null) {
-			throw new IllegalStateException("No node found");
-		}
-		if (eObject.eContainer() instanceof Node) {
-			return (Node) eObject.eContainer();
-		}
-		return getNode(eObject.eContainer());
-	}
-
 	private void runForExpression(Expression expression) {
 		try {
 			if (expression == null) {
@@ -112,18 +111,9 @@ public class CapacityLogicEngine {
 			}
 			final List<ExpressionResult> result = expressionEngine
 					.getExpressionResult();
+
 			// process the result
-
-			for (final ExpressionResult er : result) {
-
-				// Hi martin, there should be sufficient info to write to the
-				// correct range.
-				// the period context
-				final RangeKind rk = er.getTargetRange();
-				final NetXResource resource = er.getTargetResource();
-				final EList<Value> values = er.getTargetValues();
-
-			}
+			commonLogic.processResult(result, start, end);
 
 		} catch (final Throwable t) {
 			t.printStackTrace(System.err);

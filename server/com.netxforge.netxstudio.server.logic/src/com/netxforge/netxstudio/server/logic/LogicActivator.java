@@ -58,7 +58,7 @@ public class LogicActivator implements BundleActivator {
 		om = override(om).with(new CommonModule());
 		injector = createInjector(om);
 
-		bundleContext.registerService(CapacityService.class, new CapacityService(), new Hashtable<String, String>());
+		bundleContext.registerService(ResourceMonitoringService.class, new ResourceMonitoringService(), new Hashtable<String, String>());
 	}
 
 	/*

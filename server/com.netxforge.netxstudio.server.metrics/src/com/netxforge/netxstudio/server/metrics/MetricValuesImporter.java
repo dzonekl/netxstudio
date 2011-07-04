@@ -24,10 +24,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
@@ -35,8 +36,11 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
@@ -44,11 +48,12 @@ import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
-import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.JobRunState;
+import com.netxforge.netxstudio.server.CommonLogic;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.ServerUtils;
 import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
@@ -74,6 +79,9 @@ public abstract class MetricValuesImporter {
 	@Inject
 	private NetworkElementLocator networkElementLocator;
 
+	@Inject
+	private CommonLogic commonLogic;
+	
 	private List<MappingRecord> failedRecords = new ArrayList<MappingRecord>();
 
 	private List<ImportWarning> warnings = new ArrayList<ImportWarning>();
@@ -308,43 +316,67 @@ public abstract class MetricValuesImporter {
 			foundNetXResource.setMetricRef(metric);
 			foundNetXResource.setShortName(metric.getName());
 			foundNetXResource.setLongName(metric.getName());
-			foundNetXResource.setExpressionName(toValidExpressionName(metric.getName()));
+			foundNetXResource.setExpressionName(toValidExpressionName(metric
+					.getName()));
 			foundNetXResource.setUnitRef(metric.getUnitRef());
 			networkElement.getResources().add(foundNetXResource);
-		}
-		MetricValueRange foundMvr = null;
-		for (final MetricValueRange mvr : foundNetXResource
-				.getMetricValueRanges()) {
-			if (mvr.getKindHint() == valueDataKind.getKindHint()
-					&& mvr.getIntervalHint() == periodHint) {
-				foundMvr = mvr;
-				break;
-			}
-		}
-		if (foundMvr == null) {
-			foundMvr = MetricsFactory.eINSTANCE.createMetricValueRange();
-			foundMvr.setKindHint(valueDataKind.getKindHint());
-			foundMvr.setIntervalHint(periodHint);
-			foundNetXResource.getMetricValueRanges().add(foundMvr);
+			addToNode(networkElement, networkElement, new ArrayList<Integer>(),
+					foundNetXResource);
 		}
 
-		final long timeInMillis = timeStamp.getTime();
-		Value value = null;
-		for (final Value lookValue : foundMvr.getMetricValues()) {
-			if (isSameTime(periodHint, timeInMillis, lookValue.getTimeStamp())) {
-				value = lookValue;
-				break;
-			}
-		}
-
-		if (value == null) {
-			value = GenericsFactory.eINSTANCE.createValue();
-		}
+		final Value value = GenericsFactory.eINSTANCE.createValue();
 		value.setTimeStamp(ServerUtils.getInstance().toXmlDate(timeStamp));
 		value.setValue(dblValue);
-		foundMvr.getMetricValues().add(value);
+
+		commonLogic.addToValueRange(foundNetXResource, periodHint,
+				valueDataKind.getKindHint(), value);
 	}
-	
+
+	private void addToNode(EObject originalEObject, EObject eObject,
+			List<Integer> path, NetXResource resource) {
+		final EObject container = eObject.eContainer();
+		if (container instanceof Node) {
+			final NodeType nodeType = ((Node) container)
+					.getOriginalNodeTypeRef();
+			List<?> componentObjects;
+			if (originalEObject instanceof Equipment) {
+				componentObjects = nodeType.getEquipments();
+			} else {
+				componentObjects = nodeType.getFunctions();
+			}
+			Object currentObject = null;
+			for (final Integer index : path) {
+				currentObject = componentObjects.get(index);
+
+				if (originalEObject instanceof Equipment) {
+					componentObjects = ((Equipment) currentObject)
+							.getEquipments();
+				} else {
+					componentObjects = ((Function) currentObject)
+							.getFunctions();
+				}
+			}
+			boolean found = false;
+			for (final NetXResource netxResource : ((Component) currentObject)
+					.getResources()) {
+				if (netxResource == resource) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				((Component) currentObject).getResources().add(
+						EcoreUtil.copy(resource));
+			}
+		} else {
+			final EStructuralFeature eFeature = eObject.eContainingFeature();
+			final List<?> values = (List<?>) container.eGet(eFeature);
+			path.add(0, values.indexOf(eObject));
+			addToNode(originalEObject, container, path, resource);
+		}
+
+	}
+
 	private String toValidExpressionName(String value) {
 		final StringBuilder sb = new StringBuilder();
 		for (final char c : value.toCharArray()) {
@@ -358,15 +390,6 @@ public abstract class MetricValuesImporter {
 			}
 		}
 		return sb.toString();
-	}
-
-	private boolean isSameTime(int period, long time1,
-			XMLGregorianCalendar time2) {
-		long diff = time1 - time2.toGregorianCalendar().getTimeInMillis();
-		if (diff < 0) {
-			diff = diff * -1;
-		}
-		return diff < (period * 60 * 1000 - 1);
 	}
 
 	private ValueDataKind getValueDataKind(MappingColumn column) {

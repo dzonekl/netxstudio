@@ -75,8 +75,8 @@ public class MarkerItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addEquipmentRefPropertyDescriptor(object);
-			addFunctionRefPropertyDescriptor(object);
+			addComponentRefPropertyDescriptor(object);
+			addValueRefPropertyDescriptor(object);
 			addMarkerResourceRefPropertyDescriptor(object);
 			addDescriptionPropertyDescriptor(object);
 			addKindPropertyDescriptor(object);
@@ -85,19 +85,19 @@ public class MarkerItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Equipment Ref feature.
+	 * This adds a property descriptor for the Component Ref feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addEquipmentRefPropertyDescriptor(Object object) {
+	protected void addComponentRefPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Marker_equipmentRef_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Marker_equipmentRef_feature", "_UI_Marker_type"),
-				 OperatorsPackage.Literals.MARKER__EQUIPMENT_REF,
+				 getString("_UI_Marker_componentRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Marker_componentRef_feature", "_UI_Marker_type"),
+				 OperatorsPackage.Literals.MARKER__COMPONENT_REF,
 				 true,
 				 false,
 				 true,
@@ -107,19 +107,19 @@ public class MarkerItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Function Ref feature.
+	 * This adds a property descriptor for the Value Ref feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addFunctionRefPropertyDescriptor(Object object) {
+	protected void addValueRefPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Marker_functionRef_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Marker_functionRef_feature", "_UI_Marker_type"),
-				 OperatorsPackage.Literals.MARKER__FUNCTION_REF,
+				 getString("_UI_Marker_valueRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Marker_valueRef_feature", "_UI_Marker_type"),
+				 OperatorsPackage.Literals.MARKER__VALUE_REF,
 				 true,
 				 false,
 				 true,
