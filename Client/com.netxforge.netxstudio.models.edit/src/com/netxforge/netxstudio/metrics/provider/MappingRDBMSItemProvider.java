@@ -24,12 +24,15 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -69,8 +72,146 @@ public class MappingRDBMSItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addDatabaseTypePropertyDescriptor(object);
+			addPasswordPropertyDescriptor(object);
+			addQueryPropertyDescriptor(object);
+			addSIDPropertyDescriptor(object);
+			addURLPropertyDescriptor(object);
+			addUserPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Database Type feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDatabaseTypePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingRDBMS_databaseType_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_databaseType_feature", "_UI_MappingRDBMS_type"),
+				 MetricsPackage.Literals.MAPPING_RDBMS__DATABASE_TYPE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Password feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPasswordPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingRDBMS_password_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_password_feature", "_UI_MappingRDBMS_type"),
+				 MetricsPackage.Literals.MAPPING_RDBMS__PASSWORD,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Query feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addQueryPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingRDBMS_query_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_query_feature", "_UI_MappingRDBMS_type"),
+				 MetricsPackage.Literals.MAPPING_RDBMS__QUERY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the SID feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSIDPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingRDBMS_sID_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_sID_feature", "_UI_MappingRDBMS_type"),
+				 MetricsPackage.Literals.MAPPING_RDBMS__SID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the URL feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addURLPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingRDBMS_uRL_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_uRL_feature", "_UI_MappingRDBMS_type"),
+				 MetricsPackage.Literals.MAPPING_RDBMS__URL,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the User feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUserPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingRDBMS_user_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_user_feature", "_UI_MappingRDBMS_type"),
+				 MetricsPackage.Literals.MAPPING_RDBMS__USER,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -106,6 +247,17 @@ public class MappingRDBMSItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(MappingRDBMS.class)) {
+			case MetricsPackage.MAPPING_RDBMS__DATABASE_TYPE:
+			case MetricsPackage.MAPPING_RDBMS__PASSWORD:
+			case MetricsPackage.MAPPING_RDBMS__QUERY:
+			case MetricsPackage.MAPPING_RDBMS__SID:
+			case MetricsPackage.MAPPING_RDBMS__URL:
+			case MetricsPackage.MAPPING_RDBMS__USER:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 

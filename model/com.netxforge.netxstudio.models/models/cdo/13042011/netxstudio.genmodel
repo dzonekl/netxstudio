@@ -367,15 +367,14 @@
     <genClasses ecoreClass="metrics.ecore#//MappingCSV">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingCSV/delimiter"/>
     </genClasses>
-    <genClasses ecoreClass="metrics.ecore#//MappingDB">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/databaseType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/password"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/query"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/sID"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/uRL"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/user"/>
+    <genClasses ecoreClass="metrics.ecore#//MappingRDBMS">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/databaseType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/password"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/query"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/sID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/uRL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/user"/>
     </genClasses>
-    <genClasses ecoreClass="metrics.ecore#//MappingRDBMS"/>
     <genClasses ecoreClass="metrics.ecore#//MappingRecord">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/column"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRecord/message"/>

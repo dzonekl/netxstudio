@@ -83,15 +83,6 @@ public interface MetricsFactory extends EFactory {
 	MappingCSV createMappingCSV();
 
 	/**
-	 * Returns a new object of class '<em>Mapping DB</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Mapping DB</em>'.
-	 * @generated
-	 */
-	MappingDB createMappingDB();
-
-	/**
 	 * Returns a new object of class '<em>Mapping RDBMS</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

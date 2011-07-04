@@ -202,29 +202,6 @@ public class MetricsItemProviderAdapterFactory extends MetricsAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.metrics.MappingDB} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected MappingDBItemProvider mappingDBItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.metrics.MappingDB}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createMappingDBAdapter() {
-		if (mappingDBItemProvider == null) {
-			mappingDBItemProvider = new MappingDBItemProvider(this);
-		}
-
-		return mappingDBItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.metrics.MappingRDBMS} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -512,7 +489,6 @@ public class MetricsItemProviderAdapterFactory extends MetricsAdapterFactory imp
 		if (mappingItemProvider != null) mappingItemProvider.dispose();
 		if (mappingColumnItemProvider != null) mappingColumnItemProvider.dispose();
 		if (mappingCSVItemProvider != null) mappingCSVItemProvider.dispose();
-		if (mappingDBItemProvider != null) mappingDBItemProvider.dispose();
 		if (mappingRDBMSItemProvider != null) mappingRDBMSItemProvider.dispose();
 		if (mappingRecordItemProvider != null) mappingRecordItemProvider.dispose();
 		if (mappingStatisticItemProvider != null) mappingStatisticItemProvider.dispose();

@@ -180,12 +180,12 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MappingDB" eSuperTypes="#//Mapping">
+  <eClassifiers xsi:type="ecore:EClass" name="MappingRDBMS" eSuperTypes="#//Mapping">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for mapping an DB to the NetXStudio model.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="MappingDB"/>
+      <details key="name" value="MappingRDBMS"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="databaseType" eType="#//DatabaseTypeType"
@@ -243,15 +243,6 @@
         <details key="name" value="User"/>
       </eAnnotations>
     </eStructuralFeatures>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MappingRDBMS" eSuperTypes="#//Mapping">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information points&#xA;&#x9;&#x9;&#x9;&#x9;for mapping an RDMS file to the NetXStudio model.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;THIS TYPE SHOULD&#xA;&#x9;&#x9;&#x9;&#x9;NOT BE CONSIDERED FOR NOW.&#xA;&#x9;&#x9;&#x9;"/>
-    </eAnnotations>
-    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="MappingRDBMS"/>
-      <details key="kind" value="elementOnly"/>
-    </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MappingRecord" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

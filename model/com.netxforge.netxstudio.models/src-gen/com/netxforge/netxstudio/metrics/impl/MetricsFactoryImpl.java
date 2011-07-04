@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
-import com.netxforge.netxstudio.metrics.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -27,6 +26,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import com.netxforge.netxstudio.metrics.DataKind;
+import com.netxforge.netxstudio.metrics.DatabaseTypeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Mapping;
@@ -94,7 +94,6 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 			case MetricsPackage.MAPPING: return (EObject)createMapping();
 			case MetricsPackage.MAPPING_COLUMN: return (EObject)createMappingColumn();
 			case MetricsPackage.MAPPING_CSV: return (EObject)createMappingCSV();
-			case MetricsPackage.MAPPING_DB: return (EObject)createMappingDB();
 			case MetricsPackage.MAPPING_RDBMS: return (EObject)createMappingRDBMS();
 			case MetricsPackage.MAPPING_RECORD: return (EObject)createMappingRecord();
 			case MetricsPackage.MAPPING_STATISTIC: return (EObject)createMappingStatistic();
@@ -214,16 +213,6 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	public MappingCSV createMappingCSV() {
 		MappingCSVImpl mappingCSV = new MappingCSVImpl();
 		return mappingCSV;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public MappingDB createMappingDB() {
-		MappingDBImpl mappingDB = new MappingDBImpl();
-		return mappingDB;
 	}
 
 	/**

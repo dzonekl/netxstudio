@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.metrics.*;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
@@ -128,14 +127,6 @@ public class MetricsSwitch<T> extends Switch<T> {
 				T result = caseMappingCSV(mappingCSV);
 				if (result == null) result = caseMapping(mappingCSV);
 				if (result == null) result = caseBase(mappingCSV);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case MetricsPackage.MAPPING_DB: {
-				MappingDB mappingDB = (MappingDB)theEObject;
-				T result = caseMappingDB(mappingDB);
-				if (result == null) result = caseMapping(mappingDB);
-				if (result == null) result = caseBase(mappingDB);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -272,21 +263,6 @@ public class MetricsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMappingCSV(MappingCSV object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Mapping DB</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Mapping DB</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseMappingDB(MappingDB object) {
 		return null;
 	}
 

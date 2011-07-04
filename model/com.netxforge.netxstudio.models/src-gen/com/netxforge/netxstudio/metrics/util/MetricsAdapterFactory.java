@@ -24,7 +24,6 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.metrics.*;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
@@ -115,10 +114,6 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseMappingCSV(MappingCSV object) {
 				return createMappingCSVAdapter();
-			}
-			@Override
-			public Adapter caseMappingDB(MappingDB object) {
-				return createMappingDBAdapter();
 			}
 			@Override
 			public Adapter caseMappingRDBMS(MappingRDBMS object) {
@@ -243,20 +238,6 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMappingCSVAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.metrics.MappingDB <em>Mapping DB</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.metrics.MappingDB
-	 * @generated
-	 */
-	public Adapter createMappingDBAdapter() {
 		return null;
 	}
 

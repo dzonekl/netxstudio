@@ -42,7 +42,6 @@ import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingColumn;
-import com.netxforge.netxstudio.metrics.MappingDB;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
@@ -105,13 +104,6 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * @generated
 	 */
 	private EClass mappingCSVEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass mappingDBEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -464,71 +456,62 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getMappingDB() {
-		return mappingDBEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMappingDB_DatabaseType() {
-		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMappingDB_Password() {
-		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMappingDB_Query() {
-		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMappingDB_SID() {
-		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMappingDB_URL() {
-		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getMappingDB_User() {
-		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getMappingRDBMS() {
 		return mappingRDBMSEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingRDBMS_DatabaseType() {
+		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingRDBMS_Password() {
+		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingRDBMS_Query() {
+		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingRDBMS_SID() {
+		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingRDBMS_URL() {
+		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingRDBMS_User() {
+		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -958,15 +941,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		mappingCSVEClass = createEClass(MAPPING_CSV);
 		createEAttribute(mappingCSVEClass, MAPPING_CSV__DELIMITER);
 
-		mappingDBEClass = createEClass(MAPPING_DB);
-		createEAttribute(mappingDBEClass, MAPPING_DB__DATABASE_TYPE);
-		createEAttribute(mappingDBEClass, MAPPING_DB__PASSWORD);
-		createEAttribute(mappingDBEClass, MAPPING_DB__QUERY);
-		createEAttribute(mappingDBEClass, MAPPING_DB__SID);
-		createEAttribute(mappingDBEClass, MAPPING_DB__URL);
-		createEAttribute(mappingDBEClass, MAPPING_DB__USER);
-
 		mappingRDBMSEClass = createEClass(MAPPING_RDBMS);
+		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__DATABASE_TYPE);
+		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__PASSWORD);
+		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__QUERY);
+		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__SID);
+		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__URL);
+		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__USER);
 
 		mappingRecordEClass = createEClass(MAPPING_RECORD);
 		createEAttribute(mappingRecordEClass, MAPPING_RECORD__COLUMN);
@@ -1059,7 +1040,6 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		mappingEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		mappingColumnEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		mappingCSVEClass.getESuperTypes().add(this.getMapping());
-		mappingDBEClass.getESuperTypes().add(this.getMapping());
 		mappingRDBMSEClass.getESuperTypes().add(this.getMapping());
 		mappingRecordEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		mappingStatisticEClass.getESuperTypes().add(theGenericsPackage.getBase());
@@ -1090,15 +1070,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEClass(mappingCSVEClass, MappingCSV.class, "MappingCSV", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMappingCSV_Delimiter(), theXMLTypePackage.getString(), "delimiter", null, 0, 1, MappingCSV.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(mappingDBEClass, MappingDB.class, "MappingDB", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getMappingDB_DatabaseType(), this.getDatabaseTypeType(), "databaseType", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMappingDB_Password(), theXMLTypePackage.getString(), "password", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMappingDB_Query(), theXMLTypePackage.getString(), "query", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMappingDB_SID(), theXMLTypePackage.getString(), "sID", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMappingDB_URL(), theXMLTypePackage.getString(), "uRL", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMappingDB_User(), theXMLTypePackage.getString(), "user", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(mappingRDBMSEClass, MappingRDBMS.class, "MappingRDBMS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMappingRDBMS_DatabaseType(), this.getDatabaseTypeType(), "databaseType", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingRDBMS_Password(), theXMLTypePackage.getString(), "password", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingRDBMS_Query(), theXMLTypePackage.getString(), "query", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingRDBMS_SID(), theXMLTypePackage.getString(), "sID", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingRDBMS_URL(), theXMLTypePackage.getString(), "uRL", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingRDBMS_User(), theXMLTypePackage.getString(), "user", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mappingRecordEClass, MappingRecord.class, "MappingRecord", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMappingRecord_Column(), theXMLTypePackage.getString(), "column", null, 0, 1, MappingRecord.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1195,7 +1173,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																																							
+		   });																																																																																																																					
 	}
 
 	/**
@@ -1345,60 +1323,53 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "name", "Delimiter"
 		   });			
 		addAnnotation
-		  (mappingDBEClass, 
+		  (mappingRDBMSEClass, 
 		   source, 
 		   new String[] {
-			 "name", "MappingDB",
+			 "name", "MappingRDBMS",
 			 "kind", "elementOnly"
 		   });			
 		addAnnotation
-		  (getMappingDB_DatabaseType(), 
+		  (getMappingRDBMS_DatabaseType(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "DatabaseType"
 		   });			
 		addAnnotation
-		  (getMappingDB_Password(), 
+		  (getMappingRDBMS_Password(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Password"
 		   });			
 		addAnnotation
-		  (getMappingDB_Query(), 
+		  (getMappingRDBMS_Query(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Query"
 		   });			
 		addAnnotation
-		  (getMappingDB_SID(), 
+		  (getMappingRDBMS_SID(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "SID"
 		   });			
 		addAnnotation
-		  (getMappingDB_URL(), 
+		  (getMappingRDBMS_URL(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "URL"
 		   });			
 		addAnnotation
-		  (getMappingDB_User(), 
+		  (getMappingRDBMS_User(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "User"
-		   });			
-		addAnnotation
-		  (mappingRDBMSEClass, 
-		   source, 
-		   new String[] {
-			 "name", "MappingRDBMS",
-			 "kind", "elementOnly"
 		   });			
 		addAnnotation
 		  (mappingRecordEClass, 

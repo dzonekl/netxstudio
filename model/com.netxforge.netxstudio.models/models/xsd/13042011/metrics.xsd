@@ -244,25 +244,6 @@
 	</xs:complexType>
 
 	<!--_______________________ -->
-	<!-- MAPPING RDBMS -->
-	<!--_______________________ -->
-
-	<xs:complexType name="MappingRDBMS">
-		<xs:annotation>
-			<xs:documentation>A type representing the basic information points
-				for mapping an RDMS file to the NetXStudio model.
-
-				THIS TYPE SHOULD
-				NOT BE CONSIDERED FOR NOW.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="Mapping">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-
-	<!--_______________________ -->
 	<!-- MAPPING XLS -->
 	<!--_______________________ -->
 
@@ -320,10 +301,10 @@
 	</xs:complexType>
 
 	<!--_______________________ -->
-	<!-- MAPPING DB -->
+	<!-- MAPPING MappingRDBMS -->
 	<!--_______________________ -->
 
-	<xs:complexType name="MappingDB">
+	<xs:complexType name="MappingRDBMS">
 		<xs:annotation>
 			<xs:documentation>A type representing the basic information points
 				for mapping an DB to the NetXStudio model.
