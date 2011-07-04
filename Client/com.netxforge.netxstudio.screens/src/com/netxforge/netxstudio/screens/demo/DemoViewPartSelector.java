@@ -14,11 +14,15 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ViewPart;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.screens.f2.Resource;
 import com.netxforge.netxstudio.screens.f2.ResourceCapacityRange;
 import com.netxforge.netxstudio.screens.f4.MappingStatistics;
@@ -26,10 +30,10 @@ import com.netxforge.netxstudio.screens.f4.MetricSources;
 import com.netxforge.netxstudio.screens.f4.MetricValueRange;
 import com.netxforge.netxstudio.screens.f4.Metrics;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
-import com.netxforge.netxstudio.screens.f4.NewEditMetric;
 import com.netxforge.netxstudio.screens.f4.NewEditMappingColumn;
-import com.netxforge.netxstudio.screens.f4.NewEditMetricSource;
 import com.netxforge.netxstudio.screens.f4.NewEditMappingXLS;
+import com.netxforge.netxstudio.screens.f4.NewEditMetric;
+import com.netxforge.netxstudio.screens.f4.NewEditMetricSource;
 import com.netxforge.netxstudio.screens.f4.PurgeMetrics;
 import com.netxforge.netxstudio.screens.f4.ResourceMonitor;
 import com.netxforge.netxstudio.screens.f4.Scheduler;
@@ -39,6 +43,15 @@ import com.netxforge.netxstudio.screens.nf4.UsersAndRoles;
 
 public class DemoViewPartSelector extends ViewPart {
 
+	@Inject
+	IDataService service;
+	
+	@Override
+	public void init(IViewSite site) throws PartInitException {
+		super.init(site);
+		service.getProvider().openSession("admin","admin");
+	}
+	
 	public static final String ID = "com.netxforge.netxstudio.screens.demo.DemoViewPartSelector"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 

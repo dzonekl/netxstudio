@@ -912,22 +912,22 @@ public interface MetricsPackage extends EPackage {
 	int METRIC_VALUE_RANGE__METRIC_VALUES = 0;
 
 	/**
+	 * The feature id for the '<em><b>Interval Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_VALUE_RANGE__INTERVAL_HINT = 1;
+
+	/**
 	 * The feature id for the '<em><b>Kind Hint</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_VALUE_RANGE__KIND_HINT = 1;
-
-	/**
-	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METRIC_VALUE_RANGE__PERIOD_HINT = 2;
+	int METRIC_VALUE_RANGE__KIND_HINT = 2;
 
 	/**
 	 * The number of structural features of the '<em>Metric Value Range</em>' class.
@@ -1613,6 +1613,17 @@ public interface MetricsPackage extends EPackage {
 	EReference getMetricValueRange_MetricValues();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getIntervalHint <em>Interval Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Interval Hint</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricValueRange#getIntervalHint()
+	 * @see #getMetricValueRange()
+	 * @generated
+	 */
+	EAttribute getMetricValueRange_IntervalHint();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getKindHint <em>Kind Hint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1622,17 +1633,6 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMetricValueRange_KindHint();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getPeriodHint <em>Period Hint</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Period Hint</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MetricValueRange#getPeriodHint()
-	 * @see #getMetricValueRange()
-	 * @generated
-	 */
-	EAttribute getMetricValueRange_PeriodHint();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.ValueDataKind <em>Value Data Kind</em>}'.
@@ -2223,20 +2223,20 @@ public interface MetricsPackage extends EPackage {
 		EReference METRIC_VALUE_RANGE__METRIC_VALUES = eINSTANCE.getMetricValueRange_MetricValues();
 
 		/**
+		 * The meta object literal for the '<em><b>Interval Hint</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METRIC_VALUE_RANGE__INTERVAL_HINT = eINSTANCE.getMetricValueRange_IntervalHint();
+
+		/**
 		 * The meta object literal for the '<em><b>Kind Hint</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute METRIC_VALUE_RANGE__KIND_HINT = eINSTANCE.getMetricValueRange_KindHint();
-
-		/**
-		 * The meta object literal for the '<em><b>Period Hint</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute METRIC_VALUE_RANGE__PERIOD_HINT = eINSTANCE.getMetricValueRange_PeriodHint();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl <em>Value Data Kind</em>}' class.

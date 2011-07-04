@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -140,7 +140,8 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				NewEditMetric metricScreen = new NewEditMetric(screenService
-						.getScreenContainer(), SWT.NONE | Screens.OPERATION_NEW);
+						.getScreenContainer(), SWT.NONE);
+				metricScreen.setOperation(Screens.OPERATION_NEW);
 				Metric metric = MetricsFactory.eINSTANCE.createMetric();
 				metricScreen.injectData(metricResource, metric);
 
@@ -199,10 +200,9 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 								.getFirstElement();
 
 						NewEditMetric metricScreen = new NewEditMetric(
-								screenService.getScreenContainer(), SWT.NONE
-										| Screens.OPERATION_NEW);
+								screenService.getScreenContainer(), SWT.NONE);
+						metricScreen.setOperation(Screens.OPERATION_NEW);
 						Metric metric = MetricsFactory.eINSTANCE.createMetric();
-
 						metricScreen.injectData(metricResource, subowner,
 								metric);
 						screenService.setActiveScreen(metricScreen);
@@ -222,8 +222,8 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
 						NewEditMetric metricScreen = new NewEditMetric(
-								screenService.getScreenContainer(), SWT.NONE
-										| Screens.OPERATION_EDIT);
+								screenService.getScreenContainer(), SWT.NONE);
+						metricScreen.setOperation(Screens.OPERATION_EDIT);
 						Object subowner = null;
 						if (o instanceof Metric) {
 							if (((Metric) o).eContainer() instanceof Metric) {
@@ -292,5 +292,11 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public Form getScreenForm() {
 		return this.frmMetrics;
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
+
 	}
 }

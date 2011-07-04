@@ -44,6 +44,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f4.support.MappingTypeDialog;
 
 public class NewEditMetricSource extends AbstractScreen implements
 		IDataScreenInjection {
@@ -171,8 +172,8 @@ public class NewEditMetricSource extends AbstractScreen implements
 
 				if (mapping instanceof MappingXLS) {
 					NewEditMappingXLS mappingScreen = new NewEditMappingXLS(
-							screenService.getScreenContainer(), SWT.NONE
-									| operation);
+							screenService.getScreenContainer(), SWT.NONE);
+					mappingScreen.setOperation(operation);
 					mappingScreen.injectData(metricSource, mapping);
 					screenService.setActiveScreen(mappingScreen);
 
@@ -318,5 +319,11 @@ public class NewEditMetricSource extends AbstractScreen implements
 	public void disposeData() {
 		// N/A
 
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
+		
 	}
 }

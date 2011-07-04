@@ -78,10 +78,32 @@ public class MetricValueRangeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addIntervalHintPropertyDescriptor(object);
 			addKindHintPropertyDescriptor(object);
-			addPeriodHintPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Interval Hint feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addIntervalHintPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MetricValueRange_intervalHint_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MetricValueRange_intervalHint_feature", "_UI_MetricValueRange_type"),
+				 MetricsPackage.Literals.METRIC_VALUE_RANGE__INTERVAL_HINT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -102,28 +124,6 @@ public class MetricValueRangeItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Period Hint feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addPeriodHintPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_MetricValueRange_periodHint_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MetricValueRange_periodHint_feature", "_UI_MetricValueRange_type"),
-				 MetricsPackage.Literals.METRIC_VALUE_RANGE__PERIOD_HINT,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -177,11 +177,8 @@ public class MetricValueRangeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		KindHintType labelValue = ((MetricValueRange)object).getKindHint();
-		String label = labelValue == null ? null : labelValue.toString();
-		return label == null || label.length() == 0 ?
-			getString("_UI_MetricValueRange_type") :
-			getString("_UI_MetricValueRange_type") + " " + label;
+		MetricValueRange metricValueRange = (MetricValueRange)object;
+		return getString("_UI_MetricValueRange_type") + " " + metricValueRange.getIntervalHint();
 	}
 
 	/**
@@ -196,8 +193,8 @@ public class MetricValueRangeItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(MetricValueRange.class)) {
+			case MetricsPackage.METRIC_VALUE_RANGE__INTERVAL_HINT:
 			case MetricsPackage.METRIC_VALUE_RANGE__KIND_HINT:
-			case MetricsPackage.METRIC_VALUE_RANGE__PERIOD_HINT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case MetricsPackage.METRIC_VALUE_RANGE__METRIC_VALUES:

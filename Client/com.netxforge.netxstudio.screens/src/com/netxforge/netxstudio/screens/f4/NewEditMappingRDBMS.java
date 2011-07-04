@@ -182,14 +182,13 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 						.browseWorkspace(NewEditMappingRDBMS.this.getShell());
 				if (paths == null || paths.length == 0)
 					return;
-				
+
 				// TODO something with the path.
 				txtSelectedXLSPath.setText(paths.toString());
-				
-				
+
 				String file = "";
 				fillGrid(file);
-				
+
 			}
 		});
 
@@ -357,17 +356,9 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 	}
 
 	protected void fillGrid(String file) {
-			
-		// process the file with POI. 
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+		// process the file with POI.
+
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -494,6 +485,12 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 
 	public void disposeData() {
 		// N/A
+
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
 
 	}
 }

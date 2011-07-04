@@ -36,6 +36,9 @@ public interface IScreen extends IViewerProvider {
 	 * @return
 	 */
 	public abstract int getOperation();
+		
+	
+	public abstract void setOperation(int operation);
 	
 	/**
 	 * Let us know if this screen is valid.

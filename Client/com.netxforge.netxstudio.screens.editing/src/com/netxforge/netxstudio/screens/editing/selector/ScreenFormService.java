@@ -115,6 +115,7 @@ public class ScreenFormService implements IScreenFormService {
 //	}
 	
 	Composite tmpScreen;
+	private Composite rootComposite;
 	
 	private void pushScreen(Composite screen){
 		
@@ -128,10 +129,11 @@ public class ScreenFormService implements IScreenFormService {
 		formToolkit.adapt(activeScreen);
 		formToolkit.paintBordersFor(activeScreen);
 		screenBody.getScreenDeck().topControl = activeScreen;
-		getScreenContainer().layout(true);
-
+		
+//		screenBody.pack();
+		screenBody.getScreenContainer().layout(true);
+		
 		this.updateScreenBarActions(activeScreen);
-
 		screenBody.setScreenBarOn();
 
 		// All our screens must implement IScreen.
@@ -195,10 +197,10 @@ public class ScreenFormService implements IScreenFormService {
 	 */
 	public void initalize(Composite parent) {
 
-		Composite container = new Composite(parent, SWT.NONE);
-		container.setLayout(new FillLayout(SWT.HORIZONTAL));
+		rootComposite = new Composite(parent, SWT.NONE);
+		rootComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		{
-			sashForm = new SashForm(container, SWT.SMOOTH);
+			sashForm = new SashForm(rootComposite, SWT.SMOOTH);
 			sashForm.setSashWidth(1);
 			{
 				Composite composite = formToolkit.createComposite(sashForm,
@@ -286,10 +288,8 @@ public class ScreenFormService implements IScreenFormService {
 					try {
 						
 						Composite target = (Composite) finalScreenConstructor
-								.newInstance(getScreenContainer(), SWT.NONE
-										| finalOperation);
-						tmpScreen = activeScreen;
-						activeScreen = null;
+								.newInstance(getScreenContainer(), SWT.NONE);
+						((IScreen)target).setOperation(finalOperation);
 						reset();
 						setActiveScreen(target);
 //						if(tmpScreen != null){
@@ -341,8 +341,13 @@ public class ScreenFormService implements IScreenFormService {
 		// We might be cached, if a child is currently active, 
 		// but it's better to dispose the complete list and restart. 
 		while(!screenStack.empty()){
+			
+			@SuppressWarnings("unused")
 			Composite c = screenStack.pop();
-			c.dispose();
+			// FIXME, disposing previous composite throughs a CDO exception. 
+			// as observables are being updated when disposed and ask for model data. 
+			// If we don't dispose. we have a memory leak. 
+//			c.dispose();
 		}
 	}
 	

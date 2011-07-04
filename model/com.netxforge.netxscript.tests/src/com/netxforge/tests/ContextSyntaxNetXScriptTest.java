@@ -222,7 +222,7 @@ public class ContextSyntaxNetXScriptTest extends AbstractXtextTests {
 							.createMetricValueRange();
 
 					range.setKindHint(KindHintType.AVG); // Average values.
-					range.setPeriodHint(60); // A 60 minute range.
+					range.setIntervalHint(60); // A 60 minute range.
 					sgsnRes.getMetricValueRanges().add(range); // Index 0.
 					final Value v = GenericsFactory.eINSTANCE.createValue();
 					v.setValue(10.0);
@@ -252,7 +252,7 @@ public class ContextSyntaxNetXScriptTest extends AbstractXtextTests {
 							.createMetricValueRange();
 
 					range.setKindHint(KindHintType.BH); // Average values.
-					range.setPeriodHint(60 * 24); // A one day range.
+					range.setIntervalHint(60 * 24); // A one day range.
 					sgsnRes.getMetricValueRanges().add(range); // Index 0.
 					final Value v = GenericsFactory.eINSTANCE.createValue();
 					v.setValue(2.0);

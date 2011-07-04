@@ -725,13 +725,22 @@ public interface LibraryPackage extends EPackage {
 	int EXPRESSION_RESULT__TARGET_VALUES = 2;
 
 	/**
-	 * The feature id for the '<em><b>Target Period</b></em>' attribute.
+	 * The feature id for the '<em><b>Target Interval Hint</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT__TARGET_PERIOD = 3;
+	int EXPRESSION_RESULT__TARGET_INTERVAL_HINT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Target Kind Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_RESULT__TARGET_KIND_HINT = 4;
 
 	/**
 	 * The number of structural features of the '<em>Expression Result</em>' class.
@@ -740,7 +749,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT_FEATURE_COUNT = 4;
+	int EXPRESSION_RESULT_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.FunctionImpl <em>Function</em>}' class.
@@ -2196,15 +2205,26 @@ public interface LibraryPackage extends EPackage {
 	EReference getExpressionResult_TargetValues();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod <em>Target Period</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetIntervalHint <em>Target Interval Hint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Target Period</em>'.
-	 * @see com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod()
+	 * @return the meta object for the attribute '<em>Target Interval Hint</em>'.
+	 * @see com.netxforge.netxstudio.library.ExpressionResult#getTargetIntervalHint()
 	 * @see #getExpressionResult()
 	 * @generated
 	 */
-	EAttribute getExpressionResult_TargetPeriod();
+	EAttribute getExpressionResult_TargetIntervalHint();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetKindHint <em>Target Kind Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Target Kind Hint</em>'.
+	 * @see com.netxforge.netxstudio.library.ExpressionResult#getTargetKindHint()
+	 * @see #getExpressionResult()
+	 * @generated
+	 */
+	EAttribute getExpressionResult_TargetKindHint();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.Function <em>Function</em>}'.
@@ -3360,12 +3380,20 @@ public interface LibraryPackage extends EPackage {
 		EReference EXPRESSION_RESULT__TARGET_VALUES = eINSTANCE.getExpressionResult_TargetValues();
 
 		/**
-		 * The meta object literal for the '<em><b>Target Period</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Target Interval Hint</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EXPRESSION_RESULT__TARGET_PERIOD = eINSTANCE.getExpressionResult_TargetPeriod();
+		EAttribute EXPRESSION_RESULT__TARGET_INTERVAL_HINT = eINSTANCE.getExpressionResult_TargetIntervalHint();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Kind Hint</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPRESSION_RESULT__TARGET_KIND_HINT = eINSTANCE.getExpressionResult_TargetKindHint();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.FunctionImpl <em>Function</em>}' class.

@@ -234,9 +234,8 @@ public class GlobalActionsHandler  implements IPropertyListener {
 	}
 
 	public void propertyChanged(Object source, int propId) {
-		// TODO Auto-generated method stub
 		System.out.println("WORK IN PROGESS : Property fired prop ID" + propId);
-		this.update((IWorkbenchPart) source);
+		update((IWorkbenchPart) source);
 		
 	}
 

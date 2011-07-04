@@ -1,5 +1,6 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
@@ -11,6 +12,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -52,12 +54,14 @@ import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.MetricFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f4.support.IdentifierDialog;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class NewEditMappingColumn extends AbstractScreen implements
@@ -78,6 +82,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private Button btnMetricValue;
 	private Text txtPeriodPattern;
 	private Button btnPeriod;
+	private WritableValue btnIdentifierWritableValue;
+	private WritableValue btnTimestampWritableValue;
+	private WritableValue btnMetricValueWritableValue;
+	private WritableValue btnPeriodWritableValue;
 
 	/**
 	 * Create the composite.
@@ -86,7 +94,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	 * @param style
 	 */
 	public NewEditMappingColumn(Composite parent, int style) {
-		super(parent,style);
+		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -143,8 +151,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		sctnDataKind.setText("Mapping");
 		sctnDataKind.setExpanded(true);
 
-		Composite composite_2 = toolkit.createComposite(sctnDataKind,
-				SWT.NONE);
+		Composite composite_2 = toolkit.createComposite(sctnDataKind, SWT.NONE);
 		toolkit.paintBordersFor(composite_2);
 		sctnDataKind.setClient(composite_2);
 		GridLayout gl_composite_2 = new GridLayout(6, false);
@@ -201,12 +208,16 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				"Select Identifier", SWT.NONE);
 		hprlnkSelectIdentifier.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				// TODO Identifier selector. 
-				
-				
+				IdentifierDialog id = new IdentifierDialog(
+						NewEditMappingColumn.this.getShell());
+				if (id.open() == IDialogConstants.OK_ID) {
+
+				}
 			}
+
 			public void linkEntered(HyperlinkEvent e) {
 			}
+
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
@@ -235,24 +246,24 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				"Select Metric", SWT.NONE);
 		hprlnkSelectMetric.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				
+
 				Resource unitResource = editingService
 						.getData(MetricsPackage.Literals.METRIC);
 				MetricFilterDialog dialog = new MetricFilterDialog(
 						NewEditMappingColumn.this.getShell(), unitResource);
-
 				if (dialog.open() == IDialogConstants.OK_ID) {
-				
 					Metric metric = (Metric) dialog.getFirstResult();
-					if(mxlsColumn.getDataType() instanceof ValueDataKind){
-						ValueDataKind vdk = (ValueDataKind)mxlsColumn.getDataType();
+					if (mxlsColumn.getDataType() instanceof ValueDataKind) {
+						ValueDataKind vdk = (ValueDataKind) mxlsColumn
+								.getDataType();
 						vdk.setMetricRef(metric);
 					}
-					
 				}
 			}
+
 			public void linkEntered(HyperlinkEvent e) {
 			}
+
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
@@ -264,11 +275,12 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				false, 1, 1));
 		new Label(composite_2, SWT.NONE);
 
-		btnPeriod = toolkit.createButton(composite_2, "Radio", SWT.RADIO);
+		btnPeriod = toolkit.createButton(composite_2, "Period", SWT.RADIO);
 		btnPeriod.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 2, 1));
 
-		txtPeriodPattern = toolkit.createText(composite_2, "New Text", SWT.NONE);
+		txtPeriodPattern = toolkit
+				.createText(composite_2, "New Text", SWT.NONE);
 		txtPeriodPattern.setText("");
 
 		new Label(composite_2, SWT.NONE);
@@ -280,14 +292,23 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		IObservableValue columnObservable = SWTObservables.observeText(txtColumn);
-		IEMFValueProperty columnProperty = EMFProperties.value(MetricsPackage.Literals.MAPPING_COLUMN__COLUMN);
+		IObservableValue columnObservable = SWTObservables
+				.observeText(txtColumn, SWT.Modify);
+		IEMFValueProperty columnProperty = EMFProperties
+				.value(MetricsPackage.Literals.MAPPING_COLUMN__COLUMN);
 		context.bindValue(columnObservable, columnProperty.observe(mxlsColumn));
-		
+
+		// Databinding for the Datakind object, which has complex mapping
+		// to various ui widgets.
+
 		IObservableValue dataKindWritableValue = new WritableValue();
+		btnIdentifierWritableValue = new WritableValue();
+		btnTimestampWritableValue = new WritableValue();
+		btnMetricValueWritableValue = new WritableValue();
+		btnPeriodWritableValue = new WritableValue();
+
 		DatakindAggregate aggregate = new DatakindAggregate(
 				dataKindWritableValue);
-
 
 		IObservableValue identifierObservable = SWTObservables
 				.observeSelection(btnIdentifier);
@@ -301,52 +322,149 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				.observeSelection(btnMetricValue);
 		metricvaluepObservable.addValueChangeListener(aggregate);
 
+		IObservableValue metricObservable = SWTObservables.observeText(
+				txtMetric, SWT.Modify);
+		IObservableValue objectAttributeObservable = SWTObservables
+				.observeText(this.txtIndentifier, SWT.Modify);
+
 		IObservableValue periodObservable = SWTObservables
 				.observeSelection(this.btnPeriod);
 		periodObservable.addValueChangeListener(aggregate);
 
-		
-		// Pattern fields observables. 
-		// TODO, No model entry for pattern. 
+		// Pattern fields observables.
+		// TODO, No model entry for pattern.
 		IObservableValue timeStampPatternObservable = SWTObservables
 				.observeSelection(this.comboTimestampPattern);
-		
 		timeStampPatternObservable.addValueChangeListener(aggregate);
-		
+
 		IObservableValue identifierPatternObservable = SWTObservables
 				.observeText(this.txtIdentifierPattern, SWT.Modify);
 		identifierPatternObservable.addValueChangeListener(aggregate);
-		
-		IObservableValue valuePatternObservable = SWTObservables
-				.observeText(this.txtMetricValuePattern, SWT.Modify);
+
+		IObservableValue valuePatternObservable = SWTObservables.observeText(
+				this.txtMetricValuePattern, SWT.Modify);
 		valuePatternObservable.addValueChangeListener(aggregate);
-		
-		IObservableValue periodPatternObservable = SWTObservables
-				.observeText(this.txtPeriodPattern, SWT.Modify);
+
+		IObservableValue periodPatternObservable = SWTObservables.observeText(
+				this.txtPeriodPattern, SWT.Modify);
 		periodPatternObservable.addValueChangeListener(aggregate);
-		
+
 		IEMFValueProperty datatypeValueProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
-		
-		IObservableValue dataTypeObservable = datatypeValueProperty.observe(mxlsColumn);
-		dataTypeObservable.addValueChangeListener(aggregate);
-		
-		context.bindValue(dataKindWritableValue,
-				dataTypeObservable);
-		
-		// Do the opposite binding. 
-		
-		IObservableValue btnIdentifierWritableValue = new WritableValue();
-		
-		context.bindValue(identifierObservable,btnIdentifierWritableValue, null, null);
-		
 
+		IObservableValue dataTypeObservable = datatypeValueProperty
+				.observe(mxlsColumn);
+		setInitial(dataTypeObservable.getValue());
+
+		context.bindValue(dataKindWritableValue, dataTypeObservable);
+		context.updateTargets();
+
+		IEMFValueProperty metricValueProperty = EMFProperties
+				.value(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
+
+		IEMFValueProperty objectAttributeProperty = EMFProperties
+				.value(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
+
+		EMFUpdateValueStrategy metricStrategy = new EMFUpdateValueStrategy();
+		metricStrategy.setConverter(new IConverter() {
+
+			public Object getFromType() {
+				return DataKind.class;
+			}
+
+			public Object getToType() {
+				return String.class;
+			}
+
+			public Object convert(Object fromObject) {
+				// if(fromObject instanceof IdentifierDataKind){
+				// return ((IdentifierDataKind)fromObject).getObjectProperty();
+				// }
+				if (fromObject instanceof ValueDataKind) {
+					Metric metric = ((ValueDataKind) fromObject).getMetricRef();
+					if (metric != null) {
+						return metric.getName();
+					}
+				}
+				return null;
+			}
+
+		});
+
+		EMFUpdateValueStrategy objectAttributeStrategy = new EMFUpdateValueStrategy();
+		metricStrategy.setConverter(new IConverter() {
+
+			public Object getFromType() {
+				return DataKind.class;
+			}
+
+			public Object getToType() {
+				return String.class;
+			}
+
+			public Object convert(Object fromObject) {
+				if (fromObject instanceof IdentifierDataKind) {
+					return ((IdentifierDataKind) fromObject)
+							.getObjectProperty();
+				}
+				//				if (fromObject instanceof ValueDataKind) {
+//					Metric metric = ((ValueDataKind) fromObject).getMetricRef();
+//					if (metric != null) {
+//						return metric.getName();
+//					}
+//				}
+				return null;
+			}
+
+		});
+
+		// Do the opposite binding.
+		context.bindValue(identifierObservable, btnIdentifierWritableValue,
+				null, null);
+		context.bindValue(timestampObservable, btnTimestampWritableValue, null,
+				null);
+		context.bindValue(metricvaluepObservable, btnMetricValueWritableValue,
+				null, null);
+		context.bindValue(metricObservable,
+				metricValueProperty.observe(mxlsColumn), null, metricStrategy);
+		context.bindValue(objectAttributeObservable,
+				objectAttributeProperty.observe(mxlsColumn), null, objectAttributeStrategy);
+		context.bindValue(periodObservable, btnPeriodWritableValue, null, null);
 		return context;
+	}
+
+	private void setInitial(Object value) {
+		if (value instanceof ValueDataKind) {
+			ValueDataKind vdk = (ValueDataKind) value;
+			ValueKindType vkt = vdk.getValueKind();
+			if (vkt == ValueKindType.PERIOD) {
+				btnPeriodWritableValue.setValue(true);
+				// TODO, set other parameters.
+			}
+			if (vkt == ValueKindType.DATETIME) {
+				btnTimestampWritableValue.setValue(true);
+				// TODO, set other parameters.
+			}
+			if (vkt == ValueKindType.METRIC) {
+				this.btnMetricValueWritableValue.setValue(true);
+				// TODO, set other parameters.
+			}
+		}
+		if (value instanceof IdentifierDataKind) {
+			this.btnIdentifierWritableValue.setValue(true);
+			IdentifierDataKind idk = (IdentifierDataKind) value;
+			ObjectKindType okt = idk.getObjectKind();
+			if (okt == ObjectKindType.NODE) {
+			}
+			String property = idk.getObjectProperty();
+			System.out.println(property);
+		}
 	}
 
 	private class DatakindAggregate implements IValueChangeListener, IValidator {
 
 		private IObservableValue dataKindObservable;
+
 		private String pattern; // stores the pattern for the datakind.
 
 		boolean timestamp = false;
@@ -368,8 +486,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		 */
 		public void handleValueChange(ValueChangeEvent event) {
 			System.out.println(event.getObservable());
-
+			System.out.println(event.getSource());
 			Object newValue = event.diff.getNewValue();
+
 			System.out.println("New Value:" + event.diff.getNewValue());
 
 			if (event.getObservable() instanceof ISWTObservableValue) {
@@ -378,49 +497,56 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				System.out.println(control);
 				if (control.equals(btnIdentifier)) {
 					this.identifier = (Boolean) newValue;
+					modelUpdate();
 				}
 				if (control.equals(btnTimestamp)) {
 					this.timestamp = (Boolean) newValue;
+					modelUpdate();
 				}
 				if (control.equals(btnMetricValue)) {
 					this.value = (Boolean) newValue;
+					modelUpdate();
 				}
 				if (control.equals(btnPeriod)) {
 					this.period = (Boolean) newValue;
+					modelUpdate();
 				}
-				
 			}
-			allSet();
 		}
 
-		private boolean allSet() {
+		private boolean modelUpdate() {
 			// Create the DataKindObject, actually only on save.
-			System.out.println("I T V P=" + identifier + timestamp + value + period);
-			DataKind dk = null; 
-			if(period){	
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+			System.out.println("I T V P=" + identifier + timestamp + value
+					+ period);
+			DataKind dk = null;
+			if (period) {
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.PERIOD);
-				// Set more options. 
+				// Set more options.
 				dk = vdk;
 			}
-			if(identifier){
-				IdentifierDataKind idk = MetricsFactory.eINSTANCE.createIdentifierDataKind();
-				// Set more options. 
-				//idk.setObjectKind(value)
+			if (identifier) {
+				IdentifierDataKind idk = MetricsFactory.eINSTANCE
+						.createIdentifierDataKind();
+				// Set more options.
+				// idk.setObjectKind(value)
 				dk = idk;
 			}
-			if(value){
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+			if (value) {
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.METRIC);
-				//vdk.setMetricRef(value)
+				// vdk.setMetricRef(value)
 				dk = vdk;
 			}
-			if(timestamp){
-				ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
+			if (timestamp) {
+				ValueDataKind vdk = MetricsFactory.eINSTANCE
+						.createValueDataKind();
 				vdk.setValueKind(ValueKindType.DATETIME);
 				dk = vdk;
 			}
-			
+
 			dataKindObservable.setValue(dk);
 			return true;
 		}
@@ -435,7 +561,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		public IStatus validate(Object value) {
 
 			// Should we care about the value, we use the observable.
-			if (allSet()) {
+			if (modelUpdate()) {
 				return Status.OK_STATUS;
 			}
 			return new Status(IStatus.WARNING, ScreensActivator.PLUGIN_ID,
@@ -447,14 +573,14 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		// N/A
 
 	}
+
 	public void injectData(Object owner, Object object) {
 		if (owner instanceof MappingXLS) {
 			this.owner = (MappingXLS) owner;
 		}
 		if (object != null && object instanceof MappingColumn) {
 			if (Screens.isEditOperation(this.getOperation())) {
-				MappingColumn copy = EcoreUtil
-						.copy((MappingColumn) object);
+				MappingColumn copy = EcoreUtil.copy((MappingColumn) object);
 				mxlsColumn = copy;
 				original = (MappingColumn) object;
 			} else if (Screens.isNewOperation(getOperation())) {
@@ -513,5 +639,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	public Form getScreenForm() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
 	}
 }

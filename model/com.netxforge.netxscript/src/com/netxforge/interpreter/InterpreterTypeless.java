@@ -529,10 +529,26 @@ public class InterpreterTypeless implements IInterpreter {
 							// Set the target resource to write.
 							er.setTargetResource(targetResource);
 
-							BigDecimal targetPeriod = targetRangeReference
+							BigDecimal targetInterval = targetRangeReference
 									.getPeriod();
-							if (targetPeriod != null) {
-								er.setTargetPeriod(targetPeriod.intValue());
+
+							ValueKind vk = targetRangeReference.getKind();
+							if (vk != null) {
+								switch (vk.getValue()) {
+								case ValueKind.AVG_VALUE: {
+									er.setTargetKindHint(KindHintType.AVG);
+								}
+									break;
+								case ValueKind.BH_VALUE: {
+									er.setTargetKindHint(KindHintType.BH);
+								}
+									break;
+								}
+							}
+
+							if (targetInterval != null) {
+								er.setTargetIntervalHint(targetInterval
+										.intValue());
 							}
 
 							// Set the target range.
@@ -771,7 +787,8 @@ public class InterpreterTypeless implements IInterpreter {
 				return result;
 			}
 		}
-		throw new UnsupportedOperationException("function call invalid for function" + e.getFunc());
+		throw new UnsupportedOperationException(
+				"function call invalid for function" + e.getFunc());
 	}
 
 	/**
@@ -1003,9 +1020,9 @@ public class InterpreterTypeless implements IInterpreter {
 		// any other range
 		// than the CAP range.
 		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
-			int period = mvr.getPeriodHint();
+			int interval = mvr.getIntervalHint();
 			KindHintType kht = mvr.getKindHint();
-			if (period == targetPeriod && kht == targetKind) {
+			if (interval == targetPeriod && kht == targetKind) {
 				targetRangeAvailable = true;
 				break;
 			}

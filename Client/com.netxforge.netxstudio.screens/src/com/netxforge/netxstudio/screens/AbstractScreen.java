@@ -36,7 +36,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  */
 public abstract class AbstractScreen extends Composite implements IScreen {
 	
-	private int operation;
+	protected int operation;
 	
 	@Inject
 	protected IEditingService editingService;
@@ -46,7 +46,6 @@ public abstract class AbstractScreen extends Composite implements IScreen {
 	
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
-		operation = style & 0xFF00; // Ignore first bits, as we piggy back on
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
 	}
 
@@ -55,6 +54,7 @@ public abstract class AbstractScreen extends Composite implements IScreen {
 	public int getOperation() {
 		return operation;
 	}
+	public abstract void setOperation(int operation);
 
 	public  abstract boolean isValid();
 

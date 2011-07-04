@@ -235,4 +235,11 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 	public void disposeData() {
 		// N/A
 	}
+	
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
+		
+	}
+
 }

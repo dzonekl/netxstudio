@@ -316,7 +316,7 @@ public abstract class MetricValuesImporter {
 		for (final MetricValueRange mvr : foundNetXResource
 				.getMetricValueRanges()) {
 			if (mvr.getKindHint() == valueDataKind.getKindHint()
-					&& mvr.getPeriodHint() == periodHint) {
+					&& mvr.getIntervalHint() == periodHint) {
 				foundMvr = mvr;
 				break;
 			}
@@ -324,7 +324,7 @@ public abstract class MetricValuesImporter {
 		if (foundMvr == null) {
 			foundMvr = MetricsFactory.eINSTANCE.createMetricValueRange();
 			foundMvr.setKindHint(valueDataKind.getKindHint());
-			foundMvr.setPeriodHint(periodHint);
+			foundMvr.setIntervalHint(periodHint);
 			foundNetXResource.getMetricValueRanges().add(foundMvr);
 		}
 

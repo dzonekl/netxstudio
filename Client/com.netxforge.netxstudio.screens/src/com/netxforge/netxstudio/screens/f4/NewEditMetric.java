@@ -372,4 +372,10 @@ public class NewEditMetric extends AbstractScreen implements
 	public void disposeData() {
 		// N/A
 	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
+		
+	}
 }

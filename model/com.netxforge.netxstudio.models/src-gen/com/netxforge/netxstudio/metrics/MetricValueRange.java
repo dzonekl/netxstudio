@@ -44,8 +44,8 @@ import com.netxforge.netxstudio.generics.Value;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricValueRange#getMetricValues <em>Metric Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MetricValueRange#getIntervalHint <em>Interval Hint</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricValueRange#getKindHint <em>Kind Hint</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.MetricValueRange#getPeriodHint <em>Period Hint</em>}</li>
  * </ul>
  * </p>
  *
@@ -72,6 +72,61 @@ public interface MetricValueRange extends CDOObject {
 	 * @generated
 	 */
 	EList<Value> getMetricValues();
+
+	/**
+	 * Returns the value of the '<em><b>Interval Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The IntervalHint attribute, holds a hint for the
+	 * 					metric interval between each metric value in minutes.
+	 * 				
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Interval Hint</em>' attribute.
+	 * @see #isSetIntervalHint()
+	 * @see #unsetIntervalHint()
+	 * @see #setIntervalHint(int)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetricValueRange_IntervalHint()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 *        extendedMetaData="kind='attribute' name='IntervalHint'"
+	 * @generated
+	 */
+	int getIntervalHint();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getIntervalHint <em>Interval Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Interval Hint</em>' attribute.
+	 * @see #isSetIntervalHint()
+	 * @see #unsetIntervalHint()
+	 * @see #getIntervalHint()
+	 * @generated
+	 */
+	void setIntervalHint(int value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getIntervalHint <em>Interval Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetIntervalHint()
+	 * @see #getIntervalHint()
+	 * @see #setIntervalHint(int)
+	 * @generated
+	 */
+	void unsetIntervalHint();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getIntervalHint <em>Interval Hint</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Interval Hint</em>' attribute is set.
+	 * @see #unsetIntervalHint()
+	 * @see #getIntervalHint()
+	 * @see #setIntervalHint(int)
+	 * @generated
+	 */
+	boolean isSetIntervalHint();
 
 	/**
 	 * Returns the value of the '<em><b>Kind Hint</b></em>' attribute.
@@ -125,60 +180,5 @@ public interface MetricValueRange extends CDOObject {
 	 * @generated
 	 */
 	boolean isSetKindHint();
-
-	/**
-	 * Returns the value of the '<em><b>Period Hint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The PeriodHint attribute, holds a hint for the
-	 * 					metric period between each metric value in minutes.
-	 * 				
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Period Hint</em>' attribute.
-	 * @see #isSetPeriodHint()
-	 * @see #unsetPeriodHint()
-	 * @see #setPeriodHint(int)
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetricValueRange_PeriodHint()
-	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
-	 *        extendedMetaData="kind='attribute' name='PeriodHint'"
-	 * @generated
-	 */
-	int getPeriodHint();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getPeriodHint <em>Period Hint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Period Hint</em>' attribute.
-	 * @see #isSetPeriodHint()
-	 * @see #unsetPeriodHint()
-	 * @see #getPeriodHint()
-	 * @generated
-	 */
-	void setPeriodHint(int value);
-
-	/**
-	 * Unsets the value of the '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getPeriodHint <em>Period Hint</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetPeriodHint()
-	 * @see #getPeriodHint()
-	 * @see #setPeriodHint(int)
-	 * @generated
-	 */
-	void unsetPeriodHint();
-
-	/**
-	 * Returns whether the value of the '{@link com.netxforge.netxstudio.metrics.MetricValueRange#getPeriodHint <em>Period Hint</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Period Hint</em>' attribute is set.
-	 * @see #unsetPeriodHint()
-	 * @see #getPeriodHint()
-	 * @see #setPeriodHint(int)
-	 * @generated
-	 */
-	boolean isSetPeriodHint();
 
 } // MetricValueRange

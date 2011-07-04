@@ -128,8 +128,9 @@ public class MetricSources extends AbstractScreen implements
 				.addHyperlinkListener(new IHyperlinkListener() {
 					public void linkActivated(HyperlinkEvent e) {
 						NewEditMetricSource msScreen = new NewEditMetricSource(
-								screenService.getScreenContainer(), SWT.NONE
-										| Screens.OPERATION_NEW);
+								screenService.getScreenContainer(), SWT.NONE);
+						msScreen.setOperation(Screens.OPERATION_NEW);
+						
 						screenService.setActiveScreen(msScreen);
 						msScreen.injectData(msResource,
 								MetricsFactory.eINSTANCE.createMetricSource());
@@ -186,7 +187,8 @@ public class MetricSources extends AbstractScreen implements
 								.getFirstElement();
 						NewEditMetricSource editMetricSourceScreen = new NewEditMetricSource(
 								screenService.getScreenContainer(),
-								Screens.OPERATION_EDIT | SWT.NONE);
+								SWT.NONE);
+						editMetricSourceScreen.setOperation(Screens.OPERATION_EDIT);
 						editMetricSourceScreen.injectData(msResource, o);
 						screenService.setActiveScreen(editMetricSourceScreen);
 					}
@@ -230,8 +232,8 @@ public class MetricSources extends AbstractScreen implements
 							}
 
 							NewEditJob newEditJob = new NewEditJob(
-									screenService.getScreenContainer(),
-									operation | SWT.NONE);
+									screenService.getScreenContainer(),SWT.NONE);
+							newEditJob.setOperation(operation);
 							newEditJob.injectData(jobResource, job);
 							screenService.setActiveScreen(newEditJob);
 						}
@@ -252,20 +254,17 @@ public class MetricSources extends AbstractScreen implements
 					if (o instanceof MetricSource) {
 						MetricSource ms = (MetricSource) o;
 						try {
+							// TODO, We get the workflow run ID back, which could be used
+							// to link back to the screen showing the running workflows. 
+							@SuppressWarnings("unused")
 							String result = serverActions
 									.callMetricImportAction(ms);
-							
-							// TODO, We get the workflow run ID back. 
-//							if (result
-//									.equals(ServerRequest.DEFAULT_SUCCESS_RESULT)) {
-								MessageDialog.openInformation(
-										MetricSources.this.getShell(),
-										"Collect now succeeded:",
-										"Collection of data from metric source: "
-												+ ms.getName()
-												+ "\n has been initiated on the server. Select the view shoung current jobs, to monitor it's status");
-
-//							}
+							MessageDialog.openInformation(
+									MetricSources.this.getShell(),
+									"Collect now succeeded:",
+									"Collection of data from metric source: "
+											+ ms.getName()
+											+ "\n has been initiated on the server. Select the view shoung current jobs, to monitor it's status");
 
 						} catch (Exception e1) {
 							e1.printStackTrace();
@@ -308,9 +307,8 @@ public class MetricSources extends AbstractScreen implements
 							.getFirstElement();
 
 					MappingStatistics stats = new MappingStatistics(
-							screenService.getScreenContainer(), SWT.None
-									| Screens.OPERATION_READ_ONLY);
-
+							screenService.getScreenContainer(), SWT.NONE);
+					stats.setOperation(Screens.OPERATION_READ_ONLY);
 					stats.injectData(null, o);
 					screenService.setActiveScreen(stats);
 
@@ -351,11 +349,12 @@ public class MetricSources extends AbstractScreen implements
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		metricSourceTableViewer.setContentProvider(listContentProvider);
 
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
-						MetricsPackage.Literals.METRIC_SOURCE__NAME,
-						MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION});
+		IObservableMap[] observeMaps = EMFObservables
+				.observeMaps(
+						listContentProvider.getKnownElements(),
+						new EStructuralFeature[] {
+								MetricsPackage.Literals.METRIC_SOURCE__NAME,
+								MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION });
 		metricSourceTableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 		IEMFListProperty l = EMFProperties.resource();
@@ -376,5 +375,10 @@ public class MetricSources extends AbstractScreen implements
 	@Override
 	public Form getScreenForm() {
 		return this.frmMetricSources;
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
 	}
 }

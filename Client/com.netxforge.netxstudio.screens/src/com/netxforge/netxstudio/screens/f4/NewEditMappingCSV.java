@@ -496,4 +496,9 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		// N/A
 
 	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;		
+	}
 }

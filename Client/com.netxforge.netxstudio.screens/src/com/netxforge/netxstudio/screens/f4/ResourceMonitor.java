@@ -409,6 +409,10 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 
 	public void disposeData() {
 		editingService.disposeData();
-		
 	}
+	
+	public void setOperation(int operation){
+		this.operation = operation;
+	}
+	
 }

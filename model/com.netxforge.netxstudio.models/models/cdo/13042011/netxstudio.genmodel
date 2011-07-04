@@ -245,7 +245,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//ExpressionResult/targetResource"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetRange"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//ExpressionResult/targetValues"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetPeriod"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetIntervalHint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//ExpressionResult/targetKindHint"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Function">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Function/functions"/>
@@ -407,8 +408,8 @@
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MetricValueRange">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricValueRange/metricValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricValueRange/intervalHint"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricValueRange/kindHint"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricValueRange/periodHint"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//ValueDataKind">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//ValueDataKind/metricRef"/>

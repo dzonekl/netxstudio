@@ -38,10 +38,13 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.FillLayout;
@@ -104,13 +107,12 @@ public class NewEditExpression extends AbstractScreen implements
 	private DataBindingContext m_bindingContext;
 
 	private ValidationService validationService = new ValidationService();
-	
+
 	IInterpreterContextFactory interpreterContextFactory;
-	
+
 	@Inject
 	ModelUtils modelUtils;
-	
-	
+
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtExpressionName;
 	private EmbeddedXtextEditor editor;
@@ -240,10 +242,10 @@ public class NewEditExpression extends AbstractScreen implements
 
 		netxScriptInjector = InjectorProxy
 				.getInjector("com.netxforge.Netxscript");
-		
-		interpreterContextFactory = netxScriptInjector.getInstance(IInterpreterContextFactory.class);
-		
-		
+
+		interpreterContextFactory = netxScriptInjector
+				.getInstance(IInterpreterContextFactory.class);
+
 		// Injector injector =
 		// ArithmeticsActivator.getInstance().getInjector("org.eclipse.xtext.example.arithmetics.Arithmetics");
 		Composite editorComposite = toolkit.createComposite(client, SWT.BORDER);
@@ -251,8 +253,8 @@ public class NewEditExpression extends AbstractScreen implements
 		gl_editorComposite.marginHeight = 0;
 		gl_editorComposite.marginWidth = 0;
 		editorComposite.setLayout(gl_editorComposite);
-		editor = new EmbeddedXtextEditor(editorComposite, netxScriptInjector, SWT.BORDER
-				| widgetStyle);
+		editor = new EmbeddedXtextEditor(editorComposite, netxScriptInjector,
+				SWT.BORDER | widgetStyle);
 		editor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
 				evaluationObject = xtextService.reconcileChangedModel(
@@ -263,31 +265,39 @@ public class NewEditExpression extends AbstractScreen implements
 				true));
 		this.createKeyPad(client);
 		sctnNewSection.setClient(client);
-		
-		ImageHyperlink mghprlnkTest = toolkit.createImageHyperlink(sctnNewSection, SWT.NONE);
+
+		ImageHyperlink mghprlnkTest = toolkit.createImageHyperlink(
+				sctnNewSection, SWT.NONE);
 		mghprlnkTest.addHyperlinkListener(new IHyperlinkListener() {
-			
-			// FIXME, PROPER, ERROR HANDLING. 
-			
+
+			// FIXME, PROPER, ERROR HANDLING.
+
 			public void linkActivated(HyperlinkEvent e) {
 				// Launch the interpreter, with a given context.
-				
-				// NOTE, for testing, the period context is always last week. 
-				DateTimeRange timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
-				
-				XMLGregorianCalendar t0 = modelUtils.toXMLDate(modelUtils.todayAndNow());
-				XMLGregorianCalendar t1 = modelUtils.toXMLDate(modelUtils.lastWeek());
-				
+
+				// NOTE, for testing, the period context is always last week.
+				DateTimeRange timeRange = GenericsFactory.eINSTANCE
+						.createDateTimeRange();
+
+				XMLGregorianCalendar t0 = modelUtils.toXMLDate(modelUtils
+						.todayAndNow());
+				XMLGregorianCalendar t1 = modelUtils.toXMLDate(modelUtils
+						.lastWeek());
+
 				timeRange.setBegin(t1);
 				timeRange.setEnd(t0);
-				
-				IInterpreterContext periodContext = interpreterContextFactory.createPeriodContext(timeRange);
-				
-				List<IInterpreterContext> contextList = ImmutableList.of(periodContext);
-				IInterpreterContext[] contextArray = new IInterpreterContext[contextList.size()];
-				final IInterpreter i = netxScriptInjector.getInstance(IInterpreter.class);
+
+				IInterpreterContext periodContext = interpreterContextFactory
+						.createPeriodContext(timeRange);
+
+				List<IInterpreterContext> contextList = ImmutableList
+						.of(periodContext);
+				IInterpreterContext[] contextArray = new IInterpreterContext[contextList
+						.size()];
+				final IInterpreter i = netxScriptInjector
+						.getInstance(IInterpreter.class);
 				i.setContext(contextList.toArray(contextArray));
-				
+
 				IXtextDocument doc = editor.getDocument();
 				if (documentHasErrors(doc)) {
 					System.out
@@ -297,32 +307,37 @@ public class NewEditExpression extends AbstractScreen implements
 				@SuppressWarnings("unused")
 				String rootElementName = doc
 						.readOnly(new IUnitOfWork<String, XtextResource>() {
-							
-							// Note: Expression scoping i.e. 'mod' or 'def' are optional.  
-							public String exec(XtextResource resource) throws Exception {
+
+							// Note: Expression scoping i.e. 'mod' or 'def' are
+							// optional.
+							public String exec(XtextResource resource)
+									throws Exception {
 								if (resource.getContents().isEmpty()) {
 									return null;
 								}
-								
+
 								// TODO, Consider validating the resource here.
-								
+
 								if ((resource.getContents().get(0) instanceof Mod)) {
-									Mod root = (Mod) resource.getContents().get(0);
+									Mod root = (Mod) resource.getContents()
+											.get(0);
 									i.evaluate(root);
 								}
 								if ((resource.getContents().get(0) instanceof Function)) {
-									Function root = (Function) resource.getContents().get(0);
+									Function root = (Function) resource
+											.getContents().get(0);
 									i.evaluate(root);
 								}
-								
-								
+
 								return null;
 							}
 						});
-				
+
 			}
+
 			public void linkEntered(HyperlinkEvent e) {
 			}
+
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
@@ -454,15 +469,21 @@ public class NewEditExpression extends AbstractScreen implements
 		keyPadComposite.setLayoutData(gd_composite_3);
 		toolkit.paintBordersFor(keyPadComposite);
 
-		Button button = toolkit.createButton(keyPadComposite, "+", SWT.NONE);
+		Button plusButton = toolkit.createButton(keyPadComposite, "+", SWT.NONE);
 		GridData gd_button = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
 		gd_button.widthHint = 18;
 		gd_button.heightHint = 18;
-		button.setLayoutData(gd_button);
-
+		plusButton.setLayoutData(gd_button);
+		plusButton.addSelectionListener(new SelectionAdapter(){
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				insertKeyPadText("+");
+			}
+		});
+		
 		Button btnTrue = toolkit
-				.createButton(keyPadComposite, "TRUE", SWT.NONE);
+				.createButton(keyPadComposite, "true", SWT.NONE);
 		btnTrue.setFont(SWTResourceManager.getFont("Lucida Grande", 9,
 				SWT.NORMAL));
 		GridData gd_btnTrue = new GridData(SWT.CENTER, SWT.CENTER, false,
@@ -470,15 +491,28 @@ public class NewEditExpression extends AbstractScreen implements
 		gd_btnTrue.widthHint = 36;
 		gd_btnTrue.heightHint = 18;
 		btnTrue.setLayoutData(gd_btnTrue);
+		btnTrue.addSelectionListener(new SelectionAdapter(){
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				insertKeyPadText("true");
+			}
+		});
 
-		Button button_6 = toolkit.createButton(keyPadComposite, "==", SWT.NONE);
+		Button btnEquals = toolkit.createButton(keyPadComposite, "==", SWT.NONE);
 		GridData gd_button_6 = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
 		gd_button_6.widthHint = 24;
 		gd_button_6.heightHint = 18;
-		button_6.setLayoutData(gd_button_6);
+		btnEquals.setLayoutData(gd_button_6);
 		new Label(keyPadComposite, SWT.NONE);
-
+		btnTrue.addSelectionListener(new SelectionAdapter(){
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				insertKeyPadText("true");
+			}
+		});
+		
+		
 		Composite composite = toolkit.createComposite(keyPadComposite,
 				SWT.NO_BACKGROUND | SWT.NO_FOCUS);
 		GridData gd_composite = new GridData(SWT.LEFT, SWT.FILL, false, false,
@@ -605,7 +639,21 @@ public class NewEditExpression extends AbstractScreen implements
 		button_8.setLayoutData(gd_button_8);
 		new Label(keyPadComposite, SWT.NONE);
 		new Label(keyPadComposite, SWT.NONE);
+	}
 
+	private void insertKeyPadText(String toInsert) {
+		IXtextDocument doc = editor.getDocument();
+		int len = doc.getLength();
+		try {
+			if( len == 0){
+				doc.set(toInsert);
+			}else{
+				String lastChar = doc.get(len-1, 1);
+				doc.replace(len-1, toInsert.length(), lastChar + toInsert);
+			}
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -703,8 +751,7 @@ public class NewEditExpression extends AbstractScreen implements
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
 	public boolean documentHasErrors(final IXtextDocument xtextDocument) {
 		return (xtextDocument
 				.readOnly(new IUnitOfWork<Boolean, XtextResource>() {
@@ -722,5 +769,10 @@ public class NewEditExpression extends AbstractScreen implements
 	public void disposeData() {
 		// N/A
 	}
-	
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
+	}
+
 }

@@ -606,10 +606,10 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="PeriodHint" type="xs:int">
+		<xs:attribute name="IntervalHint" type="xs:int">
 			<xs:annotation>
-				<xs:documentation>The PeriodHint attribute, holds a hint for the
-					metric period between each metric value in minutes.
+				<xs:documentation>The IntervalHint attribute, holds a hint for the
+					metric interval between each metric value in minutes.
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>

@@ -68,7 +68,7 @@ public class UsersAndRoles extends AbstractScreen implements
 
 	private TableViewer tableViewer;
 	private Form frmUsersAndRoles;
-	
+
 	@Inject
 	private SearchFilter searchFilter;
 
@@ -128,8 +128,8 @@ public class UsersAndRoles extends AbstractScreen implements
 				public void linkActivated(HyperlinkEvent e) {
 					if (screenService != null) {
 						NewEditUser user = new NewEditUser(screenService
-								.getScreenContainer(), SWT.NONE
-								| Screens.OPERATION_NEW);
+								.getScreenContainer(), SWT.NONE);
+						user.setOperation(Screens.OPERATION_NEW);
 						screenService.setActiveScreen(user);
 						user.injectData(studio,
 								GenericsFactory.eINSTANCE.createPerson());
@@ -194,8 +194,8 @@ public class UsersAndRoles extends AbstractScreen implements
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
 						NewEditUser u = new NewEditUser(screenService
-								.getScreenContainer(), Screens.OPERATION_EDIT
-								| SWT.NONE);
+								.getScreenContainer(), SWT.NONE);
+						u.setOperation(Screens.OPERATION_EDIT);
 						u.injectData(studio, o);
 						screenService.setActiveScreen(u);
 					}
@@ -216,8 +216,8 @@ public class UsersAndRoles extends AbstractScreen implements
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
 						UserActivity u = new UserActivity(screenService
-								.getScreenContainer(), SWT.NONE
-								| Screens.OPERATION_READ_ONLY);
+								.getScreenContainer(), SWT.NONE);
+						u.setOperation(Screens.OPERATION_READ_ONLY);
 						u.injectData(studio.getUsers(), o);
 						screenService.setActiveScreen(u);
 					}
@@ -301,7 +301,8 @@ public class UsersAndRoles extends AbstractScreen implements
 	 * @see com.netxforge.netxstudio.data.IDataInjection#injectData()
 	 */
 	public void injectData() {
-		Resource res = editingService.getData(NetxstudioPackage.Literals.NETXSTUDIO);
+		Resource res = editingService
+				.getData(NetxstudioPackage.Literals.NETXSTUDIO);
 		if (res.getContents().size() == 0) {
 			Netxstudio netx = NetxstudioFactory.eINSTANCE.createNetxstudio();
 			res.getContents().add(netx);
@@ -345,5 +346,11 @@ public class UsersAndRoles extends AbstractScreen implements
 	@Override
 	public Form getScreenForm() {
 		return frmUsersAndRoles;
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
+
 	}
 }

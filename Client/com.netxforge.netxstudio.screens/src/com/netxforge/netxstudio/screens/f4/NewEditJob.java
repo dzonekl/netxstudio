@@ -275,6 +275,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 		btnOn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
 			}
 		});
 		GridData gd_btnOn = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
@@ -794,5 +795,10 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection,
 	public void disposeData() {
 		// N/A
 		
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
 	}
 }

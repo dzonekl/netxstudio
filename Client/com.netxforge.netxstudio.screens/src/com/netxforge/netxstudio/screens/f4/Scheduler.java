@@ -103,11 +103,11 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				if (screenService != null) {
-					NewEditJob user = new NewEditJob(screenService
-							.getScreenContainer(), SWT.NONE
-							| Screens.OPERATION_NEW);
-					screenService.setActiveScreen(user);
-					user.injectData(jobsResource,
+					NewEditJob job = new NewEditJob(screenService
+							.getScreenContainer(), SWT.NONE);
+					job.setOperation(Screens.OPERATION_NEW);
+					screenService.setActiveScreen(job);
+					job.injectData(jobsResource,
 							SchedulingFactory.eINSTANCE.createJob());
 				}
 
@@ -141,7 +141,6 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 		tblclmnName.setWidth(100);
 		tblclmnName.setText("Name");
 
-
 		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnState = tableViewerColumn_4.getColumn();
@@ -153,7 +152,6 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 		TableColumn tblclmnStarttime = tableViewerColumn_2.getColumn();
 		tblclmnStarttime.setWidth(81);
 		tblclmnStarttime.setText("Startime");
-		
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				tableViewer, SWT.NONE);
@@ -179,16 +177,16 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					NewEditJob user = new NewEditJob(screenService
-							.getScreenContainer(), SWT.NONE
-							| Screens.OPERATION_EDIT);
-					screenService.setActiveScreen(user);
-					user.injectData(jobsResource, o);
+					NewEditJob job = new NewEditJob(screenService
+							.getScreenContainer(), SWT.NONE);
+					job.setOperation(Screens.OPERATION_EDIT);
+					screenService.setActiveScreen(job);
+					job.injectData(jobsResource, o);
 				}
 			}
 		});
 		mntmEdit.setText("Edit...");
-		
+
 		MenuItem mntmRuns = new MenuItem(menu, SWT.NONE);
 		mntmRuns.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -198,17 +196,16 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
 					JobRuns jobRunsScreen = new JobRuns(screenService
-							.getScreenContainer(), SWT.NONE
-							| Screens.OPERATION_READ_ONLY);
+							.getScreenContainer(), SWT.NONE);
+					jobRunsScreen.setOperation(Screens.OPERATION_READ_ONLY);
 					screenService.setActiveScreen(jobRunsScreen);
 					jobRunsScreen.injectData(jobsResource, o);
 				}
-				
-				
+
 			}
 		});
 		mntmRuns.setText("Runs...");
-		
+
 		if (editingService != null) {
 			injectData();
 		}
@@ -276,4 +273,11 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 	public Form getScreenForm() {
 		return frmScheduledJobs;
 	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
+
+	}
+
 }

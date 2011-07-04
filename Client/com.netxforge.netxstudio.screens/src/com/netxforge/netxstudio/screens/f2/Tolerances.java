@@ -59,7 +59,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -94,11 +96,6 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-				// listContentProvider.dispose();
-				// try{
-				// mgr.dispose(); // dispose all observables.
-				// }catch(Exception ex){
-				// }
 				toolkit.dispose();
 				disposeData();
 			}
@@ -147,22 +144,13 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 					frmTolerances.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
-					// NewEditExpression user = new NewEditExpression(
-					// screenService.getScreenContainer(), SWT.NONE
-					// | Screens.OPERATION_NEW);
-					// screenService.setActiveScreen(user);
-					// Expression exp = LibraryFactory.eINSTANCE
-					// .createExpression();
-					//
-					// // New Expressions always need an evaluation object.
-					// // What ever object is set as evaluation object, should
-					// // be
-					// // the root object
-					// // of our expression language.
-					// // Model m = NetxscriptFactory.eINSTANCE.createModel();
-					// // exp.setEvaluationObject(m);
-					// user.injectData(library.getExpressions(), exp);
-
+					NewEditTolerance toleranceScreen = new NewEditTolerance(
+							screenService.getScreenContainer(), SWT.NONE);
+					toleranceScreen.setOperation(Screens.OPERATION_NEW);
+					Tolerance tolerance = LibraryFactory.eINSTANCE
+							.createTolerance();
+					toleranceScreen.injectData(toleranceResource, tolerance);
+					screenService.setActiveScreen(toleranceScreen);
 				}
 
 				public void linkEntered(HyperlinkEvent e) {
@@ -217,21 +205,17 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
 						if (o != null) {
-							// int widgetStyle = SWT.None;
-							// // Conditional widget.
-							// if (Screens.isReadOnlyOperation(getOperation()))
-							// {
-							// widgetStyle |= Screens.OPERATION_READ_ONLY;
-							// } else {
-							// widgetStyle |= Screens.OPERATION_EDIT;
-							// }
-							// NewEditExpression editExpression = new
-							// NewEditExpression(
-							// screenService.getScreenContainer(),
-							// widgetStyle);
-							// editExpression.injectData(library.getExpressions(),
-							// o);
-							// screenService.setActiveScreen(editExpression);
+							int operation = -1;
+							if (Screens.isReadOnlyOperation(getOperation())) {
+								operation = Screens.OPERATION_READ_ONLY;
+							} else {
+								operation = Screens.OPERATION_EDIT;
+							}
+							NewEditTolerance toleranceScreen = new NewEditTolerance(
+									screenService.getScreenContainer(), SWT.NONE);
+							toleranceScreen.setOperation(operation);
+							toleranceScreen.injectData(toleranceResource, o);
+							screenService.setActiveScreen(toleranceScreen);
 						}
 					}
 				}
@@ -329,6 +313,11 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	@Override
 	public Form getScreenForm() {
 		return this.frmTolerances;
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
 	}
 
 }

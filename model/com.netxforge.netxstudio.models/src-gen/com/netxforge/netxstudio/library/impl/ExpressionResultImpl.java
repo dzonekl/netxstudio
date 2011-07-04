@@ -27,6 +27,7 @@ import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.RangeKind;
+import com.netxforge.netxstudio.metrics.KindHintType;
 
 /**
  * <!-- begin-user-doc -->
@@ -38,7 +39,8 @@ import com.netxforge.netxstudio.library.RangeKind;
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetResource <em>Target Resource</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetRange <em>Target Range</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetValues <em>Target Values</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetPeriod <em>Target Period</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetIntervalHint <em>Target Interval Hint</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl#getTargetKindHint <em>Target Kind Hint</em>}</li>
  * </ul>
  * </p>
  *
@@ -143,8 +145,8 @@ public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionRes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getTargetPeriod() {
-		return (Integer)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_PERIOD, true);
+	public int getTargetIntervalHint() {
+		return (Integer)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_INTERVAL_HINT, true);
 	}
 
 	/**
@@ -152,8 +154,8 @@ public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionRes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTargetPeriod(int newTargetPeriod) {
-		eSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_PERIOD, newTargetPeriod);
+	public void setTargetIntervalHint(int newTargetIntervalHint) {
+		eSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_INTERVAL_HINT, newTargetIntervalHint);
 	}
 
 	/**
@@ -161,8 +163,8 @@ public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionRes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void unsetTargetPeriod() {
-		eUnset(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_PERIOD);
+	public void unsetTargetIntervalHint() {
+		eUnset(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_INTERVAL_HINT);
 	}
 
 	/**
@@ -170,8 +172,44 @@ public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionRes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isSetTargetPeriod() {
-		return eIsSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_PERIOD);
+	public boolean isSetTargetIntervalHint() {
+		return eIsSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_INTERVAL_HINT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public KindHintType getTargetKindHint() {
+		return (KindHintType)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_KIND_HINT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTargetKindHint(KindHintType newTargetKindHint) {
+		eSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_KIND_HINT, newTargetKindHint);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetTargetKindHint() {
+		eUnset(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_KIND_HINT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetTargetKindHint() {
+		return eIsSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_KIND_HINT);
 	}
 
 } //ExpressionResultImpl

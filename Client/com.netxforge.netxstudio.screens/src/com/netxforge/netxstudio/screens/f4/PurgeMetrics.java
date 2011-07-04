@@ -1,7 +1,9 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.widgets.datechooser.DateChooserCombo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -24,7 +26,10 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-public class PurgeMetrics extends Composite {
+import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+
+public class PurgeMetrics extends AbstractScreen implements IDataScreenInjection{
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
@@ -136,5 +141,46 @@ public class PurgeMetrics extends Composite {
 		new Label(composite_2, SWT.NONE);
 		
 
+	}
+
+	public EMFDataBindingContext initDataBindings_() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void disposeData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void injectData(Object owner, Object object) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Viewer getViewer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
+	}
+
+	@Override
+	public boolean isValid() {
+		return true;
+	}
+
+	@Override
+	public Form getScreenForm() {
+		return null;
 	}
 }

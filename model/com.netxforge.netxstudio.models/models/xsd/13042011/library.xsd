@@ -1273,7 +1273,8 @@
 			<xs:element name="TargetRange" type="RangeKind"  maxOccurs="1" minOccurs="0"/>
 			<xs:element name="TargetValues" type="gen:Value"  maxOccurs="unbounded" minOccurs="0"/>
 		</xs:sequence>
-		<xs:attribute name="TargetPeriod" type="xs:int"/>
+		<xs:attribute name="TargetIntervalHint" type="xs:int"/>
+		<xs:attribute name="TargetKindHint" type="metrics:KindHintType"/>
 	</xs:complexType>
 	
 	<!--_____________________________ -->

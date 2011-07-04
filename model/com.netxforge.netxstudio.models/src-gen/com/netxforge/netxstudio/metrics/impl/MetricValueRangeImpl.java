@@ -35,8 +35,8 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl#getMetricValues <em>Metric Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl#getIntervalHint <em>Interval Hint</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl#getKindHint <em>Kind Hint</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl#getPeriodHint <em>Period Hint</em>}</li>
  * </ul>
  * </p>
  *
@@ -87,6 +87,42 @@ public class MetricValueRangeImpl extends CDOObjectImpl implements MetricValueRa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getIntervalHint() {
+		return (Integer)eGet(MetricsPackage.Literals.METRIC_VALUE_RANGE__INTERVAL_HINT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIntervalHint(int newIntervalHint) {
+		eSet(MetricsPackage.Literals.METRIC_VALUE_RANGE__INTERVAL_HINT, newIntervalHint);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetIntervalHint() {
+		eUnset(MetricsPackage.Literals.METRIC_VALUE_RANGE__INTERVAL_HINT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetIntervalHint() {
+		return eIsSet(MetricsPackage.Literals.METRIC_VALUE_RANGE__INTERVAL_HINT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public KindHintType getKindHint() {
 		return (KindHintType)eGet(MetricsPackage.Literals.METRIC_VALUE_RANGE__KIND_HINT, true);
 	}
@@ -116,42 +152,6 @@ public class MetricValueRangeImpl extends CDOObjectImpl implements MetricValueRa
 	 */
 	public boolean isSetKindHint() {
 		return eIsSet(MetricsPackage.Literals.METRIC_VALUE_RANGE__KIND_HINT);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getPeriodHint() {
-		return (Integer)eGet(MetricsPackage.Literals.METRIC_VALUE_RANGE__PERIOD_HINT, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPeriodHint(int newPeriodHint) {
-		eSet(MetricsPackage.Literals.METRIC_VALUE_RANGE__PERIOD_HINT, newPeriodHint);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetPeriodHint() {
-		eUnset(MetricsPackage.Literals.METRIC_VALUE_RANGE__PERIOD_HINT);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetPeriodHint() {
-		return eIsSet(MetricsPackage.Literals.METRIC_VALUE_RANGE__PERIOD_HINT);
 	}
 
 } //MetricValueRangeImpl

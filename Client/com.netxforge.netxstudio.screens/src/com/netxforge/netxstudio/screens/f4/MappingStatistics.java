@@ -288,4 +288,9 @@ public class MappingStatistics extends AbstractScreen implements
 	public Form getScreenForm() {
 		return this.frmMappingStatistics;
 	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
+	}
 }

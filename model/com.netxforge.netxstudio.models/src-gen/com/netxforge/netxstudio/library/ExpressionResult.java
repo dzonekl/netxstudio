@@ -22,6 +22,7 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.metrics.KindHintType;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,7 +41,8 @@ import com.netxforge.netxstudio.generics.Value;
  *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetResource <em>Target Resource</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetRange <em>Target Range</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetValues <em>Target Values</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod <em>Target Period</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetIntervalHint <em>Target Interval Hint</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetKindHint <em>Target Kind Hint</em>}</li>
  * </ul>
  * </p>
  *
@@ -153,56 +155,113 @@ public interface ExpressionResult extends CDOObject {
 	EList<Value> getTargetValues();
 
 	/**
-	 * Returns the value of the '<em><b>Target Period</b></em>' attribute.
+	 * Returns the value of the '<em><b>Target Interval Hint</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Target Period</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Target Interval Hint</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target Period</em>' attribute.
-	 * @see #isSetTargetPeriod()
-	 * @see #unsetTargetPeriod()
-	 * @see #setTargetPeriod(int)
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult_TargetPeriod()
+	 * @return the value of the '<em>Target Interval Hint</em>' attribute.
+	 * @see #isSetTargetIntervalHint()
+	 * @see #unsetTargetIntervalHint()
+	 * @see #setTargetIntervalHint(int)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult_TargetIntervalHint()
 	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
-	 *        extendedMetaData="kind='attribute' name='TargetPeriod'"
+	 *        extendedMetaData="kind='attribute' name='TargetIntervalHint'"
 	 * @generated
 	 */
-	int getTargetPeriod();
+	int getTargetIntervalHint();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod <em>Target Period</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetIntervalHint <em>Target Interval Hint</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Target Period</em>' attribute.
-	 * @see #isSetTargetPeriod()
-	 * @see #unsetTargetPeriod()
-	 * @see #getTargetPeriod()
+	 * @param value the new value of the '<em>Target Interval Hint</em>' attribute.
+	 * @see #isSetTargetIntervalHint()
+	 * @see #unsetTargetIntervalHint()
+	 * @see #getTargetIntervalHint()
 	 * @generated
 	 */
-	void setTargetPeriod(int value);
+	void setTargetIntervalHint(int value);
 
 	/**
-	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod <em>Target Period</em>}' attribute.
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetIntervalHint <em>Target Interval Hint</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isSetTargetPeriod()
-	 * @see #getTargetPeriod()
-	 * @see #setTargetPeriod(int)
+	 * @see #isSetTargetIntervalHint()
+	 * @see #getTargetIntervalHint()
+	 * @see #setTargetIntervalHint(int)
 	 * @generated
 	 */
-	void unsetTargetPeriod();
+	void unsetTargetIntervalHint();
 
 	/**
-	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetPeriod <em>Target Period</em>}' attribute is set.
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetIntervalHint <em>Target Interval Hint</em>}' attribute is set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Target Period</em>' attribute is set.
-	 * @see #unsetTargetPeriod()
-	 * @see #getTargetPeriod()
-	 * @see #setTargetPeriod(int)
+	 * @return whether the value of the '<em>Target Interval Hint</em>' attribute is set.
+	 * @see #unsetTargetIntervalHint()
+	 * @see #getTargetIntervalHint()
+	 * @see #setTargetIntervalHint(int)
 	 * @generated
 	 */
-	boolean isSetTargetPeriod();
+	boolean isSetTargetIntervalHint();
+
+	/**
+	 * Returns the value of the '<em><b>Target Kind Hint</b></em>' attribute.
+	 * The literals are from the enumeration {@link com.netxforge.netxstudio.metrics.KindHintType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target Kind Hint</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Kind Hint</em>' attribute.
+	 * @see com.netxforge.netxstudio.metrics.KindHintType
+	 * @see #isSetTargetKindHint()
+	 * @see #unsetTargetKindHint()
+	 * @see #setTargetKindHint(KindHintType)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult_TargetKindHint()
+	 * @model unsettable="true"
+	 *        extendedMetaData="kind='attribute' name='TargetKindHint'"
+	 * @generated
+	 */
+	KindHintType getTargetKindHint();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetKindHint <em>Target Kind Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target Kind Hint</em>' attribute.
+	 * @see com.netxforge.netxstudio.metrics.KindHintType
+	 * @see #isSetTargetKindHint()
+	 * @see #unsetTargetKindHint()
+	 * @see #getTargetKindHint()
+	 * @generated
+	 */
+	void setTargetKindHint(KindHintType value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetKindHint <em>Target Kind Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetTargetKindHint()
+	 * @see #getTargetKindHint()
+	 * @see #setTargetKindHint(KindHintType)
+	 * @generated
+	 */
+	void unsetTargetKindHint();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetKindHint <em>Target Kind Hint</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Target Kind Hint</em>' attribute is set.
+	 * @see #unsetTargetKindHint()
+	 * @see #getTargetKindHint()
+	 * @see #setTargetKindHint(KindHintType)
+	 * @generated
+	 */
+	boolean isSetTargetKindHint();
 } // ExpressionResult

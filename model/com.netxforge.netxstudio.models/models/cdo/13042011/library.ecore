@@ -458,11 +458,18 @@
         <details key="name" value="TargetValues"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetPeriod" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetIntervalHint" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
-        <details key="name" value="TargetPeriod"/>
+        <details key="name" value="TargetIntervalHint"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetKindHint" eType="ecore:EEnum metrics.ecore#//KindHintType"
+        unsettable="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="TargetKindHint"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

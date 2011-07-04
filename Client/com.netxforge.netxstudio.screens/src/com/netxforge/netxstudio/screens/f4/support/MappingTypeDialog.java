@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f4;
+package com.netxforge.netxstudio.screens.f4.support;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;

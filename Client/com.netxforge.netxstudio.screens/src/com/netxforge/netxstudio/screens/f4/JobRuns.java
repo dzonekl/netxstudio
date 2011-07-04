@@ -37,6 +37,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -45,6 +47,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.Form;
@@ -56,10 +60,6 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -133,36 +133,40 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		TableColumn tblclmnTask = tableViewerColumn_2.getColumn();
 		tblclmnTask.setWidth(114);
 		tblclmnTask.setText("Task");
-		
-		TableViewerColumn tableViewerColumn_6 = new TableViewerColumn(jobRunsTableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_6 = new TableViewerColumn(
+				jobRunsTableViewer, SWT.NONE);
 		TableColumn tblclmnMessage = tableViewerColumn_6.getColumn();
 		tblclmnMessage.setWidth(100);
 		tblclmnMessage.setText("Message");
-		
-		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(jobRunsTableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(
+				jobRunsTableViewer, SWT.NONE);
 		TableColumn tblclmnStarted = tableViewerColumn_4.getColumn();
 		tblclmnStarted.setWidth(100);
 		tblclmnStarted.setText("Started");
-		
-		TableViewerColumn tableViewerColumn_5 = new TableViewerColumn(jobRunsTableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_5 = new TableViewerColumn(
+				jobRunsTableViewer, SWT.NONE);
 		TableColumn tblclmnEnded = tableViewerColumn_5.getColumn();
 		tblclmnEnded.setWidth(100);
 		tblclmnEnded.setText("Ended");
-		
+
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
-		
+
 		MenuItem mntmShowLog = new MenuItem(menu, SWT.NONE);
 		mntmShowLog.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// TODO, A popul showing the log. 
-				
+				// TODO, A popup showing the log.
+
 			}
 		});
 		mntmShowLog.setText("Show Log...");
-		
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(jobRunsTableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
+				jobRunsTableViewer, SWT.NONE);
 		TableColumn tblclmnLog = tableViewerColumn_3.getColumn();
 		tblclmnLog.setWidth(100);
 		tblclmnLog.setText("Log");
@@ -192,7 +196,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			// Get the job container:
 			Resource jobRunContainerResource = editingService
 					.getData(SchedulingPackage.Literals.JOB_RUN_CONTAINER);
-			// find our jobcontainer . 
+			// find our jobcontainer .
 			for (final EObject eObject : jobRunContainerResource.getContents()) {
 				final JobRunContainer container = (JobRunContainer) eObject;
 				final Job containerJob = container.getJob();
@@ -204,10 +208,12 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 					return;
 				}
 			}
-			// There is no container, TODO should really do this test before showing the runs.
-			// Do not initiate data binding. 
-			MessageDialog.openInformation(this.getShell(), "Job runs","This job has not run yet.");
-			
+			// There is no container, TODO should really do this test before
+			// showing the runs.
+			// Do not initiate data binding.
+			MessageDialog.openInformation(this.getShell(), "Job runs",
+					"This job has not run yet.");
+
 		}
 	}
 
@@ -223,35 +229,39 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-		
-		
-		// TODO, We would need some ordering the workflow runs by date, and perhaps some custom cell viewers to show the 
-		// log for a run. 
-		
+
+		// TODO, We would need some ordering the workflow runs by date, and
+		// perhaps some custom cell viewers to show the
+		// log for a run.
+
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		jobRunsTableViewer.setContentProvider(listContentProvider);
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
-						SchedulingPackage.Literals.WORK_FLOW_RUN__STATE,
-						SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS,
-						SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS_TASK,
-						SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS_MESSAGE,
-						SchedulingPackage.Literals.WORK_FLOW_RUN__STARTED,
-						SchedulingPackage.Literals.WORK_FLOW_RUN__ENDED, 
-						SchedulingPackage.Literals.WORK_FLOW_RUN__LOG});
+		IObservableMap[] observeMaps = EMFObservables
+				.observeMaps(
+						listContentProvider.getKnownElements(),
+						new EStructuralFeature[] {
+								SchedulingPackage.Literals.WORK_FLOW_RUN__STATE,
+								SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS,
+								SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS_TASK,
+								SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS_MESSAGE,
+								SchedulingPackage.Literals.WORK_FLOW_RUN__STARTED,
+								SchedulingPackage.Literals.WORK_FLOW_RUN__ENDED,
+								SchedulingPackage.Literals.WORK_FLOW_RUN__LOG });
 		jobRunsTableViewer
 				.setLabelProvider(new WorkflowRunObservableMapLabelProvider(
 						observeMaps));
 
-		IEMFListProperty l = EMFProperties.list(SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS);
+		IEMFListProperty l = EMFProperties
+				.list(SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS);
 		jobRunsTableViewer.setInput(l.observe(currentJonContainer));
 		return bindingContext;
 	}
 
-	class WorkflowRunObservableMapLabelProvider extends ObservableMapLabelProvider {
+	class WorkflowRunObservableMapLabelProvider extends
+			ObservableMapLabelProvider {
 
-		public WorkflowRunObservableMapLabelProvider(IObservableMap[] attributeMaps) {
+		public WorkflowRunObservableMapLabelProvider(
+				IObservableMap[] attributeMaps) {
 			super(attributeMaps);
 		}
 
@@ -302,5 +312,10 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 	public void disposeData() {
 		// N/A
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
 	}
 }
