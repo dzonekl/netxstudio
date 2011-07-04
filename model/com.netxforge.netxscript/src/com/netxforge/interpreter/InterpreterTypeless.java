@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxscript.AbsoluteRef;
+import com.netxforge.netxscript.AbstractFunction;
 import com.netxforge.netxscript.AbstractVarOrArgument;
 import com.netxforge.netxscript.And;
 import com.netxforge.netxscript.Argument;
@@ -595,12 +596,14 @@ public class InterpreterTypeless implements IInterpreter {
 										break;
 									}
 									if (entry instanceof BigDecimal) {
-										Value v = GenericsFactory.eINSTANCE.createValue();
-										v.setValue(((BigDecimal)entry).doubleValue());
-										// FIXME, We don't set a timestamp! 
+										Value v = GenericsFactory.eINSTANCE
+												.createValue();
+										v.setValue(((BigDecimal) entry)
+												.doubleValue());
+										// FIXME, We don't set a timestamp!
 										er.getTargetValues().add(v);
 									}
-									
+
 								}
 								result.add(er);
 							}
@@ -742,30 +745,33 @@ public class InterpreterTypeless implements IInterpreter {
 	protected Object internalEvaluate(FunctionCall e,
 			ImmutableMap<String, Object> values) {
 
-		Function function = (Function) e.getFunc();
+		AbstractFunction af = e.getFunc();
+		if (af instanceof Function) {
+			Function function = (Function) af;
 
-		Map<String, Object> params = Maps.newHashMap();
+			Map<String, Object> params = Maps.newHashMap();
 
-		for (int i = 0; i < e.getArgs().size(); i++) {
-			Argument arg = function.getArgs().get(i);
-			Expression argExpression = e.getArgs().get(i);
-			Object evaluation = evaluate(argExpression, values);
-			params.put(arg.getName(), evaluation);
+			for (int i = 0; i < e.getArgs().size(); i++) {
+				Argument arg = function.getArgs().get(i);
+				Expression argExpression = e.getArgs().get(i);
+				Object evaluation = evaluate(argExpression, values);
+				params.put(arg.getName(), evaluation);
+			}
+
+			// Puts the values of the arguments into a new evaluation, using the
+			// expression of the definition, note: internal evaluators should
+			// consider
+			// the type of the evaluation.
+
+			Object result = evaluate(function, ImmutableMap.copyOf(params));
+			if (result instanceof Return) {
+				// Invoke the return expression.
+				return dispatcher.invoke(result, ImmutableMap.copyOf(params));
+			} else {
+				return result;
+			}
 		}
-
-		// Puts the values of the arguments into a new evaluation, using the
-		// expression of the definition, note: internal evaluators should
-		// consider
-		// the type of the evaluation.
-
-		Object result = evaluate(function, ImmutableMap.copyOf(params));
-		if (result instanceof Return) {
-			// Invoke the return expression.
-			return dispatcher.invoke(result, ImmutableMap.copyOf(params));
-		} else {
-			return result;
-		}
-
+		throw new UnsupportedOperationException("function call invalid for function" + e.getFunc());
 	}
 
 	/**
@@ -1266,7 +1272,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 	protected Object internalEvaluate(Multi multi,
 			ImmutableMap<String, Object> values) {
-		
+
 		Object leftEval = evaluate(multi.getLeft(), values);
 		Object rightEval = evaluate(multi.getRight(), values);
 
@@ -1276,14 +1282,14 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 		}
 
-		if(assertCollection(leftEval)){
+		if (assertCollection(leftEval)) {
 			List<Object> resultList = Lists.newArrayList();
 			if (assertNumeric(rightEval)) {
 				// Divide all contents of the left list by the numeric provided.
 				for (Object leftO : (List<?>) leftEval) {
 					if (assertNumeric(leftO)) {
-						BigDecimal d = ((BigDecimal) leftEval).multiply(
-								(BigDecimal) rightEval);
+						BigDecimal d = ((BigDecimal) leftEval)
+								.multiply((BigDecimal) rightEval);
 						resultList.add(d);
 						continue;
 					}
@@ -1306,7 +1312,8 @@ public class InterpreterTypeless implements IInterpreter {
 				// Divide all contents of the left list by the numeric provided.
 				for (Object leftO : (List<?>) leftEval) {
 					if (assertNumeric(leftO)) {
-						BigDecimal d = ((BigDecimal) leftEval).multiply(rightMultiplier);
+						BigDecimal d = ((BigDecimal) leftEval)
+								.multiply(rightMultiplier);
 						resultList.add(d);
 						continue;
 					}
@@ -1340,15 +1347,16 @@ public class InterpreterTypeless implements IInterpreter {
 					}
 					if (assertValue(leftVal) && assertValue(rightVal)) {
 						BigDecimal d = new BigDecimal(
-								((Value) leftVal).getValue()).multiply(
-								new BigDecimal(((Value) rightVal).getValue()));
+								((Value) leftVal).getValue())
+								.multiply(new BigDecimal(((Value) rightVal)
+										.getValue()));
 						resultList.add(d);
 					}
 				}
 				return ImmutableList.copyOf(resultList);
 			}
 		}
-		
+
 		throw new UnsupportedOperationException(
 				"Multiplication expression for invalid types, i.e. This could be multiplying a Number by a Range.");
 	}
