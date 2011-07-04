@@ -46,7 +46,7 @@ import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.logic.CapacityService;
+import com.netxforge.netxstudio.server.logic.ResourceMonitoringService;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
 import com.netxforge.netxstudio.server.test.dataprovider.NonStatic;
@@ -58,7 +58,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Martin Taal
  */
-public class TestCallCapacityAction extends AbstractDataProviderTest {
+public class TestResourceMonitoringAction extends AbstractDataProviderTest {
 
 	private static final long ONE_DAY = 24 * 60 * 60 * 1000;
 
@@ -87,44 +87,44 @@ public class TestCallCapacityAction extends AbstractDataProviderTest {
 		dataProvider.closeSession();
 	}
 
-	public void testCallCapacityActionRfsService() throws Exception {
+	public void testCallResourceMonitoringActionRfsService() throws Exception {
 		dataProvider.getTransaction();
 		final Resource res = dataProvider
 				.getResource(ServicesPackage.Literals.RFS_SERVICE);
 		for (final EObject eObject : res.getContents()) {
 			final CDOObject cdoObject = (CDOObject) eObject;
-			callCapacityAction(CapacityService.SERVICE_PARAM, cdoObject);
+			callResourceMonitoringAction(ResourceMonitoringService.SERVICE_PARAM, cdoObject);
 		}
 		dataProvider.commitTransaction();
 	}
 
-	public void testCallCapacityActionNode() throws Exception {
+	public void testCallResourceMonitoringActionNode() throws Exception {
 		dataProvider.getTransaction();
 		final Resource res = dataProvider
 				.getResource(OperatorsPackage.Literals.NETWORK);
 		for (final EObject eObject : res.getContents()) {
 			final Network network = (Network) eObject;
 			for (final Node node : network.getNodes()) {
-				callCapacityAction(CapacityService.NODE_PARAM, node);
+				callResourceMonitoringAction(ResourceMonitoringService.NODE_PARAM, node);
 			}
 		}
 		dataProvider.commitTransaction();
 	}
 
-	public void testCallCapacityActionNodeType() throws Exception {
+	public void testCallResourceMonitoringActionNodeType() throws Exception {
 		dataProvider.getTransaction();
 		final Resource res = dataProvider
 				.getResource(OperatorsPackage.Literals.NETWORK);
 		for (final EObject eObject : res.getContents()) {
 			final Network network = (Network) eObject;
 			for (final Node node : network.getNodes()) {
-				callCapacityAction(CapacityService.NODE_PARAM, node.getNodeType());
+				callResourceMonitoringAction(ResourceMonitoringService.NODE_PARAM, node.getNodeType());
 			}
 		}
 		dataProvider.commitTransaction();
 	}
 
-	public void callCapacityAction(final String paramName,
+	public void callResourceMonitoringAction(final String paramName,
 			final CDOObject cdoObject) throws Exception {
 		final WorkFlowRun wfRun = callAction(paramName, cdoObject.cdoID());
 		// sleep for 5 seconds to give the server time to work
@@ -155,10 +155,10 @@ public class TestCallCapacityAction extends AbstractDataProviderTest {
 		final StringBuilder url = new StringBuilder();
 		url.append("http://localhost:8080/netxforge/service");
 		url.append("?" + NetxForgeService.SERVICE_PARAM_NAME + "="
-				+ CapacityService.class.getName());
-		url.append("&" + CapacityService.START_TIME_PARAM + "="
+				+ ResourceMonitoringService.class.getName());
+		url.append("&" + ResourceMonitoringService.START_TIME_PARAM + "="
 				+ getDateParamValue(-100 * ONE_DAY));
-		url.append("&" + CapacityService.END_TIME_PARAM + "="
+		url.append("&" + ResourceMonitoringService.END_TIME_PARAM + "="
 				+ getDateParamValue(ONE_DAY));
 		url.append("&" + parameterName + "="
 				+ ((AbstractCDOIDLong) cdoId).getLongValue());
