@@ -1,9 +1,15 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
@@ -18,6 +24,11 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -29,11 +40,13 @@ import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.MenuEvent;
+import org.eclipse.swt.events.MenuListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -44,20 +57,37 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import com.google.common.collect.ImmutableMap;
+import com.netxforge.netxstudio.metrics.DataKind;
+import com.netxforge.netxstudio.metrics.IdentifierDataKind;
+import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.metrics.ObjectKindType;
+import com.netxforge.netxstudio.metrics.ValueDataKind;
+import com.netxforge.netxstudio.metrics.ValueKindType;
+import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
+import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f4.support.Tuple;
+import com.netxforge.netxstudio.screens.f4.support.XLSServiceJob;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
 public class NewEditMappingCSV extends AbstractScreen implements
@@ -74,6 +104,8 @@ public class NewEditMappingCSV extends AbstractScreen implements
 	private MappingXLS mapping;
 	private MappingXLS original;
 	private TableViewer mappingColumnsTableViewer;
+	private GridTableViewer gridTableViewer;
+	private Menu gridMenu;
 
 	/**
 	 * Create the composite.
@@ -81,7 +113,6 @@ public class NewEditMappingCSV extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	@SuppressWarnings("unused")
 	public NewEditMappingCSV(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
@@ -103,8 +134,6 @@ public class NewEditMappingCSV extends AbstractScreen implements
 				frmXLSMappingForm.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
 		FormData fd_sctnSummary = new FormData();
-		fd_sctnSummary.top = new FormAttachment(0, 10);
-		fd_sctnSummary.left = new FormAttachment(0, 12);
 		sctnSummary.setLayoutData(fd_sctnSummary);
 		toolkit.paintBordersFor(sctnSummary);
 		sctnSummary.setText("Summary");
@@ -115,7 +144,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		sctnSummary.setClient(composite_1);
 		composite_1.setLayout(new GridLayout(2, false));
 
-		Label lblSheetName = toolkit.createLabel(composite_1, "Sheet Name:",
+		Label lblSheetName = toolkit.createLabel(composite_1, "Sheet Index:",
 				SWT.NONE);
 		lblSheetName.setAlignment(SWT.RIGHT);
 		GridData gd_lblSheetName = new GridData(SWT.RIGHT, SWT.CENTER, false,
@@ -127,7 +156,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		txtSheetNumber.setText("");
 		GridData gd_txtSheetName = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
-		gd_txtSheetName.widthHint = 200;
+		gd_txtSheetName.widthHint = 20;
 		txtSheetNumber.setLayoutData(gd_txtSheetName);
 
 		Label lblHeaderrow = toolkit.createLabel(composite_1,
@@ -140,7 +169,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		txtFirstHeaderRow.setText("");
 		GridData gd_txtFirstHeaderRow = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
-		gd_txtFirstHeaderRow.widthHint = 15;
+		gd_txtFirstHeaderRow.widthHint = 20;
 		txtFirstHeaderRow.setLayoutData(gd_txtFirstHeaderRow);
 
 		Label lblstDataRow = toolkit.createLabel(composite_1, "1st Data row:",
@@ -151,17 +180,19 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		txtFirstDataRow = toolkit.createText(composite_1, "New Text", SWT.NONE);
 		GridData gd_txtFirstDataRow = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
-		gd_txtFirstDataRow.widthHint = 15;
+		gd_txtFirstDataRow.widthHint = 20;
 		txtFirstDataRow.setLayoutData(gd_txtFirstDataRow);
 		txtFirstDataRow.setText("");
 
 		Section sctnXLSInteractive = toolkit.createSection(
 				frmXLSMappingForm.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
+		fd_sctnSummary.top = new FormAttachment(sctnXLSInteractive, 0, SWT.TOP);
+		fd_sctnSummary.right = new FormAttachment(0, 355);
 		FormData fd_sctnXLSInteractive = new FormData();
-		fd_sctnXLSInteractive.top = new FormAttachment(sctnSummary, 0, SWT.TOP);
+		fd_sctnXLSInteractive.top = new FormAttachment(0, 10);
 		fd_sctnXLSInteractive.bottom = new FormAttachment(100, -12);
-		fd_sctnXLSInteractive.left = new FormAttachment(sctnSummary, 15);
+		fd_sctnXLSInteractive.left = new FormAttachment(0, 370);
 		fd_sctnXLSInteractive.right = new FormAttachment(100, -12);
 		sctnXLSInteractive.setLayoutData(fd_sctnXLSInteractive);
 		toolkit.paintBordersFor(sctnXLSInteractive);
@@ -182,14 +213,27 @@ public class NewEditMappingCSV extends AbstractScreen implements
 						.browseWorkspace(NewEditMappingCSV.this.getShell());
 				if (paths == null || paths.length == 0)
 					return;
-				
-				// TODO something with the path.
-				txtSelectedXLSPath.setText(paths.toString());
-				
-				
-				String file = "";
-				fillGrid(file);
-				
+				// We only process the first selection.
+				IFile f = WorkspaceUtil.INSTANCE.createFileHandle(paths[0]);
+				txtSelectedXLSPath.setText(f.getName());
+				final XLSServiceJob job = new XLSServiceJob();
+				job.addNotifier(new JobChangeAdapter() {
+					@Override
+					public void done(IJobChangeEvent event) {
+						super.done(event);
+						List<Map<Integer, Tuple>> records = job.getRecords();
+						if (records != null) {
+							Display.getDefault().asyncExec(new Runnable() {
+								public void run() {
+									fillGrid(job.getRecords());
+								}
+							});
+						}
+					}
+				});
+				job.setResourceToProcess(f);
+				job.go(); // Should spawn a job processing the xls.
+				resetGridSelections();// Reset the selections.
 			}
 		});
 
@@ -203,7 +247,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		tabFolder.setTabHeight(20);
 		tabFolder.setTabPosition(SWT.BOTTOM);
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2,
-				1));
+				2));
 		toolkit.adapt(tabFolder);
 		toolkit.paintBordersFor(tabFolder);
 		tabFolder.setSelectionBackground(SWTResourceManager.getColor(240, 255,
@@ -212,91 +256,95 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		CTabItem tbtmSheet1 = new CTabItem(tabFolder, SWT.NONE);
 		tbtmSheet1.setText("Sheet 1");
 
-		ScrolledComposite scrolledComposite = new ScrolledComposite(tabFolder,
-				SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		scrolledComposite.setAlwaysShowScrollBars(true);
-		tbtmSheet1.setControl(scrolledComposite);
-		toolkit.paintBordersFor(scrolledComposite);
-		scrolledComposite.setExpandHorizontal(true);
-		scrolledComposite.setExpandVertical(true);
+		tabFolder.setSelection(tbtmSheet1);
 
-		GridTableViewer gridTableViewer = new GridTableViewer(
-				scrolledComposite, SWT.BORDER);
+		Composite composite = new Composite(tabFolder, SWT.BORDER);
+		tbtmSheet1.setControl(composite);
+		toolkit.paintBordersFor(composite);
+		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		gridTableViewer = new GridTableViewer(composite, SWT.H_SCROLL
+				| SWT.V_SCROLL | SWT.BORDER);
 		Grid grid = gridTableViewer.getGrid();
 		grid.setCellSelectionEnabled(true);
 		grid.setHeaderVisible(true);
 		grid.setRowHeaderVisible(true);
-		// tabItem_1.setControl(grid);
 		toolkit.paintBordersFor(grid);
+		grid.addSelectionListener(gridSelector);
+		buildFixedColumns(gridTableViewer);
 
-		GridViewerColumn gridViewerColumn = new GridViewerColumn(
-				gridTableViewer, SWT.NONE);
-		GridColumn gridColumn = gridViewerColumn.getColumn();
-		gridColumn.setAlignment(SWT.CENTER);
-		gridColumn.setWidth(80);
-		gridColumn.setText("A");
+		gridMenu = new Menu(grid);
+		grid.setMenu(gridMenu);
+		gridMenu.addMenuListener(new MenuListener() {
+			public void menuHidden(MenuEvent e) {
+				System.out.println(e);
+			}
 
-		GridColumn gridColumn_1 = new GridColumn(grid, SWT.NONE);
-		gridColumn_1.setAlignment(SWT.CENTER);
-		gridColumn_1.setText("B");
-		gridColumn_1.setWidth(80);
+			public void menuShown(MenuEvent e) {
+				System.out.println(e);
+				// Can we still build the menu here before it shows.
+				// Clear the entries.
+				MenuItem[] mis = gridMenu.getItems();
+				for (int i = 0; i < mis.length; i++) {
+					mis[i].dispose();
+				}
 
-		GridColumn gridColumn_2 = new GridColumn(grid, SWT.NONE);
-		gridColumn_2.setAlignment(SWT.CENTER);
-		gridColumn_2.setText("C");
-		gridColumn_2.setWidth(80);
-
-		GridViewerColumn gridViewerColumn_1 = new GridViewerColumn(
-				gridTableViewer, SWT.NONE);
-		GridColumn gridColumn_3 = gridViewerColumn_1.getColumn();
-		gridColumn_3.setAlignment(SWT.CENTER);
-		gridColumn_3.setWidth(80);
-		gridColumn_3.setText("D");
-
-		GridViewerColumn gridViewerColumn_2 = new GridViewerColumn(
-				gridTableViewer, SWT.NONE);
-		GridColumn gridColumn_4 = gridViewerColumn_2.getColumn();
-		gridColumn_4.setAlignment(SWT.CENTER);
-		gridColumn_4.setWidth(80);
-		gridColumn_4.setText("E");
-
-		GridItem gridItem = new GridItem(grid, SWT.NONE);
-		GridItem gridItem_1 = new GridItem(grid, SWT.NONE);
-		GridItem gridItem_2 = new GridItem(grid, SWT.NONE);
-		GridItem gridItem_3 = new GridItem(grid, SWT.NONE);
-		GridItem gridItem_4 = new GridItem(grid, SWT.NONE);
-
-		GridItem gridItem_5 = new GridItem(grid, SWT.NONE);
-
-		GridItem gridItem_6 = new GridItem(grid, SWT.NONE);
-
-		GridItem gridItem_7 = new GridItem(grid, SWT.NONE);
-
-		GridItem gridItem_8 = new GridItem(grid, SWT.NONE);
-
-		GridItem gridItem_9 = new GridItem(grid, SWT.NONE);
-
-		GridItem gridItem_10 = new GridItem(grid, SWT.NONE);
-
-		GridItem gridItem_11 = new GridItem(grid, SWT.NONE);
-
-		scrolledComposite.setContent(gridTableViewer.getGrid());
-		scrolledComposite.setMinSize(gridTableViewer.getGrid().computeSize(
-				SWT.DEFAULT, SWT.DEFAULT));
-
-		CTabItem tbtmSheet2 = new CTabItem(tabFolder, SWT.NONE);
-		tbtmSheet2.setText("Sheet 2");
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
+				if (currentRowIndex != -1) {
+					{
+						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
+						mi.setText("Set Header row index (" + currentRowIndex
+								+ ")");
+						mi.addSelectionListener(new SelectionAdapter() {
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								txtFirstHeaderRow.setText(new Integer(
+										currentRowIndex).toString());
+							}
+						});
+					}
+					{
+						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
+						mi.setText("Set Data row index (" + currentRowIndex
+								+ ")");
+						mi.addSelectionListener(new SelectionAdapter() {
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								txtFirstDataRow.setText(new Integer(
+										currentRowIndex).toString());
+							}
+						});
+					}
+					{
+						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
+						mi.setText("New Column Mapping with index (" + currentColumnIndex
+								+ ")");
+						mi.addSelectionListener(new SelectionAdapter() {
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								// TODO Implement.
+								
+								
+								
+								
+								
+							}
+						});
+					}
+					
+					
+				}
+			}
+		});
 
 		Section sctnMappingColumns = toolkit.createSection(
 				frmXLSMappingForm.getBody(), Section.TITLE_BAR);
-		fd_sctnSummary.bottom = new FormAttachment(sctnMappingColumns, -12);
-		fd_sctnSummary.right = new FormAttachment(sctnMappingColumns, 343);
+		fd_sctnSummary.left = new FormAttachment(sctnMappingColumns, 0,
+				SWT.LEFT);
+		fd_sctnSummary.bottom = new FormAttachment(0, 120);
 		FormData fd_sctnMappingColumns = new FormData();
+		fd_sctnMappingColumns.top = new FormAttachment(sctnSummary, 12);
+		fd_sctnMappingColumns.bottom = new FormAttachment(100, -12);
 		fd_sctnMappingColumns.right = new FormAttachment(0, 355);
-		fd_sctnMappingColumns.top = new FormAttachment(0, 172);
-		fd_sctnMappingColumns.bottom = new FormAttachment(100, -55);
 		fd_sctnMappingColumns.left = new FormAttachment(0, 12);
 		sctnMappingColumns.setLayoutData(fd_sctnMappingColumns);
 		toolkit.paintBordersFor(sctnMappingColumns);
@@ -306,15 +354,32 @@ public class NewEditMappingCSV extends AbstractScreen implements
 				SWT.NONE);
 		toolkit.paintBordersFor(composite_3);
 		sctnMappingColumns.setClient(composite_3);
-		composite_3.setLayout(new GridLayout(2, false));
+		composite_3.setLayout(new GridLayout(1, false));
 
-		Composite composite_4 = toolkit.createComposite(composite_3, SWT.NONE);
-		GridData gd_composite_4 = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_composite_4.widthHint = 18;
-		gd_composite_4.heightHint = 18;
-		composite_4.setLayoutData(gd_composite_4);
-		toolkit.paintBordersFor(composite_4);
+		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(composite_3,
+				SWT.NONE);
+		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+
+				NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
+						screenService.getScreenContainer(), SWT.NONE);
+				mappingColumnScreen.setOperation(Screens.OPERATION_NEW);
+				mappingColumnScreen.injectData(mapping,
+						MetricsFactory.eINSTANCE.createMappingColumn());
+				screenService.setActiveScreen(mappingColumnScreen);
+
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		toolkit.paintBordersFor(mghprlnkNew);
+		mghprlnkNew.setText("New");
 
 		mappingColumnsTableViewer = new TableViewer(composite_3, SWT.BORDER
 				| SWT.FULL_SELECTION);
@@ -336,38 +401,124 @@ public class NewEditMappingCSV extends AbstractScreen implements
 				mappingColumnsTableViewer, SWT.NONE);
 		TableColumn tblclmnRowNum = tableViewerColumn_2.getColumn();
 		tblclmnRowNum.setWidth(100);
-		tblclmnRowNum.setText("Row Num");
+		tblclmnRowNum.setText("Column Num");
 
-		Button button = toolkit.createButton(composite_3, "+", SWT.NONE);
-		GridData gd_button = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1);
-		gd_button.widthHint = 18;
-		gd_button.heightHint = 18;
-		button.setLayoutData(gd_button);
-		button.setAlignment(SWT.RIGHT);
+		Menu menu = new Menu(table);
+		table.setMenu(menu);
 
-		Button btnNewButton = toolkit.createButton(composite_3, "-", SWT.NONE);
-		GridData gd_btnNewButton = new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_btnNewButton.widthHint = 18;
-		gd_btnNewButton.heightHint = 18;
-		btnNewButton.setLayoutData(gd_btnNewButton);
-		new Label(composite_3, SWT.NONE);
+		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
+		mntmEdit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = mappingColumnsTableViewer.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object mappingColumn = ((IStructuredSelection) selection)
+							.getFirstElement();
 
+					NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
+							screenService.getScreenContainer(), SWT.NONE);
+					mappingColumnScreen.setOperation(Screens.OPERATION_EDIT);
+					mappingColumnScreen.injectData(mapping, mappingColumn);
+					screenService.setActiveScreen(mappingColumnScreen);
+
+				}
+			}
+		});
+		mntmEdit.setText("Edit...");
+		
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(mappingColumnsTableViewer, SWT.NONE);
+		TableColumn tblclmnValueType = tableViewerColumn_1.getColumn();
+		tblclmnValueType.setWidth(100);
+		tblclmnValueType.setText("Value Type");
 	}
 
-	protected void fillGrid(String file) {
-			
-		// process the file with POI. 
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	private void resetGridSelections() {
+		this.currentColumnIndex = -1;
+		this.currentRowIndex = -1;
+	}
+
+	/**
+	 * Aggregates the selection in the grid, used by column and the grid.
+	 * 
+	 */
+	GridSelectionListener gridSelector = new GridSelectionListener();
+	private int currentRowIndex;
+	private int currentColumnIndex;
+
+	class GridSelectionListener extends SelectionAdapter {
+		public void widgetSelected(SelectionEvent e) {
+			System.out.println(e);
+			updateSelection(e);
+		}
+	}
+
+	/**
+	 * Updates the row and column index to be used, by the screen further on.
+	 * 
+	 * Notice TODO: The mapping index for row starts at 1. The mapping index for
+	 * column starts at 0.
+	 * 
+	 * @param e
+	 */
+	private void updateSelection(SelectionEvent e) {
+		if (e instanceof IStructuredSelection) {
+			@SuppressWarnings("unused")
+			IStructuredSelection ss = (IStructuredSelection) e;
+		}
+		if (e.item instanceof GridItem) {
+			GridItem gi = (GridItem) e.item;
+			currentRowIndex = gridTableViewer.getGrid().indexOf(gi) + 1;
+
+		}
+		if (e.item instanceof GridColumn) {
+			GridColumn gc = (GridColumn) e.item;
+			currentColumnIndex = gridTableViewer.getGrid().indexOf(gc);
+		}
+	}
+
+	// FIXME, Algorithm for column header is not correct yet.
+	private void buildFixedColumns(GridTableViewer v) {
+		char[] alphabet = this.getAlphabet();
+		int i = 0;
+		int primaryIndex = 0;
+		for (; i < 70; i++) {
+			GridViewerColumn gvc = new GridViewerColumn(gridTableViewer,
+					SWT.NONE);
+			GridColumn newGridColumn = gvc.getColumn();
+			newGridColumn.setAlignment(SWT.CENTER);
+			newGridColumn.setWidth(80);
+			newGridColumn.addSelectionListener(gridSelector);
+			StringBuilder sb = new StringBuilder();
+
+			int aIndex = i % alphabet.length;
+			if (i >= alphabet.length) {
+				sb.append(Character.toUpperCase(alphabet[primaryIndex]));
+				sb.append(Character.toUpperCase(alphabet[aIndex]));
+				if (aIndex == 0) {
+					primaryIndex = primaryIndex % (alphabet.length - 1);
+					primaryIndex++;
+				}
+			} else {
+				sb.append(Character.toUpperCase(alphabet[aIndex]));
+			}
+			newGridColumn.setText(sb.toString());
+		}
+	}
+
+	public char[] getAlphabet() {
+		char[] alphabet = new char[26];
+		int index, ordinalVal = 97;
+		char element;
+
+		for (index = 0; index < alphabet.length; ++index, ++ordinalVal) {
+			element = (char) ordinalVal;
+			alphabet[index] = element;
+		}
+		return alphabet;
+	}
+
+	protected void fillGrid(List<Map<Integer, Tuple>> records) {
+		this.gridTableViewer.setInput(records);
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -405,14 +556,105 @@ public class NewEditMappingCSV extends AbstractScreen implements
 				new EStructuralFeature[] {
 						MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
 						MetricsPackage.Literals.MAPPING_COLUMN__COLUMN });
+		
+		
+		
 		this.mappingColumnsTableViewer
-				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+				.setLabelProvider(new ColumnObservableMapLabelProvider(
+						observeMaps));
 		IEMFListProperty l = EMFProperties
 				.list(MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS);
 
 		this.mappingColumnsTableViewer.setInput(l.observe(mapping));
-
+		this.gridTableViewer.setContentProvider(new XLSGridContentProvider());
+		gridTableViewer.setLabelProvider(new XLSGridLabelProvider());
 		return context;
+	}
+
+	class XLSGridLabelProvider extends LabelProvider implements
+			ITableLabelProvider {
+
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+
+		public String getColumnText(Object element, int columnIndex) {
+			if (element instanceof Map<?, ?>) {
+				Map<?, ?> row = (Map<?, ?>) element;
+				if (columnIndex < row.size()) {
+					Tuple cell = (Tuple) row.get(columnIndex);
+					if (cell != null) {
+						Object v = cell.getValue();
+						return v.toString();
+					}
+				}
+			}
+			return "";
+		}
+
+	}
+
+	class XLSGridContentProvider implements IStructuredContentProvider {
+
+		public void dispose() {
+			//?
+		}
+
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+			// Not applicable.
+		}
+
+		public Object[] getElements(Object inputElement) {
+			if (inputElement instanceof List<?>) {
+				List<?> input = (List<?>) inputElement;
+				Object[] elements = input.toArray();
+				return elements;
+			}
+			return null;
+		}
+	}
+
+	ImmutableMap<?, String> dataKindMap = ImmutableMap.of(
+			IdentifierDataKindImpl.class, "Identifier",
+			ValueDataKindImpl.class, "Value");
+
+	private class ColumnObservableMapLabelProvider extends
+			ObservableMapLabelProvider {
+
+		public ColumnObservableMapLabelProvider(IObservableMap attributeMap) {
+			super(attributeMap);
+		}
+
+		public ColumnObservableMapLabelProvider(IObservableMap[] observeMaps) {
+			super(observeMaps);
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			MappingColumn c = (MappingColumn) element;
+			if (columnIndex == 0) {
+				// This is the type Column.
+				DataKind k = c.getDataType();
+				if (k != null) {
+					return dataKindMap.get(k.getClass());
+				}
+			}
+			if(columnIndex == 2){
+				if( c.getDataType() instanceof ValueDataKind){
+					ValueKindType vkt = ((ValueDataKind)c.getDataType()).getValueKind();
+					return vkt.getName();
+				}
+				if( c.getDataType() instanceof IdentifierDataKind){
+					IdentifierDataKind idk = (IdentifierDataKind)c.getDataType();
+					ObjectKindType okt = idk.getObjectKind();
+					return okt.getName();
+				}
+				
+				
+			}
+			
+			return super.getColumnText(element, columnIndex);
+		}
 	}
 
 	public void injectData(Object owner, Object object) {
@@ -432,9 +674,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 				mapping = (MappingXLS) object;
 			}
 		}
-
 		this.initDataBindings_();
-
 	}
 
 	public void addData() {
@@ -499,6 +739,6 @@ public class NewEditMappingCSV extends AbstractScreen implements
 
 	@Override
 	public void setOperation(int operation) {
-		this.operation = operation;		
+		this.operation = operation;
 	}
 }

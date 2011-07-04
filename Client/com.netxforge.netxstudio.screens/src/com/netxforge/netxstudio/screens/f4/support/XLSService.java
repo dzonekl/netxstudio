@@ -161,6 +161,9 @@ public class XLSService extends AbortableHSSFListener {
 		case BoundSheetRecord.sid:
 			BoundSheetRecord bsr = (BoundSheetRecord) record;
 			System.out.println("New sheet named: " + bsr.getSheetname());
+			// TODO, Consider also putting sheet references in the model. 
+			
+			
 			break;
 
 		// Row records come in batch (32) before the actual cell records.

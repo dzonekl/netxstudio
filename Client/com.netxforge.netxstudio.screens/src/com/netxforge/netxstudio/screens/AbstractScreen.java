@@ -46,7 +46,7 @@ public abstract class AbstractScreen extends Composite implements IScreen {
 	
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
-		ScreensActivator.getDefault().getInjector().injectMembers(this);
+//		ScreensActivator.getDefault().getInjector().injectMembers(this);
 	}
 
 	public abstract Viewer getViewer();
