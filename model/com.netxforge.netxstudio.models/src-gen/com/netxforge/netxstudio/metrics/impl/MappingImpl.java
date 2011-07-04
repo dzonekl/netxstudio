@@ -37,6 +37,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getMappingColumns <em>Mapping Columns</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getFirstDataRow <em>First Data Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getHeaderRow <em>Header Row</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getPeriodHint <em>Period Hint</em>}</li>
  * </ul>
  * </p>
  *
@@ -152,6 +153,42 @@ public class MappingImpl extends BaseImpl implements Mapping {
 	 */
 	public boolean isSetHeaderRow() {
 		return eIsSet(MetricsPackage.Literals.MAPPING__HEADER_ROW);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getPeriodHint() {
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING__PERIOD_HINT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPeriodHint(int newPeriodHint) {
+		eSet(MetricsPackage.Literals.MAPPING__PERIOD_HINT, newPeriodHint);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetPeriodHint() {
+		eUnset(MetricsPackage.Literals.MAPPING__PERIOD_HINT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetPeriodHint() {
+		return eIsSet(MetricsPackage.Literals.MAPPING__PERIOD_HINT);
 	}
 
 } //MappingImpl

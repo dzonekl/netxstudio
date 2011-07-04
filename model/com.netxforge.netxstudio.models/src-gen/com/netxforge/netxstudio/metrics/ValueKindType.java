@@ -43,22 +43,22 @@ public enum ValueKindType implements Enumerator {
 	 * @ordered
 	 */
 	PERIOD(0, "PERIOD", "PERIOD"), /**
-	 * The '<em><b>PERIODSTART</b></em>' literal object.
+	 * The '<em><b>DATE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #PERIODSTART_VALUE
+	 * @see #DATE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	PERIODSTART(1, "PERIODSTART", "PERIODSTART"), /**
-	 * The '<em><b>PERIODEND</b></em>' literal object.
+	DATE(1, "DATE", "DATE"), /**
+	 * The '<em><b>TIME</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #PERIODEND_VALUE
+	 * @see #TIME_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	PERIODEND(2, "PERIODEND", "PERIODEND"), /**
+	TIME(2, "TIME", "TIME"), /**
 	 * The '<em><b>DATETIME</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -104,34 +104,34 @@ public enum ValueKindType implements Enumerator {
 	public static final int PERIOD_VALUE = 0;
 
 	/**
-	 * The '<em><b>PERIODSTART</b></em>' literal value.
+	 * The '<em><b>DATE</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>PERIODSTART</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>DATE</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #PERIODSTART
+	 * @see #DATE
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PERIODSTART_VALUE = 1;
+	public static final int DATE_VALUE = 1;
 
 	/**
-	 * The '<em><b>PERIODEND</b></em>' literal value.
+	 * The '<em><b>TIME</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>PERIODEND</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>TIME</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #PERIODEND
+	 * @see #TIME
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PERIODEND_VALUE = 2;
+	public static final int TIME_VALUE = 2;
 
 	/**
 	 * The '<em><b>DATETIME</b></em>' literal value.
@@ -187,8 +187,8 @@ public enum ValueKindType implements Enumerator {
 	private static final ValueKindType[] VALUES_ARRAY =
 		new ValueKindType[] {
 			PERIOD,
-			PERIODSTART,
-			PERIODEND,
+			DATE,
+			TIME,
 			DATETIME,
 			NULL,
 			METRIC,
@@ -243,8 +243,8 @@ public enum ValueKindType implements Enumerator {
 	public static ValueKindType get(int value) {
 		switch (value) {
 			case PERIOD_VALUE: return PERIOD;
-			case PERIODSTART_VALUE: return PERIODSTART;
-			case PERIODEND_VALUE: return PERIODEND;
+			case DATE_VALUE: return DATE;
+			case TIME_VALUE: return TIME;
 			case DATETIME_VALUE: return DATETIME;
 			case NULL_VALUE: return NULL;
 			case METRIC_VALUE: return METRIC;

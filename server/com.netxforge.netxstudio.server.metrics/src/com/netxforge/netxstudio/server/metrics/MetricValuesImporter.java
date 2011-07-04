@@ -78,16 +78,14 @@ public abstract class MetricValuesImporter {
 
 	private List<ImportWarning> warnings = new ArrayList<ImportWarning>();
 
-	private static final String DATE_PATTERN = "MM/dd/yyyy hh:mm:ss";
-
-	private final SimpleDateFormat dateFormat = new SimpleDateFormat(
-			DATE_PATTERN);
+	private static final String DEFAULT_DATE_PATTERN = "MM/dd/yyyy hh:mm:ss";
 
 	private Throwable throwable;
 
-	private Long startPeriodTime;
-	private Long endPeriodTime;
-	
+	private int periodHint = -1;
+	private Date timeStamp = null;
+	private List<IdentifierValue> headerIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
+
 	public void process() {
 		// force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
@@ -144,7 +142,8 @@ public abstract class MetricValuesImporter {
 							final int beforeFailedSize = getFailedRecords()
 									.size();
 							noFiles = false;
-							fileList.append((fileList.length() > 0 ? "\n" : "") + file.getAbsolutePath());
+							fileList.append((fileList.length() > 0 ? "\n" : "")
+									+ file.getAbsolutePath());
 
 							jobMonitor.setMsg("Processing file "
 									+ file.getAbsolutePath());
@@ -193,7 +192,7 @@ public abstract class MetricValuesImporter {
 		getMetricSource().getStatistics().add(mappingStatistic);
 		dataProvider.commitTransaction();
 	}
-	
+
 	protected abstract String getFileExtension();
 
 	private void moveFile(File file, boolean error) {
@@ -228,29 +227,36 @@ public abstract class MetricValuesImporter {
 	}
 
 	protected abstract int getTotalRows();
-	
+
 	protected int processRows() {
+
+		if (getMapping().getPeriodHint() > 0) {
+			periodHint = getMapping().getPeriodHint();
+		}
+
 		jobMonitor.setMsg("Processing header row");
-		
+		processHeaderRow();
+
 		jobMonitor.setMsg("Processing rows");
 		int totalRows = 0;
-		jobMonitor.setTotalWork(getTotalRows()
-				- getMapping().getFirstDataRow() + 10);
-		for (int rowNum = getMapping().getFirstDataRow(); rowNum <= getTotalRows(); rowNum++) {
+		jobMonitor.setTotalWork(getTotalRows() - getMapping().getFirstDataRow()
+				+ 10);
+		for (int rowNum = getMapping().getFirstDataRow(); rowNum < getTotalRows(); rowNum++) {
 			jobMonitor.setMsg("Processing row " + rowNum);
 			jobMonitor.incrementProgress(1, (rowNum % 10) == 0);
 			try {
 				totalRows++;
-				final List<IdentifierValue> elementIdentifiers = getIdentifierValues(rowNum);
-				final Date timeStamp = getTimeStampValue(rowNum);
+				final List<IdentifierValue> elementIdentifiers = getIdentifierValues(
+						getMappingColumn(), rowNum);
+				final Date timeStamp = getTimeStampValue(getMappingColumn(),
+						rowNum);
 				final int periodHint = getPeriodHint(rowNum);
 
 				for (final MappingColumn column : getMappingColumn()) {
 					if (isMetric(column)) {
 						final Component networkElement = getNetworkElementLocator()
 								.locateNetworkElement(
-										getValueDataKind(column)
-												.getMetricRef(),
+										getValueDataKind(column).getMetricRef(),
 										elementIdentifiers);
 						if (networkElement == null) {
 							getFailedRecords()
@@ -259,7 +265,8 @@ public abstract class MetricValuesImporter {
 							continue;
 						}
 
-						final Double value = getNumericCellValue(rowNum, column.getColumn());
+						final Double value = getNumericCellValue(rowNum,
+								column.getColumn());
 						addMetricValue(column, timeStamp, networkElement,
 								value, periodHint);
 					}
@@ -279,11 +286,10 @@ public abstract class MetricValuesImporter {
 			return;
 		}
 
-		for (final MappingColumn column : getMapping().getHeaderMappingColumns()) {
-			if (column.getDataType() instanceof ValueDataKind
-					&& ((ValueDataKind) column.getDataType()).getValueKind() == ValueKindType.DATETIME) {
-			}		
-		}		
+		headerIdentifiers = getIdentifierValues(getMapping()
+				.getHeaderMappingColumns(), headerRow);
+		timeStamp = getTimeStampValue(getMapping().getHeaderMappingColumns(),
+				headerRow);
 	}
 
 	private void addMetricValue(MappingColumn column, Date timeStamp,
@@ -320,7 +326,7 @@ public abstract class MetricValuesImporter {
 			foundMvr.setPeriodHint(periodHint);
 			foundNetXResource.getMetricValueRanges().add(foundMvr);
 		}
-		
+
 		final long timeInMillis = timeStamp.getTime();
 		Value value = null;
 		for (final Value lookValue : foundMvr.getMetricValues()) {
@@ -329,7 +335,7 @@ public abstract class MetricValuesImporter {
 				break;
 			}
 		}
-		
+
 		if (value == null) {
 			value = GenericsFactory.eINSTANCE.createValue();
 		}
@@ -338,14 +344,15 @@ public abstract class MetricValuesImporter {
 		foundMvr.getMetricValues().add(value);
 	}
 
-	private boolean isSameTime(int period, long time1, XMLGregorianCalendar time2) {
+	private boolean isSameTime(int period, long time1,
+			XMLGregorianCalendar time2) {
 		long diff = time1 - time2.toGregorianCalendar().getTimeInMillis();
 		if (diff < 0) {
 			diff = diff * -1;
 		}
 		return diff < (period * 60 * 1000 - 1);
 	}
-	
+
 	private ValueDataKind getValueDataKind(MappingColumn column) {
 		return (ValueDataKind) column.getDataType();
 	}
@@ -368,18 +375,66 @@ public abstract class MetricValuesImporter {
 		return record;
 	}
 
-	private Date getTimeStampValue(int rowNum) {
-		for (final MappingColumn column : getMappingColumn()) {
-			if (column.getDataType() instanceof ValueDataKind
-					&& ((ValueDataKind) column.getDataType()).getValueKind() == ValueKindType.DATETIME) {
-				try {
-					return dateFormat.parse(getStringCellValue(rowNum, column.getColumn()));
-				} catch (final Exception e) {
-					throw new IllegalStateException(e);
+	private Date getTimeStampValue(List<MappingColumn> mappingColumns,
+			int rowNum) {
+		if (timeStamp != null) {
+			return timeStamp;
+		}
+		try {
+
+			for (final MappingColumn column : mappingColumns) {
+				if (column.getDataType() instanceof ValueDataKind
+						&& ((ValueDataKind) column.getDataType())
+								.getValueKind() == ValueKindType.DATETIME) {
+					final ValueDataKind value = (ValueDataKind) column
+							.getDataType();
+					final SimpleDateFormat dateFormat;
+					if (value.getFormat() != null) {
+						dateFormat = new SimpleDateFormat(value.getFormat());
+					} else {
+						dateFormat = new SimpleDateFormat(DEFAULT_DATE_PATTERN);
+					}
+
+					timeStamp = dateFormat.parse(getStringCellValue(rowNum,
+							column.getColumn()));
+					return timeStamp;
 				}
 			}
+
+			String datePattern = null;
+			String timePattern = null;
+			String dateValue = null;
+			String timeValue = null;
+			for (final MappingColumn column : mappingColumns) {
+				if (column.getDataType() instanceof ValueDataKind) {
+					final ValueDataKind value = (ValueDataKind) column
+							.getDataType();
+					if (value.getValueKind() == ValueKindType.DATE) {
+						datePattern = value.getFormat();
+						dateValue = getStringCellValue(rowNum,
+								column.getColumn());
+					}
+					if (value.getValueKind() == ValueKindType.TIME) {
+						timePattern = value.getFormat();
+						timeValue = getStringCellValue(rowNum,
+								column.getColumn());
+					}
+				}
+			}
+			if (dateValue != null && timeValue != null) {
+				String pattern = DEFAULT_DATE_PATTERN;
+				if (datePattern != null && timePattern != null) {
+					pattern = datePattern + " " + timePattern;
+				}
+				final SimpleDateFormat dateFormat = new SimpleDateFormat(
+						pattern);
+
+				timeStamp = dateFormat.parse(dateValue + " " + timeValue);
+			}
+		} catch (final Exception e) {
+			throw new IllegalStateException(e);
 		}
-		return null;
+		return timeStamp;
 	}
 
 	private int getPeriodHint(int rowNum) {
@@ -387,36 +442,40 @@ public abstract class MetricValuesImporter {
 			if (column.getDataType() instanceof ValueDataKind
 					&& ((ValueDataKind) column.getDataType()).getValueKind() == ValueKindType.PERIOD) {
 				try {
-					return new Double(getNumericCellValue(rowNum, column.getColumn())).intValue();
+					return new Double(getNumericCellValue(rowNum,
+							column.getColumn())).intValue();
 				} catch (final Exception e) {
 					throw new IllegalStateException(e);
 				}
 			}
 		}
-		return -1;
+		return periodHint;
 	}
 
 	private EList<MappingColumn> getMappingColumn() {
 		return getMapping().getMappingColumns();
 	}
 
-	private List<IdentifierValue> getIdentifierValues(int row) {
-		final List<IdentifierValue> result = new ArrayList<NetworkElementLocator.IdentifierValue>();
-		for (final MappingColumn column : getMappingColumn()) {
+	private List<IdentifierValue> getIdentifierValues(
+			List<MappingColumn> mappingColumns, int row) {
+		final List<IdentifierValue> result = new ArrayList<NetworkElementLocator.IdentifierValue>(
+				headerIdentifiers);
+		for (final MappingColumn column : mappingColumns) {
 			if (column.getDataType() instanceof IdentifierDataKind) {
 				final IdentifierDataKind identifierDataKind = (IdentifierDataKind) column
 						.getDataType();
 				final IdentifierValue identifierValue = new IdentifierValue();
 				identifierValue.setKind(identifierDataKind);
-				identifierValue.setValue(getStringCellValue(row, column.getColumn()));
+				identifierValue.setValue(getStringCellValue(row,
+						column.getColumn()));
 				result.add(identifierValue);
 			}
 		}
 		return result;
 	}
-	
+
 	protected abstract String getStringCellValue(int row, int column);
-	
+
 	protected abstract double getNumericCellValue(int row, int column);
 
 	protected Mapping getMapping() {

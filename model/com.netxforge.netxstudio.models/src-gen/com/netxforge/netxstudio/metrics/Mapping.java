@@ -40,6 +40,7 @@ import com.netxforge.netxstudio.generics.Base;
  *   <li>{@link com.netxforge.netxstudio.metrics.Mapping#getMappingColumns <em>Mapping Columns</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Mapping#getFirstDataRow <em>First Data Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Mapping#getHeaderRow <em>Header Row</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.Mapping#getPeriodHint <em>Period Hint</em>}</li>
  * </ul>
  * </p>
  *
@@ -192,4 +193,59 @@ public interface Mapping extends Base {
 	 * @generated
 	 */
 	boolean isSetHeaderRow();
+
+	/**
+	 * Returns the value of the '<em><b>Period Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The PeriodHint attribute, holds a hint for the
+	 * 							metric period between each metric value in minutes.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Period Hint</em>' attribute.
+	 * @see #isSetPeriodHint()
+	 * @see #unsetPeriodHint()
+	 * @see #setPeriodHint(int)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMapping_PeriodHint()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 *        extendedMetaData="kind='attribute' name='PeriodHint'"
+	 * @generated
+	 */
+	int getPeriodHint();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.Mapping#getPeriodHint <em>Period Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Period Hint</em>' attribute.
+	 * @see #isSetPeriodHint()
+	 * @see #unsetPeriodHint()
+	 * @see #getPeriodHint()
+	 * @generated
+	 */
+	void setPeriodHint(int value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.metrics.Mapping#getPeriodHint <em>Period Hint</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetPeriodHint()
+	 * @see #getPeriodHint()
+	 * @see #setPeriodHint(int)
+	 * @generated
+	 */
+	void unsetPeriodHint();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.metrics.Mapping#getPeriodHint <em>Period Hint</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Period Hint</em>' attribute is set.
+	 * @see #unsetPeriodHint()
+	 * @see #getPeriodHint()
+	 * @see #setPeriodHint(int)
+	 * @generated
+	 */
+	boolean isSetPeriodHint();
 } // Mapping

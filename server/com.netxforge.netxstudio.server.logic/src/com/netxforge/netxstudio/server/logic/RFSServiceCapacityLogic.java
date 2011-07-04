@@ -43,7 +43,7 @@ public class RFSServiceCapacityLogic extends BaseCapacityLogic {
 	
 	void initializeServiceMonitor() {
 		Date startTime = getStartTime();
-		if (startTime != null) {
+		if (startTime == null) {
 			startTime = new Date(0);
 			if (!rfsService.getServiceMonitors().isEmpty()) {
 				final Date previousEndTime = rfsService.getServiceMonitors()
@@ -54,7 +54,7 @@ public class RFSServiceCapacityLogic extends BaseCapacityLogic {
 			setStartTime(startTime);
 		}
 		Date endTime = getEndTime();
-		if (endTime != null) {
+		if (endTime == null) {
 			endTime = new Date(System.currentTimeMillis());
 			setEndTime(endTime);
 		}

@@ -79,6 +79,7 @@ public class MappingItemProvider
 
 			addFirstDataRowPropertyDescriptor(object);
 			addHeaderRowPropertyDescriptor(object);
+			addPeriodHintPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -119,6 +120,28 @@ public class MappingItemProvider
 				 getString("_UI_Mapping_headerRow_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Mapping_headerRow_feature", "_UI_Mapping_type"),
 				 MetricsPackage.Literals.MAPPING__HEADER_ROW,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Period Hint feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPeriodHintPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Mapping_periodHint_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Mapping_periodHint_feature", "_UI_Mapping_type"),
+				 MetricsPackage.Literals.MAPPING__PERIOD_HINT,
 				 true,
 				 false,
 				 false,
@@ -195,6 +218,7 @@ public class MappingItemProvider
 		switch (notification.getFeatureID(Mapping.class)) {
 			case MetricsPackage.MAPPING__FIRST_DATA_ROW:
 			case MetricsPackage.MAPPING__HEADER_ROW:
+			case MetricsPackage.MAPPING__PERIOD_HINT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case MetricsPackage.MAPPING__HEADER_MAPPING_COLUMNS:

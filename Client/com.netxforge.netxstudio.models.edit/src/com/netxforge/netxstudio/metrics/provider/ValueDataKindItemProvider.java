@@ -74,6 +74,7 @@ public class ValueDataKindItemProvider
 			super.getPropertyDescriptors(object);
 
 			addMetricRefPropertyDescriptor(object);
+			addFormatPropertyDescriptor(object);
 			addKindHintPropertyDescriptor(object);
 			addValueKindPropertyDescriptor(object);
 		}
@@ -98,6 +99,28 @@ public class ValueDataKindItemProvider
 				 false,
 				 true,
 				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Format feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFormatPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValueDataKind_format_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValueDataKind_format_feature", "_UI_ValueDataKind_type"),
+				 MetricsPackage.Literals.VALUE_DATA_KIND__FORMAT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -165,8 +188,7 @@ public class ValueDataKindItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		KindHintType labelValue = ((ValueDataKind)object).getKindHint();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((ValueDataKind)object).getFormat();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ValueDataKind_type") :
 			getString("_UI_ValueDataKind_type") + " " + label;
@@ -184,6 +206,7 @@ public class ValueDataKindItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ValueDataKind.class)) {
+			case MetricsPackage.VALUE_DATA_KIND__FORMAT:
 			case MetricsPackage.VALUE_DATA_KIND__KIND_HINT:
 			case MetricsPackage.VALUE_DATA_KIND__VALUE_KIND:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));

@@ -74,7 +74,7 @@ public class MetricSourceImportService implements NetxForgeService {
 						.getInstance(XLSMetricValuesImporter.class);
 			} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
 				importer = Activator.getInstance().getInjector()
-						.getInstance(XLSMetricValuesImporter.class);
+						.getInstance(CSVMetricValuesImporter.class);
 			} else {
 				throw new IllegalArgumentException(
 						"Mapping type not supported "

@@ -99,8 +99,9 @@ public class NetworkElementLocator {
 		if (eFeature == null) {
 			return false;
 		}
+		final String idValue = identifierValue.getValue() != null ? identifierValue.getValue().trim() : null;
 		final Object value = eObject.eGet(eFeature);
-		if (value instanceof String && value.equals(identifierValue.getValue())) {
+		if (value instanceof String && value.equals(idValue)) {
 			return true;
 		}
 		return false;

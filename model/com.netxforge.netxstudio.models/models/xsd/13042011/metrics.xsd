@@ -199,6 +199,13 @@
 						maxOccurs="unbounded" minOccurs="0">
 					</xs:element>
 				</xs:sequence>
+				<xs:attribute name="PeriodHint" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>The PeriodHint attribute, holds a hint for the
+							metric period between each metric value in minutes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 				<xs:attribute name="HeaderRow" type="xs:int">
 					<xs:annotation>
 						<xs:documentation>The HeaderRow attribute holds the row number
@@ -423,13 +430,18 @@
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
 							<xs:enumeration value="PERIOD"></xs:enumeration>
-							<xs:enumeration value="PERIODSTART"></xs:enumeration>
-							<xs:enumeration value="PERIODEND"></xs:enumeration>
+							<xs:enumeration value="DATE"></xs:enumeration>
+							<xs:enumeration value="TIME"></xs:enumeration>
 							<xs:enumeration value="DATETIME"></xs:enumeration>
 							<xs:enumeration value="NULL"></xs:enumeration>
 							<xs:enumeration value="METRIC"></xs:enumeration>
 						</xs:restriction>
 					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="Format" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>Defines the format to parse the date, time or datetime values</xs:documentation>
+					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="KindHint" type="KindHintType" use="optional" />
 			</xs:extension>

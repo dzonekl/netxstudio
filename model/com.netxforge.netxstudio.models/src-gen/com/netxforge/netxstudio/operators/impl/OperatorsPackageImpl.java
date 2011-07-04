@@ -532,7 +532,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * @generated
 	 */
 	public EReference getNode_CreatedByRef() {
-		return (EReference)nodeEClass.getEStructuralFeatures().get(2);
+		return (EReference)nodeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -541,7 +541,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * @generated
 	 */
 	public EAttribute getNode_NodeID() {
-		return (EAttribute)nodeEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)nodeEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -550,7 +550,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * @generated
 	 */
 	public EReference getNode_OriginalNodeTypeRef() {
-		return (EReference)nodeEClass.getEStructuralFeatures().get(4);
+		return (EReference)nodeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -885,9 +885,9 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		nodeEClass = createEClass(NODE);
 		createEReference(nodeEClass, NODE__LIFECYCLE);
 		createEReference(nodeEClass, NODE__NODE_TYPE);
+		createEReference(nodeEClass, NODE__ORIGINAL_NODE_TYPE_REF);
 		createEReference(nodeEClass, NODE__CREATED_BY_REF);
 		createEAttribute(nodeEClass, NODE__NODE_ID);
-		createEReference(nodeEClass, NODE__ORIGINAL_NODE_TYPE_REF);
 		createEReference(nodeEClass, NODE__ROOM_REF);
 
 		operatorEClass = createEClass(OPERATOR);
@@ -1015,9 +1015,9 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		initEClass(nodeEClass, Node.class, "Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNode_Lifecycle(), theGenericsPackage.getLifecycle(), null, "lifecycle", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_NodeType(), theLibraryPackage.getNodeType(), null, "nodeType", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_OriginalNodeTypeRef(), theLibraryPackage.getNodeType(), null, "originalNodeTypeRef", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_CreatedByRef(), theGenericsPackage.getPerson(), null, "createdByRef", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNode_NodeID(), theGenericsPackage.getName255(), "nodeID", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNode_OriginalNodeTypeRef(), theLibraryPackage.getNodeType(), null, "originalNodeTypeRef", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_RoomRef(), theGeoPackage.getRoom(), null, "roomRef", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operatorEClass, Operator.class, "Operator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1325,6 +1325,13 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 			 "name", "NodeType"
 		   });			
 		addAnnotation
+		  (getNode_OriginalNodeTypeRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "OriginalNodeTypeRef"
+		   });			
+		addAnnotation
 		  (getNode_CreatedByRef(), 
 		   source, 
 		   new String[] {
@@ -1337,13 +1344,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "NodeID"
-		   });			
-		addAnnotation
-		  (getNode_OriginalNodeTypeRef(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "OriginalNodeTypeRef"
 		   });			
 		addAnnotation
 		  (getNode_RoomRef(), 

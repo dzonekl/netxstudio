@@ -106,6 +106,16 @@
         <details key="name" value="HeaderRow"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="periodHint" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The PeriodHint attribute, holds a hint for the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;metric period between each metric value in minutes.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="PeriodHint"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MappingColumn" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -457,6 +467,15 @@
         <details key="name" value="MetricRef"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="format" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Defines the format to parse the date, time or datetime values"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="Format"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kindHint" eType="#//KindHintType"
         unsettable="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -480,8 +499,8 @@
       <details key="name" value="ValueKind_._type"/>
     </eAnnotations>
     <eLiterals name="PERIOD"/>
-    <eLiterals name="PERIODSTART" value="1"/>
-    <eLiterals name="PERIODEND" value="2"/>
+    <eLiterals name="DATE" value="1"/>
+    <eLiterals name="TIME" value="2"/>
     <eLiterals name="DATETIME" value="3"/>
     <eLiterals name="NULL" value="4"/>
     <eLiterals name="METRIC" value="5"/>

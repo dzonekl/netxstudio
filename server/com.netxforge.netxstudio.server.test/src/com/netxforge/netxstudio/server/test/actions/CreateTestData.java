@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -48,6 +49,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
+import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.Metric;
@@ -89,7 +91,8 @@ public class CreateTestData extends AbstractDataProviderTest {
 	private static final int HIERARCHY_DEPTH = 2;
 	private static final int HIERARCHY_BREADTH = 2;
 	private static final String RFS_NAME = "Speech";
-	private static final String MS_NAME = "SGSN_Attached_Users";
+	private static final String MS_XLS_NAME = "SGSN_Attached_Users";
+	private static final String MS_CSV_NAME = "TEKELEC";
 	private static final int MINUTE = 60000;
 
 	@Inject
@@ -124,7 +127,8 @@ public class CreateTestData extends AbstractDataProviderTest {
 		dataProvider.getTransaction();
 		importMetrics();
 		createRFSService();
-		createMetricSource();
+		createXLSMetricSource();
+		createCVSMetricSource();
 		dataProvider.commitTransaction();
 	}
 
@@ -165,8 +169,8 @@ public class CreateTestData extends AbstractDataProviderTest {
 		addToResource(rfsService);
 		rfsService.getNodes().add(createNode("YPSGSN3"));
 		rfsService.getNodes().add(createNode("RTSGSN3"));
-		network.getNodes().add(rfsService.getNodes().get(0));
-		network.getNodes().add(rfsService.getNodes().get(1));
+		rfsService.getNodes().add(createARNSTPNode());
+		network.getNodes().addAll(rfsService.getNodes());
 
 		final RFSServiceJob job = SchedulingFactory.eINSTANCE
 				.createRFSServiceJob();
@@ -213,11 +217,43 @@ public class CreateTestData extends AbstractDataProviderTest {
 		masterDataImporter.process(new HSSFWorkbook(is));
 	}
 
-	private MetricSource createMetricSource() throws CommitException {
+	private MetricSource createCVSMetricSource() throws CommitException {
 		// create the Metricsource
 		final MetricSource metricSource = MetricsFactory.eINSTANCE
 				.createMetricSource();
-		metricSource.setName(MS_NAME);
+		metricSource.setName(MS_CSV_NAME);
+		metricSource.setMetricLocation("TEKELEC");
+
+		final MappingCSV mappingCSV = MetricsFactory.eINSTANCE
+				.createMappingCSV();
+		metricSource.setMetricMapping(mappingCSV);
+
+		setMSCVSNameMapping(mappingCSV);
+
+		addToResource(metricSource);
+
+		// create a metric source job
+		final MetricSourceJob msJob = SchedulingFactory.eINSTANCE
+				.createMetricSourceJob();
+		msJob.setInterval(600);
+		msJob.setJobState(JobState.ACTIVE);
+		msJob.setName(MS_CSV_NAME);
+		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
+				.currentTimeMillis() + 2 * MINUTE)));
+		msJob.setMetricSource(metricSource);
+
+		// add to the job resource, that one is watched by the jobhandler
+		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
+				.add(msJob);
+
+		return metricSource;
+	}
+
+	private MetricSource createXLSMetricSource() throws CommitException {
+		// create the Metricsource
+		final MetricSource metricSource = MetricsFactory.eINSTANCE
+				.createMetricSource();
+		metricSource.setName(MS_XLS_NAME);
 		metricSource.setMetricLocation("SGSN"); // /" + MS_NAME + ".xls
 
 		final MappingXLS mappingXLS = MetricsFactory.eINSTANCE
@@ -233,7 +269,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 				.createMetricSourceJob();
 		msJob.setInterval(600);
 		msJob.setJobState(JobState.ACTIVE);
-		msJob.setName(MS_NAME);
+		msJob.setName(MS_XLS_NAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		msJob.setMetricSource(metricSource);
@@ -255,10 +291,11 @@ public class CreateTestData extends AbstractDataProviderTest {
 		utilizationExpression.setName("Utilization Expression");
 
 		// 1st Context is a NetXResource
-		// 2nd Context is the Resource monitoring period. 
-		// This returns an expressionresult with a list of values dividing the metrics values by the capacity values. 
-		// The Timestamp of the result is not set at the moment. 
-		String eAsString = "this UTILIZATION = this METRIC 60 / this CAP 60 }";
+		// 2nd Context is the Resource monitoring period.
+		// This returns an expressionresult with a list of values dividing the
+		// metrics values by the capacity values.
+		// The Timestamp of the result is not set at the moment.
+		final String eAsString = "this UTILIZATION = this METRIC 60 / this CAP 60 }";
 		utilizationExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(utilizationExpression);
@@ -271,14 +308,18 @@ public class CreateTestData extends AbstractDataProviderTest {
 		}
 		capacityExpression = LibraryFactory.eINSTANCE.createExpression();
 		capacityExpression.setName("Capacity Expression");
-		// For this expression: 
+		// For this expression:
 		// The context should be a NODE which has:
 		// -Equipments with equipment code = BOARD
-		// -Function named SGSN which has a resource expression name ="Gb_mode_max_attached_users(number)"
-		// Note I: The grammar can't deal with spaces in the reference to the Resource expression name, so 
-		// when you create the resource, you should add underscores in the expression name of the resource.
-		// Note II: The expression result, will return a single value, which should be populated accross the whole period context. 
-		String eAsString = "this.FUNCTION SGSN -> RESOURCE Gb_mode_max_attached_users(number) CAP 60 = this.EQUIPMENT BOARD.count() * 5;}";
+		// -Function named SGSN which has a resource expression name
+		// ="Gb_mode_max_attached_users(number)"
+		// Note I: The grammar can't deal with spaces in the reference to the
+		// Resource expression name, so
+		// when you create the resource, you should add underscores in the
+		// expression name of the resource.
+		// Note II: The expression result, will return a single value, which
+		// should be populated accross the whole period context.
+		final String eAsString = "this.FUNCTION SGSN -> RESOURCE Gb_mode_max_attached_users(number) CAP 60 = this.EQUIPMENT BOARD.count() * 5;}";
 		capacityExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(capacityExpression);
@@ -286,8 +327,9 @@ public class CreateTestData extends AbstractDataProviderTest {
 	}
 
 	private Collection<String> getExpressionLines(String Expression) {
-		String[] splitByNewLine = Expression.split("\n");
-		Collection<String> collection = Lists.newArrayList(splitByNewLine);
+		final String[] splitByNewLine = Expression.split("\n");
+		final Collection<String> collection = Lists
+				.newArrayList(splitByNewLine);
 		return collection;
 	}
 
@@ -296,8 +338,12 @@ public class CreateTestData extends AbstractDataProviderTest {
 		mappingXLS.setHeaderRow(10);
 		mappingXLS.setSheetNumber(0);
 
-		mappingXLS.getMappingColumns().add(
-				createValueColumn("Start Time", 0, ValueKindType.DATETIME));
+		final MappingColumn dateColumn = createValueColumn("Start Time", 0,
+				ValueKindType.DATETIME);
+		mappingXLS.getHeaderMappingColumns().add(dateColumn);
+		((ValueDataKind) dateColumn.getDataType())
+				.setFormat("MM/dd/yyyy hh:mm:ss");
+
 		mappingXLS.getMappingColumns().add(
 				createValueColumn("Period", 1, ValueKindType.PERIOD));
 		mappingXLS.getMappingColumns().add(
@@ -307,15 +353,46 @@ public class CreateTestData extends AbstractDataProviderTest {
 				createValueColumn("Iu mode max attached users(number)", 5,
 						ValueKindType.METRIC));
 		mappingXLS.getMappingColumns().add(
-				createIdentifierColumn(2, 10, ObjectKindType.NODE,
+				createIdentifierColumn(2, ObjectKindType.NODE,
 						OperatorsPackage.eINSTANCE.getNode_NodeID().getName()));
 		mappingXLS
 				.getMappingColumns()
-				.add(createIdentifierColumn(3, 10, ObjectKindType.FUNCTION,
+				.add(createIdentifierColumn(3, ObjectKindType.FUNCTION,
 						LibraryPackage.eINSTANCE.getComponent_Name().getName()));
 	}
 
-	private MappingColumn createIdentifierColumn(int columnNo, int headerRow,
+	private void setMSCVSNameMapping(MappingCSV mappingCSV) {
+		mappingCSV.setHeaderRow(1);
+		mappingCSV.setFirstDataRow(4);
+		mappingCSV.setDelimiter(",");
+		mappingCSV.setPeriodHint(60);
+
+		final MappingColumn dateColumn = createValueColumn("Start Date", 7,
+				ValueKindType.DATE);
+		mappingCSV.getHeaderMappingColumns().add(dateColumn);
+		// MM/dd/yyyy hh:mm:ss
+		((ValueDataKind) dateColumn.getDataType()).setFormat("yyyy-MM-dd");
+		final MappingColumn timeColumn = createValueColumn("Start Time", 8,
+				ValueKindType.TIME);
+		((ValueDataKind) timeColumn.getDataType()).setFormat("HH:mm:ss");
+		mappingCSV.getHeaderMappingColumns().add(timeColumn);
+		mappingCSV.getHeaderMappingColumns().add(
+				createIdentifierColumn(0, ObjectKindType.NODE,
+						OperatorsPackage.eINSTANCE.getNode_NodeID().getName()));
+
+		mappingCSV.getMappingColumns().add(
+				createValueColumn("MSGSRCVD", 6, ValueKindType.METRIC));
+		mappingCSV.getMappingColumns().add(
+				createValueColumn("MSURETRN", 7, ValueKindType.METRIC));
+		mappingCSV.getMappingColumns().add(
+				createValueColumn("MOCTTRAN", 8, ValueKindType.METRIC));
+		mappingCSV
+				.getMappingColumns()
+				.add(createIdentifierColumn(3, ObjectKindType.FUNCTION,
+						LibraryPackage.eINSTANCE.getComponent_Name().getName()));
+	}
+
+	private MappingColumn createIdentifierColumn(int columnNo,
 			ObjectKindType objectKind, String objectProperty) {
 		final MappingColumn column = MetricsFactory.eINSTANCE
 				.createMappingColumn();
@@ -395,12 +472,13 @@ public class CreateTestData extends AbstractDataProviderTest {
 		final Node node = OperatorsFactory.eINSTANCE.createNode();
 		node.setNodeID(id);
 		node.setNodeType(nodeType);
-		node.setOriginalNodeTypeRef(nodeType);
+		node.setOriginalNodeTypeRef(EcoreUtil.copy(nodeType));
 		return node;
 	}
 
 	private java.util.List<Equipment> createEquipments(String id, int level) {
 		final java.util.List<Equipment> equipments = new ArrayList<Equipment>();
+		final List<Tolerance> tls = createOrGetTolerances();
 		for (int i = 0; i < HIERARCHY_BREADTH; i++) {
 			final Equipment equipment = LibraryFactory.eINSTANCE
 					.createEquipment();
@@ -414,6 +492,17 @@ public class CreateTestData extends AbstractDataProviderTest {
 			} else {
 				equipment.setName(id + "_" + level + "_" + i);
 			}
+			{ // Load the utilization expression.
+				final Expression e = this.createOrGetUtilizationExpression();
+				equipment.setUtilizationExpressionRef(e);
+			}
+			{// Load the cap expression.
+				final Expression e = this.createOrGetCapacityExpression();
+				equipment.setCapacityExpressionRef(e);
+			}
+			{// Add various tolerance refs.
+				equipment.getToleranceRefs().addAll(tls);
+			}
 			equipment.setEquipmentCode(equipment.getName());
 			if (level <= HIERARCHY_DEPTH) {
 				equipment.getEquipments().addAll(
@@ -425,7 +514,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 
 	private java.util.List<Function> createFunctions(String id, int level) {
 		final java.util.List<Function> functions = new ArrayList<Function>();
-		List<Tolerance> tls = createOrGetTolerances();
+		final List<Tolerance> tls = createOrGetTolerances();
 		for (int i = 0; i < HIERARCHY_BREADTH; i++) {
 			final Function function = LibraryFactory.eINSTANCE.createFunction();
 			functions.add(function);
@@ -436,11 +525,12 @@ public class CreateTestData extends AbstractDataProviderTest {
 				function.getMetricRefs().add(
 						getMetric("Iu mode max attached users(number)"));
 				{ // Load the utilization expression.
-					Expression e = this.createOrGetUtilizationExpression();
+					final Expression e = this
+							.createOrGetUtilizationExpression();
 					function.setUtilizationExpressionRef(e);
 				}
 				{// Load the cap expression.
-					Expression e = this.createOrGetCapacityExpression();
+					final Expression e = this.createOrGetCapacityExpression();
 					function.setCapacityExpressionRef(e);
 				}
 				{// Add various tolerance refs.
@@ -470,18 +560,20 @@ public class CreateTestData extends AbstractDataProviderTest {
 		}
 
 		{
-			Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
 			t.setLevel(LevelType.RED);
 			t.setName("Tolerance Red");
 
-			Expression te = LibraryFactory.eINSTANCE.createExpression();
-			
+			final Expression te = LibraryFactory.eINSTANCE.createExpression();
+
 			// Context is a NetXResource
 			// Takes the capacity range and multiplies it by a factor someting.
-			// No expression result will be created, as we don't assign the result to a range. 
-			// you could use the result set of the last scope (this is what the evaluation returns). 
-			
-			String eAsString = "this CAP 60 * 0.9";
+			// No expression result will be created, as we don't assign the
+			// result to a range.
+			// you could use the result set of the last scope (this is what the
+			// evaluation returns).
+
+			final String eAsString = "this CAP 60 * 0.9";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			addToResource(te);
 			t.setExpressionRef(te);
@@ -491,13 +583,13 @@ public class CreateTestData extends AbstractDataProviderTest {
 			this.addToResource(t);
 		}
 		{
-			Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
 			t.setLevel(LevelType.AMBER);
 			t.setName("Tolerance Amber");
 
-			Expression te = LibraryFactory.eINSTANCE.createExpression();
+			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			// Context is a Node
-			String eAsString = "this CAP * 0.7";
+			final String eAsString = "this CAP * 0.7";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			addToResource(te);
 			t.setExpressionRef(te);
@@ -506,13 +598,13 @@ public class CreateTestData extends AbstractDataProviderTest {
 			this.addToResource(t);
 		}
 		{
-			Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
 			t.setLevel(LevelType.GREEN);
 			t.setName("Tolerance Green");
 
-			Expression te = LibraryFactory.eINSTANCE.createExpression();
+			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			// Context is a Node
-			String eAsString = "this CAP * 0.5";
+			final String eAsString = "this CAP * 0.5";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 
 			addToResource(te);
@@ -522,22 +614,52 @@ public class CreateTestData extends AbstractDataProviderTest {
 			this.addToResource(t);
 		}
 		{
-			Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
 			t.setLevel(LevelType.GREEN);
 			t.setName("Tolerance Yellow");
 
-			Expression te = LibraryFactory.eINSTANCE.createExpression();
+			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			// Context is a Node
-			String eAsString = "this CAP * 0.3";
+			final String eAsString = "this CAP * 0.3";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			this.addToResource(te);
-			
+
 			t.setExpressionRef(te);
 
 			tl.add(t);
 			this.addToResource(t);
 		}
 		return tl;
+	}
+
+	private Node createARNSTPNode() {
+
+		// create the node/function
+		final NodeType nodeType = LibraryFactory.eINSTANCE.createNodeType();
+		for (int i = 0; i < 16; i++) {
+			nodeType.getFunctions().add(createFunction("A" + (i > 0 ? i : "")));
+			nodeType.getFunctions().add(createFunction("B" + (i > 0 ? i : "")));
+		}
+
+		final Node node = OperatorsFactory.eINSTANCE.createNode();
+		node.setNodeID("arnstp01");
+		node.setNodeType(nodeType);
+		node.setOriginalNodeTypeRef(EcoreUtil.copy(nodeType));
+		return node;
+	}
+
+	private Function createFunction(String name) {
+		final Function f = LibraryFactory.eINSTANCE.createFunction();
+		f.setName(name);
+
+		f.getMetricRefs().add(getMetric("MSGSRCVD"));
+		f.getMetricRefs().add(getMetric("MSURETRN"));
+		f.getMetricRefs().add(getMetric("MOCTTRAN"));
+
+		f.getToleranceRefs().addAll(createOrGetTolerances());
+		f.setCapacityExpressionRef(createOrGetCapacityExpression());
+		f.setUtilizationExpressionRef(createOrGetUtilizationExpression());
+		return f;
 	}
 
 }

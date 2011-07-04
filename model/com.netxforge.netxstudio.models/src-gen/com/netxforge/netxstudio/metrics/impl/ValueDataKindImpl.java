@@ -34,6 +34,7 @@ import com.netxforge.netxstudio.metrics.ValueKindType;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl#getMetricRef <em>Metric Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl#getFormat <em>Format</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl#getKindHint <em>Kind Hint</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl#getValueKind <em>Value Kind</em>}</li>
  * </ul>
@@ -77,6 +78,24 @@ public class ValueDataKindImpl extends DataKindImpl implements ValueDataKind {
 	 */
 	public void setMetricRef(Metric newMetricRef) {
 		eSet(MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF, newMetricRef);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFormat() {
+		return (String)eGet(MetricsPackage.Literals.VALUE_DATA_KIND__FORMAT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFormat(String newFormat) {
+		eSet(MetricsPackage.Literals.VALUE_DATA_KIND__FORMAT, newFormat);
 	}
 
 	/**

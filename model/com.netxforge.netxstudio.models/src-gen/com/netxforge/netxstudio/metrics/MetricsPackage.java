@@ -246,13 +246,22 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING__HEADER_ROW = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__PERIOD_HINT = GenericsPackage.BASE_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Mapping</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int MAPPING_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingColumnImpl <em>Mapping Column</em>}' class.
@@ -356,6 +365,15 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_CSV__HEADER_ROW = MAPPING__HEADER_ROW;
 
 	/**
+	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_CSV__PERIOD_HINT = MAPPING__PERIOD_HINT;
+
+	/**
 	 * The feature id for the '<em><b>Delimiter</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -427,6 +445,15 @@ public interface MetricsPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAPPING_RDBMS__HEADER_ROW = MAPPING__HEADER_ROW;
+
+	/**
+	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RDBMS__PERIOD_HINT = MAPPING__PERIOD_HINT;
 
 	/**
 	 * The number of structural features of the '<em>Mapping RDBMS</em>' class.
@@ -610,6 +637,15 @@ public interface MetricsPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAPPING_XLS__HEADER_ROW = MAPPING__HEADER_ROW;
+
+	/**
+	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_XLS__PERIOD_HINT = MAPPING__PERIOD_HINT;
 
 	/**
 	 * The feature id for the '<em><b>Sheet Number</b></em>' attribute.
@@ -859,13 +895,22 @@ public interface MetricsPackage extends EPackage {
 	int VALUE_DATA_KIND__METRIC_REF = DATA_KIND_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Format</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUE_DATA_KIND__FORMAT = DATA_KIND_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Kind Hint</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_DATA_KIND__KIND_HINT = DATA_KIND_FEATURE_COUNT + 1;
+	int VALUE_DATA_KIND__KIND_HINT = DATA_KIND_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Value Kind</b></em>' attribute.
@@ -874,7 +919,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_DATA_KIND__VALUE_KIND = DATA_KIND_FEATURE_COUNT + 2;
+	int VALUE_DATA_KIND__VALUE_KIND = DATA_KIND_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Value Data Kind</em>' class.
@@ -883,7 +928,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_DATA_KIND_FEATURE_COUNT = DATA_KIND_FEATURE_COUNT + 3;
+	int VALUE_DATA_KIND_FEATURE_COUNT = DATA_KIND_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.KindHintType <em>Kind Hint Type</em>}' enum.
@@ -1041,6 +1086,17 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMapping_HeaderRow();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.Mapping#getPeriodHint <em>Period Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Period Hint</em>'.
+	 * @see com.netxforge.netxstudio.metrics.Mapping#getPeriodHint()
+	 * @see #getMapping()
+	 * @generated
+	 */
+	EAttribute getMapping_PeriodHint();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingColumn <em>Mapping Column</em>}'.
@@ -1440,6 +1496,17 @@ public interface MetricsPackage extends EPackage {
 	EReference getValueDataKind_MetricRef();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.ValueDataKind#getFormat <em>Format</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Format</em>'.
+	 * @see com.netxforge.netxstudio.metrics.ValueDataKind#getFormat()
+	 * @see #getValueDataKind()
+	 * @generated
+	 */
+	EAttribute getValueDataKind_Format();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.ValueDataKind#getKindHint <em>Kind Hint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1626,6 +1693,14 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MAPPING__HEADER_ROW = eINSTANCE.getMapping_HeaderRow();
+
+		/**
+		 * The meta object literal for the '<em><b>Period Hint</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING__PERIOD_HINT = eINSTANCE.getMapping_PeriodHint();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingColumnImpl <em>Mapping Column</em>}' class.
@@ -1942,6 +2017,14 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference VALUE_DATA_KIND__METRIC_REF = eINSTANCE.getValueDataKind_MetricRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Format</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VALUE_DATA_KIND__FORMAT = eINSTANCE.getValueDataKind_Format();
 
 		/**
 		 * The meta object literal for the '<em><b>Kind Hint</b></em>' attribute feature.

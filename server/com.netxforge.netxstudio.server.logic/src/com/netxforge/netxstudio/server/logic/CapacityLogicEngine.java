@@ -110,6 +110,7 @@ public class CapacityLogicEngine {
 			}
 			
 		} catch (final Throwable t) {
+			t.printStackTrace(System.err);
 			failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
 			failure.setExpressionRef(expression);
 			failure.setMessage(t.getMessage());

@@ -45,6 +45,7 @@ package com.netxforge.netxstudio.metrics;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.ValueDataKind#getMetricRef <em>Metric Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.ValueDataKind#getFormat <em>Format</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.ValueDataKind#getKindHint <em>Kind Hint</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.ValueDataKind#getValueKind <em>Value Kind</em>}</li>
  * </ul>
@@ -81,6 +82,32 @@ public interface ValueDataKind extends DataKind {
 	 * @generated
 	 */
 	void setMetricRef(Metric value);
+
+	/**
+	 * Returns the value of the '<em><b>Format</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Defines the format to parse the date, time or datetime values
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Format</em>' attribute.
+	 * @see #setFormat(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getValueDataKind_Format()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='Format'"
+	 * @generated
+	 */
+	String getFormat();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.ValueDataKind#getFormat <em>Format</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Format</em>' attribute.
+	 * @see #getFormat()
+	 * @generated
+	 */
+	void setFormat(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Kind Hint</b></em>' attribute.

@@ -333,8 +333,8 @@
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//ValueKindType">
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/PERIOD"/>
-      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/PERIODSTART"/>
-      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/PERIODEND"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/DATE"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/TIME"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/DATETIME"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/NULL"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/METRIC"/>
@@ -352,6 +352,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Mapping/mappingColumns"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/firstDataRow"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/headerRow"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/periodHint"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingColumn">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingColumn/dataType"/>
@@ -398,6 +399,7 @@
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//ValueDataKind">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//ValueDataKind/metricRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//ValueDataKind/format"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//ValueDataKind/kindHint"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//ValueDataKind/valueKind"/>
     </genClasses>
@@ -474,9 +476,9 @@
     <genClasses ecoreClass="operators.ecore#//Node">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/lifecycle"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/nodeType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/originalNodeTypeRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/createdByRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Node/nodeID"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/originalNodeTypeRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/roomRef"/>
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//Operator">

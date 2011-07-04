@@ -663,13 +663,22 @@ public interface OperatorsPackage extends EPackage {
 	int NODE__NODE_TYPE = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Original Node Type Ref</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__ORIGINAL_NODE_TYPE_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Created By Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__CREATED_BY_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int NODE__CREATED_BY_REF = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Node ID</b></em>' attribute.
@@ -678,16 +687,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__NODE_ID = GenericsPackage.BASE_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Original Node Type Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NODE__ORIGINAL_NODE_TYPE_REF = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int NODE__NODE_ID = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Room Ref</b></em>' reference.
@@ -1411,10 +1411,10 @@ public interface OperatorsPackage extends EPackage {
 	EAttribute getNode_NodeID();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Node#getOriginalNodeTypeRef <em>Original Node Type Ref</em>}'.
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.operators.Node#getOriginalNodeTypeRef <em>Original Node Type Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Original Node Type Ref</em>'.
+	 * @return the meta object for the containment reference '<em>Original Node Type Ref</em>'.
 	 * @see com.netxforge.netxstudio.operators.Node#getOriginalNodeTypeRef()
 	 * @see #getNode()
 	 * @generated
@@ -2028,7 +2028,7 @@ public interface OperatorsPackage extends EPackage {
 		EAttribute NODE__NODE_ID = eINSTANCE.getNode_NodeID();
 
 		/**
-		 * The meta object literal for the '<em><b>Original Node Type Ref</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Original Node Type Ref</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
