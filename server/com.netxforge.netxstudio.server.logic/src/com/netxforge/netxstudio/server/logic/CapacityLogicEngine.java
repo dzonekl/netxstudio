@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server.logic;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
@@ -32,6 +33,7 @@ import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
@@ -58,21 +60,22 @@ public class CapacityLogicEngine {
 
 	public void execute() {
 		expressionEngine.getContext().add(range);
-		expressionEngine.getContext().add(getComponent());
+		expressionEngine.getContext().add(getNode(getComponent()));
 		runForExpression(getCapacityExpression());
 		if (failure != null) {
 			return;
 		}
 		for (final NetXResource netXResource : getComponent().getResources()) {
-			expressionEngine.getContext().remove(1);
+			// remove the last entry
+			if (expressionEngine.getContext().get(expressionEngine.getContext().size() - 1) instanceof NetXResource) {
+				expressionEngine.getContext().remove(expressionEngine.getContext().size() - 1);
+			}
 			expressionEngine.getContext().add(netXResource);
 			runForExpression(getUtilizationExpression());
 			if (failure != null) {
 				return;
 			}			
 		}
-		expressionEngine.getContext().remove(1);
-		expressionEngine.getContext().add(getComponent());
 		for (final Tolerance tolerance : getTolerances()) {
 			// resultaat van de tolerance is een percentage
 			// loop door de capacity/utilization heen
@@ -82,6 +85,16 @@ public class CapacityLogicEngine {
 				return;
 			}
 		}
+	}
+	
+	private Node getNode(EObject eObject) {
+		if (eObject == null) {
+			throw new IllegalStateException("No node found");
+		}
+		if (eObject.eContainer() instanceof Node) {
+			return (Node)eObject.eContainer();
+		}
+		return getNode(eObject.eContainer());
 	}
 
 	private void runForExpression(Expression expression) {
