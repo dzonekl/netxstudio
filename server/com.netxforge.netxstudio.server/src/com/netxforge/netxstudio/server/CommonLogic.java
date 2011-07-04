@@ -286,7 +286,7 @@ public class CommonLogic {
 
 	public void addToValues(EList<Value> values, List<Value> newValues,
 			int periodHint) {
-		for (final Value newValue : newValues) {
+		for (final Value newValue : new ArrayList<Value>(newValues)) {
 			addToValues(values, newValue, periodHint);
 		}
 	}
