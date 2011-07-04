@@ -94,6 +94,7 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 			case MetricsPackage.MAPPING: return (EObject)createMapping();
 			case MetricsPackage.MAPPING_COLUMN: return (EObject)createMappingColumn();
 			case MetricsPackage.MAPPING_CSV: return (EObject)createMappingCSV();
+			case MetricsPackage.MAPPING_DB: return (EObject)createMappingDB();
 			case MetricsPackage.MAPPING_RDBMS: return (EObject)createMappingRDBMS();
 			case MetricsPackage.MAPPING_RECORD: return (EObject)createMappingRecord();
 			case MetricsPackage.MAPPING_STATISTIC: return (EObject)createMappingStatistic();
@@ -115,12 +116,16 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
+			case MetricsPackage.DATABASE_TYPE_TYPE:
+				return createDatabaseTypeTypeFromString(eDataType, initialValue);
 			case MetricsPackage.KIND_HINT_TYPE:
 				return createKindHintTypeFromString(eDataType, initialValue);
 			case MetricsPackage.OBJECT_KIND_TYPE:
 				return createObjectKindTypeFromString(eDataType, initialValue);
 			case MetricsPackage.VALUE_KIND_TYPE:
 				return createValueKindTypeFromString(eDataType, initialValue);
+			case MetricsPackage.DATABASE_TYPE_TYPE_OBJECT:
+				return createDatabaseTypeTypeObjectFromString(eDataType, initialValue);
 			case MetricsPackage.KIND_HINT_TYPE_OBJECT:
 				return createKindHintTypeObjectFromString(eDataType, initialValue);
 			case MetricsPackage.OBJECT_KIND_TYPE_OBJECT:
@@ -140,12 +145,16 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
+			case MetricsPackage.DATABASE_TYPE_TYPE:
+				return convertDatabaseTypeTypeToString(eDataType, instanceValue);
 			case MetricsPackage.KIND_HINT_TYPE:
 				return convertKindHintTypeToString(eDataType, instanceValue);
 			case MetricsPackage.OBJECT_KIND_TYPE:
 				return convertObjectKindTypeToString(eDataType, instanceValue);
 			case MetricsPackage.VALUE_KIND_TYPE:
 				return convertValueKindTypeToString(eDataType, instanceValue);
+			case MetricsPackage.DATABASE_TYPE_TYPE_OBJECT:
+				return convertDatabaseTypeTypeObjectToString(eDataType, instanceValue);
 			case MetricsPackage.KIND_HINT_TYPE_OBJECT:
 				return convertKindHintTypeObjectToString(eDataType, instanceValue);
 			case MetricsPackage.OBJECT_KIND_TYPE_OBJECT:
@@ -205,6 +214,16 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	public MappingCSV createMappingCSV() {
 		MappingCSVImpl mappingCSV = new MappingCSVImpl();
 		return mappingCSV;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MappingDB createMappingDB() {
+		MappingDBImpl mappingDB = new MappingDBImpl();
+		return mappingDB;
 	}
 
 	/**
@@ -292,6 +311,26 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public DatabaseTypeType createDatabaseTypeTypeFromString(EDataType eDataType, String initialValue) {
+		DatabaseTypeType result = DatabaseTypeType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertDatabaseTypeTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public KindHintType createKindHintTypeFromString(EDataType eDataType, String initialValue) {
 		KindHintType result = KindHintType.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -345,6 +384,24 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 */
 	public String convertValueKindTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DatabaseTypeType createDatabaseTypeTypeObjectFromString(EDataType eDataType, String initialValue) {
+		return createDatabaseTypeTypeFromString(MetricsPackage.Literals.DATABASE_TYPE_TYPE, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertDatabaseTypeTypeObjectToString(EDataType eDataType, Object instanceValue) {
+		return convertDatabaseTypeTypeToString(MetricsPackage.Literals.DATABASE_TYPE_TYPE, instanceValue);
 	}
 
 	/**

@@ -131,6 +131,14 @@ public class MetricsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case MetricsPackage.MAPPING_DB: {
+				MappingDB mappingDB = (MappingDB)theEObject;
+				T result = caseMappingDB(mappingDB);
+				if (result == null) result = caseMapping(mappingDB);
+				if (result == null) result = caseBase(mappingDB);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case MetricsPackage.MAPPING_RDBMS: {
 				MappingRDBMS mappingRDBMS = (MappingRDBMS)theEObject;
 				T result = caseMappingRDBMS(mappingRDBMS);
@@ -264,6 +272,21 @@ public class MetricsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMappingCSV(MappingCSV object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Mapping DB</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Mapping DB</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMappingDB(MappingDB object) {
 		return null;
 	}
 

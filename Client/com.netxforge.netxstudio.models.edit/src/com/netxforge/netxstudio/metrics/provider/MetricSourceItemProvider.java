@@ -231,6 +231,11 @@ public class MetricSourceItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING,
+				 MetricsFactory.eINSTANCE.createMappingDB()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING,
 				 MetricsFactory.eINSTANCE.createMappingRDBMS()));
 
 		newChildDescriptors.add

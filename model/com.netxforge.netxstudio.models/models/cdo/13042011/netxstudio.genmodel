@@ -321,6 +321,10 @@
   </genPackages>
   <genPackages prefix="Metrics" basePackage="com.netxforge.netxstudio" resource="XML"
       disposableProviderFactory="true" ecorePackage="metrics.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//DatabaseTypeType">
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//DatabaseTypeType/Oracle"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//DatabaseTypeType/Postgres"/>
+    </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//KindHintType">
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//KindHintType/BH"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//KindHintType/AVG"/>
@@ -339,6 +343,7 @@
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/NULL"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/METRIC"/>
     </genEnums>
+    <genDataTypes ecoreDataType="metrics.ecore#//DatabaseTypeTypeObject"/>
     <genDataTypes ecoreDataType="metrics.ecore#//KindHintTypeObject"/>
     <genDataTypes ecoreDataType="metrics.ecore#//ObjectKindTypeObject"/>
     <genDataTypes ecoreDataType="metrics.ecore#//ValueKindTypeObject"/>
@@ -361,6 +366,14 @@
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingCSV">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingCSV/delimiter"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MappingDB">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/databaseType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/password"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/query"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/sID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/uRL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingDB/user"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingRDBMS"/>
     <genClasses ecoreClass="metrics.ecore#//MappingRecord">

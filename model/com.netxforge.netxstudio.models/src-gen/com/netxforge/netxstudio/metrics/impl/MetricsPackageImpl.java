@@ -36,11 +36,13 @@ import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.impl.LibraryPackageImpl;
 import com.netxforge.netxstudio.metrics.DataKind;
+import com.netxforge.netxstudio.metrics.DatabaseTypeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingColumn;
+import com.netxforge.netxstudio.metrics.MappingDB;
 import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
@@ -109,6 +111,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass mappingDBEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass mappingRDBMSEClass = null;
 
 	/**
@@ -165,6 +174,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EEnum databaseTypeTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum kindHintTypeEEnum = null;
 
 	/**
@@ -180,6 +196,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * @generated
 	 */
 	private EEnum valueKindTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType databaseTypeTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -434,6 +457,69 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 */
 	public EAttribute getMappingCSV_Delimiter() {
 		return (EAttribute)mappingCSVEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMappingDB() {
+		return mappingDBEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingDB_DatabaseType() {
+		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingDB_Password() {
+		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingDB_Query() {
+		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingDB_SID() {
+		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingDB_URL() {
+		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingDB_User() {
+		return (EAttribute)mappingDBEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -756,6 +842,15 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getDatabaseTypeType() {
+		return databaseTypeTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getKindHintType() {
 		return kindHintTypeEEnum;
 	}
@@ -776,6 +871,15 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 */
 	public EEnum getValueKindType() {
 		return valueKindTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getDatabaseTypeTypeObject() {
+		return databaseTypeTypeObjectEDataType;
 	}
 
 	/**
@@ -854,6 +958,14 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		mappingCSVEClass = createEClass(MAPPING_CSV);
 		createEAttribute(mappingCSVEClass, MAPPING_CSV__DELIMITER);
 
+		mappingDBEClass = createEClass(MAPPING_DB);
+		createEAttribute(mappingDBEClass, MAPPING_DB__DATABASE_TYPE);
+		createEAttribute(mappingDBEClass, MAPPING_DB__PASSWORD);
+		createEAttribute(mappingDBEClass, MAPPING_DB__QUERY);
+		createEAttribute(mappingDBEClass, MAPPING_DB__SID);
+		createEAttribute(mappingDBEClass, MAPPING_DB__URL);
+		createEAttribute(mappingDBEClass, MAPPING_DB__USER);
+
 		mappingRDBMSEClass = createEClass(MAPPING_RDBMS);
 
 		mappingRecordEClass = createEClass(MAPPING_RECORD);
@@ -898,11 +1010,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		createEAttribute(valueDataKindEClass, VALUE_DATA_KIND__VALUE_KIND);
 
 		// Create enums
+		databaseTypeTypeEEnum = createEEnum(DATABASE_TYPE_TYPE);
 		kindHintTypeEEnum = createEEnum(KIND_HINT_TYPE);
 		objectKindTypeEEnum = createEEnum(OBJECT_KIND_TYPE);
 		valueKindTypeEEnum = createEEnum(VALUE_KIND_TYPE);
 
 		// Create data types
+		databaseTypeTypeObjectEDataType = createEDataType(DATABASE_TYPE_TYPE_OBJECT);
 		kindHintTypeObjectEDataType = createEDataType(KIND_HINT_TYPE_OBJECT);
 		objectKindTypeObjectEDataType = createEDataType(OBJECT_KIND_TYPE_OBJECT);
 		valueKindTypeObjectEDataType = createEDataType(VALUE_KIND_TYPE_OBJECT);
@@ -945,6 +1059,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		mappingEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		mappingColumnEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		mappingCSVEClass.getESuperTypes().add(this.getMapping());
+		mappingDBEClass.getESuperTypes().add(this.getMapping());
 		mappingRDBMSEClass.getESuperTypes().add(this.getMapping());
 		mappingRecordEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		mappingStatisticEClass.getESuperTypes().add(theGenericsPackage.getBase());
@@ -974,6 +1089,14 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 
 		initEClass(mappingCSVEClass, MappingCSV.class, "MappingCSV", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMappingCSV_Delimiter(), theXMLTypePackage.getString(), "delimiter", null, 0, 1, MappingCSV.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(mappingDBEClass, MappingDB.class, "MappingDB", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMappingDB_DatabaseType(), this.getDatabaseTypeType(), "databaseType", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingDB_Password(), theXMLTypePackage.getString(), "password", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingDB_Query(), theXMLTypePackage.getString(), "query", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingDB_SID(), theXMLTypePackage.getString(), "sID", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingDB_URL(), theXMLTypePackage.getString(), "uRL", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingDB_User(), theXMLTypePackage.getString(), "user", null, 0, 1, MappingDB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mappingRDBMSEClass, MappingRDBMS.class, "MappingRDBMS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1019,6 +1142,10 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEAttribute(getValueDataKind_ValueKind(), this.getValueKindType(), "valueKind", null, 0, 1, ValueDataKind.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
+		initEEnum(databaseTypeTypeEEnum, DatabaseTypeType.class, "DatabaseTypeType");
+		addEEnumLiteral(databaseTypeTypeEEnum, DatabaseTypeType.ORACLE);
+		addEEnumLiteral(databaseTypeTypeEEnum, DatabaseTypeType.POSTGRES);
+
 		initEEnum(kindHintTypeEEnum, KindHintType.class, "KindHintType");
 		addEEnumLiteral(kindHintTypeEEnum, KindHintType.BH);
 		addEEnumLiteral(kindHintTypeEEnum, KindHintType.AVG);
@@ -1038,6 +1165,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		addEEnumLiteral(valueKindTypeEEnum, ValueKindType.METRIC);
 
 		// Initialize data types
+		initEDataType(databaseTypeTypeObjectEDataType, DatabaseTypeType.class, "DatabaseTypeTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(kindHintTypeObjectEDataType, KindHintType.class, "KindHintTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(objectKindTypeObjectEDataType, ObjectKindType.class, "ObjectKindTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(valueKindTypeObjectEDataType, ValueKindType.class, "ValueKindTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
@@ -1067,7 +1195,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																							
+		   });																																																																																																																							
 	}
 
 	/**
@@ -1077,7 +1205,20 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";					
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";				
+		addAnnotation
+		  (databaseTypeTypeEEnum, 
+		   source, 
+		   new String[] {
+			 "name", "DatabaseType_._type"
+		   });		
+		addAnnotation
+		  (databaseTypeTypeObjectEDataType, 
+		   source, 
+		   new String[] {
+			 "name", "DatabaseType_._type:Object",
+			 "baseType", "DatabaseType_._type"
+		   });			
 		addAnnotation
 		  (dataKindEClass, 
 		   source, 
@@ -1202,6 +1343,55 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Delimiter"
+		   });			
+		addAnnotation
+		  (mappingDBEClass, 
+		   source, 
+		   new String[] {
+			 "name", "MappingDB",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getMappingDB_DatabaseType(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "DatabaseType"
+		   });			
+		addAnnotation
+		  (getMappingDB_Password(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Password"
+		   });			
+		addAnnotation
+		  (getMappingDB_Query(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Query"
+		   });			
+		addAnnotation
+		  (getMappingDB_SID(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "SID"
+		   });			
+		addAnnotation
+		  (getMappingDB_URL(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "URL"
+		   });			
+		addAnnotation
+		  (getMappingDB_User(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "User"
 		   });			
 		addAnnotation
 		  (mappingRDBMSEClass, 

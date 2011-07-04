@@ -117,6 +117,10 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 				return createMappingCSVAdapter();
 			}
 			@Override
+			public Adapter caseMappingDB(MappingDB object) {
+				return createMappingDBAdapter();
+			}
+			@Override
 			public Adapter caseMappingRDBMS(MappingRDBMS object) {
 				return createMappingRDBMSAdapter();
 			}
@@ -239,6 +243,20 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMappingCSVAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.metrics.MappingDB <em>Mapping DB</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.metrics.MappingDB
+	 * @generated
+	 */
+	public Adapter createMappingDBAdapter() {
 		return null;
 	}
 

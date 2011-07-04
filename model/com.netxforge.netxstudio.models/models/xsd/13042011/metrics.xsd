@@ -320,6 +320,64 @@
 	</xs:complexType>
 
 	<!--_______________________ -->
+	<!-- MAPPING DB -->
+	<!--_______________________ -->
+
+	<xs:complexType name="MappingDB">
+		<xs:annotation>
+			<xs:documentation>A type representing the basic information points
+				for mapping an DB to the NetXStudio model.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Mapping">
+				<xs:attribute name="Query" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The query to execute.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="URL" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The url to the database.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="SID" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The database name.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="User" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The user name.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Password" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The password.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="DatabaseType">
+					<xs:annotation>
+						<xs:documentation>The database type.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Oracle"/>
+							<xs:enumeration value="Postgres"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________________ -->
 	<!-- DATAKIND -->
 	<!--_______________________ -->
 

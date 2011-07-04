@@ -401,6 +401,133 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_CSV_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingDBImpl <em>Mapping DB</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.metrics.impl.MappingDBImpl
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingDB()
+	 * @generated
+	 */
+	int MAPPING_DB = 5;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__DELETED = MAPPING__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Header Mapping Columns</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__HEADER_MAPPING_COLUMNS = MAPPING__HEADER_MAPPING_COLUMNS;
+
+	/**
+	 * The feature id for the '<em><b>Mapping Columns</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__MAPPING_COLUMNS = MAPPING__MAPPING_COLUMNS;
+
+	/**
+	 * The feature id for the '<em><b>First Data Row</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__FIRST_DATA_ROW = MAPPING__FIRST_DATA_ROW;
+
+	/**
+	 * The feature id for the '<em><b>Header Row</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__HEADER_ROW = MAPPING__HEADER_ROW;
+
+	/**
+	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__PERIOD_HINT = MAPPING__PERIOD_HINT;
+
+	/**
+	 * The feature id for the '<em><b>Database Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__DATABASE_TYPE = MAPPING_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Password</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__PASSWORD = MAPPING_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Query</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__QUERY = MAPPING_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>SID</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__SID = MAPPING_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>URL</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__URL = MAPPING_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>User</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB__USER = MAPPING_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of structural features of the '<em>Mapping DB</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_DB_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 6;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl <em>Mapping RDBMS</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -408,7 +535,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingRDBMS()
 	 * @generated
 	 */
-	int MAPPING_RDBMS = 5;
+	int MAPPING_RDBMS = 6;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -481,7 +608,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingRecord()
 	 * @generated
 	 */
-	int MAPPING_RECORD = 6;
+	int MAPPING_RECORD = 7;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -536,7 +663,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingStatistic()
 	 * @generated
 	 */
-	int MAPPING_STATISTIC = 7;
+	int MAPPING_STATISTIC = 8;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -600,7 +727,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingXLS()
 	 * @generated
 	 */
-	int MAPPING_XLS = 8;
+	int MAPPING_XLS = 9;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -682,7 +809,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetric()
 	 * @generated
 	 */
-	int METRIC = 9;
+	int METRIC = 10;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -782,7 +909,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricSource()
 	 * @generated
 	 */
-	int METRIC_SOURCE = 10;
+	int METRIC_SOURCE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -846,7 +973,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricValueRange()
 	 * @generated
 	 */
-	int METRIC_VALUE_RANGE = 11;
+	int METRIC_VALUE_RANGE = 12;
 
 	/**
 	 * The feature id for the '<em><b>Metric Values</b></em>' containment reference list.
@@ -892,7 +1019,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getValueDataKind()
 	 * @generated
 	 */
-	int VALUE_DATA_KIND = 12;
+	int VALUE_DATA_KIND = 13;
 
 	/**
 	 * The feature id for the '<em><b>Metric Ref</b></em>' reference.
@@ -940,6 +1067,16 @@ public interface MetricsPackage extends EPackage {
 	int VALUE_DATA_KIND_FEATURE_COUNT = DATA_KIND_FEATURE_COUNT + 4;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.DatabaseTypeType <em>Database Type Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.metrics.DatabaseTypeType
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getDatabaseTypeType()
+	 * @generated
+	 */
+	int DATABASE_TYPE_TYPE = 14;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.KindHintType <em>Kind Hint Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -947,7 +1084,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getKindHintType()
 	 * @generated
 	 */
-	int KIND_HINT_TYPE = 13;
+	int KIND_HINT_TYPE = 15;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.ObjectKindType <em>Object Kind Type</em>}' enum.
@@ -957,7 +1094,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectKindType()
 	 * @generated
 	 */
-	int OBJECT_KIND_TYPE = 14;
+	int OBJECT_KIND_TYPE = 16;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.ValueKindType <em>Value Kind Type</em>}' enum.
@@ -967,7 +1104,17 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getValueKindType()
 	 * @generated
 	 */
-	int VALUE_KIND_TYPE = 15;
+	int VALUE_KIND_TYPE = 17;
+
+	/**
+	 * The meta object id for the '<em>Database Type Type Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.metrics.DatabaseTypeType
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getDatabaseTypeTypeObject()
+	 * @generated
+	 */
+	int DATABASE_TYPE_TYPE_OBJECT = 18;
 
 	/**
 	 * The meta object id for the '<em>Kind Hint Type Object</em>' data type.
@@ -977,7 +1124,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getKindHintTypeObject()
 	 * @generated
 	 */
-	int KIND_HINT_TYPE_OBJECT = 16;
+	int KIND_HINT_TYPE_OBJECT = 19;
 
 	/**
 	 * The meta object id for the '<em>Object Kind Type Object</em>' data type.
@@ -987,7 +1134,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectKindTypeObject()
 	 * @generated
 	 */
-	int OBJECT_KIND_TYPE_OBJECT = 17;
+	int OBJECT_KIND_TYPE_OBJECT = 20;
 
 	/**
 	 * The meta object id for the '<em>Value Kind Type Object</em>' data type.
@@ -997,7 +1144,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getValueKindTypeObject()
 	 * @generated
 	 */
-	int VALUE_KIND_TYPE_OBJECT = 18;
+	int VALUE_KIND_TYPE_OBJECT = 21;
 
 
 	/**
@@ -1170,6 +1317,82 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMappingCSV_Delimiter();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingDB <em>Mapping DB</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Mapping DB</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingDB
+	 * @generated
+	 */
+	EClass getMappingDB();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingDB#getDatabaseType <em>Database Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Database Type</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingDB#getDatabaseType()
+	 * @see #getMappingDB()
+	 * @generated
+	 */
+	EAttribute getMappingDB_DatabaseType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingDB#getPassword <em>Password</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Password</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingDB#getPassword()
+	 * @see #getMappingDB()
+	 * @generated
+	 */
+	EAttribute getMappingDB_Password();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingDB#getQuery <em>Query</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Query</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingDB#getQuery()
+	 * @see #getMappingDB()
+	 * @generated
+	 */
+	EAttribute getMappingDB_Query();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingDB#getSID <em>SID</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>SID</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingDB#getSID()
+	 * @see #getMappingDB()
+	 * @generated
+	 */
+	EAttribute getMappingDB_SID();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingDB#getURL <em>URL</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>URL</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingDB#getURL()
+	 * @see #getMappingDB()
+	 * @generated
+	 */
+	EAttribute getMappingDB_URL();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingDB#getUser <em>User</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>User</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingDB#getUser()
+	 * @see #getMappingDB()
+	 * @generated
+	 */
+	EAttribute getMappingDB_User();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingRDBMS <em>Mapping RDBMS</em>}'.
@@ -1549,6 +1772,16 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getValueDataKind_ValueKind();
 
 	/**
+	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.metrics.DatabaseTypeType <em>Database Type Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Database Type Type</em>'.
+	 * @see com.netxforge.netxstudio.metrics.DatabaseTypeType
+	 * @generated
+	 */
+	EEnum getDatabaseTypeType();
+
+	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.metrics.KindHintType <em>Kind Hint Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1577,6 +1810,18 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getValueKindType();
+
+	/**
+	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.metrics.DatabaseTypeType <em>Database Type Type Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Database Type Type Object</em>'.
+	 * @see com.netxforge.netxstudio.metrics.DatabaseTypeType
+	 * @model instanceClass="com.netxforge.netxstudio.metrics.DatabaseTypeType"
+	 *        extendedMetaData="name='DatabaseType_._type:Object' baseType='DatabaseType_._type'"
+	 * @generated
+	 */
+	EDataType getDatabaseTypeTypeObject();
 
 	/**
 	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.metrics.KindHintType <em>Kind Hint Type Object</em>}'.
@@ -1773,6 +2018,64 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MAPPING_CSV__DELIMITER = eINSTANCE.getMappingCSV_Delimiter();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingDBImpl <em>Mapping DB</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.metrics.impl.MappingDBImpl
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMappingDB()
+		 * @generated
+		 */
+		EClass MAPPING_DB = eINSTANCE.getMappingDB();
+
+		/**
+		 * The meta object literal for the '<em><b>Database Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_DB__DATABASE_TYPE = eINSTANCE.getMappingDB_DatabaseType();
+
+		/**
+		 * The meta object literal for the '<em><b>Password</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_DB__PASSWORD = eINSTANCE.getMappingDB_Password();
+
+		/**
+		 * The meta object literal for the '<em><b>Query</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_DB__QUERY = eINSTANCE.getMappingDB_Query();
+
+		/**
+		 * The meta object literal for the '<em><b>SID</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_DB__SID = eINSTANCE.getMappingDB_SID();
+
+		/**
+		 * The meta object literal for the '<em><b>URL</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_DB__URL = eINSTANCE.getMappingDB_URL();
+
+		/**
+		 * The meta object literal for the '<em><b>User</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_DB__USER = eINSTANCE.getMappingDB_User();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl <em>Mapping RDBMS</em>}' class.
@@ -2071,6 +2374,16 @@ public interface MetricsPackage extends EPackage {
 		EAttribute VALUE_DATA_KIND__VALUE_KIND = eINSTANCE.getValueDataKind_ValueKind();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.DatabaseTypeType <em>Database Type Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.metrics.DatabaseTypeType
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getDatabaseTypeType()
+		 * @generated
+		 */
+		EEnum DATABASE_TYPE_TYPE = eINSTANCE.getDatabaseTypeType();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.KindHintType <em>Kind Hint Type</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2099,6 +2412,16 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum VALUE_KIND_TYPE = eINSTANCE.getValueKindType();
+
+		/**
+		 * The meta object literal for the '<em>Database Type Type Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.metrics.DatabaseTypeType
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getDatabaseTypeTypeObject()
+		 * @generated
+		 */
+		EDataType DATABASE_TYPE_TYPE_OBJECT = eINSTANCE.getDatabaseTypeTypeObject();
 
 		/**
 		 * The meta object literal for the '<em>Kind Hint Type Object</em>' data type.
