@@ -67,32 +67,34 @@ public class CapacityLogicEngine {
 		}
 		for (final NetXResource netXResource : getComponent().getResources()) {
 			// remove the last entry
-			if (expressionEngine.getContext().get(expressionEngine.getContext().size() - 1) instanceof NetXResource) {
-				expressionEngine.getContext().remove(expressionEngine.getContext().size() - 1);
+			if (expressionEngine.getContext().get(
+					expressionEngine.getContext().size() - 1) instanceof NetXResource) {
+				expressionEngine.getContext().remove(
+						expressionEngine.getContext().size() - 1);
 			}
 			expressionEngine.getContext().add(netXResource);
 			runForExpression(getUtilizationExpression());
 			if (failure != null) {
 				return;
-			}			
-		}
-		for (final Tolerance tolerance : getTolerances()) {
-			// resultaat van de tolerance is een percentage
-			// loop door de capacity/utilization heen
-			// genereer markers per nieuwe overschrijding
-			runForExpression(tolerance.getExpressionRef());
-			if (failure != null) {
-				return;
+			}
+			for (final Tolerance tolerance : getTolerances()) {
+				// resultaat van de tolerance is een percentage
+				// loop door de capacity/utilization heen
+				// genereer markers per nieuwe overschrijding
+				runForExpression(tolerance.getExpressionRef());
+				if (failure != null) {
+					return;
+				}
 			}
 		}
 	}
-	
+
 	private Node getNode(EObject eObject) {
 		if (eObject == null) {
 			throw new IllegalStateException("No node found");
 		}
 		if (eObject.eContainer() instanceof Node) {
-			return (Node)eObject.eContainer();
+			return (Node) eObject.eContainer();
 		}
 		return getNode(eObject.eContainer());
 	}
@@ -111,17 +113,18 @@ public class CapacityLogicEngine {
 			final List<ExpressionResult> result = expressionEngine
 					.getExpressionResult();
 			// process the result
-			
-			for(final ExpressionResult er : result){
-				
-				// Hi martin, there should be sufficient info to write to the correct range. 
-				// the period context 
+
+			for (final ExpressionResult er : result) {
+
+				// Hi martin, there should be sufficient info to write to the
+				// correct range.
+				// the period context
 				final RangeKind rk = er.getTargetRange();
 				final NetXResource resource = er.getTargetResource();
 				final EList<Value> values = er.getTargetValues();
-				
+
 			}
-			
+
 		} catch (final Throwable t) {
 			t.printStackTrace(System.err);
 			failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
