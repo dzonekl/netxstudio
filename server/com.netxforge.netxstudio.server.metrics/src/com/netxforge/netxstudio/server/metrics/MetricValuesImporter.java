@@ -329,7 +329,7 @@ public abstract class MetricValuesImporter {
 		value.setValue(dblValue);
 
 		commonLogic.addToValueRange(foundNetXResource, periodHint,
-				valueDataKind.getKindHint(), value);
+				valueDataKind.getKindHint(), value, null, null);
 	}
 
 	private void addToNode(EObject originalEObject, EObject eObject,

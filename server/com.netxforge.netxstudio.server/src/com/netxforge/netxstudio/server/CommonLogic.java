@@ -19,6 +19,8 @@
 package com.netxforge.netxstudio.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +35,7 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.RangeKind;
@@ -40,6 +43,7 @@ import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.operators.Marker;
+import com.netxforge.netxstudio.operators.MarkerKind;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -54,39 +58,54 @@ public class CommonLogic {
 
 	@Inject
 	private ModelUtils modelUtils;
-	
+
 	@Inject
 	private IDataProvider dataProvider;
-	
-	public void processResult(List<ExpressionResult> expressionResults, Date start, Date end) {
+
+	public void processResult(List<ExpressionResult> expressionResults,
+			Date start, Date end) {
 		for (final ExpressionResult expressionResult : expressionResults) {
 			final NetXResource resource = expressionResult.getTargetResource();
 			switch (expressionResult.getTargetRange().getValue()) {
 			case RangeKind.CAP_VALUE:
-				addToValues(resource.getCapacityValues(), getCreateValues(expressionResult, start, end), expressionResult.getTargetIntervalHint());
+				removeValues(resource.getCapacityValues(), start, end);
+				addToValues(resource.getCapacityValues(),
+						expressionResult.getTargetValues(),
+						expressionResult.getTargetIntervalHint());
 				break;
 			case RangeKind.METRIC_VALUE:
-				addToValueRange(resource, expressionResult.getTargetIntervalHint(), null, getCreateValues(expressionResult, start, end));
+				addToValueRange(resource,
+						expressionResult.getTargetIntervalHint(), null,
+						getCreateValues(expressionResult, start, end), start,
+						end);
 				break;
 			case RangeKind.TOLERANCE_VALUE:
 				createMarkers(expressionResult, start, end);
 				break;
 			case RangeKind.UTILIZATION_VALUE:
-				addToValues(resource.getUtilizationValues(), getCreateValues(expressionResult, start, end), expressionResult.getTargetIntervalHint());
+				removeValues(resource.getUtilizationValues(), start, end);
+				addToValues(resource.getUtilizationValues(),
+						expressionResult.getTargetValues(),
+						expressionResult.getTargetIntervalHint());
 				break;
 			default:
-				throw new IllegalStateException("Range kind " + expressionResult.getTargetRange() + " not supported");
+				throw new IllegalStateException("Range kind "
+						+ expressionResult.getTargetRange() + " not supported");
 			}
 		}
 	}
 
-	private void createMarkers(ExpressionResult expressionResult, Date start, Date end) {
+	private void createMarkers(ExpressionResult expressionResult, Date start,
+			Date end) {
 		final Node node = getNode(expressionResult.getTargetResource());
-		final Resource emfResource = dataProvider.getResource(OperatorsPackage.eINSTANCE.getResourceMonitor());
+		final Resource emfResource = dataProvider
+				.getResource(OperatorsPackage.eINSTANCE.getResourceMonitor());
 		ResourceMonitor foundMonitor = null;
 		for (final EObject monitorObject : emfResource.getContents()) {
-			final ResourceMonitor monitor = (ResourceMonitor)monitorObject;
-			if (monitor.getNodeRef() == node && monitor.getResourceRef() == expressionResult.getTargetResource()) {
+			final ResourceMonitor monitor = (ResourceMonitor) monitorObject;
+			if (monitor.getNodeRef() == node
+					&& monitor.getResourceRef() == expressionResult
+							.getTargetResource()) {
 				foundMonitor = monitor;
 				break;
 			}
@@ -103,21 +122,108 @@ public class CommonLogic {
 		final long endMillis = end.getTime();
 		final List<Marker> toRemove = new ArrayList<Marker>();
 		for (final Marker marker : foundMonitor.getMarkers()) {
-			final long markerMillis = marker.getValueRef().getTimeStamp().toGregorianCalendar().getTimeInMillis();
+			final long markerMillis = marker.getValueRef().getTimeStamp()
+					.toGregorianCalendar().getTimeInMillis();
 			if (markerMillis >= startMillis && markerMillis <= endMillis) {
 				toRemove.add(marker);
 			}
 		}
 		foundMonitor.getMarkers().removeAll(toRemove);
+
+		// now compute the capacity in order
+		final List<Value> usageValues = new ArrayList<Value>();
+		for (final MetricValueRange mvr : expressionResult.getTargetResource()
+				.getMetricValueRanges()) {
+			usageValues.addAll(mvr.getMetricValues());
+		}
+		// get rid of everything before and after start time
+		final List<Value> toRemoveUsageValues = new ArrayList<Value>();
+		for (final Value usageValue : usageValues) {
+			final long timeMillis = usageValue.getTimeStamp()
+					.toGregorianCalendar().getTimeInMillis();
+			if (timeMillis < start.getTime() || timeMillis > end.getTime()) {
+				toRemoveUsageValues.add(usageValue);
+			}
+		}
+		usageValues.removeAll(toRemoveUsageValues);
+		Collections.sort(usageValues, new ValueTimeComparator());
+
+		// now get the tolerance computation
+		final List<Value> toleranceValues = expressionResult.getTargetValues();
+		Collections.sort(toleranceValues, new ValueTimeComparator());
+
+		// now walk through the lists and find the occurences of overrides
+		Value currentTolerance = null;
+		final int index = 0;
+		boolean isOver = false;
+		for (final Value toleranceValue : toleranceValues) {
+			long toTime = end.getTime();
+			long fromTime = start.getTime();
+			if (index < (toleranceValues.size() - 1)) {
+				toTime = toleranceValues.get(index + 1).getTimeStamp()
+						.toGregorianCalendar().getTimeInMillis();
+			}
+			if (currentTolerance == null) {
+				currentTolerance = toleranceValue;
+			} else {
+				fromTime = currentTolerance.getTimeStamp()
+						.toGregorianCalendar().getTimeInMillis();
+			}
+			final List<Value> checkValues = new ArrayList<Value>();
+			for (final Value usageValue : usageValues) {
+				final long time = usageValue.getTimeStamp()
+						.toGregorianCalendar().getTimeInMillis();
+				if (time >= fromTime && time <= toTime) {
+					checkValues.add(usageValue);
+				}
+			}
+			// check if they are over or under
+			for (final Value checkValue : checkValues) {
+				if (checkValue.getValue() < currentTolerance.getValue()
+						&& isOver) {
+					isOver = false;
+				} else if (checkValue.getValue() > currentTolerance.getValue()
+						&& !isOver) {
+					// generate a marker
+					isOver = true;
+					final Marker marker = OperatorsFactory.eINSTANCE
+							.createMarker();
+					marker.setComponentRef((Component) expressionResult
+							.getTargetResource().eContainer());
+					marker.setValueRef(checkValue);
+					marker.setKind(MarkerKind.THRESHOLDREACHED);
+					marker.setDescription(expressionResult.getTargetResource()
+							.getLongName());
+					foundMonitor.getMarkers().add(marker);
+				}
+			}
+		}
 	}
-	
-	private List<Value> getCreateValues(ExpressionResult result, Date start, Date end) {
+
+	private void removeValues(EList<Value> values, Date start, Date end) {
+		final long startMillis = start.getTime();
+		final long endMillis = end.getTime();
+		final List<Value> toRemove = new ArrayList<Value>();
+		for (final Value value : values) {
+			final long millis = value.getTimeStamp().toGregorianCalendar()
+					.getTimeInMillis();
+			if (millis >= startMillis && millis <= endMillis) {
+				toRemove.add(value);
+			}
+		}
+		values.removeAll(toRemove);
+	}
+
+	private List<Value> getCreateValues(ExpressionResult result, Date start,
+			Date end) {
 		final List<Value> values = new ArrayList<Value>();
 		Date previousTime = start;
 		Value previousValue = null;
 		for (final Value resultValue : result.getTargetValues()) {
-			long nextTime = previousTime.getTime() + result.getTargetIntervalHint() * 60000; 
-			while (nextTime < resultValue.getTimeStamp().toGregorianCalendar().getTimeInMillis()) {
+			long nextTime = previousTime.getTime()
+					+ result.getTargetIntervalHint() * 60000;
+			while (nextTime < resultValue.getTimeStamp().toGregorianCalendar()
+					.getTimeInMillis()) {
 				final Value newValue = GenericsFactory.eINSTANCE.createValue();
 				newValue.setValue(previousValue.getValue());
 				newValue.setTimeStamp(modelUtils.toXMLDate(new Date(nextTime)));
@@ -126,11 +232,14 @@ public class CommonLogic {
 			}
 			values.add(resultValue);
 			previousValue = resultValue;
-			previousTime = resultValue.getTimeStamp().toGregorianCalendar().getTime();
+			previousTime = resultValue.getTimeStamp().toGregorianCalendar()
+					.getTime();
 		}
 		// generate values for the rest of the period
-		if (previousTime.getTime() < (end.getTime() -  result.getTargetIntervalHint() * 60000)) {
-			long nextTime = previousTime.getTime() + result.getTargetIntervalHint() * 60000; 
+		if (previousTime.getTime() < (end.getTime() - result
+				.getTargetIntervalHint() * 60000)) {
+			long nextTime = previousTime.getTime()
+					+ result.getTargetIntervalHint() * 60000;
 			while (nextTime < end.getTime()) {
 				final Value newValue = GenericsFactory.eINSTANCE.createValue();
 				newValue.setValue(previousValue.getValue());
@@ -142,15 +251,17 @@ public class CommonLogic {
 		return values;
 	}
 
-	public void addToValueRange(NetXResource foundNetXResource,
-			int periodHint, KindHintType kindHintType, List<Value> newValues) {
+	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
+			KindHintType kindHintType, List<Value> newValues, Date start,
+			Date end) {
 		for (final Value newValue : newValues) {
-			addToValueRange(foundNetXResource, periodHint, kindHintType, newValue);
+			addToValueRange(foundNetXResource, periodHint, kindHintType,
+					newValue, start, end);
 		}
 	}
 
-	public void addToValueRange(NetXResource foundNetXResource,
-			int periodHint, KindHintType kindHintType, Value value) {
+	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
+			KindHintType kindHintType, Value value, Date start, Date end) {
 		MetricValueRange foundMvr = null;
 		for (final MetricValueRange mvr : foundNetXResource
 				.getMetricValueRanges()) {
@@ -166,18 +277,24 @@ public class CommonLogic {
 			foundMvr.setIntervalHint(periodHint);
 			foundNetXResource.getMetricValueRanges().add(foundMvr);
 		}
+		if (start != null) {
+			removeValues(foundMvr.getMetricValues(), start, end);
+		}
+
 		addToValues(foundMvr.getMetricValues(), value, periodHint);
 	}
 
-	public void addToValues(EList<Value> values, List<Value> newValues, int periodHint) {
+	public void addToValues(EList<Value> values, List<Value> newValues,
+			int periodHint) {
 		for (final Value newValue : newValues) {
 			addToValues(values, newValue, periodHint);
 		}
 	}
-	
+
 	public void addToValues(EList<Value> values, Value value, int periodHint) {
 
-		final long timeInMillis = value.getTimeStamp().toGregorianCalendar().getTimeInMillis();
+		final long timeInMillis = value.getTimeStamp().toGregorianCalendar()
+				.getTimeInMillis();
 		Value foundValue = null;
 		for (final Value lookValue : values) {
 			if (isSameTime(periodHint, timeInMillis, lookValue.getTimeStamp())) {
@@ -211,4 +328,10 @@ public class CommonLogic {
 		return getNode(eObject.eContainer());
 	}
 
+	private class ValueTimeComparator implements Comparator<Value> {
+
+		public int compare(Value arg0, Value arg1) {
+			return arg0.getTimeStamp().compare(arg1.getTimeStamp());
+		}
+	}
 }
