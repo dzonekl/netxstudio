@@ -385,6 +385,12 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
+				<xs:attribute name="Pattern" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>A pattern to convert the information in the data source to an identifier which can be used to select a network element
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

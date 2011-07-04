@@ -59,6 +59,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
+import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
@@ -103,6 +104,8 @@ public class CreateTestData extends AbstractDataProviderTest {
 	private List<Tolerance> tl = Lists.newArrayList();
 	private Expression utilizationExpression = null;
 	private Expression capacityExpression = null;
+
+	private List<FunctionRelationship> functionRelationships = new ArrayList<FunctionRelationship>();
 
 	@Override
 	protected void setUp() throws Exception {
@@ -171,6 +174,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 		rfsService.getNodes().add(createNode("RTSGSN3"));
 		rfsService.getNodes().add(createARNSTPNode());
 		network.getNodes().addAll(rfsService.getNodes());
+		network.getFunctionRelationships().addAll(functionRelationships);
 
 		final RFSServiceJob job = SchedulingFactory.eINSTANCE
 				.createRFSServiceJob();
@@ -228,7 +232,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 				.createMappingCSV();
 		metricSource.setMetricMapping(mappingCSV);
 
-		setMSCVSNameMapping(mappingCSV);
+		setCSVMapping(mappingCSV);
 
 		addToResource(metricSource);
 
@@ -260,7 +264,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 				.createMappingXLS();
 		metricSource.setMetricMapping(mappingXLS);
 
-		setMSName1Mapping(mappingXLS);
+		setXLSMapping(mappingXLS);
 
 		addToResource(metricSource);
 
@@ -333,7 +337,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 		return collection;
 	}
 
-	private void setMSName1Mapping(MappingXLS mappingXLS) {
+	private void setXLSMapping(MappingXLS mappingXLS) {
 		mappingXLS.setFirstDataRow(11);
 		mappingXLS.setHeaderRow(10);
 		mappingXLS.setSheetNumber(0);
@@ -361,7 +365,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 						LibraryPackage.eINSTANCE.getComponent_Name().getName()));
 	}
 
-	private void setMSCVSNameMapping(MappingCSV mappingCSV) {
+	private void setCSVMapping(MappingCSV mappingCSV) {
 		mappingCSV.setHeaderRow(1);
 		mappingCSV.setFirstDataRow(4);
 		mappingCSV.setDelimiter(",");
@@ -386,6 +390,10 @@ public class CreateTestData extends AbstractDataProviderTest {
 				createValueColumn("MSURETRN", 7, ValueKindType.METRIC));
 		mappingCSV.getMappingColumns().add(
 				createValueColumn("MOCTTRAN", 8, ValueKindType.METRIC));
+		mappingCSV.getMappingColumns().add(
+				createIdentifierColumn(1, ObjectKindType.RELATIONSHIP,
+						OperatorsPackage.eINSTANCE.getRelationship_Name()
+								.getName()));
 		mappingCSV
 				.getMappingColumns()
 				.add(createIdentifierColumn(3, ObjectKindType.FUNCTION,
@@ -472,7 +480,9 @@ public class CreateTestData extends AbstractDataProviderTest {
 		final Node node = OperatorsFactory.eINSTANCE.createNode();
 		node.setNodeID(id);
 		node.setNodeType(nodeType);
-		node.setOriginalNodeTypeRef(EcoreUtil.copy(nodeType));
+		final NodeType originalNodeType = EcoreUtil.copy(nodeType);
+		addToResource(originalNodeType);
+		node.setOriginalNodeTypeRef(originalNodeType);
 		return node;
 	}
 
@@ -633,22 +643,109 @@ public class CreateTestData extends AbstractDataProviderTest {
 	}
 
 	private Node createARNSTPNode() {
+		final String[] relationShips = new String[] { "tmscnlna0",
+				"sgrroamna0", "tmscnlna0s", "acr01na0s", "thlrnlna0",
+				"sgc01na0", "thlrnlna0s", "sgrstpin0", "sgrstpin0", "lsm3ua2",
+				"tbmscukin0", "arm04na0", "arm04na0", "acr01na0s", "acr01na0s",
+				"lsm3ua", "lsm3ua2", "drin01na0", "drin01na0", "kpnamin0",
+				"kpnrtin0", "kpnrtna1", "btfrastp", "kpnutna1", "sgrstpin0",
+				"sgrstpin0", "lsm3ua", "kpnrtin0", "lsm3ua", "lsm3ua2",
+				"kpnrtna1", "lsm3ua", "lsm3ua2", "tmscnlna0", "tmscnlna0s",
+				"acr01na0s", "thlrnlna0", "sgc01na0", "thlrnlna0s",
+				"sgrstpna0", "sgrstpna0", "tbmscukin0", "arm04na0", "arm04na0",
+				"acr01na0s", "acr01na0s", "drin01na0", "drin01na0", "kpnamin0",
+				"kpnrtin0", "tele2rosgw", "tele2rosgw", "sgrstpna0",
+				"sgrstpna0", "acr01na0s", "acr01na0s", "sgm01na0", "sgm01na0",
+				"kpnamin0", "kpnrtin0", "sgrstpna0s", "sgrstpna0s",
+				"tmscukna1", "arm04na0", "arm04na0", "kpnamin0", "kpnrtin0",
+				"drin01na0", "drin01na0", "kpnamin0", "kpnrtin0", "onlinemgw3",
+				"sgrstpna0s", "sgrstpna0s", "sgc01na0", "sgc01na0",
+				"sgc01na0s", "sgc01na0s", "tbmscnlin0", "tbmscnlin0",
+				"sgm01na0", "sgm01na0", "kpnamin0", "kpnrtin0", "sgrstpna1",
+				"sgrstpna1", "arm04na0", "arm04na0", "kpnamin0", "kpnrtin0",
+				"drin01na0", "drin01na0", "etes01", "acr01na0", "bruhin0",
+				"bruiin0", "tele2amstp", "sgrstpna1", "sgrstpna1", "sgc01na0",
+				"sgc01na0", "sgc01na0s", "sgc01na0s", "drin01na0", "drin01na0",
+				"sgm01na0", "sgm01na0", "bruhin0", "bruiin0", "arm04na0",
+				"arm04na0", "kpnamin0", "kpnrtin0", "acr01na0", "acr01na0",
+				"bruhin0", "bruiin0", "tele2rosgw", "tele2rosgw", "tele2amstp",
+				"tele2rostp", "sgc01na0", "sgc01na0", "sgc01na0s", "sgc01na0s",
+				"drin01na0", "drin01na0", "acr01na0", "acr01na0", "sgm01na0",
+				"sgm01na0", "bruhin0", "bruiin0", "arm04na0", "arm04na0",
+				"kpnamin0", "kpnrtin0", "acr01na0", "bruhin0", "bruiin0",
+				"sgc01na0", "sgc01na0", "sgc01na0s", "sgc01na0s", "drin01na0",
+				"drin01na0", "arm04na0", "arm04na0", "bruhin0", "bruiin0",
+				"acr01na0s", "acr01na0s", "tele2rosgw", "tele2rosgw",
+				"drin01na0", "drin01na0", "acr01na0", "acr01na0", "tmdblfin0",
+				"sgc01na0s", "sgc01na0s", "arm04na0", "arm04na0", "bruhin0",
+				"bruiin0", "acr01na0s", "acr01na0s", "kpnamin0", "kpnrtin0",
+				"sgc01na0s", "sgc01na0s", "kpnamin0", "kpnrtin0", "bruhin0",
+				"bruiin0", "acr01na0", "acr01na0", "dtdusin0", "kpnamin0",
+				"kpnrtin0", "sgc01na0s", "sgc01na0s", "kpnamin0", "kpnrtin0",
+				"bruhin0", "bruiin0", "acr01na0", "acr01na0", "etmsc01na1",
+				"etams01", "bruhin0", "bruiin0", "sgc01na0s", "sgc01na0s",
+				"kpnamin0", "kpnrtin0", "vfamsgw2", "vfamsgw2", "sgc01na0",
+				"sgc01na0", "kpnutna1", "kpnrtna1", "kpnutna1", "kpnrtna1",
+				"bruhin0", "bruiin0", "kpnutna1", "vfrmsgw2", "vfrmsgw2",
+				"sgm01na0", "sgm01na0", "sgc01na0", "sgc01na0", "bruhin0",
+				"bruiin0", "acr01na0", "acr01na0", "kpnamin0", "onlinemgw2",
+				"kpnm1na1", "sgm01na0", "sgm01na0", "sgc01na0", "sgc01na0",
+				"bruhin0", "bruiin0", "bruhin0", "bruiin0", "acr01na0",
+				"acr01na0", "btfrastp", "bruhin0", "bruiin0", "kpnm1na1",
+				"tele2rostp", "sgm01na0", "sgm01na0", "kpnamin0", "kpnrtin0",
+				"acr01na0s", "acr01na0s", "kpnm2na1", "kpnm2na1", "dtfrain0",
+				"sgm01na0", "sgm01na0", "bruhin0", "bruiin0", "tmdblfin0",
+				"acr01na0s", "acr01na0s", "tele2rosgw", "tele2rosgw" };
+
+		final List<Integer> incrementIndex = new ArrayList<Integer>();
+		incrementIndex.add(33);
+		incrementIndex.add(54);
+		incrementIndex.add(78);
+		incrementIndex.add(103);
+		incrementIndex.add(125);
+		incrementIndex.add(144);
+		incrementIndex.add(154);
+		incrementIndex.add(167);
+		incrementIndex.add(178);
+		incrementIndex.add(189);
+		incrementIndex.add(198);
+		incrementIndex.add(209);
+		incrementIndex.add(220);
+		incrementIndex.add(235);
+		incrementIndex.add(244);
+
+		final Node node = OperatorsFactory.eINSTANCE.createNode();
 
 		// create the node/function
 		final NodeType nodeType = LibraryFactory.eINSTANCE.createNodeType();
-		for (int i = 0; i < 16; i++) {
-			nodeType.getFunctions().add(createFunction("A" + (i > 0 ? i : "")));
-			nodeType.getFunctions().add(createFunction("B" + (i > 0 ? i : "")));
+		int index = 0;
+		int i = 0;
+		for (final String relationShipName : relationShips) {
+			if (incrementIndex.contains(index)) {
+				i++;
+			}
+			if (index > 30) {
+				break;
+			}
+			nodeType.getFunctions().add(
+					createFunction("A" + (i > 0 ? i : ""), node,
+							relationShipName));
+			nodeType.getFunctions().add(
+					createFunction("B" + (i > 0 ? i : ""), node,
+							relationShipName));
+			index++;
 		}
-
-		final Node node = OperatorsFactory.eINSTANCE.createNode();
 		node.setNodeID("arnstp01");
 		node.setNodeType(nodeType);
-		node.setOriginalNodeTypeRef(EcoreUtil.copy(nodeType));
+		final NodeType originalNodeType = EcoreUtil.copy(nodeType);
+		addToResource(originalNodeType);
+		node.setOriginalNodeTypeRef(originalNodeType);
 		return node;
 	}
 
-	private Function createFunction(String name) {
+	private Function createFunction(String name, Node node,
+			String relationShipName) {
+
 		final Function f = LibraryFactory.eINSTANCE.createFunction();
 		f.setName(name);
 
@@ -659,6 +756,18 @@ public class CreateTestData extends AbstractDataProviderTest {
 		f.getToleranceRefs().addAll(createOrGetTolerances());
 		f.setCapacityExpressionRef(createOrGetCapacityExpression());
 		f.setUtilizationExpressionRef(createOrGetUtilizationExpression());
+
+		final FunctionRelationship r = OperatorsFactory.eINSTANCE
+				.createFunctionRelationship();
+		r.setName(relationShipName);
+		r.setFunction1Ref(f);
+		r.setFunction2Ref(f);
+		r.setNodeID1Ref(node);
+		r.setNodeID2Ref(node);
+		functionRelationships.add(r);
+
+		f.getFunctionRelationshipRefs().add(r);
+
 		return f;
 	}
 

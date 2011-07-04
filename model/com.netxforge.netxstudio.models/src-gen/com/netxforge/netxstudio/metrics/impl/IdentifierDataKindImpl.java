@@ -33,6 +33,7 @@ import com.netxforge.netxstudio.metrics.ObjectKindType;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl#getObjectKind <em>Object Kind</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl#getObjectProperty <em>Object Property</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl#getPattern <em>Pattern</em>}</li>
  * </ul>
  * </p>
  *
@@ -110,6 +111,24 @@ public class IdentifierDataKindImpl extends DataKindImpl implements IdentifierDa
 	 */
 	public void setObjectProperty(String newObjectProperty) {
 		eSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY, newObjectProperty);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getPattern() {
+		return (String)eGet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPattern(String newPattern) {
+		eSet(MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN, newPattern);
 	}
 
 } //IdentifierDataKindImpl

@@ -75,6 +75,7 @@ public class IdentifierDataKindItemProvider
 
 			addObjectKindPropertyDescriptor(object);
 			addObjectPropertyPropertyDescriptor(object);
+			addPatternPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -124,6 +125,28 @@ public class IdentifierDataKindItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Pattern feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPatternPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_IdentifierDataKind_pattern_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_IdentifierDataKind_pattern_feature", "_UI_IdentifierDataKind_type"),
+				 MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns IdentifierDataKind.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -163,6 +186,7 @@ public class IdentifierDataKindItemProvider
 		switch (notification.getFeatureID(IdentifierDataKind.class)) {
 			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_KIND:
 			case MetricsPackage.IDENTIFIER_DATA_KIND__OBJECT_PROPERTY:
+			case MetricsPackage.IDENTIFIER_DATA_KIND__PATTERN:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

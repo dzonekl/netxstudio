@@ -78,9 +78,9 @@ public class NodeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addOriginalNodeTypeRefPropertyDescriptor(object);
 			addCreatedByRefPropertyDescriptor(object);
 			addNodeIDPropertyDescriptor(object);
+			addOriginalNodeTypeRefPropertyDescriptor(object);
 			addRoomRefPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;

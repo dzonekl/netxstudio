@@ -51,9 +51,9 @@ import com.netxforge.netxstudio.library.NodeType;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getLifecycle <em>Lifecycle</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getNodeType <em>Node Type</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.Node#getOriginalNodeTypeRef <em>Original Node Type Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getCreatedByRef <em>Created By Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getNodeID <em>Node ID</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.Node#getOriginalNodeTypeRef <em>Original Node Type Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getRoomRef <em>Room Ref</em>}</li>
  * </ul>
  * </p>
@@ -184,28 +184,27 @@ public interface Node extends Base {
 	void setNodeID(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Original Node Type Ref</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Original Node Type Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The OriginalNodeTypeRef reference, refers to the
-	 * 								original NodeType type from the library.
-	 * 							
+	 * 							original NodeType type from the library.
+	 * 						
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Original Node Type Ref</em>' containment reference.
+	 * @return the value of the '<em>Original Node Type Ref</em>' reference.
 	 * @see #setOriginalNodeTypeRef(NodeType)
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNode_OriginalNodeTypeRef()
-	 * @model containment="true" required="true"
-	 *        extendedMetaData="kind='element' name='OriginalNodeTypeRef'"
+	 * @model extendedMetaData="kind='attribute' name='OriginalNodeTypeRef'"
 	 * @generated
 	 */
 	NodeType getOriginalNodeTypeRef();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Node#getOriginalNodeTypeRef <em>Original Node Type Ref</em>}' containment reference.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Node#getOriginalNodeTypeRef <em>Original Node Type Ref</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Original Node Type Ref</em>' containment reference.
+	 * @param value the new value of the '<em>Original Node Type Ref</em>' reference.
 	 * @see #getOriginalNodeTypeRef()
 	 * @generated
 	 */

@@ -308,6 +308,7 @@ public abstract class MetricValuesImporter {
 			foundNetXResource.setMetricRef(metric);
 			foundNetXResource.setShortName(metric.getName());
 			foundNetXResource.setLongName(metric.getName());
+			foundNetXResource.setExpressionName(toValidExpressionName(metric.getName()));
 			foundNetXResource.setUnitRef(metric.getUnitRef());
 			networkElement.getResources().add(foundNetXResource);
 		}
@@ -342,6 +343,21 @@ public abstract class MetricValuesImporter {
 		value.setTimeStamp(ServerUtils.getInstance().toXmlDate(timeStamp));
 		value.setValue(dblValue);
 		foundMvr.getMetricValues().add(value);
+	}
+	
+	private String toValidExpressionName(String value) {
+		final StringBuilder sb = new StringBuilder();
+		for (final char c : value.toCharArray()) {
+			boolean validChar = '0' <= c && c <= '9';
+			validChar |= 'A' <= c && c <= 'Z';
+			validChar |= 'a' <= c && c <= 'z';
+			if (validChar) {
+				sb.append(c);
+			} else {
+				sb.append("_");
+			}
+		}
+		return sb.toString();
 	}
 
 	private boolean isSameTime(int period, long time1,

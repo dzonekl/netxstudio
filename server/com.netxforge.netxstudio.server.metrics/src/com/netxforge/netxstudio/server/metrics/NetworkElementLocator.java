@@ -29,10 +29,14 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
+import com.netxforge.netxstudio.operators.EquipmentRelationship;
+import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.server.Server;
 
@@ -46,60 +50,91 @@ public class NetworkElementLocator {
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
-	
-	public Component locateNetworkElement(Metric metric, List<IdentifierValue> identifiers) {
-	
-		final EReference sourceReference = LibraryPackage.eINSTANCE.getComponent_MetricRefs();
-		
+
+	public Component locateNetworkElement(Metric metric,
+			List<IdentifierValue> identifiers) {
+
+		final EReference sourceReference = LibraryPackage.eINSTANCE
+				.getComponent_MetricRefs();
+
 		// find the cross references to this metric
-	    final List<CDOObjectReference> results = dataProvider.getTransaction().queryXRefs(metric, sourceReference);
-	    for (final CDOObjectReference objectReference : results) {
-	    	final CDOObject source = objectReference.getSourceObject();
-	    	boolean foundValidNode = false;
-	    	for (final IdentifierValue identifierValue : identifiers) {
-	    		if (identifierValue.getKind().getObjectKind() == ObjectKindType.NODE &&
-	    				hasValidNode(source, identifierValue)) {
-	    			foundValidNode = true;
-	    			break;
-	    		}
-	    	}
-	    	if (foundValidNode) {
-	    		boolean allFeaturesValid = true;
-	    		boolean atLeastOneFeatureChecked = false;
-		    	for (final IdentifierValue identifierValue : identifiers) {
-		    		if (identifierValue.getKind().getObjectKind() != ObjectKindType.NODE) {
-		    			atLeastOneFeatureChecked = true;
-		    			if (!isValidObject(source, identifierValue)) {
-		    				allFeaturesValid = false;
-		    				break;
-		    			}
-		    		}
-		    	}
-		    	if (atLeastOneFeatureChecked && allFeaturesValid) {
-		    		return (Component)source;
-		    	}
-	    	}
-	    }
-		
+		final List<CDOObjectReference> results = dataProvider.getTransaction()
+				.queryXRefs(metric, sourceReference);
+		for (final CDOObjectReference objectReference : results) {
+			final CDOObject source = objectReference.getSourceObject();
+			boolean foundValidNode = false;
+			for (final IdentifierValue identifierValue : identifiers) {
+				if (identifierValue.getKind().getObjectKind() == ObjectKindType.NODE
+						&& hasValidNode(source, identifierValue)) {
+					foundValidNode = true;
+					break;
+				}
+			}
+			if (foundValidNode) {
+				boolean allFeaturesValid = true;
+				boolean atLeastOneFeatureChecked = false;
+				for (final IdentifierValue identifierValue : identifiers) {
+					if (identifierValue.getKind().getObjectKind() != ObjectKindType.NODE) {
+						atLeastOneFeatureChecked = true;
+						if (!isValidObject(source, identifierValue)) {
+							allFeaturesValid = false;
+							break;
+						}
+					}
+				}
+				if (atLeastOneFeatureChecked && allFeaturesValid) {
+					return (Component) source;
+				}
+			}
+		}
+
 		return null;
 	}
-	
-	private boolean hasValidNode(EObject eObject, IdentifierValue identifierValue) {
+
+	private boolean hasValidNode(EObject eObject,
+			IdentifierValue identifierValue) {
 		if (eObject == null) {
 			return false;
 		}
 		if (eObject instanceof Node && isValidObject(eObject, identifierValue)) {
-		    return true;
+			return true;
 		}
 		return hasValidNode(eObject.eContainer(), identifierValue);
 	}
-	
-	private boolean isValidObject(EObject eObject, IdentifierValue identifierValue) {
-		final EStructuralFeature eFeature = eObject.eClass().getEStructuralFeature(identifierValue.getKind().getObjectProperty());
+
+	private boolean isValidObject(EObject eObject,
+			IdentifierValue identifierValue) {
+		final String idValue = identifierValue.getValue() != null ? identifierValue
+				.getValue().trim() : null;
+		if (identifierValue.getKind().getObjectKind() == ObjectKindType.RELATIONSHIP) {
+			if (eObject instanceof Function) {
+				for (final FunctionRelationship r : ((Function) eObject)
+						.getFunctionRelationshipRefs()) {
+					if (featureHasValue(r, identifierValue.getKind().getObjectProperty(), idValue)) {
+						return true;
+					}
+				}
+			} else {
+				for (final EquipmentRelationship r : ((Equipment) eObject)
+						.getEquipmentRelationshipRefs()) {
+					if (featureHasValue(r, identifierValue.getKind().getObjectProperty(), idValue)) {
+						return true;
+					}
+				}
+			}
+			return false;
+		} else {
+			return featureHasValue(eObject, identifierValue.getKind().getObjectProperty(), idValue);
+		}
+	}
+
+	private boolean featureHasValue(EObject eObject, String eFeatureName,
+			String idValue) {
+		final EStructuralFeature eFeature = eObject.eClass()
+				.getEStructuralFeature(eFeatureName);
 		if (eFeature == null) {
 			return false;
 		}
-		final String idValue = identifierValue.getValue() != null ? identifierValue.getValue().trim() : null;
 		final Object value = eObject.eGet(eFeature);
 		if (value instanceof String && value.equals(idValue)) {
 			return true;

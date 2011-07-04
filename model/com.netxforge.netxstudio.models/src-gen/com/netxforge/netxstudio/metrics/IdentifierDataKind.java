@@ -49,6 +49,7 @@ package com.netxforge.netxstudio.metrics;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectKind <em>Object Kind</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getObjectProperty <em>Object Property</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getPattern <em>Pattern</em>}</li>
  * </ul>
  * </p>
  *
@@ -149,5 +150,32 @@ public interface IdentifierDataKind extends DataKind {
 	 * @generated
 	 */
 	void setObjectProperty(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * A pattern to convert the information in the data source to an identifier which can be used to select a network element
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Pattern</em>' attribute.
+	 * @see #setPattern(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getIdentifierDataKind_Pattern()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='Pattern'"
+	 * @generated
+	 */
+	String getPattern();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getPattern <em>Pattern</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Pattern</em>' attribute.
+	 * @see #getPattern()
+	 * @generated
+	 */
+	void setPattern(String value);
 
 } // IdentifierDataKind

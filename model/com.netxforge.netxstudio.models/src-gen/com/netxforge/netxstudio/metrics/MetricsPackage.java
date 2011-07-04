@@ -182,13 +182,22 @@ public interface MetricsPackage extends EPackage {
 	int IDENTIFIER_DATA_KIND__OBJECT_PROPERTY = DATA_KIND_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IDENTIFIER_DATA_KIND__PATTERN = DATA_KIND_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Identifier Data Kind</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IDENTIFIER_DATA_KIND_FEATURE_COUNT = DATA_KIND_FEATURE_COUNT + 2;
+	int IDENTIFIER_DATA_KIND_FEATURE_COUNT = DATA_KIND_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingImpl <em>Mapping</em>}' class.
@@ -1034,6 +1043,17 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getIdentifierDataKind_ObjectProperty();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.IdentifierDataKind#getPattern <em>Pattern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Pattern</em>'.
+	 * @see com.netxforge.netxstudio.metrics.IdentifierDataKind#getPattern()
+	 * @see #getIdentifierDataKind()
+	 * @generated
+	 */
+	EAttribute getIdentifierDataKind_Pattern();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.Mapping <em>Mapping</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1651,6 +1671,14 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IDENTIFIER_DATA_KIND__OBJECT_PROPERTY = eINSTANCE.getIdentifierDataKind_ObjectProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Pattern</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IDENTIFIER_DATA_KIND__PATTERN = eINSTANCE.getIdentifierDataKind_Pattern();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingImpl <em>Mapping</em>}' class.

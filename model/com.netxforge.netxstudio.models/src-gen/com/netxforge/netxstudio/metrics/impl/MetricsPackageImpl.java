@@ -333,6 +333,15 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIdentifierDataKind_Pattern() {
+		return (EAttribute)identifierDataKindEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMapping() {
 		return mappingEClass;
 	}
@@ -829,6 +838,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		identifierDataKindEClass = createEClass(IDENTIFIER_DATA_KIND);
 		createEAttribute(identifierDataKindEClass, IDENTIFIER_DATA_KIND__OBJECT_KIND);
 		createEAttribute(identifierDataKindEClass, IDENTIFIER_DATA_KIND__OBJECT_PROPERTY);
+		createEAttribute(identifierDataKindEClass, IDENTIFIER_DATA_KIND__PATTERN);
 
 		mappingEClass = createEClass(MAPPING);
 		createEReference(mappingEClass, MAPPING__HEADER_MAPPING_COLUMNS);
@@ -949,6 +959,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEClass(identifierDataKindEClass, IdentifierDataKind.class, "IdentifierDataKind", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIdentifierDataKind_ObjectKind(), this.getObjectKindType(), "objectKind", null, 0, 1, IdentifierDataKind.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIdentifierDataKind_ObjectProperty(), theXMLTypePackage.getString(), "objectProperty", null, 0, 1, IdentifierDataKind.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIdentifierDataKind_Pattern(), theXMLTypePackage.getString(), "pattern", null, 0, 1, IdentifierDataKind.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mappingEClass, Mapping.class, "Mapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMapping_HeaderMappingColumns(), this.getMappingColumn(), null, "headerMappingColumns", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1056,7 +1067,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																					
+		   });																																																																																																							
 	}
 
 	/**
@@ -1094,6 +1105,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "ObjectProperty"
+		   });			
+		addAnnotation
+		  (getIdentifierDataKind_Pattern(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Pattern"
 		   });			
 		addAnnotation
 		  (kindHintTypeEEnum, 

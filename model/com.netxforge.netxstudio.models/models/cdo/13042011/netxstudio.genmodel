@@ -346,6 +346,7 @@
     <genClasses ecoreClass="metrics.ecore#//IdentifierDataKind">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/objectKind"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/objectProperty"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//IdentifierDataKind/pattern"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//Mapping">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Mapping/headerMappingColumns"/>
@@ -476,9 +477,9 @@
     <genClasses ecoreClass="operators.ecore#//Node">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/lifecycle"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/nodeType"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/originalNodeTypeRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/createdByRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Node/nodeID"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/originalNodeTypeRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/roomRef"/>
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//Operator">
