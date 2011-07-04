@@ -299,7 +299,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 		// This returns an expressionresult with a list of values dividing the
 		// metrics values by the capacity values.
 		// The Timestamp of the result is not set at the moment.
-		final String eAsString = "this UTILIZATION = this METRIC 60 / this CAP 60 }";
+		final String eAsString = "this UTILIZATION = this METRIC 60 / this CAP 60;";
 		utilizationExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(utilizationExpression);
@@ -323,7 +323,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 		// expression name of the resource.
 		// Note II: The expression result, will return a single value, which
 		// should be populated accross the whole period context.
-		final String eAsString = "this.FUNCTION SGSN -> RESOURCE Gb_mode_max_attached_users(number) CAP 60 = this.EQUIPMENT BOARD.count() * 5;}";
+		final String eAsString = "this.FUNCTION SGSN -> RESOURCE Gb_mode_max_attached_users_number_ CAP 60 = this.EQUIPMENT BOARD.count() * 5;";
 		capacityExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(capacityExpression);
