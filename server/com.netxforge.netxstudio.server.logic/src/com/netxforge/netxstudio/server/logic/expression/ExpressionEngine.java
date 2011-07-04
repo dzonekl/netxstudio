@@ -106,7 +106,8 @@ public class ExpressionEngine implements IExpressionEngine {
 			final IInterpreterContext[] contextArray = new IInterpreterContext[contextList.size()];
 			contextList.toArray(contextArray);
 			
-			// Set the context. 
+			// Clear the interpreter and Set the context. 
+			xInterpreter.clear();
 			xInterpreter.setContext(contextArray);
 			
 			// What is returned from the evaluation are temporary variables from the last scope.
