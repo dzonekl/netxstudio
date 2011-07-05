@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server.metrics;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public abstract class MetricValuesImporter {
 
 	@Inject
 	private CommonLogic commonLogic;
-	
+
 	private List<MappingRecord> failedRecords = new ArrayList<MappingRecord>();
 
 	private List<ImportWarning> warnings = new ArrayList<ImportWarning>();
@@ -329,7 +330,8 @@ public abstract class MetricValuesImporter {
 		value.setValue(dblValue);
 
 		commonLogic.addToValueRange(foundNetXResource, periodHint,
-				valueDataKind.getKindHint(), value, null, null);
+				valueDataKind.getKindHint(), Collections.singletonList(value),
+				null, null);
 	}
 
 	private void addToNode(EObject originalEObject, EObject eObject,
