@@ -562,9 +562,11 @@ public class InterpreterTypeless implements IInterpreter {
 							case ValueRange.METRIC_VALUE: {
 								er.setTargetRange(RangeKind.METRIC);
 							}
+								break;
 							case ValueRange.TOLERANCE_VALUE: {
 								er.setTargetRange(RangeKind.TOLERANCE);
 							}
+								break;
 							case ValueRange.CAP_VALUE: {
 								er.setTargetRange(RangeKind.CAP);
 							}
@@ -1007,13 +1009,13 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 		}
 
-		int targetPeriod;
+		int targetInterval;
 		if (e.getPeriod() != null) {
-			targetPeriod = e.getPeriod().intValue();
+			targetInterval = e.getPeriod().intValue();
 		} else {
 			// Use hour values?
 			// TODO MAKE THIS AN OPTIONAL PART, IN EXPRESSION AND APP WIDE>
-			targetPeriod = 60;
+			targetInterval = 60;
 		}
 
 		// Loop the metric ranges, to find the correct range, doesn't apply to
@@ -1022,7 +1024,7 @@ public class InterpreterTypeless implements IInterpreter {
 		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 			int interval = mvr.getIntervalHint();
 			KindHintType kht = mvr.getKindHint();
-			if (interval == targetPeriod && kht == targetKind) {
+			if (interval == targetInterval && kht == targetKind) {
 				targetRangeAvailable = true;
 				break;
 			}
@@ -1036,7 +1038,7 @@ public class InterpreterTypeless implements IInterpreter {
 			case ValueRange.METRIC_VALUE: {
 				v = qService.getMetricsFromResource(
 						resource.getExpressionName(), dtr.getBegin(),
-						dtr.getEnd(), targetPeriod, targetKind);
+						dtr.getEnd(), targetInterval, targetKind);
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
