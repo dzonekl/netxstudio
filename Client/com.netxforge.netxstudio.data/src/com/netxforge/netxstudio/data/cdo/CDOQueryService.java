@@ -146,7 +146,7 @@ public class CDOQueryService implements IQueryService {
 	
 	
 	public List<Value> getMetricsFromResource(String expressionName,
-			XMLGregorianCalendar from, XMLGregorianCalendar to, int periodHint, KindHintType kindHint) {
+			XMLGregorianCalendar from, XMLGregorianCalendar to, int intervalHint, KindHintType kindHint) {
 		final CDOTransaction transaction = provider.getTransaction();
 		final CDOQuery cdoQuery = transaction
 				.createQuery(
@@ -154,12 +154,12 @@ public class CDOQueryService implements IQueryService {
 						"select v from Value v, MetricValueRange mvr, NetXResource res where "
 								+ "v in elements(mvr.metricValues) " 
 								+ "and v.timeStamp >= :dateFrom and v.timeStamp <= :dateTo "
-								+ "and mvr.periodHint=:periodHint and mvr.kindHint = :kindHint "
+								+ "and mvr.intervalHint=:intervalHint and mvr.kindHint = :kindHint "
 								+ "and mvr in elements(res.metricValueRanges) and res.expressionName=:name");
 		cdoQuery.setParameter("name", expressionName);
 		cdoQuery.setParameter("dateFrom", dateString(from));
 		cdoQuery.setParameter("dateTo", dateString(to));
-		cdoQuery.setParameter("periodHint", new Integer(periodHint).toString());
+		cdoQuery.setParameter("intervalHint", new Integer(intervalHint).toString());
 		cdoQuery.setParameter("kindHint", kindHint);
 		
 		queryService.setCacheParameter(cdoQuery);
