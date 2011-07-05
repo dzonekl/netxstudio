@@ -96,6 +96,8 @@ public abstract class MetricValuesImporter {
 	private List<IdentifierValue> headerIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
 
 	public void process() {
+		commonLogic.setDataProvider(dataProvider);
+		
 		// force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
 		// participate in the same transaction
