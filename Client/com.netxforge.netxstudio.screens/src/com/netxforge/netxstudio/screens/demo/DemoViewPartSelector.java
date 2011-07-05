@@ -36,7 +36,7 @@ import com.netxforge.netxstudio.screens.f4.NewEditMetric;
 import com.netxforge.netxstudio.screens.f4.NewEditMetricSource;
 import com.netxforge.netxstudio.screens.f4.PurgeMetrics;
 import com.netxforge.netxstudio.screens.f4.ResourceMonitor;
-import com.netxforge.netxstudio.screens.f4.Scheduler;
+import com.netxforge.netxstudio.screens.f4.Jobs;
 import com.netxforge.netxstudio.screens.nf4.LoginDialog;
 import com.netxforge.netxstudio.screens.nf4.NewEditUser;
 import com.netxforge.netxstudio.screens.nf4.UsersAndRoles;
@@ -154,9 +154,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnJobs.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof Scheduler)
+				if (currentComposite instanceof Jobs)
 					return;
-				updateComposite(container, new Scheduler(container, SWT.NONE));
+				updateComposite(container, new Jobs(container, SWT.NONE));
 			}
 		});
 		toolkit.adapt(btnJobs, true, true);

@@ -131,7 +131,7 @@ public class ScreenFormService implements IScreenFormService {
 		screenBody.getScreenDeck().topControl = activeScreen;
 		
 //		screenBody.pack();
-		screenBody.getScreenContainer().layout(true);
+		screenBody.getScreenContainer().layout(true,true);
 		
 		this.updateScreenBarActions(activeScreen);
 		screenBody.setScreenBarOn();
@@ -344,7 +344,7 @@ public class ScreenFormService implements IScreenFormService {
 			
 			@SuppressWarnings("unused")
 			Composite c = screenStack.pop();
-			// FIXME, disposing previous composite throughs a CDO exception. 
+			// FIXME, disposing previous composite through a CDO exception. 
 			// as observables are being updated when disposed and ask for model data. 
 			// If we don't dispose. we have a memory leak. 
 //			c.dispose();

@@ -52,10 +52,7 @@ public class XLSService extends AbortableHSSFListener {
 
 	public static int ABORTED = 0;
 	public static int OK = 1;
-	public static int MAPPING_ERROR = 2;
 	public static int PARSING_ERROR = 2;
-
-//	public static final XLSService INSTANCE = new XLSService();
 
 	// Used to flag if all columns in this row are OK sofar, if false we don't
 	// process columns, and mark this row as a failure.
@@ -77,7 +74,6 @@ public class XLSService extends AbortableHSSFListener {
 		currentMonitor = null;
 		currentReturnCode = -1;
 		currentRecordMap.clear();
-		// currentRowIndentifiers = null;
 	}
 
 	public XLSService() {

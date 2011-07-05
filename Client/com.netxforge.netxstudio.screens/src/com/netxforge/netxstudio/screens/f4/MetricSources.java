@@ -283,16 +283,16 @@ public class MetricSources extends AbstractScreen implements
 		});
 		mntmCollectNow.setText("Collect Now...");
 
-		MenuItem mntmDeleteCollection = new MenuItem(menu, SWT.NONE);
-		mntmDeleteCollection.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				// TODO Delete the collection.
-
-			}
-		});
-		mntmDeleteCollection.setText("Delete Collection...");
+//		MenuItem mntmDeleteCollection = new MenuItem(menu, SWT.NONE);
+//		mntmDeleteCollection.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//
+//				// TODO Delete the collection.
+//
+//			}
+//		});
+//		mntmDeleteCollection.setText("Delete Collection...");
 
 		new MenuItem(menu, SWT.SEPARATOR);
 

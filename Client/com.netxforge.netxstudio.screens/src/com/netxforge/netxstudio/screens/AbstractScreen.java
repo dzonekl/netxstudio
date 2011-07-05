@@ -17,12 +17,18 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Form;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
+import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
+import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -34,7 +40,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  *  
  * @author dzonekl
  */
-public abstract class AbstractScreen extends Composite implements IScreen {
+public abstract class AbstractScreen extends Composite implements IScreen , IValidationListener {
 	
 	protected int operation;
 	
@@ -46,7 +52,7 @@ public abstract class AbstractScreen extends Composite implements IScreen {
 	
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
-//		ScreensActivator.getDefault().getInjector().injectMembers(this);
+		ScreensActivator.getDefault().getInjector().injectMembers(this);
 	}
 
 	public abstract Viewer getViewer();
@@ -59,5 +65,42 @@ public abstract class AbstractScreen extends Composite implements IScreen {
 	public  abstract boolean isValid();
 
 	public abstract Form getScreenForm();
+	
+	
+	/**
+	 * @param currentStatus
+	 * @param ctx
+	 */
+	public void handleValidationStateChange(ValidationEvent event) {
+
+		if (event instanceof FormValidationEvent) {
+			int type = ((FormValidationEvent) event).getMsgType();
+			List<IMessage> list = ((FormValidationEvent) event).getMessages();
+			if (getScreenForm().isDisposed()
+					|| this.getScreenForm().getHead().isDisposed()) {
+				return;
+			}
+
+			if (type != IMessage.NONE) {
+
+				String errorType = "";
+				if (type == IMessage.ERROR) {
+					errorType = "Error:";
+				}
+				if (type == IMessage.WARNING) {
+					errorType = "Required:";
+				}
+
+				StringBuffer msgBuffer = new StringBuffer();
+				msgBuffer.append(errorType + "(" + list.size() + "), "
+						+ list.get(0).getMessage());
+				this.getScreenForm().setMessage(msgBuffer.toString(), type,
+						list.toArray(new IMessage[list.size()]));
+
+			} else {
+				this.getScreenForm().setMessage(null);
+			}
+		}
+	}
 
 }

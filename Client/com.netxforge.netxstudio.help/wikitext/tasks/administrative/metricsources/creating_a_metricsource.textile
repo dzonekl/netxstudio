@@ -1,8 +1,7 @@
 h1. Creating a Metric Source. 
 
-When creating a Metric SOurce the following screen will appear.
+When creating a Metric Source the following screen will appear.
 
-[TODO screenshot]
 !PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/metricsources/creating_a_metricsource.png!
 
 The following data should be entered 
@@ -10,15 +9,54 @@ The following data should be entered
 *General Information*
 
 * The metric source name
-* The First name
-* The Last name
-* The Email address
-* If the user is Active
+* The metric source location. 
+* The mapping definition
 
-*Authentication*
 
-* The password, confirmed when entered twice. 
+h2. Metric Source Location
 
-*Role*
+The metric source location depends on the type of metric source. 
 
-* The role of the User.
+h3. File based metric sources. 
+
+This is a relative path to the directory which will contain the files to be processed. 
+This path is relative to the Server Import path. 
+
+Note: The Server Import path should be requested from the NetXStudio Administrator. 
+
+
+h3. RDBMS based metric sources. 
+
+This is the so-called JDBC URL to the RDBMS, which is general conforms to the following syntax:
+
+@jdbc: [subprotocol]: [subname]@
+
+Note: It is recommended to consult with the RDBMS administrator what the correct URL should be. 
+
+Examples: 
+
+JDBC Connection to an Oracle RDBMS: 
+
+@jdbc:oracle:thin:@192.168.22.33:1521:oss@
+
+JDBC Connection to a Postgres RDBMS
+
+@jdbc:postgresql://localhost:5432/DB_TM@
+
+
+h2. Mapping
+
+*Mapping* => Click on link to create a new Mapping Definition
+
+When creating a Mapping definition for the first time, the following dialog will appear. 
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/metricsources/mapping_selection_dialog.png!
+
+Select the appropriate dialog here. 
+
+
+* "Create or Modifying an XLS Mapping":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/creating_an_xlsmapping.html
+
+* "Create or Modifying a CSV Mapping":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/creating_a_csvmapping.html
+
+* "Create or Modifying an RDBMS Mapping":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/creating_an_rdbmsmapping.html

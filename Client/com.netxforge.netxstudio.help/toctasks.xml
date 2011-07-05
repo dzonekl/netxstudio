@@ -3,16 +3,30 @@
 
 <toc label="Tasks" link_to="toc.xml#tasks" topic="html/tasks/tasks.html">
    <topic href="html/tasks/administrative/administrative.html" label="Administrative Task">
-      <topic href="html/tasks/administrative/users/users.html" label="Users">
-         <topic href="html/tasks/administrative/users/creating_a_user.html" label="Creating or modifying a User">
-         </topic>
-         <topic href="html/tasks/administrative/users/modifying_a_user.html" label="Modifying a User">
-         </topic>
-      </topic>
       <topic label="Jobs">
          <topic label="Creating a Job">
          </topic>
          <topic label="Modifying a Job">
+         </topic>
+      </topic>
+      <topic href="html/tasks/administrative/metricsources/metricsources.html" label="Metric Sources">
+         <topic href="html/tasks/administrative/metricsources/creating_a_metricsource.html" label="Create or modify a Metric Source">
+         </topic>
+         <topic href="html/tasks/administrative/metricsources/creating_an_xlsmapping.html" label="Create or modify an XLS Mapping">
+         </topic>
+         <topic href="html/tasks/administrative/metricsources/creating_a_csvmapping.html" label="Create or modify a CSV Mapping">
+         </topic>
+         <topic href="html/tasks/administrative/metricsources/creating_an_rdbmsmapping.html" label="Create or modify an RDBMS Mapping">
+         </topic>
+         <topic href="html/tasks/administrative/metricsources/creating_a_columnmapping.html" label="Create or modify a Column Mapping">
+         </topic>
+         <topic label="View Mapping Statistics">
+         </topic>
+      </topic>
+      <topic href="html/tasks/administrative/users/users.html" label="Users">
+         <topic href="html/tasks/administrative/users/creating_a_user.html" label="Creating or modify a User">
+         </topic>
+         <topic href="html/tasks/administrative/users/modifying_a_user.html" label="Modifying a User">
          </topic>
       </topic>
    </topic> 

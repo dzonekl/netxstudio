@@ -1,0 +1,51 @@
+h1. Creating an XLS Mapping. 
+
+When creating an XLS Mapping the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/administrative/metricsources/creating_an_xlsmapping.png!
+
+The following data should be entered 
+
+*Base*
+
+* The XLS Mapping sheet index. 
+* The XLS Mapping Header row. 
+* The XLS Mapping Data row. 
+
+Note: 
+
+* The first sheet starts with 0
+* The first row starts with 0 
+
+
+*Mapping Columns*
+
+*New* => Click on the upper right link to create a new Column mapping. 
+*Edit* => Right-Click on a column mapping row and select Edit...
+
+_See_ "Create or Modifying a Column Mapping":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/administrative/metricsources/creating_a_columnmapping.html
+
+h2. Interactive Mapping
+
+In order to support the mapping of Columns, the mapping XLS file can be loaded on the right part of the screen.
+this will load the file in a grid, and from this actions can be invoked to populate the mapping. 
+
+To open a mapping XLS file:
+
+*Select XLS* => Opens a dialog which allows the selection of a file to be loaded into the grid. 
+
+To use the interactive mapper, select the cell which should be mapped and right-click on the grid 
+to bring up a menu with the following actions:  
+
+*Set Header Row index (@selection@)* => Sets the header row field. 
+*Set Data Row index (@selection@)* => Sets the Data row field.
+*New Column Mapping with index (@selection@)* => Opens the Column Mapping Screen. 
+
+
+Note: Currently, only the selected XLS sheet can be loaded in the interactive mapper.
+
+
+
+
+
+ 

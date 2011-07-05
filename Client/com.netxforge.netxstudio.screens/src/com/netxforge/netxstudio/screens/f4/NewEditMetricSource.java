@@ -5,6 +5,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -42,12 +43,14 @@ import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
+import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.MappingTypeDialog;
 
 public class NewEditMetricSource extends AbstractScreen implements
-		IDataScreenInjection {
+		IDataScreenInjection  {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtName;
@@ -56,6 +59,9 @@ public class NewEditMetricSource extends AbstractScreen implements
 	private MetricSource original;
 	private Resource owner;
 	private Form frmNewEditMetricSource;
+
+	private IValidationService validationService = new ValidationService();
+	private EMFDataBindingContext context;
 
 	/**
 	 * Create the composite.
@@ -67,6 +73,8 @@ public class NewEditMetricSource extends AbstractScreen implements
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
+				validationService.dispose();
+				validationService.removeValidationListener(NewEditMetricSource.this);
 				toolkit.dispose();
 			}
 		});
@@ -78,9 +86,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 		frmNewEditMetricSource.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewEditMetricSource);
 
-		String title = Screens.isNewOperation(getOperation()) ? "New" : "Edit";
-
-		frmNewEditMetricSource.setText(title + " Metric Source");
 		frmNewEditMetricSource.getBody().setLayout(new FormLayout());
 
 		Section sctnNewSection = toolkit.createSection(
@@ -179,10 +184,18 @@ public class NewEditMetricSource extends AbstractScreen implements
 
 				}
 				if (mapping instanceof MappingCSV) {
-					// TODO
+					NewEditMappingCSV mappingScreen = new NewEditMappingCSV(
+							screenService.getScreenContainer(), SWT.NONE);
+					mappingScreen.setOperation(operation);
+					mappingScreen.injectData(metricSource, mapping);
+					screenService.setActiveScreen(mappingScreen);
 				}
 				if (mapping instanceof MappingRDBMS) {
-					// TODO
+					NewEditMappingRDBMS mappingScreen = new NewEditMappingRDBMS(
+							screenService.getScreenContainer(), SWT.NONE);
+					mappingScreen.setOperation(operation);
+					mappingScreen.injectData(metricSource, mapping);
+					screenService.setActiveScreen(mappingScreen);
 				}
 
 			}
@@ -196,10 +209,21 @@ public class NewEditMetricSource extends AbstractScreen implements
 		toolkit.paintBordersFor(hprlnkAddMapping);
 		fd_sctnNewSection.bottom = new FormAttachment(0, 120);
 
+		// Register decorators for each control.
+		validationService.registerAllDecorators(txtName, lblName);
+		validationService.registerAllDecorators(txtLocationUrl, lblLocationUrl);
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 
+		// Validation Strategies
+		EMFUpdateValueStrategy nameStrategy = validationService
+				.getUpdateValueStrategyBeforeSet("Name is required");
+
+		EMFUpdateValueStrategy locationStrategy = validationService
+				.getUpdateValueStrategyBeforeSet("Metric Source Location URL is required");
+
+		
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
 		IObservableValue nameObservable = SWTObservables.observeText(txtName,
@@ -213,31 +237,9 @@ public class NewEditMetricSource extends AbstractScreen implements
 				.value(MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION);
 
 		context.bindValue(nameObservable, nameProperty.observe(metricSource),
-				null, null);
+				nameStrategy, null);
 		context.bindValue(locationObservable,
-				locationProperty.observe(metricSource), null, null);
-
-		// No more metrics in the MetricSource.
-		// ObservableListTreeContentProvider listTreeContentProvider = new
-		// ObservableListTreeContentProvider(
-		// new MetricTreeFactory(), new MetricTreeStructureAdvisor());
-		// this.treeViewer.setContentProvider(listTreeContentProvider);
-		//
-		// IObservableSet set = listTreeContentProvider.getKnownElements();
-		// IObservableMap[] map = new IObservableMap[2];
-		//
-		// map[0] = EMFProperties.value(MetricsPackage.Literals.METRIC__NAME)
-		// .observeDetail(set);
-		//
-		// map[1] = EMFProperties.value(
-		// MetricsPackage.Literals.METRIC__DESCRIPTION).observeDetail(set);
-		//
-		// treeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
-		//
-		// IEMFListProperty metricsProperty = EMFProperties
-		// .list(MetricsPackage.Literals.METRIC_SOURCE__METRIC_REFS);
-		// treeViewer.setInput(metricsProperty.observe(metricSource));
-
+				locationProperty.observe(metricSource), locationStrategy, null);
 		return context;
 	}
 
@@ -262,7 +264,12 @@ public class NewEditMetricSource extends AbstractScreen implements
 			}
 		}
 
-		this.initDataBindings_();
+		String title = Screens.isNewOperation(getOperation()) ? "New" : "Edit";
+		frmNewEditMetricSource.setText(title + " Metric Source");
+		
+		context = initDataBindings_();
+		validationService.registerBindingContext(context);
+		validationService.addValidationListener(this);
 	}
 
 	public void addData() {
@@ -308,7 +315,7 @@ public class NewEditMetricSource extends AbstractScreen implements
 
 	@Override
 	public boolean isValid() {
-		return true;
+		return validationService.isValid();
 	}
 
 	@Override
@@ -324,6 +331,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
-		
+
 	}
 }

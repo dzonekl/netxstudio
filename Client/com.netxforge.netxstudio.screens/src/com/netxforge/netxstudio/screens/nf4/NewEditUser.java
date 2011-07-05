@@ -1,8 +1,5 @@
 package com.netxforge.netxstudio.screens.nf4;
 
-import java.util.List;
-
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.conversion.Converter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -16,9 +13,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
-import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -30,7 +25,6 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
-import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -52,7 +46,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -65,21 +58,17 @@ import com.netxforge.netxstudio.common.jca.JCAService;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
-import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
-import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class NewEditUser extends AbstractScreen implements
-		IDataScreenInjection, IValidationListener {
+		IDataScreenInjection  {
 
 	private EMFDataBindingContext m_bindingContext;
 
-	// Not injected as this service is already injected in the ViePart.
 	private IValidationService validationService = new ValidationService();
 
 	CommonService commonService = new CommonService(new JCAService());
@@ -643,11 +632,6 @@ public class NewEditUser extends AbstractScreen implements
 			validationService.registerBindingContext(m_bindingContext);
 			validationService.addValidationListener(this);
 		}
-
-		// we can't update to trigger validation, as this will also invoke
-		// commands and dirty our stack.
-		// m_bindingContext.updateTargets();
-		// m_bindingContext.updateModels();
 	}
 
 	/*
@@ -704,95 +688,6 @@ public class NewEditUser extends AbstractScreen implements
 
 	public ComboViewer getComboViewerWidget() {
 		return comboViewer;
-	}
-
-	/**
-	 * @param currentStatus
-	 * @param ctx
-	 */
-	public void handleValidationStateChange(ValidationEvent event) {
-
-		if (event instanceof FormValidationEvent) {
-			int type = ((FormValidationEvent) event).getMsgType();
-			List<IMessage> list = ((FormValidationEvent) event).getMessages();
-			if (frmNewEditUser.isDisposed()
-					|| frmNewEditUser.getHead().isDisposed()) {
-				return;
-			}
-
-			if (type != IMessage.NONE) {
-
-				String errorType = "";
-				if (type == IMessage.ERROR) {
-					errorType = "Error:";
-				}
-				if (type == IMessage.WARNING) {
-					errorType = "Required:";
-				}
-
-				StringBuffer msgBuffer = new StringBuffer();
-				msgBuffer.append(errorType + "(" + list.size() + "), "
-						+ list.get(0).getMessage());
-				frmNewEditUser.setMessage(msgBuffer.toString(), type,
-						list.toArray(new IMessage[list.size()]));
-
-			} else {
-				frmNewEditUser.setMessage(null);
-			}
-		}
-	}
-
-	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		IObservableValue textObserveTextObserveWidget_1 = SWTObservables
-				.observeDelayedValue(100,
-						SWTObservables.observeText(txtLogin, SWT.Modify));
-		IObservableValue userLoginObserveValue_1 = EMFObservables.observeValue(
-				user, Literals.PERSON__LOGIN);
-		bindingContext.bindValue(textObserveTextObserveWidget_1,
-				userLoginObserveValue_1, null, null);
-		//
-		IObservableValue txtFirstNameObserveTextObserveWidget = SWTObservables
-				.observeDelayedValue(400,
-						SWTObservables.observeText(txtFirstName, SWT.Modify));
-		IObservableValue userFirstNameObserveValue = EMFObservables
-				.observeValue(user, Literals.PERSON__FIRST_NAME);
-		bindingContext.bindValue(txtFirstNameObserveTextObserveWidget,
-				userFirstNameObserveValue, null, null);
-		//
-		IObservableValue txtLastNameObserveTextObserveWidget = SWTObservables
-				.observeDelayedValue(400,
-						SWTObservables.observeText(txtLastName, SWT.Modify));
-		IObservableValue userLastNameObserveValue = EMFObservables
-				.observeValue(user, Literals.PERSON__LAST_NAME);
-		bindingContext.bindValue(txtLastNameObserveTextObserveWidget,
-				userLastNameObserveValue, null, null);
-		//
-		IObservableValue txtEmailObserveTextObserveWidget = SWTObservables
-				.observeDelayedValue(400,
-						SWTObservables.observeText(txtEmail, SWT.Modify));
-		IObservableValue userEmailObserveValue = EMFObservables.observeValue(
-				user, Literals.PERSON__EMAIL);
-		bindingContext.bindValue(txtEmailObserveTextObserveWidget,
-				userEmailObserveValue, null, null);
-		//
-		IObservableValue comboViewerObserveSingleSelection = ViewersObservables
-				.observeSingleSelection(comboViewer);
-		IObservableValue userNameObserveValue = EMFProperties.value(
-				FeaturePath.fromList(Literals.PERSON__ROLES,
-						Literals.ROLE__NAME)).observe(user);
-		bindingContext.bindValue(comboViewerObserveSingleSelection,
-				userNameObserveValue, null, null);
-		//
-		IObservableValue btnCheckObserveSelectionObserveWidget = SWTObservables
-				.observeSelection(btnCheck);
-		IObservableValue userActiveObserveValue = EMFObservables.observeValue(
-				user, Literals.PERSON__ACTIVE);
-		bindingContext.bindValue(btnCheckObserveSelectionObserveWidget,
-				userActiveObserveValue, null, null);
-		//
-		return bindingContext;
 	}
 
 	/*

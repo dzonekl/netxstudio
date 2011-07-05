@@ -1,8 +1,5 @@
 package com.netxforge.netxstudio.screens.f4;
 
-import java.util.List;
-import java.util.Map;
-
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.resources.IFile;
@@ -73,8 +70,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import com.google.common.collect.ImmutableMap;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
+import com.netxforge.netxstudio.metrics.MappingCSV;
 import com.netxforge.netxstudio.metrics.MappingColumn;
-import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -86,23 +83,21 @@ import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f4.support.Tuple;
-import com.netxforge.netxstudio.screens.f4.support.XLSServiceJob;
+import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
 public class NewEditMappingCSV extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Text txtSheetNumber;
 	private Text txtFirstHeaderRow;
 	private Text txtFirstDataRow;
 	private Table table;
-	private Text txtSelectedXLSPath;
-	private Form frmXLSMappingForm;
+	private Text txtSelectedCSVPath;
+	private Form frmCSVMappingForm;
 	private MetricSource owner;
-	private MappingXLS mapping;
-	private MappingXLS original;
+	private MappingCSV mapping;
+	private MappingCSV original;
 	private TableViewer mappingColumnsTableViewer;
 	private GridTableViewer gridTableViewer;
 	private Menu gridMenu;
@@ -124,14 +119,13 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		frmXLSMappingForm = toolkit.createForm(this);
-		frmXLSMappingForm.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmXLSMappingForm);
-		frmXLSMappingForm.setText("New XLS Mapping");
-		frmXLSMappingForm.getBody().setLayout(new FormLayout());
+		frmCSVMappingForm = toolkit.createForm(this);
+		frmCSVMappingForm.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmCSVMappingForm);
+		frmCSVMappingForm.getBody().setLayout(new FormLayout());
 
 		Section sctnSummary = toolkit.createSection(
-				frmXLSMappingForm.getBody(), Section.EXPANDED
+				frmCSVMappingForm.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
 		FormData fd_sctnSummary = new FormData();
 		sctnSummary.setLayoutData(fd_sctnSummary);
@@ -143,21 +137,6 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		toolkit.paintBordersFor(composite_1);
 		sctnSummary.setClient(composite_1);
 		composite_1.setLayout(new GridLayout(2, false));
-
-		Label lblSheetName = toolkit.createLabel(composite_1, "Sheet Index:",
-				SWT.NONE);
-		lblSheetName.setAlignment(SWT.RIGHT);
-		GridData gd_lblSheetName = new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_lblSheetName.widthHint = 70;
-		lblSheetName.setLayoutData(gd_lblSheetName);
-
-		txtSheetNumber = toolkit.createText(composite_1, "New Text", SWT.NONE);
-		txtSheetNumber.setText("");
-		GridData gd_txtSheetName = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_txtSheetName.widthHint = 20;
-		txtSheetNumber.setLayoutData(gd_txtSheetName);
 
 		Label lblHeaderrow = toolkit.createLabel(composite_1,
 				"1st Header row:", SWT.NONE);
@@ -184,26 +163,26 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		txtFirstDataRow.setLayoutData(gd_txtFirstDataRow);
 		txtFirstDataRow.setText("");
 
-		Section sctnXLSInteractive = toolkit.createSection(
-				frmXLSMappingForm.getBody(), Section.EXPANDED
+		Section sctnCSVInteractive = toolkit.createSection(
+				frmCSVMappingForm.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
-		fd_sctnSummary.top = new FormAttachment(sctnXLSInteractive, 0, SWT.TOP);
+		fd_sctnSummary.top = new FormAttachment(sctnCSVInteractive, 0, SWT.TOP);
 		fd_sctnSummary.right = new FormAttachment(0, 355);
 		FormData fd_sctnXLSInteractive = new FormData();
 		fd_sctnXLSInteractive.top = new FormAttachment(0, 10);
 		fd_sctnXLSInteractive.bottom = new FormAttachment(100, -12);
 		fd_sctnXLSInteractive.left = new FormAttachment(0, 370);
 		fd_sctnXLSInteractive.right = new FormAttachment(100, -12);
-		sctnXLSInteractive.setLayoutData(fd_sctnXLSInteractive);
-		toolkit.paintBordersFor(sctnXLSInteractive);
+		sctnCSVInteractive.setLayoutData(fd_sctnXLSInteractive);
+		toolkit.paintBordersFor(sctnCSVInteractive);
 
-		Composite composite_2 = toolkit.createComposite(sctnXLSInteractive,
+		Composite composite_2 = toolkit.createComposite(sctnCSVInteractive,
 				SWT.NONE);
 		toolkit.paintBordersFor(composite_2);
-		sctnXLSInteractive.setClient(composite_2);
+		sctnCSVInteractive.setClient(composite_2);
 		composite_2.setLayout(new GridLayout(2, false));
 
-		Button btnSelectXls = toolkit.createButton(composite_2, "Select XLS",
+		Button btnSelectXls = toolkit.createButton(composite_2, "Select CSV",
 				SWT.NONE);
 		btnSelectXls.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -215,13 +194,14 @@ public class NewEditMappingCSV extends AbstractScreen implements
 					return;
 				// We only process the first selection.
 				IFile f = WorkspaceUtil.INSTANCE.createFileHandle(paths[0]);
-				txtSelectedXLSPath.setText(f.getName());
-				final XLSServiceJob job = new XLSServiceJob();
+				txtSelectedCSVPath.setText(f.getName());
+				final CSVServiceJob job = new CSVServiceJob();
 				job.addNotifier(new JobChangeAdapter() {
 					@Override
 					public void done(IJobChangeEvent event) {
 						super.done(event);
-						List<Map<Integer, Tuple>> records = job.getRecords();
+
+						String[][] records = job.getRecords();
 						if (records != null) {
 							Display.getDefault().asyncExec(new Runnable() {
 								public void run() {
@@ -237,10 +217,10 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			}
 		});
 
-		txtSelectedXLSPath = toolkit.createText(composite_2, "New Text",
+		txtSelectedCSVPath = toolkit.createText(composite_2, "New Text",
 				SWT.NONE);
-		txtSelectedXLSPath.setText("<....>");
-		txtSelectedXLSPath.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+		txtSelectedCSVPath.setText("<....>");
+		txtSelectedCSVPath.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 1, 1));
 
 		CTabFolder tabFolder = new CTabFolder(composite_2, SWT.BORDER);
@@ -254,7 +234,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 				255));
 
 		CTabItem tbtmSheet1 = new CTabItem(tabFolder, SWT.NONE);
-		tbtmSheet1.setText("Sheet 1");
+		tbtmSheet1.setText("CSV");
 
 		tabFolder.setSelection(tbtmSheet1);
 
@@ -316,28 +296,23 @@ public class NewEditMappingCSV extends AbstractScreen implements
 					}
 					{
 						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
-						mi.setText("New Column Mapping with index (" + currentColumnIndex
-								+ ")");
+						mi.setText("New Column Mapping with index ("
+								+ currentColumnIndex + ")");
 						mi.addSelectionListener(new SelectionAdapter() {
 							@Override
 							public void widgetSelected(SelectionEvent e) {
 								// TODO Implement.
-								
-								
-								
-								
-								
+
 							}
 						});
 					}
-					
-					
+
 				}
 			}
 		});
 
 		Section sctnMappingColumns = toolkit.createSection(
-				frmXLSMappingForm.getBody(), Section.TITLE_BAR);
+				frmCSVMappingForm.getBody(), Section.TITLE_BAR);
 		fd_sctnSummary.left = new FormAttachment(sctnMappingColumns, 0,
 				SWT.LEFT);
 		fd_sctnSummary.bottom = new FormAttachment(0, 120);
@@ -425,8 +400,9 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			}
 		});
 		mntmEdit.setText("Edit...");
-		
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(mappingColumnsTableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				mappingColumnsTableViewer, SWT.NONE);
 		TableColumn tblclmnValueType = tableViewerColumn_1.getColumn();
 		tblclmnValueType.setWidth(100);
 		tblclmnValueType.setText("Value Type");
@@ -476,11 +452,8 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		}
 	}
 
-	// FIXME, Algorithm for column header is not correct yet.
 	private void buildFixedColumns(GridTableViewer v) {
-		char[] alphabet = this.getAlphabet();
 		int i = 0;
-		int primaryIndex = 0;
 		for (; i < 70; i++) {
 			GridViewerColumn gvc = new GridViewerColumn(gridTableViewer,
 					SWT.NONE);
@@ -488,36 +461,11 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			newGridColumn.setAlignment(SWT.CENTER);
 			newGridColumn.setWidth(80);
 			newGridColumn.addSelectionListener(gridSelector);
-			StringBuilder sb = new StringBuilder();
-
-			int aIndex = i % alphabet.length;
-			if (i >= alphabet.length) {
-				sb.append(Character.toUpperCase(alphabet[primaryIndex]));
-				sb.append(Character.toUpperCase(alphabet[aIndex]));
-				if (aIndex == 0) {
-					primaryIndex = primaryIndex % (alphabet.length - 1);
-					primaryIndex++;
-				}
-			} else {
-				sb.append(Character.toUpperCase(alphabet[aIndex]));
-			}
-			newGridColumn.setText(sb.toString());
+			newGridColumn.setText(new Integer(i).toString());
 		}
 	}
 
-	public char[] getAlphabet() {
-		char[] alphabet = new char[26];
-		int index, ordinalVal = 97;
-		char element;
-
-		for (index = 0; index < alphabet.length; ++index, ++ordinalVal) {
-			element = (char) ordinalVal;
-			alphabet[index] = element;
-		}
-		return alphabet;
-	}
-
-	protected void fillGrid(List<Map<Integer, Tuple>> records) {
+	protected void fillGrid(String[][] records) {
 		this.gridTableViewer.setInput(records);
 	}
 
@@ -527,22 +475,25 @@ public class NewEditMappingCSV extends AbstractScreen implements
 
 		// TODO, Validations and strategies.
 
-		IObservableValue sheetNumberObservableValue = SWTObservables
-				.observeText(txtSheetNumber, SWT.Modify);
+		// IObservableValue sheetNumberObservableValue = SWTObservables
+		// .observeText(txtSheetNumber, SWT.Modify);
+
 		IObservableValue firstDataRowObservableValue = SWTObservables
 				.observeText(txtFirstDataRow, SWT.Modify);
 		IObservableValue headerRowObservableValue = SWTObservables.observeText(
 				txtFirstHeaderRow, SWT.Modify);
 
-		IEMFValueProperty sheetNumberProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
+		// IEMFValueProperty sheetNumberProperty = EMFProperties
+		// .value(MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
+
 		IEMFValueProperty firstDataRowProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
 		IEMFValueProperty headerRowProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING__HEADER_ROW);
 
-		context.bindValue(sheetNumberObservableValue,
-				sheetNumberProperty.observe(mapping), null, null);
+		// context.bindValue(sheetNumberObservableValue,
+		// sheetNumberProperty.observe(mapping), null, null);
+
 		context.bindValue(firstDataRowObservableValue,
 				firstDataRowProperty.observe(mapping), null, null);
 		context.bindValue(headerRowObservableValue,
@@ -556,9 +507,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 				new EStructuralFeature[] {
 						MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
 						MetricsPackage.Literals.MAPPING_COLUMN__COLUMN });
-		
-		
-		
+
 		this.mappingColumnsTableViewer
 				.setLabelProvider(new ColumnObservableMapLabelProvider(
 						observeMaps));
@@ -566,12 +515,12 @@ public class NewEditMappingCSV extends AbstractScreen implements
 				.list(MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS);
 
 		this.mappingColumnsTableViewer.setInput(l.observe(mapping));
-		this.gridTableViewer.setContentProvider(new XLSGridContentProvider());
-		gridTableViewer.setLabelProvider(new XLSGridLabelProvider());
+		this.gridTableViewer.setContentProvider(new CSVGridContentProvider());
+		gridTableViewer.setLabelProvider(new CSVGridLabelProvider());
 		return context;
 	}
 
-	class XLSGridLabelProvider extends LabelProvider implements
+	class CSVGridLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -579,14 +528,10 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		}
 
 		public String getColumnText(Object element, int columnIndex) {
-			if (element instanceof Map<?, ?>) {
-				Map<?, ?> row = (Map<?, ?>) element;
-				if (columnIndex < row.size()) {
-					Tuple cell = (Tuple) row.get(columnIndex);
-					if (cell != null) {
-						Object v = cell.getValue();
-						return v.toString();
-					}
+			if (element instanceof String[]) {
+				String[] array = (String[]) element;
+				if (columnIndex < array.length) {
+					return array[columnIndex];
 				}
 			}
 			return "";
@@ -594,10 +539,10 @@ public class NewEditMappingCSV extends AbstractScreen implements
 
 	}
 
-	class XLSGridContentProvider implements IStructuredContentProvider {
+	class CSVGridContentProvider implements IStructuredContentProvider {
 
 		public void dispose() {
-			//?
+			// ?
 		}
 
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
@@ -605,10 +550,9 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		}
 
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof List<?>) {
-				List<?> input = (List<?>) inputElement;
-				Object[] elements = input.toArray();
-				return elements;
+			if (inputElement instanceof String[][]) {
+				String[][] input = (String[][]) inputElement;
+				return input;
 			}
 			return null;
 		}
@@ -639,20 +583,21 @@ public class NewEditMappingCSV extends AbstractScreen implements
 					return dataKindMap.get(k.getClass());
 				}
 			}
-			if(columnIndex == 2){
-				if( c.getDataType() instanceof ValueDataKind){
-					ValueKindType vkt = ((ValueDataKind)c.getDataType()).getValueKind();
+			if (columnIndex == 2) {
+				if (c.getDataType() instanceof ValueDataKind) {
+					ValueKindType vkt = ((ValueDataKind) c.getDataType())
+							.getValueKind();
 					return vkt.getName();
 				}
-				if( c.getDataType() instanceof IdentifierDataKind){
-					IdentifierDataKind idk = (IdentifierDataKind)c.getDataType();
+				if (c.getDataType() instanceof IdentifierDataKind) {
+					IdentifierDataKind idk = (IdentifierDataKind) c
+							.getDataType();
 					ObjectKindType okt = idk.getObjectKind();
 					return okt.getName();
 				}
-				
-				
+
 			}
-			
+
 			return super.getColumnText(element, columnIndex);
 		}
 	}
@@ -665,16 +610,24 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			throw new java.lang.IllegalArgumentException();
 		}
 
-		if (object != null && object instanceof MappingXLS) {
+		if (object != null && object instanceof MappingCSV) {
 			if (Screens.isEditOperation(this.getOperation())) {
-				MappingXLS copy = EcoreUtil.copy((MappingXLS) object);
+				MappingCSV copy = EcoreUtil.copy((MappingCSV) object);
 				mapping = copy;
-				original = (MappingXLS) object;
+				original = (MappingCSV) object;
 			} else if (Screens.isNewOperation(getOperation())) {
-				mapping = (MappingXLS) object;
+				mapping = (MappingCSV) object;
 			}
 		}
 		this.initDataBindings_();
+		
+		String title = "";
+		if(Screens.isNewOperation(getOperation())){
+			title = "New";
+		}else{
+			title = "Edit";
+		}
+		frmCSVMappingForm.setText( title + " CSV Mapping");
 	}
 
 	public void addData() {
@@ -729,7 +682,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 
 	@Override
 	public Form getScreenForm() {
-		return frmXLSMappingForm;
+		return frmCSVMappingForm;
 	}
 
 	public void disposeData() {

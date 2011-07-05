@@ -84,6 +84,8 @@ import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
 import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
+import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.Tuple;
@@ -107,6 +109,9 @@ public class NewEditMappingXLS extends AbstractScreen implements
 	private GridTableViewer gridTableViewer;
 	private Menu gridMenu;
 
+	
+	private IValidationService validationService = new ValidationService();
+	
 	/**
 	 * Create the composite.
 	 * 
@@ -127,7 +132,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		frmXLSMappingForm = toolkit.createForm(this);
 		frmXLSMappingForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmXLSMappingForm);
-		frmXLSMappingForm.setText("New XLS Mapping");
+
 		frmXLSMappingForm.getBody().setLayout(new FormLayout());
 
 		Section sctnSummary = toolkit.createSection(
@@ -136,7 +141,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		FormData fd_sctnSummary = new FormData();
 		sctnSummary.setLayoutData(fd_sctnSummary);
 		toolkit.paintBordersFor(sctnSummary);
-		sctnSummary.setText("Summary");
+		sctnSummary.setText("Basic");
 		sctnSummary.setExpanded(true);
 
 		Composite composite_1 = toolkit.createComposite(sctnSummary, SWT.NONE);
@@ -160,7 +165,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		txtSheetNumber.setLayoutData(gd_txtSheetName);
 
 		Label lblHeaderrow = toolkit.createLabel(composite_1,
-				"1st Header row:", SWT.NONE);
+				"Header row:", SWT.NONE);
 		lblHeaderrow.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
@@ -172,7 +177,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		gd_txtFirstHeaderRow.widthHint = 20;
 		txtFirstHeaderRow.setLayoutData(gd_txtFirstHeaderRow);
 
-		Label lblstDataRow = toolkit.createLabel(composite_1, "1st Data row:",
+		Label lblstDataRow = toolkit.createLabel(composite_1, "Data row:",
 				SWT.NONE);
 		lblstDataRow.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
@@ -316,22 +321,17 @@ public class NewEditMappingXLS extends AbstractScreen implements
 					}
 					{
 						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
-						mi.setText("New Column Mapping with index (" + currentColumnIndex
-								+ ")");
+						mi.setText("New Column Mapping with index ("
+								+ currentColumnIndex + ")");
 						mi.addSelectionListener(new SelectionAdapter() {
 							@Override
 							public void widgetSelected(SelectionEvent e) {
 								// TODO Implement.
-								
-								
-								
-								
-								
+
 							}
 						});
 					}
-					
-					
+
 				}
 			}
 		});
@@ -425,8 +425,9 @@ public class NewEditMappingXLS extends AbstractScreen implements
 			}
 		});
 		mntmEdit.setText("Edit...");
-		
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(mappingColumnsTableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				mappingColumnsTableViewer, SWT.NONE);
 		TableColumn tblclmnValueType = tableViewerColumn_1.getColumn();
 		tblclmnValueType.setWidth(100);
 		tblclmnValueType.setText("Value Type");
@@ -556,9 +557,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 				new EStructuralFeature[] {
 						MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE,
 						MetricsPackage.Literals.MAPPING_COLUMN__COLUMN });
-		
-		
-		
+
 		this.mappingColumnsTableViewer
 				.setLabelProvider(new ColumnObservableMapLabelProvider(
 						observeMaps));
@@ -597,7 +596,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 	class XLSGridContentProvider implements IStructuredContentProvider {
 
 		public void dispose() {
-			//?
+			// ?
 		}
 
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
@@ -639,20 +638,21 @@ public class NewEditMappingXLS extends AbstractScreen implements
 					return dataKindMap.get(k.getClass());
 				}
 			}
-			if(columnIndex == 2){
-				if( c.getDataType() instanceof ValueDataKind){
-					ValueKindType vkt = ((ValueDataKind)c.getDataType()).getValueKind();
+			if (columnIndex == 2) {
+				if (c.getDataType() instanceof ValueDataKind) {
+					ValueKindType vkt = ((ValueDataKind) c.getDataType())
+							.getValueKind();
 					return vkt.getName();
 				}
-				if( c.getDataType() instanceof IdentifierDataKind){
-					IdentifierDataKind idk = (IdentifierDataKind)c.getDataType();
+				if (c.getDataType() instanceof IdentifierDataKind) {
+					IdentifierDataKind idk = (IdentifierDataKind) c
+							.getDataType();
 					ObjectKindType okt = idk.getObjectKind();
 					return okt.getName();
 				}
-				
-				
+
 			}
-			
+
 			return super.getColumnText(element, columnIndex);
 		}
 	}
@@ -674,6 +674,15 @@ public class NewEditMappingXLS extends AbstractScreen implements
 				mapping = (MappingXLS) object;
 			}
 		}
+
+		String title = "";
+		if (Screens.isEditOperation(getOperation())) {
+			title = "Edit";
+		} else {
+			title = "New";
+		}
+		frmXLSMappingForm.setText(title + " XLS Mapping");
+
 		this.initDataBindings_();
 	}
 

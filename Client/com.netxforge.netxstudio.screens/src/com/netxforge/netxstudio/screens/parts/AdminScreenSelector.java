@@ -24,7 +24,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector_Inj;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.MetricSources;
-import com.netxforge.netxstudio.screens.f4.Scheduler;
+import com.netxforge.netxstudio.screens.f4.Jobs;
 import com.netxforge.netxstudio.screens.nf4.UsersAndRoles;
 
 public class AdminScreenSelector extends AbstractScreenSelector_Inj {
@@ -52,7 +52,7 @@ public class AdminScreenSelector extends AbstractScreenSelector_Inj {
 	public void buildSelector(){
 		Composite result;
 		result = screenFormService.addScreenSelector("Users","icons/full/obj16/User_H.png", UsersAndRoles.class, 1, Screens.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Jobs", "icons/full/obj16/Function_H.png",  Scheduler.class, Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Jobs", "icons/full/obj16/Function_H.png",  Jobs.class, Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Metric Sources", "icons/full/obj16/MetricSource_H.png",  MetricSources.class, Screens.OPERATION_EDIT);
 	}
 	

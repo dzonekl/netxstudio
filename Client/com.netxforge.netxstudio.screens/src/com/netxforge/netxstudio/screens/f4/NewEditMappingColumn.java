@@ -282,8 +282,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		txtObject.setLayoutData(gd_txtIndentifier);
 
 		txtObjectAttribute = new Text(composite_2, SWT.BORDER);
-		txtObjectAttribute.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				true, false, 1, 1));
+		GridData gd_txtObjectAttribute = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_txtObjectAttribute.widthHint = 100;
+		txtObjectAttribute.setLayoutData(gd_txtObjectAttribute);
 		toolkit.adapt(txtObjectAttribute, true, true);
 
 		btnMetricValue = toolkit.createButton(composite_2, "Metric Value",
@@ -489,6 +490,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				.observe(mxlsColumn);
 
 		setInitial(dataTypeObservable.getValue());
+		
 		context.bindValue(dataKindWritableValue, dataTypeObservable);
 		context.updateTargets();
 

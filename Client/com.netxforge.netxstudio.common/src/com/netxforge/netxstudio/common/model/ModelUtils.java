@@ -114,7 +114,20 @@ public class ModelUtils {
 				Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY);
 		return week;
 	}
+	
+	public int weekDay(Date date) {
+		
+		Function<Date, Integer> getDayString = new Function<Date, Integer>() {
+			public Integer apply(Date from) {
+				Calendar c = GregorianCalendar.getInstance();
+				c.setTime(from);
+				return new Integer(c.get(Calendar.DAY_OF_WEEK));
+			}
+		};
+		return getDayString.apply(date);
+	}
 
+	
 	public String weekDay(Integer weekDay) {
 		Function<Integer, String> getDayString = new Function<Integer, String>() {
 			public String apply(Integer from) {
@@ -141,7 +154,7 @@ public class ModelUtils {
 	public String time(Date d) {
 		Function<Date, String> getDateString = new Function<Date, String>() {
 			public String apply(Date from) {
-				SimpleDateFormat df = new SimpleDateFormat("hh:mm");
+				SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 				return df.format(from);
 			}
 		};
@@ -233,7 +246,8 @@ public class ModelUtils {
 		}
 		return c.getTime();
 	}
-
+	
+	
 	public XMLGregorianCalendar toXMLDate(Date date) {
 		final XMLGregorianCalendar gregCalendar = dataTypeFactory
 				.newXMLGregorianCalendar();

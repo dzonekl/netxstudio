@@ -1,15 +1,12 @@
 package com.netxforge.netxstudio.screens.f2;
 
-import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
-import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFValueProperty;
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
@@ -142,42 +139,7 @@ public class NewEditTolerance extends AbstractScreen implements
 		cmbLevelViewer.setLabelProvider(new LabelProvider());
 		cmbLevelViewer.setInput(LevelType.VALUES);
 
-		EMFUpdateValueStrategy comboTargetToModelStrategy = new EMFUpdateValueStrategy();
-		comboTargetToModelStrategy.setConverter(new IConverter() {
-
-			public Object getFromType() {
-				return EEnumLiteral.class;
-			}
-
-			public Object getToType() {
-				return LevelType.class;
-			}
-
-			public Object convert(Object fromObject) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-		});
-
-		EMFUpdateValueStrategy comboModelToTargetStrategy = new EMFUpdateValueStrategy();
-		comboTargetToModelStrategy.setConverter(new IConverter() {
-
-			public Object getFromType() {
-				return LevelType.class;
-			}
-
-			public Object getToType() {
-				return EEnumLiteral.class;
-			}
-
-			public Object convert(Object fromObject) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-		});
-
+		
 		IEMFValueProperty toleranceLevelProperty = EMFProperties
 				.value(LibraryPackage.Literals.TOLERANCE__LEVEL);
 		IValueProperty selectionProperty = ViewerProperties.singleSelection();

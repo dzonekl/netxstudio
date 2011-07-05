@@ -1,10 +1,8 @@
 package com.netxforge.netxstudio.screens.f4;
 
-import java.util.List;
+import java.util.Date;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.emf.cdo.transaction.CDOTransaction;
-import org.eclipse.emf.cdo.view.CDOQuery;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFProperties;
@@ -41,8 +39,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.cdo.ICDOQueries;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -50,7 +48,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class Scheduler extends AbstractScreen implements IDataServiceInjection {
+public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
@@ -60,13 +58,16 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 	private Form frmScheduledJobs;
 	private Resource jobsResource;
 
+	@Inject
+	ModelUtils modelUtils;
+
 	/**
 	 * Create the composite.
 	 * 
 	 * @param parent
 	 * @param style
 	 */
-	public Scheduler(Composite parent, int style) {
+	public Jobs(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -161,9 +162,15 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				tableViewer, SWT.NONE);
-		TableColumn tblclmnInterval = tableViewerColumn_1.getColumn();
+		TableColumn tblclmnRepeat = tableViewerColumn_1.getColumn();
+		tblclmnRepeat.setWidth(100);
+		tblclmnRepeat.setText("Occurences");
+		
+		TableViewerColumn tableViewerColumn_6 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
+		TableColumn tblclmnInterval = tableViewerColumn_6.getColumn();
 		tblclmnInterval.setWidth(100);
-		tblclmnInterval.setText("Repeat");
+		tblclmnInterval.setText("Interval");
 
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
@@ -228,30 +235,60 @@ public class Scheduler extends AbstractScreen implements IDataServiceInjection {
 						SchedulingPackage.Literals.JOB__JOB_STATE,
 						SchedulingPackage.Literals.JOB__START_TIME,
 						SchedulingPackage.Literals.JOB__END_TIME,
-						SchedulingPackage.Literals.JOB__REPEAT });
-		tableViewer
-				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+						SchedulingPackage.Literals.JOB__REPEAT,
+						SchedulingPackage.Literals.JOB__INTERVAL
+						});
+		tableViewer.setLabelProvider(new JobsObervableMapLabelProvider(
+				observeMaps));
 
-		IEMFListProperty l = EMFProperties.resource();
+		IEMFListProperty jobsProperties = EMFProperties.resource();
 
-		tableViewer.setInput(l.observe(jobsResource));
+		tableViewer.setInput(jobsProperties.observe(jobsResource));
 		return bindingContext;
 	}
 
+	class JobsObervableMapLabelProvider extends ObservableMapLabelProvider {
+
+		public JobsObervableMapLabelProvider(IObservableMap[] attributeMaps) {
+			super(attributeMaps);
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			if (columnIndex == 2) {
+				if (element instanceof Job) {
+					Job j = (Job) element;
+					if (j.getStartTime() != null) {
+						Date d = modelUtils.fromXMLDate(j.getStartTime());
+						return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					}
+				}
+			}
+			if (columnIndex == 3) {
+				if (element instanceof Job) {
+					Job j = (Job) element;
+					if (j.getEndTime() != null) {
+						Date d = modelUtils.fromXMLDate(j.getEndTime());
+						return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					}
+				}
+			}
+			
+			if (columnIndex == 5) {
+				if (element instanceof Job) {
+					Job j = (Job) element;
+					if (j.getInterval() > 0) {
+						return new Integer(j.getInterval()).toString();
+					}
+				}
+			}
+			return super.getColumnText(element, columnIndex);
+		}
+
+	}
+
 	public void injectData() {
-		// Resource jobResource =
-		// this.editingService.getData(SchedulingPackage.Literals.JOB);
-		IDataService dService = editingService.getDataService();
-		CDOTransaction t = dService.getProvider().getSession()
-				.openTransaction();
-		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS);
-		q.setParameter(ICDOQueries.CACHE_RESULTS, true);
-		List<Job> jobs = q.getResult(Job.class);
-
-		// Get a resource, to store our query.
 		jobsResource = editingService.getData(SchedulingPackage.Literals.JOB);
-		jobsResource.getContents().addAll(jobs);
-
 		initDataBindings_();
 	}
 
