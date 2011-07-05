@@ -28,6 +28,6 @@ public interface ICDOQueries {
 	public static final String CACHE_RESULTS = "cacheResults"; //$NON-NLS-1$
 	public static final String SELECT_ROLES_FROM_PERSON = "select roles from Person person where person.login=:name";
 	public static final String SELECT_JOBS = "from Job";
-	public static final String SELECT_JOBS_WITH_METRICSOURCE = "from MetricSourceJob job where job.MetricSource = :metricSource";
+	public static final String SELECT_JOBS_WITH_METRICSOURCE = "select jobs from Job job where job.MetricSource = :metricSource";
 	
 }

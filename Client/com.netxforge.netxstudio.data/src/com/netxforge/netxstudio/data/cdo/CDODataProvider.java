@@ -108,7 +108,9 @@ public abstract class CDODataProvider implements IDataProvider {
 				.setCredentialsProvider(credentialsProvider);
 
 		try {
-			setSession(connection.getConfig().openSession());
+			CDOSession cdoSession = connection.getConfig().openSession();
+			((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(60);
+			setSession(cdoSession);
 			for (final EPackage ePackage : ePackages) {
 				getSession().getPackageRegistry().putEPackage(ePackage);
 			}
@@ -149,6 +151,8 @@ public abstract class CDODataProvider implements IDataProvider {
 		}
 		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
 		final CDOSession cdoSession = connection.getConfig().openSession();
+		 ((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(60);
+		 
 		for (final EPackage ePackage : ePackages) {
 			cdoSession.getPackageRegistry().putEPackage(ePackage);
 		}
