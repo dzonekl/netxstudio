@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.eclipse.emf.cdo.CDOObject;
@@ -34,6 +35,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -72,6 +75,9 @@ import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.dataimport.MasterDataImporter;
+import com.netxforge.netxstudio.server.service.NetxForgeService;
+import com.netxforge.netxstudio.server.test.base.TestModule;
+import com.netxforge.netxstudio.server.test.dataprovider.NonStatic;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -86,7 +92,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * 
  * @author Martin Taal
  */
-public class TestDataCreator {
+public class TestDataCreator implements NetxForgeService {
 
 	private static final int HIERARCHY_DEPTH = 2;
 	private static final int HIERARCHY_BREADTH = 2;
@@ -97,15 +103,33 @@ public class TestDataCreator {
 	private static final String MS_DB_ORACLE_NAME = "DB_ORACLE";
 	private static final int MINUTE = 60000;
 
+	@Inject
+	@NonStatic
 	private IDataProvider dataProvider;
 
+	@Inject
 	private ModelUtils modelUtils;
-	
+
 	private List<Tolerance> tl = Lists.newArrayList();
 	private Expression utilizationExpression = null;
 	private Expression capacityExpression = null;
 
 	private List<FunctionRelationship> functionRelationships = new ArrayList<FunctionRelationship>();
+
+	public Object run(Map<String, String> parameters) {
+		try {
+			Guice.createInjector(TestModule.getModule()).injectMembers(this);
+			
+			dataProvider.setDoGetResourceFromOwnTransaction(false);
+			dataProvider.openSession("admin", "admin");
+
+			create();
+			
+			return "done";
+		} catch (final Exception e) {
+			throw new IllegalStateException(e);
+		}
+	}
 
 	public void create() throws Exception {
 		// clear data does not always work, get timeout
@@ -473,16 +497,17 @@ public class TestDataCreator {
 				+ "and to_char(PERIOD_START_TIME,'dd.mm.yyyy hh24:mi')>=to_char('${startDate}') ||' ${endTime}'"
 				+ "and to_char(PERIOD_START_TIME,'dd.mm.yyyy hh24:mi')<=to_char('${endDate}') ||' ${endTime}'";
 		mapping.setQuery(qry);
-		
+
 		mapping.getMappingColumns().add(
 				createIdentifierColumn(0, ObjectKindType.NODE,
 						OperatorsPackage.eINSTANCE.getNode_NodeID().getName()));
-		
+
 		final MappingColumn dateColumn = createValueColumn("Start Date", 1,
 				ValueKindType.DATETIME);
-		((ValueDataKind) dateColumn.getDataType()).setFormat("MM.dd.yyyy HH:mm");
+		((ValueDataKind) dateColumn.getDataType())
+				.setFormat("MM.dd.yyyy HH:mm");
 		mapping.getMappingColumns().add(dateColumn);
-		
+
 		mapping.getMappingColumns()
 				.add(createIdentifierColumn(3, ObjectKindType.FUNCTION,
 						LibraryPackage.eINSTANCE.getComponent_Name().getName()));

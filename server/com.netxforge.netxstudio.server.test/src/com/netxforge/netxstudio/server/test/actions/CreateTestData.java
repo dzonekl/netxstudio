@@ -62,7 +62,6 @@ public class CreateTestData extends AbstractDataProviderTest {
 
 	public void testCreateTestData() throws Exception {
 		testDataCreator.setDataProvider(dataProvider);
-		testDataCreator.setModelUtils(modelUtils);
 		testDataCreator.create();
 	}
 

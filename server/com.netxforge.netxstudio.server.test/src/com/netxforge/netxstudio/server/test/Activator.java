@@ -18,8 +18,12 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.test;
 
+import java.util.Hashtable;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+
+import com.netxforge.netxstudio.server.test.actions.TestDataCreator;
 
 public class Activator implements BundleActivator {
 
@@ -35,6 +39,7 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
+		bundleContext.registerService(TestDataCreator.class, new TestDataCreator(), new Hashtable<String, String>());
 	}
 
 	/*
