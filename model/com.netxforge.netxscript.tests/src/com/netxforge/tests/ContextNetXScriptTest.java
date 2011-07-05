@@ -362,7 +362,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 					interpreter.setContext(contextList.toArray(contextArray)); // Set
 
 					Mod m = (Mod) this
-							.getModel("this CAP 60 * 0.9;");
+							.getModel("this TOLERANCE 60 = this CAP 60 * 0.9;");
 					@SuppressWarnings("unused")
 					Object result = interpreter.evaluate(m); // Returns the
 																// intermediate
@@ -373,6 +373,8 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				}
 			}
 		}
+		
+		
 		
 	}
 
