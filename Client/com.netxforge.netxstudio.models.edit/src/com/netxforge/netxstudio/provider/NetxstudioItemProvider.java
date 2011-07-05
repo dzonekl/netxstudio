@@ -238,6 +238,11 @@ public class NetxstudioItemProvider
 			(createChildParameter
 				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
 				 SchedulingFactory.eINSTANCE.createRFSServiceJob()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
+				 SchedulingFactory.eINSTANCE.createRFSServiceRetentionJob()));
 	}
 
 	/**

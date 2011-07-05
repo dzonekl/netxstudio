@@ -75,7 +75,7 @@ public class CommonLogic {
 				break;
 			case RangeKind.METRIC_VALUE:
 				addToValueRange(resource,
-						expressionResult.getTargetIntervalHint(), null,
+						expressionResult.getTargetIntervalHint(), expressionResult.getTargetKindHint(),
 						getCreateValues(expressionResult, start, end), start,
 						end);
 				break;
@@ -87,6 +87,12 @@ public class CommonLogic {
 				addToValues(resource.getUtilizationValues(),
 						expressionResult.getTargetValues(),
 						expressionResult.getTargetIntervalHint());
+				break;
+			case RangeKind.METRICREMOVE_VALUE:
+				final MetricValueRange mvr = getValueRange(resource, expressionResult.getTargetKindHint(), expressionResult.getTargetIntervalHint());
+				if (start != null) {
+					removeValues(mvr.getMetricValues(), start, end);
+				}
 				break;
 			default:
 				throw new IllegalStateException("Range kind "
@@ -254,14 +260,21 @@ public class CommonLogic {
 	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
 			KindHintType kindHintType, List<Value> newValues, Date start,
 			Date end) {
-		for (final Value newValue : newValues) {
-			addToValueRange(foundNetXResource, periodHint, kindHintType,
-					newValue, start, end);
+		final MetricValueRange mvr = getValueRange(foundNetXResource, kindHintType, periodHint);
+		if (start != null) {
+			removeValues(mvr.getMetricValues(), start, end);
+		}
+		addToValues(mvr.getMetricValues(), newValues, periodHint);
+	}
+
+	public void addToValues(EList<Value> values, List<Value> newValues,
+			int periodHint) {
+		for (final Value newValue : new ArrayList<Value>(newValues)) {
+			addToValues(values, newValue, periodHint);
 		}
 	}
 
-	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
-			KindHintType kindHintType, Value value, Date start, Date end) {
+	private MetricValueRange getValueRange(NetXResource foundNetXResource, KindHintType kindHintType, int periodHint) {
 		MetricValueRange foundMvr = null;
 		for (final MetricValueRange mvr : foundNetXResource
 				.getMetricValueRanges()) {
@@ -277,20 +290,9 @@ public class CommonLogic {
 			foundMvr.setIntervalHint(periodHint);
 			foundNetXResource.getMetricValueRanges().add(foundMvr);
 		}
-		if (start != null) {
-			removeValues(foundMvr.getMetricValues(), start, end);
-		}
-
-		addToValues(foundMvr.getMetricValues(), value, periodHint);
+		return foundMvr;
 	}
-
-	public void addToValues(EList<Value> values, List<Value> newValues,
-			int periodHint) {
-		for (final Value newValue : new ArrayList<Value>(newValues)) {
-			addToValues(values, newValue, periodHint);
-		}
-	}
-
+	
 	public void addToValues(EList<Value> values, Value value, int periodHint) {
 
 		final long timeInMillis = value.getTimeStamp().toGregorianCalendar()

@@ -30,19 +30,19 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
  * 
  * @author Martin Taal
  */
-public class RFSServiceJobImplementation extends JobImplementation {
+public class RFSServiceResourceMonitoringJobImplementation extends JobImplementation {
 
 	private ExpressionWorkFlowRun workFlowRun;
 
 	@Override
 	public void run() {
 		final RFSServiceJob serviceJob = (RFSServiceJob) getJob();
-		final RFSServiceResourceMonitoringLogic capacityLogic = Activator.getInstance()
+		final RFSServiceResourceMonitoringLogic resourceMonitoringLogic = Activator.getInstance()
 				.getInjector().getInstance(RFSServiceResourceMonitoringLogic.class);
-		capacityLogic.setRfsService(serviceJob.getRFSService().cdoID());
-		capacityLogic.setJobMonitor(getRunMonitor());
-		capacityLogic.initializeServiceMonitor();
-		capacityLogic.run();
+		resourceMonitoringLogic.setRfsService(serviceJob.getRFSService().cdoID());
+		resourceMonitoringLogic.setJobMonitor(getRunMonitor());
+		resourceMonitoringLogic.initializeServiceMonitor();
+		resourceMonitoringLogic.run();
 		getDataProvider().commitTransaction();
 	}
 

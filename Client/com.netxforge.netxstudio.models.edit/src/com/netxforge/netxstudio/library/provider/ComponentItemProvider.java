@@ -81,6 +81,7 @@ public class ComponentItemProvider
 			addMetricRefsPropertyDescriptor(object);
 			addCapacityExpressionRefPropertyDescriptor(object);
 			addUtilizationExpressionRefPropertyDescriptor(object);
+			addRetentionExpressionRefPropertyDescriptor(object);
 			addToleranceRefsPropertyDescriptor(object);
 			addProtocolRefsPropertyDescriptor(object);
 			addParameterRefsPropertyDescriptor(object);
@@ -149,6 +150,28 @@ public class ComponentItemProvider
 				 getString("_UI_Component_utilizationExpressionRef_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Component_utilizationExpressionRef_feature", "_UI_Component_type"),
 				 LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Retention Expression Ref feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRetentionExpressionRefPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Component_retentionExpressionRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Component_retentionExpressionRef_feature", "_UI_Component_type"),
+				 LibraryPackage.Literals.COMPONENT__RETENTION_EXPRESSION_REF,
 				 true,
 				 false,
 				 true,

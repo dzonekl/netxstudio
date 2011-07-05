@@ -43,6 +43,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *   <li>{@link com.netxforge.netxstudio.library.Component#getMetricRefs <em>Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.Component#getRetentionExpressionRef <em>Retention Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getToleranceRefs <em>Tolerance Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getProtocolRefs <em>Protocol Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getParameterRefs <em>Parameter Refs</em>}</li>
@@ -148,6 +149,33 @@ public interface Component extends Base {
 	 * @generated
 	 */
 	void setUtilizationExpressionRef(Expression value);
+
+	/**
+	 * Returns the value of the '<em><b>Retention Expression Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The RetentionExpressionRef reference, used to
+	 * 								perform the retention computation.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Retention Expression Ref</em>' reference.
+	 * @see #setRetentionExpressionRef(Expression)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getComponent_RetentionExpressionRef()
+	 * @model extendedMetaData="kind='element' name='RetentionExpressionRef'"
+	 * @generated
+	 */
+	Expression getRetentionExpressionRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Component#getRetentionExpressionRef <em>Retention Expression Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Retention Expression Ref</em>' reference.
+	 * @see #getRetentionExpressionRef()
+	 * @generated
+	 */
+	void setRetentionExpressionRef(Expression value);
 
 	/**
 	 * Returns the value of the '<em><b>Tolerance Refs</b></em>' reference list.

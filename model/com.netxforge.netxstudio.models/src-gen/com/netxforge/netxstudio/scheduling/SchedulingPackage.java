@@ -212,7 +212,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getWorkFlowRun()
 	 * @generated
 	 */
-	int WORK_FLOW_RUN = 6;
+	int WORK_FLOW_RUN = 7;
 
 	/**
 	 * The feature id for the '<em><b>Ended</b></em>' attribute.
@@ -652,6 +652,88 @@ public interface SchedulingPackage extends EPackage {
 	int RFS_SERVICE_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceRetentionJobImpl <em>RFS Service Retention Job</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.RFSServiceRetentionJobImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceRetentionJob()
+	 * @generated
+	 */
+	int RFS_SERVICE_RETENTION_JOB = 6;
+
+	/**
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_RETENTION_JOB__END_TIME = JOB__END_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Interval</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_RETENTION_JOB__INTERVAL = JOB__INTERVAL;
+
+	/**
+	 * The feature id for the '<em><b>Job State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_RETENTION_JOB__JOB_STATE = JOB__JOB_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_RETENTION_JOB__NAME = JOB__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Repeat</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_RETENTION_JOB__REPEAT = JOB__REPEAT;
+
+	/**
+	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_RETENTION_JOB__START_TIME = JOB__START_TIME;
+
+	/**
+	 * The feature id for the '<em><b>RFS Service</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_RETENTION_JOB__RFS_SERVICE = JOB_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>RFS Service Retention Job</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_RETENTION_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobRunState <em>Job Run State</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -659,7 +741,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunState()
 	 * @generated
 	 */
-	int JOB_RUN_STATE = 7;
+	int JOB_RUN_STATE = 8;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobState <em>Job State</em>}' enum.
@@ -669,7 +751,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobState()
 	 * @generated
 	 */
-	int JOB_STATE = 8;
+	int JOB_STATE = 9;
 
 	/**
 	 * The meta object id for the '<em>Job Run State Object</em>' data type.
@@ -679,7 +761,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunStateObject()
 	 * @generated
 	 */
-	int JOB_RUN_STATE_OBJECT = 9;
+	int JOB_RUN_STATE_OBJECT = 10;
 
 	/**
 	 * The meta object id for the '<em>Job State Object</em>' data type.
@@ -689,7 +771,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobStateObject()
 	 * @generated
 	 */
-	int JOB_STATE_OBJECT = 10;
+	int JOB_STATE_OBJECT = 11;
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure <em>Expression Failure</em>}'.
@@ -904,6 +986,27 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRFSServiceJob_RFSService();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob <em>RFS Service Retention Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>RFS Service Retention Job</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob
+	 * @generated
+	 */
+	EClass getRFSServiceRetentionJob();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob#getRFSService <em>RFS Service</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>RFS Service</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob#getRFSService()
+	 * @see #getRFSServiceRetentionJob()
+	 * @generated
+	 */
+	EReference getRFSServiceRetentionJob_RFSService();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.WorkFlowRun <em>Work Flow Run</em>}'.
@@ -1229,6 +1332,24 @@ public interface SchedulingPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RFS_SERVICE_JOB__RFS_SERVICE = eINSTANCE.getRFSServiceJob_RFSService();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceRetentionJobImpl <em>RFS Service Retention Job</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.scheduling.impl.RFSServiceRetentionJobImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceRetentionJob()
+		 * @generated
+		 */
+		EClass RFS_SERVICE_RETENTION_JOB = eINSTANCE.getRFSServiceRetentionJob();
+
+		/**
+		 * The meta object literal for the '<em><b>RFS Service</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RFS_SERVICE_RETENTION_JOB__RFS_SERVICE = eINSTANCE.getRFSServiceRetentionJob_RFSService();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl <em>Work Flow Run</em>}' class.

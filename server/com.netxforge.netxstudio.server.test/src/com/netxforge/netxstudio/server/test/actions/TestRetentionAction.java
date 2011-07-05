@@ -18,18 +18,18 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.test.actions;
 
-import com.netxforge.netxstudio.server.logic.ResourceMonitoringService;
+import com.netxforge.netxstudio.server.logic.RetentionService;
 
 /**
- * Calls the capacity actions using a http get request. Need the server side to
+ * Calls the retention actions using a http get request. Need the server side to
  * be running.
  * 
  * @author Martin Taal
  */
-public class TestResourceMonitoringAction extends BaseRemoteActionTest {
+public class TestRetentionAction extends BaseRemoteActionTest {
 
 	@Override
 	protected String getServiceName() {
-		return ResourceMonitoringService.class.getName();
+		return RetentionService.class.getName();
 	}
 }

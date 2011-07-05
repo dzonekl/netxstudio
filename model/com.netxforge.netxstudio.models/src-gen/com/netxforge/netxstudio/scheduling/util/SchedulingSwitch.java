@@ -128,6 +128,13 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case SchedulingPackage.RFS_SERVICE_RETENTION_JOB: {
+				RFSServiceRetentionJob rfsServiceRetentionJob = (RFSServiceRetentionJob)theEObject;
+				T result = caseRFSServiceRetentionJob(rfsServiceRetentionJob);
+				if (result == null) result = caseJob(rfsServiceRetentionJob);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case SchedulingPackage.WORK_FLOW_RUN: {
 				WorkFlowRun workFlowRun = (WorkFlowRun)theEObject;
 				T result = caseWorkFlowRun(workFlowRun);
@@ -225,6 +232,21 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRFSServiceJob(RFSServiceJob object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RFS Service Retention Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RFS Service Retention Job</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRFSServiceRetentionJob(RFSServiceRetentionJob object) {
 		return null;
 	}
 

@@ -376,7 +376,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_ToleranceRefs() {
+	public EReference getComponent_RetentionExpressionRef() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -385,7 +385,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_ProtocolRefs() {
+	public EReference getComponent_ToleranceRefs() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -394,7 +394,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_ParameterRefs() {
+	public EReference getComponent_ProtocolRefs() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -403,7 +403,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_AllResources() {
+	public EReference getComponent_ParameterRefs() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -412,7 +412,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_Diagrams() {
+	public EReference getComponent_AllResources() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -421,7 +421,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_Icons() {
+	public EReference getComponent_Diagrams() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -430,8 +430,17 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getComponent_Icons() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getComponent_Description() {
-		return (EAttribute)componentEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -440,7 +449,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	public EAttribute getComponent_Name() {
-		return (EAttribute)componentEClass.getEStructuralFeatures().get(11);
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -1412,6 +1421,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(componentEClass, COMPONENT__METRIC_REFS);
 		createEReference(componentEClass, COMPONENT__CAPACITY_EXPRESSION_REF);
 		createEReference(componentEClass, COMPONENT__UTILIZATION_EXPRESSION_REF);
+		createEReference(componentEClass, COMPONENT__RETENTION_EXPRESSION_REF);
 		createEReference(componentEClass, COMPONENT__TOLERANCE_REFS);
 		createEReference(componentEClass, COMPONENT__PROTOCOL_REFS);
 		createEReference(componentEClass, COMPONENT__PARAMETER_REFS);
@@ -1598,6 +1608,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getComponent_MetricRefs(), theMetricsPackage.getMetric(), null, "metricRefs", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_CapacityExpressionRef(), this.getExpression(), null, "capacityExpressionRef", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_UtilizationExpressionRef(), this.getExpression(), null, "utilizationExpressionRef", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponent_RetentionExpressionRef(), this.getExpression(), null, "retentionExpressionRef", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_ToleranceRefs(), this.getTolerance(), null, "toleranceRefs", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_ProtocolRefs(), theProtocolsPackage.getProtocol(), null, "protocolRefs", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_ParameterRefs(), this.getParameter(), null, "parameterRefs", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1780,7 +1791,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																			
+		   });																																																																																																					
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -1837,6 +1848,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "UtilizationExpressionRef"
+		   });			
+		addAnnotation
+		  (getComponent_RetentionExpressionRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "RetentionExpressionRef"
 		   });			
 		addAnnotation
 		  (getComponent_ToleranceRefs(), 
@@ -2627,7 +2645,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	protected void createOCLAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																					
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																							
 		addAnnotation
 		  (getComponent_AllResources(), 
 		   source, 
@@ -2691,7 +2709,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	protected void createTeneoAnnotations() {
-		String source = "teneo.jpa";																																																																																													
+		String source = "teneo.jpa";																																																																																															
 		addAnnotation
 		  (expressionResultEClass, 
 		   source, 

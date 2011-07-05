@@ -225,6 +225,29 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected RFSServiceRetentionJobItemProvider rfsServiceRetentionJobItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createRFSServiceRetentionJobAdapter() {
+		if (rfsServiceRetentionJobItemProvider == null) {
+			rfsServiceRetentionJobItemProvider = new RFSServiceRetentionJobItemProvider(this);
+		}
+
+		return rfsServiceRetentionJobItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.WorkFlowRun} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -352,6 +375,7 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		if (jobRunContainerItemProvider != null) jobRunContainerItemProvider.dispose();
 		if (metricSourceJobItemProvider != null) metricSourceJobItemProvider.dispose();
 		if (rfsServiceJobItemProvider != null) rfsServiceJobItemProvider.dispose();
+		if (rfsServiceRetentionJobItemProvider != null) rfsServiceRetentionJobItemProvider.dispose();
 		if (workFlowRunItemProvider != null) workFlowRunItemProvider.dispose();
 	}
 

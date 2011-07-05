@@ -19,23 +19,23 @@
 package com.netxforge.netxstudio.server.logic;
 
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.library.Tolerance;
 
 /**
- * Performs the resource monitoring execution for an equipment or function.
+ * Performs the retention action for a component.
  * 
  * @author Martin Taal
  */
-public class ResourceMonitoringEngine extends BaseEngine {
+public class RetentionEngine extends BaseEngine {
 
 	@Override
 	public void execute() {
-		getExpressionEngine().getContext().add(getRange());
-		getExpressionEngine().getContext().add(getCommonLogic().getNode(getComponent()));
-		runForExpression(getComponent().getCapacityExpressionRef());
-		if (getFailure() != null) {
+		// nothing todo, go away
+		if (getComponent().getRetentionExpressionRef() == null) {
 			return;
 		}
+		
+		getExpressionEngine().getContext().add(getRange());
+		getExpressionEngine().getContext().add(getCommonLogic().getNode(getComponent()));
 
 		for (final NetXResource netXResource : getComponent().getResources()) {
 			// remove the last entry
@@ -45,19 +45,11 @@ public class ResourceMonitoringEngine extends BaseEngine {
 						getExpressionEngine().getContext().size() - 1);
 			}
 			getExpressionEngine().getContext().add(netXResource);
-			runForExpression(getComponent().getUtilizationExpressionRef());
+			runForExpression(getComponent().getRetentionExpressionRef());
 			if (getFailure() != null) {
 				return;
 			}
-			for (final Tolerance tolerance : getComponent().getToleranceRefs()) {
-				// resultaat van de tolerance is een percentage
-				// loop door de capacity/utilization heen
-				// genereer markers per nieuwe overschrijding
-				runForExpression(tolerance.getExpressionRef());
-				if (getFailure() != null) {
-					return;
-				}
-			}
 		}
 	}
+
 }

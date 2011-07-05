@@ -49,6 +49,7 @@ import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
@@ -103,6 +104,13 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * @generated
 	 */
 	private EClass rfsServiceJobEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rfsServiceRetentionJobEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -414,6 +422,24 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getRFSServiceRetentionJob() {
+		return rfsServiceRetentionJobEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRFSServiceRetentionJob_RFSService() {
+		return (EReference)rfsServiceRetentionJobEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getWorkFlowRun() {
 		return workFlowRunEClass;
 	}
@@ -571,6 +597,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		rfsServiceJobEClass = createEClass(RFS_SERVICE_JOB);
 		createEReference(rfsServiceJobEClass, RFS_SERVICE_JOB__RFS_SERVICE);
 
+		rfsServiceRetentionJobEClass = createEClass(RFS_SERVICE_RETENTION_JOB);
+		createEReference(rfsServiceRetentionJobEClass, RFS_SERVICE_RETENTION_JOB__RFS_SERVICE);
+
 		workFlowRunEClass = createEClass(WORK_FLOW_RUN);
 		createEAttribute(workFlowRunEClass, WORK_FLOW_RUN__ENDED);
 		createEAttribute(workFlowRunEClass, WORK_FLOW_RUN__LOG);
@@ -627,6 +656,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		expressionWorkFlowRunEClass.getESuperTypes().add(this.getWorkFlowRun());
 		metricSourceJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceJobEClass.getESuperTypes().add(this.getJob());
+		rfsServiceRetentionJobEClass.getESuperTypes().add(this.getJob());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(expressionFailureEClass, ExpressionFailure.class, "ExpressionFailure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -654,6 +684,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		initEClass(rfsServiceJobEClass, RFSServiceJob.class, "RFSServiceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRFSServiceJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, RFSServiceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(rfsServiceRetentionJobEClass, RFSServiceRetentionJob.class, "RFSServiceRetentionJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRFSServiceRetentionJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, RFSServiceRetentionJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(workFlowRunEClass, WorkFlowRun.class, "WorkFlowRun", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWorkFlowRun_Ended(), theXMLTypePackage.getDateTime(), "ended", null, 0, 1, WorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -703,7 +736,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																												
+		   });																																																
 	}
 
 	/**
@@ -875,6 +908,20 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   });			
 		addAnnotation
 		  (getRFSServiceJob_RFSService(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "RFSService"
+		   });			
+		addAnnotation
+		  (rfsServiceRetentionJobEClass, 
+		   source, 
+		   new String[] {
+			 "name", "RFSServiceRetentionJob",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getRFSServiceRetentionJob_RFSService(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",

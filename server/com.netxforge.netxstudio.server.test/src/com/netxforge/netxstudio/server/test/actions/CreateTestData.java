@@ -68,6 +68,7 @@ import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.dataimport.MasterDataImporter;
@@ -176,18 +177,35 @@ public class CreateTestData extends AbstractDataProviderTest {
 		network.getNodes().addAll(rfsService.getNodes());
 		network.getFunctionRelationships().addAll(functionRelationships);
 
-		final RFSServiceJob job = SchedulingFactory.eINSTANCE
-				.createRFSServiceJob();
-		job.setRFSService(rfsService);
-		job.setJobState(JobState.ACTIVE);
-		job.setStartTime(modelUtils.toXMLDate(new Date(System
-				.currentTimeMillis() + 2 * MINUTE)));
-		job.setInterval(600);
-		job.setName(rfsService.getServiceName());
+		{
+			final RFSServiceJob job = SchedulingFactory.eINSTANCE
+					.createRFSServiceJob();
+			job.setRFSService(rfsService);
+			job.setJobState(JobState.ACTIVE);
+			job.setStartTime(modelUtils.toXMLDate(new Date(System
+					.currentTimeMillis() + 2 * MINUTE)));
+			job.setInterval(600);
+			job.setName(rfsService.getServiceName());
 
-		// add to the job resource, that one is watched by the jobhandler
-		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
-				.add(job);
+			// add to the job resource, that one is watched by the jobhandler
+			dataProvider.getResource(SchedulingPackage.Literals.JOB)
+					.getContents().add(job);
+		}
+
+		{
+			final RFSServiceRetentionJob job = SchedulingFactory.eINSTANCE
+					.createRFSServiceRetentionJob();
+			job.setRFSService(rfsService);
+			job.setJobState(JobState.ACTIVE);
+			job.setStartTime(modelUtils.toXMLDate(new Date(System
+					.currentTimeMillis() + 2 * MINUTE)));
+			job.setInterval(600);
+			job.setName(rfsService.getServiceName());
+
+			// add to the job resource, that one is watched by the jobhandler
+			dataProvider.getResource(SchedulingPackage.Literals.JOB)
+					.getContents().add(job);
+		}
 	}
 
 	private void addToResource(CDOObject cdoObject) {
@@ -724,7 +742,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 			if (incrementIndex.contains(index)) {
 				i++;
 			}
-			if (index > 30) {
+			if (index > 60) {
 				break;
 			}
 			nodeType.getFunctions().add(

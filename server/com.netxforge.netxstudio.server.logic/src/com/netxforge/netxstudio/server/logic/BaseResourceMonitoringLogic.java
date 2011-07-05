@@ -18,144 +18,31 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.EList;
-
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.GenericsFactory;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
-import com.netxforge.netxstudio.scheduling.JobRunState;
-import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
 
 /**
- * Performs the capacity logic execution for a RFSService.
+ * Performs the resource monitoring logic execution for a RFSService.
  * 
  * @author Martin Taal
  */
-public abstract class BaseResourceMonitoringLogic {
+public abstract class BaseResourceMonitoringLogic extends BaseLogic {
 
-	private WorkFlowRunMonitor jobMonitor;
-
-	@Inject
-	@Server
-	private IDataProvider dataProvider;
-
-	private Date startTime;
-	private Date endTime;
-
-	@Inject
-	private ModelUtils modelUtils;
-
-	private DateTimeRange timeRange;
-
-	private List<ExpressionFailure> failures = new ArrayList<ExpressionFailure>();
-
-	public void run() {
-		try {
-			doRun();
-			if (getFailures().isEmpty()) {
-				jobMonitor.setFinished(JobRunState.FINISHED_SUCCESSFULLY, null);
-			} else {
-				jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, null);
-			}
-		} catch (final Throwable t) {
-			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
-		}
-	}
-
-	protected void doRun() {
-		// start a transaction
-		dataProvider.getTransaction();
-		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
-
-		jobMonitor.setTotalWork(countComponents(nodeTypes));
-		jobMonitor.setTask("Computing Capacity Data");
-		
-		for (final NodeType nodeType : nodeTypes) {
-
-			jobMonitor.appendToLog("Computing for node (type) " + ((Node)nodeType.eContainer()).getNodeID());
-
-			jobMonitor.setTask("Computing Capacity Data for nodeType");
-			processNode(nodeType);
-		}
-		if (!getFailures().isEmpty()) {
-			final ExpressionWorkFlowRun run = (ExpressionWorkFlowRun) dataProvider
-					.getTransaction().getObject(
-							jobMonitor.getWorkFlowRunId());
-			run.getFailureRefs().addAll(getFailures());
-		}
-		dataProvider.commitTransaction();
-	}
-
+	@Override
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
-
-	protected DateTimeRange getTimeRange() {
-		if (timeRange != null) {
-			return timeRange;
-		}
-		timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
-		timeRange.setBegin(getModelUtils().toXMLDate(getStartTime()));
-		timeRange.setEnd(getModelUtils().toXMLDate(getEndTime()));
-		return timeRange;
-	}
-
-	protected int countComponents(List<NodeType> nodeTypes) {
-		int cnt = 0;
-		for (final NodeType nodeType : nodeTypes) {
-			cnt += countChildEquipments(nodeType.getEquipments());
-			cnt += countChildFunctions(nodeType.getFunctions());
-		}
-		return cnt;
-	}
-
-	protected int countChildEquipments(EList<Equipment> equipments) {
-		int cnt = 0;
-		for (final Equipment equipment : equipments) {
-			cnt++;
-			cnt += countChildEquipments(equipment.getEquipments());
-		}
-		return cnt;
-	}
-
-	protected int countChildFunctions(EList<Function> functions) {
-		int cnt = 0;
-		for (final Function function : functions) {
-			cnt++;
-			cnt += countChildFunctions(function.getFunctions());
-		}
-		return cnt;
-	}
-
-	protected void executeFor(Component component) {
-		jobMonitor
-				.setTask("Computing Capacity Data for " + component.getName());
-		jobMonitor.incrementProgress(1, false);
-		final ResourceMonitoringEngine capacityLogic = LogicActivator.getInstance()
+	
+	@Override
+	protected BaseEngine getEngine() {
+		return LogicActivator.getInstance()
 				.getInjector().getInstance(ResourceMonitoringEngine.class);
-		capacityLogic.setComponent(component);
-		capacityLogic.setDataProvider(dataProvider);
-		capacityLogic.setRange(getTimeRange());
-		capacityLogic.execute();
-		if (capacityLogic.getFailure() != null) {
-			failures.add(capacityLogic.getFailure());
-		}
 	}
 
+	@Override
 	protected void processNode(NodeType nodeType) {
 		int cnt = 0;
 		{
@@ -172,7 +59,7 @@ public abstract class BaseResourceMonitoringLogic {
 					}
 					executeFor = newExecuteFor;
 				}
-				jobMonitor.incrementProgress(0, (cnt++ % 10) == 0);
+				getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
 			}
 		}
 		{
@@ -188,7 +75,7 @@ public abstract class BaseResourceMonitoringLogic {
 						newExecuteFor.add((Function) function.eContainer());
 					}
 					executeFor = newExecuteFor;
-					jobMonitor.incrementProgress(0, (cnt++ % 10) == 0);
+					getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
 				}
 			}
 		}
@@ -215,49 +102,4 @@ public abstract class BaseResourceMonitoringLogic {
 			}
 		}
 	}
-
-	public WorkFlowRunMonitor getJobMonitor() {
-		return jobMonitor;
-	}
-
-	public void setJobMonitor(WorkFlowRunMonitor jobMonitor) {
-		this.jobMonitor = jobMonitor;
-	}
-
-	public IDataProvider getDataProvider() {
-		return dataProvider;
-	}
-
-	public void setDataProvider(IDataProvider dataProvider) {
-		this.dataProvider = dataProvider;
-	}
-
-	public Date getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-
-	public List<ExpressionFailure> getFailures() {
-		return failures;
-	}
-
-	public ModelUtils getModelUtils() {
-		return modelUtils;
-	}
-
-	public void setModelUtils(ModelUtils modelUtils) {
-		this.modelUtils = modelUtils;
-	}
-
 }

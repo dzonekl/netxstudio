@@ -94,21 +94,4 @@ public class RFSServiceResourceMonitoringLogic extends BaseResourceMonitoringLog
 		return nodeTypes;
 	}
 
-	private boolean isValidNode(Node node) {
-		if (node.getLifecycle() == null) {
-			return true;
-		}
-		final long time = System.currentTimeMillis();
-		if (node.getLifecycle().getInServiceDate() != null
-				&& node.getLifecycle().getInServiceDate().toGregorianCalendar()
-						.getTimeInMillis() > time) {
-			return false;
-		}
-		if (node.getLifecycle().getOutOfServiceDate() != null
-				&& node.getLifecycle().getOutOfServiceDate()
-						.toGregorianCalendar().getTimeInMillis() < time) {
-			return false;
-		}
-		return true;
-	}
 }

@@ -13,6 +13,7 @@ import com.google.inject.Module;
 import com.netxforge.NetxscriptRuntimeModule;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
@@ -48,7 +49,14 @@ public class LogicActivator implements BundleActivator {
 		JobImplementation.REGISTRY.register(RFSServiceJob.class, new JobImplementationFactory() {
 			@Override
 			public JobImplementation create() {
-				return injector.getInstance(RFSServiceJobImplementation.class);
+				return injector.getInstance(RFSServiceResourceMonitoringJobImplementation.class);
+			}
+		});
+		
+		JobImplementation.REGISTRY.register(RFSServiceRetentionJob.class, new JobImplementationFactory() {
+			@Override
+			public JobImplementation create() {
+				return injector.getInstance(RetentionJobImplementation.class);
 			}
 		});
 
@@ -59,6 +67,7 @@ public class LogicActivator implements BundleActivator {
 		injector = createInjector(om);
 
 		bundleContext.registerService(ResourceMonitoringService.class, new ResourceMonitoringService(), new Hashtable<String, String>());
+		bundleContext.registerService(RetentionService.class, new RetentionService(), new Hashtable<String, String>());
 	}
 
 	/*

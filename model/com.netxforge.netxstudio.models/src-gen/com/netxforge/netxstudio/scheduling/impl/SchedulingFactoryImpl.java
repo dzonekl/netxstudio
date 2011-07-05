@@ -88,6 +88,7 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 			case SchedulingPackage.JOB_RUN_CONTAINER: return (EObject)createJobRunContainer();
 			case SchedulingPackage.METRIC_SOURCE_JOB: return (EObject)createMetricSourceJob();
 			case SchedulingPackage.RFS_SERVICE_JOB: return (EObject)createRFSServiceJob();
+			case SchedulingPackage.RFS_SERVICE_RETENTION_JOB: return (EObject)createRFSServiceRetentionJob();
 			case SchedulingPackage.WORK_FLOW_RUN: return (EObject)createWorkFlowRun();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -194,6 +195,16 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	public RFSServiceJob createRFSServiceJob() {
 		RFSServiceJobImpl rfsServiceJob = new RFSServiceJobImpl();
 		return rfsServiceJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RFSServiceRetentionJob createRFSServiceRetentionJob() {
+		RFSServiceRetentionJobImpl rfsServiceRetentionJob = new RFSServiceRetentionJobImpl();
+		return rfsServiceRetentionJob;
 	}
 
 	/**

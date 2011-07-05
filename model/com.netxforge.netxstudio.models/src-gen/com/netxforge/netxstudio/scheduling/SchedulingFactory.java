@@ -92,6 +92,15 @@ public interface SchedulingFactory extends EFactory {
 	RFSServiceJob createRFSServiceJob();
 
 	/**
+	 * Returns a new object of class '<em>RFS Service Retention Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>RFS Service Retention Job</em>'.
+	 * @generated
+	 */
+	RFSServiceRetentionJob createRFSServiceRetentionJob();
+
+	/**
 	 * Returns a new object of class '<em>Work Flow Run</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

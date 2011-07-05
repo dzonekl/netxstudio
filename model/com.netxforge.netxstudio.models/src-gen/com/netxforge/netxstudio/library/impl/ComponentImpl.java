@@ -44,6 +44,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getMetricRefs <em>Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getRetentionExpressionRef <em>Retention Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getToleranceRefs <em>Tolerance Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getProtocolRefs <em>Protocol Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getParameterRefs <em>Parameter Refs</em>}</li>
@@ -131,6 +132,24 @@ public class ComponentImpl extends BaseImpl implements Component {
 	 */
 	public void setUtilizationExpressionRef(Expression newUtilizationExpressionRef) {
 		eSet(LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF, newUtilizationExpressionRef);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Expression getRetentionExpressionRef() {
+		return (Expression)eGet(LibraryPackage.Literals.COMPONENT__RETENTION_EXPRESSION_REF, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRetentionExpressionRef(Expression newRetentionExpressionRef) {
+		eSet(LibraryPackage.Literals.COMPONENT__RETENTION_EXPRESSION_REF, newRetentionExpressionRef);
 	}
 
 	/**
