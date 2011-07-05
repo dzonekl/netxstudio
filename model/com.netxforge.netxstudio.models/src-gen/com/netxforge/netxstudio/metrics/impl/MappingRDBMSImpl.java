@@ -32,10 +32,11 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl#getDatabaseType <em>Database Type</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl#getDateFormat <em>Date Format</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl#getDateTimeFormat <em>Date Time Format</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl#getPassword <em>Password</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl#getQuery <em>Query</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl#getSID <em>SID</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl#getURL <em>URL</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl#getTimeFormat <em>Time Format</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingRDBMSImpl#getUser <em>User</em>}</li>
  * </ul>
  * </p>
@@ -103,6 +104,42 @@ public class MappingRDBMSImpl extends MappingImpl implements MappingRDBMS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getDateFormat() {
+		return (String)eGet(MetricsPackage.Literals.MAPPING_RDBMS__DATE_FORMAT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDateFormat(String newDateFormat) {
+		eSet(MetricsPackage.Literals.MAPPING_RDBMS__DATE_FORMAT, newDateFormat);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDateTimeFormat() {
+		return (String)eGet(MetricsPackage.Literals.MAPPING_RDBMS__DATE_TIME_FORMAT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDateTimeFormat(String newDateTimeFormat) {
+		eSet(MetricsPackage.Literals.MAPPING_RDBMS__DATE_TIME_FORMAT, newDateTimeFormat);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getPassword() {
 		return (String)eGet(MetricsPackage.Literals.MAPPING_RDBMS__PASSWORD, true);
 	}
@@ -139,8 +176,8 @@ public class MappingRDBMSImpl extends MappingImpl implements MappingRDBMS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getSID() {
-		return (String)eGet(MetricsPackage.Literals.MAPPING_RDBMS__SID, true);
+	public String getTimeFormat() {
+		return (String)eGet(MetricsPackage.Literals.MAPPING_RDBMS__TIME_FORMAT, true);
 	}
 
 	/**
@@ -148,26 +185,8 @@ public class MappingRDBMSImpl extends MappingImpl implements MappingRDBMS {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSID(String newSID) {
-		eSet(MetricsPackage.Literals.MAPPING_RDBMS__SID, newSID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getURL() {
-		return (String)eGet(MetricsPackage.Literals.MAPPING_RDBMS__URL, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setURL(String newURL) {
-		eSet(MetricsPackage.Literals.MAPPING_RDBMS__URL, newURL);
+	public void setTimeFormat(String newTimeFormat) {
+		eSet(MetricsPackage.Literals.MAPPING_RDBMS__TIME_FORMAT, newTimeFormat);
 	}
 
 	/**

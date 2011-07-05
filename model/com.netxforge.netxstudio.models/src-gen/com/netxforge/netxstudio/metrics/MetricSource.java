@@ -118,8 +118,7 @@ public interface MetricSource extends Base {
 	 * 							could be: jdbc:mysql://localhost:3306/DB (In
 	 * 							this
 	 * 							case a JDBC URL
-	 * 							to access the DB). The login/password can be
-	 * 							appended to the URI.
+	 * 							to access the DB).
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Location</em>' attribute.

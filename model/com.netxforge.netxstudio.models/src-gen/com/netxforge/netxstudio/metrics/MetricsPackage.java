@@ -474,13 +474,31 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_RDBMS__DATABASE_TYPE = MAPPING_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Date Format</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RDBMS__DATE_FORMAT = MAPPING_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Date Time Format</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_RDBMS__DATE_TIME_FORMAT = MAPPING_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Password</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RDBMS__PASSWORD = MAPPING_FEATURE_COUNT + 1;
+	int MAPPING_RDBMS__PASSWORD = MAPPING_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Query</b></em>' attribute.
@@ -489,25 +507,16 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RDBMS__QUERY = MAPPING_FEATURE_COUNT + 2;
+	int MAPPING_RDBMS__QUERY = MAPPING_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>SID</b></em>' attribute.
+	 * The feature id for the '<em><b>Time Format</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RDBMS__SID = MAPPING_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>URL</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_RDBMS__URL = MAPPING_FEATURE_COUNT + 4;
+	int MAPPING_RDBMS__TIME_FORMAT = MAPPING_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>User</b></em>' attribute.
@@ -516,7 +525,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RDBMS__USER = MAPPING_FEATURE_COUNT + 5;
+	int MAPPING_RDBMS__USER = MAPPING_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Mapping RDBMS</em>' class.
@@ -525,7 +534,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RDBMS_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 6;
+	int MAPPING_RDBMS_FEATURE_COUNT = MAPPING_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingRecordImpl <em>Mapping Record</em>}' class.
@@ -1267,6 +1276,28 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getMappingRDBMS_DatabaseType();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getDateFormat <em>Date Format</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Date Format</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingRDBMS#getDateFormat()
+	 * @see #getMappingRDBMS()
+	 * @generated
+	 */
+	EAttribute getMappingRDBMS_DateFormat();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getDateTimeFormat <em>Date Time Format</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Date Time Format</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingRDBMS#getDateTimeFormat()
+	 * @see #getMappingRDBMS()
+	 * @generated
+	 */
+	EAttribute getMappingRDBMS_DateTimeFormat();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getPassword <em>Password</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1289,26 +1320,15 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getMappingRDBMS_Query();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getSID <em>SID</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getTimeFormat <em>Time Format</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>SID</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingRDBMS#getSID()
+	 * @return the meta object for the attribute '<em>Time Format</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingRDBMS#getTimeFormat()
 	 * @see #getMappingRDBMS()
 	 * @generated
 	 */
-	EAttribute getMappingRDBMS_SID();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getURL <em>URL</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>URL</em>'.
-	 * @see com.netxforge.netxstudio.metrics.MappingRDBMS#getURL()
-	 * @see #getMappingRDBMS()
-	 * @generated
-	 */
-	EAttribute getMappingRDBMS_URL();
+	EAttribute getMappingRDBMS_TimeFormat();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getUser <em>User</em>}'.
@@ -1955,6 +1975,22 @@ public interface MetricsPackage extends EPackage {
 		EAttribute MAPPING_RDBMS__DATABASE_TYPE = eINSTANCE.getMappingRDBMS_DatabaseType();
 
 		/**
+		 * The meta object literal for the '<em><b>Date Format</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_RDBMS__DATE_FORMAT = eINSTANCE.getMappingRDBMS_DateFormat();
+
+		/**
+		 * The meta object literal for the '<em><b>Date Time Format</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_RDBMS__DATE_TIME_FORMAT = eINSTANCE.getMappingRDBMS_DateTimeFormat();
+
+		/**
 		 * The meta object literal for the '<em><b>Password</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1971,20 +2007,12 @@ public interface MetricsPackage extends EPackage {
 		EAttribute MAPPING_RDBMS__QUERY = eINSTANCE.getMappingRDBMS_Query();
 
 		/**
-		 * The meta object literal for the '<em><b>SID</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Time Format</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MAPPING_RDBMS__SID = eINSTANCE.getMappingRDBMS_SID();
-
-		/**
-		 * The meta object literal for the '<em><b>URL</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MAPPING_RDBMS__URL = eINSTANCE.getMappingRDBMS_URL();
+		EAttribute MAPPING_RDBMS__TIME_FORMAT = eINSTANCE.getMappingRDBMS_TimeFormat();
 
 		/**
 		 * The meta object literal for the '<em><b>User</b></em>' attribute feature.

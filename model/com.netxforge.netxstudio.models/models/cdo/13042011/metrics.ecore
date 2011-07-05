@@ -198,6 +198,24 @@
         <details key="name" value="DatabaseType"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateFormat" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The format used for the date in the query.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="DateFormat"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateTimeFormat" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The format used for the datetime in the query.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="DateTimeFormat"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The password.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -216,22 +234,13 @@
         <details key="name" value="Query"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sID" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeFormat" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The database name.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The format used for the time in the query.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
-        <details key="name" value="SID"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uRL" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The url to the database.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="URL"/>
+        <details key="name" value="TimeFormat"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="user" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
@@ -459,7 +468,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="metricLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="a URI representation of the location additional&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;information like login/password can be appended to the URI.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1. For an XLS file this could be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;file://path_to_where_the_xls_files_are_stored/&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;2. For an RDMS this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;could be: jdbc:mysql://localhost:3306/DB (In&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case a JDBC URL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to access the DB). The login/password can be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;appended to the URI.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="a URI representation of the location additional&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;information like login/password can be appended to the URI.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1. For an XLS file this could be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;file://path_to_where_the_xls_files_are_stored/&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;2. For an RDMS this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;could be: jdbc:mysql://localhost:3306/DB (In&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case a JDBC URL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to access the DB).&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>

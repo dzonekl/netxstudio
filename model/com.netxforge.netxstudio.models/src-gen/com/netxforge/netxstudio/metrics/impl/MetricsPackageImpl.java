@@ -474,7 +474,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMappingRDBMS_Password() {
+	public EAttribute getMappingRDBMS_DateFormat() {
 		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -483,7 +483,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMappingRDBMS_Query() {
+	public EAttribute getMappingRDBMS_DateTimeFormat() {
 		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -492,7 +492,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMappingRDBMS_SID() {
+	public EAttribute getMappingRDBMS_Password() {
 		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -501,7 +501,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMappingRDBMS_URL() {
+	public EAttribute getMappingRDBMS_Query() {
 		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -510,8 +510,17 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMappingRDBMS_User() {
+	public EAttribute getMappingRDBMS_TimeFormat() {
 		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingRDBMS_User() {
+		return (EAttribute)mappingRDBMSEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -943,10 +952,11 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 
 		mappingRDBMSEClass = createEClass(MAPPING_RDBMS);
 		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__DATABASE_TYPE);
+		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__DATE_FORMAT);
+		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__DATE_TIME_FORMAT);
 		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__PASSWORD);
 		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__QUERY);
-		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__SID);
-		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__URL);
+		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__TIME_FORMAT);
 		createEAttribute(mappingRDBMSEClass, MAPPING_RDBMS__USER);
 
 		mappingRecordEClass = createEClass(MAPPING_RECORD);
@@ -1072,10 +1082,11 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 
 		initEClass(mappingRDBMSEClass, MappingRDBMS.class, "MappingRDBMS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMappingRDBMS_DatabaseType(), this.getDatabaseTypeType(), "databaseType", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingRDBMS_DateFormat(), theXMLTypePackage.getString(), "dateFormat", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingRDBMS_DateTimeFormat(), theXMLTypePackage.getString(), "dateTimeFormat", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMappingRDBMS_Password(), theXMLTypePackage.getString(), "password", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMappingRDBMS_Query(), theXMLTypePackage.getString(), "query", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMappingRDBMS_SID(), theXMLTypePackage.getString(), "sID", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMappingRDBMS_URL(), theXMLTypePackage.getString(), "uRL", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingRDBMS_TimeFormat(), theXMLTypePackage.getString(), "timeFormat", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMappingRDBMS_User(), theXMLTypePackage.getString(), "user", null, 0, 1, MappingRDBMS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mappingRecordEClass, MappingRecord.class, "MappingRecord", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1173,7 +1184,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																																					
+		   });																																																																																																																							
 	}
 
 	/**
@@ -1337,6 +1348,20 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "name", "DatabaseType"
 		   });			
 		addAnnotation
+		  (getMappingRDBMS_DateFormat(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "DateFormat"
+		   });			
+		addAnnotation
+		  (getMappingRDBMS_DateTimeFormat(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "DateTimeFormat"
+		   });			
+		addAnnotation
 		  (getMappingRDBMS_Password(), 
 		   source, 
 		   new String[] {
@@ -1351,18 +1376,11 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "name", "Query"
 		   });			
 		addAnnotation
-		  (getMappingRDBMS_SID(), 
+		  (getMappingRDBMS_TimeFormat(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
-			 "name", "SID"
-		   });			
-		addAnnotation
-		  (getMappingRDBMS_URL(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "URL"
+			 "name", "TimeFormat"
 		   });			
 		addAnnotation
 		  (getMappingRDBMS_User(), 

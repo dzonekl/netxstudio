@@ -170,8 +170,7 @@
 							could be: jdbc:mysql://localhost:3306/DB (In
 							this
 							case a JDBC URL
-							to access the DB). The login/password can be
-							appended to the URI.
+							to access the DB).
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -318,18 +317,6 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="URL" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>The url to the database.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="SID" type="xs:string">
-					<xs:annotation>
-						<xs:documentation>The database name.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
 				<xs:attribute name="User" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The user name.
@@ -339,6 +326,24 @@
 				<xs:attribute name="Password" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The password.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="DateFormat" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The format used for the date in the query.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="TimeFormat" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The format used for the time in the query.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="DateTimeFormat" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The format used for the datetime in the query.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>

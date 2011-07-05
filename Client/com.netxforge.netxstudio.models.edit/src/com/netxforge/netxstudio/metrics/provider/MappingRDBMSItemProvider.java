@@ -73,10 +73,11 @@ public class MappingRDBMSItemProvider
 			super.getPropertyDescriptors(object);
 
 			addDatabaseTypePropertyDescriptor(object);
+			addDateFormatPropertyDescriptor(object);
+			addDateTimeFormatPropertyDescriptor(object);
 			addPasswordPropertyDescriptor(object);
 			addQueryPropertyDescriptor(object);
-			addSIDPropertyDescriptor(object);
-			addURLPropertyDescriptor(object);
+			addTimeFormatPropertyDescriptor(object);
 			addUserPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -96,6 +97,50 @@ public class MappingRDBMSItemProvider
 				 getString("_UI_MappingRDBMS_databaseType_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_databaseType_feature", "_UI_MappingRDBMS_type"),
 				 MetricsPackage.Literals.MAPPING_RDBMS__DATABASE_TYPE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Date Format feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDateFormatPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingRDBMS_dateFormat_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_dateFormat_feature", "_UI_MappingRDBMS_type"),
+				 MetricsPackage.Literals.MAPPING_RDBMS__DATE_FORMAT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Date Time Format feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDateTimeFormatPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingRDBMS_dateTimeFormat_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_dateTimeFormat_feature", "_UI_MappingRDBMS_type"),
+				 MetricsPackage.Literals.MAPPING_RDBMS__DATE_TIME_FORMAT,
 				 true,
 				 false,
 				 false,
@@ -149,41 +194,19 @@ public class MappingRDBMSItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the SID feature.
+	 * This adds a property descriptor for the Time Format feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addSIDPropertyDescriptor(Object object) {
+	protected void addTimeFormatPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_MappingRDBMS_sID_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_sID_feature", "_UI_MappingRDBMS_type"),
-				 MetricsPackage.Literals.MAPPING_RDBMS__SID,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the URL feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addURLPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_MappingRDBMS_uRL_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_uRL_feature", "_UI_MappingRDBMS_type"),
-				 MetricsPackage.Literals.MAPPING_RDBMS__URL,
+				 getString("_UI_MappingRDBMS_timeFormat_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingRDBMS_timeFormat_feature", "_UI_MappingRDBMS_type"),
+				 MetricsPackage.Literals.MAPPING_RDBMS__TIME_FORMAT,
 				 true,
 				 false,
 				 false,
@@ -250,10 +273,11 @@ public class MappingRDBMSItemProvider
 
 		switch (notification.getFeatureID(MappingRDBMS.class)) {
 			case MetricsPackage.MAPPING_RDBMS__DATABASE_TYPE:
+			case MetricsPackage.MAPPING_RDBMS__DATE_FORMAT:
+			case MetricsPackage.MAPPING_RDBMS__DATE_TIME_FORMAT:
 			case MetricsPackage.MAPPING_RDBMS__PASSWORD:
 			case MetricsPackage.MAPPING_RDBMS__QUERY:
-			case MetricsPackage.MAPPING_RDBMS__SID:
-			case MetricsPackage.MAPPING_RDBMS__URL:
+			case MetricsPackage.MAPPING_RDBMS__TIME_FORMAT:
 			case MetricsPackage.MAPPING_RDBMS__USER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

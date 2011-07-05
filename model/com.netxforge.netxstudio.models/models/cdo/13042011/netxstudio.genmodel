@@ -372,10 +372,11 @@
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingRDBMS">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/databaseType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/dateFormat"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/dateTimeFormat"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/password"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/query"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/sID"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/uRL"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/timeFormat"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingRDBMS/user"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingRecord">

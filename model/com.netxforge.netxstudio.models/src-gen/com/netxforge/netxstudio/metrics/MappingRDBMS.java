@@ -34,10 +34,11 @@ package com.netxforge.netxstudio.metrics;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getDatabaseType <em>Database Type</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getDateFormat <em>Date Format</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getDateTimeFormat <em>Date Time Format</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getPassword <em>Password</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getQuery <em>Query</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getSID <em>SID</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getURL <em>URL</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getTimeFormat <em>Time Format</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getUser <em>User</em>}</li>
  * </ul>
  * </p>
@@ -106,6 +107,60 @@ public interface MappingRDBMS extends Mapping {
 	boolean isSetDatabaseType();
 
 	/**
+	 * Returns the value of the '<em><b>Date Format</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The format used for the date in the query.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Date Format</em>' attribute.
+	 * @see #setDateFormat(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRDBMS_DateFormat()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='DateFormat'"
+	 * @generated
+	 */
+	String getDateFormat();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getDateFormat <em>Date Format</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Date Format</em>' attribute.
+	 * @see #getDateFormat()
+	 * @generated
+	 */
+	void setDateFormat(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Date Time Format</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The format used for the datetime in the query.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Date Time Format</em>' attribute.
+	 * @see #setDateTimeFormat(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRDBMS_DateTimeFormat()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='DateTimeFormat'"
+	 * @generated
+	 */
+	String getDateTimeFormat();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getDateTimeFormat <em>Date Time Format</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Date Time Format</em>' attribute.
+	 * @see #getDateTimeFormat()
+	 * @generated
+	 */
+	void setDateTimeFormat(String value);
+
+	/**
 	 * Returns the value of the '<em><b>Password</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -160,58 +215,31 @@ public interface MappingRDBMS extends Mapping {
 	void setQuery(String value);
 
 	/**
-	 * Returns the value of the '<em><b>SID</b></em>' attribute.
+	 * Returns the value of the '<em><b>Time Format</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The database name.
+	 * The format used for the time in the query.
 	 * 						
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>SID</em>' attribute.
-	 * @see #setSID(String)
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRDBMS_SID()
+	 * @return the value of the '<em>Time Format</em>' attribute.
+	 * @see #setTimeFormat(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRDBMS_TimeFormat()
 	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        extendedMetaData="kind='attribute' name='SID'"
+	 *        extendedMetaData="kind='attribute' name='TimeFormat'"
 	 * @generated
 	 */
-	String getSID();
+	String getTimeFormat();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getSID <em>SID</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getTimeFormat <em>Time Format</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>SID</em>' attribute.
-	 * @see #getSID()
+	 * @param value the new value of the '<em>Time Format</em>' attribute.
+	 * @see #getTimeFormat()
 	 * @generated
 	 */
-	void setSID(String value);
-
-	/**
-	 * Returns the value of the '<em><b>URL</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The url to the database.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>URL</em>' attribute.
-	 * @see #setURL(String)
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRDBMS_URL()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        extendedMetaData="kind='attribute' name='URL'"
-	 * @generated
-	 */
-	String getURL();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingRDBMS#getURL <em>URL</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>URL</em>' attribute.
-	 * @see #getURL()
-	 * @generated
-	 */
-	void setURL(String value);
+	void setTimeFormat(String value);
 
 	/**
 	 * Returns the value of the '<em><b>User</b></em>' attribute.
