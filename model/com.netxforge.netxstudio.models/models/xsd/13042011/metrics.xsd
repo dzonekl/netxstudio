@@ -311,7 +311,7 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Mapping">
-				<xs:attribute name="Query" type="xs:string">
+				<xs:attribute name="Query" type="gen:Description2000">
 					<xs:annotation>
 						<xs:documentation>The query to execute.
 						</xs:documentation>

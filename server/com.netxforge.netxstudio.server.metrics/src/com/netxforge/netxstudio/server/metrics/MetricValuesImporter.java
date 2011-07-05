@@ -217,7 +217,7 @@ public abstract class MetricValuesImporter {
 
 	// create the mapping statistics on the basis of the errors and
 	// warnings
-	private MappingStatistic createMappingStatistics(long startTime,
+	protected MappingStatistic createMappingStatistics(long startTime,
 			long endTime, int totalRows, String message) {
 		final MappingStatistic statistic = MetricsFactory.eINSTANCE
 				.createMappingStatistic();
@@ -617,6 +617,10 @@ public abstract class MetricValuesImporter {
 
 	public void setThrowable(Throwable throwable) {
 		this.throwable = throwable;
+	}
+
+	public IDataProvider getDataProvider() {
+		return dataProvider;
 	}
 
 }

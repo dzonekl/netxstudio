@@ -28,7 +28,7 @@ import java.util.StringTokenizer;
 import com.netxforge.netxstudio.metrics.MappingCSV;
 
 /**
- * The main entry class for the Metrics importing.
+ * Imports metrics from CVS.
  * 
  * @author Martin Taal
  */

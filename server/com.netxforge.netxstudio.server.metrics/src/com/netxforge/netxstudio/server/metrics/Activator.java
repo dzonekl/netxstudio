@@ -83,6 +83,7 @@ public class Activator implements BundleActivator {
 			this.bind(MetricSourceJobImplementation.class);
 			this.bind(XLSMetricValuesImporter.class);
 			this.bind(CSVMetricValuesImporter.class);
+			this.bind(RDBMSMetricValuesImporter.class);
 			this.bind(NetworkElementLocator.class);
 			this.bind(ServiceRunner.class);
 		}

@@ -28,7 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 
 /**
- * The main entry class for the Metrics importing.
+ * Imports metrics from XLS.
  * 
  * @author Martin Taal
  */

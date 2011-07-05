@@ -25,6 +25,7 @@ import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.netxstudio.server.test.actions.TestDataCreator;
 import com.netxforge.netxstudio.server.test.dataprovider.NonStatic;
 import com.netxforge.netxstudio.server.test.dataprovider.NonStaticCDODataProvider;
 
@@ -50,5 +51,6 @@ public class TestModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		this.bind(IDataProvider.class).annotatedWith(NonStatic.class).to(NonStaticCDODataProvider.class);
+		this.bind(TestDataCreator.class);
 	}
 }

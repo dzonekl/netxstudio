@@ -198,7 +198,7 @@ public interface MappingRDBMS extends Mapping {
 	 * @return the value of the '<em>Query</em>' attribute.
 	 * @see #setQuery(String)
 	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingRDBMS_Query()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @model dataType="com.netxforge.netxstudio.generics.Description2000"
 	 *        extendedMetaData="kind='attribute' name='Query'"
 	 * @generated
 	 */

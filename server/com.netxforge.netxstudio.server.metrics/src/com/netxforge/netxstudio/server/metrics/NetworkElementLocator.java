@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.metrics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.cdo.CDOObject;
@@ -60,8 +61,15 @@ public class NetworkElementLocator {
 		// find the cross references to this metric
 		final List<CDOObjectReference> results = dataProvider.getTransaction()
 				.queryXRefs(metric, sourceReference);
+		final List<Component> components = new ArrayList<Component>();
 		for (final CDOObjectReference objectReference : results) {
 			final CDOObject source = objectReference.getSourceObject();
+			if (source instanceof Component && !components.contains(source)) {
+				components.add((Component) source);
+				addChildren((Component) source, components);
+			}
+		}
+		for (final Component source : components) {
 			boolean foundValidNode = false;
 			for (final IdentifierValue identifierValue : identifiers) {
 				if (identifierValue.getKind().getObjectKind() == ObjectKindType.NODE
@@ -83,12 +91,38 @@ public class NetworkElementLocator {
 					}
 				}
 				if (atLeastOneFeatureChecked && allFeaturesValid) {
-					return (Component) source;
+					return source;
 				}
 			}
 		}
 
 		return null;
+	}
+
+	private void addChildren(Component component, List<Component> components) {
+		if (component instanceof Equipment) {
+			addChildren((Equipment) component, components);
+		} else {
+			addChildren((Function) component, components);
+		}
+	}
+
+	private void addChildren(Equipment equipment, List<Component> components) {
+		for (final Equipment childEquipment : equipment.getEquipments()) {
+			if (!components.contains(childEquipment)) {
+				components.add(childEquipment);
+			}
+			addChildren(childEquipment, components);
+		}
+	}
+
+	private void addChildren(Function Function, List<Component> components) {
+		for (final Function childFunction : Function.getFunctions()) {
+			if (!components.contains(childFunction)) {
+				components.add(childFunction);
+			}
+			addChildren(childFunction, components);
+		}
 	}
 
 	private boolean hasValidNode(EObject eObject,
@@ -110,36 +144,50 @@ public class NetworkElementLocator {
 			if (eObject instanceof Function) {
 				for (final FunctionRelationship r : ((Function) eObject)
 						.getFunctionRelationshipRefs()) {
-					if (featureHasValue(r, identifierValue.getKind().getObjectProperty(), idValue)) {
+					if (featureHasValue(r, identifierValue.getKind()
+							.getObjectProperty(), idValue)) {
 						return true;
 					}
 				}
 			} else {
 				for (final EquipmentRelationship r : ((Equipment) eObject)
 						.getEquipmentRelationshipRefs()) {
-					if (featureHasValue(r, identifierValue.getKind().getObjectProperty(), idValue)) {
+					if (featureHasValue(r, identifierValue.getKind()
+							.getObjectProperty(), idValue)) {
 						return true;
 					}
 				}
 			}
 			return false;
 		} else {
-			return featureHasValue(eObject, identifierValue.getKind().getObjectProperty(), idValue);
+			return featureHasValue(eObject, identifierValue.getKind()
+					.getObjectProperty(), idValue);
 		}
 	}
 
 	private boolean featureHasValue(EObject eObject, String eFeatureName,
 			String idValue) {
-		final EStructuralFeature eFeature = eObject.eClass()
+		EStructuralFeature eFeature = null;
+		for (final EStructuralFeature feature : eObject.eClass().getEAllStructuralFeatures()) {
+			if (feature.getName().compareToIgnoreCase(eFeatureName) == 0) {
+				eFeature = feature;
+				break;
+			}
+		}
+		
+		eObject.eClass()
 				.getEStructuralFeature(eFeatureName);
-		if (eFeature == null) {
-			return false;
+		if (eFeature != null) {
+			final Object value = eObject.eGet(eFeature);
+			if (value instanceof String && value.equals(idValue)) {
+				return true;
+			}
 		}
-		final Object value = eObject.eGet(eFeature);
-		if (value instanceof String && value.equals(idValue)) {
-			return true;
+		// check if one of the parents has this one
+		if (eObject.eContainer() != null) {
+			return featureHasValue(eObject.eContainer(), eFeatureName, idValue);
 		}
-		return false;
+ 		return false;
 	}
 
 	public static class IdentifierValue {

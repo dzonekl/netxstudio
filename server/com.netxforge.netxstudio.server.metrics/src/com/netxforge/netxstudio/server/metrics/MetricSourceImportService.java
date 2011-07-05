@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -75,6 +76,9 @@ public class MetricSourceImportService implements NetxForgeService {
 			} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
 				importer = Activator.getInstance().getInjector()
 						.getInstance(CSVMetricValuesImporter.class);
+			} else if (metricSource.getMetricMapping() instanceof MappingRDBMS) {
+				importer = Activator.getInstance().getInjector()
+						.getInstance(RDBMSMetricValuesImporter.class);
 			} else {
 				throw new IllegalArgumentException(
 						"Mapping type not supported "

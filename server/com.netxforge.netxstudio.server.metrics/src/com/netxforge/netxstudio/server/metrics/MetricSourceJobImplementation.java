@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.server.metrics;
 
 import com.netxforge.netxstudio.metrics.MappingCSV;
+import com.netxforge.netxstudio.metrics.MappingRDBMS;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
@@ -43,6 +44,8 @@ public class MetricSourceJobImplementation extends JobImplementation {
 			metricsImporter = Activator.getInstance().getInjector().getInstance(XLSMetricValuesImporter.class);
 		} else if (metricSource.getMetricMapping() instanceof MappingCSV) {
 			metricsImporter = Activator.getInstance().getInjector().getInstance(CSVMetricValuesImporter.class);
+		} else if (metricSource.getMetricMapping() instanceof MappingRDBMS) {
+			metricsImporter = Activator.getInstance().getInjector().getInstance(RDBMSMetricValuesImporter.class);
 		} else {
 			throw new IllegalArgumentException("Mapping type not supported: " + metricSource.getMetricMapping());
 		}
