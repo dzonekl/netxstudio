@@ -95,6 +95,7 @@ public abstract class BaseEngine {
 
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
+		commonLogic.setDataProvider(dataProvider);
 	}
 
 	public DateTimeRange getRange() {

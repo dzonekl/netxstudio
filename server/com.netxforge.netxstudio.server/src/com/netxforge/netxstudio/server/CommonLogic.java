@@ -59,7 +59,7 @@ public class CommonLogic {
 	@Inject
 	private ModelUtils modelUtils;
 
-	@Inject
+	// on purpose not injected
 	private IDataProvider dataProvider;
 
 	public void processResult(List<ExpressionResult> expressionResults,
@@ -335,5 +335,9 @@ public class CommonLogic {
 		public int compare(Value arg0, Value arg1) {
 			return arg0.getTimeStamp().compare(arg1.getTimeStamp());
 		}
+	}
+
+	public void setDataProvider(IDataProvider dataProvider) {
+		this.dataProvider = dataProvider;
 	}
 }

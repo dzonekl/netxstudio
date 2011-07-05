@@ -854,9 +854,6 @@ public class TestDataCreator implements NetxForgeService {
 			if (incrementIndex.contains(index)) {
 				i++;
 			}
-			if (index > 30) {
-				break;
-			}
 			nodeType.getFunctions().add(
 					createFunction("A" + (i > 0 ? i : ""), node,
 							relationShipName));
