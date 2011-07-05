@@ -713,7 +713,7 @@ public class TestDataCreator implements NetxForgeService {
 			// you could use the result set of the last scope (this is what the
 			// evaluation returns).
 
-			final String eAsString = "this TOLERANCE 60 = this CAP 60 * 0.9";
+			final String eAsString = "this TOLERANCE 60 = this CAP 60 * 0.9;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			addToResource(te);
 			t.setExpressionRef(te);
@@ -729,7 +729,7 @@ public class TestDataCreator implements NetxForgeService {
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			// Context is a Node
-			final String eAsString = "this TOLERANCE 60 = this CAP * 0.7";
+			final String eAsString = "this TOLERANCE 60 = this CAP * 0.7;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			addToResource(te);
 			t.setExpressionRef(te);
@@ -744,7 +744,7 @@ public class TestDataCreator implements NetxForgeService {
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			// Context is a Node
-			final String eAsString = "this TOLERANCE 60 = this CAP * 0.5";
+			final String eAsString = "this TOLERANCE 60 = this CAP * 0.5;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 
 			addToResource(te);
@@ -760,7 +760,7 @@ public class TestDataCreator implements NetxForgeService {
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			// Context is a Node
-			final String eAsString = "this TOLERANCE 60 = this CAP * 0.3";
+			final String eAsString = "this TOLERANCE 60 = this CAP * 0.3;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			this.addToResource(te);
 
