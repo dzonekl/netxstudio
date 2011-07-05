@@ -999,12 +999,13 @@
       <details key="name" value="RangeKind"/>
     </eAnnotations>
     <eLiterals name="METRIC"/>
-    <eLiterals name="CAP" value="1"/>
-    <eLiterals name="FORECAST" value="2"/>
-    <eLiterals name="FORECASTCAP" value="3" literal="FORECAST_CAP"/>
-    <eLiterals name="TRENDED" value="4"/>
-    <eLiterals name="UTILIZATION" value="5"/>
-    <eLiterals name="TOLERANCE" value="6"/>
+    <eLiterals name="METRICREMOVE" value="1" literal="METRIC_REMOVE"/>
+    <eLiterals name="CAP" value="2"/>
+    <eLiterals name="FORECAST" value="3"/>
+    <eLiterals name="FORECASTCAP" value="4" literal="FORECAST_CAP"/>
+    <eLiterals name="TRENDED" value="5"/>
+    <eLiterals name="UTILIZATION" value="6"/>
+    <eLiterals name="TOLERANCE" value="7"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="RangeKindObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

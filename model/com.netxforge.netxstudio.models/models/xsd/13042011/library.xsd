@@ -1283,6 +1283,7 @@
 	<xs:simpleType name ="RangeKind">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="METRIC"/>
+			<xs:enumeration value="METRIC_REMOVE"/>
 			<xs:enumeration value="CAP"/>
 			<xs:enumeration value="FORECAST"/>
 			<xs:enumeration value="FORECAST_CAP"/>

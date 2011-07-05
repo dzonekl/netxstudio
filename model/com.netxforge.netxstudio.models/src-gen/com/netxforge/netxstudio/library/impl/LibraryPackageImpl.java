@@ -1725,6 +1725,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		initEEnum(rangeKindEEnum, RangeKind.class, "RangeKind");
 		addEEnumLiteral(rangeKindEEnum, RangeKind.METRIC);
+		addEEnumLiteral(rangeKindEEnum, RangeKind.METRICREMOVE);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.CAP);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.FORECAST);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.FORECASTCAP);

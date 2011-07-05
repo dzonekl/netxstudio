@@ -43,6 +43,14 @@ public enum RangeKind implements Enumerator {
 	 * @ordered
 	 */
 	METRIC(0, "METRIC", "METRIC"), /**
+	 * The '<em><b>METRICREMOVE</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #METRICREMOVE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	METRICREMOVE(1, "METRICREMOVE", "METRIC_REMOVE"), /**
 	 * The '<em><b>CAP</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -50,7 +58,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CAP(1, "CAP", "CAP"),
+	CAP(2, "CAP", "CAP"),
 
 	/**
 	 * The '<em><b>FORECAST</b></em>' literal object.
@@ -60,7 +68,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	FORECAST(2, "FORECAST", "FORECAST"),
+	FORECAST(3, "FORECAST", "FORECAST"),
 
 	/**
 	 * The '<em><b>FORECASTCAP</b></em>' literal object.
@@ -70,7 +78,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	FORECASTCAP(3, "FORECASTCAP", "FORECAST_CAP"),
+	FORECASTCAP(4, "FORECASTCAP", "FORECAST_CAP"),
 
 	/**
 	 * The '<em><b>TRENDED</b></em>' literal object.
@@ -80,7 +88,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TRENDED(4, "TRENDED", "TRENDED"),
+	TRENDED(5, "TRENDED", "TRENDED"),
 
 	/**
 	 * The '<em><b>UTILIZATION</b></em>' literal object.
@@ -90,7 +98,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	UTILIZATION(5, "UTILIZATION", "UTILIZATION"), /**
+	UTILIZATION(6, "UTILIZATION", "UTILIZATION"), /**
 	 * The '<em><b>TOLERANCE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -98,7 +106,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TOLERANCE(6, "TOLERANCE", "TOLERANCE");
+	TOLERANCE(7, "TOLERANCE", "TOLERANCE");
 
 	/**
 	 * The '<em><b>METRIC</b></em>' literal value.
@@ -116,6 +124,21 @@ public enum RangeKind implements Enumerator {
 	public static final int METRIC_VALUE = 0;
 
 	/**
+	 * The '<em><b>METRICREMOVE</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>METRICREMOVE</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #METRICREMOVE
+	 * @model literal="METRIC_REMOVE"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int METRICREMOVE_VALUE = 1;
+
+	/**
 	 * The '<em><b>CAP</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -128,7 +151,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CAP_VALUE = 1;
+	public static final int CAP_VALUE = 2;
 
 	/**
 	 * The '<em><b>FORECAST</b></em>' literal value.
@@ -143,7 +166,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int FORECAST_VALUE = 2;
+	public static final int FORECAST_VALUE = 3;
 
 	/**
 	 * The '<em><b>FORECASTCAP</b></em>' literal value.
@@ -158,7 +181,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int FORECASTCAP_VALUE = 3;
+	public static final int FORECASTCAP_VALUE = 4;
 
 	/**
 	 * The '<em><b>TRENDED</b></em>' literal value.
@@ -173,7 +196,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TRENDED_VALUE = 4;
+	public static final int TRENDED_VALUE = 5;
 
 	/**
 	 * The '<em><b>UTILIZATION</b></em>' literal value.
@@ -188,7 +211,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int UTILIZATION_VALUE = 5;
+	public static final int UTILIZATION_VALUE = 6;
 
 	/**
 	 * The '<em><b>TOLERANCE</b></em>' literal value.
@@ -203,7 +226,7 @@ public enum RangeKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TOLERANCE_VALUE = 6;
+	public static final int TOLERANCE_VALUE = 7;
 
 	/**
 	 * An array of all the '<em><b>Range Kind</b></em>' enumerators.
@@ -214,6 +237,7 @@ public enum RangeKind implements Enumerator {
 	private static final RangeKind[] VALUES_ARRAY =
 		new RangeKind[] {
 			METRIC,
+			METRICREMOVE,
 			CAP,
 			FORECAST,
 			FORECASTCAP,
@@ -271,6 +295,7 @@ public enum RangeKind implements Enumerator {
 	public static RangeKind get(int value) {
 		switch (value) {
 			case METRIC_VALUE: return METRIC;
+			case METRICREMOVE_VALUE: return METRICREMOVE;
 			case CAP_VALUE: return CAP;
 			case FORECAST_VALUE: return FORECAST;
 			case FORECASTCAP_VALUE: return FORECASTCAP;

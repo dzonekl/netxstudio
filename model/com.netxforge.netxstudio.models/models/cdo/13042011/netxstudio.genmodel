@@ -173,6 +173,7 @@
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//RangeKind">
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/METRIC"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/METRICREMOVE"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/CAP"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECAST"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECASTCAP"/>
