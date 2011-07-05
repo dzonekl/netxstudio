@@ -68,7 +68,6 @@ import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.dataimport.MasterDataImporter;
@@ -177,35 +176,18 @@ public class CreateTestData extends AbstractDataProviderTest {
 		network.getNodes().addAll(rfsService.getNodes());
 		network.getFunctionRelationships().addAll(functionRelationships);
 
-		{
-			final RFSServiceJob job = SchedulingFactory.eINSTANCE
-					.createRFSServiceJob();
-			job.setRFSService(rfsService);
-			job.setJobState(JobState.ACTIVE);
-			job.setStartTime(modelUtils.toXMLDate(new Date(System
-					.currentTimeMillis() + 2 * MINUTE)));
-			job.setInterval(600);
-			job.setName(rfsService.getServiceName());
+		final RFSServiceJob job = SchedulingFactory.eINSTANCE
+				.createRFSServiceJob();
+		job.setRFSService(rfsService);
+		job.setJobState(JobState.ACTIVE);
+		job.setStartTime(modelUtils.toXMLDate(new Date(System
+				.currentTimeMillis() + 2 * MINUTE)));
+		job.setInterval(600);
+		job.setName(rfsService.getServiceName());
 
-			// add to the job resource, that one is watched by the jobhandler
-			dataProvider.getResource(SchedulingPackage.Literals.JOB)
-					.getContents().add(job);
-		}
-
-		{
-			final RFSServiceRetentionJob job = SchedulingFactory.eINSTANCE
-					.createRFSServiceRetentionJob();
-			job.setRFSService(rfsService);
-			job.setJobState(JobState.ACTIVE);
-			job.setStartTime(modelUtils.toXMLDate(new Date(System
-					.currentTimeMillis() + 2 * MINUTE)));
-			job.setInterval(600);
-			job.setName(rfsService.getServiceName());
-
-			// add to the job resource, that one is watched by the jobhandler
-			dataProvider.getResource(SchedulingPackage.Literals.JOB)
-					.getContents().add(job);
-		}
+		// add to the job resource, that one is watched by the jobhandler
+		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
+				.add(job);
 	}
 
 	private void addToResource(CDOObject cdoObject) {
@@ -601,7 +583,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 			// you could use the result set of the last scope (this is what the
 			// evaluation returns).
 
-			final String eAsString = "this CAP 60 * 0.9";
+			final String eAsString = "this TOLERANCE 60 = this CAP 60 * 0.9";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			addToResource(te);
 			t.setExpressionRef(te);
@@ -617,7 +599,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			// Context is a Node
-			final String eAsString = "this CAP * 0.7";
+			final String eAsString = "this TOLERANCE 60 = this CAP * 0.7";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			addToResource(te);
 			t.setExpressionRef(te);
@@ -632,7 +614,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			// Context is a Node
-			final String eAsString = "this CAP * 0.5";
+			final String eAsString = "this TOLERANCE 60 = this CAP * 0.5";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 
 			addToResource(te);
@@ -648,7 +630,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			// Context is a Node
-			final String eAsString = "this CAP * 0.3";
+			final String eAsString = "this TOLERANCE 60 = this CAP * 0.3";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			this.addToResource(te);
 
@@ -742,7 +724,7 @@ public class CreateTestData extends AbstractDataProviderTest {
 			if (incrementIndex.contains(index)) {
 				i++;
 			}
-			if (index > 60) {
+			if (index > 30) {
 				break;
 			}
 			nodeType.getFunctions().add(
