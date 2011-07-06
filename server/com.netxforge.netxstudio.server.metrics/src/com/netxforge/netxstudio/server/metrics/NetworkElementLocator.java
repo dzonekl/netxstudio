@@ -58,12 +58,26 @@ public class NetworkElementLocator {
 		final EReference sourceReference = LibraryPackage.eINSTANCE
 				.getComponent_MetricRefs();
 
+		boolean searchingForEquipment = false;
+		for (final IdentifierValue idValue : identifiers) {
+			if (idValue.getKind().getObjectKind() == ObjectKindType.EQUIPMENT) {
+				searchingForEquipment = true;
+				break;
+			}
+		}
+		
 		// find the cross references to this metric
 		final List<CDOObjectReference> results = dataProvider.getTransaction()
 				.queryXRefs(metric, sourceReference);
 		final List<Component> components = new ArrayList<Component>();
 		for (final CDOObjectReference objectReference : results) {
 			final CDOObject source = objectReference.getSourceObject();
+			if (source instanceof Function && searchingForEquipment) {
+				continue;
+			}
+			if (source instanceof Equipment && !searchingForEquipment) {
+				continue;
+			}
 			if (source instanceof Component && !components.contains(source)) {
 				components.add((Component) source);
 				addChildren((Component) source, components);
