@@ -119,12 +119,12 @@ public class TestDataCreator implements NetxForgeService {
 	public Object run(Map<String, String> parameters) {
 		try {
 			Guice.createInjector(TestModule.getModule()).injectMembers(this);
-			
+
 			dataProvider.setDoGetResourceFromOwnTransaction(false);
 			dataProvider.openSession("admin", "admin");
 
 			create();
-			
+
 			return "done";
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
@@ -427,12 +427,12 @@ public class TestDataCreator implements NetxForgeService {
 
 	private void setXLSMapping(MappingXLS mappingXLS) {
 		mappingXLS.setFirstDataRow(11);
-		mappingXLS.setHeaderRow(10);
+		mappingXLS.setHeaderRow(0);
 		mappingXLS.setSheetNumber(0);
 
 		final MappingColumn dateColumn = createValueColumn("Start Time", 0,
 				ValueKindType.DATETIME);
-		mappingXLS.getHeaderMappingColumns().add(dateColumn);
+		mappingXLS.getMappingColumns().add(dateColumn);
 		((ValueDataKind) dateColumn.getDataType())
 				.setFormat("MM/dd/yyyy hh:mm:ss");
 

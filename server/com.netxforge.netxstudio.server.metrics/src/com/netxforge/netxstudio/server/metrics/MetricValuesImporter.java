@@ -259,7 +259,7 @@ public abstract class MetricValuesImporter {
 				totalRows++;
 				final List<IdentifierValue> elementIdentifiers = getIdentifierValues(
 						getMappingColumn(), rowNum);
-				final Date timeStamp = getTimeStampValue(getMappingColumn(),
+				final Date rowTimeStamp = getTimeStampValue(getMappingColumn(),
 						rowNum);
 				final int periodHint = getPeriodHint(rowNum);
 
@@ -278,7 +278,7 @@ public abstract class MetricValuesImporter {
 
 						final Double value = getNumericCellValue(rowNum,
 								column.getColumn());
-						addMetricValue(column, timeStamp, networkElement,
+						addMetricValue(column, rowTimeStamp, networkElement,
 								value, periodHint);
 					}
 				}
@@ -438,9 +438,8 @@ public abstract class MetricValuesImporter {
 						dateFormat = new SimpleDateFormat(DEFAULT_DATE_PATTERN);
 					}
 
-					timeStamp = dateFormat.parse(getStringCellValue(rowNum,
+					return dateFormat.parse(getStringCellValue(rowNum,
 							column.getColumn()));
-					return timeStamp;
 				}
 			}
 
@@ -472,12 +471,12 @@ public abstract class MetricValuesImporter {
 				final SimpleDateFormat dateFormat = new SimpleDateFormat(
 						pattern);
 
-				timeStamp = dateFormat.parse(dateValue + " " + timeValue);
+				return dateFormat.parse(dateValue + " " + timeValue);
 			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		}
-		return timeStamp;
+		return new Date();
 	}
 
 	private int getPeriodHint(int rowNum) {

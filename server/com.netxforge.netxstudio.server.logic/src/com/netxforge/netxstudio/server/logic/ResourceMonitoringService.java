@@ -131,7 +131,7 @@ public class ResourceMonitoringService implements NetxForgeService {
 			dataProvider.openSession();
 			dataProvider.getTransaction();
 			final Resource res = dataProvider
-					.getResource(SchedulingPackage.Literals.EXPRESSION_WORK_FLOW_RUN);
+					.getResource(SchedulingPackage.Literals.WORK_FLOW_RUN);
 
 			final WorkFlowRun wfRun = SchedulingFactory.eINSTANCE
 					.createExpressionWorkFlowRun();
