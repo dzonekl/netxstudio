@@ -644,9 +644,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		// Obtain other dependent packages
 		LibraryPackage theLibraryPackage = (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
 		MetricsPackage theMetricsPackage = (MetricsPackage)EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI);
 		ServicesPackage theServicesPackage = (ServicesPackage)EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI);
-		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -654,6 +654,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		// Add supertypes to classes
 		expressionWorkFlowRunEClass.getESuperTypes().add(this.getWorkFlowRun());
+		jobEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		metricSourceJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceRetentionJobEClass.getESuperTypes().add(this.getJob());

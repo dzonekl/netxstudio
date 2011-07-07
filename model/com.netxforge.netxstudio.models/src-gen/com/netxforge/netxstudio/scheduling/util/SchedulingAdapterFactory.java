@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.util;
 
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -120,6 +121,10 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseWorkFlowRun(WorkFlowRun object) {
 				return createWorkFlowRunAdapter();
+			}
+			@Override
+			public Adapter caseBase(Base object) {
+				return createBaseAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -250,6 +255,20 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createWorkFlowRunAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.generics.Base <em>Base</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.generics.Base
+	 * @generated
+	 */
+	public Adapter createBaseAdapter() {
 		return null;
 	}
 

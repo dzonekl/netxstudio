@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.scheduling.provider;
 
 
+import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,7 +48,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * @generated
  */
 public class JobItemProvider
-	extends ItemProviderAdapter
+	extends BaseItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

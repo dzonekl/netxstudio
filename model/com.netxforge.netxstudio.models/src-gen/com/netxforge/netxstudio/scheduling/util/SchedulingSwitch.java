@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.util;
 
+import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -105,6 +106,7 @@ public class SchedulingSwitch<T> extends Switch<T> {
 			case SchedulingPackage.JOB: {
 				Job job = (Job)theEObject;
 				T result = caseJob(job);
+				if (result == null) result = caseBase(job);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -118,6 +120,7 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				MetricSourceJob metricSourceJob = (MetricSourceJob)theEObject;
 				T result = caseMetricSourceJob(metricSourceJob);
 				if (result == null) result = caseJob(metricSourceJob);
+				if (result == null) result = caseBase(metricSourceJob);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -125,6 +128,7 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				RFSServiceJob rfsServiceJob = (RFSServiceJob)theEObject;
 				T result = caseRFSServiceJob(rfsServiceJob);
 				if (result == null) result = caseJob(rfsServiceJob);
+				if (result == null) result = caseBase(rfsServiceJob);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -132,6 +136,7 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				RFSServiceRetentionJob rfsServiceRetentionJob = (RFSServiceRetentionJob)theEObject;
 				T result = caseRFSServiceRetentionJob(rfsServiceRetentionJob);
 				if (result == null) result = caseJob(rfsServiceRetentionJob);
+				if (result == null) result = caseBase(rfsServiceRetentionJob);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -262,6 +267,21 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseWorkFlowRun(WorkFlowRun object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBase(Base object) {
 		return null;
 	}
 

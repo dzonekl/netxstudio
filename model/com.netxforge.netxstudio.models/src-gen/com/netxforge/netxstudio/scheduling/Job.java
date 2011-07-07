@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
+import com.netxforge.netxstudio.generics.Base;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.cdo.CDOObject;
@@ -41,10 +42,9 @@ import org.eclipse.emf.cdo.CDOObject;
  *
  * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJob()
  * @model extendedMetaData="name='Job' kind='empty'"
- * @extends CDOObject
  * @generated
  */
-public interface Job extends CDOObject {
+public interface Job extends Base {
 	/**
 	 * Returns the value of the '<em><b>End Time</b></em>' attribute.
 	 * <!-- begin-user-doc -->

@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -388,13 +389,22 @@ public interface SchedulingPackage extends EPackage {
 	int JOB = 2;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOB__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>End Time</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int JOB__END_TIME = 0;
+	int JOB__END_TIME = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Interval</b></em>' attribute.
@@ -403,7 +413,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB__INTERVAL = 1;
+	int JOB__INTERVAL = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Job State</b></em>' attribute.
@@ -412,7 +422,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB__JOB_STATE = 2;
+	int JOB__JOB_STATE = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -421,7 +431,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB__NAME = 3;
+	int JOB__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Repeat</b></em>' attribute.
@@ -430,7 +440,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB__REPEAT = 4;
+	int JOB__REPEAT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
@@ -439,7 +449,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB__START_TIME = 5;
+	int JOB__START_TIME = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Job</em>' class.
@@ -448,7 +458,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int JOB_FEATURE_COUNT = 6;
+	int JOB_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl <em>Job Run Container</em>}' class.
@@ -496,6 +506,15 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 */
 	int METRIC_SOURCE_JOB = 4;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_SOURCE_JOB__DELETED = JOB__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>End Time</b></em>' attribute.
@@ -580,6 +599,15 @@ public interface SchedulingPackage extends EPackage {
 	int RFS_SERVICE_JOB = 5;
 
 	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_JOB__DELETED = JOB__DELETED;
+
+	/**
 	 * The feature id for the '<em><b>End Time</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -660,6 +688,15 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 */
 	int RFS_SERVICE_RETENTION_JOB = 6;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE_RETENTION_JOB__DELETED = JOB__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>End Time</b></em>' attribute.

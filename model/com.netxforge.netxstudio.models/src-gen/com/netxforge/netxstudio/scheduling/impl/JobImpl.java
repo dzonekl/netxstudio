@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.impl;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.ecore.EClass;
@@ -45,7 +46,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  *
  * @generated
  */
-public class JobImpl extends CDOObjectImpl implements Job {
+public class JobImpl extends BaseImpl implements Job {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -63,16 +64,6 @@ public class JobImpl extends CDOObjectImpl implements Job {
 	@Override
 	protected EClass eStaticClass() {
 		return SchedulingPackage.Literals.JOB;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
 	}
 
 	/**

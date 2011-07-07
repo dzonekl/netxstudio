@@ -24,12 +24,16 @@
 	<!--| JOB 						| -->
 	<!--|___________________________| -->
 	<xs:complexType name="Job">
-		<xs:attribute name="StartTime" type="xs:dateTime"></xs:attribute>
-		<xs:attribute name="Interval" type="xs:int"></xs:attribute>
-		<xs:attribute name="Repeat" type="xs:int"></xs:attribute>
-		<xs:attribute name="EndTime" type="xs:dateTime"></xs:attribute>
-		<xs:attribute name="Name" type="xs:string"></xs:attribute>
-		<xs:attribute name="JobState" type="JobState"></xs:attribute>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
+				<xs:attribute name="StartTime" type="xs:dateTime"></xs:attribute>
+				<xs:attribute name="Interval" type="xs:int"></xs:attribute>
+				<xs:attribute name="Repeat" type="xs:int"></xs:attribute>
+				<xs:attribute name="EndTime" type="xs:dateTime"></xs:attribute>
+				<xs:attribute name="Name" type="xs:string"></xs:attribute>
+				<xs:attribute name="JobState" type="JobState"></xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	
 	<!--_____________________________ -->
