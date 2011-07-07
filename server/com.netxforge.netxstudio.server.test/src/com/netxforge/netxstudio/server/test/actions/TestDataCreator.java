@@ -623,7 +623,7 @@ public class TestDataCreator implements NetxForgeService {
 			final Equipment equipment = LibraryFactory.eINSTANCE
 					.createEquipment();
 			equipments.add(equipment);
-			if (level == 0 && i == 0) {
+			if (level == HIERARCHY_DEPTH && i == (HIERARCHY_BREADTH - 1)) {
 				equipment.setName(id);
 				equipment.getMetricRefs().add(
 						getMetric("Gb mode max attached users(number)"));
@@ -658,7 +658,7 @@ public class TestDataCreator implements NetxForgeService {
 		for (int i = 0; i < HIERARCHY_BREADTH; i++) {
 			final Function function = LibraryFactory.eINSTANCE.createFunction();
 			functions.add(function);
-			if (level == 0 && i == 0) {
+			if (level == HIERARCHY_DEPTH && i == (HIERARCHY_BREADTH - 1)) {
 				function.setName(id);
 				function.getMetricRefs().add(
 						getMetric("Gb mode max attached users(number)"));

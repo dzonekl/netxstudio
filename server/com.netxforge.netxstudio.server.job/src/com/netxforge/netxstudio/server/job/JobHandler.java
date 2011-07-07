@@ -18,19 +18,22 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.job;
 
-import org.eclipse.emf.cdo.CDOInvalidationNotification;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.revision.CDORevisionKey;
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.server.IRepository;
+import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOInvalidationPolicy;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.net4j.util.container.IElementProcessor;
 import org.eclipse.net4j.util.container.IManagedContainer;
+import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent;
 import org.eclipse.net4j.util.lifecycle.ILifecycleEvent.Kind;
 import org.eclipse.net4j.util.lifecycle.LifecycleEventAdapter;
@@ -81,21 +84,28 @@ public class JobHandler {
 	private IDataProvider dataProvider;
 	private Scheduler scheduler;
 
+	private boolean initializing = false;
+
+	// contains all the ids which are relevant to know when creating
+	// removing or updating jobs
+	private List<CDOID> relevantIds = new ArrayList<CDOID>();
+	private boolean addedListener = false;
+
 	public synchronized void initialize() {
-		dataProvider.openSession();
+		initializing = true;
+		dataProvider.getSession();
 		final CDOTransaction transaction = dataProvider.getTransaction();
 		final Resource jobResource = dataProvider
 				.getResource(SchedulingPackage.eINSTANCE.getJob());
+		relevantIds.clear();
+		relevantIds.add(((CDOResource) jobResource).cdoID());
 		transaction.options().setInvalidationNotificationEnabled(true);
 		transaction.options().setInvalidationPolicy(
 				CDOInvalidationPolicy.DEFAULT);
-		jobResource.eAdapters().add(new JobChangeListener());
-		for (final EObject eObject : jobResource.getContents()) {
-			eObject.eAdapters().add(new JobChangeListener());
-		}
+
 		try {
 			if (scheduler != null && !scheduler.isShutdown()) {
-				scheduler.shutdown();
+				scheduler.shutdown(true);
 			}
 			scheduler = StdSchedulerFactory.getDefaultScheduler();
 		} catch (final Exception e) {
@@ -107,15 +117,18 @@ public class JobHandler {
 		for (final EObject eObject : jobResource.getContents()) {
 			try {
 				final Job job = (Job) eObject;
-
+				relevantIds.add(job.cdoID());
 				if (job.getJobState() == JobState.IN_ACTIVE) {
+					continue;
+				}
+				if (job.isDeleted()) {
 					continue;
 				}
 				final int countJobRuns = countJobRuns(job);
 				if (job.getRepeat() > 0 && job.getRepeat() >= countJobRuns) {
 					continue;
 				}
-
+				
 				final JobDataMap map = new JobDataMap();
 				map.put(NetxForgeJob.JOB_PARAMETER, job);
 
@@ -166,6 +179,34 @@ public class JobHandler {
 			e.printStackTrace(System.err);
 		}
 		dataProvider.commitTransaction();
+
+		// do after commit
+		if (!addedListener) {
+			addedListener = true;
+			dataProvider.getSession().addListener(new IListener() {
+				public void notifyEvent(org.eclipse.net4j.util.event.IEvent arg0) {
+					if (arg0 instanceof CDOSessionInvalidationEvent
+							&& !JobHandler.this.initializing) {
+						final CDOSessionInvalidationEvent event = (CDOSessionInvalidationEvent) arg0;
+						// only check changed objects, in case of:
+						// removal: the resource is updated
+						// insert: the resource is update
+						// update: the job itself is updated
+						for (final Object o : event.getChangedObjects()) {
+							if (o instanceof CDORevisionKey) {
+								final CDORevisionKey key = (CDORevisionKey)o;
+								final CDOID cdoId = key.getID();
+								if (relevantIds.contains(cdoId)) {
+									JobHandler.this.initialize();
+									return;
+								}
+							}
+						}
+					}
+				}
+			});
+		}
+		initializing = false;
 	}
 
 	private void activate() {
@@ -197,34 +238,6 @@ public class JobHandler {
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		}
-	}
-
-	private synchronized void reinitialize() {
-		dataProvider.closeSession();
-		initialize();
-	}
-
-	private class JobChangeListener implements Adapter {
-		private Notifier target;
-
-		public void notifyChanged(Notification notification) {
-			if (notification instanceof CDOInvalidationNotification) {
-				JobHandler.this.reinitialize();
-			}
-		}
-
-		public Notifier getTarget() {
-			return target;
-		}
-
-		public void setTarget(Notifier newTarget) {
-			target = newTarget;
-		}
-
-		public boolean isAdapterForType(Object type) {
-			return type instanceof Job || type instanceof Resource;
-		}
-
 	}
 
 	public static class Initializer implements IElementProcessor {

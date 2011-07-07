@@ -33,7 +33,6 @@ import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
-import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -45,8 +44,8 @@ import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTes
  * 
  * @author Martin Taal
  */
-public class MetricSourceJobTest extends AbstractDataProviderTest {
-	private static final String JOBNAME = "testJobReinitialization";
+public class UpdateJobTest extends AbstractDataProviderTest {
+	private static final String MSJOBNAME = "testMetricSource";
 	private static final int MINUTE = 60000;
 
 	private IDataService dataService;
@@ -62,67 +61,57 @@ public class MetricSourceJobTest extends AbstractDataProviderTest {
 	}
 
 	@Test
-	public void testRemoveJob() {
-		final IDataProvider provider = dataService.getProvider();
-		provider.openSession("admin", "admin");
-		provider.getTransaction();
-		final Resource resource = provider
-				.getResource(SchedulingPackage.eINSTANCE.getJob());
-		Job job = null;
-		for (final EObject eObject : resource.getContents()) {
-			job = (Job) eObject;
-			if (job.getName().startsWith(JOBNAME)) {
-				job.setDeleted(true);
-			}
-		}
-		provider.commitTransaction();
-	}
-
-	@Test
-	public void testUpdateJob() {
-		final IDataProvider provider = dataService.getProvider();
-		provider.openSession("admin", "admin");
-		provider.getTransaction();
-		final Resource resource = provider
-				.getResource(SchedulingPackage.eINSTANCE.getJob());
-		Job job = null;
-		for (final EObject eObject : resource.getContents()) {
-			job = (Job) eObject;
-			if (job.getName().startsWith(JOBNAME)) {
-				job.setName(JOBNAME + "test");
-			}
-		}
-		provider.commitTransaction();
-	}
-
-	@Test
 	public void testCreateJob() throws Exception {
 		final IDataProvider provider = dataService.getProvider();
 		provider.openSession("admin", "admin");
 		provider.getTransaction();
 		final Resource resource = provider
 				.getResource(SchedulingPackage.eINSTANCE.getJob());
-
+		
+//		Job job = null;
+//		for (final EObject eObject : resource.getContents()) {
+//			job = (Job) eObject;
+//			if (job.getName().equals(MSJOBNAME)) {
+//				break;
+//			} else {
+//				job = null;
+//			}
+//		}
+//		if (job != null) {
+//			resource.getContents().remove(job);
+//		}
 		final MetricSourceJob msJob = SchedulingFactory.eINSTANCE
 				.createMetricSourceJob();
 		msJob.setInterval(60);
 		msJob.setJobState(JobState.ACTIVE);
-		msJob.setName(JOBNAME);
+		msJob.setName(MSJOBNAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
-		msJob.setMetricSource(createTestMetricSource(JOBNAME));
+		msJob.setMetricSource(createTestMetricSource(MSJOBNAME));
 		resource.getContents().add(msJob);
 		resource.save(Collections.emptyMap());
 		provider.commitTransaction();
 	}
 
-	private MetricSource createTestMetricSource(String name) throws Exception {
+	private MetricSource createTestMetricSource(String name)
+			throws Exception {
 		final Resource resource = dataService.getProvider().getResource(
 				MetricsPackage.eINSTANCE.getMetricSource());
+
+		for (final EObject eObject : resource.getContents()) {
+			final MetricSource ms = (MetricSource) eObject;
+			if (ms.getName().equals(MSJOBNAME)) {
+				return ms;
+			}
+		}
+
+		// create the Metricsource
 		final MetricSource metricSource = MetricsFactory.eINSTANCE
 				.createMetricSource();
-		metricSource.setName("" + System.currentTimeMillis());
-		metricSource.setMetricLocation("");
+		metricSource.setName(MSJOBNAME);
+		metricSource
+				.setMetricLocation("/com/netxforge/nextstudio/server/test/metrics/actions/"
+						+ name + ".xls");
 
 		final MappingXLS mappingXLS = MetricsFactory.eINSTANCE
 				.createMappingXLS();
