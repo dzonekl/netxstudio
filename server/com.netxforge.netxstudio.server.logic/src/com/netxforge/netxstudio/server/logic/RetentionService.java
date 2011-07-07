@@ -104,7 +104,7 @@ public class RetentionService implements NetxForgeService {
 					}
 					logic.run();
 				};
-			}.run();
+			}.start();
 			return monitor.getWorkFlowRunId();
 		}
 

@@ -100,7 +100,7 @@ public class MetricSourceImportService implements NetxForgeService {
 					}
 					importer.process();
 				};
-			}.run();
+			}.start();
 			return monitor.getWorkFlowRunId();
 		}
 

@@ -101,7 +101,7 @@ public class TestMetricSourceImportAction extends AbstractDataProviderTest {
 		// sleep for 5 seconds to give the server time to work
 		int cnt = 0;
 		while (true) {
-			Thread.sleep(1000);
+			Thread.sleep(5000);
 			cnt++;
 			if (cnt == 20) {
 				fail("WorkFlowRun did not finish, testing "

@@ -65,7 +65,20 @@ public class NetworkElementLocator {
 				break;
 			}
 		}
-		
+
+		// find the node identifier
+		IdentifierValue nodeIdentifier = null;
+		for (final IdentifierValue identifierValue : identifiers) {
+			if (identifierValue.getKind().getObjectKind() == ObjectKindType.NODE) {
+				nodeIdentifier = identifierValue;
+				break;
+			}
+		}
+
+		if (nodeIdentifier == null) {
+			return null;
+		}
+
 		// find the cross references to this metric
 		final List<CDOObjectReference> results = dataProvider.getTransaction()
 				.queryXRefs(metric, sourceReference);
@@ -78,35 +91,29 @@ public class NetworkElementLocator {
 			if (source instanceof Equipment && !searchingForEquipment) {
 				continue;
 			}
+			if (!hasValidNode(source, nodeIdentifier)) {
+				continue;
+			}
+
 			if (source instanceof Component && !components.contains(source)) {
 				components.add((Component) source);
 				addChildren((Component) source, components);
 			}
 		}
 		for (final Component source : components) {
-			boolean foundValidNode = false;
+			boolean allFeaturesValid = true;
+			boolean atLeastOneFeatureChecked = false;
 			for (final IdentifierValue identifierValue : identifiers) {
-				if (identifierValue.getKind().getObjectKind() == ObjectKindType.NODE
-						&& hasValidNode(source, identifierValue)) {
-					foundValidNode = true;
-					break;
-				}
-			}
-			if (foundValidNode) {
-				boolean allFeaturesValid = true;
-				boolean atLeastOneFeatureChecked = false;
-				for (final IdentifierValue identifierValue : identifiers) {
-					if (identifierValue.getKind().getObjectKind() != ObjectKindType.NODE) {
-						atLeastOneFeatureChecked = true;
-						if (!isValidObject(source, identifierValue)) {
-							allFeaturesValid = false;
-							break;
-						}
+				if (identifierValue.getKind().getObjectKind() != ObjectKindType.NODE) {
+					atLeastOneFeatureChecked = true;
+					if (!isValidObject(source, identifierValue)) {
+						allFeaturesValid = false;
+						break;
 					}
 				}
-				if (atLeastOneFeatureChecked && allFeaturesValid) {
-					return source;
-				}
+			}
+			if (atLeastOneFeatureChecked && allFeaturesValid) {
+				return source;
 			}
 		}
 
@@ -182,15 +189,15 @@ public class NetworkElementLocator {
 	private boolean featureHasValue(EObject eObject, String eFeatureName,
 			String idValue) {
 		EStructuralFeature eFeature = null;
-		for (final EStructuralFeature feature : eObject.eClass().getEAllStructuralFeatures()) {
+		for (final EStructuralFeature feature : eObject.eClass()
+				.getEAllStructuralFeatures()) {
 			if (feature.getName().compareToIgnoreCase(eFeatureName) == 0) {
 				eFeature = feature;
 				break;
 			}
 		}
-		
-		eObject.eClass()
-				.getEStructuralFeature(eFeatureName);
+
+		eObject.eClass().getEStructuralFeature(eFeatureName);
 		if (eFeature != null) {
 			final Object value = eObject.eGet(eFeature);
 			if (value instanceof String && value.equals(idValue)) {
@@ -201,7 +208,7 @@ public class NetworkElementLocator {
 		if (eObject.eContainer() != null) {
 			return featureHasValue(eObject.eContainer(), eFeatureName, idValue);
 		}
- 		return false;
+		return false;
 	}
 
 	public static class IdentifierValue {

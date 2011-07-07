@@ -109,7 +109,7 @@ public class ResourceMonitoringService implements NetxForgeService {
 					}
 					capacityLogic.run();
 				};
-			}.run();
+			}.start();
 			return monitor.getWorkFlowRunId();
 		}
 
