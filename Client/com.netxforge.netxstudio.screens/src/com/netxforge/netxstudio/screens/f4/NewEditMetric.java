@@ -8,9 +8,7 @@ import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -60,7 +58,6 @@ public class NewEditMetric extends AbstractScreen implements
 	private Form frmNewEditMetric;
 	private Resource owner;
 	private Metric metric;
-	private Metric original;
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
 	private Metric subowner;
@@ -292,13 +289,10 @@ public class NewEditMetric extends AbstractScreen implements
 			throw new java.lang.IllegalArgumentException();
 		}
 		if (object != null && object instanceof Metric) {
-			if (Screens.isEditOperation(this.getOperation())) {
-				Metric copy = EcoreUtil.copy((Metric) object);
-				metric = copy;
-				original = (Metric) object;
-			} else if (Screens.isNewOperation(getOperation())) {
 				metric = (Metric) object;
-			}
+		} else {
+			// We need the right type of object for this screen.
+			throw new java.lang.IllegalArgumentException();
 		}
 
 		m_bindingContext = initDataBindings_();
@@ -324,25 +318,13 @@ public class NewEditMetric extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (original.cdoInvalid()) {
+			if (metric.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-
-			Command c;
-			if (subowner != null) {
-				c = new ReplaceCommand(editingService.getEditingDomain(),
-						subowner.getMetrics(), original, metric);
-			} else {
-				c = new ReplaceCommand(editingService.getEditingDomain(),
-						owner.getContents(), original, metric);
-
-			}
-			editingService.getEditingDomain().getCommandStack().execute(c);
-
 			System.out.println(metric.cdoID() + "" + metric.cdoState());
 
 		}

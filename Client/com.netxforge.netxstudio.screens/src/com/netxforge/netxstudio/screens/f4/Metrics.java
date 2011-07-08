@@ -17,11 +17,13 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -93,7 +95,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				disposeData();
+				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -142,6 +144,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 				NewEditMetric metricScreen = new NewEditMetric(screenService
 						.getScreenContainer(), SWT.NONE);
 				metricScreen.setOperation(Screens.OPERATION_NEW);
+				metricScreen.setScreenService(screenService);
 				Metric metric = MetricsFactory.eINSTANCE.createMetric();
 				metricScreen.injectData(metricResource, metric);
 
@@ -202,6 +205,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 						NewEditMetric metricScreen = new NewEditMetric(
 								screenService.getScreenContainer(), SWT.NONE);
 						metricScreen.setOperation(Screens.OPERATION_NEW);
+						metricScreen.setScreenService(screenService);
 						Metric metric = MetricsFactory.eINSTANCE.createMetric();
 						metricScreen.injectData(metricResource, subowner,
 								metric);
@@ -223,6 +227,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 								.getFirstElement();
 						NewEditMetric metricScreen = new NewEditMetric(
 								screenService.getScreenContainer(), SWT.NONE);
+						metricScreen.setScreenService(screenService);
 						metricScreen.setOperation(Screens.OPERATION_EDIT);
 						Object subowner = null;
 						if (o instanceof Metric) {
@@ -243,14 +248,12 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 	public EMFDataBindingContext initDataBindings_() {
 
-		// mgr.runAndCollect(new Runnable() {
-		// public void run() {
-		// your code which creates observables
 		listTreeContentProvider = new ObservableListTreeContentProvider(
 				new MetricTreeFactory(), new MetricTreeStructureAdvisor());
 		metricsTreeViewer.setContentProvider(listTreeContentProvider);
-
 		IObservableSet set = listTreeContentProvider.getKnownElements();
+//		obm.addObservable(set);
+		
 		IObservableMap[] map = new IObservableMap[2];
 
 		map[0] = EMFProperties.value(MetricsPackage.Literals.METRIC__NAME)
@@ -261,11 +264,11 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 		metricsTreeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
 
-		IEMFListProperty metricsProperty = EMFProperties.resource();
-		metricsTreeViewer.setInput(metricsProperty.observe(metricResource));
-		// }
-		// });
-
+		IEMFListProperty metricsProperty = EMFEditProperties.resource(editingService.getEditingDomain());
+		IObservableList metricsObservableList = metricsProperty.observe(metricResource);
+		obm.addObservable(metricsObservableList);
+		
+		metricsTreeViewer.setInput(metricsObservableList);
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		return context;
 	}
@@ -276,7 +279,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	public void disposeData() {
-		editingService.disposeData();
+		editingService.disposeData(metricResource);
 	}
 
 	@Override

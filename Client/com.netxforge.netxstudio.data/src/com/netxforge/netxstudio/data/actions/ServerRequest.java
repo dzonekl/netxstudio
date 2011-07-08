@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/ 
-package com.netxforge.netxstudio.common.server.actions;
+package com.netxforge.netxstudio.data.actions;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -38,13 +38,13 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 public class ServerRequest {
 	
 	
-	//  Build something exactly has this: 
 //	final String IMPORT_REQUEST = "http://localhost:8080/netxforge/service?service=com.netxforge.netxstudio.server.metrics.MetricSourceImportService&metricSource=7246";
 	
 	
 	@Inject
 	ModelUtils modelUtils;
-	
+
+private String server;
 	
 	public static final String NETXSTUDIO_SERVER = "http://localhost:8080";
 	
@@ -75,8 +75,13 @@ public class ServerRequest {
 
 	
 	private String callMetricAction(String serviceName, String parameterName, CDOID cdoId) throws Exception{
+		
+		if(server == null){
+			server = NETXSTUDIO_SERVER;	
+		}
+
 		final StringBuilder url = new StringBuilder();
-		url.append(NETXSTUDIO_SERVER + "/netxforge/service");
+		url.append(server + "/netxforge/service");
 		url.append("?" + SERVICE_PARAM_NAME + "="
 				+ serviceName);
 		url.append("&" + parameterName + "="
@@ -91,8 +96,12 @@ public class ServerRequest {
 	public String callMonitorAction(String serviceName, String parameterName, CDOID cdoId, Date from, Date to)
 			throws Exception {
 
+		if(server == null){
+			server = NETXSTUDIO_SERVER;	
+		}
+		
 		final StringBuilder url = new StringBuilder();
-		url.append("http://localhost:8080/netxforge/service");
+		url.append(server + "/netxforge/service");
 		url.append("?" + SERVICE_PARAM_NAME + "="
 				+ serviceName);
 		
@@ -150,4 +159,9 @@ public class ServerRequest {
 				System.currentTimeMillis() + offset));
 		return XMLTypeFactory.eINSTANCE.convertDateTime(xmlDate);
 	}
+	
+	public void setServer(String server){
+		this.server = server;
+	}
+	
 }

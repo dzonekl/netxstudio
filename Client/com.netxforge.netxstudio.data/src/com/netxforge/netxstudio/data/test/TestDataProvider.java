@@ -163,4 +163,8 @@ public class TestDataProvider implements IDataProvider {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
+	public String getServer() {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
 }

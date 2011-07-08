@@ -4,13 +4,11 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -43,8 +41,6 @@ import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
-import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.MappingTypeDialog;
@@ -56,11 +52,9 @@ public class NewEditMetricSource extends AbstractScreen implements
 	private Text txtName;
 	private Text txtLocationUrl;
 	private MetricSource metricSource;
-	private MetricSource original;
 	private Resource owner;
 	private Form frmNewEditMetricSource;
 
-	private IValidationService validationService = new ValidationService();
 	private EMFDataBindingContext context;
 
 	/**
@@ -179,6 +173,7 @@ public class NewEditMetricSource extends AbstractScreen implements
 					NewEditMappingXLS mappingScreen = new NewEditMappingXLS(
 							screenService.getScreenContainer(), SWT.NONE);
 					mappingScreen.setOperation(operation);
+					mappingScreen.setScreenService(screenService);
 					mappingScreen.injectData(metricSource, mapping);
 					screenService.setActiveScreen(mappingScreen);
 
@@ -187,6 +182,7 @@ public class NewEditMetricSource extends AbstractScreen implements
 					NewEditMappingCSV mappingScreen = new NewEditMappingCSV(
 							screenService.getScreenContainer(), SWT.NONE);
 					mappingScreen.setOperation(operation);
+					mappingScreen.setScreenService(screenService);
 					mappingScreen.injectData(metricSource, mapping);
 					screenService.setActiveScreen(mappingScreen);
 				}
@@ -194,6 +190,7 @@ public class NewEditMetricSource extends AbstractScreen implements
 					NewEditMappingRDBMS mappingScreen = new NewEditMappingRDBMS(
 							screenService.getScreenContainer(), SWT.NONE);
 					mappingScreen.setOperation(operation);
+					mappingScreen.setScreenService(screenService);
 					mappingScreen.injectData(metricSource, mapping);
 					screenService.setActiveScreen(mappingScreen);
 				}
@@ -231,10 +228,10 @@ public class NewEditMetricSource extends AbstractScreen implements
 		IObservableValue locationObservable = SWTObservables.observeText(
 				this.txtLocationUrl, SWT.Modify);
 
-		IEMFValueProperty nameProperty = EMFProperties
-				.value(MetricsPackage.Literals.METRIC_SOURCE__NAME);
-		IEMFValueProperty locationProperty = EMFProperties
-				.value(MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION);
+		IEMFValueProperty nameProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(),MetricsPackage.Literals.METRIC_SOURCE__NAME);
+		IEMFValueProperty locationProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(),MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION);
 
 		context.bindValue(nameObservable, nameProperty.observe(metricSource),
 				nameStrategy, null);
@@ -255,15 +252,12 @@ public class NewEditMetricSource extends AbstractScreen implements
 		}
 
 		if (object != null && object instanceof MetricSource) {
-			if (Screens.isEditOperation(this.getOperation())) {
-				MetricSource copy = EcoreUtil.copy((MetricSource) object);
-				metricSource = copy;
-				original = (MetricSource) object;
-			} else if (Screens.isNewOperation(getOperation())) {
 				metricSource = (MetricSource) object;
-			}
-		}
-
+		}else {
+			// We need the right type of object for this screen.
+			throw new java.lang.IllegalArgumentException();
+		}	
+			
 		String title = Screens.isNewOperation(getOperation()) ? "New" : "Edit";
 		frmNewEditMetricSource.setText(title + " Metric Source");
 		
@@ -285,7 +279,7 @@ public class NewEditMetricSource extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (original.cdoInvalid()) {
+			if (metricSource.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
@@ -293,9 +287,9 @@ public class NewEditMetricSource extends AbstractScreen implements
 				return;
 			}
 
-			Command c = new ReplaceCommand(editingService.getEditingDomain(),
-					owner.getContents(), original, metricSource);
-			editingService.getEditingDomain().getCommandStack().execute(c);
+//			Command c = new ReplaceCommand(editingService.getEditingDomain(),
+//					owner.getContents(), original, metricSource);
+//			editingService.getEditingDomain().getCommandStack().execute(c);
 
 			System.out.println(metricSource.cdoID() + ""
 					+ metricSource.cdoState());

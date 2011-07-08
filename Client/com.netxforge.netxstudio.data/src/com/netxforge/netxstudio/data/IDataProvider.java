@@ -35,6 +35,16 @@ public interface IDataProvider {
 	public static final long SIGNAL_TIME_OUT = 60 * 1000;
 	
 	/**
+	 * Get the server as a String.
+	 * 
+	 * @param set
+	 * @param resourcePath
+	 * @return
+	 */
+	public String getServer();
+
+	
+	/**
 	 * Get the resource in the the provided set, with the provided resourcePath.
 	 * 
 	 * @param set

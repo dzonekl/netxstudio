@@ -23,6 +23,7 @@ import com.netxforge.netxstudio.data.DataServiceModule;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.IQueryService;
+import com.netxforge.netxstudio.data.actions.ServerRequest;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -40,5 +41,6 @@ public class CDODataServiceModule extends DataServiceModule {
 		this.bind(ICDOConnection.class).to(CDODataConnection.class);
 		this.bind(IQueryService.class).to(CDOQueryService.class);
 		this.bind(CDOQueryUtil.class);
+		this.bind(ServerRequest.class);
 	}
 }

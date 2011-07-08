@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.nf4;
 
 import org.eclipse.core.databinding.conversion.Converter;
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
@@ -17,9 +18,8 @@ import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -51,15 +51,12 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.netxforge.netxstudio.Netxstudio;
-import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.common.CommonService;
 import com.netxforge.netxstudio.common.jca.JCAService;
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
-import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -69,19 +66,12 @@ public class NewEditUser extends AbstractScreen implements
 
 	private EMFDataBindingContext m_bindingContext;
 
-	private IValidationService validationService = new ValidationService();
-
 	CommonService commonService = new CommonService(new JCAService());
 
 	/**
 	 * A new or copy of a object to edit.
 	 */
 	private Person user;
-
-	/**
-	 * The original object in case of an edit operation.
-	 */
-	private Person original;
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtLogin;
@@ -90,12 +80,14 @@ public class NewEditUser extends AbstractScreen implements
 	private Text txtPass;
 	private Text txtConfirm;
 	private Text txtEmail;
-	private Netxstudio owner;
+	private Resource owner;
 
 	private ComboViewer comboViewer;
 	private Combo combo;
 	private Button btnCheck;
 	private Form frmNewEditUser;
+
+	private Resource rolesResource;
 
 	/**
 	 * Create the composite.
@@ -485,15 +477,17 @@ public class NewEditUser extends AbstractScreen implements
 
 		IObservableMap observeMap = EMFObservables.observeMap(
 				listContentProvider.getKnownElements(), Literals.ROLE__NAME);
-
 		this.getComboViewerWidget().setLabelProvider(
 				new ObservableMapLabelProvider(observeMap));
-
-		IEMFListProperty l = EMFEditProperties.list(
-				editingService.getEditingDomain(),
-				NetxstudioPackage.Literals.NETXSTUDIO__ROLES);
-
-		this.getComboViewerWidget().setInput(l.observe(owner));
+		
+		rolesResource = editingService.getData(GenericsPackage.Literals.ROLE);
+		IEMFListProperty l = EMFEditProperties.resource(
+				editingService.getEditingDomain());
+		IObservableList rolesObservableList = l.observe(rolesResource);
+		
+		obm.addObservable(rolesObservableList);
+		
+		this.getComboViewerWidget().setInput(rolesObservableList);
 
 		IObservableValue comboObserveProxy = ViewerProperties.singleSelection()
 				.observe(comboViewer);
@@ -610,20 +604,17 @@ public class NewEditUser extends AbstractScreen implements
 	 */
 	public void injectData(Object owner, Object object) {
 
-		if (owner instanceof Netxstudio) {
-			this.owner = (Netxstudio) owner;
+		if (owner instanceof Resource) {
+			this.owner = (Resource) owner;
 		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
 		if (object != null && object instanceof Person) {
-			if (Screens.isEditOperation(this.getOperation())) {
-				Person copy = EcoreUtil.copy((Person) object);
-				user = copy;
-				original = (Person) object;
-			} else if (Screens.isNewOperation(getOperation())) {
 				user = (Person) object;
-			}
+		}else {
+			// We need the right type of object for this screen.
+			throw new java.lang.IllegalArgumentException();
 		}
 
 		m_bindingContext = initDataBindings_();
@@ -645,7 +636,7 @@ public class NewEditUser extends AbstractScreen implements
 		if (Screens.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new AddCommand(editingService.getEditingDomain(),
-					owner.getUsers(), user);
+					owner.getContents(), user);
 			editingService.getEditingDomain().getCommandStack().execute(c);
 		} else if (Screens.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
@@ -654,18 +645,13 @@ public class NewEditUser extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (original.cdoInvalid()) {
+			if (user.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-
-			Command c = new ReplaceCommand(editingService.getEditingDomain(),
-					owner.getUsers(), original, user);
-			editingService.getEditingDomain().getCommandStack().execute(c);
-
 			System.out.println(user.cdoID() + "" + user.cdoState());
 
 		}
@@ -673,8 +659,6 @@ public class NewEditUser extends AbstractScreen implements
 		if (editingService.isDirty()) {
 			editingService.doSave(new NullProgressMonitor());
 		}
-
-		// System.out.println(user.cdoID() + "" + user.cdoState());
 	}
 
 	/*
@@ -705,6 +689,7 @@ public class NewEditUser extends AbstractScreen implements
 	}
 
 	public void disposeData() {
+		editingService.disposeData(rolesResource);
 		// N/A
 	}
 	@Override

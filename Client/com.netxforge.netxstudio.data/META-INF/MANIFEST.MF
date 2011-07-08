@@ -16,5 +16,6 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.data,
+ com.netxforge.netxstudio.data.actions,
  com.netxforge.netxstudio.data.cdo,
  com.netxforge.netxstudio.data.internal

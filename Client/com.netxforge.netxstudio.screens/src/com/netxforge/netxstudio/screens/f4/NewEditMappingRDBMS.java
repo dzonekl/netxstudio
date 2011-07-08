@@ -15,8 +15,6 @@ import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -103,7 +101,6 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 	private Form frmCSVMappingForm;
 	private MetricSource owner;
 	private MappingRDBMS mapping;
-	private MappingRDBMS original;
 	private TableViewer mappingColumnsTableViewer;
 	private GridTableViewer gridTableViewer;
 	private Menu gridMenu;
@@ -348,6 +345,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 				NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
 						screenService.getScreenContainer(), SWT.NONE);
 				mappingColumnScreen.setOperation(Screens.OPERATION_NEW);
+				mappingColumnScreen.setScreenService(screenService);
 				mappingColumnScreen.injectData(mapping,
 						MetricsFactory.eINSTANCE.createMappingColumn());
 				screenService.setActiveScreen(mappingColumnScreen);
@@ -402,6 +400,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 					NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
 							screenService.getScreenContainer(), SWT.NONE);
 					mappingColumnScreen.setOperation(Screens.OPERATION_EDIT);
+					mappingColumnScreen.setScreenService(screenService);
 					mappingColumnScreen.injectData(mapping, mappingColumn);
 					screenService.setActiveScreen(mappingColumnScreen);
 
@@ -669,13 +668,10 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		}
 
 		if (object != null && object instanceof MappingRDBMS) {
-			if (Screens.isEditOperation(this.getOperation())) {
-				MappingRDBMS copy = EcoreUtil.copy((MappingRDBMS) object);
-				mapping = copy;
-				original = (MappingRDBMS) object;
-			} else if (Screens.isNewOperation(getOperation())) {
 				mapping = (MappingRDBMS) object;
-			}
+		}else {
+			// We need the right type of object for this screen.
+			throw new java.lang.IllegalArgumentException();
 		}
 		this.initDataBindings_();
 		
@@ -704,20 +700,13 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (original.cdoInvalid()) {
+			if (mapping.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-
-			Command c = new ReplaceCommand(editingService.getEditingDomain(),
-					owner,
-					MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING,
-					original, mapping);
-
-			editingService.getEditingDomain().getCommandStack().execute(c);
 
 			System.out.println(mapping.cdoID() + "" + mapping.cdoState());
 

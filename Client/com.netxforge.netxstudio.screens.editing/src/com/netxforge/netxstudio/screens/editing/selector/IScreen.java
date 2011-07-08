@@ -52,6 +52,8 @@ public interface IScreen extends IViewerProvider {
 	 */
 	public abstract Form getScreenForm();
 	
+	public abstract void setScreenService(IScreenFormService screenService);
+	
 	/**
 	 * 
 	 * @return

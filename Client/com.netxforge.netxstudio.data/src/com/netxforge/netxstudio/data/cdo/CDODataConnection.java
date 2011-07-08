@@ -45,7 +45,9 @@ public class CDODataConnection implements ICDOConnection {
 	protected static final String REPO_NAME = "repo1"; //$NON-NLS-1$
 
 	protected static final String CONNECTION_ADDRESS = "localhost:2036"; //$NON-NLS-1$
-
+	
+	protected String currentServer;
+	
 	private CDOSessionConfiguration sessionConfiguration = null;
 
 	public CDOSessionConfiguration getConfig() {
@@ -59,11 +61,13 @@ public class CDODataConnection implements ICDOConnection {
 	public void initialize() {
 		this.initialize(CONNECTION_ADDRESS);
 	}
-
+	
 	public void initialize(String server) {
+		
 		if(server == null || server.length() == 0){
 			server = CONNECTION_ADDRESS;
 		}
+		currentServer = server;
 
 		OMPlatform.INSTANCE.setDebugging(true);
 		OMPlatform.INSTANCE.addLogHandler(PrintLogHandler.CONSOLE);
@@ -89,5 +93,9 @@ public class CDODataConnection implements ICDOConnection {
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 	}
-
+	
+	public String getCurrentServer(){
+		return currentServer;
+	}
+	
 }

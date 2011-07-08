@@ -26,9 +26,11 @@ public class ModelUtils {
 	@Inject
 	private DatatypeFactory dataTypeFactory;
 
-	public List<com.netxforge.netxstudio.library.Function> functionsWithName(List<com.netxforge.netxstudio.library.Function> functions,
+	public List<com.netxforge.netxstudio.library.Function> functionsWithName(
+			List<com.netxforge.netxstudio.library.Function> functions,
 			String name) {
-		List<com.netxforge.netxstudio.library.Function> fl = Lists.newArrayList();
+		List<com.netxforge.netxstudio.library.Function> fl = Lists
+				.newArrayList();
 		for (com.netxforge.netxstudio.library.Function f : functions) {
 			if (f.getName().equals(name)) {
 				fl.add(f);
@@ -48,37 +50,37 @@ public class ModelUtils {
 		}
 		return el;
 	}
-	
+
 	/**
-	 * Resources with this name. 
-	 * Notice: Matching is on regular expression, i.e. name = .* is all resources. 
+	 * Resources with this name. Notice: Matching is on regular expression, i.e.
+	 * name = .* is all resources.
 	 * 
 	 * @param components
 	 * @param name
 	 * @return
 	 */
-	public List<NetXResource> resourcesWithName(List<Component> components, String name) {
+	public List<NetXResource> resourcesWithName(List<Component> components,
+			String name) {
 		List<NetXResource> rl = Lists.newArrayList();
 		List<Component> cl = Lists.newArrayList();
 		for (Component c : components) {
-			for(NetXResource r : c.getResources()){
-				
-				
-				if(r.getExpressionName().matches(name)){
+			for (NetXResource r : c.getResources()) {
+
+				if (r.getExpressionName().matches(name)) {
 					rl.add(r);
 				}
 			}
-			if(c instanceof Equipment){
-				cl.addAll(((Equipment)c).getEquipments());
+			if (c instanceof Equipment) {
+				cl.addAll(((Equipment) c).getEquipments());
 			}
-			if(c instanceof com.netxforge.netxstudio.library.Function){
-				cl.addAll(((com.netxforge.netxstudio.library.Function)c).getFunctions());
+			if (c instanceof com.netxforge.netxstudio.library.Function) {
+				cl.addAll(((com.netxforge.netxstudio.library.Function) c)
+						.getFunctions());
 			}
 			rl.addAll(this.resourcesWithName(cl, name));
 		}
 		return rl;
 	}
-	
 
 	public static final int SECONDS_IN_A_MINUTE = 60;
 	public static final int SECONDS_IN_A_QUARTER = SECONDS_IN_A_MINUTE * 15;
@@ -114,9 +116,9 @@ public class ModelUtils {
 				Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY);
 		return week;
 	}
-	
+
 	public int weekDay(Date date) {
-		
+
 		Function<Date, Integer> getDayString = new Function<Date, Integer>() {
 			public Integer apply(Date from) {
 				Calendar c = GregorianCalendar.getInstance();
@@ -127,7 +129,6 @@ public class ModelUtils {
 		return getDayString.apply(date);
 	}
 
-	
 	public String weekDay(Integer weekDay) {
 		Function<Integer, String> getDayString = new Function<Integer, String>() {
 			public String apply(Integer from) {
@@ -246,8 +247,7 @@ public class ModelUtils {
 		}
 		return c.getTime();
 	}
-	
-	
+
 	public XMLGregorianCalendar toXMLDate(Date date) {
 		final XMLGregorianCalendar gregCalendar = dataTypeFactory
 				.newXMLGregorianCalendar();
@@ -336,11 +336,43 @@ public class ModelUtils {
 				if (from.equals("Quarter")) {
 					return ModelUtils.SECONDS_IN_A_QUARTER;
 				}
+				try {
+					return new Integer(from);
+				} catch (NumberFormatException nfe) {
+					nfe.printStackTrace();
+				}
 				return -1;
 			}
 		};
 		return getFieldInSeconds.apply(field);
 	}
+	
+	
+	public String fromSeconds(int secs) {
+		Function<Integer, String> getFieldInSeconds = new Function<Integer, String>() {
+			public String apply(Integer from) {
+				
+				
+				if (from.equals(ModelUtils.SECONDS_IN_A_WEEK)){ 
+					return "Week";
+				}
+				if (from.equals(ModelUtils.SECONDS_IN_A_DAY)){ 
+					return "Day";
+				}
+				if (from.equals(ModelUtils.SECONDS_IN_AN_HOUR)){
+					return "Hour"; 
+				}
+				if (from.equals(ModelUtils.SECONDS_IN_A_QUARTER)){
+					return "Quarter";
+				}
+				return new Integer(from).toString();
+			}
+		};
+		return getFieldInSeconds.apply(secs);
+	}
+	
+	
+	
 
 	public int inWeeks(String field) {
 		Function<String, Integer> getFieldInSeconds = new Function<String, Integer>() {
@@ -378,7 +410,7 @@ public class ModelUtils {
 		Date occurenceDate = start;
 		occurences.add(start);
 
-		if (repeat > 0 && interval > 60 * 10) {
+		if (repeat > 0 && interval > 1) {
 			// We roll on the interval from the start date until repeat is
 			// reached.
 			for (int i = 0; i < repeat; i++) {
@@ -387,7 +419,7 @@ public class ModelUtils {
 			}
 			return occurences;
 		}
-		if (end != null && interval > 60 * 10) {
+		if (end != null && interval > 1) {
 			// We roll on the interval from the start date until the end date.
 			int i = 0;
 			while (i < maxEntries) {
@@ -401,7 +433,7 @@ public class ModelUtils {
 			}
 			return occurences;
 		}
-		if (repeat == -1 && interval > 60 * 10) {
+		if (repeat == 0 && interval >1) {
 			int i = 0;
 			while (i < maxEntries) {
 				occurenceDate = rollSeconds(occurenceDate, interval);

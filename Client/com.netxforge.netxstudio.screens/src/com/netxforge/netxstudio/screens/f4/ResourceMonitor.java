@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -42,6 +43,7 @@ import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
 import org.swtchart.LineStyle;
 
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
@@ -51,6 +53,8 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 	private Chart chart;
 	private Table table;
 	private Form frmFunction;
+	private Resource monitorResource;
+	private NetXResource netXResource;
 	
 	public ResourceMonitor(Composite parent, int style) {
 		super(parent, style);
@@ -378,28 +382,37 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 	}
 
 	public Viewer getViewer() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public void injectData(Object owner, Object object) {
-		// TODO Auto-generated method stub
-		
+		if(owner instanceof Resource){
+			monitorResource = (Resource)owner;
+		}
+		if(object instanceof NetXResource){
+			netXResource = (NetXResource) object;
+		}
+		initDataBindings_();
 	}
 
 	public void addData() {
-		// TODO Auto-generated method stub
+		// N/A this is a view screen. 
 		
 	}
 
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
-		// TODO Auto-generated method stub
-		return null;
+		EMFDataBindingContext context = new EMFDataBindingContext();
+		
+		// Setup data binding. 
+		
+		
+		
+		
+		return context;
 	}
 
 	@Override
@@ -408,7 +421,7 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 	}
 
 	public void disposeData() {
-		editingService.disposeData();
+		editingService.disposeData(monitorResource);
 	}
 	
 	public void setOperation(int operation){

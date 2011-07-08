@@ -93,7 +93,7 @@ public interface IEditingService {
 	 * Typically used to release a connection. 
 	 * @return
 	 */
-	public abstract void disposeData();
+	public abstract void disposeData(Resource resource);
 	
 	/**
 	 * Set the provider for the active viewer. 

@@ -8,9 +8,7 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -51,7 +49,6 @@ public class NewEditTolerance extends AbstractScreen implements
 	private Form frmNewTolerance;
 	private Resource owner;
 	private Tolerance tolerance;
-	private Tolerance original;
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
 	private ComboViewer cmbLevelViewer;
@@ -160,13 +157,10 @@ public class NewEditTolerance extends AbstractScreen implements
 			throw new java.lang.IllegalArgumentException();
 		}
 		if (object != null && object instanceof Tolerance) {
-			if (Screens.isEditOperation(this.getOperation())) {
-				Tolerance copy = EcoreUtil.copy((Tolerance) object);
-				tolerance = copy;
-				original = (Tolerance) object;
-			} else if (Screens.isNewOperation(getOperation())) {
 				tolerance = (Tolerance) object;
-			}
+		}else {
+			// We need the right type of object for this screen.
+			throw new java.lang.IllegalArgumentException();
 		}
 
 		m_bindingContext = initDataBindings_();
@@ -188,19 +182,13 @@ public class NewEditTolerance extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (original.cdoInvalid()) {
+			if (tolerance.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-
-			Command c;
-			c = new ReplaceCommand(editingService.getEditingDomain(),
-					owner.getContents(), original, tolerance);
-			editingService.getEditingDomain().getCommandStack().execute(c);
-
 			System.out.println(tolerance.cdoID() + "" + tolerance.cdoState());
 
 		}
@@ -208,7 +196,6 @@ public class NewEditTolerance extends AbstractScreen implements
 		if (editingService.isDirty()) {
 			editingService.doSave(new NullProgressMonitor());
 		}
-
 	}
 
 	@Override

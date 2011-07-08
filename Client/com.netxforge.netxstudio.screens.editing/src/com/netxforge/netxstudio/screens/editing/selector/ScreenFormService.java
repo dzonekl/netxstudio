@@ -26,12 +26,16 @@ import java.util.Stack;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
@@ -42,7 +46,6 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.cdo.IFixtures;
 import com.netxforge.netxstudio.generics.Role;
@@ -74,7 +77,6 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-@Singleton
 public class ScreenFormService implements IScreenFormService {
 
 	private SashForm sashForm;
@@ -82,11 +84,10 @@ public class ScreenFormService implements IScreenFormService {
 
 	private ScreenBody screenBody;
 
-	private Composite activeScreen = null;
-//	private Composite previousScreen = null;
-	
-	private Stack<Composite> screenStack = new Stack<Composite>(); 
-	
+	// private Composite activeScreen = null;
+	// private Composite previousScreen = null;
+
+	private Stack<Composite> screenStack = new Stack<Composite>();
 
 	/*
 	 * (non-Javadoc)
@@ -96,80 +97,100 @@ public class ScreenFormService implements IScreenFormService {
 	 * ()
 	 */
 	public Composite getActiveScreen() {
-		return activeScreen;
+		Control c = screenBody.getScreenDeck().topControl;
+		if (c != null && c instanceof Composite) {
+			return (Composite) c;
+		}
+		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.selector.IScreenFormService#hasActiveScreen
-	 * ()
-	 */
-	public boolean hasActiveScreen() {
-		return activeScreen != null;
-	}
-
-//	public boolean hasPreviousScreen() {
-//		return previousScreen != null;
-//	}
-	
 	Composite tmpScreen;
 	private Composite rootComposite;
-	
-	private void pushScreen(Composite screen){
+
+	private void pushCurrentScreen() {
+		if (screenStack.empty()) {
+			Control c = screenBody.getScreenDeck().topControl;
+			if (c instanceof Composite) {
+				Composite screen = (Composite)c;
+				screen.setVisible(false);
+				screenStack.push(screen);
+			}
+		}
+	}
+
+	public void setActiveScreen(Composite screen) {
+		pushCurrentScreen();
+		doSetActiveScreen(screen);
+	}
+
+	private void doSetActiveScreen(Composite screen){
+		// We need a copy of the composite, so it can work.
 		
-		if (activeScreen != null) {
-			activeScreen.setVisible(false);
-			screenStack.push(activeScreen);
+		
+		if(screen.isDisposed()){
+			System.out.println("Attempt to set a disposed screen");
+			screenBody.getScreenDeck().topControl = null;
+			return; // can't set this screen sorry. 
+			
 		}
 		
-		// We need a copy of the composite, so it can work.
-		activeScreen = screen;
+		Composite activeScreen = screen;
 		formToolkit.adapt(activeScreen);
 		formToolkit.paintBordersFor(activeScreen);
+		Control current = screenBody.getScreenDeck().topControl;
+		if(current != null && current.isDisposed()){
+			current = null;
+		}
 		screenBody.getScreenDeck().topControl = activeScreen;
+
+		// screenBody.pack();
 		
-//		screenBody.pack();
-		screenBody.getScreenContainer().layout(true,true);
-		
+		try{
+		getScreenContainer().layout(true, true);
+		}catch(Exception e){
+			if(e instanceof SWTException){
+				System.out.println("bug widget disposed" + e.getMessage());
+			}else{
+				e.printStackTrace();
+			}
+			
+		}
+
 		this.updateScreenBarActions(activeScreen);
 		screenBody.setScreenBarOn();
 
 		// All our screens must implement IScreen.
 		fireScreenChanged((IScreen) activeScreen);
-
 	}
 	
 	
-	private void popScreen(){
-		
-		if(!screenStack.empty()){
-			if (activeScreen != null) {
-				activeScreen.dispose();
-				activeScreen = null;
-			}
-			activeScreen = screenStack.pop();
-			activeScreen.setVisible(true);
-			screenBody.getScreenDeck().topControl = activeScreen;
-			getScreenContainer().layout(true);
-			updateScreenBarActions(activeScreen);
+	private void popScreen() {
+
+		if (!screenStack.empty()) {
+			// if (activeScreen != null) {
+			// activeScreen.dispose();
+			// activeScreen = null;
+			// }
+			Composite popScreen = screenStack.pop();
+			popScreen.setVisible(true);
+			screenBody.getScreenDeck().topControl = popScreen;
+			getScreenContainer().layout(true, true);
+			updateScreenBarActions(popScreen);
 
 			// We need to refresh the viewer in case objects have been
 			// invalidated and need to be updated.
-			Viewer v = ((IScreen) activeScreen).getViewer();
+			Viewer v = ((IScreen) popScreen).getViewer();
 			if (v != null) {
 				v.refresh();
 			}
 
-			fireScreenChanged((IScreen) activeScreen);
+			fireScreenChanged((IScreen) popScreen);
 
-		}else{
+		} else {
 			// Nothing to pop.
 			screenBody.setScreenBarOff();
 		}
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -179,14 +200,14 @@ public class ScreenFormService implements IScreenFormService {
 	 * (java.lang.Class)
 	 */
 	public boolean isActiveScreen(Class<?> proposedScreen) {
-		return hasActiveScreen()
-				&& activeScreen.getClass().equals(proposedScreen);
-	}
 
-//	public boolean isPreviousScreen(Class<?> proposedScreen) {
-//		return hasPreviousScreen()
-//				&& previousScreen.getClass().equals(proposedScreen);
-//	}
+		Control c = screenBody.getScreenDeck().topControl;
+		if (c != null) {
+			return c.getClass().equals(proposedScreen);
+		} else {
+			return false;
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -272,38 +293,15 @@ public class ScreenFormService implements IScreenFormService {
 			if (r.getName().equals(IFixtures.ROLE_READONLY)) {
 				operation = Screens.OPERATION_READ_ONLY;
 			}
-
 			final int finalOperation = operation;
+
 			ImageHyperlink lnk = formToolkit.createImageHyperlink(
 					getSelectorForm().getBody(), SWT.NONE);
+
 			lnk.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
-					
-					
-					if (isActiveScreen(finalScreen)) {
-						return; // Ignore we are there already.
-					}
-					
-					// We are a new screen, instantiate and set active.
-					try {
-						
-						Composite target = (Composite) finalScreenConstructor
-								.newInstance(getScreenContainer(), SWT.NONE);
-						((IScreen)target).setOperation(finalOperation);
-						reset();
-						setActiveScreen(target);
-//						if(tmpScreen != null){
-//							tmpScreen.dispose();
-//						}
-					} catch (IllegalArgumentException e1) {
-						e1.printStackTrace();
-					} catch (InstantiationException e1) {
-						e1.printStackTrace();
-					} catch (IllegalAccessException e1) {
-						e1.printStackTrace();
-					} catch (InvocationTargetException e1) {
-						e1.printStackTrace();
-					}
+					doSetScreen(finalScreen, finalScreenConstructor,
+							finalOperation);
 				}
 
 				public void linkEntered(HyperlinkEvent e) {
@@ -337,53 +335,87 @@ public class ScreenFormService implements IScreenFormService {
 		return null;
 	}
 
-	private void reset(){
-		// We might be cached, if a child is currently active, 
-		// but it's better to dispose the complete list and restart. 
-		while(!screenStack.empty()){
+	private void doSetScreen(final Class<?> finalScreen,
+			final Constructor<?> finalScreenConstructor,
+			final int finalOperation) {
+		if (isActiveScreen(finalScreen)) {
+			return; // Ignore we are there already.
+		}
+		// We are a new screen, instantiate and set active.
+		try {
+			Composite target = (Composite) finalScreenConstructor.newInstance(
+					getScreenContainer(), SWT.NONE);
+			((IScreen) target).setOperation(finalOperation);
+			if(target instanceof IScreen){
+				((IScreen)target).setScreenService(this);
+			}
 			
-			@SuppressWarnings("unused")
-			Composite c = screenStack.pop();
-			// FIXME, disposing previous composite through a CDO exception. 
-			// as observables are being updated when disposed and ask for model data. 
-			// If we don't dispose. we have a memory leak. 
-//			c.dispose();
+			target.addDisposeListener(new ScreenDisposer());
+			reset();
+			doSetActiveScreen(target);
+		} catch (IllegalArgumentException e1) {
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			e1.printStackTrace();
+		} catch (InvocationTargetException e1) {
+			e1.printStackTrace();
 		}
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.netxforge.netxstudio.screens.selector.ISelectorService#updateComposite
-	 * (org.eclipse.swt.widgets.Composite)
-	 */
-	public void setActiveScreen(Composite control) {
-		this.pushScreen(control);
-//		if (activeScreen != null) {
-//			
-//			if (previousScreen != null) {
-//				previousScreen.dispose();
-//			}
-//			previousScreen = activeScreen;
-//			previousScreen.setVisible(false);
-//			
-//			pushChildScreen(activeScreen);
-//			
-//		}
 
-//		activeScreen = control;
-//		formToolkit.adapt(activeScreen);
-//		formToolkit.paintBordersFor(activeScreen);
-//		screenBody.getScreenDeck().topControl = activeScreen;
-//		getScreenContainer().layout(true);
-//
-//		this.updateScreenBarActions(activeScreen);
-//
-//		screenBody.setScreenBarOn();
-//
-//		// All our screens must implement IScreen.
-//		fireScreenChanged((IScreen) activeScreen);
+	/**
+	 * Dispose the data on the screen, after the screen has been disposed.
+	 * 
+	 * @author dzonekl
+	 * 
+	 */
+	private class ScreenDisposer implements DisposeListener {
+		public void widgetDisposed(DisposeEvent e) {
+			// The widget is disposed, now dispose the data.
+			if (e.getSource() instanceof IScreen) {
+				final IScreen screen = (IScreen) e.getSource();
+				Display.getCurrent().asyncExec(new Runnable(){
+					public void run() {
+//						screen.disposeData();		
+					}
+				});
+				 
+			}
+		}
+	}
+
+	public void reset() {
+		// We might be cached, if a child is currently active,
+		// but it's better to dispose the complete list and restart.
+		while (!screenStack.empty()) {
+			Composite c = screenStack.pop();
+			c.dispose();
+			// FIXME, disposing previous composite through a CDO exception.
+			// as observables are being updated when disposed and ask for model
+			// data.
+			// If we don't dispose. we have a memory leak.
+			// Add all observables to the ObservablesManager.
+
+		}
+		
+		Control c = screenBody.getScreenDeck().topControl; 
+		if( c instanceof IScreen){
+			try{
+				System.out.println("About to dispose : " + c.getClass().getSimpleName());
+			c.dispose();
+			}catch(Exception e){
+				if(e instanceof IllegalStateException){
+					System.out.println("observable exception" + e.getMessage());
+				}else{
+					e.printStackTrace();
+				}
+				// widget is disposed, but not properly unset from the parent. 
+				Composite parent = c.getParent();
+				c.setParent(null);
+			}
+		}
+		
 	}
 
 	/*
@@ -406,40 +438,6 @@ public class ScreenFormService implements IScreenFormService {
 	 */
 	public Composite getScreenContainer() {
 		return this.screenBody.getScreenContainer();
-	}
-
-	/**
-	 * Restores the previously shown screened, if any, this is for  multi(two)-step
-	 * UI data entry.  
-	 */
-	private void restorePreviousScreen() {
-		
-		this.popScreen();
-		
-//		if (activeScreen != null) {
-//			activeScreen.dispose();
-//			activeScreen = null;
-//		}
-//		if (previousScreen != null) {
-//			activeScreen = previousScreen;
-//			previousScreen = null;
-//			activeScreen.setVisible(true);
-//			
-//			screenBody.getScreenDeck().topControl = activeScreen;
-//			getScreenContainer().layout(true);
-//			updateScreenBarActions(activeScreen);
-//
-//			// We need to refresh the viewer in case objects have been
-//			// invalidated and need to be updated.
-//			Viewer v = ((IScreen) activeScreen).getViewer();
-//			if (v != null) {
-//				v.refresh();
-//			}
-//
-//			fireScreenChanged((IScreen) activeScreen);
-//		} else {
-//			screenBody.setScreenBarOff();
-//		}
 	}
 
 	/**
@@ -480,7 +478,7 @@ public class ScreenFormService implements IScreenFormService {
 		formToolkit.adapt(bckLnk);
 		bckLnk.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				restorePreviousScreen();
+				popScreen();
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -500,7 +498,7 @@ public class ScreenFormService implements IScreenFormService {
 				if (getActiveScreen() instanceof IDataScreenInjection) {
 					if (((IScreen) getActiveScreen()).isValid()) {
 						((IDataScreenInjection) getActiveScreen()).addData();
-						restorePreviousScreen();
+						popScreen();
 					} else {
 
 					}

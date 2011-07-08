@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.screens.f2;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
@@ -97,7 +98,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				disposeData();
+				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -147,6 +148,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 					NewEditTolerance toleranceScreen = new NewEditTolerance(
 							screenService.getScreenContainer(), SWT.NONE);
 					toleranceScreen.setOperation(Screens.OPERATION_NEW);
+					toleranceScreen.setScreenService(screenService);
 					Tolerance tolerance = LibraryFactory.eINSTANCE
 							.createTolerance();
 					toleranceScreen.injectData(toleranceResource, tolerance);
@@ -259,15 +261,11 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 
 	public void disposeData() {
 		if (editingService != null) {
-			editingService.disposeData();
+			editingService.disposeData(toleranceResource);
 		}
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
-
-		// mgr = new ObservablesManager();
-		// mgr.runAndCollect(new Runnable() {
-		// public void run() {
 
 		listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
@@ -280,14 +278,13 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF });
 		tableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
-
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
+		IObservableList toleranceObservableList = l.observe(toleranceResource); 
+		
+		obm.addObservable(toleranceObservableList);
+		tableViewer.setInput(toleranceObservableList);
 
-		tableViewer.setInput(l.observe(toleranceResource));
-
-		// }
-		// });
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		return bindingContext;
 	}

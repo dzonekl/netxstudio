@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.inject.Singleton;
@@ -157,8 +158,27 @@ public class CDOEditingService extends EMFEditingService implements
 	 * com.netxforge.netxstudio.screens.editing.IEditingService#tearDownScreen
 	 * (int)
 	 */
-	public void disposeData() {
-		dawnEditorSupport.close(); // Closes the view.
+	public void disposeData(Resource res) {
+		
+		if(res instanceof CDOResource){
+			CDOView v = dawnEditorSupport.getView();
+			CDOResource cdoRes = (CDOResource)res;
+			if(cdoRes.cdoView().equals(v)){
+				if( res.isModified()){
+					System.out.println("unloading a modified resource!");
+				}
+				cdoRes.unload(); 
+				if(!cdoRes.cdoView().isClosed()){
+					System.out.println("Unloaded resource, has an open view!");
+				}
+				
+				IListener[] listeners = cdoRes.cdoView().getListeners();
+				if(listeners.length > 0 ){
+					System.out.println("Still listeners on our CDO view!");
+				}
+			}
+			dawnEditorSupport.close(); // Closes the view.
+		}
 		// Close the view, but does it close the transaction?
 	}
 

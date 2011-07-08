@@ -59,6 +59,8 @@ public abstract class CDODataProvider implements IDataProvider {
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
 	private boolean doGetResourceFromOwnTransaction = true;
+	
+	private static final int COMMIT_TIMEOUT = 500; // seconds. 
 
 	@Inject
 	public CDODataProvider(ICDOConnection conn) {
@@ -75,6 +77,15 @@ public abstract class CDODataProvider implements IDataProvider {
 		ePackages.add(ServicesPackage.eINSTANCE);
 	}
 
+	public String getServer(){
+		if(connection instanceof CDODataConnection){
+			return ((CDODataConnection) connection).getCurrentServer();
+		}
+		return null;
+	}
+
+
+	
 	public String getSessionUserID() {
 		return this.getSession().getUserID();
 	}
@@ -109,7 +120,7 @@ public abstract class CDODataProvider implements IDataProvider {
 
 		try {
 			CDOSession cdoSession = connection.getConfig().openSession();
-			((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(60);
+			((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(COMMIT_TIMEOUT);
 			setSession(cdoSession);
 			for (final EPackage ePackage : ePackages) {
 				getSession().getPackageRegistry().putEPackage(ePackage);
@@ -151,7 +162,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		}
 		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
 		final CDOSession cdoSession = connection.getConfig().openSession();
-		 ((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(60);
+		 ((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(COMMIT_TIMEOUT);
 		 
 		for (final EPackage ePackage : ePackages) {
 			cdoSession.getPackageRegistry().putEPackage(ePackage);

@@ -17,9 +17,7 @@ import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -79,7 +77,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private Text txtMetric;
 	private MappingXLS owner;
 	private MappingColumn mxlsColumn;
-	private MappingColumn original;
 	private Text txtColumn;
 	private Button btnDate;
 	private Button btnIdentifier;
@@ -784,15 +781,13 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	public void injectData(Object owner, Object object) {
 		if (owner instanceof MappingXLS) {
 			this.owner = (MappingXLS) owner;
+		}else{
+			throw new IllegalArgumentException();
 		}
 		if (object != null && object instanceof MappingColumn) {
-			if (Screens.isEditOperation(this.getOperation())) {
-				MappingColumn copy = EcoreUtil.copy((MappingColumn) object);
-				mxlsColumn = copy;
-				original = (MappingColumn) object;
-			} else if (Screens.isNewOperation(getOperation())) {
 				mxlsColumn = (MappingColumn) object;
-			}
+		}else{
+			throw new IllegalArgumentException();
 		}
 		context = this.initDataBindings_();
 	}
@@ -810,20 +805,13 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (original.cdoInvalid()) {
+			if (mxlsColumn.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-
-			Command c = new ReplaceCommand(editingService.getEditingDomain(),
-					owner.getMappingColumns(), original, mxlsColumn);
-			editingService.getEditingDomain().getCommandStack().execute(c);
-
-			System.out.println(mxlsColumn.cdoID() + "" + mxlsColumn.cdoState());
-
 		}
 		// After our edit, we shall be dirty
 		if (editingService.isDirty()) {

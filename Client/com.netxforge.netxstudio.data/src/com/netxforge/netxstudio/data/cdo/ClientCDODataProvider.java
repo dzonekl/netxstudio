@@ -33,9 +33,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioFactory;
-import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
@@ -107,32 +107,23 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
 	}
 	
 	
+	// FIXME, move this to the test data. 
 	public void loadFixtures(){
 		loadRoles();
-		loadLibrary();
+//		loadLibrary();
 	}
 	private void loadRoles() {
-
-		final CDOResource res = (CDOResource) getResource(NetxstudioPackage.Literals.NETXSTUDIO);
-		final CDOView view = res.cdoView();
-
-		// Should do some basic import data validation.
-		if (res.getContents() != null && (res.getContents().size() > 0)) {
-			if (res.getContents().get(0) instanceof Netxstudio) {
-				return;
-			}
+		final CDOResource rolesResource = (CDOResource) getResource(GenericsPackage.Literals.ROLE);
+		if(rolesResource.getContents().size() > 0){
+			return;
 		}
-
-		// Anything else than checked before, is bogus so we start from scratch.
-		res.getContents().clear();
-		final Netxstudio studio = NetxstudioFactory.eINSTANCE
-				.createNetxstudio();
-
+		
+		final CDOResource userResource = (CDOResource) getResource(GenericsPackage.Literals.PERSON);
 		// Add the fixture roles.
 		{
 			final Role r = GenericsFactory.eINSTANCE.createRole();
 			r.setName(ROLE_ADMIN);
-			studio.getRoles().add(r);
+			rolesResource.getContents().add(r);
 
 			// FIXME, the admin user is hard coded for now.
 			{
@@ -143,29 +134,24 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
 				// p.setPassword("admin");
 				p.setActive(true);
 				p.setRoles(r);
-				studio.getUsers().add(p);
+				userResource.getContents().add(p);
 			}
 		}
 		{
 			final Role r = GenericsFactory.eINSTANCE.createRole();
 			r.setName(ROLE_PLANNER);
-			studio.getRoles().add(r);
+			rolesResource.getContents().add(r);
 		}
 		{
 			final Role r = GenericsFactory.eINSTANCE.createRole();
 			r.setName(ROLE_READONLY);
-			studio.getRoles().add(r);
+			rolesResource.getContents().add(r);
 		}
-		
-		
-		res.getContents().add(studio);
 
-		@SuppressWarnings("unused")
-		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 		try {
-			res.save(null);
+			userResource.save(null);
 		} catch (final TransactionException e) {
-			((CDOTransaction) view).rollback();
+			e.printStackTrace();
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}

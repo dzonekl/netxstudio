@@ -44,12 +44,6 @@ public interface IScreenFormService {
 	 */
 	public abstract boolean isActiveScreen(Class<?> proposedScreen);
 
-	/**
-	 * Check if there is an active screen.
-	 * @return
-	 */
-	public abstract boolean hasActiveScreen();
-	
 	
 	/**
 	 * Set the active screen to this composite.

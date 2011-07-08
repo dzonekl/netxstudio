@@ -42,5 +42,5 @@ public interface ICDOConnection {
 	 * @return
 	 */
 	public CDOSessionConfiguration getConfig();
-
+	
 }

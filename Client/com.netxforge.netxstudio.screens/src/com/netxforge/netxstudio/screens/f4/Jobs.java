@@ -2,25 +2,38 @@ package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.databinding.viewers.ObservableValueEditingSupport;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -42,6 +55,10 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.JobState;
+import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -54,12 +71,13 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	private Table table;
 	private Text txtFilterText;
 
-	private TableViewer tableViewer;
+	private TableViewer jobsTableViewer;
 	private Form frmScheduledJobs;
 	private Resource jobsResource;
 
 	@Inject
 	ModelUtils modelUtils;
+	private TableViewerColumn tblViewerClmnState;
 
 	/**
 	 * Create the composite.
@@ -72,6 +90,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
+				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -104,11 +123,12 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				if (screenService != null) {
-					NewEditJob job = new NewEditJob(screenService
+					NewEditJob jobScreen = new NewEditJob(screenService
 							.getScreenContainer(), SWT.NONE);
-					job.setOperation(Screens.OPERATION_NEW);
-					screenService.setActiveScreen(job);
-					job.injectData(jobsResource,
+					jobScreen.setOperation(Screens.OPERATION_NEW);
+					jobScreen.setScreenService(screenService);
+					screenService.setActiveScreen(jobScreen);
+					jobScreen.injectData(jobsResource,
 							SchedulingFactory.eINSTANCE.createJob());
 				}
 
@@ -128,46 +148,51 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(mghprlnkNew);
 		mghprlnkNew.setText("New");
 
-		tableViewer = new TableViewer(frmScheduledJobs.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION);
-		table = tableViewer.getTable();
+		jobsTableViewer = new TableViewer(frmScheduledJobs.getBody(),
+				SWT.BORDER | SWT.FULL_SELECTION);
+		table = jobsTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
 
+		TableViewerColumn tblViewerClmType = new TableViewerColumn(
+				jobsTableViewer, SWT.NONE);
+		TableColumn tblclmnJobType = tblViewerClmType.getColumn();
+		tblclmnJobType.setWidth(166);
+		tblclmnJobType.setText("Job Type");
+
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
 		tblclmnName.setWidth(100);
 		tblclmnName.setText("Name");
 
-		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnState = tableViewerColumn_4.getColumn();
-		tblclmnState.setWidth(100);
+		tblViewerClmnState = new TableViewerColumn(jobsTableViewer, SWT.NONE);
+		TableColumn tblclmnState = tblViewerClmnState.getColumn();
+		tblclmnState.setWidth(76);
 		tblclmnState.setText("State");
 
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnStarttime = tableViewerColumn_2.getColumn();
 		tblclmnStarttime.setWidth(81);
 		tblclmnStarttime.setText("Startime");
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnType = tableViewerColumn_3.getColumn();
 		tblclmnType.setWidth(100);
 		tblclmnType.setText("Endtime");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnRepeat = tableViewerColumn_1.getColumn();
 		tblclmnRepeat.setWidth(100);
 		tblclmnRepeat.setText("Occurences");
-		
+
 		TableViewerColumn tableViewerColumn_6 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnInterval = tableViewerColumn_6.getColumn();
 		tblclmnInterval.setWidth(100);
 		tblclmnInterval.setText("Interval");
@@ -219,31 +244,78 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 	}
 
+	// Editing support for JFace databinding.
+	@SuppressWarnings("unused")
+	private class CheckBoxEditingSupport extends ObservableValueEditingSupport {
+		private CellEditor cellEditor;
+
+		public CheckBoxEditingSupport(ColumnViewer viewer,
+				DataBindingContext dbc) {
+			super(viewer, dbc);
+			// cellEditor = new TextCellEditor((Composite) viewer.getControl());
+
+			String[] values = new String[JobState.VALUES.size()];
+			int i = 0;
+			for (JobState s : JobState.VALUES) {
+				values[i] = s.getName();
+				i++;
+			}
+			cellEditor = new ComboBoxCellEditor(
+					(Composite) viewer.getControl(), values);
+		}
+
+		protected CellEditor getCellEditor(Object element) {
+			return cellEditor;
+		}
+
+		protected IObservableValue doCreateCellEditorObservable(
+				CellEditor cellEditor) {
+			return SWTObservables.observeSelection(cellEditor.getControl());
+		}
+
+		protected IObservableValue doCreateElementObservable(Object element,
+				ViewerCell cell) {
+			IEMFValueProperty jobStateProperty = EMFEditProperties.value(
+					editingService.getEditingDomain(),
+					SchedulingPackage.Literals.JOB__JOB_STATE);
+			return jobStateProperty.observe(element);
+		}
+	}
+
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
+
+		// tblViewerClmnState.setEditingSupport(new CheckBoxEditingSupport(
+		// jobsTableViewer, bindingContext));
 
 		// TODO, Implement content provider, which also can deal with the type
 		// of a job which is defined
 		// as a job class on it's own.
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		tableViewer.setContentProvider(listContentProvider);
+		jobsTableViewer.setContentProvider(listContentProvider);
 
+		EAttribute dummyAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+		
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
+				new EStructuralFeature[] {dummyAttribute,
 						SchedulingPackage.Literals.JOB__NAME,
 						SchedulingPackage.Literals.JOB__JOB_STATE,
 						SchedulingPackage.Literals.JOB__START_TIME,
 						SchedulingPackage.Literals.JOB__END_TIME,
 						SchedulingPackage.Literals.JOB__REPEAT,
-						SchedulingPackage.Literals.JOB__INTERVAL
-						});
-		tableViewer.setLabelProvider(new JobsObervableMapLabelProvider(
+						SchedulingPackage.Literals.JOB__INTERVAL });
+		jobsTableViewer.setLabelProvider(new JobsObervableMapLabelProvider(
 				observeMaps));
 
-		IEMFListProperty jobsProperties = EMFProperties.resource();
+		IEMFListProperty jobsProperties = EMFEditProperties
+				.resource(editingService.getEditingDomain());
 
-		tableViewer.setInput(jobsProperties.observe(jobsResource));
+		IObservableList jobsList = jobsProperties.observe(jobsResource);
+		obm.addObservable(jobsList);
+
+		jobsTableViewer.setInput(jobsList);
+
 		return bindingContext;
 	}
 
@@ -254,37 +326,56 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		}
 
 		@Override
+		public Image getColumnImage(Object element, int columnIndex) {
+			return super.getColumnImage(element, columnIndex);
+		}
+
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			if (columnIndex == 2) {
-				if (element instanceof Job) {
-					Job j = (Job) element;
+			if (element instanceof Job) {
+				Job j = (Job) element;
+				switch (columnIndex) {
+				case 0: {
+					if(j instanceof MetricSourceJob){
+						return "Metric Import: " + ((MetricSourceJob)j).getMetricSource().getName();
+					}
+					if(j instanceof RFSServiceJob){
+						return "Monitoring: " + ((RFSServiceJob)j).getRFSService().getServiceName();
+					}
+					if(j instanceof RFSServiceRetentionJob){
+						return "Data Retention: " + ((RFSServiceRetentionJob)j).getRFSService().getServiceName();
+					}
+				}
+				case 2: {
+					JobState state = j.getJobState();
+					if (state == JobState.ACTIVE) {
+						return "Active";
+					} else {
+						return "Not Active";
+					}
+				}
+				case 3:
 					if (j.getStartTime() != null) {
 						Date d = modelUtils.fromXMLDate(j.getStartTime());
 						return modelUtils.date(d) + " @ " + modelUtils.time(d);
 					}
-				}
-			}
-			if (columnIndex == 3) {
-				if (element instanceof Job) {
-					Job j = (Job) element;
+
+					break;
+				case 4:
 					if (j.getEndTime() != null) {
 						Date d = modelUtils.fromXMLDate(j.getEndTime());
 						return modelUtils.date(d) + " @ " + modelUtils.time(d);
 					}
-				}
-			}
-			
-			if (columnIndex == 5) {
-				if (element instanceof Job) {
-					Job j = (Job) element;
+					break;
+				case 6:
 					if (j.getInterval() > 0) {
 						return new Integer(j.getInterval()).toString();
 					}
+					break;
 				}
 			}
 			return super.getColumnText(element, columnIndex);
 		}
-
 	}
 
 	public void injectData() {
@@ -293,12 +384,12 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	public void disposeData() {
-		editingService.disposeData();
+		editingService.disposeData(jobsResource);
 	}
 
 	@Override
 	public Viewer getViewer() {
-		return tableViewer;
+		return jobsTableViewer;
 	}
 
 	@Override

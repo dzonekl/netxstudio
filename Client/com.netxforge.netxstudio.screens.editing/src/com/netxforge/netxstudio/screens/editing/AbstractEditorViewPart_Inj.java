@@ -50,6 +50,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector_Inj;
 
 /**
  * A ViewPart which acts as an editor.
@@ -222,8 +223,14 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 		if (part instanceof AbstractEditorViewPart_Inj) {
 			// Activate our global actions.
 			globActionsHandler.activate(part);
+			
+			
 		} else {
 		}
+//		if( part instanceof AbstractScreenSelector_Inj){
+//			AbstractScreenSelector_Inj p = (AbstractScreenSelector_Inj)part;
+//			p.getScreenFormService().reset();
+//		} 
 	}
 
 	public void partBroughtToTop(IWorkbenchPart part) {

@@ -19,6 +19,7 @@ package com.netxforge.netxstudio.screens;
 
 import java.util.List;
 
+import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IMessage;
@@ -28,7 +29,9 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
+import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
+import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
@@ -47,12 +50,20 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 	@Inject
 	protected IEditingService editingService;
 
-	@Inject
 	protected IScreenFormService screenService;
+	
+	protected IValidationService validationService;
+	
+	public void setScreenService(IScreenFormService screenService){
+		this.screenService = screenService;
+	}
+	
+	protected ObservablesManager obm = new ObservablesManager();
 	
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
+		validationService = new ValidationService(obm);
 	}
 
 	public abstract Viewer getViewer();

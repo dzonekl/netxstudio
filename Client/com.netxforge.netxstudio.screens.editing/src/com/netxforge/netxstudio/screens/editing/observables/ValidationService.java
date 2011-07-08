@@ -62,10 +62,11 @@ public class ValidationService implements IValidationService {
 	/**
 	 * A manager for observable within an instance of this validation service.
 	 */
-	private ObservablesManager observablesMgr = new ObservablesManager();
+	private ObservablesManager observablesMgr;
 	private DataBindingContext ctx = null; // Only one can exist.
 
-	public ValidationService() {
+	public ValidationService(ObservablesManager observablesMgr) {
+		this.observablesMgr = observablesMgr;
 	}
 
 	/*

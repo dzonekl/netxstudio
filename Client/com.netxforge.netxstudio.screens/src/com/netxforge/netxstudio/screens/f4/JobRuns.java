@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f4;
 
+import java.util.Date;
+
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
@@ -25,12 +27,16 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -55,11 +61,16 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.f4.support.LogDialog;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -68,7 +79,11 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Table table;
+	// private Table table;
+
+	@Inject
+	private ModelUtils modelUtils;
+	private Menu jobRunMenu;
 
 	public JobRuns(Composite parent, int style) {
 		super(parent, style);
@@ -110,11 +125,17 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		jobRunsTableViewer = new TableViewer(composite_1, SWT.BORDER
 				| SWT.FULL_SELECTION);
-		table = jobRunsTableViewer.getTable();
+		Table table = jobRunsTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		toolkit.paintBordersFor(table);
+
+		TableViewerColumn tableViewerColumn_7 = new TableViewerColumn(
+				jobRunsTableViewer, SWT.NONE);
+		TableColumn tblclmnRunType = tableViewerColumn_7.getColumn();
+		tblclmnRunType.setWidth(100);
+		tblclmnRunType.setText("Run Type");
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				jobRunsTableViewer, SWT.NONE);
@@ -152,15 +173,24 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		tblclmnEnded.setWidth(100);
 		tblclmnEnded.setText("Ended");
 
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
+		jobRunMenu = new Menu(table);
+		table.setMenu(jobRunMenu);
 
-		MenuItem mntmShowLog = new MenuItem(menu, SWT.NONE);
+		MenuItem mntmShowLog = new MenuItem(jobRunMenu, SWT.NONE);
 		mntmShowLog.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// TODO, A popup showing the log.
-
+				ISelection selection = jobRunsTableViewer.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					IStructuredSelection ss = (IStructuredSelection) selection;
+					Object o = ss.getFirstElement();
+					if (o instanceof WorkFlowRun) {
+						String log = ((WorkFlowRun) o).getLog();
+						LogDialog ld = new LogDialog(JobRuns.this.getShell());
+						ld.InjectData(log);
+						ld.open();
+					}
+				}
 			}
 		});
 		mntmShowLog.setText("Show Log...");
@@ -215,6 +245,21 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 					"This job has not run yet.");
 
 		}
+
+		if (currentJonContainer.getWorkFlowRuns().size() > 0
+				&& currentJonContainer.getWorkFlowRuns().get(0) instanceof ExpressionWorkFlowRun) {
+			// This is a conditional menu.
+
+			MenuItem mntmExpressions = new MenuItem(jobRunMenu, SWT.NONE);
+			mntmExpressions.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					// TODO, A dialog which shows the expressions. 
+
+				}
+			});
+			mntmExpressions.setText("Expressions...");
+		}
 	}
 
 	/*
@@ -236,10 +281,14 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		jobRunsTableViewer.setContentProvider(listContentProvider);
+
+		EAttribute dummyAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+
 		IObservableMap[] observeMaps = EMFObservables
 				.observeMaps(
 						listContentProvider.getKnownElements(),
 						new EStructuralFeature[] {
+								dummyAttribute,
 								SchedulingPackage.Literals.WORK_FLOW_RUN__STATE,
 								SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS,
 								SchedulingPackage.Literals.WORK_FLOW_RUN__PROGRESS_TASK,
@@ -279,6 +328,31 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
+			if (element instanceof WorkFlowRun) {
+				WorkFlowRun j = (WorkFlowRun) element;
+
+				switch (columnIndex) {
+				case 0: {
+					if (j instanceof ExpressionWorkFlowRun) {
+						return "Expression run";
+					} else {
+						return "Workflow run";
+					}
+				}
+				case 5: {
+					if (j.getStarted() != null) {
+						Date d = modelUtils.fromXMLDate(j.getStarted());
+						return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					}
+				}
+				case 6: {
+					if (j.getEnded() != null) {
+						Date d = modelUtils.fromXMLDate(j.getEnded());
+						return modelUtils.date(d) + " @ " + modelUtils.time(d);
+					}
+				}
+				}
+			}
 			return super.getColumnText(element, columnIndex);
 		}
 	}

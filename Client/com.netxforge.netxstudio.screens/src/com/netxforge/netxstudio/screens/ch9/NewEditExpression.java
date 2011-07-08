@@ -20,82 +20,51 @@ package com.netxforge.netxstudio.screens.ch9;
 
 import java.util.List;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.FontMetrics;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IMessage;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
-import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.netxforge.interpreter.IInterpreter;
-import com.netxforge.interpreter.IInterpreterContext;
-import com.netxforge.interpreter.IInterpreterContextFactory;
-import com.netxforge.netxscript.Function;
-import com.netxforge.netxscript.Mod;
-import com.netxforge.netxscript.NetxscriptFactory;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
 import com.netxforge.netxstudio.screens.editing.observables.ValidationEvent;
-import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
-import com.netxforge.netxstudio.screens.xtext.InjectorProxy;
-import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -105,7 +74,6 @@ public class NewEditExpression extends AbstractScreen implements
 		IDataScreenInjection, IValidationListener {
 	private DataBindingContext m_bindingContext;
 
-	private ValidationService validationService = new ValidationService();
 
 	@Inject
 	ModelUtils modelUtils;
@@ -113,11 +81,9 @@ public class NewEditExpression extends AbstractScreen implements
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtExpressionName;
 
-	private Object owner;
+	private Resource owner;
 	private Expression expression;
 	private Form frmExpression;
-	private Expression original;
-
 	private EmbeddedExpression exp;
 
 	private Label lblExpressionName;
@@ -204,18 +170,17 @@ public class NewEditExpression extends AbstractScreen implements
 	 * .Object, java.lang.Object)
 	 */
 	public void injectData(Object owner, Object object) {
-		this.owner = owner;
+		
+		if(owner instanceof Resource){
+			this.owner = (Resource) owner;
+		}else{
+			throw new IllegalArgumentException("Valid argument required");
+		}
+		
 		if (object != null && object instanceof Expression) {
-			if (Screens.isEditOperation(getOperation())) {
-				Expression copy = EcoreUtil.copy((Expression) object);
-				expression = copy;
-				original = (Expression) object;
-			} else {
-				if (Screens.isNewOperation(getOperation())
-						|| Screens.isReadOnlyOperation(getOperation())) {
-					expression = (Expression) object;
-				}
-			}
+			expression = (Expression) object;
+		}else{
+			throw new IllegalArgumentException("Valid argument required");
 		}
 
 		m_bindingContext = initDataBindings_();
@@ -248,7 +213,7 @@ public class NewEditExpression extends AbstractScreen implements
 	public void addData() {
 		if (Screens.isNewOperation(getOperation()) && owner != null) {
 			Command c = new AddCommand(editingService.getEditingDomain(),
-					(EList<?>) owner, expression);
+					owner.getContents(), expression);
 			editingService.getEditingDomain().getCommandStack().execute(c);
 		} else if (Screens.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
@@ -256,7 +221,7 @@ public class NewEditExpression extends AbstractScreen implements
 			// to replace.
 
 			// invalid, and we should cancel the action and warn the user.
-			if (original.cdoInvalid()) {
+			if (expression.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
@@ -264,10 +229,9 @@ public class NewEditExpression extends AbstractScreen implements
 				return;
 			}
 
-			Command c = new ReplaceCommand(editingService.getEditingDomain(),
-					(EList<?>) owner, original, expression);
-			editingService.getEditingDomain().getCommandStack().execute(c);
-
+//			Command c = new ReplaceCommand(editingService.getEditingDomain(),
+//					owner.getContents(), original, expression);
+//			editingService.getEditingDomain().getCommandStack().execute(c);
 		}
 		// After our edit, we shall be dirty
 		if (editingService.isDirty()) {

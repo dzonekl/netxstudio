@@ -17,8 +17,6 @@ import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -84,8 +82,6 @@ import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
 import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.observables.IValidationService;
-import com.netxforge.netxstudio.screens.editing.observables.ValidationService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.Tuple;
@@ -104,13 +100,10 @@ public class NewEditMappingXLS extends AbstractScreen implements
 	private Form frmXLSMappingForm;
 	private MetricSource owner;
 	private MappingXLS mapping;
-	private MappingXLS original;
 	private TableViewer mappingColumnsTableViewer;
 	private GridTableViewer gridTableViewer;
 	private Menu gridMenu;
 
-	
-	private IValidationService validationService = new ValidationService();
 	
 	/**
 	 * Create the composite.
@@ -364,6 +357,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 				NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
 						screenService.getScreenContainer(), SWT.NONE);
 				mappingColumnScreen.setOperation(Screens.OPERATION_NEW);
+				mappingColumnScreen.setScreenService(screenService);
 				mappingColumnScreen.injectData(mapping,
 						MetricsFactory.eINSTANCE.createMappingColumn());
 				screenService.setActiveScreen(mappingColumnScreen);
@@ -418,6 +412,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 					NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
 							screenService.getScreenContainer(), SWT.NONE);
 					mappingColumnScreen.setOperation(Screens.OPERATION_EDIT);
+					mappingColumnScreen.setScreenService(screenService);
 					mappingColumnScreen.injectData(mapping, mappingColumn);
 					screenService.setActiveScreen(mappingColumnScreen);
 
@@ -666,13 +661,10 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		}
 
 		if (object != null && object instanceof MappingXLS) {
-			if (Screens.isEditOperation(this.getOperation())) {
-				MappingXLS copy = EcoreUtil.copy((MappingXLS) object);
-				mapping = copy;
-				original = (MappingXLS) object;
-			} else if (Screens.isNewOperation(getOperation())) {
 				mapping = (MappingXLS) object;
-			}
+		} else {
+			// We need the right type of object for this screen.
+			throw new java.lang.IllegalArgumentException();
 		}
 
 		String title = "";
@@ -701,21 +693,13 @@ public class NewEditMappingXLS extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (original.cdoInvalid()) {
+			if (mapping.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-
-			Command c = new ReplaceCommand(editingService.getEditingDomain(),
-					owner,
-					MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING,
-					original, mapping);
-
-			editingService.getEditingDomain().getCommandStack().execute(c);
-
 			System.out.println(mapping.cdoID() + "" + mapping.cdoState());
 
 		}

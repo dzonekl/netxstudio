@@ -1,12 +1,9 @@
 package com.netxforge.netxstudio.screens.nf4;
 
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
-import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -44,10 +41,8 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.Netxstudio;
-import com.netxforge.netxstudio.NetxstudioFactory;
-import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
@@ -59,7 +54,7 @@ public class UsersAndRoles extends AbstractScreen implements
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
 
-	private Netxstudio studio;
+	private Resource personsResource;
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
@@ -77,7 +72,7 @@ public class UsersAndRoles extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				disposeData();
+				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -130,8 +125,9 @@ public class UsersAndRoles extends AbstractScreen implements
 						NewEditUser user = new NewEditUser(screenService
 								.getScreenContainer(), SWT.NONE);
 						user.setOperation(Screens.OPERATION_NEW);
+						user.setScreenService(screenService);
 						screenService.setActiveScreen(user);
-						user.injectData(studio,
+						user.injectData(personsResource,
 								GenericsFactory.eINSTANCE.createPerson());
 					}
 				}
@@ -193,11 +189,12 @@ public class UsersAndRoles extends AbstractScreen implements
 					if (selection instanceof IStructuredSelection) {
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
-						NewEditUser u = new NewEditUser(screenService
+						NewEditUser userScreen = new NewEditUser(screenService
 								.getScreenContainer(), SWT.NONE);
-						u.setOperation(Screens.OPERATION_EDIT);
-						u.injectData(studio, o);
-						screenService.setActiveScreen(u);
+						userScreen.setOperation(Screens.OPERATION_EDIT);
+						userScreen.setScreenService(screenService);
+						userScreen.injectData(personsResource, o);
+						screenService.setActiveScreen(userScreen);
 					}
 				}
 			}
@@ -215,11 +212,12 @@ public class UsersAndRoles extends AbstractScreen implements
 					if (selection instanceof IStructuredSelection) {
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
-						UserActivity u = new UserActivity(screenService
+						UserActivity activityScreen = new UserActivity(screenService
 								.getScreenContainer(), SWT.NONE);
-						u.setOperation(Screens.OPERATION_READ_ONLY);
-						u.injectData(studio.getUsers(), o);
-						screenService.setActiveScreen(u);
+						activityScreen.setOperation(Screens.OPERATION_READ_ONLY);
+						activityScreen.setScreenService(screenService);
+						activityScreen.injectData(personsResource, o);
+						screenService.setActiveScreen(activityScreen);
 					}
 				}
 			}
@@ -263,35 +261,11 @@ public class UsersAndRoles extends AbstractScreen implements
 		tableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
 
-		IEMFListProperty l = EMFEditProperties.list(
-				editingService.getEditingDomain(),
-				NetxstudioPackage.Literals.NETXSTUDIO__USERS);
-
-		tableViewer.setInput(l.observe(studio));
-		return bindingContext;
-	}
-
-	protected DataBindingContext initDataBindings() {
-
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		tableViewer.setContentProvider(listContentProvider);
-		//
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] { Literals.PERSON__FIRST_NAME,
-						Literals.PERSON__LAST_NAME, Literals.PERSON__LOGIN,
-						Literals.PERSON__EMAIL });
-		tableViewer
-				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
-
-		IObservableList studioUsersObserveList = EMFObservables.observeList(
-				Realm.getDefault(), studio,
-				NetxstudioPackage.Literals.NETXSTUDIO__USERS);
-
-		tableViewer.setInput(studioUsersObserveList);
-		//
+		IObservableList personsObserveList = EMFEditProperties.resource(
+				editingService.getEditingDomain()).observe(personsResource);
+		obm.addObservable(personsObserveList);
+		tableViewer.setInput(personsObserveList);
+		
 		return bindingContext;
 	}
 
@@ -301,15 +275,8 @@ public class UsersAndRoles extends AbstractScreen implements
 	 * @see com.netxforge.netxstudio.data.IDataInjection#injectData()
 	 */
 	public void injectData() {
-		Resource res = editingService
-				.getData(NetxstudioPackage.Literals.NETXSTUDIO);
-		if (res.getContents().size() == 0) {
-			Netxstudio netx = NetxstudioFactory.eINSTANCE.createNetxstudio();
-			res.getContents().add(netx);
-			studio = netx;
-		} else {
-			studio = (Netxstudio) res.getContents().get(0);
-		}
+		personsResource = editingService
+				.getData(GenericsPackage.Literals.PERSON);
 		m_bindingContext = initDataBindings_();
 	}
 
@@ -319,7 +286,6 @@ public class UsersAndRoles extends AbstractScreen implements
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
 	public Viewer getViewer() {
-
 		return this.getTableViewerWidget();
 	}
 
@@ -330,7 +296,7 @@ public class UsersAndRoles extends AbstractScreen implements
 	 */
 	public void disposeData() {
 		if (editingService != null) {
-			editingService.disposeData();
+			editingService.disposeData(personsResource);
 		}
 	}
 

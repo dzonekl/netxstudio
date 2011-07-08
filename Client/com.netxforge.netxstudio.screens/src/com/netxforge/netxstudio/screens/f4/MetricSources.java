@@ -2,11 +2,12 @@ package com.netxforge.netxstudio.screens.f4;
 
 import java.util.List;
 
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -44,7 +45,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.server.actions.ServerRequest;
+import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -83,7 +84,6 @@ public class MetricSources extends AbstractScreen implements
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-				disposeData();
 				toolkit.dispose();
 			}
 		});
@@ -130,7 +130,7 @@ public class MetricSources extends AbstractScreen implements
 						NewEditMetricSource msScreen = new NewEditMetricSource(
 								screenService.getScreenContainer(), SWT.NONE);
 						msScreen.setOperation(Screens.OPERATION_NEW);
-						
+						msScreen.setScreenService(screenService);
 						screenService.setActiveScreen(msScreen);
 						msScreen.injectData(msResource,
 								MetricsFactory.eINSTANCE.createMetricSource());
@@ -189,6 +189,7 @@ public class MetricSources extends AbstractScreen implements
 								screenService.getScreenContainer(),
 								SWT.NONE);
 						editMetricSourceScreen.setOperation(Screens.OPERATION_EDIT);
+						editMetricSourceScreen.setScreenService(screenService);
 						editMetricSourceScreen.injectData(msResource, o);
 						screenService.setActiveScreen(editMetricSourceScreen);
 					}
@@ -234,6 +235,7 @@ public class MetricSources extends AbstractScreen implements
 							NewEditJob newEditJob = new NewEditJob(
 									screenService.getScreenContainer(),SWT.NONE);
 							newEditJob.setOperation(operation);
+							newEditJob.setScreenService(screenService);
 							newEditJob.injectData(jobResource, job);
 							screenService.setActiveScreen(newEditJob);
 						}
@@ -254,8 +256,10 @@ public class MetricSources extends AbstractScreen implements
 					if (o instanceof MetricSource) {
 						MetricSource ms = (MetricSource) o;
 						try {
+							serverActions.setServer(editingService.getDataService().getProvider().getServer());
 							// TODO, We get the workflow run ID back, which could be used
-							// to link back to the screen showing the running workflows. 
+							// to link back to the screen showing the running workflows.
+							
 							@SuppressWarnings("unused")
 							String result = serverActions
 									.callMetricImportAction(ms);
@@ -264,7 +268,7 @@ public class MetricSources extends AbstractScreen implements
 									"Collect now succeeded:",
 									"Collection of data from metric source: "
 											+ ms.getName()
-											+ "\n has been initiated on the server. Select the view shoung current jobs, to monitor it's status");
+											+ "\n has been initiated on the server.");
 
 						} catch (Exception e1) {
 							e1.printStackTrace();
@@ -309,6 +313,7 @@ public class MetricSources extends AbstractScreen implements
 					MappingStatistics stats = new MappingStatistics(
 							screenService.getScreenContainer(), SWT.NONE);
 					stats.setOperation(Screens.OPERATION_READ_ONLY);
+					stats.setScreenService(screenService);
 					stats.injectData(null, o);
 					screenService.setActiveScreen(stats);
 
@@ -348,7 +353,6 @@ public class MetricSources extends AbstractScreen implements
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		metricSourceTableViewer.setContentProvider(listContentProvider);
-
 		IObservableMap[] observeMaps = EMFObservables
 				.observeMaps(
 						listContentProvider.getKnownElements(),
@@ -357,14 +361,16 @@ public class MetricSources extends AbstractScreen implements
 								MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION });
 		metricSourceTableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
-		IEMFListProperty l = EMFProperties.resource();
-		metricSourceTableViewer.setInput(l.observe(msResource));
+		IEMFListProperty l = EMFEditProperties.resource(editingService.getEditingDomain());
+		IObservableList metricSourcesObservableList = l.observe(msResource);
+		obm.addObservable(metricSourcesObservableList);
+		metricSourceTableViewer.setInput(metricSourcesObservableList);
 		return bindingContext;
 	}
 
 	public void disposeData() {
 		if (editingService != null) {
-			editingService.disposeData();
+			editingService.disposeData(msResource);
 		}
 	}
 
