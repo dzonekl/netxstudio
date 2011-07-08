@@ -107,7 +107,7 @@ public class NetxForgeCommitInfoHandler implements CDOCommitInfoHandler {
 			logEntry.setUser(commitInfo.getUserID());
 			logEntry.setTimeStamp(commitTimeStamp);
 			logEntry.setAction(ActionType.UPDATE);
-			logEntry.setObjectId(key.toString());
+			logEntry.setObjectId(trunc(key.toString()));
 			final StringBuilder sb = new StringBuilder();
 			dumpFeatureDeltas(sb, delta.getFeatureDeltas());
 			logEntry.setChange(trunc(sb.toString()));
