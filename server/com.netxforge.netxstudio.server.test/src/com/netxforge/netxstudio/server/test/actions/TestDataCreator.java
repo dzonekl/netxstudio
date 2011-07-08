@@ -705,6 +705,7 @@ public class TestDataCreator implements NetxForgeService {
 			t.setName("Tolerance Red");
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
+			te.setName("Tolerance Red");
 
 			// Context is a NetXResource
 			// Takes the capacity range and multiplies it by a factor someting.
@@ -728,6 +729,7 @@ public class TestDataCreator implements NetxForgeService {
 			t.setName("Tolerance Amber");
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
+			te.setName("Tolerance Amber");
 			// Context is a Node
 			final String eAsString = "this TOLERANCE 60 = this CAP * 0.7;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
@@ -743,6 +745,7 @@ public class TestDataCreator implements NetxForgeService {
 			t.setName("Tolerance Green");
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
+			te.setName("Tolerance Green");
 			// Context is a Node
 			final String eAsString = "this TOLERANCE 60 = this CAP * 0.5;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
@@ -757,8 +760,10 @@ public class TestDataCreator implements NetxForgeService {
 			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
 			t.setLevel(LevelType.GREEN);
 			t.setName("Tolerance Yellow");
+			
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
+			te.setName("Tolerance Yellow");
 			// Context is a Node
 			final String eAsString = "this TOLERANCE 60 = this CAP * 0.3;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
