@@ -150,7 +150,10 @@ public class JobHandler {
 				if (job.getEndTime() != null) {
 					triggerBuilder.endAt(job.getEndTime().toGregorianCalendar()
 							.getTime());
-					scheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
+					scheduleBuilder = SimpleScheduleBuilder
+							.repeatSecondlyForever(
+									job.getInterval() > 10 ? job.getInterval()
+											: 10);
 				} else if (job.getRepeat() > 0) {
 					scheduleBuilder = SimpleScheduleBuilder
 							.repeatSecondlyForTotalCount(job.getRepeat()

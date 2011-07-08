@@ -18,6 +18,9 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.job;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.ecore.EObject;
@@ -44,10 +47,24 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	public static final String JOB_PARAMETER = "job";
 
+	private static List<CDOID> runningJobs = new ArrayList<CDOID>();
+
+	private static synchronized boolean isRunning(CDOID cdoId) {
+		return runningJobs.contains(cdoId);
+	}
+	
+	private static synchronized void addRunning(CDOID cdoId) {
+		runningJobs.add(cdoId);
+	}
+	
+	private static synchronized void removeRunning(CDOID cdoId) {
+		runningJobs.remove(cdoId);
+	}
+	
 	private Job job;
-	
+
 	private WorkFlowRunMonitor runMonitor;
-	
+
 	@Inject
 	@Server
 	private IDataProvider dataProvider;
@@ -60,29 +77,41 @@ public class NetxForgeJob implements org.quartz.Job {
 			throws JobExecutionException {
 		final JobDataMap dataMap = context.getJobDetail().getJobDataMap();
 		job = (Job) dataMap.get(JOB_PARAMETER);
-		final JobImplementation jobImplementation = 
-				JobImplementation.REGISTRY.getFactory(job.getClass()).create();
-		createWorkFlowMonitor(jobImplementation);
-		jobImplementation.setRunMonitor(runMonitor);
-		jobImplementation.setNetxForgeJob(this);
+
+		// jobs are too close to eachother, going away
+		if (isRunning(job.cdoID())) {
+			return;
+		}
+		addRunning(job.cdoID());
 		try {
-			jobImplementation.run();
-			runMonitor.setFinished(jobImplementation.getJobRunState(), null);
-		} catch (final Throwable t) {
-			runMonitor.setFinished(jobImplementation.getJobRunState(), t);
+			final JobImplementation jobImplementation = JobImplementation.REGISTRY
+					.getFactory(job.getClass()).create();
+			createWorkFlowMonitor(jobImplementation);
+			jobImplementation.setRunMonitor(runMonitor);
+			jobImplementation.setNetxForgeJob(this);
+			try {
+				jobImplementation.run();
+				runMonitor
+						.setFinished(jobImplementation.getJobRunState(), null);
+			} catch (final Throwable t) {
+				runMonitor.setFinished(jobImplementation.getJobRunState(), t);
+			}
+		} finally {
+			removeRunning(job.cdoID());
 		}
 	}
-	
+
 	private void createWorkFlowMonitor(JobImplementation jobImplementation) {
-		runMonitor = Activator.getInstance().getInjector().getInstance(WorkFlowRunMonitor.class);
+		runMonitor = Activator.getInstance().getInjector()
+				.getInstance(WorkFlowRunMonitor.class);
 		dataProvider.openSession();
 		dataProvider.getTransaction();
-		final JobRunContainer container = getCreateJobRunContainer(dataProvider.getResource(
-						SchedulingPackage.eINSTANCE.getJobRunContainer()));
-		
+		final JobRunContainer container = getCreateJobRunContainer(dataProvider
+				.getResource(SchedulingPackage.eINSTANCE.getJobRunContainer()));
+
 		final WorkFlowRun wfRun = jobImplementation.createWorkFlowRunInstance();
 		container.getWorkFlowRuns().add(wfRun);
-		
+
 		dataProvider.commitTransaction();
 		dataProvider.closeSession();
 		runMonitor.setWorkFlowRunId(wfRun.cdoID());
@@ -104,8 +133,8 @@ public class NetxForgeJob implements org.quartz.Job {
 				.createJobRunContainer();
 
 		// get the job to refer to...
-		final Job localJob = (Job) dataProvider.getTransaction()
-				.getObject(cdoId);
+		final Job localJob = (Job) dataProvider.getTransaction().getObject(
+				cdoId);
 		container.setJob(localJob);
 		resource.getContents().add(container);
 		return container;
