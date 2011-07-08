@@ -19,7 +19,9 @@
 package com.netxforge.netxstudio.server.metrics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
@@ -52,6 +54,9 @@ public class NetworkElementLocator {
 	@Server
 	private IDataProvider dataProvider;
 
+	// cache the components by metric and node id
+	private Map<String, List<Component>> cachedObjects = new HashMap<String, List<Component>>();
+
 	public Component locateNetworkElement(Metric metric,
 			List<IdentifierValue> identifiers) {
 
@@ -79,26 +84,32 @@ public class NetworkElementLocator {
 			return null;
 		}
 
-		// find the cross references to this metric
-		final List<CDOObjectReference> results = dataProvider.getTransaction()
-				.queryXRefs(metric, sourceReference);
-		final List<Component> components = new ArrayList<Component>();
-		for (final CDOObjectReference objectReference : results) {
-			final CDOObject source = objectReference.getSourceObject();
-			if (source instanceof Function && searchingForEquipment) {
-				continue;
-			}
-			if (source instanceof Equipment && !searchingForEquipment) {
-				continue;
-			}
-			if (!hasValidNode(source, nodeIdentifier)) {
-				continue;
-			}
+		List<Component> components = new ArrayList<Component>();
+		final String key = getKey(nodeIdentifier, metric);
+		if (cachedObjects.containsKey(key)) {
+			components = cachedObjects.get(key);
+		} else {
+			// find the cross references to this metric
+			final List<CDOObjectReference> results = dataProvider
+					.getTransaction().queryXRefs(metric, sourceReference);
+			for (final CDOObjectReference objectReference : results) {
+				final CDOObject source = objectReference.getSourceObject();
+				if (source instanceof Function && searchingForEquipment) {
+					continue;
+				}
+				if (source instanceof Equipment && !searchingForEquipment) {
+					continue;
+				}
+				if (!hasValidNode(source, nodeIdentifier)) {
+					continue;
+				}
 
-			if (source instanceof Component && !components.contains(source)) {
-				components.add((Component) source);
-				addChildren((Component) source, components);
+				if (source instanceof Component && !components.contains(source)) {
+					components.add((Component) source);
+					addChildren((Component) source, components);
+				}
 			}
+			cachedObjects.put(key, components);
 		}
 		for (final Component source : components) {
 			boolean allFeaturesValid = true;
@@ -239,5 +250,10 @@ public class NetworkElementLocator {
 
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
+	}
+
+	private String getKey(IdentifierValue nodeValue, Metric metric) {
+		return nodeValue.getKind().getObjectProperty() + "_"
+				+ nodeValue.getValue() + "_" + metric.cdoID().toString();
 	}
 }
