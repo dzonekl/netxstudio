@@ -112,6 +112,7 @@ public class TestDataCreator implements NetxForgeService {
 
 	private List<Tolerance> tl = Lists.newArrayList();
 	private Expression utilizationExpression = null;
+	private Expression retentionExpression = null;
 	private Expression capacityExpression = null;
 
 	private List<FunctionRelationship> functionRelationships = new ArrayList<FunctionRelationship>();
@@ -191,7 +192,7 @@ public class TestDataCreator implements NetxForgeService {
 		final RFSServiceJob job = SchedulingFactory.eINSTANCE
 				.createRFSServiceJob();
 		job.setRFSService(rfsService);
-		job.setJobState(JobState.ACTIVE);
+		job.setJobState(JobState.IN_ACTIVE);
 		job.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		job.setInterval(600);
@@ -252,7 +253,7 @@ public class TestDataCreator implements NetxForgeService {
 		final MetricSourceJob msJob = SchedulingFactory.eINSTANCE
 				.createMetricSourceJob();
 		msJob.setInterval(600);
-		msJob.setJobState(JobState.ACTIVE);
+		msJob.setJobState(JobState.IN_ACTIVE);
 		msJob.setName(MS_CSV_NAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
@@ -290,7 +291,7 @@ public class TestDataCreator implements NetxForgeService {
 		final MetricSourceJob msJob = SchedulingFactory.eINSTANCE
 				.createMetricSourceJob();
 		msJob.setInterval(600);
-		msJob.setJobState(JobState.ACTIVE);
+		msJob.setJobState(JobState.IN_ACTIVE);
 		msJob.setName(MS_DB_PG_NAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
@@ -328,7 +329,7 @@ public class TestDataCreator implements NetxForgeService {
 		final MetricSourceJob msJob = SchedulingFactory.eINSTANCE
 				.createMetricSourceJob();
 		msJob.setInterval(600);
-		msJob.setJobState(JobState.ACTIVE);
+		msJob.setJobState(JobState.IN_ACTIVE);
 		msJob.setName(MS_DB_ORACLE_NAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
@@ -360,7 +361,7 @@ public class TestDataCreator implements NetxForgeService {
 		final MetricSourceJob msJob = SchedulingFactory.eINSTANCE
 				.createMetricSourceJob();
 		msJob.setInterval(600);
-		msJob.setJobState(JobState.ACTIVE);
+		msJob.setJobState(JobState.IN_ACTIVE);
 		msJob.setName(MS_XLS_NAME);
 		msJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
@@ -387,11 +388,34 @@ public class TestDataCreator implements NetxForgeService {
 		// This returns an expressionresult with a list of values dividing the
 		// metrics values by the capacity values.
 		// The Timestamp of the result is not set at the moment.
-		final String eAsString = "this UTILIZATION = this METRIC 60 / this CAP 60;";
+		final String eAsString = "this UTILIZATION 60 = this METRIC 60 / this CAP 60;";
 		utilizationExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(utilizationExpression);
 		return utilizationExpression;
+	}
+	
+	
+	private Expression createOrGetRetentionExpression() {
+
+		if (retentionExpression != null) {
+			return retentionExpression;
+		}
+
+		// Utilization expression.
+		retentionExpression = LibraryFactory.eINSTANCE.createExpression();
+		retentionExpression.setName("Retention Expression");
+
+		// 1st Context is a NetXResource
+		// 2nd Context is the Resource monitoring period.
+		// This returns an expressionresult with a list of values dividing the
+		// metrics values by the capacity values.
+		// The Timestamp of the result is not set at the moment.
+		final String eAsString = "this METRIC 1440 = this METRIC 60.max();";
+		retentionExpression.getExpressionLines().addAll(
+				getExpressionLines(eAsString));
+		addToResource(retentionExpression);
+		return retentionExpression;
 	}
 
 	private Expression createOrGetCapacityExpression() {
@@ -491,11 +515,11 @@ public class TestDataCreator implements NetxForgeService {
 	private void setDBMapping(MappingRDBMS mapping) {
 		mapping.setDateFormat("dd.MM.yyyy");
 		mapping.setTimeFormat("HH:mm");
-		final String qry = "select UTP_MO.CO_NAME AS NAME,to_char(PERIOD_START_TIME,'dd.mm.yyyy hh24:mi')"
-				+ "as PERIOD_START_TIME_h, RNS_PS_MLANEMBT_TRA1_RAW.* from RNS_PS_MLANEMBT_TRA1_RAW,UTP_MO"
-				+ "where RNS_PS_MLANEMBT_TRA1_RAW.MSC_ID=UTP_MO.CO_GID"
-				+ "and to_char(PERIOD_START_TIME,'dd.mm.yyyy hh24:mi')>=to_char('${startDate}') ||' ${endTime}'"
-				+ "and to_char(PERIOD_START_TIME,'dd.mm.yyyy hh24:mi')<=to_char('${endDate}') ||' ${endTime}'";
+		final String qry = "select UTP_MO.CO_NAME AS NAME,to_char(PERIOD_START_TIME,'dd.mm.yyyy hh24:mi') "
+				+ "as PERIOD_START_TIME_h, RNS_PS_MLANEMBT_TRA1_RAW.* from RNS_PS_MLANEMBT_TRA1_RAW,UTP_MO "
+				+ "where RNS_PS_MLANEMBT_TRA1_RAW.MSC_ID=UTP_MO.CO_GID "
+				+ "and to_char(PERIOD_START_TIME,'dd.mm.yyyy hh24:mi')>=to_char('${startDate}') ||' ${endTime}' "
+				+ "and to_char(PERIOD_START_TIME,'dd.mm.yyyy hh24:mi')<=to_char('${endDate}') ||' ${endTime}' ";
 		mapping.setQuery(qry);
 
 		mapping.getMappingColumns().add(
@@ -643,7 +667,12 @@ public class TestDataCreator implements NetxForgeService {
 			{// Add various tolerance refs.
 				equipment.getToleranceRefs().addAll(tls);
 			}
-			equipment.setEquipmentCode(equipment.getName());
+			{// Add various tolerance refs.
+				final Expression e = this.createOrGetRetentionExpression();
+				equipment.setRetentionExpressionRef(e);
+			}
+			//equipment.setEquipmentCode(equipment.getName());
+			equipment.setEquipmentCode("BOARD");
 			if (level <= HIERARCHY_DEPTH) {
 				equipment.getEquipments().addAll(
 						createEquipments(id, level + 1));
@@ -676,6 +705,11 @@ public class TestDataCreator implements NetxForgeService {
 				{// Add various tolerance refs.
 					function.getToleranceRefs().addAll(tls);
 				}
+				{// Add various tolerance refs.
+					final Expression e = this.createOrGetRetentionExpression();
+					function.setRetentionExpressionRef(e);
+				}
+				
 			} else {
 				function.setName(id + "_" + level + "_" + i);
 			}
