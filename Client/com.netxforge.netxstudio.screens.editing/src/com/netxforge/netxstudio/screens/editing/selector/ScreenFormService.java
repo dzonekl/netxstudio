@@ -108,13 +108,11 @@ public class ScreenFormService implements IScreenFormService {
 	private Composite rootComposite;
 
 	private void pushCurrentScreen() {
-		if (screenStack.empty()) {
-			Control c = screenBody.getScreenDeck().topControl;
-			if (c instanceof Composite) {
-				Composite screen = (Composite)c;
-				screen.setVisible(false);
-				screenStack.push(screen);
-			}
+		Control c = screenBody.getScreenDeck().topControl;
+		if (c instanceof Composite) {
+			Composite screen = (Composite) c;
+			screen.setVisible(false);
+			screenStack.push(screen);
 		}
 	}
 
@@ -123,37 +121,36 @@ public class ScreenFormService implements IScreenFormService {
 		doSetActiveScreen(screen);
 	}
 
-	private void doSetActiveScreen(Composite screen){
+	private void doSetActiveScreen(Composite screen) {
 		// We need a copy of the composite, so it can work.
-		
-		
-		if(screen.isDisposed()){
+
+		if (screen.isDisposed()) {
 			System.out.println("Attempt to set a disposed screen");
 			screenBody.getScreenDeck().topControl = null;
-			return; // can't set this screen sorry. 
-			
+			return; // can't set this screen sorry.
+
 		}
-		
+
 		Composite activeScreen = screen;
 		formToolkit.adapt(activeScreen);
 		formToolkit.paintBordersFor(activeScreen);
 		Control current = screenBody.getScreenDeck().topControl;
-		if(current != null && current.isDisposed()){
+		if (current != null && current.isDisposed()) {
 			current = null;
 		}
 		screenBody.getScreenDeck().topControl = activeScreen;
 
 		// screenBody.pack();
-		
-		try{
-		getScreenContainer().layout(true, true);
-		}catch(Exception e){
-			if(e instanceof SWTException){
+
+		try {
+			getScreenContainer().layout(true, true);
+		} catch (Exception e) {
+			if (e instanceof SWTException) {
 				System.out.println("bug widget disposed" + e.getMessage());
-			}else{
+			} else {
 				e.printStackTrace();
 			}
-			
+
 		}
 
 		this.updateScreenBarActions(activeScreen);
@@ -162,8 +159,7 @@ public class ScreenFormService implements IScreenFormService {
 		// All our screens must implement IScreen.
 		fireScreenChanged((IScreen) activeScreen);
 	}
-	
-	
+
 	private void popScreen() {
 
 		if (!screenStack.empty()) {
@@ -346,10 +342,10 @@ public class ScreenFormService implements IScreenFormService {
 			Composite target = (Composite) finalScreenConstructor.newInstance(
 					getScreenContainer(), SWT.NONE);
 			((IScreen) target).setOperation(finalOperation);
-			if(target instanceof IScreen){
-				((IScreen)target).setScreenService(this);
+			if (target instanceof IScreen) {
+				((IScreen) target).setScreenService(this);
 			}
-			
+
 			target.addDisposeListener(new ScreenDisposer());
 			reset();
 			doSetActiveScreen(target);
@@ -375,12 +371,12 @@ public class ScreenFormService implements IScreenFormService {
 			// The widget is disposed, now dispose the data.
 			if (e.getSource() instanceof IScreen) {
 				final IScreen screen = (IScreen) e.getSource();
-				Display.getCurrent().asyncExec(new Runnable(){
+				Display.getCurrent().asyncExec(new Runnable() {
 					public void run() {
-//						screen.disposeData();		
+						// screen.disposeData();
 					}
 				});
-				 
+
 			}
 		}
 	}
@@ -398,24 +394,25 @@ public class ScreenFormService implements IScreenFormService {
 			// Add all observables to the ObservablesManager.
 
 		}
-		
-		Control c = screenBody.getScreenDeck().topControl; 
-		if( c instanceof IScreen){
-			try{
-				System.out.println("About to dispose : " + c.getClass().getSimpleName());
-			c.dispose();
-			}catch(Exception e){
-				if(e instanceof IllegalStateException){
+
+		Control c = screenBody.getScreenDeck().topControl;
+		if (c instanceof IScreen) {
+			try {
+				System.out.println("About to dispose : "
+						+ c.getClass().getSimpleName());
+				c.dispose();
+			} catch (Exception e) {
+				if (e instanceof IllegalStateException) {
 					System.out.println("observable exception" + e.getMessage());
-				}else{
+				} else {
 					e.printStackTrace();
 				}
-				// widget is disposed, but not properly unset from the parent. 
+				// widget is disposed, but not properly unset from the parent.
 				Composite parent = c.getParent();
 				c.setParent(null);
 			}
 		}
-		
+
 	}
 
 	/*

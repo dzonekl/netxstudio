@@ -341,7 +341,7 @@ public class MappingStatistics extends AbstractScreen implements
 
 	@Override
 	public Viewer getViewer() {
-		return null; // N/A
+		return statisticsListViewer;
 	}
 
 	@Override

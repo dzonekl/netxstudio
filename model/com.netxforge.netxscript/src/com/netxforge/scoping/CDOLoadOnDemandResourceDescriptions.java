@@ -104,8 +104,10 @@ public class CDOLoadOnDemandResourceDescriptions extends
 
 			Resource resource = null;
 			try {
+				
 				resource = dataService.getProvider().getResource(
-						LibraryPackage.Literals.LIBRARY);
+						uri);
+				
 			} catch (IllegalStateException e) {
 				// No connection, abort global scoping!
 			}

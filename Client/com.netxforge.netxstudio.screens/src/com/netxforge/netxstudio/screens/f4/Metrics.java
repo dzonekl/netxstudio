@@ -78,7 +78,6 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	private EMFDataBindingContext bindingContext;
 	private Form frmMetrics;
 	private TreeViewer metricsTreeViewer;
-	// private ObservablesManager mgr;
 	private ObservableListTreeContentProvider listTreeContentProvider;
 
 	@Inject
@@ -179,13 +178,13 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
 				metricsTreeViewer, SWT.NONE);
 		TreeColumn trclmnDescription = treeViewerColumn_1.getColumn();
-		trclmnDescription.setWidth(100);
+		trclmnDescription.setWidth(270);
 		trclmnDescription.setText("Description");
 
 		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
 				metricsTreeViewer, SWT.NONE);
 		TreeColumn trclmnUnit = treeViewerColumn_2.getColumn();
-		trclmnUnit.setWidth(100);
+		trclmnUnit.setWidth(84);
 		trclmnUnit.setText("Unit");
 
 		metricsTreeViewer.addFilter(searchFilter);

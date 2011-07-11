@@ -3,17 +3,16 @@ package com.netxforge.netxstudio.screens.f4;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.value.IValueProperty;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -39,6 +38,7 @@ import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MenuEvent;
@@ -87,8 +87,7 @@ import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
-import com.netxforge.netxstudio.workspace.WorkspaceUtil;
+import com.netxforge.netxstudio.screens.f4.support.RDBMSServiceJob;
 
 public class NewEditMappingRDBMS extends AbstractScreen implements
 		IDataScreenInjection {
@@ -144,16 +143,14 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		sctnSummary.setClient(composite_1);
 		composite_1.setLayout(new GridLayout(2, false));
 
-		Label lblUser = toolkit.createLabel(composite_1,
-				"User:", SWT.NONE);
-		lblUser.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
+		Label lblUser = toolkit.createLabel(composite_1, "User:", SWT.NONE);
+		lblUser.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
+				1, 1));
 
-		txtDBUser = toolkit.createText(composite_1, "New Text",
-				SWT.NONE);
+		txtDBUser = toolkit.createText(composite_1, "New Text", SWT.NONE);
 		txtDBUser.setText("");
-		GridData gd_txtDBUser = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
+		GridData gd_txtDBUser = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
 		gd_txtDBUser.widthHint = 100;
 		txtDBUser.setLayoutData(gd_txtDBUser);
 
@@ -165,79 +162,54 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		gd_lblPassword.widthHint = 70;
 		lblPassword.setLayoutData(gd_lblPassword);
 
-		txtDBPassword = toolkit.createText(composite_1, "New Text", SWT.PASSWORD);
+		txtDBPassword = toolkit.createText(composite_1, "New Text",
+				SWT.PASSWORD);
 		GridData gd_txtDBPassword = new GridData(SWT.LEFT, SWT.TOP, false,
 				false, 1, 1);
 		gd_txtDBPassword.widthHint = 100;
 		txtDBPassword.setLayoutData(gd_txtDBPassword);
 		txtDBPassword.setText("");
 
-		Section sctnCSVInteractive = toolkit.createSection(
+		Section sctnRDBMSInteractive = toolkit.createSection(
 				frmCSVMappingForm.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
-		fd_sctnSummary.right = new FormAttachment(sctnCSVInteractive, -15);
-		sctnCSVInteractive.setText("Query");
-		FormData fd_sctnXLSInteractive = new FormData();
-		fd_sctnXLSInteractive.top = new FormAttachment(0, 10);
-		fd_sctnXLSInteractive.bottom = new FormAttachment(100, -12);
-		fd_sctnXLSInteractive.left = new FormAttachment(0, 370);
-		fd_sctnXLSInteractive.right = new FormAttachment(100, -12);
-		sctnCSVInteractive.setLayoutData(fd_sctnXLSInteractive);
-		toolkit.paintBordersFor(sctnCSVInteractive);
+		fd_sctnSummary.right = new FormAttachment(sctnRDBMSInteractive, -15);
+		sctnRDBMSInteractive.setText("Query");
+		FormData fd_sctnRDBMSInteractive = new FormData();
+		fd_sctnRDBMSInteractive.top = new FormAttachment(0, 10);
+		fd_sctnRDBMSInteractive.bottom = new FormAttachment(100, -12);
+		fd_sctnRDBMSInteractive.left = new FormAttachment(0, 370);
+		fd_sctnRDBMSInteractive.right = new FormAttachment(100, -12);
+		sctnRDBMSInteractive.setLayoutData(fd_sctnRDBMSInteractive);
+		toolkit.paintBordersFor(sctnRDBMSInteractive);
 
-		Composite composite_2 = toolkit.createComposite(sctnCSVInteractive,
+		Composite cmpQuery = toolkit.createComposite(sctnRDBMSInteractive,
 				SWT.NONE);
-		toolkit.paintBordersFor(composite_2);
-		sctnCSVInteractive.setClient(composite_2);
-		composite_2.setLayout(new GridLayout(2, false));
-		
-				txtDBQuery = toolkit.createText(composite_2, "New Text",
-						SWT.WRAP | SWT.MULTI);
-				txtDBQuery.setText("<....>");
-				txtDBQuery.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
-						true, true, 2, 1));
-		
-				Button btnTestQuery = toolkit.createButton(composite_2, "Test Query",
-						SWT.NONE);
-				btnTestQuery.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
+		toolkit.paintBordersFor(cmpQuery);
+		sctnRDBMSInteractive.setClient(cmpQuery);
+		cmpQuery.setLayout(new FillLayout(SWT.HORIZONTAL));
 
-						IPath[] paths = WorkspaceUtil.INSTANCE
-								.browseWorkspace(NewEditMappingRDBMS.this.getShell());
-						if (paths == null || paths.length == 0)
-							return;
-						// We only process the first selection.
-						IFile f = WorkspaceUtil.INSTANCE.createFileHandle(paths[0]);
-						txtDBQuery.setText(f.getName());
-						final CSVServiceJob job = new CSVServiceJob();
-						job.addNotifier(new JobChangeAdapter() {
-							@Override
-							public void done(IJobChangeEvent event) {
-								super.done(event);
+		SashForm sashForm = new SashForm(cmpQuery, SWT.VERTICAL);
 
-								String[][] records = job.getRecords();
-								if (records != null) {
-									Display.getDefault().asyncExec(new Runnable() {
-										public void run() {
-											fillGrid(job.getRecords());
-										}
-									});
-								}
-							}
-						});
-						job.setResourceToProcess(f);
-						job.go(); // Should spawn a job processing the xls.
-						resetGridSelections();// Reset the selections.
-					}
-				});
-		new Label(composite_2, SWT.NONE);
+		toolkit.adapt(sashForm);
+		toolkit.paintBordersFor(sashForm);
 
-		CTabFolder tabFolder = new CTabFolder(composite_2, SWT.BORDER);
+		txtDBQuery = toolkit.createText(sashForm, "New Text", SWT.WRAP
+				| SWT.MULTI);
+		txtDBQuery.setText("<....>");
+
+		Composite cmpGrid = toolkit.createComposite(sashForm, SWT.NONE);
+		toolkit.paintBordersFor(cmpGrid);
+		cmpGrid.setLayout(new GridLayout(1, false));
+
+		Button btnTestQuery = toolkit.createButton(cmpGrid, "Test Query",
+				SWT.NONE);
+
+		CTabFolder tabFolder = new CTabFolder(cmpGrid, SWT.BORDER);
+		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1,
+				1));
 		tabFolder.setTabHeight(20);
 		tabFolder.setTabPosition(SWT.BOTTOM);
-		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2,
-				2));
 		toolkit.adapt(tabFolder);
 		toolkit.paintBordersFor(tabFolder);
 		tabFolder.setSelectionBackground(SWTResourceManager.getColor(240, 255,
@@ -287,8 +259,8 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 						mi.addSelectionListener(new SelectionAdapter() {
 							@Override
 							public void widgetSelected(SelectionEvent e) {
-								txtDBUser.setText(new Integer(
-										currentRowIndex).toString());
+								txtDBUser.setText(new Integer(currentRowIndex)
+										.toString());
 							}
 						});
 					}
@@ -320,6 +292,36 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 				}
 			}
 		});
+		btnTestQuery.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				final RDBMSServiceJob job = new RDBMSServiceJob();
+				job.addNotifier(new JobChangeAdapter() {
+					@Override
+					public void done(IJobChangeEvent event) {
+						super.done(event);
+						if (event.getResult().getSeverity() == IStatus.OK) {
+							String[][] records = job.getRecords();
+							if (records != null) {
+								Display.getDefault().asyncExec(new Runnable() {
+									public void run() {
+										fillGrid(job.getRecords());
+									}
+								});
+							}
+						}else{
+							MessageDialog.openError(NewEditMappingRDBMS.this.getShell(), "Error testing query", event.getResult().getMessage());
+						}
+					}
+				});
+				job.setDetailsToProcess(owner, mapping);
+				job.go(); // Should spawn a job processing the xls.
+				resetGridSelections();// Reset the selections.
+			}
+		});
+		
+		sashForm.setWeights(new int[] { 3, 7 });
 
 		Section sctnMappingColumns = toolkit.createSection(
 				frmCSVMappingForm.getBody(), Section.TITLE_BAR);
@@ -414,32 +416,37 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		TableColumn tblclmnValueType = tableViewerColumn_1.getColumn();
 		tblclmnValueType.setWidth(100);
 		tblclmnValueType.setText("Value Type");
-		
-		Section sctnNewSection = toolkit.createSection(frmCSVMappingForm.getBody(), Section.EXPANDED | Section.TITLE_BAR);
-		fd_sctnSummary.bottom = new FormAttachment(sctnNewSection, -6);
+
+		Section sctnRDBMSInfo = toolkit.createSection(
+				frmCSVMappingForm.getBody(), Section.EXPANDED
+						| Section.TITLE_BAR);
+		fd_sctnSummary.bottom = new FormAttachment(sctnRDBMSInfo, -6);
 		fd_sctnMappingColumns.top = new FormAttachment(0, 272);
-		FormData fd_sctnNewSection = new FormData();
-		fd_sctnNewSection.top = new FormAttachment(0, 128);
-		fd_sctnNewSection.bottom = new FormAttachment(sctnMappingColumns, -6);
-		fd_sctnNewSection.right = new FormAttachment(sctnCSVInteractive, -15);
-		fd_sctnNewSection.left = new FormAttachment(0, 12);
-		sctnNewSection.setLayoutData(fd_sctnNewSection);
-		toolkit.paintBordersFor(sctnNewSection);
-		sctnNewSection.setText("RDBMS Info");
-		
-		Composite composite_4 = toolkit.createComposite(sctnNewSection, SWT.NONE);
+		FormData fd_sctnRDBMSInfo = new FormData();
+		fd_sctnRDBMSInfo.top = new FormAttachment(0, 128);
+		fd_sctnRDBMSInfo.bottom = new FormAttachment(sctnMappingColumns, -6);
+		fd_sctnRDBMSInfo.right = new FormAttachment(sctnRDBMSInteractive, -15);
+		fd_sctnRDBMSInfo.left = new FormAttachment(0, 12);
+		sctnRDBMSInfo.setLayoutData(fd_sctnRDBMSInfo);
+		toolkit.paintBordersFor(sctnRDBMSInfo);
+		sctnRDBMSInfo.setText("RDBMS Info");
+
+		Composite composite_4 = toolkit
+				.createComposite(sctnRDBMSInfo, SWT.NONE);
 		toolkit.paintBordersFor(composite_4);
-		sctnNewSection.setClient(composite_4);
+		sctnRDBMSInfo.setClient(composite_4);
 		composite_4.setLayout(new GridLayout(2, false));
-		
+
 		Label lblDbType = toolkit.createLabel(composite_4, "DB Type", SWT.NONE);
-		GridData gd_lblDbType = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_lblDbType = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
 		gd_lblDbType.widthHint = 70;
 		lblDbType.setLayoutData(gd_lblDbType);
-		
+
 		cmbDBTypeViewer = new ComboViewer(composite_4, SWT.NONE);
 		Combo cmbDBType = cmbDBTypeViewer.getCombo();
-		GridData gd_cmbDBType = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_cmbDBType = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
 		gd_cmbDBType.widthHint = 100;
 		cmbDBType.setLayoutData(gd_cmbDBType);
 		toolkit.paintBordersFor(cmbDBType);
@@ -512,50 +519,48 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 
 		// TODO, Validations and strategies.
 
-		
 		IObservableValue dbUserObservableValue = SWTObservables.observeText(
 				txtDBUser, SWT.Modify);
 		IObservableValue dbPasswordObservableValue = SWTObservables
 				.observeText(txtDBPassword, SWT.Modify);
-		
-		IObservableValue dbQueryObservableValue = SWTObservables
-				.observeText(txtDBQuery, SWT.Modify);
-		
 
-		IEMFValueProperty dbUserProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_RDBMS__USER);
-		
-		IEMFValueProperty dbPasswordProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_RDBMS__PASSWORD);
-		
-		IEMFValueProperty dbQueryProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_RDBMS__QUERY);
+		IObservableValue dbQueryObservableValue = SWTObservables.observeText(
+				txtDBQuery, SWT.Modify);
 
-		IEMFValueProperty dbTypeProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_RDBMS__DATABASE_TYPE);
-		
-		
+		IEMFValueProperty dbUserProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.MAPPING_RDBMS__USER);
+
+		IEMFValueProperty dbPasswordProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.MAPPING_RDBMS__PASSWORD);
+
+		IEMFValueProperty dbQueryProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.MAPPING_RDBMS__QUERY);
+
+		IEMFValueProperty dbTypeProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.MAPPING_RDBMS__DATABASE_TYPE);
+
 		cmbDBTypeViewer.setContentProvider(new ArrayContentProvider());
 		cmbDBTypeViewer.setLabelProvider(new LabelProvider());
 		cmbDBTypeViewer.setInput(DatabaseTypeType.VALUES);
-		
-		IValueProperty selectionProperty = ViewerProperties.singleSelection();
-		
-		context.bindValue(selectionProperty.observe(cmbDBTypeViewer),
-				dbTypeProperty.observe(mapping),
-				null, null);		
 
-		
+		IValueProperty selectionProperty = ViewerProperties.singleSelection();
+
+		context.bindValue(selectionProperty.observe(cmbDBTypeViewer),
+				dbTypeProperty.observe(mapping), null, null);
+
 		context.bindValue(dbUserObservableValue,
 				dbUserProperty.observe(mapping), null, null);
-		
+
 		context.bindValue(dbPasswordObservableValue,
 				dbPasswordProperty.observe(mapping), null, null);
 
 		context.bindValue(dbQueryObservableValue,
 				dbQueryProperty.observe(mapping), null, null);
-		
-		
+
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		this.mappingColumnsTableViewer.setContentProvider(listContentProvider);
 
@@ -568,16 +573,17 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		this.mappingColumnsTableViewer
 				.setLabelProvider(new ColumnObservableMapLabelProvider(
 						observeMaps));
-		IEMFListProperty l = EMFProperties
-				.list(MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS);
+		IEMFListProperty l = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS);
 
 		this.mappingColumnsTableViewer.setInput(l.observe(mapping));
-		this.gridTableViewer.setContentProvider(new CSVGridContentProvider());
-		gridTableViewer.setLabelProvider(new CSVGridLabelProvider());
+		this.gridTableViewer.setContentProvider(new RDBMSGridContentProvider());
+		gridTableViewer.setLabelProvider(new RDBMSGridLabelProvider());
 		return context;
 	}
 
-	class CSVGridLabelProvider extends LabelProvider implements
+	class RDBMSGridLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -596,7 +602,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 
 	}
 
-	class CSVGridContentProvider implements IStructuredContentProvider {
+	class RDBMSGridContentProvider implements IStructuredContentProvider {
 
 		public void dispose() {
 			// ?
@@ -668,21 +674,21 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		}
 
 		if (object != null && object instanceof MappingRDBMS) {
-				mapping = (MappingRDBMS) object;
-		}else {
+			mapping = (MappingRDBMS) object;
+		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
 		this.initDataBindings_();
-		
+
 		String title = "";
-		if(Screens.isNewOperation(getOperation())){
+		if (Screens.isNewOperation(getOperation())) {
 			title = "New";
-		}else{
+		} else {
 			title = "Edit";
 		}
-		frmCSVMappingForm.setText( title + " RDBMS Mapping");
-		
+		frmCSVMappingForm.setText(title + " RDBMS Mapping");
+
 	}
 
 	public void addData() {

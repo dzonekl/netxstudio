@@ -30,6 +30,7 @@ import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
@@ -58,7 +59,9 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
+import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
@@ -74,7 +77,6 @@ public class NewEditExpression extends AbstractScreen implements
 		IDataScreenInjection, IValidationListener {
 	private DataBindingContext m_bindingContext;
 
-
 	@Inject
 	ModelUtils modelUtils;
 
@@ -87,6 +89,8 @@ public class NewEditExpression extends AbstractScreen implements
 	private EmbeddedExpression exp;
 
 	private Label lblExpressionName;
+
+	private Object whoRefers;
 
 	/**
 	 * Create the composite.
@@ -139,8 +143,7 @@ public class NewEditExpression extends AbstractScreen implements
 		gl_composite_1.horizontalSpacing = 8;
 		composite_1.setLayout(gl_composite_1);
 
-		lblExpressionName = toolkit.createLabel(composite_1, "Name:",
-				SWT.NONE);
+		lblExpressionName = toolkit.createLabel(composite_1, "Name:", SWT.NONE);
 		lblExpressionName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
 				false, false, 1, 1));
 
@@ -162,6 +165,10 @@ public class NewEditExpression extends AbstractScreen implements
 				frmExpression.getBody(), fd_sctnNewSection, getOperation());
 	}
 
+	public void injectData(Object owner, Object object) {
+		injectData(owner, null, object);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -169,17 +176,19 @@ public class NewEditExpression extends AbstractScreen implements
 	 * com.netxforge.netxstudio.data.IDataScreenInjection#injectData(java.lang
 	 * .Object, java.lang.Object)
 	 */
-	public void injectData(Object owner, Object object) {
-		
-		if(owner instanceof Resource){
+	public void injectData(Object owner, Object whoRefers, Object object) {
+
+		if (owner != null && owner instanceof Resource) {
 			this.owner = (Resource) owner;
-		}else{
-			throw new IllegalArgumentException("Valid argument required");
+		} 
+		// Determine the ownership if not a resoucer.
+		if (whoRefers != null) {
+			this.whoRefers = whoRefers;
 		}
-		
+
 		if (object != null && object instanceof Expression) {
 			expression = (Expression) object;
-		}else{
+		} else {
 			throw new IllegalArgumentException("Valid argument required");
 		}
 
@@ -191,14 +200,14 @@ public class NewEditExpression extends AbstractScreen implements
 		// Screen title
 		String title = "";
 		if (Screens.isNewOperation(getOperation())) {
-			title = "New";
+			title = "New ";
 		} else if (Screens.isEditOperation(getOperation())) {
-			title = "Edit";
+			title = "Edit ";
 		} else if (Screens.isReadOnlyOperation(getOperation())) {
-			title = "Read-Only";
+			title = "Read-Only ";
 		}
-		frmExpression.setText(title);
-		
+		frmExpression.setText(title + "Expression");
+
 		if (!Screens.isReadOnlyOperation(getOperation())) {
 			validationService.registerAllDecorators(txtExpressionName,
 					lblExpressionName);
@@ -215,6 +224,21 @@ public class NewEditExpression extends AbstractScreen implements
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					owner.getContents(), expression);
 			editingService.getEditingDomain().getCommandStack().execute(c);
+
+			if (whoRefers != null) {
+				// We also set the reference to this expression.
+				Command cSetRef = null;
+				if (whoRefers instanceof Tolerance) {
+					cSetRef = new SetCommand(
+							editingService.getEditingDomain(),
+							(Tolerance) whoRefers,
+							LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF,
+							expression);
+				}
+				if(cSetRef != null){
+					editingService.getEditingDomain().getCommandStack().execute(cSetRef);
+				}
+			}
 		} else if (Screens.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have
@@ -229,9 +253,9 @@ public class NewEditExpression extends AbstractScreen implements
 				return;
 			}
 
-//			Command c = new ReplaceCommand(editingService.getEditingDomain(),
-//					owner.getContents(), original, expression);
-//			editingService.getEditingDomain().getCommandStack().execute(c);
+			// Command c = new ReplaceCommand(editingService.getEditingDomain(),
+			// owner.getContents(), original, expression);
+			// editingService.getEditingDomain().getCommandStack().execute(c);
 		}
 		// After our edit, we shall be dirty
 		if (editingService.isDirty()) {
@@ -262,8 +286,6 @@ public class NewEditExpression extends AbstractScreen implements
 				expressionNameObserveValue_1.observe(expression),
 				expressionStrategy, null);
 
-		// TODO, For the references, we need some sort of custom binding.
-		// The .edit label provider would need.
 		return bindingContext;
 	}
 

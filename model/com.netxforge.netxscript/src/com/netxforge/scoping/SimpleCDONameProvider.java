@@ -17,10 +17,7 @@ public class SimpleCDONameProvider extends SimpleNameProvider {
 
 	@Override
 	public QualifiedName getFullyQualifiedName(EObject obj) {
-		final QualifiedName qName = super.getFullyQualifiedName(obj);
-		if (qName != null) {
-			return qName;
-		}
+		
 		String name = null;
 
 		// TODO, a Nodetype should be identifiable by it's first function name.
@@ -43,6 +40,12 @@ public class SimpleCDONameProvider extends SimpleNameProvider {
 		if (name != null) {
 			return qualifiedNameConverter.toQualifiedName(name);
 		}
+		
+		final QualifiedName qName = super.getFullyQualifiedName(obj);
+		if (qName != null) {
+			return qName;
+		}
+		
 		return null;
 	}
 

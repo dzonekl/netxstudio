@@ -19,8 +19,6 @@
 package com.netxforge.netxstudio.data.cdo;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
@@ -31,8 +29,6 @@ import org.eclipse.net4j.util.transaction.TransactionException;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.netxforge.netxstudio.Netxstudio;
-import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -156,7 +152,11 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
 			e.printStackTrace();
 		}
 	}
-
+	
+	
+	
+	// FIXME Remove later, fixtures go elsewhere. 
+	@SuppressWarnings("unused")
 	private void loadLibrary() {
 
 		final CDOResource res = (CDOResource) getResource(LibraryPackage.Literals.LIBRARY);

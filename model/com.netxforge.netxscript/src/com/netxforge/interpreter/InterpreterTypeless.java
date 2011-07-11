@@ -911,13 +911,17 @@ public class InterpreterTypeless implements IInterpreter {
 					ComponentRef cr = (ComponentRef) lastRef;
 					if (cr.getEquipment() != null) {
 						String eCode = cr.getEquipment().getEquipmentCode();
+						
+						if(eCode != null){
 						List<Equipment> equipments = modelUtils
 								.equimentsWithCode(node.getNodeType()
 										.getEquipments(), eCode);
 						return equipments;
+						}else{
+							// We can't find the equipment by it's code, as it's not set. 
+							// so we return null. 
+						}
 
-						// dataService.getQueryService().getEquipments(
-						// node.getNodeID(), eCode);
 					}
 					if (cr.getFunction() != null) {
 

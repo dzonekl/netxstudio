@@ -46,7 +46,7 @@ public class CDODataConnection implements ICDOConnection {
 
 	protected static final String CONNECTION_ADDRESS = "localhost:2036"; //$NON-NLS-1$
 	
-	protected String currentServer;
+	protected static String currentServer;
 	
 	private CDOSessionConfiguration sessionConfiguration = null;
 

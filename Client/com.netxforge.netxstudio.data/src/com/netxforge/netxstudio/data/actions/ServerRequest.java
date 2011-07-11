@@ -55,6 +55,8 @@ private String server;
 	
 	public static final String METRIC_IMPORT_SERVICE = "com.netxforge.netxstudio.server.metrics.MetricSourceImportService";
 	public static final String MONITOR_SERVICE = "com.netxforge.netxstudio.server.logic.CapacityService";
+	public static final String RETENTION_SERVICE = "com.netxforge.netxstudio.server.logic.RetentionService";
+	
 	
 	public static final String MS_PARAM = "metricSource";
 	public static final String SERVICE_PARAM = "rfsService";
@@ -72,12 +74,32 @@ private String server;
 	public String callMonitorAction(String parameterName, CDOObject cdoObject) throws Exception{
 		return callMonitorAction(MONITOR_SERVICE, parameterName, cdoObject.cdoID(), null, null);
 	}
-
+	
+	
+	public String callRetentionAction()
+			throws Exception {
+		// Retention can deal with RFSService, Node, Nodetype etc..). 
+		// Get all services. 
+		
+		
+//		return this.callRetentionAction(RETENTION_SERVICE, parameterName, cdoId, from, to)
+		return "TODO Not implemented yet."; 
+	}
+	
 	
 	private String callMetricAction(String serviceName, String parameterName, CDOID cdoId) throws Exception{
 		
 		if(server == null){
 			server = NETXSTUDIO_SERVER;	
+		}else{
+			if(server.startsWith("localhost")){
+				server = NETXSTUDIO_SERVER;
+			}else{
+				// Change the port, if any specified. 
+				int portIndex = server.indexOf(':');
+				server = server.substring(0, portIndex);
+				
+			}
 		}
 
 		final StringBuilder url = new StringBuilder();
@@ -94,6 +116,34 @@ private String server;
 	}
 	
 	public String callMonitorAction(String serviceName, String parameterName, CDOID cdoId, Date from, Date to)
+			throws Exception {
+
+		if(server == null){
+			server = NETXSTUDIO_SERVER;	
+		}
+		
+		final StringBuilder url = new StringBuilder();
+		url.append(server + "/netxforge/service");
+		url.append("?" + SERVICE_PARAM_NAME + "="
+				+ serviceName);
+		
+		url.append("&" + START_TIME_PARAM + "="
+				+ getDateParamValue(from.getTime()));
+		url.append("&" + END_TIME_PARAM + "="
+				+ getDateParamValue(to.getTime()));
+		
+		url.append("&" + parameterName + "="
+				+ ((AbstractCDOIDLong) cdoId).getLongValue());
+
+		System.err.println(url.toString());
+		final String result = doRequest(url.toString());
+		System.err.println(result);
+		return result;
+	}
+	
+	
+	
+	public String callRetentionAction(String serviceName, String parameterName, CDOID cdoId, Date from, Date to)
 			throws Exception {
 
 		if(server == null){

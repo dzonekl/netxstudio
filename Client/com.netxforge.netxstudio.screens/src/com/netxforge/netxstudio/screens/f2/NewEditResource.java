@@ -1,5 +1,28 @@
+/*******************************************************************************
+ * Copyright (c) Jul 11, 2011 NetXForge.
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details. You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * Contributors: Christophe Bouhier - initial API and implementation and/or
+ * initial documentation
+ *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.f2;
 
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -20,21 +43,28 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
-public class Resource extends Composite {
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+
+public class NewEditResource extends AbstractScreen implements IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Text txtNewText;
-	private Text text;
-	private Text text_1;
-	private Text txtNewText_1;
+	private Text txtShortName;
+	private Text txtLongName;
+	private Text txtExpressionName;
+	private Text txtUnit;
+	private NetXResource netxResource;
+	private Form frmResource;
 
 	/**
 	 * Create the composite.
 	 * @param parent
 	 * @param style
 	 */
-	public Resource(Composite parent, int style) {
-		super(parent, SWT.BORDER);
+	public NewEditResource(Composite parent, int style) {
+		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -44,14 +74,14 @@ public class Resource extends Composite {
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Form frmFunction = toolkit.createForm(this);
-		frmFunction.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmFunction);
-		frmFunction.setText("Resource");
-		frmFunction.getBody().setLayout(new FormLayout());
+		frmResource = toolkit.createForm(this);
+		frmResource.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmResource);
+		frmResource.setText("Resource");
+		frmResource.getBody().setLayout(new FormLayout());
 
 		FormText formText = toolkit
-				.createFormText(frmFunction.getBody(), false);
+				.createFormText(frmResource.getBody(), false);
 		FormData fd_formText = new FormData();
 		fd_formText.bottom = new FormAttachment(0, 46);
 		fd_formText.right = new FormAttachment(100, -12);
@@ -63,7 +93,7 @@ public class Resource extends Composite {
 				"<form><p> A resource is either created from a metric by the <b>M</b>etric <b>C</b>ollection <b>E</b>ngine or a resource is defined and calculated from an expression.  </p></form>",
 				true, false);
 
-		Section sctnInfo = toolkit.createSection(frmFunction.getBody(),
+		Section sctnInfo = toolkit.createSection(frmResource.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnInfo = new FormData();
 		fd_sctnInfo.top = new FormAttachment(formText, 15);
@@ -82,31 +112,31 @@ public class Resource extends Composite {
 		Label lblShortName = toolkit.createLabel(composite, "Short Name:", SWT.NONE);
 		lblShortName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		txtNewText = toolkit.createText(composite, "New Text", SWT.NONE);
-		txtNewText.setText("");
+		txtShortName = toolkit.createText(composite, "New Text", SWT.NONE);
+		txtShortName.setText("");
 		
 		Label lblLongName = toolkit.createLabel(composite, "Long Name:", SWT.NONE);
 		lblLongName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		text = toolkit.createText(composite, "New Text", SWT.NONE);
-		text.setText(" ");
-		GridData gd_text = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-		gd_text.widthHint = 200;
-		text.setLayoutData(gd_text);
+		txtLongName = toolkit.createText(composite, "New Text", SWT.NONE);
+		txtLongName.setText(" ");
+		GridData gd_txtLongName = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+		gd_txtLongName.widthHint = 200;
+		txtLongName.setLayoutData(gd_txtLongName);
 		
 		Label lblNameInExpression = toolkit.createLabel(composite, "Name In Expression:", SWT.NONE);
 		lblNameInExpression.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		text_1 = toolkit.createText(composite, "New Text", SWT.NONE);
-		text_1.setText("");
+		txtExpressionName = toolkit.createText(composite, "New Text", SWT.NONE);
+		txtExpressionName.setText("");
 		
 		Label lblUnit = toolkit.createLabel(composite, "Unit:", SWT.NONE);
 		lblUnit.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		txtNewText_1 = toolkit.createText(composite, "New Text", SWT.NONE);
-		txtNewText_1.setText("");
+		txtUnit = toolkit.createText(composite, "New Text", SWT.NONE);
+		txtUnit.setText("");
 		
-		Section sctnContents = toolkit.createSection(frmFunction.getBody(), Section.EXPANDED | Section.TITLE_BAR);
+		Section sctnContents = toolkit.createSection(frmResource.getBody(), Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnContents = new FormData();
 		fd_sctnContents.bottom = new FormAttachment(100, -12);
 		fd_sctnContents.right = new FormAttachment(formText, 0, SWT.RIGHT);
@@ -153,5 +183,63 @@ public class Resource extends Composite {
 		toolkit.paintBordersFor(hprlnkNewHyperlink);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
+	}
+
+	public EMFDataBindingContext initDataBindings_() {
+		EMFDataBindingContext context = new EMFDataBindingContext();
+		
+		// Widget observables. 
+		IObservableValue shortNameTargetObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(this.txtShortName));
+		IObservableValue longNameTargetObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(this.txtLongName));
+		IObservableValue  expressionNameTargetObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(this.txtExpressionName));
+		IObservableValue  unitTargetObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(this.txtUnit));
+		
+		IEMFValueProperty shortNameProperty = EMFEditProperties.value(editingService.getEditingDomain(), LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME);
+		IEMFValueProperty longNameProperty = EMFEditProperties.value(editingService.getEditingDomain(), LibraryPackage.Literals.NET_XRESOURCE__LONG_NAME);
+		IEMFValueProperty expressionNameProperty = EMFEditProperties.value(editingService.getEditingDomain(), LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME);
+		IEMFValueProperty unitProperty = EMFEditProperties.value(editingService.getEditingDomain(), LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF);
+		
+		context.bindValue(shortNameTargetObservable, shortNameProperty.observe(netxResource), null, null);
+		context.bindValue(longNameTargetObservable, longNameProperty.observe(netxResource), null, null);
+		context.bindValue(expressionNameTargetObservable, expressionNameProperty.observe(netxResource), null, null);
+		context.bindValue(unitTargetObservable, unitProperty.observe(netxResource), null, null);
+		
+		return context;
+	}
+
+	public void disposeData() {
+		// N/A
+	}
+
+	public void injectData(Object owner, Object object) {
+		if(object instanceof NetXResource){
+			netxResource = (NetXResource)object;
+		}
+		
+		this.initDataBindings_();
+	}
+
+	public void addData() {
+		// We don't allow editing yet. 
+	}
+
+	@Override
+	public Viewer getViewer() {
+		return null;
+	}
+
+	@Override
+	public void setOperation(int operation) {
+		this.operation = operation;
+	}
+
+	@Override
+	public boolean isValid() {
+		return true;
+	}
+
+	@Override
+	public Form getScreenForm() {
+		return this.frmResource;
 	}
 }

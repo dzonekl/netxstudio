@@ -189,7 +189,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnRepeat = tableViewerColumn_1.getColumn();
 		tblclmnRepeat.setWidth(100);
-		tblclmnRepeat.setText("Occurences");
+		tblclmnRepeat.setText("Repeats");
 
 		TableViewerColumn tableViewerColumn_6 = new TableViewerColumn(
 				jobsTableViewer, SWT.NONE);

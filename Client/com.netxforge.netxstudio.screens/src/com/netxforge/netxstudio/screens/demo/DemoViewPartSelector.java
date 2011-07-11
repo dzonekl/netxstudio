@@ -23,7 +23,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.screens.f2.Resource;
+import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f2.ResourceCapacityRange;
 import com.netxforge.netxstudio.screens.f4.MappingStatistics;
 import com.netxforge.netxstudio.screens.f4.MetricSources;
@@ -278,9 +278,9 @@ public class DemoViewPartSelector extends ViewPart {
 		btnResource.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (currentComposite instanceof Resource)
+				if (currentComposite instanceof NewEditResource)
 					return;
-				updateComposite(container, new Resource(container, SWT.NONE));
+				updateComposite(container, new NewEditResource(container, SWT.NONE));
 
 			}
 		});

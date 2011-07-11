@@ -25,6 +25,7 @@ import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -314,7 +315,19 @@ public abstract class CDODataProvider implements IDataProvider {
 		}
 		return resource;
 	}
-
+	
+	
+	/*
+	 * Get the resource from a URI. 
+	 */
+	public Resource getResource(URI uri){
+		// Strip the repo etc we only need the name prepend with a slash. 
+//		String schema = uri.scheme();
+		String fragment = '/' + uri.lastSegment();
+		return this.getResource(fragment);
+	}
+	
+	
 	private Resource getResource(String resourceName) {
 		if (doGetResourceFromOwnTransaction()) {
 			final CDOResource resource = resolveInCurrentView(resourceName);

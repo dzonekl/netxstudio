@@ -168,7 +168,7 @@ public class MetricSources extends AbstractScreen implements
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				metricSourceTableViewer, SWT.NONE);
 		TableColumn tblclmnLocationUrl = tableViewerColumn_1.getColumn();
-		tblclmnLocationUrl.setWidth(100);
+		tblclmnLocationUrl.setWidth(300);
 		tblclmnLocationUrl.setText("Location URL");
 
 		metricSourceTableViewer.addFilter(searchFilter);

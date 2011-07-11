@@ -30,14 +30,21 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LevelType;
+import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -119,6 +126,35 @@ public class NewEditTolerance extends AbstractScreen implements
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
 		toolkit.paintBordersFor(combo);
+		new Label(composite_1, SWT.NONE);
+		new Label(composite_1, SWT.NONE);
+		
+		ImageHyperlink mghprlnkToleranceExpression = toolkit.createImageHyperlink(composite_1, SWT.NONE);
+		mghprlnkToleranceExpression.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				NewEditExpression expressionScreen = new NewEditExpression(screenService.getScreenContainer(), SWT.NONE);
+				expressionScreen.setScreenService(screenService);
+				
+				Expression expression = tolerance.getExpressionRef();
+				if(expression != null){
+					expressionScreen.setOperation(Screens.OPERATION_EDIT);
+					expressionScreen.injectData(null, tolerance,expression);
+				}else{
+					Resource expressionResource = editingService.getData(LibraryPackage.Literals.EXPRESSION);
+					expressionScreen.setOperation(Screens.OPERATION_NEW);
+					expressionScreen.injectData(expressionResource, tolerance, LibraryFactory.eINSTANCE.createExpression());
+					
+				}
+				screenService.setActiveScreen(expressionScreen);
+			}
+			public void linkEntered(HyperlinkEvent e) {
+			}
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		mghprlnkToleranceExpression.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/obj16/Expression_H.png"));
+		toolkit.paintBordersFor(mghprlnkToleranceExpression);
+		mghprlnkToleranceExpression.setText("Tolerance Expression");
 		new Label(composite_1, SWT.NONE);
 	}
 

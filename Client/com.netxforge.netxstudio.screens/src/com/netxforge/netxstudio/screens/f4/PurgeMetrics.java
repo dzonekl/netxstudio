@@ -57,24 +57,9 @@ public class PurgeMetrics extends AbstractScreen implements IDataScreenInjection
 		frmNewForm.setText("Purge Collected Data");
 		frmNewForm.getBody().setLayout(new FormLayout());
 		
-		Composite composite = toolkit.createComposite(frmNewForm.getBody(), SWT.NONE);
-		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
-		FormData fd_composite = new FormData();
-		fd_composite.bottom = new FormAttachment(0, 16);
-		fd_composite.right = new FormAttachment(100);
-		fd_composite.top = new FormAttachment(0);
-		fd_composite.left = new FormAttachment(0);
-		composite.setLayoutData(fd_composite);
-		toolkit.paintBordersFor(composite);
-		
-		Label lblNewLabel = toolkit.createLabel(composite, "Data Entry Feedback", SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(154, 205, 50));
-		lblNewLabel.setAlignment(SWT.CENTER);
-		
 		Section sctnNewSection = toolkit.createSection(frmNewForm.getBody(), Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnNewSection = new FormData();
-		fd_sctnNewSection.top = new FormAttachment(composite, 12);
-		fd_sctnNewSection.bottom = new FormAttachment(0, 165);
+		fd_sctnNewSection.top = new FormAttachment(0, 10);
 		fd_sctnNewSection.right = new FormAttachment(100, -12);
 		fd_sctnNewSection.left = new FormAttachment(0, 12);
 		sctnNewSection.setLayoutData(fd_sctnNewSection);
@@ -102,11 +87,12 @@ public class PurgeMetrics extends AbstractScreen implements IDataScreenInjection
 		tblclmnName.setText("Name");
 		
 		Section sctnPeriod = toolkit.createSection(frmNewForm.getBody(), Section.EXPANDED | Section.TITLE_BAR);
+		fd_sctnNewSection.bottom = new FormAttachment(sctnPeriod, -12);
 		FormData fd_sctnPeriod = new FormData();
-		fd_sctnPeriod.bottom = new FormAttachment(100, -12);
+		fd_sctnPeriod.left = new FormAttachment(0, 12);
 		fd_sctnPeriod.right = new FormAttachment(100, -12);
-		fd_sctnPeriod.top = new FormAttachment(sctnNewSection, 12);
-		fd_sctnPeriod.left = new FormAttachment(sctnNewSection, 0, SWT.LEFT);
+		fd_sctnPeriod.bottom = new FormAttachment(100, -12);
+		fd_sctnPeriod.top = new FormAttachment(0, 177);
 		sctnPeriod.setLayoutData(fd_sctnPeriod);
 		toolkit.paintBordersFor(sctnPeriod);
 		sctnPeriod.setText("Period");

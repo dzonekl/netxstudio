@@ -186,9 +186,14 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 					Object o = ss.getFirstElement();
 					if (o instanceof WorkFlowRun) {
 						String log = ((WorkFlowRun) o).getLog();
-						LogDialog ld = new LogDialog(JobRuns.this.getShell());
-						ld.InjectData(log);
-						ld.open();
+						if (log != null) {
+							LogDialog ld = new LogDialog(JobRuns.this
+									.getShell());
+							ld.InjectData(log);
+							ld.open();
+						} else {
+							// TODO, no log available user feedback.
+						}
 					}
 				}
 			}
@@ -205,7 +210,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 	private TableViewer jobRunsTableViewer;
 	private Form frmJobRuns;
 	private Job job;
-	private JobRunContainer currentJonContainer;
+	private JobRunContainer currentJobContainer;
 
 	/*
 	 * (non-Javadoc)
@@ -233,33 +238,40 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				final CDOID containerJobId = ((CDOObject) containerJob).cdoID();
 				if (job.cdoID().equals(containerJobId)) {
 					// Container found.
-					currentJonContainer = container;
+					currentJobContainer = container;
 					this.initDataBindings_();
-					return;
+					break;
 				}
 			}
-			// There is no container, TODO should really do this test before
-			// showing the runs.
-			// Do not initiate data binding.
-			MessageDialog.openInformation(this.getShell(), "Job runs",
-					"This job has not run yet.");
+
+			if (currentJobContainer == null) {
+
+				// There is no container, TODO should really do this test before
+				// showing the runs.
+				// Do not initiate data binding.
+				MessageDialog.openInformation(this.getShell(), "Job runs",
+						"This job has not run yet.");
+				return;
+			}
+
+			if (currentJobContainer != null
+					&& currentJobContainer.getWorkFlowRuns().size() > 0
+					&& currentJobContainer.getWorkFlowRuns().get(0) instanceof ExpressionWorkFlowRun) {
+				// This is a conditional menu.
+
+				MenuItem mntmExpressions = new MenuItem(jobRunMenu, SWT.NONE);
+				mntmExpressions.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						// TODO, A dialog which shows the expressions.
+
+					}
+				});
+				mntmExpressions.setText("Expressions...");
+			}
 
 		}
 
-		if (currentJonContainer.getWorkFlowRuns().size() > 0
-				&& currentJonContainer.getWorkFlowRuns().get(0) instanceof ExpressionWorkFlowRun) {
-			// This is a conditional menu.
-
-			MenuItem mntmExpressions = new MenuItem(jobRunMenu, SWT.NONE);
-			mntmExpressions.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					// TODO, A dialog which shows the expressions. 
-
-				}
-			});
-			mntmExpressions.setText("Expressions...");
-		}
 	}
 
 	/*
@@ -302,7 +314,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		IEMFListProperty l = EMFProperties
 				.list(SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS);
-		jobRunsTableViewer.setInput(l.observe(currentJonContainer));
+		jobRunsTableViewer.setInput(l.observe(currentJobContainer));
 		return bindingContext;
 	}
 

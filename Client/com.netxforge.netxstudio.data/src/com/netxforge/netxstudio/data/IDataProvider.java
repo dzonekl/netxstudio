@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.data;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -91,6 +92,15 @@ public interface IDataProvider {
 	 */
 	public Resource getResource(EClass clazz);
 
+	
+	/**
+	 * Get a resource from it's URI. 
+	 * @param uri
+	 * @return
+	 */
+	public Resource getResource(URI uri);
+	
+	
 	/**
 	 * Open a session, depending on the implementation will use default
 	 * credentials or no credentials (which can fail if credentials are

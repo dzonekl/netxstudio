@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.screens.f2;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -60,6 +61,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
@@ -178,7 +180,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 5));
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(table);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
@@ -207,15 +209,10 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 						Object o = ((IStructuredSelection) selection)
 								.getFirstElement();
 						if (o != null) {
-							int operation = -1;
-							if (Screens.isReadOnlyOperation(getOperation())) {
-								operation = Screens.OPERATION_READ_ONLY;
-							} else {
-								operation = Screens.OPERATION_EDIT;
-							}
 							NewEditTolerance toleranceScreen = new NewEditTolerance(
 									screenService.getScreenContainer(), SWT.NONE);
-							toleranceScreen.setOperation(operation);
+							toleranceScreen.setOperation(getOperation());
+							toleranceScreen.setScreenService(screenService);
 							toleranceScreen.injectData(toleranceResource, o);
 							screenService.setActiveScreen(toleranceScreen);
 						}
@@ -235,7 +232,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
-		tblclmnExpression.setWidth(100);
+		tblclmnExpression.setWidth(250);
 		tblclmnExpression.setText("Expression");
 		tableViewer.addFilter(new SearchFilter(editingService));
 
@@ -277,7 +274,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 						LibraryPackage.Literals.TOLERANCE__LEVEL,
 						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF });
 		tableViewer
-				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+				.setLabelProvider(new ToleranceObservableMapLabelProvider(observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 		IObservableList toleranceObservableList = l.observe(toleranceResource); 
@@ -287,6 +284,34 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		return bindingContext;
+	}
+	
+	class ToleranceObservableMapLabelProvider extends ObservableMapLabelProvider{
+
+		public ToleranceObservableMapLabelProvider(
+				IObservableMap[] attributeMaps) {
+			super(attributeMaps);
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			if(element instanceof Tolerance){
+				Tolerance t = (Tolerance)element;
+				switch(columnIndex){
+				case 2:{
+					if(t.getExpressionRef() != null){
+						Expression e = t.getExpressionRef();
+						EList<String> s = e.getExpressionLines();
+						if(s.size() > 0){
+							return s.get(0) + "...";
+						}
+					}
+				}break;
+				}
+			}
+			
+			return super.getColumnText(element, columnIndex);
+		}
 	}
 
 	/*

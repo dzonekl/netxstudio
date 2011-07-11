@@ -47,7 +47,8 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
-public class ResourceMonitor extends AbstractScreen implements IDataScreenInjection {
+public class ResourceMonitor extends AbstractScreen implements
+		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Chart chart;
@@ -55,7 +56,7 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 	private Form frmFunction;
 	private Resource monitorResource;
 	private NetXResource netXResource;
-	
+
 	public ResourceMonitor(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
@@ -71,7 +72,7 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 		frmFunction = toolkit.createForm(this);
 		frmFunction.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmFunction);
-		frmFunction.setText("Resource Monitor <Res.Name>");
+
 		frmFunction.getBody().setLayout(new FormLayout());
 
 		FormText formText = toolkit
@@ -189,112 +190,48 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
-
-		// Manually coded SWT Chart.
-		// TODO, put this in a factory?
-
-		// Demo values. Use Databinding !
-		long ts = System.currentTimeMillis();
-		double v = 10;
-		int ticks = 30;
-		List<Date> dates = new ArrayList<Date>();
-		double[] ySeries = new double[ticks];
-
-		// Dummy Series settings.
-		for (int i = 0; i < ticks; i++) {
-			// x
-			ts += (1000 * 60) * 15;
-			dates.add(new Date(ts));
-			// y
-			v += 1;
-			ySeries[i] = v;
-		}
-		Date[] xSeries = new Date[ticks];
-		dates.toArray(xSeries);
-
-		v = 20;
-		double[] yCapSeries = new double[ticks];
-		
-		for (int i = 0; i < ticks; i++) {
-
-			if (i % 5 == 0)
-				v += 5;
-			yCapSeries[i] = v;
-		}
-		
-		double[] yUtilSeries = new double[ticks];
-		for (int i = 0; i < ticks; i++) {
-			yUtilSeries[i] = (ySeries[i] / yCapSeries[i]);
-		}
-		
-		double[] yToleranceSeries = new double[ticks];
-		for (int i = 0; i < ticks; i++) {
-			yToleranceSeries[i] = 0.9;
-		}
-		
 		new Label(composite_2, SWT.NONE);
+		
+		
+		// CHART
 		chart = new Chart(composite_2, SWT.NONE);
 		chart.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		chart.setBackground(Display.getDefault()
 				.getSystemColor(SWT.COLOR_WHITE));
 
 		chart.getTitle().setVisible(false);
-		
+
 		chart.getAxisSet().getXAxis(0).getTitle().setText("Time stamps");
 		IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
 		xTick.setTickMarkStepHint(20);
 		DateFormat format = new SimpleDateFormat("HH:mm");
 		xTick.setFormat(format);
-		
+
 		chart.getAxisSet().getYAxis(0).getTitle().setText("Value");
 		
-		int utilAxisID = chart.getAxisSet().createYAxis();
-		chart.getAxisSet().getYAxis(utilAxisID).setPosition(Position.Secondary);
-		chart.getAxisSet().getYAxis(utilAxisID).getTitle().setText("Utilization (%)");
-		chart.getAxisSet().getYAxis(utilAxisID).getTitle().setForeground(Display.getDefault()
-				.getSystemColor(SWT.COLOR_BLACK));
-		chart.getAxisSet().getYAxis(utilAxisID).getGrid().setStyle(LineStyle.DASHDOT);
-		chart.getAxisSet().getYAxis(utilAxisID).getTick().setForeground(Display.getDefault()
-				.getSystemColor(SWT.COLOR_BLACK));
-		chart.getAxisSet().getYAxis(utilAxisID).getTick().setFormat(NumberFormat.getPercentInstance());
 		
-		// create line series
-		ILineSeries metricLineSeries = (ILineSeries) chart.getSeriesSet()
-				.createSeries(ISeries.SeriesType.LINE, "Metric");
-		metricLineSeries.setXDateSeries(xSeries);
-		metricLineSeries.setYSeries(ySeries);
-		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
+		// Set another right axis. 
+		int utilizationAxisID = chart.getAxisSet().createYAxis();
+		chart.getAxisSet().getYAxis(utilizationAxisID).setPosition(Position.Secondary);
+		chart.getAxisSet().getYAxis(utilizationAxisID).getTitle()
+				.setText("Utilization (%)");
+		chart.getAxisSet()
+				.getYAxis(utilizationAxisID)
+				.getTitle()
+				.setForeground(
+						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		chart.getAxisSet().getYAxis(utilizationAxisID).getGrid()
+				.setStyle(LineStyle.DASHDOT);
+		chart.getAxisSet()
+				.getYAxis(utilizationAxisID)
+				.getTick()
+				.setForeground(
+						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		chart.getAxisSet().getYAxis(utilizationAxisID).getTick()
+				.setFormat(NumberFormat.getPercentInstance());
 		
-		ILineSeries capLineSeries = (ILineSeries) chart.getSeriesSet()
-				.createSeries(ISeries.SeriesType.LINE, "Capacity");
-		capLineSeries.setYSeries(yCapSeries);
-		capLineSeries.setXDateSeries(xSeries);
-		capLineSeries.enableStep(true);
-		capLineSeries.setLineColor(Display.getDefault().getSystemColor(
-				SWT.COLOR_DARK_YELLOW));
-		capLineSeries.setSymbolType(ILineSeries.PlotSymbolType.NONE);
 		
-		IBarSeries utilLineSeries = (IBarSeries) chart.getSeriesSet()
-				.createSeries(ISeries.SeriesType.BAR, "Utilization");
-		utilLineSeries.setXDateSeries(xSeries);
-		utilLineSeries.setYSeries(yUtilSeries);
-		utilLineSeries.setYAxisId(utilAxisID); //Connect a series to the Y-Axis.
-		utilLineSeries.setBarColor(Display.getDefault().getSystemColor(
-				SWT.COLOR_GREEN));
-		utilLineSeries.setBarPadding(50);
-		
-		ILineSeries toleranceLineSeries = (ILineSeries) chart.getSeriesSet()
-				.createSeries(ISeries.SeriesType.LINE, "Tolerance");
-		toleranceLineSeries.setXDateSeries(xSeries);
-		toleranceLineSeries.setYSeries(yToleranceSeries);
-		toleranceLineSeries.setYAxisId(utilAxisID);
-		toleranceLineSeries.setLineStyle(LineStyle.DASHDOTDOT);
-		toleranceLineSeries.setLineColor(Display.getDefault().getSystemColor(
-				SWT.COLOR_DARK_RED));
-		toleranceLineSeries.setSymbolType(ILineSeries.PlotSymbolType.NONE);
-		
-		// adjust the axis range
-		chart.getAxisSet().adjustRange();
+		// ZOOM etc... buttons. 
 
 		Button btnZoomIn = toolkit.createButton(composite_2, "Z+", SWT.NONE);
 		btnZoomIn.addSelectionListener(new SelectionAdapter() {
@@ -328,8 +265,9 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
-		
-		Section sctnMarkers = toolkit.createSection(frmFunction.getBody(), Section.TREE_NODE | Section.TITLE_BAR);
+
+		Section sctnMarkers = toolkit.createSection(frmFunction.getBody(),
+				Section.TREE_NODE | Section.TITLE_BAR);
 		FormData fd_sctnMarkers = new FormData();
 		fd_sctnMarkers.top = new FormAttachment(sctnPeriod, 12);
 		fd_sctnMarkers.bottom = new FormAttachment(100, -12);
@@ -339,43 +277,172 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 		toolkit.paintBordersFor(sctnMarkers);
 		sctnMarkers.setText("Markers");
 		sctnMarkers.setExpanded(true);
-		
+
 		Composite composite = toolkit.createComposite(sctnMarkers, SWT.NONE);
 		toolkit.paintBordersFor(composite);
 		sctnMarkers.setClient(composite);
 		composite.setLayout(new GridLayout(1, false));
-		
-		TableViewer tableViewer = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
+
+		TableViewer tableViewer = new TableViewer(composite, SWT.BORDER
+				| SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		toolkit.paintBordersFor(table);
-		
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnType = tableViewerColumn.getColumn();
 		tblclmnType.setWidth(125);
 		tblclmnType.setText("Type");
-		
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnDescription = tableViewerColumn_1.getColumn();
 		tblclmnDescription.setWidth(446);
 		tblclmnDescription.setText("Description");
-		
+
 		TableItem tableItem = new TableItem(table, SWT.NONE);
-		tableItem.setText(new String[] {"Threshold Breached,", "The Threshold for this resource has been crossed. The resource is not within tolerance. "});
-		
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(tableViewer, SWT.NONE);
+		tableItem
+				.setText(new String[] {
+						"Threshold Breached,",
+						"The Threshold for this resource has been crossed. The resource is not within tolerance. " });
+
+		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnTimestamp = tableViewerColumn_3.getColumn();
 		tblclmnTimestamp.setWidth(100);
 		tblclmnTimestamp.setText("TimeStamp");
-		
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+				tableViewer, SWT.NONE);
 		TableColumn tblclmnValue = tableViewerColumn_2.getColumn();
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
 
 	}
+
+	public void loadDummyData() {
+
+		// Demo values. Use Databinding !
+		long ts = System.currentTimeMillis();
+		double v = 10;
+		int ticks = 30;
+		List<Date> dates = new ArrayList<Date>();
+		double[] ySeries = new double[ticks];
+
+		// Dummy Series settings.
+		for (int i = 0; i < ticks; i++) {
+			// x
+			ts += (1000 * 60) * 15;
+			dates.add(new Date(ts));
+			// y
+			v += 1;
+			ySeries[i] = v;
+		}
+		Date[] xSeries = new Date[ticks];
+		dates.toArray(xSeries);
+
+		v = 20;
+		double[] yCapSeries = new double[ticks];
+
+		for (int i = 0; i < ticks; i++) {
+			if (i % 5 == 0)
+				v += 5;
+			yCapSeries[i] = v;
+		}
+
+		double[] yUtilSeries = new double[ticks];
+		for (int i = 0; i < ticks; i++) {
+			yUtilSeries[i] = (ySeries[i] / yCapSeries[i]);
+		}
+
+		double[] yToleranceSeries = new double[ticks];
+		for (int i = 0; i < ticks; i++) {
+			yToleranceSeries[i] = 0.9;
+		}
+
+		
+		
+		
+	}
+	
+	/**
+	 * Get a Chart Lineseries from a Resource. 
+	 * @param chart
+	 * @param resource
+	 * @return
+	 */
+	private ILineSeries seriesFromMetric(Chart chart, NetXResource resource){
+		
+		
+		
+		Date[] xSeries = new Date[1]; // TODO Set from resource
+		double[] ySeries = new double[1]; // TODO Set from resource. 
+		
+		ILineSeries metricLineSeries = (ILineSeries) chart.getSeriesSet()
+				.createSeries(ISeries.SeriesType.LINE, "Metric");
+		metricLineSeries.setXDateSeries(xSeries);
+		metricLineSeries.setYSeries(ySeries);
+		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
+		return metricLineSeries;
+	}
+	
+	
+	private ILineSeries seriesFromCapacity(Chart chart, NetXResource resource){
+
+		Date[] xSeries = new Date[1]; // TODO Set from resource
+		double[] ySeries = new double[1]; // TODO Set from resource. 
+
+		ILineSeries capLineSeries = (ILineSeries) chart.getSeriesSet()
+				.createSeries(ISeries.SeriesType.LINE, "Capacity");
+		capLineSeries.setXDateSeries(xSeries);
+		capLineSeries.setYSeries(ySeries);
+		capLineSeries.enableStep(true);
+		capLineSeries.setLineColor(Display.getDefault().getSystemColor(
+				SWT.COLOR_DARK_YELLOW));
+		capLineSeries.setSymbolType(ILineSeries.PlotSymbolType.NONE);
+		return capLineSeries;
+		
+	}
+	
+	private IBarSeries seriesFromUtilization(Chart chart, NetXResource resource, int yAxisID){
+		
+		Date[] xSeries = new Date[1]; // TODO Set from resource
+		double[] ySeries = new double[1]; // TODO Set from resource. 
+		
+		IBarSeries utilLineSeries = (IBarSeries) chart.getSeriesSet()
+				.createSeries(ISeries.SeriesType.BAR, "Utilization");
+		utilLineSeries.setXDateSeries(xSeries);
+		utilLineSeries.setYSeries(ySeries);
+		utilLineSeries.setYAxisId(yAxisID); // Connect a series to the
+												// Y-Axis.
+		utilLineSeries.setBarColor(Display.getDefault().getSystemColor(
+				SWT.COLOR_GREEN));
+		utilLineSeries.setBarPadding(50);
+		return utilLineSeries;
+	}
+	
+	
+	private ILineSeries seriesFromTolerance(Chart chart, NetXResource resource, int yAxisID){
+		
+		Date[] xSeries = new Date[1]; // TODO Set from resource
+		double[] ySeries = new double[1]; // TODO Set from resource. 
+		
+		
+		ILineSeries toleranceLineSeries = (ILineSeries) chart.getSeriesSet()
+				.createSeries(ISeries.SeriesType.LINE, "Tolerance");
+		toleranceLineSeries.setXDateSeries(xSeries);
+		toleranceLineSeries.setYSeries(ySeries);
+		toleranceLineSeries.setYAxisId(yAxisID);
+		toleranceLineSeries.setLineStyle(LineStyle.DASHDOTDOT);
+		toleranceLineSeries.setLineColor(Display.getDefault().getSystemColor(
+				SWT.COLOR_DARK_RED));
+		toleranceLineSeries.setSymbolType(ILineSeries.PlotSymbolType.NONE);
+		return toleranceLineSeries; 
+	}
+	
 
 	public Chart getChart() {
 		return chart;
@@ -386,18 +453,20 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 	}
 
 	public void injectData(Object owner, Object object) {
-		if(owner instanceof Resource){
-			monitorResource = (Resource)owner;
+		if (owner instanceof Resource) {
+			monitorResource = (Resource) owner;
 		}
-		if(object instanceof NetXResource){
+		if (object instanceof NetXResource) {
 			netXResource = (NetXResource) object;
 		}
+
+		frmFunction.setText("Resource Monitor " + netXResource.getShortName());
 		initDataBindings_();
 	}
 
 	public void addData() {
-		// N/A this is a view screen. 
-		
+		// N/A this is a view screen.
+
 	}
 
 	public boolean isValid() {
@@ -407,10 +476,19 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		
-		// Setup data binding. 
+		
+		// Set the series from the resource. 
+		// Re-use the TS range. 
 		
 		
+		this.seriesFromMetric(chart, netXResource);
+		this.seriesFromCapacity(chart, netXResource);
+		this.seriesFromTolerance(chart, netXResource, 1);
+		this.seriesFromUtilization(chart, netXResource, 1);
 		
+		// Setup data binding.
+		// adjust the axis range
+		chart.getAxisSet().adjustRange();
 		
 		return context;
 	}
@@ -423,9 +501,9 @@ public class ResourceMonitor extends AbstractScreen implements IDataScreenInject
 	public void disposeData() {
 		editingService.disposeData(monitorResource);
 	}
-	
-	public void setOperation(int operation){
+
+	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 }

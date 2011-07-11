@@ -51,8 +51,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
+import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
-import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -75,7 +75,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private Text txtMetricValuePattern;
 	private Text txtObject;
 	private Text txtMetric;
-	private MappingXLS owner;
+	private Mapping owner;
 	private MappingColumn mxlsColumn;
 	private Text txtColumn;
 	private Button btnDate;
@@ -220,7 +220,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 
-		btnTime = new Button(composite_2, SWT.RADIO);
+		btnTime = toolkit.createButton(composite_2, "", SWT.RADIO);
 		toolkit.adapt(btnTime, true, true);
 		btnTime.setText("Time");
 		new Label(composite_2, SWT.NONE);
@@ -278,7 +278,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		gd_txtIndentifier.widthHint = 100;
 		txtObject.setLayoutData(gd_txtIndentifier);
 
-		txtObjectAttribute = new Text(composite_2, SWT.BORDER);
+		txtObjectAttribute = toolkit.createText(composite_2, "", SWT.BORDER);
 		GridData gd_txtObjectAttribute = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_txtObjectAttribute.widthHint = 100;
 		txtObjectAttribute.setLayoutData(gd_txtObjectAttribute);
@@ -378,8 +378,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		for (String string : timePatterns) {
 			cmbTimePattern.add(string);
 		}
-
-		// TODO Date Time.
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -779,8 +777,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	}
 
 	public void injectData(Object owner, Object object) {
-		if (owner instanceof MappingXLS) {
-			this.owner = (MappingXLS) owner;
+		if (owner instanceof Mapping) {
+			this.owner = (Mapping) owner;
 		}else{
 			throw new IllegalArgumentException();
 		}

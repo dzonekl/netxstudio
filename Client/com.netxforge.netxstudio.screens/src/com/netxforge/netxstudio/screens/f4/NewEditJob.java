@@ -426,7 +426,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 					return JobState.IN_ACTIVE;
 				}
 			}
-
 		});
 
 		IObservableValue jobStateObservable = SWTObservables
@@ -850,9 +849,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 
 			startTimeObservable.setValue(startDate);
 
-//			if (endDate != null) {
+			if (endDate != null) {
 				endTimeObservable.setValue(endDate);
-//			}
+			}
 
 			if (interval != null) {
 				intervalObservable.setValue(modelUtils.inSeconds(interval));

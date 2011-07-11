@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.data.test;
 
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -165,6 +166,11 @@ public class TestDataProvider implements IDataProvider {
 
 	public String getServer() {
 		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public Resource getResource(URI uri) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

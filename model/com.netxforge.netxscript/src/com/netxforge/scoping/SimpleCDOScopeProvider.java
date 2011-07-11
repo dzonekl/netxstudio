@@ -15,11 +15,15 @@ import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.impl.AbstractGlobalScopeProvider;
 import org.eclipse.xtext.scoping.impl.SelectableBasedScope;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 
 /**
  * A simple CDOScope provider, which returns all potential references. (Without filtering). 
@@ -42,31 +46,40 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 	protected IScope getScope(Resource resource, boolean ignoreCase,
 			EClass type, Predicate<IEObjectDescription> filter) {
 		
-		final LinkedHashSet<URI> uniqueImportURIs = new LinkedHashSet<URI>(10);
+//		final LinkedHashSet<URI> uniqueImportURIs = new LinkedHashSet<URI>(10);
 		
-		// FIXME, perhaps we can find a better way to get CDO uri's, which will be 
-		// resolved further on. 
+		final LinkedHashSet<EClass> uniqueReferencesEClasses = new LinkedHashSet<EClass>(10);
 		
-		// FIXME, Also we need to have access to other resources which store objects based on the 
-		// eclass name. 
+		uniqueReferencesEClasses.add(LibraryPackage.Literals.NODE_TYPE);
+		uniqueReferencesEClasses.add(LibraryPackage.Literals.EQUIPMENT);
+		uniqueReferencesEClasses.add(LibraryPackage.Literals.FUNCTION);
+		uniqueReferencesEClasses.add(LibraryPackage.Literals.NET_XRESOURCE);
+		uniqueReferencesEClasses.add(OperatorsPackage.Literals.NETWORK);
+		uniqueReferencesEClasses.add(OperatorsPackage.Literals.NODE);
 		
 		
-		// FIXME The URI is not, used 
-		uniqueImportURIs.add(URI.createURI("cdo://repo1/library"));
 		
-		IResourceDescriptions descriptions = getResourceDescriptions(resource, uniqueImportURIs);
-
-		List<URI> urisAsList = Lists.newArrayList(uniqueImportURIs);
-		Collections.reverse(urisAsList);
+		List<EClass> classesAsList = Lists.newArrayList(uniqueReferencesEClasses);
+		
+		// FIXME, the REPO name is hardcoded, get from the dataService. 
+		List<URI> urisAsList = Lists.transform(classesAsList, new Function<EClass, URI>(){
+			public URI apply(EClass from) {
+				return URI.createURI("cdo://repo1/" + from.getName());
+			}
+		});
+			
+		
+		IResourceDescriptions descriptions = getResourceDescriptions(resource,urisAsList);
+		
+		
+//		Collections.reverse(urisAsList);
 
 		IScope scope = IScope.NULLSCOPE;
 		for (URI uri : urisAsList) {
 			scope = createLazyResourceScope(scope, uri, descriptions, type, filter, ignoreCase);
 		}
 		return scope;
-		
 	}
-	
 	
 	/**
 	 * Requires, a IResourceServiceProvider which can deal with the CDO URI.
@@ -89,16 +102,13 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 	/**
 	 * Get the resource descriptions, using a custom <code>CDOLoadOnDemandResourceDescriptions.</code> 
 	 * @param resource
-	 * @param importUris
+	 * @param importEClasses
 	 * @return
 	 */
-	public IResourceDescriptions getResourceDescriptions(Resource resource, Collection<URI> importUris) {
+	public IResourceDescriptions getResourceDescriptions(Resource resource, Collection<URI> importEClasses) {
 		IResourceDescriptions result = getResourceDescriptions(resource);
 		CDOLoadOnDemandResourceDescriptions demandResourceDescriptions = loadOnDemandDescriptions.get();
-		
-		
-		// TODO, Initialize EClass, which can be used by the data provider. 
-		demandResourceDescriptions.initialize(result, importUris, resource);
+		demandResourceDescriptions.initialize(result, importEClasses, resource);
 		return demandResourceDescriptions;
 	}
 	

@@ -91,9 +91,7 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 					|| this.getScreenForm().getHead().isDisposed()) {
 				return;
 			}
-
 			if (type != IMessage.NONE) {
-
 				String errorType = "";
 				if (type == IMessage.ERROR) {
 					errorType = "Error:";
@@ -101,7 +99,6 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 				if (type == IMessage.WARNING) {
 					errorType = "Required:";
 				}
-
 				StringBuffer msgBuffer = new StringBuffer();
 				msgBuffer.append(errorType + "(" + list.size() + "), "
 						+ list.get(0).getMessage());

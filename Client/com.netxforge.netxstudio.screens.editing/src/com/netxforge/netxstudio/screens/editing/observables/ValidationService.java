@@ -90,11 +90,15 @@ public class ValidationService implements IValidationService {
 
 		aggregateStatus.addValueChangeListener(new IValueChangeListener() {
 			public void handleValueChange(ValueChangeEvent event) {
-
 				// Get the severity type, converted for the new status.
 				IStatus currentStatus = (IStatus) event.diff.getNewValue();
 				if (currentStatus != null) {
-					notifyFormEvent(currentStatus, ctx);
+					
+					// FIXME, we fire error status, if the validation is not set on an widget. 
+					if( currentStatus.getMessage().length() > 0 ){
+						notifyFormEvent(currentStatus, ctx);
+					} 
+					
 				}
 			}
 		});
@@ -391,9 +395,11 @@ public class ValidationService implements IValidationService {
 		for (Object o : ctx.getBindings()) {
 			Binding binding = (Binding) o;
 			IStatus status = (IStatus) binding.getValidationStatus().getValue();
-			if (!status.isOK()) {
-				valid = false;
-				break;
+			if(status.getMessage().length() > 0 ){
+				if (!status.isOK()) {
+					valid = false;
+					break;
+				}
 			}
 		}
 		return valid;
