@@ -126,10 +126,10 @@ public class RDBMSMetricValuesImporter extends MetricValuesImporter {
 				final ResultSet rs = stmt.executeQuery(createQuery());
 				return rs;
 			} finally {
-				if (stmt != null)
-					stmt.close();
-				if (conn != null)
-					conn.close();
+//				if (stmt != null)
+//					stmt.close();
+//				if (conn != null)
+//					conn.close();
 			}
 		} catch (final SQLException e) {
 			throw new IllegalStateException(e);
@@ -185,17 +185,19 @@ public class RDBMSMetricValuesImporter extends MetricValuesImporter {
 			final int numberOfColumns = rsMetaData.getColumnCount();
 			while (rs.next()) {
 				final String[] rowData = new String[numberOfColumns];
-				for (int i = 0; i < numberOfColumns; i++) {
+				for (int i = 1; i <= numberOfColumns; i++) {
 					final Object colValue = rs.getObject(i);
 					if (rs.wasNull()) {
-						rowData[i] = null;
+						rowData[i-1] = null;
 					} else {
-						rowData[i] = colValue.toString();
+						rowData[i-1] = colValue.toString();
 					}
 				}
 				localData.add(rowData);
 			}
 			data = localData.toArray(new String[localData.size()][]);
+			rs.getStatement().close();
+//			rs.getStatement().getConnection().close();
 		} catch (final SQLException e) {
 			throw new IllegalStateException(e);
 		}

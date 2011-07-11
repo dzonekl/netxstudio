@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server;
 
+import java.util.Locale;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -47,8 +49,11 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		INSTANCE = this;
 		Activator.context = bundleContext;
-
 		injector = Guice.createInjector(ServerModule.getModule());
+		
+//		Locale currentLocal = Locale.getDefault();
+//		System.out.println("country = " + currentLocal.getCountry() + "language = ")
+//		Locale.setDefault(Locale.ENGLISH);
 	}
 
 	/*

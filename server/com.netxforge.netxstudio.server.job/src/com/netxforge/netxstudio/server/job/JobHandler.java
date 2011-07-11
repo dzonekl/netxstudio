@@ -234,8 +234,6 @@ public class JobHandler {
 	private void deActivateInstance() {
 		try {
 			scheduler.shutdown();
-
-			dataProvider.rollbackTransaction();
 			dataProvider.closeSession();
 
 		} catch (final Exception e) {
