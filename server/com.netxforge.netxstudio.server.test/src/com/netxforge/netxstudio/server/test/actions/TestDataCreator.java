@@ -435,7 +435,7 @@ public class TestDataCreator implements NetxForgeService {
 		// expression name of the resource.
 		// Note II: The expression result, will return a single value, which
 		// should be populated accross the whole period context.
-		final String eAsString = "this.FUNCTION SGSN -> RESOURCE Gb_mode_max_attached_users_number_ CAP 60 = this.EQUIPMENT BOARD.count() * 5;";
+		final String eAsString = "this.FUNCTION YPSGSN3 -> RESOURCE Gb_mode_max_attached_users_number_ CAP 60 = this.EQUIPMENT BOARD.count() * 5;";
 		capacityExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(capacityExpression);
