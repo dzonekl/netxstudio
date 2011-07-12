@@ -66,6 +66,12 @@ public class CommonLogic {
 			Date start, Date end) {
 		for (final ExpressionResult expressionResult : expressionResults) {
 			final NetXResource resource = expressionResult.getTargetResource();
+			
+			EObject container =resource.eContainer();
+			if(container instanceof Component){
+				System.out.println(((Component)container).getName());
+			}
+			
 			switch (expressionResult.getTargetRange().getValue()) {
 			case RangeKind.CAP_VALUE:
 				removeValues(resource.getCapacityValues(), start, end);

@@ -24,6 +24,7 @@ import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.cdo.CDODataProvider;
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import com.netxforge.netxstudio.server.Server;
 
 /**
  * Uses a jvm connection to connect to the repository.

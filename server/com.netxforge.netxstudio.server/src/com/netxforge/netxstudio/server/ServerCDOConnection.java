@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.server;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 
 import com.netxforge.netxstudio.data.cdo.ICDOConnection;
+import com.netxforge.netxstudio.server.ServerUtils;
 
 /**
  * Uses a jvm connection to connect to the repository.
