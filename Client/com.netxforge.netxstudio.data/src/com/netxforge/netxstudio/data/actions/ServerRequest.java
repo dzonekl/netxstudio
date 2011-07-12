@@ -97,7 +97,11 @@ private String server;
 			}else{
 				// Change the port, if any specified. 
 				int portIndex = server.indexOf(':');
+				if(portIndex != -1){
 				server = server.substring(0, portIndex);
+				}else{
+					server = "http://" + server + ":8080";
+				}
 				
 			}
 		}

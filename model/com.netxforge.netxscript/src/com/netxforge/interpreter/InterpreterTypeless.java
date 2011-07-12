@@ -961,6 +961,7 @@ public class InterpreterTypeless implements IInterpreter {
 		Node n = (Node) values.get("node");
 		// Check if we have a single node.
 		if (n != null) {
+			
 			NetXResource resource = e.getResource();
 			String expressionName = resource.getExpressionName();
 			List<Component> cl = Lists.newArrayList();

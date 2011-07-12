@@ -1,7 +1,6 @@
 package com.netxforge.scoping;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -17,13 +16,13 @@ import org.eclipse.xtext.scoping.impl.SelectableBasedScope;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * A simple CDOScope provider, which returns all potential references. (Without filtering). 
@@ -39,7 +38,7 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 	IDataService dataService;
 	
 	@Inject
-	private Provider<CDOLoadOnDemandResourceDescriptions> loadOnDemandDescriptions;
+	private Provider<IResourceDescriptions> loadOnDemandDescriptions;
 
 	
 	@Override
@@ -54,6 +53,7 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.EQUIPMENT);
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.FUNCTION);
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.NET_XRESOURCE);
+		uniqueReferencesEClasses.add(ServicesPackage.Literals.RFS_SERVICE);
 		uniqueReferencesEClasses.add(OperatorsPackage.Literals.NETWORK);
 		uniqueReferencesEClasses.add(OperatorsPackage.Literals.NODE);
 		
@@ -107,8 +107,10 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 	 */
 	public IResourceDescriptions getResourceDescriptions(Resource resource, Collection<URI> importEClasses) {
 		IResourceDescriptions result = getResourceDescriptions(resource);
-		CDOLoadOnDemandResourceDescriptions demandResourceDescriptions = loadOnDemandDescriptions.get();
-		demandResourceDescriptions.initialize(result, importEClasses, resource);
+		IResourceDescriptions demandResourceDescriptions = loadOnDemandDescriptions.get();
+		if(demandResourceDescriptions instanceof AbstractCDOLoadOnDemandResourceDescriptions ){
+			((AbstractCDOLoadOnDemandResourceDescriptions) demandResourceDescriptions).initialize(result, importEClasses, resource);
+		}
 		return demandResourceDescriptions;
 	}
 	

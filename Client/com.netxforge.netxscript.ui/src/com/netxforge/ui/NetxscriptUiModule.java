@@ -6,20 +6,28 @@ package com.netxforge.ui;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
+import com.netxforge.scoping.CDOLoadOnDemandResourceDescriptions;
 import com.netxforge.ui.scoping.UICDOResourceServiceProvider;
 
 /**
  * Use this class to register components to be used within the IDE.
  */
-public class NetxscriptUiModule extends com.netxforge.ui.AbstractNetxscriptUiModule {
+public class NetxscriptUiModule extends
+		com.netxforge.ui.AbstractNetxscriptUiModule {
 	public NetxscriptUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
-	
+
+	// Also override the IResourceDescriptions, as the shared state overrides
+	// us.
+	// Override generated, ResourceSet based.
+	public void configureIResourceDescriptions(com.google.inject.Binder binder) {
+		binder.bind(org.eclipse.xtext.resource.IResourceDescriptions.class).to(
+				CDOLoadOnDemandResourceDescriptions.class);
+	}
+
 	public Class<? extends IResourceServiceProvider> bindIResourceServiceProvider() {
 		return UICDOResourceServiceProvider.class;
 	}
-	
-	
-	
+
 }

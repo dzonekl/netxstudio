@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -80,6 +81,7 @@ public class MappingStatistics extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
+				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -213,7 +215,11 @@ public class MappingStatistics extends AbstractScreen implements
 		// Cool, observer the whole resource.
 		IEMFListProperty l = EMFProperties
 				.list(MetricsPackage.Literals.METRIC_SOURCE__STATISTICS);
-		statisticsListViewer.setInput(l.observe(metricSource));
+		
+		IObservableList metricSourceObservableList = l.observe(metricSource);
+		obm.addObservable(metricSourceObservableList);
+		
+		statisticsListViewer.setInput(metricSourceObservableList);
 
 		IObservableValue selectionObservable = ViewerProperties
 				.singleSelection().observe(statisticsListViewer);
@@ -265,6 +271,7 @@ public class MappingStatistics extends AbstractScreen implements
 		tblViewerRecords
 				.setLabelProvider(new ObservableMapLabelProvider(recordsObserveMaps));
 		IEMFListProperty recordsProperty = EMFProperties.list(MetricsPackage.Literals.MAPPING_STATISTIC__FAILED_RECORDS);
+		
 		tblViewerRecords.setInput(recordsProperty.observeDetail(selectionObservable));
 		
 		return bindingContext;

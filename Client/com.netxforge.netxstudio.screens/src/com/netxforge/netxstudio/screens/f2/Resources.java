@@ -49,7 +49,6 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f4.ResourceMonitor;
 
 public class Resources extends AbstractScreen implements IDataServiceInjection {
 

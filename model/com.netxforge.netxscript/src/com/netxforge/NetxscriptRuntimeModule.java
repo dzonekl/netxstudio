@@ -13,6 +13,7 @@ import com.netxforge.interpreter.InterpreterContextFactory;
 import com.netxforge.interpreter.InterpreterTypeless;
 import com.netxforge.interpreter.NativeFunctions;
 import com.netxforge.interpreter.PrettyLog;
+import com.netxforge.scoping.CDOLoadOnDemandResourceDescriptions;
 import com.netxforge.scoping.CDOResourceServiceProvider;
 import com.netxforge.scoping.SimpleCDONameProvider;
 import com.netxforge.scoping.SimpleCDOScopeProvider;
@@ -52,6 +53,12 @@ public class NetxscriptRuntimeModule extends
 
 	public Class<? extends IInterpreter> bindInterpreter() {
 		return InterpreterTypeless.class;
+	}
+
+	// Override generated, ResourceSet based.
+	public void configureIResourceDescriptions(com.google.inject.Binder binder) {
+		binder.bind(org.eclipse.xtext.resource.IResourceDescriptions.class).to(
+				CDOLoadOnDemandResourceDescriptions.class);
 	}
 
 	// @Provides

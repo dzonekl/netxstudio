@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.cdo.CDOObject;
@@ -63,6 +64,8 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
@@ -257,21 +260,32 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			if (currentJobContainer != null
 					&& currentJobContainer.getWorkFlowRuns().size() > 0
 					&& currentJobContainer.getWorkFlowRuns().get(0) instanceof ExpressionWorkFlowRun) {
-				// This is a conditional menu.
-
+				// This is a conditional menu, if the workflowrun is an ExpressionWorkflowrun. 
 				MenuItem mntmExpressions = new MenuItem(jobRunMenu, SWT.NONE);
 				mntmExpressions.addSelectionListener(new SelectionAdapter() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						// TODO, A dialog which shows the expressions.
-
+						ISelection selection = jobRunsTableViewer.getSelection();
+						if (selection instanceof IStructuredSelection) {
+							IStructuredSelection ss = (IStructuredSelection) selection;
+							Object o = ss.getFirstElement();
+							if (o instanceof ExpressionWorkFlowRun) {
+								ExpressionWorkFlowRun wfRun = (ExpressionWorkFlowRun)o;
+								List<ExpressionFailure> failures = wfRun.getFailureRefs();
+								for(ExpressionFailure f : failures){
+									if( f.getExpressionRef() instanceof Expression){
+										System.out.println("Expression failed: " + ((Expression)f.getExpressionRef()).getName());
+										System.out.println("Msg: " + f.getMessage());
+										System.out.println("Component: " + f.getComponentRef().getName());
+									}
+								}
+							}
+						}
 					}
 				});
 				mntmExpressions.setText("Expressions...");
 			}
-
 		}
-
 	}
 
 	/*
