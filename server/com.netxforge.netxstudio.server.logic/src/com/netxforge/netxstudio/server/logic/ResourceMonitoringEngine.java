@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.server.logic;
 
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.operators.Node;
 
 /**
  * Performs the resource monitoring execution for an equipment or function.
@@ -31,8 +32,10 @@ public class ResourceMonitoringEngine extends BaseEngine {
 	@Override
 	public void execute() {
 		getExpressionEngine().getContext().add(getRange());
-		getExpressionEngine().getContext().add(
-				getCommonLogic().getNode(getComponent()));
+		final Node node = getCommonLogic().getNode(getComponent());
+		getExpressionEngine().getContext().add(node);
+		setEngineContextInfo("Node: " + node.getNodeID()
+				+ " - capacity expression -");
 
 		System.err.println("Run capacity expression for Node: "
 				+ this.getCommonLogic().getNode(getComponent()).getNodeID()
@@ -52,6 +55,8 @@ public class ResourceMonitoringEngine extends BaseEngine {
 						getExpressionEngine().getContext().size() - 1);
 			}
 			getExpressionEngine().getContext().add(netXResource);
+			setEngineContextInfo("NetXResource: " + netXResource.getShortName()
+					+ " - utilization expression -");
 			System.err.println("Run util expression for resource: "
 					+ netXResource.getShortName());
 			runForExpression(getComponent().getUtilizationExpressionRef());
@@ -66,6 +71,8 @@ public class ResourceMonitoringEngine extends BaseEngine {
 				// resultaat van de tolerance is een percentage
 				// loop door de capacity/utilization heen
 				// genereer markers per nieuwe overschrijding
+				setEngineContextInfo("NetXResource: " + netXResource.getShortName()
+						+ " - tolerance expression -");
 				runForExpression(tolerance.getExpressionRef());
 				if (getFailure() != null) {
 					return;

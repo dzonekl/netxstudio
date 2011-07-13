@@ -31,6 +31,7 @@ import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.server.CommonLogic;
+import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 
 /**
@@ -39,6 +40,11 @@ import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
  * @author Martin Taal
  */
 public abstract class BaseEngine {
+
+	private WorkFlowRunMonitor jobMonitor;
+	// contains context information to use when adding an error message to the
+	// log
+	private String engineContextInfo = "";
 
 	// on purpose no @Inject as we need the same instance
 	// as used in the job implementation
@@ -51,10 +57,10 @@ public abstract class BaseEngine {
 
 	@Inject
 	private CommonLogic commonLogic;
-	
+
 	@Inject
 	private ModelUtils modelUtils;
-	
+
 	private DateTimeRange range;
 	private Date start;
 	private Date end;
@@ -77,11 +83,16 @@ public abstract class BaseEngine {
 			final List<ExpressionResult> result = expressionEngine
 					.getExpressionResult();
 
-			List<Object> currentContext = expressionEngine.getContext();
-			
-			// process the result
-			commonLogic.processResult(currentContext,result, start, end);
+			if (result.isEmpty() && jobMonitor != null) {
+				jobMonitor.appendToLog(engineContextInfo
+						+ " expression returns no results for expression " + expression.getName());
+			} else {
+				final List<Object> currentContext = expressionEngine
+						.getContext();
 
+				// process the result
+				commonLogic.processResult(currentContext, result, start, end);
+			}
 		} catch (final Throwable t) {
 			t.printStackTrace(System.err);
 			failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
@@ -107,7 +118,7 @@ public abstract class BaseEngine {
 	public void setRange(DateTimeRange range) {
 		this.range = range;
 		start = modelUtils.fromXMLDate(range.getBegin());
-		end = modelUtils.fromXMLDate(range.getEnd());		
+		end = modelUtils.fromXMLDate(range.getEnd());
 	}
 
 	public Component getComponent() {
@@ -144,6 +155,22 @@ public abstract class BaseEngine {
 
 	public Date getEnd() {
 		return end;
+	}
+
+	public WorkFlowRunMonitor getJobMonitor() {
+		return jobMonitor;
+	}
+
+	public void setJobMonitor(WorkFlowRunMonitor jobMonitor) {
+		this.jobMonitor = jobMonitor;
+	}
+
+	public String getEngineContextInfo() {
+		return engineContextInfo;
+	}
+
+	public void setEngineContextInfo(String engineContextInfo) {
+		this.engineContextInfo = engineContextInfo;
 	}
 
 }

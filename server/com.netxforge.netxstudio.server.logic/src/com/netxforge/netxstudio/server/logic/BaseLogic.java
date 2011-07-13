@@ -123,6 +123,7 @@ public abstract class BaseLogic {
 				.setTask("Computing for " + component.getName());
 		jobMonitor.incrementProgress(1, false);
 		final BaseEngine engine = getEngine();
+		engine.setJobMonitor(getJobMonitor());
 		engine.setComponent(component);
 		engine.setDataProvider(dataProvider);
 		engine.setRange(getTimeRange());
