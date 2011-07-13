@@ -158,7 +158,7 @@ public abstract class BaseRemoteActionTest extends AbstractDataProviderTest {
 		url.append("?" + NetxForgeService.SERVICE_PARAM_NAME + "="
 				+ getServiceName());
 		url.append("&" + RetentionService.START_TIME_PARAM + "="
-				+ getDateParamValue(-100 * ONE_DAY));
+				+ getDateParamValue(-1000 * ONE_DAY));
 		url.append("&" + RetentionService.END_TIME_PARAM + "="
 				+ getDateParamValue(ONE_DAY));
 		url.append("&" + parameterName + "="
