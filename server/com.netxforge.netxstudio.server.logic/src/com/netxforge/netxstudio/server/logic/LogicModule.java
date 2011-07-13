@@ -1,7 +1,7 @@
 package com.netxforge.netxstudio.server.logic;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.server.logic.ResourceMonitoringService.CapacityServiceRunner;
+import com.netxforge.netxstudio.server.logic.ResourceMonitoringService.ResourceMonitoringRunner;
 import com.netxforge.netxstudio.server.logic.expression.ExpressionEngine;
 import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 
@@ -15,7 +15,7 @@ public class LogicModule extends AbstractModule {
 		this.bind(RFSServiceResourceMonitoringJobImplementation.class);
 		this.bind(ResourceMonitoringEngine.class);
 		this.bind(NodeResourceMonitoringLogic.class);
-		this.bind(CapacityServiceRunner.class);
+		this.bind(ResourceMonitoringRunner.class);
 		this.bind(RetentionEngine.class);
 		this.bind(RetentionLogic.class);
 	}
