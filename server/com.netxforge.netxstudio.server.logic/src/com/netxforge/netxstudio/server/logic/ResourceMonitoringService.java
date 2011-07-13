@@ -56,13 +56,13 @@ public class ResourceMonitoringService implements NetxForgeService {
 	public static final String END_TIME_PARAM = "endTime";
 
 	public Object run(Map<String, String> parameters) {
-		final CapacityServiceRunner runner = LogicActivator.getInstance()
-				.getInjector().getInstance(CapacityServiceRunner.class);
+		final ResourceMonitoringRunner runner = LogicActivator.getInstance()
+				.getInjector().getInstance(ResourceMonitoringRunner.class);
 		runner.setParameters(parameters);
 		return ((AbstractCDOIDLong)runner.run()).getLongValue();
 	}
 
-	public static class CapacityServiceRunner {
+	public static class ResourceMonitoringRunner {
 		@Inject
 		@Server
 		private IDataProvider dataProvider;
