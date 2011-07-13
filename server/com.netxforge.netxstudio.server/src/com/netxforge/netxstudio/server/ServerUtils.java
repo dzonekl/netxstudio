@@ -57,6 +57,7 @@ import org.osgi.framework.ServiceReference;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.cdo.CDODataProvider;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -142,6 +143,7 @@ public class ServerUtils {
 		cdoSession.getPackageRegistry()
 				.putEPackage(SchedulingPackage.eINSTANCE);
 		cdoSession.getPackageRegistry().putEPackage(ServicesPackage.eINSTANCE);
+		((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(CDODataProvider.COMMIT_TIMEOUT);
 
 		return cdoSession;
 	}
