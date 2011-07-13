@@ -72,6 +72,7 @@ import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.dataimport.MasterDataImporter;
@@ -201,6 +202,19 @@ public class TestDataCreator implements NetxForgeService {
 		// add to the job resource, that one is watched by the jobhandler
 		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
 				.add(job);
+
+		final RFSServiceRetentionJob retentionJob = SchedulingFactory.eINSTANCE
+				.createRFSServiceRetentionJob();
+		retentionJob.setRFSService(rfsService);
+		retentionJob.setJobState(JobState.ACTIVE);
+		retentionJob.setStartTime(modelUtils.toXMLDate(new Date(System
+				.currentTimeMillis() + 2 * MINUTE)));
+		retentionJob.setInterval(600);
+		retentionJob.setName(rfsService.getServiceName() + "Retention");
+
+		// add to the job resource, that one is watched by the jobhandler
+		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
+				.add(retentionJob);
 	}
 
 	private void addToResource(CDOObject cdoObject) {
@@ -394,8 +408,7 @@ public class TestDataCreator implements NetxForgeService {
 		addToResource(utilizationExpression);
 		return utilizationExpression;
 	}
-	
-	
+
 	private Expression createOrGetRetentionExpression() {
 
 		if (retentionExpression != null) {
@@ -654,7 +667,8 @@ public class TestDataCreator implements NetxForgeService {
 				equipment.getMetricRefs().add(
 						getMetric("Iu mode max attached users(number)"));
 				{ // Load the utilization expression.
-					final Expression e = this.createOrGetUtilizationExpression();
+					final Expression e = this
+							.createOrGetUtilizationExpression();
 					equipment.setUtilizationExpressionRef(e);
 				}
 				{// Load the cap expression.
@@ -671,8 +685,8 @@ public class TestDataCreator implements NetxForgeService {
 			} else {
 				equipment.setName(id + "_" + level + "_" + i);
 			}
-			
-			//equipment.setEquipmentCode(equipment.getName());
+
+			// equipment.setEquipmentCode(equipment.getName());
 			equipment.setEquipmentCode("BOARD");
 			if (level <= HIERARCHY_DEPTH) {
 				equipment.getEquipments().addAll(
@@ -710,7 +724,7 @@ public class TestDataCreator implements NetxForgeService {
 					final Expression e = this.createOrGetRetentionExpression();
 					function.setRetentionExpressionRef(e);
 				}
-				
+
 			} else {
 				function.setName(id + "_" + level + "_" + i);
 			}
@@ -795,7 +809,6 @@ public class TestDataCreator implements NetxForgeService {
 			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
 			t.setLevel(LevelType.GREEN);
 			t.setName("Tolerance Yellow");
-			
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			te.setName("Tolerance Yellow");
@@ -920,9 +933,9 @@ public class TestDataCreator implements NetxForgeService {
 		f.getMetricRefs().add(getMetric("MSURETRN"));
 		f.getMetricRefs().add(getMetric("MOCTTRAN"));
 
-//		f.getToleranceRefs().addAll(createOrGetTolerances());
-//		f.setCapacityExpressionRef(createOrGetCapacityExpression());
-//		f.setUtilizationExpressionRef(createOrGetUtilizationExpression());
+		// f.getToleranceRefs().addAll(createOrGetTolerances());
+		// f.setCapacityExpressionRef(createOrGetCapacityExpression());
+		// f.setUtilizationExpressionRef(createOrGetUtilizationExpression());
 
 		final FunctionRelationship r = OperatorsFactory.eINSTANCE
 				.createFunctionRelationship();
