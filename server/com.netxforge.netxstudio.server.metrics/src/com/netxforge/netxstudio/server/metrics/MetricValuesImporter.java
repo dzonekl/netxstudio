@@ -97,7 +97,7 @@ public abstract class MetricValuesImporter {
 
 	public void process() {
 		commonLogic.setDataProvider(dataProvider);
-		
+
 		// force that the same dataprovider is used
 		// so that components retrieved by the networkElementLocator
 		// participate in the same transaction
@@ -272,7 +272,8 @@ public abstract class MetricValuesImporter {
 						if (networkElement == null) {
 							getFailedRecords()
 									.add(createMappingRecord(rowNum, -1,
-											"Could not locate network element for this row."));
+											createNetworkElementLocatorLog(getValueDataKind(column).getMetricRef(),
+										elementIdentifiers)));
 							continue;
 						}
 
@@ -289,6 +290,19 @@ public abstract class MetricValuesImporter {
 			}
 		}
 		return totalRows;
+	}
+
+	private String createNetworkElementLocatorLog(Metric metric,
+			List<IdentifierValue> identifierValues) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("Could not locate networkElement for metric "
+				+ metric.getName());
+		sb.append("Using identifiers: ");
+		for (final IdentifierValue idValue : identifierValues) {
+			sb.append(" - " + idValue.getKind().getObjectKind().getName()
+					+ ": " + idValue.getValue());
+		}
+		return sb.toString();
 	}
 
 	protected void processHeaderRow() {
