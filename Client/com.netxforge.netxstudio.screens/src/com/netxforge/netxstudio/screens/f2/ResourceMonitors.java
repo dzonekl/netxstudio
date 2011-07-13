@@ -190,9 +190,9 @@ public class ResourceMonitors extends AbstractScreen implements
 		IEMFListProperty resourcesProperties = EMFEditProperties
 				.list(editingService.getEditingDomain(), ServicesPackage.Literals.SERVICE_MONITOR__RESOURCE_MONITORS);
 		IObservableList resourceList = resourcesProperties
-				.observe(rfsServiceResource);
+				.observe(allServiceMonitors);
 		obm.addObservable(resourceList);
-		resourceMonitorsTableViewer.setInput(allServiceMonitors);
+		resourceMonitorsTableViewer.setInput(resourceList);
 
 		return bindingContext;
 	}

@@ -653,24 +653,25 @@ public class TestDataCreator implements NetxForgeService {
 						getMetric("Gb mode max attached users(number)"));
 				equipment.getMetricRefs().add(
 						getMetric("Iu mode max attached users(number)"));
+				{ // Load the utilization expression.
+					final Expression e = this.createOrGetUtilizationExpression();
+					equipment.setUtilizationExpressionRef(e);
+				}
+				{// Load the cap expression.
+					final Expression e = this.createOrGetCapacityExpression();
+					equipment.setCapacityExpressionRef(e);
+				}
+				{// Add various tolerance refs.
+					equipment.getToleranceRefs().addAll(tls);
+				}
+				{// Add various retention refs.
+					final Expression e = createOrGetRetentionExpression();
+					equipment.setRetentionExpressionRef(e);
+				}
 			} else {
 				equipment.setName(id + "_" + level + "_" + i);
 			}
-			{ // Load the utilization expression.
-				final Expression e = this.createOrGetUtilizationExpression();
-				equipment.setUtilizationExpressionRef(e);
-			}
-			{// Load the cap expression.
-				final Expression e = this.createOrGetCapacityExpression();
-				equipment.setCapacityExpressionRef(e);
-			}
-			{// Add various tolerance refs.
-				equipment.getToleranceRefs().addAll(tls);
-			}
-			{// Add various tolerance refs.
-				final Expression e = this.createOrGetRetentionExpression();
-				equipment.setRetentionExpressionRef(e);
-			}
+			
 			//equipment.setEquipmentCode(equipment.getName());
 			equipment.setEquipmentCode("BOARD");
 			if (level <= HIERARCHY_DEPTH) {
@@ -919,9 +920,9 @@ public class TestDataCreator implements NetxForgeService {
 		f.getMetricRefs().add(getMetric("MSURETRN"));
 		f.getMetricRefs().add(getMetric("MOCTTRAN"));
 
-		f.getToleranceRefs().addAll(createOrGetTolerances());
-		f.setCapacityExpressionRef(createOrGetCapacityExpression());
-		f.setUtilizationExpressionRef(createOrGetUtilizationExpression());
+//		f.getToleranceRefs().addAll(createOrGetTolerances());
+//		f.setCapacityExpressionRef(createOrGetCapacityExpression());
+//		f.setUtilizationExpressionRef(createOrGetUtilizationExpression());
 
 		final FunctionRelationship r = OperatorsFactory.eINSTANCE
 				.createFunctionRelationship();

@@ -47,6 +47,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -64,12 +65,11 @@ public class MappingStatistics extends AbstractScreen implements
 	private Text txtTotalRecords;
 	private Text txtStartDateTime;
 	private Text txtEndDateTime;
-	
+
 	@Inject
 	ModelUtils modelUtils;
 	private TableViewer tblViewerRecords;
-	
-	
+
 	/**
 	 * Create the composite.
 	 * 
@@ -91,7 +91,7 @@ public class MappingStatistics extends AbstractScreen implements
 		frmMappingStatistics = toolkit.createForm(this);
 		frmMappingStatistics.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmMappingStatistics);
-		
+
 		frmMappingStatistics.getBody().setLayout(new FormLayout());
 
 		SashForm sashForm = new SashForm(frmMappingStatistics.getBody(),
@@ -188,8 +188,9 @@ public class MappingStatistics extends AbstractScreen implements
 		TableColumn tblclmnColumn = tableViewerColumn_1.getColumn();
 		tblclmnColumn.setWidth(100);
 		tblclmnColumn.setText("Column");
-		
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tblViewerRecords, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+				tblViewerRecords, SWT.NONE);
 		TableColumn tblclmnMessage = tableViewerColumn_2.getColumn();
 		tblclmnMessage.setWidth(100);
 		tblclmnMessage.setText("Message");
@@ -200,7 +201,7 @@ public class MappingStatistics extends AbstractScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-		
+
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		statisticsListViewer.setContentProvider(listContentProvider);
 
@@ -215,10 +216,10 @@ public class MappingStatistics extends AbstractScreen implements
 		// Cool, observer the whole resource.
 		IEMFListProperty l = EMFProperties
 				.list(MetricsPackage.Literals.METRIC_SOURCE__STATISTICS);
-		
+
 		IObservableList metricSourceObservableList = l.observe(metricSource);
 		obm.addObservable(metricSourceObservableList);
-		
+
 		statisticsListViewer.setInput(metricSourceObservableList);
 
 		IObservableValue selectionObservable = ViewerProperties
@@ -245,19 +246,20 @@ public class MappingStatistics extends AbstractScreen implements
 						.fromList(
 								MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION,
 								GenericsPackage.Literals.DATE_TIME_RANGE__END));
-		
+
 		EMFUpdateValueStrategy modelToTargetStrategy = new EMFUpdateValueStrategy();
 		modelToTargetStrategy.setConverter(new ModelDateConverter());
 		bindingContext.bindValue(totalRecordsObservable,
 				totalRecordsProperty.observeDetail(selectionObservable));
 
 		bindingContext.bindValue(startTimeObservable,
-				startDateTimeProperty.observeDetail(selectionObservable), null, modelToTargetStrategy);
+				startDateTimeProperty.observeDetail(selectionObservable), null,
+				modelToTargetStrategy);
 
 		bindingContext.bindValue(endTimeObservable,
-				endDateTimeProperty.observeDetail(selectionObservable), null, modelToTargetStrategy);
-		
-		
+				endDateTimeProperty.observeDetail(selectionObservable), null,
+				modelToTargetStrategy);
+
 		ObservableListContentProvider recordsContentProvider = new ObservableListContentProvider();
 		tblViewerRecords.setContentProvider(recordsContentProvider);
 
@@ -266,18 +268,19 @@ public class MappingStatistics extends AbstractScreen implements
 				new EStructuralFeature[] {
 						MetricsPackage.Literals.MAPPING_RECORD__ROW,
 						MetricsPackage.Literals.MAPPING_RECORD__COLUMN,
-						MetricsPackage.Literals.MAPPING_RECORD__MESSAGE,
-						});
-		tblViewerRecords
-				.setLabelProvider(new ObservableMapLabelProvider(recordsObserveMaps));
-		IEMFListProperty recordsProperty = EMFProperties.list(MetricsPackage.Literals.MAPPING_STATISTIC__FAILED_RECORDS);
-		
-		tblViewerRecords.setInput(recordsProperty.observeDetail(selectionObservable));
-		
+						MetricsPackage.Literals.MAPPING_RECORD__MESSAGE, });
+		tblViewerRecords.setLabelProvider(new RecordsObservableMapLabelProvider(
+				recordsObserveMaps));
+		IEMFListProperty recordsProperty = EMFProperties
+				.list(MetricsPackage.Literals.MAPPING_STATISTIC__FAILED_RECORDS);
+
+		tblViewerRecords.setInput(recordsProperty
+				.observeDetail(selectionObservable));
+
 		return bindingContext;
 	}
 
-	class ModelDateConverter implements IConverter{
+	class ModelDateConverter implements IConverter {
 
 		public Object getFromType() {
 			return XMLGregorianCalendar.class;
@@ -288,17 +291,46 @@ public class MappingStatistics extends AbstractScreen implements
 		}
 
 		public Object convert(Object fromObject) {
-			if(fromObject instanceof XMLGregorianCalendar){
-				Date d = modelUtils.fromXMLDate((XMLGregorianCalendar) fromObject);
+			if (fromObject instanceof XMLGregorianCalendar) {
+				Date d = modelUtils
+						.fromXMLDate((XMLGregorianCalendar) fromObject);
 				return modelUtils.date(d) + " @ " + modelUtils.time(d);
 			}
-			
+
 			return null;
 		}
 	}
-	
-	
-	
+
+	class RecordsObservableMapLabelProvider extends ObservableMapLabelProvider {
+
+		public RecordsObservableMapLabelProvider(IObservableMap[] attributeMaps) {
+			super(attributeMaps);
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+
+			if (element instanceof MappingRecord) {
+
+				MappingRecord mr = (MappingRecord) element;
+				switch (columnIndex) {
+				case 0: {
+					return mr.getRow();
+				}
+				case 1: {
+					return mr.getColumn();
+				}
+				case 2: {
+					return mr.getMessage();
+				}
+				}
+			}
+
+			return super.getColumnText(element, columnIndex);
+		}
+
+	}
+
 	class StatisticObservableMapLabelProvider extends
 			ObservableMapLabelProvider {
 
@@ -323,10 +355,6 @@ public class MappingStatistics extends AbstractScreen implements
 		}
 	}
 
-	
-	
-	
-	
 	public void disposeData() {
 		// N/A
 	}
@@ -336,8 +364,9 @@ public class MappingStatistics extends AbstractScreen implements
 			metricSource = (MetricSource) object;
 		}
 		this.initDataBindings_();
-		
-		frmMappingStatistics.setText("Mapping Statistics: " + metricSource.getName());
+
+		frmMappingStatistics.setText("Mapping Statistics: "
+				+ metricSource.getName());
 
 	}
 

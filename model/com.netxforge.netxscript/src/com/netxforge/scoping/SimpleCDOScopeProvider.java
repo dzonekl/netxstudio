@@ -1,6 +1,7 @@
 package com.netxforge.scoping;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -67,17 +68,19 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 				return URI.createURI("cdo://repo1/" + from.getName());
 			}
 		});
-			
 		
 		IResourceDescriptions descriptions = getResourceDescriptions(resource,urisAsList);
 		
 		
 //		Collections.reverse(urisAsList);
-
+		System.err.print("Start producing scope: ");
+		System.err.println(new Date(System.currentTimeMillis()));
 		IScope scope = IScope.NULLSCOPE;
 		for (URI uri : urisAsList) {
 			scope = createLazyResourceScope(scope, uri, descriptions, type, filter, ignoreCase);
 		}
+		System.err.print("End producing scope: ");
+		System.err.println(new Date(System.currentTimeMillis()));
 		return scope;
 	}
 	

@@ -1,7 +1,9 @@
 package com.netxforge.scoping;
 
 import java.util.Collection;
+import java.util.Map;
 
+import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.IResourceDescription;
@@ -14,6 +16,7 @@ import org.eclipse.xtext.resource.impl.AbstractCompoundSelectable;
 import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 
@@ -27,6 +30,9 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 	@SuppressWarnings("unused")
 	private Resource context;
 
+	private Map<URI, IResourceDescription> cache;
+	
+	
 	@Inject
 	private IResourceServiceProvider.Registry serviceProviderRegistry;
 
@@ -35,6 +41,7 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 		this.delegate = delegate;
 		this.validUris = validUris;
 		this.context = context;
+		cache = Maps.newHashMap();
 	}
 
 	public Iterable<IResourceDescription> getAllResourceDescriptions() {
@@ -69,7 +76,12 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 		// IResourceDescription result = delegate.getResourceDescription(uri);
 		// if (result == null) {
 		IResourceDescription result = null;
-
+		
+		if(cache.containsKey(uri)){
+			return cache.get(uri);
+		}
+		
+		
 		// Customized, version which get the original CDO resource from the
 		// CDO URI through
 		// a session, the original EcoreUtil2, tries also to resolve the URI
@@ -84,15 +96,21 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 
 		Resource resource = null;
 		try {
-
+//			System.out.println("--Run Scope builder Reading resource: " + uri.toString());
 			// Setup a session, as we likely don't have one here.
 			resource = getDataProvider().getResource(uri);
-
+			if(resource instanceof CDOResource){
+				CDOResource cdoRes = (CDOResource)resource;
+			}
+//			System.out.println("--Done Scope builder Reading resource: " + uri.toString());
+			
 		} catch (IllegalStateException e) {
 			// No connection, abort global scoping!
 			e.printStackTrace();
 		}
-
+		
+		
+		
 		if (resource != null) {
 			IResourceServiceProvider serviceProvider = serviceProviderRegistry
 					.getResourceServiceProvider(uri);
@@ -106,10 +124,16 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 				throw new IllegalStateException("No "
 						+ IResourceDescription.Manager.class.getName()
 						+ " provided by service provider for URI " + uri);
+			
+			// Do we cache our resource description? 
+//			System.out.println("---Building Description for resource: " + resource.getURI().toString());
 			result = resourceDescriptionManager
 					.getResourceDescription(resource);
+//			System.out.println("---Done building description for resource: " + resource.getURI().toString());
+			
+			cache.put(uri, result);
 		}
 		// }
-		return result;
+		return cache.get(uri);
 	}
 }

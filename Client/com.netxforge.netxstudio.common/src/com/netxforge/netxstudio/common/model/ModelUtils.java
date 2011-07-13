@@ -20,6 +20,7 @@ import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.operators.Node;
 
 public class ModelUtils {
 
@@ -51,6 +52,15 @@ public class ModelUtils {
 		return el;
 	}
 
+	
+	public List<NetXResource> resourcesWithName(Node n,String expressionName){
+		List<Component> cl = Lists.newArrayList();
+		cl.addAll(n.getNodeType().getEquipments());
+		cl.addAll(n.getNodeType().getFunctions());
+		return this.resourcesWithName(cl, expressionName);
+	}
+			
+			
 	/**
 	 * Resources with this name. Notice: Matching is on regular expression, i.e.
 	 * name = .* is all resources.
@@ -65,7 +75,6 @@ public class ModelUtils {
 		List<Component> cl = Lists.newArrayList();
 		for (Component c : components) {
 			for (NetXResource r : c.getResources()) {
-
 				if (r.getExpressionName().matches(name)) {
 					rl.add(r);
 				}

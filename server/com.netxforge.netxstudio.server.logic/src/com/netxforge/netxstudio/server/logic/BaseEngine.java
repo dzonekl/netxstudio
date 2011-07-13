@@ -77,8 +77,10 @@ public abstract class BaseEngine {
 			final List<ExpressionResult> result = expressionEngine
 					.getExpressionResult();
 
+			List<Object> currentContext = expressionEngine.getContext();
+			
 			// process the result
-			commonLogic.processResult(result, start, end);
+			commonLogic.processResult(currentContext,result, start, end);
 
 		} catch (final Throwable t) {
 			t.printStackTrace(System.err);

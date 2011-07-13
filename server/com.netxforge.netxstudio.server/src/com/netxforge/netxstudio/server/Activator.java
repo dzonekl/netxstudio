@@ -51,9 +51,11 @@ public class Activator implements BundleActivator {
 		Activator.context = bundleContext;
 		injector = Guice.createInjector(ServerModule.getModule());
 		
-//		Locale currentLocal = Locale.getDefault();
-//		System.out.println("country = " + currentLocal.getCountry() + "language = ")
-//		Locale.setDefault(Locale.ENGLISH);
+		Locale currentLocal = Locale.getDefault();
+		System.out.println("CURRENT Locale: country = " + currentLocal.getDisplayCountry() + "language = " + currentLocal.getDisplayLanguage());
+		Locale.setDefault(Locale.UK);
+		currentLocal = Locale.getDefault();
+		System.out.println("NEW Locale: country = "  + currentLocal.getDisplayCountry() + "language = " + currentLocal.getDisplayLanguage());
 	}
 
 	/*

@@ -31,8 +31,15 @@ public class ResourceMonitoringEngine extends BaseEngine {
 	@Override
 	public void execute() {
 		getExpressionEngine().getContext().add(getRange());
-		getExpressionEngine().getContext().add(getCommonLogic().getNode(getComponent()));
+		getExpressionEngine().getContext().add(
+				getCommonLogic().getNode(getComponent()));
+
+		System.err.println("Run capacity expression for Node: "
+				+ this.getCommonLogic().getNode(getComponent()).getNodeID()
+				+ " with component " + this.getComponent().getName());
 		runForExpression(getComponent().getCapacityExpressionRef());
+		System.err.println("Done capacity expression for Node: "
+				+ this.getCommonLogic().getNode(getComponent()).getNodeID());
 		if (getFailure() != null) {
 			return;
 		}
@@ -45,10 +52,16 @@ public class ResourceMonitoringEngine extends BaseEngine {
 						getExpressionEngine().getContext().size() - 1);
 			}
 			getExpressionEngine().getContext().add(netXResource);
+			System.err.println("Run util expression for resource: "
+					+ netXResource.getShortName());
 			runForExpression(getComponent().getUtilizationExpressionRef());
+			System.err.println("Done util expression for resource: "
+					+ netXResource.getShortName());
 			if (getFailure() != null) {
 				return;
 			}
+			System.err.println("Run tolerance expression(s) for resource: "
+					+ netXResource.getShortName());
 			for (final Tolerance tolerance : getComponent().getToleranceRefs()) {
 				// resultaat van de tolerance is een percentage
 				// loop door de capacity/utilization heen
@@ -58,6 +71,8 @@ public class ResourceMonitoringEngine extends BaseEngine {
 					return;
 				}
 			}
+			System.err.println("Done tolerance expression(s) for resource: "
+					+ netXResource.getShortName());
 		}
 	}
 }

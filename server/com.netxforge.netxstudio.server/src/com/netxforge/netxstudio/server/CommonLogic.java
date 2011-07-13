@@ -62,16 +62,28 @@ public class CommonLogic {
 	// on purpose not injected
 	private IDataProvider dataProvider;
 
-	public void processResult(List<ExpressionResult> expressionResults,
+	public void processResult(List<Object> currentContext, List<ExpressionResult> expressionResults,
 			Date start, Date end) {
+		
+		if( expressionResults.size() == 0){
+			System.out.println("--No expression result produced! + ");
+		}
 		for (final ExpressionResult expressionResult : expressionResults) {
+			System.out.println("--Writing expression result: resource=" + expressionResult.getTargetResource().getShortName() + " target="
+					+ expressionResult.getTargetRange().getName() + " values="
+					+ expressionResult.getTargetValues().size());
+			
+			// FIXME: We could want to write to a resource, where the node doesn't match the context.
 			final NetXResource resource = expressionResult.getTargetResource();
-			
-			EObject container =resource.eContainer();
-			if(container instanceof Component){
-				System.out.println(((Component)container).getName());
+			Node n = this.getNode(resource);
+			if(n != null){
+				System.out.println("--Writing to resource in Node: " + n.getNodeID());
+				for(Object context : currentContext){
+//					IInterpreterContext c = (IInterpreterContext)context;
+				}
+				System.out.println("--Current context =: ");
 			}
-			
+
 			switch (expressionResult.getTargetRange().getValue()) {
 			case RangeKind.CAP_VALUE:
 				removeValues(resource.getCapacityValues(), start, end);
@@ -81,7 +93,8 @@ public class CommonLogic {
 				break;
 			case RangeKind.METRIC_VALUE:
 				addToValueRange(resource,
-						expressionResult.getTargetIntervalHint(), expressionResult.getTargetKindHint(),
+						expressionResult.getTargetIntervalHint(),
+						expressionResult.getTargetKindHint(),
 						getCreateValues(expressionResult, start, end), start,
 						end);
 				break;
@@ -95,7 +108,9 @@ public class CommonLogic {
 						expressionResult.getTargetIntervalHint());
 				break;
 			case RangeKind.METRICREMOVE_VALUE:
-				final MetricValueRange mvr = getValueRange(resource, expressionResult.getTargetKindHint(), expressionResult.getTargetIntervalHint());
+				final MetricValueRange mvr = getValueRange(resource,
+						expressionResult.getTargetKindHint(),
+						expressionResult.getTargetIntervalHint());
 				if (start != null) {
 					removeValues(mvr.getMetricValues(), start, end);
 				}
@@ -266,7 +281,8 @@ public class CommonLogic {
 	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
 			KindHintType kindHintType, List<Value> newValues, Date start,
 			Date end) {
-		final MetricValueRange mvr = getValueRange(foundNetXResource, kindHintType, periodHint);
+		final MetricValueRange mvr = getValueRange(foundNetXResource,
+				kindHintType, periodHint);
 		if (start != null) {
 			removeValues(mvr.getMetricValues(), start, end);
 		}
@@ -280,7 +296,8 @@ public class CommonLogic {
 		}
 	}
 
-	private MetricValueRange getValueRange(NetXResource foundNetXResource, KindHintType kindHintType, int periodHint) {
+	private MetricValueRange getValueRange(NetXResource foundNetXResource,
+			KindHintType kindHintType, int periodHint) {
 		MetricValueRange foundMvr = null;
 		for (final MetricValueRange mvr : foundNetXResource
 				.getMetricValueRanges()) {
@@ -298,7 +315,7 @@ public class CommonLogic {
 		}
 		return foundMvr;
 	}
-	
+
 	public void addToValues(EList<Value> values, Value value, int periodHint) {
 
 		final long timeInMillis = value.getTimeStamp().toGregorianCalendar()

@@ -5,6 +5,7 @@ package com.netxforge;
 
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
+import com.google.inject.Scopes;
 import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.interpreter.INativeFunctions;
@@ -58,7 +59,7 @@ public class NetxscriptRuntimeModule extends
 	// Override generated, ResourceSet based.
 	public void configureIResourceDescriptions(com.google.inject.Binder binder) {
 		binder.bind(org.eclipse.xtext.resource.IResourceDescriptions.class).to(
-				CDOLoadOnDemandResourceDescriptions.class);
+				CDOLoadOnDemandResourceDescriptions.class).in(Scopes.SINGLETON);
 	}
 
 	// @Provides

@@ -73,7 +73,6 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.generics.impl.DateTimeRangeImpl;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -503,13 +502,25 @@ public class InterpreterTypeless implements IInterpreter {
 
 							ContextRef cRef = (ContextRef) assignmentReference;
 							if (cRef.getPrimaryRef() != null) {
+								
+								
 								LeafReference leafReference = cRef
 										.getPrimaryRef().getLeafRef();
 								if (leafReference instanceof ResourceRef) {
+									Node n = this.getContextualNode();
 									ResourceRef resourceRef = (ResourceRef) leafReference;
-									targetResource = resourceRef.getResource();
-									targetRangeReference = resourceRef
-											.getRangeRef();
+									NetXResource tmpResource = resourceRef.getResource();
+									if(tmpResource.getExpressionName()  != null){
+										List<NetXResource> resources = modelUtils.resourcesWithName(n,
+												tmpResource.getExpressionName());
+										if(resources.size() == 1){
+											// We dhave this resource in the context node, so we should
+											// set the target and range.  
+											targetResource = tmpResource;
+											targetRangeReference = resourceRef
+													.getRangeRef();
+										} 
+									}
 								}
 
 							}
@@ -964,10 +975,7 @@ public class InterpreterTypeless implements IInterpreter {
 			
 			NetXResource resource = e.getResource();
 			String expressionName = resource.getExpressionName();
-			List<Component> cl = Lists.newArrayList();
-			cl.addAll(n.getNodeType().getEquipments());
-			cl.addAll(n.getNodeType().getFunctions());
-			List<NetXResource> resources = modelUtils.resourcesWithName(cl,
+			List<NetXResource> resources = modelUtils.resourcesWithName(n,
 					expressionName);
 
 			if (resources.size() == 1) {

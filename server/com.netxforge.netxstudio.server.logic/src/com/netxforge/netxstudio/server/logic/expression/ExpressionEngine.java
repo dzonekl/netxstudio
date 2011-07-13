@@ -95,9 +95,11 @@ public class ExpressionEngine implements IExpressionEngine {
 		
 		final String asString = this.asString(expression);
 		try {
+			System.out.println("Parsing expression: " + asString );
 			xResource = getResourceFromString(asString);
 			// Get the parse tree. 
 			final Mod m = (Mod) this.getModel(xResource);
+			System.out.println("Done parsing expression: ");
 			
 			final List<IInterpreterContext> contextList = new ArrayList<IInterpreterContext>();
 			for (final Object o : context) {
@@ -207,6 +209,9 @@ public class ExpressionEngine implements IExpressionEngine {
 		} else {
 			EcoreUtil.resolveAll(resource);
 		}
+		
+		
+		
 		return resource;
 	}
 
