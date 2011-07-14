@@ -846,7 +846,8 @@ public class TestDataCreator implements NetxForgeService {
 				"sgc01na0s", "sgc01na0s", "tbmscnlin0", "tbmscnlin0",
 				"sgm01na0", "sgm01na0", "kpnamin0", "kpnrtin0", "sgrstpna1",
 				"sgrstpna1", "arm04na0", "arm04na0", "kpnamin0", "kpnrtin0",
-				"drin01na0", "drin01na0", "etes01", "acr01na0", "bruhin0",
+				// on purpose commented out to create mapping errors
+//				"drin01na0", "drin01na0", "etes01", "acr01na0", "bruhin0",
 				"bruiin0", "tele2amstp", "sgrstpna1", "sgrstpna1", "sgc01na0",
 				"sgc01na0", "sgc01na0s", "sgc01na0s", "drin01na0", "drin01na0",
 				"sgm01na0", "sgm01na0", "bruhin0", "bruiin0", "arm04na0",
