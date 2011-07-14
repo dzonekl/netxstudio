@@ -44,7 +44,11 @@ public class RFSServiceResourceMonitoringLogic extends BaseResourceMonitoringLog
 	void initializeServiceMonitor() {
 		Date startTime = getStartTime();
 		if (startTime == null) {
-			// as a default start 30 days in the past
+			// TODO: make the period for the look back configurable
+			// TODO: note that a user can do a separate run which runs in the past
+			// creating new last service monitor with an end date in the past
+			// the system, should not pick the last servicemonitor in the list
+			// but should find the last end time of all service monitors.
 			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60 * 1000);
 			if (!rfsService.getServiceMonitors().isEmpty()) {
 				final Date previousEndTime = rfsService.getServiceMonitors()

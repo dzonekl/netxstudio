@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +43,7 @@ import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 public abstract class BaseEngine {
 
 	private WorkFlowRunMonitor jobMonitor;
+		
 	// contains context information to use when adding an error message to the
 	// log
 	private String engineContextInfo = "";
@@ -65,9 +67,14 @@ public abstract class BaseEngine {
 	private Date start;
 	private Date end;
 
-	private ExpressionFailure failure;
-
-	public abstract void execute();
+	private List<ExpressionFailure> failures = new ArrayList<ExpressionFailure>();
+	
+	public void execute() {
+		failures.clear();
+		doExecute();
+	}
+	
+	public abstract void doExecute();
 
 	protected void runForExpression(Expression expression) {
 		try {
@@ -82,9 +89,9 @@ public abstract class BaseEngine {
 			}
 			final List<ExpressionResult> result = expressionEngine
 					.getExpressionResult();
-
+			
 			if (result.isEmpty() && jobMonitor != null) {
-				jobMonitor.appendToLog(engineContextInfo
+				throw new IllegalStateException(engineContextInfo
 						+ " expression returns no results for expression " + expression.getName());
 			} else {
 				final List<Object> currentContext = expressionEngine
@@ -95,10 +102,11 @@ public abstract class BaseEngine {
 			}
 		} catch (final Throwable t) {
 			t.printStackTrace(System.err);
-			failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
+			final ExpressionFailure failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
 			failure.setExpressionRef(expression);
 			failure.setMessage(t.getMessage());
 			failure.setComponentRef(component);
+			failures.add(failure);
 		}
 	}
 
@@ -129,12 +137,8 @@ public abstract class BaseEngine {
 		this.component = component;
 	}
 
-	public ExpressionFailure getFailure() {
-		return failure;
-	}
-
-	public void setFailure(ExpressionFailure failure) {
-		this.failure = failure;
+	public List<ExpressionFailure> getFailures() {
+		return failures;
 	}
 
 	public IExpressionEngine getExpressionEngine() {

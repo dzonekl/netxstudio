@@ -81,18 +81,18 @@ public abstract class BaseLogic {
 
 		jobMonitor.setTotalWork(countComponents(nodeTypes));
 		jobMonitor.setTask("Performing resource monitoring");
-		
+
 		for (final NodeType nodeType : nodeTypes) {
 
-			jobMonitor.appendToLog("Computing for node (type) " + ((Node)nodeType.eContainer()).getNodeID());
+			jobMonitor.appendToLog("Computing for node (type) "
+					+ ((Node) nodeType.eContainer()).getNodeID());
 
 			jobMonitor.setTask("Resource monitoring Data for nodeType");
 			processNode(nodeType);
 		}
 		if (!getFailures().isEmpty()) {
 			final ExpressionWorkFlowRun run = (ExpressionWorkFlowRun) dataProvider
-					.getTransaction().getObject(
-							jobMonitor.getWorkFlowRunId());
+					.getTransaction().getObject(jobMonitor.getWorkFlowRunId());
 			run.getFailureRefs().addAll(getFailures());
 		}
 		dataProvider.commitTransaction();
@@ -119,8 +119,7 @@ public abstract class BaseLogic {
 	}
 
 	protected void executeFor(Component component) {
-		jobMonitor
-				.setTask("Computing for " + component.getName());
+		jobMonitor.setTask("Computing for " + component.getName());
 		jobMonitor.incrementProgress(1, false);
 		final BaseEngine engine = getEngine();
 		engine.setJobMonitor(getJobMonitor());
@@ -128,13 +127,16 @@ public abstract class BaseLogic {
 		engine.setDataProvider(dataProvider);
 		engine.setRange(getTimeRange());
 		engine.execute();
-		if (engine.getFailure() != null) {
-			failures.add(engine.getFailure());
+		if (engine.getFailures().size() > 0) {
+			for (final ExpressionFailure failure : engine.getFailures()) {
+				failure.setComponentRef(component);
+				failures.add(failure);
+			}
 		}
 	}
 
 	protected abstract BaseEngine getEngine();
-	
+
 	protected abstract void processNode(NodeType nodeType);
 
 	public WorkFlowRunMonitor getJobMonitor() {
@@ -209,14 +211,14 @@ public abstract class BaseLogic {
 		}
 		return result;
 	}
-	
+
 	private void getComponents(Equipment equipment, List<Component> result) {
 		result.add(equipment);
 		for (final Equipment childEquipment : equipment.getEquipments()) {
 			getComponents(childEquipment, result);
 		}
 	}
-	
+
 	private void getComponents(Function function, List<Component> result) {
 		result.add(function);
 		for (final Function childFunction : function.getFunctions()) {

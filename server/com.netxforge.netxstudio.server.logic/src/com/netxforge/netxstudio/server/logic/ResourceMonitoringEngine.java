@@ -30,7 +30,7 @@ import com.netxforge.netxstudio.operators.Node;
 public class ResourceMonitoringEngine extends BaseEngine {
 
 	@Override
-	public void execute() {
+	public void doExecute() {
 		getExpressionEngine().getContext().add(getRange());
 		final Node node = getCommonLogic().getNode(getComponent());
 		getExpressionEngine().getContext().add(node);
@@ -43,7 +43,7 @@ public class ResourceMonitoringEngine extends BaseEngine {
 		runForExpression(getComponent().getCapacityExpressionRef());
 		System.err.println("Done capacity expression for Node: "
 				+ this.getCommonLogic().getNode(getComponent()).getNodeID());
-		if (getFailure() != null) {
+		if (getFailures().size() > 0) {
 			return;
 		}
 
@@ -62,7 +62,7 @@ public class ResourceMonitoringEngine extends BaseEngine {
 			runForExpression(getComponent().getUtilizationExpressionRef());
 			System.err.println("Done util expression for resource: "
 					+ netXResource.getShortName());
-			if (getFailure() != null) {
+			if (getFailures().size() > 0) {
 				return;
 			}
 			System.err.println("Run tolerance expression(s) for resource: "
@@ -74,7 +74,7 @@ public class ResourceMonitoringEngine extends BaseEngine {
 				setEngineContextInfo("NetXResource: " + netXResource.getShortName()
 						+ " - tolerance expression -");
 				runForExpression(tolerance.getExpressionRef());
-				if (getFailure() != null) {
+				if (getFailures().size() > 0) {
 					return;
 				}
 			}

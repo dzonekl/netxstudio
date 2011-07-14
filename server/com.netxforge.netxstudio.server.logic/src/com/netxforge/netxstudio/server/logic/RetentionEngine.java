@@ -28,7 +28,7 @@ import com.netxforge.netxstudio.library.NetXResource;
 public class RetentionEngine extends BaseEngine {
 
 	@Override
-	public void execute() {
+	public void doExecute() {
 		// nothing todo, go away
 		if (getComponent().getRetentionExpressionRef() == null) {
 			return;
@@ -46,7 +46,7 @@ public class RetentionEngine extends BaseEngine {
 			}
 			getExpressionEngine().getContext().add(netXResource);
 			runForExpression(getComponent().getRetentionExpressionRef());
-			if (getFailure() != null) {
+			if (getFailures().size()  > 0) {
 				return;
 			}
 		}
