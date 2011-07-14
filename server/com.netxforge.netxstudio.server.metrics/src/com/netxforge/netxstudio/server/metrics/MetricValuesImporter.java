@@ -270,10 +270,12 @@ public abstract class MetricValuesImporter {
 										getValueDataKind(column).getMetricRef(),
 										elementIdentifiers);
 						if (networkElement == null) {
-							getFailedRecords()
-									.add(createMappingRecord(rowNum, -1,
-											createNetworkElementLocatorLog(getValueDataKind(column).getMetricRef(),
-										elementIdentifiers)));
+							getFailedRecords().add(
+									createNotFoundNetworkElementMappingRecord(
+											getValueDataKind(column)
+													.getMetricRef(), rowNum,
+											getNetworkElementLocator()
+													.getFailedIdentifiers()));
 							continue;
 						}
 
@@ -422,6 +424,21 @@ public abstract class MetricValuesImporter {
 		return valueDataKind.getValueKind() == ValueKindType.METRIC;
 	}
 
+	protected MappingRecord createNotFoundNetworkElementMappingRecord(
+			Metric metric, int rowNum, List<IdentifierValue> failedIdentifiers) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("Could not locate networkElement for metric "
+				+ metric.getName());
+		sb.append(". Failed on identifiers: ");
+		for (final IdentifierValue idValue : failedIdentifiers) {
+			sb.append(" - " + idValue.getKind().getObjectKind().getName()
+					+ ": " + idValue.getValue());
+		}
+		final int failedColumn = failedIdentifiers.size() > 0 ? failedIdentifiers
+				.get(0).getColumn() : -1;
+		return createMappingRecord(rowNum, failedColumn, sb.toString());
+	}
+
 	protected MappingRecord createMappingRecord(int row, int column,
 			String message) {
 		final MappingRecord record = MetricsFactory.eINSTANCE
@@ -521,6 +538,7 @@ public abstract class MetricValuesImporter {
 				final IdentifierDataKind identifierDataKind = (IdentifierDataKind) column
 						.getDataType();
 				final IdentifierValue identifierValue = new IdentifierValue();
+				identifierValue.setColumn(column.getColumn());
 				identifierValue.setKind(identifierDataKind);
 				identifierValue.setValue(getStringCellValue(row,
 						column.getColumn()));

@@ -57,9 +57,17 @@ public class NetworkElementLocator {
 	// cache the components by metric and node id
 	private Map<String, List<Component>> cachedObjects = new HashMap<String, List<Component>>();
 
+	// keeps track of the most successfull identifiers, can be used to provide more 
+	// information to the user on which columns failed
+	private List<IdentifierValue> successFullIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
+	
+	private List<IdentifierValue> failedIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
+	
 	public Component locateNetworkElement(Metric metric,
 			List<IdentifierValue> identifiers) {
-
+		successFullIdentifiers.clear();
+		failedIdentifiers.clear();
+		
 		final EReference sourceReference = LibraryPackage.eINSTANCE
 				.getComponent_MetricRefs();
 
@@ -81,6 +89,7 @@ public class NetworkElementLocator {
 		}
 
 		if (nodeIdentifier == null) {
+			failedIdentifiers.add(nodeIdentifier);
 			return null;
 		}
 
@@ -114,20 +123,33 @@ public class NetworkElementLocator {
 		for (final Component source : components) {
 			boolean allFeaturesValid = true;
 			boolean atLeastOneFeatureChecked = false;
+			final List<IdentifierValue> localSuccessFullIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
+			localSuccessFullIdentifiers.add(nodeIdentifier);
 			for (final IdentifierValue identifierValue : identifiers) {
 				if (identifierValue.getKind().getObjectKind() != ObjectKindType.NODE) {
 					atLeastOneFeatureChecked = true;
 					if (!isValidObject(source, identifierValue)) {
 						allFeaturesValid = false;
 						break;
+					} else {
+						localSuccessFullIdentifiers.add(identifierValue);
 					}
 				}
+			}
+			if (localSuccessFullIdentifiers.size() > successFullIdentifiers.size()) {
+				successFullIdentifiers = localSuccessFullIdentifiers;
 			}
 			if (atLeastOneFeatureChecked && allFeaturesValid) {
 				return source;
 			}
 		}
 
+		for (final IdentifierValue idValue : identifiers) {
+			if (!successFullIdentifiers.contains(idValue)) {
+				failedIdentifiers.add(idValue);
+			}
+		}
+		
 		return null;
 	}
 
@@ -225,6 +247,7 @@ public class NetworkElementLocator {
 	public static class IdentifierValue {
 		private IdentifierDataKind kind;
 		private String value;
+		private int column;
 
 		public IdentifierDataKind getKind() {
 			return kind;
@@ -242,6 +265,14 @@ public class NetworkElementLocator {
 			this.value = value;
 		}
 
+		public int getColumn() {
+			return column;
+		}
+
+		public void setColumn(int column) {
+			this.column = column;
+		}
+
 	}
 
 	public IDataProvider getDataProvider() {
@@ -255,5 +286,13 @@ public class NetworkElementLocator {
 	private String getKey(IdentifierValue nodeValue, Metric metric) {
 		return nodeValue.getKind().getObjectProperty() + "_"
 				+ nodeValue.getValue() + "_" + metric.cdoID().toString();
+	}
+
+	public List<IdentifierValue> getSuccessFullIdentifiers() {
+		return successFullIdentifiers;
+	}
+
+	public List<IdentifierValue> getFailedIdentifiers() {
+		return failedIdentifiers;
 	}
 }
