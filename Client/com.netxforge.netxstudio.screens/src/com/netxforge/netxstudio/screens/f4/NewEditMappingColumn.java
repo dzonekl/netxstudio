@@ -585,7 +585,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		if (value instanceof ValueDataKind) {
 			ValueDataKind vdk = (ValueDataKind) value;
 			ValueKindType vkt = vdk.getValueKind();
-			if (vkt == ValueKindType.PERIOD) {
+			if (vkt == ValueKindType.INTERVAL) {
 				btnIntervalWritableValue.setValue(true);
 				if (vdk.getFormat() != null) {
 					txtIntervalPattern.setText(vdk.getFormat());
@@ -636,7 +636,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		boolean time = false;
 		boolean identifier = false;
 		boolean value = false;
-		boolean period = false;
+		boolean interval = false;
 
 		DatakindAggregate(IObservableValue dataKindObservable) {
 			this.dataKindObservable = dataKindObservable;
@@ -683,7 +683,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					modelUpdate();
 				}
 				if (control.equals(btnInterval)) {
-					this.period = (Boolean) newValue;
+					this.interval = (Boolean) newValue;
 					modelUpdate();
 				}
 				if (control.equals(cmbDatePattern)
@@ -701,7 +701,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		private boolean modelUpdate() {
 			// Create the DataKindObject, actually only on save.
 			System.out.println("I DT T D V P=" + identifier + datetime + date
-					+ time + value + period);
+					+ time + value + interval);
 
 			// TODO, We can't switch the type, as an object would have been
 			// created
@@ -718,7 +718,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			}
 
 			if (dk == null) {
-				if (period || value || datetime || date || time) {
+				if (interval || value || datetime || date || time) {
 					dk = MetricsFactory.eINSTANCE.createValueDataKind();
 				}
 				if (identifier) {
@@ -726,8 +726,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				}
 			}
 
-			if (period) {
-				((ValueDataKind) dk).setValueKind(ValueKindType.PERIOD);
+			if (interval) {
+				((ValueDataKind) dk).setValueKind(ValueKindType.INTERVAL);
 			}
 			if (value) {
 				((ValueDataKind) dk).setValueKind(ValueKindType.METRIC);

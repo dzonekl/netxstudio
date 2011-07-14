@@ -513,10 +513,10 @@ public class InterpreterTypeless implements IInterpreter {
 									if(tmpResource.getExpressionName()  != null){
 										List<NetXResource> resources = modelUtils.resourcesWithName(n,
 												tmpResource.getExpressionName());
-										if(resources.size() == 1){
+										if(resources.size() > 0 ){
 											// We dhave this resource in the context node, so we should
 											// set the target and range.  
-											targetResource = tmpResource;
+											targetResource = resources.get(0);
 											targetRangeReference = resourceRef
 													.getRangeRef();
 										} 

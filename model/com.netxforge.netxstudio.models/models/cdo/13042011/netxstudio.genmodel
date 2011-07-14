@@ -332,6 +332,12 @@
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//KindHintType/BH"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//KindHintType/AVG"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//MetricRetentionPeriod">
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//MetricRetentionPeriod/Always"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//MetricRetentionPeriod/OneYear"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//MetricRetentionPeriod/OneMonth"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//MetricRetentionPeriod/OneWeek"/>
+    </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//ObjectKindType">
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/NODE"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/EQUIPMENT"/>
@@ -339,7 +345,7 @@
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ObjectKindType/RELATIONSHIP"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="metrics.ecore#//ValueKindType">
-      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/PERIOD"/>
+      <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/INTERVAL"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/DATE"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/TIME"/>
       <genEnumLiterals ecoreEnumLiteral="metrics.ecore#//ValueKindType/DATETIME"/>
@@ -348,6 +354,7 @@
     </genEnums>
     <genDataTypes ecoreDataType="metrics.ecore#//DatabaseTypeTypeObject"/>
     <genDataTypes ecoreDataType="metrics.ecore#//KindHintTypeObject"/>
+    <genDataTypes ecoreDataType="metrics.ecore#//MetricRetentionPeriodObject"/>
     <genDataTypes ecoreDataType="metrics.ecore#//ObjectKindTypeObject"/>
     <genDataTypes ecoreDataType="metrics.ecore#//ValueKindTypeObject"/>
     <genClasses ecoreClass="metrics.ecore#//DataKind"/>
@@ -361,7 +368,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Mapping/mappingColumns"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/firstDataRow"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/headerRow"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/periodHint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/intervalHint"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MappingColumn">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingColumn/dataType"/>
@@ -402,6 +409,15 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//Metric/metricSourceRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Metric/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference metrics.ecore#//Metric/unitRef"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricRetentionRule">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricRetentionRule/retentionExpression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricRetentionRule/intervalHint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricRetentionRule/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricRetentionRule/period"/>
+    </genClasses>
+    <genClasses ecoreClass="metrics.ecore#//MetricRetentionRules">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricRetentionRules/metricRetentionRules"/>
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//MetricSource">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/metricMapping"/>

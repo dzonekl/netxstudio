@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.metrics.impl;
 
-import com.netxforge.netxstudio.metrics.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -38,6 +37,9 @@ import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
+import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -100,6 +102,8 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 			case MetricsPackage.MAPPING_STATISTIC: return (EObject)createMappingStatistic();
 			case MetricsPackage.MAPPING_XLS: return (EObject)createMappingXLS();
 			case MetricsPackage.METRIC: return (EObject)createMetric();
+			case MetricsPackage.METRIC_RETENTION_RULE: return (EObject)createMetricRetentionRule();
+			case MetricsPackage.METRIC_RETENTION_RULES: return (EObject)createMetricRetentionRules();
 			case MetricsPackage.METRIC_SOURCE: return (EObject)createMetricSource();
 			case MetricsPackage.METRIC_VALUE_RANGE: return (EObject)createMetricValueRange();
 			case MetricsPackage.VALUE_DATA_KIND: return (EObject)createValueDataKind();
@@ -120,6 +124,8 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 				return createDatabaseTypeTypeFromString(eDataType, initialValue);
 			case MetricsPackage.KIND_HINT_TYPE:
 				return createKindHintTypeFromString(eDataType, initialValue);
+			case MetricsPackage.METRIC_RETENTION_PERIOD:
+				return createMetricRetentionPeriodFromString(eDataType, initialValue);
 			case MetricsPackage.OBJECT_KIND_TYPE:
 				return createObjectKindTypeFromString(eDataType, initialValue);
 			case MetricsPackage.VALUE_KIND_TYPE:
@@ -128,6 +134,8 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 				return createDatabaseTypeTypeObjectFromString(eDataType, initialValue);
 			case MetricsPackage.KIND_HINT_TYPE_OBJECT:
 				return createKindHintTypeObjectFromString(eDataType, initialValue);
+			case MetricsPackage.METRIC_RETENTION_PERIOD_OBJECT:
+				return createMetricRetentionPeriodObjectFromString(eDataType, initialValue);
 			case MetricsPackage.OBJECT_KIND_TYPE_OBJECT:
 				return createObjectKindTypeObjectFromString(eDataType, initialValue);
 			case MetricsPackage.VALUE_KIND_TYPE_OBJECT:
@@ -149,6 +157,8 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 				return convertDatabaseTypeTypeToString(eDataType, instanceValue);
 			case MetricsPackage.KIND_HINT_TYPE:
 				return convertKindHintTypeToString(eDataType, instanceValue);
+			case MetricsPackage.METRIC_RETENTION_PERIOD:
+				return convertMetricRetentionPeriodToString(eDataType, instanceValue);
 			case MetricsPackage.OBJECT_KIND_TYPE:
 				return convertObjectKindTypeToString(eDataType, instanceValue);
 			case MetricsPackage.VALUE_KIND_TYPE:
@@ -157,6 +167,8 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 				return convertDatabaseTypeTypeObjectToString(eDataType, instanceValue);
 			case MetricsPackage.KIND_HINT_TYPE_OBJECT:
 				return convertKindHintTypeObjectToString(eDataType, instanceValue);
+			case MetricsPackage.METRIC_RETENTION_PERIOD_OBJECT:
+				return convertMetricRetentionPeriodObjectToString(eDataType, instanceValue);
 			case MetricsPackage.OBJECT_KIND_TYPE_OBJECT:
 				return convertObjectKindTypeObjectToString(eDataType, instanceValue);
 			case MetricsPackage.VALUE_KIND_TYPE_OBJECT:
@@ -271,6 +283,26 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public MetricRetentionRule createMetricRetentionRule() {
+		MetricRetentionRuleImpl metricRetentionRule = new MetricRetentionRuleImpl();
+		return metricRetentionRule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MetricRetentionRules createMetricRetentionRules() {
+		MetricRetentionRulesImpl metricRetentionRules = new MetricRetentionRulesImpl();
+		return metricRetentionRules;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public MetricSource createMetricSource() {
 		MetricSourceImpl metricSource = new MetricSourceImpl();
 		return metricSource;
@@ -333,6 +365,26 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 * @generated
 	 */
 	public String convertKindHintTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MetricRetentionPeriod createMetricRetentionPeriodFromString(EDataType eDataType, String initialValue) {
+		MetricRetentionPeriod result = MetricRetentionPeriod.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertMetricRetentionPeriodToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
@@ -410,6 +462,24 @@ public class MetricsFactoryImpl extends EFactoryImpl implements MetricsFactory {
 	 */
 	public String convertKindHintTypeObjectToString(EDataType eDataType, Object instanceValue) {
 		return convertKindHintTypeToString(MetricsPackage.Literals.KIND_HINT_TYPE, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MetricRetentionPeriod createMetricRetentionPeriodObjectFromString(EDataType eDataType, String initialValue) {
+		return createMetricRetentionPeriodFromString(MetricsPackage.Literals.METRIC_RETENTION_PERIOD, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertMetricRetentionPeriodObjectToString(EDataType eDataType, Object instanceValue) {
+		return convertMetricRetentionPeriodToString(MetricsPackage.Literals.METRIC_RETENTION_PERIOD, instanceValue);
 	}
 
 	/**

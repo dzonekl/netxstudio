@@ -18,13 +18,11 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
-import com.netxforge.netxstudio.generics.Value;
 import org.eclipse.emf.ecore.EClass;
 
+import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.MarkerKind;

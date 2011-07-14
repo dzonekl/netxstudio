@@ -57,7 +57,7 @@ public class ModelUtils {
 		List<Component> cl = Lists.newArrayList();
 		cl.addAll(n.getNodeType().getEquipments());
 		cl.addAll(n.getNodeType().getFunctions());
-		return this.resourcesWithName(cl, expressionName);
+		return this.resourcesWithExpressionName(cl, expressionName);
 	}
 			
 			
@@ -69,7 +69,7 @@ public class ModelUtils {
 	 * @param name
 	 * @return
 	 */
-	public List<NetXResource> resourcesWithName(List<Component> components,
+	public List<NetXResource> resourcesWithExpressionName(List<Component> components,
 			String name) {
 		List<NetXResource> rl = Lists.newArrayList();
 		List<Component> cl = Lists.newArrayList();
@@ -86,7 +86,7 @@ public class ModelUtils {
 				cl.addAll(((com.netxforge.netxstudio.library.Function) c)
 						.getFunctions());
 			}
-			rl.addAll(this.resourcesWithName(cl, name));
+			rl.addAll(this.resourcesWithExpressionName(cl, name));
 		}
 		return rl;
 	}

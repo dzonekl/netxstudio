@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.metrics.*;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
@@ -34,6 +33,8 @@ import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
+import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -165,6 +166,18 @@ public class MetricsSwitch<T> extends Switch<T> {
 				Metric metric = (Metric)theEObject;
 				T result = caseMetric(metric);
 				if (result == null) result = caseBase(metric);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MetricsPackage.METRIC_RETENTION_RULE: {
+				MetricRetentionRule metricRetentionRule = (MetricRetentionRule)theEObject;
+				T result = caseMetricRetentionRule(metricRetentionRule);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MetricsPackage.METRIC_RETENTION_RULES: {
+				MetricRetentionRules metricRetentionRules = (MetricRetentionRules)theEObject;
+				T result = caseMetricRetentionRules(metricRetentionRules);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -339,6 +352,36 @@ public class MetricsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMetric(Metric object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Metric Retention Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Metric Retention Rule</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMetricRetentionRule(MetricRetentionRule object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Metric Retention Rules</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Metric Retention Rules</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMetricRetentionRules(MetricRetentionRules object) {
 		return null;
 	}
 

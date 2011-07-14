@@ -474,7 +474,7 @@ public class TestDataCreator implements NetxForgeService {
 				.setFormat("MM/dd/yyyy hh:mm:ss");
 
 		mappingXLS.getMappingColumns().add(
-				createValueColumn("Period", 1, ValueKindType.PERIOD));
+				createValueColumn("Period", 1, ValueKindType.INTERVAL));
 		mappingXLS.getMappingColumns().add(
 				createValueColumn("Gb mode max attached users(number)", 4,
 						ValueKindType.METRIC));
@@ -494,7 +494,7 @@ public class TestDataCreator implements NetxForgeService {
 		mappingCSV.setHeaderRow(1);
 		mappingCSV.setFirstDataRow(4);
 		mappingCSV.setDelimiter(",");
-		mappingCSV.setPeriodHint(60);
+		mappingCSV.setIntervalHint(60);
 
 		final MappingColumn dateColumn = createValueColumn("Start Date", 7,
 				ValueKindType.DATE);

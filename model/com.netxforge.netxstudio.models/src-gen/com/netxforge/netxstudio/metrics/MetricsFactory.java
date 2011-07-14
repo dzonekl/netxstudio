@@ -128,6 +128,24 @@ public interface MetricsFactory extends EFactory {
 	Metric createMetric();
 
 	/**
+	 * Returns a new object of class '<em>Metric Retention Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Metric Retention Rule</em>'.
+	 * @generated
+	 */
+	MetricRetentionRule createMetricRetentionRule();
+
+	/**
+	 * Returns a new object of class '<em>Metric Retention Rules</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Metric Retention Rules</em>'.
+	 * @generated
+	 */
+	MetricRetentionRules createMetricRetentionRules();
+
+	/**
 	 * Returns a new object of class '<em>Metric Source</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

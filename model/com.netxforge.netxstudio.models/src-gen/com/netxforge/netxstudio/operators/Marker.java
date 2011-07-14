@@ -21,8 +21,6 @@ package com.netxforge.netxstudio.operators;
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
 
 /**

@@ -24,7 +24,6 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.metrics.*;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
@@ -35,6 +34,8 @@ import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
+import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -135,6 +136,14 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseMetric(Metric object) {
 				return createMetricAdapter();
+			}
+			@Override
+			public Adapter caseMetricRetentionRule(MetricRetentionRule object) {
+				return createMetricRetentionRuleAdapter();
+			}
+			@Override
+			public Adapter caseMetricRetentionRules(MetricRetentionRules object) {
+				return createMetricRetentionRulesAdapter();
 			}
 			@Override
 			public Adapter caseMetricSource(MetricSource object) {
@@ -309,6 +318,34 @@ public class MetricsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMetricAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.metrics.MetricRetentionRule <em>Metric Retention Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionRule
+	 * @generated
+	 */
+	public Adapter createMetricRetentionRuleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.metrics.MetricRetentionRules <em>Metric Retention Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionRules
+	 * @generated
+	 */
+	public Adapter createMetricRetentionRulesAdapter() {
 		return null;
 	}
 

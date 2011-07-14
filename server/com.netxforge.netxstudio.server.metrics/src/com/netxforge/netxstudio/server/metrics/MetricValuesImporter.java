@@ -241,8 +241,8 @@ public abstract class MetricValuesImporter {
 
 	protected int processRows() {
 
-		if (getMapping().getPeriodHint() > 0) {
-			periodHint = getMapping().getPeriodHint();
+		if (getMapping().getIntervalHint() > 0) {
+			periodHint = getMapping().getIntervalHint();
 		}
 
 		jobMonitor.setMsg("Processing header row");
@@ -513,7 +513,7 @@ public abstract class MetricValuesImporter {
 	private int getPeriodHint(int rowNum) {
 		for (final MappingColumn column : getMappingColumn()) {
 			if (column.getDataType() instanceof ValueDataKind
-					&& ((ValueDataKind) column.getDataType()).getValueKind() == ValueKindType.PERIOD) {
+					&& ((ValueDataKind) column.getDataType()).getValueKind() == ValueKindType.INTERVAL) {
 				try {
 					return new Double(getNumericCellValue(rowNum,
 							column.getColumn())).intValue();

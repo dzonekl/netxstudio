@@ -317,6 +317,52 @@ public class MetricsItemProviderAdapterFactory extends MetricsAdapterFactory imp
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.metrics.MetricRetentionRule} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MetricRetentionRuleItemProvider metricRetentionRuleItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.metrics.MetricRetentionRule}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMetricRetentionRuleAdapter() {
+		if (metricRetentionRuleItemProvider == null) {
+			metricRetentionRuleItemProvider = new MetricRetentionRuleItemProvider(this);
+		}
+
+		return metricRetentionRuleItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.metrics.MetricRetentionRules} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MetricRetentionRulesItemProvider metricRetentionRulesItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.metrics.MetricRetentionRules}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMetricRetentionRulesAdapter() {
+		if (metricRetentionRulesItemProvider == null) {
+			metricRetentionRulesItemProvider = new MetricRetentionRulesItemProvider(this);
+		}
+
+		return metricRetentionRulesItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.metrics.MetricSource} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -494,6 +540,8 @@ public class MetricsItemProviderAdapterFactory extends MetricsAdapterFactory imp
 		if (mappingStatisticItemProvider != null) mappingStatisticItemProvider.dispose();
 		if (mappingXLSItemProvider != null) mappingXLSItemProvider.dispose();
 		if (metricItemProvider != null) metricItemProvider.dispose();
+		if (metricRetentionRuleItemProvider != null) metricRetentionRuleItemProvider.dispose();
+		if (metricRetentionRulesItemProvider != null) metricRetentionRulesItemProvider.dispose();
 		if (metricSourceItemProvider != null) metricSourceItemProvider.dispose();
 		if (metricValueRangeItemProvider != null) metricValueRangeItemProvider.dispose();
 		if (valueDataKindItemProvider != null) valueDataKindItemProvider.dispose();

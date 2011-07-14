@@ -18,10 +18,9 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
-import com.netxforge.netxstudio.generics.Base;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.emf.cdo.CDOObject;
+import com.netxforge.netxstudio.generics.Base;
 
 /**
  * <!-- begin-user-doc -->

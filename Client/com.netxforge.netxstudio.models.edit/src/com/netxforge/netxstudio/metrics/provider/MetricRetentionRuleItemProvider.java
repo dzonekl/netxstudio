@@ -1,5 +1,5 @@
 /**
- * Copyright (c) ${date} NetXForge
+ * Copyright (c) 2011 NetXForge
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,7 +25,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -37,18 +36,17 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
-import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.metrics.MetricValueRange} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.metrics.MetricRetentionRule} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class MetricValueRangeItemProvider
+public class MetricRetentionRuleItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -62,7 +60,7 @@ public class MetricValueRangeItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MetricValueRangeItemProvider(AdapterFactory adapterFactory) {
+	public MetricRetentionRuleItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -77,10 +75,34 @@ public class MetricValueRangeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addRetentionExpressionPropertyDescriptor(object);
 			addIntervalHintPropertyDescriptor(object);
-			addKindHintPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
+			addPeriodPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Retention Expression feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRetentionExpressionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MetricRetentionRule_retentionExpression_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MetricRetentionRule_retentionExpression_feature", "_UI_MetricRetentionRule_type"),
+				 MetricsPackage.Literals.METRIC_RETENTION_RULE__RETENTION_EXPRESSION,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -94,9 +116,9 @@ public class MetricValueRangeItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_MetricValueRange_intervalHint_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MetricValueRange_intervalHint_feature", "_UI_MetricValueRange_type"),
-				 MetricsPackage.Literals.METRIC_VALUE_RANGE__INTERVAL_HINT,
+				 getString("_UI_MetricRetentionRule_intervalHint_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MetricRetentionRule_intervalHint_feature", "_UI_MetricRetentionRule_type"),
+				 MetricsPackage.Literals.METRIC_RETENTION_RULE__INTERVAL_HINT,
 				 true,
 				 false,
 				 false,
@@ -106,19 +128,19 @@ public class MetricValueRangeItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Kind Hint feature.
+	 * This adds a property descriptor for the Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addKindHintPropertyDescriptor(Object object) {
+	protected void addNamePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_MetricValueRange_kindHint_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MetricValueRange_kindHint_feature", "_UI_MetricValueRange_type"),
-				 MetricsPackage.Literals.METRIC_VALUE_RANGE__KIND_HINT,
+				 getString("_UI_MetricRetentionRule_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MetricRetentionRule_name_feature", "_UI_MetricRetentionRule_type"),
+				 MetricsPackage.Literals.METRIC_RETENTION_RULE__NAME,
 				 true,
 				 false,
 				 false,
@@ -128,44 +150,36 @@ public class MetricValueRangeItemProvider
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * This adds a property descriptor for the Period feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES);
-		}
-		return childrenFeatures;
+	protected void addPeriodPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MetricRetentionRule_period_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MetricRetentionRule_period_feature", "_UI_MetricRetentionRule_type"),
+				 MetricsPackage.Literals.METRIC_RETENTION_RULE__PERIOD,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-
-		return super.getChildFeature(object, child);
-	}
-
-	/**
-	 * This returns MetricValueRange.gif.
+	 * This returns MetricRetentionRule.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/MetricValueRange"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/MetricRetentionRule"));
 	}
 
 	/**
@@ -176,8 +190,10 @@ public class MetricValueRangeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		MetricValueRange metricValueRange = (MetricValueRange)object;
-		return getString("_UI_MetricValueRange_type") + " " + metricValueRange.getIntervalHint();
+		String label = ((MetricRetentionRule)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_MetricRetentionRule_type") :
+			getString("_UI_MetricRetentionRule_type") + " " + label;
 	}
 
 	/**
@@ -191,13 +207,11 @@ public class MetricValueRangeItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(MetricValueRange.class)) {
-			case MetricsPackage.METRIC_VALUE_RANGE__INTERVAL_HINT:
-			case MetricsPackage.METRIC_VALUE_RANGE__KIND_HINT:
+		switch (notification.getFeatureID(MetricRetentionRule.class)) {
+			case MetricsPackage.METRIC_RETENTION_RULE__INTERVAL_HINT:
+			case MetricsPackage.METRIC_RETENTION_RULE__NAME:
+			case MetricsPackage.METRIC_RETENTION_RULE__PERIOD:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case MetricsPackage.METRIC_VALUE_RANGE__METRIC_VALUES:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -213,11 +227,6 @@ public class MetricValueRangeItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(MetricsPackage.Literals.METRIC_VALUE_RANGE__METRIC_VALUES,
-				 GenericsFactory.eINSTANCE.createValue()));
 	}
 
 	/**

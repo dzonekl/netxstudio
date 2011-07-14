@@ -26,191 +26,145 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Value Kind Type</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Metric Retention Period</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see com.netxforge.netxstudio.metrics.MetricsPackage#getValueKindType()
- * @model extendedMetaData="name='ValueKind_._type'"
+ * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetricRetentionPeriod()
+ * @model extendedMetaData="name='MetricRetentionPeriod'"
  * @generated
  */
-public enum ValueKindType implements Enumerator {
+public enum MetricRetentionPeriod implements Enumerator {
 	/**
-	 * The '<em><b>INTERVAL</b></em>' literal object.
+	 * The '<em><b>Always</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #INTERVAL_VALUE
+	 * @see #ALWAYS_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	INTERVAL(0, "INTERVAL", "INTERVAL"), /**
-	 * The '<em><b>DATE</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DATE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	DATE(1, "DATE", "DATE"), /**
-	 * The '<em><b>TIME</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #TIME_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	TIME(2, "TIME", "TIME"), /**
-	 * The '<em><b>DATETIME</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DATETIME_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	DATETIME(3, "DATETIME", "DATETIME"),
+	ALWAYS(0, "Always", "Always"),
 
 	/**
-	 * The '<em><b>NULL</b></em>' literal object.
+	 * The '<em><b>One Year</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #NULL_VALUE
+	 * @see #ONE_YEAR_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	NULL(4, "NULL", "NULL"),
+	ONE_YEAR(1, "OneYear", "One Year"),
 
 	/**
-	 * The '<em><b>METRIC</b></em>' literal object.
+	 * The '<em><b>One Month</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #METRIC_VALUE
+	 * @see #ONE_MONTH_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	METRIC(5, "METRIC", "METRIC");
+	ONE_MONTH(2, "OneMonth", "One Month"),
 
 	/**
-	 * The '<em><b>INTERVAL</b></em>' literal value.
+	 * The '<em><b>One Week</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ONE_WEEK_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	ONE_WEEK(3, "OneWeek", "One Week");
+
+	/**
+	 * The '<em><b>Always</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>INTERVAL</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Always</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #INTERVAL
-	 * @model
+	 * @see #ALWAYS
+	 * @model name="Always"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int INTERVAL_VALUE = 0;
+	public static final int ALWAYS_VALUE = 0;
 
 	/**
-	 * The '<em><b>DATE</b></em>' literal value.
+	 * The '<em><b>One Year</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>DATE</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>One Year</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #DATE
-	 * @model
+	 * @see #ONE_YEAR
+	 * @model name="OneYear" literal="One Year"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int DATE_VALUE = 1;
+	public static final int ONE_YEAR_VALUE = 1;
 
 	/**
-	 * The '<em><b>TIME</b></em>' literal value.
+	 * The '<em><b>One Month</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>TIME</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>One Month</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #TIME
-	 * @model
+	 * @see #ONE_MONTH
+	 * @model name="OneMonth" literal="One Month"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TIME_VALUE = 2;
+	public static final int ONE_MONTH_VALUE = 2;
 
 	/**
-	 * The '<em><b>DATETIME</b></em>' literal value.
+	 * The '<em><b>One Week</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>DATETIME</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>One Week</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #DATETIME
-	 * @model
+	 * @see #ONE_WEEK
+	 * @model name="OneWeek" literal="One Week"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int DATETIME_VALUE = 3;
+	public static final int ONE_WEEK_VALUE = 3;
 
 	/**
-	 * The '<em><b>NULL</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>NULL</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #NULL
-	 * @model
-	 * @generated
-	 * @ordered
-	 */
-	public static final int NULL_VALUE = 4;
-
-	/**
-	 * The '<em><b>METRIC</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>METRIC</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #METRIC
-	 * @model
-	 * @generated
-	 * @ordered
-	 */
-	public static final int METRIC_VALUE = 5;
-
-	/**
-	 * An array of all the '<em><b>Value Kind Type</b></em>' enumerators.
+	 * An array of all the '<em><b>Metric Retention Period</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final ValueKindType[] VALUES_ARRAY =
-		new ValueKindType[] {
-			INTERVAL,
-			DATE,
-			TIME,
-			DATETIME,
-			NULL,
-			METRIC,
+	private static final MetricRetentionPeriod[] VALUES_ARRAY =
+		new MetricRetentionPeriod[] {
+			ALWAYS,
+			ONE_YEAR,
+			ONE_MONTH,
+			ONE_WEEK,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Value Kind Type</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Metric Retention Period</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<ValueKindType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<MetricRetentionPeriod> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Value Kind Type</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Metric Retention Period</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ValueKindType get(String literal) {
+	public static MetricRetentionPeriod get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			ValueKindType result = VALUES_ARRAY[i];
+			MetricRetentionPeriod result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -219,14 +173,14 @@ public enum ValueKindType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Value Kind Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Metric Retention Period</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ValueKindType getByName(String name) {
+	public static MetricRetentionPeriod getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			ValueKindType result = VALUES_ARRAY[i];
+			MetricRetentionPeriod result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -235,19 +189,17 @@ public enum ValueKindType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Value Kind Type</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Metric Retention Period</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ValueKindType get(int value) {
+	public static MetricRetentionPeriod get(int value) {
 		switch (value) {
-			case INTERVAL_VALUE: return INTERVAL;
-			case DATE_VALUE: return DATE;
-			case TIME_VALUE: return TIME;
-			case DATETIME_VALUE: return DATETIME;
-			case NULL_VALUE: return NULL;
-			case METRIC_VALUE: return METRIC;
+			case ALWAYS_VALUE: return ALWAYS;
+			case ONE_YEAR_VALUE: return ONE_YEAR;
+			case ONE_MONTH_VALUE: return ONE_MONTH;
+			case ONE_WEEK_VALUE: return ONE_WEEK;
 		}
 		return null;
 	}
@@ -279,7 +231,7 @@ public enum ValueKindType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private ValueKindType(int value, String name, String literal) {
+	private MetricRetentionPeriod(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -323,4 +275,4 @@ public enum ValueKindType implements Enumerator {
 		return literal;
 	}
 	
-} //ValueKindType
+} //MetricRetentionPeriod

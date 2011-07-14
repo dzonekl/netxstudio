@@ -306,7 +306,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			List<Component> cl = Lists.newArrayList();
 			cl.addAll(node.getNodeType().getEquipments());
 			cl.addAll(node.getNodeType().getFunctions());
-			List<NetXResource> allResources = modelUtils.resourcesWithName(cl,
+			List<NetXResource> allResources = modelUtils.resourcesWithExpressionName(cl,
 					".*"); // All resources.
 			for (NetXResource r : allResources) {
 				contextList.clear();
@@ -344,7 +344,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			List<Component> cl = Lists.newArrayList();
 			cl.addAll(node.getNodeType().getEquipments());
 			cl.addAll(node.getNodeType().getFunctions());
-			List<NetXResource> allResources = modelUtils.resourcesWithName(cl,
+			List<NetXResource> allResources = modelUtils.resourcesWithExpressionName(cl,
 					".*"); // All resources.
 			for (NetXResource r : allResources) {
 				contextList.clear();

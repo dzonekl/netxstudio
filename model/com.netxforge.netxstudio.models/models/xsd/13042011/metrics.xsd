@@ -7,11 +7,8 @@
 	ecore:package="com.netxforge.netxstudio.metrics">
 	<xs:import schemaLocation="generics.xsd"
 		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
-	<xs:import schemaLocation="operators.xsd"
-		namespace="http://www.netxforge.com/13042011/operators"></xs:import>
-	<xs:import namespace="http://www.netxforge.com/13042011/library"
-		schemaLocation="library.xsd" />
-
+	<xs:import schemaLocation="library.xsd"
+		namespace="http://www.netxforge.com/13042011/library"></xs:import>
 	<!--_____________________________ -->
 	<!--| METRIC | -->
 	<!--|___________________________| -->
@@ -198,10 +195,10 @@
 						maxOccurs="unbounded" minOccurs="0">
 					</xs:element>
 				</xs:sequence>
-				<xs:attribute name="PeriodHint" type="xs:int">
+				<xs:attribute name="IntervalHint" type="xs:int">
 					<xs:annotation>
-						<xs:documentation>The PeriodHint attribute, holds a hint for the
-							metric period between each metric value in minutes.
+						<xs:documentation>The IntervalHint attribute, holds a hint for the
+							metric interval between each metric value in minutes.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -479,7 +476,7 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="PERIOD"></xs:enumeration>
+							<xs:enumeration value="INTERVAL"></xs:enumeration>
 							<xs:enumeration value="DATE"></xs:enumeration>
 							<xs:enumeration value="TIME"></xs:enumeration>
 							<xs:enumeration value="DATETIME"></xs:enumeration>
@@ -585,6 +582,67 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
+
+	<!--_______________________ -->
+	<!-- METRICRETENTIONRULES -->
+	<!--_______________________ -->
+	<xs:complexType name="MetricRetentionRules">
+		<xs:annotation>
+			<xs:documentation>The metric retention rules. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element  name="MetricRetentionRules" type="MetricRetentionRule" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- METRICRETENTIONRULE -->
+	<!--_______________________ -->
+	<xs:complexType name="MetricRetentionRule">
+		<xs:annotation>
+			<xs:documentation>A type with settings on retention of metric values
+			corresponding to the metric value range intervalhint.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element  ecore:reference="library:Expression" name="RetentionExpression" type="xs:anyURI"
+				minOccurs="0" maxOccurs="1">
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Name" type="gen:Name255">
+			<xs:annotation>
+				<xs:documentation>The name of this retention rule.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="Period" type="MetricRetentionPeriod">
+			<xs:annotation>
+				<xs:documentation>The Metric retention period.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="IntervalHint" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>The IntervalHint attribute, holds a hint for the
+					metric interval between each metric value in minutes.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<!--_______________________ -->
+	<!-- METRICRETENTIONPERIOD -->
+	<!--_______________________ -->
+	<xs:simpleType  name="MetricRetentionPeriod">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Always"/>
+			<xs:enumeration value="One Year"/>
+			<xs:enumeration value="One Month"/>
+			<xs:enumeration value="One Week"/>
+		</xs:restriction>
+	</xs:simpleType>
 
 	<!--_______________________ -->
 	<!-- METRICVALUERANGE -->

@@ -47,6 +47,9 @@ import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MappingXLS;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
+import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -145,6 +148,20 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass metricRetentionRuleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass metricRetentionRulesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass metricSourceEClass = null;
 
 	/**
@@ -180,6 +197,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EEnum metricRetentionPeriodEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum objectKindTypeEEnum = null;
 
 	/**
@@ -202,6 +226,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * @generated
 	 */
 	private EDataType kindHintTypeObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType metricRetentionPeriodObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -402,7 +433,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMapping_PeriodHint() {
+	public EAttribute getMapping_IntervalHint() {
 		return (EAttribute)mappingEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -708,6 +739,69 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getMetricRetentionRule() {
+		return metricRetentionRuleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMetricRetentionRule_RetentionExpression() {
+		return (EReference)metricRetentionRuleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMetricRetentionRule_IntervalHint() {
+		return (EAttribute)metricRetentionRuleEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMetricRetentionRule_Name() {
+		return (EAttribute)metricRetentionRuleEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMetricRetentionRule_Period() {
+		return (EAttribute)metricRetentionRuleEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMetricRetentionRules() {
+		return metricRetentionRulesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMetricRetentionRules_MetricRetentionRules() {
+		return (EReference)metricRetentionRulesEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getMetricSource() {
 		return metricSourceEClass;
 	}
@@ -852,6 +946,15 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getMetricRetentionPeriod() {
+		return metricRetentionPeriodEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getObjectKindType() {
 		return objectKindTypeEEnum;
 	}
@@ -881,6 +984,15 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 */
 	public EDataType getKindHintTypeObject() {
 		return kindHintTypeObjectEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getMetricRetentionPeriodObject() {
+		return metricRetentionPeriodObjectEDataType;
 	}
 
 	/**
@@ -941,7 +1053,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		createEReference(mappingEClass, MAPPING__MAPPING_COLUMNS);
 		createEAttribute(mappingEClass, MAPPING__FIRST_DATA_ROW);
 		createEAttribute(mappingEClass, MAPPING__HEADER_ROW);
-		createEAttribute(mappingEClass, MAPPING__PERIOD_HINT);
+		createEAttribute(mappingEClass, MAPPING__INTERVAL_HINT);
 
 		mappingColumnEClass = createEClass(MAPPING_COLUMN);
 		createEReference(mappingColumnEClass, MAPPING_COLUMN__DATA_TYPE);
@@ -983,6 +1095,15 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		createEAttribute(metricEClass, METRIC__NAME);
 		createEReference(metricEClass, METRIC__UNIT_REF);
 
+		metricRetentionRuleEClass = createEClass(METRIC_RETENTION_RULE);
+		createEReference(metricRetentionRuleEClass, METRIC_RETENTION_RULE__RETENTION_EXPRESSION);
+		createEAttribute(metricRetentionRuleEClass, METRIC_RETENTION_RULE__INTERVAL_HINT);
+		createEAttribute(metricRetentionRuleEClass, METRIC_RETENTION_RULE__NAME);
+		createEAttribute(metricRetentionRuleEClass, METRIC_RETENTION_RULE__PERIOD);
+
+		metricRetentionRulesEClass = createEClass(METRIC_RETENTION_RULES);
+		createEReference(metricRetentionRulesEClass, METRIC_RETENTION_RULES__METRIC_RETENTION_RULES);
+
 		metricSourceEClass = createEClass(METRIC_SOURCE);
 		createEReference(metricSourceEClass, METRIC_SOURCE__METRIC_MAPPING);
 		createEReference(metricSourceEClass, METRIC_SOURCE__STATISTICS);
@@ -1003,12 +1124,14 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		// Create enums
 		databaseTypeTypeEEnum = createEEnum(DATABASE_TYPE_TYPE);
 		kindHintTypeEEnum = createEEnum(KIND_HINT_TYPE);
+		metricRetentionPeriodEEnum = createEEnum(METRIC_RETENTION_PERIOD);
 		objectKindTypeEEnum = createEEnum(OBJECT_KIND_TYPE);
 		valueKindTypeEEnum = createEEnum(VALUE_KIND_TYPE);
 
 		// Create data types
 		databaseTypeTypeObjectEDataType = createEDataType(DATABASE_TYPE_TYPE_OBJECT);
 		kindHintTypeObjectEDataType = createEDataType(KIND_HINT_TYPE_OBJECT);
+		metricRetentionPeriodObjectEDataType = createEDataType(METRIC_RETENTION_PERIOD_OBJECT);
 		objectKindTypeObjectEDataType = createEDataType(OBJECT_KIND_TYPE_OBJECT);
 		valueKindTypeObjectEDataType = createEDataType(VALUE_KIND_TYPE_OBJECT);
 	}
@@ -1071,7 +1194,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEReference(getMapping_MappingColumns(), this.getMappingColumn(), null, "mappingColumns", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMapping_FirstDataRow(), theXMLTypePackage.getInt(), "firstDataRow", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMapping_HeaderRow(), theXMLTypePackage.getInt(), "headerRow", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMapping_PeriodHint(), theXMLTypePackage.getInt(), "periodHint", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMapping_IntervalHint(), theXMLTypePackage.getInt(), "intervalHint", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mappingColumnEClass, MappingColumn.class, "MappingColumn", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMappingColumn_DataType(), this.getDataKind(), null, "dataType", null, 0, 1, MappingColumn.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1113,6 +1236,15 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEAttribute(getMetric_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMetric_UnitRef(), theLibraryPackage.getUnit(), null, "unitRef", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(metricRetentionRuleEClass, MetricRetentionRule.class, "MetricRetentionRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMetricRetentionRule_RetentionExpression(), theLibraryPackage.getExpression(), null, "retentionExpression", null, 0, 1, MetricRetentionRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMetricRetentionRule_IntervalHint(), theXMLTypePackage.getInt(), "intervalHint", null, 0, 1, MetricRetentionRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMetricRetentionRule_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, MetricRetentionRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMetricRetentionRule_Period(), this.getMetricRetentionPeriod(), "period", null, 0, 1, MetricRetentionRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(metricRetentionRulesEClass, MetricRetentionRules.class, "MetricRetentionRules", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMetricRetentionRules_MetricRetentionRules(), this.getMetricRetentionRule(), null, "metricRetentionRules", null, 0, -1, MetricRetentionRules.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(metricSourceEClass, MetricSource.class, "MetricSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricSource_MetricMapping(), this.getMapping(), null, "metricMapping", null, 0, 1, MetricSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMetricSource_Statistics(), this.getMappingStatistic(), null, "statistics", null, 0, -1, MetricSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1139,6 +1271,12 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		addEEnumLiteral(kindHintTypeEEnum, KindHintType.BH);
 		addEEnumLiteral(kindHintTypeEEnum, KindHintType.AVG);
 
+		initEEnum(metricRetentionPeriodEEnum, MetricRetentionPeriod.class, "MetricRetentionPeriod");
+		addEEnumLiteral(metricRetentionPeriodEEnum, MetricRetentionPeriod.ALWAYS);
+		addEEnumLiteral(metricRetentionPeriodEEnum, MetricRetentionPeriod.ONE_YEAR);
+		addEEnumLiteral(metricRetentionPeriodEEnum, MetricRetentionPeriod.ONE_MONTH);
+		addEEnumLiteral(metricRetentionPeriodEEnum, MetricRetentionPeriod.ONE_WEEK);
+
 		initEEnum(objectKindTypeEEnum, ObjectKindType.class, "ObjectKindType");
 		addEEnumLiteral(objectKindTypeEEnum, ObjectKindType.NODE);
 		addEEnumLiteral(objectKindTypeEEnum, ObjectKindType.EQUIPMENT);
@@ -1146,7 +1284,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		addEEnumLiteral(objectKindTypeEEnum, ObjectKindType.RELATIONSHIP);
 
 		initEEnum(valueKindTypeEEnum, ValueKindType.class, "ValueKindType");
-		addEEnumLiteral(valueKindTypeEEnum, ValueKindType.PERIOD);
+		addEEnumLiteral(valueKindTypeEEnum, ValueKindType.INTERVAL);
 		addEEnumLiteral(valueKindTypeEEnum, ValueKindType.DATE);
 		addEEnumLiteral(valueKindTypeEEnum, ValueKindType.TIME);
 		addEEnumLiteral(valueKindTypeEEnum, ValueKindType.DATETIME);
@@ -1156,6 +1294,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		// Initialize data types
 		initEDataType(databaseTypeTypeObjectEDataType, DatabaseTypeType.class, "DatabaseTypeTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(kindHintTypeObjectEDataType, KindHintType.class, "KindHintTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(metricRetentionPeriodObjectEDataType, MetricRetentionPeriod.class, "MetricRetentionPeriodObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(objectKindTypeObjectEDataType, ObjectKindType.class, "ObjectKindTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(valueKindTypeObjectEDataType, ValueKindType.class, "ValueKindTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1184,7 +1323,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																																							
+		   });																																																																																																																																					
 	}
 
 	/**
@@ -1292,11 +1431,11 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "name", "HeaderRow"
 		   });			
 		addAnnotation
-		  (getMapping_PeriodHint(), 
+		  (getMapping_IntervalHint(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
-			 "name", "PeriodHint"
+			 "name", "IntervalHint"
 		   });		
 		addAnnotation
 		  (mappingColumnEClass, 
@@ -1528,6 +1667,68 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "UnitRef"
+		   });		
+		addAnnotation
+		  (metricRetentionPeriodEEnum, 
+		   source, 
+		   new String[] {
+			 "name", "MetricRetentionPeriod"
+		   });		
+		addAnnotation
+		  (metricRetentionPeriodObjectEDataType, 
+		   source, 
+		   new String[] {
+			 "name", "MetricRetentionPeriod:Object",
+			 "baseType", "MetricRetentionPeriod"
+		   });			
+		addAnnotation
+		  (metricRetentionRuleEClass, 
+		   source, 
+		   new String[] {
+			 "name", "MetricRetentionRule",
+			 "kind", "elementOnly"
+		   });		
+		addAnnotation
+		  (getMetricRetentionRule_RetentionExpression(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "RetentionExpression"
+		   });			
+		addAnnotation
+		  (getMetricRetentionRule_IntervalHint(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "IntervalHint"
+		   });			
+		addAnnotation
+		  (getMetricRetentionRule_Name(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Name"
+		   });			
+		addAnnotation
+		  (getMetricRetentionRule_Period(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Period"
+		   });			
+		addAnnotation
+		  (metricRetentionRulesEClass, 
+		   source, 
+		   new String[] {
+			 "name", "MetricRetentionRules",
+			 "kind", "elementOnly"
+		   });		
+		addAnnotation
+		  (getMetricRetentionRules_MetricRetentionRules(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "MetricRetentionRules"
 		   });			
 		addAnnotation
 		  (metricSourceEClass, 

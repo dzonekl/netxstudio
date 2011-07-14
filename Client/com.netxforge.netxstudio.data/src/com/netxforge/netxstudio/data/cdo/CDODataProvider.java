@@ -61,7 +61,7 @@ public abstract class CDODataProvider implements IDataProvider {
 	private ICDOConnection connection;
 	private boolean doGetResourceFromOwnTransaction = true;
 	
-	private static final int COMMIT_TIMEOUT = 500; // seconds. 
+	public static final int COMMIT_TIMEOUT = 500; // seconds. 
 
 	@Inject
 	public CDODataProvider(ICDOConnection conn) {

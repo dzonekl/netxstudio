@@ -66,6 +66,8 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * 
  * 		
  * 
+ * 		
+ * 
  * 
  * 			Network Data schema Copyright 2008 The schema uses
  * 			ecore
@@ -89,8 +91,6 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * 			Validation with pattern is not used, considering the limited
  * 			capabilities of
  * 			XSD patterns.
- * 
- * 		
  * 
  * 		
  * 
@@ -255,13 +255,13 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING__HEADER_ROW = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
+	 * The feature id for the '<em><b>Interval Hint</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING__PERIOD_HINT = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int MAPPING__INTERVAL_HINT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Mapping</em>' class.
@@ -374,13 +374,13 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_CSV__HEADER_ROW = MAPPING__HEADER_ROW;
 
 	/**
-	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
+	 * The feature id for the '<em><b>Interval Hint</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_CSV__PERIOD_HINT = MAPPING__PERIOD_HINT;
+	int MAPPING_CSV__INTERVAL_HINT = MAPPING__INTERVAL_HINT;
 
 	/**
 	 * The feature id for the '<em><b>Delimiter</b></em>' attribute.
@@ -456,13 +456,13 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_RDBMS__HEADER_ROW = MAPPING__HEADER_ROW;
 
 	/**
-	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
+	 * The feature id for the '<em><b>Interval Hint</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RDBMS__PERIOD_HINT = MAPPING__PERIOD_HINT;
+	int MAPPING_RDBMS__INTERVAL_HINT = MAPPING__INTERVAL_HINT;
 
 	/**
 	 * The feature id for the '<em><b>Database Type</b></em>' attribute.
@@ -711,13 +711,13 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_XLS__HEADER_ROW = MAPPING__HEADER_ROW;
 
 	/**
-	 * The feature id for the '<em><b>Period Hint</b></em>' attribute.
+	 * The feature id for the '<em><b>Interval Hint</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS__PERIOD_HINT = MAPPING__PERIOD_HINT;
+	int MAPPING_XLS__INTERVAL_HINT = MAPPING__INTERVAL_HINT;
 
 	/**
 	 * The feature id for the '<em><b>Sheet Number</b></em>' attribute.
@@ -838,6 +838,89 @@ public interface MetricsPackage extends EPackage {
 	int METRIC_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 8;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricRetentionRuleImpl <em>Metric Retention Rule</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricRetentionRuleImpl
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricRetentionRule()
+	 * @generated
+	 */
+	int METRIC_RETENTION_RULE = 10;
+
+	/**
+	 * The feature id for the '<em><b>Retention Expression</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_RETENTION_RULE__RETENTION_EXPRESSION = 0;
+
+	/**
+	 * The feature id for the '<em><b>Interval Hint</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_RETENTION_RULE__INTERVAL_HINT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_RETENTION_RULE__NAME = 2;
+
+	/**
+	 * The feature id for the '<em><b>Period</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_RETENTION_RULE__PERIOD = 3;
+
+	/**
+	 * The number of structural features of the '<em>Metric Retention Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_RETENTION_RULE_FEATURE_COUNT = 4;
+
+	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricRetentionRulesImpl <em>Metric Retention Rules</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricRetentionRulesImpl
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricRetentionRules()
+	 * @generated
+	 */
+	int METRIC_RETENTION_RULES = 11;
+
+	/**
+	 * The feature id for the '<em><b>Metric Retention Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_RETENTION_RULES__METRIC_RETENTION_RULES = 0;
+
+	/**
+	 * The number of structural features of the '<em>Metric Retention Rules</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_RETENTION_RULES_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl <em>Metric Source</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -845,7 +928,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricSource()
 	 * @generated
 	 */
-	int METRIC_SOURCE = 10;
+	int METRIC_SOURCE = 12;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -909,7 +992,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricValueRange()
 	 * @generated
 	 */
-	int METRIC_VALUE_RANGE = 11;
+	int METRIC_VALUE_RANGE = 13;
 
 	/**
 	 * The feature id for the '<em><b>Metric Values</b></em>' containment reference list.
@@ -955,7 +1038,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getValueDataKind()
 	 * @generated
 	 */
-	int VALUE_DATA_KIND = 12;
+	int VALUE_DATA_KIND = 14;
 
 	/**
 	 * The feature id for the '<em><b>Metric Ref</b></em>' reference.
@@ -1010,7 +1093,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getDatabaseTypeType()
 	 * @generated
 	 */
-	int DATABASE_TYPE_TYPE = 13;
+	int DATABASE_TYPE_TYPE = 15;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.KindHintType <em>Kind Hint Type</em>}' enum.
@@ -1020,7 +1103,17 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getKindHintType()
 	 * @generated
 	 */
-	int KIND_HINT_TYPE = 14;
+	int KIND_HINT_TYPE = 16;
+
+	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.MetricRetentionPeriod <em>Metric Retention Period</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionPeriod
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricRetentionPeriod()
+	 * @generated
+	 */
+	int METRIC_RETENTION_PERIOD = 17;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.ObjectKindType <em>Object Kind Type</em>}' enum.
@@ -1030,7 +1123,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectKindType()
 	 * @generated
 	 */
-	int OBJECT_KIND_TYPE = 15;
+	int OBJECT_KIND_TYPE = 18;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.ValueKindType <em>Value Kind Type</em>}' enum.
@@ -1040,7 +1133,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getValueKindType()
 	 * @generated
 	 */
-	int VALUE_KIND_TYPE = 16;
+	int VALUE_KIND_TYPE = 19;
 
 	/**
 	 * The meta object id for the '<em>Database Type Type Object</em>' data type.
@@ -1050,7 +1143,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getDatabaseTypeTypeObject()
 	 * @generated
 	 */
-	int DATABASE_TYPE_TYPE_OBJECT = 17;
+	int DATABASE_TYPE_TYPE_OBJECT = 20;
 
 	/**
 	 * The meta object id for the '<em>Kind Hint Type Object</em>' data type.
@@ -1060,7 +1153,17 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getKindHintTypeObject()
 	 * @generated
 	 */
-	int KIND_HINT_TYPE_OBJECT = 18;
+	int KIND_HINT_TYPE_OBJECT = 21;
+
+	/**
+	 * The meta object id for the '<em>Metric Retention Period Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionPeriod
+	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricRetentionPeriodObject()
+	 * @generated
+	 */
+	int METRIC_RETENTION_PERIOD_OBJECT = 22;
 
 	/**
 	 * The meta object id for the '<em>Object Kind Type Object</em>' data type.
@@ -1070,7 +1173,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getObjectKindTypeObject()
 	 * @generated
 	 */
-	int OBJECT_KIND_TYPE_OBJECT = 19;
+	int OBJECT_KIND_TYPE_OBJECT = 23;
 
 	/**
 	 * The meta object id for the '<em>Value Kind Type Object</em>' data type.
@@ -1080,7 +1183,7 @@ public interface MetricsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getValueKindTypeObject()
 	 * @generated
 	 */
-	int VALUE_KIND_TYPE_OBJECT = 20;
+	int VALUE_KIND_TYPE_OBJECT = 24;
 
 
 	/**
@@ -1191,15 +1294,15 @@ public interface MetricsPackage extends EPackage {
 	EAttribute getMapping_HeaderRow();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.Mapping#getPeriodHint <em>Period Hint</em>}'.
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.Mapping#getIntervalHint <em>Interval Hint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Period Hint</em>'.
-	 * @see com.netxforge.netxstudio.metrics.Mapping#getPeriodHint()
+	 * @return the meta object for the attribute '<em>Interval Hint</em>'.
+	 * @see com.netxforge.netxstudio.metrics.Mapping#getIntervalHint()
 	 * @see #getMapping()
 	 * @generated
 	 */
-	EAttribute getMapping_PeriodHint();
+	EAttribute getMapping_IntervalHint();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MappingColumn <em>Mapping Column</em>}'.
@@ -1558,6 +1661,81 @@ public interface MetricsPackage extends EPackage {
 	EReference getMetric_UnitRef();
 
 	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MetricRetentionRule <em>Metric Retention Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Metric Retention Rule</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionRule
+	 * @generated
+	 */
+	EClass getMetricRetentionRule();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.metrics.MetricRetentionRule#getRetentionExpression <em>Retention Expression</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Retention Expression</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionRule#getRetentionExpression()
+	 * @see #getMetricRetentionRule()
+	 * @generated
+	 */
+	EReference getMetricRetentionRule_RetentionExpression();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MetricRetentionRule#getIntervalHint <em>Interval Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Interval Hint</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionRule#getIntervalHint()
+	 * @see #getMetricRetentionRule()
+	 * @generated
+	 */
+	EAttribute getMetricRetentionRule_IntervalHint();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MetricRetentionRule#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionRule#getName()
+	 * @see #getMetricRetentionRule()
+	 * @generated
+	 */
+	EAttribute getMetricRetentionRule_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MetricRetentionRule#getPeriod <em>Period</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Period</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionRule#getPeriod()
+	 * @see #getMetricRetentionRule()
+	 * @generated
+	 */
+	EAttribute getMetricRetentionRule_Period();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MetricRetentionRules <em>Metric Retention Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Metric Retention Rules</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionRules
+	 * @generated
+	 */
+	EClass getMetricRetentionRules();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.metrics.MetricRetentionRules#getMetricRetentionRules <em>Metric Retention Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Metric Retention Rules</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionRules#getMetricRetentionRules()
+	 * @see #getMetricRetentionRules()
+	 * @generated
+	 */
+	EReference getMetricRetentionRules_MetricRetentionRules();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.metrics.MetricSource <em>Metric Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1729,6 +1907,16 @@ public interface MetricsPackage extends EPackage {
 	EEnum getKindHintType();
 
 	/**
+	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.metrics.MetricRetentionPeriod <em>Metric Retention Period</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Metric Retention Period</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionPeriod
+	 * @generated
+	 */
+	EEnum getMetricRetentionPeriod();
+
+	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.metrics.ObjectKindType <em>Object Kind Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1771,6 +1959,18 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getKindHintTypeObject();
+
+	/**
+	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.metrics.MetricRetentionPeriod <em>Metric Retention Period Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Metric Retention Period Object</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricRetentionPeriod
+	 * @model instanceClass="com.netxforge.netxstudio.metrics.MetricRetentionPeriod"
+	 *        extendedMetaData="name='MetricRetentionPeriod:Object' baseType='MetricRetentionPeriod'"
+	 * @generated
+	 */
+	EDataType getMetricRetentionPeriodObject();
 
 	/**
 	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.metrics.ObjectKindType <em>Object Kind Type Object</em>}'.
@@ -1905,12 +2105,12 @@ public interface MetricsPackage extends EPackage {
 		EAttribute MAPPING__HEADER_ROW = eINSTANCE.getMapping_HeaderRow();
 
 		/**
-		 * The meta object literal for the '<em><b>Period Hint</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Interval Hint</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MAPPING__PERIOD_HINT = eINSTANCE.getMapping_PeriodHint();
+		EAttribute MAPPING__INTERVAL_HINT = eINSTANCE.getMapping_IntervalHint();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MappingColumnImpl <em>Mapping Column</em>}' class.
@@ -2191,6 +2391,66 @@ public interface MetricsPackage extends EPackage {
 		EReference METRIC__UNIT_REF = eINSTANCE.getMetric_UnitRef();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MetricRetentionRuleImpl <em>Metric Retention Rule</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricRetentionRuleImpl
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricRetentionRule()
+		 * @generated
+		 */
+		EClass METRIC_RETENTION_RULE = eINSTANCE.getMetricRetentionRule();
+
+		/**
+		 * The meta object literal for the '<em><b>Retention Expression</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference METRIC_RETENTION_RULE__RETENTION_EXPRESSION = eINSTANCE.getMetricRetentionRule_RetentionExpression();
+
+		/**
+		 * The meta object literal for the '<em><b>Interval Hint</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METRIC_RETENTION_RULE__INTERVAL_HINT = eINSTANCE.getMetricRetentionRule_IntervalHint();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METRIC_RETENTION_RULE__NAME = eINSTANCE.getMetricRetentionRule_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Period</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METRIC_RETENTION_RULE__PERIOD = eINSTANCE.getMetricRetentionRule_Period();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MetricRetentionRulesImpl <em>Metric Retention Rules</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricRetentionRulesImpl
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricRetentionRules()
+		 * @generated
+		 */
+		EClass METRIC_RETENTION_RULES = eINSTANCE.getMetricRetentionRules();
+
+		/**
+		 * The meta object literal for the '<em><b>Metric Retention Rules</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference METRIC_RETENTION_RULES__METRIC_RETENTION_RULES = eINSTANCE.getMetricRetentionRules_MetricRetentionRules();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl <em>Metric Source</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2329,6 +2589,16 @@ public interface MetricsPackage extends EPackage {
 		EEnum KIND_HINT_TYPE = eINSTANCE.getKindHintType();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.MetricRetentionPeriod <em>Metric Retention Period</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.metrics.MetricRetentionPeriod
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricRetentionPeriod()
+		 * @generated
+		 */
+		EEnum METRIC_RETENTION_PERIOD = eINSTANCE.getMetricRetentionPeriod();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.metrics.ObjectKindType <em>Object Kind Type</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2367,6 +2637,16 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType KIND_HINT_TYPE_OBJECT = eINSTANCE.getKindHintTypeObject();
+
+		/**
+		 * The meta object literal for the '<em>Metric Retention Period Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.metrics.MetricRetentionPeriod
+		 * @see com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl#getMetricRetentionPeriodObject()
+		 * @generated
+		 */
+		EDataType METRIC_RETENTION_PERIOD_OBJECT = eINSTANCE.getMetricRetentionPeriodObject();
 
 		/**
 		 * The meta object literal for the '<em>Object Kind Type Object</em>' data type.

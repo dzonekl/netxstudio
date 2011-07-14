@@ -4,7 +4,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metrics"
     nsURI="http://www.netxforge.com/13042011/metrics" nsPrefix="metrics">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-    <details key="documentation" value="&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited&#xA;&#x9;&#x9;&#x9;capabilities of&#xA;&#x9;&#x9;&#x9;XSD patterns.&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited&#xA;&#x9;&#x9;&#x9;capabilities of&#xA;&#x9;&#x9;&#x9;XSD patterns.&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;"/>
+    <details key="documentation" value="&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited&#xA;&#x9;&#x9;&#x9;capabilities of&#xA;&#x9;&#x9;&#x9;XSD patterns.&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;Network Data schema Copyright 2008 The schema uses&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references syntax, but should easily map into an SQL schema.&#xA;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;ecore&#xA;&#x9;&#x9;&#x9;references, are mapped into ORM specific DLL (See&#xA;&#x9;&#x9;&#x9;Hibernate or&#xA;&#x9;&#x9;&#x9;other&#xA;&#x9;&#x9;&#x9;ORM. EMF/Hibernate&#xA;&#x9;&#x9;&#x9;however uses a custom mechanism.&#xA;&#xA;&#x9;&#x9;&#x9;Don't use&#xA;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;word&#xA;&#x9;&#x9;&#x9;&quot;Item&quot;, as this is appended to the Object&#xA;&#x9;&#x9;&#x9;name in the EMF&#xA;&#x9;&#x9;&#x9;edit&#xA;&#x9;&#x9;&#x9;model.&#xA;&#xA;&#x9;&#x9;&#x9;Validation with pattern is not used, considering the limited&#xA;&#x9;&#x9;&#x9;capabilities of&#xA;&#x9;&#x9;&#x9;XSD patterns.&#xA;&#xA;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;"/>
   </eAnnotations>
   <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
     <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL&#xA;http://www.eclipse.org/emf/2002/Ecore/OCL&#xA;http://www.eclipse.org/emf/2002/Ecore/OCL"/>
@@ -128,14 +128,14 @@
         <details key="name" value="HeaderRow"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="periodHint" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="intervalHint" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The PeriodHint attribute, holds a hint for the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;metric period between each metric value in minutes.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The IntervalHint attribute, holds a hint for the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;metric interval between each metric value in minutes.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
-        <details key="name" value="PeriodHint"/>
+        <details key="name" value="IntervalHint"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -438,6 +438,81 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MetricRetentionPeriod">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="MetricRetentionPeriod"/>
+    </eAnnotations>
+    <eLiterals name="Always"/>
+    <eLiterals name="OneYear" value="1" literal="One Year"/>
+    <eLiterals name="OneMonth" value="2" literal="One Month"/>
+    <eLiterals name="OneWeek" value="3" literal="One Week"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="MetricRetentionPeriodObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="MetricRetentionPeriod:Object"/>
+      <details key="baseType" value="MetricRetentionPeriod"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MetricRetentionRule">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A type with settings on retention of metric values&#xA;&#x9;&#x9;&#x9;corresponding to the metric value range intervalhint.&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="MetricRetentionRule"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="retentionExpression" eType="ecore:EClass library.ecore#//Expression">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="RetentionExpression"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="intervalHint" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The IntervalHint attribute, holds a hint for the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;metric interval between each metric value in minutes.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="IntervalHint"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType generics.ecore#//Name255">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The name of this retention rule.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="Name"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="#//MetricRetentionPeriod"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The Metric retention period.&#xA;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="Period"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MetricRetentionRules">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The metric retention rules. &#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="MetricRetentionRules"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="metricRetentionRules" upperBound="-1"
+        eType="#//MetricRetentionRule" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="MetricRetentionRules"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MetricSource" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A type representing the information points of a&#xA;&#x9;&#x9;&#x9;&#x9;source which provides metric values.&#xA;&#x9;&#x9;&#x9;&#x9;A source, is an external data&#xA;&#x9;&#x9;&#x9;&#x9;source like an RDBMS or an Excel or CSV&#xA;&#x9;&#x9;&#x9;&#x9;file. The MetricSource type&#xA;&#x9;&#x9;&#x9;&#x9;will contain all necessary&#xA;&#x9;&#x9;&#x9;&#x9;to access, and map the metric values of&#xA;&#x9;&#x9;&#x9;&#x9;the source to the correct&#xA;&#x9;&#x9;&#x9;&#x9;Object. (Most commonly a Node).&#xA;&#xA;&#x9;&#x9;&#x9;"/>
@@ -584,7 +659,7 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ValueKind_._type"/>
     </eAnnotations>
-    <eLiterals name="PERIOD"/>
+    <eLiterals name="INTERVAL"/>
     <eLiterals name="DATE" value="1"/>
     <eLiterals name="TIME" value="2"/>
     <eLiterals name="DATETIME" value="3"/>

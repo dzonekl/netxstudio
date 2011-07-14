@@ -16,34 +16,36 @@
  * Contributors:
  * Christophe Bouhier - initial API and implementation and/or initial documentation
  */
-package com.netxforge.netxstudio.scheduling.impl;
+package com.netxforge.netxstudio.metrics.impl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
-import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
+import com.netxforge.netxstudio.metrics.MetricRetentionRules;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>RFS Service Retention Job</b></em>'.
+ * An implementation of the model object '<em><b>Metric Retention Rules</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceRetentionJobImpl#getRFSService <em>RFS Service</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricRetentionRulesImpl#getMetricRetentionRules <em>Metric Retention Rules</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class RFSServiceRetentionJobImpl extends JobImpl implements RFSServiceRetentionJob {
+public class MetricRetentionRulesImpl extends CDOObjectImpl implements MetricRetentionRules {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RFSServiceRetentionJobImpl() {
+	protected MetricRetentionRulesImpl() {
 		super();
 	}
 
@@ -54,7 +56,7 @@ public class RFSServiceRetentionJobImpl extends JobImpl implements RFSServiceRet
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SchedulingPackage.Literals.RFS_SERVICE_RETENTION_JOB;
+		return MetricsPackage.Literals.METRIC_RETENTION_RULES;
 	}
 
 	/**
@@ -62,8 +64,9 @@ public class RFSServiceRetentionJobImpl extends JobImpl implements RFSServiceRet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RFSService getRFSService() {
-		return (RFSService)eGet(SchedulingPackage.Literals.RFS_SERVICE_RETENTION_JOB__RFS_SERVICE, true);
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -71,8 +74,9 @@ public class RFSServiceRetentionJobImpl extends JobImpl implements RFSServiceRet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRFSService(RFSService newRFSService) {
-		eSet(SchedulingPackage.Literals.RFS_SERVICE_RETENTION_JOB__RFS_SERVICE, newRFSService);
+	@SuppressWarnings("unchecked")
+	public EList<MetricRetentionRule> getMetricRetentionRules() {
+		return (EList<MetricRetentionRule>)eGet(MetricsPackage.Literals.METRIC_RETENTION_RULES__METRIC_RETENTION_RULES, true);
 	}
 
-} //RFSServiceRetentionJobImpl
+} //MetricRetentionRulesImpl

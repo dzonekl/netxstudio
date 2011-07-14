@@ -15,10 +15,8 @@
 	<xs:import namespace="http://www.netxforge.com/13042011/metrics"
 		schemaLocation="metrics.xsd" />
 	<xs:import schemaLocation="services.xsd"
-		namespace="http://www.netxforge.com/13042011/services">
-		<xs:annotation>
-			<xs:documentation>TODO, SEE if BPMN2 can offer a scheduling model</xs:documentation>
-		</xs:annotation></xs:import>
+		namespace="http://www.netxforge.com/13042011/services"/>
+	
 	
 	<!--_____________________________ -->
 	<!--| JOB 						| -->
