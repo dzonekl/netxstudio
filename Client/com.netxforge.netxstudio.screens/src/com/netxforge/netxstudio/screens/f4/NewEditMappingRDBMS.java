@@ -575,7 +575,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 						observeMaps));
 		IEMFListProperty l = EMFEditProperties.list(
 				editingService.getEditingDomain(),
-				MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS);
+				MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
 
 		this.mappingColumnsTableViewer.setInput(l.observe(mapping));
 		this.gridTableViewer.setContentProvider(new RDBMSGridContentProvider());

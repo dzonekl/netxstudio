@@ -17,18 +17,22 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.parts;
 
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import com.netxforge.netxstudio.screens.actions.ScreenAction;
 import com.netxforge.netxstudio.screens.ch9.Expressions;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector_Inj;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f2.Resources;
+import com.netxforge.netxstudio.screens.f2.NodeTypes;
 import com.netxforge.netxstudio.screens.f2.Tolerances;
-import com.netxforge.netxstudio.screens.f4.Metrics;
 
-public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
+public class LibraryScreenSelector extends AbstractScreenSelector {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.library"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -56,17 +60,17 @@ public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
 		result = screenFormService.addScreenSelector("Expressions",
 				"icons/full/obj16/Expression_H.png", Expressions.class, 1,
 				Screens.OPERATION_EDIT);
-//		
-//		result = screenFormService.addScreenSelector(result, "Metrics",
-//				"icons/full/obj16/Metric_H.png", Metrics.class,
-//				Screens.OPERATION_EDIT);
-		
+		//
+		// result = screenFormService.addScreenSelector(result, "Metrics",
+		// "icons/full/obj16/Metric_H.png", Metrics.class,
+		// Screens.OPERATION_EDIT);
+
 		result = screenFormService.addScreenSelector(result, "Tolerances",
 				"icons/full/obj16/Tolerance_H.png", Tolerances.class,
 				Screens.OPERATION_EDIT);
-		
-		screenFormService.addScreenSelector(result, "Resources",
-				"icons/full/obj16/Equipment_H.png", Resources.class,
+
+		screenFormService.addScreenSelector(result, "NE Types",
+				"icons/full/obj16/Node_H.png", NodeTypes.class,
 				Screens.OPERATION_EDIT);
 	}
 
@@ -94,5 +98,15 @@ public class LibraryScreenSelector extends AbstractScreenSelector_Inj {
 		// Static initialization of bindings. We need a dynamic form for this.
 		//
 
+	}
+
+	@Override
+	public void contributeMenuAboutToShow(IMenuManager menuManager) {
+		if(this.getCurrentScreen() != null && this.getCurrentScreen().getActions() != null){
+			for(int i = 0; i < this.getCurrentScreen().getActions().length; i++){
+				IAction a = this.getCurrentScreen().getActions()[i];
+				menuManager.add(a);
+			}
+		}
 	}
 }

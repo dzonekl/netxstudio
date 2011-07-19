@@ -1,6 +1,6 @@
 package com.netxforge.netxstudio.screens.f2;
 
-import java.util.List;
+import java.util.Date;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -11,7 +11,6 @@ import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -41,15 +40,15 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class ServiceMonitors extends AbstractScreen implements
-		IDataServiceInjection {
+		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
@@ -57,12 +56,11 @@ public class ServiceMonitors extends AbstractScreen implements
 
 	private TableViewer serviceMonitorsTableViewer;
 	private Form frmServiceMonitors;
-	private Resource rfsServiceResource;
 
 	@Inject
 	ModelUtils modelUtils;
 	private TableViewerColumn tblViewerClmnState;
-	private List<ServiceMonitor> allServiceMonitors;
+	private RFSService rfsService;
 
 	/**
 	 * Create the composite.
@@ -142,29 +140,22 @@ public class ServiceMonitors extends AbstractScreen implements
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					
-					
-					// TODO, Show a resource Monitor screen.
-
-					// NewEditResource job = new NewEditResource(screenService
-					// .getScreenContainer(), SWT.NONE);
-					// job.setOperation(Screens.OPERATION_EDIT);
-					// screenService.setActiveScreen(job);
-					// job.injectData(resourcesResource, o);
+						ResourceMonitors rmScreen = new ResourceMonitors(
+								screenService.getScreenContainer(), SWT.NONE);
+						rmScreen.setOperation(Screens.OPERATION_READ_ONLY);
+						rmScreen.setScreenService(screenService);
+						rmScreen.injectData(null,o);
+						screenService.setActiveScreen(rmScreen);
 				}
 			}
 		});
 		mntmEdit.setText("View...");
-		
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(serviceMonitorsTableViewer, SWT.NONE);
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				serviceMonitorsTableViewer, SWT.NONE);
 		TableColumn tblclmnEnd = tableViewerColumn_1.getColumn();
 		tblclmnEnd.setWidth(185);
 		tblclmnEnd.setText("End");
-
-		if (editingService != null) {
-			injectData();
-		}
-
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -183,26 +174,26 @@ public class ServiceMonitors extends AbstractScreen implements
 				new EStructuralFeature[] { dummyAttribute,
 						ServicesPackage.Literals.SERVICE_MONITOR__NAME,
 						ServicesPackage.Literals.SERVICE_MONITOR__REVISION,
-						OperatorsPackage.Literals.RESOURCE_MONITOR__MARKERS,
-						 });
+						ServicesPackage.Literals.SERVICE_MONITOR__PERIOD,
+						ServicesPackage.Literals.SERVICE_MONITOR__PERIOD, });
 		serviceMonitorsTableViewer
-				.setLabelProvider(new ResourceMonitorObervableMapLabelProvider(
+				.setLabelProvider(new ServiceMonitorsObervableMapLabelProvider(
 						observeMaps));
 
 		IEMFListProperty resourcesProperties = EMFEditProperties
-				.list(editingService.getEditingDomain(), ServicesPackage.Literals.SERVICE_MONITOR__RESOURCE_MONITORS);
-		IObservableList resourceList = resourcesProperties
-				.observe(allServiceMonitors);
-		obm.addObservable(resourceList);
-		serviceMonitorsTableViewer.setInput(resourceList);
+				.list(editingService.getEditingDomain(), ServicesPackage.Literals.SERVICE__SERVICE_MONITORS);
+		IObservableList rfsServicesObservableList = resourcesProperties
+				.observe(this.rfsService);
+		obm.addObservable(rfsServicesObservableList);
+		serviceMonitorsTableViewer.setInput(rfsServicesObservableList);
 
 		return bindingContext;
 	}
 
-	class ResourceMonitorObervableMapLabelProvider extends
+	class ServiceMonitorsObervableMapLabelProvider extends
 			ObservableMapLabelProvider {
 
-		public ResourceMonitorObervableMapLabelProvider(
+		public ServiceMonitorsObervableMapLabelProvider(
 				IObservableMap[] attributeMaps) {
 			super(attributeMaps);
 		}
@@ -214,35 +205,52 @@ public class ServiceMonitors extends AbstractScreen implements
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			if (element instanceof ResourceMonitor) {
-				ResourceMonitor j = (ResourceMonitor) element;
+			if (element instanceof ServiceMonitor) {
+				ServiceMonitor sm = (ServiceMonitor) element;
 				switch (columnIndex) {
 				case 0:
-					if (j.getNodeRef() != null) {
-						return j.getNodeRef().getNodeID();
+					if (sm.getName() != null) {
+						return sm.getName();
 					}
 					break;
 				case 1:
-					if (j.getResourceRef() != null) {
-						return j.getResourceRef().getShortName();
+					if (sm.getRevision() != null) {
+						return sm.getRevision();
 					}
 					break;
 				case 2:
-					return new Integer(j.getMarkers().size()).toString();
+					if (sm.getPeriod() != null) {
+						Date begin = modelUtils.fromXMLDate(sm.getPeriod()
+								.getBegin());
+						return modelUtils.date(begin) + modelUtils.time(begin);
+					}
+					break;
+				case 3:
+					if (sm.getPeriod() != null) {
+						Date end = modelUtils.fromXMLDate(sm.getPeriod()
+								.getEnd());
+						return modelUtils.date(end) + modelUtils.time(end);
+					}
+					break;
 				}
 			}
 			return super.getColumnText(element, columnIndex);
 		}
 	}
 
-	public void injectData() {
-		rfsServiceResource = editingService
-				.getData(ServicesPackage.Literals.RFS_SERVICE);
+	public void injectData(Object owner, Object object) {
+		if(object instanceof RFSService){
+			rfsService = (RFSService)object;	
+		}
 		initDataBindings_();
 	}
 
+	public void addData() {
+		// N/A
+	}
+
 	public void disposeData() {
-		editingService.disposeData(rfsServiceResource);
+		// N/A
 	}
 
 	@Override
@@ -265,5 +273,7 @@ public class ServiceMonitors extends AbstractScreen implements
 		this.operation = operation;
 
 	}
+
+
 
 }

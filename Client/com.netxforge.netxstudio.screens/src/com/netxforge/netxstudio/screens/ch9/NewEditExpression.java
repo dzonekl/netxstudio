@@ -28,6 +28,8 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -59,9 +61,7 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.LibraryPackage.Literals;
-import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
@@ -91,6 +91,11 @@ public class NewEditExpression extends AbstractScreen implements
 	private Label lblExpressionName;
 
 	private Object whoRefers;
+
+	/**
+	 * A feature which can be passed for which this expression should be added. 
+	 */
+	private EStructuralFeature feature;
 
 	/**
 	 * Create the composite.
@@ -166,7 +171,7 @@ public class NewEditExpression extends AbstractScreen implements
 	}
 
 	public void injectData(Object owner, Object object) {
-		injectData(owner, null, object);
+		injectData(owner, null, null, object);
 	}
 
 	/*
@@ -176,14 +181,18 @@ public class NewEditExpression extends AbstractScreen implements
 	 * com.netxforge.netxstudio.data.IDataScreenInjection#injectData(java.lang
 	 * .Object, java.lang.Object)
 	 */
-	public void injectData(Object owner, Object whoRefers, Object object) {
+	public void injectData(Object owner, Object whoRefers, EStructuralFeature f, Object object) {
 
 		if (owner != null && owner instanceof Resource) {
 			this.owner = (Resource) owner;
 		} 
-		// Determine the ownership if not a resoucer.
+		// Determine the ownership if not a resource.
 		if (whoRefers != null) {
 			this.whoRefers = whoRefers;
+		}
+		
+		if( f != null){
+			feature = f;
 		}
 
 		if (object != null && object instanceof Expression) {
@@ -224,15 +233,14 @@ public class NewEditExpression extends AbstractScreen implements
 			Command c = new AddCommand(editingService.getEditingDomain(),
 					owner.getContents(), expression);
 			editingService.getEditingDomain().getCommandStack().execute(c);
-
-			if (whoRefers != null) {
-				// We also set the reference to this expression.
+			if (whoRefers != null && feature != null) {
+				// We also set the reference to this expression, we need to referee and a feature for this. 
 				Command cSetRef = null;
-				if (whoRefers instanceof Tolerance) {
+				if (whoRefers instanceof EObject) {
 					cSetRef = new SetCommand(
 							editingService.getEditingDomain(),
-							(Tolerance) whoRefers,
-							LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF,
+							(EObject) whoRefers,
+							feature,
 							expression);
 				}
 				if(cSetRef != null){

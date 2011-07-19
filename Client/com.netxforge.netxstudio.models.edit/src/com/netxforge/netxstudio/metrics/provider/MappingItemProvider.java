@@ -163,7 +163,7 @@ public class MappingItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(MetricsPackage.Literals.MAPPING__HEADER_MAPPING_COLUMNS);
-			childrenFeatures.add(MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS);
+			childrenFeatures.add(MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
 		}
 		return childrenFeatures;
 	}
@@ -222,7 +222,7 @@ public class MappingItemProvider
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case MetricsPackage.MAPPING__HEADER_MAPPING_COLUMNS:
-			case MetricsPackage.MAPPING__MAPPING_COLUMNS:
+			case MetricsPackage.MAPPING__DATA_MAPPING_COLUMNS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -247,7 +247,7 @@ public class MappingItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS,
+				(MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS,
 				 MetricsFactory.eINSTANCE.createMappingColumn()));
 	}
 
@@ -264,7 +264,7 @@ public class MappingItemProvider
 
 		boolean qualify =
 			childFeature == MetricsPackage.Literals.MAPPING__HEADER_MAPPING_COLUMNS ||
-			childFeature == MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS;
+			childFeature == MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS;
 
 		if (qualify) {
 			return getString

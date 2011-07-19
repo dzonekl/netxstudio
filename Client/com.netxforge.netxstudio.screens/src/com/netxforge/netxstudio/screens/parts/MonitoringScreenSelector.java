@@ -17,16 +17,17 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.parts;
 
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector_Inj;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f2.ResourceMonitors;
+import com.netxforge.netxstudio.screens.f2.Services;
 import com.netxforge.netxstudio.screens.f4.Metrics;
 
-public class MonitoringScreenSelector extends AbstractScreenSelector_Inj {
+public class MonitoringScreenSelector extends AbstractScreenSelector {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.monitoring"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -52,7 +53,7 @@ public class MonitoringScreenSelector extends AbstractScreenSelector_Inj {
 		
 		Composite result;
 		result = screenFormService.addScreenSelector("Metrics","icons/full/obj16/Metric_H.png", Metrics.class, 1, Screens.OPERATION_EDIT);
-		screenFormService.addScreenSelector(result, "Resource Monitors", "icons/full/obj16/Monitor_graph_H.png",  ResourceMonitors.class, Screens.OPERATION_EDIT);
+		screenFormService.addScreenSelector(result, "Services", "icons/full/obj16/Service_H.png",  Services.class, Screens.OPERATION_READ_ONLY);
 		
 	}
 	
@@ -75,6 +76,12 @@ public class MonitoringScreenSelector extends AbstractScreenSelector_Inj {
 		// TODO Auto-generated method stub
 		// Static initialization of bindings. We need a dynamic form for this. 
 		// 
+		
+	}
+
+	@Override
+	public void contributeMenuAboutToShow(IMenuManager manager) {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.screens;
 import java.util.List;
 
 import org.eclipse.core.databinding.ObservablesManager;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IMessage;
@@ -39,7 +40,8 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 /**
  * Convenience implementation of a screen, sharing commonality like the 
- * screen operation, and the supporting services. 
+ * screen operation, and the supporting services, a validation service, 
+ * an observables manager and a Managed form (for Master/Detail). 
  *  
  * @author dzonekl
  */
@@ -62,7 +64,7 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 	
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
-		ScreensActivator.getDefault().getInjector().injectMembers(this);
+//		ScreensActivator.getDefault().getInjector().injectMembers(this);
 		validationService = new ValidationService(obm);
 	}
 
@@ -73,7 +75,7 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 	}
 	public abstract void setOperation(int operation);
 
-	public  abstract boolean isValid();
+	public abstract boolean isValid();
 
 	public abstract Form getScreenForm();
 	
@@ -110,5 +112,9 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 			}
 		}
 	}
-
+	
+	public IAction[] getActions(){
+		return null;
+	}
+	
 }

@@ -310,7 +310,7 @@ public class MappingRDBMSItemProvider
 
 		boolean qualify =
 			childFeature == MetricsPackage.Literals.MAPPING__HEADER_MAPPING_COLUMNS ||
-			childFeature == MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS;
+			childFeature == MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS;
 
 		if (qualify) {
 			return getString

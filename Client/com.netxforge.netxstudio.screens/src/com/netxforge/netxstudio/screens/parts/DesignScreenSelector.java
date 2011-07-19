@@ -17,13 +17,14 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.parts;
 
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector_Inj;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 
-public class DesignScreenSelector extends AbstractScreenSelector_Inj {
+public class DesignScreenSelector extends AbstractScreenSelector {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.design"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -74,6 +75,12 @@ public class DesignScreenSelector extends AbstractScreenSelector_Inj {
 		// TODO Auto-generated method stub
 		// Static initialization of bindings. We need a dynamic form for this. 
 		// 
+		
+	}
+
+	@Override
+	public void contributeMenuAboutToShow(IMenuManager manager) {
+		// TODO Auto-generated method stub
 		
 	}
 }

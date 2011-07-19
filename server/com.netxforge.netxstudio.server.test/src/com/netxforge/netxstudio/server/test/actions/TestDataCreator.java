@@ -469,23 +469,23 @@ public class TestDataCreator implements NetxForgeService {
 
 		final MappingColumn dateColumn = createValueColumn("Start Time", 0,
 				ValueKindType.DATETIME);
-		mappingXLS.getMappingColumns().add(dateColumn);
+		mappingXLS.getDataMappingColumns().add(dateColumn);
 		((ValueDataKind) dateColumn.getDataType())
 				.setFormat("MM/dd/yyyy hh:mm:ss");
 
-		mappingXLS.getMappingColumns().add(
+		mappingXLS.getDataMappingColumns().add(
 				createValueColumn("Period", 1, ValueKindType.INTERVAL));
-		mappingXLS.getMappingColumns().add(
+		mappingXLS.getDataMappingColumns().add(
 				createValueColumn("Gb mode max attached users(number)", 4,
 						ValueKindType.METRIC));
-		mappingXLS.getMappingColumns().add(
+		mappingXLS.getDataMappingColumns().add(
 				createValueColumn("Iu mode max attached users(number)", 5,
 						ValueKindType.METRIC));
-		mappingXLS.getMappingColumns().add(
+		mappingXLS.getDataMappingColumns().add(
 				createIdentifierColumn(2, ObjectKindType.NODE,
 						OperatorsPackage.eINSTANCE.getNode_NodeID().getName()));
 		mappingXLS
-				.getMappingColumns()
+				.getDataMappingColumns()
 				.add(createIdentifierColumn(3, ObjectKindType.FUNCTION,
 						LibraryPackage.eINSTANCE.getComponent_Name().getName()));
 	}
@@ -509,18 +509,18 @@ public class TestDataCreator implements NetxForgeService {
 				createIdentifierColumn(0, ObjectKindType.NODE,
 						OperatorsPackage.eINSTANCE.getNode_NodeID().getName()));
 
-		mappingCSV.getMappingColumns().add(
+		mappingCSV.getDataMappingColumns().add(
 				createValueColumn("MSGSRCVD", 6, ValueKindType.METRIC));
-		mappingCSV.getMappingColumns().add(
+		mappingCSV.getDataMappingColumns().add(
 				createValueColumn("MSURETRN", 7, ValueKindType.METRIC));
-		mappingCSV.getMappingColumns().add(
+		mappingCSV.getDataMappingColumns().add(
 				createValueColumn("MOCTTRAN", 8, ValueKindType.METRIC));
-		mappingCSV.getMappingColumns().add(
+		mappingCSV.getDataMappingColumns().add(
 				createIdentifierColumn(1, ObjectKindType.RELATIONSHIP,
 						OperatorsPackage.eINSTANCE.getRelationship_Name()
 								.getName()));
 		mappingCSV
-				.getMappingColumns()
+				.getDataMappingColumns()
 				.add(createIdentifierColumn(3, ObjectKindType.FUNCTION,
 						LibraryPackage.eINSTANCE.getComponent_Name().getName()));
 	}
@@ -535,7 +535,7 @@ public class TestDataCreator implements NetxForgeService {
 				+ "and to_char(PERIOD_START_TIME,'dd.mm.yyyy hh24:mi')<=to_char('${endDate}') ||' ${endTime}' ";
 		mapping.setQuery(qry);
 
-		mapping.getMappingColumns().add(
+		mapping.getDataMappingColumns().add(
 				createIdentifierColumn(0, ObjectKindType.NODE,
 						OperatorsPackage.eINSTANCE.getNode_NodeID().getName()));
 
@@ -543,26 +543,26 @@ public class TestDataCreator implements NetxForgeService {
 				ValueKindType.DATETIME);
 		((ValueDataKind) dateColumn.getDataType())
 				.setFormat("MM.dd.yyyy HH:mm");
-		mapping.getMappingColumns().add(dateColumn);
+		mapping.getDataMappingColumns().add(dateColumn);
 
-		mapping.getMappingColumns()
+		mapping.getDataMappingColumns()
 				.add(createIdentifierColumn(3, ObjectKindType.FUNCTION,
 						LibraryPackage.eINSTANCE.getComponent_Name().getName()));
-		mapping.getMappingColumns().add(
+		mapping.getDataMappingColumns().add(
 				createIdentifierColumn(3, ObjectKindType.EQUIPMENT,
 						LibraryPackage.eINSTANCE.getEquipment_EquipmentCode()
 								.getName()));
-		mapping.getMappingColumns().add(
+		mapping.getDataMappingColumns().add(
 				createIdentifierColumn(4, ObjectKindType.EQUIPMENT,
 						LibraryPackage.eINSTANCE.getEquipment_EquipmentCode()
 								.getName()));
 
-		mapping.getMappingColumns().add(
+		mapping.getDataMappingColumns().add(
 				createValueColumn("LANEMB_LOAD_RATE", 9, ValueKindType.METRIC));
-		mapping.getMappingColumns()
+		mapping.getDataMappingColumns()
 				.add(createValueColumn("LANEMB_PEAK_RATE", 10,
 						ValueKindType.METRIC));
-		mapping.getMappingColumns().add(
+		mapping.getDataMappingColumns().add(
 				createValueColumn("LANEMB_PEAK_TIME_IN_SEC", 11,
 						ValueKindType.METRIC));
 	}

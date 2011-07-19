@@ -22,27 +22,28 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IPartListener;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.screens.editing.AbstractEditorViewPart_Inj;
+import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public abstract class AbstractScreenSelector_Inj extends AbstractEditorViewPart_Inj implements ScreenChangeListener{
+public abstract class AbstractScreenSelector extends AbstractScreensViewPart implements ScreenChangeListener{
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.AbstractScreenSelectorII"; //$NON-NLS-1$
 
 	@Inject
 	protected ScreenFormService screenFormService;
 	
+	private IScreen currentScreen;
+	
 	public ScreenFormService getScreenFormService(){
 		return screenFormService;
 	}
 	
-	public AbstractScreenSelector_Inj() {
+	public AbstractScreenSelector() {
 	}
 
 	/**
@@ -64,7 +65,12 @@ public abstract class AbstractScreenSelector_Inj extends AbstractEditorViewPart_
 	}
 
 	public abstract void buildSelector();
-
+	
+	
+	public IScreen getCurrentScreen(){
+		return currentScreen;
+	}
+	
 	/**
 	 * Create the actions.
 	 */
@@ -117,9 +123,11 @@ public abstract class AbstractScreenSelector_Inj extends AbstractEditorViewPart_
 	 */
 	public void screenChanged(IScreen screen) {
 		// Some screens won't have a viewer, in this case 
-		// the current viewer will be null, and an empty selection will be set. 
-		Viewer viewer = screen.getViewer();
-		setCurrentViewer(viewer);
+		// the current viewer will be null, and an empty selection will be set.
+		if(screen != null){
+			currentScreen = screen;
+			Viewer viewer = screen.getViewer();
+			setCurrentViewer(viewer);
+		}
 	}
-	
 }

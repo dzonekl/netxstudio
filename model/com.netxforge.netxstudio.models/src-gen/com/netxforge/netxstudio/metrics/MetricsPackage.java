@@ -228,13 +228,13 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING__HEADER_MAPPING_COLUMNS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Mapping Columns</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Data Mapping Columns</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING__MAPPING_COLUMNS = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int MAPPING__DATA_MAPPING_COLUMNS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>First Data Row</b></em>' attribute.
@@ -347,13 +347,13 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_CSV__HEADER_MAPPING_COLUMNS = MAPPING__HEADER_MAPPING_COLUMNS;
 
 	/**
-	 * The feature id for the '<em><b>Mapping Columns</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Data Mapping Columns</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_CSV__MAPPING_COLUMNS = MAPPING__MAPPING_COLUMNS;
+	int MAPPING_CSV__DATA_MAPPING_COLUMNS = MAPPING__DATA_MAPPING_COLUMNS;
 
 	/**
 	 * The feature id for the '<em><b>First Data Row</b></em>' attribute.
@@ -429,13 +429,13 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_RDBMS__HEADER_MAPPING_COLUMNS = MAPPING__HEADER_MAPPING_COLUMNS;
 
 	/**
-	 * The feature id for the '<em><b>Mapping Columns</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Data Mapping Columns</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_RDBMS__MAPPING_COLUMNS = MAPPING__MAPPING_COLUMNS;
+	int MAPPING_RDBMS__DATA_MAPPING_COLUMNS = MAPPING__DATA_MAPPING_COLUMNS;
 
 	/**
 	 * The feature id for the '<em><b>First Data Row</b></em>' attribute.
@@ -684,13 +684,13 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_XLS__HEADER_MAPPING_COLUMNS = MAPPING__HEADER_MAPPING_COLUMNS;
 
 	/**
-	 * The feature id for the '<em><b>Mapping Columns</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Data Mapping Columns</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_XLS__MAPPING_COLUMNS = MAPPING__MAPPING_COLUMNS;
+	int MAPPING_XLS__DATA_MAPPING_COLUMNS = MAPPING__DATA_MAPPING_COLUMNS;
 
 	/**
 	 * The feature id for the '<em><b>First Data Row</b></em>' attribute.
@@ -1261,15 +1261,15 @@ public interface MetricsPackage extends EPackage {
 	EReference getMapping_HeaderMappingColumns();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.metrics.Mapping#getMappingColumns <em>Mapping Columns</em>}'.
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.metrics.Mapping#getDataMappingColumns <em>Data Mapping Columns</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Mapping Columns</em>'.
-	 * @see com.netxforge.netxstudio.metrics.Mapping#getMappingColumns()
+	 * @return the meta object for the containment reference list '<em>Data Mapping Columns</em>'.
+	 * @see com.netxforge.netxstudio.metrics.Mapping#getDataMappingColumns()
 	 * @see #getMapping()
 	 * @generated
 	 */
-	EReference getMapping_MappingColumns();
+	EReference getMapping_DataMappingColumns();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.Mapping#getFirstDataRow <em>First Data Row</em>}'.
@@ -2081,12 +2081,12 @@ public interface MetricsPackage extends EPackage {
 		EReference MAPPING__HEADER_MAPPING_COLUMNS = eINSTANCE.getMapping_HeaderMappingColumns();
 
 		/**
-		 * The meta object literal for the '<em><b>Mapping Columns</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Data Mapping Columns</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MAPPING__MAPPING_COLUMNS = eINSTANCE.getMapping_MappingColumns();
+		EReference MAPPING__DATA_MAPPING_COLUMNS = eINSTANCE.getMapping_DataMappingColumns();
 
 		/**
 		 * The meta object literal for the '<em><b>First Data Row</b></em>' attribute feature.

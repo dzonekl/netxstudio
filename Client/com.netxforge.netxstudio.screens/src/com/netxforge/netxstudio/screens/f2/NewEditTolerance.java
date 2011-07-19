@@ -128,31 +128,52 @@ public class NewEditTolerance extends AbstractScreen implements
 		toolkit.paintBordersFor(combo);
 		new Label(composite_1, SWT.NONE);
 		new Label(composite_1, SWT.NONE);
-		
-		ImageHyperlink mghprlnkToleranceExpression = toolkit.createImageHyperlink(composite_1, SWT.NONE);
-		mghprlnkToleranceExpression.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				NewEditExpression expressionScreen = new NewEditExpression(screenService.getScreenContainer(), SWT.NONE);
-				expressionScreen.setScreenService(screenService);
-				
-				Expression expression = tolerance.getExpressionRef();
-				if(expression != null){
-					expressionScreen.setOperation(Screens.OPERATION_EDIT);
-					expressionScreen.injectData(null, tolerance,expression);
-				}else{
-					Resource expressionResource = editingService.getData(LibraryPackage.Literals.EXPRESSION);
-					expressionScreen.setOperation(Screens.OPERATION_NEW);
-					expressionScreen.injectData(expressionResource, tolerance, LibraryFactory.eINSTANCE.createExpression());
-					
-				}
-				screenService.setActiveScreen(expressionScreen);
-			}
-			public void linkEntered(HyperlinkEvent e) {
-			}
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkToleranceExpression.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/obj16/Expression_H.png"));
+
+		ImageHyperlink mghprlnkToleranceExpression = toolkit
+				.createImageHyperlink(composite_1, SWT.NONE);
+		mghprlnkToleranceExpression
+				.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkActivated(HyperlinkEvent e) {
+						NewEditExpression expressionScreen = new NewEditExpression(
+								screenService.getScreenContainer(), SWT.NONE);
+						expressionScreen.setScreenService(screenService);
+
+						Expression expression = tolerance.getExpressionRef();
+						if (expression != null) {
+							expressionScreen
+									.setOperation(Screens.OPERATION_EDIT);
+							expressionScreen
+									.injectData(
+											null,
+											tolerance,
+											LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF,
+											expression);
+						} else {
+							Resource expressionResource = editingService
+									.getData(LibraryPackage.Literals.EXPRESSION);
+							expressionScreen
+									.setOperation(Screens.OPERATION_NEW);
+							expressionScreen
+									.injectData(
+											expressionResource,
+											tolerance,
+											LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF,
+											LibraryFactory.eINSTANCE
+													.createExpression());
+
+						}
+						screenService.setActiveScreen(expressionScreen);
+					}
+
+					public void linkEntered(HyperlinkEvent e) {
+					}
+
+					public void linkExited(HyperlinkEvent e) {
+					}
+				});
+		mghprlnkToleranceExpression.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/obj16/Expression_H.png"));
 		toolkit.paintBordersFor(mghprlnkToleranceExpression);
 		mghprlnkToleranceExpression.setText("Tolerance Expression");
 		new Label(composite_1, SWT.NONE);
@@ -172,13 +193,11 @@ public class NewEditTolerance extends AbstractScreen implements
 		cmbLevelViewer.setLabelProvider(new LabelProvider());
 		cmbLevelViewer.setInput(LevelType.VALUES);
 
-		
 		IEMFValueProperty toleranceLevelProperty = EMFProperties
 				.value(LibraryPackage.Literals.TOLERANCE__LEVEL);
 		IValueProperty selectionProperty = ViewerProperties.singleSelection();
 		context.bindValue(selectionProperty.observe(cmbLevelViewer),
-				toleranceLevelProperty.observe(tolerance),
-				null, null);
+				toleranceLevelProperty.observe(tolerance), null, null);
 
 		// And something for the expressions.
 
@@ -193,8 +212,8 @@ public class NewEditTolerance extends AbstractScreen implements
 			throw new java.lang.IllegalArgumentException();
 		}
 		if (object != null && object instanceof Tolerance) {
-				tolerance = (Tolerance) object;
-		}else {
+			tolerance = (Tolerance) object;
+		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}

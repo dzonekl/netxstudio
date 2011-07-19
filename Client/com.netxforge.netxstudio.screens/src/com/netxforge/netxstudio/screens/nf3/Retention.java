@@ -122,8 +122,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 						} catch (Exception e1) {
 							e1.printStackTrace();
 							MessageDialog.openError(Retention.this.getShell(),
-									"Data retention action failed:",
-									"...TODO");
+									"Data retention action failed:", "...TODO");
 
 						}
 
@@ -167,7 +166,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		ftMetricDataRetentionInstruction
 				.setText(
 						"<form><p>Settings for data retention, keep metric value data for:</p>\n<p/></form>",
-						true, false);		
+						true, false);
 		injectData();
 
 	}
@@ -186,7 +185,12 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 			}
 			expressionScreen.setScreenService(screenService);
 			screenService.setActiveScreen(expressionScreen);
-			expressionScreen.injectData(null, retention, expression);
+			expressionScreen
+					.injectData(
+							null,
+							retention,
+							MetricsPackage.Literals.METRIC_RETENTION_RULE__RETENTION_EXPRESSION,
+							expression);
 		}
 	}
 
@@ -199,14 +203,14 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 				MetricsPackage.Literals.METRIC_RETENTION_RULE__PERIOD);
 		IValueProperty selectionProperty = ViewerProperties.singleSelection();
 
-		for(MetricRetentionRule r : rules.getMetricRetentionRules()){
-			addRule(cmpRules, r, context, retentionPeriodProperty, selectionProperty);
-		}	
-		
+		for (MetricRetentionRule r : rules.getMetricRetentionRules()) {
+			addRule(cmpRules, r, context, retentionPeriodProperty,
+					selectionProperty);
+		}
+
 		return context;
 	}
-	
-	
+
 	private void addRule(Composite cmpRules, final MetricRetentionRule rule,
 			EMFDataBindingContext context,
 			IEMFValueProperty retentionPeriodProperty,
@@ -232,7 +236,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		mghprlnkEditRetentionExpression
 				.addHyperlinkListener(new IHyperlinkListener() {
 					public void linkActivated(HyperlinkEvent e) {
-						 launchExpressionScreen(rule);
+						launchExpressionScreen(rule);
 					}
 
 					public void linkEntered(HyperlinkEvent e) {
@@ -247,7 +251,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		cmbViewerTarget.setContentProvider(new ArrayContentProvider());
 		cmbViewerTarget.setLabelProvider(new LabelProvider());
 		cmbViewerTarget.setInput(MetricRetentionPeriod.values());
-		
+
 		context.bindValue(selectionProperty.observe(cmbViewerTarget),
 				retentionPeriodProperty.observe(rule));
 

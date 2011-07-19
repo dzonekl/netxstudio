@@ -28,18 +28,27 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
+import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISaveablePart2;
@@ -50,7 +59,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector_Inj;
 
 /**
  * A ViewPart which acts as an editor.
@@ -61,7 +69,7 @@ import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector_
  * 
  * @author dzonekl
  */
-public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
+public abstract class AbstractScreensViewPart extends ViewPart implements
 		ISaveablePart2, IPartListener, ISelectionListener,
 		IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider {
 
@@ -78,7 +86,7 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	@Inject
 	protected IEditingService editingService; 
 	
-	public AbstractEditorViewPart_Inj() {
+	public AbstractScreensViewPart() {
 		createActions();
 	}
 	
@@ -220,7 +228,7 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	// IPartListner API.
 	public void partActivated(IWorkbenchPart part) {
 		// Register selection listeners.
-		if (part instanceof AbstractEditorViewPart_Inj) {
+		if (part instanceof AbstractScreensViewPart) {
 			// Activate our global actions.
 			globActionsHandler.activate(part);
 			
@@ -242,7 +250,7 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 	}
 
 	public void partDeactivated(IWorkbenchPart part) {
-		if (part instanceof AbstractEditorViewPart_Inj) {
+		if (part instanceof AbstractScreensViewPart) {
 			globActionsHandler.deactivate(part);
 		} else {
 		}
@@ -333,9 +341,39 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 		}
 	}
 
-	public void menuAboutToShow(IMenuManager manager) {
-		System.out.println("Menu about to show request: " + manager.getId());
+	
+	/**
+	 * This creates a context menu for the viewer and adds a listener as well registering the menu for extension.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void augmentContextMenuFor(StructuredViewer viewer) {
+			
+		MenuManager contextMenu = new MenuManager("#PopUp");
+		contextMenu.add(new Separator("additions"));
+		contextMenu.setRemoveAllWhenShown(true);
+		contextMenu.addMenuListener(this);
+		Menu menu= contextMenu.createContextMenu(viewer.getControl());
+		viewer.getControl().setMenu(menu);
+		
+		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
+
+		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
+		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
+		viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
+		viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(this.getEditingDomain(), viewer));
 	}
+	
+	
+	
+	public void menuAboutToShow(IMenuManager manager) {
+		contributeMenuAboutToShow(manager);
+		globActionsHandler.menuAboutToShow(manager);
+	}
+	
+	public abstract void contributeMenuAboutToShow(IMenuManager manager);
+	
 	
 	/**
 	 * This listens to which ever viewer is active.
@@ -392,6 +430,12 @@ public abstract class AbstractEditorViewPart_Inj extends ViewPart implements
 			//
 			setSelection(currentViewer == null ? StructuredSelection.EMPTY
 					: currentViewer.getSelection());
+			
+			// Install a context menu.
+			if(currentViewer instanceof StructuredViewer){
+				// Don't do that yet, as we have no facility to learn the existing menu items. 
+				augmentContextMenuFor((StructuredViewer) viewer);
+			}
 		}
 	}
 	

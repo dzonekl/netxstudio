@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
@@ -218,10 +219,10 @@ public class ScreenFormService implements IScreenFormService {
 		rootComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		{
 			sashForm = new SashForm(rootComposite, SWT.SMOOTH);
-			sashForm.setSashWidth(1);
+			sashForm.setSashWidth(5);
 			{
 				Composite composite = formToolkit.createComposite(sashForm,
-						SWT.BORDER);
+						SWT.NONE);
 				formToolkit.paintBordersFor(composite);
 				composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 				{
@@ -240,7 +241,7 @@ public class ScreenFormService implements IScreenFormService {
 				this.createSaveLink(screenBody.getScreenBar());
 				screenBody.setScreenBarOff();
 			}
-			sashForm.setWeights(new int[] { 100, 491 });
+			sashForm.setWeights(new int[] { 70, 491 });
 		}
 	}
 
@@ -386,13 +387,27 @@ public class ScreenFormService implements IScreenFormService {
 		// but it's better to dispose the complete list and restart.
 		while (!screenStack.empty()) {
 			Composite c = screenStack.pop();
+			try {
+				System.out.println("About to dispose : "
+						+ c.getClass().getSimpleName());
+			
 			c.dispose();
+			} catch (Exception e) {
+				if (e instanceof IllegalStateException) {
+					System.out.println("observable exception" + e.getMessage());
+					// widget is disposed, but not properly unset from the parent.
+					c.setParent(null);
+				} if( e instanceof AssertionFailedException ){
+					System.out.println("observable exception" + e.getMessage());
+				} else {
+					e.printStackTrace();
+				}
+			}
 			// FIXME, disposing previous composite through a CDO exception.
 			// as observables are being updated when disposed and ask for model
 			// data.
 			// If we don't dispose. we have a memory leak.
 			// Add all observables to the ObservablesManager.
-
 		}
 
 		Control c = screenBody.getScreenDeck().topControl;
@@ -404,12 +419,15 @@ public class ScreenFormService implements IScreenFormService {
 			} catch (Exception e) {
 				if (e instanceof IllegalStateException) {
 					System.out.println("observable exception" + e.getMessage());
-				} else {
+					// widget is disposed, but not properly unset from the parent.
+					c.setParent(null);
+				}else if( e instanceof AssertionFailedException ){
+					System.out.println("observable exception" + e.getMessage());
+				} 
+				else {
 					e.printStackTrace();
 				}
-				// widget is disposed, but not properly unset from the parent.
-				Composite parent = c.getParent();
-				c.setParent(null);
+				
 			}
 		}
 

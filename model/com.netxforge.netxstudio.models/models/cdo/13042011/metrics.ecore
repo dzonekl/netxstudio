@@ -101,11 +101,11 @@
         <details key="name" value="HeaderMappingColumns"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingColumns" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataMappingColumns" upperBound="-1"
         eType="#//MappingColumn" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
-        <details key="name" value="MappingColumns"/>
+        <details key="name" value="DataMappingColumns"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstDataRow" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"

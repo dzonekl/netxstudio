@@ -191,7 +191,7 @@
 					<xs:element name="HeaderMappingColumns" type="MappingColumn"
 						maxOccurs="unbounded" minOccurs="0">
 					</xs:element>
-					<xs:element name="MappingColumns" type="MappingColumn"
+					<xs:element name="DataMappingColumns" type="MappingColumn"
 						maxOccurs="unbounded" minOccurs="0">
 					</xs:element>
 				</xs:sequence>

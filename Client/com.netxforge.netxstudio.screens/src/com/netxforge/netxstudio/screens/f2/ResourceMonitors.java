@@ -1,17 +1,12 @@
 package com.netxforge.netxstudio.screens.f2;
 
-import java.util.List;
-
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
@@ -40,19 +35,16 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
-import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.services.ServiceMonitor;
-import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class ResourceMonitors extends AbstractScreen implements
-		IDataServiceInjection {
+		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
@@ -65,7 +57,9 @@ public class ResourceMonitors extends AbstractScreen implements
 	@Inject
 	ModelUtils modelUtils;
 	private TableViewerColumn tblViewerClmnState;
-	private List<ServiceMonitor> allServiceMonitors;
+	// private List<ServiceMonitor> allServiceMonitors;
+	private ServiceMonitor serviceMonitor;
+	private Resource rmResource;
 
 	/**
 	 * Create the composite.
@@ -145,52 +139,44 @@ public class ResourceMonitors extends AbstractScreen implements
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					
-					
-					// TODO, Show a resource Monitor screen.
-
-					// NewEditResource job = new NewEditResource(screenService
-					// .getScreenContainer(), SWT.NONE);
-					// job.setOperation(Screens.OPERATION_EDIT);
-					// screenService.setActiveScreen(job);
-					// job.injectData(resourcesResource, o);
+					com.netxforge.netxstudio.screens.f2.ResourceMonitor rmScreen = new com.netxforge.netxstudio.screens.f2.ResourceMonitor(
+							screenService.getScreenContainer(), SWT.NONE);
+					rmScreen.setScreenService(screenService);
+					rmScreen.setOperation(getOperation());
+					rmScreen.injectData(null, o);
+					screenService.setActiveScreen(rmScreen);
 				}
 			}
 		});
 		mntmEdit.setText("View...");
-
-		if (editingService != null) {
-			injectData();
-		}
-
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
-		// tblViewerClmnState.setEditingSupport(new CheckBoxEditingSupport(
-		// jobsTableViewer, bindingContext));
-
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		resourceMonitorsTableViewer.setContentProvider(listContentProvider);
 
-		EAttribute dummyAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] { dummyAttribute,
-						OperatorsPackage.Literals.RESOURCE_MONITOR__NODE_REF,
-						OperatorsPackage.Literals.RESOURCE_MONITOR__RESOURCE_REF,
-						OperatorsPackage.Literals.RESOURCE_MONITOR__MARKERS,
-						 });
+		IObservableMap[] observeMaps = EMFObservables
+				.observeMaps(
+						listContentProvider.getKnownElements(),
+						new EStructuralFeature[] {
+								OperatorsPackage.Literals.RESOURCE_MONITOR__NODE_REF,
+								OperatorsPackage.Literals.RESOURCE_MONITOR__RESOURCE_REF,
+								OperatorsPackage.Literals.RESOURCE_MONITOR__MARKERS, });
 		resourceMonitorsTableViewer
 				.setLabelProvider(new ResourceMonitorObervableMapLabelProvider(
 						observeMaps));
 
-		IEMFListProperty resourcesProperties = EMFEditProperties
-				.list(editingService.getEditingDomain(), ServicesPackage.Literals.SERVICE_MONITOR__RESOURCE_MONITORS);
-		IObservableList resourceList = resourcesProperties
-				.observe(allServiceMonitors);
+//		IEMFListProperty serviceMonitorObservableList = EMFEditProperties.list(
+//				editingService.getEditingDomain(),
+//				ServicesPackage.Literals.SERVICE_MONITOR__RESOURCE_MONITORS);
+		
+		IEMFListProperty serviceMonitorObservableList = EMFEditProperties.resource(
+		editingService.getEditingDomain());
+		
+		IObservableList resourceList = serviceMonitorObservableList
+				.observe(this.rmResource);
 		obm.addObservable(resourceList);
 		resourceMonitorsTableViewer.setInput(resourceList);
 
@@ -213,37 +199,34 @@ public class ResourceMonitors extends AbstractScreen implements
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof ResourceMonitor) {
-				ResourceMonitor j = (ResourceMonitor) element;
+				ResourceMonitor rm = (ResourceMonitor) element;
 				switch (columnIndex) {
 				case 0:
-					if (j.getNodeRef() != null) {
-						return j.getNodeRef().getNodeID();
+					if (rm.getNodeRef() != null) {
+						return rm.getNodeRef().getNodeID();
 					}
 					break;
 				case 1:
-					if (j.getResourceRef() != null) {
-						return j.getResourceRef().getShortName();
+					if (rm.getResourceRef() != null) {
+						return rm.getResourceRef().getShortName();
 					}
 					break;
 				case 2:
-					return new Integer(j.getMarkers().size()).toString();
+					return new Integer(rm.getMarkers().size()).toString();
 				}
 			}
 			return super.getColumnText(element, columnIndex);
 		}
 	}
 
-	public void injectData() {
-		rfsServiceResource = editingService
-				.getData(ServicesPackage.Literals.RFS_SERVICE);
-		allServiceMonitors = Lists.newArrayList();
-		for(EObject s : rfsServiceResource.getContents()){
-			if(s instanceof RFSService){
-				RFSService rfsservice = (RFSService)s;
-				allServiceMonitors.addAll(rfsservice.getServiceMonitors());
-			}
+	public void injectData(Object owner, Object object) {
+
+		if (object instanceof ServiceMonitor) {
+			serviceMonitor = (ServiceMonitor) object;
+			
+			rmResource = editingService.getData(OperatorsPackage.Literals.RESOURCE_MONITOR);
+			initDataBindings_();
 		}
-		initDataBindings_();
 	}
 
 	public void disposeData() {
@@ -268,6 +251,11 @@ public class ResourceMonitors extends AbstractScreen implements
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
+
+	}
+
+	public void addData() {
+		// TODO Auto-generated method stub
 
 	}
 

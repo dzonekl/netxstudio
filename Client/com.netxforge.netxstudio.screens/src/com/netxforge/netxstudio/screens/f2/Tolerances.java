@@ -21,15 +21,15 @@ package com.netxforge.netxstudio.screens.f2;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -61,7 +61,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
@@ -69,6 +68,7 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -210,7 +210,8 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 								.getFirstElement();
 						if (o != null) {
 							NewEditTolerance toleranceScreen = new NewEditTolerance(
-									screenService.getScreenContainer(), SWT.NONE);
+									screenService.getScreenContainer(),
+									SWT.NONE);
 							toleranceScreen.setOperation(getOperation());
 							toleranceScreen.setScreenService(screenService);
 							toleranceScreen.injectData(toleranceResource, o);
@@ -240,6 +241,38 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 			injectData();
 		}
 	}
+	
+	/**
+	 * Wrap in an action, to contribute to a menu manager. 
+	 * @author dzonekl
+	 *
+	 */
+	class EditToleranceAction extends Action {
+
+		public EditToleranceAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			super.run();
+			if (screenService != null) {
+				ISelection selection = getTableViewerWidget().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (o != null) {
+						NewEditTolerance toleranceScreen = new NewEditTolerance(
+								screenService.getScreenContainer(), SWT.NONE);
+						toleranceScreen.setOperation(getOperation());
+						toleranceScreen.setScreenService(screenService);
+						toleranceScreen.injectData(toleranceResource, o);
+						screenService.setActiveScreen(toleranceScreen);
+					}
+				}
+			}
+		}
+	}
 
 	public TableViewer getTableViewerWidget() {
 		return tableViewer;
@@ -266,52 +299,23 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 
 		listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
-		//
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
 				new EStructuralFeature[] {
 						LibraryPackage.Literals.TOLERANCE__NAME,
 						LibraryPackage.Literals.TOLERANCE__LEVEL,
 						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF });
-		tableViewer
-				.setLabelProvider(new ToleranceObservableMapLabelProvider(observeMaps));
+		tableViewer.setLabelProvider(new ToleranceObservableMapLabelProvider(
+				observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
-		IObservableList toleranceObservableList = l.observe(toleranceResource); 
-		
+		IObservableList toleranceObservableList = l.observe(toleranceResource);
+
 		obm.addObservable(toleranceObservableList);
 		tableViewer.setInput(toleranceObservableList);
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		return bindingContext;
-	}
-	
-	class ToleranceObservableMapLabelProvider extends ObservableMapLabelProvider{
-
-		public ToleranceObservableMapLabelProvider(
-				IObservableMap[] attributeMaps) {
-			super(attributeMaps);
-		}
-
-		@Override
-		public String getColumnText(Object element, int columnIndex) {
-			if(element instanceof Tolerance){
-				Tolerance t = (Tolerance)element;
-				switch(columnIndex){
-				case 2:{
-					if(t.getExpressionRef() != null){
-						Expression e = t.getExpressionRef();
-						EList<String> s = e.getExpressionLines();
-						if(s.size() > 0){
-							return s.get(0) + "...";
-						}
-					}
-				}break;
-				}
-			}
-			
-			return super.getColumnText(element, columnIndex);
-		}
 	}
 
 	/*
@@ -340,6 +344,11 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
+	}
+	
+	@Override
+	public IAction[] getActions(){
+		return new IAction[]{new EditToleranceAction("Edit", SWT.PUSH)};
 	}
 
 }

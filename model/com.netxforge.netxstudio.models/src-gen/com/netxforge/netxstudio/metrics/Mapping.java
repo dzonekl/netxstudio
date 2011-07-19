@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.generics.Base;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.Mapping#getHeaderMappingColumns <em>Header Mapping Columns</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.Mapping#getMappingColumns <em>Mapping Columns</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.Mapping#getDataMappingColumns <em>Data Mapping Columns</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Mapping#getFirstDataRow <em>First Data Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Mapping#getHeaderRow <em>Header Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Mapping#getIntervalHint <em>Interval Hint</em>}</li>
@@ -68,21 +68,21 @@ public interface Mapping extends Base {
 	EList<MappingColumn> getHeaderMappingColumns();
 
 	/**
-	 * Returns the value of the '<em><b>Mapping Columns</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Data Mapping Columns</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.MappingColumn}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Mapping Columns</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Data Mapping Columns</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Mapping Columns</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMapping_MappingColumns()
+	 * @return the value of the '<em>Data Mapping Columns</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMapping_DataMappingColumns()
 	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='MappingColumns'"
+	 *        extendedMetaData="kind='element' name='DataMappingColumns'"
 	 * @generated
 	 */
-	EList<MappingColumn> getMappingColumns();
+	EList<MappingColumn> getDataMappingColumns();
 
 	/**
 	 * Returns the value of the '<em><b>First Data Row</b></em>' attribute.

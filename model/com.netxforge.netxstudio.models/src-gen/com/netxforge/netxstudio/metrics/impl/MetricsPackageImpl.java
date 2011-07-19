@@ -406,7 +406,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMapping_MappingColumns() {
+	public EReference getMapping_DataMappingColumns() {
 		return (EReference)mappingEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1050,7 +1050,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 
 		mappingEClass = createEClass(MAPPING);
 		createEReference(mappingEClass, MAPPING__HEADER_MAPPING_COLUMNS);
-		createEReference(mappingEClass, MAPPING__MAPPING_COLUMNS);
+		createEReference(mappingEClass, MAPPING__DATA_MAPPING_COLUMNS);
 		createEAttribute(mappingEClass, MAPPING__FIRST_DATA_ROW);
 		createEAttribute(mappingEClass, MAPPING__HEADER_ROW);
 		createEAttribute(mappingEClass, MAPPING__INTERVAL_HINT);
@@ -1191,7 +1191,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 
 		initEClass(mappingEClass, Mapping.class, "Mapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMapping_HeaderMappingColumns(), this.getMappingColumn(), null, "headerMappingColumns", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMapping_MappingColumns(), this.getMappingColumn(), null, "mappingColumns", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMapping_DataMappingColumns(), this.getMappingColumn(), null, "dataMappingColumns", null, 0, -1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMapping_FirstDataRow(), theXMLTypePackage.getInt(), "firstDataRow", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMapping_HeaderRow(), theXMLTypePackage.getInt(), "headerRow", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMapping_IntervalHint(), theXMLTypePackage.getInt(), "intervalHint", null, 0, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1410,11 +1410,11 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "name", "HeaderMappingColumns"
 		   });		
 		addAnnotation
-		  (getMapping_MappingColumns(), 
+		  (getMapping_DataMappingColumns(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "MappingColumns"
+			 "name", "DataMappingColumns"
 		   });			
 		addAnnotation
 		  (getMapping_FirstDataRow(), 

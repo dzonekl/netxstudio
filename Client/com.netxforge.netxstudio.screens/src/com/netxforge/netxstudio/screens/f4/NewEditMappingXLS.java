@@ -557,7 +557,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 				.setLabelProvider(new ColumnObservableMapLabelProvider(
 						observeMaps));
 		IEMFListProperty l = EMFProperties
-				.list(MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS);
+				.list(MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
 
 		this.mappingColumnsTableViewer.setInput(l.observe(mapping));
 		this.gridTableViewer.setContentProvider(new XLSGridContentProvider());

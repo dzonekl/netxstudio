@@ -34,7 +34,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getHeaderMappingColumns <em>Header Mapping Columns</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getMappingColumns <em>Mapping Columns</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getDataMappingColumns <em>Data Mapping Columns</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getFirstDataRow <em>First Data Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getHeaderRow <em>Header Row</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingImpl#getIntervalHint <em>Interval Hint</em>}</li>
@@ -79,8 +79,8 @@ public class MappingImpl extends BaseImpl implements Mapping {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<MappingColumn> getMappingColumns() {
-		return (EList<MappingColumn>)eGet(MetricsPackage.Literals.MAPPING__MAPPING_COLUMNS, true);
+	public EList<MappingColumn> getDataMappingColumns() {
+		return (EList<MappingColumn>)eGet(MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS, true);
 	}
 
 	/**

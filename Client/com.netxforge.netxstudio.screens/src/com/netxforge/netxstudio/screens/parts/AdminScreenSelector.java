@@ -17,18 +17,22 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.parts;
 
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector_Inj;
+import com.netxforge.netxstudio.screens.actions.ScreenAction;
+import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.Jobs;
 import com.netxforge.netxstudio.screens.f4.MetricSources;
 import com.netxforge.netxstudio.screens.nf3.Retention;
 import com.netxforge.netxstudio.screens.nf4.UsersAndRoles;
 
-public class AdminScreenSelector extends AbstractScreenSelector_Inj {
+public class AdminScreenSelector extends AbstractScreenSelector {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.admin"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -74,9 +78,13 @@ public class AdminScreenSelector extends AbstractScreenSelector_Inj {
 	
 	@Override
 	protected void initBindings() {
-		// TODO Auto-generated method stub
 		// Static initialization of bindings. We need a dynamic form for this. 
 		// 
 		
+	}
+
+	@Override
+	public void contributeMenuAboutToShow(IMenuManager menuManager) {
+		menuManager.add(new ActionContributionItem(new ScreenAction("contributed", SWT.PUSH)));
 	}
 }

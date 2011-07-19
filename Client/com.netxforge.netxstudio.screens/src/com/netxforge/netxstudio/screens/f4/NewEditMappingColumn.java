@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
@@ -51,7 +52,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
-import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -75,7 +75,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private Text txtMetricValuePattern;
 	private Text txtObject;
 	private Text txtMetric;
-	private Mapping owner;
+	private EList<?> owner;
 	private MappingColumn mxlsColumn;
 	private Text txtColumn;
 	private Button btnDate;
@@ -95,6 +95,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private WritableValue btnTimeWritableValue;
 	private Text txtObjectAttribute;
 	private EMFDataBindingContext context;
+	private boolean showDataMapping;
+	private Form frmNewMappingColumn;
+	private Composite cmpColumnMapping;
 
 	/**
 	 * Create the composite.
@@ -113,7 +116,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		Form frmNewMappingColumn = toolkit.createForm(this);
+		frmNewMappingColumn = toolkit.createForm(this);
 		frmNewMappingColumn.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewMappingColumn);
 		frmNewMappingColumn.setText("New Mapping Column");
@@ -160,142 +163,48 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		sctnDataKind.setText("Mapping");
 		sctnDataKind.setExpanded(true);
 
-		Composite composite_2 = toolkit.createComposite(sctnDataKind, SWT.NONE);
-		toolkit.paintBordersFor(composite_2);
-		sctnDataKind.setClient(composite_2);
+		cmpColumnMapping = toolkit.createComposite(sctnDataKind, SWT.NONE);
+		toolkit.paintBordersFor(cmpColumnMapping);
+		sctnDataKind.setClient(cmpColumnMapping);
 		GridLayout gl_composite_2 = new GridLayout(6, false);
 		gl_composite_2.horizontalSpacing = 10;
-		composite_2.setLayout(gl_composite_2);
+		cmpColumnMapping.setLayout(gl_composite_2);
 
-		FormText formText_2 = toolkit.createFormText(composite_2, false);
+		FormText formText_2 = toolkit.createFormText(cmpColumnMapping, false);
 		formText_2.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 2, 1));
 		toolkit.paintBordersFor(formText_2);
 		formText_2.setText("<form><p><b>Column Type</b></p></form>", true,
 				false);
 
-		FormText formText = toolkit.createFormText(composite_2, false);
+		FormText formText = toolkit.createFormText(cmpColumnMapping, false);
 		formText.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 2,
 				1));
 		toolkit.paintBordersFor(formText);
 		formText.setText("<form><p><b>Pattern</b></p></form>", true, false);
 
-		FormText formText_1 = toolkit.createFormText(composite_2, false);
+		FormText formText_1 = toolkit.createFormText(cmpColumnMapping, false);
 		formText_1.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false,
 				1, 1));
 		toolkit.paintBordersFor(formText_1);
 		formText_1.setText("<form><p><b>Object</b></p></form>", true, false);
-		new Label(composite_2, SWT.NONE);
+		new Label(cmpColumnMapping, SWT.NONE);
 
-		btnDatetime = new Button(composite_2, SWT.RADIO);
-		toolkit.adapt(btnDatetime, true, true);
-		btnDatetime.setText("Date/Time");
-		new Label(composite_2, SWT.NONE);
+	}
 
-		cmbDateTimePattern = new Combo(composite_2, SWT.NONE);
-		GridData gd_cmbDateTimePattern = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_cmbDateTimePattern.widthHint = 100;
-		cmbDateTimePattern.setLayoutData(gd_cmbDateTimePattern);
-		toolkit.adapt(cmbDateTimePattern);
-		toolkit.paintBordersFor(cmbDateTimePattern);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-
-		btnDate = toolkit.createButton(composite_2, "Date", SWT.RADIO);
-		GridData gd_btnDate = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_btnDate.widthHint = 100;
-		btnDate.setLayoutData(gd_btnDate);
-		new Label(composite_2, SWT.NONE);
-
-		cmbDatePattern = new Combo(composite_2, SWT.NONE);
-		GridData gd_cmbDatePattern = new GridData(SWT.CENTER, SWT.CENTER,
-				false, false, 1, 1);
-		gd_cmbDatePattern.widthHint = 100;
-		cmbDatePattern.setLayoutData(gd_cmbDatePattern);
-		cmbDatePattern.setText("");
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-
-		btnTime = toolkit.createButton(composite_2, "", SWT.RADIO);
-		toolkit.adapt(btnTime, true, true);
-		btnTime.setText("Time");
-		new Label(composite_2, SWT.NONE);
-
-		cmbTimePattern = new Combo(composite_2, SWT.NONE);
-		GridData gd_cmbTimePattern = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_cmbTimePattern.widthHint = 100;
-		cmbTimePattern.setLayoutData(gd_cmbTimePattern);
-		toolkit.adapt(cmbTimePattern);
-		toolkit.paintBordersFor(cmbTimePattern);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-
-		btnIdentifier = toolkit.createButton(composite_2, "Identifier",
+	private void buildDataMappingOptions(Composite cmpColumnMapping) {
+		btnMetricValue = toolkit.createButton(cmpColumnMapping, "Metric Value",
 				SWT.RADIO);
-		new Label(composite_2, SWT.NONE);
+		new Label(cmpColumnMapping, SWT.NONE);
 
-		txtIdentifierPattern = toolkit.createText(composite_2, "New Text",
-				SWT.NONE);
-		txtIdentifierPattern.setText("");
-
-		Hyperlink hprlnkSelectIdentifier = toolkit.createHyperlink(composite_2,
-				"Select Identifier", SWT.NONE);
-		hprlnkSelectIdentifier.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				IdentifierDialog id = new IdentifierDialog(
-						NewEditMappingColumn.this.getShell());
-				if (id.open() == IDialogConstants.OK_ID) {
-
-					if (mxlsColumn.getDataType() instanceof IdentifierDataKind) {
-						IdentifierDataKind idk = (IdentifierDataKind) mxlsColumn
-								.getDataType();
-						int v = id.getObjectKind();
-						idk.setObjectKind(ObjectKindType.get(v));
-						idk.setObjectProperty(id.getObjectAttribute());
-						context.updateTargets();
-					}
-				}
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		toolkit.paintBordersFor(hprlnkSelectIdentifier);
-
-		txtObject = toolkit.createText(composite_2, "New Text", SWT.BORDER);
-		txtObject.setText("");
-		GridData gd_txtIndentifier = new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1);
-		gd_txtIndentifier.widthHint = 100;
-		txtObject.setLayoutData(gd_txtIndentifier);
-
-		txtObjectAttribute = toolkit.createText(composite_2, "", SWT.BORDER);
-		GridData gd_txtObjectAttribute = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_txtObjectAttribute.widthHint = 100;
-		txtObjectAttribute.setLayoutData(gd_txtObjectAttribute);
-		toolkit.adapt(txtObjectAttribute, true, true);
-
-		btnMetricValue = toolkit.createButton(composite_2, "Metric Value",
-				SWT.RADIO);
-		new Label(composite_2, SWT.NONE);
-
-		txtMetricValuePattern = toolkit.createText(composite_2, "New Text",
-				SWT.NONE);
+		txtMetricValuePattern = toolkit.createText(cmpColumnMapping,
+				"New Text", SWT.NONE);
 		txtMetricValuePattern.setLayoutData(new GridData(SWT.LEFT, SWT.TOP,
 				false, false, 1, 1));
 		txtMetricValuePattern.setText("");
 
-		Hyperlink hprlnkSelectMetric = toolkit.createHyperlink(composite_2,
-				"Select Metric", SWT.NONE);
+		Hyperlink hprlnkSelectMetric = toolkit.createHyperlink(
+				cmpColumnMapping, "Select Metric", SWT.NONE);
 		hprlnkSelectMetric.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 
@@ -322,24 +231,123 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		});
 		toolkit.paintBordersFor(hprlnkSelectMetric);
 
-		txtMetric = toolkit.createText(composite_2, "New Text", SWT.NONE);
+		txtMetric = toolkit.createText(cmpColumnMapping, "New Text", SWT.NONE);
 		txtMetric.setText("");
 		txtMetric.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
-		new Label(composite_2, SWT.NONE);
+		new Label(cmpColumnMapping, SWT.NONE);
 
-		btnInterval = toolkit.createButton(composite_2, "Interval", SWT.RADIO);
-		new Label(composite_2, SWT.NONE);
+	}
 
-		txtIntervalPattern = toolkit.createText(composite_2, "New Text",
+	private void buildHeaderMappingOptions(Composite parent) {
+		btnDatetime = new Button(parent, SWT.RADIO);
+		toolkit.adapt(btnDatetime, true, true);
+		btnDatetime.setText("Date/Time");
+		new Label(parent, SWT.NONE);
+
+		cmbDateTimePattern = new Combo(parent, SWT.NONE);
+		GridData gd_cmbDateTimePattern = new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_cmbDateTimePattern.widthHint = 100;
+		cmbDateTimePattern.setLayoutData(gd_cmbDateTimePattern);
+		toolkit.adapt(cmbDateTimePattern);
+		toolkit.paintBordersFor(cmbDateTimePattern);
+		new Label(parent, SWT.NONE);
+		new Label(parent, SWT.NONE);
+		new Label(parent, SWT.NONE);
+
+		btnDate = toolkit.createButton(parent, "Date", SWT.RADIO);
+		GridData gd_btnDate = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
+		gd_btnDate.widthHint = 100;
+		btnDate.setLayoutData(gd_btnDate);
+		new Label(parent, SWT.NONE);
+
+		cmbDatePattern = new Combo(parent, SWT.NONE);
+		GridData gd_cmbDatePattern = new GridData(SWT.CENTER, SWT.CENTER,
+				false, false, 1, 1);
+		gd_cmbDatePattern.widthHint = 100;
+		cmbDatePattern.setLayoutData(gd_cmbDatePattern);
+		cmbDatePattern.setText("");
+		new Label(parent, SWT.NONE);
+		new Label(parent, SWT.NONE);
+		new Label(parent, SWT.NONE);
+
+		btnTime = toolkit.createButton(parent, "", SWT.RADIO);
+		toolkit.adapt(btnTime, true, true);
+		btnTime.setText("Time");
+		new Label(parent, SWT.NONE);
+
+		cmbTimePattern = new Combo(parent, SWT.NONE);
+		GridData gd_cmbTimePattern = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_cmbTimePattern.widthHint = 100;
+		cmbTimePattern.setLayoutData(gd_cmbTimePattern);
+		toolkit.adapt(cmbTimePattern);
+		toolkit.paintBordersFor(cmbTimePattern);
+		new Label(parent, SWT.NONE);
+		new Label(parent, SWT.NONE);
+		new Label(parent, SWT.NONE);
+
+		btnIdentifier = toolkit.createButton(parent, "Identifier", SWT.RADIO);
+		new Label(parent, SWT.NONE);
+
+		txtIdentifierPattern = toolkit.createText(parent, "New Text", SWT.NONE);
+		txtIdentifierPattern.setText("");
+
+		Hyperlink hprlnkSelectIdentifier = toolkit.createHyperlink(parent,
+				"Select Identifier", SWT.NONE);
+		hprlnkSelectIdentifier.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				IdentifierDialog id = new IdentifierDialog(
+						NewEditMappingColumn.this.getShell());
+				if (id.open() == IDialogConstants.OK_ID) {
+
+					if (mxlsColumn.getDataType() instanceof IdentifierDataKind) {
+						IdentifierDataKind idk = (IdentifierDataKind) mxlsColumn
+								.getDataType();
+						int v = id.getObjectKind();
+						idk.setObjectKind(ObjectKindType.get(v));
+						idk.setObjectProperty(id.getObjectAttribute());
+						context.updateTargets();
+					}
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		toolkit.paintBordersFor(hprlnkSelectIdentifier);
+
+		txtObject = toolkit.createText(parent, "New Text", SWT.BORDER);
+		txtObject.setText("");
+		GridData gd_txtIndentifier = new GridData(SWT.FILL, SWT.CENTER, false,
+				false, 1, 1);
+		gd_txtIndentifier.widthHint = 100;
+		txtObject.setLayoutData(gd_txtIndentifier);
+
+		txtObjectAttribute = toolkit.createText(parent, "", SWT.BORDER);
+		GridData gd_txtObjectAttribute = new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_txtObjectAttribute.widthHint = 100;
+		txtObjectAttribute.setLayoutData(gd_txtObjectAttribute);
+		toolkit.adapt(txtObjectAttribute, true, true);
+		
+		btnInterval = toolkit.createButton(cmpColumnMapping, "Interval",
+				SWT.RADIO);
+		new Label(cmpColumnMapping, SWT.NONE);
+
+		txtIntervalPattern = toolkit.createText(cmpColumnMapping, "New Text",
 				SWT.NONE);
 		txtIntervalPattern.setText("");
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
-
-		populatePatterns();
-
+		new Label(cmpColumnMapping, SWT.NONE);
+		new Label(cmpColumnMapping, SWT.NONE);
+		new Label(cmpColumnMapping, SWT.NONE);
+		
+		
 	}
 
 	// Simpleformat patterns:
@@ -389,9 +397,42 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				.value(MetricsPackage.Literals.MAPPING_COLUMN__COLUMN);
 		context.bindValue(columnObservable, columnProperty.observe(mxlsColumn));
 
-		// Databinding for the Datakind object, which has complex mapping
-		// to various ui widgets.
+		// ///////////////////////////////////////////////////////////
+		// AGGREGATOR
+		// ///////////////////////////////////////////////////////////
+		IObservableValue dataKindWritableValue = new WritableValue();
+		DatakindAggregate aggregate = new DatakindAggregate(
+				dataKindWritableValue);
 
+		IEMFValueProperty dataKindProperty = EMFProperties
+				.value(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
+
+		initDataBindingHeaderMappingColumn(context, aggregate, dataKindProperty);
+		if (showDataMapping) {
+			initDataBindingDataMappingColumn(context, aggregate,
+					dataKindProperty);
+		}
+
+		IObservableValue dataKindObservable = dataKindProperty
+				.observe(mxlsColumn);
+
+		setInitialHeaderMapping(dataKindObservable.getValue());
+		if (showDataMapping) {
+			setInitialDataMapping(dataKindObservable.getValue());
+		}
+
+		context.bindValue(dataKindWritableValue, dataKindObservable);
+		context.updateTargets();
+
+		return context;
+	}
+
+	/*
+	 * bind the part of the UI which deals with header mapping.
+	 */
+	private void initDataBindingHeaderMappingColumn(
+			EMFDataBindingContext context, DatakindAggregate aggregate,
+			IEMFValueProperty dataKindProperty) {
 		// ///////////////////////////
 		// WRITABLE OBSERVABLES
 		// ///////////////////////////
@@ -400,16 +441,11 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		btnDateTimeWritableValue = new WritableValue();
 		btnDateWritableValue = new WritableValue();
 		btnTimeWritableValue = new WritableValue();
-		btnMetricWritableValue = new WritableValue();
 		btnIntervalWritableValue = new WritableValue();
 
 		// ///////////////////////////
 		// AGGREGATED WIDGETS.
 		// ///////////////////////////
-
-		IObservableValue dataKindWritableValue = new WritableValue();
-		DatakindAggregate aggregate = new DatakindAggregate(
-				dataKindWritableValue);
 
 		IObservableValue identifierObservable = SWTObservables
 				.observeSelection(btnIdentifier);
@@ -427,10 +463,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				.observeSelection(btnTime);
 		timeObservable.addValueChangeListener(aggregate);
 
-		IObservableValue metricObservable = SWTObservables
-				.observeSelection(btnMetricValue);
-		metricObservable.addValueChangeListener(aggregate);
-
 		IObservableValue intervalObservable = SWTObservables
 				.observeSelection(this.btnInterval);
 		intervalObservable.addValueChangeListener(aggregate);
@@ -439,12 +471,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		// REGULAR WIDGETS.
 		// ///////////////////////////
 
-		IObservableValue metricValueObservable = SWTObservables.observeText(
-				txtMetric, SWT.Modify);
-
 		IObservableValue objectAttributeObservable = SWTObservables
 				.observeText(this.txtObjectAttribute, SWT.Modify);
-
 		IObservableValue objectObservable = SWTObservables.observeText(
 				this.txtObject, SWT.Modify);
 
@@ -467,34 +495,76 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				.observeText(this.txtIdentifierPattern, SWT.Modify);
 		identifierPatternObservable.addValueChangeListener(aggregate);
 
-		IObservableValue valuePatternObservable = SWTObservables.observeText(
-				this.txtMetricValuePattern, SWT.Modify);
-		valuePatternObservable.addValueChangeListener(aggregate);
-
 		IObservableValue periodPatternObservable = SWTObservables.observeText(
 				this.txtIntervalPattern, SWT.Modify);
 		periodPatternObservable.addValueChangeListener(aggregate);
 
 		// ///////////////////////////
-		// PROPERTIES
-		// ///////////////////////////
-		IEMFValueProperty datatypeValueProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
-
-		IObservableValue dataTypeObservable = datatypeValueProperty
-				.observe(mxlsColumn);
-
-		setInitial(dataTypeObservable.getValue());
-		
-		context.bindValue(dataKindWritableValue, dataTypeObservable);
-		context.updateTargets();
-
-		IEMFValueProperty dataKindProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
-
-		// ///////////////////////////
 		// STRATEGIES
 		// ///////////////////////////
+
+		EMFUpdateValueStrategy objectAttributeStrategy = new EMFUpdateValueStrategy();
+		objectAttributeStrategy
+				.setConverter(new DataKindModelToTargetConverter() {
+					public Object convert(Object fromObject) {
+						if (fromObject instanceof IdentifierDataKind) {
+							return ((IdentifierDataKind) fromObject)
+									.getObjectProperty();
+						}
+						return null;
+					}
+				});
+
+		EMFUpdateValueStrategy objectStrategy = new EMFUpdateValueStrategy();
+		objectStrategy.setConverter(new DataKindModelToTargetConverter() {
+			public Object convert(Object fromObject) {
+				if (fromObject instanceof IdentifierDataKind) {
+					return ((IdentifierDataKind) fromObject).getObjectKind()
+							.getName();
+				}
+				return null;
+			}
+		});
+
+		context.bindValue(objectAttributeObservable,
+				dataKindProperty.observe(mxlsColumn), null,
+				objectAttributeStrategy);
+
+		context.bindValue(objectObservable,
+				dataKindProperty.observe(mxlsColumn), null, objectStrategy);
+		// Do the opposite binding.
+		context.bindValue(identifierObservable, btnIdentifierWritableValue,
+				null, null);
+		context.bindValue(dateTimeObservable, btnDateTimeWritableValue, null,
+				null);
+
+		context.bindValue(dateObservable, btnDateWritableValue, null, null);
+		context.bindValue(timeObservable, btnTimeWritableValue, null, null);
+
+		context.bindValue(intervalObservable, btnIntervalWritableValue, null,
+				null);
+	}
+
+	/*
+	 * bind the part of the UI which deals with data mapping.
+	 */
+	private void initDataBindingDataMappingColumn(
+			EMFDataBindingContext context, DatakindAggregate aggregate,
+			IEMFValueProperty dataKindProperty) {
+
+		btnMetricWritableValue = new WritableValue();
+
+		IObservableValue metricObservable = SWTObservables
+				.observeSelection(btnMetricValue);
+		metricObservable.addValueChangeListener(aggregate);
+
+		IObservableValue metricValueObservable = SWTObservables.observeText(
+				txtMetric, SWT.Modify);
+
+		IObservableValue valuePatternObservable = SWTObservables.observeText(
+				this.txtMetricValuePattern, SWT.Modify);
+		valuePatternObservable.addValueChangeListener(aggregate);
+
 		EMFUpdateValueStrategy metricModelToTargetStrategy = new EMFUpdateValueStrategy();
 		metricModelToTargetStrategy
 				.setConverter(new DataKindModelToTargetConverter() {
@@ -509,56 +579,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 						return null;
 					}
 				});
-
-		EMFUpdateValueStrategy objectAttributeStrategy = new EMFUpdateValueStrategy();
-		objectAttributeStrategy
-				.setConverter(new DataKindModelToTargetConverter() {
-					public Object convert(Object fromObject) {
-						if (fromObject instanceof IdentifierDataKind) {
-							return ((IdentifierDataKind) fromObject)
-									.getObjectProperty();
-						}
-						return null;
-					}
-				});
-		
-		
-		EMFUpdateValueStrategy objectStrategy = new EMFUpdateValueStrategy();
-		objectStrategy
-				.setConverter(new DataKindModelToTargetConverter() {
-					public Object convert(Object fromObject) {
-						if (fromObject instanceof IdentifierDataKind) {
-							return ((IdentifierDataKind) fromObject)
-									.getObjectKind().getName();
-						}
-						return null;
-					}
-				});
-
 		context.bindValue(metricValueObservable,
 				dataKindProperty.observe(mxlsColumn), null,
 				metricModelToTargetStrategy);
-
-		context.bindValue(objectAttributeObservable,
-				dataKindProperty.observe(mxlsColumn), null,
-				objectAttributeStrategy);
-		
-		context.bindValue(objectObservable,
-				dataKindProperty.observe(mxlsColumn), null,
-				objectStrategy);
-
-		// Do the opposite binding.
-		context.bindValue(identifierObservable, btnIdentifierWritableValue,
-				null, null);
-		context.bindValue(dateTimeObservable, btnDateTimeWritableValue, null,
-				null);
-
-		context.bindValue(dateObservable, btnDateWritableValue, null, null);
-		context.bindValue(timeObservable, btnTimeWritableValue, null, null);
 		context.bindValue(metricObservable, btnMetricWritableValue, null, null);
-		context.bindValue(intervalObservable, btnIntervalWritableValue, null,
-				null);
-		return context;
 	}
 
 	abstract class DataKindModelToTargetConverter implements IConverter {
@@ -581,7 +605,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		}
 	}
 
-	private void setInitial(Object value) {
+	private void setInitialHeaderMapping(Object value) {
 		if (value instanceof ValueDataKind) {
 			ValueDataKind vdk = (ValueDataKind) value;
 			ValueKindType vkt = vdk.getValueKind();
@@ -621,6 +645,20 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			IdentifierDataKind idk = (IdentifierDataKind) value;
 			if (idk.getPattern() != null) {
 				this.txtIdentifierPattern.setText(idk.getPattern());
+			}
+		}
+	}
+
+	private void setInitialDataMapping(Object value) {
+		if (value instanceof ValueDataKind) {
+			ValueDataKind vdk = (ValueDataKind) value;
+			ValueKindType vkt = vdk.getValueKind();
+
+			if (vkt == ValueKindType.METRIC) {
+				this.btnMetricWritableValue.setValue(true);
+				if (vdk.getFormat() != null) {
+					this.txtMetricValuePattern.setText(vdk.getFormat());
+				}
 			}
 		}
 	}
@@ -678,7 +716,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					modelUpdate();
 				}
 
-				if (control.equals(btnMetricValue)) {
+				if (btnMetricValue != null & control.equals(btnMetricValue)) {
 					this.value = (Boolean) newValue;
 					modelUpdate();
 				}
@@ -773,20 +811,31 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 	public void disposeData() {
 		// N/A
+	}
 
+	public void injectData(boolean showDataMapping, Object owner, Object object) {
+		this.showDataMapping = showDataMapping;
+		injectData(owner, object);
 	}
 
 	public void injectData(Object owner, Object object) {
-		if (owner instanceof Mapping) {
-			this.owner = (Mapping) owner;
-		}else{
+		if (owner instanceof EList<?>) {
+			this.owner = (EList<?>) owner;
+		} else {
 			throw new IllegalArgumentException();
 		}
 		if (object != null && object instanceof MappingColumn) {
-				mxlsColumn = (MappingColumn) object;
-		}else{
+			mxlsColumn = (MappingColumn) object;
+		} else {
 			throw new IllegalArgumentException();
 		}
+
+		buildHeaderMappingOptions(cmpColumnMapping);
+		if (showDataMapping) {
+			buildDataMappingOptions(cmpColumnMapping);
+		}
+		populatePatterns();
+
 		context = this.initDataBindings_();
 	}
 
@@ -794,7 +843,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		if (Screens.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new AddCommand(editingService.getEditingDomain(),
-					owner.getMappingColumns(), mxlsColumn);
+					owner, mxlsColumn);
+
 			editingService.getEditingDomain().getCommandStack().execute(c);
 		} else if (Screens.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
@@ -830,8 +880,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 	@Override
 	public Form getScreenForm() {
-		// TODO Auto-generated method stub
-		return null;
+		return frmNewMappingColumn;
 	}
 
 	@Override

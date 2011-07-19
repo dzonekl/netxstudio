@@ -6,6 +6,9 @@ import org.eclipse.emf.edit.ui.action.DeleteAction;
 import org.eclipse.emf.edit.ui.action.PasteAction;
 import org.eclipse.emf.edit.ui.action.RedoAction;
 import org.eclipse.emf.edit.ui.action.UndoAction;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -25,7 +28,18 @@ import org.eclipse.ui.actions.ActionFactory;
  * @author dzonekl
  * 
  */
-public class GlobalActionsHandler  implements IPropertyListener {
+public class GlobalActionsHandler implements IPropertyListener {
+
+	/**
+	 * This style bit indicates that the "additions" separator should come after
+	 * the "edit" separator.
+	 */
+	public static final int ADDITIONS_LAST_STYLE = 0x1;
+
+	/**
+	 * This is used to encode the style bits.
+	 */
+	protected int style;
 
 	/**
 	 * This is the action used to implement delete.
@@ -168,9 +182,9 @@ public class GlobalActionsHandler  implements IPropertyListener {
 	 * @param part
 	 */
 	public void activate(IWorkbenchPart part) {
-		
+
 		part.addPropertyListener(this);
-		
+
 		deleteAction.setActiveWorkbenchPart(part);
 		cutAction.setActiveWorkbenchPart(part);
 		copyAction.setActiveWorkbenchPart(part);
@@ -192,13 +206,18 @@ public class GlobalActionsHandler  implements IPropertyListener {
 	}
 
 	public void update(IWorkbenchPart part) {
+
 		ISelectionProvider selectionProvider = part instanceof ISelectionProvider ? (ISelectionProvider) part
 				: part.getSite().getSelectionProvider();
 
 		if (selectionProvider != null) {
 			ISelection selection = selectionProvider.getSelection();
+
 			IStructuredSelection structuredSelection = selection instanceof IStructuredSelection ? (IStructuredSelection) selection
 					: StructuredSelection.EMPTY;
+
+			System.out.println("Update selection for actions on"
+					+ structuredSelection);
 
 			deleteAction.updateSelection(structuredSelection);
 			cutAction.updateSelection(structuredSelection);
@@ -211,7 +230,7 @@ public class GlobalActionsHandler  implements IPropertyListener {
 	}
 
 	public void deactivate(IWorkbenchPart part) {
-		
+
 		part.removePropertyListener(this);
 
 		deleteAction.setActiveWorkbenchPart(null);
@@ -236,7 +255,35 @@ public class GlobalActionsHandler  implements IPropertyListener {
 	public void propertyChanged(Object source, int propId) {
 		System.out.println("WORK IN PROGESS : Property fired prop ID" + propId);
 		update((IWorkbenchPart) source);
-		
 	}
 
+	public void menuAboutToShow(IMenuManager menuManager) {
+		// Add our standard marker.
+		//
+		if ((style & ADDITIONS_LAST_STYLE) == 0) {
+			menuManager.add(new Separator("additions"));
+		}
+		menuManager.add(new Separator("edit"));
+
+		// Add the edit menu actions.
+		//
+		menuManager.add(new ActionContributionItem(undoAction));
+		menuManager.add(new ActionContributionItem(redoAction));
+		menuManager.add(new Separator());
+		menuManager.add(new ActionContributionItem(cutAction));
+		menuManager.add(new ActionContributionItem(copyAction));
+		menuManager.add(new ActionContributionItem(pasteAction));
+		menuManager.add(new Separator());
+		menuManager.add(new ActionContributionItem(deleteAction));
+		menuManager.add(new Separator());
+
+		if ((style & ADDITIONS_LAST_STYLE) != 0) {
+			menuManager.add(new Separator("additions"));
+			menuManager.add(new Separator());
+		}
+		// Add our other standard marker.
+		//
+		menuManager.add(new Separator("additions-end"));
+		// addGlobalActions(menuManager);
+	}
 }

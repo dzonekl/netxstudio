@@ -365,7 +365,7 @@
     </genClasses>
     <genClasses ecoreClass="metrics.ecore#//Mapping">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Mapping/headerMappingColumns"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Mapping/mappingColumns"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//Mapping/dataMappingColumns"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/firstDataRow"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/headerRow"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//Mapping/intervalHint"/>

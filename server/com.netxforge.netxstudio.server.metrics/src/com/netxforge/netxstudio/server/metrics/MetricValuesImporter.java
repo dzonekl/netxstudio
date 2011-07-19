@@ -294,6 +294,7 @@ public abstract class MetricValuesImporter {
 		return totalRows;
 	}
 
+	@SuppressWarnings("unused")
 	private String createNetworkElementLocatorLog(Metric metric,
 			List<IdentifierValue> identifierValues) {
 		final StringBuilder sb = new StringBuilder();
@@ -526,7 +527,7 @@ public abstract class MetricValuesImporter {
 	}
 
 	private EList<MappingColumn> getMappingColumn() {
-		return getMapping().getMappingColumns();
+		return getMapping().getDataMappingColumns();
 	}
 
 	private List<IdentifierValue> getIdentifierValues(
