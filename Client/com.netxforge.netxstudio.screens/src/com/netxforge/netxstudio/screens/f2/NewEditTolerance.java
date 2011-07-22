@@ -75,15 +75,21 @@ public class NewEditTolerance extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		// Readonlyness.
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		String actionText = readonly ? "View: " : "Edit: ";
+		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmNewTolerance = toolkit.createForm(this);
 		frmNewTolerance.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewTolerance);
 
-		String title = Screens.isNewOperation(getOperation()) ? "New" : "Edit";
-
-		frmNewTolerance.setText(title + " Tolerance");
+		frmNewTolerance.setText(actionText + " Tolerance");
 		frmNewTolerance.getBody().setLayout(new FormLayout());
 
 		Section sctnMappings = toolkit.createSection(frmNewTolerance.getBody(),
@@ -109,7 +115,7 @@ public class NewEditTolerance extends AbstractScreen implements
 		gd_lblName.widthHint = 83;
 		lblName.setLayoutData(gd_lblName);
 
-		txtName = toolkit.createText(composite_1, "New Text", SWT.NONE);
+		txtName = toolkit.createText(composite_1, "New Text", widgetStyle);
 		txtName.setText("");
 		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
@@ -121,7 +127,7 @@ public class NewEditTolerance extends AbstractScreen implements
 		lblLevel.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false,
 				1, 1));
 
-		cmbLevelViewer = new ComboViewer(composite_1, SWT.NONE);
+		cmbLevelViewer = new ComboViewer(composite_1, widgetStyle);
 		Combo combo = cmbLevelViewer.getCombo();
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
@@ -217,7 +223,7 @@ public class NewEditTolerance extends AbstractScreen implements
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
-
+		buildUI();
 		m_bindingContext = initDataBindings_();
 	}
 

@@ -6,12 +6,14 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -38,12 +40,17 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
+import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
 public class NewEditComponent extends AbstractDetailsComposite implements
@@ -52,7 +59,7 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 	private Component comp;
 	private FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtName;
-	private Text text;
+	private Text txtDescription;
 	private IEditingService editingService;
 	private Table table;
 	private TableViewer tolerancesTableViewer;
@@ -119,13 +126,13 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 				false, 1, 1));
 		lblDescription.setAlignment(SWT.RIGHT);
 
-		text = toolkit.createText(composite, "New Text", SWT.BORDER | SWT.WRAP
-				| SWT.MULTI);
-		text.setText("");
+		txtDescription = toolkit.createText(composite, "New Text", SWT.BORDER
+				| SWT.WRAP | SWT.MULTI);
+		txtDescription.setText("");
 		GridData gd_text = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
 		gd_text.heightHint = 100;
 		gd_text.widthHint = 200;
-		text.setLayoutData(gd_text);
+		txtDescription.setLayoutData(gd_text);
 
 		Section sctnExpressions = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
@@ -156,21 +163,30 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 		txtCapExpression.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
 
-		Button btnSelect = toolkit
+		Button btnSelectCapExpression = toolkit
 				.createButton(composite_1, "Select", SWT.NONE);
-		GridData gd_btnSelect = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnSelect.heightHint = 20;
-		btnSelect.setLayoutData(gd_btnSelect);
-		btnSelect.addSelectionListener(new SelectionAdapter() {
+		GridData gd_btnSelectCapExpression = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_btnSelectCapExpression.heightHint = 20;
+		btnSelectCapExpression.setLayoutData(gd_btnSelectCapExpression);
+		btnSelectCapExpression.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Resource unitResource = editingService.getData(LibraryPackage.Literals.UNIT);
-//				UnitFilterDialog dialog = new UnitFilterDialog(
-//						NewEditMetric.this.getShell(), unitResource);
-//				if (dialog.open() == IDialogConstants.OK_ID) {
-//					Unit u = (Unit) dialog.getFirstResult();
-//					metric.setUnitRef(u); // Should now show with databinding.
-//				}
+				Resource expressionResource = editingService
+						.getData(LibraryPackage.Literals.EXPRESSION);
+				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
+						NewEditComponent.this.getShell(), expressionResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Expression expression = (Expression) dialog
+							.getFirstResult();
+					Command c = new SetCommand(
+							editingService.getEditingDomain(),
+							comp,
+							LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
+							expression);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(c);
+				}
 			}
 		});
 
@@ -185,14 +201,30 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 		txtUtilExpression.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 1, 1));
 
-		Button btnSelect_1 = toolkit.createButton(composite_1, "Select",
+		Button btnSelectUtilExpression = toolkit.createButton(composite_1, "Select",
 				SWT.NONE);
-		GridData gd_btnSelect_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnSelect_1.heightHint = 20;
-		btnSelect_1.setLayoutData(gd_btnSelect_1);
-		btnSelect_1.addSelectionListener(new SelectionAdapter() {
+		GridData gd_btnSelectUtilExpression = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_btnSelectUtilExpression.heightHint = 20;
+		btnSelectUtilExpression.setLayoutData(gd_btnSelectUtilExpression);
+		btnSelectUtilExpression.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				Resource expressionResource = editingService
+						.getData(LibraryPackage.Literals.EXPRESSION);
+				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
+						NewEditComponent.this.getShell(), expressionResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Expression expression = (Expression) dialog
+							.getFirstResult();
+					Command c = new SetCommand(
+							editingService.getEditingDomain(),
+							comp,
+							LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
+							expression);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(c);
+				}
 			}
 		});
 
@@ -274,6 +306,57 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 		tblclmnExpression.setText("Expression");
 	}
 
+	@SuppressWarnings("unused")
+	private void editUtilizationExpression() {
+		NewEditExpression expressionScreen = new NewEditExpression(
+				screenService.getScreenContainer(), SWT.NONE);
+		expressionScreen.setScreenService(screenService);
+		Expression expression = comp.getUtilizationExpressionRef();
+		if (expression != null) {
+			expressionScreen.setOperation(Screens.OPERATION_EDIT);
+			expressionScreen
+					.injectData(
+							null,
+							comp,
+							LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
+							expression);
+		} else {
+			Resource expressionResource = editingService
+					.getData(LibraryPackage.Literals.EXPRESSION);
+			expressionScreen.setOperation(Screens.OPERATION_NEW);
+			expressionScreen
+					.injectData(
+							expressionResource,
+							comp,
+							LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
+							LibraryFactory.eINSTANCE.createExpression());
+		}
+		screenService.setActiveScreen(expressionScreen);
+	}
+
+	@SuppressWarnings("unused")
+	private void editCapacityExpression() {
+		NewEditExpression expressionScreen = new NewEditExpression(
+				screenService.getScreenContainer(), SWT.NONE);
+		expressionScreen.setScreenService(screenService);
+		Expression expression = comp.getCapacityExpressionRef();
+		if (expression != null) {
+			expressionScreen.setOperation(Screens.OPERATION_EDIT);
+			expressionScreen.injectData(null, comp,
+					LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
+					expression);
+		} else {
+			Resource expressionResource = editingService
+					.getData(LibraryPackage.Literals.EXPRESSION);
+			expressionScreen.setOperation(Screens.OPERATION_NEW);
+			expressionScreen.injectData(expressionResource, comp,
+					LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
+					LibraryFactory.eINSTANCE.createExpression());
+
+		}
+		screenService.setActiveScreen(expressionScreen);
+	}
+
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
@@ -283,19 +366,46 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 				400, SWTObservables.observeText(txtName, SWT.Modify));
 		IObservableValue descriptionObservable = SWTObservables
 				.observeDelayedValue(400,
-						SWTObservables.observeText(text, SWT.Modify));
+						SWTObservables.observeText(txtDescription, SWT.Modify));
+
+		IObservableValue capExpressionObservable = SWTObservables.observeText(
+				this.txtCapExpression, SWT.Modify);
+		
+		IObservableValue utilExpressionObservable = SWTObservables.observeText(
+				this.txtUtilExpression, SWT.Modify);
 
 		IEMFValueProperty componentNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__NAME);
+
 		IEMFValueProperty componentDescriptionProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
 						LibraryPackage.Literals.COMPONENT__DESCRIPTION);
+
+		IEMFValueProperty capacityExpressionProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(),
+						FeaturePath
+								.fromList(
+										LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
+										LibraryPackage.Literals.EXPRESSION__NAME));
+
+		IEMFValueProperty utilExpressionProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(),
+						FeaturePath
+								.fromList(
+										LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
+										LibraryPackage.Literals.EXPRESSION__NAME));
 
 		context.bindValue(nameObservable, componentNameProperty.observe(comp),
 				null, null);
 		context.bindValue(descriptionObservable,
 				componentDescriptionProperty.observe(comp), null, null);
+
+		context.bindValue(capExpressionObservable,
+				capacityExpressionProperty.observe(comp), null, null);
+
+		context.bindValue(utilExpressionObservable,
+				utilExpressionProperty.observe(comp), null, null);
 
 		// binding of tolerances.
 

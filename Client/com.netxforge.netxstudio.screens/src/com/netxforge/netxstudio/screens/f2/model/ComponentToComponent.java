@@ -1,0 +1,21 @@
+package com.netxforge.netxstudio.screens.f2.model;
+
+import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.NodeType;
+
+public class ComponentToComponent {
+	
+	private final Component source;
+	private final Component target;
+	public ComponentToComponent(Component source, Component target) {
+		super();
+		this.source = source;
+		this.target = target;
+	}
+	public Component getSource() {
+		return source;
+	}
+	public Component getTarget() {
+		return target;
+	}
+}

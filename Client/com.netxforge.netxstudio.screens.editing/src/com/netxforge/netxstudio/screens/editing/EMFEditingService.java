@@ -29,6 +29,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
@@ -36,6 +38,15 @@ import org.eclipse.swt.widgets.Display;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.IDataService;
+import com.netxforge.netxstudio.generics.provider.GenericsItemProviderAdapterFactory;
+import com.netxforge.netxstudio.geo.provider.GeoItemProviderAdapterFactory;
+import com.netxforge.netxstudio.library.provider.LibraryItemProviderAdapterFactory;
+import com.netxforge.netxstudio.metrics.provider.MetricsItemProviderAdapterFactory;
+import com.netxforge.netxstudio.operators.provider.OperatorsItemProviderAdapterFactory;
+import com.netxforge.netxstudio.protocols.provider.ProtocolsItemProviderAdapterFactory;
+import com.netxforge.netxstudio.provider.NetxstudioItemProviderAdapterFactory;
+import com.netxforge.netxstudio.scheduling.provider.SchedulingItemProviderAdapterFactory;
+import com.netxforge.netxstudio.services.provider.ServicesItemProviderAdapterFactory;
 
 /**
  * For the lifetime of this service, we keep an editing domain. We also proxy to
@@ -67,7 +78,7 @@ public abstract class EMFEditingService implements IEditingService {
 
 		if (domain == null) {
 			BasicCommandStack commandStack = new BasicCommandStack();
-			domain = new AdapterFactoryEditingDomain(this.getAdapterFactory(),
+			domain = new ScreensAdapterFactoryEditingDomain(this.getAdapterFactory(),
 					commandStack);
 		}
 		return domain;
@@ -85,8 +96,24 @@ public abstract class EMFEditingService implements IEditingService {
 	 */
 	public ComposedAdapterFactory getAdapterFactory() {
 		if (emfEditAdapterFactory == null) {
+		
+			
 			emfEditAdapterFactory = new ComposedAdapterFactory(
 					ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+			
+			emfEditAdapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+			emfEditAdapterFactory.addAdapterFactory(new GenericsItemProviderAdapterFactory());
+			emfEditAdapterFactory.addAdapterFactory(new ServicesItemProviderAdapterFactory());
+			emfEditAdapterFactory.addAdapterFactory(new LibraryItemProviderAdapterFactory());
+			emfEditAdapterFactory.addAdapterFactory(new MetricsItemProviderAdapterFactory());
+			emfEditAdapterFactory.addAdapterFactory(new ProtocolsItemProviderAdapterFactory());
+			emfEditAdapterFactory.addAdapterFactory(new OperatorsItemProviderAdapterFactory());
+			emfEditAdapterFactory.addAdapterFactory(new GeoItemProviderAdapterFactory());
+			emfEditAdapterFactory.addAdapterFactory(new SchedulingItemProviderAdapterFactory());
+			emfEditAdapterFactory.addAdapterFactory(new NetxstudioItemProviderAdapterFactory());
+			emfEditAdapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+			
+			
 		}
 		return emfEditAdapterFactory;
 	}

@@ -105,47 +105,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-
-		if (editingService != null) {
-			injectData();
-		}
 	}
 
-	Composite currentDetails;
-
-	private void handleDetailsSelection(Object o) {
-
-		if (currentDetails != null) {
-			currentDetails.dispose();
-		}
-		
-		if (o instanceof Function) {
-			NewEditComponent nef = null;
-			nef = new NewEditFunction(this.cmpDetails, SWT.NONE, editingService);
-			nef.setScreenService(screenService);
-			nef.injectData(null, o);
-			this.currentDetails = nef;
-			sashForm.layout(true, true);
-		}
-		if (o instanceof Equipment) {
-			NewEditComponent nef = null;
-			nef = new NewEditEquipment(this.cmpDetails, SWT.NONE,
-					editingService);
-			nef.setScreenService(screenService);
-			nef.injectData(null, o);
-			this.currentDetails = nef;
-			sashForm.layout(true, true);
-
-		}
-		if (o instanceof NodeType) {
-			ViewNodeType nnt = new ViewNodeType(this.cmpDetails, SWT.NONE,
-					editingService);
-			nnt.injectData(null, o);
-			this.currentDetails = nnt;
-			sashForm.layout(true, true);
-		}
-
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -161,20 +122,19 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
-
+		
+		
+		// Readonlyness.
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation()); 
+		String actionText = readonly ? "View: " : "Edit: "; 
+		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+		
 		frmNodeTypes = toolkit.createForm(this);
 		frmNodeTypes.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNodeTypes);
-
-		String detailedAction;
-		if (Screens.isReadOnlyOperation(getOperation())) {
-			detailedAction = "View:";
-		} else {
-			detailedAction = "Edit:";
-		}
-
-		frmNodeTypes.setText(detailedAction + "Network Element Types");
-
+		
+		
+		frmNodeTypes.setText(actionText + "Network Element Types");
 		frmNodeTypes.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		sashForm = new SashForm(frmNodeTypes.getBody(), SWT.VERTICAL);
@@ -212,7 +172,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			}
 		});
 
-		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER);
+		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | widgetStyle);
 		nodeTypeTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
@@ -346,7 +306,45 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			return super.hasChildren(element);
 		}
 	}
+	
+	
 
+	Composite currentDetails;
+
+	private void handleDetailsSelection(Object o) {
+
+		if (currentDetails != null) {
+			currentDetails.dispose();
+		}
+		
+		if (o instanceof Function) {
+			NewEditComponent nef = null;
+			nef = new NewEditFunction(this.cmpDetails, SWT.NONE, editingService);
+			nef.setScreenService(screenService);
+			nef.injectData(null, o);
+			this.currentDetails = nef;
+			sashForm.layout(true, true);
+		}
+		if (o instanceof Equipment) {
+			NewEditComponent nef = null;
+			nef = new NewEditEquipment(this.cmpDetails, SWT.NONE,
+					editingService);
+			nef.setScreenService(screenService);
+			nef.injectData(null, o);
+			this.currentDetails = nef;
+			sashForm.layout(true, true);
+
+		}
+		if (o instanceof NodeType) {
+			ViewNodeType nnt = new ViewNodeType(this.cmpDetails, SWT.NONE,
+					editingService);
+			nnt.injectData(null, o);
+			this.currentDetails = nnt;
+			sashForm.layout(true, true);
+		}
+
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

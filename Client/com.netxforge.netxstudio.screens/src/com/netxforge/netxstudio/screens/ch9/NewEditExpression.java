@@ -93,7 +93,7 @@ public class NewEditExpression extends AbstractScreen implements
 	private Object whoRefers;
 
 	/**
-	 * A feature which can be passed for which this expression should be added. 
+	 * A feature which can be passed for which this expression should be added.
 	 */
 	private EStructuralFeature feature;
 
@@ -105,12 +105,6 @@ public class NewEditExpression extends AbstractScreen implements
 	 */
 	public NewEditExpression(Composite parent, int style) {
 		super(parent, style);
-
-		int widgetStyle = SWT.None;
-		if (Screens.isReadOnlyOperation(getOperation())) {
-			widgetStyle |= SWT.READ_ONLY;
-		}
-
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				validationService.dispose();
@@ -122,10 +116,22 @@ public class NewEditExpression extends AbstractScreen implements
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 
+		buildUI();
+	}
+
+	private void buildUI() {
+		
+		// Readonlyness.
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		String actionText = readonly ? "View: " : "Edit: ";
+		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmExpression = toolkit.createForm(this);
 		frmExpression.setSeparatorVisible(true);
+		frmExpression.setText(actionText + "Expression");
+		
 		toolkit.paintBordersFor(frmExpression);
 
 		frmExpression.getBody().setLayout(new FormLayout());
@@ -172,6 +178,7 @@ public class NewEditExpression extends AbstractScreen implements
 
 	public void injectData(Object owner, Object object) {
 		injectData(owner, null, null, object);
+		buildUI();
 	}
 
 	/*
@@ -181,17 +188,18 @@ public class NewEditExpression extends AbstractScreen implements
 	 * com.netxforge.netxstudio.data.IDataScreenInjection#injectData(java.lang
 	 * .Object, java.lang.Object)
 	 */
-	public void injectData(Object owner, Object whoRefers, EStructuralFeature f, Object object) {
+	public void injectData(Object owner, Object whoRefers,
+			EStructuralFeature f, Object object) {
 
 		if (owner != null && owner instanceof Resource) {
 			this.owner = (Resource) owner;
-		} 
+		}
 		// Determine the ownership if not a resource.
 		if (whoRefers != null) {
 			this.whoRefers = whoRefers;
 		}
-		
-		if( f != null){
+
+		if (f != null) {
 			feature = f;
 		}
 
@@ -205,17 +213,6 @@ public class NewEditExpression extends AbstractScreen implements
 		validationService.registerBindingContext(m_bindingContext);
 		validationService.addValidationListener(this);
 		exp.injectData(expression);
-
-		// Screen title
-		String title = "";
-		if (Screens.isNewOperation(getOperation())) {
-			title = "New ";
-		} else if (Screens.isEditOperation(getOperation())) {
-			title = "Edit ";
-		} else if (Screens.isReadOnlyOperation(getOperation())) {
-			title = "Read-Only ";
-		}
-		frmExpression.setText(title + "Expression");
 
 		if (!Screens.isReadOnlyOperation(getOperation())) {
 			validationService.registerAllDecorators(txtExpressionName,
@@ -234,17 +231,16 @@ public class NewEditExpression extends AbstractScreen implements
 					owner.getContents(), expression);
 			editingService.getEditingDomain().getCommandStack().execute(c);
 			if (whoRefers != null && feature != null) {
-				// We also set the reference to this expression, we need to referee and a feature for this. 
+				// We also set the reference to this expression, we need to
+				// referee and a feature for this.
 				Command cSetRef = null;
 				if (whoRefers instanceof EObject) {
-					cSetRef = new SetCommand(
-							editingService.getEditingDomain(),
-							(EObject) whoRefers,
-							feature,
-							expression);
+					cSetRef = new SetCommand(editingService.getEditingDomain(),
+							(EObject) whoRefers, feature, expression);
 				}
-				if(cSetRef != null){
-					editingService.getEditingDomain().getCommandStack().execute(cSetRef);
+				if (cSetRef != null) {
+					editingService.getEditingDomain().getCommandStack()
+							.execute(cSetRef);
 				}
 			}
 		} else if (Screens.isEditOperation(getOperation())) {

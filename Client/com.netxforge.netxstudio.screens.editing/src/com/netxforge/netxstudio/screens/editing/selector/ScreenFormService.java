@@ -342,9 +342,12 @@ public class ScreenFormService implements IScreenFormService {
 		try {
 			Composite target = (Composite) finalScreenConstructor.newInstance(
 					getScreenContainer(), SWT.NONE);
-			((IScreen) target).setOperation(finalOperation);
 			if (target instanceof IScreen) {
+				((IScreen) target).setOperation(finalOperation);
 				((IScreen) target).setScreenService(this);
+			}
+			if(target instanceof IDataServiceInjection){
+				((IDataServiceInjection) target).injectData();
 			}
 
 			target.addDisposeListener(new ScreenDisposer());
@@ -371,7 +374,6 @@ public class ScreenFormService implements IScreenFormService {
 		public void widgetDisposed(DisposeEvent e) {
 			// The widget is disposed, now dispose the data.
 			if (e.getSource() instanceof IScreen) {
-				final IScreen screen = (IScreen) e.getSource();
 				Display.getCurrent().asyncExec(new Runnable() {
 					public void run() {
 						// screen.disposeData();

@@ -185,11 +185,13 @@ public interface IWorkspaceUtil {
 	public abstract IPath[] browseWorkspace(Shell shell);
 
 	/**
+	 * A Path can be absolute if preceded by a '/'. 
+	 * File System absolute, always returns the full path to the file system. 
 	 * 
 	 * @param path
 	 * @return
 	 */
-	public abstract IPath makeAbsolute(IPath path);
+	public abstract IPath makeFileSystemAbsolute(IPath path);
 	
 	
 	/**

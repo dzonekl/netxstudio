@@ -1,0 +1,585 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Version>12.258</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>10000</WindowHeight>
+  <WindowWidth>10000</WindowWidth>
+  <WindowTopX>120</WindowTopX>
+  <WindowTopY>140</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Verdana"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Font ss:FontName="Verdana" ss:Color="#0000D4"/>
+   <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s22">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Font ss:FontName="Verdana" ss:Color="#993300"/>
+   <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Font ss:FontName="Verdana" ss:Bold="1"/>
+   <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+   </Borders>
+   <Font ss:FontName="Verdana" ss:Color="#003300"/>
+   <Interior/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Equipment">
+  <Table ss:ExpandedColumnCount="12" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">EquipmentCode</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The EquipmentCode attribute holds a unique        identifier typically used for telecommunications equipment.         Examples:        1. The EquipmentCode could be a &quot;Cabinet&quot;       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Position</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Position attribute holds information about        the        position of an equipment relative to it's parent.         Examples:        1.        The        Position of an Equipment with Code &quot;Slot&quot; could be &quot;0&quot; while        it's        parent is a &quot;Rack&quot;, this would mean        slot 0 in the rack.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Redundancy</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Redundancy attribute holds the expected        redundancy schema of an equipment.        An equipment is Active,        Stand-by,        Idle or Defect.         The following options are possible:         n =&gt;        The        equipment is not operating in any redundancy schema        n+1 =&gt; The        equipment is part of an n+1 schema. (1 stand-by for n        number of        active equipment).        1+1 =&gt; The equipment is paired with another        equipment.         It should be considered, that the permitted load and        consequently the        Tolerance will depend on the        redundancy schema.        Closely related to the Redundancy schema is the Load        Distribution.         Examples        1. A schema of n, means a failure of this        equipment will        not be        covered by another equipment.        2. A Schema of        n+1, means a        failure of the equipment will be covered        by another        equipment,        unless the stand-by equipment, is already        active.        3. A        schema of 1+1,        means the load on this equipment will be covered        by        another        equipment.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">State</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The State attribute holds the life status of an        equipment.         The following options are possible:         Active =&gt; The        equipment is operating.        Stand-by =&gt; The equipment is Stand-by.        Idle        =&gt; The equipment is not configured and does not participate        in        Active nor Stand-by and there for in the redudancy schema. An        Idle        e        Equipment can however be reserved.        Defect =&gt; The equipment is        defect and does not participate in Active nor        Stand-by and there        for        in the redudancy schema.        Reserved =&gt; The equipment is reserved        for        future use.         Examples        1. The state of the equipment could be        considered to corelate with a        Metric of the Equipment. A Stand-by        equipment should not be considered when calculating the average        load for a        group of equipments. It will however depend        on the        Equipment Manufacturer if measurements are reported for        non-Active        equipments.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Description</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Description attribute holds the description        of        the equipment       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The EquipmentName attribute holds the name of        the        equipment when the equipment is configured in a Node type.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">capacityExpressionRef</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">utilizationExpressionRef</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">retentionExpressionRef</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">lifecycle</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">icons</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Component</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">RedundancyType</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">StateType</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Description2000</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Expression</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Expression</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Expression</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Lifecycle</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">MultiImage</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <Selected/>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="EquipmentGroup">
+  <Table ss:ExpandedColumnCount="4" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Description</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Description attribute holds the description        of        the equipment group.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Name attribute holds the name of the        equipment        group.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Deleted</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Base</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Description2000</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Boolean</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Expression">
+  <Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">ExpressionLines</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The ExpressionLines reference, contains 0 or         more         ExpressionLine types.        </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Name attribute holds the name of the        expression.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Deleted</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">evaluationObject</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Base</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">ExpressionLine</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Boolean</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">EObject</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Function">
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Description</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Description attribute holds the description        of        the equipment       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The EquipmentName attribute holds the name of        the        equipment when the equipment is configured in a Node type.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">capacityExpressionRef</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">utilizationExpressionRef</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">retentionExpressionRef</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">icons</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Component</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Description2000</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Expression</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Expression</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Expression</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">MultiImage</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Library">
+  <Table ss:ExpandedColumnCount="3" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Name attribute holds the name of the Library.     </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Protocols</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Protocols reference, contains 0 or more       Protocol type.      </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">version</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">String</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Meta</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="NetXResource">
+  <Table ss:ExpandedColumnCount="9" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">DetailDisplay</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The DetailDisplay attribute is a flag specifiy        if        the resource should be displayed in a detailed presentation.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">SummaryDisplay</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The SummaryDisplay attribute is a flag specifiy        if        the resource should be displayed in a summary presentation.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">LongName</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The LongName attribute holds a long name which        is        used for presentation of the resource.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">ExpressionName</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The ExpressionName attribute holds a name which        is        used in the expressions referencing        the resource.         See: The        NetXScript        specification.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">ShortName</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The ShortName attribute holds a short name which        is used for presentation of the resource.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Deleted</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">metricRef</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">unitRef</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Base</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Boolean</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Boolean</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Description2000</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Boolean</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Metric</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Unit</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Parameter">
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Modifiable</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Modifiable flag tells if the parameter value        can be modified by a planner, or if it's locked.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Description</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Description attribute holds the description        of        the equipment       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Value</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Value attribute holds a value for the        Parameter.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">ExpressionName</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The ExpressionName attribute holds a name which        is        used in the expressions referencing        the resource.         See: The        NetXScript        specification.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Name attribute holds a name used for        presentation.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Deleted</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Base</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Boolean</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Description2000</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Double</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Boolean</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Tolerance">
+  <Table ss:ExpandedColumnCount="5" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Level</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Level attribute holds the level of this        tolerance.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Name attribute holds a name used for        presentation.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Deleted</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">expressionRef</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Base</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">LevelType</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Boolean</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Expression</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Unit">
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Description</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Description attribute holds the description        of        the equipment       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Name attribute holds a name used for        presentation.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Code</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Code attribute holds the code of the unit.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Deleted</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">icons</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Base</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Description2000</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">UnitCode</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Boolean</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">MultiImage</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Vendor">
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">RSSurl</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The RSSurl attribute should contain a URL to a        so-called RSS feed.         The RSS format is defined here:        http://en.wikipedia.org/wiki/RSS         Examples:        1. The following URL is        an RSS URL:        http://isoc.org/wp/ietfjournal/?feed=rss2       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Website</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Website attribute should contain the main        web URL of the website. It should be according to         http://en.wikipedia.org/wiki/Uniform_Resource_Locator         Examples: 1.        http://www.ietf.org       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Name</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The Name attribute is a free form text.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">ShortName</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The ShortName attribute is a free form text, but        should generally be kept short (3 characters).         Examples: 1. The        ShortName is used in UI widgets where space is limited.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Symbol</Data><Comment><Data><Font
+        html:Size="9.0" html:Color="#000000"
+        xmlns="http://www.w3.org/TR/REC-html40">         The financial Symbol or ticker attribute, is        according to financial market ticker definitions.         Examples: 1. The        Symbol type can be used to lookup financial information        of a        Company.       </Font></Data></Comment></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">icons</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Company</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">AnyURI</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">AnyURI</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Name255</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">MultiImage</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Equipment_refs">
+  <Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Equipment</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">equipmentRelationshipRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">metricRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">toleranceRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">protocolRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">parameterRefs</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">equipments</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">equipmentGroups</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">resources</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">diagrams</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">[]</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">EquipmentRelationship</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Metric</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Tolerance</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Protocol</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Parameter</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Equipment</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">EquipmentGroup</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">NetXResource</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">DiagramInfo</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="EquipmentGroup_refs">
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">EquipmentGroup</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">expressionRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">equipmentRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">parameterRefs</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">diagrams</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">equipmentGroupResources</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">[]</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Expression</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Equipment</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Parameter</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">DiagramInfo</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">NetXResource</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Expression_refs">
+  <Table ss:ExpandedColumnCount="3" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Expression</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">equipmentGroupRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">serviceProfileRefs</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">[]</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">EquipmentGroup</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">ServiceProfile</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Function_refs">
+  <Table ss:ExpandedColumnCount="9" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Function</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">functionRelationshipRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">metricRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">toleranceRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">protocolRefs</Data></Cell>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">parameterRefs</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">functions</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">resources</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">diagrams</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">[]</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">FunctionRelationship</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Metric</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Tolerance</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Protocol</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Parameter</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Function</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">NetXResource</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">DiagramInfo</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Library_refs">
+  <Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Library</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">functions</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">nodeTypes</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">equipments</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">metrics</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">metricSources</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">parameters</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">tolerances</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">expressions</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">units</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">[]</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Function</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">NodeType</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Equipment</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Metric</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">MetricSource</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Parameter</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Tolerance</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Expression</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Unit</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="NetXResource_refs">
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">NetXResource</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">metricValueRanges</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">capacityValues</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">utilizationValues</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">forecastCapacityValues</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">forecastValues</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">trendedValues</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">[]</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">MetricValueRange</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Value</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Value</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Value</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Value</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Value</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Vendor_refs">
+  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="2" x:FullColumns="1"
+   x:FullRows="1">
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s21"><Data ss:Type="String">Vendor</Data></Cell>
+    <Cell ss:StyleID="s23"><Data ss:Type="String">products</Data></Cell>
+   </Row>
+   <Row ss:Height="14.0">
+    <Cell ss:StyleID="s24"><Data ss:Type="String">[]</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">ProductInfo</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageLayoutZoom>0</PageLayoutZoom>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

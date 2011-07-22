@@ -74,6 +74,9 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	}
 
 	public WorkspaceUtil() {
+
+		ResourcesPlugin.getPlugin(); // Make sure ResourcesPlugin is loaded.
+
 		IProject project = ResourcesPlugin.getWorkspace().getRoot()
 				.findMember(WorkspaceUtil.DEFAULT_PROJ_NAME) != null ? ResourcesPlugin
 				.getWorkspace().getRoot()
@@ -96,15 +99,18 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 			}
 		return false;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.workspace.IWorkspaceUtil#initDefaultProject()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.workspace.IWorkspaceUtil#initDefaultProject()
 	 */
 	public void initDefaultProject() {
 		defaultProject = createNewProject(WorkspaceUtil.DEFAULT_PROJ_NAME);
 		createWorkspaceStructure(defaultProject);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -134,7 +140,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 		}
 		createWorkspaceStructure(defaultProject);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -240,7 +246,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 		this.defaultProject = defaultProject;
 	}
 
-	
 	public boolean validateProject(IProject project) {
 
 		boolean structureFine = false;
@@ -257,7 +262,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * (org.eclipse.core.runtime.IPath, java.lang.String, java.lang.String,
 	 * java.lang.String)
 	 */
-	
+
 	public String getUniqueDiagramFileName(IPath containerFullPath,
 			String fileName, String extension, String hintName) {
 
@@ -274,7 +279,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * com.netxforge.netxstudio.workspace.IWorkspaceUtil#getDerivedFilePath(
 	 * org.eclipse.core.runtime.IPath, java.lang.String, java.lang.String)
 	 */
-	
+
 	public IPath getDerivedFilePath(IPath filePath, String suffix, String srcExt) {
 
 		String extension;
@@ -304,7 +309,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * .eclipse.core.runtime.IPath, java.lang.String, java.lang.String,
 	 * java.lang.String)
 	 */
-	
+
 	public String getUniqueFileName(IPath containerFullPath, String fileName,
 			String extension, String hintName) {
 
@@ -360,7 +365,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * com.netxforge.netxstudio.workspace.IWorkspaceUtil#createNewProject(java
 	 * .lang.String)
 	 */
-	
+
 	public IProject createNewProject(String projectName) {
 
 		// get a project handle
@@ -371,7 +376,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 
 		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
-			
 			protected void execute(IProgressMonitor monitor)
 					throws CoreException, InvocationTargetException,
 					InterruptedException {
@@ -390,7 +394,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 		return newProjectHandle;
 	}
 
-	
 	public void bruteDeleteProject(String projectName) {
 
 		// get a project handle
@@ -398,7 +401,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 
 		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
-			
 			protected void execute(IProgressMonitor monitor)
 					throws CoreException, InvocationTargetException,
 					InterruptedException {
@@ -423,7 +425,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * @param containerPath
 	 * @return
 	 */
-	
+
 	public IFile createNewFile(final InputStream stream, String fileName,
 			IPath containerPath) {
 
@@ -434,7 +436,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 
 		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
-			
 			protected void execute(IProgressMonitor monitor)
 					throws CoreException, InvocationTargetException,
 					InterruptedException {
@@ -466,7 +467,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 
 		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
-			
 			protected void execute(IProgressMonitor monitor)
 					throws CoreException, InvocationTargetException,
 					InterruptedException {
@@ -529,7 +529,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * com.netxforge.netxstudio.workspace.IWorkspaceUtil#createFolderHandle(
 	 * org.eclipse.core.runtime.IPath)
 	 */
-	
+
 	public IFolder createFolderHandle(IPath folderPath) {
 		return ResourcesPlugin.getWorkspace().getRoot().getFolder(folderPath);
 	}
@@ -541,12 +541,11 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * com.netxforge.netxstudio.workspace.IWorkspaceUtil#createProjectHandle
 	 * (java.lang.String)
 	 */
-	
+
 	public IProject createProjectHandle(String projectName) {
 		return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 	}
 
-	
 	public IFile createFileHandle(IPath filePath) {
 		return ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 	}
@@ -558,19 +557,17 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * com.netxforge.netxstudio.workspace.IWorkspaceUtil#getLocation(java.lang
 	 * .String)
 	 */
-	
+
 	public IPath getLocation(String text) {
 		if (text.length() == 0)
 			return null;
 		IPath path = new Path(text);
-		return makeAbsolute(path);
+		return makeFileSystemAbsolute(path);
 	}
 
-	
-	public IPath makeAbsolute(IPath path) {
-		if (!path.isAbsolute())
-			path = ResourcesPlugin.getWorkspace().getRoot().getLocation()
-					.append(path);
+	public IPath makeFileSystemAbsolute(IPath path) {
+		path = ResourcesPlugin.getWorkspace().getRoot().getLocation()
+				.append(path);
 		return path;
 	}
 
@@ -581,7 +578,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * com.netxforge.netxstudio.workspace.IWorkspaceUtil#exists(org.eclipse.
 	 * core.runtime.IPath)
 	 */
-	
+
 	public boolean exists(IPath path) {
 		// String fileName = path.lastSegment();
 		path.removeLastSegments(1); // Strip the file name.
@@ -596,7 +593,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * com.netxforge.netxstudio.workspace.IWorkspaceUtil#stripWorkspace(org.
 	 * eclipse.core.runtime.IPath)
 	 */
-	
+
 	public IPath stripWorkspace(IPath path) {
 		IPath rootLoc = ResourcesPlugin.getWorkspace().getRoot().getLocation();
 		if (rootLoc.isPrefixOf(path))
@@ -607,7 +604,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 
 	int depth = 0;
 
-	
 	public void dumpWorkspace() {
 		try {
 			dumpWorkspace(getRoot().members());
@@ -615,7 +611,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 		}
 	}
 
-	
 	public void dumpWorkspace(IResource[] res) {
 		depth++;
 		for (int i = 0; i < res.length; i++) {
@@ -640,7 +635,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * com.netxforge.netxstudio.workspace.IWorkspaceUtil#browse(org.eclipse.
 	 * swt.widgets.Shell, org.eclipse.core.runtime.IPath, boolean)
 	 */
-	
+
 	public IPath browseFileSystem(Shell shell, IPath path, boolean mustExist) {
 		FileDialog dialog = new FileDialog(shell, mustExist ? SWT.OPEN
 				: SWT.SAVE);
@@ -657,11 +652,12 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	}
 
 	/**
-	 * Browse the workspace and return multiple selected paths. 
+	 * Browse the workspace and return multiple selected paths.
+	 * 
 	 * @param shell
 	 * @return
 	 */
-	
+
 	public IPath[] browseWorkspace(Shell shell) {
 		ResourceSelectionDialog dialog = new ResourceSelectionDialog(shell,
 				getDefaultProject(), "Select a resource");
@@ -687,7 +683,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 
 	}
 
-	
 	public void saveChanges() {
 		try {
 			ResourcesPlugin.getWorkspace().save(false,
@@ -701,7 +696,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(listener);
 	}
 
-	
 	public void removeChangeListener(IResourceChangeListener listener) {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(listener);
 	}
@@ -718,7 +712,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * 
 	 * 
 	 */
-	
+
 	public void extractFixturePlugin() {
 		Bundle b = Platform.getBundle("com.netxforge.netxstudio.fixtures");
 		if (b != null) {
@@ -822,7 +816,7 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * @param path
 	 * @return
 	 */
-	
+
 	public Path getBundleFullPath(Bundle b) {
 		String s = getBundlePathAsString(b);
 		Path p = new Path(s);
@@ -831,7 +825,6 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 		return Path.EMPTY;
 	}
 
-	
 	public String getBundlePathAsString(Bundle b) {
 		String loc = b.getLocation();
 		loc = loc.substring(loc.indexOf("file:"), loc.length());
@@ -843,12 +836,10 @@ public class WorkspaceUtil implements IWorkspaceUtil {
 	 * @param bundleSymbolicName
 	 * @return
 	 */
-	
+
 	public String getBundlePathAsString(String bundleSymbolicName) {
 		Bundle b = Platform.getBundle(bundleSymbolicName);
 		return this.getBundlePathAsString(b);
 	}
-
-	
 
 }

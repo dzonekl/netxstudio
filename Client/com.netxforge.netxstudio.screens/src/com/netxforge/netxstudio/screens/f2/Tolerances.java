@@ -41,16 +41,12 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -105,12 +101,21 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		setLayout(new FillLayout(SWT.HORIZONTAL));
+	}
 
+	private void buildUI(){
+		setLayout(new FillLayout(SWT.HORIZONTAL));
+		
+		// Readonlyness.
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation()); 
+		String actionText = readonly ? "View: " : "Edit: "; 
+		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+	
+		
 		frmTolerances = toolkit.createForm(this);
 		frmTolerances.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmTolerances);
-		frmTolerances.setText("Tolerances");
+		frmTolerances.setText(actionText + "Tolerances");
 		frmTolerances.getBody().setLayout(new GridLayout(3, false));
 
 		Label lblFilterLabel = toolkit.createLabel(frmTolerances.getBody(),
@@ -142,7 +147,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		});
 
 		// Conditional widget.
-		if (!Screens.isReadOnlyOperation(this.getOperation())) {
+		if (!readonly) {
 			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
 					frmTolerances.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
@@ -156,7 +161,6 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 					toleranceScreen.injectData(toleranceResource, tolerance);
 					screenService.setActiveScreen(toleranceScreen);
 				}
-
 				public void linkEntered(HyperlinkEvent e) {
 				}
 
@@ -176,7 +180,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		new Label(frmTolerances.getBody(), SWT.NONE);
 
 		tableViewer = new TableViewer(frmTolerances.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION);
+				| SWT.FULL_SELECTION | widgetStyle);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -195,52 +199,14 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		tblclmnOwnedBy.setWidth(100);
 		tblclmnOwnedBy.setText("Level");
 
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
-
-		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
-		mntmEdit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (screenService != null) {
-					ISelection selection = getTableViewerWidget()
-							.getSelection();
-					if (selection instanceof IStructuredSelection) {
-						Object o = ((IStructuredSelection) selection)
-								.getFirstElement();
-						if (o != null) {
-							NewEditTolerance toleranceScreen = new NewEditTolerance(
-									screenService.getScreenContainer(),
-									SWT.NONE);
-							toleranceScreen.setOperation(getOperation());
-							toleranceScreen.setScreenService(screenService);
-							toleranceScreen.injectData(toleranceResource, o);
-							screenService.setActiveScreen(toleranceScreen);
-						}
-					}
-				}
-			}
-		});
-
-		String detailedAction;
-		if (Screens.isReadOnlyOperation(getOperation())) {
-			detailedAction = "View";
-		} else {
-			detailedAction = "Edit";
-		}
-		mntmEdit.setText(detailedAction + "...");
-
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
 		tblclmnExpression.setWidth(250);
 		tblclmnExpression.setText("Expression");
 		tableViewer.addFilter(new SearchFilter(editingService));
-
-		if (editingService != null) {
-			injectData();
-		}
 	}
+	
 	
 	/**
 	 * Wrap in an action, to contribute to a menu manager. 
@@ -286,6 +252,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	public void injectData() {
 		toleranceResource = editingService
 				.getData(LibraryPackage.Literals.TOLERANCE);
+		buildUI();
 		bindingContext = initDataBindings_();
 	}
 
@@ -348,7 +315,8 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	
 	@Override
 	public IAction[] getActions(){
-		return new IAction[]{new EditToleranceAction("Edit", SWT.PUSH)};
+		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit"; 
+		return new IAction[]{new EditToleranceAction(actionText + "...", SWT.PUSH)};
 	}
 
 }

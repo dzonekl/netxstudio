@@ -52,6 +52,10 @@
       <feature id="com.netxforge.netxstudio.data.feature"/>
       <feature id="com.netxforge.netxstudio.common.feature"/>
       <feature id="com.netxforge.netxstudio.models.edit.feature"/>
+      <feature id="com.netxforge.netxstudio.models.export.feature"/>
+      <feature id="com.netxforge.netxstudio.models.export.ui.feature"/>
+      <feature id="com.netxforge.netxstudio.models.import.ui.feature"/>
+      <feature id="com.netxforge.netxstudio.models.import.feature"/>
       <feature id="com.netxforge.netxscript.feature"/>
       <feature id="com.netxforge.netxscript.ui.feature"/>
       <feature id="org.eclipse.emf.common"/>
@@ -81,11 +85,12 @@
       <feature id="org.eclipse.xtext.ui.artifacts.feature"/>
       <feature id="org.eclipse.emf.cdo.client.artifacts.feature"/>
       <feature id="org.eclipse.jdt.artifacts.feature"/>
-      <feature id="org.apache.poi.artifacts.feature" version="1.0.0.qualifier"/>
-      <feature id="oracle.jdbc.driver" version="1.0.0.qualifier"/>
+      <feature id="org.apache.poi.artifacts.feature"/>
+      <feature id="oracle.jdbc.driver"/>
       <feature id="org.postgresql" version="9.0.0.801"/>
       <feature id="org.eclipse.gef" version="3.7.0.v20110425-2050-777D-81B2Bz0685C3A6E34272"/>
       <feature id="org.eclipse.draw2d" version="3.7.0.v20110425-2050-46-7w3122153603161"/>
+      <feature id="org.eclipse.xtend.artifacts.feature"/>
    </features>
 
    <configurations>

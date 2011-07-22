@@ -21,12 +21,14 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
+import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
 import com.netxforge.netxstudio.screens.f2.parts.NodeTypeEditPartsFactory;
 
 public class ViewNodeType extends AbstractDetailsComposite implements IScreen, IDataScreenInjection {
 
 	private NodeType nodeType;
 	private FormToolkit toolkit = new FormToolkit(Display.getCurrent());
+	@SuppressWarnings("unused")
 	private IEditingService editingService;
 	private Composite cmpHierachy;
 	
@@ -89,7 +91,7 @@ public class ViewNodeType extends AbstractDetailsComposite implements IScreen, I
 		fd_sctnHierachy.bottom = new FormAttachment(100, -10);
 		fd_sctnHierachy.top = new FormAttachment(scnInfo, 6);
 		fd_sctnHierachy.left = new FormAttachment(0, 10);
-		fd_sctnHierachy.right = new FormAttachment(0, 440);
+		fd_sctnHierachy.right = new FormAttachment(100, -14);
 		sctnHierachy.setLayoutData(fd_sctnHierachy);
 		toolkit.paintBordersFor(sctnHierachy);
 		sctnHierachy.setText("Hierachy");
@@ -152,6 +154,7 @@ public class ViewNodeType extends AbstractDetailsComposite implements IScreen, I
 		graphicalViewer.getControl().setBackground(ColorConstants.listBackground);
 		graphicalViewer.setRootEditPart(rootEditPart);
 		graphicalViewer.setEditPartFactory(new NodeTypeEditPartsFactory());
-		graphicalViewer.setContents(nodeType);
+		graphicalViewer.setContents(new WrappedNodeType(nodeType));
+		rootEditPart.refresh();
 	}
 }
