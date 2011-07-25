@@ -718,6 +718,57 @@
 	 </Table>
     </Worksheet>
 
+	 <Worksheet ss:Name="NodeType">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">LeafNode</Data>
+		
+ 	 
+		<Comment><Data>
+        </Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Name</Data>
+		
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Deleted</Data>
+		
+ 	 
+			 	 	
+ 	 </Cell>
+   		
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Base</Data></Cell>
+	 	</Row>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Boolean</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Name255</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Boolean</Data>
+ 	 </Cell>
+	 	</Row>
+	 </Table>
+    </Worksheet>
+
 	 <Worksheet ss:Name="Parameter">
 	 <Table>
 	 	<Column/>
@@ -1566,6 +1617,43 @@
 
  	 <Cell ss:StyleID="s23">
  	 	<Data ss:Type="String">Value</Data>
+ 	 </Cell>
+
+   		</Row>
+	 </Table>
+   </Worksheet>
+   	
+
+    
+    
+    <Worksheet ss:Name="NodeType_refs">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   			<Cell ss:StyleID="s20">
+ 	 		<Data ss:Type="String">NodeType</Data>
+ 		 	</Cell>
+    		
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">functions</Data></Cell>
+		
+
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">equipments</Data></Cell>
+		
+
+    	</Row>
+   		<Row>
+   			<Cell ss:StyleID="s23">
+ 	 		<Data ss:Type="String">[]</Data>
+ 		 	</Cell>
+   			
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Function</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Equipment</Data>
  	 </Cell>
 
    		</Row>
