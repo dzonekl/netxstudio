@@ -66,7 +66,7 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 			NodeType nt = (NodeType) element;
 
-			StyledString styledString = new StyledString("NodeType",
+			StyledString styledString = new StyledString(nt.getName() !=  null ? nt.getName() : "?",
 					null);
 			String decoration = " (" + nt.getFunctions().size() + " Functions)"
 					+ " (" + nt.getFunctions().size() + " Equipments)";
@@ -95,7 +95,7 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 		if (element instanceof Equipment) {
 
 			Equipment eq = (Equipment) element;
-			StyledString styledString = new StyledString(eq.getName(), null);
+			StyledString styledString = new StyledString(eq.getEquipmentCode(), null);
 			String decoration = " (" + eq.getResources().size()
 					+ " Resources)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);

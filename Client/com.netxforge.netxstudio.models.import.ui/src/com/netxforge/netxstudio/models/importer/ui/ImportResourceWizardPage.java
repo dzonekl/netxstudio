@@ -116,12 +116,12 @@ public class ImportResourceWizardPage extends WizardPage {
 			setErrorMessage(Messages.ImportResourceWizardPage_5);
 			return;
 		}
-		IFile file = WorkspaceUtil.INSTANCE.createFileHandle(srcPath);
-		if (!file.exists()) {
-			setMessage(null);
-			setErrorMessage(Messages.ImportResourceWizardPage_5);
-			return;
-		}
+//		IFile file = WorkspaceUtil.INSTANCE.createFileHandle(srcPath);
+//		if (!file.exists()) {
+//			setMessage(null);
+//			setErrorMessage(Messages.ImportResourceWizardPage_5);
+//			return;
+//		}
 		
 		setErrorMessage(null);
 		setPageComplete(true);

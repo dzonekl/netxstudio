@@ -34,7 +34,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.library.LibraryPackage;
 
 /**
  * Processes an .csv file, and returns as records for a viewer.
@@ -45,11 +44,14 @@ public class MasterDataImporterJob implements IJobChangeListener {
 	private ScanningJob j = new ScanningJob("Reading file...");
 
 	private IDataProvider dataProvider;
-
-	public MasterDataImporterJob(IDataProvider dataProvider) {
+	private EPackage[] ePackages;
+	
+	public MasterDataImporterJob(IDataProvider dataProvider, EPackage[] ePackages) {
 		this.dataProvider = dataProvider;
+		this.ePackages = ePackages;
 	}
-
+	
+	
 	private List<EObject> results;
 
 	public List<EObject> getResults() {
@@ -88,7 +90,11 @@ public class MasterDataImporterJob implements IJobChangeListener {
 	}
 
 	protected void processReadingInternal(final IProgressMonitor monitor) {
-
+		
+		if(dataProvider == null || this.ePackages == null){
+			throw new java.lang.IllegalStateException("Missing settings for Data import");
+		}
+		
 		InputStream is;
 		try {
 			URI uri = URI.createFileURI(res.toString());
@@ -96,7 +102,7 @@ public class MasterDataImporterJob implements IJobChangeListener {
 			final MasterDataImporter masterDataImporter = new MasterDataImporter();
 			masterDataImporter.setDataProvider(dataProvider);
 			masterDataImporter
-					.setEPackagesToImport(new EPackage[] { LibraryPackage.eINSTANCE });
+					.setEPackagesToImport(this.ePackages);
 			masterDataImporter.process(is);
 			setResults(masterDataImporter.getResolvedObjects());
 			

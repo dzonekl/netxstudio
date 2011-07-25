@@ -3,11 +3,29 @@
 <plugin>
  <extension
              point="org.eclipse.ui.importWizards">
-          <wizard
+        <wizard
                 category="com.netxforge.netxstudio.ui.category.import"
-                class="com.netxforge.netxstudio.models.importer.ui.internal.ImportEExtensionFactory:com.netxforge.netxstudio.models.importer.ui.ImportWizard"
-                id="com.netxforge.netxstudio.models.import.object"
+                class="com.netxforge.netxstudio.models.importer.ui.internal.ImportEExtensionFactory:com.netxforge.netxstudio.models.importer.ui.ImportLibraryWizard"
+                id="com.netxforge.netxstudio.models.import.library"
                 name="%wizard.name">
-          </wizard>
+        </wizard>
+		<wizard
+                category="com.netxforge.netxstudio.ui.category.import"
+                class="com.netxforge.netxstudio.models.importer.ui.internal.ImportEExtensionFactory:com.netxforge.netxstudio.models.importer.ui.ImportGeoWizard"
+                id="com.netxforge.netxstudio.models.import.geo"
+                name="Import Geographical objects">
+        </wizard>
+		<wizard
+                category="com.netxforge.netxstudio.ui.category.import"
+                class="com.netxforge.netxstudio.models.importer.ui.internal.ImportEExtensionFactory:com.netxforge.netxstudio.models.importer.ui.ImportOperatorWizard"
+                id="com.netxforge.netxstudio.models.import.operator"
+                name="Import Operator objects">
+        </wizard>
+        <wizard
+                category="com.netxforge.netxstudio.ui.category.import"
+                class="com.netxforge.netxstudio.models.importer.ui.internal.ImportEExtensionFactory:com.netxforge.netxstudio.models.importer.ui.ImportMetricsWizard"
+                id="com.netxforge.netxstudio.models.import.metric"
+                name="Import Metric objects">
+        </wizard>
  </extension>
  </plugin>
