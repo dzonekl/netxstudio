@@ -45,6 +45,7 @@ import com.netxforge.netxstudio.generics.Base;
  *   <li>{@link com.netxforge.netxstudio.library.NodeType#getFunctions <em>Functions</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NodeType#getEquipments <em>Equipments</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NodeType#isLeafNode <em>Leaf Node</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.NodeType#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -144,5 +145,32 @@ public interface NodeType extends Base {
 	 * @generated
 	 */
 	boolean isSetLeafNode();
+
+	/**
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNodeType_Name()
+	 * @model dataType="com.netxforge.netxstudio.generics.Name255"
+	 *        extendedMetaData="kind='attribute' name='Name'"
+	 * @generated
+	 */
+	String getName();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.NodeType#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
+	void setName(String value);
 
 } // NodeType

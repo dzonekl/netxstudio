@@ -37,6 +37,7 @@ import com.netxforge.netxstudio.library.NodeType;
  *   <li>{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl#getFunctions <em>Functions</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl#getEquipments <em>Equipments</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl#isLeafNode <em>Leaf Node</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -116,6 +117,24 @@ public class NodeTypeImpl extends BaseImpl implements NodeType {
 	 */
 	public boolean isSetLeafNode() {
 		return eIsSet(LibraryPackage.Literals.NODE_TYPE__LEAF_NODE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return (String)eGet(LibraryPackage.Literals.NODE_TYPE__NAME, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		eSet(LibraryPackage.Literals.NODE_TYPE__NAME, newName);
 	}
 
 } //NodeTypeImpl

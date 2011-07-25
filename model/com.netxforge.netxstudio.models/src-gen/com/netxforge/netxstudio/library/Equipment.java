@@ -173,7 +173,7 @@ public interface Equipment extends Component {
 	 * @return the value of the '<em>All Equipments</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipment_AllEquipments()
 	 * @model transient="true" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL derivation='\n\t\t\t\t\t\t\t\tself->closure(equipments)->asOrderedSet()\n\t\t\t\t\t\t\t'"
+	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL derivation='self->closure(equipments)->asOrderedSet()'"
 	 *        extendedMetaData="kind='element' name='AllEquipments'"
 	 * @generated
 	 */

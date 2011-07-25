@@ -221,9 +221,7 @@
 						<xs:annotation>
 							<xs:documentation>OCL derived feature: Retrieves all resources
 							</xs:documentation>
-							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
-								self-&gt;closure(equipments).equipmentResources-&gt;asOrderedSet()
-							</xs:appinfo>
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self->closure(equipments).resources->asOrderedSet()</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 					<!-- Contained -->
@@ -326,7 +324,7 @@
 						<xs:annotation>
 							<xs:documentation>OCL derived feature: Retrieve all functions
 							</xs:documentation>
-							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self-&gt;closure(functions)-&gt;asOrderedSet()
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self->closure(functions)->asOrderedSet()
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -418,9 +416,7 @@
 								a
 								non-empty product code. These are
 							</xs:documentation>
-							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
-								self-&gt;closure(equipments)-&gt;asOrderedSet()
-							</xs:appinfo>
+							<xs:appinfo ecore:key="derivation" source="http://www.eclipse.org/emf/2002/Ecore/OCL">self->closure(equipments)->asOrderedSet()</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -789,24 +785,8 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<!--_____________________________ -->
-	<!--| PROTOCOL | -->
-	<!--|___________________________| -->
-
-
-	<!--_____________________________ -->
-	<!--| MESSAGE | -->
-	<!--|___________________________| -->
-
-
-	<!--_____________________________ -->
-	<!--| PROCEDURE | -->
-	<!--|___________________________| -->
-
-
-
 	<!--_______________ -->
-	<!-- NodeType -->
+	<!-- NODETYPE -->
 	<!--_______________ -->
 
 	<xs:complexType name="NodeType">
@@ -855,6 +835,7 @@
 						<xs:documentation/>
 					</xs:annotation>
 				</xs:attribute>
+				<xs:attribute name="Name" type="gen:Name255"></xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

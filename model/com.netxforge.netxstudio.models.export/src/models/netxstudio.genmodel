@@ -288,7 +288,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NodeType/functions"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NodeType/equipments"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//NodeType/leafNode"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//NodeType/name"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Parameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Parameter/description"/>

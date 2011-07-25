@@ -1260,13 +1260,22 @@ public interface LibraryPackage extends EPackage {
 	int NODE_TYPE__LEAF_NODE = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Node Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_TYPE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int NODE_TYPE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.ParameterImpl <em>Parameter</em>}' class.
@@ -2646,6 +2655,17 @@ public interface LibraryPackage extends EPackage {
 	EAttribute getNodeType_LeafNode();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.NodeType#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see com.netxforge.netxstudio.library.NodeType#getName()
+	 * @see #getNodeType()
+	 * @generated
+	 */
+	EAttribute getNodeType_Name();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.Parameter <em>Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3728,6 +3748,14 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute NODE_TYPE__LEAF_NODE = eINSTANCE.getNodeType_LeafNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NODE_TYPE__NAME = eINSTANCE.getNodeType_Name();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.ParameterImpl <em>Parameter</em>}' class.

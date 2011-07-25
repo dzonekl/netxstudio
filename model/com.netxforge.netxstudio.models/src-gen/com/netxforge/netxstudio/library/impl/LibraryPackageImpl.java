@@ -1078,6 +1078,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getNodeType_Name() {
+		return (EAttribute)nodeTypeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getParameter() {
 		return parameterEClass;
 	}
@@ -1507,6 +1516,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(nodeTypeEClass, NODE_TYPE__FUNCTIONS);
 		createEReference(nodeTypeEClass, NODE_TYPE__EQUIPMENTS);
 		createEAttribute(nodeTypeEClass, NODE_TYPE__LEAF_NODE);
+		createEAttribute(nodeTypeEClass, NODE_TYPE__NAME);
 
 		parameterEClass = createEClass(PARAMETER);
 		createEAttribute(parameterEClass, PARAMETER__DESCRIPTION);
@@ -1694,6 +1704,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getNodeType_Functions(), this.getFunction(), null, "functions", null, 0, -1, NodeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNodeType_Equipments(), this.getEquipment(), null, "equipments", null, 0, -1, NodeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNodeType_LeafNode(), theXMLTypePackage.getBoolean(), "leafNode", "false", 0, 1, NodeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNodeType_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, NodeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getParameter_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1803,7 +1814,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidNodeID\n\t\t\t"
-		   });																																																																				
+		   });																																																																					
 	}
 
 	/**
@@ -2407,6 +2418,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "LeafNode"
+		   });		
+		addAnnotation
+		  (getNodeType_Name(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Name"
 		   });			
 		addAnnotation
 		  (parameterEClass, 
@@ -2650,13 +2668,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		  (getComponent_AllResources(), 
 		   source, 
 		   new String[] {
-			 "derivation", "\n\t\t\t\t\t\t\t\tself->closure(equipments).equipmentResources->asOrderedSet()\n\t\t\t\t\t\t\t"
+			 "derivation", "self->closure(equipments).resources->asOrderedSet()"
 		   });																						
 		addAnnotation
 		  (getEquipment_AllEquipments(), 
 		   source, 
 		   new String[] {
-			 "derivation", "\n\t\t\t\t\t\t\t\tself->closure(equipments)->asOrderedSet()\n\t\t\t\t\t\t\t"
+			 "derivation", "self->closure(equipments)->asOrderedSet()"
 		   });				
 		addAnnotation
 		  (getEquipment_Count(), 
@@ -2699,7 +2717,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "ValidNodeID", "\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t"
-		   });																																																																			
+		   });																																																																				
 	}
 
 	/**
@@ -2715,7 +2733,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "appinfo", "@Transient"
-		   });																																																																																																																																															
+		   });																																																																																																																																																
 	}
 
 } //LibraryPackageImpl

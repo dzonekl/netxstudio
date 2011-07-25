@@ -161,7 +161,7 @@ public class FunctionItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Function"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Function_H.png"));
 	}
 
 	/**

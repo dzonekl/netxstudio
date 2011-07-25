@@ -1,0 +1,449 @@
+«IMPORT netxstudio»
+«IMPORT networks»
+«IMPORT generics»
+
+«REM»
+	Export our Library to HTML
+«ENDREM»
+
+«EXTENSION templates::net2html»
+«DEFINE Root FOR netxstudio::Library »
+	«FILE fileName() -»
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+       <style>
+            body {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                background-color: #e9008f;
+                margin: 0px auto;
+                padding: 15px;
+                font-size: 10px;
+            }
+            body.a {
+            	font-size: 10px;
+            }
+            
+            h1 {
+                font-size: 26px;
+                color: #FFFFFF;
+            }
+            h2 {
+                font-size: 22px;
+                font-style: italic;
+                color: #FFFFFF;
+            }
+            table {
+                border: solid 1px #e8eff4;
+                background-color: #FFFFFF;
+                font-size: 12px;
+                width: 100%;
+                margin-top: 20px;
+            }
+            th {
+                text-align: left;
+                font-style: italic;
+                background-color: #e8eff4;
+                color: #707070;
+                padding: 3px 7px 2px 7px;
+            }
+            td {
+                text-align: left;
+                padding: 3px 7px 2px 7px;
+                /* border-bottom: solid 1px blue; */
+                width: inherit;
+            }
+			            
+            .toc {
+                border: none;
+            }
+            	
+			.title {
+				font-size: larger;
+				font-weight: bold;
+			}
+			
+            .section {
+            	background: #e8eff4;
+            	/* text-indent: 20px; */
+            }
+            
+            .indent {
+                /* text-indent: 20px; */
+                border: solid 1px  #e9008f;
+                margin: 0px;
+                padding: 0px;
+            }
+            
+            .metric {
+                /* text-indent: 20px; */
+                /* border: solid 1px green; */
+                border: none;
+                margin: 0px;
+                padding: 0px;
+            }
+                        
+            .relationship {
+                /* text-indent: 10px; */
+                /* border: solid 1px green; */
+                border: none;
+                margin: 0px;
+                padding: 0px;
+				width: 50%;
+            }
+			
+			.relationship th {
+				font-style: normal;
+				background-color: #e9008f;
+				color: #FFFFFF;
+			}
+            
+            .expression {
+            	font-style: italic;
+            	color: #222222;
+            }
+        </style>
+    </head>
+		<body>
+			<h1>T-Mobile Capacity Management Objects</h1>
+			<a name="top"/>
+			<table class="toc">
+            <tr>
+                <td>
+                	<a href="#networks">Network</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="#library">Library</a>
+                </td>
+            </tr>
+			</table>
+			«REM»
+				NETWORK OBJECT
+			«ENDREM»
+			<a name="networks"></a>
+			<h1>Network</h1>
+			«IF this.networks.size > 0 »
+			<h2>Table of Contents</h2>	
+			<table class="toc">
+				«EXPAND Toc FOREACH this.networks -»
+        	</table>
+				«EXPAND Content FOREACH this.networks -»
+			«ELSE»
+				<h2>No networks defined</h2>
+			«ENDIF»	
+			«REM»
+				LIBRARY OBJECT
+			«ENDREM»
+			<a name="library"></a>
+			<h1>Library</h1>
+			<table id="library">
+				<tr>
+					<th>Library</th>
+					<th>Info</th>
+				</tr>
+				<tr>
+					<td>Name</td><td>«this.name»</td>
+				</tr>
+				<tr>	
+					<td>Description</td><td>«this.description»</td>
+				</tr>
+				<tr>	
+					<td>Version</td><td>«this.version»</td>
+				</tr>	
+			</table>
+			<h2>Table of Contents</h2>
+			<table class="toc">
+            <tr>
+                <td>
+                    <a href="#functions">Functions</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                	<a href="#equipments">Equipments</a>
+                </td>
+            </tr>
+            <tr>Detailed Information</tr>
+            <tr>
+                <td>
+                    <a href="#metrics">Metrics</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="#expressions">Dimensioning Rules</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="#tolerances">Threshold RAG</a>
+                </td>
+            </tr>
+        	</table>
+			«REM»
+				FUNCTION OBJECT
+			«ENDREM»
+			<a name="functions"></a>
+			<a href="#top">Top</a>
+			<table>
+				<tr>
+					<th>Functions</th>
+				</tr>
+				«EXPAND Content FOREACH this.functions -»
+			</table>
+			«REM»
+				EQUIPMENT OBJECT
+			«ENDREM»
+			<a name="equipments"></a>
+			<a href="#top">Top</a>
+			<table>
+				<tr>
+					<th>Equipments</th>
+				</tr>			
+				«EXPAND Content FOREACH this.equipments -»				
+			</table>
+			
+			«REM»
+				DETAILS
+			«ENDREM»
+			
+			«REM»
+				METRIC OBJECT
+			«ENDREM»
+			<a name="metrics"></a>
+			<a href="#top">Top</a>
+			<table>
+				<tr>
+					<th>Metrics</th>
+					<th>Description</th>
+					<th>Unit</th>
+					<th>Kind</th>
+				</tr>
+				«EXPAND Details FOREACH this.metrics -»			
+			</table>
+			«REM»
+				EXPRESSION OBJECT
+			«ENDREM»
+			<a name="expressions"></a>
+			<a href="#top">Top</a>
+			<table>
+				<tr>
+					<th>Dimensioning Rule</th>
+					<th>Expression</th>
+				</tr>
+				«EXPAND Details FOREACH this.expressions -»			
+			</table>
+			«REM»
+				TOLERANCE OBJECT
+			«ENDREM»
+			<a name="tolerances"></a>
+			<a href="#top">Top</a>
+			<table>
+				<tr>
+					<th>Threshold RAG</th>
+					<th>Expression</th>
+					<th>Action</th>
+				</tr>
+				«EXPAND Details FOREACH this.tolerances -»			
+			</table>
+		</body>
+	</html>
+	«ENDFILE»
+«ENDDEFINE»
+
+«REM»
+	NETWORK EXPANSION
+«ENDREM»   
+«DEFINE Content FOR networks::Network »
+	<table>
+		<tr>
+			<th>Networks</th>
+		</tr>
+		<tr>
+			<td>«this.name»-(«this.description»)</td>
+		</tr>
+		«IF ! this.nodes.isEmpty »		
+		<tr>
+			<td><table class="indent">«EXPAND Content FOREACH this.nodes -»</table></td>
+		</tr>
+		«ENDIF»
+	</table>
+«ENDDEFINE»
+
+«DEFINE Toc FOR networks::Network »
+		<tr>
+			<td>«this.name»-(«this.description»)</td>
+		</tr>
+		«IF ! this.nodes.isEmpty »		
+		<tr>
+			<td><table class="indent">«EXPAND Toc FOREACH this.nodes -»</table></td>
+		</tr>
+		«ENDIF»
+«ENDDEFINE»
+
+«REM»
+	NODE EXPANSION
+«ENDREM»  
+«DEFINE Content FOR networks::Node »
+	<table>
+		<a name="«this.nodeID»"></a>
+		<tr>
+			<td class="title">«this.nodeID»</td>
+		</tr>
+		«IF ! this.functions.isEmpty »
+		<tr class="section"><td>Functions</td></tr>		
+		<tr>
+			<td><table class="indent">«EXPAND Content FOREACH this.functions -»</table></td>
+		</tr>
+		«ENDIF»
+		«IF ! this.equipments.isEmpty »
+		<tr class="section"><td>Equipments</td></tr>		
+		<tr>
+			<td><table class="indent">«EXPAND Content FOREACH this.equipments -»</table></td>
+		</tr>
+		«ENDIF»
+	</table>
+«ENDDEFINE»
+
+«DEFINE Toc FOR networks::Node »
+	<tr>
+		<td><a href="#«this.nodeID.toUpperCase()»">«this.nodeID.toUpperCase()»</a></td>
+	</tr>
+«ENDDEFINE»
+
+«REM»
+	RELATIONSHIP EXPANSION
+«ENDREM»  
+
+«DEFINE Content FOR networks::FunctionRelationship -»
+	<tr>
+		<td>«this.name»</td>
+		<td>«this.nodeID2Ref.nodeID»</td>
+		<td>«this.function2Ref.functionName»</td>
+		<td>«this.protocolRef.name»</td>
+	</tr>
+«ENDDEFINE»
+
+«DEFINE Content FOR networks::EquipmentRelationship -»
+	<tr>
+		<td>«this.name»</td>
+		<td>«this.nodeID2Ref.nodeID»</td>
+		<td>«this.equipment2Ref.equipmentCode»</td>
+		<td>«this.protocolRef.name»</td>
+	</tr>
+«ENDDEFINE»
+
+«REM»
+	LIBRARY EXPANSION
+«ENDREM» 
+«DEFINE Content FOR networks::Function -»
+	<tr><td class="title">«this.functionName» -(«this.functionDescription»)</td></tr>
+	«IF ! this.functions.isEmpty »
+	<tr>
+		<td><table class="indent">«EXPAND Content FOREACH this.functions -»</table></td>
+	</tr>
+ 	«ENDIF»
+ 	«IF ! this.functionMetricRefs.isEmpty »	
+ 	<tr class="section"><td>Metrics</td></tr>	
+	<tr>
+		<td><table class="metric">«EXPAND Content FOREACH this.functionMetricRefs -»</table></td>
+	</tr>
+	«ENDIF»
+ 	«IF ! this.functionRelationshipRefs.isEmpty »
+ 	<tr class="section"><td>Logical Links</td></tr>	
+	<tr>
+		<td>
+		<table class="relationship">
+		<tr>
+			<th>Name</th>
+			<th>To NodeID</th>
+			<th>To Function</th>
+			<th>Protocol</th>
+		</tr>
+		«EXPAND Content FOREACH this.functionRelationshipRefs -»
+		</table>
+		</td>
+	</tr>
+	«ENDIF»
+«ENDDEFINE»
+
+«REM»
+	EQUIPMENT EXPANSION
+«ENDREM»  
+«DEFINE Content FOR networks::Equipment -»
+	<tr><td class="title">«this.equipmentCode» -(«this.description»)</td></tr>
+	«IF ! this.equipments.isEmpty »		
+	<tr>
+		<td><table class="indent">«EXPAND Content FOREACH this.equipments -»</table></td>
+	</tr>
+	«ENDIF»
+	«IF ! this.equipmentMetricRefs.isEmpty »	
+	<tr class="section"><td>Metrics</td></tr>	
+	<tr>
+		<td><table class="metric">«EXPAND Content FOREACH this.equipmentMetricRefs -»</table></td>
+	</tr>
+	«ENDIF»
+	«IF ! this.equipmentRelationshipRefs.isEmpty »
+	<tr class="section"><td>Physical Links</td></tr>
+	<tr>
+		<td>
+		<table class="relationship">
+		<tr>
+			<th>Name</th>
+			<th>To NodeID</th>
+			<th>To Equipment</th>
+			<th>Protocol</th>
+		</tr>
+		«EXPAND Content FOREACH this.equipmentRelationshipRefs -»
+		</table>
+		</td>
+	</tr>
+	«ENDIF»
+«ENDDEFINE»
+
+«REM»
+	METRIC EXPANSION
+«ENDREM»  
+
+
+«DEFINE Content FOR networks::Metric -»
+	<tr><td>«this.name» -[«this.unitRef.name»] -(«this.description») </td></tr>
+	«IF ! this.metrics.isEmpty »
+	<tr class="section"><td>Sub-metrics</td></tr>	
+	<tr>
+		<td><table class="relationships">«EXPAND Content FOREACH this.metrics -»</table></td>
+	</tr>
+	«ENDIF»
+«ENDDEFINE»
+
+
+«DEFINE Details FOR networks::Metric -»
+	<tr class="section"><td>Root Metrics</td></tr>
+	<tr>
+		<td>«this.name»</td>
+		<td>«this.description»</td>
+		<td>«this.unitRef.name»</td>
+		<td>«this.measurementKind»</td>
+	</tr>
+«ENDDEFINE»
+
+«DEFINE Details FOR networks::Expression -»
+	<tr>
+	<td>«this.name»</td>
+	<td class="expression">«EXPAND Details FOREACH this.expressionLines -»</td>
+	</tr>	
+«ENDDEFINE»
+
+«DEFINE Details FOR generics::ExpressionLine -»
+	«this»
+«ENDDEFINE»
+
+«DEFINE Details FOR networks::Tolerance -»
+	<tr>
+		<td>«this.name»</td>
+		<td class="expression">«this.expression»</td>
+		<td>«this.errorAction»</td>
+	</tr>	
+«ENDDEFINE»

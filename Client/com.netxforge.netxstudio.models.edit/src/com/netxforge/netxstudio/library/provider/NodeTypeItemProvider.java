@@ -78,6 +78,7 @@ public class NodeTypeItemProvider
 			super.getPropertyDescriptors(object);
 
 			addLeafNodePropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -100,6 +101,28 @@ public class NodeTypeItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NodeType_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NodeType_name_feature", "_UI_NodeType_type"),
+				 LibraryPackage.Literals.NODE_TYPE__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -143,7 +166,7 @@ public class NodeTypeItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/NodeType"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Node_H.png"));
 	}
 
 	/**
@@ -154,8 +177,10 @@ public class NodeTypeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		NodeType nodeType = (NodeType)object;
-		return getString("_UI_NodeType_type") + " " + nodeType.isDeleted();
+		String label = ((NodeType)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_NodeType_type") :
+			getString("_UI_NodeType_type") + " " + label;
 	}
 
 	/**
@@ -171,6 +196,7 @@ public class NodeTypeItemProvider
 
 		switch (notification.getFeatureID(NodeType.class)) {
 			case LibraryPackage.NODE_TYPE__LEAF_NODE:
+			case LibraryPackage.NODE_TYPE__NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case LibraryPackage.NODE_TYPE__FUNCTIONS:
