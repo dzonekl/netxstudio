@@ -1,0 +1,58 @@
+import ecore;
+
+//extension org::eclipse::xtend::util::stdlib::io;
+
+create List[EClassifier] toFillClasses(EPackage package):
+
+	if package.name == 'library' then
+		this.addAll(package.eClassifiers.select(e| e.name == 'NodeType' || e.name == 'Vendor' || e.name == 'Equipment' || e.name == 'EquipmentGroup' 
+		|| e.name == 'Parameter'  || e.name == 'NetXResource' || e.name == 'Function' || e.name == 'Library' || e.name == 'Tolerance' || e.name == 'Unit' || e.name == 'Expression'))->
+	if package.name == 'operators' then
+		this.addAll(package.eClassifiers.select(e| e.name == 'Network' || e.name == 'Node' || e.name == 'EquipmentRelationship' || e.name == 'FunctionRelationship'  
+		|| e.name == 'Operator' || e.name == 'ExpansionExperience' || e.name == 'Expansion' || e.name == 'ResourceForecast' || e.name == 'Marker' || e.name == 'Wharehouse'  ))->
+	if package.name == 'geo' then
+		this.addAll(package.eClassifiers.select(e| e.name == 'Country' || e.name == 'Room' || e.name == 'Site' ))->
+	if package.name == 'metrics' then
+		this.addAll(package.eClassifiers.select(e| e.name == 'Metric' || e.name == 'MetricSource' || e.name == 'MappingXLS' 
+		|| e.name == 'MappingCSV'  || e.name == 'MappingRDBMS' || e.name == 'ValueDataKind' || e.name == 'IdentifierDataKind' ))->
+	if package.name == 'services' then
+		this.addAll(package.eClassifiers.select(e| e.name == 'RFSService' || e.name == 'CFSService' || e.name == 'CIID' 
+		|| e.name == 'ServiceForecast'  || e.name == 'ServiceForecastUsers' || e.name == 'ServiceUser' || e.name == 'ServiceProfile' ));
+	
+
+//create List[EClassifier] toFillInstanceClasses(EPackage package):
+//	this.addAll(package.eClassifiers.select( e| e.name == 'Node' || e.name == 'EquipmentRelationship' || e.name == 'FunctionRelationship' || e.name == 'Network'));	
+
+
+// TODO Attributes from the super type should be merged first to allow proper sorting.  
+create List[EAttribute] nonDerivedAttributes(EClass c) :	
+	this.addAll(c.eAttributes.select(e|!e.derived || !e.transient || !e.volatile).sortBy(e|e.eType.name)) ->
+	if c.eSuperTypes.size > 0 then  
+		this.addAll(c.eSuperTypes.first().eAttributes.select(e|!e.derived || !e.transient || !e.volatile).sortBy(e|e.eType.name));
+
+create List[EAttribute] filterFeatureMapAttributes(List[EAttribute] l) :
+	this.addAll(l.reject(e| e.eType.isInstance(EFeatureMapEntry)));	
+
+// TODO Attributes from the super type should be merged first to allow proper sorting.	
+create List[EReference] nonDerivedReferences(EClass c) :
+	this.addAll(c.eReferences.reject(e| e.derived && e.transient && e.volatile && !e.containment).sortBy(e|e.containment)) ->	
+	if c.eSuperTypes.size > 0 then  
+		this.addAll(c.eSuperTypes.first().eReferences.reject(e| e.derived && e.transient && e.volatile && !e.containment).sortBy(e|e.containment));	
+		
+create List[EReference] filterUniReferences(List[EReference] l) :
+	this.addAll(l.select(e|!e.many).sortBy(e|e.containment));
+
+create List[EReference] filterMultiReferences(List[EReference] l) :
+	this.addAll(l.select(e|e.many).sortBy(e|e.containment));	
+	
+create List[String] addOn(EClass c) :
+	if c != null && c.name == 'Node' then
+		this.add('Quantity');
+
+List[EClass] supers(EClass c) : 
+	c.eSuperTypes;	
+
+EAttribute idFeature(List[EAttribute] this) : 
+	this.select(e|e.iD);
+	
+String fileName() : GLOBALVAR FileName; 	

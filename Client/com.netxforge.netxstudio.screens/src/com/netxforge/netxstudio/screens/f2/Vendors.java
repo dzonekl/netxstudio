@@ -57,9 +57,10 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.library.Vendor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -79,10 +80,14 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	private TableViewer tableViewer;
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
-	private Form frmTolerances;
+	private Form frmVendors;
 	// private ObservablesManager mgr;
 	private ObservableListContentProvider listContentProvider;
-	private Resource toleranceResource;
+	private Resource vendorResource;
+	private TableColumn tblclmnWebsite;
+	private TableViewerColumn tableViewerColumn_1;
+	private TableColumn tblclmnShortname;
+	private TableViewerColumn tableViewerColumn_2;
 
 	/**
 	 * Create the composite.
@@ -101,32 +106,79 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		buildUI();
 	}
 
-	private void buildUI(){
-		setLayout(new FillLayout(SWT.HORIZONTAL));
-		
-		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation()); 
-		String actionText = readonly ? "View: " : "Edit: "; 
-		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
-	
-		
-		frmTolerances = toolkit.createForm(this);
-		frmTolerances.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmTolerances);
-		frmTolerances.setText(actionText + "Vendors");
-		frmTolerances.getBody().setLayout(new GridLayout(3, false));
+	/**
+	 * Wrap in an action, to contribute to a menu manager.
+	 * 
+	 * @author dzonekl
+	 * 
+	 */
+	class EditVendorAction extends Action {
 
-		Label lblFilterLabel = toolkit.createLabel(frmTolerances.getBody(),
+		public EditVendorAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			super.run();
+			if (screenService != null) {
+				ISelection selection = getTableViewerWidget().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (o != null) {
+						 NewEditVendor vendorScreen = new
+						 NewEditVendor(
+						 screenService.getScreenContainer(), SWT.NONE);
+						 vendorScreen.setOperation(getOperation());
+						 vendorScreen.setScreenService(screenService);
+						 vendorScreen.injectData(vendorResource, o);
+						 screenService.setActiveScreen(vendorScreen);
+					}
+				}
+			}
+		}
+	}
+
+	public TableViewer getTableViewerWidget() {
+		return tableViewer;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
+	 */
+	public void injectData() {
+		vendorResource = editingService.getData(LibraryPackage.Literals.VENDOR);
+		buildUI();
+		bindingContext = initDataBindings_();
+	}
+
+	private void buildUI() {
+		setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		// Readonlyness.
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		String actionText = readonly ? "View: " : "Edit: ";
+		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+
+		frmVendors = toolkit.createForm(this);
+		frmVendors.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmVendors);
+		frmVendors.setText(actionText + "Vendors");
+		frmVendors.getBody().setLayout(new GridLayout(3, false));
+
+		Label lblFilterLabel = toolkit.createLabel(frmVendors.getBody(),
 				"Filter:", SWT.NONE);
 		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblFilterLabel.widthHint = 36;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmTolerances.getBody(), "New Text",
+		txtFilterText = toolkit.createText(frmVendors.getBody(), "New Text",
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, true,
@@ -150,18 +202,19 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		// Conditional widget.
 		if (!readonly) {
 			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-					frmTolerances.getBody(), SWT.NONE);
+					frmVendors.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
-					NewEditTolerance toleranceScreen = new NewEditTolerance(
+					NewEditVendor vendorScreen = new NewEditVendor(
 							screenService.getScreenContainer(), SWT.NONE);
-					toleranceScreen.setOperation(Screens.OPERATION_NEW);
-					toleranceScreen.setScreenService(screenService);
-					Tolerance tolerance = LibraryFactory.eINSTANCE
-							.createTolerance();
-					toleranceScreen.injectData(toleranceResource, tolerance);
-					screenService.setActiveScreen(toleranceScreen);
+					vendorScreen.setOperation(Screens.OPERATION_NEW);
+					vendorScreen.setScreenService(screenService);
+					Vendor newVendor = LibraryFactory.eINSTANCE
+							.createVendor();
+					vendorScreen.injectData(vendorResource, newVendor);
+					screenService.setActiveScreen(vendorScreen);
 				}
+
 				public void linkEntered(HyperlinkEvent e) {
 				}
 
@@ -172,82 +225,42 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 					false, false, 1, 1));
 			mghprlnkNew.setImage(ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",
-					"icons/full/ctool16/Threshold_E.png"));
+					"icons/full/ctool16/Company_E.png"));
 			mghprlnkNew.setBounds(0, 0, 114, 17);
 			toolkit.paintBordersFor(mghprlnkNew);
 			mghprlnkNew.setText("New");
 
 		}
-		new Label(frmTolerances.getBody(), SWT.NONE);
 
-		tableViewer = new TableViewer(frmTolerances.getBody(), SWT.BORDER
+		tableViewer = new TableViewer(frmVendors.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | widgetStyle);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2));
 		toolkit.paintBordersFor(table);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
-		tblclmnName.setWidth(143);
+		tblclmnName.setWidth(144);
 		tblclmnName.setText("Name");
+
+		tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
+		tblclmnShortname = tableViewerColumn_2.getColumn();
+		tblclmnShortname.setWidth(100);
+		tblclmnShortname.setText("shortName");
+
+		tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
+		tblclmnWebsite = tableViewerColumn_1.getColumn();
+		tblclmnWebsite.setWidth(169);
+		tblclmnWebsite.setText("Website");
 		tableViewer.addFilter(new SearchFilter(editingService));
-	}
-	
-	
-	/**
-	 * Wrap in an action, to contribute to a menu manager. 
-	 * @author dzonekl
-	 *
-	 */
-	class EditToleranceAction extends Action {
-
-		public EditToleranceAction(String text, int style) {
-			super(text, style);
-		}
-
-		@Override
-		public void run() {
-			super.run();
-			if (screenService != null) {
-				ISelection selection = getTableViewerWidget().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					if (o != null) {
-						NewEditTolerance toleranceScreen = new NewEditTolerance(
-								screenService.getScreenContainer(), SWT.NONE);
-						toleranceScreen.setOperation(getOperation());
-						toleranceScreen.setScreenService(screenService);
-						toleranceScreen.injectData(toleranceResource, o);
-						screenService.setActiveScreen(toleranceScreen);
-					}
-				}
-			}
-		}
-	}
-
-	public TableViewer getTableViewerWidget() {
-		return tableViewer;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
-	 */
-	public void injectData() {
-		toleranceResource = editingService
-				.getData(LibraryPackage.Literals.TOLERANCE);
-		buildUI();
-		bindingContext = initDataBindings_();
 	}
 
 	public void disposeData() {
 		if (editingService != null) {
-			editingService.disposeData(toleranceResource);
+			editingService.disposeData(vendorResource);
 		}
 	}
 
@@ -258,14 +271,14 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
 				new EStructuralFeature[] {
-						LibraryPackage.Literals.TOLERANCE__NAME,
-						LibraryPackage.Literals.TOLERANCE__LEVEL,
-						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF });
+						GenericsPackage.Literals.COMPANY__NAME,
+						GenericsPackage.Literals.COMPANY__SHORT_NAME,
+						GenericsPackage.Literals.COMPANY__WEBSITE });
 		tableViewer.setLabelProvider(new ToleranceObservableMapLabelProvider(
 				observeMaps));
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
-		IObservableList toleranceObservableList = l.observe(toleranceResource);
+		IObservableList toleranceObservableList = l.observe(vendorResource);
 
 		obm.addObservable(toleranceObservableList);
 		tableViewer.setInput(toleranceObservableList);
@@ -294,18 +307,20 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public Form getScreenForm() {
-		return this.frmTolerances;
+		return this.frmVendors;
 	}
 
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
-	
+
 	@Override
-	public IAction[] getActions(){
-		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit"; 
-		return new IAction[]{new EditToleranceAction(actionText + "...", SWT.PUSH)};
+	public IAction[] getActions() {
+		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+				: "Edit";
+		return new IAction[] { new EditVendorAction(actionText + "...",
+				SWT.PUSH) };
 	}
 
 }

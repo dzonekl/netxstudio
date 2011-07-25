@@ -17,20 +17,18 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.parts;
 
-import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.actions.ScreenAction;
 import com.netxforge.netxstudio.screens.ch9.Expressions;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.NodeTypes;
 import com.netxforge.netxstudio.screens.f2.Tolerances;
+import com.netxforge.netxstudio.screens.f2.Vendors;
 
 public class LibraryScreenSelector extends AbstractScreenSelector {
 
@@ -69,9 +67,14 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 				"icons/full/obj16/Tolerance_H.png", Tolerances.class,
 				Screens.OPERATION_EDIT);
 
-		screenFormService.addScreenSelector(result, "NE Types",
+		result = screenFormService.addScreenSelector(result, "NE Types",
 				"icons/full/obj16/Node_H.png", NodeTypes.class,
 				Screens.OPERATION_EDIT);
+
+		result = screenFormService.addScreenSelector(result, "Vendors",
+				"icons/full/obj16/Company_H.gif", Vendors.class,
+				Screens.OPERATION_EDIT);
+		
 	}
 
 	public void dispose() {

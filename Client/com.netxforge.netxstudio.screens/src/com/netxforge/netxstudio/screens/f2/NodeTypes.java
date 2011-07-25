@@ -336,7 +336,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 		}
 		if (o instanceof NodeType) {
-			ViewNodeType nnt = new ViewNodeType(this.cmpDetails, SWT.NONE,
+			NewEditNodeType nnt = new NewEditNodeType(this.cmpDetails, SWT.NONE,
 					editingService);
 			nnt.injectData(null, o);
 			this.currentDetails = nnt;

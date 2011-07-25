@@ -1,0 +1,155 @@
+<!--
+	A Workflow which converts our networks.ecore model to 
+	an excel format for data entry. 
+-->
+<workflow>
+  <property file="workflow/model.properties"/>
+
+  <bean class="org.eclipse.emf.mwe.utils.StandaloneSetup" >
+    <platformUri value=".."/>
+    <registerGeneratedEPackage value="org.eclipse.emf.ecore.EcorePackage"/>
+  </bean>
+
+  <bean id="mm_emf" class="org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel"/>
+  
+  <component class="org.eclipse.emf.mwe.utils.Reader">
+    <uri value="platform:/resource/${netxstudioFile}" />
+    <modelSlot value="netxstudioModel" />
+  </component>
+  <component class="org.eclipse.emf.mwe.utils.Reader">
+    <uri value="platform:/resource/${operatorsFile}" />
+    <modelSlot value="operatorsModel" />
+  </component>
+  <component class="org.eclipse.emf.mwe.utils.Reader">
+    <uri value="platform:/resource/${metricsFile}" />
+    <modelSlot value="metricsModel" />
+  </component>
+  <component class="org.eclipse.emf.mwe.utils.Reader">
+    <uri value="platform:/resource/${servicesFile}" />
+    <modelSlot value="servicesModel" />
+  </component>
+  <component class="org.eclipse.emf.mwe.utils.Reader">
+    <uri value="platform:/resource/${genericsFile}" />
+    <modelSlot value="genericsModel" />
+  </component>
+  <component class="org.eclipse.emf.mwe.utils.Reader">
+    <uri value="platform:/resource/${geoFile}" />
+    <modelSlot value="geoModel" />
+  </component>
+  <component class="org.eclipse.emf.mwe.utils.Reader">
+    <uri value="platform:/resource/${libraryFile}" />
+    <modelSlot value="libraryModel" />
+  </component>
+  <component class="org.eclipse.emf.mwe.utils.Reader">
+    <uri value="platform:/resource/${protocolsFile}" />
+    <modelSlot value="protocolsModel" />
+  </component>
+  <component class="org.eclipse.emf.mwe.utils.Reader">
+    <uri value="platform:/resource/${schedulingFile}" />
+    <modelSlot value="schedulingModel" />
+  </component>
+
+  <component class="org.eclipse.emf.mwe.utils.DirectoryCleaner">
+  	<directory value="${docGenPath}" />
+  </component>
+
+  <component class="org.eclipse.xpand2.Generator">
+  	<metaModel idRef="mm_emf"/>
+  	<globalVarDef name="FileName" value="'netxstudio.xls'"/>
+  	<expand value="templates::Documentation::Root FOR netxstudioModel"/>
+  	<outlet path="${docGenPath}/">
+<!--  	
+    	 <postprocessor class="org.eclipse.xtend.typesystem.xsd.XMLBeautifier" fileExtensions=".xls"/>
+-->    	 
+    </outlet>
+  </component>
+
+  <component class="org.eclipse.xpand2.Generator">
+  	<metaModel idRef="mm_emf"/>
+  	<globalVarDef name="FileName" value="'operators.xls'"/>
+  	<expand value="templates::Documentation::Root FOR operatorsModel"/>
+  	<outlet path="${docGenPath}/">
+<!--  	
+    	 <postprocessor class="org.eclipse.xtend.typesystem.xsd.XMLBeautifier" fileExtensions=".xls"/>
+-->    	 
+    </outlet>
+  </component>
+
+  <component class="org.eclipse.xpand2.Generator">
+  	<metaModel idRef="mm_emf"/>
+  	<globalVarDef name="FileName" value="'metrics.xls'"/>
+  	<expand value="templates::Documentation::Root FOR metricsModel"/>
+  	<outlet path="${docGenPath}/">
+<!--  	
+    	 <postprocessor class="org.eclipse.xtend.typesystem.xsd.XMLBeautifier" fileExtensions=".xls"/>
+-->    	 
+    </outlet>
+  </component>
+
+  <component class="org.eclipse.xpand2.Generator">
+  	<metaModel idRef="mm_emf"/>
+  	<globalVarDef name="FileName" value="'services.xls'"/>
+  	<expand value="templates::Documentation::Root FOR servicesModel"/>
+  	<outlet path="${docGenPath}/">
+<!--  	
+    	 <postprocessor class="org.eclipse.xtend.typesystem.xsd.XMLBeautifier" fileExtensions=".xls"/>
+-->    	 
+    </outlet>
+  </component>
+	
+  <component class="org.eclipse.xpand2.Generator">
+  	<metaModel idRef="mm_emf"/>
+  	<globalVarDef name="FileName" value="'generics.xls'"/>
+  	<expand value="templates::Documentation::Root FOR genericsModel"/>
+  	<outlet path="${docGenPath}/">
+<!--  	
+    	 <postprocessor class="org.eclipse.xtend.typesystem.xsd.XMLBeautifier" fileExtensions=".xls"/>
+-->    	 
+    </outlet>
+  </component>
+  
+  <component class="org.eclipse.xpand2.Generator">
+  	<metaModel idRef="mm_emf"/>
+  	<globalVarDef name="FileName" value="'geo.xls'"/>
+  	<expand value="templates::Documentation::Root FOR geoModel"/>
+  	<outlet path="${docGenPath}/">
+<!--  	
+    	 <postprocessor class="org.eclipse.xtend.typesystem.xsd.XMLBeautifier" fileExtensions=".xls"/>
+-->    	 
+    </outlet>
+  </component>
+  
+    <component class="org.eclipse.xpand2.Generator">
+  	<metaModel idRef="mm_emf"/>
+  	<globalVarDef name="FileName" value="'library.xls'"/>
+  	<expand value="templates::Documentation::Root FOR libraryModel"/>
+  	<outlet path="${docGenPath}/">
+<!--  	
+    	 <postprocessor class="org.eclipse.xtend.typesystem.xsd.XMLBeautifier" fileExtensions=".xls"/>
+-->    	 
+    </outlet>
+  </component>
+  
+  
+  <component class="org.eclipse.xpand2.Generator">
+  	<metaModel idRef="mm_emf"/>
+  	<globalVarDef name="FileName" value="'protocols.xls'"/>
+  	<expand value="templates::Documentation::Root FOR protocolsModel"/>
+  	<outlet path="${docGenPath}/">
+<!--  	
+    	 <postprocessor class="org.eclipse.xtend.typesystem.xsd.XMLBeautifier" fileExtensions=".xls"/>
+-->    	 
+    </outlet>
+  </component>
+  <component class="org.eclipse.xpand2.Generator">
+  	<metaModel idRef="mm_emf"/>
+  	<globalVarDef name="FileName" value="'scheduling.xls'"/>
+  	<expand value="templates::Documentation::Root FOR schedulingModel"/>
+  	<outlet path="${docGenPath}/">
+<!--  	
+    	 <postprocessor class="org.eclipse.xtend.typesystem.xsd.XMLBeautifier" fileExtensions=".xls"/>
+-->    	 
+    </outlet>
+  </component>
+  
+</workflow>

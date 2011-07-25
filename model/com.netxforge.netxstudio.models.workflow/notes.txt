@@ -1,0 +1,19 @@
+Model object creation handlers. 
+===============================
+
+These create objects, using the basic dialog. 
+
+
+Network: 
+	- Should set a parent Network. 
+	- Should set a name and description. 
+
+Node: 
+	- Should select from reference equipment. 
+	- Should select from referent function. 
+	- Should set a nodeID. 	
+	- Should set quantities on the equipment. (Requires special view). 
+	
+
+	
+

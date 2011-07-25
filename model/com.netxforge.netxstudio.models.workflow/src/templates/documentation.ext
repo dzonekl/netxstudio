@@ -1,0 +1,48 @@
+import ecore;
+
+//extension org::eclipse::xtend::util::stdlib::io;
+
+// How to add attributes from the super type? 
+create List[EAttribute] nonDerivedAttributes(EClass c) :	
+	this.addAll(c.eAttributes.select(e|!e.derived || !e.transient || !e.volatile).sortBy(e|e.eType.name)) ->
+	if c.eSuperTypes.size > 0 then  
+		this.addAll(c.eSuperTypes.first().eAttributes.select(e|!e.derived || !e.transient || !e.volatile).sortBy(e|e.eType.name));	
+
+create List[EAttribute] filterFeatureMapAttributes(List[EAttribute] l) :
+	this.addAll(l.reject(e| e.eType.isInstance(EFeatureMapEntry)));	
+	
+create List[EReference] nonDerivedReferences(EClass c) :
+	this.addAll(c.eReferences.reject(e| e.derived && e.transient && e.volatile && !e.containment).sortBy(e|e.containment)) ->	
+	if c.eSuperTypes.size > 0 then  
+		this.addAll(c.eSuperTypes.first().eReferences.reject(e| e.derived && e.transient && e.volatile && !e.containment).sortBy(e|e.containment));	
+		
+create List[EReference] filterUniReferences(List[EReference] l) :
+	this.addAll(l.select(e|!e.many).sortBy(e|e.containment));
+
+create List[EReference] filterMultiReferences(List[EReference] l) :
+	this.addAll(l.select(e|e.many).sortBy(e|e.containment));	
+	
+create List[String] addOn(EClass c) :
+	if c != null && c.name == 'Node' then
+		this.add('Quantity');
+
+create List[EClass] supers(EClass c) : 
+	this.addAll(c.eSuperTypes);	
+
+EAttribute idFeature(List[EAttribute] this) : 
+	this.select(e|e.iD);
+	
+String fileName() : GLOBALVAR FileName; 	
+
+// Java extensions. 
+// See bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=312561
+Void print (EEnum n):
+  JAVA com.netxforge.netxstudio.models.workflow.Extension.print(org.eclipse.emf.ecore.EEnum);
+
+List[String] literals(EEnum n):
+  JAVA com.netxforge.netxstudio.models.workflow.Extension.literals(org.eclipse.emf.ecore.EEnum);
+
+// html encoding of an ecore documentation. 
+List[String] htmlEncode(String s):
+  JAVA com.netxforge.netxstudio.models.workflow.Extension.htmlEncode(java.lang.String);
+

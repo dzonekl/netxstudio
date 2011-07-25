@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+ <extension
+       point="org.eclipse.ui.exportWizards">
+    <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.XPandExportWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.object"
+          name="%wizard.name">
+       <description>
+          %wizard.description
+       </description>
+    </wizard>
+    <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.XPandExportImportWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.import"
+          name="Generate a model import template">
+       <description>
+         "Generatge a model import template."
+       </description>
+    </wizard>
+ </extension>
+</plugin>

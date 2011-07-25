@@ -1,0 +1,956 @@
+  <?xml version="1.0"?>
+	<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ 		xmlns:o="urn:schemas-microsoft-com:office:office"
+ 		xmlns:x="urn:schemas-microsoft-com:office:excel"
+ 		xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ 		xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Styles>
+	  <Style ss:ID="Default" ss:Name="Normal">
+	   <Alignment ss:Vertical="Bottom"/>
+	   <Borders/>
+	   <Font ss:FontName="Verdana"/>
+	   <Interior/>
+	   <NumberFormat/>
+	   <Protection/>
+	  </Style>
+	   <Style ss:ID="s20">
+		   <Font ss:FontName="Verdana" ss:Color="#0000D4"/>
+		   <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+	   	   <Borders>
+	    		<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+	    		<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+	   		</Borders>
+	  </Style>
+	  <Style ss:ID="s21">
+	   		<Font ss:FontName="Verdana" ss:Bold="1"/>
+	   		<Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+	   		<Borders>
+	    		<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+	    		<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+	   		</Borders>
+	   		
+	  </Style>
+	  <Style ss:ID="s22">
+	   		<Font ss:FontName="Verdana" ss:Color="#993300"/>
+	   		<Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
+	   		<Borders>
+	    		<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+	    		<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+	   		</Borders>
+	  </Style>
+	  <Style ss:ID="s23">
+	   		<Font ss:FontName="Verdana" ss:Color="#003300"/>
+	   		<Interior/>
+	   		<Borders>
+	    		<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/>
+	    		<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/>
+	   		</Borders>
+	  </Style>
+	  
+ </Styles>
+ 	
+	 <Worksheet ss:Name="IdentifierDataKind">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">ObjectKind</Data>
+		
+ 	 
+		<Comment><Data>
+        The ObjectKind attributes holds the textual name
+							of the target object we are looking for.
+							Note: Most often this
+							will be a "Node", but also a child of a "Node"
+							like an
+							"Equipment", it can also be a "Relationship" on a "Node".
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">ObjectProperty</Data>
+		
+ 	 
+		<Comment><Data>
+        The ObjectProperty attribute holds the the
+							textual name of the target attribute we are looking for.
+							Note:
+							Most often this will be the "NodeID" but it can also be a
+							"Position" identifier or anything else.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Pattern</Data>
+		
+ 	 
+		<Comment><Data>
+        A pattern to convert the information in the data source to an identifier which can be used to select a network element
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+   		
+	<Cell ss:StyleID="s21"><Data ss:Type="String">DataKind</Data></Cell>
+	 	</Row>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">ObjectKindType</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+	 	</Row>
+	 </Table>
+    </Worksheet>
+
+	 <Worksheet ss:Name="MappingCSV">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Delimiter</Data>
+		
+ 	 
+		<Comment><Data>
+        The delimiter character(s).
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">FirstDataRow</Data>
+		
+ 	 
+		<Comment><Data>
+        The FirstDataRow attribute holds the row number
+							of the first row containing data.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">HeaderRow</Data>
+		
+ 	 
+		<Comment><Data>
+        The HeaderRow attribute holds the row number
+							which contains the header.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">IntervalHint</Data>
+		
+ 	 
+		<Comment><Data>
+        The IntervalHint attribute, holds a hint for the
+							metric interval between each metric value in minutes.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+   		
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Mapping</Data></Cell>
+	 	</Row>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Int</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Int</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Int</Data>
+ 	 </Cell>
+	 	</Row>
+	 </Table>
+    </Worksheet>
+
+	 <Worksheet ss:Name="MappingRDBMS">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">DatabaseType</Data>
+		
+ 	 
+		<Comment><Data>
+        The database type.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Query</Data>
+		
+ 	 
+		<Comment><Data>
+        The query to execute.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">DateFormat</Data>
+		
+ 	 
+		<Comment><Data>
+        The format used for the date in the query.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">DateTimeFormat</Data>
+		
+ 	 
+		<Comment><Data>
+        The format used for the datetime in the query.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Password</Data>
+		
+ 	 
+		<Comment><Data>
+        The password.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">TimeFormat</Data>
+		
+ 	 
+		<Comment><Data>
+        The format used for the time in the query.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">User</Data>
+		
+ 	 
+		<Comment><Data>
+        The user name.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">FirstDataRow</Data>
+		
+ 	 
+		<Comment><Data>
+        The FirstDataRow attribute holds the row number
+							of the first row containing data.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">HeaderRow</Data>
+		
+ 	 
+		<Comment><Data>
+        The HeaderRow attribute holds the row number
+							which contains the header.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">IntervalHint</Data>
+		
+ 	 
+		<Comment><Data>
+        The IntervalHint attribute, holds a hint for the
+							metric interval between each metric value in minutes.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+   		
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Mapping</Data></Cell>
+	 	</Row>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">DatabaseTypeType</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Description2000</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Int</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Int</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Int</Data>
+ 	 </Cell>
+	 	</Row>
+	 </Table>
+    </Worksheet>
+
+	 <Worksheet ss:Name="MappingXLS">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">SheetNumber</Data>
+		
+ 	 
+		<Comment><Data>
+        The SheetNumber attribute holds the index of the
+							XLS sheet to be mapped from.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">FirstDataRow</Data>
+		
+ 	 
+		<Comment><Data>
+        The FirstDataRow attribute holds the row number
+							of the first row containing data.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">HeaderRow</Data>
+		
+ 	 
+		<Comment><Data>
+        The HeaderRow attribute holds the row number
+							which contains the header.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">IntervalHint</Data>
+		
+ 	 
+		<Comment><Data>
+        The IntervalHint attribute, holds a hint for the
+							metric interval between each metric value in minutes.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+   		
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Mapping</Data></Cell>
+	 	</Row>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Int</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Int</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Int</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Int</Data>
+ 	 </Cell>
+	 	</Row>
+	 </Table>
+    </Worksheet>
+
+	 <Worksheet ss:Name="Metric">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Description</Data>
+		
+ 	 
+		<Comment><Data>
+        The Description attribute holds the description
+							of
+							the metric.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">MeasurementPoint</Data>
+		
+ 	 
+		<Comment><Data>
+        The MeasurementPoint Attribute describes
+							textually
+							at which point in a procedure
+							the measurement takes
+							place.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">MetricCalculation</Data>
+		
+ 	 
+		<Comment><Data>
+        The MetricCalculation references, contains 0 or
+							1
+							ExpressionLine type.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Name</Data>
+		
+ 	 
+		<Comment><Data>
+        The Name attribute holds the name of the metric.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">MeasurementKind</Data>
+		
+ 	 
+		<Comment><Data>
+        The MeasurementKind attribute is a free form
+							text
+							field which can hold information about which
+							category or group
+							a Metric belongs.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Deleted</Data>
+		
+ 	 
+			 	 	
+ 	 </Cell>
+   		
+		
+			<Cell ss:StyleID="s22"><Data ss:Type="String">metricSourceRef</Data></Cell>
+		
+
+		
+			<Cell ss:StyleID="s22"><Data ss:Type="String">unitRef</Data></Cell>
+		
+   		
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Base</Data></Cell>
+	 	</Row>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Description2000</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Description2000</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">ExpressionLine</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Name255</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Boolean</Data>
+ 	 </Cell>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">MetricSource</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Unit</Data>
+ 	 </Cell>
+	 	</Row>
+	 </Table>
+    </Worksheet>
+
+	 <Worksheet ss:Name="MetricSource">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">MetricLocation</Data>
+		
+ 	 
+		<Comment><Data>
+        a URI representation of the location additional
+							information like login/password can be appended to the URI.
+
+							Examples:
+							1. For an XLS file this could be
+							file://path_to_where_the_xls_files_are_stored/
+							2. For an RDMS this
+							could be: jdbc:mysql://localhost:3306/DB (In
+							this
+							case a JDBC URL
+							to access the DB).
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Name</Data>
+		
+ 	 
+		<Comment><Data>
+        The Name attribute holds the name of the
+							MetricSource as it will be presented.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Deleted</Data>
+		
+ 	 
+			 	 	
+ 	 </Cell>
+   		
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">metricMapping</Data></Cell>
+		
+   		
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Base</Data></Cell>
+	 	</Row>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">AnyURI</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Name255</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Boolean</Data>
+ 	 </Cell>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Mapping</Data>
+ 	 </Cell>
+	 	</Row>
+	 </Table>
+    </Worksheet>
+
+	 <Worksheet ss:Name="ValueDataKind">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">KindHint</Data>
+		
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">Format</Data>
+		
+ 	 
+		<Comment><Data>
+        Defines the format to parse the date, time or datetime values</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s20">
+ 	 	<Data ss:Type="String">ValueKind</Data>
+		
+ 	 
+		<Comment><Data>
+        The ValueKind attribute holds the target value
+							type we expect.
+						</Data>
+        </Comment>		
+ 	 
+
+ 	 
+			 	 	
+ 	 </Cell>
+   		
+		
+			<Cell ss:StyleID="s22"><Data ss:Type="String">metricRef</Data></Cell>
+		
+   		
+	<Cell ss:StyleID="s21"><Data ss:Type="String">DataKind</Data></Cell>
+	 	</Row>
+   		<Row>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">KindHintType</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">String</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">ValueKindType</Data>
+ 	 </Cell>
+   		
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Metric</Data>
+ 	 </Cell>
+	 	</Row>
+	 </Table>
+    </Worksheet>
+ 	
+    	
+
+    
+    
+    <Worksheet ss:Name="MappingCSV_refs">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   			<Cell ss:StyleID="s20">
+ 	 		<Data ss:Type="String">MappingCSV</Data>
+ 		 	</Cell>
+    		
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">headerMappingColumns</Data></Cell>
+		
+
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">dataMappingColumns</Data></Cell>
+		
+
+    	</Row>
+   		<Row>
+   			<Cell ss:StyleID="s23">
+ 	 		<Data ss:Type="String">[]</Data>
+ 		 	</Cell>
+   			
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">MappingColumn</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">MappingColumn</Data>
+ 	 </Cell>
+
+   		</Row>
+	 </Table>
+   </Worksheet>
+   	
+
+    
+    
+    <Worksheet ss:Name="MappingRDBMS_refs">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   			<Cell ss:StyleID="s20">
+ 	 		<Data ss:Type="String">MappingRDBMS</Data>
+ 		 	</Cell>
+    		
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">headerMappingColumns</Data></Cell>
+		
+
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">dataMappingColumns</Data></Cell>
+		
+
+    	</Row>
+   		<Row>
+   			<Cell ss:StyleID="s23">
+ 	 		<Data ss:Type="String">[]</Data>
+ 		 	</Cell>
+   			
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">MappingColumn</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">MappingColumn</Data>
+ 	 </Cell>
+
+   		</Row>
+	 </Table>
+   </Worksheet>
+   	
+
+    
+    
+    <Worksheet ss:Name="MappingXLS_refs">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   			<Cell ss:StyleID="s20">
+ 	 		<Data ss:Type="String">MappingXLS</Data>
+ 		 	</Cell>
+    		
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">headerMappingColumns</Data></Cell>
+		
+
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">dataMappingColumns</Data></Cell>
+		
+
+    	</Row>
+   		<Row>
+   			<Cell ss:StyleID="s23">
+ 	 		<Data ss:Type="String">[]</Data>
+ 		 	</Cell>
+   			
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">MappingColumn</Data>
+ 	 </Cell>
+
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">MappingColumn</Data>
+ 	 </Cell>
+
+   		</Row>
+	 </Table>
+   </Worksheet>
+   	
+
+    
+    
+    <Worksheet ss:Name="Metric_refs">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   			<Cell ss:StyleID="s20">
+ 	 		<Data ss:Type="String">Metric</Data>
+ 		 	</Cell>
+    		
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">metrics</Data></Cell>
+		
+
+    	</Row>
+   		<Row>
+   			<Cell ss:StyleID="s23">
+ 	 		<Data ss:Type="String">[]</Data>
+ 		 	</Cell>
+   			
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">Metric</Data>
+ 	 </Cell>
+
+   		</Row>
+	 </Table>
+   </Worksheet>
+   	
+
+    
+    
+    <Worksheet ss:Name="MetricSource_refs">
+	 <Table>
+	 	<Column/>
+   		<Row>
+   			<Cell ss:StyleID="s20">
+ 	 		<Data ss:Type="String">MetricSource</Data>
+ 		 	</Cell>
+    		
+		
+			<Cell ss:StyleID="s21"><Data ss:Type="String">statistics</Data></Cell>
+		
+
+    	</Row>
+   		<Row>
+   			<Cell ss:StyleID="s23">
+ 	 		<Data ss:Type="String">[]</Data>
+ 		 	</Cell>
+   			
+ 	 <Cell ss:StyleID="s23">
+ 	 	<Data ss:Type="String">MappingStatistic</Data>
+ 	 </Cell>
+
+   		</Row>
+	 </Table>
+   </Worksheet>
+   	
+
+    	
+	</Workbook>
+   

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+ <extension
+             point="org.eclipse.ui.importWizards">
+          <wizard
+                category="com.netxforge.netxstudio.ui.category.import"
+                class="com.netxforge.netxstudio.models.importer.ui.internal.ImportEExtensionFactory:com.netxforge.netxstudio.models.importer.ui.ImportWizard"
+                id="com.netxforge.netxstudio.models.import.object"
+                name="%wizard.name">
+          </wizard>
+ </extension>
+ </plugin>

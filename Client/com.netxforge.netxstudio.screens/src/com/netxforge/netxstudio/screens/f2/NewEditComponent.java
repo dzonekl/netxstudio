@@ -72,7 +72,7 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 		this.editingService = editingService;
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		this.buildUI();
+		
 	}
 
 	public void injectData(Object owner, Object object) {
@@ -81,6 +81,7 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 		} else {
 			return;
 		}
+		this.buildUI();
 		this.initDataBindings_();
 	}
 

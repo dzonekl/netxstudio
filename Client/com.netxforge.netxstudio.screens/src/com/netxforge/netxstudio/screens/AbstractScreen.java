@@ -64,7 +64,7 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 	
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
-//		ScreensActivator.getDefault().getInjector().injectMembers(this);
+		ScreensActivator.getDefault().getInjector().injectMembers(this);
 		validationService = new ValidationService(obm);
 	}
 
