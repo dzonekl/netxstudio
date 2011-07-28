@@ -18,9 +18,10 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.selector;
 
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.Form;
+
+import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -135,8 +136,6 @@ public interface IScreenFormService {
 	 * Get the viewer of the screen providing the selection. 
 	 * @return
 	 */
-	public abstract Viewer getSelectionViewer();
-	
-	
+	public abstract IEditingService getEditingService();
 
 }

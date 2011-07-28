@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.screens.editing.selector;
 
 
+
 /**
  * Screens for which data is injected by the data service should implement. 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com

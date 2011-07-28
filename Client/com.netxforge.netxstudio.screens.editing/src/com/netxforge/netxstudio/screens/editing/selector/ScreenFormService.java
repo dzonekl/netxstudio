@@ -24,13 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.runtime.AssertionFailedException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -78,15 +79,12 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class ScreenFormService implements IScreenFormService {
+public class ScreenFormService implements IScreenFormService{
 
 	private SashForm sashForm;
 	private Form selectorForm;
 
 	private ScreenBody screenBody;
-
-	// private Composite activeScreen = null;
-	// private Composite previousScreen = null;
 
 	private Stack<Composite> screenStack = new Stack<Composite>();
 
@@ -332,56 +330,76 @@ public class ScreenFormService implements IScreenFormService {
 		return null;
 	}
 
+	ObservablesManager obm = null;
+
 	private void doSetScreen(final Class<?> finalScreen,
 			final Constructor<?> finalScreenConstructor,
 			final int finalOperation) {
 		if (isActiveScreen(finalScreen)) {
 			return; // Ignore we are there already.
 		}
-		// We are a new screen, instantiate and set active.
-		try {
-			Composite target = (Composite) finalScreenConstructor.newInstance(
-					getScreenContainer(), SWT.NONE);
-			if (target instanceof IScreen) {
-				((IScreen) target).setOperation(finalOperation);
-				((IScreen) target).setScreenService(this);
-			}
-			if(target instanceof IDataServiceInjection){
-				((IDataServiceInjection) target).injectData();
-			}
 
-			target.addDisposeListener(new ScreenDisposer());
-			reset();
-			doSetActiveScreen(target);
-		} catch (IllegalArgumentException e1) {
-			e1.printStackTrace();
-		} catch (InstantiationException e1) {
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			e1.printStackTrace();
-		} catch (InvocationTargetException e1) {
-			e1.printStackTrace();
+		// Warn for unsaved changes.
+		if (editingService.isDirty()) {
+			boolean result = MessageDialog
+					.openQuestion(Display.getCurrent().getActiveShell(),
+							"Save needed",
+							"You have unsaved changes, which will be discarded when not saved, save?");
+			if (result) {
+				editingService.doSave(new NullProgressMonitor());
+			} else {
+				// This will flush the stack, but not undo all the commands.
+				editingService.getEditingDomain().getCommandStack().flush();
+				// The data should have been disposed by now.  
+			}
 		}
-	}
+		
+		reset();
+		
+		// Dispose all previous observables. 
+		// we can then safely dispose the widget. 
+		if (obm != null) {
+			obm.dispose();
+			obm = null;
+		}
+		
+		// Now unload the data.
+		editingService.disposeData();
+		
+		obm = new ObservablesManager();
+		obm.runAndCollect(new Runnable() {
+			public void run() {
+				// We are a new screen, instantiate and set active.
+				try {
 
-	/**
-	 * Dispose the data on the screen, after the screen has been disposed.
-	 * 
-	 * @author dzonekl
-	 * 
-	 */
-	private class ScreenDisposer implements DisposeListener {
-		public void widgetDisposed(DisposeEvent e) {
-			// The widget is disposed, now dispose the data.
-			if (e.getSource() instanceof IScreen) {
-				Display.getCurrent().asyncExec(new Runnable() {
-					public void run() {
-						// screen.disposeData();
+					Composite target = (Composite) finalScreenConstructor
+							.newInstance(getScreenContainer(), SWT.NONE);
+
+					if (target instanceof IScreen) {
+						((IScreen) target).setOperation(finalOperation);
+						((IScreen) target)
+								.setScreenService(ScreenFormService.this);
 					}
-				});
+					if (target instanceof IDataServiceInjection) {
+						((IDataServiceInjection) target).injectData();
+					}
 
+//					target.addDisposeListener(new ScreenDisposer());
+					
+					doSetActiveScreen(target);
+					
+				} catch (IllegalArgumentException e1) {
+					e1.printStackTrace();
+				} catch (InstantiationException e1) {
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					e1.printStackTrace();
+				} catch (InvocationTargetException e1) {
+					e1.printStackTrace();
+				}
 			}
-		}
+		});
+
 	}
 
 	public void reset() {
@@ -392,14 +410,16 @@ public class ScreenFormService implements IScreenFormService {
 			try {
 				System.out.println("About to dispose : "
 						+ c.getClass().getSimpleName());
-			
-			c.dispose();
+
+				c.dispose();
 			} catch (Exception e) {
 				if (e instanceof IllegalStateException) {
 					System.out.println("observable exception" + e.getMessage());
-					// widget is disposed, but not properly unset from the parent.
+					// widget is disposed, but not properly unset from the
+					// parent.
 					c.setParent(null);
-				} if( e instanceof AssertionFailedException ){
+				}
+				if (e instanceof AssertionFailedException) {
 					System.out.println("observable exception" + e.getMessage());
 				} else {
 					e.printStackTrace();
@@ -420,19 +440,22 @@ public class ScreenFormService implements IScreenFormService {
 				c.dispose();
 			} catch (Exception e) {
 				if (e instanceof IllegalStateException) {
-					System.out.println("observable exception" + e.getMessage());
-					// widget is disposed, but not properly unset from the parent.
-					c.setParent(null);
-				}else if( e instanceof AssertionFailedException ){
-					System.out.println("observable exception" + e.getMessage());
-				} 
-				else {
+					System.out.println("observable exception: "
+							+ e.getMessage());
+					// widget is disposed, but not properly unset from the
+					// parent.
+					// c.setParent(null);
+				} else if (e instanceof AssertionFailedException) {
+					System.out.println("observable exception: "
+							+ e.getMessage());
+					e.printStackTrace();
+				} else {
 					e.printStackTrace();
 				}
-				
+
 			}
 		}
-
+		
 	}
 
 	/*
@@ -538,22 +561,6 @@ public class ScreenFormService implements IScreenFormService {
 	@Inject
 	IEditingService editingService;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.netxforge.netxstudio.screens.selector.IScreenFormService#
-	 * getSelectionViewer()
-	 */
-	public Viewer getSelectionViewer() {
-		if (getActiveScreen() instanceof IScreen) {
-			if (((IScreen) getActiveScreen()).getOperation() == Screens.OPERATION_READ_ONLY) {
-				// This one has a Viewer, get the
-			}
-		}
-
-		return null;
-	}
-
 	// Notification of screen changing.
 
 	List<ScreenChangeListener> screenChangedListeners = new ArrayList<ScreenChangeListener>();
@@ -585,4 +592,7 @@ public class ScreenFormService implements IScreenFormService {
 		return this.screenBody.getScreenBar();
 	}
 
+	public IEditingService getEditingService() {
+		return editingService;
+	}
 }

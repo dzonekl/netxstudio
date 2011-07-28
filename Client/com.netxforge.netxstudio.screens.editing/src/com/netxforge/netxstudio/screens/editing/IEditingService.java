@@ -88,6 +88,12 @@ public interface IEditingService {
 	 */
 	public abstract Resource getData(EClass clazz);
 		
+	
+	/**
+	 * Revoke all relations with the data provider. 
+	 */
+	public abstract void disposeData();
+	
 	/**
 	 * Revoke any relation with the data provider. 
 	 * Typically used to release a connection. 

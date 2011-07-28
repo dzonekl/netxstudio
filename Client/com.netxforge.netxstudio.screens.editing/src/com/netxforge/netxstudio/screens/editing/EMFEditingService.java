@@ -36,7 +36,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.generics.provider.GenericsItemProviderAdapterFactory;
 import com.netxforge.netxstudio.geo.provider.GeoItemProviderAdapterFactory;
@@ -56,7 +55,7 @@ import com.netxforge.netxstudio.services.provider.ServicesItemProviderAdapterFac
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-@Singleton
+//@Singleton
 public abstract class EMFEditingService implements IEditingService {
 
 	@Inject
@@ -65,7 +64,7 @@ public abstract class EMFEditingService implements IEditingService {
 	public EMFEditingService() {
 	}
 
-	static AdapterFactoryEditingDomain domain = null;
+	private AdapterFactoryEditingDomain domain = null;
 
 	/*
 	 * (non-Javadoc)
@@ -184,7 +183,7 @@ public abstract class EMFEditingService implements IEditingService {
 			((BasicCommandStack) getEditingDomain().getCommandStack())
 					.saveIsDone();
 		} catch (Exception exception) {
-			// Something went wrong that shouldn't.
+			exception.printStackTrace();
 		}
 	}
 

@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.screens.editing.selector;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.forms.widgets.Form;
 
@@ -62,6 +63,12 @@ public interface IScreen extends IViewerProvider {
 	public abstract EMFDataBindingContext initDataBindings_();
 	
 	public abstract void disposeData();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public abstract EStructuralFeature[] permittedCreationFeatures();
 	
 	public abstract IAction[] getActions();
 	

@@ -31,7 +31,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.swt.widgets.Display;
 
-import com.google.inject.Singleton;
+import com.google.common.collect.ImmutableList;
 import com.netxforge.netxstudio.screens.editing.dawn.DawnEMFEditorSupport;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
@@ -43,7 +43,7 @@ import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-@Singleton
+//@Singleton
 public class CDOEditingService extends EMFEditingService implements
 		IDawnEditor, IViewerProvider {
 
@@ -151,6 +151,16 @@ public class CDOEditingService extends EMFEditingService implements
 		return res;
 	}
 
+	public void disposeData() {
+		// Will dispose for all resources in the resource set.
+		// We need a copy, as we will removing from the resourceset. 
+		ImmutableList<Resource> list = ImmutableList.copyOf(this.getEditingDomain().getResourceSet().getResources());
+		
+		for( Resource res : list){
+			disposeData(res);
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -162,12 +172,16 @@ public class CDOEditingService extends EMFEditingService implements
 		
 		if(res instanceof CDOResource){
 			CDOView v = dawnEditorSupport.getView();
+			dawnEditorSupport.close(); // Closes the view.
 			CDOResource cdoRes = (CDOResource)res;
 			if(cdoRes.cdoView().equals(v)){
 				if( res.isModified()){
 					System.out.println("unloading a modified resource!");
 				}
-				cdoRes.unload(); 
+				if(cdoRes.isLoaded()){
+					cdoRes.unload();
+				}
+				 
 				if(!cdoRes.cdoView().isClosed()){
 					System.out.println("Unloaded resource, has an open view!");
 				}
@@ -177,7 +191,7 @@ public class CDOEditingService extends EMFEditingService implements
 					System.out.println("Still listeners on our CDO view!");
 				}
 			}
-			dawnEditorSupport.close(); // Closes the view.
+			
 		}
 		// Close the view, but does it close the transaction?
 	}

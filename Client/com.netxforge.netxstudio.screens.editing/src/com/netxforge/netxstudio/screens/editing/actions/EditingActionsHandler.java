@@ -1,5 +1,6 @@
-package com.netxforge.netxstudio.screens.editing;
+package com.netxforge.netxstudio.screens.editing.actions;
 
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.CopyAction;
 import org.eclipse.emf.edit.ui.action.CutAction;
 import org.eclipse.emf.edit.ui.action.DeleteAction;
@@ -14,11 +15,11 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
+
 
 /**
  * Views and editors, can register actions on the global action handlers. This
@@ -28,7 +29,7 @@ import org.eclipse.ui.actions.ActionFactory;
  * @author dzonekl
  * 
  */
-public class GlobalActionsHandler implements IPropertyListener {
+public class EditingActionsHandler implements  IActionHandler {
 
 	/**
 	 * This style bit indicates that the "additions" separator should come after
@@ -42,7 +43,8 @@ public class GlobalActionsHandler implements IPropertyListener {
 	protected int style;
 
 	/**
-	 * This is the action used to implement delete.
+	 * This is the action used to implement delete, this is the real delete
+	 * action.
 	 */
 	protected DeleteAction deleteAction;
 
@@ -71,7 +73,15 @@ public class GlobalActionsHandler implements IPropertyListener {
 	 */
 	protected RedoAction redoAction;
 
+	public EditingActionsHandler() {
+		this.style = ADDITIONS_LAST_STYLE;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.actions.IActionHandler#initActions(org.eclipse.ui.IActionBars)
+	 */
 	public void initActions(IActionBars actionBars) {
+
 		ISharedImages sharedImages = PlatformUI.getWorkbench()
 				.getSharedImages();
 
@@ -109,6 +119,7 @@ public class GlobalActionsHandler implements IPropertyListener {
 				.getImageDescriptor(ISharedImages.IMG_TOOL_REDO));
 		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(),
 				redoAction);
+
 	}
 
 	/**
@@ -175,25 +186,44 @@ public class GlobalActionsHandler implements IPropertyListener {
 		return true;
 	}
 
+	protected IWorkbenchPart activePart;
+
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.actions.IActionHandler#setActiveEditor(org.eclipse.ui.IWorkbenchPart)
+	 */
+	public void setActivePart(IWorkbenchPart part) {
+		if (part != activePart) {
+			if (activePart != null) {
+				deactivate();
+			}
+
+			if (part instanceof IEditingDomainProvider) {
+				activePart = part;
+				activate();
+
+			}
+		}
+	}
+
 	/**
 	 * Registers the global actions on the workbench part. The part must
 	 * implement.
 	 * 
 	 * @param part
 	 */
-	public void activate(IWorkbenchPart part) {
+	private void activate() {
 
-		part.addPropertyListener(this);
+		activePart.addPropertyListener(this);
 
-		deleteAction.setActiveWorkbenchPart(part);
-		cutAction.setActiveWorkbenchPart(part);
-		copyAction.setActiveWorkbenchPart(part);
-		pasteAction.setActiveWorkbenchPart(part);
-		undoAction.setActiveWorkbenchPart(part);
-		redoAction.setActiveWorkbenchPart(part);
+		deleteAction.setActiveWorkbenchPart(activePart);
+		cutAction.setActiveWorkbenchPart(activePart);
+		copyAction.setActiveWorkbenchPart(activePart);
+		pasteAction.setActiveWorkbenchPart(activePart);
+		undoAction.setActiveWorkbenchPart(activePart);
+		redoAction.setActiveWorkbenchPart(activePart);
 
-		ISelectionProvider selectionProvider = part instanceof ISelectionProvider ? (ISelectionProvider) part
-				: part.getSite().getSelectionProvider();
+		ISelectionProvider selectionProvider = activePart instanceof ISelectionProvider ? (ISelectionProvider) activePart
+				: activePart.getSite().getSelectionProvider();
 
 		if (selectionProvider != null) {
 			selectionProvider.addSelectionChangedListener(deleteAction);
@@ -202,7 +232,7 @@ public class GlobalActionsHandler implements IPropertyListener {
 			selectionProvider.addSelectionChangedListener(pasteAction);
 		}
 
-		update(part);
+		update(activePart);
 	}
 
 	public void update(IWorkbenchPart part) {
@@ -216,9 +246,6 @@ public class GlobalActionsHandler implements IPropertyListener {
 			IStructuredSelection structuredSelection = selection instanceof IStructuredSelection ? (IStructuredSelection) selection
 					: StructuredSelection.EMPTY;
 
-			System.out.println("Update selection for actions on"
-					+ structuredSelection);
-
 			deleteAction.updateSelection(structuredSelection);
 			cutAction.updateSelection(structuredSelection);
 			copyAction.updateSelection(structuredSelection);
@@ -229,9 +256,9 @@ public class GlobalActionsHandler implements IPropertyListener {
 		}
 	}
 
-	public void deactivate(IWorkbenchPart part) {
+	public void deactivate() {
 
-		part.removePropertyListener(this);
+		activePart.removePropertyListener(this);
 
 		deleteAction.setActiveWorkbenchPart(null);
 		cutAction.setActiveWorkbenchPart(null);
@@ -240,8 +267,8 @@ public class GlobalActionsHandler implements IPropertyListener {
 		undoAction.setActiveWorkbenchPart(null);
 		redoAction.setActiveWorkbenchPart(null);
 
-		ISelectionProvider selectionProvider = part instanceof ISelectionProvider ? (ISelectionProvider) part
-				: part.getSite().getSelectionProvider();
+		ISelectionProvider selectionProvider = activePart instanceof ISelectionProvider ? (ISelectionProvider) activePart
+				: activePart.getSite().getSelectionProvider();
 
 		if (selectionProvider != null) {
 			selectionProvider.removeSelectionChangedListener(deleteAction);
@@ -253,18 +280,35 @@ public class GlobalActionsHandler implements IPropertyListener {
 	}
 
 	public void propertyChanged(Object source, int propId) {
-		System.out.println("WORK IN PROGESS : Property fired prop ID" + propId);
 		update((IWorkbenchPart) source);
 	}
+	
+	
+	/* (non-Javadoc)
+	 * @see com.netxforge.netxstudio.screens.editing.actions.IActionHandler#showMenu(org.eclipse.jface.action.IMenuManager)
+	 */
+	public void showMenu(ActionHandlerDescriptor descriptor) {
+		IMenuManager menuManager = descriptor.getMenuManager();
+		enableMarkers(menuManager);
+		
+		if(descriptor.enableEditActions){
+			enableEditingActions(menuManager);	
+		}
+	}
 
-	public void menuAboutToShow(IMenuManager menuManager) {
+
+	private void enableMarkers(IMenuManager menuManager){
 		// Add our standard marker.
-		//
 		if ((style & ADDITIONS_LAST_STYLE) == 0) {
 			menuManager.add(new Separator("additions"));
 		}
-		menuManager.add(new Separator("edit"));
 
+		menuManager.add(new Separator("screen"));
+		menuManager.add(new Separator("edit"));
+	}
+
+	
+	private void enableEditingActions(IMenuManager menuManager){
 		// Add the edit menu actions.
 		//
 		menuManager.add(new ActionContributionItem(undoAction));
@@ -284,6 +328,6 @@ public class GlobalActionsHandler implements IPropertyListener {
 		// Add our other standard marker.
 		//
 		menuManager.add(new Separator("additions-end"));
-		// addGlobalActions(menuManager);
 	}
+	
 }
