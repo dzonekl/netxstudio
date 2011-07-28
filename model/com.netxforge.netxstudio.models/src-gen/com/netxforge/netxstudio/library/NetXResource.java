@@ -68,6 +68,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getComponentRef <em>Component Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getMetricRef <em>Metric Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getMetricValueRanges <em>Metric Value Ranges</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getCapacityValues <em>Capacity Values</em>}</li>
@@ -89,6 +90,33 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  * @generated
  */
 public interface NetXResource extends Base {
+	/**
+	 * Returns the value of the '<em><b>Component Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Reference to the component for which this netx resource was created.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Component Ref</em>' reference.
+	 * @see #setComponentRef(Component)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_ComponentRef()
+	 * @model required="true"
+	 *        extendedMetaData="kind='element' name='ComponentRef'"
+	 * @generated
+	 */
+	Component getComponentRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.NetXResource#getComponentRef <em>Component Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Component Ref</em>' reference.
+	 * @see #getComponentRef()
+	 * @generated
+	 */
+	void setComponentRef(Component value);
+
 	/**
 	 * Returns the value of the '<em><b>Metric Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->

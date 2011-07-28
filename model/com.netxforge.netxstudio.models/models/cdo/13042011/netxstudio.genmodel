@@ -270,6 +270,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/name"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//NetXResource">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/componentRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/metricRef"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/metricValueRanges"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//NetXResource/capacityValues"/>
@@ -438,34 +439,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//ValueDataKind/valueKind"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Protocols" basePackage="com.netxforge.netxstudio" resource="XML"
-      disposableProviderFactory="true" ecorePackage="protocols.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="protocols.ecore#//OSIType">
-      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Application"/>
-      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Presentation"/>
-      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Session"/>
-      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Transport"/>
-      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Network"/>
-      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/DataLink"/>
-      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Physiscal"/>
-    </genEnums>
-    <genDataTypes ecoreDataType="protocols.ecore#//OSITypeObject"/>
-    <genClasses ecoreClass="protocols.ecore#//Message">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Message/name"/>
-    </genClasses>
-    <genClasses ecoreClass="protocols.ecore#//Procedure">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference protocols.ecore#//Procedure/messages"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Procedure/name"/>
-    </genClasses>
-    <genClasses ecoreClass="protocols.ecore#//Protocol">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference protocols.ecore#//Protocol/procedures"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference protocols.ecore#//Protocol/bodyRef"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/description"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/oSI"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/specification"/>
-    </genClasses>
-  </genPackages>
   <genPackages prefix="Operators" basePackage="com.netxforge.netxstudio" resource="XML"
       disposableProviderFactory="true" ecorePackage="operators.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="operators.ecore#//MarkerKind">
@@ -541,6 +514,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/markers"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/nodeRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/resourceRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ResourceMonitor/end"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ResourceMonitor/start"/>
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//Warehouse">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Warehouse/nodes"/>
@@ -572,6 +547,34 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/postalcode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/region"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/sreet"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Protocols" basePackage="com.netxforge.netxstudio" resource="XML"
+      disposableProviderFactory="true" ecorePackage="protocols.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="protocols.ecore#//OSIType">
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Application"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Presentation"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Session"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Transport"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Network"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/DataLink"/>
+      <genEnumLiterals ecoreEnumLiteral="protocols.ecore#//OSIType/Physiscal"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="protocols.ecore#//OSITypeObject"/>
+    <genClasses ecoreClass="protocols.ecore#//Message">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Message/name"/>
+    </genClasses>
+    <genClasses ecoreClass="protocols.ecore#//Procedure">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference protocols.ecore#//Procedure/messages"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Procedure/name"/>
+    </genClasses>
+    <genClasses ecoreClass="protocols.ecore#//Protocol">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference protocols.ecore#//Protocol/procedures"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference protocols.ecore#//Protocol/bodyRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/oSI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/specification"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Scheduling" basePackage="com.netxforge.netxstudio" resource="XML"

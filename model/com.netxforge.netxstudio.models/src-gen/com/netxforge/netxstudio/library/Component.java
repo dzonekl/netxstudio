@@ -61,7 +61,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  */
 public interface Component extends Base {
 	/**
-	 * Returns the value of the '<em><b>Resources</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Resources</b></em>' reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.NetXResource}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -70,10 +70,9 @@ public interface Component extends Base {
 	 * 								more EquipmentResource types.
 	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Resources</em>' containment reference list.
+	 * @return the value of the '<em>Resources</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getComponent_Resources()
-	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='Resources'"
+	 * @model extendedMetaData="kind='element' name='Resources'"
 	 * @generated
 	 */
 	EList<NetXResource> getResources();

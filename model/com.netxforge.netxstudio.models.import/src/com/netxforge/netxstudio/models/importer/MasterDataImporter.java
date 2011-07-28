@@ -507,12 +507,6 @@ public class MasterDataImporter {
 		}
 	}
 
-	private void printResultSet(List<EObject> set) {
-		for (EObject o : set) {
-			printObject(o);
-		}
-	}
-
 	private String printObject(EObject o) {
 		String result = "";
 		if (o instanceof Equipment) {

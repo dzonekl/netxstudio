@@ -220,8 +220,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		ServicesPackageImpl theServicesPackage = (ServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) instanceof ServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) : ServicesPackage.eINSTANCE);
 		LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
 		MetricsPackageImpl theMetricsPackage = (MetricsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) instanceof MetricsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) : MetricsPackage.eINSTANCE);
-		ProtocolsPackageImpl theProtocolsPackage = (ProtocolsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) instanceof ProtocolsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) : ProtocolsPackage.eINSTANCE);
 		GeoPackageImpl theGeoPackage = (GeoPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) instanceof GeoPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) : GeoPackage.eINSTANCE);
+		ProtocolsPackageImpl theProtocolsPackage = (ProtocolsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) instanceof ProtocolsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) : ProtocolsPackage.eINSTANCE);
 		SchedulingPackageImpl theSchedulingPackage = (SchedulingPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SchedulingPackage.eNS_URI) instanceof SchedulingPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SchedulingPackage.eNS_URI) : SchedulingPackage.eINSTANCE);
 		NetxstudioPackageImpl theNetxstudioPackage = (NetxstudioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) instanceof NetxstudioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) : NetxstudioPackage.eINSTANCE);
 
@@ -231,8 +231,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		theServicesPackage.createPackageContents();
 		theLibraryPackage.createPackageContents();
 		theMetricsPackage.createPackageContents();
-		theProtocolsPackage.createPackageContents();
 		theGeoPackage.createPackageContents();
+		theProtocolsPackage.createPackageContents();
 		theSchedulingPackage.createPackageContents();
 		theNetxstudioPackage.createPackageContents();
 
@@ -242,8 +242,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		theServicesPackage.initializePackageContents();
 		theLibraryPackage.initializePackageContents();
 		theMetricsPackage.initializePackageContents();
-		theProtocolsPackage.initializePackageContents();
 		theGeoPackage.initializePackageContents();
+		theProtocolsPackage.initializePackageContents();
 		theSchedulingPackage.initializePackageContents();
 		theNetxstudioPackage.initializePackageContents();
 
@@ -765,6 +765,24 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getResourceMonitor_End() {
+		return (EAttribute)resourceMonitorEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getResourceMonitor_Start() {
+		return (EAttribute)resourceMonitorEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getWarehouse() {
 		return warehouseEClass;
 	}
@@ -916,6 +934,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		createEReference(resourceMonitorEClass, RESOURCE_MONITOR__MARKERS);
 		createEReference(resourceMonitorEClass, RESOURCE_MONITOR__NODE_REF);
 		createEReference(resourceMonitorEClass, RESOURCE_MONITOR__RESOURCE_REF);
+		createEAttribute(resourceMonitorEClass, RESOURCE_MONITOR__END);
+		createEAttribute(resourceMonitorEClass, RESOURCE_MONITOR__START);
 
 		warehouseEClass = createEClass(WAREHOUSE);
 		createEReference(warehouseEClass, WAREHOUSE__NODES);
@@ -1046,6 +1066,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		initEReference(getResourceMonitor_Markers(), this.getMarker(), null, "markers", null, 0, -1, ResourceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getResourceMonitor_NodeRef(), this.getNode(), null, "nodeRef", null, 0, 1, ResourceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getResourceMonitor_ResourceRef(), theLibraryPackage.getNetXResource(), null, "resourceRef", null, 0, 1, ResourceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getResourceMonitor_End(), theXMLTypePackage.getDateTime(), "end", null, 0, 1, ResourceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getResourceMonitor_Start(), theXMLTypePackage.getDateTime(), "start", null, 0, 1, ResourceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(warehouseEClass, Warehouse.class, "Warehouse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getWarehouse_Nodes(), this.getNode(), null, "nodes", null, 0, -1, Warehouse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1097,7 +1119,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidNodeID\n\t\t\t"
-		   });																																																																				
+		   });																																																																								
 	}
 
 	/**
@@ -1507,6 +1529,20 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 			 "name", "ResourceRef"
 		   });			
 		addAnnotation
+		  (getResourceMonitor_End(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "End"
+		   });			
+		addAnnotation
+		  (getResourceMonitor_Start(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Start"
+		   });			
+		addAnnotation
 		  (warehouseEClass, 
 		   source, 
 		   new String[] {
@@ -1556,7 +1592,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		   source, 
 		   new String[] {
 			 "ValidNodeID", "\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t"
-		   });																																																																			
+		   });																																																																							
 	}
 
 } //OperatorsPackageImpl

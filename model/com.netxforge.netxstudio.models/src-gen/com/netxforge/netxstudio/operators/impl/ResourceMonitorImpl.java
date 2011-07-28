@@ -18,6 +18,8 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
@@ -38,6 +40,8 @@ import com.netxforge.netxstudio.operators.ResourceMonitor;
  *   <li>{@link com.netxforge.netxstudio.operators.impl.ResourceMonitorImpl#getMarkers <em>Markers</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.ResourceMonitorImpl#getNodeRef <em>Node Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.ResourceMonitorImpl#getResourceRef <em>Resource Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.impl.ResourceMonitorImpl#getEnd <em>End</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.impl.ResourceMonitorImpl#getStart <em>Start</em>}</li>
  * </ul>
  * </p>
  *
@@ -107,6 +111,42 @@ public class ResourceMonitorImpl extends BaseImpl implements ResourceMonitor {
 	 */
 	public void setResourceRef(NetXResource newResourceRef) {
 		eSet(OperatorsPackage.Literals.RESOURCE_MONITOR__RESOURCE_REF, newResourceRef);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public XMLGregorianCalendar getEnd() {
+		return (XMLGregorianCalendar)eGet(OperatorsPackage.Literals.RESOURCE_MONITOR__END, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEnd(XMLGregorianCalendar newEnd) {
+		eSet(OperatorsPackage.Literals.RESOURCE_MONITOR__END, newEnd);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public XMLGregorianCalendar getStart() {
+		return (XMLGregorianCalendar)eGet(OperatorsPackage.Literals.RESOURCE_MONITOR__START, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStart(XMLGregorianCalendar newStart) {
+		eSet(OperatorsPackage.Literals.RESOURCE_MONITOR__START, newStart);
 	}
 
 } //ResourceMonitorImpl

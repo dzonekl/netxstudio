@@ -154,7 +154,7 @@ public interface LibraryPackage extends EPackage {
 	int COMPONENT__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Resources</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Resources</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -299,7 +299,7 @@ public interface LibraryPackage extends EPackage {
 	int EQUIPMENT__DELETED = COMPONENT__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Resources</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Resources</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -789,7 +789,7 @@ public interface LibraryPackage extends EPackage {
 	int FUNCTION__DELETED = COMPONENT__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Resources</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Resources</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1088,13 +1088,22 @@ public interface LibraryPackage extends EPackage {
 	int NET_XRESOURCE__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
+	 * The feature id for the '<em><b>Component Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NET_XRESOURCE__COMPONENT_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Metric Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__METRIC_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
+	int NET_XRESOURCE__METRIC_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Metric Value Ranges</b></em>' containment reference list.
@@ -1103,7 +1112,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__METRIC_VALUE_RANGES = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int NET_XRESOURCE__METRIC_VALUE_RANGES = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Capacity Values</b></em>' containment reference list.
@@ -1112,7 +1121,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__CAPACITY_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int NET_XRESOURCE__CAPACITY_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Utilization Values</b></em>' containment reference list.
@@ -1121,7 +1130,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__UTILIZATION_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int NET_XRESOURCE__UTILIZATION_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Forecast Capacity Values</b></em>' containment reference list.
@@ -1130,7 +1139,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__FORECAST_CAPACITY_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int NET_XRESOURCE__FORECAST_CAPACITY_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Forecast Values</b></em>' containment reference list.
@@ -1139,7 +1148,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__FORECAST_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 5;
+	int NET_XRESOURCE__FORECAST_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Trended Values</b></em>' containment reference list.
@@ -1148,7 +1157,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__TRENDED_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 6;
+	int NET_XRESOURCE__TRENDED_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Detail Display</b></em>' attribute.
@@ -1157,7 +1166,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__DETAIL_DISPLAY = GenericsPackage.BASE_FEATURE_COUNT + 7;
+	int NET_XRESOURCE__DETAIL_DISPLAY = GenericsPackage.BASE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Expression Name</b></em>' attribute.
@@ -1166,7 +1175,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__EXPRESSION_NAME = GenericsPackage.BASE_FEATURE_COUNT + 8;
+	int NET_XRESOURCE__EXPRESSION_NAME = GenericsPackage.BASE_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Long Name</b></em>' attribute.
@@ -1175,7 +1184,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__LONG_NAME = GenericsPackage.BASE_FEATURE_COUNT + 9;
+	int NET_XRESOURCE__LONG_NAME = GenericsPackage.BASE_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
@@ -1184,7 +1193,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__SHORT_NAME = GenericsPackage.BASE_FEATURE_COUNT + 10;
+	int NET_XRESOURCE__SHORT_NAME = GenericsPackage.BASE_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Summary Display</b></em>' attribute.
@@ -1193,7 +1202,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__SUMMARY_DISPLAY = GenericsPackage.BASE_FEATURE_COUNT + 11;
+	int NET_XRESOURCE__SUMMARY_DISPLAY = GenericsPackage.BASE_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Unit Ref</b></em>' reference.
@@ -1202,7 +1211,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__UNIT_REF = GenericsPackage.BASE_FEATURE_COUNT + 12;
+	int NET_XRESOURCE__UNIT_REF = GenericsPackage.BASE_FEATURE_COUNT + 13;
 
 	/**
 	 * The number of structural features of the '<em>Net XResource</em>' class.
@@ -1211,7 +1220,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 13;
+	int NET_XRESOURCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 14;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl <em>Node Type</em>}' class.
@@ -1761,10 +1770,10 @@ public interface LibraryPackage extends EPackage {
 	EClass getComponent();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.library.Component#getResources <em>Resources</em>}'.
+	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Component#getResources <em>Resources</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Resources</em>'.
+	 * @return the meta object for the reference list '<em>Resources</em>'.
 	 * @see com.netxforge.netxstudio.library.Component#getResources()
 	 * @see #getComponent()
 	 * @generated
@@ -2469,6 +2478,17 @@ public interface LibraryPackage extends EPackage {
 	EClass getNetXResource();
 
 	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.NetXResource#getComponentRef <em>Component Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Component Ref</em>'.
+	 * @see com.netxforge.netxstudio.library.NetXResource#getComponentRef()
+	 * @see #getNetXResource()
+	 * @generated
+	 */
+	EReference getNetXResource_ComponentRef();
+
+	/**
 	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.NetXResource#getMetricRef <em>Metric Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3078,7 +3098,7 @@ public interface LibraryPackage extends EPackage {
 		EClass COMPONENT = eINSTANCE.getComponent();
 
 		/**
-		 * The meta object literal for the '<em><b>Resources</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Resources</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -3610,6 +3630,14 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NET_XRESOURCE = eINSTANCE.getNetXResource();
+
+		/**
+		 * The meta object literal for the '<em><b>Component Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NET_XRESOURCE__COMPONENT_REF = eINSTANCE.getNetXResource_ComponentRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Metric Ref</b></em>' reference feature.

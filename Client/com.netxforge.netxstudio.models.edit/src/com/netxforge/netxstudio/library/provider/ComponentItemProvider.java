@@ -36,7 +36,6 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
 import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.library.Component;
@@ -399,7 +398,7 @@ public class ComponentItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
@@ -410,15 +409,15 @@ public class ComponentItemProvider
 				(LibraryPackage.Literals.COMPONENT__RESOURCES,
 				 LibraryFactory.eINSTANCE.createNetXResource()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.COMPONENT__DIAGRAMS,
-				 GenericsFactory.eINSTANCE.createDiagramInfo()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.COMPONENT__ICONS,
-				 GenericsFactory.eINSTANCE.createMultiImage()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(LibraryPackage.Literals.COMPONENT__DIAGRAMS,
+//				 GenericsFactory.eINSTANCE.createDiagramInfo()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(LibraryPackage.Literals.COMPONENT__ICONS,
+//				 GenericsFactory.eINSTANCE.createMultiImage()));
 	}
 
 	/**

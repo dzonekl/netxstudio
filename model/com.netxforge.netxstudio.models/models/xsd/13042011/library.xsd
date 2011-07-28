@@ -154,7 +154,7 @@
 
 				<xs:sequence>
 					<!-- Contained -->
-					<xs:element maxOccurs="unbounded" minOccurs="0" name="Resources" type="NetXResource">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Resources" type="xs:anyURI" ecore:reference="NetXResource">
 						<xs:annotation>
 							<xs:documentation>The EquipmentResources reference, contains 0 or
 								more EquipmentResource types.
@@ -886,6 +886,13 @@
 						<xs:documentation>
 						</xs:documentation>
 					</xs:annotation>
+					<xs:element minOccurs="1" name="ComponentRef" type="xs:anyURI" ecore:reference="Component">
+						<xs:annotation>
+							<xs:documentation>Reference to the component for which this netx resource was created.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
 					<xs:element ecore:reference="metrics:Metric" maxOccurs="1" minOccurs="0" name="MetricRef" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The MetricRef reference, refers to zero or one

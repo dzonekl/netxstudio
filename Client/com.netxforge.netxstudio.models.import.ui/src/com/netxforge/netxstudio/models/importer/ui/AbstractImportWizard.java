@@ -1,5 +1,6 @@
 package com.netxforge.netxstudio.models.importer.ui;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -7,15 +8,14 @@ import java.util.Map;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -27,15 +27,20 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.CheckedTreeSelectionDialog;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.geo.Country;
+import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.models.importer.MasterDataImporterJob;
+import com.netxforge.netxstudio.operators.Network;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 public abstract class AbstractImportWizard extends Wizard implements
@@ -84,6 +89,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 							dialog.setMessage("Select which items to import");
 							dialog.setBlockOnOpen(true);
 							dialog.setInput(results);
+							dialog.setContainerMode(true);
 							int result = dialog.open();
 							if (result == Window.OK) {
 								Object[] selections = dialog.getResult();
@@ -103,13 +109,54 @@ public abstract class AbstractImportWizard extends Wizard implements
 		return true;
 	}
 
+	class PrintObject {
+		ComposedAdapterFactory af;
+		AdapterFactoryLabelProvider lp;
+
+		PrintObject(ComposedAdapterFactory af) {
+			this.af = af;
+			lp = new AdapterFactoryLabelProvider(af);
+		}
+
+		String getPrint(Object object) {
+			return lp.getText(object);
+		}
+	}
+
 	private void storeForSameEClass(Object[] selection) {
 
-		Map<String, List<EObject>> map = Maps.newHashMap();
-		for (int i = 0; i < selection.length; i++) {
+//		PrintObject po = new PrintObject(editingService.getAdapterFactory());
+
+		System.out
+				.println("Storing objects, check if contained in the set to store. ");
+
+		List<Object> originalList = ImmutableList.of(selection);
+		List<EObject> listToStore = Lists.newArrayList();
+
+		for (Object o : originalList) {
+			if (o instanceof EClassImpl) {
+				listToStore.add((EObject) o);
+				continue;
+			}
 			
-			EObject current = (EObject) selection[i];
-			if(current instanceof EClassImpl){
+			boolean contained = false;
+			for (Object original : originalList) {
+				if(original.equals(o)){
+					continue;
+				}
+				if (contains(o, original)) {
+					contained = true;
+					break;
+				} 
+			}
+			if(!contained) {
+				listToStore.add((EObject) o);
+			}
+		}
+
+		Map<String, List<EObject>> map = Maps.newHashMap();
+		for (EObject current : listToStore) {
+			if (current instanceof EClassImpl) {
 				continue;
 			}
 			List<EObject> currentList = map.get(current.eClass().getName());
@@ -119,21 +166,28 @@ public abstract class AbstractImportWizard extends Wizard implements
 			}
 			currentList.add(current);
 		}
+
 		Iterator<String> keys = map.keySet().iterator();
 		while (keys.hasNext()) {
 			List<EObject> list = map.get(keys.next());
 			Resource res = null;
-			CompoundCommand c = new CompoundCommand();
+			// CompoundCommand c = new CompoundCommand();
 			for (EObject object : list) {
 				if (res == null) {
 					res = dataProvider.getResource((object).eClass());
 				}
-				Command addCommand = new AddCommand(
-						editingService.getEditingDomain(), res.getContents(), object);
-				c.append(addCommand);
+				res.getContents().add(object);
 			}
-			editingService.getEditingDomain().getCommandStack().execute(c);
+			try {
+				res.save(null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+	}
+
+	private boolean contains(Object targetObject, Object original) {
+		return EcoreUtil.isAncestor((EObject) original, (EObject) targetObject);
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -216,6 +270,30 @@ public abstract class AbstractImportWizard extends Wizard implements
 					}
 				}
 			}
+			
+			if (parentElement instanceof Country) {
+				children.addAll(((Country) parentElement).getSites());
+			}
+			
+			if (parentElement instanceof Site) {
+				children.addAll(((Site) parentElement).getRooms());
+			}
+			
+			if (parentElement instanceof Operator) {
+				children.addAll(((Operator) parentElement).getNetworks());
+				children.addAll(((Operator) parentElement).getServices());
+				children.addAll(((Operator) parentElement).getServiceUsers());
+				children.addAll(((Operator) parentElement).getWarehouses());
+			}
+			if (parentElement instanceof Network) {
+				children.addAll(((Network) parentElement).getNetworks());
+				children.addAll(((Network) parentElement).getNodes());
+				children.addAll(((Network) parentElement)
+						.getEquipmentRelationships());
+				children.addAll(((Network) parentElement)
+						.getFunctionRelationships());
+			}
+
 			if (parentElement instanceof NodeType) {
 				children.addAll(((NodeType) parentElement).getFunctions());
 				children.addAll(((NodeType) parentElement).getEquipments());

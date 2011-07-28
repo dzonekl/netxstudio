@@ -982,13 +982,31 @@ public interface OperatorsPackage extends EPackage {
 	int RESOURCE_MONITOR__RESOURCE_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>End</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_MONITOR__END = GenericsPackage.BASE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Start</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_MONITOR__START = GenericsPackage.BASE_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Resource Monitor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_MONITOR_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int RESOURCE_MONITOR_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.WarehouseImpl <em>Warehouse</em>}' class.
@@ -1670,6 +1688,28 @@ public interface OperatorsPackage extends EPackage {
 	EReference getResourceMonitor_ResourceRef();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getEnd <em>End</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>End</em>'.
+	 * @see com.netxforge.netxstudio.operators.ResourceMonitor#getEnd()
+	 * @see #getResourceMonitor()
+	 * @generated
+	 */
+	EAttribute getResourceMonitor_End();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getStart <em>Start</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Start</em>'.
+	 * @see com.netxforge.netxstudio.operators.ResourceMonitor#getStart()
+	 * @see #getResourceMonitor()
+	 * @generated
+	 */
+	EAttribute getResourceMonitor_Start();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.operators.Warehouse <em>Warehouse</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2228,6 +2268,22 @@ public interface OperatorsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RESOURCE_MONITOR__RESOURCE_REF = eINSTANCE.getResourceMonitor_ResourceRef();
+
+		/**
+		 * The meta object literal for the '<em><b>End</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RESOURCE_MONITOR__END = eINSTANCE.getResourceMonitor_End();
+
+		/**
+		 * The meta object literal for the '<em><b>Start</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RESOURCE_MONITOR__START = eINSTANCE.getResourceMonitor_Start();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.operators.impl.WarehouseImpl <em>Warehouse</em>}' class.

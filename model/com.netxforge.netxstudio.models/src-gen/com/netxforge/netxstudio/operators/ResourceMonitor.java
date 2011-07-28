@@ -18,6 +18,8 @@
  */
 package com.netxforge.netxstudio.operators;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Base;
@@ -43,6 +45,8 @@ import com.netxforge.netxstudio.library.NetXResource;
  *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getMarkers <em>Markers</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getNodeRef <em>Node Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getResourceRef <em>Resource Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getEnd <em>End</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getStart <em>Start</em>}</li>
  * </ul>
  * </p>
  *
@@ -123,5 +127,59 @@ public interface ResourceMonitor extends Base {
 	 * @generated
 	 */
 	void setResourceRef(NetXResource value);
+
+	/**
+	 * Returns the value of the '<em><b>End</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The end of the period for this resource monitor.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>End</em>' attribute.
+	 * @see #setEnd(XMLGregorianCalendar)
+	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceMonitor_End()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
+	 *        extendedMetaData="kind='attribute' name='End'"
+	 * @generated
+	 */
+	XMLGregorianCalendar getEnd();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getEnd <em>End</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>End</em>' attribute.
+	 * @see #getEnd()
+	 * @generated
+	 */
+	void setEnd(XMLGregorianCalendar value);
+
+	/**
+	 * Returns the value of the '<em><b>Start</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The start of the period for this resource monitor.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Start</em>' attribute.
+	 * @see #setStart(XMLGregorianCalendar)
+	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceMonitor_Start()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
+	 *        extendedMetaData="kind='attribute' name='Start'"
+	 * @generated
+	 */
+	XMLGregorianCalendar getStart();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getStart <em>Start</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Start</em>' attribute.
+	 * @see #getStart()
+	 * @generated
+	 */
+	void setStart(XMLGregorianCalendar value);
 
 } // ResourceMonitor

@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Unit;
@@ -36,6 +37,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getComponentRef <em>Component Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getMetricRef <em>Metric Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getMetricValueRanges <em>Metric Value Ranges</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getCapacityValues <em>Capacity Values</em>}</li>
@@ -72,6 +74,24 @@ public class NetXResourceImpl extends BaseImpl implements NetXResource {
 	@Override
 	protected EClass eStaticClass() {
 		return LibraryPackage.Literals.NET_XRESOURCE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Component getComponentRef() {
+		return (Component)eGet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComponentRef(Component newComponentRef) {
+		eSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF, newComponentRef);
 	}
 
 	/**

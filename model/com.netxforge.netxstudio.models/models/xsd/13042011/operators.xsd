@@ -634,6 +634,18 @@
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
+				<xs:attribute name="Start" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>The start of the period for this resource monitor.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="End" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>The end of the period for this resource monitor.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
