@@ -1,5 +1,6 @@
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.details;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.layout.FormLayout;
@@ -53,5 +54,11 @@ public abstract class AbstractDetailsComposite extends Composite implements IScr
 	public IAction[] getActions(){
 		return null; // N/A for a mini screen. 
 	}
+
+
+	public EStructuralFeature[] permittedCreationFeatures() {
+		return null;
+	}
+
 	
 }

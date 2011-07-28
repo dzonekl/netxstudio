@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -15,6 +16,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
@@ -31,8 +34,6 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -40,8 +41,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -52,6 +51,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -90,11 +90,15 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				obm.dispose();
+				// obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmScheduledJobs = toolkit.createForm(this);
@@ -127,9 +131,9 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 							.getScreenContainer(), SWT.NONE);
 					jobScreen.setOperation(Screens.OPERATION_NEW);
 					jobScreen.setScreenService(screenService);
-					screenService.setActiveScreen(jobScreen);
 					jobScreen.injectData(jobsResource,
 							SchedulingFactory.eINSTANCE.createJob());
+					screenService.setActiveScreen(jobScreen);
 				}
 
 			}
@@ -196,50 +200,64 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		TableColumn tblclmnInterval = tableViewerColumn_6.getColumn();
 		tblclmnInterval.setWidth(100);
 		tblclmnInterval.setText("Interval");
+	}
 
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
+	@Override
+	public IAction[] getActions() {
 
-		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
-		mntmEdit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
+		String actionText = Screens.isReadOnlyOperation(this.getOperation()) ? "View..."
+				: "Edit...";
+		List<IAction> actions = Lists.newArrayList();
+		actions.add(new EditJobAction(actionText, SWT.PUSH));
+		actions.add(new JobRunsAction("Runs...", SWT.PUSH));
 
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					NewEditJob job = new NewEditJob(screenService
-							.getScreenContainer(), SWT.NONE);
-					job.setOperation(Screens.OPERATION_EDIT);
-					screenService.setActiveScreen(job);
-					job.injectData(jobsResource, o);
-				}
+		IAction[] actionArray = new IAction[actions.size()];
+		return actions.toArray(actionArray);
+
+	}
+
+	class EditJobAction extends Action {
+
+		public EditJobAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = getViewer().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object o = ((IStructuredSelection) selection)
+						.getFirstElement();
+				NewEditJob job = new NewEditJob(screenService
+						.getScreenContainer(), SWT.NONE);
+				job.setScreenService(screenService);
+				job.setOperation(Screens.OPERATION_EDIT);
+				job.injectData(jobsResource, o);
+				screenService.setActiveScreen(job);
 			}
-		});
-		mntmEdit.setText("Edit...");
+		}
 
-		MenuItem mntmRuns = new MenuItem(menu, SWT.NONE);
-		mntmRuns.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					JobRuns jobRunsScreen = new JobRuns(screenService
-							.getScreenContainer(), SWT.NONE);
-					jobRunsScreen.setOperation(Screens.OPERATION_READ_ONLY);
-					screenService.setActiveScreen(jobRunsScreen);
-					jobRunsScreen.injectData(jobsResource, o);
-				}
+	}
 
+	class JobRunsAction extends Action {
+
+		public JobRunsAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = getViewer().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object o = ((IStructuredSelection) selection).getFirstElement();
+				JobRuns jobRunsScreen = new JobRuns(
+						screenService.getScreenContainer(), SWT.NONE);
+				jobRunsScreen.setScreenService(screenService);
+				jobRunsScreen.setOperation(Screens.OPERATION_READ_ONLY);
+				jobRunsScreen.injectData(jobsResource, o);
+				screenService.setActiveScreen(jobRunsScreen);
 			}
-		});
-		mntmRuns.setText("Runs...");
 
-		if (editingService != null) {
-			injectData();
 		}
 
 	}
@@ -295,10 +313,10 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		jobsTableViewer.setContentProvider(listContentProvider);
 
 		EAttribute dummyAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-		
+
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {dummyAttribute,
+				new EStructuralFeature[] { dummyAttribute,
 						SchedulingPackage.Literals.JOB__NAME,
 						SchedulingPackage.Literals.JOB__JOB_STATE,
 						SchedulingPackage.Literals.JOB__START_TIME,
@@ -312,7 +330,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				.resource(editingService.getEditingDomain());
 
 		IObservableList jobsList = jobsProperties.observe(jobsResource);
-		obm.addObservable(jobsList);
+		// obm.addObservable(jobsList);
 
 		jobsTableViewer.setInput(jobsList);
 
@@ -336,14 +354,20 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				Job j = (Job) element;
 				switch (columnIndex) {
 				case 0: {
-					if(j instanceof MetricSourceJob){
-						return "Metric Import: " + ((MetricSourceJob)j).getMetricSource().getName();
+					if (j instanceof MetricSourceJob) {
+						return "Metric Import: "
+								+ ((MetricSourceJob) j).getMetricSource()
+										.getName();
 					}
-					if(j instanceof RFSServiceJob){
-						return "Monitoring: " + ((RFSServiceJob)j).getRFSService().getServiceName();
+					if (j instanceof RFSServiceJob) {
+						return "Monitoring: "
+								+ ((RFSServiceJob) j).getRFSService()
+										.getServiceName();
 					}
-					if(j instanceof RFSServiceRetentionJob){
-						return "Data Retention: " + ((RFSServiceRetentionJob)j).getRFSService().getServiceName();
+					if (j instanceof RFSServiceRetentionJob) {
+						return "Data Retention: "
+								+ ((RFSServiceRetentionJob) j).getRFSService()
+										.getServiceName();
 					}
 				}
 				case 2: {
@@ -380,6 +404,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 
 	public void injectData() {
 		jobsResource = editingService.getData(SchedulingPackage.Literals.JOB);
+		buildUI();
 		initDataBindings_();
 	}
 

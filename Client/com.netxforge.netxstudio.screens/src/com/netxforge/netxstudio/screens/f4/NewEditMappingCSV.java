@@ -120,11 +120,19 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		// New or Edit.
+		boolean edit = Screens.isEditOperation(getOperation());
+		String actionText = edit ? "Edit: " : "New: ";
 
 		frmCSVMappingForm = toolkit.createForm(this);
 		frmCSVMappingForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmCSVMappingForm);
+		frmCSVMappingForm.setText(actionText + " CSV Mapping");
 		frmCSVMappingForm.getBody().setLayout(new FormLayout());
 
 		Section sctnSummary = toolkit.createSection(
@@ -222,11 +230,10 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			}
 		});
 
-		
-		
 		tblHeaderColumnMapping.setLinesVisible(true);
 		tblHeaderColumnMapping.setHeaderVisible(true);
-		tblHeaderColumnMapping.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		tblHeaderColumnMapping.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+				true, true, 2, 1));
 		toolkit.paintBordersFor(tblHeaderColumnMapping);
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
@@ -388,7 +395,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 							}
 						});
 					}
-					
+
 					// Header Column Mappings.
 					MenuItem colHeaderMenuItem = new MenuItem(gridMenu,
 							SWT.CASCADE);
@@ -399,7 +406,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 						newHeaderMenus(colMenu);
 						colHeaderMenuItem.setMenu(colMenu);
 					}
-					
+
 					{
 						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
 						mi.setText("Set Data row index (" + currentRowIndex
@@ -413,9 +420,9 @@ public class NewEditMappingCSV extends AbstractScreen implements
 						});
 					}
 
-					
 					// Data Column Mappings.
-					MenuItem colDataMenuItem = new MenuItem(gridMenu, SWT.CASCADE);
+					MenuItem colDataMenuItem = new MenuItem(gridMenu,
+							SWT.CASCADE);
 					colDataMenuItem.setText("Data Column Mapping index=("
 							+ currentColumnIndex + ")");
 					{
@@ -499,7 +506,6 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			}
 		});
 
-		
 		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 2);
 		gd_table.heightHint = 137;
 		tblDataColumnMapping.setLayoutData(gd_table);
@@ -543,15 +549,15 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		tblclmnValueType.setWidth(100);
 		tblclmnValueType.setText("Value Type");
 	}
-	
-	private void setGridSelection(MappingColumn mc, int row){
+
+	private void setGridSelection(MappingColumn mc, int row) {
 		int column = mc.getColumn();
-		if( this.gridTableViewer.getInput() != null){
+		if (this.gridTableViewer.getInput() != null) {
 			gridTableViewer.getGrid().setCellSelection(new Point(column, row));
-//			GridColumn gc = gridTableViewer.getGrid().getColumn(column);
-//			GridItem gi = gridTableViewer.getGrid().getItem(row);
-//			gridTableViewer.getGrid().setFocusColumn(gc);
-//			gridTableViewer.getGrid().setFocusItem(gi);
+			// GridColumn gc = gridTableViewer.getGrid().getColumn(column);
+			// GridItem gi = gridTableViewer.getGrid().getItem(row);
+			// gridTableViewer.getGrid().setFocusColumn(gc);
+			// gridTableViewer.getGrid().setFocusItem(gi);
 		}
 	}
 
@@ -809,7 +815,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 	 */
 	private void updateSelection(SelectionEvent e) {
 		Point[] p = gridTableViewer.getGrid().getCellSelection();
-		if(p.length >= 1){
+		if (p.length >= 1) {
 			this.currentColumnIndex = p[0].x;
 			this.currentRowIndex = p[0].y;
 		}
@@ -844,8 +850,9 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		IObservableValue headerRowObservableValue = SWTObservables.observeText(
 				txtFirstHeaderRow, SWT.Modify);
 
-		IEMFValueProperty headerRowProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(),MetricsPackage.Literals.MAPPING__HEADER_ROW);
+		IEMFValueProperty headerRowProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.MAPPING__HEADER_ROW);
 
 		context.bindValue(headerRowObservableValue,
 				headerRowProperty.observe(mapping), null, null);
@@ -866,12 +873,13 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			tblViewerHeaderColumnMapping
 					.setLabelProvider(new ColumnObservableMapLabelProvider(
 							observeMaps));
-			IEMFListProperty l = EMFEditProperties
-					.list(editingService.getEditingDomain(),MetricsPackage.Literals.MAPPING__HEADER_MAPPING_COLUMNS);
+			IEMFListProperty l = EMFEditProperties.list(
+					editingService.getEditingDomain(),
+					MetricsPackage.Literals.MAPPING__HEADER_MAPPING_COLUMNS);
 
 			IObservableList dataColumnMappingObservableList = l
 					.observe(mapping);
-			obm.addObservable(dataColumnMappingObservableList);
+			// obm.addObservable(dataColumnMappingObservableList);
 			tblViewerHeaderColumnMapping
 					.setInput(dataColumnMappingObservableList);
 		}
@@ -882,8 +890,9 @@ public class NewEditMappingCSV extends AbstractScreen implements
 
 		IObservableValue firstDataRowObservableValue = SWTObservables
 				.observeText(txtFirstDataRow, SWT.Modify);
-		IEMFValueProperty firstDataRowProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(),MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
+		IEMFValueProperty firstDataRowProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
 		context.bindValue(firstDataRowObservableValue,
 				firstDataRowProperty.observe(mapping), null, null);
 
@@ -902,12 +911,13 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			this.tblViewerDataColumnMapping
 					.setLabelProvider(new ColumnObservableMapLabelProvider(
 							observeMaps));
-			IEMFListProperty l = EMFEditProperties
-					.list(editingService.getEditingDomain(),MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
+			IEMFListProperty l = EMFEditProperties.list(
+					editingService.getEditingDomain(),
+					MetricsPackage.Literals.MAPPING__DATA_MAPPING_COLUMNS);
 
 			IObservableList dataColumnMappingObservableList = l
 					.observe(mapping);
-			obm.addObservable(dataColumnMappingObservableList);
+			// obm.addObservable(dataColumnMappingObservableList);
 			this.tblViewerDataColumnMapping
 					.setInput(dataColumnMappingObservableList);
 		}
@@ -916,16 +926,16 @@ public class NewEditMappingCSV extends AbstractScreen implements
 
 		gridTableViewer.setContentProvider(new CSVGridContentProvider());
 		gridTableViewer.setLabelProvider(new CSVGridLabelProvider());
-		
-		// Make sure our row headers, show starting with 0. 
-		gridTableViewer.setRowHeaderLabelProvider(new CellLabelProvider(){
+
+		// Make sure our row headers, show starting with 0.
+		gridTableViewer.setRowHeaderLabelProvider(new CellLabelProvider() {
 			@Override
 			public void update(ViewerCell cell) {
 				GridItem gi = (GridItem) cell.getItem();
 				int index = gridTableViewer.getGrid().indexOf(gi);
 				cell.setText(new Integer(index).toString());
 			}
-			
+
 		});
 		return context;
 
@@ -1021,19 +1031,12 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
-
 		if (object != null && object instanceof MappingCSV) {
 			mapping = (MappingCSV) object;
 		}
-		this.initDataBindings_();
 
-		String title = "";
-		if (Screens.isNewOperation(getOperation())) {
-			title = "New";
-		} else {
-			title = "Edit";
-		}
-		frmCSVMappingForm.setText(title + " CSV Mapping");
+		buildUI();
+		this.initDataBindings_();
 	}
 
 	public void addData() {

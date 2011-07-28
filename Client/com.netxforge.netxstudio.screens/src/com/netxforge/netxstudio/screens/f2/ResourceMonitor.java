@@ -104,6 +104,7 @@ public class ResourceMonitor extends AbstractScreen implements
 		sctnPeriod.setClient(composite_2);
 		composite_2.setLayout(new GridLayout(4, false));
 
+		@SuppressWarnings("unused")
 		Label lblFromDate = toolkit.createLabel(composite_2, "From:", SWT.NONE);
 
 		DateChooserCombo dateChooserCombo = new DateChooserCombo(composite_2,

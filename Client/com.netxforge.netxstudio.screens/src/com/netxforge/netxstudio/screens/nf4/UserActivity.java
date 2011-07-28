@@ -74,6 +74,9 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 		
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmActivities = toolkit.createForm(this);
@@ -149,10 +152,10 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 			String userID = user.getLogin();
 			this.getScreenForm().setText("User: " + userID);
 			commitEntries = this.editingService.getDataService().getProvider().getCommitInfoResource(userID);
-			if(commitEntries != null){
-				this.initDataBindings_();
-			}
 		}
+		buildUI();
+		this.initDataBindings_();
+
 	}
 
 	/* (non-Javadoc)
@@ -166,10 +169,8 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 	public EMFDataBindingContext initDataBindings_() {
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-		//
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
-		//
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
 				new EStructuralFeature[] { GenericsPackage.Literals.COMMIT_LOG_ENTRY__TIME_STAMP,

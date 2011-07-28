@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f4;
+package com.netxforge.netxstudio.screens.f3;
 
 import java.util.List;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -59,26 +60,25 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.metrics.Metric;
-import com.netxforge.netxstudio.metrics.MetricsFactory;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.geo.Country;
+import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f4.support.MetricTreeFactory;
-import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
-import com.netxforge.netxstudio.screens.f4.support.MetricTreeStructureAdvisor;
+import com.netxforge.netxstudio.screens.f3.support.SiteTreeFactory;
+import com.netxforge.netxstudio.screens.f3.support.SiteTreeStructureAdvisor;
 
-public class Metrics extends AbstractScreen implements IDataServiceInjection {
+public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
-	private Resource metricResource;
+	private Resource countryResource;
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext bindingContext;
-	private Form frmMetrics;
-	private TreeViewer metricsTreeViewer;
+	private Form frmSites;
+	private TreeViewer sitesTreeViewer;
 	private ObservableListTreeContentProvider listTreeContentProvider;
 
 	@Inject
@@ -90,7 +90,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	 * @param parent
 	 * @param style
 	 */
-	public Metrics(Composite parent, int style) {
+	public SitesTree(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -105,29 +105,41 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	public EMFDataBindingContext initDataBindings_() {
 
 		listTreeContentProvider = new ObservableListTreeContentProvider(
-				new MetricTreeFactory(editingService.getEditingDomain(), null), new MetricTreeStructureAdvisor());
-		metricsTreeViewer.setContentProvider(listTreeContentProvider);
+				new SiteTreeFactory(editingService.getEditingDomain()), new SiteTreeStructureAdvisor());
+		sitesTreeViewer.setContentProvider(listTreeContentProvider);
 		IObservableSet set = listTreeContentProvider.getKnownElements();
 		
-		IObservableMap[] map = new IObservableMap[2];
+		List<IObservableMap> mapList = Lists.newArrayList();
 
-		map[0] = EMFProperties.value(MetricsPackage.Literals.METRIC__NAME)
-				.observeDetail(set);
+		mapList.add(EMFProperties.value(GeoPackage.Literals.COUNTRY__NAME)
+				.observeDetail(set));
 
-		map[1] = EMFProperties.value(
-				MetricsPackage.Literals.METRIC__DESCRIPTION).observeDetail(set);
+		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__NAME)
+				.observeDetail(set));
 
-		metricsTreeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
+		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__CITY)
+				.observeDetail(set));
 
-		IEMFListProperty metricsProperty = EMFEditProperties.resource(editingService.getEditingDomain());
-		IObservableList metricsObservableList = metricsProperty.observe(metricResource);
-		metricsTreeViewer.setInput(metricsObservableList);
+		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__SREET)
+				.observeDetail(set));
+
+		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__HOUSENUMBER)
+				.observeDetail(set));
+
+		IObservableMap[] observeMaps = new IObservableMap[mapList.size()];
+		mapList.toArray(observeMaps);
+
+		sitesTreeViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+
+		IEMFListProperty countryResourceProperty = EMFEditProperties.resource(editingService.getEditingDomain());
+		IObservableList countryObservableList = countryResourceProperty.observe(countryResource);
+		sitesTreeViewer.setInput(countryObservableList);
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		return context;
 	}
 
 	public void injectData() {
-		metricResource = editingService.getData(MetricsPackage.Literals.METRIC);
+		countryResource = editingService.getData(GeoPackage.Literals.COUNTRY);
 		buildUI();
 		bindingContext = initDataBindings_();
 	}
@@ -135,13 +147,13 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		frmMetrics = toolkit.createForm(this);
-		frmMetrics.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmMetrics);
-		frmMetrics.setText("Metrics");
-		frmMetrics.getBody().setLayout(new GridLayout(3, false));
+		frmSites = toolkit.createForm(this);
+		frmSites.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmSites);
+		frmSites.setText("Sites");
+		frmSites.getBody().setLayout(new GridLayout(3, false));
 
-		Label lblFilterLabel = toolkit.createLabel(frmMetrics.getBody(),
+		Label lblFilterLabel = toolkit.createLabel(frmSites.getBody(),
 				"Filter:", SWT.NONE);
 		lblFilterLabel.setAlignment(SWT.RIGHT);
 		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
@@ -149,12 +161,12 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		gd_lblFilterLabel.widthHint = 36;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmMetrics.getBody(), "New Text",
+		txtFilterText = toolkit.createText(frmSites.getBody(), "New Text",
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				metricsTreeViewer.refresh();
-				ViewerFilter[] filters = metricsTreeViewer.getFilters();
+				sitesTreeViewer.refresh();
+				ViewerFilter[] filters = sitesTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof SearchFilter) {
 						((SearchFilter) viewerFilter)
@@ -171,17 +183,17 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		txtFilterText.setLayoutData(gd_txtFilterText);
 
 		ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(
-				frmMetrics.getBody(), SWT.NONE);
+				frmSites.getBody(), SWT.NONE);
 		mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				NewEditMetric metricScreen = new NewEditMetric(screenService
-						.getScreenContainer(), SWT.NONE);
-				metricScreen.setOperation(Screens.OPERATION_NEW);
-				metricScreen.setScreenService(screenService);
-				Metric metric = MetricsFactory.eINSTANCE.createMetric();
-				metricScreen.injectData(metricResource, metric);
-
-				screenService.setActiveScreen(metricScreen);
+				
+				// FIXME We can't do this in a tree. 
+//				NewEditSite siteScreen = new NewEditSite(
+//						screenService.getScreenContainer(), SWT.NONE);
+//				siteScreen.setScreenService(screenService);
+//				siteScreen.setOperation(Screens.OPERATION_EDIT);
+//				siteScreen.injectData(((Site)o).eContainer(), o);
+//				screenService.setActiveScreen(siteScreen);				
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -190,39 +202,47 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
-		mghprlnkNewMetric.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/Metric_E.png"));
+		mghprlnkNewMetric.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Site_E.png"));
 		toolkit.paintBordersFor(mghprlnkNewMetric);
 		mghprlnkNewMetric.setText("New");
 
-		metricsTreeViewer = new TreeViewer(frmMetrics.getBody(), SWT.BORDER | SWT.VIRTUAL);
-		metricsTreeViewer.setUseHashlookup(true);
-		Tree tree = metricsTreeViewer.getTree();
+		sitesTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER | SWT.VIRTUAL);
+		sitesTreeViewer.setUseHashlookup(true);
+		Tree tree = sitesTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		toolkit.paintBordersFor(tree);
 
 		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
-				metricsTreeViewer, SWT.NONE);
-		TreeColumn trclmnName = treeViewerColumn.getColumn();
-		trclmnName.setWidth(100);
-		trclmnName.setText("Name");
+				sitesTreeViewer, SWT.NONE);
+		TreeColumn trclmnCountry = treeViewerColumn.getColumn();
+		trclmnCountry.setWidth(100);
+		trclmnCountry.setText("Country");
 
 		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
-				metricsTreeViewer, SWT.NONE);
-		TreeColumn trclmnDescription = treeViewerColumn_1.getColumn();
-		trclmnDescription.setWidth(270);
-		trclmnDescription.setText("Description");
+				sitesTreeViewer, SWT.NONE);
+		TreeColumn trclmnName = treeViewerColumn_1.getColumn();
+		trclmnName.setWidth(129);
+		trclmnName.setText("Name");
 
 		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
-				metricsTreeViewer, SWT.NONE);
-		TreeColumn trclmnUnit = treeViewerColumn_2.getColumn();
-		trclmnUnit.setWidth(84);
-		trclmnUnit.setText("Unit");
+				sitesTreeViewer, SWT.NONE);
+		TreeColumn trclmnCity = treeViewerColumn_2.getColumn();
+		trclmnCity.setWidth(105);
+		trclmnCity.setText("City");
+		
+		TreeViewerColumn treeViewerColumn_3 = new TreeViewerColumn(sitesTreeViewer, SWT.NONE);
+		TreeColumn trclmnStreet = treeViewerColumn_3.getColumn();
+		trclmnStreet.setWidth(100);
+		trclmnStreet.setText("Street");
+		
+		TreeViewerColumn treeViewerColumn_4 = new TreeViewerColumn(sitesTreeViewer, SWT.NONE);
+		TreeColumn trclmnNr = treeViewerColumn_4.getColumn();
+		trclmnNr.setWidth(100);
+		trclmnNr.setText("Nr");
 
-		metricsTreeViewer.addFilter(searchFilter);
+		sitesTreeViewer.addFilter(searchFilter);
 	}
 	
 
@@ -232,9 +252,9 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 	 * @author dzonekl
 	 * 
 	 */
-	class EditMetricAction extends Action {
+	class EditSiteAction extends Action {
 
-		public EditMetricAction(String text, int style) {
+		public EditSiteAction(String text, int style) {
 			super(text, style);
 		}
 
@@ -246,66 +266,31 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					NewEditMetric metricScreen = new NewEditMetric(
-							screenService.getScreenContainer(), SWT.NONE);
-					metricScreen.setScreenService(screenService);
-					metricScreen.setOperation(Screens.OPERATION_EDIT);
-					Object subowner = null;
-					if (o instanceof Metric) {
-						if (((Metric) o).eContainer() instanceof Metric) {
-							subowner = ((Metric) o).eContainer();
-						}
+					if(o instanceof Country){
+						return;
 					}
-					metricScreen.injectData(metricResource, subowner, o);
-					screenService.setActiveScreen(metricScreen);
+					if( o instanceof Site){
+						NewEditSite siteScreen = new NewEditSite(
+								screenService.getScreenContainer(), SWT.NONE);
+						siteScreen.setScreenService(screenService);
+						siteScreen.setOperation(Screens.OPERATION_EDIT);
+						siteScreen.injectData(((Site)o).eContainer(), o);
+						screenService.setActiveScreen(siteScreen);
+					}
 				}
 			}
 		}
 	}
 	
-	
-	/**
-	 * Wrap in an action, to contribute to a menu manager.
-	 * 
-	 * @author dzonekl
-	 * 
-	 */
-	class NewMetricAction extends Action {
-
-		public NewMetricAction(String text, int style) {
-			super(text, style);
-		}
-
-		@Override
-		public void run() {
-			super.run();
-			if (screenService != null) {
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object subowner = ((IStructuredSelection) selection)
-							.getFirstElement();
-
-					NewEditMetric metricScreen = new NewEditMetric(
-							screenService.getScreenContainer(), SWT.NONE);
-					metricScreen.setOperation(Screens.OPERATION_NEW);
-					metricScreen.setScreenService(screenService);
-					Metric metric = MetricsFactory.eINSTANCE.createMetric();
-					metricScreen.injectData(metricResource, subowner,
-							metric);
-					screenService.setActiveScreen(metricScreen);
-				}
-			}
-		}
-	}
 	
 
 	public void disposeData() {
-		editingService.disposeData(metricResource);
+		editingService.disposeData(countryResource);
 	}
 
 	@Override
 	public Viewer getViewer() {
-		return metricsTreeViewer;
+		return sitesTreeViewer;
 	}
 
 	@Override
@@ -315,7 +300,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public Form getScreenForm() {
-		return this.frmMetrics;
+		return this.frmSites;
 	}
 
 	@Override
@@ -330,13 +315,9 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
-		actions.add(new EditMetricAction(actionText + "...",
+		actions.add(new EditSiteAction(actionText + "...",
 				SWT.PUSH));
 		
-		if(!Screens.isReadOnlyOperation(getOperation())){
-			actions.add(new EditMetricAction("New...",
-				SWT.PUSH));
-		}
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray); 
 	}

@@ -109,15 +109,19 @@ public class NewEditUser extends AbstractScreen implements
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 
+
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmNewEditUser = toolkit.createForm(this);
 		frmNewEditUser.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewEditUser);
 
-		String title = Screens.isNewOperation(getOperation()) ? "New" : "Edit";
+		String title = Screens.isNewOperation(getOperation()) ? "New: " : "Edit: ";
 
-		frmNewEditUser.setText(title + " User");
+		frmNewEditUser.setText(title + "User");
 		frmNewEditUser.addMessageHyperlinkListener(new HyperlinkAdapter());
 		frmNewEditUser.getBody().setLayout(new FormLayout());
 
@@ -291,7 +295,6 @@ public class NewEditUser extends AbstractScreen implements
 		validationService.registerAllDecorators(txtPass, lblPassword);
 		validationService.registerAllDecorators(txtConfirm, lblConfirm);
 		validationService.registerAllDecorators(combo, lblRole);
-
 	}
 
 	protected void handleRoleSelection(SelectionEvent e) {
@@ -485,7 +488,7 @@ public class NewEditUser extends AbstractScreen implements
 				editingService.getEditingDomain());
 		IObservableList rolesObservableList = l.observe(rolesResource);
 		
-		obm.addObservable(rolesObservableList);
+//		obm.addObservable(rolesObservableList);
 		
 		this.getComboViewerWidget().setInput(rolesObservableList);
 
@@ -616,7 +619,9 @@ public class NewEditUser extends AbstractScreen implements
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
+		
 
+		buildUI();
 		m_bindingContext = initDataBindings_();
 
 		if (!Screens.isReadOnlyOperation(getOperation())) {

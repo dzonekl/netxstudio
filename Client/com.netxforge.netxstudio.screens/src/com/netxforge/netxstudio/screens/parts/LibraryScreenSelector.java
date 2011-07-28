@@ -17,8 +17,6 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.parts;
 
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -107,15 +105,5 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 		// Static initialization of bindings. We need a dynamic form for this.
 		//
 
-	}
-
-	@Override
-	public void contributeMenuAboutToShow(IMenuManager menuManager) {
-		if(this.getCurrentScreen() != null && this.getCurrentScreen().getActions() != null){
-			for(int i = 0; i < this.getCurrentScreen().getActions().length; i++){
-				IAction a = this.getCurrentScreen().getActions()[i];
-				menuManager.add(a);
-			}
-		}
 	}
 }

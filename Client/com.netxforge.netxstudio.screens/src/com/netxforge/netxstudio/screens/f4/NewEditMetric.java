@@ -7,6 +7,7 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -77,13 +78,17 @@ public class NewEditMetric extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+		
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmNewEditMetric = toolkit.createForm(this);
 		frmNewEditMetric.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewEditMetric);
 
-		String title = Screens.isNewOperation(getOperation()) ? "New" : "Edit";
+		String title = Screens.isNewOperation(getOperation()) ? "New: " : "Edit: ";
 
 		frmNewEditMetric.setText(title + "Metric");
 		frmNewEditMetric.getBody().setLayout(new FormLayout());
@@ -243,16 +248,16 @@ public class NewEditMetric extends AbstractScreen implements
 //		IObservableValue expressionObservable = SWTObservables.observeText(
 //				txtExpression, SWT.Modify);
 
-		IEMFValueProperty nameProperty = EMFProperties
-				.value(MetricsPackage.Literals.METRIC__NAME);
-		IEMFValueProperty descriptionProperty = EMFProperties
-				.value(MetricsPackage.Literals.METRIC__DESCRIPTION);
+		IEMFValueProperty nameProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), MetricsPackage.Literals.METRIC__NAME);
+		IEMFValueProperty descriptionProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), MetricsPackage.Literals.METRIC__DESCRIPTION);
 		IEMFValueProperty unitProperty = EMFProperties
 				.value(FeaturePath.fromList(MetricsPackage.Literals.METRIC__UNIT_REF, LibraryPackage.Literals.UNIT__NAME));
-		IEMFValueProperty measurementPointProperty = EMFProperties
-				.value(MetricsPackage.Literals.METRIC__MEASUREMENT_POINT);
-		IEMFValueProperty measurementKindProperty = EMFProperties
-				.value(MetricsPackage.Literals.METRIC__MEASUREMENT_KIND);
+		IEMFValueProperty measurementPointProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), MetricsPackage.Literals.METRIC__MEASUREMENT_POINT);
+		IEMFValueProperty measurementKindProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), MetricsPackage.Literals.METRIC__MEASUREMENT_KIND);
 		
 //		IEMFValueProperty expressionProperty = EMFProperties.value(FeaturePath
 //				.fromList(MetricsPackage.Literals.METRIC__METRIC_CALCULATION,
@@ -278,7 +283,7 @@ public class NewEditMetric extends AbstractScreen implements
 		if (subowner != null && subowner instanceof Metric) {
 			this.subowner = (Metric) subowner;
 		}
-		this.injectData(owner, object);
+		injectData(owner, object);
 	}
 
 	public void injectData(Object owner, Object object) {
@@ -295,6 +300,7 @@ public class NewEditMetric extends AbstractScreen implements
 			throw new java.lang.IllegalArgumentException();
 		}
 
+		buildUI();
 		m_bindingContext = initDataBindings_();
 	}
 

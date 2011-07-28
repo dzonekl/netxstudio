@@ -46,7 +46,7 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.MappingTypeDialog;
 
 public class NewEditMetricSource extends AbstractScreen implements
-		IDataScreenInjection  {
+		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtName;
@@ -68,18 +68,31 @@ public class NewEditMetricSource extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				validationService.dispose();
-				validationService.removeValidationListener(NewEditMetricSource.this);
+				validationService
+						.removeValidationListener(NewEditMetricSource.this);
 				toolkit.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		// Readonlyness.
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		String actionText = readonly ? "View: " : "Edit: ";
+		
+		@SuppressWarnings("unused")
+		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmNewEditMetricSource = toolkit.createForm(this);
 		frmNewEditMetricSource.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewEditMetricSource);
-
+		frmNewEditMetricSource.setText(actionText + " Metric Source");
+		
 		frmNewEditMetricSource.getBody().setLayout(new FormLayout());
 
 		Section sctnNewSection = toolkit.createSection(
@@ -220,7 +233,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 		EMFUpdateValueStrategy locationStrategy = validationService
 				.getUpdateValueStrategyBeforeSet("Metric Source Location URL is required");
 
-		
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
 		IObservableValue nameObservable = SWTObservables.observeText(txtName,
@@ -228,10 +240,12 @@ public class NewEditMetricSource extends AbstractScreen implements
 		IObservableValue locationObservable = SWTObservables.observeText(
 				this.txtLocationUrl, SWT.Modify);
 
-		IEMFValueProperty nameProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(),MetricsPackage.Literals.METRIC_SOURCE__NAME);
-		IEMFValueProperty locationProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(),MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION);
+		IEMFValueProperty nameProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.METRIC_SOURCE__NAME);
+		IEMFValueProperty locationProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION);
 
 		context.bindValue(nameObservable, nameProperty.observe(metricSource),
 				nameStrategy, null);
@@ -239,8 +253,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 				locationProperty.observe(metricSource), locationStrategy, null);
 		return context;
 	}
-
-	// Needed for the tree stuff.
 
 	public void injectData(Object owner, Object object) {
 
@@ -252,15 +264,13 @@ public class NewEditMetricSource extends AbstractScreen implements
 		}
 
 		if (object != null && object instanceof MetricSource) {
-				metricSource = (MetricSource) object;
-		}else {
+			metricSource = (MetricSource) object;
+		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
-		}	
-			
-		String title = Screens.isNewOperation(getOperation()) ? "New" : "Edit";
-		frmNewEditMetricSource.setText(title + " Metric Source");
-		
+		}
+
+		buildUI();
 		context = initDataBindings_();
 		validationService.registerBindingContext(context);
 		validationService.addValidationListener(this);
@@ -287,10 +297,6 @@ public class NewEditMetricSource extends AbstractScreen implements
 				return;
 			}
 
-//			Command c = new ReplaceCommand(editingService.getEditingDomain(),
-//					owner.getContents(), original, metricSource);
-//			editingService.getEditingDomain().getCommandStack().execute(c);
-
 			System.out.println(metricSource.cdoID() + ""
 					+ metricSource.cdoState());
 
@@ -303,8 +309,7 @@ public class NewEditMetricSource extends AbstractScreen implements
 
 	@Override
 	public Viewer getViewer() {
-		// TODO Auto-generated method stub
-		return null;
+		return null; // N/A
 	}
 
 	@Override

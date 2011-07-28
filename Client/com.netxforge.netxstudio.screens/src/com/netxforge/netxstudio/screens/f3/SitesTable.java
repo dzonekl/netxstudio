@@ -16,20 +16,23 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.f3;
+
+import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -57,21 +60,20 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.generics.GenericsPackage;
-import com.netxforge.netxstudio.library.LibraryFactory;
-import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.Vendor;
+import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.geo.GeoFactory;
+import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Vendors extends AbstractScreen implements IDataServiceInjection {
+public class SitesTable extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
@@ -80,14 +82,17 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	private TableViewer tableViewer;
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
-	private Form frmVendors;
-	// private ObservablesManager mgr;
+	private Form frmSites;
 	private ObservableListContentProvider listContentProvider;
-	private Resource vendorResource;
-	private TableColumn tblclmnWebsite;
-	private TableViewerColumn tableViewerColumn_1;
+	private Resource countryResource;
 	private TableColumn tblclmnShortname;
 	private TableViewerColumn tableViewerColumn_2;
+	private TableColumn tblclmnCountry;
+	private TableViewerColumn tableViewerColumn_1;
+	private TableColumn tblclmnStreet;
+	private TableViewerColumn tableViewerColumn_3;
+	private TableColumn tblclmnNr;
+	private TableViewerColumn tableViewerColumn_4;
 
 	/**
 	 * Create the composite.
@@ -95,13 +100,12 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	 * @param parent
 	 * @param style
 	 */
-	public Vendors(Composite parent, int style) {
+	public SitesTable(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-//				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -114,9 +118,9 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	 * @author dzonekl
 	 * 
 	 */
-	class EditVendorAction extends Action {
+	class EditSiteAction extends Action {
 
-		public EditVendorAction(String text, int style) {
+		public EditSiteAction(String text, int style) {
 			super(text, style);
 		}
 
@@ -129,13 +133,12 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
 					if (o != null) {
-						 NewEditVendor vendorScreen = new
-						 NewEditVendor(
-						 screenService.getScreenContainer(), SWT.NONE);
-						 vendorScreen.setOperation(getOperation());
-						 vendorScreen.setScreenService(screenService);
-						 vendorScreen.injectData(vendorResource, o);
-						 screenService.setActiveScreen(vendorScreen);
+						NewEditSite countryScreen = new NewEditSite(
+								screenService.getScreenContainer(), SWT.NONE);
+						countryScreen.setOperation(getOperation());
+						countryScreen.setScreenService(screenService);
+						countryScreen.injectData(countryResource, o);
+						screenService.setActiveScreen(countryScreen);
 					}
 				}
 			}
@@ -152,7 +155,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
-		vendorResource = editingService.getData(LibraryPackage.Literals.VENDOR);
+		countryResource = editingService.getData(GeoPackage.Literals.COUNTRY);
 		buildUI();
 		bindingContext = initDataBindings_();
 	}
@@ -165,20 +168,20 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		frmVendors = toolkit.createForm(this);
-		frmVendors.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmVendors);
-		frmVendors.setText(actionText + "Vendors");
-		frmVendors.getBody().setLayout(new GridLayout(3, false));
+		frmSites = toolkit.createForm(this);
+		frmSites.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmSites);
+		frmSites.setText(actionText + "Sites");
+		frmSites.getBody().setLayout(new GridLayout(3, false));
 
-		Label lblFilterLabel = toolkit.createLabel(frmVendors.getBody(),
+		Label lblFilterLabel = toolkit.createLabel(frmSites.getBody(),
 				"Filter:", SWT.NONE);
 		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblFilterLabel.widthHint = 36;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmVendors.getBody(), "New Text",
+		txtFilterText = toolkit.createText(frmSites.getBody(), "New Text",
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, true,
@@ -202,17 +205,16 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		// Conditional widget.
 		if (!readonly) {
 			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-					frmVendors.getBody(), SWT.NONE);
+					frmSites.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
-					NewEditVendor vendorScreen = new NewEditVendor(
-							screenService.getScreenContainer(), SWT.NONE);
-					vendorScreen.setOperation(Screens.OPERATION_NEW);
-					vendorScreen.setScreenService(screenService);
-					Vendor newVendor = LibraryFactory.eINSTANCE
-							.createVendor();
-					vendorScreen.injectData(vendorResource, newVendor);
-					screenService.setActiveScreen(vendorScreen);
+					NewEditSite countryScreen = new NewEditSite(screenService
+							.getScreenContainer(), SWT.NONE);
+					countryScreen.setOperation(Screens.OPERATION_NEW);
+					countryScreen.setScreenService(screenService);
+					Site newCountry = GeoFactory.eINSTANCE.createSite();
+					countryScreen.injectData(countryResource, newCountry);
+					screenService.setActiveScreen(countryScreen);
 				}
 
 				public void linkEntered(HyperlinkEvent e) {
@@ -225,63 +227,95 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 					false, false, 1, 1));
 			mghprlnkNew.setImage(ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",
-					"icons/full/ctool16/Company_E.png"));
+					"icons/full/ctool16/Site_E.png"));
 			mghprlnkNew.setBounds(0, 0, 114, 17);
 			toolkit.paintBordersFor(mghprlnkNew);
 			mghprlnkNew.setText("New");
 
 		}
+		new Label(frmSites.getBody(), SWT.NONE);
 
-		tableViewer = new TableViewer(frmVendors.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | widgetStyle);
+		tableViewer = new TableViewer(frmSites.getBody(), SWT.BORDER
+				| SWT.FULL_SELECTION | SWT.VIRTUAL | widgetStyle);
+		tableViewer.setUseHashlookup(true);
+
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2));
 		toolkit.paintBordersFor(table);
 
+		tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
+		tblclmnCountry = tableViewerColumn_1.getColumn();
+		tblclmnCountry.setWidth(76);
+		tblclmnCountry.setText("Country");
+
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
-		tblclmnName.setWidth(144);
+		tblclmnName.setWidth(74);
 		tblclmnName.setText("Name");
 
 		tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
 		tblclmnShortname = tableViewerColumn_2.getColumn();
-		tblclmnShortname.setWidth(100);
-		tblclmnShortname.setText("shortName");
+		tblclmnShortname.setWidth(87);
+		tblclmnShortname.setText("City");
 
-		tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
-		tblclmnWebsite = tableViewerColumn_1.getColumn();
-		tblclmnWebsite.setWidth(169);
-		tblclmnWebsite.setText("Website");
+		tableViewerColumn_3 = new TableViewerColumn(tableViewer, SWT.NONE);
+		tblclmnStreet = tableViewerColumn_3.getColumn();
+		tblclmnStreet.setWidth(165);
+		tblclmnStreet.setText("Street");
+
+		tableViewerColumn_4 = new TableViewerColumn(tableViewer, SWT.NONE);
+		tblclmnNr = tableViewerColumn_4.getColumn();
+		tblclmnNr.setWidth(51);
+		tblclmnNr.setText("Nr");
 		tableViewer.addFilter(new SearchFilter(editingService));
 	}
 
 	public void disposeData() {
 		if (editingService != null) {
-			editingService.disposeData(vendorResource);
+			editingService.disposeData(countryResource);
 		}
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
-
+		
+		
 		listContentProvider = new ObservableListContentProvider();
 		tableViewer.setContentProvider(listContentProvider);
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
-						GenericsPackage.Literals.COMPANY__NAME,
-						GenericsPackage.Literals.COMPANY__SHORT_NAME,
-						GenericsPackage.Literals.COMPANY__WEBSITE });
-		tableViewer.setLabelProvider(new ToleranceObservableMapLabelProvider(
-				observeMaps));
-		IEMFListProperty l = EMFEditProperties.resource(editingService
-				.getEditingDomain());
-		IObservableList toleranceObservableList = l.observe(vendorResource);
 
-//		obm.addObservable(toleranceObservableList);
-		tableViewer.setInput(toleranceObservableList);
+		IObservableSet set = listContentProvider.getKnownElements();
+
+		List<IObservableMap> mapList = Lists.newArrayList();
+
+		mapList.add(EMFProperties.value(GeoPackage.Literals.COUNTRY__NAME)
+				.observeDetail(set));
+
+		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__NAME)
+				.observeDetail(set));
+
+		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__CITY)
+				.observeDetail(set));
+
+		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__SREET)
+				.observeDetail(set));
+
+		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__HOUSENUMBER)
+				.observeDetail(set));
+
+		IObservableMap[] observeMaps = new IObservableMap[mapList.size()];
+		mapList.toArray(observeMaps);
+
+		tableViewer
+				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+
+		IEMFListProperty resourceProperty = EMFEditProperties
+				.list(editingService.getEditingDomain(), GeoPackage.Literals.COUNTRY__SITES);
+		IObservableList operatorsObservableList = resourceProperty
+				.observe(countryResource.getContents());
+
+		tableViewer.setInput(operatorsObservableList);
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		return bindingContext;
@@ -307,7 +341,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public Form getScreenForm() {
-		return this.frmVendors;
+		return this.frmSites;
 	}
 
 	@Override
@@ -319,8 +353,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	public IAction[] getActions() {
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
-		return new IAction[] { new EditVendorAction(actionText + "...",
-				SWT.PUSH) };
+		return new IAction[] { new EditSiteAction(actionText + "...", SWT.PUSH) };
 	}
 
 }

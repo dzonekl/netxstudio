@@ -75,7 +75,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				obm.dispose();
+//				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -236,7 +236,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		IEMFListProperty resourcesProperties = EMFEditProperties
 				.resource(editingService.getEditingDomain());
 		IObservableList resourceList = resourcesProperties.observe(resourcesResource);
-		obm.addObservable(resourceList);
+//		obm.addObservable(resourceList);
 		resourcesTableViewer.setInput(resourceList);
 
 		return bindingContext;

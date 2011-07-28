@@ -17,14 +17,10 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.parts;
 
-import org.eclipse.jface.action.ActionContributionItem;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.netxforge.netxstudio.screens.actions.ScreenAction;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.Jobs;
@@ -80,11 +76,6 @@ public class AdminScreenSelector extends AbstractScreenSelector {
 	protected void initBindings() {
 		// Static initialization of bindings. We need a dynamic form for this. 
 		// 
-		
 	}
 
-	@Override
-	public void contributeMenuAboutToShow(IMenuManager menuManager) {
-		menuManager.add(new ActionContributionItem(new ScreenAction("contributed", SWT.PUSH)));
-	}
 }

@@ -81,17 +81,20 @@ public class MappingStatistics extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmMappingStatistics = toolkit.createForm(this);
 		frmMappingStatistics.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmMappingStatistics);
-
+		frmMappingStatistics.setText("Mapping Statistics: "
+				+ metricSource.getName());
 		frmMappingStatistics.getBody().setLayout(new FormLayout());
 
 		SashForm sashForm = new SashForm(frmMappingStatistics.getBody(),
@@ -195,7 +198,6 @@ public class MappingStatistics extends AbstractScreen implements
 		tblclmnMessage.setWidth(100);
 		tblclmnMessage.setText("Message");
 		sashForm.setWeights(new int[] { 1, 1 });
-
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -218,7 +220,6 @@ public class MappingStatistics extends AbstractScreen implements
 				.list(MetricsPackage.Literals.METRIC_SOURCE__STATISTICS);
 
 		IObservableList metricSourceObservableList = l.observe(metricSource);
-		obm.addObservable(metricSourceObservableList);
 
 		statisticsListViewer.setInput(metricSourceObservableList);
 
@@ -363,11 +364,9 @@ public class MappingStatistics extends AbstractScreen implements
 		if (object instanceof MetricSource) {
 			metricSource = (MetricSource) object;
 		}
+		
+		buildUI();
 		this.initDataBindings_();
-
-		frmMappingStatistics.setText("Mapping Statistics: "
-				+ metricSource.getName());
-
 	}
 
 	public void addData() {

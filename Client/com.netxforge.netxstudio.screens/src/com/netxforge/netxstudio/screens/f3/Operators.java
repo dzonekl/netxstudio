@@ -16,7 +16,7 @@
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.f3;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -59,8 +59,8 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.LibraryFactory;
-import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Vendor;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -71,7 +71,7 @@ import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelPr
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Vendors extends AbstractScreen implements IDataServiceInjection {
+public class Operators extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
@@ -80,10 +80,10 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	private TableViewer tableViewer;
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
-	private Form frmVendors;
+	private Form frmOperators;
 	// private ObservablesManager mgr;
 	private ObservableListContentProvider listContentProvider;
-	private Resource vendorResource;
+	private Resource operatorResource;
 	private TableColumn tblclmnWebsite;
 	private TableViewerColumn tableViewerColumn_1;
 	private TableColumn tblclmnShortname;
@@ -95,13 +95,12 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	 * @param parent
 	 * @param style
 	 */
-	public Vendors(Composite parent, int style) {
+	public Operators(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-//				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -114,9 +113,9 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	 * @author dzonekl
 	 * 
 	 */
-	class EditVendorAction extends Action {
+	class EditOperatorAction extends Action {
 
-		public EditVendorAction(String text, int style) {
+		public EditOperatorAction(String text, int style) {
 			super(text, style);
 		}
 
@@ -129,12 +128,12 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
 					if (o != null) {
-						 NewEditVendor vendorScreen = new
-						 NewEditVendor(
+						 NewEditOperator vendorScreen = new
+						 NewEditOperator(
 						 screenService.getScreenContainer(), SWT.NONE);
 						 vendorScreen.setOperation(getOperation());
 						 vendorScreen.setScreenService(screenService);
-						 vendorScreen.injectData(vendorResource, o);
+						 vendorScreen.injectData(operatorResource, o);
 						 screenService.setActiveScreen(vendorScreen);
 					}
 				}
@@ -152,7 +151,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
-		vendorResource = editingService.getData(LibraryPackage.Literals.VENDOR);
+		operatorResource = editingService.getData(OperatorsPackage.Literals.OPERATOR);
 		buildUI();
 		bindingContext = initDataBindings_();
 	}
@@ -165,20 +164,20 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		frmVendors = toolkit.createForm(this);
-		frmVendors.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmVendors);
-		frmVendors.setText(actionText + "Vendors");
-		frmVendors.getBody().setLayout(new GridLayout(3, false));
+		frmOperators = toolkit.createForm(this);
+		frmOperators.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmOperators);
+		frmOperators.setText(actionText + "Operators");
+		frmOperators.getBody().setLayout(new GridLayout(3, false));
 
-		Label lblFilterLabel = toolkit.createLabel(frmVendors.getBody(),
+		Label lblFilterLabel = toolkit.createLabel(frmOperators.getBody(),
 				"Filter:", SWT.NONE);
 		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblFilterLabel.widthHint = 36;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmVendors.getBody(), "New Text",
+		txtFilterText = toolkit.createText(frmOperators.getBody(), "New Text",
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, true,
@@ -202,16 +201,16 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		// Conditional widget.
 		if (!readonly) {
 			ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-					frmVendors.getBody(), SWT.NONE);
+					frmOperators.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
-					NewEditVendor vendorScreen = new NewEditVendor(
+					NewEditOperator vendorScreen = new NewEditOperator(
 							screenService.getScreenContainer(), SWT.NONE);
 					vendorScreen.setOperation(Screens.OPERATION_NEW);
 					vendorScreen.setScreenService(screenService);
 					Vendor newVendor = LibraryFactory.eINSTANCE
 							.createVendor();
-					vendorScreen.injectData(vendorResource, newVendor);
+					vendorScreen.injectData(operatorResource, newVendor);
 					screenService.setActiveScreen(vendorScreen);
 				}
 
@@ -232,7 +231,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 
 		}
 
-		tableViewer = new TableViewer(frmVendors.getBody(), SWT.BORDER
+		tableViewer = new TableViewer(frmOperators.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | widgetStyle);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
@@ -249,7 +248,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
 		tblclmnShortname = tableViewerColumn_2.getColumn();
 		tblclmnShortname.setWidth(100);
-		tblclmnShortname.setText("shortName");
+		tblclmnShortname.setText("Short Name");
 
 		tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
 		tblclmnWebsite = tableViewerColumn_1.getColumn();
@@ -260,7 +259,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 
 	public void disposeData() {
 		if (editingService != null) {
-			editingService.disposeData(vendorResource);
+			editingService.disposeData(operatorResource);
 		}
 	}
 
@@ -276,12 +275,11 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 						GenericsPackage.Literals.COMPANY__WEBSITE });
 		tableViewer.setLabelProvider(new ToleranceObservableMapLabelProvider(
 				observeMaps));
-		IEMFListProperty l = EMFEditProperties.resource(editingService
+		IEMFListProperty resourceProperty = EMFEditProperties.resource(editingService
 				.getEditingDomain());
-		IObservableList toleranceObservableList = l.observe(vendorResource);
+		IObservableList operatorsObservableList = resourceProperty.observe(operatorResource);
 
-//		obm.addObservable(toleranceObservableList);
-		tableViewer.setInput(toleranceObservableList);
+		tableViewer.setInput(operatorsObservableList);
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		return bindingContext;
@@ -307,7 +305,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public Form getScreenForm() {
-		return this.frmVendors;
+		return this.frmOperators;
 	}
 
 	@Override
@@ -319,7 +317,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 	public IAction[] getActions() {
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
-		return new IAction[] { new EditVendorAction(actionText + "...",
+		return new IAction[] { new EditOperatorAction(actionText + "...",
 				SWT.PUSH) };
 	}
 

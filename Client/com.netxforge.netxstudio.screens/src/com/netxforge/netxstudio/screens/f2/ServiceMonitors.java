@@ -73,7 +73,7 @@ public class ServiceMonitors extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				obm.dispose();
+//				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -184,7 +184,7 @@ public class ServiceMonitors extends AbstractScreen implements
 				.list(editingService.getEditingDomain(), ServicesPackage.Literals.SERVICE__SERVICE_MONITORS);
 		IObservableList rfsServicesObservableList = resourcesProperties
 				.observe(this.rfsService);
-		obm.addObservable(rfsServicesObservableList);
+//		obm.addObservable(rfsServicesObservableList);
 		serviceMonitorsTableViewer.setInput(rfsServicesObservableList);
 
 		return bindingContext;

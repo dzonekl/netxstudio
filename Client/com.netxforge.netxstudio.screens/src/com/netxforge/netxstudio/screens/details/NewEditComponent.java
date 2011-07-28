@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.details;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -72,7 +72,6 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 		this.editingService = editingService;
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		
 	}
 
 	public void injectData(Object owner, Object object) {

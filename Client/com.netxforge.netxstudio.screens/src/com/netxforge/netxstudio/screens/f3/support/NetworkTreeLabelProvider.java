@@ -15,7 +15,7 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.screens.f2.support;
+package com.netxforge.netxstudio.screens.f3.support;
 
 import java.util.Set;
 
@@ -32,21 +32,23 @@ import org.eclipse.wb.swt.ResourceManager;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Network;
+import com.netxforge.netxstudio.operators.Node;
 
-public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
+public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 	private IMapChangeListener mapChangeListener = new IMapChangeListener() {
 		public void handleMapChange(MapChangeEvent event) {
 			Set<?> affectedElements = event.diff.getChangedKeys();
 			if (!affectedElements.isEmpty()) {
 				LabelProviderChangedEvent newEvent = new LabelProviderChangedEvent(
-						NodeTypeTreeLabelProvider.this,
+						NetworkTreeLabelProvider.this,
 						affectedElements.toArray());
 				fireLabelProviderChanged(newEvent);
 			}
 		}
 	};
 
-	public NodeTypeTreeLabelProvider(IObservableMap... attributeMaps) {
+	public NetworkTreeLabelProvider(IObservableMap... attributeMaps) {
 		for (int i = 0; i < attributeMaps.length; i++) {
 			attributeMaps[i].addMapChangeListener(mapChangeListener);
 		}
@@ -62,6 +64,41 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 		Object element = cell.getElement();
 
+		if (element instanceof Network) {
+
+			Network network = (Network) element;
+
+			StyledString styledString = new StyledString(network.getName() !=  null ? network.getName() : "?",
+					null);
+//			String decoration = " (" + network.getFunctions().size() + " Functions)"
+//					+ " (" + network.getFunctions().size() + " Equipments)";
+//			styledString.append(decoration, StyledString.COUNTER_STYLER);
+			cell.setText(styledString.getString());
+			Image img = ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/obj16/Network_H.png");
+			cell.setImage(img);
+			cell.setStyleRanges(styledString.getStyleRanges());
+		}
+
+		if (element instanceof Node) {
+
+			Node node = (Node) element;
+
+			StyledString styledString = new StyledString(node.getNodeID() !=  null ? node.getNodeID() : "?",
+					null);
+//			String decoration = " (" + network.getFunctions().size() + " Functions)"
+//					+ " (" + network.getFunctions().size() + " Equipments)";
+//			styledString.append(decoration, StyledString.COUNTER_STYLER);
+			cell.setText(styledString.getString());
+			Image img = ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/obj16/Node_H.png");
+			cell.setImage(img);
+			cell.setStyleRanges(styledString.getStyleRanges());
+		}
+		
+		
 		if (element instanceof NodeType) {
 
 			NodeType nt = (NodeType) element;

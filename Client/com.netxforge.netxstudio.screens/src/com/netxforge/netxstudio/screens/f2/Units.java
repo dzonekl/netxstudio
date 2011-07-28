@@ -99,7 +99,6 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -229,10 +228,12 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 			mghprlnkNew.setText("New");
 
 		}
-		new Label(frmUnits.getBody(), SWT.NONE);
+//		new Label(frmUnits.getBody(), SWT.NONE);
 
 		tableViewer = new TableViewer(frmUnits.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | widgetStyle);
+				| SWT.FULL_SELECTION | SWT.VIRTUAL | widgetStyle);
+		tableViewer.setUseHashlookup(true);
+		
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -279,7 +280,7 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 				.getEditingDomain());
 		IObservableList toleranceObservableList = l.observe(unitResource);
 
-		obm.addObservable(toleranceObservableList);
+//		obm.addObservable(toleranceObservableList);
 		tableViewer.setInput(toleranceObservableList);
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -321,5 +322,12 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 		return new IAction[] { new EditUnitAction(actionText + "...",
 				SWT.PUSH) };
 	}
-
+	
+	@Override
+	public EStructuralFeature[] permittedCreationFeatures() {
+//		return new EClass[]{GenericsPackage.Literals.mUNIT};
+		return null;
+	}
 }
+
+

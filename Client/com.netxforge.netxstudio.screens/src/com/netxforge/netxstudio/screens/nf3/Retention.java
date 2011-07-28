@@ -76,6 +76,9 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmDataRetention = toolkit.createForm(this);
@@ -167,8 +170,6 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 				.setText(
 						"<form><p>Settings for data retention, keep metric value data for:</p>\n<p/></form>",
 						true, false);
-		injectData();
-
 	}
 
 	private void launchExpressionScreen(MetricRetentionRule retention) {
@@ -310,6 +311,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 			}
 
 		}
+		buildUI();
 		initDataBindings_();
 	}
 

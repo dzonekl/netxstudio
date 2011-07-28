@@ -114,12 +114,22 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
+		// New or Edit.
+		boolean edit = Screens.isEditOperation(getOperation());
+		String actionText = edit ? "Edit: " : "New: ";
+		
 		frmNewMappingColumn = toolkit.createForm(this);
 		frmNewMappingColumn.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewMappingColumn);
-		frmNewMappingColumn.setText("New Mapping Column");
+		
+		
+		frmNewMappingColumn.setText(actionText + "Mapping Column");
+		
 		frmNewMappingColumn.getBody().setLayout(new FormLayout());
 
 		Section sctnMappings = toolkit.createSection(
@@ -189,7 +199,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		toolkit.paintBordersFor(formText_1);
 		formText_1.setText("<form><p><b>Object</b></p></form>", true, false);
 		new Label(cmpColumnMapping, SWT.NONE);
-
 	}
 
 	private void buildDataMappingOptions(Composite cmpColumnMapping) {
@@ -830,12 +839,15 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			throw new IllegalArgumentException();
 		}
 
+		buildUI();
+		
 		buildHeaderMappingOptions(cmpColumnMapping);
 		if (showDataMapping) {
 			buildDataMappingOptions(cmpColumnMapping);
 		}
 		populatePatterns();
-
+		
+		
 		context = this.initDataBindings_();
 	}
 

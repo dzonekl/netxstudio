@@ -1,5 +1,7 @@
 package com.netxforge.netxstudio.screens.nf4;
 
+import java.util.List;
+
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -7,6 +9,8 @@ import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -20,16 +24,12 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -40,6 +40,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -72,11 +73,14 @@ public class UsersAndRoles extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmUsersAndRoles = toolkit.createForm(this);
@@ -176,54 +180,6 @@ public class UsersAndRoles extends AbstractScreen implements
 		tblclmnNewColumn_1.setWidth(100);
 		tblclmnNewColumn_1.setText("Login");
 
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
-
-		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
-		mntmEdit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (screenService != null) {
-					ISelection selection = getTableViewerWidget()
-							.getSelection();
-					if (selection instanceof IStructuredSelection) {
-						Object o = ((IStructuredSelection) selection)
-								.getFirstElement();
-						NewEditUser userScreen = new NewEditUser(screenService
-								.getScreenContainer(), SWT.NONE);
-						userScreen.setOperation(Screens.OPERATION_EDIT);
-						userScreen.setScreenService(screenService);
-						userScreen.injectData(personsResource, o);
-						screenService.setActiveScreen(userScreen);
-					}
-				}
-			}
-		});
-
-		mntmEdit.setText("Edit...");
-
-		MenuItem mntmHistory = new MenuItem(menu, SWT.NONE);
-		mntmHistory.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (screenService != null) {
-					ISelection selection = getTableViewerWidget()
-							.getSelection();
-					if (selection instanceof IStructuredSelection) {
-						Object o = ((IStructuredSelection) selection)
-								.getFirstElement();
-						UserActivity activityScreen = new UserActivity(screenService
-								.getScreenContainer(), SWT.NONE);
-						activityScreen.setOperation(Screens.OPERATION_READ_ONLY);
-						activityScreen.setScreenService(screenService);
-						activityScreen.injectData(personsResource, o);
-						screenService.setActiveScreen(activityScreen);
-					}
-				}
-			}
-		});
-		mntmHistory.setText("History...");
-
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				tableViewer, SWT.NONE);
 		TableColumn tblclmnEmail = tableViewerColumn_3.getColumn();
@@ -231,11 +187,55 @@ public class UsersAndRoles extends AbstractScreen implements
 		tblclmnEmail.setText("Email");
 
 		tableViewer.addFilter(searchFilter);
+	}
 
-		if (editingService != null) {
-			injectData();
+	class HistoryAction extends Action {
+
+		public HistoryAction(String text, int style) {
+			super(text, style);
 		}
 
+		@Override
+		public void run() {
+			if (screenService != null) {
+				ISelection selection = getTableViewerWidget().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					UserActivity activityScreen = new UserActivity(
+							screenService.getScreenContainer(), SWT.NONE);
+					activityScreen.setOperation(Screens.OPERATION_READ_ONLY);
+					activityScreen.setScreenService(screenService);
+					activityScreen.injectData(personsResource, o);
+					screenService.setActiveScreen(activityScreen);
+				}
+			}
+		}
+
+	}
+
+	class EditAction extends Action {
+
+		public EditAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			if (screenService != null) {
+				ISelection selection = getTableViewerWidget().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					NewEditUser userScreen = new NewEditUser(
+							screenService.getScreenContainer(), SWT.NONE);
+					userScreen.setOperation(Screens.OPERATION_EDIT);
+					userScreen.setScreenService(screenService);
+					userScreen.injectData(personsResource, o);
+					screenService.setActiveScreen(userScreen);
+				}
+			}
+		}
 	}
 
 	public TableViewer getTableViewerWidget() {
@@ -263,9 +263,9 @@ public class UsersAndRoles extends AbstractScreen implements
 
 		IObservableList personsObserveList = EMFEditProperties.resource(
 				editingService.getEditingDomain()).observe(personsResource);
-		obm.addObservable(personsObserveList);
+		// obm.addObservable(personsObserveList);
 		tableViewer.setInput(personsObserveList);
-		
+
 		return bindingContext;
 	}
 
@@ -277,6 +277,7 @@ public class UsersAndRoles extends AbstractScreen implements
 	public void injectData() {
 		personsResource = editingService
 				.getData(GenericsPackage.Literals.PERSON);
+		buildUI();
 		m_bindingContext = initDataBindings_();
 	}
 
@@ -319,4 +320,16 @@ public class UsersAndRoles extends AbstractScreen implements
 		this.operation = operation;
 
 	}
+
+	@Override
+	public IAction[] getActions() {
+		List<IAction> actions = Lists.newArrayList();
+		boolean readonly = Screens.isReadOnlyOperation(getOperation());
+		String actionText = readonly ? "View" : "Edit";
+		actions.add(new EditAction(actionText + "...", SWT.PUSH));
+		actions.add(new HistoryAction("History...", SWT.PUSH));
+		IAction[] actionArray = new IAction[actions.size()];
+		return actions.toArray(actionArray);
+	}
+
 }

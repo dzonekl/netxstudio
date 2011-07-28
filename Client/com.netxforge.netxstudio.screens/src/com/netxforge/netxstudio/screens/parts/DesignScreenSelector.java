@@ -17,12 +17,16 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.parts;
 
-import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f3.Countries;
+import com.netxforge.netxstudio.screens.f3.Networks;
+import com.netxforge.netxstudio.screens.f3.Operators;
+import com.netxforge.netxstudio.screens.f3.SitesTree;
 
 public class DesignScreenSelector extends AbstractScreenSelector {
 
@@ -48,12 +52,23 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 
 	public void buildSelector(){
 		
-		// TODO, Add selectors for Network design. 
-//		Composite result;
-//		result = screenFormService.addScreenSelector("NodeTypes","icons/full/obj16/Node_H.png", Metrics.class, 1, Screens.OPERATION_VIEWER);
-//		result = screenFormService.addScreenSelector(result, "Metric Sources", "icons/full/obj16/MetricSource_H.png",  MetricSources.class, Screens.OPERATION_VIEWER);
-//		screenFormService.addScreenSelector(result, "Resource Monitor", "icons/full/obj16/Monitor_graph_H.png",  ResourceMonitor.class, Screens.OPERATION_VIEWER);
-		
+		Composite result;
+
+		result = screenFormService.addScreenSelector("Operators",
+				"icons/full/obj16/Company_H.gif", Operators.class, 1,
+				Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Networks",
+				"icons/full/obj16/Network_H.png", Networks.class, 1,
+				Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Warehouse",
+				"icons/full/obj16/Warehouse_H.png", Networks.class, 1,
+				Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Countries",
+				"icons/full/obj16/Country_H.png", Countries.class, 1,
+				Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Sites",
+				"icons/full/obj16/Site_H.png", SitesTree.class, 1,
+				Screens.OPERATION_EDIT);
 	}
 	
 	public void dispose() {
@@ -75,12 +90,6 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 		// TODO Auto-generated method stub
 		// Static initialization of bindings. We need a dynamic form for this. 
 		// 
-		
-	}
-
-	@Override
-	public void contributeMenuAboutToShow(IMenuManager manager) {
-		// TODO Auto-generated method stub
 		
 	}
 }

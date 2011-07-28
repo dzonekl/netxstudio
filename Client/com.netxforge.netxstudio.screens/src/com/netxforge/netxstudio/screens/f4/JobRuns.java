@@ -98,7 +98,9 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+	}
 
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmJobRuns = toolkit.createForm(this);
@@ -228,7 +230,8 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		if (object instanceof Job) {
 			job = (Job) object;
-			// TODO Make a fancy string for a job.
+			
+			buildUI();
 			this.getScreenForm().setText("Job:" + job.getName());
 
 			// Get the job container:

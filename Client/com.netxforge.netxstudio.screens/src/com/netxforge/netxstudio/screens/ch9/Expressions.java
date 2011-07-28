@@ -97,7 +97,7 @@ public class Expressions extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				obm.dispose();
+//				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -278,7 +278,7 @@ public class Expressions extends AbstractScreen implements
 				.getEditingDomain());
 		IObservableList expressionsObservableList = l
 				.observe(this.expressionsResource);
-		obm.addObservable(expressionsObservableList);
+//		obm.addObservable(expressionsObservableList);
 
 		tableViewer.setInput(expressionsObservableList);
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();

@@ -115,6 +115,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	private WritableValue btnNeverWritableValue;
 	private WritableValue txtOccurencesWritableValue;
 	private Button btnActive;
+	private String[] jobTypes;
 
 	public NewEditJob(Composite parent, int style) {
 		super(parent, style);
@@ -128,6 +129,11 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+		
+
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmNewJob = toolkit.createForm(this);
@@ -350,7 +356,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		occurencesTableViewer.setLabelProvider(new OccurenceLabelProvider());
 
 		validationService.registerAllDecorators(txtJobName, lblJobName);
-
 	}
 
 	/**
@@ -916,9 +921,11 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			}
 		}
 
+		
+		buildUI();
 		bindingContext = initDataBindings_();
 
-		String[] jobTypes = new String[] { "Metric Import", "Monitoring",
+		jobTypes = new String[] { "Metric Import", "Monitoring",
 				"Data retention" };
 		int type = 0;
 		if (job instanceof MetricSourceJob) {

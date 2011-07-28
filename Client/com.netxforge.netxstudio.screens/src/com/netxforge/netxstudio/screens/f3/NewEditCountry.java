@@ -1,11 +1,11 @@
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.f3;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFValueProperty;
-import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -28,24 +28,23 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.Unit;
+import com.netxforge.netxstudio.geo.Country;
+import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class NewEditUnit extends AbstractScreen implements
+public class NewEditCountry extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtName;
-	private Form frmNewEditUnit;
+	private Form frmNewOperator;
 	private Resource owner;
-	private Unit unit;
+	private Country operator;
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
-	private Text txtCode;
-	private Text txtDescription;
+	private Text txtCountryCode;
 
 	/**
 	 * Create the composite.
@@ -53,7 +52,7 @@ public class NewEditUnit extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public NewEditUnit(Composite parent, int style) {
+	public NewEditCountry(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -69,24 +68,18 @@ public class NewEditUnit extends AbstractScreen implements
 		
 		IObservableValue nameObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(txtName,
 				SWT.Modify));
-		IObservableValue codeObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(txtCode,
-				SWT.Modify));
-		IObservableValue descriptionObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(txtDescription,
+		IObservableValue shortNameObservable = SWTObservables.observeDelayedValue(400, SWTObservables.observeText(txtCountryCode,
 				SWT.Modify));
 		
 
-		IEMFValueProperty nameProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(), LibraryPackage.Literals.UNIT__NAME);
-		IEMFValueProperty codeProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(), LibraryPackage.Literals.UNIT__CODE);
-		IEMFValueProperty descriptionProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(), LibraryPackage.Literals.UNIT__DESCRIPTION);
+		IEMFValueProperty nameProperty = EMFProperties
+				.value(GeoPackage.Literals.COUNTRY__NAME);
+		IEMFValueProperty shortNameProperty = EMFProperties
+				.value(GeoPackage.Literals.COUNTRY__COUNTRY_CODE);
 		
-		context.bindValue(nameObservable, nameProperty.observe(unit),
+		context.bindValue(nameObservable, nameProperty.observe(operator),
 				null, null);
-		context.bindValue(codeObservable, codeProperty.observe(unit),
-				null, null);
-		context.bindValue(descriptionObservable, descriptionProperty.observe(unit),
+		context.bindValue(shortNameObservable, shortNameProperty.observe(operator),
 				null, null);
 		
 		return context;
@@ -99,8 +92,8 @@ public class NewEditUnit extends AbstractScreen implements
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
-		if (object != null && object instanceof Unit) {
-			unit = (Unit) object;
+		if (object != null && object instanceof Country) {
+			operator = (Country) object;
 		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
@@ -118,14 +111,14 @@ public class NewEditUnit extends AbstractScreen implements
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		frmNewEditUnit = toolkit.createForm(this);
-		frmNewEditUnit.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmNewEditUnit);
+		frmNewOperator = toolkit.createForm(this);
+		frmNewOperator.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmNewOperator);
 
-		frmNewEditUnit.setText(actionText + " Unit");
-		frmNewEditUnit.getBody().setLayout(new FormLayout());
+		frmNewOperator.setText(actionText + "Country");
+		frmNewOperator.getBody().setLayout(new FormLayout());
 
-		Section sctnMappings = toolkit.createSection(frmNewEditUnit.getBody(),
+		Section sctnMappings = toolkit.createSection(frmNewOperator.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
 		FormData fd_sctnMappings = new FormData();
 		fd_sctnMappings.bottom = new FormAttachment(100, -10);
@@ -145,7 +138,7 @@ public class NewEditUnit extends AbstractScreen implements
 		lblName.setAlignment(SWT.RIGHT);
 		GridData gd_lblName = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1);
-		gd_lblName.widthHint = 83;
+		gd_lblName.widthHint = 90;
 		lblName.setLayoutData(gd_lblName);
 
 		txtName = toolkit.createText(composite_1, "New Text", widgetStyle);
@@ -154,24 +147,13 @@ public class NewEditUnit extends AbstractScreen implements
 				1, 1);
 		gd_txtName.widthHint = 150;
 		txtName.setLayoutData(gd_txtName);
-
-		Label lblCode = toolkit.createLabel(composite_1, "Code:", SWT.NONE);
-		lblCode.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false,
-				1, 1));
 		
-		txtCode = toolkit.createText(composite_1, "New Text", widgetStyle);
-		txtCode.setText("");
+		Label lblCountryCode = toolkit.createLabel(composite_1, "Country Code:", SWT.NONE);
+		lblCountryCode.setAlignment(SWT.RIGHT);
+		lblCountryCode.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
-		Label lblDescription = toolkit.createLabel(composite_1, "Description:", SWT.NONE);
-		lblDescription.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblDescription.setAlignment(SWT.RIGHT);
-		
-		txtDescription = toolkit.createText(composite_1, "New Text", SWT.MULTI | widgetStyle);
-		GridData gd_text_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_text_1.heightHint = 50;
-		gd_text_1.widthHint = 150;
-		txtDescription.setLayoutData(gd_text_1);
-		txtDescription.setText("");
+		txtCountryCode = toolkit.createText(composite_1, "New Text", widgetStyle);
+		txtCountryCode.setText("");
 	}
 	
 	public void addData() {
@@ -180,7 +162,7 @@ public class NewEditUnit extends AbstractScreen implements
 			Command c;
 
 			c = new AddCommand(editingService.getEditingDomain(),
-					owner.getContents(), unit);
+					owner.getContents(), operator);
 
 			editingService.getEditingDomain().getCommandStack().execute(c);
 		} else if (Screens.isEditOperation(getOperation())) {
@@ -190,14 +172,14 @@ public class NewEditUnit extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (unit.cdoInvalid()) {
+			if (operator.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-			System.out.println(unit.cdoID() + "" + unit.cdoState());
+			System.out.println(operator.cdoID() + "" + operator.cdoState());
 
 		}
 		// After our edit, we shall be dirty
@@ -213,13 +195,12 @@ public class NewEditUnit extends AbstractScreen implements
 
 	@Override
 	public boolean isValid() {
-		// TODO, Validation
 		return true;
 	}
 
 	@Override
 	public Form getScreenForm() {
-		return frmNewEditUnit;
+		return frmNewOperator;
 	}
 
 	public void disposeData() {

@@ -4,8 +4,8 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -75,12 +75,12 @@ public class NewEditVendor extends AbstractScreen implements
 				SWT.Modify));
 		
 
-		IEMFValueProperty nameProperty = EMFProperties
-				.value(GenericsPackage.Literals.COMPANY__NAME);
-		IEMFValueProperty shortNameProperty = EMFProperties
-				.value(GenericsPackage.Literals.COMPANY__SHORT_NAME);
-		IEMFValueProperty websiteProperty = EMFProperties
-				.value(GenericsPackage.Literals.COMPANY__WEBSITE);
+		IEMFValueProperty nameProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GenericsPackage.Literals.COMPANY__NAME);
+		IEMFValueProperty shortNameProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GenericsPackage.Literals.COMPANY__SHORT_NAME);
+		IEMFValueProperty websiteProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GenericsPackage.Literals.COMPANY__WEBSITE);
 		
 		context.bindValue(nameObservable, nameProperty.observe(vendor),
 				null, null);

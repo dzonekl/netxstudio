@@ -19,14 +19,15 @@ package com.netxforge.netxstudio.screens;
 
 import java.util.List;
 
-import org.eclipse.core.databinding.ObservablesManager;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Form;
 
-import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
@@ -45,11 +46,10 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  *  
  * @author dzonekl
  */
-public abstract class AbstractScreen extends Composite implements IScreen , IValidationListener {
+public abstract class AbstractScreen extends Composite implements IScreen , IValidationListener, DisposeListener {
 	
 	protected int operation;
 	
-	@Inject
 	protected IEditingService editingService;
 
 	protected IScreenFormService screenService;
@@ -58,14 +58,14 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 	
 	public void setScreenService(IScreenFormService screenService){
 		this.screenService = screenService;
+		this.editingService = screenService.getEditingService();
 	}
-	
-	protected ObservablesManager obm = new ObservablesManager();
 	
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
+		this.addDisposeListener(this);
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
-		validationService = new ValidationService(obm);
+		validationService = new ValidationService();
 	}
 
 	public abstract Viewer getViewer();
@@ -116,5 +116,15 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 	public IAction[] getActions(){
 		return null;
 	}
+
+	public EStructuralFeature[] permittedCreationFeatures(){
+		return null;
+	}
+
+	public void widgetDisposed(DisposeEvent e) {
+		if(validationService != null){
+			validationService.dispose();
+		}
+	};
 	
 }

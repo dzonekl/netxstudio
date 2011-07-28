@@ -120,12 +120,20 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
+		// New or Edit.
+		boolean edit = Screens.isEditOperation(getOperation());
+		String actionText = edit ? "Edit: " : "New: ";
+		
 		frmXLSMappingForm = toolkit.createForm(this);
 		frmXLSMappingForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmXLSMappingForm);
 
+		frmXLSMappingForm.setText(actionText + " XLS Mapping");
 		frmXLSMappingForm.getBody().setLayout(new FormLayout());
 
 		Section sctnSummary = toolkit.createSection(
@@ -666,15 +674,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
-
-		String title = "";
-		if (Screens.isEditOperation(getOperation())) {
-			title = "Edit";
-		} else {
-			title = "New";
-		}
-		frmXLSMappingForm.setText(title + " XLS Mapping");
-
+		buildUI();
 		this.initDataBindings_();
 	}
 

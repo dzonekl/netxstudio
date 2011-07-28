@@ -120,11 +120,21 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+		
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
+		
+		// New or Edit.
+		boolean edit = Screens.isEditOperation(getOperation());
+		String actionText = edit ? "Edit: " : "New: ";
+		
 		frmCSVMappingForm = toolkit.createForm(this);
 		frmCSVMappingForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmCSVMappingForm);
+		frmCSVMappingForm.setText(actionText + " RDBMS Mapping");
 		frmCSVMappingForm.getBody().setLayout(new FormLayout());
 
 		Section sctnSummary = toolkit.createSection(
@@ -679,16 +689,9 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
+		
+		buildUI();
 		this.initDataBindings_();
-
-		String title = "";
-		if (Screens.isNewOperation(getOperation())) {
-			title = "New";
-		} else {
-			title = "Edit";
-		}
-		frmCSVMappingForm.setText(title + " RDBMS Mapping");
-
 	}
 
 	public void addData() {

@@ -80,7 +80,6 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
 	private Form frmTolerances;
-	// private ObservablesManager mgr;
 	private ObservableListContentProvider listContentProvider;
 	private Resource toleranceResource;
 
@@ -96,7 +95,6 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -177,7 +175,6 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 			mghprlnkNew.setText("New");
 
 		}
-		new Label(frmTolerances.getBody(), SWT.NONE);
 
 		tableViewer = new TableViewer(frmTolerances.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION | widgetStyle);
@@ -278,7 +275,7 @@ public class Tolerances extends AbstractScreen implements IDataServiceInjection 
 				.getEditingDomain());
 		IObservableList toleranceObservableList = l.observe(toleranceResource);
 
-		obm.addObservable(toleranceObservableList);
+//		obm.addObservable(toleranceObservableList);
 		tableViewer.setInput(toleranceObservableList);
 
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();

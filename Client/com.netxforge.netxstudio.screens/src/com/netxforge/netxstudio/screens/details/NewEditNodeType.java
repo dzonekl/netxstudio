@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.details;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.draw2d.ColorConstants;

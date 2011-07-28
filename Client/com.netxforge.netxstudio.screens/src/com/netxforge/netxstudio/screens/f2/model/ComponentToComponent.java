@@ -1,7 +1,6 @@
 package com.netxforge.netxstudio.screens.f2.model;
 
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.NodeType;
 
 public class ComponentToComponent {
 	

@@ -72,7 +72,7 @@ public class ResourceMonitors extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				obm.dispose();
+//				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
@@ -177,7 +177,7 @@ public class ResourceMonitors extends AbstractScreen implements
 		
 		IObservableList resourceList = serviceMonitorObservableList
 				.observe(this.rmResource);
-		obm.addObservable(resourceList);
+//		obm.addObservable(resourceList);
 		resourceMonitorsTableViewer.setInput(resourceList);
 
 		return bindingContext;

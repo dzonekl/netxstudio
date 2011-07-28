@@ -10,6 +10,8 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -24,16 +26,12 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -44,6 +42,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.metrics.MetricSource;
@@ -70,9 +69,6 @@ public class MetricSources extends AbstractScreen implements
 	@Inject
 	ServerRequest serverActions;
 
-	@Inject
-	SearchFilter searchFilter;
-
 	/**
 	 * Create the composite.
 	 * 
@@ -89,6 +85,159 @@ public class MetricSources extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+	}
+
+	public Viewer getViewer() {
+		return metricSourceTableViewer;
+	}
+
+	public void injectData() {
+		msResource = editingService
+				.getData(MetricsPackage.Literals.METRIC_SOURCE);
+		buildUI();
+		initDataBindings_();
+	}
+
+	class EditMetricSourceAction extends Action {
+		public EditMetricSourceAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			if (screenService != null) {
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					NewEditMetricSource editMetricSourceScreen = new NewEditMetricSource(
+							screenService.getScreenContainer(), SWT.NONE);
+					editMetricSourceScreen.setOperation(Screens.OPERATION_EDIT);
+					editMetricSourceScreen.setScreenService(screenService);
+					editMetricSourceScreen.injectData(msResource, o);
+					screenService.setActiveScreen(editMetricSourceScreen);
+				}
+			}
+		}
+	}
+
+	class ScheduleCollectionJobAction extends Action {
+		public ScheduleCollectionJobAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			if (screenService != null) {
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (o instanceof MetricSource) {
+
+						int operation = -1;
+
+						List<Job> matchingJobs = editingService
+								.getDataService().getQueryService()
+								.getJobWithMetricSource((MetricSource) o);
+
+						Resource jobResource = editingService
+								.getData(SchedulingPackage.Literals.JOB);
+						Job job = null;
+
+						// Edit or New if the MetricSource has a job or not.
+						if (matchingJobs.size() == 1) {
+							operation = Screens.OPERATION_EDIT;
+							job = matchingJobs.get(0);
+						} else {
+							operation = Screens.OPERATION_NEW;
+							job = SchedulingFactory.eINSTANCE
+									.createMetricSourceJob();
+						}
+
+						NewEditJob newEditJob = new NewEditJob(
+								screenService.getScreenContainer(), SWT.NONE);
+						newEditJob.setOperation(operation);
+						newEditJob.setScreenService(screenService);
+						newEditJob.injectData(jobResource, job);
+						screenService.setActiveScreen(newEditJob);
+					}
+				}
+			}
+		}
+	}
+
+	class StatisticsAction extends Action {
+		public StatisticsAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = getViewer().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object o = ((IStructuredSelection) selection).getFirstElement();
+
+				MappingStatistics stats = new MappingStatistics(
+						screenService.getScreenContainer(), SWT.NONE);
+				stats.setOperation(Screens.OPERATION_READ_ONLY);
+				stats.setScreenService(screenService);
+				stats.injectData(null, o);
+				screenService.setActiveScreen(stats);
+			}
+		}
+	}
+
+	
+	class CollectNowAction extends Action {
+		public CollectNowAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = getViewer().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object o = ((IStructuredSelection) selection)
+						.getFirstElement();
+				if (o instanceof MetricSource) {
+					MetricSource ms = (MetricSource) o;
+					try {
+						serverActions
+								.setServer(editingService.getDataService()
+										.getProvider().getServer());
+						// TODO, We get the workflow run ID back, which
+						// could be used
+						// to link back to the screen showing the running
+						// workflows.
+
+						@SuppressWarnings("unused")
+						String result = serverActions
+								.callMetricImportAction(ms);
+						MessageDialog.openInformation(
+								MetricSources.this.getShell(),
+								"Collect now succeeded:",
+								"Collection of data from metric source: "
+										+ ms.getName()
+										+ "\n has been initiated on the server.");
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						MessageDialog.openError(
+								MetricSources.this.getShell(),
+								"Collect now failed:",
+								"Collection of data from metric source: "
+										+ ms.getName()
+										+ "\n failed. Consult the log for information on the failure");
+
+					}
+
+				}
+			}
+		}
+	}
+	
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmMetricSources = toolkit.createForm(this);
@@ -131,9 +280,10 @@ public class MetricSources extends AbstractScreen implements
 								screenService.getScreenContainer(), SWT.NONE);
 						msScreen.setOperation(Screens.OPERATION_NEW);
 						msScreen.setScreenService(screenService);
-						screenService.setActiveScreen(msScreen);
+						
 						msScreen.injectData(msResource,
 								MetricsFactory.eINSTANCE.createMetricSource());
+						screenService.setActiveScreen(msScreen);
 
 					}
 
@@ -170,181 +320,7 @@ public class MetricSources extends AbstractScreen implements
 		TableColumn tblclmnLocationUrl = tableViewerColumn_1.getColumn();
 		tblclmnLocationUrl.setWidth(300);
 		tblclmnLocationUrl.setText("Location URL");
-
-		metricSourceTableViewer.addFilter(searchFilter);
-
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
-
-		MenuItem mntmEditMetricSource = new MenuItem(menu, SWT.NONE);
-		mntmEditMetricSource.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (screenService != null) {
-					ISelection selection = getViewer().getSelection();
-					if (selection instanceof IStructuredSelection) {
-						Object o = ((IStructuredSelection) selection)
-								.getFirstElement();
-						NewEditMetricSource editMetricSourceScreen = new NewEditMetricSource(
-								screenService.getScreenContainer(),
-								SWT.NONE);
-						editMetricSourceScreen.setOperation(Screens.OPERATION_EDIT);
-						editMetricSourceScreen.setScreenService(screenService);
-						editMetricSourceScreen.injectData(msResource, o);
-						screenService.setActiveScreen(editMetricSourceScreen);
-					}
-				}
-
-			}
-		});
-		mntmEditMetricSource.setText("Edit...");
-
-		new MenuItem(menu, SWT.SEPARATOR);
-
-		MenuItem mntmScheduleCollectionJob = new MenuItem(menu, SWT.NONE);
-		mntmScheduleCollectionJob.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (screenService != null) {
-					ISelection selection = getViewer().getSelection();
-					if (selection instanceof IStructuredSelection) {
-						Object o = ((IStructuredSelection) selection)
-								.getFirstElement();
-						if (o instanceof MetricSource) {
-
-							int operation = -1;
-
-							List<Job> matchingJobs = editingService
-									.getDataService().getQueryService()
-									.getJobWithMetricSource((MetricSource) o);
-
-							Resource jobResource = editingService
-									.getData(SchedulingPackage.Literals.JOB);
-							Job job = null;
-
-							// Edit or New if the MetricSource has a job or not.
-							if (matchingJobs.size() == 1) {
-								operation = Screens.OPERATION_EDIT;
-								job = matchingJobs.get(0);
-							} else {
-								operation = Screens.OPERATION_NEW;
-								job = SchedulingFactory.eINSTANCE
-										.createMetricSourceJob();
-							}
-
-							NewEditJob newEditJob = new NewEditJob(
-									screenService.getScreenContainer(),SWT.NONE);
-							newEditJob.setOperation(operation);
-							newEditJob.setScreenService(screenService);
-							newEditJob.injectData(jobResource, job);
-							screenService.setActiveScreen(newEditJob);
-						}
-					}
-				}
-			}
-		});
-		mntmScheduleCollectionJob.setText("Schedule Collection Job...");
-
-		MenuItem mntmCollectNow = new MenuItem(menu, SWT.NONE);
-		mntmCollectNow.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					if (o instanceof MetricSource) {
-						MetricSource ms = (MetricSource) o;
-						try {
-							serverActions.setServer(editingService.getDataService().getProvider().getServer());
-							// TODO, We get the workflow run ID back, which could be used
-							// to link back to the screen showing the running workflows.
-							
-							@SuppressWarnings("unused")
-							String result = serverActions
-									.callMetricImportAction(ms);
-							MessageDialog.openInformation(
-									MetricSources.this.getShell(),
-									"Collect now succeeded:",
-									"Collection of data from metric source: "
-											+ ms.getName()
-											+ "\n has been initiated on the server.");
-
-						} catch (Exception e1) {
-							e1.printStackTrace();
-							MessageDialog.openError(
-									MetricSources.this.getShell(),
-									"Collect now failed:",
-									"Collection of data from metric source: "
-											+ ms.getName()
-											+ "\n failed. Consult the log for information on the failure");
-
-						}
-
-					}
-				}
-			}
-		});
-		mntmCollectNow.setText("Collect Now...");
-
-//		MenuItem mntmDeleteCollection = new MenuItem(menu, SWT.NONE);
-//		mntmDeleteCollection.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//
-//				// TODO Delete the collection.
-//
-//			}
-//		});
-//		mntmDeleteCollection.setText("Delete Collection...");
-
-		new MenuItem(menu, SWT.SEPARATOR);
-
-		MenuItem mntmNewItem = new MenuItem(menu, SWT.NONE);
-		mntmNewItem.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-
-					MappingStatistics stats = new MappingStatistics(
-							screenService.getScreenContainer(), SWT.NONE);
-					stats.setOperation(Screens.OPERATION_READ_ONLY);
-					stats.setScreenService(screenService);
-					stats.injectData(null, o);
-					screenService.setActiveScreen(stats);
-
-				}
-			}
-		});
-		mntmNewItem.setText("Statistics...");
-
-		if (editingService != null) {
-			injectData();
-		}
-	}
-
-	public Viewer getViewer() {
-		return metricSourceTableViewer;
-	}
-
-	public void injectData() {
-		// IDataService dService = editingService.getDataService();
-		// CDOTransaction t = dService.getProvider().getSession()
-		// .openTransaction();
-		// CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS);
-		// q.setParameter(ICDOQueries.CACHE_RESULTS, true);
-		// List<MetricSource> metricSources = q.getResult(MetricSource.class);
-
-		// Get a resource, to store our query.
-		msResource = editingService
-				.getData(MetricsPackage.Literals.METRIC_SOURCE);
-		// msResource.getContents().addAll(metricSources);
-
-		initDataBindings_();
+		metricSourceTableViewer.addFilter(new SearchFilter(editingService));
 
 	}
 
@@ -361,9 +337,9 @@ public class MetricSources extends AbstractScreen implements
 								MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION });
 		metricSourceTableViewer
 				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
-		IEMFListProperty l = EMFEditProperties.resource(editingService.getEditingDomain());
+		IEMFListProperty l = EMFEditProperties.resource(editingService
+				.getEditingDomain());
 		IObservableList metricSourcesObservableList = l.observe(msResource);
-		obm.addObservable(metricSourcesObservableList);
 		metricSourceTableViewer.setInput(metricSourcesObservableList);
 		return bindingContext;
 	}
@@ -387,4 +363,24 @@ public class MetricSources extends AbstractScreen implements
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
+
+	@Override
+	public IAction[] getActions() {
+
+		List<IAction> actions = Lists.newArrayList();
+		boolean readonly = Screens.isReadOnlyOperation(getOperation());
+		String actionText = readonly ? "View" : "Edit";
+		actions.add(new EditMetricSourceAction(actionText + "...", SWT.PUSH));
+		if (!readonly) {
+			
+			actions.add(new ScheduleCollectionJobAction(
+					"Schedule Collection Job...", SWT.PUSH));
+			actions.add(new CollectNowAction("Collect Now...", SWT.PUSH));
+		}
+		actions.add(new StatisticsAction("Statistics...", SWT.PUSH));
+		
+		IAction[] actionArray = new IAction[actions.size()];
+		return actions.toArray(actionArray);
+	}
+
 }
