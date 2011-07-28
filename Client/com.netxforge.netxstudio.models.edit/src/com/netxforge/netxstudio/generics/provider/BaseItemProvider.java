@@ -41,10 +41,9 @@ import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 
 /**
- * This is the item provider adapter for a
- * {@link com.netxforge.netxstudio.generics.Base} object. <!-- begin-user-doc
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.generics.Base} object.
+ * <!-- begin-user-doc
  * --> <!-- end-user-doc -->
- * 
  * @generated
  */
 public class BaseItemProvider extends ItemProviderAdapter implements
@@ -83,46 +82,48 @@ public class BaseItemProvider extends ItemProviderAdapter implements
 	 * @generated
 	 */
 	protected void addDeletedPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_Base_deleted_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Base_deleted_feature", "_UI_Base_type"),
-				GenericsPackage.Literals.BASE__DELETED, true, false, false,
-				ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Base_deleted_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Base_deleted_feature", "_UI_Base_type"),
+				 GenericsPackage.Literals.BASE__DELETED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This returns Base.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Base.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/Base"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Base"));
 	}
 
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		Base base = (Base) object;
+		Base base = (Base)object;
 		return getString("_UI_Base_type") + " " + base.isDeleted();
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -130,10 +131,9 @@ public class BaseItemProvider extends ItemProviderAdapter implements
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Base.class)) {
-		case GenericsPackage.BASE__DELETED:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), false, true));
-			return;
+			case GenericsPackage.BASE__DELETED:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
 		}
 		super.notifyChanged(notification);
 	}

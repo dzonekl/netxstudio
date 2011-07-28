@@ -26,11 +26,13 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
@@ -55,8 +57,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -67,10 +73,10 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
-import com.netxforge.netxstudio.screens.details.NewEditComponent;
 import com.netxforge.netxstudio.screens.details.NewEditEquipment;
 import com.netxforge.netxstudio.screens.details.NewEditFunction;
 import com.netxforge.netxstudio.screens.details.NewEditNetwork;
@@ -96,8 +102,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	private Composite cmpDetails;
 	private SashForm sashForm;
 	private Operator operator;
-
-	// private EMFObservablesManager mgr;
 
 	/**
 	 * Create the composite.
@@ -157,7 +161,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		Composite composite = toolkit.createComposite(sashForm, SWT.NONE);
 		toolkit.paintBordersFor(composite);
-		composite.setLayout(new GridLayout(2, false));
+		composite.setLayout(new GridLayout(3, false));
 
 		Label lblFilterLabel = toolkit.createLabel(composite, "Filter:",
 				SWT.NONE);
@@ -184,6 +188,26 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				}
 			}
 		});
+		
+		mghprlnkNewImagehyperlink = toolkit.createImageHyperlink(composite, SWT.NONE);
+		mghprlnkNewImagehyperlink.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				// Create a new top level network, for this operator. 
+				Network newNetwork = OperatorsFactory.eINSTANCE.createNetwork();
+				newNetwork.setName("<new network>");
+				Command add = AddCommand.create(editingService.getEditingDomain(), operator, null, newNetwork);
+				editingService.getEditingDomain().getCommandStack().execute(add);
+				
+			}
+			public void linkEntered(HyperlinkEvent e) {
+			}
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		mghprlnkNewImagehyperlink.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Network_E.png"));
+		mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
+		mghprlnkNewImagehyperlink.setText("New");
 
 		networkTreeViewer = new TreeViewer(composite, SWT.BORDER | widgetStyle);
 		networkTreeViewer
@@ -198,7 +222,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 					}
 				});
 		Tree tree = networkTreeViewer.getTree();
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 2));
+		GridData gd_tree = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2);
+		gd_tree.widthHint = 396;
+		tree.setLayoutData(gd_tree);
 		tree.setSize(74, 81);
 		toolkit.paintBordersFor(tree);
 
@@ -373,6 +399,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	Composite currentDetails;
+	private ImageHyperlink mghprlnkNewImagehyperlink;
 
 	private void handleDetailsSelection(Object o) {
 
@@ -399,20 +426,20 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 
 		if (o instanceof Function) {
-			NewEditComponent nef = null;
-			nef = new NewEditFunction(this.cmpDetails, SWT.NONE, editingService);
-			nef.setScreenService(screenService);
-			nef.injectData(null, o);
-			this.currentDetails = nef;
+			NewEditFunction screen = null;
+			screen = new NewEditFunction(this.cmpDetails, SWT.NONE, editingService);
+			screen.setScreenService(screenService);
+			screen.injectData(null, o);
+			this.currentDetails = screen;
 			sashForm.layout(true, true);
 		}
 		if (o instanceof Equipment) {
-			NewEditComponent nef = null;
-			nef = new NewEditEquipment(this.cmpDetails, SWT.NONE,
+			NewEditEquipment screen = null;
+			screen = new NewEditEquipment(this.cmpDetails, SWT.NONE,
 					editingService);
-			nef.setScreenService(screenService);
-			nef.injectData(null, o);
-			this.currentDetails = nef;
+			screen.setScreenService(screenService);
+			screen.injectData(null, o);
+			this.currentDetails = screen;
 			sashForm.layout(true, true);
 
 		}

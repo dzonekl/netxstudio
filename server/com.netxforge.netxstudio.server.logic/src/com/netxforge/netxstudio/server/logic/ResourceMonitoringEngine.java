@@ -47,7 +47,7 @@ public class ResourceMonitoringEngine extends BaseEngine {
 			return;
 		}
 
-		for (final NetXResource netXResource : getComponent().getResources()) {
+		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
 			// remove the last entry
 			if (getExpressionEngine().getContext().get(
 					getExpressionEngine().getContext().size() - 1) instanceof NetXResource) {

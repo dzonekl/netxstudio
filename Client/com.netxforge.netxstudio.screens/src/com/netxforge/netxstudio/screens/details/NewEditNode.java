@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -48,7 +47,6 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.operators.OperatorsPackage.Literals;
 import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.NodeTypeFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;

@@ -119,7 +119,7 @@ public class NewEditNodeType extends AbstractDetailsComposite implements
 
 		btnLeafNode = toolkit.createButton(cmpInfo,
 				"Check if this NodeType is at the end of a service chain",
-				SWT.CHECK | widgetStyle);
+				SWT.CHECK );
 		btnLeafNode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 2, 1));
 		scnTotals.setLayoutData(fd_scnTotals);
@@ -190,6 +190,11 @@ public class NewEditNodeType extends AbstractDetailsComposite implements
 		toolkit.adapt(cmpHierachy);
 		toolkit.paintBordersFor(cmpHierachy);
 		sctnHierachy.setClient(cmpHierachy);
+		
+		if(readonly){
+			btnLeafNode.setEnabled(false);
+		}
+		
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

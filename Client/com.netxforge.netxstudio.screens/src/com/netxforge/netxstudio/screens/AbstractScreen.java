@@ -66,6 +66,7 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 		this.addDisposeListener(this);
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
 		validationService = new ValidationService();
+//		this.addFocusListener(this);
 	}
 
 	public abstract Viewer getViewer();
@@ -125,6 +126,21 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 		if(validationService != null){
 			validationService.dispose();
 		}
-	};
+	}
+
+//	protected Viewer currentViewer;
+	
+//	public void focusGained(FocusEvent e) {
+//		if( e.getSource() instanceof Viewer){
+//			this.currentViewer = (Viewer) e.getSource();
+//			System.out.println("Current viewer = " + currentViewer);
+//		}
+//	}
+//
+//	public void focusLost(FocusEvent e) {
+//		if( e.getSource() instanceof Viewer){
+//			this.currentViewer = null;
+//		}
+//	};
 	
 }

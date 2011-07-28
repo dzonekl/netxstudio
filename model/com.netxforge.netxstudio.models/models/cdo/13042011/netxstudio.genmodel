@@ -198,7 +198,7 @@
     <genDataTypes ecoreDataType="library.ecore#//RedundancyTypeObject"/>
     <genDataTypes ecoreDataType="library.ecore#//StateTypeObject"/>
     <genClasses ecoreClass="library.ecore#//Component">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Component/resources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/resourceRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/metricRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/capacityExpressionRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/utilizationExpressionRef"/>

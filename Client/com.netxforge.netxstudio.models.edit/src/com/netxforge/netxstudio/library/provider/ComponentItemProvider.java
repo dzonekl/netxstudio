@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.library.provider;
 
 
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import java.util.Collection;
 import java.util.List;
 
@@ -77,6 +78,7 @@ public class ComponentItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addResourceRefsPropertyDescriptor(object);
 			addMetricRefsPropertyDescriptor(object);
 			addCapacityExpressionRefPropertyDescriptor(object);
 			addUtilizationExpressionRefPropertyDescriptor(object);
@@ -89,6 +91,28 @@ public class ComponentItemProvider
 			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Resource Refs feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addResourceRefsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Component_resourceRefs_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Component_resourceRefs_feature", "_UI_Component_type"),
+				 LibraryPackage.Literals.COMPONENT__RESOURCE_REFS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -323,7 +347,6 @@ public class ComponentItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(LibraryPackage.Literals.COMPONENT__RESOURCES);
 			childrenFeatures.add(LibraryPackage.Literals.COMPONENT__DIAGRAMS);
 			childrenFeatures.add(LibraryPackage.Literals.COMPONENT__ICONS);
 		}
@@ -384,7 +407,6 @@ public class ComponentItemProvider
 			case LibraryPackage.COMPONENT__NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case LibraryPackage.COMPONENT__RESOURCES:
 			case LibraryPackage.COMPONENT__DIAGRAMS:
 			case LibraryPackage.COMPONENT__ICONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
@@ -398,7 +420,7 @@ public class ComponentItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
@@ -406,18 +428,13 @@ public class ComponentItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(LibraryPackage.Literals.COMPONENT__RESOURCES,
-				 LibraryFactory.eINSTANCE.createNetXResource()));
+				(LibraryPackage.Literals.COMPONENT__DIAGRAMS,
+				 GenericsFactory.eINSTANCE.createDiagramInfo()));
 
-//		newChildDescriptors.add
-//			(createChildParameter
-//				(LibraryPackage.Literals.COMPONENT__DIAGRAMS,
-//				 GenericsFactory.eINSTANCE.createDiagramInfo()));
-//
-//		newChildDescriptors.add
-//			(createChildParameter
-//				(LibraryPackage.Literals.COMPONENT__ICONS,
-//				 GenericsFactory.eINSTANCE.createMultiImage()));
+		newChildDescriptors.add
+			(createChildParameter
+				(LibraryPackage.Literals.COMPONENT__ICONS,
+				 GenericsFactory.eINSTANCE.createMultiImage()));
 	}
 
 	/**

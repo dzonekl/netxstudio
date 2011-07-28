@@ -39,7 +39,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.library.Component#getResources <em>Resources</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.Component#getResourceRefs <em>Resource Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getMetricRefs <em>Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}</li>
@@ -61,8 +61,9 @@ import com.netxforge.netxstudio.protocols.Protocol;
  */
 public interface Component extends Base {
 	/**
-	 * Returns the value of the '<em><b>Resources</b></em>' reference list.
+	 * Returns the value of the '<em><b>Resource Refs</b></em>' reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.NetXResource}.
+	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.library.NetXResource#getComponentRef <em>Component Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -70,12 +71,14 @@ public interface Component extends Base {
 	 * 								more EquipmentResource types.
 	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Resources</em>' reference list.
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getComponent_Resources()
-	 * @model extendedMetaData="kind='element' name='Resources'"
+	 * @return the value of the '<em>Resource Refs</em>' reference list.
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getComponent_ResourceRefs()
+	 * @see com.netxforge.netxstudio.library.NetXResource#getComponentRef
+	 * @model opposite="componentRef"
+	 *        extendedMetaData="kind='element' name='ResourceRefs'"
 	 * @generated
 	 */
-	EList<NetXResource> getResources();
+	EList<NetXResource> getResourceRefs();
 
 	/**
 	 * Returns the value of the '<em><b>Metric Refs</b></em>' reference list.

@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getResources <em>Resources</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getResourceRefs <em>Resource Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getMetricRefs <em>Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getUtilizationExpressionRef <em>Utilization Expression Ref</em>}</li>
@@ -84,8 +84,8 @@ public class ComponentImpl extends BaseImpl implements Component {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<NetXResource> getResources() {
-		return (EList<NetXResource>)eGet(LibraryPackage.Literals.COMPONENT__RESOURCES, true);
+	public EList<NetXResource> getResourceRefs() {
+		return (EList<NetXResource>)eGet(LibraryPackage.Literals.COMPONENT__RESOURCE_REFS, true);
 	}
 
 	/**

@@ -305,7 +305,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 				children.addAll(((Equipment) parentElement).getEquipments());
 			}
 			if (parentElement instanceof Component) {
-				children.addAll(((Component) parentElement).getResources());
+				children.addAll(((Component) parentElement).getResourceRefs());
 			}
 			return children.toArray();
 		}

@@ -58,8 +58,8 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.netxforge.netxstudio.generics.GenericsPackage;
-import com.netxforge.netxstudio.library.LibraryFactory;
-import com.netxforge.netxstudio.library.Vendor;
+import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
@@ -204,14 +204,14 @@ public class Operators extends AbstractScreen implements IDataServiceInjection {
 					frmOperators.getBody(), SWT.NONE);
 			mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 				public void linkActivated(HyperlinkEvent e) {
-					NewEditOperator vendorScreen = new NewEditOperator(
+					NewEditOperator operatorScreen = new NewEditOperator(
 							screenService.getScreenContainer(), SWT.NONE);
-					vendorScreen.setOperation(Screens.OPERATION_NEW);
-					vendorScreen.setScreenService(screenService);
-					Vendor newVendor = LibraryFactory.eINSTANCE
-							.createVendor();
-					vendorScreen.injectData(operatorResource, newVendor);
-					screenService.setActiveScreen(vendorScreen);
+					operatorScreen.setOperation(Screens.OPERATION_NEW);
+					operatorScreen.setScreenService(screenService);
+					Operator newOperator = OperatorsFactory.eINSTANCE
+							.createOperator();
+					operatorScreen.injectData(operatorResource, newOperator);
+					screenService.setActiveScreen(operatorScreen);
 				}
 
 				public void linkEntered(HyperlinkEvent e) {

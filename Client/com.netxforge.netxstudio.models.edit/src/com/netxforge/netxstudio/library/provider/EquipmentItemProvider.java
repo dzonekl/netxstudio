@@ -280,7 +280,7 @@ public class EquipmentItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Equipment_H.png"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Equipment"));
 	}
 
 	/**
@@ -291,7 +291,7 @@ public class EquipmentItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Equipment)object).getEquipmentCode();
+		String label = ((Equipment)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_Equipment_type") :
 			getString("_UI_Equipment_type") + " " + label;

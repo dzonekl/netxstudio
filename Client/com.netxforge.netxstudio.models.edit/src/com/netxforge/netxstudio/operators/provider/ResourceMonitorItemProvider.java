@@ -33,6 +33,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
@@ -78,6 +79,8 @@ public class ResourceMonitorItemProvider
 
 			addNodeRefPropertyDescriptor(object);
 			addResourceRefPropertyDescriptor(object);
+			addEndPropertyDescriptor(object);
+			addStartPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -122,6 +125,50 @@ public class ResourceMonitorItemProvider
 				 false,
 				 true,
 				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the End feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addEndPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ResourceMonitor_end_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ResourceMonitor_end_feature", "_UI_ResourceMonitor_type"),
+				 OperatorsPackage.Literals.RESOURCE_MONITOR__END,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Start feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addStartPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ResourceMonitor_start_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ResourceMonitor_start_feature", "_UI_ResourceMonitor_type"),
+				 OperatorsPackage.Literals.RESOURCE_MONITOR__START,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -191,6 +238,10 @@ public class ResourceMonitorItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ResourceMonitor.class)) {
+			case OperatorsPackage.RESOURCE_MONITOR__END:
+			case OperatorsPackage.RESOURCE_MONITOR__START:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
 			case OperatorsPackage.RESOURCE_MONITOR__MARKERS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;

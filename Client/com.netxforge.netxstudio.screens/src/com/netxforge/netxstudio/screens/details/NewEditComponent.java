@@ -1,6 +1,5 @@
 package com.netxforge.netxstudio.screens.details;
 
-import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
@@ -16,6 +15,7 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -43,8 +43,10 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
+import com.netxforge.netxstudio.screens.NetXResourceFilterDialog;
 import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
@@ -65,6 +67,8 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 	private TableViewer tolerancesTableViewer;
 	private Text txtCapExpression;
 	private Text txtUtilExpression;
+	private Table table_1;
+	private TableViewer resourceTableViewer;
 
 	public NewEditComponent(Composite parent, int style,
 			final IEditingService editingService) {
@@ -95,7 +99,7 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 		FormData fd_scnInfo = new FormData();
 		fd_scnInfo.top = new FormAttachment(0, 10);
 		fd_scnInfo.left = new FormAttachment(0, 10);
-		fd_scnInfo.bottom = new FormAttachment(0, 180);
+		fd_scnInfo.bottom = new FormAttachment(0, 138);
 		fd_scnInfo.right = new FormAttachment(100, -14);
 		scnInfo.setLayoutData(fd_scnInfo);
 		toolkit.paintBordersFor(scnInfo);
@@ -130,17 +134,16 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 				| SWT.WRAP | SWT.MULTI);
 		txtDescription.setText("");
 		GridData gd_text = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		gd_text.heightHint = 100;
+		gd_text.heightHint = 62;
 		gd_text.widthHint = 200;
 		txtDescription.setLayoutData(gd_text);
 
 		Section sctnExpressions = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		FormData fd_sctnExpressions = new FormData();
-		fd_sctnExpressions.top = new FormAttachment(scnInfo, 174);
-		fd_sctnExpressions.bottom = new FormAttachment(scnInfo, 382, SWT.BOTTOM);
-		fd_sctnExpressions.left = new FormAttachment(scnInfo, 0, SWT.LEFT);
-		fd_sctnExpressions.right = new FormAttachment(scnInfo, 0, SWT.RIGHT);
+		fd_sctnExpressions.right = new FormAttachment(100, -14);
+		fd_sctnExpressions.left = new FormAttachment(0, 10);
+		fd_sctnExpressions.bottom = new FormAttachment(100, -10);
 		sctnExpressions.setLayoutData(fd_sctnExpressions);
 		toolkit.paintBordersFor(sctnExpressions);
 		sctnExpressions.setText("Expressions");
@@ -231,7 +234,6 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 		Section sctnMetrics = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		FormData fd_sctnMetrics = new FormData();
-		fd_sctnMetrics.bottom = new FormAttachment(sctnExpressions, -6);
 		fd_sctnMetrics.top = new FormAttachment(scnInfo, 6);
 		fd_sctnMetrics.left = new FormAttachment(0, 10);
 		fd_sctnMetrics.right = new FormAttachment(100, -14);
@@ -304,6 +306,69 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
 		tblclmnExpression.setWidth(100);
 		tblclmnExpression.setText("Expression");
+		
+		Section sctnResources = toolkit.createSection(this, Section.TITLE_BAR);
+		fd_sctnMetrics.bottom = new FormAttachment(sctnResources, -6);
+		fd_sctnExpressions.top = new FormAttachment(0, 460);
+		FormData fd_sctnResources = new FormData();
+		fd_sctnResources.right = new FormAttachment(100, -14);
+		fd_sctnResources.left = new FormAttachment(0, 10);
+		fd_sctnResources.bottom = new FormAttachment(sctnExpressions, -6);
+		fd_sctnResources.top = new FormAttachment(0, 309);
+		sctnResources.setLayoutData(fd_sctnResources);
+		toolkit.paintBordersFor(sctnResources);
+		sctnResources.setText("Resources");
+		
+		Composite composite_2 = toolkit.createComposite(sctnResources, SWT.NONE);
+		toolkit.paintBordersFor(composite_2);
+		sctnResources.setClient(composite_2);
+		composite_2.setLayout(new GridLayout(1, false));
+		
+		ImageHyperlink mghprlnkAdd = toolkit.createImageHyperlink(composite_2, SWT.NONE);
+		mghprlnkAdd.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				Resource resourceResource = editingService
+						.getData(LibraryPackage.Literals.NET_XRESOURCE);
+				NetXResourceFilterDialog dialog = new NetXResourceFilterDialog(
+						NewEditComponent.this.getShell(),
+						resourceResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					NetXResource u = (NetXResource) dialog.getFirstResult();
+					if (!comp.getResourceRefs().contains(u)) {
+						Command c = new AddCommand(editingService
+								.getEditingDomain(), comp
+								.getResourceRefs(), u);
+						editingService.getEditingDomain()
+								.getCommandStack().execute(c);
+					}
+				}
+				
+			}
+			public void linkEntered(HyperlinkEvent e) {
+			}
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		mghprlnkAdd.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+		toolkit.paintBordersFor(mghprlnkAdd);
+		mghprlnkAdd.setText("Add");
+		
+		resourceTableViewer = new TableViewer(composite_2, SWT.BORDER | SWT.FULL_SELECTION);
+		table_1 = resourceTableViewer.getTable();
+		table_1.setLinesVisible(true);
+		table_1.setHeaderVisible(true);
+		table_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		toolkit.paintBordersFor(table_1);
+		
+		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(resourceTableViewer, SWT.NONE);
+		TableColumn tblclmnShortName = tableViewerColumn_3.getColumn();
+		tblclmnShortName.setWidth(100);
+		tblclmnShortName.setText("Short Name");
+		
+		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(resourceTableViewer, SWT.NONE);
+		TableColumn tblclmnExpressionName = tableViewerColumn_4.getColumn();
+		tblclmnExpressionName.setWidth(100);
+		tblclmnExpressionName.setText("Expression Name");
 	}
 
 	@SuppressWarnings("unused")
@@ -424,11 +489,29 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__TOLERANCE_REFS);
 
-		IObservableList toleranceObservableList = l.observe(comp);
+		tolerancesTableViewer.setInput( l.observe(comp));
 
-		// obm.addObservable(toleranceObservableList);
-		tolerancesTableViewer.setInput(toleranceObservableList);
+		
+		// binding of resources
 
+		ObservableListContentProvider resourceListContentProvider = new ObservableListContentProvider();
+		resourceTableViewer.setContentProvider(resourceListContentProvider);
+		IObservableMap[] observeResourceMaps = EMFObservables.observeMaps(
+				listContentProvider.getKnownElements(),
+				new EStructuralFeature[] {
+						LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME,
+						LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME});
+		resourceTableViewer
+				.setLabelProvider(new ObservableMapLabelProvider(
+						observeResourceMaps));
+		IEMFListProperty resourcesListProperty = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
+		tolerancesTableViewer.setInput(resourcesListProperty.observe(comp));
+
+		
+		
+		
 		return context;
 	}
 }

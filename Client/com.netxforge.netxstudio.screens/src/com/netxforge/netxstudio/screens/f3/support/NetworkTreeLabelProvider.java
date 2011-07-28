@@ -120,7 +120,7 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 			Function fc = (Function) element;
 
 			StyledString styledString = new StyledString(fc.getName() != null ? fc.getName() : "?", null);
-			String decoration = " (" + fc.getResources().size() + " Resources)";
+			String decoration = " (" + fc.getResourceRefs().size() + " Resources)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(
@@ -133,7 +133,7 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 
 			Equipment eq = (Equipment) element;
 			StyledString styledString = new StyledString(eq.getEquipmentCode() != null ? eq.getEquipmentCode(): "?", null);
-			String decoration = " (" + eq.getResources().size()
+			String decoration = " (" + eq.getResourceRefs().size()
 					+ " Resources)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());

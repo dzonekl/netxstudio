@@ -340,7 +340,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_Resources() {
+	public EReference getComponent_ResourceRefs() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1435,7 +1435,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		// Create classes and their features
 		componentEClass = createEClass(COMPONENT);
-		createEReference(componentEClass, COMPONENT__RESOURCES);
+		createEReference(componentEClass, COMPONENT__RESOURCE_REFS);
 		createEReference(componentEClass, COMPONENT__METRIC_REFS);
 		createEReference(componentEClass, COMPONENT__CAPACITY_EXPRESSION_REF);
 		createEReference(componentEClass, COMPONENT__UTILIZATION_EXPRESSION_REF);
@@ -1624,7 +1624,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getComponent_Resources(), this.getNetXResource(), null, "resources", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponent_ResourceRefs(), this.getNetXResource(), this.getNetXResource_ComponentRef(), "resourceRefs", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_MetricRefs(), theMetricsPackage.getMetric(), null, "metricRefs", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_CapacityExpressionRef(), this.getExpression(), null, "capacityExpressionRef", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_UtilizationExpressionRef(), this.getExpression(), null, "utilizationExpressionRef", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1696,7 +1696,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEAttribute(getLibrary_Name(), theGenericsPackage.getName255(), "name", "Library name", 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(netXResourceEClass, NetXResource.class, "NetXResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNetXResource_ComponentRef(), this.getComponent(), null, "componentRef", null, 1, 1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNetXResource_ComponentRef(), this.getComponent(), this.getComponent_ResourceRefs(), "componentRef", null, 1, 1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_MetricRef(), theMetricsPackage.getMetric(), null, "metricRef", null, 0, 1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_MetricValueRanges(), theMetricsPackage.getMetricValueRange(), null, "metricValueRanges", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_CapacityValues(), theGenericsPackage.getValue(), null, "capacityValues", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1844,11 +1844,11 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "kind", "elementOnly"
 		   });			
 		addAnnotation
-		  (getComponent_Resources(), 
+		  (getComponent_ResourceRefs(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "Resources"
+			 "name", "ResourceRefs"
 		   });			
 		addAnnotation
 		  (getComponent_MetricRefs(), 
@@ -2751,7 +2751,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "appinfo", "@Transient"
-		   });																																																																																																																																																
+		   });																																																																																																																																																		
 	}
 
 } //LibraryPackageImpl

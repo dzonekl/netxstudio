@@ -518,14 +518,14 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 							ImmutableList.of(c, c1, c2, c3));
 				}
 
-				sgsnFunction.getResources().add(sgsnRes);
+				sgsnFunction.getResourceRefs().add(sgsnRes);
 			}
 			{
 				final NetXResource sgsnRes = LibraryFactory.eINSTANCE
 						.createNetXResource();
 				sgsnRes.setShortName("RES2");
 				sgsnRes.setExpressionName("RES2");
-				sgsnFunction.getResources().add(sgsnRes);
+				sgsnFunction.getResourceRefs().add(sgsnRes);
 			}
 			
 			

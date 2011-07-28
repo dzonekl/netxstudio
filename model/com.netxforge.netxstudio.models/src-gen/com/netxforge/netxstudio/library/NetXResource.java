@@ -92,6 +92,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 public interface NetXResource extends Base {
 	/**
 	 * Returns the value of the '<em><b>Component Ref</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.library.Component#getResourceRefs <em>Resource Refs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -101,7 +102,8 @@ public interface NetXResource extends Base {
 	 * @return the value of the '<em>Component Ref</em>' reference.
 	 * @see #setComponentRef(Component)
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_ComponentRef()
-	 * @model required="true"
+	 * @see com.netxforge.netxstudio.library.Component#getResourceRefs
+	 * @model opposite="resourceRefs" required="true"
 	 *        extendedMetaData="kind='element' name='ComponentRef'"
 	 * @generated
 	 */

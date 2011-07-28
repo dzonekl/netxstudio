@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f2;
 
+import java.util.List;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.observable.IObservable;
@@ -25,11 +27,13 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
@@ -54,16 +58,22 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
-import com.netxforge.netxstudio.screens.details.NewEditComponent;
 import com.netxforge.netxstudio.screens.details.NewEditEquipment;
 import com.netxforge.netxstudio.screens.details.NewEditFunction;
 import com.netxforge.netxstudio.screens.details.NewEditNodeType;
@@ -100,14 +110,13 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-//				obm.dispose();
+				// obm.dispose();
 				toolkit.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -123,18 +132,16 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
-		
-		
+
 		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation()); 
-		String actionText = readonly ? "View: " : "Edit: "; 
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
-		
+
 		frmNodeTypes = toolkit.createForm(this);
 		frmNodeTypes.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNodeTypes);
-		
-		
+
 		frmNodeTypes.setText(actionText + "Network Element Types");
 		frmNodeTypes.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
@@ -145,7 +152,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 		Composite composite = toolkit.createComposite(sashForm, SWT.NONE);
 		toolkit.paintBordersFor(composite);
-		composite.setLayout(new GridLayout(2, false));
+		composite.setLayout(new GridLayout(3, false));
 
 		Label lblFilterLabel = toolkit.createLabel(composite, "Filter:",
 				SWT.NONE);
@@ -173,16 +180,45 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			}
 		});
 
-		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.VIRTUAL | widgetStyle);
+		hypLnkNewNodeType = toolkit.createImageHyperlink(composite, SWT.NONE);
+		hypLnkNewNodeType.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/ctool16/Node_E.png"));
+		hypLnkNewNodeType.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				// Create a new top level nodetype.
+				NodeType newNodeType = LibraryFactory.eINSTANCE
+						.createNodeType();
+				newNodeType.setName("<new NE Type>");
+				Command add = new AddCommand(editingService.getEditingDomain(),
+						nodeTypeResource.getContents(), newNodeType);
+				editingService.getEditingDomain().getCommandStack()
+						.execute(add);
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		hypLnkNewNodeType.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+		toolkit.paintBordersFor(hypLnkNewNodeType);
+		hypLnkNewNodeType.setText("New");
+
+		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.VIRTUAL
+				| widgetStyle);
 		nodeTypeTreeViewer.setUseHashlookup(true);
-		
+
 		nodeTypeTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
 						final ISelection s = event.getSelection();
-						// TODO, We coud even wait to see if we get  another update within 100ms. 
+						// TODO, We coud even wait to see if we get another
+						// update within 100ms.
 						// If we do, we would cancel.
-						NodeTypes.this.getDisplay().asyncExec(new Runnable(){
+						NodeTypes.this.getDisplay().asyncExec(new Runnable() {
 							public void run() {
 								if (s instanceof IStructuredSelection) {
 									IStructuredSelection ss = (IStructuredSelection) s;
@@ -194,7 +230,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 					}
 				});
 		Tree tree = nodeTypeTreeViewer.getTree();
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 2));
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2));
 		tree.setSize(74, 81);
 		toolkit.paintBordersFor(tree);
 
@@ -216,26 +252,34 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
-				new NodeTypeTreeFactoryImpl(editingService.getEditingDomain(),
-						null), new NodeTypeTreeStructureAdvisorImpl());
+				new NodeTypeTreeFactoryImpl(editingService.getEditingDomain()), new NodeTypeTreeStructureAdvisorImpl());
 		nodeTypeTreeViewer.setContentProvider(cp);
-
 		IObservableSet set = cp.getKnownElements();
-		IObservableMap[] map = new IObservableMap[2];
 
-		map[0] = EMFEditProperties.value(editingService.getEditingDomain(),
-				LibraryPackage.Literals.NODE_TYPE__NAME).observeDetail(set);
+		List<IObservableMap> mapList = Lists.newArrayList();
 
-		map[1] = EMFProperties.value(LibraryPackage.Literals.COMPONENT__NAME)
-				.observeDetail(set);
+		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
+				LibraryPackage.Literals.NODE_TYPE__NAME).observeDetail(set));
 
+		mapList.add( EMFProperties.value(LibraryPackage.Literals.COMPONENT__NAME)
+				.observeDetail(set));
+		
+		mapList.add( EMFProperties.value(LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME)
+				.observeDetail(set));
+		
+		mapList.add( EMFProperties.value(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)
+				.observeDetail(set));
+
+		IObservableMap[] map = new IObservableMap[mapList.size()];
+		mapList.toArray(map);
+		
 		nodeTypeTreeViewer.setLabelProvider(new NodeTypeTreeLabelProvider(map));
 		IEMFListProperty projects = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 
 		IObservableList nodeTypeObservableList = projects
 				.observe(nodeTypeResource);
-//		 obm.addObservable(nodeTypeObservableList);
+		// obm.addObservable(nodeTypeObservableList);
 		nodeTypeTreeViewer.setInput(nodeTypeObservableList);
 
 		return bindingContext;
@@ -253,15 +297,16 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 						LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS);
 
 		private IEMFListProperty functionsObservableProperty = EMFEditProperties
-				.multiList(domain, LibraryPackage.Literals.FUNCTION__FUNCTIONS);
+				.multiList(domain, LibraryPackage.Literals.FUNCTION__FUNCTIONS,
+						LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
 
 		private IEMFListProperty equipmentsObservableProperty = EMFEditProperties
 				.multiList(domain,
-						LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
+						LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
+						LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
 
-		NodeTypeTreeFactoryImpl(EditingDomain domain, ObservablesManager obm) {
+		NodeTypeTreeFactoryImpl(EditingDomain domain) {
 			this.domain = domain;
-			this.obm = obm;
 		}
 
 		public IObservable createObservable(final Object target) {
@@ -278,9 +323,9 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 				ol = equipmentsObservableProperty.observe(target);
 			}
 
-//			if (ol != null) {
-//				obm.addObservable(ol);
-//			}
+			// if (ol != null) {
+			// obm.addObservable(ol);
+			// }
 			return ol;
 		}
 	}
@@ -312,48 +357,56 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 					&& ((Equipment) element).getEquipments().size() > 0) {
 				return Boolean.TRUE;
 			}
+			if (element instanceof Component
+					&& ((Component) element).getResourceRefs().size() > 0) {
+				return Boolean.TRUE;
+			}
+
 			return super.hasChildren(element);
 		}
 	}
-	
-	
 
 	Composite currentDetails;
+	private ImageHyperlink hypLnkNewNodeType;
 
 	private void handleDetailsSelection(Object o) {
 
 		if (currentDetails != null) {
 			currentDetails.dispose();
 		}
-		
+
 		if (o instanceof Function) {
-			NewEditComponent nef = null;
-			nef = new NewEditFunction(this.cmpDetails, SWT.NONE, editingService);
-			nef.setScreenService(screenService);
-			nef.injectData(null, o);
-			this.currentDetails = nef;
+			NewEditFunction screen = null;
+			screen = new NewEditFunction(this.cmpDetails, SWT.NONE, editingService);
+			screen.setScreenService(screenService);
+			screen.setOperation(getOperation());
+			screen.injectData(null, o);
+			this.currentDetails = screen;
 			sashForm.layout(true, true);
 		}
 		if (o instanceof Equipment) {
-			NewEditComponent nef = null;
-			nef = new NewEditEquipment(this.cmpDetails, SWT.NONE,
+			NewEditEquipment screen = null;
+			screen = new NewEditEquipment(this.cmpDetails, SWT.NONE,
 					editingService);
-			nef.setScreenService(screenService);
-			nef.injectData(null, o);
-			this.currentDetails = nef;
+			screen.setScreenService(screenService);
+			screen.setOperation(getOperation());
+			screen.injectData(null, o);
+			this.currentDetails = screen;
 			sashForm.layout(true, true);
 
 		}
 		if (o instanceof NodeType) {
-			NewEditNodeType nnt = new NewEditNodeType(this.cmpDetails, SWT.NONE,
-					editingService);
+			NewEditNodeType nnt = new NewEditNodeType(this.cmpDetails,
+					SWT.NONE, editingService);
+			nnt.setOperation(getOperation());
+			nnt.setScreenService(screenService);
 			nnt.injectData(null, o);
 			this.currentDetails = nnt;
 			sashForm.layout(true, true);
 		}
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -361,6 +414,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	 */
 	public Viewer getViewer() {
 		return this.nodeTypeTreeViewer;
+//		return super.currentViewer;
 	}
 
 	/*

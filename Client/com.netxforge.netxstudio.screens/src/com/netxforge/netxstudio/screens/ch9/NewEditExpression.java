@@ -178,7 +178,6 @@ public class NewEditExpression extends AbstractScreen implements
 
 	public void injectData(Object owner, Object object) {
 		injectData(owner, null, null, object);
-		buildUI();
 	}
 
 	/*
@@ -208,7 +207,8 @@ public class NewEditExpression extends AbstractScreen implements
 		} else {
 			throw new IllegalArgumentException("Valid argument required");
 		}
-
+		
+		buildUI();
 		m_bindingContext = initDataBindings_();
 		validationService.registerBindingContext(m_bindingContext);
 		validationService.addValidationListener(this);

@@ -31,6 +31,7 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 
 public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
@@ -66,8 +67,8 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 			NodeType nt = (NodeType) element;
 
-			StyledString styledString = new StyledString(nt.getName() !=  null ? nt.getName() : "?",
-					null);
+			StyledString styledString = new StyledString(
+					nt.getName() != null ? nt.getName() : "?", null);
 			String decoration = " (" + nt.getFunctions().size() + " Functions)"
 					+ " (" + nt.getFunctions().size() + " Equipments)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);
@@ -82,8 +83,9 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 		if (element instanceof Function) {
 			Function fc = (Function) element;
 
-			StyledString styledString = new StyledString(fc.getName() != null ? fc.getName() : "?", null);
-			String decoration = " (" + fc.getResources().size() + " Resources)";
+			StyledString styledString = new StyledString(
+					fc.getName() != null ? fc.getName() : "?", null);
+			String decoration = " (" + fc.getResourceRefs().size() + " Resources)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(
@@ -95,9 +97,10 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 		if (element instanceof Equipment) {
 
 			Equipment eq = (Equipment) element;
-			StyledString styledString = new StyledString(eq.getEquipmentCode() != null ? eq.getEquipmentCode(): "?", null);
-			String decoration = " (" + eq.getResources().size()
-					+ " Resources)";
+			StyledString styledString = new StyledString(
+					eq.getEquipmentCode() != null ? eq.getEquipmentCode() : "?",
+					null);
+			String decoration = " (" + eq.getResourceRefs().size() + " Resources)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(
@@ -106,14 +109,30 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 			cell.setImage(img);
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
+
+		if (element instanceof NetXResource) {
+
+			NetXResource eq = (NetXResource) element;
+			StyledString styledString = new StyledString(
+					eq.getShortName() != null ? eq.getShortName() : "?",
+					null);
+//			String decoration = " (" + eq.getResources().size() + " Resources)";
+//			styledString.append(decoration, StyledString.COUNTER_STYLER);
+			cell.setText(styledString.getString());
+			Image img = ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/obj16/Resource_H.gif");
+			cell.setImage(img);
+			cell.setStyleRanges(styledString.getStyleRanges());
+		}
 	}
 
-//	@Override
-//	public void dispose() {
-//		super.dispose();
-//
-//		// Dispose the images.
-//		ResourceManager.dispose();
-//	}
+	// @Override
+	// public void dispose() {
+	// super.dispose();
+	//
+	// // Dispose the images.
+	// ResourceManager.dispose();
+	// }
 
 }

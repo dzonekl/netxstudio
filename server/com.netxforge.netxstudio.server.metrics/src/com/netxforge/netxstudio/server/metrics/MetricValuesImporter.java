@@ -345,7 +345,7 @@ public abstract class MetricValuesImporter {
 			foundNetXResource.setExpressionName(toValidExpressionName(metric
 					.getName()));
 			foundNetXResource.setUnitRef(metric.getUnitRef());
-			networkElement.getResources().add(foundNetXResource);
+			networkElement.getResourceRefs().add(foundNetXResource);
 			emfNetxResource.getContents().add(foundNetXResource);
 			addToNode(networkElement, networkElement, new ArrayList<Integer>(),
 					foundNetXResource);
@@ -386,14 +386,14 @@ public abstract class MetricValuesImporter {
 			}
 			boolean found = false;
 			for (final NetXResource netxResource : ((Component) currentObject)
-					.getResources()) {
+					.getResourceRefs()) {
 				if (netxResource == resource) {
 					found = true;
 					break;
 				}
 			}
 			if (!found) {
-				((Component) currentObject).getResources().add(resource);
+				((Component) currentObject).getResourceRefs().add(resource);
 			}
 		} else {
 			final EStructuralFeature eFeature = eObject.eContainingFeature();

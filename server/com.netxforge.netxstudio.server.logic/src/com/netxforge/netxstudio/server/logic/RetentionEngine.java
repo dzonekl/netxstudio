@@ -37,7 +37,7 @@ public class RetentionEngine extends BaseEngine {
 		getExpressionEngine().getContext().add(getRange());
 		getExpressionEngine().getContext().add(getCommonLogic().getNode(getComponent()));
 
-		for (final NetXResource netXResource : getComponent().getResources()) {
+		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
 			// remove the last entry
 			if (getExpressionEngine().getContext().get(
 					getExpressionEngine().getContext().size() - 1) instanceof NetXResource) {

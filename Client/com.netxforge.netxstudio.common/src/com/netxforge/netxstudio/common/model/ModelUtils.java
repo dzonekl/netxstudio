@@ -74,7 +74,7 @@ public class ModelUtils {
 		List<NetXResource> rl = Lists.newArrayList();
 		List<Component> cl = Lists.newArrayList();
 		for (Component c : components) {
-			for (NetXResource r : c.getResources()) {
+			for (NetXResource r : c.getResourceRefs()) {
 				if (r.getExpressionName().matches(name)) {
 					rl.add(r);
 				}

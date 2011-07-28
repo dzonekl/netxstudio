@@ -78,6 +78,7 @@ public class NetXResourceItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addComponentRefPropertyDescriptor(object);
 			addMetricRefPropertyDescriptor(object);
 			addDetailDisplayPropertyDescriptor(object);
 			addExpressionNamePropertyDescriptor(object);
@@ -87,6 +88,28 @@ public class NetXResourceItemProvider
 			addUnitRefPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Component Ref feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addComponentRefPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NetXResource_componentRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NetXResource_componentRef_feature", "_UI_NetXResource_type"),
+				 LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**

@@ -154,13 +154,13 @@ public interface LibraryPackage extends EPackage {
 	int COMPONENT__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Resources</b></em>' reference list.
+	 * The feature id for the '<em><b>Resource Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__RESOURCES = GenericsPackage.BASE_FEATURE_COUNT + 0;
+	int COMPONENT__RESOURCE_REFS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Metric Refs</b></em>' reference list.
@@ -299,13 +299,13 @@ public interface LibraryPackage extends EPackage {
 	int EQUIPMENT__DELETED = COMPONENT__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Resources</b></em>' reference list.
+	 * The feature id for the '<em><b>Resource Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__RESOURCES = COMPONENT__RESOURCES;
+	int EQUIPMENT__RESOURCE_REFS = COMPONENT__RESOURCE_REFS;
 
 	/**
 	 * The feature id for the '<em><b>Metric Refs</b></em>' reference list.
@@ -789,13 +789,13 @@ public interface LibraryPackage extends EPackage {
 	int FUNCTION__DELETED = COMPONENT__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Resources</b></em>' reference list.
+	 * The feature id for the '<em><b>Resource Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FUNCTION__RESOURCES = COMPONENT__RESOURCES;
+	int FUNCTION__RESOURCE_REFS = COMPONENT__RESOURCE_REFS;
 
 	/**
 	 * The feature id for the '<em><b>Metric Refs</b></em>' reference list.
@@ -1770,15 +1770,15 @@ public interface LibraryPackage extends EPackage {
 	EClass getComponent();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Component#getResources <em>Resources</em>}'.
+	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Component#getResourceRefs <em>Resource Refs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Resources</em>'.
-	 * @see com.netxforge.netxstudio.library.Component#getResources()
+	 * @return the meta object for the reference list '<em>Resource Refs</em>'.
+	 * @see com.netxforge.netxstudio.library.Component#getResourceRefs()
 	 * @see #getComponent()
 	 * @generated
 	 */
-	EReference getComponent_Resources();
+	EReference getComponent_ResourceRefs();
 
 	/**
 	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Component#getMetricRefs <em>Metric Refs</em>}'.
@@ -3098,12 +3098,12 @@ public interface LibraryPackage extends EPackage {
 		EClass COMPONENT = eINSTANCE.getComponent();
 
 		/**
-		 * The meta object literal for the '<em><b>Resources</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Resource Refs</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference COMPONENT__RESOURCES = eINSTANCE.getComponent_Resources();
+		EReference COMPONENT__RESOURCE_REFS = eINSTANCE.getComponent_ResourceRefs();
 
 		/**
 		 * The meta object literal for the '<em><b>Metric Refs</b></em>' reference list feature.

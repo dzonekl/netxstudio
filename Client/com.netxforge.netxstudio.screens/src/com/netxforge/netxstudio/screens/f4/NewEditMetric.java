@@ -78,7 +78,7 @@ public class NewEditMetric extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		
+//		buildUI();
 	}
 
 	private void buildUI() {
@@ -142,7 +142,7 @@ public class NewEditMetric extends AbstractScreen implements
 		lblNewLabel_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		txtUnit = toolkit.createText(composite_1, "New Text", SWT.NONE);
+		txtUnit = toolkit.createText(composite_1, "New Text", SWT.READ_ONLY);
 		txtUnit.setText("");
 		GridData gd_txtUnit = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);

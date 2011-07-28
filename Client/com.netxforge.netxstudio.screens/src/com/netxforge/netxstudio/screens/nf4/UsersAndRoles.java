@@ -130,9 +130,9 @@ public class UsersAndRoles extends AbstractScreen implements
 								.getScreenContainer(), SWT.NONE);
 						user.setOperation(Screens.OPERATION_NEW);
 						user.setScreenService(screenService);
-						screenService.setActiveScreen(user);
 						user.injectData(personsResource,
 								GenericsFactory.eINSTANCE.createPerson());
+						screenService.setActiveScreen(user);
 					}
 				}
 

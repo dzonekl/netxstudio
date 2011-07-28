@@ -166,7 +166,7 @@ public class NodeTypeItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Node_H.png"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/NodeType"));
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package com.netxforge.netxstudio.screens.f2;
 
+import java.util.List;
+
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -10,6 +12,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -20,8 +24,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -29,21 +31,15 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
-import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
-import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -75,11 +71,13 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-//				obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmResources = toolkit.createForm(this);
@@ -103,33 +101,33 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 
-		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-				frmResources.getBody(), SWT.NONE);
-		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				if (screenService != null) {
-					NewEditResource resourceScreen = new NewEditResource(screenService
-							.getScreenContainer(), SWT.NONE);
-					resourceScreen.setOperation(Screens.OPERATION_NEW);
-					resourceScreen.setScreenService(screenService);
-					screenService.setActiveScreen(resourceScreen);
-					resourceScreen.injectData(resourcesResource,
-							LibraryFactory.eINSTANCE.createNetXResource());
-				}
-
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNew.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Equipment_E.png"));
-		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		toolkit.paintBordersFor(mghprlnkNew);
-		mghprlnkNew.setText("New");
+//		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+//				frmResources.getBody(), SWT.NONE);
+//		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+//			public void linkActivated(HyperlinkEvent e) {
+//				if (screenService != null) {
+//					NewEditResource resourceScreen = new NewEditResource(screenService
+//							.getScreenContainer(), SWT.NONE);
+//					resourceScreen.setOperation(Screens.OPERATION_NEW);
+//					resourceScreen.setScreenService(screenService);
+//					resourceScreen.injectData(resourcesResource,
+//							LibraryFactory.eINSTANCE.createNetXResource());
+//					screenService.setActiveScreen(resourceScreen);
+//				}
+//
+//			}
+//
+//			public void linkEntered(HyperlinkEvent e) {
+//			}
+//
+//			public void linkExited(HyperlinkEvent e) {
+//			}
+//		});
+//		mghprlnkNew.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Resource_E.png"));
+//		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+//				false, 1, 1));
+//		toolkit.paintBordersFor(mghprlnkNew);
+//		mghprlnkNew.setText("New");
 
 		resourcesTableViewer = new TableViewer(frmResources.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION);
@@ -161,61 +159,57 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		TableColumn tblclmnStarttime = tableViewerColumn_2.getColumn();
 		tblclmnStarttime.setWidth(68);
 		tblclmnStarttime.setText("Unit");
-
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
-
-		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
-		mntmEdit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					NewEditResource job = new NewEditResource(screenService
-							.getScreenContainer(), SWT.NONE);
-					job.setOperation(Screens.OPERATION_EDIT);
-					screenService.setActiveScreen(job);
-					job.injectData(resourcesResource, o);
-				}
-			}
-		});
-		mntmEdit.setText("Edit...");
-
-		MenuItem mntmRuns = new MenuItem(menu, SWT.NONE);
-		mntmRuns.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					if(o instanceof NetXResource){
-						ResourceMonitor monitorScreen = new ResourceMonitor(screenService.getScreenContainer(), SWT.NONE);
-						monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
-						monitorScreen.setScreenService(screenService);
-						monitorScreen.injectData(null, o);
-						screenService.setActiveScreen(monitorScreen);
-					}
-				}
-			}
-		});
-		mntmRuns.setText("Monitor...");
-
-		if (editingService != null) {
-			injectData();
-		}
-
 	}
 
+	class EditResourceAction extends Action {
+		
+		public EditResourceAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = getViewer().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object o = ((IStructuredSelection) selection)
+						.getFirstElement();
+				NewEditResource resourceScreen = new NewEditResource(screenService
+						.getScreenContainer(), SWT.NONE);
+				resourceScreen.setOperation(Screens.OPERATION_EDIT);
+				resourceScreen.setScreenService(screenService);
+				resourceScreen.injectData(resourcesResource, o);
+				screenService.setActiveScreen(resourceScreen);
+			}
+		}
+	}
+	
+
+	class MonitorResourceAction extends Action {
+		
+		public MonitorResourceAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = getViewer().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object o = ((IStructuredSelection) selection)
+						.getFirstElement();
+				if(o instanceof NetXResource){
+					ResourceMonitor monitorScreen = new ResourceMonitor(screenService.getScreenContainer(), SWT.NONE);
+					monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
+					monitorScreen.setScreenService(screenService);
+					monitorScreen.injectData(null, o);
+					screenService.setActiveScreen(monitorScreen);
+				}
+			}
+		}
+	}
+	
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-
-		// tblViewerClmnState.setEditingSupport(new CheckBoxEditingSupport(
-		// jobsTableViewer, bindingContext));
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		resourcesTableViewer.setContentProvider(listContentProvider);
@@ -236,7 +230,6 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		IEMFListProperty resourcesProperties = EMFEditProperties
 				.resource(editingService.getEditingDomain());
 		IObservableList resourceList = resourcesProperties.observe(resourcesResource);
-//		obm.addObservable(resourceList);
 		resourcesTableViewer.setInput(resourceList);
 
 		return bindingContext;
@@ -271,6 +264,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 
 	public void injectData() {
 		resourcesResource = editingService.getData(LibraryPackage.Literals.NET_XRESOURCE);
+		buildUI();
 		initDataBindings_();
 	}
 
@@ -296,7 +290,17 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
+	}
 
+	@Override
+	public IAction[] getActions() {
+		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		String actionText = readonly? "View..." : "Edit...";
+
+		List<IAction> actionList = Lists.newArrayList();
+		actionList.add(new EditResourceAction(actionText, SWT.PUSH));
+		actionList.add(new MonitorResourceAction("Monitor...", SWT.PUSH));
+		return actionList.toArray(new IAction[actionList.size()]);
 	}
 
 }
