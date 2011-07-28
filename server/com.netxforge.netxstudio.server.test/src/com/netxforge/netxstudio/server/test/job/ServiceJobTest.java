@@ -134,7 +134,7 @@ public class ServiceJobTest extends AbstractDataProviderTest {
 				.createMetricValueRange();
 		sgsnRes.getMetricValueRanges().add(range);
 
-		sgsnFunction.getResources().add(sgsnRes);
+		sgsnFunction.getResourceRefs().add(sgsnRes);
 
 		final Value v = GenericsFactory.eINSTANCE.createValue();
 		v.setValue(2.0);
