@@ -48,6 +48,7 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
  * Implements common logic used by several other plugins.
@@ -62,24 +63,28 @@ public class CommonLogic {
 	// on purpose not injected
 	private IDataProvider dataProvider;
 
-	public void processResult(List<Object> currentContext, List<ExpressionResult> expressionResults,
-			Date start, Date end) {
-		
-		if( expressionResults.size() == 0){
-			System.out.println("--No expression result produced! + ");
-		}
+	private ServiceMonitor serviceMonitor;
+	private Date start;
+	private Date end;
+
+	public void processResult(List<Object> currentContext,
+			List<ExpressionResult> expressionResults, Date start, Date end) {
+
 		for (final ExpressionResult expressionResult : expressionResults) {
-			System.out.println("--Writing expression result: resource=" + expressionResult.getTargetResource().getShortName() + " target="
-					+ expressionResult.getTargetRange().getName() + " values="
-					+ expressionResult.getTargetValues().size());
-			
-			// FIXME: We could want to write to a resource, where the node doesn't match the context.
+			System.out.println("--Writing expression result: resource="
+					+ expressionResult.getTargetResource().getShortName()
+					+ " target=" + expressionResult.getTargetRange().getName()
+					+ " values=" + expressionResult.getTargetValues().size());
+
+			// FIXME: We could want to write to a resource, where the node
+			// doesn't match the context.
 			final NetXResource resource = expressionResult.getTargetResource();
-			Node n = this.getNode(resource);
-			if(n != null){
-				System.out.println("--Writing to resource in Node: " + n.getNodeID());
-				for(Object context : currentContext){
-//					IInterpreterContext c = (IInterpreterContext)context;
+			final Node n = this.getNode(resource);
+			if (n != null) {
+				System.out.println("--Writing to resource in Node: "
+						+ n.getNodeID());
+				for (final Object context : currentContext) {
+					// IInterpreterContext c = (IInterpreterContext)context;
 				}
 				System.out.println("--Current context =: ");
 			}
@@ -125,37 +130,33 @@ public class CommonLogic {
 	private void createMarkers(ExpressionResult expressionResult, Date start,
 			Date end) {
 		final Node node = getNode(expressionResult.getTargetResource());
-		final Resource emfResource = dataProvider
-				.getResource(OperatorsPackage.eINSTANCE.getResourceMonitor());
-		ResourceMonitor foundMonitor = null;
-		for (final EObject monitorObject : emfResource.getContents()) {
-			final ResourceMonitor monitor = (ResourceMonitor) monitorObject;
-			if (monitor.getNodeRef() == node
-					&& monitor.getResourceRef() == expressionResult
-							.getTargetResource()) {
-				foundMonitor = monitor;
-				break;
-			}
-		}
-		if (foundMonitor == null) {
-			foundMonitor = OperatorsFactory.eINSTANCE.createResourceMonitor();
-			foundMonitor.setNodeRef(node);
-			foundMonitor.setResourceRef(expressionResult.getTargetResource());
-			emfResource.getContents().add(foundMonitor);
+		final ResourceMonitor resourceMonitor = OperatorsFactory.eINSTANCE
+				.createResourceMonitor();
+		resourceMonitor.setNodeRef(node);
+		resourceMonitor.setResourceRef(expressionResult.getTargetResource());
+		resourceMonitor.setStart(modelUtils.toXMLDate(start));
+		resourceMonitor.setEnd(modelUtils.toXMLDate(end));
+		if (serviceMonitor == null) {
+			final Resource emfResource = dataProvider
+					.getResource(OperatorsPackage.eINSTANCE
+							.getResourceMonitor());
+			emfResource.getContents().add(resourceMonitor);
+		} else {
+			serviceMonitor.getResourceMonitors().add(resourceMonitor);
 		}
 
 		// remove the current markers
 		final long startMillis = start.getTime();
 		final long endMillis = end.getTime();
 		final List<Marker> toRemove = new ArrayList<Marker>();
-		for (final Marker marker : foundMonitor.getMarkers()) {
+		for (final Marker marker : resourceMonitor.getMarkers()) {
 			final long markerMillis = marker.getValueRef().getTimeStamp()
 					.toGregorianCalendar().getTimeInMillis();
 			if (markerMillis >= startMillis && markerMillis <= endMillis) {
 				toRemove.add(marker);
 			}
 		}
-		foundMonitor.getMarkers().removeAll(toRemove);
+		resourceMonitor.getMarkers().removeAll(toRemove);
 
 		// now compute the capacity in order
 		final List<Value> usageValues = new ArrayList<Value>();
@@ -166,6 +167,7 @@ public class CommonLogic {
 		// get rid of everything before and after start time
 		final List<Value> toRemoveUsageValues = new ArrayList<Value>();
 		for (final Value usageValue : usageValues) {
+			System.err.println(usageValue.getTimeStamp());
 			final long timeMillis = usageValue.getTimeStamp()
 					.toGregorianCalendar().getTimeInMillis();
 			if (timeMillis < start.getTime() || timeMillis > end.getTime()) {
@@ -221,7 +223,7 @@ public class CommonLogic {
 					marker.setKind(MarkerKind.THRESHOLDREACHED);
 					marker.setDescription(expressionResult.getTargetResource()
 							.getLongName());
-					foundMonitor.getMarkers().add(marker);
+					resourceMonitor.getMarkers().add(marker);
 				}
 			}
 		}
@@ -362,5 +364,29 @@ public class CommonLogic {
 
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
+	}
+
+	public ServiceMonitor getServiceMonitor() {
+		return serviceMonitor;
+	}
+
+	public void setServiceMonitor(ServiceMonitor serviceMonitor) {
+		this.serviceMonitor = serviceMonitor;
+	}
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 }
