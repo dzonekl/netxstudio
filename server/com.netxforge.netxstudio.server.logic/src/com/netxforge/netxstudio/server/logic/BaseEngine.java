@@ -116,7 +116,7 @@ public abstract class BaseEngine {
 
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
-		commonLogic.setDataProvider(dataProvider);
+		commonLogic.setDataProvider(dataProvider);		
 	}
 
 	public DateTimeRange getRange() {
@@ -127,6 +127,8 @@ public abstract class BaseEngine {
 		this.range = range;
 		start = modelUtils.fromXMLDate(range.getBegin());
 		end = modelUtils.fromXMLDate(range.getEnd());
+		commonLogic.setStart(start);
+		commonLogic.setEnd(end);
 	}
 
 	public Component getComponent() {

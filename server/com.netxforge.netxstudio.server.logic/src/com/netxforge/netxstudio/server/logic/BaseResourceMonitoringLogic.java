@@ -37,7 +37,7 @@ public abstract class BaseResourceMonitoringLogic extends BaseLogic {
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
 	
 	@Override
-	protected BaseEngine getEngine() {
+	protected ResourceMonitoringEngine getEngine() {
 		return LogicActivator.getInstance()
 				.getInjector().getInstance(ResourceMonitoringEngine.class);
 	}

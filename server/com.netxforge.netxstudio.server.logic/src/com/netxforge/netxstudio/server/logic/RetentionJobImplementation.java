@@ -19,7 +19,7 @@
 package com.netxforge.netxstudio.server.logic;
 
 import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Activator;
@@ -36,7 +36,7 @@ public class RetentionJobImplementation extends JobImplementation {
 
 	@Override
 	public void run() {
-		final RFSServiceJob serviceJob = (RFSServiceJob) getJob();
+		final RFSServiceRetentionJob serviceJob = (RFSServiceRetentionJob) getJob();
 		final RetentionLogic retentionLogic = Activator.getInstance()
 				.getInjector().getInstance(RetentionLogic.class);
 		retentionLogic.setRfsService(serviceJob.getRFSService().cdoID());

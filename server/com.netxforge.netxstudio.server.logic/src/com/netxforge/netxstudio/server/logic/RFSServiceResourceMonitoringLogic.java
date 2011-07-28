@@ -69,6 +69,7 @@ public class RFSServiceResourceMonitoringLogic extends BaseResourceMonitoringLog
 		serviceMonitor.setName(rfsService.getServiceName());
 		serviceMonitor.setPeriod(getTimeRange());
 		rfsService.getServiceMonitors().add(serviceMonitor);
+		getEngine().getCommonLogic().setServiceMonitor(serviceMonitor);
 	}
 
 	public RFSService getRfsService() {
