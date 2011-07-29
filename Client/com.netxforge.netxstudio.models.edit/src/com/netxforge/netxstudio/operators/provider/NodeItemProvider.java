@@ -36,10 +36,8 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
 import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
-import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 
@@ -256,21 +254,21 @@ public class NodeItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.NODE__LIFECYCLE,
-				 GenericsFactory.eINSTANCE.createLifecycle()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.NODE__NODE_TYPE,
-				 LibraryFactory.eINSTANCE.createNodeType()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.NODE__LIFECYCLE,
+//				 GenericsFactory.eINSTANCE.createLifecycle()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.NODE__NODE_TYPE,
+//				 LibraryFactory.eINSTANCE.createNodeType()));
 	}
 
 	/**

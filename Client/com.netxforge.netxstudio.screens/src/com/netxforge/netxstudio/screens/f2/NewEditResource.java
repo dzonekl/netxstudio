@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -266,16 +267,16 @@ public class NewEditResource extends AbstractScreen implements
 		// Widget observables.
 		IObservableValue shortNameTargetObservable = SWTObservables
 				.observeDelayedValue(400,
-						SWTObservables.observeText(this.txtShortName));
+						SWTObservables.observeText(this.txtShortName, SWT.Modify));
 		IObservableValue longNameTargetObservable = SWTObservables
 				.observeDelayedValue(400,
-						SWTObservables.observeText(this.txtLongName));
+						SWTObservables.observeText(this.txtLongName, SWT.Modify));
 		IObservableValue expressionNameTargetObservable = SWTObservables
 				.observeDelayedValue(400,
-						SWTObservables.observeText(this.txtExpressionName));
+						SWTObservables.observeText(this.txtExpressionName, SWT.Modify));
 		IObservableValue unitTargetObservable = SWTObservables
 				.observeDelayedValue(400,
-						SWTObservables.observeText(this.txtUnit));
+						SWTObservables.observeText(this.txtUnit, SWT.Modify));
 
 		IEMFValueProperty shortNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -286,9 +287,11 @@ public class NewEditResource extends AbstractScreen implements
 		IEMFValueProperty expressionNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME);
+		
+		
 		IEMFValueProperty unitProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF);
+				editingService.getEditingDomain(),FeaturePath.fromList(
+				LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF, LibraryPackage.Literals.UNIT__CODE));
 
 		context.bindValue(shortNameTargetObservable,
 				shortNameProperty.observe(netxResource), null, null);

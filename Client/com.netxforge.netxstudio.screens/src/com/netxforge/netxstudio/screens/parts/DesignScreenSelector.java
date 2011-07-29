@@ -27,7 +27,9 @@ import com.netxforge.netxstudio.screens.f2.Resources;
 import com.netxforge.netxstudio.screens.f3.Countries;
 import com.netxforge.netxstudio.screens.f3.Networks;
 import com.netxforge.netxstudio.screens.f3.Operators;
+import com.netxforge.netxstudio.screens.f3.RoomsTree;
 import com.netxforge.netxstudio.screens.f3.SitesTree;
+import com.netxforge.netxstudio.screens.f3.Warehouses;
 
 public class DesignScreenSelector extends AbstractScreenSelector {
 
@@ -67,13 +69,16 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 				Screens.OPERATION_EDIT);
 		
 		result = screenFormService.addScreenSelector(result, "Warehouse",
-				"icons/full/obj16/Warehouse_H.png", Networks.class, 1,
+				"icons/full/obj16/Warehouse_H.png", Warehouses.class, 1,
 				Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Countries",
 				"icons/full/obj16/Country_H.png", Countries.class, 1,
 				Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Sites",
 				"icons/full/obj16/Site_H.png", SitesTree.class, 1,
+				Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Rooms",
+				"icons/full/obj16/Room_H.png", RoomsTree.class, 1,
 				Screens.OPERATION_EDIT);
 	}
 	

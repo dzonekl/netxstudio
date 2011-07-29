@@ -38,8 +38,9 @@ import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -59,7 +60,7 @@ import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelPr
 public class NewEditEquipment extends AbstractDetailsComposite implements
 		IScreen, IDataScreenInjection {
 
-	private Component comp;
+	private Equipment comp;
 	private FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtName;
 	private Text txtDescription;
@@ -78,12 +79,12 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 		this.editingService = editingService;
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		buildUI();
+//		buildUI();
 	}
 
 	public void injectData(Object owner, Object object) {
-		if (object instanceof Component) {
-			this.comp = (Component) object;
+		if (object instanceof Equipment) {
+			this.comp = (Equipment) object;
 		} else {
 			return;
 		}
@@ -170,7 +171,7 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 				SWT.NONE);
 		toolkit.paintBordersFor(composite_1);
 		sctnExpressions.setClient(composite_1);
-		composite_1.setLayout(new GridLayout(3, false));
+		composite_1.setLayout(new GridLayout(4, false));
 
 		Label lblCapacityExpression = toolkit.createLabel(composite_1,
 				"Capacity Expression:", SWT.NONE);
@@ -182,6 +183,35 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 		txtCapExpression.setText("");
 		txtCapExpression.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1));
+
+		ImageHyperlink imageHyperlink = toolkit.createImageHyperlink(
+				composite_1, SWT.NONE);
+		imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				if (comp.getCapacityExpressionRef() != null) {
+					Command c = new SetCommand(
+							editingService.getEditingDomain(),
+							comp,
+							LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
+							null);
+					editingService.getEditingDomain().getCommandStack().execute(c);
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_imageHyperlink.widthHint = 18;
+		imageHyperlink.setLayoutData(gd_imageHyperlink);
+		imageHyperlink.setImage(ResourceManager.getPluginImage(
+				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+		toolkit.paintBordersFor(imageHyperlink);
+		imageHyperlink.setText("");
 
 		Button btnSelectCapExpression = toolkit.createButton(composite_1,
 				"Select", SWT.NONE);
@@ -220,6 +250,35 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 		txtUtilExpression.setText("");
 		txtUtilExpression.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 1, 1));
+
+		ImageHyperlink imageHyperlink_1 = toolkit.createImageHyperlink(
+				composite_1, SWT.NONE);
+		imageHyperlink_1.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				if (comp.getUtilizationExpressionRef() != null) {
+					Command c = new SetCommand(
+							editingService.getEditingDomain(),
+							comp,
+							LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
+							null);
+					editingService.getEditingDomain().getCommandStack().execute(c);
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		GridData gd_imageHyperlink_1 = new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_imageHyperlink_1.widthHint = 18;
+		imageHyperlink_1.setLayoutData(gd_imageHyperlink_1);
+		imageHyperlink_1.setImage(ResourceManager.getPluginImage(
+				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+		toolkit.paintBordersFor(imageHyperlink_1);
+		imageHyperlink_1.setText("");
 
 		Button btnSelectUtilExpression = toolkit.createButton(composite_1,
 				"Select", SWT.NONE);
@@ -357,7 +416,6 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 								.execute(c);
 					}
 				}
-
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -565,7 +623,7 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 		resourceTableViewer.setContentProvider(resourceListContentProvider);
 		IObservableMap[] observeResourceMaps = EMFObservables
 				.observeMaps(
-						listContentProvider.getKnownElements(),
+						resourceListContentProvider.getKnownElements(),
 						new EStructuralFeature[] {
 								LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME,
 								LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME });
@@ -574,7 +632,7 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 		IEMFListProperty resourcesListProperty = EMFEditProperties.list(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
-		tolerancesTableViewer.setInput(resourcesListProperty.observe(comp));
+		resourceTableViewer.setInput(resourcesListProperty.observe(comp));
 
 		return context;
 	}

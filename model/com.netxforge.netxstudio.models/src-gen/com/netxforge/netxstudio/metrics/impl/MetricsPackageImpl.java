@@ -676,8 +676,8 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMetric_Description() {
-		return (EAttribute)metricEClass.getEStructuralFeatures().get(1);
+	public EReference getMetric_ExpressionRef() {
+		return (EReference)metricEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -685,7 +685,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMetric_MeasurementKind() {
+	public EAttribute getMetric_Description() {
 		return (EAttribute)metricEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -694,7 +694,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMetric_MeasurementPoint() {
+	public EAttribute getMetric_MeasurementKind() {
 		return (EAttribute)metricEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -703,7 +703,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMetric_MetricCalculation() {
+	public EAttribute getMetric_MeasurementPoint() {
 		return (EAttribute)metricEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -1087,10 +1087,10 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 
 		metricEClass = createEClass(METRIC);
 		createEReference(metricEClass, METRIC__METRICS);
+		createEReference(metricEClass, METRIC__EXPRESSION_REF);
 		createEAttribute(metricEClass, METRIC__DESCRIPTION);
 		createEAttribute(metricEClass, METRIC__MEASUREMENT_KIND);
 		createEAttribute(metricEClass, METRIC__MEASUREMENT_POINT);
-		createEAttribute(metricEClass, METRIC__METRIC_CALCULATION);
 		createEReference(metricEClass, METRIC__METRIC_SOURCE_REF);
 		createEAttribute(metricEClass, METRIC__NAME);
 		createEReference(metricEClass, METRIC__UNIT_REF);
@@ -1228,10 +1228,10 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 
 		initEClass(metricEClass, Metric.class, "Metric", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetric_Metrics(), this.getMetric(), null, "metrics", null, 0, -1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMetric_ExpressionRef(), theLibraryPackage.getExpression(), null, "expressionRef", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetric_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetric_MeasurementKind(), theXMLTypePackage.getString(), "measurementKind", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetric_MeasurementPoint(), theGenericsPackage.getDescription2000(), "measurementPoint", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMetric_MetricCalculation(), theGenericsPackage.getExpressionLine(), "metricCalculation", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMetric_MetricSourceRef(), this.getMetricSource(), null, "metricSourceRef", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetric_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMetric_UnitRef(), theLibraryPackage.getUnit(), null, "unitRef", null, 0, 1, Metric.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1620,6 +1620,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "name", "Metrics"
 		   });			
 		addAnnotation
+		  (getMetric_ExpressionRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ExpressionRef"
+		   });			
+		addAnnotation
 		  (getMetric_Description(), 
 		   source, 
 		   new String[] {
@@ -1639,13 +1646,6 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "MeasurementPoint"
-		   });			
-		addAnnotation
-		  (getMetric_MetricCalculation(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "MetricCalculation"
 		   });			
 		addAnnotation
 		  (getMetric_MetricSourceRef(), 

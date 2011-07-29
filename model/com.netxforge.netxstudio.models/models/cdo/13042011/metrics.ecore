@@ -374,6 +374,15 @@
         <details key="name" value="Metrics"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressionRef" eType="ecore:EClass library.ecore#//Expression">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The ExpressionRef reference, references 0 or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1 Expression type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="ExpressionRef"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType generics.ecore#//Description2000">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The Description attribute holds the description&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the metric.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -399,15 +408,6 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="MeasurementPoint"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metricCalculation" eType="ecore:EDataType generics.ecore#//ExpressionLine">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The MetricCalculation references, contains 0 or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ExpressionLine type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="MetricCalculation"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="metricSourceRef" eType="#//MetricSource">

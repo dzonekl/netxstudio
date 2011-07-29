@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.scheduling.impl;
 
-import com.netxforge.netxstudio.scheduling.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;

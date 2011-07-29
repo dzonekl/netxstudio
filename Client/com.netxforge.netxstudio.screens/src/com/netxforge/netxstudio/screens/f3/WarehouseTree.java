@@ -72,14 +72,14 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f3.support.SiteTreeFactory;
 import com.netxforge.netxstudio.screens.f3.support.SiteTreeStructureAdvisor;
 
-public class SitesTree extends AbstractScreen implements IDataServiceInjection {
+public class WarehouseTree extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
 	private Resource countryResource;
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext bindingContext;
-	private Form frmSites;
+	private Form frmWarehouseTree;
 	private TreeViewer sitesTreeViewer;
 	private ObservableListTreeContentProvider listTreeContentProvider;
 
@@ -92,7 +92,7 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 	 * @param parent
 	 * @param style
 	 */
-	public SitesTree(Composite parent, int style) {
+	public WarehouseTree(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -101,7 +101,7 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-
+		buildUI();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -149,13 +149,13 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		frmSites = toolkit.createForm(this);
-		frmSites.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmSites);
-		frmSites.setText("Sites");
-		frmSites.getBody().setLayout(new GridLayout(3, false));
+		frmWarehouseTree = toolkit.createForm(this);
+		frmWarehouseTree.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmWarehouseTree);
+		frmWarehouseTree.setText("Warehouses");
+		frmWarehouseTree.getBody().setLayout(new GridLayout(3, false));
 
-		Label lblFilterLabel = toolkit.createLabel(frmSites.getBody(),
+		Label lblFilterLabel = toolkit.createLabel(frmWarehouseTree.getBody(),
 				"Filter:", SWT.NONE);
 		lblFilterLabel.setAlignment(SWT.RIGHT);
 		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
@@ -163,7 +163,7 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		gd_lblFilterLabel.widthHint = 36;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmSites.getBody(), "New Text",
+		txtFilterText = toolkit.createText(frmWarehouseTree.getBody(), "New Text",
 				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
@@ -183,39 +183,9 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
+		new Label(frmWarehouseTree.getBody(), SWT.NONE);
 
-		ImageHyperlink mghprlnkNewMetric = toolkit.createImageHyperlink(
-				frmSites.getBody(), SWT.NONE);
-		mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				if (screenService != null) {
-					ISelection selection = getViewer().getSelection();
-					if (selection instanceof IStructuredSelection) {
-						Object o = ((IStructuredSelection) selection)
-								.getFirstElement();
-						if(o instanceof Country){
-							NewEditSite siteScreen = new NewEditSite(
-									screenService.getScreenContainer(), SWT.NONE);
-							siteScreen.setScreenService(screenService);
-							siteScreen.setOperation(Screens.OPERATION_NEW);
-							siteScreen.injectData(o, GeoFactory.eINSTANCE.createSite());
-							screenService.setActiveScreen(siteScreen);
-						}
-					}
-				}			
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNewMetric.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Site_E.png"));
-		toolkit.paintBordersFor(mghprlnkNewMetric);
-		mghprlnkNewMetric.setText("New");
-
-		sitesTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER | SWT.VIRTUAL);
+		sitesTreeViewer = new TreeViewer(frmWarehouseTree.getBody(), SWT.BORDER | SWT.VIRTUAL);
 		sitesTreeViewer.setUseHashlookup(true);
 		Tree tree = sitesTreeViewer.getTree();
 		tree.setLinesVisible(true);
@@ -227,29 +197,13 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 				sitesTreeViewer, SWT.NONE);
 		TreeColumn trclmnCountry = treeViewerColumn.getColumn();
 		trclmnCountry.setWidth(100);
-		trclmnCountry.setText("Country");
+		trclmnCountry.setText("Warehouse");
 
 		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
 				sitesTreeViewer, SWT.NONE);
 		TreeColumn trclmnName = treeViewerColumn_1.getColumn();
 		trclmnName.setWidth(129);
-		trclmnName.setText("Name");
-
-		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
-				sitesTreeViewer, SWT.NONE);
-		TreeColumn trclmnCity = treeViewerColumn_2.getColumn();
-		trclmnCity.setWidth(105);
-		trclmnCity.setText("City");
-		
-		TreeViewerColumn treeViewerColumn_3 = new TreeViewerColumn(sitesTreeViewer, SWT.NONE);
-		TreeColumn trclmnStreet = treeViewerColumn_3.getColumn();
-		trclmnStreet.setWidth(100);
-		trclmnStreet.setText("Street");
-		
-		TreeViewerColumn treeViewerColumn_4 = new TreeViewerColumn(sitesTreeViewer, SWT.NONE);
-		TreeColumn trclmnNr = treeViewerColumn_4.getColumn();
-		trclmnNr.setWidth(100);
-		trclmnNr.setText("Nr");
+		trclmnName.setText("Item name");
 
 		sitesTreeViewer.addFilter(searchFilter);
 	}
@@ -261,9 +215,9 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 	 * @author dzonekl
 	 * 
 	 */
-	class EditSiteAction extends Action {
+	class EditWarehouseItemAction extends Action {
 
-		public EditSiteAction(String text, int style) {
+		public EditWarehouseItemAction(String text, int style) {
 			super(text, style);
 		}
 
@@ -275,50 +229,17 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					if( o instanceof Site){
-						NewEditSite siteScreen = new NewEditSite(
-								screenService.getScreenContainer(), SWT.NONE);
-						siteScreen.setScreenService(screenService);
-						siteScreen.setOperation(getOperation());
-						siteScreen.injectData(((Site)o).eContainer(), o);
-						screenService.setActiveScreen(siteScreen);
-					}
-				}
-			}
-		}
-	}
-	
-	/**
-	 * Wrap in an action, to contribute to a menu manager.
-	 * 
-	 * @author dzonekl
-	 * 
-	 */
-	class NewSiteAction extends Action {
-
-		public NewSiteAction(String text, int style) {
-			super(text, style);
-			ImageDescriptor descriptor = ResourceManager.getPluginImageDescriptor("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Site_E.png");
-			setImageDescriptor(descriptor);
-
-		}
-
-		@Override
-		public void run() {
-			super.run();
-			if (screenService != null) {
-				ISelection selection = getViewer().getSelection();
-				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					if(o instanceof Country){
-						NewEditSite siteScreen = new NewEditSite(
-								screenService.getScreenContainer(), SWT.NONE);
-						siteScreen.setScreenService(screenService);
-						siteScreen.setOperation(Screens.OPERATION_NEW);
-						siteScreen.injectData(o, GeoFactory.eINSTANCE.createSite());
-						screenService.setActiveScreen(siteScreen);
-					}
+//					if( o instanceof Site){
+//						NewEditSite siteScreen = new NewEditSite(
+//								screenService.getScreenContainer(), SWT.NONE);
+//						siteScreen.setScreenService(screenService);
+//						siteScreen.setOperation(getOperation());
+//						siteScreen.injectData(((Site)o).eContainer(), o);
+//						screenService.setActiveScreen(siteScreen);
+//					}
+					// TODO. 
+					
+					
 				}
 			}
 		}
@@ -340,7 +261,7 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public Form getScreenForm() {
-		return this.frmSites;
+		return this.frmWarehouseTree;
 	}
 
 	@Override
@@ -355,12 +276,8 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		
 		boolean readonly =  Screens.isReadOnlyOperation(getOperation());
 		String actionText = readonly? "View" : "Edit";
-		actions.add(new EditSiteAction(actionText + "...",
+		actions.add(new EditWarehouseItemAction(actionText + "...",
 				SWT.PUSH));
-		
-		if(!readonly){
-			actions.add(new NewSiteAction("New...", SWT.PUSH));
-		}
 		
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray); 

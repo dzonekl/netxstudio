@@ -92,7 +92,7 @@ import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class Networks extends AbstractScreen implements IDataServiceInjection {
+public class Warehouses extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
@@ -100,7 +100,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	private DataBindingContext bindingContext;
 	private Form frmNodeTypes;
 	private Resource operatorsResource;
-	private TreeViewer networkTreeViewer;
+	private TreeViewer warehouseTreeViewer;
 	private Composite cmpDetails;
 	private SashForm sashForm;
 	private Operator operator;
@@ -111,7 +111,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	 * @param parent
 	 * @param style
 	 */
-	public Networks(Composite parent, int style) {
+	public Warehouses(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
@@ -122,6 +122,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+//		buildUI();
 	}
 
 	/*
@@ -153,7 +154,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		frmNodeTypes.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNodeTypes);
 
-		frmNodeTypes.setText(actionText + "Network");
+		frmNodeTypes.setText(actionText + "Warehouse");
 		frmNodeTypes.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		sashForm = new SashForm(frmNodeTypes.getBody(), SWT.VERTICAL);
@@ -180,8 +181,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				networkTreeViewer.refresh();
-				ViewerFilter[] filters = networkTreeViewer.getFilters();
+				warehouseTreeViewer.refresh();
+				ViewerFilter[] filters = warehouseTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof SearchFilter) {
 						((SearchFilter) viewerFilter)
@@ -211,8 +212,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
 		mghprlnkNewImagehyperlink.setText("New");
 
-		networkTreeViewer = new TreeViewer(composite, SWT.BORDER | widgetStyle);
-		networkTreeViewer
+		warehouseTreeViewer = new TreeViewer(composite, SWT.BORDER | widgetStyle);
+		warehouseTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
 						ISelection s = event.getSelection();
@@ -223,7 +224,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 						}
 					}
 				});
-		Tree tree = networkTreeViewer.getTree();
+		Tree tree = warehouseTreeViewer.getTree();
 		GridData gd_tree = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2);
 		gd_tree.widthHint = 396;
 		tree.setLayoutData(gd_tree);
@@ -250,7 +251,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
 				new NetworkTreeFactoryImpl(editingService.getEditingDomain()),
 				new NodeTypeTreeStructureAdvisorImpl());
-		networkTreeViewer.setContentProvider(cp);
+		warehouseTreeViewer.setContentProvider(cp);
 
 		IObservableSet set = cp.getKnownElements();
 
@@ -283,16 +284,16 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		IObservableMap[] map = new IObservableMap[observableMap.size()];
 		observableMap.toArray(map);
 
-		networkTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(map));
+		warehouseTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(map));
 
 		IEMFListProperty networksResourceProperty = EMFEditProperties.list(
 				editingService.getEditingDomain(),
-				OperatorsPackage.Literals.OPERATOR__NETWORKS);
+				OperatorsPackage.Literals.OPERATOR__WAREHOUSES);
 
 		IObservableList networksObservableList = networksResourceProperty
 				.observe(operator);
 
-		networkTreeViewer.setInput(networksObservableList);
+		warehouseTreeViewer.setInput(networksObservableList);
 
 		return bindingContext;
 	}
@@ -467,7 +468,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
 	public Viewer getViewer() {
-		return this.networkTreeViewer;
+		return this.warehouseTreeViewer;
 	}
 
 	/*

@@ -297,8 +297,8 @@
         <details key="name" value="Lifecycle"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nodeType" lowerBound="1"
-        eType="ecore:EClass library.ecore#//NodeType" containment="true" resolveProxies="false">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodeType" eType="ecore:EClass library.ecore#//NodeType"
+        containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The NodeType reference, contains 0 or 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;NodeType type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>

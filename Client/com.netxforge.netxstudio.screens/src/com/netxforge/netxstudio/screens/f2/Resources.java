@@ -75,6 +75,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+//		buildUI();
 	}
 
 	private void buildUI() {
@@ -93,41 +94,43 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		gd_lblFilterLabel.widthHint = 44;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmResources.getBody(),
-				"New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
+		txtFilterText = toolkit.createText(frmResources.getBody(), "New Text",
+				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
+		new Label(frmResources.getBody(), SWT.NONE);
 
-//		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-//				frmResources.getBody(), SWT.NONE);
-//		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-//			public void linkActivated(HyperlinkEvent e) {
-//				if (screenService != null) {
-//					NewEditResource resourceScreen = new NewEditResource(screenService
-//							.getScreenContainer(), SWT.NONE);
-//					resourceScreen.setOperation(Screens.OPERATION_NEW);
-//					resourceScreen.setScreenService(screenService);
-//					resourceScreen.injectData(resourcesResource,
-//							LibraryFactory.eINSTANCE.createNetXResource());
-//					screenService.setActiveScreen(resourceScreen);
-//				}
-//
-//			}
-//
-//			public void linkEntered(HyperlinkEvent e) {
-//			}
-//
-//			public void linkExited(HyperlinkEvent e) {
-//			}
-//		});
-//		mghprlnkNew.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Resource_E.png"));
-//		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-//				false, 1, 1));
-//		toolkit.paintBordersFor(mghprlnkNew);
-//		mghprlnkNew.setText("New");
+		// ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+		// frmResources.getBody(), SWT.NONE);
+		// mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+		// public void linkActivated(HyperlinkEvent e) {
+		// if (screenService != null) {
+		// NewEditResource resourceScreen = new NewEditResource(screenService
+		// .getScreenContainer(), SWT.NONE);
+		// resourceScreen.setOperation(Screens.OPERATION_NEW);
+		// resourceScreen.setScreenService(screenService);
+		// resourceScreen.injectData(resourcesResource,
+		// LibraryFactory.eINSTANCE.createNetXResource());
+		// screenService.setActiveScreen(resourceScreen);
+		// }
+		//
+		// }
+		//
+		// public void linkEntered(HyperlinkEvent e) {
+		// }
+		//
+		// public void linkExited(HyperlinkEvent e) {
+		// }
+		// });
+		// mghprlnkNew.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit",
+		// "icons/full/ctool16/Resource_E.png"));
+		// mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+		// false, 1, 1));
+		// toolkit.paintBordersFor(mghprlnkNew);
+		// mghprlnkNew.setText("New");
 
 		resourcesTableViewer = new TableViewer(frmResources.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION);
@@ -136,6 +139,12 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				resourcesTableViewer, SWT.NONE);
+		TableColumn tblclmnOwner = tableViewerColumn_1.getColumn();
+		tblclmnOwner.setWidth(100);
+		tblclmnOwner.setText("Owner");
 
 		TableViewerColumn tblViewerClmType = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
@@ -149,7 +158,8 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		tblclmnName.setWidth(104);
 		tblclmnName.setText("Expression Name");
 
-		tblViewerClmnState = new TableViewerColumn(resourcesTableViewer, SWT.NONE);
+		tblViewerClmnState = new TableViewerColumn(resourcesTableViewer,
+				SWT.NONE);
 		TableColumn tblclmnState = tblViewerClmnState.getColumn();
 		tblclmnState.setWidth(207);
 		tblclmnState.setText("Long Name");
@@ -162,7 +172,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	class EditResourceAction extends Action {
-		
+
 		public EditResourceAction(String text, int style) {
 			super(text, style);
 		}
@@ -171,10 +181,9 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		public void run() {
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection)
-						.getFirstElement();
-				NewEditResource resourceScreen = new NewEditResource(screenService
-						.getScreenContainer(), SWT.NONE);
+				Object o = ((IStructuredSelection) selection).getFirstElement();
+				NewEditResource resourceScreen = new NewEditResource(
+						screenService.getScreenContainer(), SWT.NONE);
 				resourceScreen.setOperation(Screens.OPERATION_EDIT);
 				resourceScreen.setScreenService(screenService);
 				resourceScreen.injectData(resourcesResource, o);
@@ -182,10 +191,9 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
-	
 
 	class MonitorResourceAction extends Action {
-		
+
 		public MonitorResourceAction(String text, int style) {
 			super(text, style);
 		}
@@ -194,10 +202,10 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		public void run() {
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection)
-						.getFirstElement();
-				if(o instanceof NetXResource){
-					ResourceMonitor monitorScreen = new ResourceMonitor(screenService.getScreenContainer(), SWT.NONE);
+				Object o = ((IStructuredSelection) selection).getFirstElement();
+				if (o instanceof NetXResource) {
+					ResourceMonitor monitorScreen = new ResourceMonitor(
+							screenService.getScreenContainer(), SWT.NONE);
 					monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
 					monitorScreen.setScreenService(screenService);
 					monitorScreen.injectData(null, o);
@@ -206,7 +214,6 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
-	
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -215,29 +222,32 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		resourcesTableViewer.setContentProvider(listContentProvider);
 
 		EAttribute dummyAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-		
+
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {dummyAttribute,
+				new EStructuralFeature[] { dummyAttribute,
 						LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME,
 						LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME,
 						LibraryPackage.Literals.NET_XRESOURCE__LONG_NAME,
-						LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF,
-						});
-		resourcesTableViewer.setLabelProvider(new NetXResourceObervableMapLabelProvider(
-				observeMaps));
+						LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF, });
+		resourcesTableViewer
+				.setLabelProvider(new NetXResourceObervableMapLabelProvider(
+						observeMaps));
 
 		IEMFListProperty resourcesProperties = EMFEditProperties
 				.resource(editingService.getEditingDomain());
-		IObservableList resourceList = resourcesProperties.observe(resourcesResource);
+		IObservableList resourceList = resourcesProperties
+				.observe(resourcesResource);
 		resourcesTableViewer.setInput(resourceList);
 
 		return bindingContext;
 	}
 
-	class NetXResourceObervableMapLabelProvider extends ObservableMapLabelProvider {
+	class NetXResourceObervableMapLabelProvider extends
+			ObservableMapLabelProvider {
 
-		public NetXResourceObervableMapLabelProvider(IObservableMap[] attributeMaps) {
+		public NetXResourceObervableMapLabelProvider(
+				IObservableMap[] attributeMaps) {
 			super(attributeMaps);
 		}
 
@@ -249,11 +259,15 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof NetXResource) {
-				NetXResource j = (NetXResource) element;
+
+				NetXResource resource = (NetXResource) element;
 				switch (columnIndex) {
+				case 0: {
+					return resource.getComponentRef().getName();
+				}
 				case 3:
-					if (j.getUnitRef() != null) {
-						return j.getUnitRef().getCode();
+					if (resource.getUnitRef() != null) {
+						return resource.getUnitRef().getCode();
 					}
 					break;
 				}
@@ -263,7 +277,8 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	public void injectData() {
-		resourcesResource = editingService.getData(LibraryPackage.Literals.NET_XRESOURCE);
+		resourcesResource = editingService
+				.getData(LibraryPackage.Literals.NET_XRESOURCE);
 		buildUI();
 		initDataBindings_();
 	}
@@ -295,7 +310,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public IAction[] getActions() {
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
-		String actionText = readonly? "View..." : "Edit...";
+		String actionText = readonly ? "View..." : "Edit...";
 
 		List<IAction> actionList = Lists.newArrayList();
 		actionList.add(new EditResourceAction(actionText, SWT.PUSH));

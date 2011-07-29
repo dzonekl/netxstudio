@@ -38,6 +38,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
 import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
+import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -80,7 +81,6 @@ public class MetricItemProvider
 			addDescriptionPropertyDescriptor(object);
 			addMeasurementKindPropertyDescriptor(object);
 			addMeasurementPointPropertyDescriptor(object);
-			addMetricCalculationPropertyDescriptor(object);
 			addMetricSourceRefPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
 			addUnitRefPropertyDescriptor(object);
@@ -146,28 +146,6 @@ public class MetricItemProvider
 				 getString("_UI_Metric_measurementPoint_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Metric_measurementPoint_feature", "_UI_Metric_type"),
 				 MetricsPackage.Literals.METRIC__MEASUREMENT_POINT,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Metric Calculation feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addMetricCalculationPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Metric_metricCalculation_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Metric_metricCalculation_feature", "_UI_Metric_type"),
-				 MetricsPackage.Literals.METRIC__METRIC_CALCULATION,
 				 true,
 				 false,
 				 false,
@@ -255,6 +233,7 @@ public class MetricItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(MetricsPackage.Literals.METRIC__METRICS);
+			childrenFeatures.add(MetricsPackage.Literals.METRIC__EXPRESSION_REF);
 		}
 		return childrenFeatures;
 	}
@@ -312,12 +291,12 @@ public class MetricItemProvider
 			case MetricsPackage.METRIC__DESCRIPTION:
 			case MetricsPackage.METRIC__MEASUREMENT_KIND:
 			case MetricsPackage.METRIC__MEASUREMENT_POINT:
-			case MetricsPackage.METRIC__METRIC_CALCULATION:
 			case MetricsPackage.METRIC__NAME:
 			case MetricsPackage.METRIC__UNIT_REF:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case MetricsPackage.METRIC__METRICS:
+			case MetricsPackage.METRIC__EXPRESSION_REF:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -339,6 +318,11 @@ public class MetricItemProvider
 			(createChildParameter
 				(MetricsPackage.Literals.METRIC__METRICS,
 				 MetricsFactory.eINSTANCE.createMetric()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(MetricsPackage.Literals.METRIC__EXPRESSION_REF,
+				 LibraryFactory.eINSTANCE.createExpression()));
 	}
 
 	/**

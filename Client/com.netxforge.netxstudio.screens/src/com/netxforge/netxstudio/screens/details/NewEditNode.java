@@ -6,6 +6,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.FeaturePath;
@@ -15,7 +17,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.edit.command.RemoveCommand;
+import org.eclipse.emf.edit.command.DeleteCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.nebula.widgets.datechooser.DateChooserCombo;
@@ -43,12 +46,15 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
+import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Room;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.NodeTypeFilterDialog;
+import com.netxforge.netxstudio.screens.RoomFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
@@ -56,8 +62,6 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
 public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 		IDataScreenInjection {
-	
-	
 
 	private Node node;
 	private FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -101,12 +105,10 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 
 	private void buildUI() {
 
-		
 		// Readonlyness.
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
-		
-		
+
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
 		FormData fd_scnInfo = new FormData();
@@ -129,7 +131,8 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 		gd_lblName.widthHint = 80;
 		lblName.setLayoutData(gd_lblName);
 
-		txtName = toolkit.createText(composite, "New Text", SWT.NONE | widgetStyle);
+		txtName = toolkit.createText(composite, "New Text", SWT.NONE
+				| widgetStyle);
 		txtName.setText("");
 		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
@@ -142,29 +145,41 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 		lblType.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
 
-		txtNodeType = toolkit.createText(composite, "New Text", SWT.NONE | SWT.READ_ONLY);
+		txtNodeType = toolkit.createText(composite, "New Text", SWT.NONE
+				| SWT.READ_ONLY);
 		txtNodeType.setText("");
 		txtNodeType.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
-		
+
 		nodeTypeHyperlink = toolkit.createImageHyperlink(composite, SWT.NONE);
 		nodeTypeHyperlink.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
+
+				CompoundCommand cp = new CompoundCommand();
+				NodeType nt = node.getNodeType();
+				if(nt != null){
+					Command dc = DeleteCommand.create(editingService.getEditingDomain(), nt);
+					cp.append(dc);
+				}
 				
-				// As we have a copy of the node type, we shall delete or make sure it's added to some 
-				// sort of history. 
-				RemoveCommand.create(editingService.getEditingDomain(), node,OperatorsPackage.Literals.NODE__NODE_TYPE, null);
-				
+				// We can't really do this, as our object will be dangling.
+//				Command c = new SetCommand(editingService.getEditingDomain(),
+//						node, OperatorsPackage.Literals.NODE__NODE_TYPE, null);
+				editingService.getEditingDomain().getCommandStack().execute(cp);
 			}
+
 			public void linkEntered(HyperlinkEvent e) {
 			}
+
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
-		GridData gd_imageHyperlink_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_imageHyperlink_1 = new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 1, 1);
 		gd_imageHyperlink_1.widthHint = 18;
 		nodeTypeHyperlink.setLayoutData(gd_imageHyperlink_1);
-		nodeTypeHyperlink.setImage(ResourceManager.getPluginImage("org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+		nodeTypeHyperlink.setImage(ResourceManager.getPluginImage(
+				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
 		toolkit.paintBordersFor(nodeTypeHyperlink);
 		nodeTypeHyperlink.setText("");
 
@@ -183,19 +198,19 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 					if (node.getOriginalNodeTypeRef() != null) {
 						node.setOriginalNodeTypeRef(null);
 					}
-					
-					
-					// Copy the NodeType. 
-					// As we copy references, we will aslo get. 
+
+					// Copy the NodeType.
+					// As we copy references, we will aslo get.
 					// - Expressions
-					// - Metrics 
-					// - Resources. 
+					// - Metrics
+					// - Resources.
 					// - Tolerances etc...
 					EcoreUtil.Copier copier = new EcoreUtil.Copier();
 					NodeType copyOf = (NodeType) copier.copy(nt);
 					copier.copyReferences();
-					
-					node.setNodeType(copyOf); // Should now show with databinding.
+
+					node.setNodeType(copyOf); // Should now show with
+												// databinding.
 				}
 			}
 		});
@@ -221,35 +236,41 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 				false, 1, 1);
 		gd_lblRoomsite.widthHint = 80;
 		lblRoomsite.setLayoutData(gd_lblRoomsite);
-		
-				txtRoom = toolkit.createText(cmpTolerances, "New Text", SWT.NONE);
-				txtRoom.setText("");
-				GridData gd_txtRoom = new GridData(SWT.FILL, SWT.CENTER, false, false,
-						1, 1);
-				gd_txtRoom.widthHint = 150;
-				txtRoom.setLayoutData(gd_txtRoom);
-		
-		
-		roomRefHyperlink = toolkit.createImageHyperlink(cmpTolerances, SWT.NONE);
-		GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+
+		txtRoom = toolkit.createText(cmpTolerances, "New Text", SWT.NONE
+				| SWT.READ_ONLY);
+		txtRoom.setText("");
+		GridData gd_txtRoom = new GridData(SWT.FILL, SWT.CENTER, false, false,
+				1, 1);
+		gd_txtRoom.widthHint = 150;
+		txtRoom.setLayoutData(gd_txtRoom);
+
+		roomRefHyperlink = toolkit
+				.createImageHyperlink(cmpTolerances, SWT.NONE);
+		GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
 		gd_imageHyperlink.widthHint = 18;
 		roomRefHyperlink.setLayoutData(gd_imageHyperlink);
 		roomRefHyperlink.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				// Remove the romm ref link
-				node.setRoomRef(null);
+				Command set = new SetCommand(editingService.getEditingDomain(),
+						node, OperatorsPackage.Literals.NODE__ROOM_REF, null);
+				editingService.getEditingDomain().getCommandStack()
+						.execute(set);
 			}
+
 			public void linkEntered(HyperlinkEvent e) {
 			}
+
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
-		
-		roomRefHyperlink.setImage(ResourceManager.getPluginImage("org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+
+		roomRefHyperlink.setImage(ResourceManager.getPluginImage(
+				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
 		toolkit.paintBordersFor(roomRefHyperlink);
 		roomRefHyperlink.setText("");
-		
-		
+
 		Button btnSelectRoom = toolkit.createButton(cmpTolerances, "Select...",
 				SWT.NONE);
 		new Label(cmpTolerances, SWT.NONE);
@@ -260,19 +281,14 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 				// TODO tricky, this is a multistage selection from
 				// Country->Site->Room.
 
-				// Resource nodeTypeResource =
-				// editingService.getData(LibraryPackage.Literals.NODE_TYPE);
-				// NodeTypeFilterDialog dialog = new NodeTypeFilterDialog(
-				// NewEditNode.this.getShell(), nodeTypeResource);
-				// if (dialog.open() == IDialogConstants.OK_ID) {
-				// NodeType nt = (NodeType) dialog.getFirstResult();
-				//
-				// if(node.getOriginalNodeTypeRef() != null){
-				// node.setOriginalNodeTypeRef(null);
-				// }
-				// node.setNodeType(nt); // Should now show with databinding.
-				// }
-
+				Resource nodeTypeResource = editingService
+						.getData(GeoPackage.Literals.COUNTRY);
+				RoomFilterDialog dialog = new RoomFilterDialog(NewEditNode.this
+						.getShell(), nodeTypeResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Room room = (Room) dialog.getFirstResult();
+					node.setRoomRef(room);
+				}
 			}
 		});
 
@@ -395,9 +411,10 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 						OperatorsPackage.Literals.NODE__NODE_TYPE,
 						LibraryPackage.Literals.NODE_TYPE__NAME));
 
-		IEMFValueProperty roomProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				OperatorsPackage.Literals.NODE__ROOM_REF);
+		IEMFValueProperty roomProperty = EMFEditProperties.value(editingService
+				.getEditingDomain(), FeaturePath.fromList(
+				OperatorsPackage.Literals.NODE__ROOM_REF,
+				GeoPackage.Literals.ROOM__NAME));
 
 		context.bindValue(nameObservable, nodeIDProperty.observe(node), null,
 				null);
@@ -405,25 +422,33 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 				null, null);
 		context.bindValue(roomObservable, roomProperty.observe(node), null,
 				null);
-		
+
 		// Action observables
 
-		
-//		EMFUpdateValueStrategy featureToTargetStrategy = new EMFUpdateValueStrategy();
-//		featureToTargetStrategy.setConverter(new FeatureToTargetConverter(OperatorsPackage.Literals.NODE__NODE_TYPE));
-//
-//		IObservableValue noteTypeObserveEnabledObserveWidget = SWTObservables.observeVisible(this.nodeTypeHyperlink);
-//		IEMFValueProperty nodeTypeObserveValue = EMFEditProperties.value(editingService.getEditingDomain(), Literals.NODE__NODE_TYPE);
-//		
-//		context.bindValue(noteTypeObserveEnabledObserveWidget, nodeTypeObserveValue.observe(node), null, featureToTargetStrategy);
-//		
-//		
-//		IObservableValue roomRefEnabledObserveWidget = SWTObservables.observeVisible(roomRefHyperlink);
-//		IEMFValueProperty roomRefObserveValue = EMFEditProperties.value(editingService.getEditingDomain(), Literals.NODE__ROOM_REF);
-//		
-//		context.bindValue(roomRefEnabledObserveWidget, roomRefObserveValue.observe(node), null, null);
-//		
-		
+		// EMFUpdateValueStrategy featureToTargetStrategy = new
+		// EMFUpdateValueStrategy();
+		// featureToTargetStrategy.setConverter(new
+		// FeatureToTargetConverter(OperatorsPackage.Literals.NODE__NODE_TYPE));
+		//
+		// IObservableValue noteTypeObserveEnabledObserveWidget =
+		// SWTObservables.observeVisible(this.nodeTypeHyperlink);
+		// IEMFValueProperty nodeTypeObserveValue =
+		// EMFEditProperties.value(editingService.getEditingDomain(),
+		// Literals.NODE__NODE_TYPE);
+		//
+		// context.bindValue(noteTypeObserveEnabledObserveWidget,
+		// nodeTypeObserveValue.observe(node), null, featureToTargetStrategy);
+		//
+		//
+		// IObservableValue roomRefEnabledObserveWidget =
+		// SWTObservables.observeVisible(roomRefHyperlink);
+		// IEMFValueProperty roomRefObserveValue =
+		// EMFEditProperties.value(editingService.getEditingDomain(),
+		// Literals.NODE__ROOM_REF);
+		//
+		// context.bindValue(roomRefEnabledObserveWidget,
+		// roomRefObserveValue.observe(node), null, null);
+		//
 
 		// Lifecycle properties.
 
@@ -529,12 +554,11 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 
 		return context;
 	}
-	
-	
+
 	private final class FeatureToTargetConverter implements IConverter {
-		
+
 		EStructuralFeature feature;
-		
+
 		public FeatureToTargetConverter(EStructuralFeature feature) {
 			super();
 			this.feature = feature;
@@ -549,7 +573,7 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 		}
 
 		public Object convert(Object fromObject) {
-			if(fromObject instanceof EObject){
+			if (fromObject instanceof EObject) {
 				return ((EObject) fromObject).eIsSet(feature);
 			}
 			return null;

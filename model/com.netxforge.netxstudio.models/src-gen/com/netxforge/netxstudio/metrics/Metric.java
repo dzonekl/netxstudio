@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.metrics;
 import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Unit;
 
 /**
@@ -52,10 +53,10 @@ import com.netxforge.netxstudio.library.Unit;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.Metric#getMetrics <em>Metrics</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.Metric#getExpressionRef <em>Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Metric#getDescription <em>Description</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Metric#getMeasurementKind <em>Measurement Kind</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Metric#getMeasurementPoint <em>Measurement Point</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.Metric#getMetricCalculation <em>Metric Calculation</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Metric#getMetricSourceRef <em>Metric Source Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Metric#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.Metric#getUnitRef <em>Unit Ref</em>}</li>
@@ -85,6 +86,33 @@ public interface Metric extends Base {
 	 * @generated
 	 */
 	EList<Metric> getMetrics();
+
+	/**
+	 * Returns the value of the '<em><b>Expression Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The ExpressionRef reference, references 0 or
+	 * 							1 Expression type.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Expression Ref</em>' reference.
+	 * @see #setExpressionRef(Expression)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetric_ExpressionRef()
+	 * @model extendedMetaData="kind='element' name='ExpressionRef'"
+	 * @generated
+	 */
+	Expression getExpressionRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.Metric#getExpressionRef <em>Expression Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Expression Ref</em>' reference.
+	 * @see #getExpressionRef()
+	 * @generated
+	 */
+	void setExpressionRef(Expression value);
 
 	/**
 	 * Returns the value of the '<em><b>Description</b></em>' attribute.
@@ -176,35 +204,6 @@ public interface Metric extends Base {
 	 * @generated
 	 */
 	void setMeasurementPoint(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Metric Calculation</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The MetricCalculation references, contains 0 or
-	 * 							1
-	 * 							ExpressionLine type.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Metric Calculation</em>' attribute.
-	 * @see #setMetricCalculation(String)
-	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetric_MetricCalculation()
-	 * @model dataType="com.netxforge.netxstudio.generics.ExpressionLine"
-	 *        extendedMetaData="kind='attribute' name='MetricCalculation'"
-	 * @generated
-	 */
-	String getMetricCalculation();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.Metric#getMetricCalculation <em>Metric Calculation</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Metric Calculation</em>' attribute.
-	 * @see #getMetricCalculation()
-	 * @generated
-	 */
-	void setMetricCalculation(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Metric Source Ref</b></em>' reference.

@@ -36,10 +36,8 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
 import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
-import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -269,16 +267,16 @@ public class NetworkItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.NETWORK__DIAGRAMS,
-				 GenericsFactory.eINSTANCE.createDiagramInfo()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.NETWORK__DIAGRAMS,
+//				 GenericsFactory.eINSTANCE.createDiagramInfo()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -300,10 +298,10 @@ public class NetworkItemProvider
 				(OperatorsPackage.Literals.NETWORK__EQUIPMENT_RELATIONSHIPS,
 				 OperatorsFactory.eINSTANCE.createEquipmentRelationship()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.NETWORK__METRIC_SOURCES,
-				 MetricsFactory.eINSTANCE.createMetricSource()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.NETWORK__METRIC_SOURCES,
+//				 MetricsFactory.eINSTANCE.createMetricSource()));
 	}
 
 	/**

@@ -24,7 +24,6 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.services.*;
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.RFSService;

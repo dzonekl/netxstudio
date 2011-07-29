@@ -346,7 +346,7 @@ public abstract class MetricValuesImporter {
 					.getName()));
 			foundNetXResource.setUnitRef(metric.getUnitRef());
 			networkElement.getResourceRefs().add(foundNetXResource);
-			emfNetxResource.getContents().add(foundNetXResource);
+//			emfNetxResource.getContents().add(foundNetXResource);
 			addToNode(networkElement, networkElement, new ArrayList<Integer>(),
 					foundNetXResource);
 		}

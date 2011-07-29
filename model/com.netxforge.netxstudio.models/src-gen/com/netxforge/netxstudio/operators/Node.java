@@ -105,7 +105,7 @@ public interface Node extends Base {
 	 * @return the value of the '<em>Node Type</em>' containment reference.
 	 * @see #setNodeType(NodeType)
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNode_NodeType()
-	 * @model containment="true" required="true"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='NodeType'"
 	 * @generated
 	 */

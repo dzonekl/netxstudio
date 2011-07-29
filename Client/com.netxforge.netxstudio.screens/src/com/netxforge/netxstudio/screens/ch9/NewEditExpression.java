@@ -116,7 +116,7 @@ public class NewEditExpression extends AbstractScreen implements
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 
-		buildUI();
+//		buildUI();
 	}
 
 	private void buildUI() {

@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
+import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
@@ -35,10 +36,10 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricImpl#getMetrics <em>Metrics</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricImpl#getExpressionRef <em>Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricImpl#getMeasurementKind <em>Measurement Kind</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricImpl#getMeasurementPoint <em>Measurement Point</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricImpl#getMetricCalculation <em>Metric Calculation</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricImpl#getMetricSourceRef <em>Metric Source Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricImpl#getUnitRef <em>Unit Ref</em>}</li>
@@ -75,6 +76,24 @@ public class MetricImpl extends BaseImpl implements Metric {
 	@SuppressWarnings("unchecked")
 	public EList<Metric> getMetrics() {
 		return (EList<Metric>)eGet(MetricsPackage.Literals.METRIC__METRICS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Expression getExpressionRef() {
+		return (Expression)eGet(MetricsPackage.Literals.METRIC__EXPRESSION_REF, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExpressionRef(Expression newExpressionRef) {
+		eSet(MetricsPackage.Literals.METRIC__EXPRESSION_REF, newExpressionRef);
 	}
 
 	/**
@@ -129,24 +148,6 @@ public class MetricImpl extends BaseImpl implements Metric {
 	 */
 	public void setMeasurementPoint(String newMeasurementPoint) {
 		eSet(MetricsPackage.Literals.METRIC__MEASUREMENT_POINT, newMeasurementPoint);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getMetricCalculation() {
-		return (String)eGet(MetricsPackage.Literals.METRIC__METRIC_CALCULATION, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMetricCalculation(String newMetricCalculation) {
-		eSet(MetricsPackage.Literals.METRIC__METRIC_CALCULATION, newMetricCalculation);
 	}
 
 	/**

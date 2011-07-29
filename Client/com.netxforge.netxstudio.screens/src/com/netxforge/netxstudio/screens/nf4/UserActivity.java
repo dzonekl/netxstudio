@@ -104,7 +104,8 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 		gl_composite_1.horizontalSpacing = 8;
 		composite_1.setLayout(gl_composite_1);
 		
-		tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.FULL_SELECTION);
+		tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.VIRTUAL | SWT.FULL_SELECTION);
+		tableViewer.setUseHashlookup(true);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -150,10 +151,13 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 		if(object instanceof Person){
 			Person user = (Person)object;
 			String userID = user.getLogin();
-			this.getScreenForm().setText("User: " + userID);
+			buildUI();
+			getScreenForm().setText("User: " + userID);
 			commitEntries = this.editingService.getDataService().getProvider().getCommitInfoResource(userID);
+		}else{
+			throw new java.lang.IllegalArgumentException();
 		}
-		buildUI();
+		
 		this.initDataBindings_();
 
 	}

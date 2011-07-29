@@ -127,6 +127,7 @@ public class Expressions extends AbstractScreen implements
 					if (o != null) {
 						NewEditExpression editExpression = new NewEditExpression(
 								screenService.getScreenContainer(), SWT.NONE);
+						editExpression.setScreenService(screenService);
 						editExpression.setOperation(getOperation());
 						editExpression.injectData(expressionsResource, o);
 						screenService.setActiveScreen(editExpression);
@@ -205,7 +206,6 @@ public class Expressions extends AbstractScreen implements
 								screenService.getScreenContainer(), SWT.NONE);
 						expressionScreen.setOperation(Screens.OPERATION_NEW);
 						expressionScreen.setScreenService(screenService);
-						screenService.setActiveScreen(expressionScreen);
 						Expression exp = LibraryFactory.eINSTANCE
 								.createExpression();
 
@@ -217,6 +217,7 @@ public class Expressions extends AbstractScreen implements
 						// Model m = NetxscriptFactory.eINSTANCE.createModel();
 						// exp.setEvaluationObject(m);
 						expressionScreen.injectData(expressionsResource, exp);
+						screenService.setActiveScreen(expressionScreen);
 					}
 				}
 

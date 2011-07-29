@@ -766,13 +766,22 @@ public interface MetricsPackage extends EPackage {
 	int METRIC__METRICS = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Expression Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC__EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int METRIC__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Measurement Kind</b></em>' attribute.
@@ -781,7 +790,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__MEASUREMENT_KIND = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int METRIC__MEASUREMENT_KIND = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Measurement Point</b></em>' attribute.
@@ -790,16 +799,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC__MEASUREMENT_POINT = GenericsPackage.BASE_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Metric Calculation</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int METRIC__METRIC_CALCULATION = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int METRIC__MEASUREMENT_POINT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Metric Source Ref</b></em>' reference.
@@ -1584,6 +1584,17 @@ public interface MetricsPackage extends EPackage {
 	EReference getMetric_Metrics();
 
 	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.metrics.Metric#getExpressionRef <em>Expression Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Expression Ref</em>'.
+	 * @see com.netxforge.netxstudio.metrics.Metric#getExpressionRef()
+	 * @see #getMetric()
+	 * @generated
+	 */
+	EReference getMetric_ExpressionRef();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.Metric#getDescription <em>Description</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1615,17 +1626,6 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMetric_MeasurementPoint();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.Metric#getMetricCalculation <em>Metric Calculation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Metric Calculation</em>'.
-	 * @see com.netxforge.netxstudio.metrics.Metric#getMetricCalculation()
-	 * @see #getMetric()
-	 * @generated
-	 */
-	EAttribute getMetric_MetricCalculation();
 
 	/**
 	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.metrics.Metric#getMetricSourceRef <em>Metric Source Ref</em>}'.
@@ -2335,6 +2335,14 @@ public interface MetricsPackage extends EPackage {
 		EReference METRIC__METRICS = eINSTANCE.getMetric_Metrics();
 
 		/**
+		 * The meta object literal for the '<em><b>Expression Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference METRIC__EXPRESSION_REF = eINSTANCE.getMetric_ExpressionRef();
+
+		/**
 		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2357,14 +2365,6 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute METRIC__MEASUREMENT_POINT = eINSTANCE.getMetric_MeasurementPoint();
-
-		/**
-		 * The meta object literal for the '<em><b>Metric Calculation</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute METRIC__METRIC_CALCULATION = eINSTANCE.getMetric_MetricCalculation();
 
 		/**
 		 * The meta object literal for the '<em><b>Metric Source Ref</b></em>' reference feature.
