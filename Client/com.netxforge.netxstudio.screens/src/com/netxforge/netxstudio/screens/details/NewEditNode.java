@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.details;
 
 import java.util.Date;
+import java.util.Iterator;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -14,9 +15,10 @@ import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -72,6 +74,7 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 
 	@Inject
 	ModelUtils modelUtils;
+
 	private DateChooserCombo dcProposed;
 	private DateChooserCombo dcPlanned;
 	private DateChooserCombo dcConstruction;
@@ -157,14 +160,14 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 
 				CompoundCommand cp = new CompoundCommand();
 				NodeType nt = node.getNodeType();
-				if(nt != null){
-					Command dc = DeleteCommand.create(editingService.getEditingDomain(), nt);
+				if (nt != null) {
+					Command dc = DeleteCommand.create(
+							editingService.getEditingDomain(), nt);
 					cp.append(dc);
 				}
-				
 				// We can't really do this, as our object will be dangling.
-//				Command c = new SetCommand(editingService.getEditingDomain(),
-//						node, OperatorsPackage.Literals.NODE__NODE_TYPE, null);
+				// Command c = new SetCommand(editingService.getEditingDomain(),
+				// node, OperatorsPackage.Literals.NODE__NODE_TYPE, null);
 				editingService.getEditingDomain().getCommandStack().execute(cp);
 			}
 
@@ -194,25 +197,115 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 						NewEditNode.this.getShell(), nodeTypeResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					NodeType nt = (NodeType) dialog.getFirstResult();
-
-					if (node.getOriginalNodeTypeRef() != null) {
-						node.setOriginalNodeTypeRef(null);
-					}
-
-					// Copy the NodeType.
-					// As we copy references, we will aslo get.
-					// - Expressions
-					// - Metrics
-					// - Resources.
-					// - Tolerances etc...
-					EcoreUtil.Copier copier = new EcoreUtil.Copier();
-					NodeType copyOf = (NodeType) copier.copy(nt);
-					copier.copyReferences();
-
-					node.setNodeType(copyOf); // Should now show with
-												// databinding.
+					handleNodeTypeCopy(nt);
 				}
 			}
+
+			private void handleNodeTypeCopy(NodeType nt) {
+
+				@SuppressWarnings("serial")
+				EcoreUtil.Copier nodeTypeCopier = new EcoreUtil.Copier() {
+
+					/**
+					 * Our version of copy reference has a special treatment for
+					 * NetXResource object.
+					 */
+					@Override
+					protected void copyReference(EReference eReference,
+							EObject eObject, EObject copyEObject) {
+
+						if (eReference == LibraryPackage.Literals.COMPONENT__RESOURCE_REFS) {
+							copyResourceReference(eReference, eObject,
+									copyEObject);
+						} else {
+							super.copyReference(eReference, eObject,
+									copyEObject);
+						}
+					}
+
+					protected void copyResourceReference(EReference eReference,
+							EObject eObject, EObject copyEObject) {
+						if (eObject.eIsSet(eReference) && eReference.isMany()) {
+							@SuppressWarnings("unchecked")
+							InternalEList<EObject> source = (InternalEList<EObject>) eObject
+									.eGet(eReference);
+							@SuppressWarnings("unchecked")
+							InternalEList<EObject> target = (InternalEList<EObject>) copyEObject
+									.eGet(getTarget(eReference));
+							if (source.isEmpty()) {
+								target.clear();
+							} else {
+								boolean isBidirectional = eReference
+										.getEOpposite() != null;
+								int index = 0;
+								for (Iterator<EObject> k = resolveProxies ? source
+										.iterator() : source.basicIterator(); k
+										.hasNext();) {
+									EObject referencedEObject = k.next();
+									EObject copyReferencedEObject = get(referencedEObject);
+									if (copyReferencedEObject == null) {
+										if (useOriginalReferences) {
+											// NetXResource is a bidi link, so
+											// make an actual copy (A copier within a copier... auch). 
+											if (isBidirectional) {
+												EcoreUtil.Copier defaultCopier = new EcoreUtil.Copier();
+												EObject newEObject = defaultCopier
+														.copy(referencedEObject);
+												// It's not contained, so add it to the NetXResource resource. 
+												Resource resourcesResource = editingService
+														.getData(LibraryPackage.Literals.NET_XRESOURCE);
+												resourcesResource.getContents().add(newEObject);
+												target.addUnique(index,
+														newEObject);
+												index++;
+											}
+											else {
+												target.addUnique(index,
+														referencedEObject);
+												++index;
+											}
+										}
+									} else {
+
+										// This would actually do what?
+										if (isBidirectional) {
+											int position = target
+													.indexOf(copyReferencedEObject);
+											if (position == -1) {
+												target.addUnique(index,
+														copyReferencedEObject);
+											} else if (index != position) {
+												target.move(index,
+														copyReferencedEObject);
+											}
+										} else {
+											target.addUnique(index,
+													copyReferencedEObject);
+										}
+										++index;
+									}
+								}
+							}
+						}
+					}
+				};
+				NodeType copyOf = (NodeType) nodeTypeCopier.copy(nt);
+				nodeTypeCopier.copyReferences();
+
+				CompoundCommand cc = new CompoundCommand();
+				Command setOriginalNodeTypeRef = new SetCommand(editingService
+						.getEditingDomain(), node,
+						OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
+						nt);
+				Command setNodeTypeCommand = new SetCommand(editingService
+						.getEditingDomain(), node,
+						OperatorsPackage.Literals.NODE__NODE_TYPE, copyOf);
+
+				cc.append(setOriginalNodeTypeRef);
+				cc.append(setNodeTypeCommand);
+				editingService.getEditingDomain().getCommandStack().execute(cc);
+			}
+
 		});
 		Section sctnGeo = toolkit.createSection(this, Section.TITLE_BAR);
 		FormData fd_sctnGeo = new FormData();
@@ -423,33 +516,6 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 		context.bindValue(roomObservable, roomProperty.observe(node), null,
 				null);
 
-		// Action observables
-
-		// EMFUpdateValueStrategy featureToTargetStrategy = new
-		// EMFUpdateValueStrategy();
-		// featureToTargetStrategy.setConverter(new
-		// FeatureToTargetConverter(OperatorsPackage.Literals.NODE__NODE_TYPE));
-		//
-		// IObservableValue noteTypeObserveEnabledObserveWidget =
-		// SWTObservables.observeVisible(this.nodeTypeHyperlink);
-		// IEMFValueProperty nodeTypeObserveValue =
-		// EMFEditProperties.value(editingService.getEditingDomain(),
-		// Literals.NODE__NODE_TYPE);
-		//
-		// context.bindValue(noteTypeObserveEnabledObserveWidget,
-		// nodeTypeObserveValue.observe(node), null, featureToTargetStrategy);
-		//
-		//
-		// IObservableValue roomRefEnabledObserveWidget =
-		// SWTObservables.observeVisible(roomRefHyperlink);
-		// IEMFValueProperty roomRefObserveValue =
-		// EMFEditProperties.value(editingService.getEditingDomain(),
-		// Literals.NODE__ROOM_REF);
-		//
-		// context.bindValue(roomRefEnabledObserveWidget,
-		// roomRefObserveValue.observe(node), null, null);
-		//
-
 		// Lifecycle properties.
 
 		IObservableValue dcProposedObservable = new DateChooserComboObservableValue(
@@ -553,30 +619,5 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 				targetToModelUpdateStrategy, modelToTargetUpdateStrategy);
 
 		return context;
-	}
-
-	private final class FeatureToTargetConverter implements IConverter {
-
-		EStructuralFeature feature;
-
-		public FeatureToTargetConverter(EStructuralFeature feature) {
-			super();
-			this.feature = feature;
-		}
-
-		public Object getFromType() {
-			return EObject.class;
-		}
-
-		public Object getToType() {
-			return Boolean.class;
-		}
-
-		public Object convert(Object fromObject) {
-			if (fromObject instanceof EObject) {
-				return ((EObject) fromObject).eIsSet(feature);
-			}
-			return null;
-		}
 	}
 }

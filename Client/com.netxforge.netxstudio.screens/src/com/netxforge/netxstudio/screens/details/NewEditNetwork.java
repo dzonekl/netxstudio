@@ -26,7 +26,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 public class NewEditNetwork extends AbstractDetailsComposite implements
 		IScreen, IDataScreenInjection {
 
-	private Network comp;
+	private Network network;
 	private FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtName;
 	private Text txtDescription;
@@ -38,15 +38,16 @@ public class NewEditNetwork extends AbstractDetailsComposite implements
 		this.editingService = editingService;
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		buildUI();
+//		buildUI();
 	}
 
 	public void injectData(Object owner, Object object) {
 		if (object instanceof Network) {
-			this.comp = (Network) object;
+			this.network = (Network) object;
 		} else {
 			return;
 		}
+		buildUI();
 		this.initDataBindings_();
 	}
 
@@ -120,10 +121,10 @@ public class NewEditNetwork extends AbstractDetailsComposite implements
 				.value(editingService.getEditingDomain(),
 						OperatorsPackage.Literals.NETWORK__DESCRIPTION);
 
-		context.bindValue(nameObservable, nameProperty.observe(comp), null,
+		context.bindValue(nameObservable, nameProperty.observe(network), null,
 				null);
 		context.bindValue(descriptionObservable,
-				componentDescriptionProperty.observe(comp), null, null);
+				componentDescriptionProperty.observe(network), null, null);
 
 		return context;
 	}

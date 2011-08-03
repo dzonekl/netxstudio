@@ -84,7 +84,7 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element maxOccurs="unbounded" minOccurs="0" name="Equipments"
-						type="xs:string">
+						type="library:Equipment">
 						<xs:annotation>
 							<xs:documentation>The Equipments reference, contains 0 or more
 								Equipment types.
@@ -510,14 +510,6 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element maxOccurs="unbounded" minOccurs="0"
-						name="ExpansionExperiences" type="ExpansionExperience">
-						<xs:annotation>
-							<xs:documentation>The ExpansionExperiences reference, contains 0
-								or more ExpansionExperience type.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -650,40 +642,6 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-
-	<!-- ___________________________ -->
-	<!--| EXPANSIONEXPERIENCE | -->
-	<!--|___________________________| -->
-	<xs:complexType name="ExpansionExperience">
-		<xs:annotation>
-			<xs:documentation>A type representing the gained experience on
-				expending an equipment.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="gen:Base">
-				<xs:sequence>
-					<xs:element ecore:reference="library:Equipment" name="EquipmentRef"
-						type="xs:anyURI" maxOccurs="1" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The EquipmentRef reference, references the 0 or
-								1
-								Equipment type, for which this duration applies.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-				<xs:attribute name="Duration" type="gen:ExpansionDuration">
-					<xs:annotation>
-						<xs:documentation>The Duration attribute, holds the typical
-							duration
-							for the expansion of an Equipment.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
 
 	<!--_____________________________ -->
 	<!--| MARKER | -->

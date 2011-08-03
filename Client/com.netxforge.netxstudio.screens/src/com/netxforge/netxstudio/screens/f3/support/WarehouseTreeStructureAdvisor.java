@@ -2,26 +2,20 @@ package com.netxforge.netxstudio.screens.f3.support;
 
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 
-import com.netxforge.netxstudio.geo.Country;
+import com.netxforge.netxstudio.operators.Warehouse;
 
 public class WarehouseTreeStructureAdvisor extends TreeStructureAdvisor {
 	@Override
 	public Object getParent(Object element) {
-//		if (element instanceof Metric) {
-//			// return ((Metric) element).ggetParent();
-//			// Parent?
-//			EObject container = ((Metric) element).eContainer();
-//			if (container != null && container instanceof Metric) {
-//				return container;
-//			}
-//		}
 		return null;
 	}
 
 	@Override
 	public Boolean hasChildren(Object element) {
-		if(element instanceof Country){
-			return ((Country) element).getSites().size() > 0 ? Boolean.TRUE : Boolean.FALSE; 
+		if (element instanceof Warehouse
+				&& (((Warehouse) element).getEquipments().size() > 0 || ((Warehouse) element)
+						.getNodes().size() > 0)) {
+			return Boolean.TRUE;
 		}
 		return false;
 	}

@@ -3,7 +3,6 @@ package com.netxforge.netxstudio.screens.editing.actions;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.CopyAction;
 import org.eclipse.emf.edit.ui.action.CutAction;
-import org.eclipse.emf.edit.ui.action.DeleteAction;
 import org.eclipse.emf.edit.ui.action.PasteAction;
 import org.eclipse.emf.edit.ui.action.RedoAction;
 import org.eclipse.emf.edit.ui.action.UndoAction;
@@ -46,7 +45,7 @@ public class EditingActionsHandler implements  IActionHandler {
 	 * This is the action used to implement delete, this is the real delete
 	 * action.
 	 */
-	protected DeleteAction deleteAction;
+	protected WarningDeleteAction deleteAction;
 
 	/**
 	 * This is the action used to implement cut.
@@ -128,8 +127,8 @@ public class EditingActionsHandler implements  IActionHandler {
 	 * @see #deleteAction
 	 * @since 2.6
 	 */
-	protected DeleteAction createDeleteAction() {
-		return new DeleteAction(removeAllReferencesOnDelete());
+	protected WarningDeleteAction createDeleteAction() {
+		return new WarningDeleteAction(removeAllReferencesOnDelete());
 	}
 
 	/**

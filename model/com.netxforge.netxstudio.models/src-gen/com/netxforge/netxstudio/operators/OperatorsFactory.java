@@ -47,15 +47,6 @@ public interface OperatorsFactory extends EFactory {
 	EquipmentRelationship createEquipmentRelationship();
 
 	/**
-	 * Returns a new object of class '<em>Expansion Experience</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Expansion Experience</em>'.
-	 * @generated
-	 */
-	ExpansionExperience createExpansionExperience();
-
-	/**
 	 * Returns a new object of class '<em>Function Relationship</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

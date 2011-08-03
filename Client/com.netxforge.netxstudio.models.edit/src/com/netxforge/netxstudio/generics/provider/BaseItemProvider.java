@@ -21,11 +21,17 @@ package com.netxforge.netxstudio.generics.provider;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.command.CreateChildCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -37,6 +43,8 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.edit.CreateChildFromPoolCommand;
+import com.netxforge.netxstudio.edit.CreateChildFromPoolCommand.Helper;
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 
@@ -44,11 +52,10 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.generics.Base} object.
  * <!-- begin-user-doc
  * --> <!-- end-user-doc -->
- * @generated
+ * @generated NOT
  */
 public class BaseItemProvider extends ItemProviderAdapter implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider,
-		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, Helper {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -118,6 +125,7 @@ public class BaseItemProvider extends ItemProviderAdapter implements
 		Base base = (Base)object;
 		return getString("_UI_Base_type") + " " + base.isDeleted();
 	}
+	
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
@@ -161,7 +169,7 @@ public class BaseItemProvider extends ItemProviderAdapter implements
 	public ResourceLocator getResourceLocator() {
 		return NetxstudioEditPlugin.INSTANCE;
 	}
-	
+
 	@Override
 	public Object getCreateChildImage(Object owner, Object feature,
 			Object child, Collection<?> selection) {
@@ -182,6 +190,40 @@ public class BaseItemProvider extends ItemProviderAdapter implements
 		Object result = super.getCreateChildImage(owner, feature, child,
 				selection);
 		return result;
+	}
+
+	@Override
+	public Command createCommand(Object object, EditingDomain domain,
+			Class<? extends Command> commandClass,
+			CommandParameter commandParameter) {
+		CommandParameter oldCommandParameter = commandParameter;
+		commandParameter = unwrapCommandValues(commandParameter, commandClass);
+		Command result = UnexecutableCommand.INSTANCE;
+
+		if (commandClass == CreateChildFromPoolCommand.class) {
+			CommandParameter newChildParameter = (CommandParameter) commandParameter
+					.getValue();
+			result = createCreateChildFromPoolCommand(domain,
+					commandParameter.getEOwner(),
+					newChildParameter.getEStructuralFeature(),
+					newChildParameter.getValue(), newChildParameter.getIndex(),
+					commandParameter.getCollection());
+			return wrapCommand(result, object, commandClass, commandParameter,
+					oldCommandParameter);
+		}
+
+		return super.createCommand(object, domain, commandClass,
+				commandParameter);
+	}
+
+	protected Command createCreateChildFromPoolCommand(EditingDomain domain,
+			EObject owner, EStructuralFeature feature, Object value, int index,
+			Collection<?> collection) {
+		if (feature instanceof EReference && value instanceof EObject) {
+			 return new CreateChildFromPoolCommand(domain, owner, feature, value, index, collection, this);
+		}
+		return new CreateChildCommand(domain, owner, feature, value, index,
+				collection, this);
 	}
 
 }

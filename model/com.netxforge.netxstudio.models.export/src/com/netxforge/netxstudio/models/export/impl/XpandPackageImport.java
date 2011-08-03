@@ -12,6 +12,8 @@ import com.netxforge.netxstudio.models.export.internal.Activator;
 public class XpandPackageImport extends XpandTemplateImpl {
 
 	public static String XPAND_IMPORT = "templates::import::Root";
+		
+	
 	
 	private EPackage[] metaModels = new EPackage[]{EcorePackage.eINSTANCE, LibraryPackage.eINSTANCE};
 	
@@ -19,7 +21,7 @@ public class XpandPackageImport extends XpandTemplateImpl {
 	}
 
 	public String getTemplateDescription() {
-		return "Export template Library Model to Excel";
+		return "Export a template Model to Excel";
 	}
 
 	public String getTemplateCall() {

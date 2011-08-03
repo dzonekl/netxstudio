@@ -470,13 +470,22 @@ public interface LibraryPackage extends EPackage {
 	int EQUIPMENT__COUNT = COMPONENT_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EQUIPMENT__DURATION = COMPONENT_FEATURE_COUNT + 6;
+
+	/**
 	 * The feature id for the '<em><b>Equipment Code</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__EQUIPMENT_CODE = COMPONENT_FEATURE_COUNT + 6;
+	int EQUIPMENT__EQUIPMENT_CODE = COMPONENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' attribute.
@@ -485,7 +494,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__POSITION = COMPONENT_FEATURE_COUNT + 7;
+	int EQUIPMENT__POSITION = COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Redundancy</b></em>' attribute.
@@ -494,7 +503,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__REDUNDANCY = COMPONENT_FEATURE_COUNT + 8;
+	int EQUIPMENT__REDUNDANCY = COMPONENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>State</b></em>' attribute.
@@ -503,7 +512,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__STATE = COMPONENT_FEATURE_COUNT + 9;
+	int EQUIPMENT__STATE = COMPONENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Equipment</em>' class.
@@ -512,7 +521,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 10;
+	int EQUIPMENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.EquipmentGroupImpl <em>Equipment Group</em>}' class.
@@ -1989,6 +1998,17 @@ public interface LibraryPackage extends EPackage {
 	EAttribute getEquipment_Count();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Equipment#getDuration <em>Duration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Duration</em>'.
+	 * @see com.netxforge.netxstudio.library.Equipment#getDuration()
+	 * @see #getEquipment()
+	 * @generated
+	 */
+	EAttribute getEquipment_Duration();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Equipment#getEquipmentCode <em>Equipment Code</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3258,6 +3278,14 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EQUIPMENT__COUNT = eINSTANCE.getEquipment_Count();
+
+		/**
+		 * The meta object literal for the '<em><b>Duration</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EQUIPMENT__DURATION = eINSTANCE.getEquipment_Duration();
 
 		/**
 		 * The meta object literal for the '<em><b>Equipment Code</b></em>' attribute feature.

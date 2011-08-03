@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.operators;
 import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.library.Equipment;
 
 /**
  * <!-- begin-user-doc -->
@@ -72,8 +73,8 @@ public interface Warehouse extends Base {
 	EList<Node> getNodes();
 
 	/**
-	 * Returns the value of the '<em><b>Equipments</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.String}.
+	 * Returns the value of the '<em><b>Equipments</b></em>' containment reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.library.Equipment}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -81,13 +82,13 @@ public interface Warehouse extends Base {
 	 * 								Equipment types.
 	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Equipments</em>' attribute list.
+	 * @return the value of the '<em>Equipments</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getWarehouse_Equipments()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='Equipments'"
 	 * @generated
 	 */
-	EList<String> getEquipments();
+	EList<Equipment> getEquipments();
 
 	/**
 	 * Returns the value of the '<em><b>Description</b></em>' attribute.

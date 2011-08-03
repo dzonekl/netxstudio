@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens;
 
 import java.util.List;
@@ -38,35 +38,35 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-
 /**
- * Convenience implementation of a screen, sharing commonality like the 
- * screen operation, and the supporting services, a validation service, 
- * an observables manager and a Managed form (for Master/Detail). 
- *  
+ * Convenience implementation of a screen, sharing commonality like the screen
+ * operation, and the supporting services, a validation service, an observables
+ * manager and a Managed form (for Master/Detail).
+ * 
  * @author dzonekl
  */
-public abstract class AbstractScreen extends Composite implements IScreen , IValidationListener, DisposeListener {
-	
+public abstract class AbstractScreen extends Composite implements IScreen,
+		IValidationListener, DisposeListener {
+
 	protected int operation;
-	
+
 	protected IEditingService editingService;
 
 	protected IScreenFormService screenService;
-	
+
 	protected IValidationService validationService;
-	
-	public void setScreenService(IScreenFormService screenService){
+
+	public void setScreenService(IScreenFormService screenService) {
 		this.screenService = screenService;
 		this.editingService = screenService.getEditingService();
 	}
-	
+
 	public AbstractScreen(Composite parent, int style) {
 		super(parent, style);
 		this.addDisposeListener(this);
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
 		validationService = new ValidationService();
-//		this.addFocusListener(this);
+		// this.addFocusListener(this);
 	}
 
 	public abstract Viewer getViewer();
@@ -74,13 +74,13 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 	public int getOperation() {
 		return operation;
 	}
+
 	public abstract void setOperation(int operation);
 
 	public abstract boolean isValid();
 
 	public abstract Form getScreenForm();
-	
-	
+
 	/**
 	 * @param currentStatus
 	 * @param ctx
@@ -113,34 +113,34 @@ public abstract class AbstractScreen extends Composite implements IScreen , IVal
 			}
 		}
 	}
-	
-	public IAction[] getActions(){
+
+	public IAction[] getActions() {
 		return null;
 	}
 
-	public EStructuralFeature[] permittedCreationFeatures(){
+	public EStructuralFeature[] permittedCreationFeatures() {
 		return null;
 	}
 
 	public void widgetDisposed(DisposeEvent e) {
-		if(validationService != null){
+		if (validationService != null) {
 			validationService.dispose();
 		}
 	}
 
-//	protected Viewer currentViewer;
-	
-//	public void focusGained(FocusEvent e) {
-//		if( e.getSource() instanceof Viewer){
-//			this.currentViewer = (Viewer) e.getSource();
-//			System.out.println("Current viewer = " + currentViewer);
-//		}
-//	}
-//
-//	public void focusLost(FocusEvent e) {
-//		if( e.getSource() instanceof Viewer){
-//			this.currentViewer = null;
-//		}
-//	};
-	
+	// protected Viewer currentViewer;
+
+	// public void focusGained(FocusEvent e) {
+	// if( e.getSource() instanceof Viewer){
+	// this.currentViewer = (Viewer) e.getSource();
+	// System.out.println("Current viewer = " + currentViewer);
+	// }
+	// }
+	//
+	// public void focusLost(FocusEvent e) {
+	// if( e.getSource() instanceof Viewer){
+	// this.currentViewer = null;
+	// }
+	// };
+
 }

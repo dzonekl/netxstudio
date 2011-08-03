@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
-import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.MarkerKind;
@@ -116,8 +115,6 @@ public class OperatorsValidator extends EObjectValidator {
 		switch (classifierID) {
 			case OperatorsPackage.EQUIPMENT_RELATIONSHIP:
 				return validateEquipmentRelationship((EquipmentRelationship)value, diagnostics, context);
-			case OperatorsPackage.EXPANSION_EXPERIENCE:
-				return validateExpansionExperience((ExpansionExperience)value, diagnostics, context);
 			case OperatorsPackage.FUNCTION_RELATIONSHIP:
 				return validateFunctionRelationship((FunctionRelationship)value, diagnostics, context);
 			case OperatorsPackage.MARKER:
@@ -154,15 +151,6 @@ public class OperatorsValidator extends EObjectValidator {
 	 */
 	public boolean validateEquipmentRelationship(EquipmentRelationship equipmentRelationship, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return validate_EveryDefaultConstraint((EObject)equipmentRelationship, diagnostics, context);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateExpansionExperience(ExpansionExperience expansionExperience, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint((EObject)expansionExperience, diagnostics, context);
 	}
 
 	/**

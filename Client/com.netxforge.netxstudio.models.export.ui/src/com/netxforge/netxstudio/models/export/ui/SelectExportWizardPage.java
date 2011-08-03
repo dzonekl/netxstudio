@@ -13,7 +13,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import com.netxforge.netxstudio.models.export.XpandRegistryImpl;
 import com.netxforge.netxstudio.models.export.XpandTemplate;
 
-public class XPandSelectWizardPage extends WizardPage {
+public class SelectExportWizardPage extends WizardPage {
 
 	private FormToolkit toolkit;
 	private ScrolledForm form;
@@ -22,7 +22,7 @@ public class XPandSelectWizardPage extends WizardPage {
 	
 	
 
-	protected XPandSelectWizardPage(String pageName) {
+	protected SelectExportWizardPage(String pageName) {
 		super(pageName);
 	}
 

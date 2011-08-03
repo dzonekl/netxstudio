@@ -1,0 +1,247 @@
+«IMPORT netxstudio»
+«IMPORT operators»
+«IMPORT generics»
+«IMPORT library»
+«IMPORT metrics»
+
+«REM»
+	Export a Node type  to HTML
+«ENDREM»
+
+«EXTENSION templates::net2html»
+«DEFINE Root FOR library::NodeType »
+	«FILE fileName() -»
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+       <style>
+            body {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                background-color: #e9008f;
+                margin: 0px auto;
+                padding: 15px;
+                font-size: 10px;
+            }
+            body.a {
+            	font-size: 10px;
+            }
+            
+            h1 {
+                font-size: 26px;
+                color: #FFFFFF;
+            }
+            h2 {
+                font-size: 22px;
+                font-style: italic;
+                color: #FFFFFF;
+            }
+            table {
+                border: solid 1px #e8eff4;
+                background-color: #FFFFFF;
+                font-size: 12px;
+                width: 100%;
+                margin-top: 20px;
+            }
+            th {
+                text-align: left;
+                font-style: italic;
+                background-color: #e8eff4;
+                color: #707070;
+                padding: 3px 7px 2px 7px;
+            }
+            td {
+                text-align: left;
+                padding: 3px 7px 2px 7px;
+                /* border-bottom: solid 1px blue; */
+                width: inherit;
+            }
+			            
+            .toc {
+                border: none;
+            }
+            	
+			.title {
+				font-size: larger;
+				font-weight: bold;
+			}
+			
+            .section {
+            	background: #e8eff4;
+            	/* text-indent: 20px; */
+            }
+            
+            .indent {
+                /* text-indent: 20px; */
+                border: solid 1px  #e9008f;
+                margin: 0px;
+                padding: 0px;
+            }
+            
+            .metric {
+                /* text-indent: 20px; */
+                /* border: solid 1px green; */
+                border: none;
+                margin: 0px;
+                padding: 0px;
+            }
+                        
+            .relationship {
+                /* text-indent: 10px; */
+                /* border: solid 1px green; */
+                border: none;
+                margin: 0px;
+                padding: 0px;
+				width: 50%;
+            }
+			
+			.relationship th {
+				font-style: normal;
+				background-color: #e9008f;
+				color: #FFFFFF;
+			}
+            
+            .expression {
+            	font-style: italic;
+            	color: #222222;
+            }
+        </style>
+    </head>
+		<body>
+			
+			<h1>T-Mobile Capacity Management Objects</h1>
+			<a name="top"/>
+			<table class="toc">
+            <tr>
+                <td>
+                	<a href="#networks">Network</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="#library">Library</a>
+                </td>
+            </tr>
+			</table>
+			«REM»
+				NODETYPE OBJECT
+			«ENDREM»
+			<a name="nodetypes"></a>
+			<h1>Network Element Type</h1>
+			<h2>Table of Contents</h2>	
+			<table class="toc">
+				«EXPAND Toc FOR this -»
+        	</table>
+				«EXPAND Content FOR this -»
+		</body>
+	</html>
+	«ENDFILE»
+«ENDDEFINE»
+
+«REM»
+	NODETYPE EXPANSION
+«ENDREM»  
+«DEFINE Content FOR library::NodeType »
+	<table>
+		<a name="«this.name»"></a>
+		<tr>
+			<td class="title">«this.name »</td>
+		</tr>
+		«IF ! this.functions.isEmpty »
+		<tr class="section"><td>Functions</td></tr>		
+		<tr>
+			<td><table class="indent">«EXPAND Content FOREACH this.functions -»</table></td>
+		</tr>
+		«ENDIF»
+		«IF ! this.equipments.isEmpty »
+		<tr class="section"><td>Equipments</td></tr>		
+		<tr>
+			<td><table class="indent">«EXPAND Content FOREACH this.equipments -»</table></td>
+		</tr>
+		«ENDIF»
+	</table>
+«ENDDEFINE»
+
+«DEFINE Toc FOR library::NodeType »
+	<tr>
+		<td><a href="#«this.name.toUpperCase()»">«this.name.toUpperCase()»</a></td>
+	</tr>
+«ENDDEFINE»
+
+«REM»
+	FUNCTIONS EXPANSION
+«ENDREM» 
+«DEFINE Content FOR library::Function -»
+	<tr><td class="title">«this.name» -(«this.description»)</td></tr>
+	«IF ! this.functions.isEmpty »
+	<tr>
+		<td><table class="indent">«EXPAND Content FOREACH this.functions -»</table></td>
+	</tr>
+ 	«ENDIF»
+ 	«IF ! this.metricRefs.isEmpty »	
+ 	<tr class="section"><td>Metrics</td></tr>	
+	<tr>
+		<td><table class="metric">«EXPAND Content FOREACH this.metricRefs -»</table></td>
+	</tr>
+	«ENDIF»
+«ENDDEFINE»
+
+«REM»
+	EQUIPMENT EXPANSION
+«ENDREM»  
+«DEFINE Content FOR library::Equipment -»
+	<tr><td class="title">«this.equipmentCode» -(«this.description»)</td></tr>
+	«IF ! this.equipments.isEmpty »		
+	<tr>
+		<td><table class="indent">«EXPAND Content FOREACH this.equipments -»</table></td>
+	</tr>
+	«ENDIF»
+	«IF ! this.metricRefs.isEmpty »	
+	<tr class="section"><td>Metrics</td></tr>	
+	<tr>
+		<td><table class="metric">«EXPAND Content FOREACH this.metricRefs -»</table></td>
+	</tr>
+	«ENDIF»
+«ENDDEFINE»
+
+«REM»
+	METRIC EXPANSION
+«ENDREM»  
+«DEFINE Content FOR metrics::Metric -»
+	<tr><td>«this.name» -[«this.unitRef.name»] -(«this.description») </td></tr>
+	«IF ! this.metrics.isEmpty »
+	<tr class="section"><td>Sub-metrics</td></tr>	
+	<tr>
+		<td><table class="relationships">«EXPAND Content FOREACH this.metrics -»</table></td>
+	</tr>
+	«ENDIF»
+«ENDDEFINE»
+
+
+«DEFINE Details FOR metrics::Metric -»
+	<tr class="section"><td>Root Metrics</td></tr>
+	<tr>
+		<td>«this.name»</td>
+		<td>«this.description»</td>
+		<td>«this.unitRef.name»</td>
+		<td>«this.measurementKind»</td>
+	</tr>
+«ENDDEFINE»
+
+«DEFINE Details FOR library::Expression -»
+	<tr>
+	<td>«this.name»</td>
+	<td class="expression">«EXPAND Details FOREACH this.expressionLines -»</td>
+	</tr>	
+«ENDDEFINE»
+
+«DEFINE Details FOR generics::ExpressionLine -»
+	«this»
+«ENDDEFINE»
+
+«DEFINE Details FOR library::Tolerance -»
+	<tr>
+		<td>«this.name»</td>
+		<td class="expression">«this.expressionRef.name »</td>
+		<td>«this.level»</td>
+	</tr>	
+«ENDDEFINE»

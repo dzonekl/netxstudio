@@ -5,7 +5,6 @@ import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -236,9 +235,10 @@ public class NewEditTolerance extends AbstractScreen implements
 		cmbLevelViewer.setLabelProvider(new LabelProvider());
 		cmbLevelViewer.setInput(LevelType.VALUES);
 
-		IEMFValueProperty toleranceLevelProperty = EMFProperties
-				.value(LibraryPackage.Literals.TOLERANCE__LEVEL);
+		IEMFValueProperty toleranceLevelProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), LibraryPackage.Literals.TOLERANCE__LEVEL);
 		IValueProperty selectionProperty = ViewerProperties.singleSelection();
+		
 		context.bindValue(selectionProperty.observe(cmbLevelViewer),
 				toleranceLevelProperty.observe(tolerance), null, null);
 

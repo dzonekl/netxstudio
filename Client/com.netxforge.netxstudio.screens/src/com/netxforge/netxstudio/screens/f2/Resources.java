@@ -58,7 +58,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 
 	@Inject
 	ModelUtils modelUtils;
-	private TableViewerColumn tblViewerClmnState;
+	private TableViewerColumn tblViewerClmnState; 
 
 	/**
 	 * Create the composite.

@@ -137,5 +137,15 @@ public interface IScreenFormService {
 	 * @return
 	 */
 	public abstract IEditingService getEditingService();
+	
+	
+	/**
+	 * Notify of an external screen change. 
+	 * (An IScreen not managed by our service, but wishes to use the
+	 * notification system).  
+	 * @return
+	 */
+	public abstract void fireScreenChangedExternal(IScreen screen);
+	
 
 }

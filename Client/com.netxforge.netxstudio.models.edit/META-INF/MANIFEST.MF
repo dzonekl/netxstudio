@@ -8,7 +8,8 @@ Bundle-Activator: com.netxforge.netxstudio.services.provider.NetxstudioEditPlugi
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: com.netxforge.netxstudio.generics.provider,
+Export-Package: com.netxforge.netxstudio.edit,
+ com.netxforge.netxstudio.generics.provider,
  com.netxforge.netxstudio.geo.provider,
  com.netxforge.netxstudio.library.provider,
  com.netxforge.netxstudio.metrics.provider,

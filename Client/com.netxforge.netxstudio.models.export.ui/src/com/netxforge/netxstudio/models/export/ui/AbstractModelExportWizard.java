@@ -10,7 +10,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -24,54 +23,55 @@ import org.eclipse.xtend.expression.Variable;
 
 import com.netxforge.netxstudio.models.export.XpandTemplate;
 import com.netxforge.netxstudio.models.export.impl.XpandCallerService;
-import com.netxforge.netxstudio.models.export.ui.internal.Activator;
+import com.netxforge.netxstudio.models.export.ui.internal.ExportActivator;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
-public class XPandExportWizard extends Wizard implements IExportWizard {
+public abstract class AbstractModelExportWizard extends Wizard implements IExportWizard {
 
-	private IStructuredSelection selection;
+	protected IStructuredSelection selection;
 
-	private XPandExportWizardPage xpandExportFilePage;
-	private XPandSelectWizardPage xpandSelectPage;
+	private ExportNewFileWizardPage xpandExportFilePage;
+//	private SelectExportWizardPage xpandSelectPage;
 //	private XPandModelSourceWizardPage xpandModelSourcePage;
 
-	private XpandTemplate currentTemplate;
 	
-	public XpandTemplate getCurrentXpandTemplate(){
-		return currentTemplate;
-	}
 	
-	public XPandExportWizardPage getXpandExportFilePage() {
+//	public XpandTemplate getCurrentXpandTemplate(){
+//		return currentTemplate;
+//	}
+	
+	public ExportNewFileWizardPage getXpandExportFilePage() {
 		return xpandExportFilePage;
 	}
 
-	public XPandSelectWizardPage getXpandSelectPage() {
-		return xpandSelectPage;
-	}
+//	public SelectExportWizardPage getXpandSelectPage() {
+//		return xpandSelectPage;
+//	}
 
 //	public XPandModelSourceWizardPage getXpandModelSourcePage() {
 //		return xpandModelSourcePage;
 //	}
-
-	public XPandExportWizard() {
+	
+	/**
+	 * Clients should implement to return the target object. 
+	 * @return
+	 */
+	public abstract XpandTemplate getTargetTemplate();
+	
+	public AbstractModelExportWizard() {
 	}
 	
 	@Override
 	public boolean performFinish() {
 
-		// Set an Xpand global var (See templates).
-		
-		EObject root = null;
-		// TODO, Set the object root for model export. 
-		
-		
-		currentTemplate.setTargetObject(root);
-		// Set template variables. (Generalize this). 
+		// Set template variables from the template extension and the export path.  
 		final IPath exportPath = xpandExportFilePage.getFilePath();
-		Map<String, Variable> map = new HashMap<String, Variable>();
 		
+		Map<String, Variable> map = new HashMap<String, Variable>();
 		map.put(XpandCallerService.FILE_NAME, new Variable(
 				XpandCallerService.FILE_NAME, exportPath.lastSegment()));
+		
+		final XpandTemplate currentTemplate = this.getTargetTemplate();
 		currentTemplate.setGlobalVarsMap(map);
 
 		IPath containerPath = xpandExportFilePage.getContainerFullPath();
@@ -103,7 +103,7 @@ public class XPandExportWizard extends Wizard implements IExportWizard {
 						Messages.XPandExportWizard_2, null,
 						((CoreException) e.getTargetException()).getStatus());
 			} else {
-				Activator.logError(
+				ExportActivator.logError(
 						"Error exporting model", e.getTargetException()); //$NON-NLS-1$
 			}
 			return false;
@@ -123,11 +123,11 @@ public class XPandExportWizard extends Wizard implements IExportWizard {
 	@Override
 	public void addPages() {
 
-		xpandSelectPage = new XPandSelectWizardPage(Messages.XPandExportWizard_4);
-		xpandSelectPage.setTitle(Messages.XPandExportWizard_5);
-		xpandSelectPage.setDescription(Messages.XPandExportWizard_6);
+//		xpandSelectPage = new SelectExportWizardPage(Messages.XPandExportWizard_4);
+//		xpandSelectPage.setTitle(Messages.XPandExportWizard_5);
+//		xpandSelectPage.setDescription(Messages.XPandExportWizard_6);
 		// xpandSelectPage.setImageDescriptor(Activator.getImageDescriptor("icons/full/wizban/export_wiz.png"));
-		addPage(xpandSelectPage);
+//		addPage(xpandSelectPage);
 
 //		xpandModelSourcePage = new XPandModelSourceWizardPage(
 //				Messages.XPandExportWizard_7);
@@ -137,7 +137,7 @@ public class XPandExportWizard extends Wizard implements IExportWizard {
 //		this.addPage(xpandModelSourcePage);
 
 		// The extension will be set by other wizard pages depending on the wizard flow. 
-		xpandExportFilePage = new XPandExportWizardPage(Messages.XPandExportWizard_9,
+		xpandExportFilePage = new ExportNewFileWizardPage(Messages.XPandExportWizard_9,
 				selection, "*"); //$NON-NLS-1$
 		xpandExportFilePage.setTitle(Messages.XPandExportWizard_11);
 		xpandExportFilePage.setDescription(Messages.XPandExportWizard_12);

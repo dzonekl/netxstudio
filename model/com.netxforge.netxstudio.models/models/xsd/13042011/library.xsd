@@ -398,7 +398,6 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-
 					<!-- Non-Contained -->
 					<xs:element ecore:reference="operators:EquipmentRelationship" maxOccurs="unbounded" minOccurs="0" name="EquipmentRelationshipRefs" type="xs:anyURI">
 						<xs:annotation>
@@ -453,6 +452,14 @@
 							it's
 							parent is a "Rack", this would mean
 							slot 0 in the rack.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Duration" type="gen:ExpansionDuration">
+					<xs:annotation>
+						<xs:documentation>The Duration attribute, holds the typical
+							duration
+							for the expansion of an Equipment.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
@@ -563,7 +570,6 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
 
 	<!--_______________ -->
 	<!-- EQUIPMENTGROUP -->

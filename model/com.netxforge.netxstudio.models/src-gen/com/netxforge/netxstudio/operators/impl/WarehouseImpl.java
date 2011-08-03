@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
+import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Warehouse;
@@ -78,8 +79,8 @@ public class WarehouseImpl extends BaseImpl implements Warehouse {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<String> getEquipments() {
-		return (EList<String>)eGet(OperatorsPackage.Literals.WAREHOUSE__EQUIPMENTS, true);
+	public EList<Equipment> getEquipments() {
+		return (EList<Equipment>)eGet(OperatorsPackage.Literals.WAREHOUSE__EQUIPMENTS, true);
 	}
 
 	/**

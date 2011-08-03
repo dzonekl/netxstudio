@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
-import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.MarkerKind;
@@ -86,7 +85,6 @@ public class OperatorsFactoryImpl extends EFactoryImpl implements OperatorsFacto
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case OperatorsPackage.EQUIPMENT_RELATIONSHIP: return (EObject)createEquipmentRelationship();
-			case OperatorsPackage.EXPANSION_EXPERIENCE: return (EObject)createExpansionExperience();
 			case OperatorsPackage.FUNCTION_RELATIONSHIP: return (EObject)createFunctionRelationship();
 			case OperatorsPackage.MARKER: return (EObject)createMarker();
 			case OperatorsPackage.NETWORK: return (EObject)createNetwork();
@@ -144,16 +142,6 @@ public class OperatorsFactoryImpl extends EFactoryImpl implements OperatorsFacto
 	public EquipmentRelationship createEquipmentRelationship() {
 		EquipmentRelationshipImpl equipmentRelationship = new EquipmentRelationshipImpl();
 		return equipmentRelationship;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ExpansionExperience createExpansionExperience() {
-		ExpansionExperienceImpl expansionExperience = new ExpansionExperienceImpl();
-		return expansionExperience;
 	}
 
 	/**

@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.library.provider;
 
 
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.IChildCreationExtender;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -36,9 +38,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
-import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 
@@ -419,21 +419,21 @@ public class ComponentItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.COMPONENT__DIAGRAMS,
-				 GenericsFactory.eINSTANCE.createDiagramInfo()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.COMPONENT__ICONS,
-				 GenericsFactory.eINSTANCE.createMultiImage()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(LibraryPackage.Literals.COMPONENT__DIAGRAMS,
+//				 GenericsFactory.eINSTANCE.createDiagramInfo()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(LibraryPackage.Literals.COMPONENT__ICONS,
+//				 GenericsFactory.eINSTANCE.createMultiImage()));
 	}
 
 	/**
@@ -444,7 +444,7 @@ public class ComponentItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return NetxstudioEditPlugin.INSTANCE;
+		return ((IChildCreationExtender)adapterFactory).getResourceLocator();
 	}
 
 }

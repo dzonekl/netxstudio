@@ -22,7 +22,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.CompanyImpl;
-import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -43,7 +42,6 @@ import com.netxforge.netxstudio.services.ServiceUser;
  *   <li>{@link com.netxforge.netxstudio.operators.impl.OperatorImpl#getServices <em>Services</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.OperatorImpl#getServiceUsers <em>Service Users</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.OperatorImpl#getResourceExpansions <em>Resource Expansions</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.impl.OperatorImpl#getExpansionExperiences <em>Expansion Experiences</em>}</li>
  * </ul>
  * </p>
  *
@@ -117,16 +115,6 @@ public class OperatorImpl extends CompanyImpl implements Operator {
 	@SuppressWarnings("unchecked")
 	public EList<ResourceExpansion> getResourceExpansions() {
 		return (EList<ResourceExpansion>)eGet(OperatorsPackage.Literals.OPERATOR__RESOURCE_EXPANSIONS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<ExpansionExperience> getExpansionExperiences() {
-		return (EList<ExpansionExperience>)eGet(OperatorsPackage.Literals.OPERATOR__EXPANSION_EXPERIENCES, true);
 	}
 
 } //OperatorImpl

@@ -1,24 +1,39 @@
 package com.netxforge.netxstudio.models.export.ui.internal;
 
+import static com.google.inject.util.Modules.override;
+
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.netxforge.netxstudio.common.CommonModule;
+import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class ExportActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.netxforge.netxstudio.m2t"; //$NON-NLS-1$
 
 	// The shared instance
-	private static Activator plugin;
+	private static ExportActivator plugin;
+	
+	private Injector injector;
+
+	public Injector getInjector() {
+		return injector;
+	}
+
 	
 	/**
 	 * The constructor
 	 */
-	public Activator() {
+	public ExportActivator() {
 	}
 
 	/*
@@ -28,6 +43,11 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		// Bind our modules.
+		Module om = new CommonModule();
+		om = override(om).with(new CDODataServiceModule());
+		injector = Guice.createInjector(om);
 	}
 
 	/*
@@ -44,7 +64,7 @@ public class Activator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() {
+	public static ExportActivator getDefault() {
 		return plugin;
 	}
 	
@@ -59,7 +79,7 @@ public class Activator extends AbstractUIPlugin {
 		getDefault().getLog().log(
 				new org.eclipse.core.runtime.Status(
 						org.eclipse.core.runtime.IStatus.ERROR,
-						Activator.PLUGIN_ID,
+						ExportActivator.PLUGIN_ID,
 						org.eclipse.core.runtime.IStatus.OK, error, throwable));
 		debug(error, throwable);
 	}
@@ -75,7 +95,7 @@ public class Activator extends AbstractUIPlugin {
 		getDefault().getLog().log(
 				new org.eclipse.core.runtime.Status(
 						org.eclipse.core.runtime.IStatus.WARNING,
-						Activator.PLUGIN_ID,
+						ExportActivator.PLUGIN_ID,
 						org.eclipse.core.runtime.IStatus.OK, error, throwable));
 		debug(error, throwable);
 	}
@@ -92,7 +112,7 @@ public class Activator extends AbstractUIPlugin {
 				.log(
 						new org.eclipse.core.runtime.Status(
 								org.eclipse.core.runtime.IStatus.INFO,
-								Activator.PLUGIN_ID,
+								ExportActivator.PLUGIN_ID,
 								org.eclipse.core.runtime.IStatus.OK, message,
 								throwable));
 		debug(message, throwable);

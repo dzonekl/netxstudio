@@ -225,6 +225,16 @@
         <details key="name" value="Count"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EEnum generics.ecore#//ExpansionDuration"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The Duration attribute, holds the typical&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;duration&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for the expansion of an Equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="Duration"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="equipmentCode" eType="ecore:EDataType generics.ecore#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The EquipmentCode attribute holds a unique&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;identifier typically used for telecommunications equipment.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1. The EquipmentCode could be a &quot;Cabinet&quot;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>

@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.util.Switch;
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
-import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Network;
@@ -100,13 +99,6 @@ public class OperatorsSwitch<T> extends Switch<T> {
 				T result = caseEquipmentRelationship(equipmentRelationship);
 				if (result == null) result = caseRelationship(equipmentRelationship);
 				if (result == null) result = caseBase(equipmentRelationship);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OperatorsPackage.EXPANSION_EXPERIENCE: {
-				ExpansionExperience expansionExperience = (ExpansionExperience)theEObject;
-				T result = caseExpansionExperience(expansionExperience);
-				if (result == null) result = caseBase(expansionExperience);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -198,21 +190,6 @@ public class OperatorsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseEquipmentRelationship(EquipmentRelationship object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Expansion Experience</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Expansion Experience</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseExpansionExperience(ExpansionExperience object) {
 		return null;
 	}
 

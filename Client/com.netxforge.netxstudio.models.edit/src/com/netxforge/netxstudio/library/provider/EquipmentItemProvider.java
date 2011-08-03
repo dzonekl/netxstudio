@@ -18,7 +18,7 @@
  */
 package com.netxforge.netxstudio.library.provider;
 
-
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,29 +35,24 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.library.Equipment} object.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
+ * This is the item provider adapter for a
+ * {@link com.netxforge.netxstudio.library.Equipment} object. <!--
+ * begin-user-doc --> <!-- end-user-doc -->
+ * 
  * @generated
  */
-public class EquipmentItemProvider
-	extends ComponentItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+public class EquipmentItemProvider extends ComponentItemProvider implements
+		IEditingDomainItemProvider, IStructuredItemContentProvider,
+		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
-	 * This constructs an instance from a factory and a notifier.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This constructs an instance from a factory and a notifier. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EquipmentItemProvider(AdapterFactory adapterFactory) {
@@ -65,9 +60,9 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This returns the property descriptors for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This returns the property descriptors for the adapted class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -78,6 +73,7 @@ public class EquipmentItemProvider
 			addEquipmentRelationshipRefsPropertyDescriptor(object);
 			addAllEquipmentsPropertyDescriptor(object);
 			addCountPropertyDescriptor(object);
+			addDurationPropertyDescriptor(object);
 			addEquipmentCodePropertyDescriptor(object);
 			addPositionPropertyDescriptor(object);
 			addRedundancyPropertyDescriptor(object);
@@ -88,8 +84,7 @@ public class EquipmentItemProvider
 
 	/**
 	 * This adds a property descriptor for the Equipment Relationship Refs feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addEquipmentRelationshipRefsPropertyDescriptor(Object object) {
@@ -109,9 +104,9 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the All Equipments feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the All Equipments feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addAllEquipmentsPropertyDescriptor(Object object) {
@@ -131,9 +126,9 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Count feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Count feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addCountPropertyDescriptor(Object object) {
@@ -153,9 +148,31 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Equipment Code feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Duration feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected void addDurationPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Equipment_duration_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_duration_feature", "_UI_Equipment_type"),
+				 LibraryPackage.Literals.EQUIPMENT__DURATION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Equipment Code feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addEquipmentCodePropertyDescriptor(Object object) {
@@ -175,9 +192,9 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Position feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Position feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addPositionPropertyDescriptor(Object object) {
@@ -197,9 +214,9 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Redundancy feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Redundancy feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addRedundancyPropertyDescriptor(Object object) {
@@ -219,9 +236,9 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the State feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the State feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addStatePropertyDescriptor(Object object) {
@@ -244,12 +261,12 @@ public class EquipmentItemProvider
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(
+			Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(LibraryPackage.Literals.EQUIPMENT__LIFECYCLE);
@@ -260,8 +277,7 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -274,8 +290,7 @@ public class EquipmentItemProvider
 
 	/**
 	 * This returns Equipment.gif.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -284,24 +299,24 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
+	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Equipment)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Equipment_type") :
-			getString("_UI_Equipment_type") + " " + label;
+		String label = ((Equipment) object).getEquipmentCode();
+
+		return label == null || label.length() == 0 ? getString("_UI_Equipment_type")
+				: getString("_UI_Equipment_type") + " " + label;
 	}
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -310,6 +325,7 @@ public class EquipmentItemProvider
 
 		switch (notification.getFeatureID(Equipment.class)) {
 			case LibraryPackage.EQUIPMENT__COUNT:
+			case LibraryPackage.EQUIPMENT__DURATION:
 			case LibraryPackage.EQUIPMENT__EQUIPMENT_CODE:
 			case LibraryPackage.EQUIPMENT__POSITION:
 			case LibraryPackage.EQUIPMENT__REDUNDANCY:
@@ -326,30 +342,47 @@ public class EquipmentItemProvider
 	}
 
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-	 * that can be created under this object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
+	 * describing the children that can be created under this object. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
 	 */
 	@Override
-	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
+	protected void collectNewChildDescriptors(
+			Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.EQUIPMENT__LIFECYCLE,
-				 GenericsFactory.eINSTANCE.createLifecycle()));
+		// newChildDescriptors.add
+		// (createChildParameter
+		// (LibraryPackage.Literals.EQUIPMENT__LIFECYCLE,
+		// GenericsFactory.eINSTANCE.createLifecycle()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
-				 LibraryFactory.eINSTANCE.createEquipment()));
+//		 newChildDescriptors.add(createChildParameter(
+//		 LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
+//		 LibraryFactory.eINSTANCE.createEquipment()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_GROUPS,
-				 LibraryFactory.eINSTANCE.createEquipmentGroup()));
+		// newChildDescriptors.add
+		// (createChildParameter
+		// (LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_GROUPS,
+		// LibraryFactory.eINSTANCE.createEquipmentGroup()));
+
+	}
+	
+
+	@Override
+	public String getCreateChildText(Object owner, Object feature,
+			Object child, Collection<?> selection) {
+		StringBuffer buf = new StringBuffer();
+		buf.append(
+				super.getCreateChildText(owner, feature, child, selection));
+		if(child instanceof Equipment){
+			Equipment eq = (Equipment) child;
+			if(eq.getEquipmentCode() != null){
+				buf.append(" : " + eq.getEquipmentCode());
+			}
+		}
+		return buf.toString();
 	}
 
 }

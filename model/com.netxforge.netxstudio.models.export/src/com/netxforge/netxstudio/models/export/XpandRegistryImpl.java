@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.netxforge.netxstudio.models.export.impl.XpandLibraryToHtml;
+import com.netxforge.netxstudio.models.export.impl.XpandNodeTypeToHtml;
 import com.netxforge.netxstudio.models.export.impl.XpandLibraryToXls;
 import com.netxforge.netxstudio.models.export.impl.XpandPackageImport;
 
@@ -23,9 +23,9 @@ public class XpandRegistryImpl {
 	public static final XpandRegistryImpl INSTANCE = new XpandRegistryImpl();
 	
 	public XpandRegistryImpl(){
-		templates.put(XpandLibraryToHtml.XPAND_LIB2HTML, new XpandLibraryToHtml());
+		templates.put(XpandNodeTypeToHtml.XPAND_NODETYPE2HTML, new XpandNodeTypeToHtml());
 		templates.put(XpandPackageImport.XPAND_IMPORT, new XpandPackageImport());
-		templates.put(XpandLibraryToXls.XPAND_NETWORKS2XLS, new XpandLibraryToXls());
+//		templates.put(XpandLibraryToXls.XPAND_NETWORKS2XLS, new XpandLibraryToXls());
 	}
 
 	public Map<String, XpandTemplate> getTemplates() {

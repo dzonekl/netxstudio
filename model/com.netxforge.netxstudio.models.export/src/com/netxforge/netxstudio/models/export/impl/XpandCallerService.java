@@ -117,6 +117,7 @@ public class XpandCallerService {
 		try {
 			facade.evaluate(definitionName, targetObject);
 		} catch (EvaluationException e) {
+			e.printStackTrace();
 			Activator.logError("Evaluation Error", e);
 		}
 

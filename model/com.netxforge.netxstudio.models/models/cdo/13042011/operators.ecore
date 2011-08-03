@@ -38,34 +38,6 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExpansionExperience" eSuperTypes="generics.ecore#//Base">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the gained experience on&#xA;&#x9;&#x9;&#x9;&#x9;expending an equipment.&#xA;&#x9;&#x9;&#x9;"/>
-    </eAnnotations>
-    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="ExpansionExperience"/>
-      <details key="kind" value="elementOnly"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="equipmentRef" eType="ecore:EClass library.ecore#//Equipment">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The EquipmentRef reference, references the 0 or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Equipment type, for which this duration applies.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="EquipmentRef"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EEnum generics.ecore#//ExpansionDuration"
-        unsettable="true">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Duration attribute, holds the typical&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;duration&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for the expansion of an Equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="Duration"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionRelationship" eSuperTypes="#//Relationship">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A type representing the basic information points of&#xA;&#x9;&#x9;&#x9;&#x9;a function relationship. (Also known as a Logical Connection).&#xA;&#x9;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;&#x9;FunctionRelationship type extends the Relationship type and&#xA;&#x9;&#x9;&#x9;&#x9;contains&#xA;&#x9;&#x9;&#x9;&#x9;references to a first and second function.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. A Relationship&#xA;&#x9;&#x9;&#x9;&#x9;between two functions representing a logical&#xA;&#x9;&#x9;&#x9;&#x9;connection.&#xA;&#x9;&#x9;&#x9;"/>
@@ -402,16 +374,6 @@
         <details key="name" value="ResourceExpansions"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expansionExperiences" upperBound="-1"
-        eType="#//ExpansionExperience" containment="true" resolveProxies="false">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The ExpansionExperiences reference, contains 0&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;or more ExpansionExperience type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="ExpansionExperiences"/>
-      </eAnnotations>
-    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Relationship" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -589,8 +551,8 @@
         <details key="name" value="Nodes"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="equipments" unique="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equipments" upperBound="-1"
+        eType="ecore:EClass library.ecore#//Equipment" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The Equipments reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Equipment types.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>

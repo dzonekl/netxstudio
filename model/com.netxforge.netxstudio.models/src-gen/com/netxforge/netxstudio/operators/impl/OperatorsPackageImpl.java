@@ -39,7 +39,6 @@ import com.netxforge.netxstudio.library.impl.LibraryPackageImpl;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.impl.MetricsPackageImpl;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
-import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.MarkerKind;
@@ -74,13 +73,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * @generated
 	 */
 	private EClass equipmentRelationshipEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass expansionExperienceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -290,33 +282,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 */
 	public EReference getEquipmentRelationship_Equipment2Ref() {
 		return (EReference)equipmentRelationshipEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getExpansionExperience() {
-		return expansionExperienceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExpansionExperience_EquipmentRef() {
-		return (EReference)expansionExperienceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getExpansionExperience_Duration() {
-		return (EAttribute)expansionExperienceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -621,15 +586,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOperator_ExpansionExperiences() {
-		return (EReference)operatorEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getRelationship() {
 		return relationshipEClass;
 	}
@@ -801,8 +757,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getWarehouse_Equipments() {
-		return (EAttribute)warehouseEClass.getEStructuralFeatures().get(1);
+	public EReference getWarehouse_Equipments() {
+		return (EReference)warehouseEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -873,10 +829,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		createEReference(equipmentRelationshipEClass, EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF);
 		createEReference(equipmentRelationshipEClass, EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF);
 
-		expansionExperienceEClass = createEClass(EXPANSION_EXPERIENCE);
-		createEReference(expansionExperienceEClass, EXPANSION_EXPERIENCE__EQUIPMENT_REF);
-		createEAttribute(expansionExperienceEClass, EXPANSION_EXPERIENCE__DURATION);
-
 		functionRelationshipEClass = createEClass(FUNCTION_RELATIONSHIP);
 		createEReference(functionRelationshipEClass, FUNCTION_RELATIONSHIP__FUNCTION1_REF);
 		createEReference(functionRelationshipEClass, FUNCTION_RELATIONSHIP__FUNCTION2_REF);
@@ -914,7 +866,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		createEReference(operatorEClass, OPERATOR__SERVICES);
 		createEReference(operatorEClass, OPERATOR__SERVICE_USERS);
 		createEReference(operatorEClass, OPERATOR__RESOURCE_EXPANSIONS);
-		createEReference(operatorEClass, OPERATOR__EXPANSION_EXPERIENCES);
 
 		relationshipEClass = createEClass(RELATIONSHIP);
 		createEAttribute(relationshipEClass, RELATIONSHIP__NAME);
@@ -939,7 +890,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 
 		warehouseEClass = createEClass(WAREHOUSE);
 		createEReference(warehouseEClass, WAREHOUSE__NODES);
-		createEAttribute(warehouseEClass, WAREHOUSE__EQUIPMENTS);
+		createEReference(warehouseEClass, WAREHOUSE__EQUIPMENTS);
 		createEAttribute(warehouseEClass, WAREHOUSE__DESCRIPTION);
 		createEAttribute(warehouseEClass, WAREHOUSE__NAME);
 
@@ -988,7 +939,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 
 		// Add supertypes to classes
 		equipmentRelationshipEClass.getESuperTypes().add(this.getRelationship());
-		expansionExperienceEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		functionRelationshipEClass.getESuperTypes().add(this.getRelationship());
 		markerEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		networkEClass.getESuperTypes().add(theGenericsPackage.getBase());
@@ -1004,10 +954,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		initEClass(equipmentRelationshipEClass, EquipmentRelationship.class, "EquipmentRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEquipmentRelationship_Equipment1Ref(), theLibraryPackage.getEquipment(), null, "equipment1Ref", null, 0, 1, EquipmentRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipmentRelationship_Equipment2Ref(), theLibraryPackage.getEquipment(), null, "equipment2Ref", null, 0, 1, EquipmentRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(expansionExperienceEClass, ExpansionExperience.class, "ExpansionExperience", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExpansionExperience_EquipmentRef(), theLibraryPackage.getEquipment(), null, "equipmentRef", null, 0, 1, ExpansionExperience.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExpansionExperience_Duration(), theGenericsPackage.getExpansionDuration(), "duration", null, 0, 1, ExpansionExperience.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(functionRelationshipEClass, FunctionRelationship.class, "FunctionRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFunctionRelationship_Function1Ref(), theLibraryPackage.getFunction(), null, "function1Ref", null, 0, 1, FunctionRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1046,7 +992,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		initEReference(getOperator_Services(), theServicesPackage.getService(), null, "services", null, 0, -1, Operator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOperator_ServiceUsers(), theServicesPackage.getServiceUser(), null, "serviceUsers", null, 0, -1, Operator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOperator_ResourceExpansions(), this.getResourceExpansion(), null, "resourceExpansions", null, 0, -1, Operator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOperator_ExpansionExperiences(), this.getExpansionExperience(), null, "expansionExperiences", null, 0, -1, Operator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(relationshipEClass, Relationship.class, "Relationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRelationship_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, Relationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1071,7 +1016,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 
 		initEClass(warehouseEClass, Warehouse.class, "Warehouse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getWarehouse_Nodes(), this.getNode(), null, "nodes", null, 0, -1, Warehouse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getWarehouse_Equipments(), theXMLTypePackage.getString(), "equipments", null, 0, -1, Warehouse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getWarehouse_Equipments(), theLibraryPackage.getEquipment(), null, "equipments", null, 0, -1, Warehouse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWarehouse_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, Warehouse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getWarehouse_Name(), theGenericsPackage.getName255(), "name", "name", 0, 1, Warehouse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1113,13 +1058,13 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																										
+		   });																																																				
 		addAnnotation
 		  (nodeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidNodeID\n\t\t\t"
-		   });																																																																								
+		   });																																																																						
 	}
 
 	/**
@@ -1150,27 +1095,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Equipment2Ref"
-		   });			
-		addAnnotation
-		  (expansionExperienceEClass, 
-		   source, 
-		   new String[] {
-			 "name", "ExpansionExperience",
-			 "kind", "elementOnly"
-		   });			
-		addAnnotation
-		  (getExpansionExperience_EquipmentRef(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "EquipmentRef"
-		   });			
-		addAnnotation
-		  (getExpansionExperience_Duration(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Duration"
 		   });			
 		addAnnotation
 		  (functionRelationshipEClass, 
@@ -1417,13 +1341,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 			 "name", "ResourceExpansions"
 		   });			
 		addAnnotation
-		  (getOperator_ExpansionExperiences(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "ExpansionExperiences"
-		   });			
-		addAnnotation
 		  (relationshipEClass, 
 		   source, 
 		   new String[] {
@@ -1586,13 +1503,13 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * @generated
 	 */
 	protected void createOCLAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																																																													
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																																																							
 		addAnnotation
 		  (nodeEClass, 
 		   source, 
 		   new String[] {
 			 "ValidNodeID", "\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t"
-		   });																																																																							
+		   });																																																																					
 	}
 
 } //OperatorsPackageImpl

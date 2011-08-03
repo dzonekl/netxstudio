@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.library.impl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
+import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
@@ -42,6 +43,7 @@ import com.netxforge.netxstudio.operators.EquipmentRelationship;
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentRelationshipRefs <em>Equipment Relationship Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getAllEquipments <em>All Equipments</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getCount <em>Count</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getDuration <em>Duration</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getEquipmentCode <em>Equipment Code</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.EquipmentImpl#getRedundancy <em>Redundancy</em>}</li>
@@ -163,6 +165,42 @@ public class EquipmentImpl extends ComponentImpl implements Equipment {
 	 */
 	public boolean isSetCount() {
 		return eIsSet(LibraryPackage.Literals.EQUIPMENT__COUNT);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExpansionDuration getDuration() {
+		return (ExpansionDuration)eGet(LibraryPackage.Literals.EQUIPMENT__DURATION, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDuration(ExpansionDuration newDuration) {
+		eSet(LibraryPackage.Literals.EQUIPMENT__DURATION, newDuration);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetDuration() {
+		eUnset(LibraryPackage.Literals.EQUIPMENT__DURATION);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetDuration() {
+		return eIsSet(LibraryPackage.Literals.EQUIPMENT__DURATION);
 	}
 
 	/**

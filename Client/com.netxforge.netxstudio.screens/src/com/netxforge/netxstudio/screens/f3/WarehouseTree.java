@@ -31,7 +31,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -61,26 +60,27 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.netxforge.netxstudio.geo.Country;
-import com.netxforge.netxstudio.geo.GeoFactory;
-import com.netxforge.netxstudio.geo.GeoPackage;
-import com.netxforge.netxstudio.geo.Site;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.operators.OperatorsFactory;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.Warehouse;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f3.support.SiteTreeFactory;
-import com.netxforge.netxstudio.screens.f3.support.SiteTreeStructureAdvisor;
+import com.netxforge.netxstudio.screens.f3.support.WarehouseTreeFactory;
+import com.netxforge.netxstudio.screens.f3.support.WarehouseTreeStructureAdvisor;
 
-public class WarehouseTree extends AbstractScreen implements IDataServiceInjection {
+public class WarehouseTree extends AbstractScreen implements
+		IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFilterText;
-	private Resource countryResource;
+	private Resource warehouseResource;
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext bindingContext;
 	private Form frmWarehouseTree;
-	private TreeViewer sitesTreeViewer;
+	private TreeViewer warehouseTreeViewer;
 	private ObservableListTreeContentProvider listTreeContentProvider;
 
 	@Inject
@@ -101,47 +101,48 @@ public class WarehouseTree extends AbstractScreen implements IDataServiceInjecti
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		buildUI();
+//		buildUI();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 
 		listTreeContentProvider = new ObservableListTreeContentProvider(
-				new SiteTreeFactory(editingService.getEditingDomain()), new SiteTreeStructureAdvisor());
-		sitesTreeViewer.setContentProvider(listTreeContentProvider);
+				new WarehouseTreeFactory(editingService.getEditingDomain()),
+				new WarehouseTreeStructureAdvisor());
+		warehouseTreeViewer.setContentProvider(listTreeContentProvider);
 		IObservableSet set = listTreeContentProvider.getKnownElements();
-		
+
 		List<IObservableMap> mapList = Lists.newArrayList();
 
-		mapList.add(EMFProperties.value(GeoPackage.Literals.COUNTRY__NAME)
-				.observeDetail(set));
+		mapList.add(EMFProperties.value(
+				OperatorsPackage.Literals.WAREHOUSE__NAME).observeDetail(set));
 
-		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__NAME)
-				.observeDetail(set));
+		mapList.add(EMFProperties
+				.value(OperatorsPackage.Literals.NODE__NODE_ID).observeDetail(
+						set));
 
-		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__CITY)
-				.observeDetail(set));
-
-		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__SREET)
-				.observeDetail(set));
-
-		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__HOUSENUMBER)
+		mapList.add(EMFProperties.value(
+				LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)
 				.observeDetail(set));
 
 		IObservableMap[] observeMaps = new IObservableMap[mapList.size()];
 		mapList.toArray(observeMaps);
 
-		sitesTreeViewer.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+		warehouseTreeViewer.setLabelProvider(new ObservableMapLabelProvider(
+				observeMaps));
 
-		IEMFListProperty countryResourceProperty = EMFEditProperties.resource(editingService.getEditingDomain());
-		IObservableList countryObservableList = countryResourceProperty.observe(countryResource);
-		sitesTreeViewer.setInput(countryObservableList);
+		IEMFListProperty countryResourceProperty = EMFEditProperties
+				.resource(editingService.getEditingDomain());
+		IObservableList countryObservableList = countryResourceProperty
+				.observe(warehouseResource);
+		warehouseTreeViewer.setInput(countryObservableList);
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		return context;
 	}
 
 	public void injectData() {
-		countryResource = editingService.getData(GeoPackage.Literals.COUNTRY);
+		warehouseResource = editingService
+				.getData(OperatorsPackage.Literals.WAREHOUSE);
 		buildUI();
 		bindingContext = initDataBindings_();
 	}
@@ -153,7 +154,7 @@ public class WarehouseTree extends AbstractScreen implements IDataServiceInjecti
 		frmWarehouseTree.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmWarehouseTree);
 		frmWarehouseTree.setText("Warehouses");
-		frmWarehouseTree.getBody().setLayout(new GridLayout(3, false));
+		frmWarehouseTree.getBody().setLayout(new GridLayout(4, false));
 
 		Label lblFilterLabel = toolkit.createLabel(frmWarehouseTree.getBody(),
 				"Filter:", SWT.NONE);
@@ -163,12 +164,12 @@ public class WarehouseTree extends AbstractScreen implements IDataServiceInjecti
 		gd_lblFilterLabel.widthHint = 36;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmWarehouseTree.getBody(), "New Text",
-				SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
+		txtFilterText = toolkit.createText(frmWarehouseTree.getBody(),
+				"New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent ke) {
-				sitesTreeViewer.refresh();
-				ViewerFilter[] filters = sitesTreeViewer.getFilters();
+				warehouseTreeViewer.refresh();
+				ViewerFilter[] filters = warehouseTreeViewer.getFilters();
 				for (ViewerFilter viewerFilter : filters) {
 					if (viewerFilter instanceof SearchFilter) {
 						((SearchFilter) viewerFilter)
@@ -183,31 +184,57 @@ public class WarehouseTree extends AbstractScreen implements IDataServiceInjecti
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
+
+		ImageHyperlink hypLnkNewWarehouse = toolkit.createImageHyperlink(
+				frmWarehouseTree.getBody(), SWT.NONE);
+		hypLnkNewWarehouse.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				NewEditWarehouse warehouseScreen = new NewEditWarehouse(
+						screenService.getScreenContainer(), SWT.NONE);
+				warehouseScreen.setOperation(Screens.OPERATION_NEW);
+				warehouseScreen.setScreenService(screenService);
+				Warehouse newWarehouse = OperatorsFactory.eINSTANCE
+						.createWarehouse();
+				warehouseScreen.injectData(warehouseResource, newWarehouse);
+				screenService.setActiveScreen(warehouseScreen);
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		hypLnkNewWarehouse.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/ctool16/Warehouse_E.png"));
+		toolkit.paintBordersFor(hypLnkNewWarehouse);
+		hypLnkNewWarehouse.setText("New");
 		new Label(frmWarehouseTree.getBody(), SWT.NONE);
 
-		sitesTreeViewer = new TreeViewer(frmWarehouseTree.getBody(), SWT.BORDER | SWT.VIRTUAL);
-		sitesTreeViewer.setUseHashlookup(true);
-		Tree tree = sitesTreeViewer.getTree();
+		warehouseTreeViewer = new TreeViewer(frmWarehouseTree.getBody(),
+				SWT.BORDER | SWT.VIRTUAL);
+		warehouseTreeViewer.setUseHashlookup(true);
+		Tree tree = warehouseTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 4, 1));
 		toolkit.paintBordersFor(tree);
 
 		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
-				sitesTreeViewer, SWT.NONE);
+				warehouseTreeViewer, SWT.NONE);
 		TreeColumn trclmnCountry = treeViewerColumn.getColumn();
 		trclmnCountry.setWidth(100);
 		trclmnCountry.setText("Warehouse");
 
 		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
-				sitesTreeViewer, SWT.NONE);
+				warehouseTreeViewer, SWT.NONE);
 		TreeColumn trclmnName = treeViewerColumn_1.getColumn();
 		trclmnName.setWidth(129);
 		trclmnName.setText("Item name");
 
-		sitesTreeViewer.addFilter(searchFilter);
+		warehouseTreeViewer.addFilter(searchFilter);
 	}
-	
 
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
@@ -229,29 +256,27 @@ public class WarehouseTree extends AbstractScreen implements IDataServiceInjecti
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-//					if( o instanceof Site){
-//						NewEditSite siteScreen = new NewEditSite(
-//								screenService.getScreenContainer(), SWT.NONE);
-//						siteScreen.setScreenService(screenService);
-//						siteScreen.setOperation(getOperation());
-//						siteScreen.injectData(((Site)o).eContainer(), o);
-//						screenService.setActiveScreen(siteScreen);
-//					}
-					// TODO. 
-					
-					
+					if (o instanceof Warehouse) {
+						NewEditWarehouse warehouseScreen = new NewEditWarehouse(
+								screenService.getScreenContainer(), SWT.NONE);
+						warehouseScreen.setOperation(Screens.OPERATION_NEW);
+						warehouseScreen.setScreenService(screenService);
+						warehouseScreen.injectData(warehouseResource,
+								o);
+						screenService.setActiveScreen(warehouseScreen);
+					}
 				}
 			}
 		}
 	}
-	
+
 	public void disposeData() {
-		editingService.disposeData(countryResource);
+		editingService.disposeData(warehouseResource);
 	}
 
 	@Override
 	public Viewer getViewer() {
-		return sitesTreeViewer;
+		return warehouseTreeViewer;
 	}
 
 	@Override
@@ -271,16 +296,15 @@ public class WarehouseTree extends AbstractScreen implements IDataServiceInjecti
 
 	@Override
 	public IAction[] getActions() {
-		
+
 		List<IAction> actions = Lists.newArrayList();
-		
-		boolean readonly =  Screens.isReadOnlyOperation(getOperation());
-		String actionText = readonly? "View" : "Edit";
-		actions.add(new EditWarehouseItemAction(actionText + "...",
-				SWT.PUSH));
-		
+
+		boolean readonly = Screens.isReadOnlyOperation(getOperation());
+		String actionText = readonly ? "View" : "Edit";
+		actions.add(new EditWarehouseItemAction(actionText + "...", SWT.PUSH));
+
 		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray); 
+		return actions.toArray(actionArray);
 	}
 
 }

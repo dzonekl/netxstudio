@@ -53,6 +53,8 @@ public class NewEditLink extends AbstractDetailsComposite implements IScreen,
 	private ImageHyperlink hypLnkClearNode1;
 	private Text txtNode2;
 	private Text txtNode1;
+	protected Section scnInfo;
+	protected Section sctnNode;
 
 	public NewEditLink(Composite parent, int style,
 			final IEditingService editingService) {
@@ -77,13 +79,13 @@ public class NewEditLink extends AbstractDetailsComposite implements IScreen,
 		return false;
 	}
 
-	private void buildUI() {
+	protected void buildUI() {
 
 		// Readonlyness.
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
+		scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
 		FormData fd_scnInfo = new FormData();
 		fd_scnInfo.top = new FormAttachment(0, 10);
@@ -112,7 +114,11 @@ public class NewEditLink extends AbstractDetailsComposite implements IScreen,
 				1, 1);
 		gd_txtName.widthHint = 150;
 		txtName.setLayoutData(gd_txtName);
-		Section sctnNode = toolkit.createSection(this, Section.TITLE_BAR);
+		
+		
+		// Section Node links. 
+		
+		sctnNode = toolkit.createSection(this, Section.TITLE_BAR);
 		fd_scnInfo.bottom = new FormAttachment(sctnNode, -6);
 		FormData fd_sctnNode = new FormData();
 		fd_sctnNode.bottom = new FormAttachment(100, -172);
@@ -231,8 +237,6 @@ public class NewEditLink extends AbstractDetailsComposite implements IScreen,
 				}
 			}
 		});
-		
-
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

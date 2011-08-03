@@ -148,7 +148,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	public void screenChanged(IScreen screen) {
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
-		if (screen != null) {
+		if (screen != null ) {
 			activeScreen = screen;
 			Viewer viewer = screen.getViewer();
 			setCurrentViewer(viewer);

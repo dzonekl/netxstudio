@@ -5,23 +5,57 @@
        point="org.eclipse.ui.exportWizards">
     <wizard
           category="com.netxforge.netxstudio.ui.category.export"
-          class="com.netxforge.netxstudio.models.export.ui.XPandExportWizard"
-          icon="icons/full/wizban/export_wiz.png"
-          id="com.netxforge.netxstudio.models.export.wizard.object"
-          name="%wizard.name">
-       <description>
-          %wizard.description
-       </description>
-    </wizard>
-    <wizard
-          category="com.netxforge.netxstudio.ui.category.export"
-          class="com.netxforge.netxstudio.models.export.ui.XPandExportImportWizard"
+          class="com.netxforge.netxstudio.models.export.ui.LibraryExportTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.import"
-          name="Generate a model import template">
+          name="Create a Library import template">
        <description>
-         "Generatge a model import template."
+        "Create an import template for Library data"
        </description>
+    </wizard>
+        <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.OperatorExportTemplateWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.import"
+          name="Create an Operator import template">
+       <description>
+         "Create an import template for Operator data"
+       </description>
+    </wizard>
+        <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.GeoExportTemplateWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.import"
+          name="Create a Geo. import template">
+       <description>
+         "Create an import template for Geographical data"
+       </description>
+    </wizard>
+        <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.MetricsExportTemplateWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.import"
+          name="Create a Metrics import template">
+       <description>
+         "Create an import template for Metrics data"
+       </description>
+    </wizard>
+    <!-- WIZARDS WHICH NEED DEPENCY INJECTION --> 
+    <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.NodeTypeExportWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.ui.nodetype"
+          name="Export a Network Element type to HTML">
+       <description>
+         Export a Network Element type to HTML
+       </description>
+       <selection
+             class="com.netxforge.netxstudio.library.NodeType">
+       </selection>
     </wizard>
  </extension>
 </plugin>

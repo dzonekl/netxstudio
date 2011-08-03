@@ -22,7 +22,6 @@ public abstract class XpandTemplateImpl implements XpandTemplate {
 	public void setGlobalVarsMap(Map<String, Variable> map) {
 		this.map = map;
 	}
-
 	
 	public Map<String, Variable> getGlobalVarsMap() {
 		return map;

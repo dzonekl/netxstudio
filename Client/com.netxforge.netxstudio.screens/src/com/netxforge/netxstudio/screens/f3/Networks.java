@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.f3;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -27,15 +28,20 @@ import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -43,6 +49,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
@@ -70,19 +77,26 @@ import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.EquipmentRelationship;
+import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
+import com.netxforge.netxstudio.operators.Warehouse;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.OperatorFilterDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
-import com.netxforge.netxstudio.screens.details.NewEditEquipment;
+import com.netxforge.netxstudio.screens.WarehouseFilterDialog;
+import com.netxforge.netxstudio.screens.details.NewEditEquipmentLink;
 import com.netxforge.netxstudio.screens.details.NewEditFunction;
+import com.netxforge.netxstudio.screens.details.NewEditFunctionLink;
 import com.netxforge.netxstudio.screens.details.NewEditLink;
 import com.netxforge.netxstudio.screens.details.NewEditNetwork;
 import com.netxforge.netxstudio.screens.details.NewEditNode;
+import com.netxforge.netxstudio.screens.details.NewEditNodeEquipment;
 import com.netxforge.netxstudio.screens.details.NewEditNodeType;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -98,12 +112,11 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	private Text txtFilterText;
 	@SuppressWarnings("unused")
 	private DataBindingContext bindingContext;
-	private Form frmNodeTypes;
+	private Form frmNetworks;
 	private Resource operatorsResource;
 	private TreeViewer networkTreeViewer;
 	private Composite cmpDetails;
 	private SashForm sashForm;
-	private Operator operator;
 
 	/**
 	 * Create the composite.
@@ -132,11 +145,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	public void injectData() {
 		operatorsResource = editingService
 				.getData(OperatorsPackage.Literals.OPERATOR);
-		// FIXME, we can only support one operator now, this should actually
-		// be a subscreen of operator.
-		if (operatorsResource.getContents().size() > 0) {
-			operator = (Operator) operatorsResource.getContents().get(0);
-		}
 		buildUI();
 		initDataBindings_();
 	}
@@ -149,14 +157,15 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		frmNodeTypes = toolkit.createForm(this);
-		frmNodeTypes.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmNodeTypes);
+		frmNetworks = toolkit.createForm(this);
+		
+		frmNetworks.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmNetworks);
 
-		frmNodeTypes.setText(actionText + "Network");
-		frmNodeTypes.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
+		frmNetworks.setText(actionText + "Network");
+		frmNetworks.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		sashForm = new SashForm(frmNodeTypes.getBody(), SWT.VERTICAL);
+		sashForm = new SashForm(frmNetworks.getBody(), SWT.VERTICAL);
 		sashForm.setOrientation(SWT.HORIZONTAL);
 		toolkit.adapt(sashForm);
 		toolkit.paintBordersFor(sashForm);
@@ -190,36 +199,61 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				}
 			}
 		});
-		
-		mghprlnkNewImagehyperlink = toolkit.createImageHyperlink(composite, SWT.NONE);
-		mghprlnkNewImagehyperlink.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				// Create a new top level network, for this operator. 
-				Network newNetwork = OperatorsFactory.eINSTANCE.createNetwork();
-				newNetwork.setName("<new network>");
-				Command add = AddCommand.create(editingService.getEditingDomain(), operator, null, newNetwork);
-				editingService.getEditingDomain().getCommandStack().execute(add);
-				
-			}
-			public void linkEntered(HyperlinkEvent e) {
-			}
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNewImagehyperlink.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/Network_E.png"));
-		mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+
+		mghprlnkNewImagehyperlink = toolkit.createImageHyperlink(composite,
+				SWT.NONE);
+		mghprlnkNewImagehyperlink
+				.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkActivated(HyperlinkEvent e) {
+						OperatorFilterDialog dialog = new OperatorFilterDialog(
+								Networks.this.getShell(), operatorsResource);
+						int result = dialog.open();
+						if(result == Window.OK){
+							Operator operator = (Operator) dialog
+									.getFirstResult();
+							Network newNetwork = OperatorsFactory.eINSTANCE
+									.createNetwork();
+							newNetwork.setName("<new network>");
+							Command add = AddCommand.create(
+									editingService.getEditingDomain(), operator,
+									null, newNetwork);
+							editingService.getEditingDomain().getCommandStack()
+									.execute(add);
+						}
+
+					}
+
+					public void linkEntered(HyperlinkEvent e) {
+					}
+
+					public void linkExited(HyperlinkEvent e) {
+					}
+				});
+		mghprlnkNewImagehyperlink.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/ctool16/Network_E.png"));
+		mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
 		toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
 		mghprlnkNewImagehyperlink.setText("New");
 
-		networkTreeViewer = new TreeViewer(composite, SWT.BORDER | widgetStyle);
+		networkTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.VIRTUAL
+				| SWT.MULTI | widgetStyle);
+		networkTreeViewer.setUseHashlookup(true);
+
 		networkTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
 						ISelection s = event.getSelection();
 						if (s instanceof IStructuredSelection) {
 							IStructuredSelection ss = (IStructuredSelection) s;
-							Object o = ss.getFirstElement();
-							handleDetailsSelection(o);
+							final Object o = ss.getFirstElement();
+							Networks.this.getDisplay().asyncExec(
+									new Runnable() {
+										public void run() {
+											handleDetailsSelection(o);
+										}
+									});
 						}
 					}
 				});
@@ -237,6 +271,79 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 	}
 
+	@Override
+	public IAction[] getActions() {
+
+		return new IAction[] { new MoveToWarehouseAction("Decommission",
+				SWT.PUSH) };
+	}
+
+	/**
+	 * Action to move objects to the ware house.
+	 * 
+	 * @author dzonekl
+	 * 
+	 */
+	class MoveToWarehouseAction extends Action {
+
+		public MoveToWarehouseAction(String text, int style) {
+			super(text, style);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void run() {
+			ISelection s = networkTreeViewer.getSelection();
+			if (s instanceof IStructuredSelection) {
+				@SuppressWarnings("unchecked")
+				List<Object> selectionList = ((IStructuredSelection) s)
+						.toList();
+				Collection<Node> nodeToDecommission = Lists.newArrayList();
+				Collection<Equipment> equipmentToDecommission = Lists
+						.newArrayList();
+				for (Object o : selectionList) {
+					if (o instanceof Node) {
+						nodeToDecommission.add((Node) o);
+					}
+					if (o instanceof Equipment) {
+						equipmentToDecommission.add((Equipment) o);
+					}
+				}
+				if (nodeToDecommission.size() > 0
+						|| equipmentToDecommission.size() > 0) {
+					Resource warehouseResource = editingService
+							.getData(OperatorsPackage.Literals.WAREHOUSE);
+					WarehouseFilterDialog dialog = new WarehouseFilterDialog(
+							Networks.this.getShell(), warehouseResource);
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						Warehouse warehouse = (Warehouse) dialog
+								.getFirstResult();
+
+						// Loop through the node and find cross references.
+
+						CompoundCommand cc = new CompoundCommand();
+						if (nodeToDecommission.size() > 0) {
+							Command c = new AddCommand(
+									editingService.getEditingDomain(),
+									warehouse.getNodes(), nodeToDecommission);
+							cc.append(c);
+						}
+						if (equipmentToDecommission.size() > 0) {
+							Command c = new AddCommand(
+									editingService.getEditingDomain(),
+									warehouse.getEquipments(),
+									equipmentToDecommission);
+							cc.append(c);
+						}
+
+						editingService.getEditingDomain().getCommandStack()
+								.execute(cc);
+					}
+				}
+			}
+		}
+	}
+
 	public void disposeData() {
 		if (editingService != null) {
 			editingService.disposeData(operatorsResource);
@@ -249,7 +356,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
 				new NetworkTreeFactoryImpl(editingService.getEditingDomain()),
-				new NodeTypeTreeStructureAdvisorImpl());
+				new NetworkTreeStructureAdvisorImpl());
 		networkTreeViewer.setContentProvider(cp);
 
 		IObservableSet set = cp.getKnownElements();
@@ -259,7 +366,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				GenericsPackage.Literals.COMPANY__NAME).observeDetail(set));
-		
+
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NETWORK__NAME).observeDetail(set));
@@ -267,6 +374,26 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				OperatorsPackage.Literals.NODE__NODE_ID).observeDetail(set));
+
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				OperatorsPackage.Literals.NODE__NODE_TYPE).observeDetail(set));
+
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				OperatorsPackage.Literals.RELATIONSHIP__NAME)
+				.observeDetail(set));
+
+		// Relationship text changes.
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				OperatorsPackage.Literals.RELATIONSHIP__NODE_ID1_REF)
+				.observeDetail(set));
+
+		observableMap.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				OperatorsPackage.Literals.RELATIONSHIP__NODE_ID2_REF)
+				.observeDetail(set));
 
 		observableMap.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -285,12 +412,11 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		networkTreeViewer.setLabelProvider(new NetworkTreeLabelProvider(map));
 
-		IEMFListProperty networksResourceProperty = EMFEditProperties.list(
-				editingService.getEditingDomain(),
-				OperatorsPackage.Literals.OPERATOR__NETWORKS);
+		IEMFListProperty networksResourceProperty = EMFEditProperties
+				.resource(editingService.getEditingDomain());
 
 		IObservableList networksObservableList = networksResourceProperty
-				.observe(operator);
+				.observe(operatorsResource);
 
 		networkTreeViewer.setInput(networksObservableList);
 
@@ -312,13 +438,16 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 						OperatorsPackage.Literals.NETWORK__EQUIPMENT_RELATIONSHIPS,
 						OperatorsPackage.Literals.NETWORK__FUNCTION_RELATIONSHIPS);
 
-		private IEMFListProperty nodeObservableProperty = EMFEditProperties
-				.list(domain, OperatorsPackage.Literals.NODE__NODE_TYPE);
+		// private IEMFListProperty nodeObservableProperty = EMFEditProperties
+		// .list(domain, OperatorsPackage.Literals.NODE__NODE_TYPE);
 
-		private IEMFListProperty nodeTypeObservableProperty = EMFEditProperties
-				.multiList(domain,
-						LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
-						LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS);
+		private IEMFListProperty nodeObservableProperty = EMFEditProperties
+				.multiList(domain, FeaturePath.fromList(
+						OperatorsPackage.Literals.NODE__NODE_TYPE,
+						LibraryPackage.Literals.NODE_TYPE__FUNCTIONS),
+						FeaturePath.fromList(
+								OperatorsPackage.Literals.NODE__NODE_TYPE,
+								LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS));
 
 		private IEMFListProperty functionsObservableProperty = EMFEditProperties
 				.multiList(domain, LibraryPackage.Literals.FUNCTION__FUNCTIONS);
@@ -343,9 +472,13 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				ol = networkObservableProperty.observe(target);
 			} else if (target instanceof Node) {
 				ol = nodeObservableProperty.observe(target);
-			} else if (target instanceof NodeType) {
-				ol = nodeTypeObservableProperty.observe(target);
-			} else if (target instanceof Function) {
+			}
+
+			// else if (target instanceof NodeType) {
+			// ol = nodeTypeObservableProperty.observe(target);
+			// }
+
+			else if (target instanceof Function) {
 				ol = functionsObservableProperty.observe(target);
 			} else if (target instanceof Equipment) {
 				ol = equipmentsObservableProperty.observe(target);
@@ -354,7 +487,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
-	class NodeTypeTreeStructureAdvisorImpl extends TreeStructureAdvisor {
+	class NetworkTreeStructureAdvisorImpl extends TreeStructureAdvisor {
 		@Override
 		public Object getParent(Object element) {
 			return null;
@@ -408,7 +541,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		if (currentDetails != null) {
 			currentDetails.dispose();
 		}
-		
+
 		if (o instanceof Network) {
 			NewEditNetwork nef = null;
 			nef = new NewEditNetwork(this.cmpDetails, SWT.NONE, editingService);
@@ -417,7 +550,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			this.currentDetails = nef;
 			sashForm.layout(true, true);
 		}
-		
+
 		if (o instanceof Node) {
 			NewEditNode node = null;
 			node = new NewEditNode(this.cmpDetails, SWT.NONE, editingService);
@@ -429,15 +562,16 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		if (o instanceof Function) {
 			NewEditFunction screen = null;
-			screen = new NewEditFunction(this.cmpDetails, SWT.NONE, editingService);
+			screen = new NewEditFunction(this.cmpDetails, SWT.NONE,
+					editingService);
 			screen.setScreenService(screenService);
 			screen.injectData(null, o);
 			this.currentDetails = screen;
 			sashForm.layout(true, true);
 		}
 		if (o instanceof Equipment) {
-			NewEditEquipment screen = null;
-			screen = new NewEditEquipment(this.cmpDetails, SWT.NONE,
+			NewEditNodeEquipment screen = null;
+			screen = new NewEditNodeEquipment(this.cmpDetails, SWT.NONE,
 					editingService);
 			screen.setScreenService(screenService);
 			screen.injectData(null, o);
@@ -452,13 +586,33 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			this.currentDetails = nnt;
 			sashForm.layout(true, true);
 		}
+
+		if (o instanceof FunctionRelationship) {
+			NewEditFunctionLink linkScreen = new NewEditFunctionLink(
+					this.cmpDetails, SWT.NONE, editingService);
+			linkScreen.injectData(null, o);
+			this.currentDetails = linkScreen;
+			sashForm.layout(true, true);
+			return;
+		}
+
+		if (o instanceof EquipmentRelationship) {
+			NewEditEquipmentLink linkScreen = new NewEditEquipmentLink(
+					this.cmpDetails, SWT.NONE, editingService);
+			linkScreen.injectData(null, o);
+			this.currentDetails = linkScreen;
+			sashForm.layout(true, true);
+			return;
+		}
+
 		if (o instanceof Relationship) {
-			NewEditLink linkScreen = new NewEditLink(this.cmpDetails,
-					SWT.NONE, editingService);
+			NewEditLink linkScreen = new NewEditLink(this.cmpDetails, SWT.NONE,
+					editingService);
 			linkScreen.injectData(null, o);
 			this.currentDetails = linkScreen;
 			sashForm.layout(true, true);
 		}
+
 	}
 
 	/*
@@ -481,7 +635,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public Form getScreenForm() {
-		return this.frmNodeTypes;
+		return this.frmNetworks;
 	}
 
 	@Override

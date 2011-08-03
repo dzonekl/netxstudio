@@ -338,22 +338,11 @@ public class ScreenFormService implements IScreenFormService{
 		if (isActiveScreen(finalScreen)) {
 			return; // Ignore we are there already.
 		}
-
-		// Warn for unsaved changes.
-		if (editingService.isDirty()) {
-			boolean result = MessageDialog
-					.openQuestion(Display.getCurrent().getActiveShell(),
-							"Save needed",
-							"You have unsaved changes, which will be discarded when not saved, save?");
-			if (result) {
-				editingService.doSave(new NullProgressMonitor());
-			} else {
-				// This will flush the stack, but not undo all the commands.
-				editingService.getEditingDomain().getCommandStack().flush();
-				// The data should have been disposed by now.  
-			}
-		}
 		
+		// Warn for dirtyness. 
+		dirtyWarning();
+		
+		// Reset the screen memory.  
 		reset();
 		
 		// Dispose all previous observables. 
@@ -400,6 +389,40 @@ public class ScreenFormService implements IScreenFormService{
 			}
 		});
 
+	}
+
+	/**
+	 * Warns if the current screen is dirty, if not saving, flush the command stack. 
+	 * If saving, save depending on the screen type. 
+	 */
+	private void dirtyWarning() {
+		// Warn for unsaved changes.
+		if (editingService.isDirty()) {
+			boolean result = MessageDialog
+					.openQuestion(Display.getCurrent().getActiveShell(),
+							"Save needed",
+							"You have unsaved changes, which will be discarded when not saved, save?");
+			if (result) {
+				
+				if(getActiveScreen() instanceof IDataScreenInjection){
+					((IDataScreenInjection)getActiveScreen()).addData();
+				}else{
+					editingService.doSave(new NullProgressMonitor());
+				}
+				
+			} else {
+				// This will flush the stack, but not undo all the commands.
+				// We need to undo the executed editing commands. 
+				while( editingService.getEditingDomain().getCommandStack().canUndo()){
+					editingService.getEditingDomain().getCommandStack().undo();
+				}
+				editingService.getEditingDomain().getCommandStack().flush();
+				// The data should have been disposed by now.  
+			}
+		}else{
+			// Flush the stack anyway. 
+			editingService.getEditingDomain().getCommandStack().flush();
+		}
 	}
 
 	public void reset() {
@@ -518,6 +541,7 @@ public class ScreenFormService implements IScreenFormService{
 		formToolkit.adapt(bckLnk);
 		bckLnk.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
+				dirtyWarning();
 				popScreen();
 			}
 
@@ -579,6 +603,9 @@ public class ScreenFormService implements IScreenFormService{
 		}
 	}
 
+	public void fireScreenChangedExternal(IScreen screen) {
+		this.fireScreenChanged(screen);
+	}
 	private void fireScreenChanged(IScreen screen) {
 		for (ScreenChangeListener l : screenChangedListeners) {
 			l.screenChanged(screen);
@@ -595,4 +622,6 @@ public class ScreenFormService implements IScreenFormService{
 	public IEditingService getEditingService() {
 		return editingService;
 	}
+
+	
 }

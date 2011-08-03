@@ -78,7 +78,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
-import com.netxforge.netxstudio.screens.details.NewEditEquipment;
+import com.netxforge.netxstudio.screens.details.NewEditNodeEquipment;
 import com.netxforge.netxstudio.screens.details.NewEditFunction;
 import com.netxforge.netxstudio.screens.details.NewEditLink;
 import com.netxforge.netxstudio.screens.details.NewEditNetwork;
@@ -437,8 +437,8 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 			sashForm.layout(true, true);
 		}
 		if (o instanceof Equipment) {
-			NewEditEquipment screen = null;
-			screen = new NewEditEquipment(this.cmpDetails, SWT.NONE,
+			NewEditNodeEquipment screen = null;
+			screen = new NewEditNodeEquipment(this.cmpDetails, SWT.NONE,
 					editingService);
 			screen.setScreenService(screenService);
 			screen.injectData(null, o);

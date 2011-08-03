@@ -20,7 +20,7 @@ import org.eclipse.xtend.expression.Variable;
 import com.netxforge.netxstudio.models.export.XpandRegistryImpl;
 import com.netxforge.netxstudio.models.export.XpandTemplate;
 import com.netxforge.netxstudio.models.export.impl.XpandCallerService;
-import com.netxforge.netxstudio.models.export.impl.XpandLibraryToHtml;
+import com.netxforge.netxstudio.models.export.impl.XpandNodeTypeToHtml;
 import com.netxforge.netxstudio.models.export.impl.XpandLibraryToXls;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
@@ -92,7 +92,7 @@ public class M2TTest extends WorkspaceTest {
 		// 2ND TEST
 		
 		t = XpandRegistryImpl.INSTANCE.getTemplates().get(
-				XpandLibraryToHtml.XPAND_LIB2HTML);
+				XpandNodeTypeToHtml.XPAND_NODETYPE2HTML);
 		t.getGlobalVarsMap().remove(XpandCallerService.FILE_NAME);
 		t.getGlobalVarsMap().put(XpandCallerService.FILE_NAME, new Variable(XpandCallerService.FILE_NAME,
 		"test2"));

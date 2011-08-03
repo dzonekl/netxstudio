@@ -31,11 +31,13 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.Relationship;
 
 public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
@@ -67,6 +69,20 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 
 		Object element = cell.getElement();
 
+		if (element instanceof Operator) {
+
+			Operator operator = (Operator) element;
+
+			StyledString styledString = new StyledString(
+					operator.getName() != null ? operator.getName() : "?", null);
+			cell.setText(styledString.getString());
+			Image img = ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/obj16/Company_H.png");
+			cell.setImage(img);
+			cell.setStyleRanges(styledString.getStyleRanges());
+		}
+		
 		if (element instanceof Network) {
 
 			Network network = (Network) element;
@@ -138,9 +154,15 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 		if (element instanceof Equipment) {
 
 			Equipment eq = (Equipment) element;
-			StyledString styledString = new StyledString(
-					eq.getEquipmentCode() != null ? eq.getEquipmentCode() : "?",
-					null);
+
+			StringBuffer buf = new StringBuffer();
+			buf.append(eq.getEquipmentCode() != null ? eq.getEquipmentCode()
+					: "?");
+			if(eq.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)){
+				buf.append(" : " + eq.getName());
+			}
+			StyledString styledString = new StyledString(buf.toString(), null);
+
 			String decoration = " (" + eq.getResourceRefs().size()
 					+ " Resources)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);
@@ -164,14 +186,14 @@ public class NetworkTreeLabelProvider extends StyledCellLabelProvider {
 				decoration.append(rel.getNodeID1Ref().getNodeID());
 			}
 			decoration.append(" <--> ");
-			
+
 			if (rel.getNodeID2Ref() != null) {
 				decoration.append(rel.getNodeID2Ref().getNodeID());
 			}
 			decoration.append(" )");
 			styledString.append(decoration.toString(),
 					StyledString.COUNTER_STYLER);
-			
+
 			cell.setText(styledString.getString());
 
 			Image img;

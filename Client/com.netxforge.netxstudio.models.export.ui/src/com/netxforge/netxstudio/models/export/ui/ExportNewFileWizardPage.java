@@ -12,7 +12,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
  * Simple exporter wizard page. 
  * 
  */
-public class XPandExportWizardPage extends WizardNewFileCreationPage {
+public class ExportNewFileWizardPage extends WizardNewFileCreationPage {
 
 	/**
 	 */
@@ -20,7 +20,7 @@ public class XPandExportWizardPage extends WizardNewFileCreationPage {
 
 	/**
 	 */
-	public XPandExportWizardPage(String pageName,
+	public ExportNewFileWizardPage(String pageName,
 			IStructuredSelection selection, String fileExtension) {
 		super(pageName, selection);
 		this.fileExtension = fileExtension;

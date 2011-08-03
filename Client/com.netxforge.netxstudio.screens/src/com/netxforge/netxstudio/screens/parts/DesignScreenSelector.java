@@ -17,11 +17,13 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.screens.parts;
 
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.Resources;
 import com.netxforge.netxstudio.screens.f3.Countries;
@@ -29,12 +31,13 @@ import com.netxforge.netxstudio.screens.f3.Networks;
 import com.netxforge.netxstudio.screens.f3.Operators;
 import com.netxforge.netxstudio.screens.f3.RoomsTree;
 import com.netxforge.netxstudio.screens.f3.SitesTree;
-import com.netxforge.netxstudio.screens.f3.Warehouses;
+import com.netxforge.netxstudio.screens.f3.WarehouseTree;
 
 public class DesignScreenSelector extends AbstractScreenSelector {
 
 	public static final String ID = "com.netxforge.netxstudio.screens.selector.design"; //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
+//	private NodeActionHandler nah;
 
 	public DesignScreenSelector() {
 		super();
@@ -69,7 +72,7 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 				Screens.OPERATION_EDIT);
 		
 		result = screenFormService.addScreenSelector(result, "Warehouse",
-				"icons/full/obj16/Warehouse_H.png", Warehouses.class, 1,
+				"icons/full/obj16/Warehouse_H.png", WarehouseTree.class, 1,
 				Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Countries",
 				"icons/full/obj16/Country_H.png", Countries.class, 1,
@@ -101,6 +104,29 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 		// TODO Auto-generated method stub
 		// Static initialization of bindings. We need a dynamic form for this. 
 		// 
-		
 	}
+	
+	@Override
+	public void screenChanged(IScreen screen) {
+		super.screenChanged(screen);
+		
+//		 Make sure we have an action handler for our specific screens and remove them 
+//		 otherwise. 
+//		if(screen instanceof Networks){
+//			nah = new NodeActionHandler();
+//			nah.setActivePart(this);
+//			this.getActionHandlerDescriptor().addHandler(nah);
+//		}else{
+//			if( nah != null && this.getActionHandlerDescriptor().hasHandler(nah)){
+//				this.getActionHandlerDescriptor().removeHandler(nah);
+//			}
+//		}
+	}
+
+	@Override
+	public void contributeMenuAboutToShow(IMenuManager menuManager) {
+		super.contributeMenuAboutToShow(menuManager);
+	}
+	
+	
 }

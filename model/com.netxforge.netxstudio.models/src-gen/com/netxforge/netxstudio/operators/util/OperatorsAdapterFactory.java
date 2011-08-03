@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.EObject;
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
-import com.netxforge.netxstudio.operators.ExpansionExperience;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Network;
@@ -98,10 +97,6 @@ public class OperatorsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseEquipmentRelationship(EquipmentRelationship object) {
 				return createEquipmentRelationshipAdapter();
-			}
-			@Override
-			public Adapter caseExpansionExperience(ExpansionExperience object) {
-				return createExpansionExperienceAdapter();
 			}
 			@Override
 			public Adapter caseFunctionRelationship(FunctionRelationship object) {
@@ -182,20 +177,6 @@ public class OperatorsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEquipmentRelationshipAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.operators.ExpansionExperience <em>Expansion Experience</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.operators.ExpansionExperience
-	 * @generated
-	 */
-	public Adapter createExpansionExperienceAdapter() {
 		return null;
 	}
 

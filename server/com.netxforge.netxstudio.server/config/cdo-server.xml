@@ -43,6 +43,9 @@
 
 			<!-- The following value must be set normally like this, use this in your app also -->
 			<property name="teneo.mapping.cascade_policy_on_non_containment" value="PERSIST,MERGE"/>
+			
+			 
+			<property name="teneo.mapping.cascade_policy_on_containment" value="REMOVE,REFRESH,PERSIST,MERGE"/>
 
 			<!-- some demo settings -->
 			<!--

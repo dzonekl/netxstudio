@@ -21,40 +21,37 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.xtend.expression.Variable;
 
-import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.models.export.XpandTemplate;
 import com.netxforge.netxstudio.models.export.impl.XpandCallerService;
-import com.netxforge.netxstudio.models.export.ui.internal.Activator;
+import com.netxforge.netxstudio.models.export.impl.XpandPackageImport;
+import com.netxforge.netxstudio.models.export.ui.internal.ExportActivator;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
-public class XPandExportImportWizard extends Wizard implements IExportWizard {
+public abstract class AbstractExportTempleWizard extends Wizard implements IExportWizard {
 
 	private IStructuredSelection selection;
 
-	private XPandExportWizardPage xpandExportFilePage;
-	private XPandSelectWizardPage xpandSelectPage;
+	private ExportNewFileWizardPage xpandExportFilePage;
+//	private SelectExportWizardPage xpandSelectPage;
 	
-	public XPandExportWizardPage getXpandExportFilePage() {
+	public ExportNewFileWizardPage getXpandExportFilePage() {
 		return xpandExportFilePage;
 	}
 
-	public XPandSelectWizardPage getXpandSelectPage() {
-		return xpandSelectPage;
-	}
+//	public SelectExportWizardPage getXpandSelectPage() {
+//		return xpandSelectPage;
+//	}
 	
 //
 //	public XPandModelSourceWizardPage getXpandModelSourcePage() {
 //		return xpandModelSourcePage;
 //	}
 
-	public XPandExportImportWizard() {
+	public AbstractExportTempleWizard() {
 	}
 	
-	@Override
-	public boolean performFinish() {
-		
-		final XpandTemplate currentTemplate = this.getXpandSelectPage().getSelectedTemplate();
-		currentTemplate.setTargetObject(LibraryPackage.eINSTANCE);
+	public boolean doPerformFinish(final XpandTemplate currentTemplate) {
+		// The export template should be set by the super...
 		
 		// Set template variables. (Generalize this). 
 		final IPath exportPath = xpandExportFilePage.getFilePath();
@@ -91,14 +88,13 @@ public class XPandExportImportWizard extends Wizard implements IExportWizard {
 						Messages.XPandExportWizard_2, null,
 						((CoreException) e.getTargetException()).getStatus());
 			} else {
-				Activator.logError(
+				ExportActivator.logError(
 						"Error exporting model", e.getTargetException()); //$NON-NLS-1$
 			}
 			return false;
 		}
 
 		return true;
-
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -111,11 +107,11 @@ public class XPandExportImportWizard extends Wizard implements IExportWizard {
 	@Override
 	public void addPages() {
 
-		xpandSelectPage = new XPandSelectWizardPage(Messages.XPandExportWizard_4);
-		xpandSelectPage.setTitle(Messages.XPandExportWizard_5);
-		xpandSelectPage.setDescription(Messages.XPandExportWizard_6);
+//		xpandSelectPage = new SelectExportWizardPage(Messages.XPandExportWizard_4);
+//		xpandSelectPage.setTitle(Messages.XPandExportWizard_5);
+//		xpandSelectPage.setDescription(Messages.XPandExportWizard_6);
 		// xpandSelectPage.setImageDescriptor(Activator.getImageDescriptor("icons/full/wizban/export_wiz.png"));
-		addPage(xpandSelectPage);
+//		addPage(xpandSelectPage);
 
 //		xpandModelSourcePage = new XPandModelSourceWizardPage(
 //				Messages.XPandExportWizard_7);
@@ -125,13 +121,17 @@ public class XPandExportImportWizard extends Wizard implements IExportWizard {
 //		this.addPage(xpandModelSourcePage);
 
 		// The extension will be set by other wizard pages depending on the wizard flow. 
-		xpandExportFilePage = new XPandExportWizardPage(Messages.XPandExportWizard_9,
+		xpandExportFilePage = new ExportNewFileWizardPage(Messages.XPandExportWizard_9,
 				selection, "*"); //$NON-NLS-1$
 		xpandExportFilePage.setTitle(Messages.XPandExportWizard_11);
 		xpandExportFilePage.setDescription(Messages.XPandExportWizard_12);
 		xpandExportFilePage.setContainerFullPath(WorkspaceUtil.INSTANCE
 				.getExportsPath());
 		addPage(xpandExportFilePage);
+	}
+
+	public XpandTemplate getTemplate() {
+		return new XpandPackageImport();
 	}
 
 }

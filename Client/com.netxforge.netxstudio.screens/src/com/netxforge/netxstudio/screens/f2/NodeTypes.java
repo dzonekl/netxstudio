@@ -21,11 +21,8 @@ package com.netxforge.netxstudio.screens.f2;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.ObservablesManager;
-import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -34,7 +31,8 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.viewers.ISelection;
@@ -77,7 +75,9 @@ import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.details.NewEditEquipment;
 import com.netxforge.netxstudio.screens.details.NewEditFunction;
 import com.netxforge.netxstudio.screens.details.NewEditNodeType;
+import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
+import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeLabelProvider;
 
@@ -96,8 +96,6 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	private TreeViewer nodeTypeTreeViewer;
 	private Composite cmpDetails;
 	private SashForm sashForm;
-
-	// private EMFObservablesManager mgr;
 
 	/**
 	 * Create the composite.
@@ -130,6 +128,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		initDataBindings_();
 	}
 
+	Thread updateDetails;
+
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
@@ -139,6 +139,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmNodeTypes = toolkit.createForm(this);
+
 		frmNodeTypes.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNodeTypes);
 
@@ -218,6 +219,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 						// TODO, We coud even wait to see if we get another
 						// update within 100ms.
 						// If we do, we would cancel.
+
 						NodeTypes.this.getDisplay().asyncExec(new Runnable() {
 							public void run() {
 								if (s instanceof IStructuredSelection) {
@@ -227,6 +229,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 								}
 							}
 						});
+
 					}
 				});
 		Tree tree = nodeTypeTreeViewer.getTree();
@@ -241,6 +244,35 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 	}
 
+	/**
+	 * Action to move objects to the ware house.
+	 * 
+	 * @author dzonekl
+	 * 
+	 */
+	class ExportAction extends Action {
+
+		public ExportAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection s = nodeTypeTreeViewer.getSelection();
+			if (s instanceof IStructuredSelection) {
+				WizardUtil
+						.openWizard(
+								"com.netxforge.netxstudio.models.export.wizard.ui.nodetype",
+								(IStructuredSelection) s);
+			}
+		}
+	}
+
+	@Override
+	public IAction[] getActions() {
+		return new IAction[] { new ExportAction("Export to HTML", SWT.PUSH) };
+	}
+
 	public void disposeData() {
 		if (editingService != null) {
 			editingService.disposeData(nodeTypeResource);
@@ -252,7 +284,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
-				new NodeTypeTreeFactoryImpl(editingService.getEditingDomain()), new NodeTypeTreeStructureAdvisorImpl());
+				new NodeTypeTreeFactoryImpl(editingService.getEditingDomain()),
+				new NodeTypeTreeStructureAdvisorImpl());
 		nodeTypeTreeViewer.setContentProvider(cp);
 		IObservableSet set = cp.getKnownElements();
 
@@ -261,18 +294,21 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
 				LibraryPackage.Literals.NODE_TYPE__NAME).observeDetail(set));
 
-		mapList.add( EMFProperties.value(LibraryPackage.Literals.COMPONENT__NAME)
+		mapList.add(EMFProperties
+				.value(LibraryPackage.Literals.COMPONENT__NAME).observeDetail(
+						set));
+
+		mapList.add(EMFProperties.value(
+				LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME)
 				.observeDetail(set));
-		
-		mapList.add( EMFProperties.value(LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME)
-				.observeDetail(set));
-		
-		mapList.add( EMFProperties.value(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)
+
+		mapList.add(EMFProperties.value(
+				LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)
 				.observeDetail(set));
 
 		IObservableMap[] map = new IObservableMap[mapList.size()];
 		mapList.toArray(map);
-		
+
 		nodeTypeTreeViewer.setLabelProvider(new NodeTypeTreeLabelProvider(map));
 		IEMFListProperty projects = EMFEditProperties.resource(editingService
 				.getEditingDomain());
@@ -283,51 +319,6 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		nodeTypeTreeViewer.setInput(nodeTypeObservableList);
 
 		return bindingContext;
-	}
-
-	class NodeTypeTreeFactoryImpl implements IObservableFactory {
-
-		EditingDomain domain;
-		@SuppressWarnings("unused")
-		private ObservablesManager obm;
-
-		private IEMFListProperty nodeTypeObservableProperty = EMFEditProperties
-				.multiList(domain,
-						LibraryPackage.Literals.NODE_TYPE__FUNCTIONS,
-						LibraryPackage.Literals.NODE_TYPE__EQUIPMENTS);
-
-		private IEMFListProperty functionsObservableProperty = EMFEditProperties
-				.multiList(domain, LibraryPackage.Literals.FUNCTION__FUNCTIONS,
-						LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
-
-		private IEMFListProperty equipmentsObservableProperty = EMFEditProperties
-				.multiList(domain,
-						LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
-						LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
-
-		NodeTypeTreeFactoryImpl(EditingDomain domain) {
-			this.domain = domain;
-		}
-
-		public IObservable createObservable(final Object target) {
-
-			IObservable ol = null;
-
-			if (target instanceof IObservableList) {
-				ol = (IObservable) target;
-			} else if (target instanceof NodeType) {
-				ol = nodeTypeObservableProperty.observe(target);
-			} else if (target instanceof Function) {
-				ol = functionsObservableProperty.observe(target);
-			} else if (target instanceof Equipment) {
-				ol = equipmentsObservableProperty.observe(target);
-			}
-
-			// if (ol != null) {
-			// obm.addObservable(ol);
-			// }
-			return ol;
-		}
 	}
 
 	class NodeTypeTreeStructureAdvisorImpl extends TreeStructureAdvisor {
@@ -377,7 +368,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 		if (o instanceof Function) {
 			NewEditFunction screen = null;
-			screen = new NewEditFunction(this.cmpDetails, SWT.NONE, editingService);
+			screen = new NewEditFunction(this.cmpDetails, SWT.NONE,
+					editingService);
 			screen.setScreenService(screenService);
 			screen.setOperation(getOperation());
 			screen.injectData(null, o);
@@ -413,8 +405,16 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	 * @see org.eclipse.emf.common.ui.viewer.IViewerProvider#getViewer()
 	 */
 	public Viewer getViewer() {
-		return this.nodeTypeTreeViewer;
-//		return super.currentViewer;
+
+		if (currentDetails != null) {
+			if (currentDetails instanceof IScreen) {
+				Viewer v = ((IScreen) currentDetails).getViewer();
+				if (v != null) {
+					return v;
+				}
+			}
+		}
+		return nodeTypeTreeViewer;
 	}
 
 	/*

@@ -112,6 +112,11 @@ public class ActionHandlerDescriptor implements IActionHandler {
 			handlers.remove(handler);
 		}
 	}
+	
+	
+	public boolean hasHandler(IActionHandler handler){
+		return handlers.contains(handler);
+	}
 
 	public void propertyChanged(Object source, int propId) {
 		if (source instanceof IWorkbenchPart) {
@@ -149,9 +154,16 @@ public class ActionHandlerDescriptor implements IActionHandler {
 		for (IActionHandler handler : handlers) {
 			handler.update(part);
 		}
-
 	}
 
-
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("Registered handlers: ");
+		for( IActionHandler h : this.handlers){
+			sb.append(h.toString() + "\n");
+		}
+		return sb.toString();
+	}
 
 }

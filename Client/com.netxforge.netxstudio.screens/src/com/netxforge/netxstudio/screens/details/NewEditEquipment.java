@@ -2,6 +2,7 @@ package com.netxforge.netxstudio.screens.details;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
@@ -12,11 +13,19 @@ import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.DeleteCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -27,9 +36,12 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -40,6 +52,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -72,6 +85,7 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 	private Table table_1;
 	private TableViewer resourceTableViewer;
 	private Text txtCode;
+	private ComboViewer cmbViewerExpansionDuration;
 
 	public NewEditEquipment(Composite parent, int style,
 			final IEditingService editingService) {
@@ -156,6 +170,17 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 		gd_text.widthHint = 200;
 		txtDescription.setLayoutData(gd_text);
 
+		Label lblExpansion = toolkit.createLabel(composite, "Expansion:",
+				SWT.NONE);
+		lblExpansion.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+
+		cmbViewerExpansionDuration = new ComboViewer(composite, SWT.NONE);
+		Combo cmbExpansionDuration = cmbViewerExpansionDuration.getCombo();
+		cmbExpansionDuration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				false, false, 1, 1));
+		toolkit.paintBordersFor(cmbExpansionDuration);
+
 		Section sctnExpressions = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		FormData fd_sctnExpressions = new FormData();
@@ -194,7 +219,8 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 							comp,
 							LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
 							null);
-					editingService.getEditingDomain().getCommandStack().execute(c);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(c);
 				}
 			}
 
@@ -261,7 +287,8 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 							comp,
 							LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
 							null);
-					editingService.getEditingDomain().getCommandStack().execute(c);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(c);
 				}
 			}
 
@@ -380,6 +407,23 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
 		tblclmnExpression.setWidth(100);
 		tblclmnExpression.setText("Expression");
+		
+		Menu menu = new Menu(table);
+		table.setMenu(menu);
+		
+		MenuItem mntmRemove = new MenuItem(menu, SWT.NONE);
+		mntmRemove.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection s = tolerancesTableViewer.getSelection();
+				if(s instanceof IStructuredSelection ){
+					Object o = ((IStructuredSelection) s).getFirstElement();
+					Command rc = new RemoveCommand(editingService.getEditingDomain(), comp.getToleranceRefs(), o);
+					editingService.getEditingDomain().getCommandStack().execute(rc);
+				}
+			}
+		});
+		mntmRemove.setText("Remove");
 
 		Section sctnResources = toolkit.createSection(this, Section.TITLE_BAR);
 		fd_sctnMetrics.bottom = new FormAttachment(sctnResources, -6);
@@ -475,6 +519,23 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 		TableColumn tblclmnExpressionName = tableViewerColumn_4.getColumn();
 		tblclmnExpressionName.setWidth(100);
 		tblclmnExpressionName.setText("Expression Name");
+		
+		Menu menu_1 = new Menu(table_1);
+		table_1.setMenu(menu_1);
+		
+		MenuItem mntmRemove_1 = new MenuItem(menu_1, SWT.NONE);
+		mntmRemove_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection s = resourceTableViewer.getSelection();
+				if(s instanceof IStructuredSelection ){
+					Object o = ((IStructuredSelection) s).getFirstElement();
+					Command rc = DeleteCommand.create(editingService.getEditingDomain(), o);
+					editingService.getEditingDomain().getCommandStack().execute(rc);
+				}
+			}
+		});
+		mntmRemove_1.setText("Remove");
 
 		if (readonly) {
 			btnSelectCapExpression.setEnabled(false);
@@ -583,18 +644,29 @@ public class NewEditEquipment extends AbstractDetailsComposite implements
 										LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
 										LibraryPackage.Literals.EXPRESSION__NAME));
 
+		// Expansion duration binding. 
+		cmbViewerExpansionDuration
+				.setContentProvider(new ArrayContentProvider());
+		cmbViewerExpansionDuration.setLabelProvider(new LabelProvider());
+		cmbViewerExpansionDuration.setInput(ExpansionDuration.VALUES);
+
+		IEMFValueProperty durationProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.EQUIPMENT__DURATION);
+		IValueProperty selectionProperty = ViewerProperties.singleSelection();
+		IObservableValue expansionDurationObservable = selectionProperty
+				.observe(cmbViewerExpansionDuration);
+		context.bindValue(expansionDurationObservable,
+				durationProperty.observe(comp), null, null);
+
 		context.bindValue(nameObservable, componentNameProperty.observe(comp),
 				null, null);
-
 		context.bindValue(codeObservable, codeProperty.observe(comp), null,
 				null);
-
 		context.bindValue(descriptionObservable,
 				componentDescriptionProperty.observe(comp), null, null);
-
 		context.bindValue(capExpressionObservable,
 				capacityExpressionProperty.observe(comp), null, null);
-
 		context.bindValue(utilExpressionObservable,
 				utilExpressionProperty.observe(comp), null, null);
 

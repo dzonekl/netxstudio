@@ -6,6 +6,7 @@ import org.eclipse.gef.EditPartFactory;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.screens.f2.model.ComponentToComponent;
 import com.netxforge.netxstudio.screens.f2.model.NodeTypeToComponent;
 import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
 
@@ -26,6 +27,9 @@ public class NodeTypeEditPartsFactory implements EditPartFactory {
 		}
 		if(model instanceof NodeTypeToComponent){
 			return new NodeTypeToComponentEditPart((NodeTypeToComponent) model);
+		}
+		if(model instanceof ComponentToComponent){
+			return new ComponentToComponentEditPart((ComponentToComponent) model);
 		}
 		throw new IllegalStateException("Can't create requested edit part");
 	}

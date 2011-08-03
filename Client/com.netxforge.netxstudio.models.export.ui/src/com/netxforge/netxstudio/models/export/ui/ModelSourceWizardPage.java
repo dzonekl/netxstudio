@@ -3,7 +3,6 @@ package com.netxforge.netxstudio.models.export.ui;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -22,16 +21,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
-public class XPandModelSourceWizardPage extends WizardPage {
-
-	@Override
-	public IWizardPage getNextPage() {
-		String extension = ((XPandExportWizard) getWizard())
-				.getCurrentXpandTemplate().getExtension();
-		((XPandExportWizard) getWizard()).getXpandExportFilePage()
-				.setExtension(extension);
-		return ((XPandExportWizard) getWizard()).getXpandExportFilePage();
-	}
+public class ModelSourceWizardPage extends WizardPage {
 
 	private Text sourceFileField;
 	private FormToolkit toolkit;
@@ -39,7 +29,7 @@ public class XPandModelSourceWizardPage extends WizardPage {
 	private IPath initSourcePath;
 	private Button btnDbBased;
 
-	protected XPandModelSourceWizardPage(String pageName) {
+	protected ModelSourceWizardPage(String pageName) {
 		super(pageName);
 	}
 

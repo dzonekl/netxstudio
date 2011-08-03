@@ -23,4 +23,18 @@ public class AbstractLibraryEditPart extends AbstractGraphicalEditPart {
 		return false;
 	}
 
+	public boolean addComponentToComponentTargetConnection(
+			ComponentToComponentEditPart componentToComponentEditPart) {
+		return false;
+	}
+
+	public boolean removeComponentToComponentTargetConnection(
+			ComponentToComponentEditPart componentToComponentEditPart) {
+		return false;
+	}
+	
+	//
+	
+	
+
 }

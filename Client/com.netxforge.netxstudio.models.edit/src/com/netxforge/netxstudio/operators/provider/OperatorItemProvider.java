@@ -26,6 +26,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.IChildCreationExtender;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -35,7 +36,6 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.CompanyItemProvider;
-import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -97,7 +97,6 @@ public class OperatorItemProvider
 			childrenFeatures.add(OperatorsPackage.Literals.OPERATOR__SERVICES);
 			childrenFeatures.add(OperatorsPackage.Literals.OPERATOR__SERVICE_USERS);
 			childrenFeatures.add(OperatorsPackage.Literals.OPERATOR__RESOURCE_EXPANSIONS);
-			childrenFeatures.add(OperatorsPackage.Literals.OPERATOR__EXPANSION_EXPERIENCES);
 		}
 		return childrenFeatures;
 	}
@@ -157,7 +156,6 @@ public class OperatorItemProvider
 			case OperatorsPackage.OPERATOR__SERVICES:
 			case OperatorsPackage.OPERATOR__SERVICE_USERS:
 			case OperatorsPackage.OPERATOR__RESOURCE_EXPANSIONS:
-			case OperatorsPackage.OPERATOR__EXPANSION_EXPERIENCES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -209,11 +207,6 @@ public class OperatorItemProvider
 			(createChildParameter
 				(OperatorsPackage.Literals.OPERATOR__RESOURCE_EXPANSIONS,
 				 OperatorsFactory.eINSTANCE.createResourceExpansion()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.OPERATOR__EXPANSION_EXPERIENCES,
-				 OperatorsFactory.eINSTANCE.createExpansionExperience()));
 	}
 
 	/**
@@ -224,7 +217,7 @@ public class OperatorItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return NetxstudioEditPlugin.INSTANCE;
+		return ((IChildCreationExtender)adapterFactory).getResourceLocator();
 	}
 
 }

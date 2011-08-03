@@ -45,7 +45,6 @@ import com.netxforge.netxstudio.services.ServiceUser;
  *   <li>{@link com.netxforge.netxstudio.operators.Operator#getServices <em>Services</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Operator#getServiceUsers <em>Service Users</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Operator#getResourceExpansions <em>Resource Expansions</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.Operator#getExpansionExperiences <em>Expansion Experiences</em>}</li>
  * </ul>
  * </p>
  *
@@ -143,23 +142,5 @@ public interface Operator extends Company {
 	 * @generated
 	 */
 	EList<ResourceExpansion> getResourceExpansions();
-
-	/**
-	 * Returns the value of the '<em><b>Expansion Experiences</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.operators.ExpansionExperience}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The ExpansionExperiences reference, contains 0
-	 * 								or more ExpansionExperience type.
-	 * 							
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Expansion Experiences</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getOperator_ExpansionExperiences()
-	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='ExpansionExperiences'"
-	 * @generated
-	 */
-	EList<ExpansionExperience> getExpansionExperiences();
 
 } // Operator

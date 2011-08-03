@@ -248,6 +248,10 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 		IScreen screen = getActiveScreen();
 
 		String newTitle = "";
+		if( screen.getScreenForm() == null){
+			return;
+		}
+		
 		String currentTitle = screen.getScreenForm().getText();
 
 		if (getEditingService().isDirty()) {

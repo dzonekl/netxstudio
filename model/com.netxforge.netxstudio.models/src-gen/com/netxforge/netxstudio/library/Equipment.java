@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.library;
 
 import org.eclipse.emf.common.util.EList;
 
+import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 
@@ -65,6 +66,7 @@ import com.netxforge.netxstudio.operators.EquipmentRelationship;
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getEquipmentRelationshipRefs <em>Equipment Relationship Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getAllEquipments <em>All Equipments</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getCount <em>Count</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.Equipment#getDuration <em>Duration</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getEquipmentCode <em>Equipment Code</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getPosition <em>Position</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getRedundancy <em>Redundancy</em>}</li>
@@ -233,6 +235,65 @@ public interface Equipment extends Component {
 	 * @generated
 	 */
 	boolean isSetCount();
+
+	/**
+	 * Returns the value of the '<em><b>Duration</b></em>' attribute.
+	 * The literals are from the enumeration {@link com.netxforge.netxstudio.generics.ExpansionDuration}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The Duration attribute, holds the typical
+	 * 							duration
+	 * 							for the expansion of an Equipment.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Duration</em>' attribute.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDuration
+	 * @see #isSetDuration()
+	 * @see #unsetDuration()
+	 * @see #setDuration(ExpansionDuration)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipment_Duration()
+	 * @model unsettable="true"
+	 *        extendedMetaData="kind='attribute' name='Duration'"
+	 * @generated
+	 */
+	ExpansionDuration getDuration();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Equipment#getDuration <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Duration</em>' attribute.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDuration
+	 * @see #isSetDuration()
+	 * @see #unsetDuration()
+	 * @see #getDuration()
+	 * @generated
+	 */
+	void setDuration(ExpansionDuration value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.Equipment#getDuration <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetDuration()
+	 * @see #getDuration()
+	 * @see #setDuration(ExpansionDuration)
+	 * @generated
+	 */
+	void unsetDuration();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.Equipment#getDuration <em>Duration</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Duration</em>' attribute is set.
+	 * @see #unsetDuration()
+	 * @see #getDuration()
+	 * @see #setDuration(ExpansionDuration)
+	 * @generated
+	 */
+	boolean isSetDuration();
 
 	/**
 	 * Returns the value of the '<em><b>Equipment Code</b></em>' attribute.

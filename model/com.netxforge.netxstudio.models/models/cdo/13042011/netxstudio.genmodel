@@ -164,7 +164,7 @@
     </genClasses>
   </genPackages>
   <genPackages prefix="Library" basePackage="com.netxforge.netxstudio" resource="XML"
-      disposableProviderFactory="true" ecorePackage="library.ecore#/">
+      disposableProviderFactory="true" extensibleProviderFactory="true" ecorePackage="library.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//LevelType">
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelType/RED"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelType/AMBER"/>
@@ -219,6 +219,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentRelationshipRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/allEquipments"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/duration"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/equipmentCode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/position"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/redundancy"/>
@@ -440,7 +441,7 @@
     </genClasses>
   </genPackages>
   <genPackages prefix="Operators" basePackage="com.netxforge.netxstudio" resource="XML"
-      disposableProviderFactory="true" ecorePackage="operators.ecore#/">
+      disposableProviderFactory="true" extensibleProviderFactory="true" ecorePackage="operators.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="operators.ecore#//MarkerKind">
       <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/value"/>
       <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/INTERNALEVENT"/>
@@ -452,10 +453,6 @@
     <genClasses ecoreClass="operators.ecore#//EquipmentRelationship">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//EquipmentRelationship/equipment1Ref"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//EquipmentRelationship/equipment2Ref"/>
-    </genClasses>
-    <genClasses ecoreClass="operators.ecore#//ExpansionExperience">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ExpansionExperience/equipmentRef"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ExpansionExperience/duration"/>
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//FunctionRelationship">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//FunctionRelationship/function1Ref"/>
@@ -494,7 +491,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Operator/services"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Operator/serviceUsers"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Operator/resourceExpansions"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Operator/expansionExperiences"/>
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//Relationship">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Relationship/name"/>
@@ -519,7 +515,7 @@
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//Warehouse">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Warehouse/nodes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Warehouse/equipments"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference operators.ecore#//Warehouse/equipments"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Warehouse/description"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Warehouse/name"/>
     </genClasses>

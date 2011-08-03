@@ -520,7 +520,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_EquipmentCode() {
+	public EAttribute getEquipment_Duration() {
 		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -529,7 +529,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_Position() {
+	public EAttribute getEquipment_EquipmentCode() {
 		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -538,7 +538,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_Redundancy() {
+	public EAttribute getEquipment_Position() {
 		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -547,8 +547,17 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEquipment_State() {
+	public EAttribute getEquipment_Redundancy() {
 		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEquipment_State() {
+		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -1456,6 +1465,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENT_RELATIONSHIP_REFS);
 		createEReference(equipmentEClass, EQUIPMENT__ALL_EQUIPMENTS);
 		createEAttribute(equipmentEClass, EQUIPMENT__COUNT);
+		createEAttribute(equipmentEClass, EQUIPMENT__DURATION);
 		createEAttribute(equipmentEClass, EQUIPMENT__EQUIPMENT_CODE);
 		createEAttribute(equipmentEClass, EQUIPMENT__POSITION);
 		createEAttribute(equipmentEClass, EQUIPMENT__REDUNDANCY);
@@ -1645,6 +1655,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getEquipment_EquipmentRelationshipRefs(), theOperatorsPackage.getEquipmentRelationship(), null, "equipmentRelationshipRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_AllEquipments(), this.getEquipment(), null, "allEquipments", null, 0, -1, Equipment.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEquipment_Count(), theXMLTypePackage.getInt(), "count", null, 0, 1, Equipment.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEquipment_Duration(), theGenericsPackage.getExpansionDuration(), "duration", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEquipment_EquipmentCode(), theGenericsPackage.getName255(), "equipmentCode", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEquipment_Position(), theGenericsPackage.getName255(), "position", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEquipment_Redundancy(), this.getRedundancyType(), "redundancy", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1813,7 +1824,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																					
+		   });																																																																																																							
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -1982,6 +1993,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Count"
+		   });			
+		addAnnotation
+		  (getEquipment_Duration(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Duration"
 		   });			
 		addAnnotation
 		  (getEquipment_EquipmentCode(), 
@@ -2699,7 +2717,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self.equipments->size()\n\t\t\t\t\t\t"
-		   });																								
+		   });																										
 		addAnnotation
 		  (getEquipmentGroup_AllEquipmentResources(), 
 		   source, 
@@ -2745,7 +2763,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	protected void createTeneoAnnotations() {
-		String source = "teneo.jpa";																																																																																															
+		String source = "teneo.jpa";																																																																																																	
 		addAnnotation
 		  (expressionResultEClass, 
 		   source, 

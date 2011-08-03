@@ -168,7 +168,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getRelationship()
 	 * @generated
 	 */
-	int RELATIONSHIP = 7;
+	int RELATIONSHIP = 6;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -307,52 +307,6 @@ public interface OperatorsPackage extends EPackage {
 	int EQUIPMENT_RELATIONSHIP_FEATURE_COUNT = RELATIONSHIP_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.ExpansionExperienceImpl <em>Expansion Experience</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.operators.impl.ExpansionExperienceImpl
-	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getExpansionExperience()
-	 * @generated
-	 */
-	int EXPANSION_EXPERIENCE = 1;
-
-	/**
-	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPANSION_EXPERIENCE__DELETED = GenericsPackage.BASE__DELETED;
-
-	/**
-	 * The feature id for the '<em><b>Equipment Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPANSION_EXPERIENCE__EQUIPMENT_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Duration</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPANSION_EXPERIENCE__DURATION = GenericsPackage.BASE_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Expansion Experience</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPANSION_EXPERIENCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
-
-	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.FunctionRelationshipImpl <em>Function Relationship</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -360,7 +314,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getFunctionRelationship()
 	 * @generated
 	 */
-	int FUNCTION_RELATIONSHIP = 2;
+	int FUNCTION_RELATIONSHIP = 1;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -442,7 +396,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getMarker()
 	 * @generated
 	 */
-	int MARKER = 3;
+	int MARKER = 2;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -515,7 +469,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getNetwork()
 	 * @generated
 	 */
-	int NETWORK = 4;
+	int NETWORK = 3;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -633,7 +587,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getNode()
 	 * @generated
 	 */
-	int NODE = 5;
+	int NODE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -715,7 +669,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getOperator()
 	 * @generated
 	 */
-	int OPERATOR = 6;
+	int OPERATOR = 5;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -826,22 +780,13 @@ public interface OperatorsPackage extends EPackage {
 	int OPERATOR__RESOURCE_EXPANSIONS = GenericsPackage.COMPANY_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Expansion Experiences</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATOR__EXPANSION_EXPERIENCES = GenericsPackage.COMPANY_FEATURE_COUNT + 5;
-
-	/**
 	 * The number of structural features of the '<em>Operator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATOR_FEATURE_COUNT = GenericsPackage.COMPANY_FEATURE_COUNT + 6;
+	int OPERATOR_FEATURE_COUNT = GenericsPackage.COMPANY_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.ResourceExpansionImpl <em>Resource Expansion</em>}' class.
@@ -851,7 +796,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getResourceExpansion()
 	 * @generated
 	 */
-	int RESOURCE_EXPANSION = 8;
+	int RESOURCE_EXPANSION = 7;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -906,7 +851,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getResourceForecast()
 	 * @generated
 	 */
-	int RESOURCE_FORECAST = 9;
+	int RESOURCE_FORECAST = 8;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -943,7 +888,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getResourceMonitor()
 	 * @generated
 	 */
-	int RESOURCE_MONITOR = 10;
+	int RESOURCE_MONITOR = 9;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1016,7 +961,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getWarehouse()
 	 * @generated
 	 */
-	int WAREHOUSE = 11;
+	int WAREHOUSE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1037,7 +982,7 @@ public interface OperatorsPackage extends EPackage {
 	int WAREHOUSE__NODES = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Equipments</b></em>' attribute list.
+	 * The feature id for the '<em><b>Equipments</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1080,7 +1025,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getMarkerKind()
 	 * @generated
 	 */
-	int MARKER_KIND = 12;
+	int MARKER_KIND = 11;
 
 	/**
 	 * The meta object id for the '<em>Marker Kind Object</em>' data type.
@@ -1090,7 +1035,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getMarkerKindObject()
 	 * @generated
 	 */
-	int MARKER_KIND_OBJECT = 13;
+	int MARKER_KIND_OBJECT = 12;
 
 
 	/**
@@ -1124,38 +1069,6 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEquipmentRelationship_Equipment2Ref();
-
-	/**
-	 * Returns the meta object for class '{@link com.netxforge.netxstudio.operators.ExpansionExperience <em>Expansion Experience</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Expansion Experience</em>'.
-	 * @see com.netxforge.netxstudio.operators.ExpansionExperience
-	 * @generated
-	 */
-	EClass getExpansionExperience();
-
-	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.ExpansionExperience#getEquipmentRef <em>Equipment Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Equipment Ref</em>'.
-	 * @see com.netxforge.netxstudio.operators.ExpansionExperience#getEquipmentRef()
-	 * @see #getExpansionExperience()
-	 * @generated
-	 */
-	EReference getExpansionExperience_EquipmentRef();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.operators.ExpansionExperience#getDuration <em>Duration</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Duration</em>'.
-	 * @see com.netxforge.netxstudio.operators.ExpansionExperience#getDuration()
-	 * @see #getExpansionExperience()
-	 * @generated
-	 */
-	EAttribute getExpansionExperience_Duration();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.operators.FunctionRelationship <em>Function Relationship</em>}'.
@@ -1516,17 +1429,6 @@ public interface OperatorsPackage extends EPackage {
 	EReference getOperator_ResourceExpansions();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.operators.Operator#getExpansionExperiences <em>Expansion Experiences</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Expansion Experiences</em>'.
-	 * @see com.netxforge.netxstudio.operators.Operator#getExpansionExperiences()
-	 * @see #getOperator()
-	 * @generated
-	 */
-	EReference getOperator_ExpansionExperiences();
-
-	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.operators.Relationship <em>Relationship</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1731,15 +1633,15 @@ public interface OperatorsPackage extends EPackage {
 	EReference getWarehouse_Nodes();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link com.netxforge.netxstudio.operators.Warehouse#getEquipments <em>Equipments</em>}'.
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.operators.Warehouse#getEquipments <em>Equipments</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Equipments</em>'.
+	 * @return the meta object for the containment reference list '<em>Equipments</em>'.
 	 * @see com.netxforge.netxstudio.operators.Warehouse#getEquipments()
 	 * @see #getWarehouse()
 	 * @generated
 	 */
-	EAttribute getWarehouse_Equipments();
+	EReference getWarehouse_Equipments();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.operators.Warehouse#getDescription <em>Description</em>}'.
@@ -1832,32 +1734,6 @@ public interface OperatorsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF = eINSTANCE.getEquipmentRelationship_Equipment2Ref();
-
-		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.operators.impl.ExpansionExperienceImpl <em>Expansion Experience</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.operators.impl.ExpansionExperienceImpl
-		 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getExpansionExperience()
-		 * @generated
-		 */
-		EClass EXPANSION_EXPERIENCE = eINSTANCE.getExpansionExperience();
-
-		/**
-		 * The meta object literal for the '<em><b>Equipment Ref</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPANSION_EXPERIENCE__EQUIPMENT_REF = eINSTANCE.getExpansionExperience_EquipmentRef();
-
-		/**
-		 * The meta object literal for the '<em><b>Duration</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EXPANSION_EXPERIENCE__DURATION = eINSTANCE.getExpansionExperience_Duration();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.operators.impl.FunctionRelationshipImpl <em>Function Relationship</em>}' class.
@@ -2134,14 +2010,6 @@ public interface OperatorsPackage extends EPackage {
 		EReference OPERATOR__RESOURCE_EXPANSIONS = eINSTANCE.getOperator_ResourceExpansions();
 
 		/**
-		 * The meta object literal for the '<em><b>Expansion Experiences</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference OPERATOR__EXPANSION_EXPERIENCES = eINSTANCE.getOperator_ExpansionExperiences();
-
-		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.operators.impl.RelationshipImpl <em>Relationship</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2304,12 +2172,12 @@ public interface OperatorsPackage extends EPackage {
 		EReference WAREHOUSE__NODES = eINSTANCE.getWarehouse_Nodes();
 
 		/**
-		 * The meta object literal for the '<em><b>Equipments</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>Equipments</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute WAREHOUSE__EQUIPMENTS = eINSTANCE.getWarehouse_Equipments();
+		EReference WAREHOUSE__EQUIPMENTS = eINSTANCE.getWarehouse_Equipments();
 
 		/**
 		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.

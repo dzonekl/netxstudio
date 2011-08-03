@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: NetXStudio Editing
-Bundle-SymbolicName: com.netxforge.netxstudio.screens.editing
+Bundle-SymbolicName: com.netxforge.netxstudio.screens.editing;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.netxforge.netxstudio.screens.editing.internal.EditingActivator
 Bundle-Vendor: NetXForge
