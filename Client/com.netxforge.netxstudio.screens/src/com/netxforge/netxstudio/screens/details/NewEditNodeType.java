@@ -25,12 +25,11 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.wb.swt.SWTResourceManager;
 
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
@@ -39,7 +38,7 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
 import com.netxforge.netxstudio.screens.f2.parts.NodeTypeEditPartsFactory;
 
-public class NewEditNodeType extends AbstractDetailsComposite implements
+public class NewEditNodeType extends AbstractDetailsScreen implements
 		IScreen, IDataScreenInjection {
 
 	private NodeType nodeType;
@@ -140,8 +139,8 @@ public class NewEditNodeType extends AbstractDetailsComposite implements
 		lblName.setLayoutData(gd_lblName);
 
 		frmTextNumberOfFunctions = toolkit.createFormText(composite, false);
-		frmTextNumberOfFunctions.setBackground(SWTResourceManager
-				.getColor(SWT.COLOR_MAGENTA));
+//		frmTextNumberOfFunctions.setBackground(SWTResourceManager
+//				.getColor(SWT.COLOR_MAGENTA));
 		GridData gd_frmTextNumberOfFunctions = new GridData(SWT.LEFT,
 				SWT.CENTER, false, false, 1, 1);
 		gd_frmTextNumberOfFunctions.widthHint = 40;
@@ -274,8 +273,8 @@ public class NewEditNodeType extends AbstractDetailsComposite implements
 				if (next instanceof Equipment) {
 					equipments += 1;
 				}
-				if (next instanceof NetXResource) {
-					resources += 1;
+				if (next instanceof Component) {
+					resources += ((Component) next).getResourceRefs().size();
 				}
 			}
 		}

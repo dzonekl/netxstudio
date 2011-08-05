@@ -77,9 +77,6 @@ public class NewEditExpression extends AbstractScreen implements
 		IDataScreenInjection, IValidationListener {
 	private DataBindingContext m_bindingContext;
 
-	@Inject
-	ModelUtils modelUtils;
-
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtExpressionName;
 

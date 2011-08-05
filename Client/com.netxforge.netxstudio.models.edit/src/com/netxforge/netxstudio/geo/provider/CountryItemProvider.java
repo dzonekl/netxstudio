@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.geo.provider;
 
 
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import java.util.Collection;
 import java.util.List;
 
@@ -36,7 +37,6 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
 import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.geo.Country;
@@ -50,7 +50,7 @@ import com.netxforge.netxstudio.geo.GeoPackage;
  * @generated
  */
 public class CountryItemProvider
-	extends BaseItemProvider
+	extends LocationItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -79,7 +79,6 @@ public class CountryItemProvider
 			super.getPropertyDescriptors(object);
 
 			addCountryCodePropertyDescriptor(object);
-			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -98,28 +97,6 @@ public class CountryItemProvider
 				 getString("_UI_Country_countryCode_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Country_countryCode_feature", "_UI_Country_type"),
 				 GeoPackage.Literals.COUNTRY__COUNTRY_CODE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Country_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Country_name_feature", "_UI_Country_type"),
-				 GeoPackage.Literals.COUNTRY__NAME,
 				 true,
 				 false,
 				 false,
@@ -197,7 +174,6 @@ public class CountryItemProvider
 
 		switch (notification.getFeatureID(Country.class)) {
 			case GeoPackage.COUNTRY__COUNTRY_CODE:
-			case GeoPackage.COUNTRY__NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case GeoPackage.COUNTRY__SITES:
@@ -213,32 +189,21 @@ public class CountryItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(GeoPackage.Literals.COUNTRY__SITES,
-				 GeoFactory.eINSTANCE.createSite()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(GeoPackage.Literals.COUNTRY__ICONS,
-				 GenericsFactory.eINSTANCE.createMultiImage()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return NetxstudioEditPlugin.INSTANCE;
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(GeoPackage.Literals.COUNTRY__SITES,
+//				 GeoFactory.eINSTANCE.createSite()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(GeoPackage.Literals.COUNTRY__ICONS,
+//				 GenericsFactory.eINSTANCE.createMultiImage()));
 	}
 
 }

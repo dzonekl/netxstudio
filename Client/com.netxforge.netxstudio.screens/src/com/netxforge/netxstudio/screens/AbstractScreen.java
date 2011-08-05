@@ -28,6 +28,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Form;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.observables.FormValidationEvent;
 import com.netxforge.netxstudio.screens.editing.observables.IValidationListener;
@@ -55,6 +57,9 @@ public abstract class AbstractScreen extends Composite implements IScreen,
 	protected IScreenFormService screenService;
 
 	protected IValidationService validationService;
+	
+	@Inject
+	protected ModelUtils modelUtils;
 
 	public void setScreenService(IScreenFormService screenService) {
 		this.screenService = screenService;

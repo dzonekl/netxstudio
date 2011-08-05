@@ -4,13 +4,10 @@ import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -38,8 +35,6 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -56,9 +51,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 	private Form frmResources;
 	private Resource resourcesResource;
 
-	@Inject
-	ModelUtils modelUtils;
-	private TableViewerColumn tblViewerClmnState; 
+	private TableViewerColumn tbvcLongName;
 
 	/**
 	 * Create the composite.
@@ -75,7 +68,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -140,35 +133,41 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
 
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+		TableViewerColumn tbvcOwner = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnOwner = tableViewerColumn_1.getColumn();
+		TableColumn tblclmnOwner = tbvcOwner.getColumn();
 		tblclmnOwner.setWidth(100);
 		tblclmnOwner.setText("Owner");
-
-		TableViewerColumn tblViewerClmType = new TableViewerColumn(
+		
+		TableViewerColumn tbvcMetric = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnJobType = tblViewerClmType.getColumn();
-		tblclmnJobType.setWidth(76);
-		tblclmnJobType.setText("Short Name");
+		TableColumn tblclmnMetric = tbvcMetric.getColumn();
+		tblclmnMetric.setWidth(100);
+		tblclmnMetric.setText("Metric");
 
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(
+		TableViewerColumn tbvcShortName = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnName = tableViewerColumn.getColumn();
-		tblclmnName.setWidth(104);
-		tblclmnName.setText("Expression Name");
+		TableColumn tblclmnShortName = tbvcShortName.getColumn();
+		tblclmnShortName.setWidth(76);
+		tblclmnShortName.setText("Short Name");
 
-		tblViewerClmnState = new TableViewerColumn(resourcesTableViewer,
+		TableViewerColumn tbvcExpressionName = new TableViewerColumn(
+				resourcesTableViewer, SWT.NONE);
+		TableColumn tblclmnExpression = tbvcExpressionName.getColumn();
+		tblclmnExpression.setWidth(104);
+		tblclmnExpression.setText("Expression Name");
+
+		tbvcLongName = new TableViewerColumn(resourcesTableViewer,
 				SWT.NONE);
-		TableColumn tblclmnState = tblViewerClmnState.getColumn();
-		tblclmnState.setWidth(207);
+		TableColumn tblclmnState = tbvcLongName.getColumn();
+		tblclmnState.setWidth(200);
 		tblclmnState.setText("Long Name");
 
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+		TableViewerColumn tbvcUnit = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
-		TableColumn tblclmnStarttime = tableViewerColumn_2.getColumn();
-		tblclmnStarttime.setWidth(68);
-		tblclmnStarttime.setText("Unit");
+		TableColumn tblclmnUnit = tbvcUnit.getColumn();
+		tblclmnUnit.setWidth(68);
+		tblclmnUnit.setText("Unit");
 	}
 
 	class EditResourceAction extends Action {
@@ -221,18 +220,40 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		resourcesTableViewer.setContentProvider(listContentProvider);
 
-		EAttribute dummyAttribute = EcoreFactory.eINSTANCE.createEAttribute();
 
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] { dummyAttribute,
-						LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME,
-						LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME,
-						LibraryPackage.Literals.NET_XRESOURCE__LONG_NAME,
-						LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF, });
+		List<IObservableMap> observeMaps = Lists.newArrayList();
+		IObservableSet set = listContentProvider.getKnownElements();
+		observeMaps.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)
+				.observeDetail(set));
+
+		observeMaps.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF)
+				.observeDetail(set));
+
+		observeMaps.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME)
+				.observeDetail(set));
+		observeMaps.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME)
+				.observeDetail(set));
+		observeMaps.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.NET_XRESOURCE__LONG_NAME)
+				.observeDetail(set));
+		observeMaps.add(EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF).observeDetail(
+				set));
+
+		IObservableMap[] map = new IObservableMap[observeMaps.size()];
+		observeMaps.toArray(map);
 		resourcesTableViewer
-				.setLabelProvider(new NetXResourceObervableMapLabelProvider(
-						observeMaps));
+				.setLabelProvider(new NetXResourceObervableMapLabelProvider(map));
 
 		IEMFListProperty resourcesProperties = EMFEditProperties
 				.resource(editingService.getEditingDomain());
@@ -263,9 +284,23 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 				NetXResource resource = (NetXResource) element;
 				switch (columnIndex) {
 				case 0: {
-					return resource.getComponentRef().getName();
+					if (resource
+							.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
+						return resource.getComponentRef().getName();
+					} else {
+						return "not connected";
+					}
 				}
-				case 3:
+				case 1: {
+					if (resource
+							.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF)) {
+						return resource.getMetricRef().getName();
+					} else {
+						return null;
+					}
+				}
+
+				case 5:
 					if (resource.getUnitRef() != null) {
 						return resource.getUnitRef().getCode();
 					}

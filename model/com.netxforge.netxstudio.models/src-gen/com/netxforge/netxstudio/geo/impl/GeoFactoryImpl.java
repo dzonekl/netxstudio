@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.geo.impl;
 
+import com.netxforge.netxstudio.geo.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -27,6 +28,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.geo.Room;
 import com.netxforge.netxstudio.geo.Site;
 
@@ -75,6 +77,7 @@ public class GeoFactoryImpl extends EFactoryImpl implements GeoFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case GeoPackage.COUNTRY: return (EObject)createCountry();
+			case GeoPackage.LOCATION: return (EObject)createLocation();
 			case GeoPackage.ROOM: return (EObject)createRoom();
 			case GeoPackage.SITE: return (EObject)createSite();
 			default:
@@ -90,6 +93,16 @@ public class GeoFactoryImpl extends EFactoryImpl implements GeoFactory {
 	public Country createCountry() {
 		CountryImpl country = new CountryImpl();
 		return country;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Location createLocation() {
+		LocationImpl location = new LocationImpl();
+		return location;
 	}
 
 	/**

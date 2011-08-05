@@ -12,11 +12,14 @@ import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -28,16 +31,17 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
-import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.wb.swt.ResourceManager;
 
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
@@ -51,325 +55,41 @@ import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
-public class NewEditComponent extends AbstractDetailsComposite implements
-		IScreen, IDataScreenInjection {
 
-	private Component comp;
-	private FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	private Text txtName;
-	private Text txtDescription;
-	private IEditingService editingService;
-	private Table table;
-	private TableViewer tolerancesTableViewer;
+/**
+ * Abstract Component screen implementation, which can deliver various sections. 
+ * 
+ * @author dzonekl
+ *
+ */
+public abstract class NewEditComponent extends AbstractDetailsScreen implements IDataScreenInjection {
+
+	final IEditingService editingService;
+	
+	// Resource section. 
 	private Text txtCapExpression;
 	private Text txtUtilExpression;
-	private Table table_1;
+	private Table resourcesTable;
 	private TableViewer resourceTableViewer;
-
-	public NewEditComponent(Composite parent, int style,
-			final IEditingService editingService) {
+		
+	
+	// Tolerance section. 
+	private Table toleranceTable;
+	private TableViewer tolerancesTableViewer;
+	
+	protected Component comp;
+	
+	public NewEditComponent(Composite parent, int style, final IEditingService editingService) {
 		super(parent, style);
 		this.editingService = editingService;
-		toolkit.adapt(this);
-		toolkit.paintBordersFor(this);
 	}
-
-	public void injectData(Object owner, Object object) {
-		if (object instanceof Component) {
-			this.comp = (Component) object;
-		} else {
-			return;
-		}
-		this.buildUI();
-		this.initDataBindings_();
-	}
-
-	public boolean isValid() {
-		return false;
-	}
-
-	private void buildUI() {
-
-		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
-				| Section.TITLE_BAR);
-		FormData fd_scnInfo = new FormData();
-		fd_scnInfo.top = new FormAttachment(0, 10);
-		fd_scnInfo.left = new FormAttachment(0, 10);
-		fd_scnInfo.bottom = new FormAttachment(0, 138);
-		fd_scnInfo.right = new FormAttachment(100, -14);
-		scnInfo.setLayoutData(fd_scnInfo);
-		toolkit.paintBordersFor(scnInfo);
-		scnInfo.setText("Info");
-
-		Composite composite = toolkit.createComposite(scnInfo, SWT.NONE);
-		toolkit.paintBordersFor(composite);
-		scnInfo.setClient(composite);
-		composite.setLayout(new GridLayout(2, false));
-
-		Label lblName = toolkit.createLabel(composite, "Name:", SWT.NONE);
-		lblName.setAlignment(SWT.RIGHT);
-		GridData gd_lblName = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1);
-		gd_lblName.widthHint = 70;
-		lblName.setLayoutData(gd_lblName);
-
-		txtName = toolkit.createText(composite, "New Text", SWT.NONE);
-		txtName.setText("");
-		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_txtName.widthHint = 200;
-		txtName.setLayoutData(gd_txtName);
-
-		Label lblDescription = toolkit.createLabel(composite, "Description:",
-				SWT.NONE);
-		lblDescription.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false,
-				false, 1, 1));
-		lblDescription.setAlignment(SWT.RIGHT);
-
-		txtDescription = toolkit.createText(composite, "New Text", SWT.BORDER
-				| SWT.WRAP | SWT.MULTI);
-		txtDescription.setText("");
-		GridData gd_text = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		gd_text.heightHint = 62;
-		gd_text.widthHint = 200;
-		txtDescription.setLayoutData(gd_text);
-
-		Section sctnExpressions = toolkit.createSection(this, Section.TWISTIE
-				| Section.TITLE_BAR);
-		FormData fd_sctnExpressions = new FormData();
-		fd_sctnExpressions.right = new FormAttachment(100, -14);
-		fd_sctnExpressions.left = new FormAttachment(0, 10);
-		fd_sctnExpressions.bottom = new FormAttachment(100, -10);
-		sctnExpressions.setLayoutData(fd_sctnExpressions);
-		toolkit.paintBordersFor(sctnExpressions);
-		sctnExpressions.setText("Expressions");
-		sctnExpressions.setExpanded(true);
-
-		Composite composite_1 = toolkit.createComposite(sctnExpressions,
-				SWT.NONE);
-		toolkit.paintBordersFor(composite_1);
-		sctnExpressions.setClient(composite_1);
-		composite_1.setLayout(new GridLayout(3, false));
-
-		Label lblCapacityExpression = toolkit.createLabel(composite_1,
-				"Capacity Expression:", SWT.NONE);
-		lblCapacityExpression.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-
-		txtCapExpression = toolkit
-				.createText(composite_1, "New Text", SWT.NONE);
-		txtCapExpression.setText("");
-		txtCapExpression.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1));
-
-		Button btnSelectCapExpression = toolkit
-				.createButton(composite_1, "Select", SWT.NONE);
-		GridData gd_btnSelectCapExpression = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_btnSelectCapExpression.heightHint = 20;
-		btnSelectCapExpression.setLayoutData(gd_btnSelectCapExpression);
-		btnSelectCapExpression.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Resource expressionResource = editingService
-						.getData(LibraryPackage.Literals.EXPRESSION);
-				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
-						NewEditComponent.this.getShell(), expressionResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Expression expression = (Expression) dialog
-							.getFirstResult();
-					Command c = new SetCommand(
-							editingService.getEditingDomain(),
-							comp,
-							LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
-							expression);
-					editingService.getEditingDomain().getCommandStack()
-							.execute(c);
-				}
-			}
-		});
-
-		Label lblUtilizationExpression = toolkit.createLabel(composite_1,
-				"Utilization Expression:", SWT.NONE);
-		lblUtilizationExpression.setLayoutData(new GridData(SWT.RIGHT,
-				SWT.CENTER, false, false, 1, 1));
-
-		txtUtilExpression = toolkit.createText(composite_1, "New Text",
-				SWT.NONE);
-		txtUtilExpression.setText("");
-		txtUtilExpression.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				true, false, 1, 1));
-
-		Button btnSelectUtilExpression = toolkit.createButton(composite_1, "Select",
-				SWT.NONE);
-		GridData gd_btnSelectUtilExpression = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_btnSelectUtilExpression.heightHint = 20;
-		btnSelectUtilExpression.setLayoutData(gd_btnSelectUtilExpression);
-		btnSelectUtilExpression.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Resource expressionResource = editingService
-						.getData(LibraryPackage.Literals.EXPRESSION);
-				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
-						NewEditComponent.this.getShell(), expressionResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Expression expression = (Expression) dialog
-							.getFirstResult();
-					Command c = new SetCommand(
-							editingService.getEditingDomain(),
-							comp,
-							LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
-							expression);
-					editingService.getEditingDomain().getCommandStack()
-							.execute(c);
-				}
-			}
-		});
-
-		Section sctnMetrics = toolkit.createSection(this, Section.TWISTIE
-				| Section.TITLE_BAR);
-		FormData fd_sctnMetrics = new FormData();
-		fd_sctnMetrics.top = new FormAttachment(scnInfo, 6);
-		fd_sctnMetrics.left = new FormAttachment(0, 10);
-		fd_sctnMetrics.right = new FormAttachment(100, -14);
-		sctnMetrics.setLayoutData(fd_sctnMetrics);
-		toolkit.paintBordersFor(sctnMetrics);
-		sctnMetrics.setText("Tolerances");
-		sctnMetrics.setExpanded(true);
-
-		Composite cmpTolerances = toolkit
-				.createComposite(sctnMetrics, SWT.NONE);
-		toolkit.paintBordersFor(cmpTolerances);
-		sctnMetrics.setClient(cmpTolerances);
-		cmpTolerances.setLayout(new GridLayout(1, false));
-
-		ImageHyperlink mghprlnkNewImagehyperlink = toolkit
-				.createImageHyperlink(cmpTolerances, SWT.NONE);
-		mghprlnkNewImagehyperlink
-				.addHyperlinkListener(new IHyperlinkListener() {
-					public void linkActivated(HyperlinkEvent e) {
-						Resource toleranceResource = editingService
-								.getData(LibraryPackage.Literals.TOLERANCE);
-						ToleranceFilterDialog dialog = new ToleranceFilterDialog(
-								NewEditComponent.this.getShell(),
-								toleranceResource);
-						if (dialog.open() == IDialogConstants.OK_ID) {
-							Tolerance u = (Tolerance) dialog.getFirstResult();
-							if (!comp.getToleranceRefs().contains(u)) {
-								Command c = new AddCommand(editingService
-										.getEditingDomain(), comp
-										.getToleranceRefs(), u);
-								editingService.getEditingDomain()
-										.getCommandStack().execute(c);
-							}
-						}
-					}
-
-					public void linkEntered(HyperlinkEvent e) {
-					}
-
-					public void linkExited(HyperlinkEvent e) {
-					}
-				});
-		mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT,
-				SWT.CENTER, false, false, 1, 1));
-		toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
-		mghprlnkNewImagehyperlink.setText("Add");
-
-		tolerancesTableViewer = new TableViewer(cmpTolerances, SWT.BORDER
-				| SWT.FULL_SELECTION);
-		table = tolerancesTableViewer.getTable();
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		toolkit.paintBordersFor(table);
-
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				tolerancesTableViewer, SWT.NONE);
-		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
-		tblclmnNewColumn.setWidth(100);
-		tblclmnNewColumn.setText("Name");
-
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				tolerancesTableViewer, SWT.NONE);
-		TableColumn tblclmnLevel = tableViewerColumn_1.getColumn();
-		tblclmnLevel.setWidth(70);
-		tblclmnLevel.setText("Level");
-
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
-				tolerancesTableViewer, SWT.NONE);
-		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
-		tblclmnExpression.setWidth(100);
-		tblclmnExpression.setText("Expression");
-		
-		Section sctnResources = toolkit.createSection(this, Section.TITLE_BAR);
-		fd_sctnMetrics.bottom = new FormAttachment(sctnResources, -6);
-		fd_sctnExpressions.top = new FormAttachment(0, 460);
-		FormData fd_sctnResources = new FormData();
-		fd_sctnResources.right = new FormAttachment(100, -14);
-		fd_sctnResources.left = new FormAttachment(0, 10);
-		fd_sctnResources.bottom = new FormAttachment(sctnExpressions, -6);
-		fd_sctnResources.top = new FormAttachment(0, 309);
-		sctnResources.setLayoutData(fd_sctnResources);
-		toolkit.paintBordersFor(sctnResources);
-		sctnResources.setText("Resources");
-		
-		Composite composite_2 = toolkit.createComposite(sctnResources, SWT.NONE);
-		toolkit.paintBordersFor(composite_2);
-		sctnResources.setClient(composite_2);
-		composite_2.setLayout(new GridLayout(1, false));
-		
-		ImageHyperlink mghprlnkAdd = toolkit.createImageHyperlink(composite_2, SWT.NONE);
-		mghprlnkAdd.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				Resource resourceResource = editingService
-						.getData(LibraryPackage.Literals.NET_XRESOURCE);
-				NetXResourceFilterDialog dialog = new NetXResourceFilterDialog(
-						NewEditComponent.this.getShell(),
-						resourceResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					NetXResource u = (NetXResource) dialog.getFirstResult();
-					if (!comp.getResourceRefs().contains(u)) {
-						Command c = new AddCommand(editingService
-								.getEditingDomain(), comp
-								.getResourceRefs(), u);
-						editingService.getEditingDomain()
-								.getCommandStack().execute(c);
-					}
-				}
-				
-			}
-			public void linkEntered(HyperlinkEvent e) {
-			}
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkAdd.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-		toolkit.paintBordersFor(mghprlnkAdd);
-		mghprlnkAdd.setText("Add");
-		
-		resourceTableViewer = new TableViewer(composite_2, SWT.BORDER | SWT.FULL_SELECTION);
-		table_1 = resourceTableViewer.getTable();
-		table_1.setLinesVisible(true);
-		table_1.setHeaderVisible(true);
-		table_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		toolkit.paintBordersFor(table_1);
-		
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(resourceTableViewer, SWT.NONE);
-		TableColumn tblclmnShortName = tableViewerColumn_3.getColumn();
-		tblclmnShortName.setWidth(100);
-		tblclmnShortName.setText("Short Name");
-		
-		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(resourceTableViewer, SWT.NONE);
-		TableColumn tblclmnExpressionName = tableViewerColumn_4.getColumn();
-		tblclmnExpressionName.setWidth(100);
-		tblclmnExpressionName.setText("Expression Name");
-	}
+	
+	
+	
 
 	@SuppressWarnings("unused")
 	private void editUtilizationExpression() {
@@ -421,31 +141,468 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 		}
 		screenService.setActiveScreen(expressionScreen);
 	}
+	
+	
+	protected Section buildToleranceSection(FormData formDataOfTopSection, boolean readonly){
+		
+		Section sctnTolerances = toolkit.createSection(this, Section.TWISTIE
+				| Section.TITLE_BAR);
+		formDataOfTopSection.bottom = new FormAttachment(sctnTolerances, -6);
+		FormData fd_sctnMetrics = new FormData();
+		fd_sctnMetrics.top = new FormAttachment(0, 186);
+		fd_sctnMetrics.left = new FormAttachment(0, 10);
+		fd_sctnMetrics.right = new FormAttachment(100, -14);
+		sctnTolerances.setLayoutData(fd_sctnMetrics);
+		toolkit.paintBordersFor(sctnTolerances);
+		sctnTolerances.setText("Tolerances");
+		sctnTolerances.setExpanded(true);
 
+		Composite cmpTolerances = toolkit
+				.createComposite(sctnTolerances, SWT.NONE);
+		toolkit.paintBordersFor(cmpTolerances);
+		sctnTolerances.setClient(cmpTolerances);
+		cmpTolerances.setLayout(new GridLayout(1, false));
+
+		ImageHyperlink hypLnkAddTolerance = toolkit.createImageHyperlink(
+				cmpTolerances, SWT.NONE);
+		hypLnkAddTolerance.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				Resource toleranceResource = editingService
+						.getData(LibraryPackage.Literals.TOLERANCE);
+				ToleranceFilterDialog dialog = new ToleranceFilterDialog(
+						NewEditComponent.this.getShell(), toleranceResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Tolerance u = (Tolerance) dialog.getFirstResult();
+					if (!comp.getToleranceRefs().contains(u)) {
+						Command c = new AddCommand(editingService
+								.getEditingDomain(), comp.getToleranceRefs(), u);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(c);
+					}
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		hypLnkAddTolerance.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+		toolkit.paintBordersFor(hypLnkAddTolerance);
+		hypLnkAddTolerance.setText("Add");
+
+		tolerancesTableViewer = new TableViewer(cmpTolerances, SWT.BORDER
+				| SWT.FULL_SELECTION);
+		toleranceTable = tolerancesTableViewer.getTable();
+		toleranceTable.setHeaderVisible(true);
+		toleranceTable.setLinesVisible(true);
+		toleranceTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true, 1, 1));
+		toolkit.paintBordersFor(toleranceTable);
+
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(
+				tolerancesTableViewer, SWT.NONE);
+		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
+		tblclmnNewColumn.setWidth(100);
+		tblclmnNewColumn.setText("Name");
+
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				tolerancesTableViewer, SWT.NONE);
+		TableColumn tblclmnLevel = tableViewerColumn_1.getColumn();
+		tblclmnLevel.setWidth(70);
+		tblclmnLevel.setText("Level");
+
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+				tolerancesTableViewer, SWT.NONE);
+		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
+		tblclmnExpression.setWidth(100);
+		tblclmnExpression.setText("Expression");
+
+		Menu menu = new Menu(toleranceTable);
+		toleranceTable.setMenu(menu);
+
+		MenuItem mntmRemoveTolerance = new MenuItem(menu, SWT.NONE);
+		mntmRemoveTolerance.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection s = tolerancesTableViewer.getSelection();
+				if (s instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) s).getFirstElement();
+					Command rc = new RemoveCommand(editingService
+							.getEditingDomain(), comp.getToleranceRefs(), o);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(rc);
+				}
+			}
+		});
+		mntmRemoveTolerance.setText("Remove");
+
+		if (readonly) {
+			hypLnkAddTolerance.setEnabled(false);
+			mntmRemoveTolerance.setEnabled(false);
+		}
+		return sctnTolerances;
+	}
+	
+	protected Section buildResourceSection(FormData formDataOfTopSection,
+			boolean readonly) {
+		Section sctnResources = toolkit.createSection(this, Section.TWISTIE
+				| Section.TITLE_BAR);
+		formDataOfTopSection.bottom = new FormAttachment(sctnResources, -6);
+		FormData fd_sctnResources = new FormData();
+		
+		fd_sctnResources.bottom = new FormAttachment(100, -10);
+		fd_sctnResources.top = new FormAttachment(0, 338);
+		fd_sctnResources.right = new FormAttachment(100, -14);
+		fd_sctnResources.left = new FormAttachment(0, 10);
+		
+		sctnResources.setLayoutData(fd_sctnResources);
+		toolkit.paintBordersFor(sctnResources);
+		sctnResources.setText("Resources");
+
+		Composite composite_2 = toolkit
+				.createComposite(sctnResources, SWT.NONE);
+		toolkit.paintBordersFor(composite_2);
+		sctnResources.setClient(composite_2);
+		composite_2.setLayout(new GridLayout(7, false));
+		new Label(composite_2, SWT.NONE);
+		new Label(composite_2, SWT.NONE);
+		new Label(composite_2, SWT.NONE);
+		new Label(composite_2, SWT.NONE);
+		new Label(composite_2, SWT.NONE);
+
+		ImageHyperlink hypLnkAddResource = toolkit.createImageHyperlink(
+				composite_2, SWT.NONE);
+		hypLnkAddResource.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				Resource resourceResource = editingService
+						.getData(LibraryPackage.Literals.NET_XRESOURCE);
+				NetXResourceFilterDialog dialog = new NetXResourceFilterDialog(
+						NewEditComponent.this.getShell(), resourceResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					NetXResource u = (NetXResource) dialog.getFirstResult();
+					if (!comp.getResourceRefs().contains(u)) {
+						Command c = new AddCommand(editingService
+								.getEditingDomain(), comp.getResourceRefs(), u);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(c);
+					}
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		hypLnkAddResource.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+		toolkit.paintBordersFor(hypLnkAddResource);
+		hypLnkAddResource.setText("Add");
+
+		ImageHyperlink mghprlnkNewImagehyperlink = toolkit
+				.createImageHyperlink(composite_2, SWT.NONE);
+		mghprlnkNewImagehyperlink.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
+		mghprlnkNewImagehyperlink
+				.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkActivated(HyperlinkEvent e) {
+						NewEditResource resourceScreen = new NewEditResource(
+								screenService.getScreenContainer(), SWT.NONE);
+						resourceScreen.setOperation(Screens.OPERATION_NEW);
+						resourceScreen.setScreenService(screenService);
+
+						Resource resourcesResource = editingService
+								.getData(LibraryPackage.Literals.NET_XRESOURCE);
+						resourceScreen.injectData(resourcesResource, comp,
+								LibraryFactory.eINSTANCE.createNetXResource());
+						screenService.setActiveScreen(resourceScreen);
+
+					}
+
+					public void linkEntered(HyperlinkEvent e) {
+					}
+
+					public void linkExited(HyperlinkEvent e) {
+					}
+				});
+		toolkit.paintBordersFor(mghprlnkNewImagehyperlink);
+		mghprlnkNewImagehyperlink.setText("New");
+
+		resourceTableViewer = new TableViewer(composite_2, SWT.BORDER
+				| SWT.FULL_SELECTION);
+		resourcesTable = resourceTableViewer.getTable();
+		resourcesTable.setLinesVisible(true);
+		resourcesTable.setHeaderVisible(true);
+		resourcesTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true, 8, 3));
+		toolkit.paintBordersFor(resourcesTable);
+
+		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
+				resourceTableViewer, SWT.NONE);
+		TableColumn tblclmnShortName = tableViewerColumn_3.getColumn();
+		tblclmnShortName.setWidth(100);
+		tblclmnShortName.setText("Short Name");
+
+		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(
+				resourceTableViewer, SWT.NONE);
+		TableColumn tblclmnExpressionName = tableViewerColumn_4.getColumn();
+		tblclmnExpressionName.setWidth(100);
+		tblclmnExpressionName.setText("Expression Name");
+
+		Menu menu_1 = new Menu(resourcesTable);
+		resourcesTable.setMenu(menu_1);
+
+		MenuItem mntmEditResource = new MenuItem(menu_1, SWT.NONE);
+		mntmEditResource.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection s = resourceTableViewer.getSelection();
+				if (s instanceof IStructuredSelection) {
+					Object object = ((IStructuredSelection) s)
+							.getFirstElement();
+					NewEditResource editResourceScreen = new NewEditResource(
+							screenService.getScreenContainer(), SWT.NONE);
+					editResourceScreen.setScreenService(screenService);
+					editResourceScreen.setOperation(getOperation());
+					// We can probably get away without the resource....
+					editResourceScreen.injectData(null, object);
+					screenService.setActiveScreen(editResourceScreen);
+				}
+			}
+		});
+		mntmEditResource.setText("Edit...");
+
+		MenuItem mntmRemoveResource = new MenuItem(menu_1, SWT.NONE);
+		mntmRemoveResource.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection s = resourceTableViewer.getSelection();
+				if (s instanceof IStructuredSelection) {
+
+					// Object o = ((IStructuredSelection) s).getFirstElement();
+					// Command rc =
+					// DeleteCommand.create(editingService.getEditingDomain(),
+					// o);
+					// editingService.getEditingDomain().getCommandStack().execute(rc);
+
+					Object o = ((IStructuredSelection) s).getFirstElement();
+					Command rc = new RemoveCommand(editingService
+							.getEditingDomain(), comp.getResourceRefs(), o);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(rc);
+				}
+			}
+		});
+		mntmRemoveResource.setText("Remove");
+
+		ImageHyperlink imageHyperlink_2 = toolkit.createImageHyperlink(
+				composite_2, SWT.NONE);
+		GridData gd_imageHyperlink_2 = new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_imageHyperlink_2.widthHint = 18;
+		imageHyperlink_2.setLayoutData(gd_imageHyperlink_2);
+		imageHyperlink_2.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/obj16/Expression_H.png"));
+		toolkit.paintBordersFor(imageHyperlink_2);
+		imageHyperlink_2.setText("");
+
+		@SuppressWarnings("unused")
+		Label lblCapacityExpression = toolkit.createLabel(composite_2,
+				"Capacity", SWT.NONE);
+
+		txtCapExpression = toolkit.createText(composite_2, "New Text",
+				SWT.READ_ONLY);
+		GridData gd_txtCapExpression = new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_txtCapExpression.widthHint = 150;
+		txtCapExpression.setLayoutData(gd_txtCapExpression);
+		txtCapExpression.setText("");
+
+		ImageHyperlink imageHyperlink = toolkit.createImageHyperlink(
+				composite_2, SWT.NONE);
+		imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				if (comp.getCapacityExpressionRef() != null) {
+					Command c = new SetCommand(
+							editingService.getEditingDomain(),
+							comp,
+							LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
+							null);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(c);
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		imageHyperlink.setImage(ResourceManager.getPluginImage(
+				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+		toolkit.paintBordersFor(imageHyperlink);
+		imageHyperlink.setText("");
+
+		Button btnSelectCapExpression = toolkit.createButton(composite_2,
+				"Select", SWT.NONE);
+		btnSelectCapExpression.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
+		btnSelectCapExpression.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Resource expressionResource = editingService
+						.getData(LibraryPackage.Literals.EXPRESSION);
+				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
+						NewEditComponent.this.getShell(), expressionResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Expression expression = (Expression) dialog
+							.getFirstResult();
+					Command c = new SetCommand(
+							editingService.getEditingDomain(),
+							comp,
+							LibraryPackage.Literals.COMPONENT__CAPACITY_EXPRESSION_REF,
+							expression);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(c);
+				}
+			}
+		});
+
+		Label label = new Label(composite_2, SWT.NONE);
+		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
+				1));
+		new Label(composite_2, SWT.NONE);
+
+		ImageHyperlink imageHyperlink_3 = toolkit.createImageHyperlink(
+				composite_2, SWT.NONE);
+		GridData gd_imageHyperlink_3 = new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_imageHyperlink_3.widthHint = 18;
+		imageHyperlink_3.setLayoutData(gd_imageHyperlink_3);
+		imageHyperlink_3.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/obj16/Expression_H.png"));
+		toolkit.paintBordersFor(imageHyperlink_3);
+		imageHyperlink_3.setText("");
+
+		@SuppressWarnings("unused")
+		Label lblUtilizationExpression = toolkit.createLabel(composite_2,
+				"Utilization", SWT.NONE);
+
+		txtUtilExpression = toolkit.createText(composite_2, "New Text",
+				SWT.NONE | SWT.READ_ONLY);
+		GridData gd_txtUtilExpression = new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_txtUtilExpression.widthHint = 150;
+		txtUtilExpression.setLayoutData(gd_txtUtilExpression);
+		txtUtilExpression.setText("");
+
+		ImageHyperlink imageHyperlink_1 = toolkit.createImageHyperlink(
+				composite_2, SWT.NONE);
+		imageHyperlink_1.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				if (comp.getUtilizationExpressionRef() != null) {
+					Command c = new SetCommand(
+							editingService.getEditingDomain(),
+							comp,
+							LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
+							null);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(c);
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		imageHyperlink_1.setImage(ResourceManager.getPluginImage(
+				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+		toolkit.paintBordersFor(imageHyperlink_1);
+		imageHyperlink_1.setText("");
+
+		Button btnSelectUtilExpression = toolkit.createButton(composite_2,
+				"Select", SWT.NONE);
+		btnSelectUtilExpression.setLayoutData(new GridData(SWT.RIGHT,
+				SWT.CENTER, false, false, 1, 1));
+
+		btnSelectUtilExpression.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Resource expressionResource = editingService
+						.getData(LibraryPackage.Literals.EXPRESSION);
+				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
+						NewEditComponent.this.getShell(), expressionResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Expression expression = (Expression) dialog
+							.getFirstResult();
+					Command c = new SetCommand(
+							editingService.getEditingDomain(),
+							comp,
+							LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
+							expression);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(c);
+				}
+			}
+		});
+		new Label(composite_2, SWT.NONE);
+		new Label(composite_2, SWT.NONE);
+
+		if (readonly) {
+			btnSelectCapExpression.setEnabled(false);
+			btnSelectUtilExpression.setEnabled(false);
+			hypLnkAddResource.setEnabled(false);
+
+			mntmEditResource.setEnabled(false);
+			mntmRemoveResource.setEnabled(false);
+		}
+		return sctnResources;
+	}
+	
+	public void injectData(Object owner, Object object) {
+		if (object instanceof Component) {
+			this.comp = (Component) object;
+		} else {
+			return;
+		}
+		buildUI();
+		initDataBindings_();
+	}
+	
+	public abstract void buildUI();
+
+	
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
+		
+		
+		// FIXME, Bind for activated sections only. 
+		bindResourcesSection(context);
+		bindToleranceSection();
+		
+		return context;
+	}
 
-		// Binding of name and Description
 
-		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
-				400, SWTObservables.observeText(txtName, SWT.Modify));
-		IObservableValue descriptionObservable = SWTObservables
-				.observeDelayedValue(400,
-						SWTObservables.observeText(txtDescription, SWT.Modify));
 
+
+	private void bindResourcesSection(EMFDataBindingContext context) {
 		IObservableValue capExpressionObservable = SWTObservables.observeText(
 				this.txtCapExpression, SWT.Modify);
-		
+
 		IObservableValue utilExpressionObservable = SWTObservables.observeText(
 				this.txtUtilExpression, SWT.Modify);
-
-		IEMFValueProperty componentNameProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.COMPONENT__NAME);
-
-		IEMFValueProperty componentDescriptionProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(),
-						LibraryPackage.Literals.COMPONENT__DESCRIPTION);
+		
+		
 
 		IEMFValueProperty capacityExpressionProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
@@ -460,18 +617,33 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 								.fromList(
 										LibraryPackage.Literals.COMPONENT__UTILIZATION_EXPRESSION_REF,
 										LibraryPackage.Literals.EXPRESSION__NAME));
-
-		context.bindValue(nameObservable, componentNameProperty.observe(comp),
-				null, null);
-		context.bindValue(descriptionObservable,
-				componentDescriptionProperty.observe(comp), null, null);
-
 		context.bindValue(capExpressionObservable,
 				capacityExpressionProperty.observe(comp), null, null);
-
 		context.bindValue(utilExpressionObservable,
 				utilExpressionProperty.observe(comp), null, null);
+		
+		// binding of resources
 
+		ObservableListContentProvider resourceListContentProvider = new ObservableListContentProvider();
+		resourceTableViewer.setContentProvider(resourceListContentProvider);
+		IObservableMap[] observeResourceMaps = EMFObservables
+				.observeMaps(
+						resourceListContentProvider.getKnownElements(),
+						new EStructuralFeature[] {
+								LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME,
+								LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME });
+		resourceTableViewer.setLabelProvider(new ObservableMapLabelProvider(
+				observeResourceMaps));
+		IEMFListProperty resourcesListProperty = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
+		resourceTableViewer.setInput(resourcesListProperty.observe(comp));
+	}
+
+
+
+
+	private void bindToleranceSection() {
 		// binding of tolerances.
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
@@ -489,29 +661,7 @@ public class NewEditComponent extends AbstractDetailsComposite implements
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__TOLERANCE_REFS);
 
-		tolerancesTableViewer.setInput( l.observe(comp));
-
-		
-		// binding of resources
-
-		ObservableListContentProvider resourceListContentProvider = new ObservableListContentProvider();
-		resourceTableViewer.setContentProvider(resourceListContentProvider);
-		IObservableMap[] observeResourceMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
-						LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME,
-						LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME});
-		resourceTableViewer
-				.setLabelProvider(new ObservableMapLabelProvider(
-						observeResourceMaps));
-		IEMFListProperty resourcesListProperty = EMFEditProperties.list(
-				editingService.getEditingDomain(),
-				LibraryPackage.Literals.COMPONENT__RESOURCE_REFS);
-		tolerancesTableViewer.setInput(resourcesListProperty.observe(comp));
-
-		
-		
-		
-		return context;
+		tolerancesTableViewer.setInput(l.observe(comp));
 	}
+	
 }

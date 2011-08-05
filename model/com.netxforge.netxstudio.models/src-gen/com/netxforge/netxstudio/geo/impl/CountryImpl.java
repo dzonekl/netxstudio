@@ -22,7 +22,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.MultiImage;
-import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Site;
@@ -37,13 +36,12 @@ import com.netxforge.netxstudio.geo.Site;
  *   <li>{@link com.netxforge.netxstudio.geo.impl.CountryImpl#getSites <em>Sites</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.impl.CountryImpl#getIcons <em>Icons</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.impl.CountryImpl#getCountryCode <em>Country Code</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.geo.impl.CountryImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class CountryImpl extends BaseImpl implements Country {
+public class CountryImpl extends LocationImpl implements Country {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -107,24 +105,6 @@ public class CountryImpl extends BaseImpl implements Country {
 	 */
 	public void setCountryCode(String newCountryCode) {
 		eSet(GeoPackage.Literals.COUNTRY__COUNTRY_CODE, newCountryCode);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return (String)eGet(GeoPackage.Literals.COUNTRY__NAME, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		eSet(GeoPackage.Literals.COUNTRY__NAME, newName);
 	}
 
 } //CountryImpl

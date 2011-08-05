@@ -44,8 +44,6 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
@@ -66,8 +64,6 @@ public class MappingStatistics extends AbstractScreen implements
 	private Text txtStartDateTime;
 	private Text txtEndDateTime;
 
-	@Inject
-	ModelUtils modelUtils;
 	private TableViewer tblViewerRecords;
 
 	/**

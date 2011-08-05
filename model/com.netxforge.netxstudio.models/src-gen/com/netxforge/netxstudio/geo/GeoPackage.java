@@ -103,6 +103,43 @@ public interface GeoPackage extends EPackage {
 	GeoPackage eINSTANCE = com.netxforge.netxstudio.geo.impl.GeoPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.geo.impl.LocationImpl <em>Location</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.geo.impl.LocationImpl
+	 * @see com.netxforge.netxstudio.geo.impl.GeoPackageImpl#getLocation()
+	 * @generated
+	 */
+	int LOCATION = 1;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCATION__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCATION__NAME = GenericsPackage.BASE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Location</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCATION_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.geo.impl.CountryImpl <em>Country</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -119,34 +156,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTRY__DELETED = GenericsPackage.BASE__DELETED;
-
-	/**
-	 * The feature id for the '<em><b>Sites</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTRY__SITES = GenericsPackage.BASE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Icons</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTRY__ICONS = GenericsPackage.BASE_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Country Code</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTRY__COUNTRY_CODE = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int COUNTRY__DELETED = LOCATION__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -155,7 +165,34 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTRY__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int COUNTRY__NAME = LOCATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Sites</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COUNTRY__SITES = LOCATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Icons</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COUNTRY__ICONS = LOCATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Country Code</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COUNTRY__COUNTRY_CODE = LOCATION_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Country</em>' class.
@@ -164,7 +201,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTRY_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int COUNTRY_FEATURE_COUNT = LOCATION_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.geo.impl.RoomImpl <em>Room</em>}' class.
@@ -174,7 +211,7 @@ public interface GeoPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.geo.impl.GeoPackageImpl#getRoom()
 	 * @generated
 	 */
-	int ROOM = 1;
+	int ROOM = 2;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -183,7 +220,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOM__DELETED = GenericsPackage.BASE__DELETED;
+	int ROOM__DELETED = LOCATION__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -192,7 +229,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOM__NAME = GenericsPackage.BASE_FEATURE_COUNT + 0;
+	int ROOM__NAME = LOCATION__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Shape</b></em>' attribute.
@@ -201,7 +238,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOM__SHAPE = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int ROOM__SHAPE = LOCATION_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Room</em>' class.
@@ -210,7 +247,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOM_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int ROOM_FEATURE_COUNT = LOCATION_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.geo.impl.SiteImpl <em>Site</em>}' class.
@@ -220,7 +257,7 @@ public interface GeoPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.geo.impl.GeoPackageImpl#getSite()
 	 * @generated
 	 */
-	int SITE = 2;
+	int SITE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -229,61 +266,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__DELETED = GenericsPackage.BASE__DELETED;
-
-	/**
-	 * The feature id for the '<em><b>Rooms</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SITE__ROOMS = GenericsPackage.BASE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Area</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SITE__AREA = GenericsPackage.BASE_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>City</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SITE__CITY = GenericsPackage.BASE_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Housenumber</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SITE__HOUSENUMBER = GenericsPackage.BASE_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Latitude</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SITE__LATITUDE = GenericsPackage.BASE_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Longitude</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SITE__LONGITUDE = GenericsPackage.BASE_FEATURE_COUNT + 5;
+	int SITE__DELETED = LOCATION__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -292,7 +275,61 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 6;
+	int SITE__NAME = LOCATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Rooms</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE__ROOMS = LOCATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Area</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE__AREA = LOCATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>City</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE__CITY = LOCATION_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Housenumber</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE__HOUSENUMBER = LOCATION_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Latitude</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE__LATITUDE = LOCATION_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Longitude</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITE__LONGITUDE = LOCATION_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Postalcode</b></em>' attribute.
@@ -301,7 +338,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__POSTALCODE = GenericsPackage.BASE_FEATURE_COUNT + 7;
+	int SITE__POSTALCODE = LOCATION_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Region</b></em>' attribute.
@@ -310,7 +347,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__REGION = GenericsPackage.BASE_FEATURE_COUNT + 8;
+	int SITE__REGION = LOCATION_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Sreet</b></em>' attribute.
@@ -319,7 +356,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE__SREET = GenericsPackage.BASE_FEATURE_COUNT + 9;
+	int SITE__SREET = LOCATION_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Site</em>' class.
@@ -328,7 +365,7 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SITE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 10;
+	int SITE_FEATURE_COUNT = LOCATION_FEATURE_COUNT + 9;
 
 
 	/**
@@ -375,15 +412,25 @@ public interface GeoPackage extends EPackage {
 	EAttribute getCountry_CountryCode();
 
 	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.geo.Country#getName <em>Name</em>}'.
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.geo.Location <em>Location</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Location</em>'.
+	 * @see com.netxforge.netxstudio.geo.Location
+	 * @generated
+	 */
+	EClass getLocation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.geo.Location#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see com.netxforge.netxstudio.geo.Country#getName()
-	 * @see #getCountry()
+	 * @see com.netxforge.netxstudio.geo.Location#getName()
+	 * @see #getLocation()
 	 * @generated
 	 */
-	EAttribute getCountry_Name();
+	EAttribute getLocation_Name();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.geo.Room <em>Room</em>}'.
@@ -394,17 +441,6 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getRoom();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.geo.Room#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see com.netxforge.netxstudio.geo.Room#getName()
-	 * @see #getRoom()
-	 * @generated
-	 */
-	EAttribute getRoom_Name();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.geo.Room#getShape <em>Shape</em>}'.
@@ -492,17 +528,6 @@ public interface GeoPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getSite_Longitude();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.geo.Site#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see com.netxforge.netxstudio.geo.Site#getName()
-	 * @see #getSite()
-	 * @generated
-	 */
-	EAttribute getSite_Name();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.geo.Site#getPostalcode <em>Postalcode</em>}'.
@@ -594,12 +619,22 @@ public interface GeoPackage extends EPackage {
 		EAttribute COUNTRY__COUNTRY_CODE = eINSTANCE.getCountry_CountryCode();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.geo.impl.LocationImpl <em>Location</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.geo.impl.LocationImpl
+		 * @see com.netxforge.netxstudio.geo.impl.GeoPackageImpl#getLocation()
+		 * @generated
+		 */
+		EClass LOCATION = eINSTANCE.getLocation();
+
+		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COUNTRY__NAME = eINSTANCE.getCountry_Name();
+		EAttribute LOCATION__NAME = eINSTANCE.getLocation_Name();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.geo.impl.RoomImpl <em>Room</em>}' class.
@@ -610,14 +645,6 @@ public interface GeoPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ROOM = eINSTANCE.getRoom();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ROOM__NAME = eINSTANCE.getRoom_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>Shape</b></em>' attribute feature.
@@ -684,14 +711,6 @@ public interface GeoPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SITE__LONGITUDE = eINSTANCE.getSite_Longitude();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SITE__NAME = eINSTANCE.getSite_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>Postalcode</b></em>' attribute feature.

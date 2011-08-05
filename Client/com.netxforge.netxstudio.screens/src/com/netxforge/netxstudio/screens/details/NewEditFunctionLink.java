@@ -60,7 +60,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class NewEditFunctionLink extends AbstractDetailsComposite implements IScreen,
+public class NewEditFunctionLink extends AbstractDetailsScreen implements IScreen,
 		IDataScreenInjection {
 
 	private FunctionRelationship relationship;
@@ -68,8 +68,6 @@ public class NewEditFunctionLink extends AbstractDetailsComposite implements ISc
 	private Text txtName;
 	private IEditingService editingService;
 
-	@Inject
-	ModelUtils modelUtils;
 	private Text txtNode2;
 	private Text txtNode1;
 	protected Section scnInfo;

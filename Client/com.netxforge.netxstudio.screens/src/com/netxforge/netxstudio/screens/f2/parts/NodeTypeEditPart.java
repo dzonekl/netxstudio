@@ -3,10 +3,10 @@ package com.netxforge.netxstudio.screens.f2.parts;
 import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.RoundedRectangle;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
@@ -29,8 +29,6 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 		return (NodeType) super.getModel();
 	}
 	
-//	private final Insets CLIENT_AREA_INSETS = new Insets(2,2,21,21);
-
 	
 	@Override
 	protected IFigure createFigure() {
@@ -38,12 +36,16 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 			@Override
 			public Rectangle getClientArea(Rectangle rect) {
 				Rectangle clientArea = super.getClientArea(rect);
-//				clientArea.shrink(CLIENT_AREA_INSETS);
+				clientArea.shrink(CLIENT_AREA_INSETS);
 				return clientArea;
 			}
 		};
-		figure.setLayoutManager(new XYLayout());
-		figure.setSize(50,50);
+		FlowLayout fl = new FlowLayout();
+		fl.setHorizontal(false);
+		fl.setMajorAlignment(FlowLayout.ALIGN_CENTER);
+		fl.setMinorAlignment(FlowLayout.ALIGN_CENTER);
+		figure.setLayoutManager(fl);
+		figure.setSize(50,30);
 		figure.setLineWidth(2);
 		figure.setBackgroundColor(ColorConstants.lightGray);
 		
@@ -71,6 +73,8 @@ public class NodeTypeEditPart extends AbstractLibraryEditPart {
 		
 		NodeType nt = this.getNodeType();
 		this.nameLabel.setText(nt.getName());
+		this.adaptLabelWidth(nameLabel);
+		
 		AbstractGraphicalEditPart parent = (AbstractGraphicalEditPart) this.getParent();
 		IFigure figure = this.getFigure();
 		parent.setLayoutConstraint(this, figure, this.getNodeType());

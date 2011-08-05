@@ -18,55 +18,57 @@
  */
 package com.netxforge.netxstudio.geo;
 
+import com.netxforge.netxstudio.generics.Base;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Room</b></em>'.
+ * A representation of the model object '<em><b>Location</b></em>'.
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A type representing the basic information points of
- * 				a real physical room. A room is part of a Site.
+ * A abstract type representing a location.
  * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.geo.Room#getShape <em>Shape</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.geo.Location#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.netxstudio.geo.GeoPackage#getRoom()
- * @model extendedMetaData="name='Room' kind='empty'"
+ * @see com.netxforge.netxstudio.geo.GeoPackage#getLocation()
+ * @model extendedMetaData="name='Location' kind='empty'"
  * @generated
  */
-public interface Room extends Location {
+public interface Location extends Base {
+
 	/**
-	 * Returns the value of the '<em><b>Shape</b></em>' attribute.
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * THIS ATTRIBUTE SHOULD NOT BE CONSIDERED FOR NOW.
+	 * For countries, the Name attribute should be according to ISO
+	 * 							definitions in:
+	 * 							http://www.iso.org/iso/english_country_names_and_code_elements
 	 * 						
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Shape</em>' attribute.
-	 * @see #setShape(String)
-	 * @see com.netxforge.netxstudio.geo.GeoPackage#getRoom_Shape()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        extendedMetaData="kind='attribute' name='Shape'"
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see com.netxforge.netxstudio.geo.GeoPackage#getLocation_Name()
+	 * @model dataType="com.netxforge.netxstudio.generics.Name255"
+	 *        extendedMetaData="kind='attribute' name='Name'"
 	 * @generated
 	 */
-	String getShape();
+	String getName();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.geo.Room#getShape <em>Shape</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.geo.Location#getName <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Shape</em>' attribute.
-	 * @see #getShape()
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
 	 * @generated
 	 */
-	void setShape(String value);
-
-} // Room
+	void setName(String value);
+} // Location

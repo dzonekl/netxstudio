@@ -110,6 +110,29 @@ public class GeoItemProviderAdapterFactory extends GeoAdapterFactory implements 
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.geo.Location} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected LocationItemProvider locationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.geo.Location}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createLocationAdapter() {
+		if (locationItemProvider == null) {
+			locationItemProvider = new LocationItemProvider(this);
+		}
+
+		return locationItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.geo.Room} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -255,6 +278,7 @@ public class GeoItemProviderAdapterFactory extends GeoAdapterFactory implements 
 	 */
 	public void dispose() {
 		if (countryItemProvider != null) countryItemProvider.dispose();
+		if (locationItemProvider != null) locationItemProvider.dispose();
 		if (roomItemProvider != null) roomItemProvider.dispose();
 		if (siteItemProvider != null) siteItemProvider.dispose();
 	}

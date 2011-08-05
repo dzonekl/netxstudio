@@ -48,6 +48,7 @@ public class ToleranceFilterDialog extends FilteredItemsSelectionDialog {
 	 */
 	public ToleranceFilterDialog(Shell shell, Resource resource) {
 		super(shell);
+		setTitle("Select an existing Tolerance");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {

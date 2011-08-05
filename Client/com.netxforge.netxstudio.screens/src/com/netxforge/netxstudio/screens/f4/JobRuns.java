@@ -62,8 +62,6 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
@@ -84,8 +82,6 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	// private Table table;
 
-	@Inject
-	private ModelUtils modelUtils;
 	private Menu jobRunMenu;
 
 	public JobRuns(Composite parent, int style) {

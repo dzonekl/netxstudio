@@ -1,10 +1,10 @@
 package com.netxforge.netxstudio.screens.f2.parts;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.RoundedRectangle;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
@@ -12,7 +12,7 @@ import com.netxforge.netxstudio.library.Equipment;
 
 public class EquipmentEditPart extends AbstractComponentEditPart {
 	
-//	private final Insets CLIENT_AREA_INSETS = new Insets(5,5,5,5);
+
 	Label codeLabel = new Label();
 	
 	public EquipmentEditPart(Equipment eq){
@@ -30,12 +30,16 @@ public class EquipmentEditPart extends AbstractComponentEditPart {
 			@Override
 			public Rectangle getClientArea(Rectangle rect) {
 				Rectangle clientArea = super.getClientArea(rect);
-//				clientArea.shrink(CLIENT_AREA_INSETS);
+				clientArea.shrink(CLIENT_AREA_INSETS);
 				return clientArea;
 			}
 		};
-		figure.setLayoutManager(new XYLayout());
-		figure.setSize(50,50);
+		FlowLayout fl = new FlowLayout();
+		fl.setHorizontal(false);
+		fl.setMajorAlignment(FlowLayout.ALIGN_CENTER);
+		fl.setMinorAlignment(FlowLayout.ALIGN_CENTER);
+		figure.setLayoutManager(fl);
+		figure.setSize(50,30);
 		figure.setBackgroundColor(ColorConstants.lightGreen);
 		figure.setLineWidth(2);
 		Rectangle copy = figure.getBounds().getCopy();
@@ -53,6 +57,9 @@ public class EquipmentEditPart extends AbstractComponentEditPart {
 	protected void refreshVisuals() {
 		Equipment model = getEquipment();
 		codeLabel.setText(model.getEquipmentCode());
+		
+		this.adaptLabelWidth(codeLabel);
+		
 		AbstractGraphicalEditPart parent = (AbstractGraphicalEditPart) this.getParent();
 		parent.setLayoutConstraint(this, figure, model);
 		this.getFigure().revalidate();

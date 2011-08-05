@@ -32,13 +32,18 @@ public class SearchFilter extends ViewerFilter {
 			return true;
 		}
 		boolean result = true;
+		
 		if (element instanceof EObject) {
 
 			String match = new AdapterFactoryItemDelegator(
 					editingService.getAdapterFactory()).getText(element);
 			try {
 				result = match.matches(searchString);
+				if(result){
+				System.out.println("Searchsstring: match for: " + searchString + " on: " + match);
+				}
 			} catch (PatternSyntaxException pse) {
+				pse.printStackTrace();
 			}
 
 		}

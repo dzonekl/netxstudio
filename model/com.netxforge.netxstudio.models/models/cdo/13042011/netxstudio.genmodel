@@ -481,9 +481,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/lifecycle"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Node/nodeType"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/createdByRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/locationRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Node/nodeID"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/originalNodeTypeRef"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Node/roomRef"/>
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//Operator">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Operator/networks"/>
@@ -526,10 +526,11 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geo.ecore#//Country/sites"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geo.ecore#//Country/icons"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Country/countryCode"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Country/name"/>
+    </genClasses>
+    <genClasses ecoreClass="geo.ecore#//Location">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Location/name"/>
     </genClasses>
     <genClasses ecoreClass="geo.ecore#//Room">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Room/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Room/shape"/>
     </genClasses>
     <genClasses ecoreClass="geo.ecore#//Site">
@@ -539,7 +540,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/housenumber"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/latitude"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/longitude"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/postalcode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/region"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geo.ecore#//Site/sreet"/>

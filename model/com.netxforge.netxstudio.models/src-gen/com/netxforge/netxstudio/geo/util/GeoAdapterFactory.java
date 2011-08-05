@@ -24,8 +24,10 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.geo.*;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.geo.Room;
 import com.netxforge.netxstudio.geo.Site;
 
@@ -90,6 +92,10 @@ public class GeoAdapterFactory extends AdapterFactoryImpl {
 				return createCountryAdapter();
 			}
 			@Override
+			public Adapter caseLocation(Location object) {
+				return createLocationAdapter();
+			}
+			@Override
 			public Adapter caseRoom(Room object) {
 				return createRoomAdapter();
 			}
@@ -132,6 +138,20 @@ public class GeoAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCountryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.geo.Location <em>Location</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.geo.Location
+	 * @generated
+	 */
+	public Adapter createLocationAdapter() {
 		return null;
 	}
 

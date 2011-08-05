@@ -202,16 +202,16 @@ public class FunctionItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(LibraryPackage.Literals.FUNCTION__FUNCTIONS,
-				 LibraryFactory.eINSTANCE.createFunction()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(LibraryPackage.Literals.FUNCTION__FUNCTIONS,
+//				 LibraryFactory.eINSTANCE.createFunction()));
 	}
 
 }

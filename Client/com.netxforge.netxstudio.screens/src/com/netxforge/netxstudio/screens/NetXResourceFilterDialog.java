@@ -48,6 +48,7 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 	 */
 	public NetXResourceFilterDialog(Shell shell, Resource resource) {
 		super(shell);
+		this.setTitle("Select an existing Resource");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {

@@ -508,6 +508,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 					return Boolean.TRUE;
 				}
 			}
+			
 			if (element instanceof Node) {
 				Node n = (Node) element;
 				if (n.getNodeType() != null) {

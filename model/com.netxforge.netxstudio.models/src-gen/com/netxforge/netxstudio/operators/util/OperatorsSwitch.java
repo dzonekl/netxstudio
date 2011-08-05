@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.operators.*;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Marker;

@@ -73,7 +73,7 @@ public class NewEditCountry extends AbstractScreen implements
 		
 
 		IEMFValueProperty nameProperty = EMFProperties
-				.value(GeoPackage.Literals.COUNTRY__NAME);
+				.value(GeoPackage.Literals.LOCATION__NAME);
 		IEMFValueProperty shortNameProperty = EMFProperties
 				.value(GeoPackage.Literals.COUNTRY__COUNTRY_CODE);
 		

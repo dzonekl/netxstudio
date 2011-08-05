@@ -43,26 +43,24 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.geo.GeoPackage;
-import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.NodeTypeFilterDialog;
-import com.netxforge.netxstudio.screens.RoomFilterDialog;
+import com.netxforge.netxstudio.screens.LocationFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class NewEditNode extends AbstractDetailsComposite implements IScreen,
+public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 		IDataScreenInjection {
 
 	private Node node;
@@ -72,8 +70,6 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 	private Text txtNodeType;
 	private Text txtRoom;
 
-	@Inject
-	ModelUtils modelUtils;
 
 	private DateChooserCombo dcProposed;
 	private DateChooserCombo dcPlanned;
@@ -347,7 +343,7 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 		roomRefHyperlink.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				Command set = new SetCommand(editingService.getEditingDomain(),
-						node, OperatorsPackage.Literals.NODE__ROOM_REF, null);
+						node, OperatorsPackage.Literals.NODE__LOCATION_REF, null);
 				editingService.getEditingDomain().getCommandStack()
 						.execute(set);
 			}
@@ -376,11 +372,11 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 
 				Resource nodeTypeResource = editingService
 						.getData(GeoPackage.Literals.COUNTRY);
-				RoomFilterDialog dialog = new RoomFilterDialog(NewEditNode.this
+				LocationFilterDialog dialog = new LocationFilterDialog(NewEditNode.this
 						.getShell(), nodeTypeResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
-					Room room = (Room) dialog.getFirstResult();
-					node.setRoomRef(room);
+					Location  room = (Location) dialog.getFirstResult();
+					node.setLocationRef(room);
 				}
 			}
 		});
@@ -506,8 +502,8 @@ public class NewEditNode extends AbstractDetailsComposite implements IScreen,
 
 		IEMFValueProperty roomProperty = EMFEditProperties.value(editingService
 				.getEditingDomain(), FeaturePath.fromList(
-				OperatorsPackage.Literals.NODE__ROOM_REF,
-				GeoPackage.Literals.ROOM__NAME));
+				OperatorsPackage.Literals.NODE__LOCATION_REF,
+				GeoPackage.Literals.LOCATION__NAME));
 
 		context.bindValue(nameObservable, nodeIDProperty.observe(node), null,
 				null);

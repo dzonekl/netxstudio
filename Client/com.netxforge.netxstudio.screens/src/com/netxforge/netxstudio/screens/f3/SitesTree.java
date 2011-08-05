@@ -113,10 +113,10 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		
 		List<IObservableMap> mapList = Lists.newArrayList();
 
-		mapList.add(EMFProperties.value(GeoPackage.Literals.COUNTRY__NAME)
+		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
 				.observeDetail(set));
 
-		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__NAME)
+		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
 				.observeDetail(set));
 
 		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__CITY)
@@ -358,9 +358,9 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		actions.add(new EditSiteAction(actionText + "...",
 				SWT.PUSH));
 		
-		if(!readonly){
-			actions.add(new NewSiteAction("New...", SWT.PUSH));
-		}
+//		if(!readonly){
+//			actions.add(new NewSiteAction("New...", SWT.PUSH));
+//		}
 		
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray); 

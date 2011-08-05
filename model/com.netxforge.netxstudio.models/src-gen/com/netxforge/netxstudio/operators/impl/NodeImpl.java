@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
-import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
@@ -38,9 +38,9 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getLifecycle <em>Lifecycle</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getNodeType <em>Node Type</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getCreatedByRef <em>Created By Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getLocationRef <em>Location Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getNodeID <em>Node ID</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getOriginalNodeTypeRef <em>Original Node Type Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.impl.NodeImpl#getRoomRef <em>Room Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -125,6 +125,24 @@ public class NodeImpl extends BaseImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Location getLocationRef() {
+		return (Location)eGet(OperatorsPackage.Literals.NODE__LOCATION_REF, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLocationRef(Location newLocationRef) {
+		eSet(OperatorsPackage.Literals.NODE__LOCATION_REF, newLocationRef);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getNodeID() {
 		return (String)eGet(OperatorsPackage.Literals.NODE__NODE_ID, true);
 	}
@@ -154,24 +172,6 @@ public class NodeImpl extends BaseImpl implements Node {
 	 */
 	public void setOriginalNodeTypeRef(NodeType newOriginalNodeTypeRef) {
 		eSet(OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF, newOriginalNodeTypeRef);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Room getRoomRef() {
-		return (Room)eGet(OperatorsPackage.Literals.NODE__ROOM_REF, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRoomRef(Room newRoomRef) {
-		eSet(OperatorsPackage.Literals.NODE__ROOM_REF, newRoomRef);
 	}
 
 } //NodeImpl

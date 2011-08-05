@@ -289,10 +289,10 @@ public class SitesTable extends AbstractScreen implements IDataServiceInjection 
 
 		List<IObservableMap> mapList = Lists.newArrayList();
 
-		mapList.add(EMFProperties.value(GeoPackage.Literals.COUNTRY__NAME)
+		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
 				.observeDetail(set));
 
-		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__NAME)
+		mapList.add(EMFProperties.value(GeoPackage.Literals.LOCATION__NAME)
 				.observeDetail(set));
 
 		mapList.add(EMFProperties.value(GeoPackage.Literals.SITE__CITY)

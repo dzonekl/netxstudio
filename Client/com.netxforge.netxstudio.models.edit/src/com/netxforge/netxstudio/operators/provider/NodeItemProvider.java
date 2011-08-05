@@ -73,9 +73,9 @@ public class NodeItemProvider extends BaseItemProvider implements
 			super.getPropertyDescriptors(object);
 
 			addCreatedByRefPropertyDescriptor(object);
+			addLocationRefPropertyDescriptor(object);
 			addNodeIDPropertyDescriptor(object);
 			addOriginalNodeTypeRefPropertyDescriptor(object);
-			addRoomRefPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -94,6 +94,28 @@ public class NodeItemProvider extends BaseItemProvider implements
 				 getString("_UI_Node_createdByRef_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Node_createdByRef_feature", "_UI_Node_type"),
 				 OperatorsPackage.Literals.NODE__CREATED_BY_REF,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Location Ref feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addLocationRefPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Node_locationRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Node_locationRef_feature", "_UI_Node_type"),
+				 OperatorsPackage.Literals.NODE__LOCATION_REF,
 				 true,
 				 false,
 				 true,
@@ -137,28 +159,6 @@ public class NodeItemProvider extends BaseItemProvider implements
 				 getString("_UI_Node_originalNodeTypeRef_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Node_originalNodeTypeRef_feature", "_UI_Node_type"),
 				 OperatorsPackage.Literals.NODE__ORIGINAL_NODE_TYPE_REF,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Room Ref feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	protected void addRoomRefPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Node_roomRef_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Node_roomRef_feature", "_UI_Node_type"),
-				 OperatorsPackage.Literals.NODE__ROOM_REF,
 				 true,
 				 false,
 				 true,

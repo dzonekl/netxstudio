@@ -12,6 +12,8 @@ import java.util.List;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.ecore.EObject;
+
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -61,6 +63,28 @@ public class ModelUtils {
 	}
 			
 			
+	
+	
+	/**
+	 * Return the Node or null if the target object, has a Node somewhere along
+	 * the parent hiearchy. 
+	 * 
+	 * @param target
+	 * @return
+	 */
+	public Node resolveParentNode(EObject target) {
+		if (target != null && target.eContainer() != null) {
+			if (target.eContainer() instanceof Node) {
+				return (Node) target.eContainer();
+			} else {
+				return resolveParentNode(target.eContainer());
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	
 	/**
 	 * Resources with this name. Notice: Matching is on regular expression, i.e.
 	 * name = .* is all resources.

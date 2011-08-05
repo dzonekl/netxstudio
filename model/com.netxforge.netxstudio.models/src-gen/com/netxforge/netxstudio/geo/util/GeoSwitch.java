@@ -23,8 +23,10 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.geo.*;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.geo.Room;
 import com.netxforge.netxstudio.geo.Site;
 
@@ -88,13 +90,22 @@ public class GeoSwitch<T> extends Switch<T> {
 			case GeoPackage.COUNTRY: {
 				Country country = (Country)theEObject;
 				T result = caseCountry(country);
+				if (result == null) result = caseLocation(country);
 				if (result == null) result = caseBase(country);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GeoPackage.LOCATION: {
+				Location location = (Location)theEObject;
+				T result = caseLocation(location);
+				if (result == null) result = caseBase(location);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case GeoPackage.ROOM: {
 				Room room = (Room)theEObject;
 				T result = caseRoom(room);
+				if (result == null) result = caseLocation(room);
 				if (result == null) result = caseBase(room);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -102,6 +113,7 @@ public class GeoSwitch<T> extends Switch<T> {
 			case GeoPackage.SITE: {
 				Site site = (Site)theEObject;
 				T result = caseSite(site);
+				if (result == null) result = caseLocation(site);
 				if (result == null) result = caseBase(site);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -122,6 +134,21 @@ public class GeoSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCountry(Country object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Location</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Location</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLocation(Location object) {
 		return null;
 	}
 

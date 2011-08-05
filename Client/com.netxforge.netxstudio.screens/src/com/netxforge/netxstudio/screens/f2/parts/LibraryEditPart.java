@@ -42,6 +42,8 @@ public class LibraryEditPart extends AbstractLibraryEditPart {
 		// Create the static router for the connection layer
 		ConnectionLayer connLayer = (ConnectionLayer)getLayer(LayerConstants.CONNECTION_LAYER);
 		connLayer.setConnectionRouter(new ShortestPathConnectionRouter(layer));
+//		connLayer.setConnectionRouter(new ManhattanConnectionRouter());
+		
 		
 		
 		return layer;

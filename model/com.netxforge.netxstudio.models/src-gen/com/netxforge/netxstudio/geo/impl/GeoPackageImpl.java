@@ -31,6 +31,7 @@ import com.netxforge.netxstudio.generics.impl.GenericsPackageImpl;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
+import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.geo.Room;
 import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
@@ -60,6 +61,13 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 	 * @generated
 	 */
 	private EClass countryEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass locationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -206,8 +214,17 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCountry_Name() {
-		return (EAttribute)countryEClass.getEStructuralFeatures().get(3);
+	public EClass getLocation() {
+		return locationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLocation_Name() {
+		return (EAttribute)locationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -224,17 +241,8 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRoom_Name() {
-		return (EAttribute)roomEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getRoom_Shape() {
-		return (EAttribute)roomEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)roomEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -305,7 +313,7 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSite_Name() {
+	public EAttribute getSite_Postalcode() {
 		return (EAttribute)siteEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -314,7 +322,7 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSite_Postalcode() {
+	public EAttribute getSite_Region() {
 		return (EAttribute)siteEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -323,17 +331,8 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSite_Region() {
-		return (EAttribute)siteEClass.getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getSite_Sreet() {
-		return (EAttribute)siteEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)siteEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -368,10 +367,11 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 		createEReference(countryEClass, COUNTRY__SITES);
 		createEReference(countryEClass, COUNTRY__ICONS);
 		createEAttribute(countryEClass, COUNTRY__COUNTRY_CODE);
-		createEAttribute(countryEClass, COUNTRY__NAME);
+
+		locationEClass = createEClass(LOCATION);
+		createEAttribute(locationEClass, LOCATION__NAME);
 
 		roomEClass = createEClass(ROOM);
-		createEAttribute(roomEClass, ROOM__NAME);
 		createEAttribute(roomEClass, ROOM__SHAPE);
 
 		siteEClass = createEClass(SITE);
@@ -381,7 +381,6 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 		createEAttribute(siteEClass, SITE__HOUSENUMBER);
 		createEAttribute(siteEClass, SITE__LATITUDE);
 		createEAttribute(siteEClass, SITE__LONGITUDE);
-		createEAttribute(siteEClass, SITE__NAME);
 		createEAttribute(siteEClass, SITE__POSTALCODE);
 		createEAttribute(siteEClass, SITE__REGION);
 		createEAttribute(siteEClass, SITE__SREET);
@@ -419,19 +418,21 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		countryEClass.getESuperTypes().add(theGenericsPackage.getBase());
-		roomEClass.getESuperTypes().add(theGenericsPackage.getBase());
-		siteEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		countryEClass.getESuperTypes().add(this.getLocation());
+		locationEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		roomEClass.getESuperTypes().add(this.getLocation());
+		siteEClass.getESuperTypes().add(this.getLocation());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(countryEClass, Country.class, "Country", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCountry_Sites(), this.getSite(), null, "sites", null, 0, -1, Country.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCountry_Icons(), theGenericsPackage.getMultiImage(), null, "icons", null, 0, 1, Country.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCountry_CountryCode(), theXMLTypePackage.getString(), "countryCode", null, 0, 1, Country.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCountry_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Country.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(locationEClass, Location.class, "Location", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLocation_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Location.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(roomEClass, Room.class, "Room", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRoom_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Room.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRoom_Shape(), theXMLTypePackage.getString(), "shape", null, 0, 1, Room.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(siteEClass, Site.class, "Site", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -441,7 +442,6 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 		initEAttribute(getSite_Housenumber(), theXMLTypePackage.getString(), "housenumber", null, 0, 1, Site.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSite_Latitude(), theXMLTypePackage.getString(), "latitude", null, 0, 1, Site.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSite_Longitude(), theXMLTypePackage.getString(), "longitude", null, 0, 1, Site.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSite_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Site.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSite_Postalcode(), theXMLTypePackage.getString(), "postalcode", null, 0, 1, Site.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSite_Region(), theXMLTypePackage.getString(), "region", null, 0, 1, Site.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSite_Sreet(), theXMLTypePackage.getString(), "sreet", null, 0, 1, Site.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -471,7 +471,7 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																						
+		   });																																				
 	}
 
 	/**
@@ -511,7 +511,14 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 			 "name", "CountryCode"
 		   });			
 		addAnnotation
-		  (getCountry_Name(), 
+		  (locationEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Location",
+			 "kind", "empty"
+		   });			
+		addAnnotation
+		  (getLocation_Name(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
@@ -523,13 +530,6 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 		   new String[] {
 			 "name", "Room",
 			 "kind", "empty"
-		   });			
-		addAnnotation
-		  (getRoom_Name(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Name"
 		   });			
 		addAnnotation
 		  (getRoom_Shape(), 
@@ -586,13 +586,6 @@ public class GeoPackageImpl extends EPackageImpl implements GeoPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Longitude"
-		   });			
-		addAnnotation
-		  (getSite_Name(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Name"
 		   });			
 		addAnnotation
 		  (getSite_Postalcode(), 

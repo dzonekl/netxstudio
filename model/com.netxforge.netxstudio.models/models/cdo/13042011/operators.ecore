@@ -288,6 +288,15 @@
         <details key="name" value="CreatedByRef"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locationRef" eType="ecore:EClass geo.ecore#//Location">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The RoomRef reference, refers to a Room type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="LocationRef"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeID" eType="ecore:EDataType generics.ecore#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The NodeID attribute holds a unique identifier&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the node.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;It is according to guidelines for so-called&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Configuration&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Items (CI).&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Example:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;[Location][Nodetype_abbreviation][Sequencenumber]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -304,15 +313,6 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="OriginalNodeTypeRef"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="roomRef" eType="ecore:EClass geo.ecore#//Room">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The RoomRef reference, refers to a Room type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="RoomRef"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

@@ -192,38 +192,38 @@ public class BaseItemProvider extends ItemProviderAdapter implements
 		return result;
 	}
 
-	@Override
-	public Command createCommand(Object object, EditingDomain domain,
-			Class<? extends Command> commandClass,
-			CommandParameter commandParameter) {
-		CommandParameter oldCommandParameter = commandParameter;
-		commandParameter = unwrapCommandValues(commandParameter, commandClass);
-		Command result = UnexecutableCommand.INSTANCE;
+//	@Override
+//	public Command createCommand(Object object, EditingDomain domain,
+//			Class<? extends Command> commandClass,
+//			CommandParameter commandParameter) {
+//		CommandParameter oldCommandParameter = commandParameter;
+//		commandParameter = unwrapCommandValues(commandParameter, commandClass);
+//		Command result = UnexecutableCommand.INSTANCE;
+//
+//		if (commandClass == CreateChildFromPoolCommand.class) {
+//			CommandParameter newChildParameter = (CommandParameter) commandParameter
+//					.getValue();
+//			result = createCreateChildFromPoolCommand(domain,
+//					commandParameter.getEOwner(),
+//					newChildParameter.getEStructuralFeature(),
+//					newChildParameter.getValue(), newChildParameter.getIndex(),
+//					commandParameter.getCollection());
+//			return wrapCommand(result, object, commandClass, commandParameter,
+//					oldCommandParameter);
+//		}
+//
+//		return super.createCommand(object, domain, commandClass,
+//				commandParameter);
+//	}
 
-		if (commandClass == CreateChildFromPoolCommand.class) {
-			CommandParameter newChildParameter = (CommandParameter) commandParameter
-					.getValue();
-			result = createCreateChildFromPoolCommand(domain,
-					commandParameter.getEOwner(),
-					newChildParameter.getEStructuralFeature(),
-					newChildParameter.getValue(), newChildParameter.getIndex(),
-					commandParameter.getCollection());
-			return wrapCommand(result, object, commandClass, commandParameter,
-					oldCommandParameter);
-		}
-
-		return super.createCommand(object, domain, commandClass,
-				commandParameter);
-	}
-
-	protected Command createCreateChildFromPoolCommand(EditingDomain domain,
-			EObject owner, EStructuralFeature feature, Object value, int index,
-			Collection<?> collection) {
-		if (feature instanceof EReference && value instanceof EObject) {
-			 return new CreateChildFromPoolCommand(domain, owner, feature, value, index, collection, this);
-		}
-		return new CreateChildCommand(domain, owner, feature, value, index,
-				collection, this);
-	}
+//	protected Command createCreateChildFromPoolCommand(EditingDomain domain,
+//			EObject owner, EStructuralFeature feature, Object value, int index,
+//			Collection<?> collection) {
+//		if (feature instanceof EReference && value instanceof EObject) {
+//			 return new CreateChildFromPoolCommand(domain, owner, feature, value, index, collection, this);
+//		}
+//		return new CreateChildCommand(domain, owner, feature, value, index,
+//				collection, this);
+//	}
 
 }

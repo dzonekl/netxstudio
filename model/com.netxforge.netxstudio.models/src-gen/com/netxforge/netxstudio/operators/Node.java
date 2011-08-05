@@ -21,7 +21,7 @@ package com.netxforge.netxstudio.operators;
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Person;
-import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.library.NodeType;
 
 /**
@@ -52,9 +52,9 @@ import com.netxforge.netxstudio.library.NodeType;
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getLifecycle <em>Lifecycle</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getNodeType <em>Node Type</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getCreatedByRef <em>Created By Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.Node#getLocationRef <em>Location Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getNodeID <em>Node ID</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Node#getOriginalNodeTypeRef <em>Original Node Type Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.Node#getRoomRef <em>Room Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -149,6 +149,32 @@ public interface Node extends Base {
 	void setCreatedByRef(Person value);
 
 	/**
+	 * Returns the value of the '<em><b>Location Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The RoomRef reference, refers to a Room type.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Location Ref</em>' reference.
+	 * @see #setLocationRef(Location)
+	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNode_LocationRef()
+	 * @model extendedMetaData="kind='attribute' name='LocationRef'"
+	 * @generated
+	 */
+	Location getLocationRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Node#getLocationRef <em>Location Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Location Ref</em>' reference.
+	 * @see #getLocationRef()
+	 * @generated
+	 */
+	void setLocationRef(Location value);
+
+	/**
 	 * Returns the value of the '<em><b>Node ID</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -209,31 +235,5 @@ public interface Node extends Base {
 	 * @generated
 	 */
 	void setOriginalNodeTypeRef(NodeType value);
-
-	/**
-	 * Returns the value of the '<em><b>Room Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The RoomRef reference, refers to a Room type.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Room Ref</em>' reference.
-	 * @see #setRoomRef(Room)
-	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getNode_RoomRef()
-	 * @model extendedMetaData="kind='attribute' name='RoomRef'"
-	 * @generated
-	 */
-	Room getRoomRef();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Node#getRoomRef <em>Room Ref</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Room Ref</em>' reference.
-	 * @see #getRoomRef()
-	 * @generated
-	 */
-	void setRoomRef(Room value);
 
 } // Node

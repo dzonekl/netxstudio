@@ -48,6 +48,7 @@ public class ExpressionFilterDialog extends FilteredItemsSelectionDialog {
 	 */
 	public ExpressionFilterDialog(Shell shell, Resource resource) {
 		super(shell);
+		this.setTitle("Select an existing Expression");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {

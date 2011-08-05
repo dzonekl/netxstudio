@@ -70,7 +70,7 @@ public class NewEditRoom extends AbstractScreen implements
 				SWT.Modify));
 	
 		IEMFValueProperty nameProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(), GeoPackage.Literals.ROOM__NAME);
+				.value(editingService.getEditingDomain(), GeoPackage.Literals.LOCATION__NAME);
 		
 		context.bindValue(nameObservable, nameProperty.observe(room),
 				null, null);

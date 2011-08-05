@@ -261,7 +261,7 @@ public class Countries extends AbstractScreen implements IDataServiceInjection {
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
 				listContentProvider.getKnownElements(),
 				new EStructuralFeature[] {
-						GeoPackage.Literals.COUNTRY__NAME,
+						GeoPackage.Literals.LOCATION__NAME,
 						GeoPackage.Literals.COUNTRY__COUNTRY_CODE,
 						 });
 		tableViewer.setLabelProvider(new ObservableMapLabelProvider(

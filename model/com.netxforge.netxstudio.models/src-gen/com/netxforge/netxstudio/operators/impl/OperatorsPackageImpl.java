@@ -505,8 +505,17 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getNode_LocationRef() {
+		return (EReference)nodeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getNode_NodeID() {
-		return (EAttribute)nodeEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)nodeEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -515,15 +524,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * @generated
 	 */
 	public EReference getNode_OriginalNodeTypeRef() {
-		return (EReference)nodeEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNode_RoomRef() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -856,9 +856,9 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		createEReference(nodeEClass, NODE__LIFECYCLE);
 		createEReference(nodeEClass, NODE__NODE_TYPE);
 		createEReference(nodeEClass, NODE__CREATED_BY_REF);
+		createEReference(nodeEClass, NODE__LOCATION_REF);
 		createEAttribute(nodeEClass, NODE__NODE_ID);
 		createEReference(nodeEClass, NODE__ORIGINAL_NODE_TYPE_REF);
-		createEReference(nodeEClass, NODE__ROOM_REF);
 
 		operatorEClass = createEClass(OPERATOR);
 		createEReference(operatorEClass, OPERATOR__NETWORKS);
@@ -982,9 +982,9 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		initEReference(getNode_Lifecycle(), theGenericsPackage.getLifecycle(), null, "lifecycle", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_NodeType(), theLibraryPackage.getNodeType(), null, "nodeType", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_CreatedByRef(), theGenericsPackage.getPerson(), null, "createdByRef", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_LocationRef(), theGeoPackage.getLocation(), null, "locationRef", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNode_NodeID(), theGenericsPackage.getName255(), "nodeID", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_OriginalNodeTypeRef(), theLibraryPackage.getNodeType(), null, "originalNodeTypeRef", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNode_RoomRef(), theGeoPackage.getRoom(), null, "roomRef", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operatorEClass, Operator.class, "Operator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOperator_Networks(), this.getNetwork(), null, "networks", null, 0, -1, Operator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1278,6 +1278,13 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 			 "name", "CreatedByRef"
 		   });			
 		addAnnotation
+		  (getNode_LocationRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "LocationRef"
+		   });			
+		addAnnotation
 		  (getNode_NodeID(), 
 		   source, 
 		   new String[] {
@@ -1290,13 +1297,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "OriginalNodeTypeRef"
-		   });			
-		addAnnotation
-		  (getNode_RoomRef(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "RoomRef"
 		   });			
 		addAnnotation
 		  (operatorEClass, 

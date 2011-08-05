@@ -10,7 +10,9 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.screens.f2.model.ComponentToComponent;
 import com.netxforge.netxstudio.screens.f2.model.NodeTypeToComponent;
 
-public class AbstractComponentEditPart extends AbstractLibraryEditPart {
+public abstract class AbstractComponentEditPart extends AbstractLibraryEditPart {
+
+	
 
 	public AbstractComponentEditPart() {
 		super();
@@ -61,7 +63,6 @@ public class AbstractComponentEditPart extends AbstractLibraryEditPart {
 		return true;
 	}
 
-	
 	public boolean addComponentToComponentTargetConnection(
 			ComponentToComponentEditPart part) {
 		ComponentToComponent ctc = part.getComponentToComponent();
@@ -81,8 +82,7 @@ public class AbstractComponentEditPart extends AbstractLibraryEditPart {
 		this.removeTargetConnection(part);
 		return true;
 	}
-	
-	
+
 	List<ComponentToComponent> modelSourceComponentConnections;
 
 	public void populateConnectionModel() {
@@ -98,11 +98,11 @@ public class AbstractComponentEditPart extends AbstractLibraryEditPart {
 
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected List getModelSourceConnections() {
-		return modelSourceComponentConnections;	
+		return modelSourceComponentConnections;
 	}
 
 }

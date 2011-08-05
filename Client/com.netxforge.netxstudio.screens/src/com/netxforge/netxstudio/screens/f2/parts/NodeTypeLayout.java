@@ -28,7 +28,8 @@ public class NodeTypeLayout extends AbstractLayout {
 		System.err.println("layout request" + container);
 		Iterator<?> iterator = container.getChildren().iterator();
 		int childCount = 0;
-		int distance = 60;
+		int heightDistance = 40;
+		int widthDistance = 50;
 		
 		
 		// First we need to group by type and layout separately. 
@@ -38,8 +39,8 @@ public class NodeTypeLayout extends AbstractLayout {
 
 			EObject c = constraints.get(f);
 			int depth = depth(c, 0);
-			int x = distance * depth; 
-			int y = childCount * distance;
+			int x = widthDistance * depth; 
+			int y = childCount * heightDistance;
 			
 			Rectangle constraint = new Rectangle(x, y, bounds.width, bounds.height);
 			f.setBounds(constraint);

@@ -63,8 +63,6 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
@@ -93,8 +91,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	private static final Object[] ComboStartInput = new Object[] { "Week",
 			"Day", "Hour", "Quarter" };
 
-	@Inject
-	ModelUtils modelUtils;
 	private CDateTime cdateTimeStartTime;
 	private DateChooserCombo dateChooserStartsOn;
 	private DateChooserCombo dateChooserEndsOn;

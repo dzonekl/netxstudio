@@ -58,6 +58,7 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Unit;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.UnitFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
@@ -91,7 +92,7 @@ public class NewEditResource extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		// buildUI();
+//		 buildUI();
 	}
 
 	private void buildUI() {
@@ -198,66 +199,76 @@ public class NewEditResource extends AbstractScreen implements
 			}
 		});
 
-		Section sctnContents = toolkit.createSection(frmResource.getBody(),
-				Section.EXPANDED | Section.TITLE_BAR);
-		FormData fd_sctnContents = new FormData();
-		fd_sctnContents.bottom = new FormAttachment(100, -12);
-		fd_sctnContents.right = new FormAttachment(formText, 0, SWT.RIGHT);
-		fd_sctnContents.top = new FormAttachment(sctnInfo, 0, SWT.TOP);
-		fd_sctnContents.left = new FormAttachment(0, 380);
-		sctnContents.setLayoutData(fd_sctnContents);
-		toolkit.paintBordersFor(sctnContents);
-		sctnContents.setText("Contents");
+		// This section is optional, if the resource is actually part of a
+		// component, from
+		// real node.
+		
+		Node node = null;
+		if( netxResource.getComponentRef() != null && (node = modelUtils.resolveParentNode(netxResource.getComponentRef())) != null) {
 
-		Composite composite_2 = toolkit.createComposite(sctnContents, SWT.NONE);
-		toolkit.paintBordersFor(composite_2);
-		sctnContents.setClient(composite_2);
-		composite_2.setLayout(new GridLayout(2, false));
+			Section sctnContents = toolkit.createSection(frmResource.getBody(),
+					Section.EXPANDED | Section.TITLE_BAR);
+			FormData fd_sctnContents = new FormData();
+			fd_sctnContents.bottom = new FormAttachment(100, -12);
+			fd_sctnContents.right = new FormAttachment(formText, 0, SWT.RIGHT);
+			fd_sctnContents.top = new FormAttachment(sctnInfo, 0, SWT.TOP);
+			fd_sctnContents.left = new FormAttachment(0, 380);
+			sctnContents.setLayoutData(fd_sctnContents);
+			toolkit.paintBordersFor(sctnContents);
+			sctnContents.setText("Contents");
 
-		ImageHyperlink mghprlnkMetricRanges = toolkit.createImageHyperlink(
-				composite_2, SWT.NONE);
-		mghprlnkMetricRanges.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 2, 1));
-		toolkit.paintBordersFor(mghprlnkMetricRanges);
-		mghprlnkMetricRanges.setText("Metric Ranges");
+			Composite composite_2 = toolkit.createComposite(sctnContents,
+					SWT.NONE);
+			toolkit.paintBordersFor(composite_2);
+			sctnContents.setClient(composite_2);
+			composite_2.setLayout(new GridLayout(2, false));
 
-		Composite composite_3 = toolkit.createComposite(composite_2, SWT.NONE);
-		GridData gd_composite_3 = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_composite_3.widthHint = 14;
-		gd_composite_3.heightHint = 14;
-		composite_3.setLayoutData(gd_composite_3);
-		toolkit.paintBordersFor(composite_3);
+			ImageHyperlink mghprlnkMetricRanges = toolkit.createImageHyperlink(
+					composite_2, SWT.NONE);
+			mghprlnkMetricRanges.setLayoutData(new GridData(SWT.LEFT,
+					SWT.CENTER, false, false, 2, 1));
+			toolkit.paintBordersFor(mghprlnkMetricRanges);
+			mghprlnkMetricRanges.setText("Metric Ranges");
 
-		Hyperlink hprlnkHourly = toolkit.createHyperlink(composite_2, "Hourly",
-				SWT.NONE);
-		toolkit.paintBordersFor(hprlnkHourly);
+			Composite composite_3 = toolkit.createComposite(composite_2,
+					SWT.NONE);
+			GridData gd_composite_3 = new GridData(SWT.LEFT, SWT.CENTER, false,
+					false, 1, 1);
+			gd_composite_3.widthHint = 14;
+			gd_composite_3.heightHint = 14;
+			composite_3.setLayoutData(gd_composite_3);
+			toolkit.paintBordersFor(composite_3);
 
-		new Label(composite_2, SWT.NONE);
-		Hyperlink hprlnkDaily = toolkit.createHyperlink(composite_2, "Daily",
-				SWT.NONE);
-		toolkit.paintBordersFor(hprlnkDaily);
+			Hyperlink hprlnkHourly = toolkit.createHyperlink(composite_2,
+					"Hourly", SWT.NONE);
+			toolkit.paintBordersFor(hprlnkHourly);
 
-		new Label(composite_2, SWT.NONE);
-		Hyperlink hprlnkWeekly = toolkit.createHyperlink(composite_2, "Weekly",
-				SWT.NONE);
-		toolkit.paintBordersFor(hprlnkWeekly);
+			new Label(composite_2, SWT.NONE);
+			Hyperlink hprlnkDaily = toolkit.createHyperlink(composite_2,
+					"Daily", SWT.NONE);
+			toolkit.paintBordersFor(hprlnkDaily);
 
-		new Label(composite_2, SWT.NONE);
-		Hyperlink hprlnkMonthly = toolkit.createHyperlink(composite_2,
-				"Monthly", SWT.NONE);
-		toolkit.paintBordersFor(hprlnkMonthly);
+			new Label(composite_2, SWT.NONE);
+			Hyperlink hprlnkWeekly = toolkit.createHyperlink(composite_2,
+					"Weekly", SWT.NONE);
+			toolkit.paintBordersFor(hprlnkWeekly);
 
-		Hyperlink hprlnkNewHyperlink = toolkit.createHyperlink(composite_2,
-				"Capacity Range", SWT.NONE);
-		hprlnkNewHyperlink.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 2, 1));
-		toolkit.paintBordersFor(hprlnkNewHyperlink);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
+			new Label(composite_2, SWT.NONE);
+			Hyperlink hprlnkMonthly = toolkit.createHyperlink(composite_2,
+					"Monthly", SWT.NONE);
+			toolkit.paintBordersFor(hprlnkMonthly);
 
-		if (readonly) {
-			btnSelect.setEnabled(false);
+			Hyperlink hprlnkNewHyperlink = toolkit.createHyperlink(composite_2,
+					"Capacity Range", SWT.NONE);
+			hprlnkNewHyperlink.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
+					false, false, 2, 1));
+			toolkit.paintBordersFor(hprlnkNewHyperlink);
+			new Label(composite_2, SWT.NONE);
+			new Label(composite_2, SWT.NONE);
+
+			if (readonly) {
+				btnSelect.setEnabled(false);
+			}
 		}
 	}
 
@@ -266,14 +277,14 @@ public class NewEditResource extends AbstractScreen implements
 
 		// Widget observables.
 		IObservableValue shortNameTargetObservable = SWTObservables
-				.observeDelayedValue(400,
-						SWTObservables.observeText(this.txtShortName, SWT.Modify));
+				.observeDelayedValue(400, SWTObservables.observeText(
+						this.txtShortName, SWT.Modify));
 		IObservableValue longNameTargetObservable = SWTObservables
-				.observeDelayedValue(400,
-						SWTObservables.observeText(this.txtLongName, SWT.Modify));
+				.observeDelayedValue(400, SWTObservables.observeText(
+						this.txtLongName, SWT.Modify));
 		IObservableValue expressionNameTargetObservable = SWTObservables
-				.observeDelayedValue(400,
-						SWTObservables.observeText(this.txtExpressionName, SWT.Modify));
+				.observeDelayedValue(400, SWTObservables.observeText(
+						this.txtExpressionName, SWT.Modify));
 		IObservableValue unitTargetObservable = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(this.txtUnit, SWT.Modify));
@@ -287,11 +298,11 @@ public class NewEditResource extends AbstractScreen implements
 		IEMFValueProperty expressionNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME);
-		
-		
-		IEMFValueProperty unitProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),FeaturePath.fromList(
-				LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF, LibraryPackage.Literals.UNIT__CODE));
+
+		IEMFValueProperty unitProperty = EMFEditProperties.value(editingService
+				.getEditingDomain(), FeaturePath.fromList(
+				LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF,
+				LibraryPackage.Literals.UNIT__CODE));
 
 		context.bindValue(shortNameTargetObservable,
 				shortNameProperty.observe(netxResource), null, null);
@@ -313,7 +324,7 @@ public class NewEditResource extends AbstractScreen implements
 		injectData(owner, null, object);
 	}
 
-	public void injectData(Object owner, Object whoRefers,Object object) {
+	public void injectData(Object owner, Object whoRefers, Object object) {
 		if (owner instanceof Resource) {
 			this.owner = (Resource) owner;
 		}
@@ -333,7 +344,7 @@ public class NewEditResource extends AbstractScreen implements
 		if (Screens.isNewOperation(getOperation()) && owner != null) {
 			// If new, we have been operating on an object not added yet.
 			CompoundCommand c = new CompoundCommand();
-			if (whoRefers != null ) {
+			if (whoRefers != null) {
 				// We also set the reference to this expression, we need to
 				// referee and a feature for this.
 				if (whoRefers instanceof Component) {
@@ -345,11 +356,12 @@ public class NewEditResource extends AbstractScreen implements
 					c.append(new AddCommand(editingService.getEditingDomain(),
 							owner.getContents(), netxResource));
 
-					editingService.getEditingDomain().getCommandStack().execute(c);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(c);
 				}
 			}
-			
-			// We can't add this resource now, we need a referee. 
+
+			// We can't add this resource now, we need a referee.
 		} else if (Screens.isEditOperation(getOperation())) {
 			// If edit, we have been operating on a copy of the object, so we
 			// have to replace. However if our original object is invalid, this

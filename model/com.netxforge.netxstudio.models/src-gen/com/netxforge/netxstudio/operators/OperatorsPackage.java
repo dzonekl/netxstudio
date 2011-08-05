@@ -626,13 +626,22 @@ public interface OperatorsPackage extends EPackage {
 	int NODE__CREATED_BY_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Location Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__LOCATION_REF = GenericsPackage.BASE_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Node ID</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__NODE_ID = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int NODE__NODE_ID = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Original Node Type Ref</b></em>' reference.
@@ -641,16 +650,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__ORIGINAL_NODE_TYPE_REF = GenericsPackage.BASE_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Room Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NODE__ROOM_REF = GenericsPackage.BASE_FEATURE_COUNT + 5;
+	int NODE__ORIGINAL_NODE_TYPE_REF = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Node</em>' class.
@@ -1331,6 +1331,17 @@ public interface OperatorsPackage extends EPackage {
 	EReference getNode_CreatedByRef();
 
 	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Node#getLocationRef <em>Location Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Location Ref</em>'.
+	 * @see com.netxforge.netxstudio.operators.Node#getLocationRef()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_LocationRef();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.operators.Node#getNodeID <em>Node ID</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1351,17 +1362,6 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getNode_OriginalNodeTypeRef();
-
-	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Node#getRoomRef <em>Room Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Room Ref</em>'.
-	 * @see com.netxforge.netxstudio.operators.Node#getRoomRef()
-	 * @see #getNode()
-	 * @generated
-	 */
-	EReference getNode_RoomRef();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.operators.Operator <em>Operator</em>}'.
@@ -1936,6 +1936,14 @@ public interface OperatorsPackage extends EPackage {
 		EReference NODE__CREATED_BY_REF = eINSTANCE.getNode_CreatedByRef();
 
 		/**
+		 * The meta object literal for the '<em><b>Location Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE__LOCATION_REF = eINSTANCE.getNode_LocationRef();
+
+		/**
 		 * The meta object literal for the '<em><b>Node ID</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1950,14 +1958,6 @@ public interface OperatorsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NODE__ORIGINAL_NODE_TYPE_REF = eINSTANCE.getNode_OriginalNodeTypeRef();
-
-		/**
-		 * The meta object literal for the '<em><b>Room Ref</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NODE__ROOM_REF = eINSTANCE.getNode_RoomRef();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.operators.impl.OperatorImpl <em>Operator</em>}' class.

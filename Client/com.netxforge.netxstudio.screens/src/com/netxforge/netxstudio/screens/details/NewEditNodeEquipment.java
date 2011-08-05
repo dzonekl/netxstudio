@@ -53,8 +53,6 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -65,7 +63,6 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.NetXResourceFilterDialog;
@@ -78,7 +75,7 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 
-public class NewEditNodeEquipment extends AbstractDetailsComposite implements
+public class NewEditNodeEquipment extends AbstractDetailsScreen implements
 		IScreen, IDataScreenInjection {
 
 	private Equipment comp;
@@ -95,9 +92,6 @@ public class NewEditNodeEquipment extends AbstractDetailsComposite implements
 	private Text txtCode;
 	private ComboViewer cmbViewerExpansionDuration;
 	
-	@Inject
-	ModelUtils modelUtils;
-
 	private DateChooserCombo dcProposed;
 	private DateChooserCombo dcPlanned;
 	private DateChooserCombo dcConstruction;
@@ -807,29 +801,29 @@ public class NewEditNodeEquipment extends AbstractDetailsComposite implements
 
 		IEMFValueProperty proposedProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
-						OperatorsPackage.Literals.NODE__LIFECYCLE,
+						LibraryPackage.Literals.EQUIPMENT__LIFECYCLE,
 						GenericsPackage.Literals.LIFECYCLE__PROPOSED));
 
 		IEMFValueProperty plannedProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
-						OperatorsPackage.Literals.NODE__LIFECYCLE,
+						LibraryPackage.Literals.EQUIPMENT__LIFECYCLE,
 						GenericsPackage.Literals.LIFECYCLE__PLANNED_DATE));
 
 		IEMFValueProperty constructionProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
-						OperatorsPackage.Literals.NODE__LIFECYCLE,
+						LibraryPackage.Literals.EQUIPMENT__LIFECYCLE,
 						GenericsPackage.Literals.LIFECYCLE__CONSTRUCTION_DATE));
 
 		IEMFValueProperty inServiceProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
-						OperatorsPackage.Literals.NODE__LIFECYCLE,
+						LibraryPackage.Literals.EQUIPMENT__LIFECYCLE,
 						GenericsPackage.Literals.LIFECYCLE__IN_SERVICE_DATE));
 
 		IEMFValueProperty outOfServiceProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
 						FeaturePath
 								.fromList(
-										OperatorsPackage.Literals.NODE__LIFECYCLE,
+										LibraryPackage.Literals.EQUIPMENT__LIFECYCLE,
 										GenericsPackage.Literals.LIFECYCLE__OUT_OF_SERVICE_DATE));
 
 		EMFUpdateValueStrategy modelToTargetUpdateStrategy = new EMFUpdateValueStrategy();

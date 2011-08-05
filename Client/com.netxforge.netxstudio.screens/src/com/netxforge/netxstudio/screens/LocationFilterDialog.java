@@ -33,10 +33,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
 import com.netxforge.netxstudio.geo.GeoPackage;
-import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public class RoomFilterDialog extends FilteredItemsSelectionDialog {
+public class LocationFilterDialog extends FilteredItemsSelectionDialog {
 	private final Resource resource;
 
 	/**
@@ -47,8 +47,9 @@ public class RoomFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public RoomFilterDialog(Shell shell, Resource resource) {
+	public LocationFilterDialog(Shell shell, Resource resource) {
 		super(shell);
+		this.setTitle("Select a location (Room/Site/Country)");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
@@ -57,7 +58,7 @@ public class RoomFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return RoomFilterDialog.this.getText((Room) element);
+				return LocationFilterDialog.this.getText((Location) element);
 			}
 		});
 
@@ -67,12 +68,12 @@ public class RoomFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return RoomFilterDialog.this.getText((Room) element);
+				return LocationFilterDialog.this.getText((Location) element);
 			}
 		});
 	}
 
-	private String getText(Room p) {
+	private String getText(Location p) {
 		return p.getName() ;
 	}
 
@@ -83,9 +84,9 @@ public class RoomFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	protected Comparator<?> getItemsComparator() {
-		return new Comparator<Room>() {
+		return new Comparator<Location>() {
 
-			public int compare(Room o1, Room o2) {
+			public int compare(Location o1, Location o2) {
 				return getText(o1).compareTo(getText(o2));
 			}
 		};
@@ -93,18 +94,18 @@ public class RoomFilterDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public String getElementName(Object item) {
-		Room p = (Room) item;
+		Location p = (Location) item;
 		return getText(p);
 	}
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = ScreensActivator.getDefault()
-				.getDialogSettings().getSection("Roomdialog");
+				.getDialogSettings().getSection("Locationdialog");
 
 		if (settings == null) {
 			settings = ScreensActivator.getDefault().getDialogSettings()
-					.addNewSection("Roomdialog");
+					.addNewSection("Locationdialog");
 		}
 		return settings;
 	}
@@ -118,7 +119,7 @@ public class RoomFilterDialog extends FilteredItemsSelectionDialog {
 		org.eclipse.emf.common.util.TreeIterator<EObject> ti = resource.getAllContents();
 		while(ti.hasNext()){
 			EObject p = ti.next();
-			if(p.eClass().equals(GeoPackage.Literals.ROOM)){
+			if(p.eClass().equals(GeoPackage.Literals.LOCATION)){
 				contentProvider.add(p, itemsFilter);	
 			}
 		}
@@ -135,7 +136,7 @@ public class RoomFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				Room p = (Room) item;
+				Location p = (Location) item;
 				return matches(p.getName());
 			}
 		};

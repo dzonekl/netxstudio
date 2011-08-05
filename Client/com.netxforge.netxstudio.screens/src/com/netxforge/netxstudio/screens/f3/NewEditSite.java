@@ -4,8 +4,8 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -90,22 +90,22 @@ public class NewEditSite extends AbstractScreen implements
 				SWT.Modify));
 		
 
-		IEMFValueProperty nameProperty = EMFProperties
-				.value(GeoPackage.Literals.SITE__NAME);
-		IEMFValueProperty regionProperty = EMFProperties
-				.value(GeoPackage.Literals.SITE__REGION);
-		IEMFValueProperty areaProperty = EMFProperties
-				.value(GeoPackage.Literals.SITE__AREA);
-		IEMFValueProperty cityProperty = EMFProperties
-				.value(GeoPackage.Literals.SITE__CITY);
-		IEMFValueProperty streetProperty = EMFProperties
-				.value(GeoPackage.Literals.SITE__SREET);
-		IEMFValueProperty nrProperty = EMFProperties
-				.value(GeoPackage.Literals.SITE__HOUSENUMBER);
-		IEMFValueProperty longitudeProperty = EMFProperties
-				.value(GeoPackage.Literals.SITE__LONGITUDE);
-		IEMFValueProperty latitudeProperty = EMFProperties
-				.value(GeoPackage.Literals.SITE__LATITUDE);
+		IEMFValueProperty nameProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GeoPackage.Literals.LOCATION__NAME);
+		IEMFValueProperty regionProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GeoPackage.Literals.SITE__REGION);
+		IEMFValueProperty areaProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GeoPackage.Literals.SITE__AREA);
+		IEMFValueProperty cityProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GeoPackage.Literals.SITE__CITY);
+		IEMFValueProperty streetProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GeoPackage.Literals.SITE__SREET);
+		IEMFValueProperty nrProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GeoPackage.Literals.SITE__HOUSENUMBER);
+		IEMFValueProperty longitudeProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GeoPackage.Literals.SITE__LONGITUDE);
+		IEMFValueProperty latitudeProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), GeoPackage.Literals.SITE__LATITUDE);
 		
 		context.bindValue(nameObservable, nameProperty.observe(site),
 				null, null);

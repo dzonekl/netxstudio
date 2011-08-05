@@ -64,7 +64,6 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -297,10 +296,9 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		mapList.add(EMFProperties
 				.value(LibraryPackage.Literals.COMPONENT__NAME).observeDetail(
 						set));
-
-		mapList.add(EMFProperties.value(
-				LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME)
-				.observeDetail(set));
+//		mapList.add(EMFProperties.value(
+//				LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME)
+//				.observeDetail(set));
 
 		mapList.add(EMFProperties.value(
 				LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)
@@ -348,11 +346,12 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 					&& ((Equipment) element).getEquipments().size() > 0) {
 				return Boolean.TRUE;
 			}
-			if (element instanceof Component
-					&& ((Component) element).getResourceRefs().size() > 0) {
-				return Boolean.TRUE;
-			}
-
+			
+			// TMNL 04082011, don't show resources in tree. 
+//			if (element instanceof Component
+//					&& ((Component) element).getResourceRefs().size() > 0) {
+//				return Boolean.TRUE;
+//			}
 			return super.hasChildren(element);
 		}
 	}

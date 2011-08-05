@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.geo.provider;
 
 
+import com.netxforge.netxstudio.geo.GeoFactory;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,7 +39,6 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
 import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
-import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Site;
 
@@ -49,7 +49,7 @@ import com.netxforge.netxstudio.geo.Site;
  * @generated
  */
 public class SiteItemProvider
-	extends BaseItemProvider
+	extends LocationItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -82,7 +82,6 @@ public class SiteItemProvider
 			addHousenumberPropertyDescriptor(object);
 			addLatitudePropertyDescriptor(object);
 			addLongitudePropertyDescriptor(object);
-			addNamePropertyDescriptor(object);
 			addPostalcodePropertyDescriptor(object);
 			addRegionPropertyDescriptor(object);
 			addSreetPropertyDescriptor(object);
@@ -192,28 +191,6 @@ public class SiteItemProvider
 				 getString("_UI_Site_longitude_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Site_longitude_feature", "_UI_Site_type"),
 				 GeoPackage.Literals.SITE__LONGITUDE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Site_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Site_name_feature", "_UI_Site_type"),
-				 GeoPackage.Literals.SITE__NAME,
 				 true,
 				 false,
 				 false,
@@ -360,7 +337,6 @@ public class SiteItemProvider
 			case GeoPackage.SITE__HOUSENUMBER:
 			case GeoPackage.SITE__LATITUDE:
 			case GeoPackage.SITE__LONGITUDE:
-			case GeoPackage.SITE__NAME:
 			case GeoPackage.SITE__POSTALCODE:
 			case GeoPackage.SITE__REGION:
 			case GeoPackage.SITE__SREET:
@@ -378,27 +354,16 @@ public class SiteItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(GeoPackage.Literals.SITE__ROOMS,
-				 GeoFactory.eINSTANCE.createRoom()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return NetxstudioEditPlugin.INSTANCE;
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(GeoPackage.Literals.SITE__ROOMS,
+//				 GeoFactory.eINSTANCE.createRoom()));
 	}
 
 }

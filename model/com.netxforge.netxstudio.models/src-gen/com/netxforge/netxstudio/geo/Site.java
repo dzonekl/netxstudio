@@ -20,8 +20,6 @@ package com.netxforge.netxstudio.geo;
 
 import org.eclipse.emf.common.util.EList;
 
-import com.netxforge.netxstudio.generics.Base;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Site</b></em>'.
@@ -42,7 +40,6 @@ import com.netxforge.netxstudio.generics.Base;
  *   <li>{@link com.netxforge.netxstudio.geo.Site#getHousenumber <em>Housenumber</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.Site#getLatitude <em>Latitude</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.Site#getLongitude <em>Longitude</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.geo.Site#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.Site#getPostalcode <em>Postalcode</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.Site#getRegion <em>Region</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.Site#getSreet <em>Sreet</em>}</li>
@@ -53,7 +50,7 @@ import com.netxforge.netxstudio.generics.Base;
  * @model extendedMetaData="name='Site' kind='elementOnly'"
  * @generated
  */
-public interface Site extends Base {
+public interface Site extends Location {
 	/**
 	 * Returns the value of the '<em><b>Rooms</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.geo.Room}.
@@ -218,34 +215,6 @@ public interface Site extends Base {
 	 * @generated
 	 */
 	void setLongitude(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The Name attribute holds a name used for
-	 * 							presentation.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see com.netxforge.netxstudio.geo.GeoPackage#getSite_Name()
-	 * @model dataType="com.netxforge.netxstudio.generics.Name255"
-	 *        extendedMetaData="kind='attribute' name='Name'"
-	 * @generated
-	 */
-	String getName();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.geo.Site#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-	void setName(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Postalcode</b></em>' attribute.

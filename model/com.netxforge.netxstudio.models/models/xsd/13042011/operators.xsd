@@ -305,7 +305,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute ecore:reference="geo:Room" name="RoomRef"
+				<xs:attribute ecore:reference="geo:Location" name="LocationRef"
 					type="xs:anyURI">
 					<xs:annotation>
 						<xs:documentation>The RoomRef reference, refers to a Room type.

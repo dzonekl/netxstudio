@@ -20,7 +20,6 @@ package com.netxforge.netxstudio.geo;
 
 import org.eclipse.emf.common.util.EList;
 
-import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.MultiImage;
 
 /**
@@ -49,7 +48,6 @@ import com.netxforge.netxstudio.generics.MultiImage;
  *   <li>{@link com.netxforge.netxstudio.geo.Country#getSites <em>Sites</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.Country#getIcons <em>Icons</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.Country#getCountryCode <em>Country Code</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.geo.Country#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -57,7 +55,7 @@ import com.netxforge.netxstudio.generics.MultiImage;
  * @model extendedMetaData="name='Country' kind='elementOnly'"
  * @generated
  */
-public interface Country extends Base {
+public interface Country extends Location {
 	/**
 	 * Returns the value of the '<em><b>Sites</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.geo.Site}.
@@ -135,36 +133,5 @@ public interface Country extends Base {
 	 * @generated
 	 */
 	void setCountryCode(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The Name attribute should be according to ISO
-	 * 							definitions in:
-	 * 
-	 * 
-	 * 							http://www.iso.org/iso/english_country_names_and_code_elements
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see com.netxforge.netxstudio.geo.GeoPackage#getCountry_Name()
-	 * @model dataType="com.netxforge.netxstudio.generics.Name255"
-	 *        extendedMetaData="kind='attribute' name='Name'"
-	 * @generated
-	 */
-	String getName();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.geo.Country#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-	void setName(String value);
 
 } // Country

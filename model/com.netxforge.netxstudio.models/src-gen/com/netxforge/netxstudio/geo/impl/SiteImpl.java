@@ -21,7 +21,6 @@ package com.netxforge.netxstudio.geo.impl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
-import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Room;
 import com.netxforge.netxstudio.geo.Site;
@@ -39,7 +38,6 @@ import com.netxforge.netxstudio.geo.Site;
  *   <li>{@link com.netxforge.netxstudio.geo.impl.SiteImpl#getHousenumber <em>Housenumber</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.impl.SiteImpl#getLatitude <em>Latitude</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.impl.SiteImpl#getLongitude <em>Longitude</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.geo.impl.SiteImpl#getName <em>Name</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.impl.SiteImpl#getPostalcode <em>Postalcode</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.impl.SiteImpl#getRegion <em>Region</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.geo.impl.SiteImpl#getSreet <em>Sreet</em>}</li>
@@ -48,7 +46,7 @@ import com.netxforge.netxstudio.geo.Site;
  *
  * @generated
  */
-public class SiteImpl extends BaseImpl implements Site {
+public class SiteImpl extends LocationImpl implements Site {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -166,24 +164,6 @@ public class SiteImpl extends BaseImpl implements Site {
 	 */
 	public void setLongitude(String newLongitude) {
 		eSet(GeoPackage.Literals.SITE__LONGITUDE, newLongitude);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return (String)eGet(GeoPackage.Literals.SITE__NAME, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		eSet(GeoPackage.Literals.SITE__NAME, newName);
 	}
 
 	/**

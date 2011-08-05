@@ -10,25 +10,34 @@ import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Maps;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IScreenFormService;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
-public abstract class AbstractDetailsComposite extends Composite implements IScreen {
+public abstract class AbstractDetailsScreen extends Composite implements IScreen {
 	
 	
 	private int operation;
 	protected IScreenFormService screenService;
 	protected ViewerFocusManager focusMgr = new ViewerFocusManager();
+	protected FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
-
-
-	public AbstractDetailsComposite(Composite parent, int style){
+	@Inject
+	protected ModelUtils modelUtils;
+	
+	
+	public AbstractDetailsScreen(Composite parent, int style){
 		super(parent, style);
 		super.setLayout(new FormLayout());
+		toolkit.adapt(this);
+		toolkit.paintBordersFor(this);
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
 	}
 	
@@ -104,7 +113,7 @@ public abstract class AbstractDetailsComposite extends Composite implements IScr
 				System.out.println("AbstractDetailsComposite: focus gained : " + e.getSource());
 				if(m.containsKey(e.getSource())){
 					this.currentControl = (Control) e.getSource();
-					screenService.fireScreenChangedExternal(AbstractDetailsComposite.this);
+					screenService.fireScreenChangedExternal(AbstractDetailsScreen.this);
 				}
 			}
 		}

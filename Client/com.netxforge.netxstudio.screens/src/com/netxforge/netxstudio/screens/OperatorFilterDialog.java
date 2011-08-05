@@ -48,6 +48,7 @@ public class OperatorFilterDialog extends FilteredItemsSelectionDialog {
 	 */
 	public OperatorFilterDialog(Shell shell, Resource resource) {
 		super(shell);
+		super.setTitle("Select an Operator");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {

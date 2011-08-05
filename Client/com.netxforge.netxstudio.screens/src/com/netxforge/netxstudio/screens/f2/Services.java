@@ -55,9 +55,6 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 	private Form frmServices;
 	private Resource rfsServiceResource;
 
-	@Inject
-	ModelUtils modelUtils;
-
 	/**
 	 * Create the composite.
 	 * 

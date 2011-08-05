@@ -20,29 +20,30 @@ package com.netxforge.netxstudio.geo.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
+import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.geo.GeoPackage;
-import com.netxforge.netxstudio.geo.Room;
+import com.netxforge.netxstudio.geo.Location;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Room</b></em>'.
+ * An implementation of the model object '<em><b>Location</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.geo.impl.RoomImpl#getShape <em>Shape</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.geo.impl.LocationImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class RoomImpl extends LocationImpl implements Room {
+public class LocationImpl extends BaseImpl implements Location {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RoomImpl() {
+	protected LocationImpl() {
 		super();
 	}
 
@@ -53,7 +54,7 @@ public class RoomImpl extends LocationImpl implements Room {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return GeoPackage.Literals.ROOM;
+		return GeoPackage.Literals.LOCATION;
 	}
 
 	/**
@@ -61,8 +62,8 @@ public class RoomImpl extends LocationImpl implements Room {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getShape() {
-		return (String)eGet(GeoPackage.Literals.ROOM__SHAPE, true);
+	public String getName() {
+		return (String)eGet(GeoPackage.Literals.LOCATION__NAME, true);
 	}
 
 	/**
@@ -70,8 +71,8 @@ public class RoomImpl extends LocationImpl implements Room {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setShape(String newShape) {
-		eSet(GeoPackage.Literals.ROOM__SHAPE, newShape);
+	public void setName(String newName) {
+		eSet(GeoPackage.Literals.LOCATION__NAME, newName);
 	}
 
-} //RoomImpl
+} //LocationImpl

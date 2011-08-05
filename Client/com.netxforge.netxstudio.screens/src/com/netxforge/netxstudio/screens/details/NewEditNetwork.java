@@ -23,7 +23,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 
-public class NewEditNetwork extends AbstractDetailsComposite implements
+public class NewEditNetwork extends AbstractDetailsScreen implements
 		IScreen, IDataScreenInjection {
 
 	private Network network;

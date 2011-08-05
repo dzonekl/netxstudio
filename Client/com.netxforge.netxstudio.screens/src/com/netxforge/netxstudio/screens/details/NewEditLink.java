@@ -29,8 +29,6 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
@@ -40,7 +38,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class NewEditLink extends AbstractDetailsComposite implements IScreen,
+public class NewEditLink extends AbstractDetailsScreen implements IScreen,
 		IDataScreenInjection {
 
 	private Relationship relationship;
@@ -48,8 +46,6 @@ public class NewEditLink extends AbstractDetailsComposite implements IScreen,
 	private Text txtName;
 	private IEditingService editingService;
 
-	@Inject
-	ModelUtils modelUtils;
 	private ImageHyperlink hypLnkClearNode1;
 	private Text txtNode2;
 	private Text txtNode1;

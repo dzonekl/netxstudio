@@ -46,8 +46,6 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
@@ -60,7 +58,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class NewEditEquipmentLink extends AbstractDetailsComposite implements
+public class NewEditEquipmentLink extends AbstractDetailsScreen implements
 		IScreen, IDataScreenInjection {
 
 	private EquipmentRelationship relationship;
@@ -68,8 +66,6 @@ public class NewEditEquipmentLink extends AbstractDetailsComposite implements
 	private Text txtName;
 	private IEditingService editingService;
 
-	@Inject
-	ModelUtils modelUtils;
 	private Text txtNode2;
 	private Text txtNode1;
 	protected Section scnInfo;

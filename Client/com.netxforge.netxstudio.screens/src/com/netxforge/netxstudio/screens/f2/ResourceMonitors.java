@@ -54,8 +54,6 @@ public class ResourceMonitors extends AbstractScreen implements
 	private Form frmResourceMonitors;
 	private Resource rfsServiceResource;
 
-	@Inject
-	ModelUtils modelUtils;
 	private TableViewerColumn tblViewerClmnState;
 	// private List<ServiceMonitor> allServiceMonitors;
 	private ServiceMonitor serviceMonitor;
