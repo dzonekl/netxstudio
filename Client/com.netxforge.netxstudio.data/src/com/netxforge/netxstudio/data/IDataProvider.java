@@ -93,6 +93,14 @@ public interface IDataProvider {
 	public Resource getResource(EClass clazz);
 
 	
+	
+	/**
+	 * Get a resource from it's URI. 
+	 * @param uri
+	 * @return
+	 */
+	public Resource getResource(ResourceSet set, URI uri);
+	
 	/**
 	 * Get a resource from it's URI. 
 	 * @param uri

@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.library.provider;
 
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import java.util.Collection;
 import java.util.List;
 
@@ -36,7 +35,6 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 
 /**

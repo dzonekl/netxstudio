@@ -14,10 +14,11 @@ import com.netxforge.netxstudio.edit.CreateChildFromPoolCommand;
 import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 
 /**
- * 
  * Customized version of the standard af editing domain. The principle use case,
  * is for creating commands.
- * 
+ *
+ * Also understands the ScreensCommandStack, which can make a copy of the object for 
+ * revision tracking. 
  * 
  * @author dzonekl
  * 
@@ -33,19 +34,42 @@ public class ScreensAdapterFactoryEditingDomain extends
 	@Override
 	public Command createCommand(Class<? extends Command> commandClass,
 			CommandParameter commandParameter) {
-		
-		
+
 		Object owner = commandParameter.getOwner();
-		
-		// For the paste command, we like to paste into the parent resource.
+
+		if (commandClass == WarningDeleteCommand.class) {
+			return new WarningDeleteCommand(this,
+					commandParameter.getCollection());
+		}
+		//
+		// A customized create from pool command class.
+		else if (owner != null
+				&& commandClass == CreateChildFromPoolCommand.class) {
+			// If there is an adapter of the correct type...
+			//
+			IEditingDomainItemProvider editingDomainItemProvider = (IEditingDomainItemProvider) adapterFactory
+					.adapt(owner, IEditingDomainItemProvider.class);
+
+			return editingDomainItemProvider != null ? editingDomainItemProvider
+					.createCommand(owner, this, commandClass, commandParameter)
+					: new ItemProviderAdapter(null).createCommand(owner, this,
+							commandClass, commandParameter);
+		}
+
+		Command nativeCommand = super.createCommand(commandClass,
+				commandParameter);
+
+		// For the paste command, we like to paste into the parent resource for flat views
+		// like tables. 
 		// FIXME, The ugly thing is that the selection is still the copied
 		// object buh...
-		if (commandClass == PasteFromClipboardCommand.class) {
+		if (!nativeCommand.canExecute() && commandClass == PasteFromClipboardCommand.class) {
 			if (commandParameter.getOwner() instanceof CDOObject) {
 				CDOObject oOwner = (CDOObject) commandParameter.getOwner();
 				if (oOwner.eContainer() != null) {
 					// Is it contained, we shoudn't touch this creation.
 				}
+
 				if (oOwner.eResource() != null) {
 					return new PasteFromClipboardCommand(this,
 							oOwner.eResource(), commandParameter.getFeature(),
@@ -53,28 +77,7 @@ public class ScreensAdapterFactoryEditingDomain extends
 				}
 			}
 		}
-		else if (commandClass == WarningDeleteCommand.class) {
-			return new WarningDeleteCommand(this, commandParameter.getCollection());
-		} 
-//		
-		// A customized create from pool command class. 
-		else if (owner != null && commandClass == CreateChildFromPoolCommand.class)
-	    {
-		      // If there is an adapter of the correct type...
-		      //
-		      IEditingDomainItemProvider editingDomainItemProvider = 
-		        (IEditingDomainItemProvider)
-		          adapterFactory.adapt(owner, IEditingDomainItemProvider.class);
 
-		      return
-		        editingDomainItemProvider != null ?
-		          editingDomainItemProvider.createCommand(owner, this, commandClass, commandParameter) :
-		        new ItemProviderAdapter(null).createCommand(owner, this, commandClass, commandParameter);
-		 }
-
-		Command nativeCommand = super.createCommand(commandClass,
-				commandParameter);
 		return nativeCommand;
 	}
-
 }

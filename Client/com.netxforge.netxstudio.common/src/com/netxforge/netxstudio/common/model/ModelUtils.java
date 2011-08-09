@@ -22,6 +22,7 @@ import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 
 public class ModelUtils {
@@ -78,6 +79,25 @@ public class ModelUtils {
 				return (Node) target.eContainer();
 			} else {
 				return resolveParentNode(target.eContainer());
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Return the Node or null if the target object, has a NodeType somewhere along
+	 * the parent hiearchy. 
+	 * 
+	 * @param target
+	 * @return
+	 */
+	public NodeType resolveParentNodeType(EObject target) {
+		if (target != null && target.eContainer() != null) {
+			if (target.eContainer() instanceof NodeType) {
+				return (NodeType) target.eContainer();
+			} else {
+				return resolveParentNodeType(target.eContainer());
 			}
 		} else {
 			return null;

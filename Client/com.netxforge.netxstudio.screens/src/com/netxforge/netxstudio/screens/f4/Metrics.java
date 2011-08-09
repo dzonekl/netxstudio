@@ -99,13 +99,13 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-
+//		this.buildUI();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 
 		listTreeContentProvider = new ObservableListTreeContentProvider(
-				new MetricTreeFactory(editingService.getEditingDomain(), null), new MetricTreeStructureAdvisor());
+				new MetricTreeFactory(editingService.getEditingDomain()), new MetricTreeStructureAdvisor());
 		metricsTreeViewer.setContentProvider(listTreeContentProvider);
 		IObservableSet set = listTreeContentProvider.getKnownElements();
 		

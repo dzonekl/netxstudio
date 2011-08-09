@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
-import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Location;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
@@ -119,7 +118,7 @@ public class LocationFilterDialog extends FilteredItemsSelectionDialog {
 		org.eclipse.emf.common.util.TreeIterator<EObject> ti = resource.getAllContents();
 		while(ti.hasNext()){
 			EObject p = ti.next();
-			if(p.eClass().equals(GeoPackage.Literals.LOCATION)){
+			if(p instanceof Location){
 				contentProvider.add(p, itemsFilter);	
 			}
 		}

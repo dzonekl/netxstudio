@@ -51,7 +51,7 @@ public interface IEditingService {
 	 * @param monitor
 	 * @return
 	 */
-	public abstract IRunnableWithProgress doGetSaveOperation(IProgressMonitor monitor);
+	public abstract IRunnableWithProgress doGetSaveHistoryOperation(IProgressMonitor monitor);
 	
 	/**
 	 * Saves the data permanently.
@@ -112,5 +112,16 @@ public interface IEditingService {
 	 * Get a data service.
 	 */
 	public abstract IDataService getDataService();
+	
+	
+	/**
+	 * Implementors require to provide a unique name for a resource, 
+	 * which can be used to store historical versions of the object. 
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public String resolveHistoricalResourceName(Object object);
+	
 
 }

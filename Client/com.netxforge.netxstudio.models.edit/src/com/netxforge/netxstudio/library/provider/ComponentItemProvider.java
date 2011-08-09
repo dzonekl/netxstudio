@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.library.provider;
 
 
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import java.util.Collection;
 import java.util.List;
 

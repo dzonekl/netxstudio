@@ -19,19 +19,31 @@
 package com.netxforge.netxstudio.screens.editing;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.CDOState;
+import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.common.collect.ImmutableList;
+import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.editing.dawn.DawnEMFEditorSupport;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
@@ -43,7 +55,7 @@ import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-//@Singleton
+// @Singleton
 public class CDOEditingService extends EMFEditingService implements
 		IDawnEditor, IViewerProvider {
 
@@ -102,6 +114,7 @@ public class CDOEditingService extends EMFEditingService implements
 					break;
 				}
 			} else {
+				this.doSaveHistory(monitor);
 				super.doSave(monitor);
 			}
 		}
@@ -132,7 +145,7 @@ public class CDOEditingService extends EMFEditingService implements
 		}
 		return res;
 	}
-	
+
 	public Resource getData(EClass clazz) {
 		// Check if we have a view already.
 		if (this.getView() != null) {
@@ -153,14 +166,15 @@ public class CDOEditingService extends EMFEditingService implements
 
 	public void disposeData() {
 		// Will dispose for all resources in the resource set.
-		// We need a copy, as we will removing from the resourceset. 
-		ImmutableList<Resource> list = ImmutableList.copyOf(this.getEditingDomain().getResourceSet().getResources());
-		
-		for( Resource res : list){
+		// We need a copy, as we will removing from the resourceset.
+		ImmutableList<Resource> list = ImmutableList.copyOf(this
+				.getEditingDomain().getResourceSet().getResources());
+
+		for (Resource res : list) {
 			disposeData(res);
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -169,29 +183,29 @@ public class CDOEditingService extends EMFEditingService implements
 	 * (int)
 	 */
 	public void disposeData(Resource res) {
-		
-		if(res instanceof CDOResource){
+
+		if (res instanceof CDOResource) {
 			CDOView v = dawnEditorSupport.getView();
 			dawnEditorSupport.close(); // Closes the view.
-			CDOResource cdoRes = (CDOResource)res;
-			if(cdoRes.cdoView().equals(v)){
-				if( res.isModified()){
+			CDOResource cdoRes = (CDOResource) res;
+			if (cdoRes.cdoView().equals(v)) {
+				if (res.isModified()) {
 					System.out.println("unloading a modified resource!");
 				}
-				if(cdoRes.isLoaded()){
+				if (cdoRes.isLoaded()) {
 					cdoRes.unload();
 				}
-				 
-				if(!cdoRes.cdoView().isClosed()){
+
+				if (!cdoRes.cdoView().isClosed()) {
 					System.out.println("Unloaded resource, has an open view!");
 				}
-				
+
 				IListener[] listeners = cdoRes.cdoView().getListeners();
-				if(listeners.length > 0 ){
+				if (listeners.length > 0) {
 					System.out.println("Still listeners on our CDO view!");
 				}
 			}
-			
+
 		}
 		// Close the view, but does it close the transaction?
 	}
@@ -224,4 +238,127 @@ public class CDOEditingService extends EMFEditingService implements
 	public void setDirty() {
 		dawnEditorSupport.setDirty(true);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#doSave()
+	 */
+	public void doSaveHistory(IProgressMonitor monitor) {
+		IRunnableWithProgress operation = doGetSaveHistoryOperation(monitor);
+		if (operation == null)
+			return;
+		try {
+			// This runs the options, and shows progress.
+			new ProgressMonitorDialog(Display.getDefault().getActiveShell())
+					.run(true, false, operation);
+
+			// Refresh the necessary state.
+			((BasicCommandStack) getEditingDomain().getCommandStack())
+					.saveIsDone();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+	
+	public IRunnableWithProgress doGetSaveHistoryOperation(IProgressMonitor monitor) {
+		// Do the work within an operation because this is a long running
+		IRunnableWithProgress operation = new IRunnableWithProgress() {
+			// This is the method that gets invoked when the operation runs.
+			public void run(IProgressMonitor monitor) {
+				
+				ImmutableList<Resource> copyOf = ImmutableList.copyOf(getEditingDomain().getResourceSet()
+						.getResources());
+				for (Resource resource : copyOf) {
+					try {
+
+						// Walk through the objects in the resource.
+						if (resource instanceof CDOResource) {
+
+							if (((CDOResource) resource).getName()
+									.equals(LibraryPackage.Literals.NODE_TYPE
+											.getName())) {
+
+								// Find all our dirty objects.
+								TreeIterator<EObject> it = resource.getAllContents();
+								while( it.hasNext()) {
+									CDOObject cdoObject = (CDOObject) it.next();
+									CDOState state = cdoObject.cdoState();
+									// For State new, we won't be able to resolve the CDOID. 
+									if (state.equals(CDOState.DIRTY)){
+										doCopyObjecToHistoryResource(cdoObject);
+									}
+								}
+							}
+						}
+					} catch (Exception exception) {
+						exception.printStackTrace();
+					}
+				}
+			}
+		};
+		return operation;
+	}
+	
+	
+	/**
+	 * Creates a copy of the target object, and stores is in a resource 
+	 * which is named as the object class_the OID number. 
+	 * 
+	 * As we use the current resource set to hold the history resource, 
+	 * this will automaticly be saved when saving the actual resource later on. 
+	 * 
+	 * @param target
+	 */
+	public void doCopyObjecToHistoryResource(CDOObject target) {
+		
+		if(target instanceof Component){
+			target = modelUtils.resolveParentNodeType(target);
+			if(target == null || !(target instanceof NodeType)){
+				return;
+			}
+		}
+		
+		String affectedPath = this.resolveHistoricalResourceName(target);
+		if (affectedPath != null) {
+			URI uri = URI.createURI(affectedPath);
+			// Write a new version.
+			Resource historyResource = dataService.getProvider().getResource(
+					this.getEditingDomain().getResourceSet(), uri);
+
+			// We make a copy.
+			CDOObject copyOfNodeType = EcoreUtil.copy(target);
+			historyResource.getContents().add(copyOfNodeType);
+
+		}
+	}
+	
+	/**
+	 * Appends the cdo Object ID to the actual object resource name.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public String resolveHistoricalResourceName(Object object) {
+
+		// TODO, keep a cach of CDOObject ID, and resource path.
+
+		CDOResource affectedResource = ((CDOObject) object).cdoResource();
+		String affectedPath = affectedResource.getPath();
+
+		// The object needs to be in the correct state.
+		CDOID id = ((CDOObject) object).cdoID();
+		if (id != null) {
+			URI idURI = URI.createURI(id.toURIFragment());
+			String fragment = idURI.fragment();
+			if (fragment != null) {
+				String[] fragments = fragment.split("#");
+				affectedPath = affectedPath + "_"
+						+ fragments[fragments.length - 1];
+			}
+			return affectedPath;
+		} else
+			return null;
+	}
+
 }

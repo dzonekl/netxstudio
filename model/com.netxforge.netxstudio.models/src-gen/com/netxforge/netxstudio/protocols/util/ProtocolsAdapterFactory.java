@@ -24,7 +24,6 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.protocols.*;
 import com.netxforge.netxstudio.protocols.Message;
 import com.netxforge.netxstudio.protocols.Procedure;
 import com.netxforge.netxstudio.protocols.Protocol;

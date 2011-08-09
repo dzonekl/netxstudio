@@ -38,19 +38,20 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
-	private final Resource resource;
+	private final Object scope;
 
 	/**
 	 * Create a new dialog
 	 * 
 	 * @param shell
 	 *            the parent shell
-	 * @param resource
+	 * @param scope
 	 *            the model resource
 	 */
-	public FunctionFilterDialog(Shell shell, Resource resource) {
+	public FunctionFilterDialog(Shell shell, Object scope) {
 		super(shell);
-		this.resource = resource;
+		super.setTitle("Select a Function");
+		this.scope = scope;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -68,7 +69,8 @@ public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return FunctionFilterDialog.this.getParentText((Function) element);
+				return FunctionFilterDialog.this
+						.getParentText((Function) element);
 			}
 		});
 	}
@@ -79,12 +81,12 @@ public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
 
 	private String getParentText(Function p) {
 		Node n;
-		if((n = this.resolveParentNode(p)) != null){
+		if ((n = this.resolveParentNode(p)) != null) {
 			return n.getNodeID();
 		}
 		return "Unresolved Node!";
 	}
-	
+
 	private Node resolveParentNode(EObject current) {
 		if (current != null && current.eContainer() != null) {
 			if (current.eContainer() instanceof Node) {
@@ -96,7 +98,7 @@ public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
 			return null;
 		}
 	}
-	
+
 	@Override
 	protected IStatus validateItem(Object item) {
 		return Status.OK_STATUS;
@@ -134,13 +136,20 @@ public class FunctionFilterDialog extends FilteredItemsSelectionDialog {
 	protected void fillContentProvider(AbstractContentProvider contentProvider,
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
-		
-		
-		org.eclipse.emf.common.util.TreeIterator<EObject> ti = resource.getAllContents();
-		while(ti.hasNext()){
-			EObject p = ti.next();
-			if(p.eClass().equals(LibraryPackage.Literals.FUNCTION)){
-				contentProvider.add(p, itemsFilter);	
+
+		org.eclipse.emf.common.util.TreeIterator<EObject> ti = null;
+		if (scope instanceof Resource) {
+			ti = ((Resource) scope).getAllContents();
+		}
+		if (scope instanceof EObject) {
+			ti = ((EObject) scope).eAllContents();
+		}
+		if (ti != null) {
+			while (ti.hasNext()) {
+				EObject p = ti.next();
+				if (p.eClass().equals(LibraryPackage.Literals.FUNCTION)) {
+					contentProvider.add(p, itemsFilter);
+				}
 			}
 		}
 	}

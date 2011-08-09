@@ -13,8 +13,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -41,16 +39,14 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 public class NewEditLink extends AbstractDetailsScreen implements IScreen,
 		IDataScreenInjection {
 
-	private Relationship relationship;
-	private FormToolkit toolkit = new FormToolkit(Display.getCurrent());
+	protected Relationship relationship;
+	protected FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtName;
-	private IEditingService editingService;
+	protected IEditingService editingService;
 
 	private ImageHyperlink hypLnkClearNode1;
 	private Text txtNode2;
 	private Text txtNode1;
-	protected Section scnInfo;
-	protected Section sctnNode;
 
 	public NewEditLink(Composite parent, int style,
 			final IEditingService editingService) {
@@ -81,50 +77,16 @@ public class NewEditLink extends AbstractDetailsScreen implements IScreen,
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		scnInfo = toolkit.createSection(this, Section.EXPANDED
-				| Section.TITLE_BAR);
-		FormData fd_scnInfo = new FormData();
-		fd_scnInfo.top = new FormAttachment(0, 10);
-		fd_scnInfo.left = new FormAttachment(0, 10);
-		fd_scnInfo.right = new FormAttachment(100, -14);
-		scnInfo.setLayoutData(fd_scnInfo);
-		toolkit.paintBordersFor(scnInfo);
-		scnInfo.setText("Info");
+		buildInfoSection(widgetStyle);
+		buildNodeLinkSection(widgetStyle);
+	}
 
-		Composite composite = toolkit.createComposite(scnInfo, SWT.NONE);
-		toolkit.paintBordersFor(composite);
-		scnInfo.setClient(composite);
-		composite.setLayout(new GridLayout(2, false));
-
-		Label lblName = toolkit.createLabel(composite, "Name:", SWT.NONE);
-		lblName.setAlignment(SWT.RIGHT);
-		GridData gd_lblName = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1);
-		gd_lblName.widthHint = 80;
-		lblName.setLayoutData(gd_lblName);
-
-		txtName = toolkit.createText(composite, "New Text", SWT.NONE
-				| widgetStyle);
-		txtName.setText("");
-		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_txtName.widthHint = 150;
-		txtName.setLayoutData(gd_txtName);
-		
-		
+	public void buildNodeLinkSection(int widgetStyle) {
 		// Section Node links. 
 		
-		sctnNode = toolkit.createSection(this, Section.TITLE_BAR);
-		fd_scnInfo.bottom = new FormAttachment(sctnNode, -6);
-		FormData fd_sctnNode = new FormData();
-		fd_sctnNode.bottom = new FormAttachment(100, -172);
-		fd_sctnNode.top = new FormAttachment(0, 114);
-		fd_sctnNode.left = new FormAttachment(0, 10);
-		fd_sctnNode.right = new FormAttachment(100, -14);
-		sctnNode.setLayoutData(fd_sctnNode);
+		Section sctnNode = toolkit.createSection(this, Section.TITLE_BAR | Section.TWISTIE);
 		toolkit.paintBordersFor(sctnNode);
 		sctnNode.setText("Node Link");
-		sctnNode.setExpanded(true);
 
 		Composite cmpTolerances = toolkit.createComposite(sctnNode, SWT.NONE);
 		toolkit.paintBordersFor(cmpTolerances);
@@ -235,25 +197,45 @@ public class NewEditLink extends AbstractDetailsScreen implements IScreen,
 		});
 	}
 
+	public void buildInfoSection(int widgetStyle) {
+		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
+				| Section.TITLE_BAR);
+		toolkit.paintBordersFor(scnInfo);
+		scnInfo.setText("Info");
+
+		Composite composite = toolkit.createComposite(scnInfo, SWT.NONE);
+		toolkit.paintBordersFor(composite);
+		scnInfo.setClient(composite);
+		composite.setLayout(new GridLayout(2, false));
+
+		Label lblName = toolkit.createLabel(composite, "Name:", SWT.NONE);
+		lblName.setAlignment(SWT.RIGHT);
+		GridData gd_lblName = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
+				1, 1);
+		gd_lblName.widthHint = 80;
+		lblName.setLayoutData(gd_lblName);
+
+		txtName = toolkit.createText(composite, "New Text", SWT.NONE
+				| widgetStyle);
+		txtName.setText("");
+		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				1, 1);
+		gd_txtName.widthHint = 150;
+		txtName.setLayoutData(gd_txtName);
+	}
+
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
+		return context;
+	}
 
-		// Binding of name and Description
-
-		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
-				400, SWTObservables.observeText(txtName, SWT.Modify));
-
+	public void bindNodeLinkSection(EMFDataBindingContext context) {
 
 		IObservableValue node1Observable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtNode1, SWT.Modify));
 
 		IObservableValue node2Observable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtNode2, SWT.Modify));
-
-		
-		IEMFValueProperty linkNameProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				OperatorsPackage.Literals.RELATIONSHIP__NAME);
 
 		IEMFValueProperty linkNode1Property = EMFEditProperties.value(
 				editingService.getEditingDomain(), FeaturePath.fromList(
@@ -264,17 +246,26 @@ public class NewEditLink extends AbstractDetailsScreen implements IScreen,
 				editingService.getEditingDomain(), FeaturePath.fromList(
 						OperatorsPackage.Literals.RELATIONSHIP__NODE_ID2_REF,
 						OperatorsPackage.Literals.NODE__NODE_ID));
-
-
-		context.bindValue(nameObservable, linkNameProperty.observe(relationship), null,
-				null);
+		
+		
 		context.bindValue(node1Observable, linkNode1Property.observe(relationship),
 				null, null);
 		context.bindValue(node2Observable, linkNode2Property.observe(relationship), null,
 				null);
+	}
 
+	public void bindInfoSection(EMFDataBindingContext context) {
+		// Binding of name and Description
 
-		return context;
+		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
+				400, SWTObservables.observeText(txtName, SWT.Modify));
+		
+		IEMFValueProperty linkNameProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				OperatorsPackage.Literals.RELATIONSHIP__NAME);
+		
+		context.bindValue(nameObservable, linkNameProperty.observe(relationship), null,
+				null);
 	}
 	
 }

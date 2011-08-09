@@ -1,10 +1,13 @@
 package com.netxforge.netxstudio.screens.details;
 
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
@@ -16,17 +19,18 @@ import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -37,6 +41,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
@@ -49,7 +55,10 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
+import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
+import com.netxforge.netxstudio.screens.MetricFilterDialog;
 import com.netxforge.netxstudio.screens.NetXResourceFilterDialog;
 import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
@@ -58,6 +67,9 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
+import com.netxforge.netxstudio.screens.f4.support.MetricTreeFactory;
+import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
+import com.netxforge.netxstudio.screens.f4.support.MetricTreeStructureAdvisor;
 
 
 /**
@@ -73,21 +85,23 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 	// Resource section. 
 	private Text txtCapExpression;
 	private Text txtUtilExpression;
-	private Table resourcesTable;
 	private TableViewer resourceTableViewer;
-		
 	
-	// Tolerance section. 
-	private Table toleranceTable;
+	// Tolerances section. 
 	private TableViewer tolerancesTableViewer;
 	
+	// Metrics Section
+	private TreeViewer metricsTreeViewer;
+	
 	protected Component comp;
+	
+	
 	
 	public NewEditComponent(Composite parent, int style, final IEditingService editingService) {
 		super(parent, style);
 		this.editingService = editingService;
+//		buildUI();
 	}
-	
 	
 	
 
@@ -143,19 +157,14 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 	}
 	
 	
-	protected Section buildToleranceSection(FormData formDataOfTopSection, boolean readonly){
+	protected Section buildToleranceSection(boolean readonly){
 		
 		Section sctnTolerances = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
-		formDataOfTopSection.bottom = new FormAttachment(sctnTolerances, -6);
-		FormData fd_sctnMetrics = new FormData();
-		fd_sctnMetrics.top = new FormAttachment(0, 186);
-		fd_sctnMetrics.left = new FormAttachment(0, 10);
-		fd_sctnMetrics.right = new FormAttachment(100, -14);
-		sctnTolerances.setLayoutData(fd_sctnMetrics);
+		
 		toolkit.paintBordersFor(sctnTolerances);
 		sctnTolerances.setText("Tolerances");
-		sctnTolerances.setExpanded(true);
+		sctnTolerances.setExpanded(false);
 
 		Composite cmpTolerances = toolkit
 				.createComposite(sctnTolerances, SWT.NONE);
@@ -195,12 +204,15 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 
 		tolerancesTableViewer = new TableViewer(cmpTolerances, SWT.BORDER
 				| SWT.FULL_SELECTION);
-		toleranceTable = tolerancesTableViewer.getTable();
-		toleranceTable.setHeaderVisible(true);
-		toleranceTable.setLinesVisible(true);
-		toleranceTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 1));
-		toolkit.paintBordersFor(toleranceTable);
+		Table metricsTable = tolerancesTableViewer.getTable();
+		metricsTable.setHeaderVisible(true);
+		metricsTable.setLinesVisible(true);
+		
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true,
+				true, 1, 1);
+		gd.heightHint = 100;
+		metricsTable.setLayoutData(gd);
+		toolkit.paintBordersFor(metricsTable);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				tolerancesTableViewer, SWT.NONE);
@@ -220,8 +232,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		tblclmnExpression.setWidth(100);
 		tblclmnExpression.setText("Expression");
 
-		Menu menu = new Menu(toleranceTable);
-		toleranceTable.setMenu(menu);
+		Menu menu = new Menu(metricsTable);
+		metricsTable.setMenu(menu);
 
 		MenuItem mntmRemoveTolerance = new MenuItem(menu, SWT.NONE);
 		mntmRemoveTolerance.addSelectionListener(new SelectionAdapter() {
@@ -246,19 +258,113 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		return sctnTolerances;
 	}
 	
-	protected Section buildResourceSection(FormData formDataOfTopSection,
+	
+	protected Section buildMetricSection(boolean readonly){
+		
+		Section sctnMetrics = toolkit.createSection(this, Section.TWISTIE
+				| Section.TITLE_BAR);
+
+		toolkit.paintBordersFor(sctnMetrics);
+		sctnMetrics.setText("Metrics");
+		sctnMetrics.setExpanded(false);
+		
+		Composite cmpMetrics = toolkit
+				.createComposite(sctnMetrics, SWT.NONE);
+		toolkit.paintBordersFor(cmpMetrics);
+		sctnMetrics.setClient(cmpMetrics);
+		cmpMetrics.setLayout(new GridLayout(1, false));
+
+		ImageHyperlink hypLnkAddMetric = toolkit.createImageHyperlink(
+				cmpMetrics, SWT.NONE);
+		hypLnkAddMetric.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				Resource metriceResource = editingService
+						.getData(MetricsPackage.Literals.METRIC);
+				
+				MetricFilterDialog dialog = new MetricFilterDialog(
+						NewEditComponent.this.getShell(), metriceResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Metric u = (Metric) dialog.getFirstResult();
+					if (!comp.getMetricRefs().contains(u)) {
+						Command c = new AddCommand(editingService
+								.getEditingDomain(), comp.getMetricRefs(), u);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(c);
+					}
+				}
+			}
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		hypLnkAddMetric.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+		toolkit.paintBordersFor(hypLnkAddMetric);
+		hypLnkAddMetric.setText("Add");
+
+		metricsTreeViewer = new TreeViewer(cmpMetrics, SWT.BORDER | SWT.VIRTUAL);
+		metricsTreeViewer.setUseHashlookup(true);
+		Tree tree = metricsTreeViewer.getTree();
+		tree.setLinesVisible(true);
+		tree.setHeaderVisible(true);
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
+		gd.heightHint = 100;
+		tree.setLayoutData(gd);
+		toolkit.paintBordersFor(tree);
+
+		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
+				metricsTreeViewer, SWT.NONE);
+		TreeColumn trclmnName = treeViewerColumn.getColumn();
+		trclmnName.setWidth(100);
+		trclmnName.setText("Name");
+
+		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
+				metricsTreeViewer, SWT.NONE);
+		TreeColumn trclmnDescription = treeViewerColumn_1.getColumn();
+		trclmnDescription.setWidth(270);
+		trclmnDescription.setText("Description");
+
+		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
+				metricsTreeViewer, SWT.NONE);
+		TreeColumn trclmnUnit = treeViewerColumn_2.getColumn();
+		trclmnUnit.setWidth(84);
+		trclmnUnit.setText("Unit");
+
+		Menu menu = new Menu(tree);
+		tree.setMenu(menu);
+
+		MenuItem mntmRemoveMetric = new MenuItem(menu, SWT.NONE);
+		mntmRemoveMetric.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection s = metricsTreeViewer.getSelection();
+				if (s instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) s).getFirstElement();
+					// FIXME, we can' delete a child metric. 
+					
+					Command rc = new RemoveCommand(editingService
+							.getEditingDomain(), comp.getMetricRefs(), o);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(rc);
+				}
+			}
+		});
+		mntmRemoveMetric.setText("Remove");
+
+		if (readonly) {
+			hypLnkAddMetric.setEnabled(false);
+			mntmRemoveMetric.setEnabled(false);
+		}
+		return sctnMetrics;
+	}
+	
+	
+	protected Section buildResourceSection(
 			boolean readonly) {
 		Section sctnResources = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
-		formDataOfTopSection.bottom = new FormAttachment(sctnResources, -6);
-		FormData fd_sctnResources = new FormData();
-		
-		fd_sctnResources.bottom = new FormAttachment(100, -10);
-		fd_sctnResources.top = new FormAttachment(0, 338);
-		fd_sctnResources.right = new FormAttachment(100, -14);
-		fd_sctnResources.left = new FormAttachment(0, 10);
-		
-		sctnResources.setLayoutData(fd_sctnResources);
 		toolkit.paintBordersFor(sctnResources);
 		sctnResources.setText("Resources");
 
@@ -334,11 +440,14 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 
 		resourceTableViewer = new TableViewer(composite_2, SWT.BORDER
 				| SWT.FULL_SELECTION);
-		resourcesTable = resourceTableViewer.getTable();
+		Table resourcesTable = resourceTableViewer.getTable();
 		resourcesTable.setLinesVisible(true);
 		resourcesTable.setHeaderVisible(true);
-		resourcesTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-				true, 8, 3));
+		
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true,
+				true, 8, 3);
+		gd.heightHint = 100;
+		resourcesTable.setLayoutData(gd);
 		toolkit.paintBordersFor(resourcesTable);
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
@@ -583,26 +692,16 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 	
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
-		
-		
-		// FIXME, Bind for activated sections only. 
-		bindResourcesSection(context);
-		bindToleranceSection();
-		
 		return context;
 	}
 
 
-
-
-	private void bindResourcesSection(EMFDataBindingContext context) {
+	public void bindResourcesSection(EMFDataBindingContext context) {
 		IObservableValue capExpressionObservable = SWTObservables.observeText(
 				this.txtCapExpression, SWT.Modify);
 
 		IObservableValue utilExpressionObservable = SWTObservables.observeText(
 				this.txtUtilExpression, SWT.Modify);
-		
-		
 
 		IEMFValueProperty capacityExpressionProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
@@ -641,11 +740,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 	}
 
 
-
-
-	private void bindToleranceSection() {
-		// binding of tolerances.
-
+	public void bindToleranceSection() {
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		tolerancesTableViewer.setContentProvider(listContentProvider);
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
@@ -662,6 +757,29 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 				LibraryPackage.Literals.COMPONENT__TOLERANCE_REFS);
 
 		tolerancesTableViewer.setInput(l.observe(comp));
+	}
+	
+	
+	public void bindMetricSection() {
+		
+		
+		ObservableListTreeContentProvider listTreeContentProvider = new ObservableListTreeContentProvider(
+				new MetricTreeFactory(editingService.getEditingDomain()), new MetricTreeStructureAdvisor());
+		metricsTreeViewer.setContentProvider(listTreeContentProvider);
+		IObservableSet set = listTreeContentProvider.getKnownElements();
+		
+		IObservableMap[] map = new IObservableMap[2];
+
+		map[0] = EMFProperties.value(MetricsPackage.Literals.METRIC__NAME)
+				.observeDetail(set);
+
+		map[1] = EMFProperties.value(
+				MetricsPackage.Literals.METRIC__DESCRIPTION).observeDetail(set);
+		metricsTreeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
+
+		IEMFListProperty metricsProperty = EMFEditProperties.list(editingService.getEditingDomain(), LibraryPackage.Literals.COMPONENT__METRIC_REFS);
+		IObservableList metricsObservableList = metricsProperty.observe(comp);
+		metricsTreeViewer.setInput(metricsObservableList);
 	}
 	
 }

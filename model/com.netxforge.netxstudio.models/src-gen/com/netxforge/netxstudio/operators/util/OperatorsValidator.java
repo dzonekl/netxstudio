@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.operators.util;
 
-import com.netxforge.netxstudio.operators.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.Diagnostic;

@@ -36,6 +36,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.generics.provider.GenericsItemProviderAdapterFactory;
 import com.netxforge.netxstudio.geo.provider.GeoItemProviderAdapterFactory;
@@ -55,12 +56,15 @@ import com.netxforge.netxstudio.services.provider.ServicesItemProviderAdapterFac
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-//@Singleton
+// @Singleton
 public abstract class EMFEditingService implements IEditingService {
 
 	@Inject
 	protected IDataService dataService;
-	
+
+	@Inject
+	protected ModelUtils modelUtils;
+
 	public EMFEditingService() {
 	}
 
@@ -77,8 +81,8 @@ public abstract class EMFEditingService implements IEditingService {
 
 		if (domain == null) {
 			BasicCommandStack commandStack = new BasicCommandStack();
-			domain = new ScreensAdapterFactoryEditingDomain(this.getAdapterFactory(),
-					commandStack);
+			domain = new ScreensAdapterFactoryEditingDomain(
+					this.getAdapterFactory(), commandStack);
 		}
 		return domain;
 	}
@@ -95,24 +99,33 @@ public abstract class EMFEditingService implements IEditingService {
 	 */
 	public ComposedAdapterFactory getAdapterFactory() {
 		if (emfEditAdapterFactory == null) {
-		
-			
+
 			emfEditAdapterFactory = new ComposedAdapterFactory(
 					ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-			
-			emfEditAdapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-			emfEditAdapterFactory.addAdapterFactory(new GenericsItemProviderAdapterFactory());
-			emfEditAdapterFactory.addAdapterFactory(new ServicesItemProviderAdapterFactory());
-			emfEditAdapterFactory.addAdapterFactory(new LibraryItemProviderAdapterFactory());
-			emfEditAdapterFactory.addAdapterFactory(new MetricsItemProviderAdapterFactory());
-			emfEditAdapterFactory.addAdapterFactory(new ProtocolsItemProviderAdapterFactory());
-			emfEditAdapterFactory.addAdapterFactory(new OperatorsItemProviderAdapterFactory());
-			emfEditAdapterFactory.addAdapterFactory(new GeoItemProviderAdapterFactory());
-			emfEditAdapterFactory.addAdapterFactory(new SchedulingItemProviderAdapterFactory());
-			emfEditAdapterFactory.addAdapterFactory(new NetxstudioItemProviderAdapterFactory());
-			emfEditAdapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-			
-			
+
+			emfEditAdapterFactory
+					.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new GenericsItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new ServicesItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new LibraryItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new MetricsItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new ProtocolsItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new OperatorsItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new GeoItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new SchedulingItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new NetxstudioItemProviderAdapterFactory());
+			emfEditAdapterFactory
+					.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+
 		}
 		return emfEditAdapterFactory;
 	}
@@ -130,7 +143,6 @@ public abstract class EMFEditingService implements IEditingService {
 	 * .core.runtime.IProgressMonitor)
 	 */
 	public IRunnableWithProgress doGetSaveOperation(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
 				Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
@@ -151,7 +163,10 @@ public abstract class EMFEditingService implements IEditingService {
 					if ((first || !resource.getContents().isEmpty())
 							&& !getEditingDomain().isReadOnly(resource)) {
 						try {
+
 							resource.save(saveOptions);
+							// Save a copy of the objects of certain resources.
+
 						} catch (Exception exception) {
 							exception.printStackTrace();
 						}
@@ -179,7 +194,6 @@ public abstract class EMFEditingService implements IEditingService {
 					.run(true, false, operation);
 
 			// Refresh the necessary state.
-			//
 			((BasicCommandStack) getEditingDomain().getCommandStack())
 					.saveIsDone();
 		} catch (Exception exception) {
@@ -196,5 +210,5 @@ public abstract class EMFEditingService implements IEditingService {
 	public IDataService getDataService() {
 		return this.dataService;
 	}
-	
+
 }

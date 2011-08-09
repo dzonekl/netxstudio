@@ -203,6 +203,10 @@ public class NewEditResource extends AbstractScreen implements
 		// component, from
 		// real node.
 		
+		
+		
+		// TODO show the node somehow in the resource! 
+		@SuppressWarnings("unused")
 		Node node = null;
 		if( netxResource.getComponentRef() != null && (node = modelUtils.resolveParentNode(netxResource.getComponentRef())) != null) {
 

@@ -7,10 +7,10 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -35,12 +35,11 @@ public abstract class AbstractDetailsScreen extends Composite implements IScreen
 	
 	public AbstractDetailsScreen(Composite parent, int style){
 		super(parent, style);
-		super.setLayout(new FormLayout());
+		super.setLayout(new ColumnLayout());
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
 	}
-	
 	
 	public ViewerFocusManager getFocusMgr() {
 		return focusMgr;

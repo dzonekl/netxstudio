@@ -49,6 +49,7 @@ public class NodeFilterDialog extends FilteredItemsSelectionDialog {
 	 */
 	public NodeFilterDialog(Shell shell, Resource resource) {
 		super(shell);
+		super.setTitle("Select a Node");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {

@@ -169,8 +169,11 @@ public class TestDataProvider implements IDataProvider {
 	}
 
 	public Resource getResource(URI uri) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public Resource getResource(ResourceSet set, URI uri) {
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 }

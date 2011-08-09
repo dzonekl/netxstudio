@@ -17,13 +17,18 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Form;
@@ -48,7 +53,7 @@ import com.netxforge.netxstudio.screens.internal.ScreensActivator;
  * @author dzonekl
  */
 public abstract class AbstractScreen extends Composite implements IScreen,
-		IValidationListener, DisposeListener {
+		IValidationListener, DisposeListener, SelectionListener {
 
 	protected int operation;
 
@@ -71,7 +76,6 @@ public abstract class AbstractScreen extends Composite implements IScreen,
 		this.addDisposeListener(this);
 		ScreensActivator.getDefault().getInjector().injectMembers(this);
 		validationService = new ValidationService();
-		// this.addFocusListener(this);
 	}
 
 	public abstract Viewer getViewer();
@@ -133,19 +137,29 @@ public abstract class AbstractScreen extends Composite implements IScreen,
 		}
 	}
 
-	// protected Viewer currentViewer;
+	protected Collection<Object> selectedElements;
+	
+	@SuppressWarnings("unchecked")
+	public void widgetSelected(SelectionEvent e) {
+		ISelection selection = this.getViewer().getSelection();
+		if(selection instanceof IStructuredSelection ){
+			selectedElements = ((IStructuredSelection) selection).toList();
+			this.doSetSelection(selectedElements);
+		}
+	}
 
-	// public void focusGained(FocusEvent e) {
-	// if( e.getSource() instanceof Viewer){
-	// this.currentViewer = (Viewer) e.getSource();
-	// System.out.println("Current viewer = " + currentViewer);
-	// }
-	// }
-	//
-	// public void focusLost(FocusEvent e) {
-	// if( e.getSource() instanceof Viewer){
-	// this.currentViewer = null;
-	// }
-	// };
+	public void widgetDefaultSelected(SelectionEvent e) {
+	}
+	
+//	public abstract void doSetSelection(Collection<Object> selectedElements);
 
+	/**
+	 * Clients should override. 
+	 * @param selectedElements
+	 */
+	protected void doSetSelection(Collection<Object> selectedElements){
+		// do nothing. 
+	}
+	
+	
 }

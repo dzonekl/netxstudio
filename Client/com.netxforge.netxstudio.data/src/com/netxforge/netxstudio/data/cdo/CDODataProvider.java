@@ -327,6 +327,15 @@ public abstract class CDODataProvider implements IDataProvider {
 		return this.getResource(fragment);
 	}
 	
+	/*
+	 * Get the resource from a URI. 
+	 */
+	public Resource getResource(ResourceSet set, URI uri){
+		// Strip the repo etc we only need the name prepend with a slash. 
+//		String schema = uri.scheme();
+		String fragment = '/' + uri.lastSegment();
+		return this.getResource(set, fragment);
+	}
 	
 	private Resource getResource(String resourceName) {
 		if (doGetResourceFromOwnTransaction()) {

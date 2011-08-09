@@ -27,8 +27,6 @@ import org.eclipse.nebula.widgets.datechooser.DateChooserCombo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -53,8 +51,8 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
-import com.netxforge.netxstudio.screens.NodeTypeFilterDialog;
 import com.netxforge.netxstudio.screens.LocationFilterDialog;
+import com.netxforge.netxstudio.screens.NodeTypeFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
@@ -107,14 +105,176 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 		// Readonlyness.
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+		buildInfoSection(widgetStyle);
+		buildGeoSection(widgetStyle);
+		buildLifeCycleSection(widgetStyle);
+	}
 
+	private void buildLifeCycleSection(int widgetStyle) {
+		Section sctnLifecycle = toolkit.createSection(this, Section.TITLE_BAR | Section.TWISTIE);
+		toolkit.paintBordersFor(sctnLifecycle);
+		sctnLifecycle.setText("Lifecycle");
+
+		Composite composite_1 = toolkit
+				.createComposite(sctnLifecycle, SWT.NONE);
+		toolkit.paintBordersFor(composite_1);
+		sctnLifecycle.setClient(composite_1);
+		composite_1.setLayout(new GridLayout(2, false));
+
+		Label lblProposed = toolkit.createLabel(composite_1, "Proposed:",
+				SWT.NONE);
+		lblProposed.setAlignment(SWT.RIGHT);
+		GridData gd_lblProposed = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblProposed.widthHint = 70;
+		lblProposed.setLayoutData(gd_lblProposed);
+
+		dcProposed = new DateChooserCombo(composite_1, SWT.BORDER | SWT.FLAT);
+		GridData gd_dcProposed = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dcProposed.heightHint = 20;
+		dcProposed.setLayoutData(gd_dcProposed);
+		toolkit.adapt(dcProposed);
+		toolkit.paintBordersFor(dcProposed);
+
+		Label lblPlanned = toolkit.createLabel(composite_1, "Planned:",
+				SWT.NONE);
+		lblPlanned.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		lblPlanned.setAlignment(SWT.RIGHT);
+
+		dcPlanned = new DateChooserCombo(composite_1, SWT.BORDER | SWT.FLAT);
+		GridData gd_dcPlanned = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dcPlanned.heightHint = 20;
+		dcPlanned.setLayoutData(gd_dcPlanned);
+		toolkit.adapt(dcPlanned);
+		toolkit.paintBordersFor(dcPlanned);
+
+		Label lblConstruction = toolkit.createLabel(composite_1,
+				"Construction:", SWT.NONE);
+		lblConstruction.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+
+		dcConstruction = new DateChooserCombo(composite_1, SWT.BORDER
+				| SWT.FLAT);
+		GridData gd_dcConstruction = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dcConstruction.heightHint = 20;
+		dcConstruction.setLayoutData(gd_dcConstruction);
+		toolkit.adapt(dcConstruction);
+		toolkit.paintBordersFor(dcConstruction);
+
+		Label lblInService = toolkit.createLabel(composite_1, "In Service:",
+				SWT.NONE);
+		lblInService.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		lblInService.setAlignment(SWT.RIGHT);
+
+		dcInService = new DateChooserCombo(composite_1, SWT.BORDER | SWT.FLAT);
+		GridData gd_dcInService = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dcInService.heightHint = 20;
+		dcInService.setLayoutData(gd_dcInService);
+		toolkit.adapt(dcInService);
+		toolkit.paintBordersFor(dcInService);
+
+		Label lblOutOfService = toolkit.createLabel(composite_1,
+				"Out of Service:", SWT.NONE);
+		GridData gd_lblOutOfService = new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_lblOutOfService.widthHint = 80;
+		lblOutOfService.setLayoutData(gd_lblOutOfService);
+
+		dcOutOfService = new DateChooserCombo(composite_1, SWT.BORDER
+				| SWT.FLAT);
+		GridData gd_dcOutOfService = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dcOutOfService.heightHint = 20;
+		dcOutOfService.setLayoutData(gd_dcOutOfService);
+		dcOutOfService.setWeeksVisible(true);
+		toolkit.adapt(dcOutOfService);
+		toolkit.paintBordersFor(dcOutOfService);
+	}
+
+	private void buildGeoSection(int widgetStyle) {
+		Section sctnGeo = toolkit.createSection(this, Section.TITLE_BAR | Section.TWISTIE);
+
+		toolkit.paintBordersFor(sctnGeo);
+		sctnGeo.setText("Geo");
+
+		Composite cmpTolerances = toolkit.createComposite(sctnGeo, SWT.NONE);
+		toolkit.paintBordersFor(cmpTolerances);
+		sctnGeo.setClient(cmpTolerances);
+		cmpTolerances.setLayout(new GridLayout(5, false));
+
+		Label lblRoomsite = toolkit.createLabel(cmpTolerances, "Room/Site:",
+				SWT.NONE);
+		lblRoomsite.setAlignment(SWT.RIGHT);
+		GridData gd_lblRoomsite = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblRoomsite.widthHint = 80;
+		lblRoomsite.setLayoutData(gd_lblRoomsite);
+
+		txtRoom = toolkit.createText(cmpTolerances, "New Text", SWT.NONE
+				| SWT.READ_ONLY);
+		txtRoom.setText("");
+		GridData gd_txtRoom = new GridData(SWT.FILL, SWT.CENTER, false, false,
+				1, 1);
+		gd_txtRoom.widthHint = 150;
+		txtRoom.setLayoutData(gd_txtRoom);
+
+		roomRefHyperlink = toolkit
+				.createImageHyperlink(cmpTolerances, SWT.NONE);
+		GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_imageHyperlink.widthHint = 18;
+		roomRefHyperlink.setLayoutData(gd_imageHyperlink);
+		roomRefHyperlink.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				Command set = new SetCommand(editingService.getEditingDomain(),
+						node, OperatorsPackage.Literals.NODE__LOCATION_REF, null);
+				editingService.getEditingDomain().getCommandStack()
+						.execute(set);
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+
+		roomRefHyperlink.setImage(ResourceManager.getPluginImage(
+				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+		toolkit.paintBordersFor(roomRefHyperlink);
+		roomRefHyperlink.setText("");
+
+		Button btnSelectRoom = toolkit.createButton(cmpTolerances, "Select...",
+				SWT.NONE);
+		new Label(cmpTolerances, SWT.NONE);
+		btnSelectRoom.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				// TODO tricky, this is a multistage selection from
+				// Country->Site->Room.
+
+				Resource nodeTypeResource = editingService
+						.getData(GeoPackage.Literals.COUNTRY);
+				LocationFilterDialog dialog = new LocationFilterDialog(NewEditNode.this
+						.getShell(), nodeTypeResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Location  room = (Location) dialog.getFirstResult();
+					node.setLocationRef(room);
+				}
+			}
+		});
+	}
+
+	private void buildInfoSection(int widgetStyle) {
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
-		FormData fd_scnInfo = new FormData();
-		fd_scnInfo.top = new FormAttachment(0, 10);
-		fd_scnInfo.left = new FormAttachment(0, 10);
-		fd_scnInfo.right = new FormAttachment(100, -14);
-		scnInfo.setLayoutData(fd_scnInfo);
 		toolkit.paintBordersFor(scnInfo);
 		scnInfo.setText("Info");
 
@@ -303,177 +463,6 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 			}
 
 		});
-		Section sctnGeo = toolkit.createSection(this, Section.TITLE_BAR);
-		FormData fd_sctnGeo = new FormData();
-		fd_sctnGeo.bottom = new FormAttachment(100, -10);
-		fd_sctnGeo.left = new FormAttachment(0, 10);
-		fd_sctnGeo.right = new FormAttachment(100, -14);
-		sctnGeo.setLayoutData(fd_sctnGeo);
-		toolkit.paintBordersFor(sctnGeo);
-		sctnGeo.setText("Geo");
-		sctnGeo.setExpanded(true);
-
-		Composite cmpTolerances = toolkit.createComposite(sctnGeo, SWT.NONE);
-		toolkit.paintBordersFor(cmpTolerances);
-		sctnGeo.setClient(cmpTolerances);
-		cmpTolerances.setLayout(new GridLayout(5, false));
-
-		Label lblRoomsite = toolkit.createLabel(cmpTolerances, "Room/Site:",
-				SWT.NONE);
-		lblRoomsite.setAlignment(SWT.RIGHT);
-		GridData gd_lblRoomsite = new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_lblRoomsite.widthHint = 80;
-		lblRoomsite.setLayoutData(gd_lblRoomsite);
-
-		txtRoom = toolkit.createText(cmpTolerances, "New Text", SWT.NONE
-				| SWT.READ_ONLY);
-		txtRoom.setText("");
-		GridData gd_txtRoom = new GridData(SWT.FILL, SWT.CENTER, false, false,
-				1, 1);
-		gd_txtRoom.widthHint = 150;
-		txtRoom.setLayoutData(gd_txtRoom);
-
-		roomRefHyperlink = toolkit
-				.createImageHyperlink(cmpTolerances, SWT.NONE);
-		GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_imageHyperlink.widthHint = 18;
-		roomRefHyperlink.setLayoutData(gd_imageHyperlink);
-		roomRefHyperlink.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				Command set = new SetCommand(editingService.getEditingDomain(),
-						node, OperatorsPackage.Literals.NODE__LOCATION_REF, null);
-				editingService.getEditingDomain().getCommandStack()
-						.execute(set);
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-
-		roomRefHyperlink.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(roomRefHyperlink);
-		roomRefHyperlink.setText("");
-
-		Button btnSelectRoom = toolkit.createButton(cmpTolerances, "Select...",
-				SWT.NONE);
-		new Label(cmpTolerances, SWT.NONE);
-		btnSelectRoom.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				// TODO tricky, this is a multistage selection from
-				// Country->Site->Room.
-
-				Resource nodeTypeResource = editingService
-						.getData(GeoPackage.Literals.COUNTRY);
-				LocationFilterDialog dialog = new LocationFilterDialog(NewEditNode.this
-						.getShell(), nodeTypeResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Location  room = (Location) dialog.getFirstResult();
-					node.setLocationRef(room);
-				}
-			}
-		});
-
-		Section sctnLifecycle = toolkit.createSection(this, Section.TITLE_BAR);
-		fd_sctnGeo.top = new FormAttachment(0, 302);
-		fd_scnInfo.bottom = new FormAttachment(sctnLifecycle, -6);
-		FormData fd_sctnLifecycle = new FormData();
-		fd_sctnLifecycle.bottom = new FormAttachment(sctnGeo, -6);
-		fd_sctnLifecycle.left = new FormAttachment(0, 10);
-		fd_sctnLifecycle.top = new FormAttachment(0, 114);
-		fd_sctnLifecycle.right = new FormAttachment(100, -14);
-		sctnLifecycle.setLayoutData(fd_sctnLifecycle);
-		toolkit.paintBordersFor(sctnLifecycle);
-		sctnLifecycle.setText("Lifecycle");
-
-		Composite composite_1 = toolkit
-				.createComposite(sctnLifecycle, SWT.NONE);
-		toolkit.paintBordersFor(composite_1);
-		sctnLifecycle.setClient(composite_1);
-		composite_1.setLayout(new GridLayout(2, false));
-
-		Label lblProposed = toolkit.createLabel(composite_1, "Proposed:",
-				SWT.NONE);
-		lblProposed.setAlignment(SWT.RIGHT);
-		GridData gd_lblProposed = new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_lblProposed.widthHint = 70;
-		lblProposed.setLayoutData(gd_lblProposed);
-
-		dcProposed = new DateChooserCombo(composite_1, SWT.BORDER | SWT.FLAT);
-		GridData gd_dcProposed = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_dcProposed.heightHint = 20;
-		dcProposed.setLayoutData(gd_dcProposed);
-		toolkit.adapt(dcProposed);
-		toolkit.paintBordersFor(dcProposed);
-
-		Label lblPlanned = toolkit.createLabel(composite_1, "Planned:",
-				SWT.NONE);
-		lblPlanned.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		lblPlanned.setAlignment(SWT.RIGHT);
-
-		dcPlanned = new DateChooserCombo(composite_1, SWT.BORDER | SWT.FLAT);
-		GridData gd_dcPlanned = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_dcPlanned.heightHint = 20;
-		dcPlanned.setLayoutData(gd_dcPlanned);
-		toolkit.adapt(dcPlanned);
-		toolkit.paintBordersFor(dcPlanned);
-
-		Label lblConstruction = toolkit.createLabel(composite_1,
-				"Construction:", SWT.NONE);
-		lblConstruction.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-
-		dcConstruction = new DateChooserCombo(composite_1, SWT.BORDER
-				| SWT.FLAT);
-		GridData gd_dcConstruction = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_dcConstruction.heightHint = 20;
-		dcConstruction.setLayoutData(gd_dcConstruction);
-		toolkit.adapt(dcConstruction);
-		toolkit.paintBordersFor(dcConstruction);
-
-		Label lblInService = toolkit.createLabel(composite_1, "In Service:",
-				SWT.NONE);
-		lblInService.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		lblInService.setAlignment(SWT.RIGHT);
-
-		dcInService = new DateChooserCombo(composite_1, SWT.BORDER | SWT.FLAT);
-		GridData gd_dcInService = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_dcInService.heightHint = 20;
-		dcInService.setLayoutData(gd_dcInService);
-		toolkit.adapt(dcInService);
-		toolkit.paintBordersFor(dcInService);
-
-		Label lblOutOfService = toolkit.createLabel(composite_1,
-				"Out of Service:", SWT.NONE);
-		GridData gd_lblOutOfService = new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_lblOutOfService.widthHint = 80;
-		lblOutOfService.setLayoutData(gd_lblOutOfService);
-
-		dcOutOfService = new DateChooserCombo(composite_1, SWT.BORDER
-				| SWT.FLAT);
-		GridData gd_dcOutOfService = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_dcOutOfService.heightHint = 20;
-		dcOutOfService.setLayoutData(gd_dcOutOfService);
-		dcOutOfService.setWeeksVisible(true);
-		toolkit.adapt(dcOutOfService);
-		toolkit.paintBordersFor(dcOutOfService);
-
 	}
 
 	public EMFDataBindingContext initDataBindings_() {

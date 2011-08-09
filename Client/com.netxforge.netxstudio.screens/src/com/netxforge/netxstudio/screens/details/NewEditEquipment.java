@@ -11,8 +11,6 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -50,13 +48,16 @@ public class NewEditEquipment extends NewEditComponent implements
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
+		buildInfoSection(widgetStyle);
+		buildResourceSection(readonly);
+		buildMetricSection(readonly);
+		buildToleranceSection(readonly);
+	}
+
+	private void buildInfoSection(int widgetStyle) {
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
-		FormData fd_scnInfo = new FormData();
-		fd_scnInfo.top = new FormAttachment(0, 10);
-		fd_scnInfo.left = new FormAttachment(0, 10);
-		fd_scnInfo.right = new FormAttachment(100, -14);
-		scnInfo.setLayoutData(fd_scnInfo);
+	
 		toolkit.paintBordersFor(scnInfo);
 		scnInfo.setText("Info");
 
@@ -99,17 +100,14 @@ public class NewEditEquipment extends NewEditComponent implements
 		cmbExpansionDuration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				false, false, 1, 1));
 		toolkit.paintBordersFor(cmbExpansionDuration);
-
-		Section toleranceSection = buildToleranceSection( fd_scnInfo,readonly);
-		@SuppressWarnings("unused")
-		Section resourceSection = buildResourceSection( (FormData) toleranceSection.getLayoutData(),readonly);
-		
-		
-
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = super.initDataBindings_();
+		
+		bindResourcesSection(context);
+		bindToleranceSection();
+		bindMetricSection();
 		
 		IObservableValue codeObservable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtCode, SWT.Modify));

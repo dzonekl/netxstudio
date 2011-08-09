@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.geo.impl;
 
-import com.netxforge.netxstudio.geo.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;

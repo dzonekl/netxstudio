@@ -207,7 +207,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(hypLnkNewNodeType);
 		hypLnkNewNodeType.setText("New");
 
-		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.VIRTUAL
+		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI | SWT.VIRTUAL
 				| widgetStyle);
 		nodeTypeTreeViewer.setUseHashlookup(true);
 
@@ -234,6 +234,7 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		Tree tree = nodeTypeTreeViewer.getTree();
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 2));
 		tree.setSize(74, 81);
+		tree.addSelectionListener(this);
 		toolkit.paintBordersFor(tree);
 
 		cmpDetails = toolkit.createComposite(sashForm, SWT.NONE);
@@ -267,9 +268,34 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
+	class ShowRevisionAction extends Action {
+
+		public ShowRevisionAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection s = nodeTypeTreeViewer.getSelection();
+			if (s instanceof IStructuredSelection) {
+				Object object = ((IStructuredSelection) s).getFirstElement();
+				if (object instanceof NodeType) {
+					NodeTypeHistory nodeTypeHistoryScreen = new NodeTypeHistory(
+							screenService.getScreenContainer(), SWT.NONE);
+					nodeTypeHistoryScreen.setScreenService(screenService);
+					nodeTypeHistoryScreen
+							.setOperation(Screens.OPERATION_READ_ONLY);
+					nodeTypeHistoryScreen.injectData(null, object);
+					screenService.setActiveScreen(nodeTypeHistoryScreen);
+				}
+			}
+		}
+	}
+
 	@Override
 	public IAction[] getActions() {
-		return new IAction[] { new ExportAction("Export to HTML", SWT.PUSH) };
+		return new IAction[] { new ExportAction("Export to HTML", SWT.PUSH),
+				new ShowRevisionAction("History...", SWT.PUSH) };
 	}
 
 	public void disposeData() {
@@ -296,9 +322,9 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		mapList.add(EMFProperties
 				.value(LibraryPackage.Literals.COMPONENT__NAME).observeDetail(
 						set));
-//		mapList.add(EMFProperties.value(
-//				LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME)
-//				.observeDetail(set));
+		// mapList.add(EMFProperties.value(
+		// LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME)
+		// .observeDetail(set));
 
 		mapList.add(EMFProperties.value(
 				LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)
@@ -346,12 +372,12 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 					&& ((Equipment) element).getEquipments().size() > 0) {
 				return Boolean.TRUE;
 			}
-			
-			// TMNL 04082011, don't show resources in tree. 
-//			if (element instanceof Component
-//					&& ((Component) element).getResourceRefs().size() > 0) {
-//				return Boolean.TRUE;
-//			}
+
+			// TMNL 04082011, don't show resources in tree.
+			// if (element instanceof Component
+			// && ((Component) element).getResourceRefs().size() > 0) {
+			// return Boolean.TRUE;
+			// }
 			return super.hasChildren(element);
 		}
 	}

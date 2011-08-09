@@ -6,8 +6,6 @@ import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -43,11 +41,7 @@ public class NewEditFunction extends NewEditComponent implements
 
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
-		FormData fd_scnInfo = new FormData();
-		fd_scnInfo.top = new FormAttachment(0, 10);
-		fd_scnInfo.left = new FormAttachment(0, 10);
-		fd_scnInfo.right = new FormAttachment(100, -14);
-		scnInfo.setLayoutData(fd_scnInfo);
+		
 		toolkit.paintBordersFor(scnInfo);
 		scnInfo.setText("Info");
 
@@ -71,16 +65,6 @@ public class NewEditFunction extends NewEditComponent implements
 		gd_txtName.widthHint = 200;
 		txtName.setLayoutData(gd_txtName);
 
-//		Label lblCode = toolkit.createLabel(composite, "Code:", SWT.NONE);
-//		lblCode.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-//				1, 1));
-//
-//		txtCode = toolkit.createText(composite, "New Text", SWT.NONE
-//				| widgetStyle);
-//		txtCode.setText("");
-//		txtCode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
-//				1, 1));
-
 		Label lblDescription = toolkit.createLabel(composite, "Description:",
 				SWT.NONE);
 		lblDescription.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false,
@@ -94,17 +78,19 @@ public class NewEditFunction extends NewEditComponent implements
 		gd_text.heightHint = 62;
 		gd_text.widthHint = 200;
 		txtDescription.setLayoutData(gd_text);
-		Section toleranceSection = buildToleranceSection( fd_scnInfo,readonly);
-		@SuppressWarnings("unused")
-		Section resourceSection = buildResourceSection( (FormData) toleranceSection.getLayoutData(),readonly);
-
+		buildResourceSection( readonly);
+		buildMetricSection(readonly);
+		buildToleranceSection( readonly);
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = super.initDataBindings_();
-
+		
+		super.bindResourcesSection(context);
+		super.bindToleranceSection();
+		super.bindMetricSection();
+		
 		// Binding of name and Description
-
 		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtName, SWT.Modify));
 

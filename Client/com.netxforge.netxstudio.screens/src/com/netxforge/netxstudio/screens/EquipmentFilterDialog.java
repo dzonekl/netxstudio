@@ -38,19 +38,20 @@ import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
-	private final Resource resource;
+	private final Object scope;
 
 	/**
 	 * Create a new dialog
 	 * 
 	 * @param shell
 	 *            the parent shell
-	 * @param resource
+	 * @param scope
 	 *            the model resource
 	 */
-	public EquipmentFilterDialog(Shell shell, Resource resource) {
+	public EquipmentFilterDialog(Shell shell, Object scope) {
 		super(shell);
-		this.resource = resource;
+		super.setTitle("Select an Equipment");
+		this.scope = scope;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -68,19 +69,20 @@ public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
 				if (element == null) {
 					return "";
 				}
-				return EquipmentFilterDialog.this.getParentText((Equipment) element);
+				return EquipmentFilterDialog.this
+						.getParentText((Equipment) element);
 			}
 		});
 	}
 
 	private String getParentText(Equipment p) {
 		Node n;
-		if((n = this.resolveParentNode(p)) != null){
+		if ((n = this.resolveParentNode(p)) != null) {
 			return n.getNodeID();
 		}
 		return "Unresolved Node!";
 	}
-	
+
 	private Node resolveParentNode(EObject current) {
 		if (current != null && current.eContainer() != null) {
 			if (current.eContainer() instanceof Node) {
@@ -92,9 +94,11 @@ public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
 			return null;
 		}
 	}
-	
+
 	private String getText(Equipment p) {
-		return p.getName() + " - " + p.getEquipmentCode();
+		String name = p.eIsSet(LibraryPackage.Literals.COMPONENT__NAME) ? 
+			p.getName() : "?";
+		return name + " - " + p.getEquipmentCode();
 	}
 
 	@Override
@@ -135,12 +139,19 @@ public class EquipmentFilterDialog extends FilteredItemsSelectionDialog {
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
 
-		org.eclipse.emf.common.util.TreeIterator<EObject> ti = resource
-				.getAllContents();
-		while (ti.hasNext()) {
-			EObject p = ti.next();
-			if (p.eClass().equals(LibraryPackage.Literals.EQUIPMENT)) {
-				contentProvider.add(p, itemsFilter);
+		org.eclipse.emf.common.util.TreeIterator<EObject> ti = null;
+		if (scope instanceof Resource) {
+			ti = ((Resource) scope).getAllContents();
+		}
+		if (scope instanceof EObject) {
+			ti = ((EObject) scope).eAllContents();
+		}
+		if (ti != null) {
+			while (ti.hasNext()) {
+				EObject p = ti.next();
+				if (p.eClass().equals(LibraryPackage.Literals.EQUIPMENT)) {
+					contentProvider.add(p, itemsFilter);
+				}
 			}
 		}
 	}

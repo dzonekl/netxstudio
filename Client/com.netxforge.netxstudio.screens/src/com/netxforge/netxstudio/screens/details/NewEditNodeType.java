@@ -13,8 +13,6 @@ import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -22,6 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.ColumnLayoutData;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -56,6 +55,7 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		this.editingService = editingService;
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+//		this.buildUI();
 	}
 
 	public void injectData(Object owner, Object object) {
@@ -80,22 +80,11 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		Section sctnInfo = toolkit.createSection(this, Section.TITLE_BAR);
-		FormData fd_sctnInfo = new FormData();
-		fd_sctnInfo.bottom = new FormAttachment(0, 93);
-		fd_sctnInfo.top = new FormAttachment(0, 12);
-		fd_sctnInfo.left = new FormAttachment(0, 12);
-		fd_sctnInfo.right = new FormAttachment(100, -12);
-		sctnInfo.setLayoutData(fd_sctnInfo);
 		toolkit.paintBordersFor(sctnInfo);
 		sctnInfo.setText("Info");
 
-		Section scnTotals = toolkit.createSection(this, Section.EXPANDED
-				| Section.TITLE_BAR);
-		FormData fd_scnTotals = new FormData();
-		fd_scnTotals.top = new FormAttachment(sctnInfo, 6);
-		fd_scnTotals.right = new FormAttachment(100, -14);
-		fd_scnTotals.left = new FormAttachment(0, 10);
-
+		
+		
 		Composite cmpInfo = toolkit.createComposite(sctnInfo, SWT.NONE);
 		toolkit.paintBordersFor(cmpInfo);
 		sctnInfo.setClient(cmpInfo);
@@ -117,11 +106,13 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		txtName.setText("");
 
 		btnLeafNode = toolkit.createButton(cmpInfo,
-				"Check if this NodeType is at the end of a service chain",
+				"Check if this Element Type will be deployed at the end of a service chain",
 				SWT.CHECK );
 		btnLeafNode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 2, 1));
-		scnTotals.setLayoutData(fd_scnTotals);
+		
+		Section scnTotals = toolkit.createSection(this, Section.EXPANDED
+				| Section.TITLE_BAR);
 		toolkit.paintBordersFor(scnTotals);
 		scnTotals.setText("Totals");
 
@@ -139,8 +130,6 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		lblName.setLayoutData(gd_lblName);
 
 		frmTextNumberOfFunctions = toolkit.createFormText(composite, false);
-//		frmTextNumberOfFunctions.setBackground(SWTResourceManager
-//				.getColor(SWT.COLOR_MAGENTA));
 		GridData gd_frmTextNumberOfFunctions = new GridData(SWT.LEFT,
 				SWT.CENTER, false, false, 1, 1);
 		gd_frmTextNumberOfFunctions.widthHint = 40;
@@ -174,13 +163,10 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 
 		Section sctnHierachy = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
-		fd_scnTotals.bottom = new FormAttachment(sctnHierachy, -6);
-		FormData fd_sctnHierachy = new FormData();
-		fd_sctnHierachy.bottom = new FormAttachment(100, -10);
-		fd_sctnHierachy.top = new FormAttachment(0, 204);
-		fd_sctnHierachy.left = new FormAttachment(0, 10);
-		fd_sctnHierachy.right = new FormAttachment(100, -14);
-		sctnHierachy.setLayoutData(fd_sctnHierachy);
+		ColumnLayoutData cld_sctnHierachy = new ColumnLayoutData();
+		cld_sctnHierachy.heightHint = 300;
+		sctnHierachy.setLayoutData(cld_sctnHierachy);
+		
 		toolkit.paintBordersFor(sctnHierachy);
 		sctnHierachy.setText("Hierachy");
 		sctnHierachy.setExpanded(true);
