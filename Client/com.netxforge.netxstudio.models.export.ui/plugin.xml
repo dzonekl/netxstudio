@@ -5,7 +5,7 @@
        point="org.eclipse.ui.exportWizards">
     <wizard
           category="com.netxforge.netxstudio.ui.category.export"
-          class="com.netxforge.netxstudio.models.export.ui.LibraryExportTemplateWizard"
+          class="com.netxforge.netxstudio.models.export.ui.LibraryXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.import"
           name="Create a Library import template">
@@ -15,7 +15,7 @@
     </wizard>
         <wizard
           category="com.netxforge.netxstudio.ui.category.export"
-          class="com.netxforge.netxstudio.models.export.ui.OperatorExportTemplateWizard"
+          class="com.netxforge.netxstudio.models.export.ui.OperatorXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.import"
           name="Create an Operator import template">
@@ -25,7 +25,7 @@
     </wizard>
         <wizard
           category="com.netxforge.netxstudio.ui.category.export"
-          class="com.netxforge.netxstudio.models.export.ui.GeoExportTemplateWizard"
+          class="com.netxforge.netxstudio.models.export.ui.GeoXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.import"
           name="Create a Geo. import template">
@@ -35,7 +35,7 @@
     </wizard>
         <wizard
           category="com.netxforge.netxstudio.ui.category.export"
-          class="com.netxforge.netxstudio.models.export.ui.MetricsExportTemplateWizard"
+          class="com.netxforge.netxstudio.models.export.ui.MetricsXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.import"
           name="Create a Metrics import template">
@@ -46,9 +46,9 @@
     <!-- WIZARDS WHICH NEED DEPENCY INJECTION --> 
     <wizard
           category="com.netxforge.netxstudio.ui.category.export"
-          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.NodeTypeExportWizard"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.NodeTypeHTMLTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
-          id="com.netxforge.netxstudio.models.export.wizard.ui.nodetype"
+          id="com.netxforge.netxstudio.models.export.wizard.ui.nodetype.html"
           name="Export a Network Element type to HTML">
        <description>
          Export a Network Element type to HTML
@@ -56,6 +56,39 @@
        <selection
              class="com.netxforge.netxstudio.library.NodeType">
        </selection>
+    </wizard>
+     <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.NodeHTMLTemplateWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.ui.node.html"
+          name="Export a Network Element  to HTML">
+       <description>
+         Export a Network Element to HTML
+       </description>
+       <selection
+             class="com.netxforge.netxstudio.library.NodeType">
+       </selection>
+    </wizard>
+    <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.NodeTypeXLSPOIWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.ui.nodetype.xls"
+          name="Export a Network Element type to XLS">
+       <description>
+         Export a Network Element type to XLS
+       </description>
+    </wizard>
+     <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.NodeXLSPOIWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.ui.node.xls"
+          name="Export a Network Element instance to XLS">
+       <description>
+         Export a Network Element instance to XLS
+       </description>
     </wizard>
  </extension>
 </plugin>

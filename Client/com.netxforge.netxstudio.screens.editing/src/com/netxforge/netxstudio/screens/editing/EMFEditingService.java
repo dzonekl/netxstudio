@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
@@ -178,7 +179,12 @@ public abstract class EMFEditingService implements IEditingService {
 
 		return operation;
 	}
-
+	
+	public AdapterFactoryItemDelegator getDelegator(){
+		return new AdapterFactoryItemDelegator(emfEditAdapterFactory);
+	}
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 

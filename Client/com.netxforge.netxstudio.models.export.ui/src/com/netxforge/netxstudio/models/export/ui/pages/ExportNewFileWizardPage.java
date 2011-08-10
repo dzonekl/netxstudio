@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.models.export.ui;
+package com.netxforge.netxstudio.models.export.ui.pages;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -6,6 +6,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
+
+import com.netxforge.netxstudio.models.export.ui.Messages;
 
 
 /**
@@ -43,7 +45,7 @@ public class ExportNewFileWizardPage extends WizardNewFileCreationPage {
 
 	/**
 	 */
-	protected IPath getFilePath() {
+	public IPath getFilePath() {
 		IPath path = getContainerFullPath();
 		if (path == null) {
 			path = new Path(""); //$NON-NLS-1$

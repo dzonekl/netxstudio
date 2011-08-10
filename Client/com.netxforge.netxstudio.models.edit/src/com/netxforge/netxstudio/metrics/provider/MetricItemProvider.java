@@ -38,9 +38,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
 import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
-import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.metrics.Metric;
-import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
@@ -308,21 +306,21 @@ public class MetricItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(MetricsPackage.Literals.METRIC__METRICS,
-				 MetricsFactory.eINSTANCE.createMetric()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(MetricsPackage.Literals.METRIC__EXPRESSION_REF,
-				 LibraryFactory.eINSTANCE.createExpression()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(MetricsPackage.Literals.METRIC__METRICS,
+//				 MetricsFactory.eINSTANCE.createMetric()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(MetricsPackage.Literals.METRIC__EXPRESSION_REF,
+//				 LibraryFactory.eINSTANCE.createExpression()));
 	}
 
 	/**

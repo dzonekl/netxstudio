@@ -51,7 +51,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -60,13 +60,13 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  * 
  */
-public class NodeTypeHistory extends AbstractScreen implements
+public class NodeHistory extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
 
-	public NodeTypeHistory(Composite parent, int style) {
+	public NodeHistory(Composite parent, int style) {
 		super(parent, style);
 
 		addDisposeListener(new DisposeListener() {
@@ -147,7 +147,7 @@ public class NodeTypeHistory extends AbstractScreen implements
 
 	private TableViewer tableViewer;
 	private Form frmNTHistory;
-	private NodeType nodeType;
+	private Node node;
 
 	/*
 	 * (non-Javadoc)
@@ -157,15 +157,13 @@ public class NodeTypeHistory extends AbstractScreen implements
 	 * .Object, java.lang.Object)
 	 */
 	public void injectData(Object owner, Object object) {
-		if (object instanceof NodeType) {
-			nodeType = (NodeType) object;
+		if (object instanceof Node) {
+			node = (Node) object;
 			buildUI();
 		} else {
 			throw new java.lang.IllegalArgumentException();
 		}
-
 		this.initDataBindings_();
-
 	}
 
 	/*
@@ -181,10 +179,10 @@ public class NodeTypeHistory extends AbstractScreen implements
 
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer
-				.setLabelProvider(new NodeTypeHistoryLabelProvider(nodeType));
+				.setLabelProvider(new NodeHistoryLabelProvider(node));
 
 		String historicalResourceName = editingService
-				.resolveHistoricalResourceName(nodeType);
+				.resolveHistoricalResourceName(node);
 		if (historicalResourceName != null) {
 			URI uri = URI.createURI(historicalResourceName);
 			// Write a new version.
@@ -201,16 +199,16 @@ public class NodeTypeHistory extends AbstractScreen implements
 			// actual object changes.
 			// int version = nodeType.cdoRevision().getVersion();
 
-			List<HistoricNodeType> histNodeTypes = Lists.newArrayList();
+			List<HistoricNode> histNodeTypes = Lists.newArrayList();
 			int entryCount = historyResource.getContents().size();
-			histNodeTypes.add(new HistoricNodeType(entryCount, nodeType));
+			histNodeTypes.add(new HistoricNode(entryCount, node));
 			entryCount--;
 			
 			// We need the resource list backwards.
 			for (EObject object : Iterables.reverse(historyResource
 					.getContents())) {
-				histNodeTypes.add(new HistoricNodeType(entryCount,
-						(NodeType) object));
+				histNodeTypes.add(new HistoricNode(entryCount,
+						(Node) object));
 				entryCount--;
 			}
 			tableViewer.setInput(histNodeTypes.toArray());
@@ -219,20 +217,20 @@ public class NodeTypeHistory extends AbstractScreen implements
 	}
 
 	/**
-	 * Holds the NodeType and a revision for presentation.
+	 * Holds the Node and a revision for presentation.
 	 * 
 	 * @author dzonekl
 	 * 
 	 */
-	class HistoricNodeType {
+	class HistoricNode {
 
 		int revision;
-		NodeType nt;
+		Node node;
 
-		public HistoricNodeType(int revision, NodeType nt) {
+		public HistoricNode(int revision, Node nt) {
 			super();
 			this.revision = revision;
-			this.nt = nt;
+			this.node = nt;
 		}
 
 		public int getRevision() {
@@ -243,22 +241,22 @@ public class NodeTypeHistory extends AbstractScreen implements
 			this.revision = revision;
 		}
 
-		public NodeType getNt() {
-			return nt;
+		public Node getNode() {
+			return node;
 		}
 
-		public void setNt(NodeType nt) {
-			this.nt = nt;
+		public void setNode(Node nt) {
+			this.node = nt;
 		}
 
 	}
 
-	class NodeTypeHistoryLabelProvider extends LabelProvider implements
+	class NodeHistoryLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 
-		NodeType current;
+		Node current;
 
-		public NodeTypeHistoryLabelProvider(NodeType current) {
+		public NodeHistoryLabelProvider(Node current) {
 			super();
 			this.current = current;
 		}
@@ -269,30 +267,26 @@ public class NodeTypeHistory extends AbstractScreen implements
 
 		public String getColumnText(Object element, int columnIndex) {
 
-			if (element instanceof HistoricNodeType) {
+			if (element instanceof HistoricNode) {
 
 				switch (columnIndex) {
 				case 0: {
 					String revision = new Integer(
-							((HistoricNodeType) element).getRevision())
+							((HistoricNode) element).getRevision())
 							.toString();
-					if (((HistoricNodeType) element).getNt().equals(current)) {
+					if (((HistoricNode) element).getNode().equals(current)) {
 						revision += " (current)";
 					}
 					return revision;
 				}
 				case 1: {
-					
-					
-					
-					
-					Date d = new Date(((HistoricNodeType) element).getNt()
+					Date d = new Date(((HistoricNode) element).getNode()
 							.cdoRevision().getTimeStamp());
 					return modelUtils.time(d) + " " + modelUtils.date(d);
 				}
 				case 2: {
-					NodeType nt = ((HistoricNodeType) element).getNt();
-					return nt.getName();
+					Node nt = ((HistoricNode) element).getNode();
+					return nt.getNodeID();
 				}
 				}
 			}

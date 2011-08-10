@@ -15,11 +15,10 @@
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.models.importer;
+package com.netxforge.netxstudio.models.export;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
@@ -38,20 +37,22 @@ import com.netxforge.netxstudio.data.IDataProvider;
 /**
  * Processes an .csv file, and returns as records for a viewer.
  */
-public class MasterDataImporterJob implements IJobChangeListener {
+public class MasterDataExporterJob implements IJobChangeListener {
+	// public static final XLSServiceJob INSTANCE = new XLSServiceJob();
 	private IPath res;
-	private ScanningJob j = new ScanningJob("Reading file...");
+	private ScanningJob j = new ScanningJob("Writing file...");
 
 	private IDataProvider dataProvider;
 	private EPackage[] ePackages;
-	
-	public MasterDataImporterJob(IDataProvider dataProvider, EPackage[] ePackages) {
+
+	public MasterDataExporterJob(IDataProvider dataProvider,
+			EPackage[] ePackages) {
 		this.dataProvider = dataProvider;
 		this.ePackages = ePackages;
 	}
-	
-	
+
 	private List<EObject> results;
+	private Object[] targetObjects;
 
 	public List<EObject> getResults() {
 		return results;
@@ -73,6 +74,11 @@ public class MasterDataImporterJob implements IJobChangeListener {
 	public void setIPathToProcess(IPath res) {
 		this.res = res;
 	}
+	
+
+	public void setTargetObjects(Object... targetObjects) {
+		this.targetObjects = targetObjects;
+	}
 
 	protected class ScanningJob extends Job {
 
@@ -89,22 +95,23 @@ public class MasterDataImporterJob implements IJobChangeListener {
 	}
 
 	protected void processReadingInternal(final IProgressMonitor monitor) {
-		
-		if(dataProvider == null || this.ePackages == null){
-			throw new java.lang.IllegalStateException("Missing settings for Data import");
+
+		if (dataProvider == null || this.ePackages == null) {
+			throw new java.lang.IllegalStateException(
+					"Missing settings for Data import");
 		}
-		
-		InputStream is;
+
 		try {
 			URI uri = URI.createFileURI(res.toString());
-			is = new FileInputStream(uri.toFileString());
-			final MasterDataImporter masterDataImporter = new MasterDataImporter();
-			masterDataImporter.setDataProvider(dataProvider);
-			masterDataImporter
-					.setEPackagesToImport(this.ePackages);
-			masterDataImporter.process(is);
-			setResults(masterDataImporter.getResolvedObjects());
-			
+			FileOutputStream fileOut = new FileOutputStream(uri.toFileString());
+			final MasterDataExporter masterDataExporter = new MasterDataExporter();
+			masterDataExporter.setDataProvider(dataProvider);
+			masterDataExporter.setPackagesToExport(ePackages);
+			masterDataExporter.setExportObjects(targetObjects);
+			masterDataExporter.process(fileOut);
+
+			// setResults(masterDataImporter.getResolvedObjects());
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

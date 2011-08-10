@@ -4,12 +4,17 @@
    <extension
          point="org.eclipse.emf.edit.childCreationExtenders">
       <extender
-            class="com.netxforge.netxstudio.screens.editing.actions.EquipmentChildCreationExtender"
+            class="com.netxforge.netxstudio.screens.editing.internal.EditingEExtensionFactory:com.netxforge.netxstudio.screens.editing.actions.EquipmentChildCreationExtender"
             uri="http://www.netxforge.com/13042011/library">
       </extender>
             <extender
-            class="com.netxforge.netxstudio.screens.editing.actions.FunctionChildCreationExtender"
+            class="com.netxforge.netxstudio.screens.editing.internal.EditingEExtensionFactory:com.netxforge.netxstudio.screens.editing.actions.FunctionChildCreationExtender"
             uri="http://www.netxforge.com/13042011/library">
       </extender>
+		<extender
+            class="com.netxforge.netxstudio.screens.editing.internal.EditingEExtensionFactory:com.netxforge.netxstudio.screens.editing.actions.NodeChildCreationExtender"
+            uri="http://www.netxforge.com/13042011/operators">
+      </extender>
+      
    </extension>
 </plugin>

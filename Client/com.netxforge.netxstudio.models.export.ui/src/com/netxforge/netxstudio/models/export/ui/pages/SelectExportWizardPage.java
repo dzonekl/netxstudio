@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.models.export.ui;
+package com.netxforge.netxstudio.models.export.ui.pages;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -12,6 +12,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import com.netxforge.netxstudio.models.export.XpandRegistryImpl;
 import com.netxforge.netxstudio.models.export.XpandTemplate;
+import com.netxforge.netxstudio.models.export.ui.Messages;
 
 public class SelectExportWizardPage extends WizardPage {
 

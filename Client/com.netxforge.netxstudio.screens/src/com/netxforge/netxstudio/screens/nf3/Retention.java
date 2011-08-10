@@ -279,7 +279,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 			{
 				MetricRetentionRule r = MetricsFactory.eINSTANCE
 						.createMetricRetentionRule();
-				r.setName("Montly Rule");
+				r.setName("Monthly values");
 				r.setPeriod(MetricRetentionPeriod.ALWAYS);
 				// r.setRetentionExpression(value);
 				rules.getMetricRetentionRules().add(r);
@@ -287,7 +287,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 			{
 				MetricRetentionRule r = MetricsFactory.eINSTANCE
 						.createMetricRetentionRule();
-				r.setName("Weekly Rule");
+				r.setName("Weekly values");
 				r.setPeriod(MetricRetentionPeriod.ALWAYS);
 				// r.setRetentionExpression(value);
 				rules.getMetricRetentionRules().add(r);
@@ -295,7 +295,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 			{
 				MetricRetentionRule r = MetricsFactory.eINSTANCE
 						.createMetricRetentionRule();
-				r.setName("Daily Rule");
+				r.setName("Daily values");
 				r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
 				// r.setRetentionExpression(value);
 				rules.getMetricRetentionRules().add(r);
@@ -304,7 +304,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 			{
 				MetricRetentionRule r = MetricsFactory.eINSTANCE
 						.createMetricRetentionRule();
-				r.setName("Hourly Rule");
+				r.setName("Hourly values");
 				r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
 				// r.setRetentionExpression(value);
 				rules.getMetricRetentionRules().add(r);

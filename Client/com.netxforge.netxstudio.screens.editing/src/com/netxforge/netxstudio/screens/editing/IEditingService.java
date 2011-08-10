@@ -23,6 +23,7 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 
@@ -46,6 +47,13 @@ public interface IEditingService {
 	 */
 	public abstract ComposedAdapterFactory getAdapterFactory();
 		
+	
+	/**
+	 * A Convenience delegator. 
+	 * @return
+	 */
+	public AdapterFactoryItemDelegator getDelegator();
+	
 	/**
 	 * Get the save operation. 
 	 * @param monitor

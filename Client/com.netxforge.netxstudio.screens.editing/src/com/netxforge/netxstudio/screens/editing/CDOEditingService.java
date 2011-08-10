@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -41,9 +42,10 @@ import org.eclipse.net4j.util.event.IListener;
 import org.eclipse.swt.widgets.Display;
 
 import com.google.common.collect.ImmutableList;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.dawn.DawnEMFEditorSupport;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditor;
 import com.netxforge.netxstudio.screens.editing.dawn.IDawnEditorSupport;
@@ -93,10 +95,6 @@ public class CDOEditingService extends EMFEditingService implements
 		System.out.println("View ID when saving:" + view.getViewID());
 		if (view instanceof CDOTransaction) {
 			if (((CDOTransaction) view).hasConflict()) {
-				// TODO, remove later.
-				// MessageDialog.openError(Display.getDefault().getActiveShell(),
-				// "conflict",
-				// "Your Resource is in conflict and cannot be committed");
 				MessageDialog dialog = new MessageDialog(
 						Display.getDefault().getActiveShell(),
 						"Conflict",
@@ -260,34 +258,41 @@ public class CDOEditingService extends EMFEditingService implements
 			exception.printStackTrace();
 		}
 	}
-	
-	public IRunnableWithProgress doGetSaveHistoryOperation(IProgressMonitor monitor) {
+
+	public IRunnableWithProgress doGetSaveHistoryOperation(
+			IProgressMonitor monitor) {
 		// Do the work within an operation because this is a long running
 		IRunnableWithProgress operation = new IRunnableWithProgress() {
 			// This is the method that gets invoked when the operation runs.
 			public void run(IProgressMonitor monitor) {
-				
-				ImmutableList<Resource> copyOf = ImmutableList.copyOf(getEditingDomain().getResourceSet()
-						.getResources());
+
+				ImmutableList<Resource> copyOf = ImmutableList
+						.copyOf(getEditingDomain().getResourceSet()
+								.getResources());
 				for (Resource resource : copyOf) {
 					try {
 
 						// Walk through the objects in the resource.
 						if (resource instanceof CDOResource) {
-
-							if (((CDOResource) resource).getName()
-									.equals(LibraryPackage.Literals.NODE_TYPE
-											.getName())) {
-
+							EClass hint;
+							if ((hint = shouldHaveHistory(resource)) != null) {
 								// Find all our dirty objects.
-								TreeIterator<EObject> it = resource.getAllContents();
-								while( it.hasNext()) {
+								TreeIterator<EObject> it = resource
+										.getAllContents();
+								while (it.hasNext()) {
 									CDOObject cdoObject = (CDOObject) it.next();
 									CDOState state = cdoObject.cdoState();
-									// For State new, we won't be able to resolve the CDOID. 
-									if (state.equals(CDOState.DIRTY)){
-										doCopyObjecToHistoryResource(cdoObject);
+									// For State new, we won't be able to
+									// resolve the CDOID.
+									if (state.equals(CDOState.DIRTY)) {
+										if(hint == LibraryPackage.Literals.NODE_TYPE){
+											doCopyNodeTypeToHistoryResource(cdoObject);
+										}
+										if(hint == OperatorsPackage.Literals.NODE){
+											doCopyNodeToHistoryResource(cdoObject);
+										}
 									}
+
 								}
 							}
 						}
@@ -299,26 +304,62 @@ public class CDOEditingService extends EMFEditingService implements
 		};
 		return operation;
 	}
-	
-	
+
 	/**
-	 * Creates a copy of the target object, and stores is in a resource 
-	 * which is named as the object class_the OID number. 
+	 * Static acceptor for EClasses which should have a dirty.
 	 * 
-	 * As we use the current resource set to hold the history resource, 
-	 * this will automaticly be saved when saving the actual resource later on. 
+	 * @param resource
+	 * @return
+	 */
+	public EClass shouldHaveHistory(Resource resource) {
+		String name = ((CDOResource) resource).getName();
+		if (name.equals(LibraryPackage.Literals.NODE_TYPE.getName())) {
+			return LibraryPackage.Literals.NODE_TYPE;
+		}
+		if (name.equals(OperatorsPackage.Literals.OPERATOR.getName())) {
+			return OperatorsPackage.Literals.NODE;
+		}
+		return null;
+	}
+
+	/**
+	 * Creates a copy of the target object, and stores is in a resource which is
+	 * named as the object class_the OID number.
+	 * 
+	 * As we use the current resource set to hold the history resource, this
+	 * will automaticly be saved when saving the actual resource later on.
 	 * 
 	 * @param target
 	 */
-	public void doCopyObjecToHistoryResource(CDOObject target) {
-		
-		if(target instanceof Component){
-			target = modelUtils.resolveParentNodeType(target);
-			if(target == null || !(target instanceof NodeType)){
+	public void doCopyNodeTypeToHistoryResource(CDOObject target) {
+
+		target = modelUtils.resolveParentNodeType(target);
+		if (target == null || !(target instanceof NodeType)) {
 				return;
-			}
 		}
-		
+		this.doCopyTarget(target);
+	}
+	
+	/**
+	 * Creates a copy of the target object, and stores is in a resource which is
+	 * named as the object class_the OID number.
+	 * 
+	 * As we use the current resource set to hold the history resource, this
+	 * will automaticly be saved when saving the actual resource later on.
+	 * 
+	 * @param target
+	 */
+	public void doCopyNodeToHistoryResource(CDOObject target) {
+
+		target = modelUtils.resolveParentNode(target);
+		if (target == null || !(target instanceof Node)) {
+				return;
+		}
+		this.doCopyTarget(target);
+	}
+	
+	
+	private void doCopyTarget(CDOObject target){
 		String affectedPath = this.resolveHistoricalResourceName(target);
 		if (affectedPath != null) {
 			URI uri = URI.createURI(affectedPath);
@@ -326,13 +367,14 @@ public class CDOEditingService extends EMFEditingService implements
 			Resource historyResource = dataService.getProvider().getResource(
 					this.getEditingDomain().getResourceSet(), uri);
 
-			// We make a copy.
-			CDOObject copyOfNodeType = EcoreUtil.copy(target);
-			historyResource.getContents().add(copyOfNodeType);
-
+			// We make a copy, using a custom copier, as we don't want to copy
+			// the references.
+			Copier copier = new EcoreUtil.Copier();
+			CDOObject copyOfTarget = (CDOObject) copier.copy(target);
+			historyResource.getContents().add(copyOfTarget);
 		}
 	}
-	
+
 	/**
 	 * Appends the cdo Object ID to the actual object resource name.
 	 * 
@@ -341,8 +383,7 @@ public class CDOEditingService extends EMFEditingService implements
 	 */
 	public String resolveHistoricalResourceName(Object object) {
 
-		// TODO, keep a cach of CDOObject ID, and resource path.
-
+		// TODO, keep a cache of CDOObject ID, and resource path.
 		CDOResource affectedResource = ((CDOObject) object).cdoResource();
 		String affectedPath = affectedResource.getPath();
 

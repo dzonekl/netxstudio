@@ -67,10 +67,13 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 			NodeType nt = (NodeType) element;
 
+			Totals tt = new Totals(nt);
+			
+			
 			StyledString styledString = new StyledString(
 					nt.getName() != null ? nt.getName() : "?", null);
-			String decoration = " (" + nt.getFunctions().size() + " Functions)"
-					+ " (" + nt.getFunctions().size() + " Equipments)";
+			String decoration = " (" + tt.getFunctions() + " Functions)"
+					+ " (" + tt.getEquipments() + " Equipments)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(

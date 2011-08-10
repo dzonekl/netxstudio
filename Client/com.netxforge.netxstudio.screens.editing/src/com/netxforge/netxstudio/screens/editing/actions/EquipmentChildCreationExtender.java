@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.actions;
 
 import java.util.Collection;
@@ -26,20 +26,29 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 
-
 /**
- * Custom child extender, capable to add conditional ( Type etc...) child descriptors
- * It works best, by disabling the generated EMF descriptors. 
- *  
+ * Custom child extender, capable to add conditional ( Type etc...) child
+ * descriptors It works best, by disabling the generated EMF descriptors.
+ * 
  * @author dzonekl
  */
-public class EquipmentChildCreationExtender extends AbstractConditionalChildCreationExtender {
+public class EquipmentChildCreationExtender extends
+		AbstractConditionalChildCreationExtender {
+
+	protected ModelUtils modelUtils;
+
+	@Inject
+	public EquipmentChildCreationExtender(ModelUtils modelUtils) {
+		this.modelUtils = modelUtils;
+	}
 
 	public Collection<?> getNewChildDescriptors(Object object,
 			EditingDomain editingDomain) {
@@ -48,7 +57,7 @@ public class EquipmentChildCreationExtender extends AbstractConditionalChildCrea
 
 		if (object instanceof EObject) {
 			EObject target = (EObject) object;
-			Node node = this.resolveParentNode(target);
+			Node node = modelUtils.resolveParentNode(target);
 			if (node != null && node.getOriginalNodeTypeRef() != null) {
 				NodeType ntRef = node.getOriginalNodeTypeRef();
 				if (target.eClass() == LibraryPackage.Literals.NODE_TYPE) {
@@ -79,16 +88,19 @@ public class EquipmentChildCreationExtender extends AbstractConditionalChildCrea
 										Equipment eqCopy = (Equipment) EcoreUtil
 												.copy(targetChild);
 										// Set the name as a sequence.
-										setSequenceNumber(targetEq, eqCopy);
+										String newSequenceNumber = modelUtils
+												.getSequenceNumber(
+														targetEq,
+														LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
+														LibraryPackage.Literals.COMPONENT__NAME);
+										eqCopy.setName(newSequenceNumber);
 										newChildDescriptors
 												.add(createChildParameter(
 														LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
 														eqCopy));
 									}
-
 								}
 							}
-
 						}
 					}
 				}
@@ -96,13 +108,12 @@ public class EquipmentChildCreationExtender extends AbstractConditionalChildCrea
 			} else {
 				System.out
 						.println("CreateChildExtender: no parent Node object found");
-				 newChildDescriptors.add(createChildParameter(
-						 LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
-						 LibraryFactory.eINSTANCE.createEquipment()));
+				newChildDescriptors.add(createChildParameter(
+						LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
+						LibraryFactory.eINSTANCE.createEquipment()));
 			}
 		}
 
 		return newChildDescriptors;
 	}
-
 }

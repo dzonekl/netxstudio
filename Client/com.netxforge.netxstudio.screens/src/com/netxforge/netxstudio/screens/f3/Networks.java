@@ -98,8 +98,10 @@ import com.netxforge.netxstudio.screens.details.NewEditNetwork;
 import com.netxforge.netxstudio.screens.details.NewEditNode;
 import com.netxforge.netxstudio.screens.details.NewEditNodeEquipment;
 import com.netxforge.netxstudio.screens.details.NewEditNodeType;
+import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f2.NodeHistory;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 
 /**
@@ -158,7 +160,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmNetworks = toolkit.createForm(this);
-		
+
 		frmNetworks.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNetworks);
 
@@ -208,15 +210,15 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 						OperatorFilterDialog dialog = new OperatorFilterDialog(
 								Networks.this.getShell(), operatorsResource);
 						int result = dialog.open();
-						if(result == Window.OK){
+						if (result == Window.OK) {
 							Operator operator = (Operator) dialog
 									.getFirstResult();
 							Network newNetwork = OperatorsFactory.eINSTANCE
 									.createNetwork();
 							newNetwork.setName("<new network>");
 							Command add = AddCommand.create(
-									editingService.getEditingDomain(), operator,
-									null, newNetwork);
+									editingService.getEditingDomain(),
+									operator, null, newNetwork);
 							editingService.getEditingDomain().getCommandStack()
 									.execute(add);
 						}
@@ -251,7 +253,11 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 							Networks.this.getDisplay().asyncExec(
 									new Runnable() {
 										public void run() {
-											handleDetailsSelection(o);
+											try {
+												handleDetailsSelection(o);
+											} catch (Exception e) {
+												e.printStackTrace();
+											}
 										}
 									});
 						}
@@ -274,10 +280,78 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public IAction[] getActions() {
 
-		return new IAction[] { new MoveToWarehouseAction("Decommission",
-				SWT.PUSH) };
+		return new IAction[] { new ExportHTMLAction("Export to HTML", SWT.PUSH),
+				new ExportXLSAction("Export to XLS", SWT.PUSH),new MoveToWarehouseAction("Decommission",
+				SWT.PUSH) , new HistoryAction("History...", SWT.PUSH) };
+	}
+	
+	class HistoryAction extends Action {
+
+		public HistoryAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection s = networkTreeViewer.getSelection();
+			if (s instanceof IStructuredSelection) {
+				Object object = ((IStructuredSelection) s).getFirstElement();
+				if (object instanceof Node) {
+					NodeHistory nodeHistoryScreen = new NodeHistory(
+							screenService.getScreenContainer(), SWT.NONE);
+					nodeHistoryScreen.setScreenService(screenService);
+					nodeHistoryScreen
+							.setOperation(Screens.OPERATION_READ_ONLY);
+					nodeHistoryScreen.injectData(null, object);
+					screenService.setActiveScreen(nodeHistoryScreen);
+				}
+			}
+		}
 	}
 
+	
+	/**
+	 * @author dzonekl
+	 */
+	class ExportHTMLAction extends Action {
+
+		public ExportHTMLAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection s = networkTreeViewer.getSelection();
+			if (s instanceof IStructuredSelection) {
+				WizardUtil
+						.openWizard(
+								"com.netxforge.netxstudio.models.export.wizard.ui.node.html",
+								(IStructuredSelection) s);
+			}
+		}
+	}
+
+	/**
+	 * @author dzonekl
+	 */
+	class ExportXLSAction extends Action {
+
+		public ExportXLSAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection s = networkTreeViewer.getSelection();
+			if (s instanceof IStructuredSelection) {
+				WizardUtil
+						.openWizard(
+								"com.netxforge.netxstudio.models.export.wizard.ui.node.xls",
+								(IStructuredSelection) s);
+			}
+		}
+	}
+	
 	/**
 	 * Action to move objects to the ware house.
 	 * 
@@ -508,7 +582,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 					return Boolean.TRUE;
 				}
 			}
-			
+
 			if (element instanceof Node) {
 				Node n = (Node) element;
 				if (n.getNodeType() != null) {

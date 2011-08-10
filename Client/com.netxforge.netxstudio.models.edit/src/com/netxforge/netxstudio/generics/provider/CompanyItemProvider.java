@@ -36,7 +36,6 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.Company;
-import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 
 /**
@@ -279,16 +278,16 @@ public class CompanyItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(GenericsPackage.Literals.COMPANY__ICONS,
-				 GenericsFactory.eINSTANCE.createMultiImage()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(GenericsPackage.Literals.COMPANY__ICONS,
+//				 GenericsFactory.eINSTANCE.createMultiImage()));
 	}
 
 }

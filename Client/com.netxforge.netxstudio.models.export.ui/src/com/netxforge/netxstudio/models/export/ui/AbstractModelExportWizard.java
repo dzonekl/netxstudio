@@ -24,6 +24,7 @@ import org.eclipse.xtend.expression.Variable;
 import com.netxforge.netxstudio.models.export.XpandTemplate;
 import com.netxforge.netxstudio.models.export.impl.XpandCallerService;
 import com.netxforge.netxstudio.models.export.ui.internal.ExportActivator;
+import com.netxforge.netxstudio.models.export.ui.pages.ExportNewFileWizardPage;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
 public abstract class AbstractModelExportWizard extends Wizard implements IExportWizard {

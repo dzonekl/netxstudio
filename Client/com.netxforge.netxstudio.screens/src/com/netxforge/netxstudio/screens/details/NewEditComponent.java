@@ -1,13 +1,10 @@
 package com.netxforge.netxstudio.screens.details;
 
-import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
-import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
@@ -19,15 +16,12 @@ import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
-import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,8 +35,6 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
@@ -67,9 +59,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
-import com.netxforge.netxstudio.screens.f4.support.MetricTreeFactory;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
-import com.netxforge.netxstudio.screens.f4.support.MetricTreeStructureAdvisor;
 
 
 /**
@@ -91,7 +81,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 	private TableViewer tolerancesTableViewer;
 	
 	// Metrics Section
-	private TreeViewer metricsTreeViewer;
+	private TableViewer metricsTableViewer;
+	
 	
 	protected Component comp;
 	
@@ -304,42 +295,73 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		toolkit.paintBordersFor(hypLnkAddMetric);
 		hypLnkAddMetric.setText("Add");
 
-		metricsTreeViewer = new TreeViewer(cmpMetrics, SWT.BORDER | SWT.VIRTUAL);
-		metricsTreeViewer.setUseHashlookup(true);
-		Tree tree = metricsTreeViewer.getTree();
-		tree.setLinesVisible(true);
-		tree.setHeaderVisible(true);
-		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
+//		metricsTreeViewer = new TreeViewer(cmpMetrics, SWT.BORDER | SWT.VIRTUAL);
+//		metricsTreeViewer.setUseHashlookup(true);
+//		Tree tree = metricsTreeViewer.getTree();
+//		tree.setLinesVisible(true);
+//		tree.setHeaderVisible(true);
+//		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
+//		gd.heightHint = 100;
+//		tree.setLayoutData(gd);
+//		toolkit.paintBordersFor(tree);
+//
+//		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
+//				metricsTreeViewer, SWT.NONE);
+//		TreeColumn trclmnName = treeViewerColumn.getColumn();
+//		trclmnName.setWidth(100);
+//		trclmnName.setText("Name");
+//
+//		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
+//				metricsTreeViewer, SWT.NONE);
+//		TreeColumn trclmnDescription = treeViewerColumn_1.getColumn();
+//		trclmnDescription.setWidth(270);
+//		trclmnDescription.setText("Description");
+//
+//		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
+//				metricsTreeViewer, SWT.NONE);
+//		TreeColumn trclmnUnit = treeViewerColumn_2.getColumn();
+//		trclmnUnit.setWidth(84);
+//		trclmnUnit.setText("Unit");
+
+		
+		metricsTableViewer = new TableViewer(cmpMetrics, SWT.BORDER
+				| SWT.FULL_SELECTION);
+		Table metricsTable = metricsTableViewer.getTable();
+		metricsTable.setHeaderVisible(true);
+		metricsTable.setLinesVisible(true);
+		
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true,
+				true, 1, 1);
 		gd.heightHint = 100;
-		tree.setLayoutData(gd);
-		toolkit.paintBordersFor(tree);
+		metricsTable.setLayoutData(gd);
+		toolkit.paintBordersFor(metricsTable);
 
-		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
-				metricsTreeViewer, SWT.NONE);
-		TreeColumn trclmnName = treeViewerColumn.getColumn();
-		trclmnName.setWidth(100);
-		trclmnName.setText("Name");
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(
+				metricsTableViewer, SWT.NONE);
+		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
+		tblclmnNewColumn.setWidth(100);
+		tblclmnNewColumn.setText("Name");
 
-		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
-				metricsTreeViewer, SWT.NONE);
-		TreeColumn trclmnDescription = treeViewerColumn_1.getColumn();
-		trclmnDescription.setWidth(270);
-		trclmnDescription.setText("Description");
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				metricsTableViewer, SWT.NONE);
+		TableColumn tblclmnLevel = tableViewerColumn_1.getColumn();
+		tblclmnLevel.setWidth(150);
+		tblclmnLevel.setText("Description");
 
-		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
-				metricsTreeViewer, SWT.NONE);
-		TreeColumn trclmnUnit = treeViewerColumn_2.getColumn();
-		trclmnUnit.setWidth(84);
-		trclmnUnit.setText("Unit");
-
-		Menu menu = new Menu(tree);
-		tree.setMenu(menu);
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
+				metricsTableViewer, SWT.NONE);
+		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
+		tblclmnExpression.setWidth(30);
+		tblclmnExpression.setText("Unit");
+		
+		Menu menu = new Menu(metricsTable);
+		metricsTable.setMenu(menu);
 
 		MenuItem mntmRemoveMetric = new MenuItem(menu, SWT.NONE);
 		mntmRemoveMetric.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ISelection s = metricsTreeViewer.getSelection();
+				ISelection s = metricsTableViewer.getSelection();
 				if (s instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) s).getFirstElement();
 					// FIXME, we can' delete a child metric. 
@@ -762,24 +784,40 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 	
 	public void bindMetricSection() {
 		
+		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+		metricsTableViewer.setContentProvider(listContentProvider);
+		IObservableMap[] observeMaps = EMFObservables.observeMaps(
+				listContentProvider.getKnownElements(),
+				new EStructuralFeature[] {
+						MetricsPackage.Literals.METRIC__NAME,
+						MetricsPackage.Literals.METRIC__DESCRIPTION,
+						MetricsPackage.Literals.METRIC__UNIT_REF});
+		metricsTableViewer
+				.setLabelProvider(new MetricTreeLabelProvider(observeMaps));
+		IEMFListProperty l = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				LibraryPackage.Literals.COMPONENT__METRIC_REFS);
+
+		metricsTableViewer.setInput(l.observe(comp));
 		
-		ObservableListTreeContentProvider listTreeContentProvider = new ObservableListTreeContentProvider(
-				new MetricTreeFactory(editingService.getEditingDomain()), new MetricTreeStructureAdvisor());
-		metricsTreeViewer.setContentProvider(listTreeContentProvider);
-		IObservableSet set = listTreeContentProvider.getKnownElements();
 		
-		IObservableMap[] map = new IObservableMap[2];
-
-		map[0] = EMFProperties.value(MetricsPackage.Literals.METRIC__NAME)
-				.observeDetail(set);
-
-		map[1] = EMFProperties.value(
-				MetricsPackage.Literals.METRIC__DESCRIPTION).observeDetail(set);
-		metricsTreeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
-
-		IEMFListProperty metricsProperty = EMFEditProperties.list(editingService.getEditingDomain(), LibraryPackage.Literals.COMPONENT__METRIC_REFS);
-		IObservableList metricsObservableList = metricsProperty.observe(comp);
-		metricsTreeViewer.setInput(metricsObservableList);
+//		ObservableListTreeContentProvider listTreeContentProvider = new ObservableListTreeContentProvider(
+//				new MetricTreeFactory(editingService.getEditingDomain()), new MetricTreeStructureAdvisor());
+//		metricsTreeViewer.setContentProvider(listTreeContentProvider);
+//		IObservableSet set = listTreeContentProvider.getKnownElements();
+//		
+//		IObservableMap[] map = new IObservableMap[2];
+//
+//		map[0] = EMFProperties.value(MetricsPackage.Literals.METRIC__NAME)
+//				.observeDetail(set);
+//
+//		map[1] = EMFProperties.value(
+//				MetricsPackage.Literals.METRIC__DESCRIPTION).observeDetail(set);
+//		metricsTreeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
+//
+//		IEMFListProperty metricsProperty = EMFEditProperties.list(editingService.getEditingDomain(), LibraryPackage.Literals.COMPONENT__METRIC_REFS);
+//		IObservableList metricsObservableList = metricsProperty.observe(comp);
+//		metricsTreeViewer.setInput(metricsObservableList);
 	}
 	
 }

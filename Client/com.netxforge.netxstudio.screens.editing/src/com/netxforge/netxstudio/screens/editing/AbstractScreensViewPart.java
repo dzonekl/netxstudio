@@ -176,7 +176,7 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 		// Set the current editor as selection provider.
 		actionHandlerDescriptor = new ActionHandlerDescriptor();
-		actionHandlerDescriptor.addHandler(new EditingActionsHandler());
+		actionHandlerDescriptor.addHandler(new EditingActionsHandler(getEditingService()));
 		actionHandlerDescriptor.addHandler(new CreationActionsHandler());
 		actionHandlerDescriptor.addHandler(new UIActionsHandler());
 

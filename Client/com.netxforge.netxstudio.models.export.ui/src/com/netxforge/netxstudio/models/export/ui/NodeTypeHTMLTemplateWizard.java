@@ -7,7 +7,7 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.models.export.XpandTemplate;
 import com.netxforge.netxstudio.models.export.impl.XpandNodeTypeToHtml;
 
-public class NodeTypeExportWizard extends AbstractModelExportWizard {
+public class NodeTypeHTMLTemplateWizard extends AbstractModelExportWizard {
 		
 	@Override
 	public boolean performFinish() {
@@ -16,7 +16,7 @@ public class NodeTypeExportWizard extends AbstractModelExportWizard {
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
-		setWindowTitle("Export the library to HTML");
+		setWindowTitle("Export a Network Element Type to HTML");
 		setNeedsProgressMonitor(true);
 		
 	}

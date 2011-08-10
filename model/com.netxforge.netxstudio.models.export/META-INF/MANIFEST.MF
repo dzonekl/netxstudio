@@ -14,7 +14,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xpand;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.xtend;bundle-version="1.0.0";visibility:=reexport,
  org.eclipse.xtend.typesystem.emf;bundle-version="1.0.0";visibility:=reexport,
- com.netxforge.netxstudio.models;bundle-version="1.0.0";visibility:=reexport
+ com.netxforge.netxstudio.models;bundle-version="1.0.0";visibility:=reexport,
+ org.apache.poi;bundle-version="1.0.0",
+ com.netxforge.netxstudio.data;bundle-version="1.0.0",
+ com.google.collect;bundle-version="1.0.0",
+ org.apache.commons.lang;bundle-version="2.4.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.models.export,

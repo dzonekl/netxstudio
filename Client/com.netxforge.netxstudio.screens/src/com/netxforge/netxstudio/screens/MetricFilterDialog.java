@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class MetricFilterDialog extends FilteredItemsSelectionDialog {
@@ -48,6 +49,7 @@ public class MetricFilterDialog extends FilteredItemsSelectionDialog {
 	 */
 	public MetricFilterDialog(Shell shell, Resource resource) {
 		super(shell);
+		super.setTitle("Select an existing Metric");
 		this.resource = resource;
 
 		setListLabelProvider(new LabelProvider() {
@@ -76,7 +78,11 @@ public class MetricFilterDialog extends FilteredItemsSelectionDialog {
 	}
 
 	private String getText(Metric p) {
-		return p.getName()  + p.getDescription();
+		StringBuffer buf = new StringBuffer();
+		buf.append(p.eIsSet(MetricsPackage.Literals.METRIC__NAME) ? p.getName() : "?");
+		buf.append(" - ");
+		buf.append(p.eIsSet(MetricsPackage.Literals.METRIC__DESCRIPTION) ? p.getDescription() : "?");
+		return buf.toString();
 	}
 
 	@Override

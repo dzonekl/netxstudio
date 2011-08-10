@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.models.export.ui;
+package com.netxforge.netxstudio.models.export.ui.pages;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
+import com.netxforge.netxstudio.models.export.ui.Messages;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
 public class ModelSourceWizardPage extends WizardPage {

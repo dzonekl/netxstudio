@@ -207,8 +207,8 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(hypLnkNewNodeType);
 		hypLnkNewNodeType.setText("New");
 
-		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI | SWT.VIRTUAL
-				| widgetStyle);
+		nodeTypeTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI
+				| SWT.VIRTUAL | widgetStyle);
 		nodeTypeTreeViewer.setUseHashlookup(true);
 
 		nodeTypeTreeViewer
@@ -224,7 +224,11 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 								if (s instanceof IStructuredSelection) {
 									IStructuredSelection ss = (IStructuredSelection) s;
 									Object o = ss.getFirstElement();
-									handleDetailsSelection(o);
+									try {
+										handleDetailsSelection(o);
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
 								}
 							}
 						});
@@ -245,14 +249,11 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	/**
-	 * Action to move objects to the ware house.
-	 * 
 	 * @author dzonekl
-	 * 
 	 */
-	class ExportAction extends Action {
+	class ExportHTMLAction extends Action {
 
-		public ExportAction(String text, int style) {
+		public ExportHTMLAction(String text, int style) {
 			super(text, style);
 		}
 
@@ -262,15 +263,36 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 			if (s instanceof IStructuredSelection) {
 				WizardUtil
 						.openWizard(
-								"com.netxforge.netxstudio.models.export.wizard.ui.nodetype",
+								"com.netxforge.netxstudio.models.export.wizard.ui.nodetype.html",
 								(IStructuredSelection) s);
 			}
 		}
 	}
 
-	class ShowRevisionAction extends Action {
+	/**
+	 * @author dzonekl
+	 */
+	class ExportXLSAction extends Action {
 
-		public ShowRevisionAction(String text, int style) {
+		public ExportXLSAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection s = nodeTypeTreeViewer.getSelection();
+			if (s instanceof IStructuredSelection) {
+				WizardUtil
+						.openWizard(
+								"com.netxforge.netxstudio.models.export.wizard.ui.nodetype.xls",
+								(IStructuredSelection) s);
+			}
+		}
+	}
+
+	class HistoryAction extends Action {
+
+		public HistoryAction(String text, int style) {
 			super(text, style);
 		}
 
@@ -294,8 +316,10 @@ public class NodeTypes extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public IAction[] getActions() {
-		return new IAction[] { new ExportAction("Export to HTML", SWT.PUSH),
-				new ShowRevisionAction("History...", SWT.PUSH) };
+		return new IAction[] {
+				new ExportHTMLAction("Export to HTML", SWT.PUSH),
+				new ExportXLSAction("Export to XLS", SWT.PUSH),
+				new HistoryAction("History...", SWT.PUSH) };
 	}
 
 	public void disposeData() {

@@ -5,11 +5,11 @@
 «IMPORT metrics»
 
 «REM»
-	Export a Node type  to HTML
+	Export a Node  to HTML
 «ENDREM»
 
 «EXTENSION templates::net2html»
-«DEFINE Root FOR library::NodeType »
+«DEFINE Root FOR operators::Node »
 	«FILE fileName() -»
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -137,32 +137,36 @@
 	«ENDFILE»
 «ENDDEFINE»
 
-«DEFINE Toc FOR library::NodeType »
+
+«DEFINE Toc FOR operators::Node »
 	<tr>
-		<td><a href="#«this.name.toUpperCase()»">«this.name.toUpperCase()»</a></td>
+		<td><a href="#«this.nodeID.toUpperCase()»">«this.nodeID.toUpperCase()»</a></td>
 	</tr>
 «ENDDEFINE»
+
 
 «REM»
 	NODETYPE EXPANSION
 «ENDREM»  
-«DEFINE Content FOR library::NodeType »
+«DEFINE Content FOR operators::Node »
 	<table>
-		<a name="«this.name»"></a>
+		<a name="«this.nodeID»"></a>
 		<tr>
-			<td class="title">«this.name »</td>
+			<td class="title">«this.nodeID»</td>
 		</tr>
-		«IF ! this.functions.isEmpty »
+		«IF this.nodeType != null»
+		«IF ! this.nodeType.functions.isEmpty »
 		<tr class="section"><td>Functions</td></tr>		
 		<tr>
-			<td><table class="indent">«EXPAND Content FOREACH this.functions -»</table></td>
+			<td><table class="indent">«EXPAND Content FOREACH this.nodeType.functions -»</table></td>
 		</tr>
 		«ENDIF»
-		«IF ! this.equipments.isEmpty »
+		«IF ! this.nodeType.equipments.isEmpty »
 		<tr class="section"><td>Equipments</td></tr>		
 		<tr>
-			<td><table class="indent">«EXPAND Content FOREACH this.equipments -»</table></td>
+			<td><table class="indent">«EXPAND Content FOREACH this.nodeType.equipments -»</table></td>
 		</tr>
+		«ENDIF»
 		«ENDIF»
 	</table>
 «ENDDEFINE»
@@ -179,14 +183,12 @@
 		<td><table class="indent">«EXPAND Content FOREACH this.functions -»</table></td>
 	</tr>
  	«ENDIF»
- 	«REM»
  	«IF ! this.metricRefs.isEmpty »	
  	<tr class="section"><td>Metrics</td></tr>	
 	<tr>
 		<td><table class="metric">«EXPAND Content FOREACH this.metricRefs -»</table></td>
 	</tr>
 	«ENDIF»
-	«ENDREM»
 «ENDDEFINE»
 
 «REM»
@@ -199,15 +201,12 @@
 		<td><table class="indent">«EXPAND Content FOREACH this.equipments -»</table></td>
 	</tr>
 	«ENDIF»
-	
-	«REM»
 	«IF ! this.metricRefs.isEmpty »	
 	<tr class="section"><td>Metrics</td></tr>	
 	<tr>
 		<td><table class="metric">«EXPAND Content FOREACH this.metricRefs -»</table></td>
 	</tr>
 	«ENDIF»
-	«ENDREM»  
 «ENDDEFINE»
 
 «REM»

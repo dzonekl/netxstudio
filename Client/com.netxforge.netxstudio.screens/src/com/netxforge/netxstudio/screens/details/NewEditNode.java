@@ -68,7 +68,6 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 	private Text txtNodeType;
 	private Text txtRoom;
 
-
 	private DateChooserCombo dcProposed;
 	private DateChooserCombo dcPlanned;
 	private DateChooserCombo dcConstruction;
@@ -111,7 +110,8 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 	}
 
 	private void buildLifeCycleSection(int widgetStyle) {
-		Section sctnLifecycle = toolkit.createSection(this, Section.TITLE_BAR | Section.TWISTIE);
+		Section sctnLifecycle = toolkit.createSection(this, Section.TITLE_BAR
+				| Section.TWISTIE);
 		toolkit.paintBordersFor(sctnLifecycle);
 		sctnLifecycle.setText("Lifecycle");
 
@@ -198,7 +198,8 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 	}
 
 	private void buildGeoSection(int widgetStyle) {
-		Section sctnGeo = toolkit.createSection(this, Section.TITLE_BAR | Section.TWISTIE);
+		Section sctnGeo = toolkit.createSection(this, Section.TITLE_BAR
+				| Section.TWISTIE);
 
 		toolkit.paintBordersFor(sctnGeo);
 		sctnGeo.setText("Geo");
@@ -233,7 +234,8 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 		roomRefHyperlink.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				Command set = new SetCommand(editingService.getEditingDomain(),
-						node, OperatorsPackage.Literals.NODE__LOCATION_REF, null);
+						node, OperatorsPackage.Literals.NODE__LOCATION_REF,
+						null);
 				editingService.getEditingDomain().getCommandStack()
 						.execute(set);
 			}
@@ -262,11 +264,16 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 
 				Resource nodeTypeResource = editingService
 						.getData(GeoPackage.Literals.COUNTRY);
-				LocationFilterDialog dialog = new LocationFilterDialog(NewEditNode.this
-						.getShell(), nodeTypeResource);
+				LocationFilterDialog dialog = new LocationFilterDialog(
+						NewEditNode.this.getShell(), nodeTypeResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
-					Location  room = (Location) dialog.getFirstResult();
-					node.setLocationRef(room);
+					Location room = (Location) dialog.getFirstResult();
+
+					Command sc = new SetCommand(editingService
+							.getEditingDomain(), node,
+							OperatorsPackage.Literals.NODE__LOCATION_REF, room);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(sc);
 				}
 			}
 		});
@@ -402,20 +409,22 @@ public class NewEditNode extends AbstractDetailsScreen implements IScreen,
 									if (copyReferencedEObject == null) {
 										if (useOriginalReferences) {
 											// NetXResource is a bidi link, so
-											// make an actual copy (A copier within a copier... auch). 
+											// make an actual copy (A copier
+											// within a copier... auch).
 											if (isBidirectional) {
 												EcoreUtil.Copier defaultCopier = new EcoreUtil.Copier();
 												EObject newEObject = defaultCopier
 														.copy(referencedEObject);
-												// It's not contained, so add it to the NetXResource resource. 
+												// It's not contained, so add it
+												// to the NetXResource resource.
 												Resource resourcesResource = editingService
 														.getData(LibraryPackage.Literals.NET_XRESOURCE);
-												resourcesResource.getContents().add(newEObject);
+												resourcesResource.getContents()
+														.add(newEObject);
 												target.addUnique(index,
 														newEObject);
 												index++;
-											}
-											else {
+											} else {
 												target.addUnique(index,
 														referencedEObject);
 												++index;

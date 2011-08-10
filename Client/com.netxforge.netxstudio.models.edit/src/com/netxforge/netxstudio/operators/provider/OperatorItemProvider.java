@@ -39,7 +39,6 @@ import com.netxforge.netxstudio.generics.provider.CompanyItemProvider;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.services.ServicesFactory;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.operators.Operator} object.
@@ -167,7 +166,7 @@ public class OperatorItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
@@ -178,35 +177,35 @@ public class OperatorItemProvider
 				(OperatorsPackage.Literals.OPERATOR__NETWORKS,
 				 OperatorsFactory.eINSTANCE.createNetwork()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.OPERATOR__WAREHOUSES,
-				 OperatorsFactory.eINSTANCE.createWarehouse()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.OPERATOR__WAREHOUSES,
+//				 OperatorsFactory.eINSTANCE.createWarehouse()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.OPERATOR__SERVICES,
+//				 ServicesFactory.eINSTANCE.createService()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.OPERATOR__SERVICES,
-				 ServicesFactory.eINSTANCE.createService()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.OPERATOR__SERVICES,
+//				 ServicesFactory.eINSTANCE.createCFSService()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.OPERATOR__SERVICES,
+//				 ServicesFactory.eINSTANCE.createRFSService()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.OPERATOR__SERVICES,
-				 ServicesFactory.eINSTANCE.createCFSService()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.OPERATOR__SERVICE_USERS,
+//				 ServicesFactory.eINSTANCE.createServiceUser()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.OPERATOR__SERVICES,
-				 ServicesFactory.eINSTANCE.createRFSService()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.OPERATOR__SERVICE_USERS,
-				 ServicesFactory.eINSTANCE.createServiceUser()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.OPERATOR__RESOURCE_EXPANSIONS,
-				 OperatorsFactory.eINSTANCE.createResourceExpansion()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.OPERATOR__RESOURCE_EXPANSIONS,
+//				 OperatorsFactory.eINSTANCE.createResourceExpansion()));
 	}
 
 	/**

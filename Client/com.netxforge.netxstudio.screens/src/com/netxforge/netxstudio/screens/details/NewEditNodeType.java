@@ -2,11 +2,9 @@ package com.netxforge.netxstudio.screens.details;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
@@ -25,9 +23,6 @@ import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
@@ -36,6 +31,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
 import com.netxforge.netxstudio.screens.f2.parts.NodeTypeEditPartsFactory;
+import com.netxforge.netxstudio.screens.f2.support.Totals;
 
 public class NewEditNodeType extends AbstractDetailsScreen implements
 		IScreen, IDataScreenInjection {
@@ -229,40 +225,5 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		graphicalViewer.setEditPartFactory(new NodeTypeEditPartsFactory());
 		graphicalViewer.setContents(new WrappedNodeType(nodeType));
 		rootEditPart.refresh();
-	}
-
-	class Totals {
-
-		public String getFunctions() {
-			return new Integer(functions).toString();
-		}
-
-		public String getEquipments() {
-			return new Integer(equipments).toString();
-		}
-
-		public String getResources() {
-			return new Integer(resources).toString();
-		}
-
-		int functions = 0;
-		int equipments = 0;
-		int resources = 0;
-
-		public Totals(NodeType nt) {
-			TreeIterator<EObject> iterator = nt.eAllContents();
-			while (iterator.hasNext()) {
-				EObject next = iterator.next();
-				if (next instanceof Function) {
-					functions += 1;
-				}
-				if (next instanceof Equipment) {
-					equipments += 1;
-				}
-				if (next instanceof Component) {
-					resources += ((Component) next).getResourceRefs().size();
-				}
-			}
-		}
 	}
 }

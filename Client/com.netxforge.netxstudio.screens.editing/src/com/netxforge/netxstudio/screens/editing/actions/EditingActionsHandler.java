@@ -19,6 +19,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.screens.editing.IEditingService;
+
 
 /**
  * Views and editors, can register actions on the global action handlers. This
@@ -72,8 +75,13 @@ public class EditingActionsHandler implements  IActionHandler {
 	 */
 	protected RedoAction redoAction;
 
-	public EditingActionsHandler() {
+	private IEditingService editingService;
+
+	
+	@Inject
+	public EditingActionsHandler(IEditingService editingService) {
 		this.style = ADDITIONS_LAST_STYLE;
+		this.editingService = editingService;
 	}
 
 	/* (non-Javadoc)
@@ -123,12 +131,13 @@ public class EditingActionsHandler implements  IActionHandler {
 
 	/**
 	 * Returns the action used to implement delete.
+	 * @param editingServices 
 	 * 
 	 * @see #deleteAction
 	 * @since 2.6
 	 */
 	protected WarningDeleteAction createDeleteAction() {
-		return new WarningDeleteAction(removeAllReferencesOnDelete());
+		return new WarningDeleteAction(removeAllReferencesOnDelete(), editingService);
 	}
 
 	/**

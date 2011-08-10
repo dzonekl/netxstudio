@@ -99,16 +99,17 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		this.buildUI();
+		// this.buildUI();
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 
 		listTreeContentProvider = new ObservableListTreeContentProvider(
-				new MetricTreeFactory(editingService.getEditingDomain()), new MetricTreeStructureAdvisor());
+				new MetricTreeFactory(editingService.getEditingDomain()),
+				new MetricTreeStructureAdvisor());
 		metricsTreeViewer.setContentProvider(listTreeContentProvider);
 		IObservableSet set = listTreeContentProvider.getKnownElements();
-		
+
 		IObservableMap[] map = new IObservableMap[2];
 
 		map[0] = EMFProperties.value(MetricsPackage.Literals.METRIC__NAME)
@@ -119,8 +120,10 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 		metricsTreeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
 
-		IEMFListProperty metricsProperty = EMFEditProperties.resource(editingService.getEditingDomain());
-		IObservableList metricsObservableList = metricsProperty.observe(metricResource);
+		IEMFListProperty metricsProperty = EMFEditProperties
+				.resource(editingService.getEditingDomain());
+		IObservableList metricsObservableList = metricsProperty
+				.observe(metricResource);
 		metricsTreeViewer.setInput(metricsObservableList);
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		return context;
@@ -174,14 +177,22 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 				frmMetrics.getBody(), SWT.NONE);
 		mghprlnkNewMetric.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				NewEditMetric metricScreen = new NewEditMetric(screenService
-						.getScreenContainer(), SWT.NONE);
-				metricScreen.setOperation(Screens.OPERATION_NEW);
-				metricScreen.setScreenService(screenService);
-				Metric metric = MetricsFactory.eINSTANCE.createMetric();
-				metricScreen.injectData(metricResource, metric);
-
-				screenService.setActiveScreen(metricScreen);
+				if (screenService != null) {
+					ISelection selection = getViewer().getSelection();
+					if (selection instanceof IStructuredSelection) {
+						Object subowner = ((IStructuredSelection) selection)
+								.getFirstElement();
+						NewEditMetric metricScreen = new NewEditMetric(
+								screenService.getScreenContainer(), SWT.NONE);
+						metricScreen.setOperation(Screens.OPERATION_NEW);
+						metricScreen.setScreenService(screenService);
+						Metric metric = MetricsFactory.eINSTANCE.createMetric();
+						// metricScreen.injectData(metricResource, metric);
+						metricScreen.injectData(metricResource, subowner,
+								metric);
+						screenService.setActiveScreen(metricScreen);
+					}
+				}
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -196,7 +207,8 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(mghprlnkNewMetric);
 		mghprlnkNewMetric.setText("New");
 
-		metricsTreeViewer = new TreeViewer(frmMetrics.getBody(), SWT.BORDER | SWT.VIRTUAL);
+		metricsTreeViewer = new TreeViewer(frmMetrics.getBody(), SWT.BORDER
+				| SWT.VIRTUAL);
 		metricsTreeViewer.setUseHashlookup(true);
 		Tree tree = metricsTreeViewer.getTree();
 		tree.setLinesVisible(true);
@@ -224,7 +236,6 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 		metricsTreeViewer.addFilter(searchFilter);
 	}
-	
 
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
@@ -262,8 +273,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 
@@ -290,14 +300,12 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 					metricScreen.setOperation(Screens.OPERATION_NEW);
 					metricScreen.setScreenService(screenService);
 					Metric metric = MetricsFactory.eINSTANCE.createMetric();
-					metricScreen.injectData(metricResource, subowner,
-							metric);
+					metricScreen.injectData(metricResource, subowner, metric);
 					screenService.setActiveScreen(metricScreen);
 				}
 			}
 		}
 	}
-	
 
 	public void disposeData() {
 		editingService.disposeData(metricResource);
@@ -325,20 +333,20 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 
 	@Override
 	public IAction[] getActions() {
-		
+
 		List<IAction> actions = Lists.newArrayList();
-		
+
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
-		actions.add(new EditMetricAction(actionText + "...",
-				SWT.PUSH));
-		
-		if(!Screens.isReadOnlyOperation(getOperation())){
-			actions.add(new EditMetricAction("New...",
-				SWT.PUSH));
-		}
+		actions.add(new EditMetricAction(actionText + "...", SWT.PUSH));
+
+		// if(!Screens.isReadOnlyOperation(getOperation())){
+		// actions.add(new NewMetricAction("New...",
+		// SWT.PUSH));
+		// }
+
 		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray); 
+		return actions.toArray(actionArray);
 	}
 
 }

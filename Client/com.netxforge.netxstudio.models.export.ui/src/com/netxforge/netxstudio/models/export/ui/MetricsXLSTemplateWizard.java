@@ -1,16 +1,15 @@
 package com.netxforge.netxstudio.models.export.ui;
 
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.models.export.XpandTemplate;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
 
-public class OperatorExportTemplateWizard extends AbstractExportTempleWizard {
+public class MetricsXLSTemplateWizard extends AbstractExportTempleWizard {
 	
 	@Override
 	public boolean performFinish() {
 		final XpandTemplate currentTemplate = this.getTemplate();
-		currentTemplate.setTargetObject(OperatorsPackage.eINSTANCE);
+		currentTemplate.setTargetObject(MetricsPackage.eINSTANCE);
 		return super.doPerformFinish(currentTemplate);
-
 	}
 
 }

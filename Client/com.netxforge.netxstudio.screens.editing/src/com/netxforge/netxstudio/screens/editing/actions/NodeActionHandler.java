@@ -31,6 +31,10 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 
 /**
  * An action handler which accepts non-predefined actions.
+ * 
+ * CURRENTLY NOT USED
+ * 
+ * 
  */
 public class NodeActionHandler extends AbstractActionHandler {
 
@@ -54,9 +58,7 @@ public class NodeActionHandler extends AbstractActionHandler {
 	}
 
 	private void addActions(IMenuManager menuManager) {
-		MoveToWarehouseAction mtwa = new MoveToWarehouseAction(warehouses, this.domain);
-		
-		
+//		MoveToWarehouseAction mtwa = new MoveToWarehouseAction(warehouses, this.domain);
 	}
 
 	@Override

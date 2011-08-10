@@ -2,17 +2,23 @@ package com.netxforge.netxstudio.common.model;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -21,6 +27,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
@@ -102,6 +109,71 @@ public class ModelUtils {
 		} else {
 			return null;
 		}
+	}
+	
+	
+	/**
+	 * Get a collection from a target object, use the last occurrence in the collection, 
+	 * to get an attribute value. return the attribute value incremented by 1.  
+	 * 
+	 * 
+	 * @param targetObject
+	 * @param collectionFeature
+	 * @param identityFeature An identity attribute which should be of type String. 
+	 * @return A String incremented by 1. 
+	 */
+	public String getSequenceNumber(EObject targetObject, EStructuralFeature collectionFeature, EAttribute identityFeature ) {
+		String newName = null;
+		if(collectionFeature.isMany()){
+			 List<?> collection = (List<?>) targetObject.eGet(collectionFeature);
+			int size = collection.size();
+			if (size > 0) {
+				EObject lastChild = (EObject) collection.get(size - 1);
+				if (lastChild.eIsSet(identityFeature)) {
+					String lastName = (String) lastChild.eGet(identityFeature);
+					// See if the last 2 chars are a digit.
+					try {
+
+						Pattern MY_PATTERN = Pattern.compile("[0-9]*");
+						Matcher m = MY_PATTERN.matcher(lastName);
+						String lastDigits = null;
+						while (m.find()) {
+							String match = m.group();
+							if (!match.isEmpty())
+								lastDigits = match;
+						}
+						if (lastDigits != null) {
+							String nameWithNoDigits = lastName.substring(0,
+									lastName.indexOf(lastDigits));
+							try {
+								Integer ld = new Integer(lastDigits);
+								ld++;
+								// Perhaps format with 0...
+								
+								// Do a simple text format. 
+								DecimalFormat format = new DecimalFormat();
+								format.applyPattern("###");
+								newName = nameWithNoDigits + format.format(ld);
+
+							} catch (NumberFormatException nfe) {
+								System.err
+										.println("ModelUtils: Can't formart"
+												+ lastDigits);
+							}
+						}
+					} catch (PatternSyntaxException pse) {
+						System.err.println("ModelUtils: Wrong syntax");
+					}
+				}
+			}
+			if (newName == null) {
+				newName = "1";
+			}
+			
+			
+		}
+
+		return newName;
 	}
 	
 	
