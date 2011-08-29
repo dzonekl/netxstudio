@@ -17,10 +17,11 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.details;
 
+import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.FeaturePath;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -43,7 +44,6 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.EquipmentFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
@@ -145,13 +145,20 @@ public class NewEditEquipmentLink extends NewEditLink implements IScreen {
 				// Operator->Network->Node->Nodetype->Function......
 				if (relationship.getNodeID1Ref() != null) {
 					EquipmentFilterDialog dialog = new EquipmentFilterDialog(
-							NewEditEquipmentLink.this.getShell(),
-							relationship.getNodeID1Ref());
+							NewEditEquipmentLink.this.getShell(), relationship
+									.getNodeID1Ref());
 					if (dialog.open() == IDialogConstants.OK_ID) {
 						Equipment Equipment1 = (Equipment) dialog
 								.getFirstResult();
-						((EquipmentRelationship) relationship)
-								.setEquipment1Ref(Equipment1);
+
+						Command set = new SetCommand(
+								editingService.getEditingDomain(),
+								relationship,
+								OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF,
+								Equipment1);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(set);
+
 					}
 				}
 			}
@@ -203,14 +210,21 @@ public class NewEditEquipmentLink extends NewEditLink implements IScreen {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Operator->Network->Node->Nodetype->Function......
-				
-				if(relationship.getNodeID2Ref() != null){
-				EquipmentFilterDialog dialog = new EquipmentFilterDialog(
-						NewEditEquipmentLink.this.getShell(), relationship.getNodeID2Ref());
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Equipment Equipment2 = (Equipment) dialog.getFirstResult();
-					((EquipmentRelationship) relationship)
-								.setEquipment2Ref(Equipment2);
+
+				if (relationship.getNodeID2Ref() != null) {
+					EquipmentFilterDialog dialog = new EquipmentFilterDialog(
+							NewEditEquipmentLink.this.getShell(), relationship
+									.getNodeID2Ref());
+					if (dialog.open() == IDialogConstants.OK_ID) {
+						Equipment Equipment2 = (Equipment) dialog
+								.getFirstResult();
+						Command set = new SetCommand(
+								editingService.getEditingDomain(),
+								relationship,
+								OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF,
+								Equipment2);
+						editingService.getEditingDomain().getCommandStack()
+								.execute(set);
 					}
 				}
 			}
@@ -237,23 +251,52 @@ public class NewEditEquipmentLink extends NewEditLink implements IScreen {
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtEquipment2, SWT.Modify));
 
+		// combineEquipmentIDValue = new WritableValue();
+
 		IEMFValueProperty linkEquipment1Property = EMFEditProperties
 				.value(editingService.getEditingDomain(),
-						FeaturePath
-								.fromList(
-										OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF,
-										LibraryPackage.Literals.COMPONENT__NAME));
+						OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT1_REF);
 
 		IEMFValueProperty linkEquipment2Property = EMFEditProperties
 				.value(editingService.getEditingDomain(),
-						FeaturePath
-								.fromList(
-										OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF,
-										LibraryPackage.Literals.COMPONENT__NAME));
+						OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF);
+
+		EMFUpdateValueStrategy equipmentToTarget = new EMFUpdateValueStrategy();
+		equipmentToTarget.convert(new IConverter() {
+
+			public Object getFromType() {
+				return Equipment.class;
+			}
+
+			public Object getToType() {
+				return String.class;
+			}
+
+			public Object convert(Object fromObject) {
+
+				if (fromObject instanceof Equipment) {
+					StringBuffer buf = new StringBuffer();
+					if (((Equipment) fromObject)
+							.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
+						buf.append(((Equipment) fromObject).getName());
+					}
+					buf.append(" -  ");
+					if (((Equipment) fromObject)
+							.eIsSet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)) {
+						buf.append(((Equipment) fromObject).getName());
+					}
+					return buf.toString();
+				}
+				return null;
+			}
+
+		});
 
 		context.bindValue(Equipment1Observable,
-				linkEquipment1Property.observe(relationship), null, null);
+				linkEquipment1Property.observe(relationship), null,
+				equipmentToTarget);
 		context.bindValue(Equipment2Observable,
-				linkEquipment2Property.observe(relationship), null, null);
+				linkEquipment2Property.observe(relationship), null,
+				equipmentToTarget);
 	}
 }

@@ -249,7 +249,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
 		tblclmnShortname = tableViewerColumn_2.getColumn();
 		tblclmnShortname.setWidth(100);
-		tblclmnShortname.setText("shortName");
+		tblclmnShortname.setText("Short Name");
 
 		tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
 		tblclmnWebsite = tableViewerColumn_1.getColumn();
