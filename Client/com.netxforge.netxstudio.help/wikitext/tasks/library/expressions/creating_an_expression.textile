@@ -6,8 +6,8 @@ When creating an Expression the following screen will appear.
 
 The following data should be entered 
 
-* The expression name
-* Attach the expression (Select the owner). 
+* The Expression name
+* Attach the Expression (Select the owner). 
 
 h2. Editing with NetXScript
 

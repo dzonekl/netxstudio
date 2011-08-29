@@ -1,0 +1,34 @@
+h1. Network Element Types
+
+The Network Element Types screen provides access to Network Element Type definitions
+
+The Network Element Types screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/network_element_types/network_element_types.png!
+
+The presentation of the network element type is by a Tree widget. Selecting a tree node, will give show the details on the right side for either:
+
+* "Create or Modify a Network Element Type":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/network_element_types/creating_a_network_element_type.html
+
+* "Create or Modify a Function":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/network_element_types/creating_a_function.html
+
+* "Create or Modify an Equipment":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/network_element_types/creating_an_equipment.html
+
+
+h2. Network Element Type
+
+[TBD]
+
+h3. Function
+
+[TBD]
+
+h3. Equipment
+
+[TBD]
+
+*New* => Click on the upright link to create a new Network Element Type
+*Edit* => Right-click on a Network Element Type in the table and select edit. 
+*Filter* => Type text to filter Network Element Type containing the text
+
+

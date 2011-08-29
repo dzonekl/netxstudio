@@ -1,8 +1,8 @@
-h1. Working with an Excel Template
+h1. Importing
 
 In order to easily populate the Library and Network with object data, we can use an Excel template. 
 NetXStudio can generate the excel template, which can then be edited in MS Excel. When ready, the excel 
-template can be imported into a NetXStudio model file (.netxstudio). 
+template can be imported.
 
 
 h2. Structure of the excel
@@ -60,9 +60,9 @@ In the figure below, we can see for the Metric object the following attributes a
 * MeasurementKind
 * unitRef
  
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/excel/template_header.png!
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/library_model/importing/template_header.png!
 
 Now we can simply populate this object, with information from the vendor:
 
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/excel/template_metric_example.png!
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/library_model/importing/template_metric_example.png!
 

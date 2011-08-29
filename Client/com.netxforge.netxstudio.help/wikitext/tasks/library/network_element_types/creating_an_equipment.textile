@@ -1,0 +1,15 @@
+h1. Creating or Editing a Tolerance
+
+When creating a Tolerance the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/tolerances/creating_a_tolerance.png!
+
+The following data should be entered 
+
+* The Tolerance name
+* The Tolerance Level 
+* The Tolerance expression. (Selected from defined Expressions). 
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.
+

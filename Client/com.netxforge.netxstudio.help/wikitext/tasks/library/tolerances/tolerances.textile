@@ -1,0 +1,42 @@
+h1. Tolerances
+
+The Tolerances screen provides access to Tolerance definitions
+
+* "Create or Modify a Tolerance":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/tolerances/creating_a_tolerance.html
+
+The Tolerances screen
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/tolerances/tolerances.png!
+
+h2. Tolerance 
+
+
+Tolerances can be defined and associated with resources belonging to a Function or Equipment. 
+For each of the required tolerance levels. (Red, Amber, Green, Yellow) a tolerance definition should be 
+created, including the expression to calculate the tolerance value. A tolerance definition can be re-used across an arbitrary number of functions and equipments. 
+
+When a monitoring job executes for a Service and subsequently a Network Element, the tolerance definitions will be used in the following way. 
+
+* For each Tolerance in the Function / Equipment execute the expression and write the result in 
+the tolerance range of each resource corresponding to the Tolerance level. 
+
+* For each resource compare each tolerance level against the actual utilization. Create a marker if the value is crossed. 
+
+_Example:_ 
+
+The following Tolerance definitions: 
+
+|_. Name |_.Level|_.Expression|
+|SGSN Attached Capacity exceeded |Red|"this TOLERANCE 60 = this CAP 60 * 0.9;"|
+|SGSN Attached Capacity warning|Amber|"this TOLERANCE 60 = this CAP 60 * 0.7;"|
+|SGSN Attached Capacity sufficient|Green|"this TOLERANCE 60 = this CAP 60 * 0.5;"|
+|SGSN Attached Capacity under utilized|Yellow|"this TOLERANCE 60 = this CAP 60 * 0.3;"|
+
+When associated with a Function / Equipment, the resources will be compared against the result from 
+the Tolerance expressions.
+
+*New* => Click on the upright link to create a new Tolerance
+*Edit* => Right-click on a Tolerance in the table and select edit. 
+*Filter* => Type text to filter Tolerances containing the text
+
+

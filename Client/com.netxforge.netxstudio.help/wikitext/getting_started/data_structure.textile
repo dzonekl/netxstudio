@@ -55,6 +55,13 @@ These are:
 
 * Utilization Range
 
+* Multiple Tolerance Ranges
+
+[TODO diagram showing the various ranges. ]
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/getting_started/resource_structure.png!
+
+
 [TBD various other ranges related to trending, forecasting etc...]
 
 Metric ranges are created when reading metrics from the defined sources. A metric source 
@@ -75,10 +82,9 @@ h3. Metric vs Resource what is the difference?
 It can be confusing the see the difference between a metric and a resource. 
 The difference should be become clear considering the following. 
 
-A Resource is holding the values of a metric, but also the results of calculations. 
-In contrary a metric, is specified by the vendor of the telecommunications equipment.
+A Resource is holding the values of a metric, but also the results of calculations like the utilization or the tolerance values. In contrary a metric, is specified by the vendor of the telecommunications equipment.
 
-A Resource is created automaticly when reading in metric values, we actually give it the name of the metric.
+A Resource is created when reading-in metric values, The name of the resource is giben the name of the metric.
 A resource can however also be created manually and populated with the results from expressions. This is also referred
 to as a derived resource.   
 

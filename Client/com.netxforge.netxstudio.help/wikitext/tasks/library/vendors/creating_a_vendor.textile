@@ -1,0 +1,15 @@
+h1. Creating or Editing a Vendor
+
+When creating an Vendor the following screen will appear.
+
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/vendors/creating_a_vendor.png!
+
+The following data should be entered 
+
+* The vendor name
+* The vendor short name
+* The vendor websie
+
+*Cancel* => Click on the 'Back' link at the bottom of the screen.
+*Save* => Click on the 'Save link at the bottom of the screen.
+

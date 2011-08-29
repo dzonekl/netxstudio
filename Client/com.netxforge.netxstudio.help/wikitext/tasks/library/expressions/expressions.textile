@@ -147,8 +147,6 @@ The following entities are accessed indirectly (See the examples further on).
 * EQUIPMENT
 * FUNCTION
 
-[TODO, implement for iteration #2]
-
 PARAMETER
 
 [TODO, To be further considered]
@@ -180,7 +178,7 @@ h4. Access to a Resource
 
 h4. Access to a Resource value range from a NODE context.
 
-As described in the Data Structure [TODO, link to the data structure], a Resource has multiple value ranges. Value ranges
+As described in the "Data Structure":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/getting_started/data_structure.html , a Resource has multiple value ranges. Value ranges
 can be directly addressed by the NetXScript grammar.  
 
 *Description:* To access a value range with metric values 
@@ -205,8 +203,6 @@ If the context is a RESOURCE, we have direct access to each of the value ranges:
 *Syntax:* this METRIC [AVG/BH] _interval_
 *Returns:* The current context (The resource) , then the metric range followed by the interval 
 *options:* The type of value range either AVG (Average) or BH (Busy Hour). 
-
-
 
 
 h3. Scoping and nesting of expressions
