@@ -170,6 +170,11 @@ public abstract class EMFEditingService implements IEditingService {
 
 						} catch (Exception exception) {
 							exception.printStackTrace();
+							// TODO, give user feedback, and undo of domain.
+//							Command cmd;
+//							while( ( cmd = domain.getCommandStack().getUndoCommand()) != null){
+//								cmd.undo();
+//							}
 						}
 						first = false;
 					}

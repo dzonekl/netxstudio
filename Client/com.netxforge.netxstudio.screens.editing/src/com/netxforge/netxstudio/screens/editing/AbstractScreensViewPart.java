@@ -109,10 +109,13 @@ public abstract class AbstractScreensViewPart extends ViewPart implements
 
 	public void dispose() {
 		super.dispose();
-		this.getSite().getPage().removeSelectionListener(pageSelectionListener);
+		// TODO Remove later. 
+//		this.getSite().getPage().removeSelectionListener(pageSelectionListener);
 	}
 
-	private ISelectionListener pageSelectionListener;
+	
+	// TODO Remove later. 
+//	private ISelectionListener pageSelectionListener;
 
 	// private void hookPageSelection() {
 	// pageSelectionListener = new ISelectionListener() {
