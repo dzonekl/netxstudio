@@ -36,12 +36,33 @@ public class ModelUtils {
 	@Inject
 	private DatatypeFactory dataTypeFactory;
 
+	/**
+	 * Compute a resource path on the basis of an instance. Components generate a specific
+	 * path based on their location in the node/nodetype tree.
+	 */
+	public String getResourcePath(EObject eObject) {
+		if (eObject instanceof Component) {
+			final Component component = (Component)eObject;
+			return getResourcePath(component.eContainer()) + "/" + component.getName();
+		} else if (eObject instanceof Node) {
+			return "/Node_/" + ((Node)eObject).getNodeID();
+		} else if (eObject instanceof NodeType) {
+			final NodeType nodeType = (NodeType)eObject;
+			if (nodeType.eContainer() instanceof Node) {
+				return getResourcePath(nodeType.eContainer());
+			}
+			return "/NodeType_/" + ((NodeType)eObject).getName();
+		} else {
+			return eObject.eClass().getName();
+		}
+	}
+	
 	public List<com.netxforge.netxstudio.library.Function> functionsWithName(
 			List<com.netxforge.netxstudio.library.Function> functions,
 			String name) {
-		List<com.netxforge.netxstudio.library.Function> fl = Lists
+		final List<com.netxforge.netxstudio.library.Function> fl = Lists
 				.newArrayList();
-		for (com.netxforge.netxstudio.library.Function f : functions) {
+		for (final com.netxforge.netxstudio.library.Function f : functions) {
 			if (f.getName().equals(name)) {
 				fl.add(f);
 			}
@@ -51,8 +72,8 @@ public class ModelUtils {
 	}
 
 	public List<Equipment> equimentsWithCode(List<Equipment> equips, String code) {
-		List<Equipment> el = Lists.newArrayList();
-		for (Equipment e : equips) {
+		final List<Equipment> el = Lists.newArrayList();
+		for (final Equipment e : equips) {
 			if (e.getEquipmentCode().equals(code)) {
 				el.add(e);
 			}
@@ -63,7 +84,7 @@ public class ModelUtils {
 
 	
 	public List<NetXResource> resourcesWithName(Node n,String expressionName){
-		List<Component> cl = Lists.newArrayList();
+		final List<Component> cl = Lists.newArrayList();
 		cl.addAll(n.getNodeType().getEquipments());
 		cl.addAll(n.getNodeType().getFunctions());
 		return this.resourcesWithExpressionName(cl, expressionName);
@@ -124,25 +145,25 @@ public class ModelUtils {
 	public String getSequenceNumber(EObject targetObject, EStructuralFeature collectionFeature, EAttribute identityFeature ) {
 		String newName = null;
 		if(collectionFeature.isMany()){
-			 List<?> collection = (List<?>) targetObject.eGet(collectionFeature);
-			int size = collection.size();
+			 final List<?> collection = (List<?>) targetObject.eGet(collectionFeature);
+			final int size = collection.size();
 			if (size > 0) {
-				EObject lastChild = (EObject) collection.get(size - 1);
+				final EObject lastChild = (EObject) collection.get(size - 1);
 				if (lastChild.eIsSet(identityFeature)) {
-					String lastName = (String) lastChild.eGet(identityFeature);
+					final String lastName = (String) lastChild.eGet(identityFeature);
 					// See if the last 2 chars are a digit.
 					try {
 
-						Pattern MY_PATTERN = Pattern.compile("[0-9]*");
-						Matcher m = MY_PATTERN.matcher(lastName);
+						final Pattern MY_PATTERN = Pattern.compile("[0-9]*");
+						final Matcher m = MY_PATTERN.matcher(lastName);
 						String lastDigits = null;
 						while (m.find()) {
-							String match = m.group();
+							final String match = m.group();
 							if (!match.isEmpty())
 								lastDigits = match;
 						}
 						if (lastDigits != null) {
-							String nameWithNoDigits = lastName.substring(0,
+							final String nameWithNoDigits = lastName.substring(0,
 									lastName.indexOf(lastDigits));
 							try {
 								Integer ld = new Integer(lastDigits);
@@ -150,17 +171,17 @@ public class ModelUtils {
 								// Perhaps format with 0...
 								
 								// Do a simple text format. 
-								DecimalFormat format = new DecimalFormat();
+								final DecimalFormat format = new DecimalFormat();
 								format.applyPattern("###");
 								newName = nameWithNoDigits + format.format(ld);
 
-							} catch (NumberFormatException nfe) {
+							} catch (final NumberFormatException nfe) {
 								System.err
 										.println("ModelUtils: Can't formart"
 												+ lastDigits);
 							}
 						}
-					} catch (PatternSyntaxException pse) {
+					} catch (final PatternSyntaxException pse) {
 						System.err.println("ModelUtils: Wrong syntax");
 					}
 				}
@@ -186,10 +207,10 @@ public class ModelUtils {
 	 */
 	public List<NetXResource> resourcesWithExpressionName(List<Component> components,
 			String name) {
-		List<NetXResource> rl = Lists.newArrayList();
-		List<Component> cl = Lists.newArrayList();
-		for (Component c : components) {
-			for (NetXResource r : c.getResourceRefs()) {
+		final List<NetXResource> rl = Lists.newArrayList();
+		final List<Component> cl = Lists.newArrayList();
+		for (final Component c : components) {
+			for (final NetXResource r : c.getResourceRefs()) {
 				if (r.getExpressionName().matches(name)) {
 					rl.add(r);
 				}
@@ -220,10 +241,10 @@ public class ModelUtils {
 	 * @return
 	 */
 	public Date mergeTimeIntoDate(Date baseDate, Date dateWithTime) {
-		Calendar baseCalendar = GregorianCalendar.getInstance();
+		final Calendar baseCalendar = GregorianCalendar.getInstance();
 		baseCalendar.setTime(baseDate);
 
-		Calendar dateWithTimeCalendar = GregorianCalendar.getInstance();
+		final Calendar dateWithTimeCalendar = GregorianCalendar.getInstance();
 		dateWithTimeCalendar.setTime(dateWithTime);
 
 		baseCalendar.set(Calendar.HOUR_OF_DAY,
@@ -235,7 +256,7 @@ public class ModelUtils {
 	}
 
 	public List<Integer> weekDaysAsInteger() {
-		List<Integer> week = ImmutableList.of(Calendar.MONDAY,
+		final List<Integer> week = ImmutableList.of(Calendar.MONDAY,
 				Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY,
 				Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY);
 		return week;
@@ -243,9 +264,9 @@ public class ModelUtils {
 
 	public int weekDay(Date date) {
 
-		Function<Date, Integer> getDayString = new Function<Date, Integer>() {
+		final Function<Date, Integer> getDayString = new Function<Date, Integer>() {
 			public Integer apply(Date from) {
-				Calendar c = GregorianCalendar.getInstance();
+				final Calendar c = GregorianCalendar.getInstance();
 				c.setTime(from);
 				return new Integer(c.get(Calendar.DAY_OF_WEEK));
 			}
@@ -254,12 +275,12 @@ public class ModelUtils {
 	}
 
 	public String weekDay(Integer weekDay) {
-		Function<Integer, String> getDayString = new Function<Integer, String>() {
+		final Function<Integer, String> getDayString = new Function<Integer, String>() {
 			public String apply(Integer from) {
-				Calendar c = GregorianCalendar.getInstance();
+				final Calendar c = GregorianCalendar.getInstance();
 				c.set(Calendar.DAY_OF_WEEK, from.intValue());
-				Date date = c.getTime();
-				SimpleDateFormat df = new SimpleDateFormat("EEEE");
+				final Date date = c.getTime();
+				final SimpleDateFormat df = new SimpleDateFormat("EEEE");
 				return df.format(date);
 			}
 		};
@@ -267,9 +288,9 @@ public class ModelUtils {
 	}
 
 	public String date(Date d) {
-		Function<Date, String> getDateString = new Function<Date, String>() {
+		final Function<Date, String> getDateString = new Function<Date, String>() {
 			public String apply(Date from) {
-				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+				final SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 				return df.format(from);
 			}
 		};
@@ -277,9 +298,9 @@ public class ModelUtils {
 	}
 
 	public String time(Date d) {
-		Function<Date, String> getDateString = new Function<Date, String>() {
+		final Function<Date, String> getDateString = new Function<Date, String>() {
 			public String apply(Date from) {
-				SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+				final SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 				return df.format(from);
 			}
 		};
@@ -293,12 +314,12 @@ public class ModelUtils {
 	 * @return
 	 */
 	public List<String> weekDays() {
-		Function<Integer, String> getDayString = new Function<Integer, String>() {
+		final Function<Integer, String> getDayString = new Function<Integer, String>() {
 			public String apply(Integer from) {
-				Calendar c = GregorianCalendar.getInstance();
+				final Calendar c = GregorianCalendar.getInstance();
 				c.set(Calendar.DAY_OF_WEEK, from.intValue());
-				Date date = c.getTime();
-				SimpleDateFormat df = new SimpleDateFormat("EEEE");
+				final Date date = c.getTime();
+				final SimpleDateFormat df = new SimpleDateFormat("EEEE");
 				return df.format(date);
 			}
 		};
@@ -307,15 +328,15 @@ public class ModelUtils {
 	}
 
 	public int weekDay(String day) {
-		Function<String, Integer> getDayFromString = new Function<String, Integer>() {
+		final Function<String, Integer> getDayFromString = new Function<String, Integer>() {
 			public Integer apply(String from) {
 				try {
-					Date d = DateFormat.getDateInstance().parse(from);
-					Calendar c = GregorianCalendar.getInstance();
+					final Date d = DateFormat.getDateInstance().parse(from);
+					final Calendar c = GregorianCalendar.getInstance();
 					c.setTime(d);
 					return c.get(Calendar.DAY_OF_WEEK);
 
-				} catch (ParseException e) {
+				} catch (final ParseException e) {
 					e.printStackTrace();
 				}
 				return -1;
@@ -326,10 +347,10 @@ public class ModelUtils {
 
 	public Date mergeDateIntoTime(Date baseTime, Date targetDate) {
 
-		Calendar baseCalendar = GregorianCalendar.getInstance();
+		final Calendar baseCalendar = GregorianCalendar.getInstance();
 		baseCalendar.setTime(baseTime);
 
-		Calendar targetCalendar = GregorianCalendar.getInstance();
+		final Calendar targetCalendar = GregorianCalendar.getInstance();
 		targetCalendar.setTime(targetDate);
 
 		if (targetCalendar.compareTo(GregorianCalendar.getInstance()) > 0) {
@@ -364,7 +385,7 @@ public class ModelUtils {
 	 */
 	public Date mergeDayIntoDate(Date baseDate, int dayOfWeek) {
 
-		Calendar c = GregorianCalendar.getInstance();
+		final Calendar c = GregorianCalendar.getInstance();
 		c.setTime(baseDate);
 		if (dayOfWeek != -1) {
 			c.set(Calendar.DAY_OF_WEEK, dayOfWeek);
@@ -398,55 +419,55 @@ public class ModelUtils {
 	}
 
 	public Date lastWeek() {
-		Calendar cal = GregorianCalendar.getInstance();
+		final Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
 		cal.add(Calendar.WEEK_OF_YEAR, -1);
 		return cal.getTime();
 	}
 
 	public Date yesterday() {
-		Calendar cal = GregorianCalendar.getInstance();
+		final Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
 		cal.add(Calendar.DAY_OF_WEEK, -1);
 		return cal.getTime();
 	}
 
 	public Date tomorrow() {
-		Calendar cal = GregorianCalendar.getInstance();
+		final Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
 		cal.add(Calendar.DAY_OF_WEEK, 1);
 		return cal.getTime();
 	}
 
 	public Date twoDaysAgo() {
-		Calendar cal = GregorianCalendar.getInstance();
+		final Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
 		cal.add(Calendar.DAY_OF_MONTH, -2);
 		return cal.getTime();
 	}
 
 	public Date threeDaysAgo() {
-		Calendar cal = Calendar.getInstance();
+		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
 		cal.add(Calendar.DAY_OF_MONTH, -3);
 		return cal.getTime();
 	}
 
 	public Date fourDaysAgo() {
-		Calendar cal = Calendar.getInstance();
+		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
 		cal.add(Calendar.DAY_OF_MONTH, -4);
 		return cal.getTime();
 	}
 
 	public Date todayAndNow() {
-		Calendar cal = Calendar.getInstance();
+		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
 		return cal.getTime();
 	}
 
 	public int inSeconds(String field) {
-		Function<String, Integer> getFieldInSeconds = new Function<String, Integer>() {
+		final Function<String, Integer> getFieldInSeconds = new Function<String, Integer>() {
 			public Integer apply(String from) {
 				if (from.equals("Week")) {
 					return ModelUtils.SECONDS_IN_A_WEEK;
@@ -462,7 +483,7 @@ public class ModelUtils {
 				}
 				try {
 					return new Integer(from);
-				} catch (NumberFormatException nfe) {
+				} catch (final NumberFormatException nfe) {
 					nfe.printStackTrace();
 				}
 				return -1;
@@ -473,7 +494,7 @@ public class ModelUtils {
 	
 	
 	public String fromSeconds(int secs) {
-		Function<Integer, String> getFieldInSeconds = new Function<Integer, String>() {
+		final Function<Integer, String> getFieldInSeconds = new Function<Integer, String>() {
 			public String apply(Integer from) {
 				
 				
@@ -499,7 +520,7 @@ public class ModelUtils {
 	
 
 	public int inWeeks(String field) {
-		Function<String, Integer> getFieldInSeconds = new Function<String, Integer>() {
+		final Function<String, Integer> getFieldInSeconds = new Function<String, Integer>() {
 			public Integer apply(String from) {
 				if (from.equals("Week")) {
 					return 1;
@@ -530,7 +551,7 @@ public class ModelUtils {
 	public List<Date> occurences(Date start, Date end, int interval,
 			int repeat, int maxEntries) {
 
-		List<Date> occurences = Lists.newArrayList();
+		final List<Date> occurences = Lists.newArrayList();
 		Date occurenceDate = start;
 		occurences.add(start);
 
@@ -571,23 +592,23 @@ public class ModelUtils {
 	}
 
 	public Date rollSeconds(Date baseDate, int seconds) {
-		Calendar c = GregorianCalendar.getInstance();
+		final Calendar c = GregorianCalendar.getInstance();
 		c.setTime(baseDate);
 
 		// We can't roll large numbers.
 		if (seconds / SECONDS_IN_A_DAY > 0) {
-			int days = new Double(seconds / SECONDS_IN_A_DAY).intValue();
+			final int days = new Double(seconds / SECONDS_IN_A_DAY).intValue();
 			c.add(Calendar.DAY_OF_YEAR, days);
 			return c.getTime();
 		}
 		if (seconds / SECONDS_IN_AN_HOUR > 0) {
-			int hours = new Double(seconds / SECONDS_IN_AN_HOUR).intValue();
+			final int hours = new Double(seconds / SECONDS_IN_AN_HOUR).intValue();
 			c.add(Calendar.HOUR_OF_DAY, hours);
 			return c.getTime();
 		}
 
 		if (seconds / SECONDS_IN_A_MINUTE > 0) {
-			int minutes = new Double(seconds / SECONDS_IN_A_MINUTE).intValue();
+			final int minutes = new Double(seconds / SECONDS_IN_A_MINUTE).intValue();
 			c.add(Calendar.MINUTE, minutes);
 			return c.getTime();
 		}
@@ -598,10 +619,10 @@ public class ModelUtils {
 	}
 
 	public boolean crossedDate(Date refDate, Date variantDate) {
-		Calendar refCal = GregorianCalendar.getInstance();
+		final Calendar refCal = GregorianCalendar.getInstance();
 		refCal.setTime(refDate);
 
-		Calendar variantCal = GregorianCalendar.getInstance();
+		final Calendar variantCal = GregorianCalendar.getInstance();
 		variantCal.setTime(variantDate);
 
 		return refCal.compareTo(variantCal) < 0;
@@ -616,7 +637,7 @@ public class ModelUtils {
 	 * @return
 	 */
 	public List<BigDecimal> transformValueToBigDecimal(List<Value> values) {
-		Function<Value, BigDecimal> valueToBigDecimal = new Function<Value, BigDecimal>() {
+		final Function<Value, BigDecimal> valueToBigDecimal = new Function<Value, BigDecimal>() {
 			public BigDecimal apply(Value from) {
 				return new BigDecimal(from.getValue());
 			}
@@ -625,7 +646,7 @@ public class ModelUtils {
 	}
 
 	public List<Double> transformBigDecimalToDouble(List<BigDecimal> values) {
-		Function<BigDecimal, Double> valueToBigDecimal = new Function<BigDecimal, Double>() {
+		final Function<BigDecimal, Double> valueToBigDecimal = new Function<BigDecimal, Double>() {
 			public Double apply(BigDecimal from) {
 				return from.doubleValue();
 			}
@@ -634,7 +655,7 @@ public class ModelUtils {
 	}
 
 	public List<Double> transformValueToDouble(List<Value> values) {
-		Function<Value, Double> valueToDouble = new Function<Value, Double>() {
+		final Function<Value, Double> valueToDouble = new Function<Value, Double>() {
 			public Double apply(Value from) {
 				return from.getValue();
 			}
@@ -649,9 +670,9 @@ public class ModelUtils {
 	 * @return
 	 */
 	public double[] transformToDoublePrimitiveArray(List<Double> values) {
-		double[] doubles = new double[values.size()];
+		final double[] doubles = new double[values.size()];
 		int i = 0;
-		for (Double d : values) {
+		for (final Double d : values) {
 			doubles[i] = d.doubleValue();
 			i++;
 		}

@@ -30,8 +30,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
@@ -40,7 +42,6 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
-import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
@@ -83,6 +84,9 @@ public abstract class MetricValuesImporter {
 
 	@Inject
 	private CommonLogic commonLogic;
+
+	@Inject
+	private ModelUtils modelUtils;
 
 	private List<MappingRecord> failedRecords = new ArrayList<MappingRecord>();
 
@@ -327,15 +331,16 @@ public abstract class MetricValuesImporter {
 
 	private void addMetricValue(MappingColumn column, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint) {
-		final Resource emfNetxResource = dataProvider.getResource(LibraryPackage.Literals.NET_XRESOURCE);
-		
+		final Resource emfNetxResource = dataProvider.getResource(modelUtils.getResourcePath(networkElement));
+
 		final ValueDataKind valueDataKind = getValueDataKind(column);
 		final Metric metric = valueDataKind.getMetricRef();
 		NetXResource foundNetXResource = null;
-		for (final Object object : emfNetxResource.getContents()) {
+		EList<EObject> objects = emfNetxResource.getContents();
+		for (final Object object : objects) {
 			final NetXResource netXResource = (NetXResource)object;
-			if (netXResource.getComponentRef() == networkElement && 
-					netXResource.getMetricRef() == metric) {
+			if (netXResource.getComponentRef().cdoID().equals(networkElement.cdoID()) && 
+					netXResource.getMetricRef().cdoID() == metric.cdoID()) {
 				foundNetXResource = netXResource;
 				break;
 			}
@@ -354,6 +359,7 @@ public abstract class MetricValuesImporter {
 			addToNode(networkElement, networkElement, new ArrayList<Integer>(),
 					foundNetXResource);
 		}
+		objects = emfNetxResource.getContents();
 
 		final Value value = GenericsFactory.eINSTANCE.createValue();
 		value.setTimeStamp(ServerUtils.getInstance().toXmlDate(timeStamp));
@@ -391,13 +397,16 @@ public abstract class MetricValuesImporter {
 			boolean found = false;
 			for (final NetXResource netxResource : ((Component) currentObject)
 					.getResourceRefs()) {
-				if (netxResource == resource) {
+				if (netxResource.getMetricRef() == resource.getMetricRef()) {
 					found = true;
 					break;
 				}
 			}
 			if (!found) {
-				((Component) currentObject).getResourceRefs().add(resource);
+				final NetXResource copiedNetXResource = EcoreUtil.copy(resource);				
+				final Resource emfNetxResource = dataProvider.getResource(modelUtils.getResourcePath((EObject)currentObject));
+				emfNetxResource.getContents().add(copiedNetXResource);
+				((Component) currentObject).getResourceRefs().add(copiedNetXResource);
 			}
 		} else {
 			final EStructuralFeature eFeature = eObject.eContainingFeature();

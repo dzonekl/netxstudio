@@ -108,6 +108,10 @@ public interface IDataProvider {
 	 */
 	public Resource getResource(URI uri);
 	
+	/**
+	 * @return a resource on the basis of a string path
+	 */
+	public Resource getResource(String resourcePath);
 	
 	/**
 	 * Open a session, depending on the implementation will use default

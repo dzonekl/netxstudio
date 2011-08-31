@@ -120,7 +120,7 @@ public abstract class CDODataProvider implements IDataProvider {
 				.setCredentialsProvider(credentialsProvider);
 
 		try {
-			CDOSession cdoSession = connection.getConfig().openSession();
+			final CDOSession cdoSession = connection.getConfig().openSession();
 			((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(COMMIT_TIMEOUT);
 			setSession(cdoSession);
 			for (final EPackage ePackage : ePackages) {
@@ -323,7 +323,7 @@ public abstract class CDODataProvider implements IDataProvider {
 	public Resource getResource(URI uri){
 		// Strip the repo etc we only need the name prepend with a slash. 
 //		String schema = uri.scheme();
-		String fragment = '/' + uri.lastSegment();
+		final String fragment = '/' + uri.lastSegment();
 		return this.getResource(fragment);
 	}
 	
@@ -333,11 +333,11 @@ public abstract class CDODataProvider implements IDataProvider {
 	public Resource getResource(ResourceSet set, URI uri){
 		// Strip the repo etc we only need the name prepend with a slash. 
 //		String schema = uri.scheme();
-		String fragment = '/' + uri.lastSegment();
+		final String fragment = '/' + uri.lastSegment();
 		return this.getResource(set, fragment);
 	}
 	
-	private Resource getResource(String resourceName) {
+	public Resource getResource(String resourceName) {
 		if (doGetResourceFromOwnTransaction()) {
 			final CDOResource resource = resolveInCurrentView(resourceName);
 
