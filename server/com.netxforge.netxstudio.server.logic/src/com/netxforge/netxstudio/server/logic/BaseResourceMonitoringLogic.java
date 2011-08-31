@@ -25,6 +25,7 @@ import java.util.Set;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
  * Performs the resource monitoring logic execution for a RFSService.
@@ -33,6 +34,8 @@ import com.netxforge.netxstudio.library.NodeType;
  */
 public abstract class BaseResourceMonitoringLogic extends BaseLogic {
 
+	private ServiceMonitor serviceMonitor;
+	
 	@Override
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
 	
@@ -101,5 +104,13 @@ public abstract class BaseResourceMonitoringLogic extends BaseLogic {
 				getLeafFunctions(function.getFunctions(), leafFunctions);
 			}
 		}
+	}
+
+	public ServiceMonitor getServiceMonitor() {
+		return serviceMonitor;
+	}
+
+	public void setServiceMonitor(ServiceMonitor serviceMonitor) {
+		this.serviceMonitor = serviceMonitor;
 	}
 }

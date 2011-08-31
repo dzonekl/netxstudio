@@ -18,9 +18,15 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic;
 
+import org.eclipse.emf.ecore.resource.Resource;
+
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.OperatorsFactory;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
  * Performs the resource monitoring execution for an equipment or function.
@@ -29,6 +35,8 @@ import com.netxforge.netxstudio.operators.Node;
  */
 public class ResourceMonitoringEngine extends BaseEngine {
 
+	private ServiceMonitor serviceMonitor;
+	
 	@Override
 	public void doExecute() {
 		getExpressionEngine().getContext().add(getRange());
@@ -67,7 +75,26 @@ public class ResourceMonitoringEngine extends BaseEngine {
 			}
 			System.err.println("Run tolerance expression(s) for resource: "
 					+ netXResource.getShortName());
+
+			final ResourceMonitor resourceMonitor = OperatorsFactory.eINSTANCE
+					.createResourceMonitor();
+			resourceMonitor.setNodeRef(node);
+			resourceMonitor.setResourceRef(netXResource);
+			resourceMonitor.setStart(getModelUtils().toXMLDate(getStart()));
+			resourceMonitor.setEnd(getModelUtils().toXMLDate(getEnd()));
+			if (getServiceMonitor() == null) {
+				final Resource emfResource = getDataProvider()
+						.getResource(OperatorsPackage.eINSTANCE
+								.getResourceMonitor());
+				emfResource.getContents().add(resourceMonitor);
+			} else {
+				serviceMonitor.getResourceMonitors().add(resourceMonitor);
+			}
+			getCommonLogic().setResourceMonitor(resourceMonitor);
+			
 			for (final Tolerance tolerance : getComponent().getToleranceRefs()) {
+				getCommonLogic().setTolerance(tolerance);
+				
 				// resultaat van de tolerance is een percentage
 				// loop door de capacity/utilization heen
 				// genereer markers per nieuwe overschrijding
@@ -81,5 +108,13 @@ public class ResourceMonitoringEngine extends BaseEngine {
 			System.err.println("Done tolerance expression(s) for resource: "
 					+ netXResource.getShortName());
 		}
+	}
+
+	public ServiceMonitor getServiceMonitor() {
+		return serviceMonitor;
+	}
+
+	public void setServiceMonitor(ServiceMonitor serviceMonitor) {
+		this.serviceMonitor = serviceMonitor;
 	}
 }

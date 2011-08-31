@@ -78,7 +78,7 @@ public interface Tolerance extends Base {
 
 	/**
 	 * Returns the value of the '<em><b>Level</b></em>' attribute.
-	 * The literals are from the enumeration {@link com.netxforge.netxstudio.library.LevelType}.
+	 * The literals are from the enumeration {@link com.netxforge.netxstudio.library.LevelKind}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -87,29 +87,29 @@ public interface Tolerance extends Base {
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Level</em>' attribute.
-	 * @see com.netxforge.netxstudio.library.LevelType
+	 * @see com.netxforge.netxstudio.library.LevelKind
 	 * @see #isSetLevel()
 	 * @see #unsetLevel()
-	 * @see #setLevel(LevelType)
+	 * @see #setLevel(LevelKind)
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getTolerance_Level()
 	 * @model unsettable="true"
 	 *        extendedMetaData="kind='attribute' name='Level'"
 	 * @generated
 	 */
-	LevelType getLevel();
+	LevelKind getLevel();
 
 	/**
 	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Tolerance#getLevel <em>Level</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Level</em>' attribute.
-	 * @see com.netxforge.netxstudio.library.LevelType
+	 * @see com.netxforge.netxstudio.library.LevelKind
 	 * @see #isSetLevel()
 	 * @see #unsetLevel()
 	 * @see #getLevel()
 	 * @generated
 	 */
-	void setLevel(LevelType value);
+	void setLevel(LevelKind value);
 
 	/**
 	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.Tolerance#getLevel <em>Level</em>}' attribute.
@@ -117,7 +117,7 @@ public interface Tolerance extends Base {
 	 * <!-- end-user-doc -->
 	 * @see #isSetLevel()
 	 * @see #getLevel()
-	 * @see #setLevel(LevelType)
+	 * @see #setLevel(LevelKind)
 	 * @generated
 	 */
 	void unsetLevel();
@@ -129,7 +129,7 @@ public interface Tolerance extends Base {
 	 * @return whether the value of the '<em>Level</em>' attribute is set.
 	 * @see #unsetLevel()
 	 * @see #getLevel()
-	 * @see #setLevel(LevelType)
+	 * @see #setLevel(LevelKind)
 	 * @generated
 	 */
 	boolean isSetLevel();

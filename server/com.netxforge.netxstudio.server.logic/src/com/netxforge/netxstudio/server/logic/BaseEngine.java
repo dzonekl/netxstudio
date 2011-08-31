@@ -82,6 +82,7 @@ public abstract class BaseEngine {
 				return;
 			}
 			expressionEngine.setExpression(expression);
+			
 			expressionEngine.run();
 			if (expressionEngine.errorOccurred()) {
 				// stop here will be logged

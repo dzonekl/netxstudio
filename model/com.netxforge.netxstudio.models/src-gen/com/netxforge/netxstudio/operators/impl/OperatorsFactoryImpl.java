@@ -95,6 +95,7 @@ public class OperatorsFactoryImpl extends EFactoryImpl implements OperatorsFacto
 			case OperatorsPackage.RESOURCE_EXPANSION: return (EObject)createResourceExpansion();
 			case OperatorsPackage.RESOURCE_FORECAST: return (EObject)createResourceForecast();
 			case OperatorsPackage.RESOURCE_MONITOR: return (EObject)createResourceMonitor();
+			case OperatorsPackage.TOLERANCE_MARKER: return (EObject)createToleranceMarker();
 			case OperatorsPackage.WAREHOUSE: return (EObject)createWarehouse();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -111,8 +112,12 @@ public class OperatorsFactoryImpl extends EFactoryImpl implements OperatorsFacto
 		switch (eDataType.getClassifierID()) {
 			case OperatorsPackage.MARKER_KIND:
 				return createMarkerKindFromString(eDataType, initialValue);
+			case OperatorsPackage.TOLERANCE_MARKER_DIRECTION_KIND:
+				return createToleranceMarkerDirectionKindFromString(eDataType, initialValue);
 			case OperatorsPackage.MARKER_KIND_OBJECT:
 				return createMarkerKindObjectFromString(eDataType, initialValue);
+			case OperatorsPackage.TOLERANCE_MARKER_DIRECTION_KIND_OBJECT:
+				return createToleranceMarkerDirectionKindObjectFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -128,8 +133,12 @@ public class OperatorsFactoryImpl extends EFactoryImpl implements OperatorsFacto
 		switch (eDataType.getClassifierID()) {
 			case OperatorsPackage.MARKER_KIND:
 				return convertMarkerKindToString(eDataType, instanceValue);
+			case OperatorsPackage.TOLERANCE_MARKER_DIRECTION_KIND:
+				return convertToleranceMarkerDirectionKindToString(eDataType, instanceValue);
 			case OperatorsPackage.MARKER_KIND_OBJECT:
 				return convertMarkerKindObjectToString(eDataType, instanceValue);
+			case OperatorsPackage.TOLERANCE_MARKER_DIRECTION_KIND_OBJECT:
+				return convertToleranceMarkerDirectionKindObjectToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -240,6 +249,16 @@ public class OperatorsFactoryImpl extends EFactoryImpl implements OperatorsFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ToleranceMarker createToleranceMarker() {
+		ToleranceMarkerImpl toleranceMarker = new ToleranceMarkerImpl();
+		return toleranceMarker;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Warehouse createWarehouse() {
 		WarehouseImpl warehouse = new WarehouseImpl();
 		return warehouse;
@@ -270,6 +289,26 @@ public class OperatorsFactoryImpl extends EFactoryImpl implements OperatorsFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ToleranceMarkerDirectionKind createToleranceMarkerDirectionKindFromString(EDataType eDataType, String initialValue) {
+		ToleranceMarkerDirectionKind result = ToleranceMarkerDirectionKind.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertToleranceMarkerDirectionKindToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public MarkerKind createMarkerKindObjectFromString(EDataType eDataType, String initialValue) {
 		return createMarkerKindFromString(OperatorsPackage.Literals.MARKER_KIND, initialValue);
 	}
@@ -281,6 +320,24 @@ public class OperatorsFactoryImpl extends EFactoryImpl implements OperatorsFacto
 	 */
 	public String convertMarkerKindObjectToString(EDataType eDataType, Object instanceValue) {
 		return convertMarkerKindToString(OperatorsPackage.Literals.MARKER_KIND, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ToleranceMarkerDirectionKind createToleranceMarkerDirectionKindObjectFromString(EDataType eDataType, String initialValue) {
+		return createToleranceMarkerDirectionKindFromString(OperatorsPackage.Literals.TOLERANCE_MARKER_DIRECTION_KIND, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertToleranceMarkerDirectionKindObjectToString(EDataType eDataType, Object instanceValue) {
+		return convertToleranceMarkerDirectionKindToString(OperatorsPackage.Literals.TOLERANCE_MARKER_DIRECTION_KIND, instanceValue);
 	}
 
 	/**

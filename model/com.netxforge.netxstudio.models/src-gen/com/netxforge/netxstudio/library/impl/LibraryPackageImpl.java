@@ -40,7 +40,7 @@ import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
-import com.netxforge.netxstudio.library.LevelType;
+import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -176,7 +176,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EEnum levelTypeEEnum = null;
+	private EEnum levelKindEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -204,7 +204,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType levelTypeObjectEDataType = null;
+	private EDataType levelKindObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1348,8 +1348,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getLevelType() {
-		return levelTypeEEnum;
+	public EEnum getLevelKind() {
+		return levelKindEEnum;
 	}
 
 	/**
@@ -1384,8 +1384,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getLevelTypeObject() {
-		return levelTypeObjectEDataType;
+	public EDataType getLevelKindObject() {
+		return levelKindObjectEDataType;
 	}
 
 	/**
@@ -1571,13 +1571,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(vendorEClass, VENDOR__PRODUCTS);
 
 		// Create enums
-		levelTypeEEnum = createEEnum(LEVEL_TYPE);
+		levelKindEEnum = createEEnum(LEVEL_KIND);
 		rangeKindEEnum = createEEnum(RANGE_KIND);
 		redundancyTypeEEnum = createEEnum(REDUNDANCY_TYPE);
 		stateTypeEEnum = createEEnum(STATE_TYPE);
 
 		// Create data types
-		levelTypeObjectEDataType = createEDataType(LEVEL_TYPE_OBJECT);
+		levelKindObjectEDataType = createEDataType(LEVEL_KIND_OBJECT);
 		rangeKindObjectEDataType = createEDataType(RANGE_KIND_OBJECT);
 		redundancyTypeObjectEDataType = createEDataType(REDUNDANCY_TYPE_OBJECT);
 		stateTypeObjectEDataType = createEDataType(STATE_TYPE_OBJECT);
@@ -1748,7 +1748,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		initEClass(toleranceEClass, Tolerance.class, "Tolerance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTolerance_ExpressionRef(), this.getExpression(), null, "expressionRef", null, 0, 1, Tolerance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTolerance_Level(), this.getLevelType(), "level", null, 0, 1, Tolerance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTolerance_Level(), this.getLevelKind(), "level", null, 0, 1, Tolerance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTolerance_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Tolerance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(unitEClass, Unit.class, "Unit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1761,11 +1761,11 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getVendor_Products(), this.getProductInfo(), null, "products", null, 0, -1, Vendor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
-		initEEnum(levelTypeEEnum, LevelType.class, "LevelType");
-		addEEnumLiteral(levelTypeEEnum, LevelType.RED);
-		addEEnumLiteral(levelTypeEEnum, LevelType.AMBER);
-		addEEnumLiteral(levelTypeEEnum, LevelType.GREEN);
-		addEEnumLiteral(levelTypeEEnum, LevelType.YELLOW);
+		initEEnum(levelKindEEnum, LevelKind.class, "LevelKind");
+		addEEnumLiteral(levelKindEEnum, LevelKind.RED);
+		addEEnumLiteral(levelKindEEnum, LevelKind.AMBER);
+		addEEnumLiteral(levelKindEEnum, LevelKind.GREEN);
+		addEEnumLiteral(levelKindEEnum, LevelKind.YELLOW);
 
 		initEEnum(rangeKindEEnum, RangeKind.class, "RangeKind");
 		addEEnumLiteral(rangeKindEEnum, RangeKind.METRIC);
@@ -1790,7 +1790,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		addEEnumLiteral(stateTypeEEnum, StateType.RESERVED);
 
 		// Initialize data types
-		initEDataType(levelTypeObjectEDataType, LevelType.class, "LevelTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(levelKindObjectEDataType, LevelKind.class, "LevelKindObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(rangeKindObjectEDataType, RangeKind.class, "RangeKindObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(redundancyTypeObjectEDataType, RedundancyType.class, "RedundancyTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(stateTypeObjectEDataType, StateType.class, "StateTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
@@ -2219,17 +2219,17 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "AllFunctions"
 		   });		
 		addAnnotation
-		  (levelTypeEEnum, 
+		  (levelKindEEnum, 
 		   source, 
 		   new String[] {
-			 "name", "Level_._type"
+			 "name", "LevelKind"
 		   });		
 		addAnnotation
-		  (levelTypeObjectEDataType, 
+		  (levelKindObjectEDataType, 
 		   source, 
 		   new String[] {
-			 "name", "Level_._type:Object",
-			 "baseType", "Level_._type"
+			 "name", "LevelKind:Object",
+			 "baseType", "LevelKind"
 		   });			
 		addAnnotation
 		  (libraryEClass, 

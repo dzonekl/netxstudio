@@ -134,12 +134,18 @@ public class OperatorsValidator extends EObjectValidator {
 				return validateResourceForecast((ResourceForecast)value, diagnostics, context);
 			case OperatorsPackage.RESOURCE_MONITOR:
 				return validateResourceMonitor((ResourceMonitor)value, diagnostics, context);
+			case OperatorsPackage.TOLERANCE_MARKER:
+				return validateToleranceMarker((ToleranceMarker)value, diagnostics, context);
 			case OperatorsPackage.WAREHOUSE:
 				return validateWarehouse((Warehouse)value, diagnostics, context);
 			case OperatorsPackage.MARKER_KIND:
 				return validateMarkerKind((MarkerKind)value, diagnostics, context);
+			case OperatorsPackage.TOLERANCE_MARKER_DIRECTION_KIND:
+				return validateToleranceMarkerDirectionKind((ToleranceMarkerDirectionKind)value, diagnostics, context);
 			case OperatorsPackage.MARKER_KIND_OBJECT:
 				return validateMarkerKindObject((MarkerKind)value, diagnostics, context);
+			case OperatorsPackage.TOLERANCE_MARKER_DIRECTION_KIND_OBJECT:
+				return validateToleranceMarkerDirectionKindObject((ToleranceMarkerDirectionKind)value, diagnostics, context);
 			default:
 				return true;
 		}
@@ -281,6 +287,15 @@ public class OperatorsValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean validateToleranceMarker(ToleranceMarker toleranceMarker, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint((EObject)toleranceMarker, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean validateWarehouse(Warehouse warehouse, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return validate_EveryDefaultConstraint((EObject)warehouse, diagnostics, context);
 	}
@@ -299,7 +314,25 @@ public class OperatorsValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean validateToleranceMarkerDirectionKind(ToleranceMarkerDirectionKind toleranceMarkerDirectionKind, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean validateMarkerKindObject(MarkerKind markerKindObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateToleranceMarkerDirectionKindObject(ToleranceMarkerDirectionKind toleranceMarkerDirectionKindObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
 	}
 

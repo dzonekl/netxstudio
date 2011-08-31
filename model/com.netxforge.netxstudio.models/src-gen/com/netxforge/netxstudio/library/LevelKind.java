@@ -16,7 +16,7 @@
  * Contributors:
  * Christophe Bouhier - initial API and implementation and/or initial documentation
  */
-package com.netxforge.netxstudio.operators;
+package com.netxforge.netxstudio.library;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,176 +26,145 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Marker Kind</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Level Kind</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * <!-- begin-model-doc -->
- * A type representing the kinds of possible markers
- * 				which could apply on a resource value
- * 			
- * <!-- end-model-doc -->
- * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarkerKind()
- * @model extendedMetaData="name='MarkerKind'"
+ * @see com.netxforge.netxstudio.library.LibraryPackage#getLevelKind()
+ * @model extendedMetaData="name='LevelKind'"
  * @generated
  */
-public enum MarkerKind implements Enumerator {
+public enum LevelKind implements Enumerator {
 	/**
-	 * The '<em><b>Value</b></em>' literal object.
+	 * The '<em><b>RED</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #VALUE_VALUE
+	 * @see #RED_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	VALUE(0, "value", "value"),
+	RED(0, "RED", "RED"),
 
 	/**
-	 * The '<em><b>INTERNALEVENT</b></em>' literal object.
+	 * The '<em><b>AMBER</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #INTERNALEVENT_VALUE
+	 * @see #AMBER_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	INTERNALEVENT(1, "INTERNALEVENT", "INTERNAL_EVENT"),
+	AMBER(1, "AMBER", "AMBER"),
 
 	/**
-	 * The '<em><b>EXTERNALEVENT</b></em>' literal object.
+	 * The '<em><b>GREEN</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #EXTERNALEVENT_VALUE
+	 * @see #GREEN_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	EXTERNALEVENT(2, "EXTERNALEVENT", "EXTERNAL_EVENT"),
+	GREEN(2, "GREEN", "GREEN"),
 
 	/**
-	 * The '<em><b>ACTIONNEEDED</b></em>' literal object.
+	 * The '<em><b>YELLOW</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #ACTIONNEEDED_VALUE
+	 * @see #YELLOW_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	ACTIONNEEDED(3, "ACTIONNEEDED", "ACTION_NEEDED"),
+	YELLOW(3, "YELLOW", "YELLOW");
 
 	/**
-	 * The '<em><b>TOLERANCECROSSED</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #TOLERANCECROSSED_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	TOLERANCECROSSED(4, "TOLERANCECROSSED", "TOLERANCE_CROSSED");
-
-	/**
-	 * The '<em><b>Value</b></em>' literal value.
+	 * The '<em><b>RED</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Value</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>RED</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #VALUE
-	 * @model name="value"
+	 * @see #RED
+	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int VALUE_VALUE = 0;
+	public static final int RED_VALUE = 0;
 
 	/**
-	 * The '<em><b>INTERNALEVENT</b></em>' literal value.
+	 * The '<em><b>AMBER</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>INTERNALEVENT</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>AMBER</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #INTERNALEVENT
-	 * @model literal="INTERNAL_EVENT"
+	 * @see #AMBER
+	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int INTERNALEVENT_VALUE = 1;
+	public static final int AMBER_VALUE = 1;
 
 	/**
-	 * The '<em><b>EXTERNALEVENT</b></em>' literal value.
+	 * The '<em><b>GREEN</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>EXTERNALEVENT</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>GREEN</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #EXTERNALEVENT
-	 * @model literal="EXTERNAL_EVENT"
+	 * @see #GREEN
+	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int EXTERNALEVENT_VALUE = 2;
+	public static final int GREEN_VALUE = 2;
 
 	/**
-	 * The '<em><b>ACTIONNEEDED</b></em>' literal value.
+	 * The '<em><b>YELLOW</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>ACTIONNEEDED</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>YELLOW</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #ACTIONNEEDED
-	 * @model literal="ACTION_NEEDED"
+	 * @see #YELLOW
+	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ACTIONNEEDED_VALUE = 3;
+	public static final int YELLOW_VALUE = 3;
 
 	/**
-	 * The '<em><b>TOLERANCECROSSED</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>TOLERANCECROSSED</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #TOLERANCECROSSED
-	 * @model literal="TOLERANCE_CROSSED"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int TOLERANCECROSSED_VALUE = 4;
-
-	/**
-	 * An array of all the '<em><b>Marker Kind</b></em>' enumerators.
+	 * An array of all the '<em><b>Level Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final MarkerKind[] VALUES_ARRAY =
-		new MarkerKind[] {
-			VALUE,
-			INTERNALEVENT,
-			EXTERNALEVENT,
-			ACTIONNEEDED,
-			TOLERANCECROSSED,
+	private static final LevelKind[] VALUES_ARRAY =
+		new LevelKind[] {
+			RED,
+			AMBER,
+			GREEN,
+			YELLOW,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Marker Kind</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Level Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<MarkerKind> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<LevelKind> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Marker Kind</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Level Kind</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static MarkerKind get(String literal) {
+	public static LevelKind get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			MarkerKind result = VALUES_ARRAY[i];
+			LevelKind result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -204,14 +173,14 @@ public enum MarkerKind implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Marker Kind</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Level Kind</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static MarkerKind getByName(String name) {
+	public static LevelKind getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			MarkerKind result = VALUES_ARRAY[i];
+			LevelKind result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -220,18 +189,17 @@ public enum MarkerKind implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Marker Kind</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Level Kind</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static MarkerKind get(int value) {
+	public static LevelKind get(int value) {
 		switch (value) {
-			case VALUE_VALUE: return VALUE;
-			case INTERNALEVENT_VALUE: return INTERNALEVENT;
-			case EXTERNALEVENT_VALUE: return EXTERNALEVENT;
-			case ACTIONNEEDED_VALUE: return ACTIONNEEDED;
-			case TOLERANCECROSSED_VALUE: return TOLERANCECROSSED;
+			case RED_VALUE: return RED;
+			case AMBER_VALUE: return AMBER;
+			case GREEN_VALUE: return GREEN;
+			case YELLOW_VALUE: return YELLOW;
 		}
 		return null;
 	}
@@ -263,7 +231,7 @@ public enum MarkerKind implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private MarkerKind(int value, String name, String literal) {
+	private LevelKind(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -307,4 +275,4 @@ public enum MarkerKind implements Enumerator {
 		return literal;
 	}
 	
-} //MarkerKind
+} //LevelKind

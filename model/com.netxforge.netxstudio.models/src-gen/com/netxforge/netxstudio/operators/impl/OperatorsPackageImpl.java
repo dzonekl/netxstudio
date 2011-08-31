@@ -51,6 +51,8 @@ import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.ResourceExpansion;
 import com.netxforge.netxstudio.operators.ResourceForecast;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 import com.netxforge.netxstudio.operators.Warehouse;
 import com.netxforge.netxstudio.operators.util.OperatorsValidator;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
@@ -142,6 +144,13 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass toleranceMarkerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass warehouseEClass = null;
 
 	/**
@@ -156,7 +165,21 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EEnum toleranceMarkerDirectionKindEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EDataType markerKindObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType toleranceMarkerDirectionKindObjectEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -739,6 +762,33 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getToleranceMarker() {
+		return toleranceMarkerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getToleranceMarker_Direction() {
+		return (EAttribute)toleranceMarkerEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getToleranceMarker_Level() {
+		return (EAttribute)toleranceMarkerEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getWarehouse() {
 		return warehouseEClass;
 	}
@@ -793,8 +843,26 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getToleranceMarkerDirectionKind() {
+		return toleranceMarkerDirectionKindEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getMarkerKindObject() {
 		return markerKindObjectEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getToleranceMarkerDirectionKindObject() {
+		return toleranceMarkerDirectionKindObjectEDataType;
 	}
 
 	/**
@@ -888,6 +956,10 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		createEAttribute(resourceMonitorEClass, RESOURCE_MONITOR__END);
 		createEAttribute(resourceMonitorEClass, RESOURCE_MONITOR__START);
 
+		toleranceMarkerEClass = createEClass(TOLERANCE_MARKER);
+		createEAttribute(toleranceMarkerEClass, TOLERANCE_MARKER__DIRECTION);
+		createEAttribute(toleranceMarkerEClass, TOLERANCE_MARKER__LEVEL);
+
 		warehouseEClass = createEClass(WAREHOUSE);
 		createEReference(warehouseEClass, WAREHOUSE__NODES);
 		createEReference(warehouseEClass, WAREHOUSE__EQUIPMENTS);
@@ -896,9 +968,11 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 
 		// Create enums
 		markerKindEEnum = createEEnum(MARKER_KIND);
+		toleranceMarkerDirectionKindEEnum = createEEnum(TOLERANCE_MARKER_DIRECTION_KIND);
 
 		// Create data types
 		markerKindObjectEDataType = createEDataType(MARKER_KIND_OBJECT);
+		toleranceMarkerDirectionKindObjectEDataType = createEDataType(TOLERANCE_MARKER_DIRECTION_KIND_OBJECT);
 	}
 
 	/**
@@ -948,6 +1022,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		resourceExpansionEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		resourceForecastEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		resourceMonitorEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		toleranceMarkerEClass.getESuperTypes().add(this.getMarker());
 		warehouseEClass.getESuperTypes().add(theGenericsPackage.getBase());
 
 		// Initialize classes and features; add operations and parameters
@@ -1014,6 +1089,10 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		initEAttribute(getResourceMonitor_End(), theXMLTypePackage.getDateTime(), "end", null, 0, 1, ResourceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getResourceMonitor_Start(), theXMLTypePackage.getDateTime(), "start", null, 0, 1, ResourceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(toleranceMarkerEClass, ToleranceMarker.class, "ToleranceMarker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getToleranceMarker_Direction(), this.getToleranceMarkerDirectionKind(), "direction", null, 0, 1, ToleranceMarker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getToleranceMarker_Level(), theLibraryPackage.getLevelKind(), "level", null, 0, 1, ToleranceMarker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(warehouseEClass, Warehouse.class, "Warehouse", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getWarehouse_Nodes(), this.getNode(), null, "nodes", null, 0, -1, Warehouse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWarehouse_Equipments(), theLibraryPackage.getEquipment(), null, "equipments", null, 0, -1, Warehouse.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1026,10 +1105,16 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		addEEnumLiteral(markerKindEEnum, MarkerKind.INTERNALEVENT);
 		addEEnumLiteral(markerKindEEnum, MarkerKind.EXTERNALEVENT);
 		addEEnumLiteral(markerKindEEnum, MarkerKind.ACTIONNEEDED);
-		addEEnumLiteral(markerKindEEnum, MarkerKind.THRESHOLDREACHED);
+		addEEnumLiteral(markerKindEEnum, MarkerKind.TOLERANCECROSSED);
+
+		initEEnum(toleranceMarkerDirectionKindEEnum, ToleranceMarkerDirectionKind.class, "ToleranceMarkerDirectionKind");
+		addEEnumLiteral(toleranceMarkerDirectionKindEEnum, ToleranceMarkerDirectionKind.START);
+		addEEnumLiteral(toleranceMarkerDirectionKindEEnum, ToleranceMarkerDirectionKind.UP);
+		addEEnumLiteral(toleranceMarkerDirectionKindEEnum, ToleranceMarkerDirectionKind.DOWN);
 
 		// Initialize data types
 		initEDataType(markerKindObjectEDataType, MarkerKind.class, "MarkerKindObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(toleranceMarkerDirectionKindObjectEDataType, ToleranceMarkerDirectionKind.class, "ToleranceMarkerDirectionKindObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -1064,7 +1149,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidNodeID\n\t\t\t"
-		   });																																																																						
+		   });																																																																															
 	}
 
 	/**
@@ -1460,6 +1545,40 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 			 "name", "Start"
 		   });			
 		addAnnotation
+		  (toleranceMarkerEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ToleranceMarker",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getToleranceMarker_Direction(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Direction"
+		   });			
+		addAnnotation
+		  (getToleranceMarker_Level(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Level"
+		   });			
+		addAnnotation
+		  (toleranceMarkerDirectionKindEEnum, 
+		   source, 
+		   new String[] {
+			 "name", "ToleranceMarkerDirectionKind"
+		   });		
+		addAnnotation
+		  (toleranceMarkerDirectionKindObjectEDataType, 
+		   source, 
+		   new String[] {
+			 "name", "ToleranceMarkerDirectionKind:Object",
+			 "baseType", "ToleranceMarkerDirectionKind"
+		   });			
+		addAnnotation
 		  (warehouseEClass, 
 		   source, 
 		   new String[] {
@@ -1509,7 +1628,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		   source, 
 		   new String[] {
 			 "ValidNodeID", "\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t"
-		   });																																																																					
+		   });																																																																														
 	}
 
 } //OperatorsPackageImpl

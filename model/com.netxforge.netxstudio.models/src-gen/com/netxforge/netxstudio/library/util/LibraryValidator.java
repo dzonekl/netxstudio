@@ -34,7 +34,7 @@ import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
-import com.netxforge.netxstudio.library.LevelType;
+import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -148,16 +148,16 @@ public class LibraryValidator extends EObjectValidator {
 				return validateUnit((Unit)value, diagnostics, context);
 			case LibraryPackage.VENDOR:
 				return validateVendor((Vendor)value, diagnostics, context);
-			case LibraryPackage.LEVEL_TYPE:
-				return validateLevelType((LevelType)value, diagnostics, context);
+			case LibraryPackage.LEVEL_KIND:
+				return validateLevelKind((LevelKind)value, diagnostics, context);
 			case LibraryPackage.RANGE_KIND:
 				return validateRangeKind((RangeKind)value, diagnostics, context);
 			case LibraryPackage.REDUNDANCY_TYPE:
 				return validateRedundancyType((RedundancyType)value, diagnostics, context);
 			case LibraryPackage.STATE_TYPE:
 				return validateStateType((StateType)value, diagnostics, context);
-			case LibraryPackage.LEVEL_TYPE_OBJECT:
-				return validateLevelTypeObject((LevelType)value, diagnostics, context);
+			case LibraryPackage.LEVEL_KIND_OBJECT:
+				return validateLevelKindObject((LevelKind)value, diagnostics, context);
 			case LibraryPackage.RANGE_KIND_OBJECT:
 				return validateRangeKindObject((RangeKind)value, diagnostics, context);
 			case LibraryPackage.REDUNDANCY_TYPE_OBJECT:
@@ -382,7 +382,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateLevelType(LevelType levelType, DiagnosticChain diagnostics, Map<Object, Object> context) {
+	public boolean validateLevelKind(LevelKind levelKind, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
 	}
 
@@ -418,7 +418,7 @@ public class LibraryValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateLevelTypeObject(LevelType levelTypeObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
+	public boolean validateLevelKindObject(LevelKind levelKindObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return true;
 	}
 

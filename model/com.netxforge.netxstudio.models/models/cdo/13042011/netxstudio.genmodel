@@ -165,11 +165,11 @@
   </genPackages>
   <genPackages prefix="Library" basePackage="com.netxforge.netxstudio" resource="XML"
       disposableProviderFactory="true" extensibleProviderFactory="true" ecorePackage="library.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//LevelType">
-      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelType/RED"/>
-      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelType/AMBER"/>
-      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelType/GREEN"/>
-      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelType/YELLOW"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//LevelKind">
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelKind/RED"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelKind/AMBER"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelKind/GREEN"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//LevelKind/YELLOW"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//RangeKind">
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/METRIC"/>
@@ -193,7 +193,7 @@
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//StateType/DEFECT"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//StateType/RESERVED"/>
     </genEnums>
-    <genDataTypes ecoreDataType="library.ecore#//LevelTypeObject"/>
+    <genDataTypes ecoreDataType="library.ecore#//LevelKindObject"/>
     <genDataTypes ecoreDataType="library.ecore#//RangeKindObject"/>
     <genDataTypes ecoreDataType="library.ecore#//RedundancyTypeObject"/>
     <genDataTypes ecoreDataType="library.ecore#//StateTypeObject"/>
@@ -448,9 +448,15 @@
       <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/INTERNALEVENT"/>
       <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/EXTERNALEVENT"/>
       <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/ACTIONNEEDED"/>
-      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/THRESHOLDREACHED"/>
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//MarkerKind/TOLERANCECROSSED"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="operators.ecore#//ToleranceMarkerDirectionKind">
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//ToleranceMarkerDirectionKind/START"/>
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//ToleranceMarkerDirectionKind/UP"/>
+      <genEnumLiterals ecoreEnumLiteral="operators.ecore#//ToleranceMarkerDirectionKind/DOWN"/>
     </genEnums>
     <genDataTypes ecoreDataType="operators.ecore#//MarkerKindObject"/>
+    <genDataTypes ecoreDataType="operators.ecore#//ToleranceMarkerDirectionKindObject"/>
     <genClasses ecoreClass="operators.ecore#//EquipmentRelationship">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//EquipmentRelationship/equipment1Ref"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//EquipmentRelationship/equipment2Ref"/>
@@ -513,6 +519,10 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/resourceRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ResourceMonitor/end"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ResourceMonitor/start"/>
+    </genClasses>
+    <genClasses ecoreClass="operators.ecore#//ToleranceMarker">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ToleranceMarker/direction"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ToleranceMarker/level"/>
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//Warehouse">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//Warehouse/nodes"/>

@@ -16,38 +16,37 @@
  * Contributors:
  * Christophe Bouhier - initial API and implementation and/or initial documentation
  */
-package com.netxforge.netxstudio.library.impl;
+package com.netxforge.netxstudio.operators.impl;
+
+import com.netxforge.netxstudio.library.LevelKind;
+
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 
 import org.eclipse.emf.ecore.EClass;
 
-import com.netxforge.netxstudio.generics.impl.BaseImpl;
-import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.LevelKind;
-import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.Tolerance;
-
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Tolerance</b></em>'.
+ * An implementation of the model object '<em><b>Tolerance Marker</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ToleranceImpl#getExpressionRef <em>Expression Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ToleranceImpl#getLevel <em>Level</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ToleranceImpl#getName <em>Name</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.impl.ToleranceMarkerImpl#getDirection <em>Direction</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.impl.ToleranceMarkerImpl#getLevel <em>Level</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ToleranceImpl extends BaseImpl implements Tolerance {
+public class ToleranceMarkerImpl extends MarkerImpl implements ToleranceMarker {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ToleranceImpl() {
+	protected ToleranceMarkerImpl() {
 		super();
 	}
 
@@ -58,7 +57,7 @@ public class ToleranceImpl extends BaseImpl implements Tolerance {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return LibraryPackage.Literals.TOLERANCE;
+		return OperatorsPackage.Literals.TOLERANCE_MARKER;
 	}
 
 	/**
@@ -66,8 +65,8 @@ public class ToleranceImpl extends BaseImpl implements Tolerance {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Expression getExpressionRef() {
-		return (Expression)eGet(LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF, true);
+	public ToleranceMarkerDirectionKind getDirection() {
+		return (ToleranceMarkerDirectionKind)eGet(OperatorsPackage.Literals.TOLERANCE_MARKER__DIRECTION, true);
 	}
 
 	/**
@@ -75,8 +74,26 @@ public class ToleranceImpl extends BaseImpl implements Tolerance {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setExpressionRef(Expression newExpressionRef) {
-		eSet(LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF, newExpressionRef);
+	public void setDirection(ToleranceMarkerDirectionKind newDirection) {
+		eSet(OperatorsPackage.Literals.TOLERANCE_MARKER__DIRECTION, newDirection);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetDirection() {
+		eUnset(OperatorsPackage.Literals.TOLERANCE_MARKER__DIRECTION);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetDirection() {
+		return eIsSet(OperatorsPackage.Literals.TOLERANCE_MARKER__DIRECTION);
 	}
 
 	/**
@@ -85,7 +102,7 @@ public class ToleranceImpl extends BaseImpl implements Tolerance {
 	 * @generated
 	 */
 	public LevelKind getLevel() {
-		return (LevelKind)eGet(LibraryPackage.Literals.TOLERANCE__LEVEL, true);
+		return (LevelKind)eGet(OperatorsPackage.Literals.TOLERANCE_MARKER__LEVEL, true);
 	}
 
 	/**
@@ -94,7 +111,7 @@ public class ToleranceImpl extends BaseImpl implements Tolerance {
 	 * @generated
 	 */
 	public void setLevel(LevelKind newLevel) {
-		eSet(LibraryPackage.Literals.TOLERANCE__LEVEL, newLevel);
+		eSet(OperatorsPackage.Literals.TOLERANCE_MARKER__LEVEL, newLevel);
 	}
 
 	/**
@@ -103,7 +120,7 @@ public class ToleranceImpl extends BaseImpl implements Tolerance {
 	 * @generated
 	 */
 	public void unsetLevel() {
-		eUnset(LibraryPackage.Literals.TOLERANCE__LEVEL);
+		eUnset(OperatorsPackage.Literals.TOLERANCE_MARKER__LEVEL);
 	}
 
 	/**
@@ -112,25 +129,7 @@ public class ToleranceImpl extends BaseImpl implements Tolerance {
 	 * @generated
 	 */
 	public boolean isSetLevel() {
-		return eIsSet(LibraryPackage.Literals.TOLERANCE__LEVEL);
+		return eIsSet(OperatorsPackage.Literals.TOLERANCE_MARKER__LEVEL);
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return (String)eGet(LibraryPackage.Literals.TOLERANCE__NAME, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		eSet(LibraryPackage.Literals.TOLERANCE__NAME, newName);
-	}
-
-} //ToleranceImpl
+} //ToleranceMarkerImpl

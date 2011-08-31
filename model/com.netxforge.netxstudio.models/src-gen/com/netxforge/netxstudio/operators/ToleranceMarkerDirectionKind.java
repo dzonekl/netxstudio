@@ -16,7 +16,7 @@
  * Contributors:
  * Christophe Bouhier - initial API and implementation and/or initial documentation
  */
-package com.netxforge.netxstudio.library;
+package com.netxforge.netxstudio.operators;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,145 +26,121 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Level Type</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Tolerance Marker Direction Kind</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see com.netxforge.netxstudio.library.LibraryPackage#getLevelType()
- * @model extendedMetaData="name='Level_._type'"
+ * <!-- begin-model-doc -->
+ * The direction in which a treshold is crossed.
+ * 			
+ * <!-- end-model-doc -->
+ * @see com.netxforge.netxstudio.operators.OperatorsPackage#getToleranceMarkerDirectionKind()
+ * @model extendedMetaData="name='ToleranceMarkerDirectionKind'"
  * @generated
  */
-public enum LevelType implements Enumerator {
+public enum ToleranceMarkerDirectionKind implements Enumerator {
 	/**
-	 * The '<em><b>RED</b></em>' literal object.
+	 * The '<em><b>START</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #RED_VALUE
+	 * @see #START_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	RED(0, "RED", "RED"),
-
-	/**
-	 * The '<em><b>AMBER</b></em>' literal object.
+	START(0, "START", "START"), /**
+	 * The '<em><b>UP</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #AMBER_VALUE
+	 * @see #UP_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	AMBER(1, "AMBER", "AMBER"),
+	UP(1, "UP", "UP"),
 
 	/**
-	 * The '<em><b>GREEN</b></em>' literal object.
+	 * The '<em><b>DOWN</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #GREEN_VALUE
+	 * @see #DOWN_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	GREEN(2, "GREEN", "GREEN"),
+	DOWN(2, "DOWN", "DOWN");
 
 	/**
-	 * The '<em><b>YELLOW</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #YELLOW_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	YELLOW(3, "YELLOW", "YELLOW");
-
-	/**
-	 * The '<em><b>RED</b></em>' literal value.
+	 * The '<em><b>START</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>RED</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>START</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #RED
+	 * @see #START
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int RED_VALUE = 0;
+	public static final int START_VALUE = 0;
 
 	/**
-	 * The '<em><b>AMBER</b></em>' literal value.
+	 * The '<em><b>UP</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>AMBER</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>UP</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #AMBER
+	 * @see #UP
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int AMBER_VALUE = 1;
+	public static final int UP_VALUE = 1;
 
 	/**
-	 * The '<em><b>GREEN</b></em>' literal value.
+	 * The '<em><b>DOWN</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>GREEN</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>DOWN</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #GREEN
+	 * @see #DOWN
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int GREEN_VALUE = 2;
+	public static final int DOWN_VALUE = 2;
 
 	/**
-	 * The '<em><b>YELLOW</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>YELLOW</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #YELLOW
-	 * @model
-	 * @generated
-	 * @ordered
-	 */
-	public static final int YELLOW_VALUE = 3;
-
-	/**
-	 * An array of all the '<em><b>Level Type</b></em>' enumerators.
+	 * An array of all the '<em><b>Tolerance Marker Direction Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final LevelType[] VALUES_ARRAY =
-		new LevelType[] {
-			RED,
-			AMBER,
-			GREEN,
-			YELLOW,
+	private static final ToleranceMarkerDirectionKind[] VALUES_ARRAY =
+		new ToleranceMarkerDirectionKind[] {
+			START,
+			UP,
+			DOWN,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Level Type</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Tolerance Marker Direction Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<LevelType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<ToleranceMarkerDirectionKind> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Level Type</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Tolerance Marker Direction Kind</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static LevelType get(String literal) {
+	public static ToleranceMarkerDirectionKind get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			LevelType result = VALUES_ARRAY[i];
+			ToleranceMarkerDirectionKind result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -173,14 +149,14 @@ public enum LevelType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Level Type</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Tolerance Marker Direction Kind</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static LevelType getByName(String name) {
+	public static ToleranceMarkerDirectionKind getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			LevelType result = VALUES_ARRAY[i];
+			ToleranceMarkerDirectionKind result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -189,17 +165,16 @@ public enum LevelType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Level Type</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Tolerance Marker Direction Kind</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static LevelType get(int value) {
+	public static ToleranceMarkerDirectionKind get(int value) {
 		switch (value) {
-			case RED_VALUE: return RED;
-			case AMBER_VALUE: return AMBER;
-			case GREEN_VALUE: return GREEN;
-			case YELLOW_VALUE: return YELLOW;
+			case START_VALUE: return START;
+			case UP_VALUE: return UP;
+			case DOWN_VALUE: return DOWN;
 		}
 		return null;
 	}
@@ -231,7 +206,7 @@ public enum LevelType implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private LevelType(int value, String name, String literal) {
+	private ToleranceMarkerDirectionKind(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -275,4 +250,4 @@ public enum LevelType implements Enumerator {
 		return literal;
 	}
 	
-} //LevelType
+} //ToleranceMarkerDirectionKind

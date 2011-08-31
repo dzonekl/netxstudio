@@ -541,19 +541,19 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="LevelType">
+  <eClassifiers xsi:type="ecore:EEnum" name="LevelKind">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="Level_._type"/>
+      <details key="name" value="LevelKind"/>
     </eAnnotations>
     <eLiterals name="RED"/>
     <eLiterals name="AMBER" value="1"/>
     <eLiterals name="GREEN" value="2"/>
     <eLiterals name="YELLOW" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="LevelTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="LevelKindObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="Level_._type:Object"/>
-      <details key="baseType" value="Level_._type"/>
+      <details key="name" value="LevelKind:Object"/>
+      <details key="baseType" value="LevelKind"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Library">
@@ -1096,7 +1096,7 @@
         <details key="name" value="ExpressionRef"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="#//LevelType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="#//LevelKind"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The Level attribute holds the level of this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;tolerance.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>

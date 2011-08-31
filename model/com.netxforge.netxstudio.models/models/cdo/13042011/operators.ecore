@@ -131,7 +131,7 @@
     <eLiterals name="INTERNALEVENT" value="1" literal="INTERNAL_EVENT"/>
     <eLiterals name="EXTERNALEVENT" value="2" literal="EXTERNAL_EVENT"/>
     <eLiterals name="ACTIONNEEDED" value="3" literal="ACTION_NEEDED"/>
-    <eLiterals name="THRESHOLDREACHED" value="4" literal="THRESHOLD_REACHED"/>
+    <eLiterals name="TOLERANCECROSSED" value="4" literal="TOLERANCE_CROSSED"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="MarkerKindObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -532,6 +532,53 @@
         <details key="name" value="Start"/>
       </eAnnotations>
     </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ToleranceMarker" eSuperTypes="#//Marker">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;A marker which specifically marks tolerance treshold crossings.&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ToleranceMarker"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" eType="#//ToleranceMarkerDirectionKind"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="In which direction the marker is crossed,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;up or down.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="Direction"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="ecore:EEnum library.ecore#//LevelKind"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The level of the treshold which is crossed.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="Level"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ToleranceMarkerDirectionKind">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The direction in which a treshold is crossed.&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ToleranceMarkerDirectionKind"/>
+    </eAnnotations>
+    <eLiterals name="START"/>
+    <eLiterals name="UP" value="1"/>
+    <eLiterals name="DOWN" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ToleranceMarkerDirectionKindObject"
+      instanceClassName="org.eclipse.emf.common.util.Enumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ToleranceMarkerDirectionKind:Object"/>
+      <details key="baseType" value="ToleranceMarkerDirectionKind"/>
+    </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Warehouse" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

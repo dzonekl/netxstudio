@@ -1053,20 +1053,12 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="Level">
+				<xs:attribute name="Level" type="LevelKind">
 					<xs:annotation>
 						<xs:documentation>The Level attribute holds the level of this
 							tolerance.
 						</xs:documentation>
 					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:enumeration value="RED"/>
-							<xs:enumeration value="AMBER"/>
-							<xs:enumeration value="GREEN"/>
-							<xs:enumeration value="YELLOW"/>
-						</xs:restriction>
-					</xs:simpleType>
 				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
@@ -1291,6 +1283,18 @@
 			<xs:enumeration value="TRENDED"/>
 			<xs:enumeration value="UTILIZATION"/>
 			<xs:enumeration value="TOLERANCE"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	
+	<!--_____________________________ -->
+	<!--| LEVELKIND 				| -->
+	<!--|___________________________| -->
+	<xs:simpleType name ="LevelKind">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="RED"/>
+			<xs:enumeration value="AMBER"/>
+			<xs:enumeration value="GREEN"/>
+			<xs:enumeration value="YELLOW"/>
 		</xs:restriction>
 	</xs:simpleType>	
 	

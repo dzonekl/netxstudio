@@ -28,7 +28,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
@@ -37,8 +36,10 @@ import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.ExpressionResult;
+import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.RangeKind;
+import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -46,9 +47,9 @@ import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.MarkerKind;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
-import com.netxforge.netxstudio.services.ServiceMonitor;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 
 /**
  * Implements common logic used by several other plugins.
@@ -63,7 +64,8 @@ public class CommonLogic {
 	// on purpose not injected
 	private IDataProvider dataProvider;
 
-	private ServiceMonitor serviceMonitor;
+	private ResourceMonitor resourceMonitor;
+	private Tolerance tolerance;
 	private Date start;
 	private Date end;
 
@@ -129,34 +131,6 @@ public class CommonLogic {
 
 	private void createMarkers(ExpressionResult expressionResult, Date start,
 			Date end) {
-		final Node node = getNode(expressionResult.getTargetResource());
-		final ResourceMonitor resourceMonitor = OperatorsFactory.eINSTANCE
-				.createResourceMonitor();
-		resourceMonitor.setNodeRef(node);
-		resourceMonitor.setResourceRef(expressionResult.getTargetResource());
-		resourceMonitor.setStart(modelUtils.toXMLDate(start));
-		resourceMonitor.setEnd(modelUtils.toXMLDate(end));
-		if (serviceMonitor == null) {
-			final Resource emfResource = dataProvider
-					.getResource(OperatorsPackage.eINSTANCE
-							.getResourceMonitor());
-			emfResource.getContents().add(resourceMonitor);
-		} else {
-			serviceMonitor.getResourceMonitors().add(resourceMonitor);
-		}
-
-		// remove the current markers
-		final long startMillis = start.getTime();
-		final long endMillis = end.getTime();
-		final List<Marker> toRemove = new ArrayList<Marker>();
-		for (final Marker marker : resourceMonitor.getMarkers()) {
-			final long markerMillis = marker.getValueRef().getTimeStamp()
-					.toGregorianCalendar().getTimeInMillis();
-			if (markerMillis >= startMillis && markerMillis <= endMillis) {
-				toRemove.add(marker);
-			}
-		}
-		resourceMonitor.getMarkers().removeAll(toRemove);
 
 		// now compute the capacity in order
 		final List<Value> usageValues = new ArrayList<Value>();
@@ -183,8 +157,11 @@ public class CommonLogic {
 
 		// now walk through the lists and find the occurences of overrides
 		Value currentTolerance = null;
-		final int index = 0;
+		int index = 0;
 		boolean isOver = false;
+		boolean startMarkerGenerated = false;
+
+		final List<Marker> newMarkers = new ArrayList<Marker>();
 		for (final Value toleranceValue : toleranceValues) {
 			long toTime = end.getTime();
 			long fromTime = start.getTime();
@@ -208,23 +185,64 @@ public class CommonLogic {
 			}
 			// check if they are over or under
 			for (final Value checkValue : checkValues) {
-				if (checkValue.getValue() < currentTolerance.getValue()
+				ToleranceMarkerDirectionKind direction = null;
+				if (getTolerance().getLevel() == LevelKind.YELLOW
+						&& checkValue.getValue() < currentTolerance.getValue()
+						&& !startMarkerGenerated) {
+					// generate a start marker
+					isOver = false;
+					direction = ToleranceMarkerDirectionKind.DOWN;
+				} else if (checkValue.getValue() < currentTolerance.getValue()
 						&& isOver) {
 					isOver = false;
+					direction = ToleranceMarkerDirectionKind.DOWN;
 				} else if (checkValue.getValue() > currentTolerance.getValue()
 						&& !isOver) {
 					// generate a marker
 					isOver = true;
-					final Marker marker = OperatorsFactory.eINSTANCE
-							.createMarker();
+					direction = ToleranceMarkerDirectionKind.UP;
+				}
+				if (direction != null) {
+					final ToleranceMarker marker = OperatorsFactory.eINSTANCE
+							.createToleranceMarker();
 					marker.setComponentRef((Component) expressionResult
 							.getTargetResource().eContainer());
 					marker.setValueRef(checkValue);
-					marker.setKind(MarkerKind.THRESHOLDREACHED);
+					marker.setKind(MarkerKind.TOLERANCECROSSED);
+					marker.setLevel(getTolerance().getLevel());
+					if (startMarkerGenerated) {
+						marker.setDirection(direction);
+					} else {
+						marker.setDirection(ToleranceMarkerDirectionKind.START);
+					}
 					marker.setDescription(expressionResult.getTargetResource()
 							.getLongName());
-					resourceMonitor.getMarkers().add(marker);
+					newMarkers.add(marker);
 				}
+				startMarkerGenerated = true;
+			}
+			index++;
+		}
+		// now compare the newmarkers with what is already there
+		for (final Marker newMarker : newMarkers) {
+			index = 0;
+			boolean found = false;
+			for (final Marker existingMarker : new ArrayList<Marker>(
+					resourceMonitor.getMarkers())) {
+				if (existingMarker.getValueRef().getTimeStamp()
+						.equals(newMarker)) {
+					// red is more heavy than amber, replace the entry
+					if (((ToleranceMarker) newMarker).getLevel() == LevelKind.RED
+							&& ((ToleranceMarker) existingMarker).getLevel() == LevelKind.AMBER) {
+						resourceMonitor.getMarkers().set(index, newMarker);
+						found = true;
+						break;
+					}
+				}
+				index++;
+			}
+			if (!found) {
+				resourceMonitor.getMarkers().add(newMarker);
 			}
 		}
 	}
@@ -366,14 +384,6 @@ public class CommonLogic {
 		this.dataProvider = dataProvider;
 	}
 
-	public ServiceMonitor getServiceMonitor() {
-		return serviceMonitor;
-	}
-
-	public void setServiceMonitor(ServiceMonitor serviceMonitor) {
-		this.serviceMonitor = serviceMonitor;
-	}
-
 	public Date getStart() {
 		return start;
 	}
@@ -388,5 +398,21 @@ public class CommonLogic {
 
 	public void setEnd(Date end) {
 		this.end = end;
+	}
+
+	public ResourceMonitor getResourceMonitor() {
+		return resourceMonitor;
+	}
+
+	public void setResourceMonitor(ResourceMonitor resourceMonitor) {
+		this.resourceMonitor = resourceMonitor;
+	}
+
+	public Tolerance getTolerance() {
+		return tolerance;
+	}
+
+	public void setTolerance(Tolerance tolerance) {
+		this.tolerance = tolerance;
 	}
 }

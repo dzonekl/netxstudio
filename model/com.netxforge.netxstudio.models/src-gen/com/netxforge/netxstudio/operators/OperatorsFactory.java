@@ -128,6 +128,15 @@ public interface OperatorsFactory extends EFactory {
 	ResourceMonitor createResourceMonitor();
 
 	/**
+	 * Returns a new object of class '<em>Tolerance Marker</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Tolerance Marker</em>'.
+	 * @generated
+	 */
+	ToleranceMarker createToleranceMarker();
+
+	/**
 	 * Returns a new object of class '<em>Warehouse</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

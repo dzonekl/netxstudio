@@ -6,7 +6,6 @@
  */
 package com.netxforge.netxstudio.library.validation;
 
-import com.netxforge.netxstudio.library.LevelType;
 
 /**
  * A sample validator interface for {@link com.netxforge.netxstudio.library.Tolerance}.
@@ -18,6 +17,5 @@ public interface ToleranceValidator {
 	boolean validate();
 
 	boolean validateExpression(String value);
-	boolean validateLevel(LevelType value);
 	boolean validateName(String value);
 }

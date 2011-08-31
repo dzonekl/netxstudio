@@ -954,6 +954,97 @@ public interface OperatorsPackage extends EPackage {
 	int RESOURCE_MONITOR_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.ToleranceMarkerImpl <em>Tolerance Marker</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.operators.impl.ToleranceMarkerImpl
+	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getToleranceMarker()
+	 * @generated
+	 */
+	int TOLERANCE_MARKER = 10;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOLERANCE_MARKER__DELETED = MARKER__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Component Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOLERANCE_MARKER__COMPONENT_REF = MARKER__COMPONENT_REF;
+
+	/**
+	 * The feature id for the '<em><b>Value Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOLERANCE_MARKER__VALUE_REF = MARKER__VALUE_REF;
+
+	/**
+	 * The feature id for the '<em><b>Marker Resource Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOLERANCE_MARKER__MARKER_RESOURCE_REF = MARKER__MARKER_RESOURCE_REF;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOLERANCE_MARKER__DESCRIPTION = MARKER__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Kind</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOLERANCE_MARKER__KIND = MARKER__KIND;
+
+	/**
+	 * The feature id for the '<em><b>Direction</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOLERANCE_MARKER__DIRECTION = MARKER_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOLERANCE_MARKER__LEVEL = MARKER_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Tolerance Marker</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOLERANCE_MARKER_FEATURE_COUNT = MARKER_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.WarehouseImpl <em>Warehouse</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -961,7 +1052,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getWarehouse()
 	 * @generated
 	 */
-	int WAREHOUSE = 10;
+	int WAREHOUSE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1025,7 +1116,17 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getMarkerKind()
 	 * @generated
 	 */
-	int MARKER_KIND = 11;
+	int MARKER_KIND = 12;
+
+	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind <em>Tolerance Marker Direction Kind</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind
+	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getToleranceMarkerDirectionKind()
+	 * @generated
+	 */
+	int TOLERANCE_MARKER_DIRECTION_KIND = 13;
 
 	/**
 	 * The meta object id for the '<em>Marker Kind Object</em>' data type.
@@ -1035,7 +1136,18 @@ public interface OperatorsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getMarkerKindObject()
 	 * @generated
 	 */
-	int MARKER_KIND_OBJECT = 12;
+	int MARKER_KIND_OBJECT = 14;
+
+
+	/**
+	 * The meta object id for the '<em>Tolerance Marker Direction Kind Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind
+	 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getToleranceMarkerDirectionKindObject()
+	 * @generated
+	 */
+	int TOLERANCE_MARKER_DIRECTION_KIND_OBJECT = 15;
 
 
 	/**
@@ -1612,6 +1724,38 @@ public interface OperatorsPackage extends EPackage {
 	EAttribute getResourceMonitor_Start();
 
 	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.operators.ToleranceMarker <em>Tolerance Marker</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Tolerance Marker</em>'.
+	 * @see com.netxforge.netxstudio.operators.ToleranceMarker
+	 * @generated
+	 */
+	EClass getToleranceMarker();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.operators.ToleranceMarker#getDirection <em>Direction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Direction</em>'.
+	 * @see com.netxforge.netxstudio.operators.ToleranceMarker#getDirection()
+	 * @see #getToleranceMarker()
+	 * @generated
+	 */
+	EAttribute getToleranceMarker_Direction();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.operators.ToleranceMarker#getLevel <em>Level</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Level</em>'.
+	 * @see com.netxforge.netxstudio.operators.ToleranceMarker#getLevel()
+	 * @see #getToleranceMarker()
+	 * @generated
+	 */
+	EAttribute getToleranceMarker_Level();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.operators.Warehouse <em>Warehouse</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1676,6 +1820,16 @@ public interface OperatorsPackage extends EPackage {
 	EEnum getMarkerKind();
 
 	/**
+	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind <em>Tolerance Marker Direction Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Tolerance Marker Direction Kind</em>'.
+	 * @see com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind
+	 * @generated
+	 */
+	EEnum getToleranceMarkerDirectionKind();
+
+	/**
 	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.operators.MarkerKind <em>Marker Kind Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1686,6 +1840,18 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getMarkerKindObject();
+
+	/**
+	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind <em>Tolerance Marker Direction Kind Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Tolerance Marker Direction Kind Object</em>'.
+	 * @see com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind
+	 * @model instanceClass="com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind"
+	 *        extendedMetaData="name='ToleranceMarkerDirectionKind:Object' baseType='ToleranceMarkerDirectionKind'"
+	 * @generated
+	 */
+	EDataType getToleranceMarkerDirectionKindObject();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -2154,6 +2320,32 @@ public interface OperatorsPackage extends EPackage {
 		EAttribute RESOURCE_MONITOR__START = eINSTANCE.getResourceMonitor_Start();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.operators.impl.ToleranceMarkerImpl <em>Tolerance Marker</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.operators.impl.ToleranceMarkerImpl
+		 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getToleranceMarker()
+		 * @generated
+		 */
+		EClass TOLERANCE_MARKER = eINSTANCE.getToleranceMarker();
+
+		/**
+		 * The meta object literal for the '<em><b>Direction</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TOLERANCE_MARKER__DIRECTION = eINSTANCE.getToleranceMarker_Direction();
+
+		/**
+		 * The meta object literal for the '<em><b>Level</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TOLERANCE_MARKER__LEVEL = eINSTANCE.getToleranceMarker_Level();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.operators.impl.WarehouseImpl <em>Warehouse</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2206,6 +2398,16 @@ public interface OperatorsPackage extends EPackage {
 		EEnum MARKER_KIND = eINSTANCE.getMarkerKind();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind <em>Tolerance Marker Direction Kind</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind
+		 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getToleranceMarkerDirectionKind()
+		 * @generated
+		 */
+		EEnum TOLERANCE_MARKER_DIRECTION_KIND = eINSTANCE.getToleranceMarkerDirectionKind();
+
+		/**
 		 * The meta object literal for the '<em>Marker Kind Object</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2214,6 +2416,16 @@ public interface OperatorsPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType MARKER_KIND_OBJECT = eINSTANCE.getMarkerKindObject();
+
+		/**
+		 * The meta object literal for the '<em>Tolerance Marker Direction Kind Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind
+		 * @see com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl#getToleranceMarkerDirectionKindObject()
+		 * @generated
+		 */
+		EDataType TOLERANCE_MARKER_DIRECTION_KIND_OBJECT = eINSTANCE.getToleranceMarkerDirectionKindObject();
 
 	}
 

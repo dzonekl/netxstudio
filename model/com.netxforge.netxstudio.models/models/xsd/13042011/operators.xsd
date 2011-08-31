@@ -700,6 +700,34 @@
 	</xs:complexType>
 
 	<!--_____________________________ -->
+	<!--| ToleranceMarker | -->
+	<!--|___________________________| -->
+	<xs:complexType name="ToleranceMarker">
+		<xs:annotation>
+			<xs:documentation>
+				A marker which specifically marks tolerance treshold crossings.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Marker">
+				<xs:attribute name="Direction" type="ToleranceMarkerDirectionKind">
+					<xs:annotation>
+						<xs:documentation>In which direction the marker is crossed,
+						up or down.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="Level" type="library:LevelKind">
+					<xs:annotation>
+						<xs:documentation>The level of the treshold which is crossed.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_____________________________ -->
 	<!--| MARKERKIND | -->
 	<!--|___________________________| -->
 	<xs:simpleType name="MarkerKind">
@@ -713,7 +741,22 @@
 			<xs:enumeration value="INTERNAL_EVENT"></xs:enumeration>
 			<xs:enumeration value="EXTERNAL_EVENT"></xs:enumeration>
 			<xs:enumeration value="ACTION_NEEDED"></xs:enumeration>
-			<xs:enumeration value="THRESHOLD_REACHED"></xs:enumeration>
+			<xs:enumeration value="TOLERANCE_CROSSED"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!--_____________________________ -->
+	<!--| ToleranceMarkerDirectionKind | -->
+	<!--|___________________________| -->
+	<xs:simpleType name="ToleranceMarkerDirectionKind">
+		<xs:annotation>
+			<xs:documentation>The direction in which a treshold is crossed.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="START"></xs:enumeration>
+			<xs:enumeration value="UP"></xs:enumeration>
+			<xs:enumeration value="DOWN"></xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 

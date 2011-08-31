@@ -168,6 +168,14 @@ public class OperatorsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case OperatorsPackage.TOLERANCE_MARKER: {
+				ToleranceMarker toleranceMarker = (ToleranceMarker)theEObject;
+				T result = caseToleranceMarker(toleranceMarker);
+				if (result == null) result = caseMarker(toleranceMarker);
+				if (result == null) result = caseBase(toleranceMarker);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case OperatorsPackage.WAREHOUSE: {
 				Warehouse warehouse = (Warehouse)theEObject;
 				T result = caseWarehouse(warehouse);
@@ -326,6 +334,21 @@ public class OperatorsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseResourceMonitor(ResourceMonitor object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Tolerance Marker</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Tolerance Marker</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseToleranceMarker(ToleranceMarker object) {
 		return null;
 	}
 

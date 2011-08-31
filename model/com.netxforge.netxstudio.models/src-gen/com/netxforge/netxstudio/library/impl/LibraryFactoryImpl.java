@@ -32,7 +32,7 @@ import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
-import com.netxforge.netxstudio.library.LevelType;
+import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -118,16 +118,16 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case LibraryPackage.LEVEL_TYPE:
-				return createLevelTypeFromString(eDataType, initialValue);
+			case LibraryPackage.LEVEL_KIND:
+				return createLevelKindFromString(eDataType, initialValue);
 			case LibraryPackage.RANGE_KIND:
 				return createRangeKindFromString(eDataType, initialValue);
 			case LibraryPackage.REDUNDANCY_TYPE:
 				return createRedundancyTypeFromString(eDataType, initialValue);
 			case LibraryPackage.STATE_TYPE:
 				return createStateTypeFromString(eDataType, initialValue);
-			case LibraryPackage.LEVEL_TYPE_OBJECT:
-				return createLevelTypeObjectFromString(eDataType, initialValue);
+			case LibraryPackage.LEVEL_KIND_OBJECT:
+				return createLevelKindObjectFromString(eDataType, initialValue);
 			case LibraryPackage.RANGE_KIND_OBJECT:
 				return createRangeKindObjectFromString(eDataType, initialValue);
 			case LibraryPackage.REDUNDANCY_TYPE_OBJECT:
@@ -147,16 +147,16 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case LibraryPackage.LEVEL_TYPE:
-				return convertLevelTypeToString(eDataType, instanceValue);
+			case LibraryPackage.LEVEL_KIND:
+				return convertLevelKindToString(eDataType, instanceValue);
 			case LibraryPackage.RANGE_KIND:
 				return convertRangeKindToString(eDataType, instanceValue);
 			case LibraryPackage.REDUNDANCY_TYPE:
 				return convertRedundancyTypeToString(eDataType, instanceValue);
 			case LibraryPackage.STATE_TYPE:
 				return convertStateTypeToString(eDataType, instanceValue);
-			case LibraryPackage.LEVEL_TYPE_OBJECT:
-				return convertLevelTypeObjectToString(eDataType, instanceValue);
+			case LibraryPackage.LEVEL_KIND_OBJECT:
+				return convertLevelKindObjectToString(eDataType, instanceValue);
 			case LibraryPackage.RANGE_KIND_OBJECT:
 				return convertRangeKindObjectToString(eDataType, instanceValue);
 			case LibraryPackage.REDUNDANCY_TYPE_OBJECT:
@@ -313,8 +313,8 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LevelType createLevelTypeFromString(EDataType eDataType, String initialValue) {
-		LevelType result = LevelType.get(initialValue);
+	public LevelKind createLevelKindFromString(EDataType eDataType, String initialValue) {
+		LevelKind result = LevelKind.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -324,7 +324,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertLevelTypeToString(EDataType eDataType, Object instanceValue) {
+	public String convertLevelKindToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
@@ -393,8 +393,8 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LevelType createLevelTypeObjectFromString(EDataType eDataType, String initialValue) {
-		return createLevelTypeFromString(LibraryPackage.Literals.LEVEL_TYPE, initialValue);
+	public LevelKind createLevelKindObjectFromString(EDataType eDataType, String initialValue) {
+		return createLevelKindFromString(LibraryPackage.Literals.LEVEL_KIND, initialValue);
 	}
 
 	/**
@@ -402,8 +402,8 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertLevelTypeObjectToString(EDataType eDataType, Object instanceValue) {
-		return convertLevelTypeToString(LibraryPackage.Literals.LEVEL_TYPE, instanceValue);
+	public String convertLevelKindObjectToString(EDataType eDataType, Object instanceValue) {
+		return convertLevelKindToString(LibraryPackage.Literals.LEVEL_KIND, instanceValue);
 	}
 
 	/**

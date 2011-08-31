@@ -1688,14 +1688,14 @@ public interface LibraryPackage extends EPackage {
 	int VENDOR_FEATURE_COUNT = GenericsPackage.COMPANY_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.library.LevelType <em>Level Type</em>}' enum.
+	 * The meta object id for the '{@link com.netxforge.netxstudio.library.LevelKind <em>Level Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.library.LevelType
-	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelType()
+	 * @see com.netxforge.netxstudio.library.LevelKind
+	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelKind()
 	 * @generated
 	 */
-	int LEVEL_TYPE = 14;
+	int LEVEL_KIND = 14;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.RangeKind <em>Range Kind</em>}' enum.
@@ -1728,14 +1728,14 @@ public interface LibraryPackage extends EPackage {
 	int STATE_TYPE = 17;
 
 	/**
-	 * The meta object id for the '<em>Level Type Object</em>' data type.
+	 * The meta object id for the '<em>Level Kind Object</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.library.LevelType
-	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelTypeObject()
+	 * @see com.netxforge.netxstudio.library.LevelKind
+	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelKindObject()
 	 * @generated
 	 */
-	int LEVEL_TYPE_OBJECT = 18;
+	int LEVEL_KIND_OBJECT = 18;
 
 	/**
 	 * The meta object id for the '<em>Range Kind Object</em>' data type.
@@ -2998,14 +2998,14 @@ public interface LibraryPackage extends EPackage {
 	EReference getVendor_Products();
 
 	/**
-	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.library.LevelType <em>Level Type</em>}'.
+	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.library.LevelKind <em>Level Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Level Type</em>'.
-	 * @see com.netxforge.netxstudio.library.LevelType
+	 * @return the meta object for enum '<em>Level Kind</em>'.
+	 * @see com.netxforge.netxstudio.library.LevelKind
 	 * @generated
 	 */
-	EEnum getLevelType();
+	EEnum getLevelKind();
 
 	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.library.RangeKind <em>Range Kind</em>}'.
@@ -3038,16 +3038,16 @@ public interface LibraryPackage extends EPackage {
 	EEnum getStateType();
 
 	/**
-	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.library.LevelType <em>Level Type Object</em>}'.
+	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.library.LevelKind <em>Level Kind Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>Level Type Object</em>'.
-	 * @see com.netxforge.netxstudio.library.LevelType
-	 * @model instanceClass="com.netxforge.netxstudio.library.LevelType"
-	 *        extendedMetaData="name='Level_._type:Object' baseType='Level_._type'"
+	 * @return the meta object for data type '<em>Level Kind Object</em>'.
+	 * @see com.netxforge.netxstudio.library.LevelKind
+	 * @model instanceClass="com.netxforge.netxstudio.library.LevelKind"
+	 *        extendedMetaData="name='LevelKind:Object' baseType='LevelKind'"
 	 * @generated
 	 */
-	EDataType getLevelTypeObject();
+	EDataType getLevelKindObject();
 
 	/**
 	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.library.RangeKind <em>Range Kind Object</em>}'.
@@ -4040,14 +4040,14 @@ public interface LibraryPackage extends EPackage {
 		EReference VENDOR__PRODUCTS = eINSTANCE.getVendor_Products();
 
 		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.LevelType <em>Level Type</em>}' enum.
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.LevelKind <em>Level Kind</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.library.LevelType
-		 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelType()
+		 * @see com.netxforge.netxstudio.library.LevelKind
+		 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelKind()
 		 * @generated
 		 */
-		EEnum LEVEL_TYPE = eINSTANCE.getLevelType();
+		EEnum LEVEL_KIND = eINSTANCE.getLevelKind();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.RangeKind <em>Range Kind</em>}' enum.
@@ -4080,14 +4080,14 @@ public interface LibraryPackage extends EPackage {
 		EEnum STATE_TYPE = eINSTANCE.getStateType();
 
 		/**
-		 * The meta object literal for the '<em>Level Type Object</em>' data type.
+		 * The meta object literal for the '<em>Level Kind Object</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.library.LevelType
-		 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelTypeObject()
+		 * @see com.netxforge.netxstudio.library.LevelKind
+		 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelKindObject()
 		 * @generated
 		 */
-		EDataType LEVEL_TYPE_OBJECT = eINSTANCE.getLevelTypeObject();
+		EDataType LEVEL_KIND_OBJECT = eINSTANCE.getLevelKindObject();
 
 		/**
 		 * The meta object literal for the '<em>Range Kind Object</em>' data type.

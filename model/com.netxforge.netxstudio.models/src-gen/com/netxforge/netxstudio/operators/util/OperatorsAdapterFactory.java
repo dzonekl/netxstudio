@@ -136,6 +136,10 @@ public class OperatorsAdapterFactory extends AdapterFactoryImpl {
 				return createResourceMonitorAdapter();
 			}
 			@Override
+			public Adapter caseToleranceMarker(ToleranceMarker object) {
+				return createToleranceMarkerAdapter();
+			}
+			@Override
 			public Adapter caseWarehouse(Warehouse object) {
 				return createWarehouseAdapter();
 			}
@@ -304,6 +308,20 @@ public class OperatorsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createResourceMonitorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.operators.ToleranceMarker <em>Tolerance Marker</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.operators.ToleranceMarker
+	 * @generated
+	 */
+	public Adapter createToleranceMarkerAdapter() {
 		return null;
 	}
 
