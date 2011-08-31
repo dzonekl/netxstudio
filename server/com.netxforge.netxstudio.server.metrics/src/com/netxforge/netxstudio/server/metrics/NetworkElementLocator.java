@@ -198,29 +198,29 @@ public class NetworkElementLocator {
 			if (eObject instanceof Function) {
 				for (final FunctionRelationship r : ((Function) eObject)
 						.getFunctionRelationshipRefs()) {
-					if (featureHasValue(r, identifierValue.getKind()
-							.getObjectProperty(), idValue)) {
+					if (featureMatchesValue(r, identifierValue.getKind()
+							.getObjectProperty(), idValue, identifierValue.getKind().getPattern())) {
 						return true;
 					}
 				}
 			} else {
 				for (final EquipmentRelationship r : ((Equipment) eObject)
 						.getEquipmentRelationshipRefs()) {
-					if (featureHasValue(r, identifierValue.getKind()
-							.getObjectProperty(), idValue)) {
+					if (featureMatchesValue(r, identifierValue.getKind()
+							.getObjectProperty(), idValue, identifierValue.getKind().getPattern())) {
 						return true;
 					}
 				}
 			}
 			return false;
 		} else {
-			return featureHasValue(eObject, identifierValue.getKind()
-					.getObjectProperty(), idValue);
+			return featureMatchesValue(eObject, identifierValue.getKind()
+					.getObjectProperty(), idValue, identifierValue.getKind().getPattern());
 		}
 	}
 
-	private boolean featureHasValue(EObject eObject, String eFeatureName,
-			String idValue) {
+	private boolean featureMatchesValue(EObject eObject, String eFeatureName,
+			String idValue, String extractionPattern) {
 		EStructuralFeature eFeature = null;
 		for (final EStructuralFeature feature : eObject.eClass()
 				.getEAllStructuralFeatures()) {
@@ -232,18 +232,24 @@ public class NetworkElementLocator {
 
 		eObject.eClass().getEStructuralFeature(eFeatureName);
 		if (eFeature != null) {
-			final Object value = eObject.eGet(eFeature);
-			if (value instanceof String && value.equals(idValue)) {
+			final Object componentFeatureValue = eObject.eGet(eFeature);
+			if (componentFeatureValue instanceof String && matches(idValue, (String)componentFeatureValue, extractionPattern)) {
 				return true;
 			}
 		}
 		// check if one of the parents has this one
 		if (eObject.eContainer() != null) {
-			return featureHasValue(eObject.eContainer(), eFeatureName, idValue);
+			return featureMatchesValue(eObject.eContainer(), eFeatureName, idValue, extractionPattern);
 		}
 		return false;
 	}
 
+	private boolean matches(String dataValue, String componentValue, String extractionPattern) {
+		// PATTERN: if extractionPattern != null then use it to extract the to-compare value
+		// from the componentValue or the dataValue, the dataValue is read from the excel
+		return dataValue.equals(componentValue);
+	}
+	
 	public static class IdentifierValue {
 		private IdentifierDataKind kind;
 		private String value;

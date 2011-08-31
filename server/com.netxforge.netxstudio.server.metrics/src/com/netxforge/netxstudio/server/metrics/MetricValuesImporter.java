@@ -92,7 +92,7 @@ public abstract class MetricValuesImporter {
 
 	private Throwable throwable;
 
-	private int periodHint = -1;
+	private int intervalHint = -1;
 	private Date timeStamp = null;
 	private List<IdentifierValue> headerIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
 
@@ -243,7 +243,7 @@ public abstract class MetricValuesImporter {
 	protected int processRows() {
 
 		if (getMapping().getIntervalHint() > 0) {
-			periodHint = getMapping().getIntervalHint();
+			intervalHint = getMapping().getIntervalHint();
 		}
 
 		jobMonitor.setMsg("Processing header row");
@@ -262,7 +262,7 @@ public abstract class MetricValuesImporter {
 						getMappingColumn(), rowNum);
 				final Date rowTimeStamp = getTimeStampValue(getMappingColumn(),
 						rowNum);
-				final int periodHint = getPeriodHint(rowNum);
+				final int periodHint = getIntervalHint(rowNum);
 
 				for (final MappingColumn column : getMappingColumn()) {
 					if (isMetric(column)) {
@@ -517,7 +517,7 @@ public abstract class MetricValuesImporter {
 		return new Date();
 	}
 
-	private int getPeriodHint(int rowNum) {
+	private int getIntervalHint(int rowNum) {
 		for (final MappingColumn column : getMappingColumn()) {
 			if (column.getDataType() instanceof ValueDataKind
 					&& ((ValueDataKind) column.getDataType()).getValueKind() == ValueKindType.INTERVAL) {
@@ -529,7 +529,7 @@ public abstract class MetricValuesImporter {
 				}
 			}
 		}
-		return periodHint;
+		return intervalHint;
 	}
 
 	private EList<MappingColumn> getMappingColumn() {
