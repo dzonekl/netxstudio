@@ -33,6 +33,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -62,6 +64,7 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
@@ -71,6 +74,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.LogDialog;
 
 /**
@@ -177,29 +181,29 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		jobRunMenu = new Menu(table);
 		table.setMenu(jobRunMenu);
 
-		MenuItem mntmShowLog = new MenuItem(jobRunMenu, SWT.NONE);
-		mntmShowLog.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ISelection selection = jobRunsTableViewer.getSelection();
-				if (selection instanceof IStructuredSelection) {
-					IStructuredSelection ss = (IStructuredSelection) selection;
-					Object o = ss.getFirstElement();
-					if (o instanceof WorkFlowRun) {
-						String log = ((WorkFlowRun) o).getLog();
-						if (log != null) {
-							LogDialog ld = new LogDialog(JobRuns.this
-									.getShell());
-							ld.InjectData(log);
-							ld.open();
-						} else {
-							// TODO, no log available user feedback.
-						}
-					}
-				}
-			}
-		});
-		mntmShowLog.setText("Show Log...");
+//		MenuItem mntmShowLog = new MenuItem(jobRunMenu, SWT.NONE);
+//		mntmShowLog.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				ISelection selection = jobRunsTableViewer.getSelection();
+//				if (selection instanceof IStructuredSelection) {
+//					IStructuredSelection ss = (IStructuredSelection) selection;
+//					Object o = ss.getFirstElement();
+//					if (o instanceof WorkFlowRun) {
+//						String log = ((WorkFlowRun) o).getLog();
+//						if (log != null) {
+//							LogDialog ld = new LogDialog(JobRuns.this
+//									.getShell());
+//							ld.InjectData(log);
+//							ld.open();
+//						} else {
+//							// TODO, no log available user feedback.
+//						}
+//					}
+//				}
+//			}
+//		});
+//		mntmShowLog.setText("Show Log...");
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				jobRunsTableViewer, SWT.NONE);
@@ -212,7 +216,37 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 	private Form frmJobRuns;
 	private Job job;
 	private JobRunContainer currentJobContainer;
+	
+	
+	class ShowLogAction extends Action {
 
+		public ShowLogAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = jobRunsTableViewer.getSelection();
+			if (selection instanceof IStructuredSelection) {
+				IStructuredSelection ss = (IStructuredSelection) selection;
+				Object o = ss.getFirstElement();
+				if (o instanceof WorkFlowRun) {
+					String log = ((WorkFlowRun) o).getLog();
+					if (log != null) {
+						LogDialog ld = new LogDialog(JobRuns.this
+								.getShell());
+						ld.InjectData(log);
+						ld.open();
+					} else {
+						// TODO, no log available user feedback.
+					}
+				}
+			}
+		}
+	}
+
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -286,7 +320,23 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			}
 		}
 	}
+	
+	@Override
+	public IAction[] getActions() {
+		@SuppressWarnings("unused")
+		String actionText = Screens.isReadOnlyOperation(this.getOperation()) ? "View..."
+				: "Edit...";
+		List<IAction> actions = Lists.newArrayList();
+		actions.add(new ShowLogAction("Show Log...", SWT.PUSH));
 
+		IAction[] actionArray = new IAction[actions.size()];
+		return actions.toArray(actionArray);
+
+	}
+
+	
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 

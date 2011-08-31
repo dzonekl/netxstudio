@@ -40,8 +40,6 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.MenuEvent;
-import org.eclipse.swt.events.MenuListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -86,12 +84,13 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
+import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
+import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu.MappingMenuListener;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
 public class NewEditMappingCSV extends AbstractScreen implements
 		IDataScreenInjection {
 
-	private static final int IDENTIFIER_VALUE = 100;
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtFirstHeaderRow;
 	private Text txtFirstDataRow;
@@ -104,6 +103,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 	private GridTableViewer gridTableViewer;
 	private Menu gridMenu;
 	private TableViewer tblViewerHeaderColumnMapping;
+	private MappingMenuListener mmListener;
 
 	/**
 	 * Create the composite.
@@ -324,7 +324,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 				});
 				job.setResourceToProcess(f);
 				job.go(); // Should spawn a job processing the xls.
-				resetGridSelections();// Reset the selections.
+//				resetGridSelections();// Reset the selections.
 			}
 		});
 
@@ -364,77 +364,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		grid.addSelectionListener(gridSelector);
 		buildFixedColumns(gridTableViewer);
 
-		gridMenu = new Menu(grid);
-		grid.setMenu(gridMenu);
-		gridMenu.addMenuListener(new MenuListener() {
-			public void menuHidden(MenuEvent e) {
-				System.out.println(e);
-			}
-
-			public void menuShown(MenuEvent e) {
-				System.out.println(e);
-				// Can we still build the menu here before it shows.
-				// Clear the entries.
-				MenuItem[] mis = gridMenu.getItems();
-				for (int i = 0; i < mis.length; i++) {
-					mis[i].dispose();
-				}
-
-				if (currentRowIndex != -1) {
-
-					// Row Mappings
-					{
-						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
-						mi.setText("Set Header row index (" + currentRowIndex
-								+ ")");
-						mi.addSelectionListener(new SelectionAdapter() {
-							@Override
-							public void widgetSelected(SelectionEvent e) {
-								txtFirstHeaderRow.setText(new Integer(
-										currentRowIndex).toString());
-							}
-						});
-					}
-
-					// Header Column Mappings.
-					MenuItem colHeaderMenuItem = new MenuItem(gridMenu,
-							SWT.CASCADE);
-					colHeaderMenuItem.setText("Header Column Mapping index=("
-							+ currentColumnIndex + ")");
-					{
-						Menu colMenu = new Menu(colHeaderMenuItem);
-						newHeaderMenus(colMenu);
-						colHeaderMenuItem.setMenu(colMenu);
-					}
-
-					{
-						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
-						mi.setText("Set Data row index (" + currentRowIndex
-								+ ")");
-						mi.addSelectionListener(new SelectionAdapter() {
-							@Override
-							public void widgetSelected(SelectionEvent e) {
-								txtFirstDataRow.setText(new Integer(
-										currentRowIndex).toString());
-							}
-						});
-					}
-
-					// Data Column Mappings.
-					MenuItem colDataMenuItem = new MenuItem(gridMenu,
-							SWT.CASCADE);
-					colDataMenuItem.setText("Data Column Mapping index=("
-							+ currentColumnIndex + ")");
-					{
-						Menu colMenu = new Menu(colDataMenuItem);
-						newDataMenus(colMenu);
-						colDataMenuItem.setMenu(colMenu);
-					}
-
-				}
-			}
-		});
-
+		
 		Section sctnMappingColumns = toolkit.createSection(
 				frmCSVMappingForm.getBody(), Section.TITLE_BAR);
 		fd_sctnSummary.bottom = new FormAttachment(sctnMappingColumns, -6);
@@ -548,6 +478,16 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		TableColumn tblclmnValueType = tableViewerColumn_1.getColumn();
 		tblclmnValueType.setWidth(100);
 		tblclmnValueType.setText("Value Type");
+		
+		gridMenu = new Menu(grid);
+		grid.setMenu(gridMenu);
+		
+		// Delegate to a singleton holding the MappingMenuListener class. 
+		mmListener = ColumnMappingMenu.getINSTANCE().new MappingMenuListener(
+				gridMenu, mapping, screenService, txtFirstHeaderRow,
+				txtFirstDataRow);
+		gridMenu.addMenuListener(mmListener);
+		
 	}
 
 	private void setGridSelection(MappingColumn mc, int row) {
@@ -561,221 +501,6 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		}
 	}
 
-	private void newHeaderMenus(Menu colMenu) {
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Date mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newHeaderColumnMapping(currentColumnIndex,
-							ValueKindType.DATE_VALUE);
-				}
-			});
-		}
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Date Time mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newHeaderColumnMapping(currentColumnIndex,
-							ValueKindType.DATETIME_VALUE);
-				}
-			});
-		}
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Time mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newHeaderColumnMapping(currentColumnIndex,
-							ValueKindType.TIME_VALUE);
-				}
-			});
-		}
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Identifier mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newHeaderColumnMapping(currentColumnIndex, IDENTIFIER_VALUE);
-				}
-			});
-		}
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Interval mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newHeaderColumnMapping(currentColumnIndex,
-							ValueKindType.INTERVAL_VALUE);
-				}
-			});
-		}
-	}
-
-	private void newDataMenus(Menu colMenu) {
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Date mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newDataColumnMapping(currentColumnIndex,
-							ValueKindType.DATE_VALUE);
-				}
-			});
-		}
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Date Time mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newDataColumnMapping(currentColumnIndex,
-							ValueKindType.DATETIME_VALUE);
-				}
-			});
-		}
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Time mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newDataColumnMapping(currentColumnIndex,
-							ValueKindType.TIME_VALUE);
-				}
-			});
-		}
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Identifier mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newDataColumnMapping(currentColumnIndex, IDENTIFIER_VALUE);
-				}
-			});
-		}
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Interval mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newDataColumnMapping(currentColumnIndex,
-							ValueKindType.INTERVAL_VALUE);
-				}
-			});
-		}
-		{
-			MenuItem mi = new MenuItem(colMenu, SWT.PUSH);
-			mi.setText("New Metric mapping");
-			mi.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					newDataColumnMapping(currentColumnIndex,
-							ValueKindType.METRIC_VALUE);
-				}
-			});
-		}
-	}
-
-	private void newHeaderColumnMapping(int col, int kind) {
-
-		MappingColumn mc = MetricsFactory.eINSTANCE.createMappingColumn();
-		mc.setColumn(col);
-
-		switch (kind) {
-		case ValueKindType.DATE_VALUE: {
-			ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
-			vdk.setValueKind(ValueKindType.DATE);
-			mc.setDataType(vdk);
-		}
-			break;
-		case ValueKindType.DATETIME_VALUE: {
-			ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
-			vdk.setValueKind(ValueKindType.DATETIME);
-			mc.setDataType(vdk);
-		}
-			break;
-		case ValueKindType.TIME_VALUE: {
-			ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
-			vdk.setValueKind(ValueKindType.TIME);
-			mc.setDataType(vdk);
-		}
-			break;
-		case ValueKindType.INTERVAL_VALUE: {
-			ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
-			vdk.setValueKind(ValueKindType.INTERVAL);
-			mc.setDataType(vdk);
-		}
-			break;
-		case IDENTIFIER_VALUE: {
-			IdentifierDataKind idk = MetricsFactory.eINSTANCE
-					.createIdentifierDataKind();
-			mc.setDataType(idk);
-		}
-			break;
-		}
-
-		newColumnMappingScreen(false, Screens.OPERATION_NEW,
-				mapping.getHeaderMappingColumns(), mc);
-	}
-
-	private void newDataColumnMapping(int col, int kind) {
-
-		MappingColumn mc = MetricsFactory.eINSTANCE.createMappingColumn();
-		mc.setColumn(col);
-
-		switch (kind) {
-		case ValueKindType.DATE_VALUE: {
-			ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
-			vdk.setValueKind(ValueKindType.DATE);
-			mc.setDataType(vdk);
-		}
-			break;
-		case ValueKindType.DATETIME_VALUE: {
-			ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
-			vdk.setValueKind(ValueKindType.DATETIME);
-			mc.setDataType(vdk);
-		}
-			break;
-		case ValueKindType.TIME_VALUE: {
-			ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
-			vdk.setValueKind(ValueKindType.TIME);
-			mc.setDataType(vdk);
-		}
-			break;
-		case ValueKindType.INTERVAL_VALUE: {
-			ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
-			vdk.setValueKind(ValueKindType.INTERVAL);
-			mc.setDataType(vdk);
-		}
-			break;
-		case IDENTIFIER_VALUE: {
-			IdentifierDataKind idk = MetricsFactory.eINSTANCE
-					.createIdentifierDataKind();
-			mc.setDataType(idk);
-		}
-			break;
-		case ValueKindType.METRIC_VALUE: {
-			ValueDataKind vdk = MetricsFactory.eINSTANCE.createValueDataKind();
-			vdk.setValueKind(ValueKindType.METRIC);
-			mc.setDataType(vdk);
-
-		}
-			break;
-		}
-		newColumnMappingScreen(true, Screens.OPERATION_NEW,
-				mapping.getDataMappingColumns(), mc);
-	}
-
 	private void newColumnMappingScreen(boolean showDataMapping, int op,
 			Object owner, Object target) {
 		NewEditMappingColumn mappingColumnScreen = new NewEditMappingColumn(
@@ -786,18 +511,19 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		screenService.setActiveScreen(mappingColumnScreen);
 	}
 
-	private void resetGridSelections() {
-		this.currentColumnIndex = -1;
-		this.currentRowIndex = -1;
-	}
+//	private void resetGridSelections() {
+//		this.currentColumnIndex = -1;
+//		this.currentRowIndex = -1;
+//	}
 
 	/**
 	 * Aggregates the selection in the grid, used by column and the grid.
 	 * 
 	 */
 	GridSelectionListener gridSelector = new GridSelectionListener();
-	private int currentRowIndex;
-	private int currentColumnIndex;
+
+//	private int currentRowIndex;
+//	private int currentColumnIndex;
 
 	class GridSelectionListener extends SelectionAdapter {
 		public void widgetSelected(SelectionEvent e) {
@@ -807,17 +533,14 @@ public class NewEditMappingCSV extends AbstractScreen implements
 
 	/**
 	 * Updates the row and column index to be used, by the screen further on.
-	 * 
-	 * Notice TODO: The mapping index for row starts at 1. The mapping index for
-	 * column starts at 0.
-	 * 
 	 * @param e
 	 */
 	private void updateSelection(SelectionEvent e) {
 		Point[] p = gridTableViewer.getGrid().getCellSelection();
 		if (p.length >= 1) {
-			this.currentColumnIndex = p[0].x;
-			this.currentRowIndex = p[0].y;
+			
+			mmListener.setCurrentColumnIndex(p[0].x);
+			mmListener.setCurrentRowIndex(p[0].y);
 		}
 	}
 
@@ -890,6 +613,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 
 		IObservableValue firstDataRowObservableValue = SWTObservables
 				.observeText(txtFirstDataRow, SWT.Modify);
+		
 		IEMFValueProperty firstDataRowProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);

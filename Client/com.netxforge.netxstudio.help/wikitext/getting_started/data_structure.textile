@@ -18,7 +18,6 @@ The following objects are defined in the Library.
 
 * Function
 * Equipment
-* Metric
 * Company
 * Tolerance
 * Unit

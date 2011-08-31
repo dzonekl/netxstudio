@@ -302,6 +302,8 @@ public class EditingActionsHandler implements  IActionHandler {
 		if(descriptor.enableEditActions){
 			enableEditingActions(menuManager);	
 		}
+		
+		menuManager.add(new Separator("additions-end"));
 	}
 
 
@@ -313,6 +315,7 @@ public class EditingActionsHandler implements  IActionHandler {
 
 		menuManager.add(new Separator("screen"));
 		menuManager.add(new Separator("edit"));
+		// Add our other standard marker.
 	}
 
 	
@@ -333,9 +336,8 @@ public class EditingActionsHandler implements  IActionHandler {
 			menuManager.add(new Separator("additions"));
 			menuManager.add(new Separator());
 		}
-		// Add our other standard marker.
-		//
-		menuManager.add(new Separator("additions-end"));
+		
+		
 	}
 	
 }

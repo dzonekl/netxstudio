@@ -23,7 +23,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f2.Services;
+import com.netxforge.netxstudio.screens.f1.Services;
 import com.netxforge.netxstudio.screens.f4.Metrics;
 
 public class MonitoringScreenSelector extends AbstractScreenSelector {
@@ -52,7 +52,7 @@ public class MonitoringScreenSelector extends AbstractScreenSelector {
 		
 		Composite result;
 		result = screenFormService.addScreenSelector("Metrics","icons/full/obj16/Metric_H.png", Metrics.class, 1, Screens.OPERATION_EDIT);
-		screenFormService.addScreenSelector(result, "Services", "icons/full/obj16/Service_H.png",  Services.class, Screens.OPERATION_READ_ONLY);
+		screenFormService.addScreenSelector(result, "Services", "icons/full/obj16/Service_H.png",  Services.class, Screens.OPERATION_EDIT);
 		
 	}
 	

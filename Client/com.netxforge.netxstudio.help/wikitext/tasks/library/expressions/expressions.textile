@@ -3,7 +3,7 @@ h1. Expressions
 The Expressions screen provides access to all expressions used by the system. 
 Expressions can be created and attached to various to objects. From the expressions screen the following activities can be performed
 
-* "Create or Modifying an Expression":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/expressions/creating_an_expression.html
+* "Create or Modify an Expression":PLUGINS_ROOT/com.netxforge.netxstudio.help/html/tasks/library/expressions/creating_an_expression.html
 
 
 The Expressions screen

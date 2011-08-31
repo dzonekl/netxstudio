@@ -35,11 +35,11 @@
   </topic>
   
 		<topic href="html/tasks/library/network_element_types/network_element_types.html" label="Network Element Types">
-     <topic href="html/tasks/library/network_element_types/creating_a_network_element_type.htm" label="Creating or Modifying a Network Element Type">
+     <topic href="html/tasks/library/network_element_types/creating_a_network_element_type.html" label="Modifying a Network Element Type">
      </topic>
-     <topic href="html/tasks/library/network_element_types/creating_a_function.htm" label="Creating or Modifying a Function">
+     <topic href="html/tasks/library/network_element_types/creating_a_function.html" label="Modifying a Function">
      </topic>
-     <topic href="html/tasks/library/network_element_types/creating_an_equipment.htm" label="Creating or Modifying an Equipment">
+     <topic href="html/tasks/library/network_element_types/creating_an_equipment.html" label="Modifying an Equipment">
      </topic>
 		</topic>
 		<topic href="html/tasks/library/tolerances/tolerances.html" label="Tolerances">

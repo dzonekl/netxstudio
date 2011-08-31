@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.f1;
 
 import java.util.Date;
 import java.util.List;
@@ -33,16 +33,20 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
+import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f2.ServiceMonitors;
 import com.netxforge.netxstudio.services.ServiceMonitor;
+import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class Services extends AbstractScreen implements IDataServiceInjection {
@@ -66,11 +70,12 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-//				obm.dispose();
+				// obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+		// buildUI();
 
 	}
 
@@ -97,7 +102,35 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
-		new Label(frmServices.getBody(), SWT.NONE);
+
+		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+				frmServices.getBody(), SWT.NONE);
+		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				if (screenService != null) {
+					NewEditService smScreen = new NewEditService(screenService
+							.getScreenContainer(), SWT.NONE);
+					smScreen.setOperation(getOperation());
+					smScreen.setScreenService(screenService);
+					smScreen.injectData(rfsServiceResource,
+							ServicesFactory.eINSTANCE.createRFSService());
+					screenService.setActiveScreen(smScreen);
+				}
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		mghprlnkNew.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/ctool16/Service_E.png"));
+		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		toolkit.paintBordersFor(mghprlnkNew);
+		mghprlnkNew.setText("New");
 
 		servicesTableViewer = new TableViewer(frmServices.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION);
@@ -120,8 +153,6 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 		tblclmnDescription.setText("Description");
 
 	}
-	
-	
 
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
@@ -129,9 +160,9 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 	 * @author dzonekl
 	 * 
 	 */
-	class EditServiceAction extends Action {
+	class ServiceMonitoringAction extends Action {
 
-		public EditServiceAction(String text, int style) {
+		public ServiceMonitoringAction(String text, int style) {
 			super(text, style);
 		}
 
@@ -153,8 +184,37 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
-	
-	
+
+	/**
+	 * Wrap in an action, to contribute to a menu manager.
+	 * 
+	 * @author dzonekl
+	 * 
+	 */
+	class EditServiceAction extends Action {
+
+		public EditServiceAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			super.run();
+			if (screenService != null) {
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					NewEditService smScreen = new NewEditService(
+							screenService.getScreenContainer(), SWT.NONE);
+					smScreen.setOperation(getOperation());
+					smScreen.setScreenService(screenService);
+					smScreen.injectData(rfsServiceResource, o);
+					screenService.setActiveScreen(smScreen);
+				}
+			}
+		}
+	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -179,7 +239,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 				.resource(editingService.getEditingDomain());
 		IObservableList rfsServicesObservableList = serviceProperty
 				.observe(rfsServiceResource);
-//		obm.addObservable(rfsServicesObservableList);
+		// obm.addObservable(rfsServicesObservableList);
 		servicesTableViewer.setInput(rfsServicesObservableList);
 
 		return bindingContext;
@@ -265,20 +325,20 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 
 	}
 
-	
 	@Override
 	public IAction[] getActions() {
-		
+
 		List<IAction> actions = Lists.newArrayList();
-		
+
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
-		actions.add(new EditServiceAction(actionText + "...",
-				SWT.PUSH));
+
+		actions.add(new EditServiceAction(actionText + "...", SWT.PUSH));
+
+		actions.add(new ServiceMonitoringAction("Monitor...", SWT.PUSH));
+
 		IAction[] actionArray = new IAction[actions.size()];
-		return actions.toArray(actionArray); 
+		return actions.toArray(actionArray);
 	}
-	
-	
 
 }

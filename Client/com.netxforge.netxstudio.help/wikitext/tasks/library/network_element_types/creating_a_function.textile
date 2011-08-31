@@ -1,15 +1,29 @@
-h1. Creating or Editing a Tolerance
+h1. Modifying a Function
 
-When creating a Tolerance the following screen will appear.
-
-!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/tolerances/creating_a_tolerance.png!
+!PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/network_element_types/creating_a_function.png!
 
 The following data should be entered 
 
-* The Tolerance name
-* The Tolerance Level 
-* The Tolerance expression. (Selected from defined Expressions). 
+*Info*
 
-*Cancel* => Click on the 'Back' link at the bottom of the screen.
-*Save* => Click on the 'Save link at the bottom of the screen.
+* The Function name
+* The Function Description 
+* The Function Expansion duration. (Quick, Short, Medium, Long) 
 
+*Resources*
+
+* Create or add a Resource to the Function
+
+* Select the Capacity Expression for all Resources in this Function. 
+* Select the Utilization Expression for all Resources in this Function.
+
+*Metrics*
+
+* Create or add Metrics to the Function
+
+*Tolerances*
+
+* Create or add Tolerances to the Function
+
+*Save* => Menu -> File -> Save
+*Cancel* => The editing can be undone by Menu-> Edit -> Undo

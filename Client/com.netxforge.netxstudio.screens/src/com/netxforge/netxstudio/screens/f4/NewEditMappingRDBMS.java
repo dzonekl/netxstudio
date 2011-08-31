@@ -21,6 +21,7 @@ import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -30,6 +31,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
@@ -41,11 +43,10 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.MenuEvent;
-import org.eclipse.swt.events.MenuListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -87,6 +88,8 @@ import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
+import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu.MappingMenuListener;
 import com.netxforge.netxstudio.screens.f4.support.RDBMSServiceJob;
 
 public class NewEditMappingRDBMS extends AbstractScreen implements
@@ -104,6 +107,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 	private GridTableViewer gridTableViewer;
 	private Menu gridMenu;
 	private ComboViewer cmbDBTypeViewer;
+	private MappingMenuListener mmListener;
 
 	/**
 	 * Create the composite.
@@ -120,17 +124,16 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		
+
 	}
 
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		
 		// New or Edit.
 		boolean edit = Screens.isEditOperation(getOperation());
 		String actionText = edit ? "Edit: " : "New: ";
-		
+
 		frmCSVMappingForm = toolkit.createForm(this);
 		frmCSVMappingForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmCSVMappingForm);
@@ -245,63 +248,6 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		grid.addSelectionListener(gridSelector);
 		buildFixedColumns(gridTableViewer);
 
-		gridMenu = new Menu(grid);
-		grid.setMenu(gridMenu);
-		gridMenu.addMenuListener(new MenuListener() {
-			public void menuHidden(MenuEvent e) {
-				System.out.println(e);
-			}
-
-			public void menuShown(MenuEvent e) {
-				System.out.println(e);
-				// Can we still build the menu here before it shows.
-				// Clear the entries.
-				MenuItem[] mis = gridMenu.getItems();
-				for (int i = 0; i < mis.length; i++) {
-					mis[i].dispose();
-				}
-
-				if (currentRowIndex != -1) {
-					{
-						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
-						mi.setText("Set Header row index (" + currentRowIndex
-								+ ")");
-						mi.addSelectionListener(new SelectionAdapter() {
-							@Override
-							public void widgetSelected(SelectionEvent e) {
-								txtDBUser.setText(new Integer(currentRowIndex)
-										.toString());
-							}
-						});
-					}
-					{
-						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
-						mi.setText("Set Data row index (" + currentRowIndex
-								+ ")");
-						mi.addSelectionListener(new SelectionAdapter() {
-							@Override
-							public void widgetSelected(SelectionEvent e) {
-								txtDBPassword.setText(new Integer(
-										currentRowIndex).toString());
-							}
-						});
-					}
-					{
-						MenuItem mi = new MenuItem(gridMenu, SWT.PUSH);
-						mi.setText("New Column Mapping with index ("
-								+ currentColumnIndex + ")");
-						mi.addSelectionListener(new SelectionAdapter() {
-							@Override
-							public void widgetSelected(SelectionEvent e) {
-								// TODO Implement.
-
-							}
-						});
-					}
-
-				}
-			}
-		});
 		btnTestQuery.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -320,17 +266,19 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 									}
 								});
 							}
-						}else{
-							MessageDialog.openError(NewEditMappingRDBMS.this.getShell(), "Error testing query", event.getResult().getMessage());
+						} else {
+							MessageDialog.openError(NewEditMappingRDBMS.this
+									.getShell(), "Error testing query", event
+									.getResult().getMessage());
 						}
 					}
 				});
 				job.setDetailsToProcess(owner, mapping);
 				job.go(); // Should spawn a job processing the xls.
-				resetGridSelections();// Reset the selections.
+				// resetGridSelections();// Reset the selections.
 			}
 		});
-		
+
 		sashForm.setWeights(new int[] { 3, 7 });
 
 		Section sctnMappingColumns = toolkit.createSection(
@@ -358,7 +306,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 						screenService.getScreenContainer(), SWT.NONE);
 				mappingColumnScreen.setOperation(Screens.OPERATION_NEW);
 				mappingColumnScreen.setScreenService(screenService);
-				mappingColumnScreen.injectData(mapping,
+				mappingColumnScreen.injectData(mapping.getDataMappingColumns(),
 						MetricsFactory.eINSTANCE.createMappingColumn());
 				screenService.setActiveScreen(mappingColumnScreen);
 
@@ -460,20 +408,30 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		gd_cmbDBType.widthHint = 100;
 		cmbDBType.setLayoutData(gd_cmbDBType);
 		toolkit.paintBordersFor(cmbDBType);
+
+		gridMenu = new Menu(grid);
+		grid.setMenu(gridMenu);
+
+		// Delegate to a singleton holding the MappingMenuListener class.
+		mmListener = ColumnMappingMenu.getINSTANCE().new MappingMenuListener(
+				gridMenu, mapping, screenService, null, null);
+		gridMenu.addMenuListener(mmListener);
+
 	}
 
-	private void resetGridSelections() {
-		this.currentColumnIndex = -1;
-		this.currentRowIndex = -1;
-	}
+	// private void resetGridSelections() {
+	// this.currentColumnIndex = -1;
+	// this.currentRowIndex = -1;
+	// }
 
 	/**
 	 * Aggregates the selection in the grid, used by column and the grid.
 	 * 
 	 */
 	GridSelectionListener gridSelector = new GridSelectionListener();
-	private int currentRowIndex;
-	private int currentColumnIndex;
+
+	// private int currentRowIndex;
+	// private int currentColumnIndex;
 
 	class GridSelectionListener extends SelectionAdapter {
 		public void widgetSelected(SelectionEvent e) {
@@ -485,24 +443,14 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 	/**
 	 * Updates the row and column index to be used, by the screen further on.
 	 * 
-	 * Notice TODO: The mapping index for row starts at 1. The mapping index for
-	 * column starts at 0.
-	 * 
 	 * @param e
 	 */
 	private void updateSelection(SelectionEvent e) {
-		if (e instanceof IStructuredSelection) {
-			@SuppressWarnings("unused")
-			IStructuredSelection ss = (IStructuredSelection) e;
-		}
-		if (e.item instanceof GridItem) {
-			GridItem gi = (GridItem) e.item;
-			currentRowIndex = gridTableViewer.getGrid().indexOf(gi) + 1;
+		Point[] p = gridTableViewer.getGrid().getCellSelection();
+		if (p.length >= 1) {
 
-		}
-		if (e.item instanceof GridColumn) {
-			GridColumn gc = (GridColumn) e.item;
-			currentColumnIndex = gridTableViewer.getGrid().indexOf(gc);
+			mmListener.setCurrentColumnIndex(p[0].x);
+			mmListener.setCurrentRowIndex(p[0].y);
 		}
 	}
 
@@ -590,6 +538,18 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		this.mappingColumnsTableViewer.setInput(l.observe(mapping));
 		this.gridTableViewer.setContentProvider(new RDBMSGridContentProvider());
 		gridTableViewer.setLabelProvider(new RDBMSGridLabelProvider());
+
+		// Make sure our row headers, show starting with 0.
+		gridTableViewer.setRowHeaderLabelProvider(new CellLabelProvider() {
+			@Override
+			public void update(ViewerCell cell) {
+				GridItem gi = (GridItem) cell.getItem();
+				int index = gridTableViewer.getGrid().indexOf(gi);
+				cell.setText(new Integer(index).toString());
+			}
+
+		});
+
 		return context;
 	}
 
@@ -689,7 +649,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
 		}
-		
+
 		buildUI();
 		this.initDataBindings_();
 	}

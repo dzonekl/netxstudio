@@ -35,6 +35,9 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -286,7 +289,14 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 				case 0: {
 					if (resource
 							.eIsSet(LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF)) {
-						return resource.getComponentRef().getName();
+						
+						Component c = resource.getComponentRef(); 
+						if(c instanceof Function){
+							return c.getName();
+						}
+						if(c instanceof Equipment){
+							return ((Equipment) c).getEquipmentCode();
+						}
 					} else {
 						return "not connected";
 					}

@@ -36,10 +36,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.xtext.parser.IParseResult;
@@ -154,84 +151,82 @@ public class EmbeddedExpression {
 		this.createKeyPad(client);
 		sctnNewSection.setClient(client);
 
-		ImageHyperlink mghprlnkTest = toolkit.createImageHyperlink(
-				sctnNewSection, SWT.NONE);
-		mghprlnkTest.addHyperlinkListener(new IHyperlinkListener() {
-
-			// FIXME, PROPER, ERROR HANDLING.
-
-			public void linkActivated(HyperlinkEvent e) {
-				// Launch the interpreter, with a given context.
-
-				// NOTE, for testing, the period context is always last week.
-				DateTimeRange timeRange = GenericsFactory.eINSTANCE
-						.createDateTimeRange();
-
-				XMLGregorianCalendar t0 = modelUtils.toXMLDate(modelUtils
-						.todayAndNow());
-				XMLGregorianCalendar t1 = modelUtils.toXMLDate(modelUtils
-						.lastWeek());
-
-				timeRange.setBegin(t1);
-				timeRange.setEnd(t0);
-
-				IInterpreterContext periodContext = interpreterContextFactory
-						.createPeriodContext(timeRange);
-
-				List<IInterpreterContext> contextList = ImmutableList
-						.of(periodContext);
-				IInterpreterContext[] contextArray = new IInterpreterContext[contextList
-						.size()];
-				final IInterpreter i = netxScriptInjector
-						.getInstance(IInterpreter.class);
-				i.setContext(contextList.toArray(contextArray));
-
-				IXtextDocument doc = editor.getDocument();
-				if (documentHasErrors(doc)) {
-					System.out
-							.println("Intepreter cancelled, as errors exist in script: "
-									+ doc.get());
-				}
-				@SuppressWarnings("unused")
-				String rootElementName = doc
-						.readOnly(new IUnitOfWork<String, XtextResource>() {
-
-							// Note: Expression scoping i.e. 'mod' or 'def' are
-							// optional.
-							public String exec(XtextResource resource)
-									throws Exception {
-								if (resource.getContents().isEmpty()) {
-									return null;
-								}
-
-								// TODO, Consider validating the resource here.
-								if ((resource.getContents().get(0) instanceof Mod)) {
-									Mod root = (Mod) resource.getContents()
-											.get(0);
-									i.evaluate(root);
-								}
-								if ((resource.getContents().get(0) instanceof Function)) {
-									Function root = (Function) resource
-											.getContents().get(0);
-									i.evaluate(root);
-								}
-
-								return null;
-							}
-						});
-
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		toolkit.paintBordersFor(mghprlnkTest);
-		sctnNewSection.setTextClient(mghprlnkTest);
-		mghprlnkTest.setText("Test Run");
+//		ImageHyperlink mghprlnkTest = toolkit.createImageHyperlink(
+//				sctnNewSection, SWT.NONE);
+//		mghprlnkTest.addHyperlinkListener(new IHyperlinkListener() {
+//
+//			public void linkActivated(HyperlinkEvent e) {
+//				// Launch the interpreter, with a given context.
+//				testExpression();
+//
+//			}
+//
+//			public void linkEntered(HyperlinkEvent e) {
+//			}
+//
+//			public void linkExited(HyperlinkEvent e) {
+//			}
+//		});
+//		toolkit.paintBordersFor(mghprlnkTest);
+//		sctnNewSection.setTextClient(mghprlnkTest);
+//		mghprlnkTest.setText("Test Run");
 		xtextService = new EmbeddedXtextService(editingService);
+	}
+
+	@SuppressWarnings("unused")
+	// Disable for now, we don't have a context in the expression screen. 
+	private void testExpression() {
+		// NOTE, for testing, the period context is always last week.
+		DateTimeRange timeRange = GenericsFactory.eINSTANCE
+				.createDateTimeRange();
+
+		XMLGregorianCalendar t0 = modelUtils
+				.toXMLDate(modelUtils.todayAndNow());
+		XMLGregorianCalendar t1 = modelUtils.toXMLDate(modelUtils.lastWeek());
+
+		timeRange.setBegin(t1);
+		timeRange.setEnd(t0);
+
+		IInterpreterContext periodContext = interpreterContextFactory
+				.createPeriodContext(timeRange);
+
+		List<IInterpreterContext> contextList = ImmutableList.of(periodContext);
+		IInterpreterContext[] contextArray = new IInterpreterContext[contextList
+				.size()];
+		final IInterpreter i = netxScriptInjector
+				.getInstance(IInterpreter.class);
+		i.setContext(contextList.toArray(contextArray));
+
+		IXtextDocument doc = editor.getDocument();
+		if (documentHasErrors(doc)) {
+			System.out
+					.println("Intepreter cancelled, as errors exist in script: "
+							+ doc.get());
+		}
+		String rootElementName = doc
+				.readOnly(new IUnitOfWork<String, XtextResource>() {
+
+					// Note: Expression scoping i.e. 'mod' or 'def' are
+					// optional.
+					public String exec(XtextResource resource) throws Exception {
+						if (resource.getContents().isEmpty()) {
+							return null;
+						}
+
+						// TODO, Consider validating the resource here.
+						if ((resource.getContents().get(0) instanceof Mod)) {
+							Mod root = (Mod) resource.getContents().get(0);
+							i.evaluate(root);
+						}
+						if ((resource.getContents().get(0) instanceof Function)) {
+							Function root = (Function) resource.getContents()
+									.get(0);
+							i.evaluate(root);
+						}
+
+						return null;
+					}
+				});
 	}
 
 	/**

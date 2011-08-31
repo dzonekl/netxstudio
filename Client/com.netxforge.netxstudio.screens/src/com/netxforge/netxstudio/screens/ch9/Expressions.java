@@ -251,13 +251,15 @@ public class Expressions extends AbstractScreen implements
 		TableColumn tblclmnName = tableViewerColumn.getColumn();
 		tblclmnName.setWidth(143);
 		tblclmnName.setText("Name");
-
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
-		TableColumn tblclmnOwnedBy = tableViewerColumn_1.getColumn();
-		tblclmnOwnedBy.setWidth(100);
-		tblclmnOwnedBy.setText("Owned by");
-		tableViewer.addFilter(new SearchFilter(editingService));
+		
+		
+		// CB Removed "Owned by", no special use. 30-08-2011. 
+//		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+//				tableViewer, SWT.NONE);
+//		TableColumn tblclmnOwnedBy = tableViewerColumn_1.getColumn();
+//		tblclmnOwnedBy.setWidth(100);
+//		tblclmnOwnedBy.setText("Owned by");
+//		tableViewer.addFilter(new SearchFilter(editingService));
 	}
 
 	public void disposeData() {

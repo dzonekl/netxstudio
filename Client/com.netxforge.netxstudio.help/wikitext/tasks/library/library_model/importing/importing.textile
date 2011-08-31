@@ -65,4 +65,3 @@ In the figure below, we can see for the Metric object the following attributes a
 Now we can simply populate this object, with information from the vendor:
 
 !PLUGINS_ROOT/com.netxforge.netxstudio.help/img/tasks/library/library_model/importing/template_metric_example.png!
-

@@ -39,7 +39,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -47,6 +46,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -108,29 +108,29 @@ public class NewEditResource extends AbstractScreen implements
 		frmResource.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmResource);
 		frmResource.setText(actionText + "Resource");
-		frmResource.getBody().setLayout(new FormLayout());
+		frmResource.getBody().setLayout(new ColumnLayout());
 
 		FormText formText = toolkit
 				.createFormText(frmResource.getBody(), false);
-		FormData fd_formText = new FormData();
-		fd_formText.bottom = new FormAttachment(0, 46);
-		fd_formText.right = new FormAttachment(100, -12);
-		fd_formText.top = new FormAttachment(0, 12);
-		fd_formText.left = new FormAttachment(0, 12);
-		formText.setLayoutData(fd_formText);
+//		FormData fd_formText = new FormData();
+//		fd_formText.bottom = new FormAttachment(0, 46);
+//		fd_formText.right = new FormAttachment(100, -12);
+//		fd_formText.top = new FormAttachment(0, 12);
+//		fd_formText.left = new FormAttachment(0, 12);
+//		formText.setLayoutData(fd_formText);
 		toolkit.paintBordersFor(formText);
 		formText.setText(
-				"<form><p> A resource is either created from a metric by the <b>M</b>etric <b>C</b>ollection <b>E</b>ngine or a resource is defined and calculated from an expression.  </p></form>",
+				"<form><p> A resource is either created from a Metric by the <b>M</b>etric <b>C</b>ollection <b>E</b>ngine or a resource is defined manually and populated by an Expression</p></form>",
 				true, false);
 
 		Section sctnInfo = toolkit.createSection(frmResource.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
-		FormData fd_sctnInfo = new FormData();
-		fd_sctnInfo.top = new FormAttachment(formText, 15);
-		fd_sctnInfo.bottom = new FormAttachment(100, -12);
-		fd_sctnInfo.right = new FormAttachment(0, 370);
-		fd_sctnInfo.left = new FormAttachment(0, 12);
-		sctnInfo.setLayoutData(fd_sctnInfo);
+//		FormData fd_sctnInfo = new FormData();
+//		fd_sctnInfo.top = new FormAttachment(formText, 15);
+//		fd_sctnInfo.bottom = new FormAttachment(100, -12);
+//		fd_sctnInfo.right = new FormAttachment(0, 370);
+//		fd_sctnInfo.left = new FormAttachment(0, 12);
+//		sctnInfo.setLayoutData(fd_sctnInfo);
 		toolkit.paintBordersFor(sctnInfo);
 		sctnInfo.setText("Info");
 
@@ -212,12 +212,12 @@ public class NewEditResource extends AbstractScreen implements
 
 			Section sctnContents = toolkit.createSection(frmResource.getBody(),
 					Section.EXPANDED | Section.TITLE_BAR);
-			FormData fd_sctnContents = new FormData();
-			fd_sctnContents.bottom = new FormAttachment(100, -12);
-			fd_sctnContents.right = new FormAttachment(formText, 0, SWT.RIGHT);
-			fd_sctnContents.top = new FormAttachment(sctnInfo, 0, SWT.TOP);
-			fd_sctnContents.left = new FormAttachment(0, 380);
-			sctnContents.setLayoutData(fd_sctnContents);
+//			FormData fd_sctnContents = new FormData();
+//			fd_sctnContents.bottom = new FormAttachment(100, -12);
+//			fd_sctnContents.right = new FormAttachment(formText, 0, SWT.RIGHT);
+//			fd_sctnContents.top = new FormAttachment(sctnInfo, 0, SWT.TOP);
+//			fd_sctnContents.left = new FormAttachment(0, 380);
+//			sctnContents.setLayoutData(fd_sctnContents);
 			toolkit.paintBordersFor(sctnContents);
 			sctnContents.setText("Contents");
 
