@@ -30,18 +30,19 @@ import org.junit.Test;
 public class TestRegExpressions {
 	
 	@Test
-	public void testRegExp() {
-		final String regExp1 = "([^\\s]+(\\.(?i)(csv))$)";
-		Assert.assertTrue("test.csv".matches(regExp1));
-		Assert.assertTrue("test.CSV".matches(regExp1));
-		Assert.assertFalse("test.xsl".matches(regExp1));
-		Assert.assertFalse("test.CSA".matches(regExp1));
-		
-		final String regExp2 = ".+\\.(?i)(csv)";
-		Assert.assertTrue("test.csv".matches(regExp2));
-		Assert.assertTrue("test.CSV".matches(regExp2));
-		Assert.assertFalse("test.xsl".matches(regExp2));
-		Assert.assertFalse("test.CSA".matches(regExp2));
-		
+	public void testRegExp1() {
+		doTestRegExp("([^\\s]+(\\.(?i)(csv))$)");
+	}
+	
+	@Test
+	public void testRegExp2() {
+		doTestRegExp(".+\\.(?i)(csv)");
+	}
+	
+	private void doTestRegExp(String regExp) {
+		Assert.assertTrue("test.csv".matches(regExp));
+		Assert.assertTrue("test.CSV".matches(regExp));
+		Assert.assertFalse("test.xsl".matches(regExp));
+		Assert.assertFalse("test.CSA".matches(regExp));		
 	}
 }
