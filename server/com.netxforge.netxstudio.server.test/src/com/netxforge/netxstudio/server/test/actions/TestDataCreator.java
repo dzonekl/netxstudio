@@ -44,7 +44,7 @@ import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Function;
-import com.netxforge.netxstudio.library.LevelType;
+import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
@@ -750,7 +750,7 @@ public class TestDataCreator implements NetxForgeService {
 
 		{
 			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
-			t.setLevel(LevelType.RED);
+			t.setLevel(LevelKind.RED);
 			t.setName("Tolerance Red");
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
@@ -774,7 +774,7 @@ public class TestDataCreator implements NetxForgeService {
 		}
 		{
 			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
-			t.setLevel(LevelType.AMBER);
+			t.setLevel(LevelKind.AMBER);
 			t.setName("Tolerance Amber");
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
@@ -790,7 +790,7 @@ public class TestDataCreator implements NetxForgeService {
 		}
 		{
 			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
-			t.setLevel(LevelType.GREEN);
+			t.setLevel(LevelKind.GREEN);
 			t.setName("Tolerance Green");
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
@@ -807,7 +807,7 @@ public class TestDataCreator implements NetxForgeService {
 		}
 		{
 			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
-			t.setLevel(LevelType.GREEN);
+			t.setLevel(LevelKind.GREEN);
 			t.setName("Tolerance Yellow");
 
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
