@@ -170,6 +170,13 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
+				<xs:attribute name="FilterPattern" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>A regexp which is used to filter files present
+						at the location defined by the MetricLocation.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

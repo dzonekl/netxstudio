@@ -68,7 +68,7 @@ public class XLSMetricValuesImporter extends MetricValuesImporter {
 	
 	@Override
 	protected String getFileExtension() {
-		return ".xls";
+		return "xls";
 	}
 
 	@Override

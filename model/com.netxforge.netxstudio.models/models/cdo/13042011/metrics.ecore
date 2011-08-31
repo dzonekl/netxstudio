@@ -541,6 +541,15 @@
         <details key="name" value="Statistics"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="filterPattern" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A regexp which is used to filter files present&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;at the location defined by the MetricLocation.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="FilterPattern"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="metricLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="a URI representation of the location additional&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;information like login/password can be appended to the URI.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1. For an XLS file this could be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;file://path_to_where_the_xls_files_are_stored/&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;2. For an RDMS this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;could be: jdbc:mysql://localhost:3306/DB (In&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;case a JDBC URL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to access the DB).&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>

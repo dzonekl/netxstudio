@@ -958,13 +958,22 @@ public interface MetricsPackage extends EPackage {
 	int METRIC_SOURCE__STATISTICS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Filter Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METRIC_SOURCE__FILTER_PATTERN = GenericsPackage.BASE_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Metric Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__METRIC_LOCATION = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int METRIC_SOURCE__METRIC_LOCATION = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -973,7 +982,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int METRIC_SOURCE__NAME = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Metric Source</em>' class.
@@ -982,7 +991,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int METRIC_SOURCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MetricValueRangeImpl <em>Metric Value Range</em>}' class.
@@ -1768,6 +1777,17 @@ public interface MetricsPackage extends EPackage {
 	EReference getMetricSource_Statistics();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MetricSource#getFilterPattern <em>Filter Pattern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Filter Pattern</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MetricSource#getFilterPattern()
+	 * @see #getMetricSource()
+	 * @generated
+	 */
+	EAttribute getMetricSource_FilterPattern();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MetricSource#getMetricLocation <em>Metric Location</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2475,6 +2495,14 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference METRIC_SOURCE__STATISTICS = eINSTANCE.getMetricSource_Statistics();
+
+		/**
+		 * The meta object literal for the '<em><b>Filter Pattern</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute METRIC_SOURCE__FILTER_PATTERN = eINSTANCE.getMetricSource_FilterPattern();
 
 		/**
 		 * The meta object literal for the '<em><b>Metric Location</b></em>' attribute feature.

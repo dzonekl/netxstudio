@@ -88,7 +88,7 @@ public class CSVMetricValuesImporter extends MetricValuesImporter {
 
 	@Override
 	protected String getFileExtension() {
-		return ".csv";
+		return "csv";
 	}
 
 	@Override

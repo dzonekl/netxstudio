@@ -829,7 +829,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMetricSource_MetricLocation() {
+	public EAttribute getMetricSource_FilterPattern() {
 		return (EAttribute)metricSourceEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -838,8 +838,17 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMetricSource_Name() {
+	public EAttribute getMetricSource_MetricLocation() {
 		return (EAttribute)metricSourceEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMetricSource_Name() {
+		return (EAttribute)metricSourceEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1107,6 +1116,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		metricSourceEClass = createEClass(METRIC_SOURCE);
 		createEReference(metricSourceEClass, METRIC_SOURCE__METRIC_MAPPING);
 		createEReference(metricSourceEClass, METRIC_SOURCE__STATISTICS);
+		createEAttribute(metricSourceEClass, METRIC_SOURCE__FILTER_PATTERN);
 		createEAttribute(metricSourceEClass, METRIC_SOURCE__METRIC_LOCATION);
 		createEAttribute(metricSourceEClass, METRIC_SOURCE__NAME);
 
@@ -1248,6 +1258,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEClass(metricSourceEClass, MetricSource.class, "MetricSource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricSource_MetricMapping(), this.getMapping(), null, "metricMapping", null, 0, 1, MetricSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMetricSource_Statistics(), this.getMappingStatistic(), null, "statistics", null, 0, -1, MetricSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMetricSource_FilterPattern(), theXMLTypePackage.getString(), "filterPattern", null, 0, 1, MetricSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetricSource_MetricLocation(), theXMLTypePackage.getAnyURI(), "metricLocation", null, 0, 1, MetricSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetricSource_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, MetricSource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1323,7 +1334,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																																																					
+		   });																																																																																																																																							
 	}
 
 	/**
@@ -1750,6 +1761,13 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "Statistics"
+		   });			
+		addAnnotation
+		  (getMetricSource_FilterPattern(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "FilterPattern"
 		   });			
 		addAnnotation
 		  (getMetricSource_MetricLocation(), 

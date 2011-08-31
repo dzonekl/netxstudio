@@ -46,6 +46,7 @@ import com.netxforge.netxstudio.generics.Base;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricSource#getMetricMapping <em>Metric Mapping</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricSource#getStatistics <em>Statistics</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MetricSource#getFilterPattern <em>Filter Pattern</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricSource#getMetricLocation <em>Metric Location</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MetricSource#getName <em>Name</em>}</li>
  * </ul>
@@ -102,6 +103,34 @@ public interface MetricSource extends Base {
 	 * @generated
 	 */
 	EList<MappingStatistic> getStatistics();
+
+	/**
+	 * Returns the value of the '<em><b>Filter Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * A regexp which is used to filter files present
+	 * 						at the location defined by the MetricLocation.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Filter Pattern</em>' attribute.
+	 * @see #setFilterPattern(String)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMetricSource_FilterPattern()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='FilterPattern'"
+	 * @generated
+	 */
+	String getFilterPattern();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MetricSource#getFilterPattern <em>Filter Pattern</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Filter Pattern</em>' attribute.
+	 * @see #getFilterPattern()
+	 * @generated
+	 */
+	void setFilterPattern(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Metric Location</b></em>' attribute.

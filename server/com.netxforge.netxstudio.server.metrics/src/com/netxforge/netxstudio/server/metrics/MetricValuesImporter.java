@@ -122,34 +122,38 @@ public abstract class MetricValuesImporter {
 			boolean noFiles = true;
 			final StringBuilder fileList = new StringBuilder();
 			final File rootFile = new File(fileOrDirectory);
+			
+			String filterPattern = metricSource.getFilterPattern();
+			if (filterPattern == null && getFileExtension() != null) {
+				filterPattern = "([^\\s]+(\\.(?i)(" + getFileExtension() + "))$)";
+			}
+			
 			if (!rootFile.exists()) {
 				jobMonitor.appendToLog("Root directory/file ("
 						+ rootFile.getAbsolutePath() + ") does not exist");
 				noFiles = true;
 				errorOccurred = true;
 			} else if (rootFile.isFile()) {
-				if (rootFile.getName().endsWith(getFileExtension())) {
-					try {
-						final int beforeFailedSize = getFailedRecords().size();
-						noFiles = false;
-						fileList.append(rootFile.getAbsolutePath());
-						jobMonitor.setMsg("Processing file "
-								+ rootFile.getAbsolutePath());
-						jobMonitor.appendToLog("Processing file "
-								+ rootFile.getAbsolutePath());
-						totalRows += processFile(rootFile);
-						moveFile(rootFile,
-								getFailedRecords().size() > beforeFailedSize);
-					} catch (final Throwable t) {
-						errorOccurred = true;
-						jobMonitor.appendToLog("Error (" + t.getMessage()
-								+ ") while processing file "
-								+ rootFile.getAbsolutePath());
-					}
+				try {
+					final int beforeFailedSize = getFailedRecords().size();
+					noFiles = false;
+					fileList.append(rootFile.getAbsolutePath());
+					jobMonitor.setMsg("Processing file "
+							+ rootFile.getAbsolutePath());
+					jobMonitor.appendToLog("Processing file "
+							+ rootFile.getAbsolutePath());
+					totalRows += processFile(rootFile);
+					moveFile(rootFile,
+							getFailedRecords().size() > beforeFailedSize);
+				} catch (final Throwable t) {
+					errorOccurred = true;
+					jobMonitor.appendToLog("Error (" + t.getMessage()
+							+ ") while processing file "
+							+ rootFile.getAbsolutePath());
 				}
 			} else {
 				for (final File file : rootFile.listFiles()) {
-					if (file.getName().endsWith(getFileExtension())) {
+					if (filterPattern == null  || file.getName().matches(filterPattern)) {
 						try {
 							final int beforeFailedSize = getFailedRecords()
 									.size();

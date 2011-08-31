@@ -36,6 +36,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl#getMetricMapping <em>Metric Mapping</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl#getStatistics <em>Statistics</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl#getFilterPattern <em>Filter Pattern</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl#getMetricLocation <em>Metric Location</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MetricSourceImpl#getName <em>Name</em>}</li>
  * </ul>
@@ -89,6 +90,24 @@ public class MetricSourceImpl extends BaseImpl implements MetricSource {
 	@SuppressWarnings("unchecked")
 	public EList<MappingStatistic> getStatistics() {
 		return (EList<MappingStatistic>)eGet(MetricsPackage.Literals.METRIC_SOURCE__STATISTICS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFilterPattern() {
+		return (String)eGet(MetricsPackage.Literals.METRIC_SOURCE__FILTER_PATTERN, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFilterPattern(String newFilterPattern) {
+		eSet(MetricsPackage.Literals.METRIC_SOURCE__FILTER_PATTERN, newFilterPattern);
 	}
 
 	/**

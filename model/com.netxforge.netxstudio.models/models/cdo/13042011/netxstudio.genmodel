@@ -425,6 +425,7 @@
     <genClasses ecoreClass="metrics.ecore#//MetricSource">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/metricMapping"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MetricSource/statistics"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricSource/filterPattern"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricSource/metricLocation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MetricSource/name"/>
     </genClasses>
