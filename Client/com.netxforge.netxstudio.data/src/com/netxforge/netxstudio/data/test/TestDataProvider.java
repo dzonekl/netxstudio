@@ -151,6 +151,10 @@ public class TestDataProvider implements IDataProvider {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
+	public Resource getResource(String path) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
 	public CDOSession openSession() {
 		throw new java.lang.UnsupportedOperationException();
 	}
