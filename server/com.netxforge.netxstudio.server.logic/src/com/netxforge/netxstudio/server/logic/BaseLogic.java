@@ -36,7 +36,7 @@ import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
+import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 
 /**
  * Common code for all logic implementations.
@@ -45,7 +45,7 @@ import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
  */
 public abstract class BaseLogic {
 
-	private WorkFlowRunMonitor jobMonitor;
+	private ServerWorkFlowRunMonitor jobMonitor;
 
 	@Inject
 	@Server
@@ -139,11 +139,11 @@ public abstract class BaseLogic {
 
 	protected abstract void processNode(NodeType nodeType);
 
-	public WorkFlowRunMonitor getJobMonitor() {
+	public ServerWorkFlowRunMonitor getJobMonitor() {
 		return jobMonitor;
 	}
 
-	public void setJobMonitor(WorkFlowRunMonitor jobMonitor) {
+	public void setJobMonitor(ServerWorkFlowRunMonitor jobMonitor) {
 		this.jobMonitor = jobMonitor;
 	}
 

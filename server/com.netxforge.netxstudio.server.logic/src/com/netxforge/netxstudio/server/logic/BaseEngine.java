@@ -32,7 +32,7 @@ import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.server.CommonLogic;
-import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
+import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 
 /**
@@ -42,7 +42,7 @@ import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
  */
 public abstract class BaseEngine {
 
-	private WorkFlowRunMonitor jobMonitor;
+	private ServerWorkFlowRunMonitor jobMonitor;
 		
 	// contains context information to use when adding an error message to the
 	// log
@@ -164,11 +164,11 @@ public abstract class BaseEngine {
 		return end;
 	}
 
-	public WorkFlowRunMonitor getJobMonitor() {
+	public ServerWorkFlowRunMonitor getJobMonitor() {
 		return jobMonitor;
 	}
 
-	public void setJobMonitor(WorkFlowRunMonitor jobMonitor) {
+	public void setJobMonitor(ServerWorkFlowRunMonitor jobMonitor) {
 		this.jobMonitor = jobMonitor;
 	}
 

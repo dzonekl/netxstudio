@@ -75,8 +75,6 @@ public abstract class MetricValuesImporter {
 
 	private WorkFlowRunMonitor jobMonitor;
 
-	@Inject
-	@Server
 	private IDataProvider dataProvider;
 
 	@Inject
@@ -101,12 +99,7 @@ public abstract class MetricValuesImporter {
 	private List<IdentifierValue> headerIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
 
 	public void process() {
-		commonLogic.setDataProvider(dataProvider);
-
-		// force that the same dataprovider is used
-		// so that components retrieved by the networkElementLocator
-		// participate in the same transaction
-		networkElementLocator.setDataProvider(dataProvider);
+		initialize();
 
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
@@ -126,12 +119,13 @@ public abstract class MetricValuesImporter {
 			boolean noFiles = true;
 			final StringBuilder fileList = new StringBuilder();
 			final File rootFile = new File(fileOrDirectory);
-			
+
 			String filterPattern = metricSource.getFilterPattern();
 			if (filterPattern == null && getFileExtension() != null) {
-				filterPattern = "([^\\s]+(\\.(?i)(" + getFileExtension() + "))$)";
+				filterPattern = "([^\\s]+(\\.(?i)(" + getFileExtension()
+						+ "))$)";
 			}
-			
+
 			if (!rootFile.exists()) {
 				jobMonitor.appendToLog("Root directory/file ("
 						+ rootFile.getAbsolutePath() + ") does not exist");
@@ -157,7 +151,8 @@ public abstract class MetricValuesImporter {
 				}
 			} else {
 				for (final File file : rootFile.listFiles()) {
-					if (filterPattern == null  || file.getName().matches(filterPattern)) {
+					if (filterPattern == null
+							|| file.getName().matches(filterPattern)) {
 						try {
 							final int beforeFailedSize = getFailedRecords()
 									.size();
@@ -210,7 +205,7 @@ public abstract class MetricValuesImporter {
 					t.getMessage());
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
-		dataProvider.commitTransaction();
+		getDataProvider().commitTransaction();
 	}
 
 	protected abstract String getFileExtension();
@@ -222,6 +217,15 @@ public abstract class MetricValuesImporter {
 		} else {
 			file.renameTo(new File(file.getAbsolutePath() + ".done"));
 		}
+	}
+
+	public void initialize() {
+		commonLogic.setDataProvider(getDataProvider());
+
+		// force that the same dataprovider is used
+		// so that components retrieved by the networkElementLocator
+		// participate in the same transaction
+		networkElementLocator.setDataProvider(getDataProvider());
 	}
 
 	protected abstract int processFile(File file) throws Exception;
@@ -331,16 +335,18 @@ public abstract class MetricValuesImporter {
 
 	private void addMetricValue(MappingColumn column, Date timeStamp,
 			Component networkElement, Double dblValue, int periodHint) {
-		final Resource emfNetxResource = dataProvider.getResource(modelUtils.getResourcePath(networkElement));
+		final Resource emfNetxResource = getDataProvider().getResource(
+				modelUtils.getResourcePath(networkElement));
 
 		final ValueDataKind valueDataKind = getValueDataKind(column);
 		final Metric metric = valueDataKind.getMetricRef();
 		NetXResource foundNetXResource = null;
 		EList<EObject> objects = emfNetxResource.getContents();
 		for (final Object object : objects) {
-			final NetXResource netXResource = (NetXResource)object;
-			if (netXResource.getComponentRef().cdoID().equals(networkElement.cdoID()) && 
-					netXResource.getMetricRef().cdoID() == metric.cdoID()) {
+			final NetXResource netXResource = (NetXResource) object;
+			if (netXResource.getComponentRef().cdoID()
+					.equals(networkElement.cdoID())
+					&& netXResource.getMetricRef().cdoID() == metric.cdoID()) {
 				foundNetXResource = netXResource;
 				break;
 			}
@@ -403,10 +409,13 @@ public abstract class MetricValuesImporter {
 				}
 			}
 			if (!found) {
-				final NetXResource copiedNetXResource = EcoreUtil.copy(resource);				
-				final Resource emfNetxResource = dataProvider.getResource(modelUtils.getResourcePath((EObject)currentObject));
+				final NetXResource copiedNetXResource = EcoreUtil
+						.copy(resource);
+				final Resource emfNetxResource = getDataProvider().getResource(
+						modelUtils.getResourcePath((EObject) currentObject));
 				emfNetxResource.getContents().add(copiedNetXResource);
-				((Component) currentObject).getResourceRefs().add(copiedNetXResource);
+				((Component) currentObject).getResourceRefs().add(
+						copiedNetXResource);
 			}
 		} else {
 			final EStructuralFeature eFeature = eObject.eContainingFeature();
@@ -660,8 +669,8 @@ public abstract class MetricValuesImporter {
 	}
 
 	public void setMetricSourceWithId(CDOID cdoID) {
-		metricSource = (MetricSource) dataProvider.getTransaction().getObject(
-				cdoID);
+		metricSource = (MetricSource) getDataProvider().getTransaction()
+				.getObject(cdoID);
 	}
 
 	public Throwable getThrowable() {
@@ -673,7 +682,27 @@ public abstract class MetricValuesImporter {
 	}
 
 	public IDataProvider getDataProvider() {
+		if (dataProvider == null) {
+			// get it from the serverside
+			dataProvider = Activator.getInstance().getInjector()
+					.getInstance(LocalDataProviderProvider.class)
+					.getDataProvider();
+		}
 		return dataProvider;
 	}
 
+	public static class LocalDataProviderProvider {
+
+		@Inject
+		@Server
+		private IDataProvider dataProvider;
+
+		public IDataProvider getDataProvider() {
+			return dataProvider;
+		}
+	}
+
+	public void setDataProvider(IDataProvider dataProvider) {
+		this.dataProvider = dataProvider;
+	}
 }

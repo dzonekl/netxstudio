@@ -18,18 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.job;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Date;
-
-import org.eclipse.emf.cdo.common.id.CDOID;
-
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.scheduling.JobRunState;
-import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.ServerUtils;
 
 /**
  * Allows executors of jobs to more easily set progress and log messages.
@@ -37,16 +26,11 @@ import com.netxforge.netxstudio.server.ServerUtils;
  * @author Martin Taal
  */
 public class WorkFlowRunMonitor {
-	private CDOID workFlowRunId;
 	private int totalWork;
 	private int workDone;
 	private String msg;
 	private String task;
 	private StringBuilder log = new StringBuilder();
-	
-	@Inject
-	@Server
-	private IDataProvider dataProvider;
 
 	public void appendToLog(String logStatement) {
 		log.append("\n" + logStatement);
@@ -56,16 +40,6 @@ public class WorkFlowRunMonitor {
 		return log.toString();
 	}
 
-	public void update() {
-		dataProvider.openSession();
-		final WorkFlowRun wfRun = (WorkFlowRun)dataProvider.getTransaction().getObject(workFlowRunId);
-		wfRun.setProgress(getProgress());
-		wfRun.setProgressMessage(msg);
-		wfRun.setProgressTask(task);
-		dataProvider.commitTransaction();
-		dataProvider.closeSession();
-	}
-
 	public void incrementProgress(int inc, boolean update) {
 		workDone += inc;
 		if (update) {
@@ -73,7 +47,10 @@ public class WorkFlowRunMonitor {
 		}
 	}
 
-	private int getProgress() {
+	protected void update() {		
+	}
+	
+	public int getProgress() {
 		if (workDone > totalWork) {
 			return 100;
 		}
@@ -111,45 +88,11 @@ public class WorkFlowRunMonitor {
 	public void setTask(String task) {
 		this.task = task;
 	}
-
-	public CDOID getWorkFlowRunId() {
-		return workFlowRunId;
-	}
-
-	public void setWorkFlowRunId(CDOID workFlowRunId) {
-		this.workFlowRunId = workFlowRunId;
-	}
 	
 	public void setStartRunning() {
-		dataProvider.openSession();
-		dataProvider.getTransaction();
-		final WorkFlowRun wfRun = (WorkFlowRun)dataProvider.getTransaction().getObject(workFlowRunId);
-		wfRun.setState(JobRunState.RUNNING);
-		wfRun.setStarted(ServerUtils.getInstance().toXmlDate(new Date()));
-		wfRun.setProgress(0);
-		dataProvider.commitTransaction();
-		dataProvider.closeSession();
 	}
 
 	public void setFinished(JobRunState state, Throwable t) {
-		dataProvider.openSession();
-		final WorkFlowRun wfRun = (WorkFlowRun)dataProvider.getTransaction().getObject(workFlowRunId);
-		if (t != null) {
-			wfRun.setState(JobRunState.FINISHED_WITH_ERROR);
-			final StringWriter sw = new StringWriter();
-			final PrintWriter pw = new PrintWriter(sw);					
-			t.printStackTrace(pw);
-			wfRun.setLog(log + "\n" + t.getMessage() + "\n" + sw.toString());
-		} else {
-			wfRun.setState(state);
-			if (log.length() > 0) {
-				wfRun.setLog(log.toString());				
-			}
-			wfRun.setProgress(100);
-		}
-		wfRun.setEnded(ServerUtils.getInstance().toXmlDate(new Date()));
-		dataProvider.commitTransaction();
-		dataProvider.closeSession();
 	}
 
 }

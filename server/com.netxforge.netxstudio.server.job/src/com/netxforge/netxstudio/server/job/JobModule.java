@@ -8,6 +8,7 @@ public class JobModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		this.bind(WorkFlowRunMonitor.class);
+		this.bind(ServerWorkFlowRunMonitor.class);
 	}
 
 }

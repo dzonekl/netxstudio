@@ -63,7 +63,7 @@ public class NetxForgeJob implements org.quartz.Job {
 	
 	private Job job;
 
-	private WorkFlowRunMonitor runMonitor;
+	private ServerWorkFlowRunMonitor runMonitor;
 
 	@Inject
 	@Server
@@ -103,7 +103,7 @@ public class NetxForgeJob implements org.quartz.Job {
 
 	private void createWorkFlowMonitor(JobImplementation jobImplementation) {
 		runMonitor = Activator.getInstance().getInjector()
-				.getInstance(WorkFlowRunMonitor.class);
+				.getInstance(ServerWorkFlowRunMonitor.class);
 		dataProvider.openSession();
 		dataProvider.getTransaction();
 		final JobRunContainer container = getCreateJobRunContainer(dataProvider

@@ -38,7 +38,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
+import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -70,7 +70,7 @@ public class ResourceMonitoringService implements NetxForgeService {
 		private Map<String, String> parameters;
 
 		private CDOID run() {
-			final WorkFlowRunMonitor monitor = createMonitor();
+			final ServerWorkFlowRunMonitor monitor = createMonitor();
 			final BaseResourceMonitoringLogic capacityLogic;
 			if (parameters.containsKey(SERVICE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
@@ -125,9 +125,9 @@ public class ResourceMonitoringService implements NetxForgeService {
 			return xmlDate.toGregorianCalendar().getTime();
 		}
 
-		private WorkFlowRunMonitor createMonitor() {
-			final WorkFlowRunMonitor runMonitor = LogicActivator.getInstance()
-					.getInjector().getInstance(WorkFlowRunMonitor.class);
+		private ServerWorkFlowRunMonitor createMonitor() {
+			final ServerWorkFlowRunMonitor runMonitor = LogicActivator.getInstance()
+					.getInjector().getInstance(ServerWorkFlowRunMonitor.class);
 			dataProvider.openSession();
 			dataProvider.getTransaction();
 			final Resource res = dataProvider

@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
-import com.netxforge.netxstudio.server.job.WorkFlowRunMonitor;
+import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 
 /**
@@ -85,7 +85,7 @@ public class MetricSourceImportService implements NetxForgeService {
 								+ metricSource.getMetricMapping());
 			}
 			importer.setMetricSourceWithId(msId);
-			final WorkFlowRunMonitor monitor = createMonitor();
+			final ServerWorkFlowRunMonitor monitor = createMonitor();
 			importer.setJobMonitor(monitor);
 			// run in a separate thread
 			new Thread() {
@@ -104,9 +104,9 @@ public class MetricSourceImportService implements NetxForgeService {
 			return monitor.getWorkFlowRunId();
 		}
 
-		private WorkFlowRunMonitor createMonitor() {
-			final WorkFlowRunMonitor runMonitor = Activator.getInstance()
-					.getInjector().getInstance(WorkFlowRunMonitor.class);
+		private ServerWorkFlowRunMonitor createMonitor() {
+			final ServerWorkFlowRunMonitor runMonitor = Activator.getInstance()
+					.getInjector().getInstance(ServerWorkFlowRunMonitor.class);
 			dataProvider.openSession();
 			dataProvider.getTransaction();
 			final Resource res = dataProvider

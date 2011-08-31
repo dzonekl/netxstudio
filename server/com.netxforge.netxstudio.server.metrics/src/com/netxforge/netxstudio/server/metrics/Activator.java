@@ -16,6 +16,7 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
 import com.netxforge.netxstudio.server.job.JobModule;
 import com.netxforge.netxstudio.server.metrics.MetricSourceImportService.ServiceRunner;
+import com.netxforge.netxstudio.server.metrics.MetricValuesImporter.LocalDataProviderProvider;
 
 public class Activator implements BundleActivator {
 
@@ -80,6 +81,7 @@ public class Activator implements BundleActivator {
 		// Bind our expression engine.
 		@Override
 		protected void configure() {
+			this.bind(LocalDataProviderProvider.class);
 			this.bind(MetricSourceJobImplementation.class);
 			this.bind(XLSMetricValuesImporter.class);
 			this.bind(CSVMetricValuesImporter.class);

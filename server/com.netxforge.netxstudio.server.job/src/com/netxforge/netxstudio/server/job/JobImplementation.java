@@ -46,7 +46,7 @@ public abstract class JobImplementation {
 	private NetxForgeJob netxForgeJob;
 
 	private Job job;
-	private WorkFlowRunMonitor runMonitor;
+	private ServerWorkFlowRunMonitor runMonitor;
 	
 	public abstract void run();
 
@@ -109,11 +109,11 @@ public abstract class JobImplementation {
 		}
 	}
 
-	public WorkFlowRunMonitor getRunMonitor() {
+	public ServerWorkFlowRunMonitor getRunMonitor() {
 		return runMonitor;
 	}
 
-	public void setRunMonitor(WorkFlowRunMonitor runMonitor) {
+	public void setRunMonitor(ServerWorkFlowRunMonitor runMonitor) {
 		this.runMonitor = runMonitor;
 	}
 
