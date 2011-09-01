@@ -18,6 +18,8 @@
  *******************************************************************************/ 
 package com.netxforge.netxstudio.data.test;
 
+import java.util.List;
+
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.util.URI;
@@ -177,6 +179,10 @@ public class TestDataProvider implements IDataProvider {
 	}
 
 	public Resource getResource(ResourceSet set, URI uri) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	public List<Resource> getResources(String resourcePath) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 

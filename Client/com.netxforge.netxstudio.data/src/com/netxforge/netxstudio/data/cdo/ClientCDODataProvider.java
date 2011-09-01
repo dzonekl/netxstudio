@@ -102,7 +102,6 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
 		ClientCDODataProvider.transaction = transaction;
 	}
 	
-	
 	// FIXME, move this to the test data. 
 	public void loadFixtures(){
 		loadRoles();

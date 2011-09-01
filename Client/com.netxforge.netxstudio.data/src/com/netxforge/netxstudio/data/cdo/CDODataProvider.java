@@ -22,9 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
+import org.eclipse.emf.cdo.eresource.CDOResourceFolder;
+import org.eclipse.emf.cdo.eresource.CDOResourceNode;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -34,6 +37,7 @@ import org.eclipse.net4j.util.security.IPasswordCredentialsProvider;
 import org.eclipse.net4j.util.security.PasswordCredentials;
 import org.eclipse.net4j.util.security.PasswordCredentialsProvider;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.data.IDataProvider;
@@ -60,8 +64,8 @@ public abstract class CDODataProvider implements IDataProvider {
 	private List<EPackage> ePackages = new ArrayList<EPackage>();
 	private ICDOConnection connection;
 	private boolean doGetResourceFromOwnTransaction = true;
-	
-	public static final int COMMIT_TIMEOUT = 500; // seconds. 
+
+	public static final int COMMIT_TIMEOUT = 500; // seconds.
 
 	@Inject
 	public CDODataProvider(ICDOConnection conn) {
@@ -78,21 +82,19 @@ public abstract class CDODataProvider implements IDataProvider {
 		ePackages.add(ServicesPackage.eINSTANCE);
 	}
 
-	public String getServer(){
-		if(connection instanceof CDODataConnection){
+	public String getServer() {
+		if (connection instanceof CDODataConnection) {
 			return ((CDODataConnection) connection).getCurrentServer();
 		}
 		return null;
 	}
 
-
-	
 	public String getSessionUserID() {
 		return this.getSession().getUserID();
 	}
 
 	public void openSession(String uid, String passwd) throws SecurityException {
-		openSession(uid,passwd,null);
+		openSession(uid, passwd, null);
 	}
 
 	public void openSession(String uid, String passwd, String server)
@@ -121,7 +123,8 @@ public abstract class CDODataProvider implements IDataProvider {
 
 		try {
 			final CDOSession cdoSession = connection.getConfig().openSession();
-			((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(COMMIT_TIMEOUT);
+			((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession
+					.options()).setCommitTimeout(COMMIT_TIMEOUT);
 			setSession(cdoSession);
 			for (final EPackage ePackage : ePackages) {
 				getSession().getPackageRegistry().putEPackage(ePackage);
@@ -163,8 +166,9 @@ public abstract class CDODataProvider implements IDataProvider {
 		}
 		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
 		final CDOSession cdoSession = connection.getConfig().openSession();
-		 ((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(COMMIT_TIMEOUT);
-		 
+		((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession.options())
+				.setCommitTimeout(COMMIT_TIMEOUT);
+
 		for (final EPackage ePackage : ePackages) {
 			cdoSession.getPackageRegistry().putEPackage(ePackage);
 		}
@@ -180,6 +184,34 @@ public abstract class CDODataProvider implements IDataProvider {
 	public Resource getResource(ResourceSet set, int feature) {
 		final String res = resolveResourceName(feature);
 		return getResource(set, res);
+	}
+
+	public List<Resource> getResources(String resourcePath) {
+		// NOTE: We don't create resources for this function, as we assume the
+		// path is a folder.
+
+		final CDOView[] views = this.getSession().getViews();
+		for (int i = 0; i < views.length; i++) {
+			final CDOView view = views[i];
+			CDOResourceNode node = view.getResourceNode(resourcePath);
+			if(node instanceof CDOResourceFolder){
+				return  getResourcesFromNode((CDOResourceFolder) node);
+			}
+		}
+		return null;
+	}
+
+	private List<Resource> getResourcesFromNode(CDOResourceFolder cdoFolder) {
+		List<Resource> resources = Lists.newArrayList();
+		EList<CDOResourceNode> nodes = cdoFolder.getNodes();
+		for (CDOResourceNode n : nodes) {
+			if (n instanceof CDOResourceFolder) {
+				resources.addAll(getResourcesFromNode((CDOResourceFolder) n));
+			} else {
+				resources.add((Resource) n);
+			}
+		}
+		return resources;
 	}
 
 	private Resource getResource(ResourceSet set, String resourcePath) {
@@ -315,28 +347,27 @@ public abstract class CDODataProvider implements IDataProvider {
 		}
 		return resource;
 	}
-	
-	
+
 	/*
-	 * Get the resource from a URI. 
+	 * Get the resource from a URI.
 	 */
-	public Resource getResource(URI uri){
-		// Strip the repo etc we only need the name prepend with a slash. 
-//		String schema = uri.scheme();
+	public Resource getResource(URI uri) {
+		// Strip the repo etc we only need the name prepend with a slash.
+		// String schema = uri.scheme();
 		final String fragment = '/' + uri.lastSegment();
 		return this.getResource(fragment);
 	}
-	
+
 	/*
-	 * Get the resource from a URI. 
+	 * Get the resource from a URI.
 	 */
-	public Resource getResource(ResourceSet set, URI uri){
-		// Strip the repo etc we only need the name prepend with a slash. 
-//		String schema = uri.scheme();
+	public Resource getResource(ResourceSet set, URI uri) {
+		// Strip the repo etc we only need the name prepend with a slash.
+		// String schema = uri.scheme();
 		final String fragment = '/' + uri.lastSegment();
 		return this.getResource(set, fragment);
 	}
-	
+
 	public Resource getResource(String resourceName) {
 		if (doGetResourceFromOwnTransaction()) {
 			final CDOResource resource = resolveInCurrentView(resourceName);

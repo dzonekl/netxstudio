@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.data;
 
+import java.util.List;
+
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.common.util.URI;
@@ -112,6 +114,14 @@ public interface IDataProvider {
 	 * @return a resource on the basis of a string path
 	 */
 	public Resource getResource(String resourcePath);
+	
+	/**
+	 * Implementers should consider parsing the path and look for 
+	 * folder structures. 
+	 * 
+	 * @return a list of resources on the basis of a string path
+	 */
+	public List<Resource> getResources(String resourcePath);
 	
 	/**
 	 * Open a session, depending on the implementation will use default
