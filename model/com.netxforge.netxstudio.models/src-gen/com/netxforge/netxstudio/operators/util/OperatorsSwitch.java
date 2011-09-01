@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Company;
-import com.netxforge.netxstudio.operators.*;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Marker;
@@ -36,6 +35,7 @@ import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.ResourceExpansion;
 import com.netxforge.netxstudio.operators.ResourceForecast;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.operators.Warehouse;
 
 /**

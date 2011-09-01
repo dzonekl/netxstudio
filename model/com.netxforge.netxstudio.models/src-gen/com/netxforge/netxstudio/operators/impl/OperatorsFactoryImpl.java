@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
-import com.netxforge.netxstudio.operators.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -39,6 +38,8 @@ import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.ResourceExpansion;
 import com.netxforge.netxstudio.operators.ResourceForecast;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
 import com.netxforge.netxstudio.operators.Warehouse;
 
 /**

@@ -264,6 +264,11 @@ public class ResourceMonitorItemProvider
 			(createChildParameter
 				(OperatorsPackage.Literals.RESOURCE_MONITOR__MARKERS,
 				 OperatorsFactory.eINSTANCE.createMarker()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(OperatorsPackage.Literals.RESOURCE_MONITOR__MARKERS,
+				 OperatorsFactory.eINSTANCE.createToleranceMarker()));
 	}
 
 	/**

@@ -77,10 +77,33 @@ public class MetricSourceItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addFilterPatternPropertyDescriptor(object);
 			addMetricLocationPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Filter Pattern feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFilterPatternPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MetricSource_filterPattern_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MetricSource_filterPattern_feature", "_UI_MetricSource_type"),
+				 MetricsPackage.Literals.METRIC_SOURCE__FILTER_PATTERN,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -195,6 +218,7 @@ public class MetricSourceItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(MetricSource.class)) {
+			case MetricsPackage.METRIC_SOURCE__FILTER_PATTERN:
 			case MetricsPackage.METRIC_SOURCE__METRIC_LOCATION:
 			case MetricsPackage.METRIC_SOURCE__NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));

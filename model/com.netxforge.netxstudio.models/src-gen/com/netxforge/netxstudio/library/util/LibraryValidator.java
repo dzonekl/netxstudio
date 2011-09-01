@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.library.util;
 
-import com.netxforge.netxstudio.library.*;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.Diagnostic;

@@ -18,13 +18,12 @@
  */
 package com.netxforge.netxstudio.operators.impl;
 
-import com.netxforge.netxstudio.library.LevelKind;
+import org.eclipse.emf.ecore.EClass;
 
+import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
-
-import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

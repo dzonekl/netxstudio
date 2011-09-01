@@ -332,6 +332,29 @@ public class OperatorsItemProviderAdapterFactory extends OperatorsAdapterFactory
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.operators.ToleranceMarker} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ToleranceMarkerItemProvider toleranceMarkerItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.operators.ToleranceMarker}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createToleranceMarkerAdapter() {
+		if (toleranceMarkerItemProvider == null) {
+			toleranceMarkerItemProvider = new ToleranceMarkerItemProvider(this);
+		}
+
+		return toleranceMarkerItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.operators.Warehouse} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -490,6 +513,7 @@ public class OperatorsItemProviderAdapterFactory extends OperatorsAdapterFactory
 		if (resourceExpansionItemProvider != null) resourceExpansionItemProvider.dispose();
 		if (resourceForecastItemProvider != null) resourceForecastItemProvider.dispose();
 		if (resourceMonitorItemProvider != null) resourceMonitorItemProvider.dispose();
+		if (toleranceMarkerItemProvider != null) toleranceMarkerItemProvider.dispose();
 		if (warehouseItemProvider != null) warehouseItemProvider.dispose();
 	}
 
