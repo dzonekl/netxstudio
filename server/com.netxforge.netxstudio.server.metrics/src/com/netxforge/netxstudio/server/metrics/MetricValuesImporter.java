@@ -122,8 +122,8 @@ public abstract class MetricValuesImporter {
 
 			String filterPattern = metricSource.getFilterPattern();
 			if (filterPattern == null && getFileExtension() != null) {
-				filterPattern = "([^\\s]+(\\.(?i)(" + getFileExtension()
-						+ "))$)";
+//				filterPattern = "([^\\s]+(\\.(?i)(" + getFileExtension() + "))$)";
+				filterPattern = ".*" + getFileExtension(); // TODO, narrow down the pattern. 
 			}
 
 			if (!rootFile.exists()) {
