@@ -151,8 +151,9 @@ public abstract class MetricValuesImporter {
 				}
 			} else {
 				for (final File file : rootFile.listFiles()) {
+					final String fileName = file.getName();
 					if (filterPattern == null
-							|| file.getName().matches(filterPattern)) {
+							|| fileName.matches(filterPattern)) {
 						try {
 							final int beforeFailedSize = getFailedRecords()
 									.size();

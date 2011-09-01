@@ -44,5 +44,6 @@ public class TestRegExpressions {
 		Assert.assertTrue("test.CSV".matches(regExp));
 		Assert.assertFalse("test.xsl".matches(regExp));
 		Assert.assertFalse("test.CSA".matches(regExp));		
+		Assert.assertFalse("test.cvs.A".matches(regExp));		
 	}
 }
