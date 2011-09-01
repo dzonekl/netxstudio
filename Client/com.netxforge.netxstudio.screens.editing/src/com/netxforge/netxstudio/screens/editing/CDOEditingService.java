@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOState;
@@ -162,6 +164,23 @@ public class CDOEditingService extends EMFEditingService implements
 		return res;
 	}
 
+	public List<Resource> getData(String path) {
+		// Check if we have a view already.
+		if (this.getView() != null) {
+			// check if we can create the resource from the current view.
+		}
+		List<Resource> resources = dataService.getProvider().getResources(path);
+
+		if (resources.size() > 0) {
+			dawnEditorSupport.setView(((CDOResource) resources.get(0))
+					.cdoView());
+
+			// TODO, should deregister!!
+			dawnEditorSupport.registerListeners();
+		}
+		return resources;
+	}
+
 	public void disposeData() {
 		// Will dispose for all resources in the resource set.
 		// We need a copy, as we will removing from the resourceset.
@@ -285,10 +304,10 @@ public class CDOEditingService extends EMFEditingService implements
 									// For State new, we won't be able to
 									// resolve the CDOID.
 									if (state.equals(CDOState.DIRTY)) {
-										if(hint == LibraryPackage.Literals.NODE_TYPE){
+										if (hint == LibraryPackage.Literals.NODE_TYPE) {
 											doCopyNodeTypeToHistoryResource(cdoObject);
 										}
-										if(hint == OperatorsPackage.Literals.NODE){
+										if (hint == OperatorsPackage.Literals.NODE) {
 											doCopyNodeToHistoryResource(cdoObject);
 										}
 									}
@@ -335,11 +354,11 @@ public class CDOEditingService extends EMFEditingService implements
 
 		target = modelUtils.resolveParentNodeType(target);
 		if (target == null || !(target instanceof NodeType)) {
-				return;
+			return;
 		}
 		this.doCopyTarget(target);
 	}
-	
+
 	/**
 	 * Creates a copy of the target object, and stores is in a resource which is
 	 * named as the object class_the OID number.
@@ -353,13 +372,12 @@ public class CDOEditingService extends EMFEditingService implements
 
 		target = modelUtils.resolveParentNode(target);
 		if (target == null || !(target instanceof Node)) {
-				return;
+			return;
 		}
 		this.doCopyTarget(target);
 	}
-	
-	
-	private void doCopyTarget(CDOObject target){
+
+	private void doCopyTarget(CDOObject target) {
 		String affectedPath = this.resolveHistoricalResourceName(target);
 		if (affectedPath != null) {
 			URI uri = URI.createURI(affectedPath);

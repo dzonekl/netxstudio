@@ -4,9 +4,11 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.TableViewer;
@@ -43,6 +45,11 @@ import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
 import org.swtchart.LineStyle;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
@@ -56,6 +63,7 @@ public class ResourceMonitor extends AbstractScreen implements
 	private Form frmFunction;
 	private Resource monitorResource;
 	private NetXResource netXResource;
+	private DateTimeRange dtr;
 
 	public ResourceMonitor(Composite parent, int style) {
 		super(parent, style);
@@ -67,6 +75,12 @@ public class ResourceMonitor extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+		
+//		buildUI();
+
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmFunction = toolkit.createForm(this);
@@ -192,8 +206,7 @@ public class ResourceMonitor extends AbstractScreen implements
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
-		
-		
+
 		// CHART
 		chart = new Chart(composite_2, SWT.NONE);
 		chart.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
@@ -209,11 +222,11 @@ public class ResourceMonitor extends AbstractScreen implements
 		xTick.setFormat(format);
 
 		chart.getAxisSet().getYAxis(0).getTitle().setText("Value");
-		
-		
-		// Set another right axis. 
+
+		// Set another right axis.
 		int utilizationAxisID = chart.getAxisSet().createYAxis();
-		chart.getAxisSet().getYAxis(utilizationAxisID).setPosition(Position.Secondary);
+		chart.getAxisSet().getYAxis(utilizationAxisID)
+				.setPosition(Position.Secondary);
 		chart.getAxisSet().getYAxis(utilizationAxisID).getTitle()
 				.setText("Utilization (%)");
 		chart.getAxisSet()
@@ -230,9 +243,8 @@ public class ResourceMonitor extends AbstractScreen implements
 						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		chart.getAxisSet().getYAxis(utilizationAxisID).getTick()
 				.setFormat(NumberFormat.getPercentInstance());
-		
-		
-		// ZOOM etc... buttons. 
+
+		// ZOOM etc... buttons.
 
 		Button btnZoomIn = toolkit.createButton(composite_2, "Z+", SWT.NONE);
 		btnZoomIn.addSelectionListener(new SelectionAdapter() {
@@ -321,7 +333,6 @@ public class ResourceMonitor extends AbstractScreen implements
 		TableColumn tblclmnValue = tableViewerColumn_2.getColumn();
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
-
 	}
 
 	public void loadDummyData() {
@@ -363,38 +374,77 @@ public class ResourceMonitor extends AbstractScreen implements
 		for (int i = 0; i < ticks; i++) {
 			yToleranceSeries[i] = 0.9;
 		}
+	}
+	
+	
+	int expectedValueQuantity = -1;
 
+	public Date[] createDateSeries(EList<Value> values) {
 		
+		int size = values.size();
 		
+		// Sort and reverse the values. 
+		System.out.println("ResourceMonitor: sorting entries:" + size + new Date(System.currentTimeMillis()));
+		List<Value> sortedCopy = Ordering.from(byTimeStamp).reverse().sortedCopy(values);
+		System.out.println("ResourceMonitor: done sorting entries:" + size + new Date(System.currentTimeMillis()));
 		
+		// Filter within the range. 
+		Predicate<Value> insideRange = new InsideRange(dtr);
+		Iterable<Value> filterValues = Iterables.filter(sortedCopy, insideRange);
+		
+		return null;
+	}
+	
+	private class InsideRange implements Predicate<Value> {
+	    private final DateTimeRange dtr;
+	    private InsideRange(final DateTimeRange dtr) {
+	        this.dtr = dtr;
+	    }
+	    public boolean apply(final Value v) {
+	    	Date begin = modelUtils.fromXMLDate(dtr.getBegin());
+	    	Date end = modelUtils.fromXMLDate(dtr.getEnd());
+	    	Date target = modelUtils.fromXMLDate(v.getTimeStamp());
+	    	return begin.before(target) && end.after(target);
+	    }
 	}
 	
 	/**
-	 * Get a Chart Lineseries from a Resource. 
+	 * Compare two dates. 
+	 */
+	Comparator<Value> byTimeStamp = new Comparator<Value>() {
+	    public int compare(final Value v1, final Value v2) {
+	        return v1.getTimeStamp().compare(v2.getTimeStamp());
+	    }
+	};
+	
+	/**
+	 * Get a Chart Lineseries from a Resource.
+	 * 
 	 * @param chart
 	 * @param resource
 	 * @return
 	 */
-	private ILineSeries seriesFromMetric(Chart chart, NetXResource resource){
-		
-		
-		
-		Date[] xSeries = new Date[1]; // TODO Set from resource
-		double[] ySeries = new double[1]; // TODO Set from resource. 
-		
+	private ILineSeries seriesFromMetric(Chart chart, NetXResource resource) {
+
+		Date[] xSeries = new Date[1];
+		// TODO Set from resource
+		double[] ySeries = new double[1];
+		// TODO Set from resource.
+
 		ILineSeries metricLineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "Metric");
+
 		metricLineSeries.setXDateSeries(xSeries);
+
 		metricLineSeries.setYSeries(ySeries);
 		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
 		return metricLineSeries;
 	}
-	
-	
-	private ILineSeries seriesFromCapacity(Chart chart, NetXResource resource){
+
+	private ILineSeries seriesFromCapacity(Chart chart, NetXResource resource) {
 
 		Date[] xSeries = new Date[1]; // TODO Set from resource
-		double[] ySeries = new double[1]; // TODO Set from resource. 
+		double[] ySeries = new double[1]; // TODO Set from resource.
 
 		ILineSeries capLineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "Capacity");
@@ -405,33 +455,33 @@ public class ResourceMonitor extends AbstractScreen implements
 				SWT.COLOR_DARK_YELLOW));
 		capLineSeries.setSymbolType(ILineSeries.PlotSymbolType.NONE);
 		return capLineSeries;
-		
+
 	}
-	
-	private IBarSeries seriesFromUtilization(Chart chart, NetXResource resource, int yAxisID){
-		
+
+	private IBarSeries seriesFromUtilization(Chart chart,
+			NetXResource resource, int yAxisID) {
+
 		Date[] xSeries = new Date[1]; // TODO Set from resource
-		double[] ySeries = new double[1]; // TODO Set from resource. 
-		
+		double[] ySeries = new double[1]; // TODO Set from resource.
+
 		IBarSeries utilLineSeries = (IBarSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.BAR, "Utilization");
 		utilLineSeries.setXDateSeries(xSeries);
 		utilLineSeries.setYSeries(ySeries);
 		utilLineSeries.setYAxisId(yAxisID); // Connect a series to the
-												// Y-Axis.
+											// Y-Axis.
 		utilLineSeries.setBarColor(Display.getDefault().getSystemColor(
 				SWT.COLOR_GREEN));
 		utilLineSeries.setBarPadding(50);
 		return utilLineSeries;
 	}
-	
-	
-	private ILineSeries seriesFromTolerance(Chart chart, NetXResource resource, int yAxisID){
-		
+
+	private ILineSeries seriesFromTolerance(Chart chart, NetXResource resource,
+			int yAxisID) {
+
 		Date[] xSeries = new Date[1]; // TODO Set from resource
-		double[] ySeries = new double[1]; // TODO Set from resource. 
-		
-		
+		double[] ySeries = new double[1]; // TODO Set from resource.
+
 		ILineSeries toleranceLineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "Tolerance");
 		toleranceLineSeries.setXDateSeries(xSeries);
@@ -441,9 +491,8 @@ public class ResourceMonitor extends AbstractScreen implements
 		toleranceLineSeries.setLineColor(Display.getDefault().getSystemColor(
 				SWT.COLOR_DARK_RED));
 		toleranceLineSeries.setSymbolType(ILineSeries.PlotSymbolType.NONE);
-		return toleranceLineSeries; 
+		return toleranceLineSeries;
 	}
-	
 
 	public Chart getChart() {
 		return chart;
@@ -453,15 +502,32 @@ public class ResourceMonitor extends AbstractScreen implements
 		return null;
 	}
 
+	/**
+	 * Use with additional parameter DateTimeRange.
+	 */
 	public void injectData(Object owner, Object object) {
-		if (owner instanceof Resource) {
-			monitorResource = (Resource) owner;
-		}
-		if (object instanceof NetXResource) {
+		throw new java.lang.IllegalStateException();
+	}
+
+	public void injectData(Object owner, Object object, DateTimeRange dtr) {
+		// if (owner instanceof Resource) {
+		// monitorResource = (Resource) owner;
+		// }
+		if (object != null && object instanceof NetXResource) {
 			netXResource = (NetXResource) object;
+		} else {
+			throw new java.lang.IllegalArgumentException(
+					"The target object is expected to be a NetXResource");
 		}
 
-		frmFunction.setText("Resource Monitor " + netXResource.getShortName());
+		if (dtr != null){
+			this.dtr = dtr;
+		}
+		
+		buildUI();
+		
+			frmFunction.setText("Resource Monitor "
+					+ netXResource.getShortName());
 		initDataBindings_();
 	}
 
@@ -476,21 +542,19 @@ public class ResourceMonitor extends AbstractScreen implements
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
-		
-		
-		// Set the series from the resource. 
-		// Re-use the TS range. 
-		
-		
+
+		// Set the series from the resource.
+		// Re-use the TS range.
+
 		this.seriesFromMetric(chart, netXResource);
 		this.seriesFromCapacity(chart, netXResource);
 		this.seriesFromTolerance(chart, netXResource, 1);
 		this.seriesFromUtilization(chart, netXResource, 1);
-		
+
 		// Setup data binding.
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
-		
+
 		return context;
 	}
 
@@ -500,7 +564,6 @@ public class ResourceMonitor extends AbstractScreen implements
 	}
 
 	public void disposeData() {
-		editingService.disposeData(monitorResource);
 	}
 
 	public void setOperation(int operation) {

@@ -38,9 +38,9 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  */
 public class NodeActionHandler extends AbstractActionHandler {
 
+	@SuppressWarnings("unused")
 	private IStructuredSelection selection;
 
-	
 	@Inject
 	IDataService dataservice;
 	

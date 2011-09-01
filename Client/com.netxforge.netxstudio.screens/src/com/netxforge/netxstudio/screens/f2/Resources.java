@@ -2,10 +2,13 @@ package com.netxforge.netxstudio.screens.f2;
 
 import java.util.List;
 
+import org.eclipse.core.databinding.observable.list.ComputedList;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -35,6 +38,7 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -52,9 +56,10 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 
 	private TableViewer resourcesTableViewer;
 	private Form frmResources;
-	private Resource resourcesResource;
+//	private Resource resourcesResource;
 
 	private TableViewerColumn tbvcLongName;
+	private List<Resource> resourcesList;
 
 	/**
 	 * Create the composite.
@@ -188,8 +193,12 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 						screenService.getScreenContainer(), SWT.NONE);
 				resourceScreen.setOperation(Screens.OPERATION_EDIT);
 				resourceScreen.setScreenService(screenService);
-				resourceScreen.injectData(resourcesResource, o);
-				screenService.setActiveScreen(resourceScreen);
+				
+				// CB, the parent is the container resource. 
+				if(o instanceof CDOObject){
+					resourceScreen.injectData(((CDOObject) o).cdoResource(), o);
+					screenService.setActiveScreen(resourceScreen);
+				}
 			}
 		}
 	}
@@ -206,11 +215,15 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 			if (selection instanceof IStructuredSelection) {
 				Object o = ((IStructuredSelection) selection).getFirstElement();
 				if (o instanceof NetXResource) {
+					
+					// TODO, Ask for a time range.
+					DateTimeRange timerange = null;
+					
 					ResourceMonitor monitorScreen = new ResourceMonitor(
 							screenService.getScreenContainer(), SWT.NONE);
 					monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
 					monitorScreen.setScreenService(screenService);
-					monitorScreen.injectData(null, o);
+					monitorScreen.injectData(null, o, timerange);
 					screenService.setActiveScreen(monitorScreen);
 				}
 			}
@@ -258,11 +271,29 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		resourcesTableViewer
 				.setLabelProvider(new NetXResourceObervableMapLabelProvider(map));
 
-		IEMFListProperty resourcesProperties = EMFEditProperties
-				.resource(editingService.getEditingDomain());
-		IObservableList resourceList = resourcesProperties
-				.observe(resourcesResource);
-		resourcesTableViewer.setInput(resourceList);
+//		IEMFListProperty resourcesProperties = EMFEditProperties
+//				.resource(editingService.getEditingDomain());
+		
+		
+//		IObservableList resourceList = resourcesProperties
+//				.observe(resourcesResource);
+		
+		final IEMFListProperty computedProperties = EMFProperties.resource();
+		ComputedList computedResourceList = new ComputedList() {
+			@SuppressWarnings("unchecked")
+			@Override
+			protected List<Object> calculate() {
+				List<Object> result = Lists.newArrayList();
+				for(Resource r : resourcesList){
+					IObservableList observableList = computedProperties.observe(r);
+					result.addAll(observableList);
+				}
+				return result;
+			}
+		};
+		
+		
+		resourcesTableViewer.setInput(computedResourceList);
 
 		return bindingContext;
 	}
@@ -322,14 +353,24 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	public void injectData() {
-		resourcesResource = editingService
-				.getData(LibraryPackage.Literals.NET_XRESOURCE);
+		
+		resourcesList = Lists.newArrayList();
+		
+		// Inject for Node type resources.  
+		resourcesList.addAll(editingService.getData("Node_"));
+		resourcesList.addAll(editingService.getData("NodeType_"));
+		
+		
+		// CB 31-08-2011, NetXResource is now sliced in own CDO resource by 
+		// component Hierarchy. 
+//		resourcesResource = editingService
+//				.getData(LibraryPackage.Literals.NET_XRESOURCE);
 		buildUI();
 		initDataBindings_();
 	}
 
 	public void disposeData() {
-		editingService.disposeData(resourcesResource);
+//		editingService.disposeData(resourcesResource);
 	}
 
 	@Override

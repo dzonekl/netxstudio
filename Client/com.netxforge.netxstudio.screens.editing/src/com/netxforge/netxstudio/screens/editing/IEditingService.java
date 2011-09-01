@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.ecore.EClass;
@@ -87,6 +89,15 @@ public interface IEditingService {
 	 */
 	public abstract Resource getData(int feature);
 	
+	
+	/**
+	 * Call to get the data for a specific path which could result in a 
+	 * list of resources. 
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public abstract List<Resource> getData(String path);
 	
 	/**
 	 * Call to get the data for a specific EClass, we return 

@@ -45,7 +45,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.LevelType;
+import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -233,7 +233,7 @@ public class NewEditTolerance extends AbstractScreen implements
 
 		cmbLevelViewer.setContentProvider(new ArrayContentProvider());
 		cmbLevelViewer.setLabelProvider(new LabelProvider());
-		cmbLevelViewer.setInput(LevelType.VALUES);
+		cmbLevelViewer.setInput(LevelKind.VALUES);
 
 		IEMFValueProperty toleranceLevelProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(), LibraryPackage.Literals.TOLERANCE__LEVEL);

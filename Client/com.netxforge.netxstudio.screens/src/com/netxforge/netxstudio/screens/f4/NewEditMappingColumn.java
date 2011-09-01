@@ -81,7 +81,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private Button btnDate;
 	private Button btnIdentifier;
 	private Button btnMetricValue;
-	private Text txtIntervalPattern;
+//	private Text txtIntervalPattern;
 	private Button btnInterval;
 	private WritableValue btnIdentifierWritableValue;
 	private WritableValue btnDateWritableValue;
@@ -114,6 +114,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+//		buildUI();
 	}
 
 	private void buildUI() {
@@ -349,9 +350,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				SWT.RADIO);
 		new Label(cmpColumnMapping, SWT.NONE);
 
-		txtIntervalPattern = toolkit.createText(cmpColumnMapping, "New Text",
-				SWT.NONE);
-		txtIntervalPattern.setText("");
+//		txtIntervalPattern = toolkit.createText(cmpColumnMapping, "New Text",
+//				SWT.NONE);
+//		txtIntervalPattern.setText("");
+		
 		new Label(cmpColumnMapping, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
@@ -504,9 +506,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				.observeText(this.txtIdentifierPattern, SWT.Modify);
 		identifierPatternObservable.addValueChangeListener(aggregate);
 
-		IObservableValue periodPatternObservable = SWTObservables.observeText(
-				this.txtIntervalPattern, SWT.Modify);
-		periodPatternObservable.addValueChangeListener(aggregate);
+//		IObservableValue periodPatternObservable = SWTObservables.observeText(
+//				this.txtIntervalPattern, SWT.Modify);
+//		
+//		periodPatternObservable.addValueChangeListener(aggregate);
 
 		// ///////////////////////////
 		// STRATEGIES
@@ -620,9 +623,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			ValueKindType vkt = vdk.getValueKind();
 			if (vkt == ValueKindType.INTERVAL) {
 				btnIntervalWritableValue.setValue(true);
-				if (vdk.getFormat() != null) {
-					txtIntervalPattern.setText(vdk.getFormat());
-				}
+				// TODO, Remove later no pattern for interval. 
+//				if (vdk.getFormat() != null) {
+//					txtIntervalPattern.setText(vdk.getFormat());
+//				}
 			}
 			if (vkt == ValueKindType.DATETIME) {
 				btnDateTimeWritableValue.setValue(true);
@@ -738,7 +742,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 						|| control.equals(cmbTimePattern)
 						|| control.equals(txtIdentifierPattern)
 						|| control.equals(txtMetricValuePattern)
-						|| control.equals(txtIntervalPattern)) {
+						) {
 					this.pattern = (String) newValue;
 					modelUpdate();
 				}
@@ -790,6 +794,8 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			}
 
 			if (dk instanceof ValueDataKind) {
+				
+				// Note: Interval don't have patterns. 
 				((ValueDataKind) dk).setFormat(pattern);
 			}
 			if (dk instanceof IdentifierDataKind) {

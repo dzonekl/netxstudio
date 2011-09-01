@@ -90,7 +90,7 @@ public class NewEditService extends AbstractScreen implements
 		formToolkit.adapt(this);
 		formToolkit.paintBordersFor(this);
 
-		buildUI();
+//		buildUI();
 	}
 
 	private void buildUI() {
