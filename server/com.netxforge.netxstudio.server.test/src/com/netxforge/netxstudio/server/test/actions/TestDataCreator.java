@@ -66,6 +66,7 @@ import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.operators.FunctionRelationship;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
@@ -176,9 +177,14 @@ public class TestDataCreator implements NetxForgeService {
 
 	private void createRFSService() {
 
+		Operator tmnl = OperatorsFactory.eINSTANCE.createOperator();
+		tmnl.setName("T-Mobile Netherlands");
+		tmnl.setWebsite("http://www.t-mobile.nl");
+		addToResource(tmnl);
+		
 		final Network network = OperatorsFactory.eINSTANCE.createNetwork();
-		network.setName("t-mobile");
-		addToResource(network);
+		network.setName("Core Network");
+		tmnl.getNetworks().add(network);
 
 		final RFSService rfsService = ServicesFactory.eINSTANCE
 				.createRFSService();
@@ -206,7 +212,7 @@ public class TestDataCreator implements NetxForgeService {
 		final RFSServiceRetentionJob retentionJob = SchedulingFactory.eINSTANCE
 				.createRFSServiceRetentionJob();
 		retentionJob.setRFSService(rfsService);
-		retentionJob.setJobState(JobState.ACTIVE);
+		retentionJob.setJobState(JobState.IN_ACTIVE);
 		retentionJob.setStartTime(modelUtils.toXMLDate(new Date(System
 				.currentTimeMillis() + 2 * MINUTE)));
 		retentionJob.setInterval(600);

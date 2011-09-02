@@ -81,7 +81,7 @@ public class CommonLogic {
 			// FIXME: We could want to write to a resource, where the node
 			// doesn't match the context.
 			final NetXResource resource = expressionResult.getTargetResource();
-			final Node n = this.getNode(resource);
+			final Node n = this.getNode(resource.getComponentRef());
 			if (n != null) {
 				System.out.println("--Writing to resource in Node: "
 						+ n.getNodeID());
