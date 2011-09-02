@@ -21,9 +21,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -32,7 +34,21 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 
 public class ModelUtils {
-
+	
+	
+	public class InsideRange implements Predicate<Value> {
+	    private final DateTimeRange dtr;
+	    public InsideRange(final DateTimeRange dtr) {
+	        this.dtr = dtr;
+	    }
+	    public boolean apply(final Value v) {
+	    	Date begin = fromXMLDate(dtr.getBegin());
+	    	Date end = fromXMLDate(dtr.getEnd());
+	    	Date target =fromXMLDate(v.getTimeStamp());
+	    	return begin.before(target) && end.after(target);
+	    }
+	}
+	
 	@Inject
 	private DatatypeFactory dataTypeFactory;
 
@@ -662,6 +678,17 @@ public class ModelUtils {
 		};
 		return Lists.transform(values, valueToDouble);
 	}
+	
+	
+	public List<Date> transformValueToDate(List<Value> values) {
+		final Function<Value, Date> valueToDouble = new Function<Value, Date>() {
+			public Date apply(Value from) {
+				return fromXMLDate(from.getTimeStamp());
+			}
+		};
+		return Lists.transform(values, valueToDouble);
+	}
+	
 
 	/**
 	 * FIXME, No other way that iterator through.

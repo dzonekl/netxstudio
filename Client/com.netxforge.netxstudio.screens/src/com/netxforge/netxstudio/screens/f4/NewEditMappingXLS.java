@@ -96,8 +96,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtSheetNumber;
-	private Text txtFirstHeaderRow;
-	private Text txtFirstDataRow;
+	private Text txtDataRow;
 	private Table table;
 	private Text txtSelectedXLSPath;
 	private Form frmXLSMappingForm;
@@ -123,6 +122,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -168,30 +168,17 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		gd_txtSheetName.widthHint = 20;
 		txtSheetNumber.setLayoutData(gd_txtSheetName);
 
-		Label lblHeaderrow = toolkit.createLabel(composite_1, "Header row:",
-				SWT.NONE);
-		lblHeaderrow.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-
-		txtFirstHeaderRow = toolkit.createText(composite_1, "New Text",
-				SWT.NONE);
-		txtFirstHeaderRow.setText("");
-		GridData gd_txtFirstHeaderRow = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_txtFirstHeaderRow.widthHint = 20;
-		txtFirstHeaderRow.setLayoutData(gd_txtFirstHeaderRow);
-
 		Label lblstDataRow = toolkit.createLabel(composite_1, "Data row:",
 				SWT.NONE);
 		lblstDataRow.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		txtFirstDataRow = toolkit.createText(composite_1, "New Text", SWT.NONE);
+		txtDataRow = toolkit.createText(composite_1, "New Text", SWT.NONE);
 		GridData gd_txtFirstDataRow = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_txtFirstDataRow.widthHint = 20;
-		txtFirstDataRow.setLayoutData(gd_txtFirstDataRow);
-		txtFirstDataRow.setText("");
+		txtDataRow.setLayoutData(gd_txtFirstDataRow);
+		txtDataRow.setText("");
 
 		Section sctnXLSInteractive = toolkit.createSection(
 				frmXLSMappingForm.getBody(), Section.EXPANDED
@@ -262,7 +249,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 				255));
 
 		CTabItem tbtmSheet1 = new CTabItem(tabFolder, SWT.NONE);
-		tbtmSheet1.setText("Sheet 1");
+		tbtmSheet1.setText("Sheet 0");
 
 		tabFolder.setSelection(tbtmSheet1);
 
@@ -366,7 +353,8 @@ public class NewEditMappingXLS extends AbstractScreen implements
 							screenService.getScreenContainer(), SWT.NONE);
 					mappingColumnScreen.setOperation(Screens.OPERATION_EDIT);
 					mappingColumnScreen.setScreenService(screenService);
-					mappingColumnScreen.injectData(mapping, mappingColumn);
+					mappingColumnScreen.injectData(true,
+							mapping.getDataMappingColumns(), mappingColumn);
 					screenService.setActiveScreen(mappingColumnScreen);
 
 				}
@@ -381,12 +369,10 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		tblclmnValueType.setText("Value Type");
 
 		gridMenu = new Menu(grid);
-		grid.setMenu(gridMenu);
-
 		// Delegate to a singleton holding the MappingMenuListener class.
 		mmListener = ColumnMappingMenu.getINSTANCE().new MappingMenuListener(
-				gridMenu, mapping, screenService, txtFirstHeaderRow,
-				txtFirstDataRow);
+				gridMenu, mapping, screenService, null, txtDataRow);
+		grid.setMenu(gridMenu);
 		gridMenu.addMenuListener(mmListener);
 
 	}
@@ -484,23 +470,27 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		IObservableValue sheetNumberObservableValue = SWTObservables
 				.observeText(txtSheetNumber, SWT.Modify);
 		IObservableValue firstDataRowObservableValue = SWTObservables
-				.observeText(txtFirstDataRow, SWT.Modify);
-		IObservableValue headerRowObservableValue = SWTObservables.observeText(
-				txtFirstHeaderRow, SWT.Modify);
+				.observeText(txtDataRow, SWT.Modify);
+
+		// IObservableValue headerRowObservableValue =
+		// SWTObservables.observeText(
+		// txtFirstHeaderRow, SWT.Modify);
 
 		IEMFValueProperty sheetNumberProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
 		IEMFValueProperty firstDataRowProperty = EMFProperties
 				.value(MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
-		IEMFValueProperty headerRowProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING__HEADER_ROW);
+
+		// IEMFValueProperty headerRowProperty = EMFProperties
+		// .value(MetricsPackage.Literals.MAPPING__HEADER_ROW);
 
 		context.bindValue(sheetNumberObservableValue,
 				sheetNumberProperty.observe(mapping), null, null);
 		context.bindValue(firstDataRowObservableValue,
 				firstDataRowProperty.observe(mapping), null, null);
-		context.bindValue(headerRowObservableValue,
-				headerRowProperty.observe(mapping), null, null);
+
+		// context.bindValue(headerRowObservableValue,
+		// headerRowProperty.observe(mapping), null, null);
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		this.mappingColumnsTableViewer.setContentProvider(listContentProvider);

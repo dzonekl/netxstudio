@@ -1,6 +1,4 @@
-package com.netxforge.netxstudio.screens.f2;
-
-import java.util.Date;
+package com.netxforge.netxstudio.screens.f4;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -8,9 +6,8 @@ import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -40,25 +37,27 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceMonitor;
-import com.netxforge.netxstudio.services.ServicesPackage;
 
-public class ServiceMonitors extends AbstractScreen implements
+public class ResourceMonitors extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
 	private Text txtFilterText;
 
-	private TableViewer serviceMonitorsTableViewer;
-	private Form frmServiceMonitors;
+	private TableViewer resourceMonitorsTableViewer;
+	private Form frmResourceMonitors;
+	private Resource rfsServiceResource;
 
 	private TableViewerColumn tblViewerClmnState;
-	private RFSService rfsService;
+	// private List<ServiceMonitor> allServiceMonitors;
+	private ServiceMonitor serviceMonitor;
+	private Resource rmResource;
 
 	/**
 	 * Create the composite.
@@ -66,7 +65,7 @@ public class ServiceMonitors extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public ServiceMonitors(Composite parent, int style) {
+	public ResourceMonitors(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -78,53 +77,53 @@ public class ServiceMonitors extends AbstractScreen implements
 		toolkit.paintBordersFor(this);
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		frmServiceMonitors = toolkit.createForm(this);
-		frmServiceMonitors.setSeparatorVisible(true);
-		toolkit.paintBordersFor(frmServiceMonitors);
-		frmServiceMonitors.setText("Service Monitoring");
-		frmServiceMonitors.getBody().setLayout(new GridLayout(3, false));
+		frmResourceMonitors = toolkit.createForm(this);
+		frmResourceMonitors.setSeparatorVisible(true);
+		toolkit.paintBordersFor(frmResourceMonitors);
+		frmResourceMonitors.setText("Resource Monitors");
+		frmResourceMonitors.getBody().setLayout(new GridLayout(3, false));
 
 		Label lblFilterLabel = toolkit.createLabel(
-				frmServiceMonitors.getBody(), "Filter:", SWT.NONE);
+				frmResourceMonitors.getBody(), "Filter:", SWT.NONE);
 		GridData gd_lblFilterLabel = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblFilterLabel.widthHint = 44;
 		lblFilterLabel.setLayoutData(gd_lblFilterLabel);
 
-		txtFilterText = toolkit.createText(frmServiceMonitors.getBody(),
+		txtFilterText = toolkit.createText(frmResourceMonitors.getBody(),
 				"New Text", SWT.H_SCROLL | SWT.SEARCH | SWT.CANCEL);
 		txtFilterText.setText("");
 		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
-		new Label(frmServiceMonitors.getBody(), SWT.NONE);
+		new Label(frmResourceMonitors.getBody(), SWT.NONE);
 
-		serviceMonitorsTableViewer = new TableViewer(
-				frmServiceMonitors.getBody(), SWT.BORDER | SWT.FULL_SELECTION);
-		table = serviceMonitorsTableViewer.getTable();
+		resourceMonitorsTableViewer = new TableViewer(
+				frmResourceMonitors.getBody(), SWT.BORDER | SWT.FULL_SELECTION);
+		table = resourceMonitorsTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
 		toolkit.paintBordersFor(table);
 
 		TableViewerColumn tblViewerClmType = new TableViewerColumn(
-				serviceMonitorsTableViewer, SWT.NONE);
-		TableColumn tblclmnName = tblViewerClmType.getColumn();
-		tblclmnName.setWidth(106);
-		tblclmnName.setText("Name");
+				resourceMonitorsTableViewer, SWT.NONE);
+		TableColumn tblclmnNode = tblViewerClmType.getColumn();
+		tblclmnNode.setWidth(76);
+		tblclmnNode.setText("Node");
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				serviceMonitorsTableViewer, SWT.NONE);
-		TableColumn tblclmnRevision = tableViewerColumn.getColumn();
-		tblclmnRevision.setWidth(104);
-		tblclmnRevision.setText("Revision");
+				resourceMonitorsTableViewer, SWT.NONE);
+		TableColumn tblclmnResource = tableViewerColumn.getColumn();
+		tblclmnResource.setWidth(104);
+		tblclmnResource.setText("Resource");
 
-		tblViewerClmnState = new TableViewerColumn(serviceMonitorsTableViewer,
+		tblViewerClmnState = new TableViewerColumn(resourceMonitorsTableViewer,
 				SWT.NONE);
-		TableColumn tblclmnStart = tblViewerClmnState.getColumn();
-		tblclmnStart.setWidth(139);
-		tblclmnStart.setText("Start");
+		TableColumn tblclmnMarkers = tblViewerClmnState.getColumn();
+		tblclmnMarkers.setWidth(207);
+		tblclmnMarkers.setText("Markers");
 
 		Menu menu = new Menu(table);
 		table.setMenu(menu);
@@ -138,60 +137,54 @@ public class ServiceMonitors extends AbstractScreen implements
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-						ResourceMonitors rmScreen = new ResourceMonitors(
-								screenService.getScreenContainer(), SWT.NONE);
-						rmScreen.setOperation(Screens.OPERATION_READ_ONLY);
-						rmScreen.setScreenService(screenService);
-						rmScreen.injectData(null,o);
-						screenService.setActiveScreen(rmScreen);
+					com.netxforge.netxstudio.screens.f4.ResourceMonitor rmScreen = new com.netxforge.netxstudio.screens.f4.ResourceMonitor(
+							screenService.getScreenContainer(), SWT.NONE);
+					rmScreen.setScreenService(screenService);
+					rmScreen.setOperation(getOperation());
+					rmScreen.injectData(null, o);
+					screenService.setActiveScreen(rmScreen);
 				}
 			}
 		});
 		mntmEdit.setText("View...");
-
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				serviceMonitorsTableViewer, SWT.NONE);
-		TableColumn tblclmnEnd = tableViewerColumn_1.getColumn();
-		tblclmnEnd.setWidth(185);
-		tblclmnEnd.setText("End");
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
-		// tblViewerClmnState.setEditingSupport(new CheckBoxEditingSupport(
-		// jobsTableViewer, bindingContext));
-
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
-		serviceMonitorsTableViewer.setContentProvider(listContentProvider);
+		resourceMonitorsTableViewer.setContentProvider(listContentProvider);
 
-		EAttribute dummyAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] { dummyAttribute,
-						ServicesPackage.Literals.SERVICE_MONITOR__NAME,
-						ServicesPackage.Literals.SERVICE_MONITOR__REVISION,
-						ServicesPackage.Literals.SERVICE_MONITOR__PERIOD,
-						ServicesPackage.Literals.SERVICE_MONITOR__PERIOD, });
-		serviceMonitorsTableViewer
-				.setLabelProvider(new ServiceMonitorsObervableMapLabelProvider(
+		IObservableMap[] observeMaps = EMFObservables
+				.observeMaps(
+						listContentProvider.getKnownElements(),
+						new EStructuralFeature[] {
+								OperatorsPackage.Literals.RESOURCE_MONITOR__NODE_REF,
+								OperatorsPackage.Literals.RESOURCE_MONITOR__RESOURCE_REF,
+								OperatorsPackage.Literals.RESOURCE_MONITOR__MARKERS, });
+		resourceMonitorsTableViewer
+				.setLabelProvider(new ResourceMonitorObervableMapLabelProvider(
 						observeMaps));
 
-		IEMFListProperty resourcesProperties = EMFEditProperties
-				.list(editingService.getEditingDomain(), ServicesPackage.Literals.SERVICE__SERVICE_MONITORS);
-		IObservableList rfsServicesObservableList = resourcesProperties
-				.observe(this.rfsService);
-//		obm.addObservable(rfsServicesObservableList);
-		serviceMonitorsTableViewer.setInput(rfsServicesObservableList);
+//		IEMFListProperty serviceMonitorObservableList = EMFEditProperties.list(
+//				editingService.getEditingDomain(),
+//				ServicesPackage.Literals.SERVICE_MONITOR__RESOURCE_MONITORS);
+		
+		IEMFListProperty serviceMonitorObservableList = EMFEditProperties.resource(
+		editingService.getEditingDomain());
+		
+		IObservableList resourceList = serviceMonitorObservableList
+				.observe(this.rmResource);
+//		obm.addObservable(resourceList);
+		resourceMonitorsTableViewer.setInput(resourceList);
 
 		return bindingContext;
 	}
 
-	class ServiceMonitorsObervableMapLabelProvider extends
+	class ResourceMonitorObervableMapLabelProvider extends
 			ObservableMapLabelProvider {
 
-		public ServiceMonitorsObervableMapLabelProvider(
+		public ResourceMonitorObervableMapLabelProvider(
 				IObservableMap[] attributeMaps) {
 			super(attributeMaps);
 		}
@@ -203,33 +196,21 @@ public class ServiceMonitors extends AbstractScreen implements
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			if (element instanceof ServiceMonitor) {
-				ServiceMonitor sm = (ServiceMonitor) element;
+			if (element instanceof ResourceMonitor) {
+				ResourceMonitor rm = (ResourceMonitor) element;
 				switch (columnIndex) {
 				case 0:
-					if (sm.getName() != null) {
-						return sm.getName();
+					if (rm.getNodeRef() != null) {
+						return rm.getNodeRef().getNodeID();
 					}
 					break;
 				case 1:
-					if (sm.getRevision() != null) {
-						return sm.getRevision();
+					if (rm.getResourceRef() != null) {
+						return rm.getResourceRef().getShortName();
 					}
 					break;
 				case 2:
-					if (sm.getPeriod() != null) {
-						Date begin = modelUtils.fromXMLDate(sm.getPeriod()
-								.getBegin());
-						return modelUtils.date(begin) + modelUtils.time(begin);
-					}
-					break;
-				case 3:
-					if (sm.getPeriod() != null) {
-						Date end = modelUtils.fromXMLDate(sm.getPeriod()
-								.getEnd());
-						return modelUtils.date(end) + modelUtils.time(end);
-					}
-					break;
+					return new Integer(rm.getMarkers().size()).toString();
 				}
 			}
 			return super.getColumnText(element, columnIndex);
@@ -237,23 +218,22 @@ public class ServiceMonitors extends AbstractScreen implements
 	}
 
 	public void injectData(Object owner, Object object) {
-		if(object instanceof RFSService){
-			rfsService = (RFSService)object;	
-		}
-		initDataBindings_();
-	}
 
-	public void addData() {
-		// N/A
+		if (object instanceof ServiceMonitor) {
+			serviceMonitor = (ServiceMonitor) object;
+			
+			rmResource = editingService.getData(OperatorsPackage.Literals.RESOURCE_MONITOR);
+			initDataBindings_();
+		}
 	}
 
 	public void disposeData() {
-		// N/A
+		editingService.disposeData(rfsServiceResource);
 	}
 
 	@Override
 	public Viewer getViewer() {
-		return serviceMonitorsTableViewer;
+		return resourceMonitorsTableViewer;
 	}
 
 	@Override
@@ -263,7 +243,7 @@ public class ServiceMonitors extends AbstractScreen implements
 
 	@Override
 	public Form getScreenForm() {
-		return frmServiceMonitors;
+		return frmResourceMonitors;
 	}
 
 	@Override
@@ -272,6 +252,9 @@ public class ServiceMonitors extends AbstractScreen implements
 
 	}
 
+	public void addData() {
+		// TODO Auto-generated method stub
 
+	}
 
 }

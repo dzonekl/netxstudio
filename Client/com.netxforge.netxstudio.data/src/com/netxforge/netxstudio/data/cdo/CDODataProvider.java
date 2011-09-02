@@ -193,9 +193,11 @@ public abstract class CDODataProvider implements IDataProvider {
 		final CDOView[] views = this.getSession().getViews();
 		for (int i = 0; i < views.length; i++) {
 			final CDOView view = views[i];
-			CDOResourceNode node = view.getResourceNode(resourcePath);
-			if(node instanceof CDOResourceFolder){
-				return  getResourcesFromNode((CDOResourceFolder) node);
+			if (view.hasResource(resourcePath)) {
+				CDOResourceNode node = view.getResourceNode(resourcePath);
+				if (node instanceof CDOResourceFolder) {
+					return getResourcesFromNode((CDOResourceFolder) node);
+				}
 			}
 		}
 		return null;

@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.f4;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -47,6 +46,7 @@ import org.swtchart.LineStyle;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
@@ -61,7 +61,7 @@ public class ResourceMonitor extends AbstractScreen implements
 	private Chart chart;
 	private Table table;
 	private Form frmFunction;
-	private Resource monitorResource;
+//	private Resource monitorResource;
 	private NetXResource netXResource;
 	private DateTimeRange dtr;
 
@@ -379,7 +379,7 @@ public class ResourceMonitor extends AbstractScreen implements
 	
 	int expectedValueQuantity = -1;
 
-	public Date[] createDateSeries(EList<Value> values) {
+	public List<Value> createDateSeries(EList<Value> values) {
 		
 		int size = values.size();
 		
@@ -389,24 +389,13 @@ public class ResourceMonitor extends AbstractScreen implements
 		System.out.println("ResourceMonitor: done sorting entries:" + size + new Date(System.currentTimeMillis()));
 		
 		// Filter within the range. 
-		Predicate<Value> insideRange = new InsideRange(dtr);
+		Predicate<Value> insideRange = modelUtils.new InsideRange(dtr);
 		Iterable<Value> filterValues = Iterables.filter(sortedCopy, insideRange);
-		
-		return null;
+		return(Lists.newArrayList(filterValues));
 	}
 	
-	private class InsideRange implements Predicate<Value> {
-	    private final DateTimeRange dtr;
-	    private InsideRange(final DateTimeRange dtr) {
-	        this.dtr = dtr;
-	    }
-	    public boolean apply(final Value v) {
-	    	Date begin = modelUtils.fromXMLDate(dtr.getBegin());
-	    	Date end = modelUtils.fromXMLDate(dtr.getEnd());
-	    	Date target = modelUtils.fromXMLDate(v.getTimeStamp());
-	    	return begin.before(target) && end.after(target);
-	    }
-	}
+	
+	
 	
 	/**
 	 * Compare two dates. 
@@ -419,24 +408,19 @@ public class ResourceMonitor extends AbstractScreen implements
 	
 	/**
 	 * Get a Chart Lineseries from a Resource.
+	 * @param doubleArray 
 	 * 
 	 * @param chart
 	 * @param resource
 	 * @return
 	 */
-	private ILineSeries seriesFromMetric(Chart chart, NetXResource resource) {
-
-		Date[] xSeries = new Date[1];
-		// TODO Set from resource
-		double[] ySeries = new double[1];
-		// TODO Set from resource.
+	private ILineSeries seriesFromMetric(Date[] dateArray, double[] doubleArray, Chart chart, NetXResource resource) {
 
 		ILineSeries metricLineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "Metric");
 
-		metricLineSeries.setXDateSeries(xSeries);
-
-		metricLineSeries.setYSeries(ySeries);
+		metricLineSeries.setXDateSeries(dateArray);
+		metricLineSeries.setYSeries(doubleArray);
 		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
 		return metricLineSeries;
 	}
@@ -545,11 +529,24 @@ public class ResourceMonitor extends AbstractScreen implements
 
 		// Set the series from the resource.
 		// Re-use the TS range.
+		List<Value> values = this.createDateSeries(netXResource.getMetricValueRanges().get(0).getMetricValues());
 
-		this.seriesFromMetric(chart, netXResource);
-		this.seriesFromCapacity(chart, netXResource);
-		this.seriesFromTolerance(chart, netXResource, 1);
-		this.seriesFromUtilization(chart, netXResource, 1);
+		List<Date> dates = modelUtils.transformValueToDate(values);
+		
+		Date[] dateArray = new Date[dates.size()];
+		dates.toArray(dateArray);
+		
+		List<Double> doubles = modelUtils.transformValueToDouble(values);
+		double[] doubleArray = new double[doubles.size()];
+		for(int i = 0; i < doubles.size(); i++){
+			doubleArray[i] = doubles.get(i).doubleValue();
+		}
+		
+		
+		this.seriesFromMetric(dateArray, doubleArray, chart, netXResource);
+//		this.seriesFromCapacity(chart, netXResource);
+//		this.seriesFromTolerance(chart, netXResource, 1);
+//		this.seriesFromUtilization(chart, netXResource, 1);
 
 		// Setup data binding.
 		// adjust the axis range

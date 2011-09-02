@@ -357,7 +357,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		new Label(cmpColumnMapping, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
 		new Label(cmpColumnMapping, SWT.NONE);
-		
+		new Label(cmpColumnMapping, SWT.NONE);
 		
 	}
 

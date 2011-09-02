@@ -171,7 +171,7 @@ public class CDOEditingService extends EMFEditingService implements
 		}
 		List<Resource> resources = dataService.getProvider().getResources(path);
 
-		if (resources.size() > 0) {
+		if (resources != null && resources.size() > 0) {
 			dawnEditorSupport.setView(((CDOResource) resources.get(0))
 					.cdoView());
 

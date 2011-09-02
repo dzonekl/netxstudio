@@ -45,13 +45,11 @@ import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.MetricFilterDialog;
-import com.netxforge.netxstudio.screens.NetXResourceFilterDialog;
 import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
@@ -401,35 +399,38 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 
-		ImageHyperlink hypLnkAddResource = toolkit.createImageHyperlink(
-				composite_2, SWT.NONE);
-		hypLnkAddResource.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				Resource resourceResource = editingService
-						.getData(LibraryPackage.Literals.NET_XRESOURCE);
-				NetXResourceFilterDialog dialog = new NetXResourceFilterDialog(
-						NewEditComponent.this.getShell(), resourceResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					NetXResource u = (NetXResource) dialog.getFirstResult();
-					if (!comp.getResourceRefs().contains(u)) {
-						Command c = new AddCommand(editingService
-								.getEditingDomain(), comp.getResourceRefs(), u);
-						editingService.getEditingDomain().getCommandStack()
-								.execute(c);
-					}
-				}
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		hypLnkAddResource.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-				false, false, 1, 1));
-		toolkit.paintBordersFor(hypLnkAddResource);
-		hypLnkAddResource.setText("Add");
+//		ImageHyperlink hypLnkAddResource = toolkit.createImageHyperlink(
+//				composite_2, SWT.NONE);
+//		hypLnkAddResource.addHyperlinkListener(new IHyperlinkListener() {
+//			public void linkActivated(HyperlinkEvent e) {
+//				
+////				Resource resourceResource = editingService
+////						.getData(LibraryPackage.Literals.NET_XRESOURCE);
+//				
+//				
+//				NetXResourceFilterDialog dialog = new NetXResourceFilterDialog(
+//						NewEditComponent.this.getShell(), resourceResource);
+//				if (dialog.open() == IDialogConstants.OK_ID) {
+//					NetXResource u = (NetXResource) dialog.getFirstResult();
+//					if (!comp.getResourceRefs().contains(u)) {
+//						Command c = new AddCommand(editingService
+//								.getEditingDomain(), comp.getResourceRefs(), u);
+//						editingService.getEditingDomain().getCommandStack()
+//								.execute(c);
+//					}
+//				}
+//			}
+//
+//			public void linkEntered(HyperlinkEvent e) {
+//			}
+//
+//			public void linkExited(HyperlinkEvent e) {
+//			}
+//		});
+//		hypLnkAddResource.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+//				false, false, 1, 1));
+//		toolkit.paintBordersFor(hypLnkAddResource);
+//		hypLnkAddResource.setText("Add");
 
 		ImageHyperlink mghprlnkNewImagehyperlink = toolkit
 				.createImageHyperlink(composite_2, SWT.NONE);
@@ -442,9 +443,11 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 								screenService.getScreenContainer(), SWT.NONE);
 						resourceScreen.setOperation(Screens.OPERATION_NEW);
 						resourceScreen.setScreenService(screenService);
-
-						Resource resourcesResource = editingService
-								.getData(LibraryPackage.Literals.NET_XRESOURCE);
+						
+						// The CDO Resource, will depend on the component path. 
+						final Resource resourcesResource = editingService.getDataService().getProvider().getResource(
+								modelUtils.getResourcePath(comp));
+						
 						resourceScreen.injectData(resourcesResource, comp,
 								LibraryFactory.eINSTANCE.createNetXResource());
 						screenService.setActiveScreen(resourceScreen);
@@ -691,7 +694,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		if (readonly) {
 			btnSelectCapExpression.setEnabled(false);
 			btnSelectUtilExpression.setEnabled(false);
-			hypLnkAddResource.setEnabled(false);
+//			hypLnkAddResource.setEnabled(false);
 
 			mntmEditResource.setEnabled(false);
 			mntmRemoveResource.setEnabled(false);

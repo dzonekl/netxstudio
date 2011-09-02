@@ -2,6 +2,8 @@ package com.netxforge.netxstudio.screens.f2;
 
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.core.databinding.observable.list.ComputedList;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
@@ -39,16 +41,19 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f4.ResourceMonitor;
 
-public class Resources extends AbstractScreen implements IDataServiceInjection {
+public abstract class AbstractResources extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Table table;
@@ -59,7 +64,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 //	private Resource resourcesResource;
 
 	private TableViewerColumn tbvcLongName;
-	private List<Resource> resourcesList;
+	protected List<Resource> resourcesList;
 
 	/**
 	 * Create the composite.
@@ -67,7 +72,7 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 	 * @param parent
 	 * @param style
 	 */
-	public Resources(Composite parent, int style) {
+	public AbstractResources(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -216,8 +221,17 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 				Object o = ((IStructuredSelection) selection).getFirstElement();
 				if (o instanceof NetXResource) {
 					
-					// TODO, Ask for a time range.
-					DateTimeRange timerange = null;
+					// TODO, Ask for a time range. 
+					// TODO, Select the value range. 
+					MetricValueRange mvr =  ((NetXResource) o).getMetricValueRanges().get(0);
+					
+					XMLGregorianCalendar start = mvr.getMetricValues().get(0).getTimeStamp();
+					XMLGregorianCalendar end = mvr.getMetricValues().get(mvr.getMetricValues().size() -1 ).getTimeStamp();
+					
+					DateTimeRange timerange = GenericsFactory.eINSTANCE.createDateTimeRange();
+					
+					timerange.setBegin(start);
+					timerange.setEnd(end);
 					
 					ResourceMonitor monitorScreen = new ResourceMonitor(
 							screenService.getScreenContainer(), SWT.NONE);
@@ -352,14 +366,8 @@ public class Resources extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
+		
 	public void injectData() {
-		
-		resourcesList = Lists.newArrayList();
-		
-		// Inject for Node type resources.  
-		resourcesList.addAll(editingService.getData("Node_"));
-		resourcesList.addAll(editingService.getData("NodeType_"));
-		
 		
 		// CB 31-08-2011, NetXResource is now sliced in own CDO resource by 
 		// component Hierarchy. 

@@ -25,7 +25,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f2.Resources;
+import com.netxforge.netxstudio.screens.f2.NodeResources;
 import com.netxforge.netxstudio.screens.f3.Countries;
 import com.netxforge.netxstudio.screens.f3.Networks;
 import com.netxforge.netxstudio.screens.f3.Operators;
@@ -68,7 +68,7 @@ public class DesignScreenSelector extends AbstractScreenSelector {
 				Screens.OPERATION_EDIT);
 
 		result = screenFormService.addScreenSelector(result, "Resources",
-				"icons/full/obj16/Resource_H.gif", Resources.class,
+				"icons/full/obj16/Resource_H.gif", NodeResources.class,
 				Screens.OPERATION_EDIT);
 		
 		result = screenFormService.addScreenSelector(result, "Warehouse",

@@ -161,6 +161,7 @@ public class NewEditService extends AbstractScreen implements
 		sctnStatistics.setClient(composite_2);
 		composite_2.setLayout(new GridLayout(1, false));
 
+		@SuppressWarnings("unused")
 		Label lblMonitoredNodes = formToolkit.createLabel(composite_2,
 				"# Monitored NE's", SWT.NONE);
 

@@ -24,8 +24,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.netxforge.netxstudio.screens.ch9.Expressions;
 import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f2.NodeTypeResources;
 import com.netxforge.netxstudio.screens.f2.NodeTypes;
-import com.netxforge.netxstudio.screens.f2.Resources;
 import com.netxforge.netxstudio.screens.f2.Tolerances;
 import com.netxforge.netxstudio.screens.f2.Units;
 import com.netxforge.netxstudio.screens.f2.Vendors;
@@ -59,8 +59,8 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 				"icons/full/obj16/Node_H.png", NodeTypes.class, 1,
 				Screens.OPERATION_EDIT);
 		
-		result = screenFormService.addScreenSelector(result, "Resources",
-				"icons/full/obj16/Resource_H.gif", Resources.class,
+		result = screenFormService.addScreenSelector(result, "Resource Definitions",
+				"icons/full/obj16/Resource_H.gif", NodeTypeResources.class,
 				Screens.OPERATION_EDIT);
 		
 		result = screenFormService.addScreenSelector(result, "Tolerances",

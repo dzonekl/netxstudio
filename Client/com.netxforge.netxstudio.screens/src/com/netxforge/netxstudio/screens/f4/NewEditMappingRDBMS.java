@@ -361,7 +361,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 							screenService.getScreenContainer(), SWT.NONE);
 					mappingColumnScreen.setOperation(Screens.OPERATION_EDIT);
 					mappingColumnScreen.setScreenService(screenService);
-					mappingColumnScreen.injectData(mapping, mappingColumn);
+					mappingColumnScreen.injectData(true, mapping.getDataMappingColumns(), mappingColumn);
 					screenService.setActiveScreen(mappingColumnScreen);
 
 				}
