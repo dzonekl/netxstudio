@@ -1,9 +1,9 @@
 package com.netxforge.scoping;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.IResourceDescription;
@@ -75,11 +75,40 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 		// 
 		// IResourceDescription result = delegate.getResourceDescription(uri);
 		// if (result == null) {
-		IResourceDescription result = null;
 		
 		if(cache.containsKey(uri)){
 			return cache.get(uri);
 		}
+		
+		assert getDataProvider() != null : new java.lang.IllegalStateException(
+				"Data Service should be initialized");
+
+		// FIXME, hack to find some specific class. 
+		if( uri.toString().endsWith("_")){
+			List<Resource> resources = getDataProvider().getResources('/' + uri.lastSegment());
+			for(Resource res : resources){
+				return this.getDescription(uri, res);
+			}
+		}else{
+			Resource resource = null;
+			try {
+//				System.out.println("--Run Scope builder Reading resource: " + uri.toString());
+				// Setup a session, as we likely don't have one here.
+				resource = getDataProvider().getResource(uri);
+//				if(resource instanceof CDOResource){
+//					CDOResource cdoRes = (CDOResource)resource;
+//				}
+//				System.out.println("--Done Scope builder Reading resource: " + uri.toString());
+				IResourceDescription result = getDescription(uri, resource);
+			} catch (IllegalStateException e) {
+				// No connection, abort global scoping!
+				e.printStackTrace();
+			}
+			return cache.get(uri);
+		}
+		
+		
+		return null;
 		
 		
 		// Customized, version which get the original CDO resource from the
@@ -91,26 +120,16 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 
 		// Resource resource = EcoreUtil2.getResource(context,
 		// uri.toString());
-		assert getDataProvider() != null : new java.lang.IllegalStateException(
-				"Data Service should be initialized");
 
-		Resource resource = null;
-		try {
-//			System.out.println("--Run Scope builder Reading resource: " + uri.toString());
-			// Setup a session, as we likely don't have one here.
-			resource = getDataProvider().getResource(uri);
-			if(resource instanceof CDOResource){
-				CDOResource cdoRes = (CDOResource)resource;
-			}
-//			System.out.println("--Done Scope builder Reading resource: " + uri.toString());
-			
-		} catch (IllegalStateException e) {
-			// No connection, abort global scoping!
-			e.printStackTrace();
-		}
 		
 		
 		
+		// }
+		
+	}
+
+	private IResourceDescription getDescription(URI uri, Resource resource) {
+		IResourceDescription result;
 		if (resource != null) {
 			IResourceServiceProvider serviceProvider = serviceProviderRegistry
 					.getResourceServiceProvider(uri);
@@ -130,10 +149,10 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 			result = resourceDescriptionManager
 					.getResourceDescription(resource);
 //			System.out.println("---Done building description for resource: " + resource.getURI().toString());
-			
 			cache.put(uri, result);
+			
+			return result;
 		}
-		// }
-		return cache.get(uri);
+		return null;
 	}
 }

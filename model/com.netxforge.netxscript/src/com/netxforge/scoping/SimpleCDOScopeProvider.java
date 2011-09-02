@@ -53,7 +53,7 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.NODE_TYPE);
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.EQUIPMENT);
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.FUNCTION);
-		uniqueReferencesEClasses.add(LibraryPackage.Literals.NET_XRESOURCE);
+//		uniqueReferencesEClasses.add(LibraryPackage.Literals.NET_XRESOURCE);
 		uniqueReferencesEClasses.add(ServicesPackage.Literals.RFS_SERVICE);
 		uniqueReferencesEClasses.add(OperatorsPackage.Literals.NETWORK);
 		uniqueReferencesEClasses.add(OperatorsPackage.Literals.NODE);
@@ -62,11 +62,17 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 		List<EClass> classesAsList = Lists.newArrayList(uniqueReferencesEClasses);
 		
 		// FIXME, the REPO name is hardcoded, get from the dataService. 
-		List<URI> urisAsList = Lists.transform(classesAsList, new Function<EClass, URI>(){
+		List<URI> fixedUrisAsList = Lists.transform(classesAsList, new Function<EClass, URI>(){
 			public URI apply(EClass from) {
 				return URI.createURI("cdo://repo1/" + from.getName());
 			}
 		});
+		
+		List<URI> urisAsList = Lists.newArrayList();
+		urisAsList.addAll(fixedUrisAsList);
+		// add adiditional uri's from the NET_XRESOURCE class type. 
+		urisAsList.add(URI.createURI("cdo://repo1/Node_"));
+		urisAsList.add(URI.createURI("cdo://repo1/NodeType_"));
 		
 		IResourceDescriptions descriptions = getResourceDescriptions(resource,urisAsList);
 		
