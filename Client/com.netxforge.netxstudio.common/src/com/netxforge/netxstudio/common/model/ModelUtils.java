@@ -36,6 +36,22 @@ import com.netxforge.netxstudio.operators.Node;
 public class ModelUtils {
 	
 	
+	
+	public static final String DATE_PATTERN_1= "MM/dd/yyyy";
+	public static final String DATE_PATTERN_2 = "dd-MM-yyyy";
+	public static final String DATE_PATTERN_3 = "dd.MM.yyyy";
+	
+	public static final String TIME_PATTERN_1 = "HH:mm:ss"; // 24 hour. 
+	public static final String TIME_PATTERN_2 =  "HH:mm"; // 24 hour
+	public static final String TIME_PATTERN_3 = "hh:mm:ss"; // AM PM 
+	public static final String TIME_PATTERN_4 =  "hh:mm"; // AM PM
+	
+	public static final String TIM_PATTERN_5 =  "a" // AM PM marker. 
+			;
+	public static final String DEFAULT_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss";
+	
+	
+	
 	public class InsideRange implements Predicate<Value> {
 	    private final DateTimeRange dtr;
 	    public InsideRange(final DateTimeRange dtr) {

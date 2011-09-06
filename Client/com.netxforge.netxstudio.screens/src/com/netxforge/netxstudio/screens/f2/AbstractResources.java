@@ -155,7 +155,7 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 		TableViewerColumn tbvcMetric = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
 		TableColumn tblclmnMetric = tbvcMetric.getColumn();
-		tblclmnMetric.setWidth(100);
+		tblclmnMetric.setWidth(200);
 		tblclmnMetric.setText("Metric");
 
 		TableViewerColumn tbvcShortName = new TableViewerColumn(

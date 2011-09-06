@@ -128,7 +128,7 @@ public class NewEditService extends AbstractScreen implements
 		lblName.setLayoutData(gd_lblName);
 		lblName.setBounds(0, 0, 59, 14);
 
-		txtName = formToolkit.createText(composite, "New Text", SWT.NONE);
+		txtName = formToolkit.createText(composite, "New Text", widgetStyle);
 		txtName.setText("");
 		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);

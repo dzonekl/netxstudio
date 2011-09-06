@@ -8,6 +8,8 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -18,8 +20,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -27,21 +27,19 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
+import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.services.ServiceMonitor;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class ResourceMonitors extends AbstractScreen implements
 		IDataScreenInjection {
@@ -57,7 +55,8 @@ public class ResourceMonitors extends AbstractScreen implements
 	private TableViewerColumn tblViewerClmnState;
 	// private List<ServiceMonitor> allServiceMonitors;
 	private ServiceMonitor serviceMonitor;
-	private Resource rmResource;
+
+	// private Resource rmResource;
 
 	/**
 	 * Create the composite.
@@ -70,11 +69,15 @@ public class ResourceMonitors extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-//				obm.dispose();
+				// obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+		// buildUI();
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmResourceMonitors = toolkit.createForm(this);
@@ -125,14 +128,46 @@ public class ResourceMonitors extends AbstractScreen implements
 		tblclmnMarkers.setWidth(207);
 		tblclmnMarkers.setText("Markers");
 
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
+//		Menu menu = new Menu(table);
+//		table.setMenu(menu);
+//
+//		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
+//		mntmEdit.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//
+//				ISelection selection = getViewer().getSelection();
+//				if (selection instanceof IStructuredSelection) {
+//					Object o = ((IStructuredSelection) selection)
+//							.getFirstElement();
+//					com.netxforge.netxstudio.screens.f4.ResourceMonitor rmScreen = new com.netxforge.netxstudio.screens.f4.ResourceMonitor(
+//							screenService.getScreenContainer(), SWT.NONE);
+//					rmScreen.setScreenService(screenService);
+//					rmScreen.setOperation(getOperation());
+//					rmScreen.injectData(null, o);
+//					screenService.setActiveScreen(rmScreen);
+//				}
+//			}
+//		});
+//		mntmEdit.setText("View...");
+	}
 
-		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
-		mntmEdit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
+	/**
+	 * Wrap in an action, to contribute to a menu manager.
+	 * 
+	 * @author dzonekl
+	 * 
+	 */
+	class EditMonitorAction extends Action {
 
+		public EditMonitorAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			super.run();
+			if (screenService != null) {
 				ISelection selection = getViewer().getSelection();
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
@@ -145,8 +180,7 @@ public class ResourceMonitors extends AbstractScreen implements
 					screenService.setActiveScreen(rmScreen);
 				}
 			}
-		});
-		mntmEdit.setText("View...");
+		}
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -166,16 +200,18 @@ public class ResourceMonitors extends AbstractScreen implements
 				.setLabelProvider(new ResourceMonitorObervableMapLabelProvider(
 						observeMaps));
 
-//		IEMFListProperty serviceMonitorObservableList = EMFEditProperties.list(
-//				editingService.getEditingDomain(),
-//				ServicesPackage.Literals.SERVICE_MONITOR__RESOURCE_MONITORS);
-		
-		IEMFListProperty serviceMonitorObservableList = EMFEditProperties.resource(
-		editingService.getEditingDomain());
-		
+		// IEMFListProperty serviceMonitorObservableList =
+		// EMFEditProperties.list(
+		// editingService.getEditingDomain(),
+		// ServicesPackage.Literals.SERVICE_MONITOR__RESOURCE_MONITORS);
+
+		IEMFListProperty serviceMonitorObservableList = EMFEditProperties.list(
+				editingService.getEditingDomain(),
+				ServicesPackage.Literals.SERVICE_MONITOR__RESOURCE_MONITORS);
+
 		IObservableList resourceList = serviceMonitorObservableList
-				.observe(this.rmResource);
-//		obm.addObservable(resourceList);
+				.observe(serviceMonitor);
+		// obm.addObservable(resourceList);
 		resourceMonitorsTableViewer.setInput(resourceList);
 
 		return bindingContext;
@@ -218,11 +254,12 @@ public class ResourceMonitors extends AbstractScreen implements
 	}
 
 	public void injectData(Object owner, Object object) {
-
 		if (object instanceof ServiceMonitor) {
 			serviceMonitor = (ServiceMonitor) object;
-			
-			rmResource = editingService.getData(OperatorsPackage.Literals.RESOURCE_MONITOR);
+			// serviceMonitor.get
+			// rmResource =
+			// editingService.getData(OperatorsPackage.Literals.RESOURCE_MONITOR);
+			buildUI();
 			initDataBindings_();
 		}
 	}
@@ -255,6 +292,14 @@ public class ResourceMonitors extends AbstractScreen implements
 	public void addData() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public IAction[] getActions() {
+		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
+				: "Edit";
+		return new IAction[] { new EditMonitorAction(actionText + "...",
+				SWT.PUSH) };
 	}
 
 }

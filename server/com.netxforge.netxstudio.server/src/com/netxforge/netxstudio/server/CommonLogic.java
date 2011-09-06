@@ -77,7 +77,7 @@ public class CommonLogic {
 					+ expressionResult.getTargetResource().getShortName()
 					+ " target=" + expressionResult.getTargetRange().getName()
 					+ " values=" + expressionResult.getTargetValues().size());
-
+			
 			// FIXME: We could want to write to a resource, where the node
 			// doesn't match the context.
 			final NetXResource resource = expressionResult.getTargetResource();
@@ -88,7 +88,7 @@ public class CommonLogic {
 				for (final Object context : currentContext) {
 					// IInterpreterContext c = (IInterpreterContext)context;
 				}
-				System.out.println("--Current context =: ");
+//				System.out.println("--Current context =: ");
 			}
 
 			switch (expressionResult.getTargetRange().getValue()) {

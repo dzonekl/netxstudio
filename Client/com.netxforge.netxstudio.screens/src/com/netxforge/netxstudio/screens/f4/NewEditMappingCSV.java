@@ -15,6 +15,7 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -254,10 +255,10 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		tblclmnValueType_1.setWidth(100);
 		tblclmnValueType_1.setText("Value Type");
 
-		Menu menu_1 = new Menu(tblHeaderColumnMapping);
-		tblHeaderColumnMapping.setMenu(menu_1);
+		Menu headerColumnMappingMenu = new Menu(tblHeaderColumnMapping);
+		tblHeaderColumnMapping.setMenu(headerColumnMappingMenu);
 
-		MenuItem mntmEdit_1 = new MenuItem(menu_1, SWT.NONE);
+		MenuItem mntmEdit_1 = new MenuItem(headerColumnMappingMenu, SWT.NONE);
 		mntmEdit_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -274,6 +275,24 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		});
 		mntmEdit_1.setText("Edit...");
 
+		MenuItem mntmRemove = new MenuItem(headerColumnMappingMenu, SWT.NONE);
+		mntmRemove.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = tblViewerHeaderColumnMapping.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object mappingColumn = ((IStructuredSelection) selection)
+							.getFirstElement();
+					RemoveCommand rc = new RemoveCommand(editingService
+							.getEditingDomain(), mapping
+							.getDataMappingColumns(), mappingColumn);
+					editingService.getEditingDomain().getCommandStack().execute(rc);
+				}
+
+			}
+		});
+		mntmRemove.setText("Remove");
+		
 		Section sctnCSVInteractive = toolkit.createSection(
 				frmCSVMappingForm.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
@@ -454,10 +473,10 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		tblclmnRowNum.setWidth(80);
 		tblclmnRowNum.setText("Column Num");
 
-		Menu menu = new Menu(tblDataColumnMapping);
-		tblDataColumnMapping.setMenu(menu);
+		Menu dataColumnMappingMenu = new Menu(tblDataColumnMapping);
+		tblDataColumnMapping.setMenu(dataColumnMappingMenu);
 
-		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
+		MenuItem mntmEdit = new MenuItem(dataColumnMappingMenu, SWT.NONE);
 		mntmEdit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -472,6 +491,27 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			}
 		});
 		mntmEdit.setText("Edit...");
+		
+
+		MenuItem mntmRemove_1 = new MenuItem(dataColumnMappingMenu, SWT.NONE);
+		mntmRemove_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = tblViewerDataColumnMapping.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object mappingColumn = ((IStructuredSelection) selection)
+							.getFirstElement();
+					RemoveCommand rc = new RemoveCommand(editingService
+							.getEditingDomain(), mapping
+							.getDataMappingColumns(), mappingColumn);
+					editingService.getEditingDomain().getCommandStack().execute(rc);
+				}
+
+			}
+		});
+		mntmRemove_1.setText("Remove");
+		
+		
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				tblViewerDataColumnMapping, SWT.NONE);

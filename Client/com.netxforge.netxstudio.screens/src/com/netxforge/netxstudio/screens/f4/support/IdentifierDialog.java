@@ -80,8 +80,10 @@ public class IdentifierDialog extends Dialog {
 		sctnNewSection.setClient(composite_1);
 		composite_1.setLayout(new GridLayout(2, false));
 
+		
 		Button btnNode = formToolkit.createButton(composite_1, "NODE",
 				SWT.RADIO);
+		btnNode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1));
 		btnNode.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -89,7 +91,7 @@ public class IdentifierDialog extends Dialog {
 				updateAttributeView(objectKind);
 			}
 		});
-
+		
 		attributeListViewer = new ListViewer(composite_1, SWT.BORDER
 				| SWT.V_SCROLL);
 		List list = attributeListViewer.getList();
@@ -112,20 +114,9 @@ public class IdentifierDialog extends Dialog {
 			}
 		});
 
-		Button btnEquipment = formToolkit.createButton(composite_1,
-				"EQUIPMENT", SWT.RADIO);
-		btnEquipment.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				objectKind = ObjectKindType.EQUIPMENT_VALUE;
-				updateAttributeView(objectKind);
-			}
-		});
-
 		Button btnFunction = formToolkit.createButton(composite_1, "FUNCTION",
 				SWT.RADIO);
-		btnFunction.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false,
-				false, 1, 1));
+		btnFunction.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1));
 		btnFunction.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -133,18 +124,32 @@ public class IdentifierDialog extends Dialog {
 				updateAttributeView(objectKind);
 			}
 		});
-
+		
 		btnNode.setSelection(true);
-
-		Button btnRelationship = formToolkit.createButton(composite_1,
-				"RELATIONSHIP", SWT.RADIO);
-		btnRelationship.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				objectKind = ObjectKindType.RELATIONSHIP_VALUE;
-				updateAttributeView(objectKind);
-			}
-		});
+		
+		
+				Button btnEquipment = formToolkit.createButton(composite_1,
+						"EQUIPMENT", SWT.RADIO);
+				btnEquipment.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1));
+				btnEquipment.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						objectKind = ObjectKindType.EQUIPMENT_VALUE;
+						updateAttributeView(objectKind);
+					}
+				});
+		
+				Button btnRelationship = formToolkit.createButton(composite_1,
+						"RELATIONSHIP", SWT.RADIO);
+				btnRelationship.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						objectKind = ObjectKindType.RELATIONSHIP_VALUE;
+						updateAttributeView(objectKind);
+					}
+				});
+		
+		
 		updateAttributeView(objectKind);
 
 		return container;
@@ -205,4 +210,9 @@ public class IdentifierDialog extends Dialog {
 	public String getObjectAttribute() {
 		return objectAttribute;
 	}
+
+	public void setObjectKind(int objectKind) {
+		this.objectKind = objectKind;
+	}
+	
 }

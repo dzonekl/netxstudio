@@ -11,6 +11,8 @@ import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -21,8 +23,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -30,16 +30,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.google.inject.Inject;
-import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -76,6 +72,10 @@ public class ServiceMonitors extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+//		buildUI();
+	}
+
+	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmServiceMonitors = toolkit.createForm(this);
@@ -126,14 +126,51 @@ public class ServiceMonitors extends AbstractScreen implements
 		tblclmnStart.setWidth(139);
 		tblclmnStart.setText("Start");
 
-		Menu menu = new Menu(table);
-		table.setMenu(menu);
+//		Menu menu = new Menu(table);
+//		table.setMenu(menu);
+//
+//		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
+//		mntmEdit.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//
+//				ISelection selection = getViewer().getSelection();
+//				if (selection instanceof IStructuredSelection) {
+//					Object o = ((IStructuredSelection) selection)
+//							.getFirstElement();
+//						ResourceMonitors rmScreen = new ResourceMonitors(
+//								screenService.getScreenContainer(), SWT.NONE);
+//						rmScreen.setOperation(Screens.OPERATION_READ_ONLY);
+//						rmScreen.setScreenService(screenService);
+//						rmScreen.injectData(null,o);
+//						screenService.setActiveScreen(rmScreen);
+//				}
+//			}
+//		});
+//		mntmEdit.setText("View...");
 
-		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
-		mntmEdit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
+				serviceMonitorsTableViewer, SWT.NONE);
+		TableColumn tblclmnEnd = tableViewerColumn_1.getColumn();
+		tblclmnEnd.setWidth(185);
+		tblclmnEnd.setText("End");
+	}
+	
+	/**
+	 * Wrap in an action, to contribute to a menu manager. 
+	 * @author dzonekl
+	 *
+	 */
+	class EditMonitorAction extends Action {
 
+		public EditMonitorAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			super.run();
+			if (screenService != null) {
 				ISelection selection = getViewer().getSelection();
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
@@ -146,15 +183,9 @@ public class ServiceMonitors extends AbstractScreen implements
 						screenService.setActiveScreen(rmScreen);
 				}
 			}
-		});
-		mntmEdit.setText("View...");
-
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				serviceMonitorsTableViewer, SWT.NONE);
-		TableColumn tblclmnEnd = tableViewerColumn_1.getColumn();
-		tblclmnEnd.setWidth(185);
-		tblclmnEnd.setText("End");
+		}
 	}
+	
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
@@ -220,14 +251,14 @@ public class ServiceMonitors extends AbstractScreen implements
 					if (sm.getPeriod() != null) {
 						Date begin = modelUtils.fromXMLDate(sm.getPeriod()
 								.getBegin());
-						return modelUtils.date(begin) + modelUtils.time(begin);
+						return modelUtils.date(begin) + " @ " + modelUtils.time(begin);
 					}
 					break;
 				case 3:
 					if (sm.getPeriod() != null) {
 						Date end = modelUtils.fromXMLDate(sm.getPeriod()
 								.getEnd());
-						return modelUtils.date(end) + modelUtils.time(end);
+						return modelUtils.date(end)  + " @ " +  modelUtils.time(end);
 					}
 					break;
 				}
@@ -240,6 +271,7 @@ public class ServiceMonitors extends AbstractScreen implements
 		if(object instanceof RFSService){
 			rfsService = (RFSService)object;	
 		}
+		buildUI();
 		initDataBindings_();
 	}
 
@@ -272,6 +304,10 @@ public class ServiceMonitors extends AbstractScreen implements
 
 	}
 
-
+	@Override
+	public IAction[] getActions(){
+		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View" : "Edit"; 
+		return new IAction[]{new EditMonitorAction(actionText + "...", SWT.PUSH)};
+	}
 
 }

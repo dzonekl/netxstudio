@@ -90,7 +90,7 @@ public abstract class MetricValuesImporter {
 
 	private List<ImportWarning> warnings = new ArrayList<ImportWarning>();
 
-	private static final String DEFAULT_DATE_PATTERN = "MM/dd/yyyy hh:mm:ss";
+	
 
 	private Throwable throwable;
 
@@ -496,7 +496,7 @@ public abstract class MetricValuesImporter {
 					if (value.getFormat() != null) {
 						dateFormat = new SimpleDateFormat(value.getFormat());
 					} else {
-						dateFormat = new SimpleDateFormat(DEFAULT_DATE_PATTERN);
+						dateFormat = new SimpleDateFormat(ModelUtils.DEFAULT_DATE_TIME_PATTERN);
 					}
 
 					return dateFormat.parse(getStringCellValue(rowNum,
@@ -525,7 +525,7 @@ public abstract class MetricValuesImporter {
 				}
 			}
 			if (dateValue != null && timeValue != null) {
-				String pattern = DEFAULT_DATE_PATTERN;
+				String pattern = ModelUtils.DEFAULT_DATE_TIME_PATTERN;
 				if (datePattern != null && timePattern != null) {
 					pattern = datePattern + " " + timePattern;
 				}

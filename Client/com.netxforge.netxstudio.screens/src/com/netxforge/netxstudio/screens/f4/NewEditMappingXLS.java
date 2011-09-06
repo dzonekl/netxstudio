@@ -17,6 +17,7 @@ import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -122,7 +123,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		// buildUI();
+//		buildUI();
 	}
 
 	private void buildUI() {
@@ -361,6 +362,24 @@ public class NewEditMappingXLS extends AbstractScreen implements
 			}
 		});
 		mntmEdit.setText("Edit...");
+
+		MenuItem mntmRemove = new MenuItem(menu, SWT.NONE);
+		mntmRemove.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = mappingColumnsTableViewer.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object mappingColumn = ((IStructuredSelection) selection)
+							.getFirstElement();
+					RemoveCommand rc = new RemoveCommand(editingService
+							.getEditingDomain(), mapping
+							.getDataMappingColumns(), mappingColumn);
+					editingService.getEditingDomain().getCommandStack().execute(rc);
+				}
+
+			}
+		});
+		mntmRemove.setText("Remove");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				mappingColumnsTableViewer, SWT.NONE);
@@ -664,7 +683,8 @@ public class NewEditMappingXLS extends AbstractScreen implements
 
 	@Override
 	public Viewer getViewer() {
-		return null; // N/A
+//		return mappingColumnsTableViewer; // N/A
+		return null;
 	}
 
 	@Override

@@ -176,14 +176,14 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
 				jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnStarttime = tableViewerColumn_2.getColumn();
-		tblclmnStarttime.setWidth(81);
-		tblclmnStarttime.setText("Startime");
+		tblclmnStarttime.setWidth(130);
+		tblclmnStarttime.setText("Start");
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnType = tableViewerColumn_3.getColumn();
-		tblclmnType.setWidth(100);
-		tblclmnType.setText("Endtime");
+		tblclmnType.setWidth(130);
+		tblclmnType.setText("End");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				jobsTableViewer, SWT.NONE);

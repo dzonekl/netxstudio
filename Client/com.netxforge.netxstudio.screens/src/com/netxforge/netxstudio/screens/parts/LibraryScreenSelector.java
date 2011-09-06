@@ -26,6 +26,7 @@ import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.NodeTypeResources;
 import com.netxforge.netxstudio.screens.f2.NodeTypes;
+import com.netxforge.netxstudio.screens.f2.Protocols;
 import com.netxforge.netxstudio.screens.f2.Tolerances;
 import com.netxforge.netxstudio.screens.f2.Units;
 import com.netxforge.netxstudio.screens.f2.Vendors;
@@ -79,6 +80,11 @@ public class LibraryScreenSelector extends AbstractScreenSelector {
 		result = screenFormService.addScreenSelector(result, "Units",
 				"icons/full/obj16/Unit_H.png", Units.class,
 				Screens.OPERATION_EDIT);
+		
+		result = screenFormService.addScreenSelector(result, "Protocols",
+				"icons/full/obj16/Protocol_H.png", Protocols.class,
+				Screens.OPERATION_EDIT);
+
 
 	}
 

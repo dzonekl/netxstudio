@@ -72,6 +72,7 @@ public class NewEditFunctionLink extends NewEditLink implements IScreen {
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		super.buildInfoSection(widgetStyle);
+		this.buildProtocol(widgetStyle);
 		super.buildNodeLinkSection(widgetStyle);
 		buildFunctionLinkSection();
 	}
@@ -228,6 +229,7 @@ public class NewEditFunctionLink extends NewEditLink implements IScreen {
 		EMFDataBindingContext context = super.initDataBindings_();
 		bindInfoSection(context);
 		bindNodeLinkSection(context);
+		bindProtocolSection(context);
 		bindFunctionLinkSection(context);
 		return context;
 	}

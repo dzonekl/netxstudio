@@ -75,6 +75,7 @@ public class NewEditEquipmentLink extends NewEditLink implements IScreen {
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		super.buildInfoSection(widgetStyle);
+		super.buildProtocol(widgetStyle);
 		super.buildNodeLinkSection(widgetStyle);
 		buildEquipmentLinkSection();
 	}
@@ -233,8 +234,9 @@ public class NewEditEquipmentLink extends NewEditLink implements IScreen {
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = super.initDataBindings_();
-		super.bindInfoSection(context);
-		super.bindNodeLinkSection(context);
+		bindInfoSection(context);
+		bindProtocolSection(context);
+		bindNodeLinkSection(context);
 		bindEquipmentLinkSection(context);
 
 		return context;
