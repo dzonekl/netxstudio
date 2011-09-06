@@ -25,6 +25,7 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 
 	protected abstract IDataProvider getDataProvider();
 
+	@SuppressWarnings("unused")
 	private IResourceDescriptions delegate;
 	private Collection<URI> validUris;
 	@SuppressWarnings("unused")
@@ -99,7 +100,7 @@ public abstract class AbstractCDOLoadOnDemandResourceDescriptions extends
 //					CDOResource cdoRes = (CDOResource)resource;
 //				}
 //				System.out.println("--Done Scope builder Reading resource: " + uri.toString());
-				IResourceDescription result = getDescription(uri, resource);
+				getDescription(uri, resource);
 			} catch (IllegalStateException e) {
 				// No connection, abort global scoping!
 				e.printStackTrace();
