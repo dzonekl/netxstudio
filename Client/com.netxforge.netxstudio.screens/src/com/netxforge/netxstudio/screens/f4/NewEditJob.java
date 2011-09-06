@@ -112,6 +112,16 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 	private WritableValue txtOccurencesWritableValue;
 	private Button btnActive;
 	private String[] jobTypes;
+	private IViewerObservableValue comboViewerOnObserveSingleSelection;
+	private IViewerObservableValue comboViewerEveryObserveSingleSelection;
+	private ISWTObservableValue comboViewerEveryObserveText;
+	private CDateTimeObservableValue comboObserveStartTime;
+	private DateChooserComboObservableValue dateChooseObserveStartDate;
+	private DateChooserComboObservableValue dateChooseObserveEndDate;
+	private ISWTObservableValue endOnObservable;
+	private ISWTObservableValue endOccurencesObservable;
+	private ISWTObservableValue endNeverObservable;
+	private ISWTObservableValue occurenceObservable;
 
 	public NewEditJob(Composite parent, int style) {
 		super(parent, style);
@@ -125,7 +135,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		
 
 	}
 
@@ -231,8 +240,8 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		new Label(compositeRecurrence, SWT.NONE);
 		new Label(compositeRecurrence, SWT.NONE);
 
-		Label lblStartsOn = toolkit.createLabel(compositeRecurrence,
-				"Starts On:", SWT.NONE);
+		Label lblStartsOn = toolkit.createLabel(compositeRecurrence, "From:",
+				SWT.NONE);
 		GridData gd_lblStartsOn = new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1);
 		gd_lblStartsOn.widthHint = 70;
@@ -458,16 +467,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		// separately for each sync direction through a WritableValue
 		// ////////////////////////////////////////////////////////
 
-		comboViewerOnWritableValue = new WritableValue();
-		comboViewerEveryWritableValue = new WritableValue();
-		cdateTimeStartTimeWritableValue = new WritableValue();
-		dateChooserStartsOnWritableValue = new WritableValue();
-		dateChooserEndsOnWritableValue = new WritableValue();
-		btnOnWritableValue = new WritableValue();
-		btnAfterWritableValue = new WritableValue();
-		btnNeverWritableValue = new WritableValue();
-		txtOccurencesWritableValue = new WritableValue();
-
 		comboViewerOn.setContentProvider(new ArrayContentProvider());
 		comboViewerOn.setLabelProvider(new LabelProvider() {
 
@@ -482,112 +481,37 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		comboViewerEvery.setContentProvider(new ArrayContentProvider());
 		comboViewerEvery.setInput(ComboStartInput);
 
-		// The following binding is indirect through a series of writableValues.
-		// / The writables, which will be deduced from various widgets by our
-		// aggregator.
-		IObservableValue startTimeWritableValue = new WritableValue();
-		IObservableValue endTimeWritableValue = new WritableValue();
-		IObservableValue intervalWritableValue = new WritableValue();
-		IObservableValue repeatWritableValue = new WritableValue();
-
-		// The aggregator.
-		JobInfoAggregate aggregate = new JobInfoAggregate(
-				startTimeWritableValue, endTimeWritableValue,
-				intervalWritableValue, repeatWritableValue);
-
 		// ////////////////////////////
 		// OBSERVABLES THROUGH AN AGGREGATOR
 		// //////////////////////////////
 
-		IObservableValue comboViewerOnObserveSingleSelection = ViewersObservables
+		comboViewerOnWritableValue = new WritableValue();
+		comboViewerEveryWritableValue = new WritableValue();
+		cdateTimeStartTimeWritableValue = new WritableValue();
+		dateChooserStartsOnWritableValue = new WritableValue();
+		dateChooserEndsOnWritableValue = new WritableValue();
+		btnOnWritableValue = new WritableValue();
+		btnAfterWritableValue = new WritableValue();
+		btnNeverWritableValue = new WritableValue();
+		txtOccurencesWritableValue = new WritableValue();
+
+		comboViewerOnObserveSingleSelection = ViewersObservables
 				.observeSingleSelection(comboViewerOn);
-		comboViewerOnObserveSingleSelection.addValueChangeListener(aggregate);
-
-		IObservableValue comboViewerEveryObserveSingleSelection = ViewersObservables
+		comboViewerEveryObserveSingleSelection = ViewersObservables
 				.observeSingleSelection(comboViewerEvery);
-		comboViewerEveryObserveSingleSelection
-				.addValueChangeListener(aggregate);
-
-		IObservableValue comboViewerEveryObserveText = SWTObservables
+		comboViewerEveryObserveText = SWTObservables
 				.observeText(comboViewerEvery.getCombo());
-		comboViewerEveryObserveText.addValueChangeListener(aggregate);
-
-		IObservableValue comboObserveStartTime = new CDateTimeObservableValue(
+		comboObserveStartTime = new CDateTimeObservableValue(
 				this.cdateTimeStartTime);
-		comboObserveStartTime.addValueChangeListener(aggregate);
-
-		IObservableValue dateChooseObserveStartDate = new DateChooserComboObservableValue(
+		dateChooseObserveStartDate = new DateChooserComboObservableValue(
 				dateChooserStartsOn, SWT.Modify);
-		dateChooseObserveStartDate.addValueChangeListener(aggregate);
-
-		IObservableValue dateChooseObserveEndDate = new DateChooserComboObservableValue(
+		dateChooseObserveEndDate = new DateChooserComboObservableValue(
 				dateChooserEndsOn, SWT.Modify);
-		dateChooseObserveEndDate.addValueChangeListener(aggregate);
-
-		IObservableValue endOnObservable = SWTObservables
-				.observeSelection(btnOn);
-		endOnObservable.addValueChangeListener(aggregate);
-		IObservableValue endOccurencesObservable = SWTObservables
-				.observeSelection(btnAfter);
-		endOccurencesObservable.addValueChangeListener(aggregate);
-
-		IObservableValue endNeverObservable = SWTObservables
-				.observeSelection(btnNever);
-		endNeverObservable.addValueChangeListener(aggregate);
-
-		IObservableValue occurenceObservable = SWTObservables
-				.observeDelayedValue(400, SWTObservables.observeText(
-						this.txtOccurences, SWT.Modify));
-		occurenceObservable.addValueChangeListener(aggregate);
-
-		// /////////////////////////////////////////////////
-		// PROPERTIES
-		// ////////////////////////////////////////////////
-
-		IEMFValueProperty startTimeProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				SchedulingPackage.Literals.JOB__START_TIME);
-
-		IEMFValueProperty endTimeProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				SchedulingPackage.Literals.JOB__END_TIME);
-
-		IEMFValueProperty intervalProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				SchedulingPackage.Literals.JOB__INTERVAL);
-
-		IEMFValueProperty repeatProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				SchedulingPackage.Literals.JOB__REPEAT);
-
-		EMFUpdateValueStrategy targetToModelStrategy = new EMFUpdateValueStrategy();
-		targetToModelStrategy.setConverter(new DateToXMLConverter());
-
-		// TODO, add converters and validators.
-
-		IObservableValue startTimeObservableValue = startTimeProperty
-				.observe(job);
-		IObservableValue endTimeObservableValue = endTimeProperty.observe(job);
-		IObservableValue intervalObservableValue = intervalProperty
-				.observe(job);
-		IObservableValue repeatObservableValue = repeatProperty.observe(job);
-
-		this.setInitial(startTimeObservableValue.getValue(),
-				endTimeObservableValue.getValue(),
-				repeatObservableValue.getValue(),
-				intervalObservableValue.getValue());
-
-		// //////////////////////
-		// BIND OUR WRITABLES.
-		// ////////////////////
-		bindingContext.bindValue(startTimeWritableValue,
-				startTimeObservableValue, targetToModelStrategy, null);
-		bindingContext.bindValue(endTimeWritableValue, endTimeObservableValue,
-				targetToModelStrategy, null);
-		bindingContext.bindValue(intervalWritableValue,
-				intervalObservableValue, targetToModelStrategy, null);
-		bindingContext.bindValue(repeatWritableValue, repeatObservableValue,
-				targetToModelStrategy, null);
+		endOnObservable = SWTObservables.observeSelection(btnOn);
+		endOccurencesObservable = SWTObservables.observeSelection(btnAfter);
+		endNeverObservable = SWTObservables.observeSelection(btnNever);
+		occurenceObservable = SWTObservables.observeDelayedValue(400,
+				SWTObservables.observeText(this.txtOccurences, SWT.Modify));
 
 		// ////////////////////////////
 		// OPPOSITE BINDING
@@ -641,9 +565,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 
 			public Object convert(Object fromObject) {
 				try {
-					
+
 					String from = (String) fromObject;
-					if(from.length() == 0){
+					if (from.length() == 0) {
 						return 0;
 					}
 					return new Integer(from);
@@ -660,9 +584,93 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 				occurencesTargetToModelStrategy,
 				occurencesModelToTargetStrategy);
 
-		bindingContext.updateTargets();
+		// /////////////////////////////////////////////////
+		// ACTUAL MODEL BINDING
+		// ////////////////////////////////////////////////
+
+		// The following binding is indirect through a series of writableValues.
+		// / The writables, which will be deduced from various widgets by our
+		// aggregator.
+		IObservableValue startTimeWritableValue = new WritableValue();
+		IObservableValue endTimeWritableValue = new WritableValue();
+		IObservableValue intervalWritableValue = new WritableValue();
+		IObservableValue repeatWritableValue = new WritableValue();
+
+		// The aggregator.
+		JobInfoAggregate aggregate = new JobInfoAggregate(
+				startTimeWritableValue, endTimeWritableValue,
+				intervalWritableValue, repeatWritableValue);
+
+		IEMFValueProperty startTimeProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				SchedulingPackage.Literals.JOB__START_TIME);
+
+		IEMFValueProperty endTimeProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				SchedulingPackage.Literals.JOB__END_TIME);
+
+		IEMFValueProperty intervalProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				SchedulingPackage.Literals.JOB__INTERVAL);
+
+		IEMFValueProperty repeatProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				SchedulingPackage.Literals.JOB__REPEAT);
+
+		// TODO, add converters and validators.
+
+		IObservableValue startTimeObservableValue = startTimeProperty
+				.observe(job);
+		IObservableValue endTimeObservableValue = endTimeProperty.observe(job);
+		IObservableValue intervalObservableValue = intervalProperty
+				.observe(job);
+		IObservableValue repeatObservableValue = repeatProperty.observe(job);
+
+		// //////////////////////
+		// BIND OUR WRITABLES.
+		// ////////////////////
+
+		EMFUpdateValueStrategy targetToModelStrategy = new EMFUpdateValueStrategy();
+		targetToModelStrategy.setConverter(new DateToXMLConverter());
+
+		bindingContext.bindValue(startTimeWritableValue,
+				startTimeObservableValue, targetToModelStrategy, null);
+		bindingContext.bindValue(endTimeWritableValue, endTimeObservableValue,
+				targetToModelStrategy, null);
+		bindingContext.bindValue(intervalWritableValue,
+				intervalObservableValue, targetToModelStrategy, null);
+		bindingContext.bindValue(repeatWritableValue, repeatObservableValue,
+				targetToModelStrategy, null);
+
+		// Set initial values of the widgets. , without having the aggregator activated yet.
+		this.setInitial(startTimeObservableValue.getValue(),
+				endTimeObservableValue.getValue(),
+				repeatObservableValue.getValue(),
+				intervalObservableValue.getValue());
+		
+		// Set the initial values of the aggregator.
+		aggregate.setInitialValues(job);
+		this.enableAggregate(aggregate);
+		
+		// bindingContext.updateTargets();
 
 		return bindingContext;
+	}
+
+	private void enableAggregate(JobInfoAggregate aggregate) {
+
+		comboViewerOnObserveSingleSelection.addValueChangeListener(aggregate);
+		comboViewerEveryObserveSingleSelection
+				.addValueChangeListener(aggregate);
+		comboViewerEveryObserveText.addValueChangeListener(aggregate);
+		comboObserveStartTime.addValueChangeListener(aggregate);
+		dateChooseObserveStartDate.addValueChangeListener(aggregate);
+		dateChooseObserveEndDate.addValueChangeListener(aggregate);
+		endOnObservable.addValueChangeListener(aggregate);
+		endOccurencesObservable.addValueChangeListener(aggregate);
+		endNeverObservable.addValueChangeListener(aggregate);
+		occurenceObservable.addValueChangeListener(aggregate);
+
 	}
 
 	private void setInitial(Object startTimeValue, Object endTimeValue,
@@ -733,7 +741,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		private IObservableValue intervalObservable;
 		private IObservableValue repeatObservable;
 
-		private Date startDate = modelUtils.todayAndNow();
+		private Date startDate = null;
 		private Date endDate = null;
 		private int repeat = -1;
 		private String interval = null;
@@ -744,6 +752,23 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			this.endTimeObservable = endTime;
 			this.intervalObservable = interval;
 			this.repeatObservable = repeat;
+		}
+
+		public void setInitialValues(Job j) {
+
+			if (j.eIsSet(SchedulingPackage.Literals.JOB__START_TIME)) {
+				startDate = modelUtils.fromXMLDate(j.getStartTime());
+			}
+			if (j.eIsSet(SchedulingPackage.Literals.JOB__END_TIME)) {
+				endDate = modelUtils.fromXMLDate(j.getEndTime());
+			}
+			if (j.eIsSet(SchedulingPackage.Literals.JOB__INTERVAL)) {
+				// interval = j.getInterval();
+			}
+			if (j.eIsSet(SchedulingPackage.Literals.JOB__REPEAT)) {
+				repeat = j.getRepeat();
+			}
+
 		}
 
 		/*
@@ -833,6 +858,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 
 				if (viewer.equals(comboViewerOn)) {
 					int dayOfWeek = (Integer) newValue;
+
 					startDate = modelUtils.mergeDayIntoDate(startDate,
 							dayOfWeek);
 
@@ -846,9 +872,11 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 
 		private boolean allSet() {
 			// Calculate the new writablevalues.
-			System.out.println(startDate);
 
-			startTimeObservable.setValue(startDate);
+			if (startDate != null) {
+				System.out.println(startDate);
+				startTimeObservable.setValue(startDate);
+			}
 
 			if (endDate != null) {
 				endTimeObservable.setValue(endDate);
@@ -917,7 +945,6 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			}
 		}
 
-		
 		buildUI();
 		bindingContext = initDataBindings_();
 
@@ -948,6 +975,10 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 			validationService.registerBindingContext(bindingContext);
 			validationService.addValidationListener(this);
 		}
+
+		List<Date> occurences = NewEditJob.this.generateOccurences(job);
+		occurencesTableViewer.setInput(occurences.toArray());
+
 	}
 
 	public void addData() {

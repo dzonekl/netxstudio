@@ -71,8 +71,8 @@ private String server;
 	}
 	
 	
-	public String callMonitorAction(String parameterName, CDOObject cdoObject) throws Exception{
-		return callMonitorAction(MONITOR_SERVICE, parameterName, cdoObject.cdoID(), null, null);
+	public String callMonitorAction(CDOObject cdoObject, Date fromDate, Date toDate) throws Exception{
+		return callMonitorAction(MONITOR_SERVICE, SERVICE_PARAM, cdoObject.cdoID(), fromDate, toDate);
 	}
 	
 	
@@ -124,6 +124,14 @@ private String server;
 
 		if(server == null){
 			server = NETXSTUDIO_SERVER;	
+		}
+		
+		if(from == null){
+			from = modelUtils.oneMonthAgo();
+		}
+		
+		if(to == null){
+			to = modelUtils.todayAndNow();
 		}
 		
 		final StringBuilder url = new StringBuilder();

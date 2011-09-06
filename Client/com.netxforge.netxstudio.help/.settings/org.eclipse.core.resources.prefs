@@ -1,10 +1,12 @@
-#Tue Aug 30 12:23:44 CEST 2011
+#Tue Sep 06 15:40:32 CEST 2011
 eclipse.preferences.version=1
 encoding//html/getting_started/TMNL_Capacity_Management_Process.html=utf-8
 encoding//html/getting_started/data_structure.html=utf-8
 encoding//html/getting_started/getting_started.html=utf-8
 encoding//html/getting_started/workbench/netxstudio_workbench.html=utf-8
 encoding//html/tasks/administrative/administrative.html=utf-8
+encoding//html/tasks/administrative/jobs/creating_a_job.html=utf-8
+encoding//html/tasks/administrative/jobs/jobs.html=utf-8
 encoding//html/tasks/administrative/metricsources/creating_a_columnmapping.html=utf-8
 encoding//html/tasks/administrative/metricsources/creating_a_csvmapping.html=utf-8
 encoding//html/tasks/administrative/metricsources/creating_a_metricsource.html=utf-8

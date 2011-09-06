@@ -15,6 +15,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -41,10 +42,17 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.ServiceMonitors;
+import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -58,6 +66,10 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 	private TableViewer servicesTableViewer;
 	private Form frmServices;
 	private Resource rfsServiceResource;
+	
+	
+	@Inject
+	ServerRequest serverActions;
 
 	/**
 	 * Create the composite.
@@ -180,6 +192,110 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 					smScreen.setScreenService(screenService);
 					smScreen.injectData(null, o);
 					screenService.setActiveScreen(smScreen);
+				}
+			}
+		}
+	}
+	
+	
+
+	class MonitorNowAction extends Action {
+		public MonitorNowAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = getViewer().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object o = ((IStructuredSelection) selection)
+						.getFirstElement();
+				if (o instanceof Service) {
+					Service ms = (Service) o;
+					try {
+						serverActions
+								.setServer(editingService.getDataService()
+										.getProvider().getServer());
+							
+						
+						// TODO, provide a dialog for monitoring period selection. 
+						
+						Date fromDate = null;
+						Date toDate = null;
+						
+						@SuppressWarnings("unused")
+						String result = serverActions
+								.callMonitorAction(ms, fromDate, toDate);
+						// TODO, We get the workflow run ID back, which
+						// could be used
+						// to link back to the screen showing the running
+						// workflows.
+
+						
+						MessageDialog.openInformation(
+								Services.this.getShell(),
+								"Monitor now succeeded:",
+								"Monitoring of service: "
+										+ ms.getServiceName()
+										+ "\n has been initiated on the server.");
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						MessageDialog.openError(
+								Services.this.getShell(),
+								"Monitor now failed:",
+								"Monitoring of service: "
+										+ ms.getServiceName()
+										+ "\n failed. Consult the log for information on the failure");
+
+					}
+
+				}
+			}
+		}
+	}
+	
+
+	class ScheduleMonitorJobAction extends Action {
+		public ScheduleMonitorJobAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			if (screenService != null) {
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (o instanceof Service) {
+
+						int operation = -1;
+
+						List<Job> matchingJobs = editingService
+								.getDataService().getQueryService()
+								.getJobWithService((Service) o);
+						Resource jobResource = editingService
+								.getData(SchedulingPackage.Literals.JOB);
+						Job job = null;
+
+						// Edit or New if the Service has a job or not.
+						if (matchingJobs.size() == 1) {
+							operation = Screens.OPERATION_EDIT;
+							job = matchingJobs.get(0);
+						} else {
+							operation = Screens.OPERATION_NEW;
+							job = SchedulingFactory.eINSTANCE
+									.createRFSServiceJob();
+						}
+
+						NewEditJob newEditJob = new NewEditJob(
+								screenService.getScreenContainer(), SWT.NONE);
+						newEditJob.setOperation(operation);
+						newEditJob.setScreenService(screenService);
+						newEditJob.injectData(jobResource, job);
+						screenService.setActiveScreen(newEditJob);
+					}
 				}
 			}
 		}
@@ -328,6 +444,8 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public IAction[] getActions() {
 
+		boolean readonly = Screens.isReadOnlyOperation(getOperation());
+
 		List<IAction> actions = Lists.newArrayList();
 
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
@@ -336,6 +454,12 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 		actions.add(new EditServiceAction(actionText + "...", SWT.PUSH));
 
 		actions.add(new ServiceMonitoringAction("Monitor...", SWT.PUSH));
+
+		if (!readonly) {
+			actions.add(new ScheduleMonitorJobAction(
+					"Schedule Monitoring Job...", SWT.PUSH));
+			actions.add(new MonitorNowAction("Monitor Now...", SWT.PUSH));
+		}
 
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray);

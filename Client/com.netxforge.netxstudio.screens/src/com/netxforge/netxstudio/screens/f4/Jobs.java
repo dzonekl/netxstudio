@@ -44,12 +44,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
-import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -57,7 +53,6 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
-import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -117,36 +112,42 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
-
-		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-				frmScheduledJobs.getBody(), SWT.NONE);
-		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				if (screenService != null) {
-					NewEditJob jobScreen = new NewEditJob(screenService
-							.getScreenContainer(), SWT.NONE);
-					jobScreen.setOperation(Screens.OPERATION_NEW);
-					jobScreen.setScreenService(screenService);
-					jobScreen.injectData(jobsResource,
-							SchedulingFactory.eINSTANCE.createJob());
-					screenService.setActiveScreen(jobScreen);
-				}
-
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		mghprlnkNew.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/ctool16/Function_E.png"));
-		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-		toolkit.paintBordersFor(mghprlnkNew);
-		mghprlnkNew.setText("New");
+		
+		
+		// CB 06-09-2011, We can't create any arbitrary job from the JOB UI. 
+//		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+//				frmScheduledJobs.getBody(), SWT.NONE);
+//		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+//			public void linkActivated(HyperlinkEvent e) {
+//				if (screenService != null) {
+//					NewEditJob jobScreen = new NewEditJob(screenService
+//							.getScreenContainer(), SWT.NONE);
+//					jobScreen.setOperation(Screens.OPERATION_NEW);
+//					jobScreen.setScreenService(screenService);
+//					
+//					Job j = SchedulingFactory.eINSTANCE.createJob();
+//					
+//					
+//					jobScreen.injectData(jobsResource,
+//							j);
+//					screenService.setActiveScreen(jobScreen);
+//				}
+//
+//			}
+//
+//			public void linkEntered(HyperlinkEvent e) {
+//			}
+//
+//			public void linkExited(HyperlinkEvent e) {
+//			}
+//		});
+//		mghprlnkNew.setImage(ResourceManager.getPluginImage(
+//				"com.netxforge.netxstudio.models.edit",
+//				"icons/full/ctool16/Function_E.png"));
+//		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+//				false, 1, 1));
+//		toolkit.paintBordersFor(mghprlnkNew);
+//		mghprlnkNew.setText("New");
 
 		jobsTableViewer = new TableViewer(frmScheduledJobs.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION);

@@ -30,6 +30,7 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.services.Service;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -59,6 +60,15 @@ public interface IQueryService {
 	 * @return
 	 */
 	public List<Job> getJobWithMetricSource(MetricSource source);
+	
+	/**
+	 * 
+	 * Get a list of job for a specified service.
+	 * 
+	 * @param service
+	 * @return
+	 */
+	public List<Job> getJobWithService(Service service);
 	
 	/**
 	 * Get the metric values for a period from a resource. 

@@ -3,10 +3,8 @@
 
 <toc label="Tasks" link_to="toc.xml#tasks" topic="html/tasks/tasks.html">
    <topic href="html/tasks/administrative/administrative.html" label="Administrative">
-      <topic label="Jobs">
-         <topic label="Creating a Job">
-         </topic>
-         <topic label="Modifying a Job">
+      <topic href="html/tasks/administrative/jobs/jobs.html" label="Jobs">
+         <topic href="html/tasks/administrative/jobs/creating_a_job.html" label="Create or modify a Job">
          </topic>
       </topic>
       <topic href="html/tasks/administrative/metricsources/metricsources.html" label="Metric Sources">

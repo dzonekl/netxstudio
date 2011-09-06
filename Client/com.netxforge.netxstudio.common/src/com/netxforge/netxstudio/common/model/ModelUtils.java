@@ -384,8 +384,9 @@ public class ModelUtils {
 
 		final Calendar targetCalendar = GregorianCalendar.getInstance();
 		targetCalendar.setTime(targetDate);
-
-		if (targetCalendar.compareTo(GregorianCalendar.getInstance()) > 0) {
+		
+		// CB 06-09-2011, removed date has to be later requirement.
+//		if (targetCalendar.compareTo(GregorianCalendar.getInstance()) > 0) {
 			baseCalendar.set(Calendar.YEAR, targetCalendar.get(Calendar.YEAR));
 			baseCalendar
 					.set(Calendar.MONTH, targetCalendar.get(Calendar.MONTH));
@@ -402,7 +403,7 @@ public class ModelUtils {
 			}
 			// baseCalendar.set(Calendar.DAY_OF_WEEK,
 			// targetCalendar.get(Calendar.DAY_OF_WEEK));
-		}
+//		}
 		return baseCalendar.getTime();
 	}
 
@@ -492,6 +493,27 @@ public class ModelUtils {
 		return cal.getTime();
 	}
 
+	public Date oneMonthAgo() {
+		final Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(new Date(System.currentTimeMillis()));
+		cal.add(Calendar.MONTH, -1);
+		return cal.getTime();
+	}
+	
+	public Date twoMonthsAgo() {
+		final Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(new Date(System.currentTimeMillis()));
+		cal.add(Calendar.MONTH, -2);
+		return cal.getTime();
+	}
+
+	public Date threeMonthsAgo() {
+		final Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(new Date(System.currentTimeMillis()));
+		cal.add(Calendar.MONTH, -3);
+		return cal.getTime();
+	}
+	
 	public Date todayAndNow() {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));

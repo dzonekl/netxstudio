@@ -38,6 +38,7 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.services.Service;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -80,6 +81,16 @@ public class CDOQueryService implements IQueryService {
 		CDOTransaction t = provider.getSession().openTransaction();
 		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS_WITH_METRICSOURCE);
 		q.setParameter("metricSource", source);
+		queryService.setCacheParameter(q);
+		return q.getResult(Job.class);
+	}
+
+	
+	public List<Job> getJobWithService(Service service) {
+
+		CDOTransaction t = provider.getSession().openTransaction();
+		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS_WITH_SERVICE);
+		q.setParameter("rfsService", service);
 		queryService.setCacheParameter(q);
 		return q.getResult(Job.class);
 	}

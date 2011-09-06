@@ -85,9 +85,9 @@ public class CommonLogic {
 			if (n != null) {
 				System.out.println("--Writing to resource in Node: "
 						+ n.getNodeID());
-				for (final Object context : currentContext) {
+//				for (final Object context : currentContext) {
 					// IInterpreterContext c = (IInterpreterContext)context;
-				}
+//				}
 //				System.out.println("--Current context =: ");
 			}
 

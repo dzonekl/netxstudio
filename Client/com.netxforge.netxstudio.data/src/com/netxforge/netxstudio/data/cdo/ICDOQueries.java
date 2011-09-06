@@ -29,5 +29,5 @@ public interface ICDOQueries {
 	public static final String SELECT_ROLES_FROM_PERSON = "select roles from Person person where person.login=:name";
 	public static final String SELECT_JOBS = "from Job";
 	public static final String SELECT_JOBS_WITH_METRICSOURCE = "select msjob from MetricSourceJob msjob where msjob.metricSource = :metricSource";
-	
+	public static final String SELECT_JOBS_WITH_SERVICE = "select msjob from RFSServiceJob msjob where msjob.rFSService = :rfsService";
 }
