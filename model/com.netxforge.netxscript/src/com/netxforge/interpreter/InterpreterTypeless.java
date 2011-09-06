@@ -90,8 +90,7 @@ import com.netxforge.netxstudio.operators.impl.NodeImpl;
  * It internally uses a polymorphic dispatcher to dispatch between the
  * implementations for the different EClasses.
  * 
- * TODO Numeric evaluations, should consider ranges. TODO Perform error
- * handling, we know perform type specific evaluations which ought to succeed
+ * We now perform type specific evaluations which ought to succeed
  * with a post evaluation type check.
  * 
  * Has a context index, used by the eval-snippets.
@@ -443,7 +442,8 @@ public class InterpreterTypeless implements IInterpreter {
 
 					}
 				}
-
+				// TODO, We also need other types of Assignments like : 
+				// *= /= -= 
 				if (statement instanceof PlusAssignment) {
 					PlusAssignment pa = (PlusAssignment) statement;
 					AbstractVarOrArgument var = pa.getVar();
@@ -473,7 +473,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 				}
 
-				// REFERENCE ASSIGNEMENT
+				// REFERENCE ASSIGNEMENT (Returns an Expression result). 
 				if (statement instanceof RefAssignment) {
 					RefAssignment refa = (RefAssignment) statement;
 					if (refa.getExpression() != null) {
@@ -1055,6 +1055,11 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
+				
+				// For capcity calculations, we likely 
+				// get a single value. To calculate the utilization, 
+				// it would be needed to make it a complete range. 
+				
 				v = qService.getCapacityFromResource(
 						resource.getExpressionName(), dtr.getBegin(),
 						dtr.getEnd());
