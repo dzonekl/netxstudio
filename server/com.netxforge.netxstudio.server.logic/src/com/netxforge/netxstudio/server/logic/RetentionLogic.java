@@ -38,7 +38,8 @@ public class RetentionLogic extends BaseLogic {
 
 	private RFSService rfsService;
 	private NodeType nodeType;
-	
+	private BaseEngine engine;
+
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor() {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
@@ -52,11 +53,14 @@ public class RetentionLogic extends BaseLogic {
 		}
 		return nodeTypes;
 	}
-	
+
 	@Override
 	protected BaseEngine getEngine() {
-		return LogicActivator.getInstance()
-				.getInjector().getInstance(RetentionEngine.class);
+		if (engine == null) {
+			engine = LogicActivator.getInstance().getInjector()
+					.getInstance(RetentionEngine.class);
+		}
+		return engine;
 	}
 
 	@Override
@@ -86,15 +90,18 @@ public class RetentionLogic extends BaseLogic {
 
 	public void setRfsService(CDOID cdoId) {
 		// read the rfsservice in the transaction of the run
-		this.rfsService = (RFSService)getDataProvider().getTransaction().getObject(cdoId);
+		this.rfsService = (RFSService) getDataProvider().getTransaction()
+				.getObject(cdoId);
 	}
 
 	public void setNode(CDOID cdoId) {
-		this.nodeType = ((Node)getDataProvider().getTransaction().getObject(cdoId)).getNodeType();
+		this.nodeType = ((Node) getDataProvider().getTransaction().getObject(
+				cdoId)).getNodeType();
 	}
-	
+
 	public void setNodeType(CDOID cdoId) {
-		this.nodeType = (NodeType)getDataProvider().getTransaction().getObject(cdoId);
+		this.nodeType = (NodeType) getDataProvider().getTransaction()
+				.getObject(cdoId);
 	}
 
 	@Override
@@ -102,13 +109,15 @@ public class RetentionLogic extends BaseLogic {
 		Date startTime = getStartTime();
 		if (startTime == null) {
 			// as a default start 30 days in the past
-			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60 * 1000);
+			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60
+					* 1000);
 			setStartTime(startTime);
 		}
 		Date endTime = getEndTime();
 		if (endTime == null) {
 			// and run until one week in the past
-			endTime = new Date(System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000);
+			endTime = new Date(System.currentTimeMillis() - 7 * 24 * 60 * 60
+					* 1000);
 			setEndTime(endTime);
 		}
 		super.run();

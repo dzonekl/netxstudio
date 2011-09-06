@@ -35,14 +35,19 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
 public abstract class BaseResourceMonitoringLogic extends BaseLogic {
 
 	private ServiceMonitor serviceMonitor;
-	
+
 	@Override
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
-	
+
+	private ResourceMonitoringEngine engine;
+
 	@Override
 	protected ResourceMonitoringEngine getEngine() {
-		return LogicActivator.getInstance()
-				.getInjector().getInstance(ResourceMonitoringEngine.class);
+		if (engine == null) {
+			engine = LogicActivator.getInstance().getInjector()
+					.getInstance(ResourceMonitoringEngine.class);
+		}
+		return engine;
 	}
 
 	@Override
