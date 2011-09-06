@@ -125,7 +125,7 @@ public class JobHandler {
 					continue;
 				}
 				final int countJobRuns = countJobRuns(job);
-				if (job.getRepeat() > 0 && job.getRepeat() >= countJobRuns) {
+				if (job.getRepeat() > 0 && job.getRepeat() <= countJobRuns) {
 					continue;
 				}
 				
