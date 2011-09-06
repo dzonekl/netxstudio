@@ -68,6 +68,7 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDateTimeObservableValue;
@@ -949,7 +950,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		bindingContext = initDataBindings_();
 
 		jobTypes = new String[] { "Metric Import", "Monitoring",
-				"Data retention" };
+				"Data retention", "Reporting" };
 		int type = 0;
 		if (job instanceof MetricSourceJob) {
 			type = 0;
@@ -959,6 +960,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		}
 		if (job instanceof RFSServiceRetentionJob) {
 			type = 2;
+		}
+		if (job instanceof ReporterJob) {
+			type = 3;
 		}
 
 		String title = "";

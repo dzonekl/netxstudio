@@ -24,6 +24,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.scheduling.AnalyzerJob;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -31,6 +32,7 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
@@ -91,6 +93,10 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	protected SchedulingSwitch<Adapter> modelSwitch =
 		new SchedulingSwitch<Adapter>() {
 			@Override
+			public Adapter caseAnalyzerJob(AnalyzerJob object) {
+				return createAnalyzerJobAdapter();
+			}
+			@Override
 			public Adapter caseExpressionFailure(ExpressionFailure object) {
 				return createExpressionFailureAdapter();
 			}
@@ -109,6 +115,10 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseMetricSourceJob(MetricSourceJob object) {
 				return createMetricSourceJobAdapter();
+			}
+			@Override
+			public Adapter caseReporterJob(ReporterJob object) {
+				return createReporterJobAdapter();
 			}
 			@Override
 			public Adapter caseRFSServiceJob(RFSServiceJob object) {
@@ -145,6 +155,20 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.AnalyzerJob <em>Analyzer Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.AnalyzerJob
+	 * @generated
+	 */
+	public Adapter createAnalyzerJobAdapter() {
+		return null;
+	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure <em>Expression Failure</em>}'.
@@ -213,6 +237,20 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMetricSourceJobAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.ReporterJob <em>Reporter Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.ReporterJob
+	 * @generated
+	 */
+	public Adapter createReporterJobAdapter() {
 		return null;
 	}
 

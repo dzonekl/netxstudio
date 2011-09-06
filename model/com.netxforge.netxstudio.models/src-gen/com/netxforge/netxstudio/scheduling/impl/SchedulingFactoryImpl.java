@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import com.netxforge.netxstudio.scheduling.AnalyzerJob;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -34,6 +35,7 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
@@ -82,11 +84,13 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case SchedulingPackage.ANALYZER_JOB: return (EObject)createAnalyzerJob();
 			case SchedulingPackage.EXPRESSION_FAILURE: return (EObject)createExpressionFailure();
 			case SchedulingPackage.EXPRESSION_WORK_FLOW_RUN: return (EObject)createExpressionWorkFlowRun();
 			case SchedulingPackage.JOB: return (EObject)createJob();
 			case SchedulingPackage.JOB_RUN_CONTAINER: return (EObject)createJobRunContainer();
 			case SchedulingPackage.METRIC_SOURCE_JOB: return (EObject)createMetricSourceJob();
+			case SchedulingPackage.REPORTER_JOB: return (EObject)createReporterJob();
 			case SchedulingPackage.RFS_SERVICE_JOB: return (EObject)createRFSServiceJob();
 			case SchedulingPackage.RFS_SERVICE_RETENTION_JOB: return (EObject)createRFSServiceRetentionJob();
 			case SchedulingPackage.WORK_FLOW_RUN: return (EObject)createWorkFlowRun();
@@ -142,6 +146,16 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public AnalyzerJob createAnalyzerJob() {
+		AnalyzerJobImpl analyzerJob = new AnalyzerJobImpl();
+		return analyzerJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ExpressionFailure createExpressionFailure() {
 		ExpressionFailureImpl expressionFailure = new ExpressionFailureImpl();
 		return expressionFailure;
@@ -185,6 +199,16 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	public MetricSourceJob createMetricSourceJob() {
 		MetricSourceJobImpl metricSourceJob = new MetricSourceJobImpl();
 		return metricSourceJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ReporterJob createReporterJob() {
+		ReporterJobImpl reporterJob = new ReporterJobImpl();
+		return reporterJob;
 	}
 
 	/**

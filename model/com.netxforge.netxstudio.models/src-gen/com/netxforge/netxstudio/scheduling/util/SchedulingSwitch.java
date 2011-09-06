@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.scheduling.AnalyzerJob;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -30,6 +31,7 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
@@ -90,6 +92,14 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case SchedulingPackage.ANALYZER_JOB: {
+				AnalyzerJob analyzerJob = (AnalyzerJob)theEObject;
+				T result = caseAnalyzerJob(analyzerJob);
+				if (result == null) result = caseJob(analyzerJob);
+				if (result == null) result = caseBase(analyzerJob);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case SchedulingPackage.EXPRESSION_FAILURE: {
 				ExpressionFailure expressionFailure = (ExpressionFailure)theEObject;
 				T result = caseExpressionFailure(expressionFailure);
@@ -124,6 +134,14 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case SchedulingPackage.REPORTER_JOB: {
+				ReporterJob reporterJob = (ReporterJob)theEObject;
+				T result = caseReporterJob(reporterJob);
+				if (result == null) result = caseJob(reporterJob);
+				if (result == null) result = caseBase(reporterJob);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case SchedulingPackage.RFS_SERVICE_JOB: {
 				RFSServiceJob rfsServiceJob = (RFSServiceJob)theEObject;
 				T result = caseRFSServiceJob(rfsServiceJob);
@@ -148,6 +166,21 @@ public class SchedulingSwitch<T> extends Switch<T> {
 			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Analyzer Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Analyzer Job</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAnalyzerJob(AnalyzerJob object) {
+		return null;
 	}
 
 	/**
@@ -222,6 +255,21 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMetricSourceJob(MetricSourceJob object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Reporter Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Reporter Job</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReporterJob(ReporterJob object) {
 		return null;
 	}
 

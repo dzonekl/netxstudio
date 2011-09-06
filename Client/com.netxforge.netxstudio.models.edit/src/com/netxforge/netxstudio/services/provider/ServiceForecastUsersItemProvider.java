@@ -37,7 +37,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
-import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
+import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.services.ServiceForecastUsers;
 import com.netxforge.netxstudio.services.ServicesPackage;
 

@@ -94,6 +94,14 @@ public class CDOQueryService implements IQueryService {
 		queryService.setCacheParameter(q);
 		return q.getResult(Job.class);
 	}
+	
+	public List<Job> getJobWithServiceReporting(Service service) {
+		CDOTransaction t = provider.getSession().openTransaction();
+		CDOQuery q = t.createQuery("hql", ICDOQueries.SELECT_JOBS_WITH_SERVICE_REPORTING);
+		q.setParameter("rfsService", service);
+		queryService.setCacheParameter(q);
+		return q.getResult(Job.class);
+	}
 
 	public Role getCurrentRole() {
 

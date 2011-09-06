@@ -87,6 +87,29 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.AnalyzerJob} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected AnalyzerJobItemProvider analyzerJobItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.AnalyzerJob}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createAnalyzerJobAdapter() {
+		if (analyzerJobItemProvider == null) {
+			analyzerJobItemProvider = new AnalyzerJobItemProvider(this);
+		}
+
+		return analyzerJobItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.ExpressionFailure} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -199,6 +222,29 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		}
 
 		return metricSourceJobItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.ReporterJob} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ReporterJobItemProvider reporterJobItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.ReporterJob}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createReporterJobAdapter() {
+		if (reporterJobItemProvider == null) {
+			reporterJobItemProvider = new ReporterJobItemProvider(this);
+		}
+
+		return reporterJobItemProvider;
 	}
 
 	/**
@@ -369,11 +415,13 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	 * @generated
 	 */
 	public void dispose() {
+		if (analyzerJobItemProvider != null) analyzerJobItemProvider.dispose();
 		if (expressionFailureItemProvider != null) expressionFailureItemProvider.dispose();
 		if (expressionWorkFlowRunItemProvider != null) expressionWorkFlowRunItemProvider.dispose();
 		if (jobItemProvider != null) jobItemProvider.dispose();
 		if (jobRunContainerItemProvider != null) jobRunContainerItemProvider.dispose();
 		if (metricSourceJobItemProvider != null) metricSourceJobItemProvider.dispose();
+		if (reporterJobItemProvider != null) reporterJobItemProvider.dispose();
 		if (rfsServiceJobItemProvider != null) rfsServiceJobItemProvider.dispose();
 		if (rfsServiceRetentionJobItemProvider != null) rfsServiceRetentionJobItemProvider.dispose();
 		if (workFlowRunItemProvider != null) workFlowRunItemProvider.dispose();

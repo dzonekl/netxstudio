@@ -13,6 +13,7 @@ import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
@@ -50,6 +51,13 @@ public class LogicActivator implements BundleActivator {
 			@Override
 			public JobImplementation create() {
 				return injector.getInstance(RFSServiceResourceMonitoringJobImplementation.class);
+			}
+		});
+		
+		JobImplementation.REGISTRY.register(ReporterJob.class, new JobImplementationFactory() {
+			@Override
+			public JobImplementation create() {
+				return injector.getInstance(RFSServiceResourceReportingJobImplementation.class);
 			}
 		});
 		

@@ -53,6 +53,7 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -160,7 +161,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		TableViewerColumn tblViewerClmType = new TableViewerColumn(
 				jobsTableViewer, SWT.NONE);
 		TableColumn tblclmnJobType = tblViewerClmType.getColumn();
-		tblclmnJobType.setWidth(166);
+		tblclmnJobType.setWidth(100);
 		tblclmnJobType.setText("Job Type");
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
@@ -352,19 +353,24 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				switch (columnIndex) {
 				case 0: {
 					if (j instanceof MetricSourceJob) {
-						return "Metric Import: "
-								+ ((MetricSourceJob) j).getMetricSource()
-										.getName();
+						return "Metric Import";
+//								+ ((MetricSourceJob) j).getMetricSource()
+//										.getName();
 					}
 					if (j instanceof RFSServiceJob) {
-						return "Monitoring: "
-								+ ((RFSServiceJob) j).getRFSService()
-										.getServiceName();
+						return "Monitoring";
+//								+ ((RFSServiceJob) j).getRFSService()
+//										.getServiceName();
 					}
 					if (j instanceof RFSServiceRetentionJob) {
-						return "Data Retention: "
-								+ ((RFSServiceRetentionJob) j).getRFSService()
-										.getServiceName();
+						return "Data Retention";
+//								+ ((RFSServiceRetentionJob) j).getRFSService()
+//										.getServiceName();
+					}
+					if(j instanceof ReporterJob){
+						return "Reporting";
+//								+ ((ReporterJob) j).getRFSService()
+//										.getServiceName();
 					}
 				}
 				case 2: {

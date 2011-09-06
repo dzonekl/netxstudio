@@ -11,8 +11,13 @@ public class LogicModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		this.bind(IExpressionEngine.class).to(ExpressionEngine.class);
+		
 		this.bind(RFSServiceResourceMonitoringLogic.class);
 		this.bind(RFSServiceResourceMonitoringJobImplementation.class);
+
+		this.bind(RFSServiceResourceReportingLogic.class);
+		this.bind(RFSServiceResourceReportingJobImplementation.class);
+		
 		this.bind(ResourceMonitoringEngine.class);
 		this.bind(NodeResourceMonitoringLogic.class);
 		this.bind(ResourceMonitoringRunner.class);

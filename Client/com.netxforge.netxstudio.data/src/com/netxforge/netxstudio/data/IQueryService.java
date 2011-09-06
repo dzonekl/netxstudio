@@ -71,6 +71,14 @@ public interface IQueryService {
 	public List<Job> getJobWithService(Service service);
 	
 	/**
+	 *
+	 * Get a list of reporting job for a specified service.
+	 * @param service
+	 * @return
+	 */
+	public List<Job> getJobWithServiceReporting(Service service);
+	
+	/**
 	 * Get the metric values for a period from a resource. 
 	 * The period and kind hint, tell use which range exactly should be read. 
 	 * 

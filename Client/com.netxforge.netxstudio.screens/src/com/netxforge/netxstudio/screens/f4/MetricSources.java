@@ -44,11 +44,13 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -153,6 +155,14 @@ public class MetricSources extends AbstractScreen implements
 							operation = Screens.OPERATION_NEW;
 							job = SchedulingFactory.eINSTANCE
 									.createMetricSourceJob();
+							job.setName(((MetricSource) o).getName());
+							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
+							job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
+							
+							if(job instanceof MetricSourceJob){
+								((MetricSourceJob) job).setMetricSource((MetricSource) o);
+							}
+							
 						}
 
 						NewEditJob newEditJob = new NewEditJob(

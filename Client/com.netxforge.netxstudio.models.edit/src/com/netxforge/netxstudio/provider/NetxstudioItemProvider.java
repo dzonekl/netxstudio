@@ -232,7 +232,17 @@ public class NetxstudioItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
+				 SchedulingFactory.eINSTANCE.createAnalyzerJob()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
 				 SchedulingFactory.eINSTANCE.createMetricSourceJob()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
+				 SchedulingFactory.eINSTANCE.createReporterJob()));
 
 		newChildDescriptors.add
 			(createChildParameter

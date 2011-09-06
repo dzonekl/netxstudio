@@ -15,13 +15,12 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data.cdo;
-
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
+ * 
  */
 public interface ICDOQueries {
 
@@ -30,4 +29,5 @@ public interface ICDOQueries {
 	public static final String SELECT_JOBS = "from Job";
 	public static final String SELECT_JOBS_WITH_METRICSOURCE = "select msjob from MetricSourceJob msjob where msjob.metricSource = :metricSource";
 	public static final String SELECT_JOBS_WITH_SERVICE = "select msjob from RFSServiceJob msjob where msjob.rFSService = :rfsService";
+	public static final String SELECT_JOBS_WITH_SERVICE_REPORTING = "select msjob from ReporterJob msjob where msjob.rFSService = :rfsService";
 }

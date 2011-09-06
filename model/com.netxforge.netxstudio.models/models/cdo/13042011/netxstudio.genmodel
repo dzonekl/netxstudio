@@ -8,6 +8,64 @@
     complianceLevel="6.0" copyrightFields="false">
   <foreignModel>../../xsd/13042011/netxstudio.xsd</foreignModel>
   <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
+  <genPackages prefix="Scheduling" basePackage="com.netxforge.netxstudio" resource="XML"
+      disposableProviderFactory="true" ecorePackage="scheduling.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduling.ecore#//JobRunState">
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/Running"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/FinishedSuccessfully"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/FinishedWithError"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduling.ecore#//JobState">
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobState/Active"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobState/InActive"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="scheduling.ecore#//JobRunStateObject"/>
+    <genDataTypes ecoreDataType="scheduling.ecore#//JobStateObject"/>
+    <genClasses ecoreClass="scheduling.ecore#//AnalyzerJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//AnalyzerJob/rFSService"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//ExpressionFailure">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionFailure/expressionRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionFailure/componentRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//ExpressionFailure/message"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//ExpressionWorkFlowRun">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionWorkFlowRun/failureRefs"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//Job">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/endTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/interval"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/jobState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/repeat"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/startTime"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//JobRunContainer">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//JobRunContainer/job"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//JobRunContainer/workFlowRuns"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//MetricSourceJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//MetricSourceJob/metricSource"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//ReporterJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ReporterJob/rFSService"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//RFSServiceJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceJob/rFSService"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//RFSServiceRetentionJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceRetentionJob/rFSService"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//WorkFlowRun">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/ended"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/log"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/progress"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/progressMessage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/progressTask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/started"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/state"/>
+    </genClasses>
+  </genPackages>
   <genPackages prefix="Generics" basePackage="com.netxforge.netxstudio" resource="XML"
       disposableProviderFactory="true" ecorePackage="generics.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="generics.ecore#//ActionType">
@@ -582,58 +640,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/oSI"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute protocols.ecore#//Protocol/specification"/>
-    </genClasses>
-  </genPackages>
-  <genPackages prefix="Scheduling" basePackage="com.netxforge.netxstudio" resource="XML"
-      disposableProviderFactory="true" ecorePackage="scheduling.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduling.ecore#//JobRunState">
-      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/Running"/>
-      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/FinishedSuccessfully"/>
-      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobRunState/FinishedWithError"/>
-    </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduling.ecore#//JobState">
-      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobState/Active"/>
-      <genEnumLiterals ecoreEnumLiteral="scheduling.ecore#//JobState/InActive"/>
-    </genEnums>
-    <genDataTypes ecoreDataType="scheduling.ecore#//JobRunStateObject"/>
-    <genDataTypes ecoreDataType="scheduling.ecore#//JobStateObject"/>
-    <genClasses ecoreClass="scheduling.ecore#//ExpressionFailure">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionFailure/expressionRef"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionFailure/componentRef"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//ExpressionFailure/message"/>
-    </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//ExpressionWorkFlowRun">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionWorkFlowRun/failureRefs"/>
-    </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//Job">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/endTime"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/interval"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/jobState"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/repeat"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/startTime"/>
-    </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//JobRunContainer">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//JobRunContainer/job"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//JobRunContainer/workFlowRuns"/>
-    </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//MetricSourceJob">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//MetricSourceJob/metricSource"/>
-    </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//RFSServiceJob">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceJob/rFSService"/>
-    </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//RFSServiceRetentionJob">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceRetentionJob/rFSService"/>
-    </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//WorkFlowRun">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/ended"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/log"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/progress"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/progressMessage"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/progressTask"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/started"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/state"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Netxstudio" basePackage="com.netxforge" resource="XML" disposableProviderFactory="true"

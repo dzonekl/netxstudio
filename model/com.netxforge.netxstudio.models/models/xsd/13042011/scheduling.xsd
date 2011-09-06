@@ -64,6 +64,44 @@
 	</xs:complexType>
 		
 	<!--_____________________________ -->
+	<!--| AnalyzerJob | -->
+	<!--|___________________________| -->
+	<xs:complexType name="AnalyzerJob">
+		<xs:annotation>
+			<xs:documentation>A job performing post analysis for a service.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Job">
+				<xs:sequence>
+					<xs:element name="RFSService" type="xs:anyURI" ecore:reference="services:RFSService" minOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the RFSService for which the job runs.</xs:documentation>
+						</xs:annotation></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+		
+	<!--_____________________________ -->
+	<!--| ReporterJob | -->
+	<!--|___________________________| -->
+	<xs:complexType name="ReporterJob">
+		<xs:annotation>
+			<xs:documentation>A job producing external format reports for a service.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Job">
+				<xs:sequence>
+					<xs:element name="RFSService" type="xs:anyURI" ecore:reference="services:RFSService" minOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the RFSService for which the job runs.</xs:documentation>
+						</xs:annotation></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+		
+	<!--_____________________________ -->
 	<!--| RFSServiceJob | -->
 	<!--|___________________________| -->
 	<xs:complexType name="RFSServiceJob">

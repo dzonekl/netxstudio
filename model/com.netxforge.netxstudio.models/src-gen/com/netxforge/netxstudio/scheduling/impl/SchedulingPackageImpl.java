@@ -41,6 +41,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.protocols.impl.ProtocolsPackageImpl;
+import com.netxforge.netxstudio.scheduling.AnalyzerJob;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
@@ -50,6 +51,7 @@ import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
@@ -63,6 +65,13 @@ import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
  * @generated
  */
 public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPackage {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass analyzerJobEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -97,6 +106,13 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * @generated
 	 */
 	private EClass metricSourceJobEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass reporterJobEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -235,6 +251,24 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(SchedulingPackage.eNS_URI, theSchedulingPackage);
 		return theSchedulingPackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAnalyzerJob() {
+		return analyzerJobEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAnalyzerJob_RFSService() {
+		return (EReference)analyzerJobEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -397,6 +431,24 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 */
 	public EReference getMetricSourceJob_MetricSource() {
 		return (EReference)metricSourceJobEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReporterJob() {
+		return reporterJobEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReporterJob_RFSService() {
+		return (EReference)reporterJobEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -571,6 +623,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		isCreated = true;
 
 		// Create classes and their features
+		analyzerJobEClass = createEClass(ANALYZER_JOB);
+		createEReference(analyzerJobEClass, ANALYZER_JOB__RFS_SERVICE);
+
 		expressionFailureEClass = createEClass(EXPRESSION_FAILURE);
 		createEReference(expressionFailureEClass, EXPRESSION_FAILURE__EXPRESSION_REF);
 		createEReference(expressionFailureEClass, EXPRESSION_FAILURE__COMPONENT_REF);
@@ -593,6 +648,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		metricSourceJobEClass = createEClass(METRIC_SOURCE_JOB);
 		createEReference(metricSourceJobEClass, METRIC_SOURCE_JOB__METRIC_SOURCE);
+
+		reporterJobEClass = createEClass(REPORTER_JOB);
+		createEReference(reporterJobEClass, REPORTER_JOB__RFS_SERVICE);
 
 		rfsServiceJobEClass = createEClass(RFS_SERVICE_JOB);
 		createEReference(rfsServiceJobEClass, RFS_SERVICE_JOB__RFS_SERVICE);
@@ -642,24 +700,29 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
+		ServicesPackage theServicesPackage = (ServicesPackage)EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI);
 		LibraryPackage theLibraryPackage = (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
 		MetricsPackage theMetricsPackage = (MetricsPackage)EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI);
-		ServicesPackage theServicesPackage = (ServicesPackage)EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI);
 
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		analyzerJobEClass.getESuperTypes().add(this.getJob());
 		expressionWorkFlowRunEClass.getESuperTypes().add(this.getWorkFlowRun());
 		jobEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		metricSourceJobEClass.getESuperTypes().add(this.getJob());
+		reporterJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceRetentionJobEClass.getESuperTypes().add(this.getJob());
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(analyzerJobEClass, AnalyzerJob.class, "AnalyzerJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAnalyzerJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, AnalyzerJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(expressionFailureEClass, ExpressionFailure.class, "ExpressionFailure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExpressionFailure_ExpressionRef(), ecorePackage.getEObject(), null, "expressionRef", null, 0, 1, ExpressionFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExpressionFailure_ComponentRef(), theLibraryPackage.getComponent(), null, "componentRef", null, 0, 1, ExpressionFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -682,6 +745,9 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		initEClass(metricSourceJobEClass, MetricSourceJob.class, "MetricSourceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricSourceJob_MetricSource(), theMetricsPackage.getMetricSource(), null, "metricSource", null, 1, 1, MetricSourceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(reporterJobEClass, ReporterJob.class, "ReporterJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getReporterJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, ReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rfsServiceJobEClass, RFSServiceJob.class, "RFSServiceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRFSServiceJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, RFSServiceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -734,10 +800,10 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		  (this, 
 		   source, 
 		   new String[] {
-			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
-			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
-			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																
+			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
+			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
+			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
+		   });																																																								
 	}
 
 	/**
@@ -748,6 +814,20 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 */
 	protected void createExtendedMetaDataAnnotations() {
 		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";					
+		addAnnotation
+		  (analyzerJobEClass, 
+		   source, 
+		   new String[] {
+			 "name", "AnalyzerJob",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getAnalyzerJob_RFSService(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "RFSService"
+		   });			
 		addAnnotation
 		  (expressionFailureEClass, 
 		   source, 
@@ -899,6 +979,20 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   new String[] {
 			 "kind", "element",
 			 "name", "MetricSource"
+		   });			
+		addAnnotation
+		  (reporterJobEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ReporterJob",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getReporterJob_RFSService(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "RFSService"
 		   });			
 		addAnnotation
 		  (rfsServiceJobEClass, 

@@ -40,7 +40,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
-import com.netxforge.netxstudio.services.provider.NetxstudioEditPlugin;
+import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.generics.Value} object.

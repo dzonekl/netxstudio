@@ -43,8 +43,11 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -52,6 +55,7 @@ import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.ServiceMonitors;
+import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServicesFactory;
@@ -287,6 +291,66 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 							operation = Screens.OPERATION_NEW;
 							job = SchedulingFactory.eINSTANCE
 									.createRFSServiceJob();
+							job.setName(((Service) o).getServiceName());
+							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
+							job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
+							
+							if(job instanceof RFSServiceJob){
+								((RFSServiceJob) job).setRFSService((RFSService) o);
+							}
+						}
+
+						NewEditJob newEditJob = new NewEditJob(
+								screenService.getScreenContainer(), SWT.NONE);
+						newEditJob.setOperation(operation);
+						newEditJob.setScreenService(screenService);
+						newEditJob.injectData(jobResource, job);
+						screenService.setActiveScreen(newEditJob);
+					}
+				}
+			}
+		}
+	}
+	
+	
+	class ScheduleReportingJobAction extends Action {
+		public ScheduleReportingJobAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			if (screenService != null) {
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (o instanceof Service) {
+
+						int operation = -1;
+
+						List<Job> matchingJobs = editingService
+								.getDataService().getQueryService()
+								.getJobWithServiceReporting((Service) o);
+						
+						Resource jobResource = editingService
+								.getData(SchedulingPackage.Literals.JOB);
+						Job job = null;
+
+						// Edit or New if the Service has a job or not.
+						if (matchingJobs.size() == 1) {
+							operation = Screens.OPERATION_EDIT;
+							job = matchingJobs.get(0);
+						} else {
+							operation = Screens.OPERATION_NEW;
+							job = SchedulingFactory.eINSTANCE
+									.createReporterJob();
+							job.setName(((Service) o).getServiceName());
+							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
+							job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
+							if(job instanceof ReporterJob){
+								((ReporterJob) job).setRFSService((RFSService) o);
+							}
 						}
 
 						NewEditJob newEditJob = new NewEditJob(
@@ -458,7 +522,11 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 		if (!readonly) {
 			actions.add(new ScheduleMonitorJobAction(
 					"Schedule Monitoring Job...", SWT.PUSH));
+			
 			actions.add(new MonitorNowAction("Monitor Now...", SWT.PUSH));
+			
+			actions.add(new ScheduleReportingJobAction(
+					"Schedule Reporting Job...", SWT.PUSH));
 		}
 
 		IAction[] actionArray = new IAction[actions.size()];

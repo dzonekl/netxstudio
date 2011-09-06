@@ -33,7 +33,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
-import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
+import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.metrics.DataKind} object.

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) ${date} NetXForge
+ * Copyright (c) 2011 NetXForge
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,17 +16,14 @@
  * Contributors:
  * Christophe Bouhier - initial API and implementation and/or initial documentation
  */
-package com.netxforge.netxstudio.generics.provider;
+package com.netxforge.netxstudio.scheduling.provider;
 
 
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -34,22 +31,18 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.GenericsPackage;
-import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
+import com.netxforge.netxstudio.scheduling.AnalyzerJob;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.generics.DateTimeRange} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.scheduling.AnalyzerJob} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class DateTimeRangeItemProvider
-	extends ItemProviderAdapter
+public class AnalyzerJobItemProvider
+	extends JobItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -62,7 +55,7 @@ public class DateTimeRangeItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public DateTimeRangeItemProvider(AdapterFactory adapterFactory) {
+	public AnalyzerJobItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -77,65 +70,42 @@ public class DateTimeRangeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addBeginPropertyDescriptor(object);
-			addEndPropertyDescriptor(object);
+			addRFSServicePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Begin feature.
+	 * This adds a property descriptor for the RFS Service feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addBeginPropertyDescriptor(Object object) {
+	protected void addRFSServicePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_DateTimeRange_begin_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DateTimeRange_begin_feature", "_UI_DateTimeRange_type"),
-				 GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN,
+				 getString("_UI_AnalyzerJob_rFSService_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AnalyzerJob_rFSService_feature", "_UI_AnalyzerJob_type"),
+				 SchedulingPackage.Literals.ANALYZER_JOB__RFS_SERVICE,
 				 true,
 				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 true,
+				 null,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the End feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addEndPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_DateTimeRange_end_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DateTimeRange_end_feature", "_UI_DateTimeRange_type"),
-				 GenericsPackage.Literals.DATE_TIME_RANGE__END,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns DateTimeRange.gif.
+	 * This returns AnalyzerJob.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/DateTimeRange"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/AnalyzerJob"));
 	}
 
 	/**
@@ -146,11 +116,10 @@ public class DateTimeRangeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		XMLGregorianCalendar labelValue = ((DateTimeRange)object).getBegin();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((AnalyzerJob)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_DateTimeRange_type") :
-			getString("_UI_DateTimeRange_type") + " " + label;
+			getString("_UI_AnalyzerJob_type") :
+			getString("_UI_AnalyzerJob_type") + " " + label;
 	}
 
 	/**
@@ -163,13 +132,6 @@ public class DateTimeRangeItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
-		switch (notification.getFeatureID(DateTimeRange.class)) {
-			case GenericsPackage.DATE_TIME_RANGE__BEGIN:
-			case GenericsPackage.DATE_TIME_RANGE__END:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 
@@ -183,17 +145,6 @@ public class DateTimeRangeItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return NetxstudioEditPlugin.INSTANCE;
 	}
 
 }

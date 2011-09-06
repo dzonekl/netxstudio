@@ -38,6 +38,15 @@ public interface SchedulingFactory extends EFactory {
 	SchedulingFactory eINSTANCE = com.netxforge.netxstudio.scheduling.impl.SchedulingFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Analyzer Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Analyzer Job</em>'.
+	 * @generated
+	 */
+	AnalyzerJob createAnalyzerJob();
+
+	/**
 	 * Returns a new object of class '<em>Expression Failure</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -81,6 +90,15 @@ public interface SchedulingFactory extends EFactory {
 	 * @generated
 	 */
 	MetricSourceJob createMetricSourceJob();
+
+	/**
+	 * Returns a new object of class '<em>Reporter Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reporter Job</em>'.
+	 * @generated
+	 */
+	ReporterJob createReporterJob();
 
 	/**
 	 * Returns a new object of class '<em>RFS Service Job</em>'.
