@@ -16,8 +16,13 @@ import java.util.regex.PatternSyntaxException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.cdo.CDOObjectReference;
+import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import com.google.common.base.Function;
@@ -29,66 +34,73 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.DataKind;
+import com.netxforge.netxstudio.metrics.MappingColumn;
+import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.operators.Node;
 
 public class ModelUtils {
-	
-	
-	
-	public static final String DATE_PATTERN_1= "MM/dd/yyyy";
+
+	public static final String DATE_PATTERN_1 = "MM/dd/yyyy";
 	public static final String DATE_PATTERN_2 = "dd-MM-yyyy";
 	public static final String DATE_PATTERN_3 = "dd.MM.yyyy";
-	
-	public static final String TIME_PATTERN_1 = "HH:mm:ss"; // 24 hour. 
-	public static final String TIME_PATTERN_2 =  "HH:mm"; // 24 hour
-	public static final String TIME_PATTERN_3 = "hh:mm:ss"; // AM PM 
-	public static final String TIME_PATTERN_4 =  "hh:mm"; // AM PM
-	
-	public static final String TIM_PATTERN_5 =  "a" // AM PM marker. 
-			;
+
+	public static final String TIME_PATTERN_1 = "HH:mm:ss"; // 24 hour.
+	public static final String TIME_PATTERN_2 = "HH:mm"; // 24 hour
+	public static final String TIME_PATTERN_3 = "hh:mm:ss"; // AM PM
+	public static final String TIME_PATTERN_4 = "hh:mm"; // AM PM
+
+	public static final String TIM_PATTERN_5 = "a" // AM PM marker.
+	;
 	public static final String DEFAULT_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss";
-	
-	
-	
+
 	public class InsideRange implements Predicate<Value> {
-	    private final DateTimeRange dtr;
-	    public InsideRange(final DateTimeRange dtr) {
-	        this.dtr = dtr;
-	    }
-	    public boolean apply(final Value v) {
-	    	Date begin = fromXMLDate(dtr.getBegin());
-	    	Date end = fromXMLDate(dtr.getEnd());
-	    	Date target =fromXMLDate(v.getTimeStamp());
-	    	return begin.before(target) && end.after(target);
-	    }
+		private final DateTimeRange dtr;
+
+		public InsideRange(final DateTimeRange dtr) {
+			this.dtr = dtr;
+		}
+
+		public boolean apply(final Value v) {
+			Date begin = fromXMLDate(dtr.getBegin());
+			Date end = fromXMLDate(dtr.getEnd());
+			Date target = fromXMLDate(v.getTimeStamp());
+			return ( target == begin || target == end ) || begin.before(target) && end.after(target);
+		}
 	}
-	
+
 	@Inject
 	private DatatypeFactory dataTypeFactory;
 
 	/**
-	 * Compute a resource path on the basis of an instance. Components generate a specific
-	 * path based on their location in the node/nodetype tree.
+	 * Compute a resource path on the basis of an instance. Components generate
+	 * a specific path based on their location in the node/nodetype tree.
 	 */
 	public String getResourcePath(EObject eObject) {
 		if (eObject instanceof Component) {
-			final Component component = (Component)eObject;
-			return getResourcePath(component.eContainer()) + "/" + component.getName();
+			final Component component = (Component) eObject;
+			return getResourcePath(component.eContainer()) + "/"
+					+ component.getName();
 		} else if (eObject instanceof Node) {
-			return "/Node_/" + ((Node)eObject).getNodeID();
+			return "/Node_/" + ((Node) eObject).getNodeID();
 		} else if (eObject instanceof NodeType) {
-			final NodeType nodeType = (NodeType)eObject;
+			final NodeType nodeType = (NodeType) eObject;
 			if (nodeType.eContainer() instanceof Node) {
 				return getResourcePath(nodeType.eContainer());
 			}
-			return "/NodeType_/" + ((NodeType)eObject).getName();
+			return "/NodeType_/" + ((NodeType) eObject).getName();
 		} else {
 			return eObject.eClass().getName();
 		}
 	}
-	
+
 	public List<com.netxforge.netxstudio.library.Function> functionsWithName(
 			List<com.netxforge.netxstudio.library.Function> functions,
 			String name) {
@@ -114,20 +126,16 @@ public class ModelUtils {
 		return el;
 	}
 
-	
-	public List<NetXResource> resourcesWithName(Node n,String expressionName){
+	public List<NetXResource> resourcesWithName(Node n, String expressionName) {
 		final List<Component> cl = Lists.newArrayList();
 		cl.addAll(n.getNodeType().getEquipments());
 		cl.addAll(n.getNodeType().getFunctions());
 		return this.resourcesWithExpressionName(cl, expressionName);
 	}
-			
-			
-	
-	
+
 	/**
 	 * Return the Node or null if the target object, has a Node somewhere along
-	 * the parent hiearchy. 
+	 * the parent hiearchy.
 	 * 
 	 * @param target
 	 * @return
@@ -143,10 +151,10 @@ public class ModelUtils {
 			return null;
 		}
 	}
-	
+
 	/**
-	 * Return the Node or null if the target object, has a NodeType somewhere along
-	 * the parent hiearchy. 
+	 * Return the Node or null if the target object, has a NodeType somewhere
+	 * along the parent hiearchy.
 	 * 
 	 * @param target
 	 * @return
@@ -162,27 +170,124 @@ public class ModelUtils {
 			return null;
 		}
 	}
-	
-	
+
+	public List<NetXResource> resourcesInMetricSource(
+			EList<EObject> allMetrics, MetricSource ms) {
+
+		List<Metric> targetListInMetricSource = Lists.newArrayList();
+
+		// Cross reference the metrics.
+		for (EObject o : allMetrics) {
+			if (o instanceof CDOObject) {
+				CDOView cdoView = ((CDOObject) o).cdoView();
+				try {
+					List<CDOObjectReference> queryXRefs = cdoView
+							.queryXRefs(
+									(CDOObject) o,
+									new EReference[] { MetricsPackage.Literals.VALUE_DATA_KIND__METRIC_REF });
+
+					if (queryXRefs != null) {
+						for (CDOObjectReference xref : queryXRefs) {
+
+							EObject referencingValueDataKind = xref
+									.getSourceObject();
+							EObject targetMetric = xref.getTargetObject();
+							for (MappingColumn mc : ms.getMetricMapping()
+									.getDataMappingColumns()) {
+								DataKind dk = mc.getDataType();
+								// auch, that hurts....
+								if (dk instanceof ValueDataKind
+										&& (dk.cdoID() == ((CDOObject) referencingValueDataKind)
+												.cdoID())) {
+									// Yes, this is the one, add the metric.
+									targetListInMetricSource
+											.add((Metric) targetMetric);
+								}
+							}
+						}
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					// The query sometimes throws exeception, if i.e an entity
+					// can't be found..
+					// EClass ExpressionResult does not have an entity name, has
+					// it been mapped to Hibernate?
+				}
+			}
+		}
+
+		List<NetXResource> targetListNetXResources = Lists.newArrayList();
+
+		// Cross reference the metrics from the target MetricSource.
+		for (EObject o : targetListInMetricSource) {
+
+			System.out.println("Look for NetXResource referencing : "
+					+ ((Metric) o).getName());
+
+			if (o instanceof CDOObject) {
+				CDOView cdoView = ((CDOObject) o).cdoView();
+				try {
+					List<CDOObjectReference> queryXRefs = cdoView
+							.queryXRefs(
+									(CDOObject) o,
+									new EReference[] { LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF });
+
+					if (queryXRefs != null) {
+						for (CDOObjectReference xref : queryXRefs) {
+
+							EObject referencingEObject = xref.getSourceObject();
+							// Gather all metrics from the target source.
+							if (referencingEObject instanceof NetXResource) {
+								NetXResource res = (NetXResource) referencingEObject;
+								Node n = this.resolveParentNode(res
+										.getComponentRef());
+								if (n != null) {
+									targetListNetXResources
+											.add((NetXResource) referencingEObject);
+								}
+							}
+
+						}
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					// The query sometimes throws exeception, if i.e an entity
+					// can't be found..
+					// EClass ExpressionResult does not have an entity name, has
+					// it been mapped to Hibernate?
+				}
+			}
+		}
+
+		return targetListNetXResources;
+	}
+
 	/**
-	 * Get a collection from a target object, use the last occurrence in the collection, 
-	 * to get an attribute value. return the attribute value incremented by 1.  
+	 * Get a collection from a target object, use the last occurrence in the
+	 * collection, to get an attribute value. return the attribute value
+	 * incremented by 1.
 	 * 
 	 * 
 	 * @param targetObject
 	 * @param collectionFeature
-	 * @param identityFeature An identity attribute which should be of type String. 
-	 * @return A String incremented by 1. 
+	 * @param identityFeature
+	 *            An identity attribute which should be of type String.
+	 * @return A String incremented by 1.
 	 */
-	public String getSequenceNumber(EObject targetObject, EStructuralFeature collectionFeature, EAttribute identityFeature ) {
+	public String getSequenceNumber(EObject targetObject,
+			EStructuralFeature collectionFeature, EAttribute identityFeature) {
 		String newName = null;
-		if(collectionFeature.isMany()){
-			 final List<?> collection = (List<?>) targetObject.eGet(collectionFeature);
+		if (collectionFeature.isMany()) {
+			final List<?> collection = (List<?>) targetObject
+					.eGet(collectionFeature);
 			final int size = collection.size();
 			if (size > 0) {
 				final EObject lastChild = (EObject) collection.get(size - 1);
 				if (lastChild.eIsSet(identityFeature)) {
-					final String lastName = (String) lastChild.eGet(identityFeature);
+					final String lastName = (String) lastChild
+							.eGet(identityFeature);
 					// See if the last 2 chars are a digit.
 					try {
 
@@ -195,22 +300,21 @@ public class ModelUtils {
 								lastDigits = match;
 						}
 						if (lastDigits != null) {
-							final String nameWithNoDigits = lastName.substring(0,
-									lastName.indexOf(lastDigits));
+							final String nameWithNoDigits = lastName.substring(
+									0, lastName.indexOf(lastDigits));
 							try {
 								Integer ld = new Integer(lastDigits);
 								ld++;
 								// Perhaps format with 0...
-								
-								// Do a simple text format. 
+
+								// Do a simple text format.
 								final DecimalFormat format = new DecimalFormat();
 								format.applyPattern("###");
 								newName = nameWithNoDigits + format.format(ld);
 
 							} catch (final NumberFormatException nfe) {
-								System.err
-										.println("ModelUtils: Can't formart"
-												+ lastDigits);
+								System.err.println("ModelUtils: Can't formart"
+										+ lastDigits);
 							}
 						}
 					} catch (final PatternSyntaxException pse) {
@@ -221,14 +325,28 @@ public class ModelUtils {
 			if (newName == null) {
 				newName = "1";
 			}
-			
-			
+
 		}
 
 		return newName;
 	}
 	
-	
+	/**
+	 * Iterate through the ranges, and find for this interval. 
+	 * 
+	 * @param resource
+	 * @param targetInterval
+	 * @return
+	 */
+	public MetricValueRange valueRangeForInterval(NetXResource resource, int targetInterval){
+		for( MetricValueRange mvr : resource.getMetricValueRanges()){
+			if(mvr.getIntervalHint() == targetInterval){
+				return mvr;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Resources with this name. Notice: Matching is on regular expression, i.e.
 	 * name = .* is all resources.
@@ -237,8 +355,8 @@ public class ModelUtils {
 	 * @param name
 	 * @return
 	 */
-	public List<NetXResource> resourcesWithExpressionName(List<Component> components,
-			String name) {
+	public List<NetXResource> resourcesWithExpressionName(
+			List<Component> components, String name) {
 		final List<NetXResource> rl = Lists.newArrayList();
 		final List<Component> cl = Lists.newArrayList();
 		for (final Component c : components) {
@@ -384,26 +502,25 @@ public class ModelUtils {
 
 		final Calendar targetCalendar = GregorianCalendar.getInstance();
 		targetCalendar.setTime(targetDate);
-		
-		// CB 06-09-2011, removed date has to be later requirement.
-//		if (targetCalendar.compareTo(GregorianCalendar.getInstance()) > 0) {
-			baseCalendar.set(Calendar.YEAR, targetCalendar.get(Calendar.YEAR));
-			baseCalendar
-					.set(Calendar.MONTH, targetCalendar.get(Calendar.MONTH));
-			baseCalendar.set(Calendar.WEEK_OF_YEAR,
-					targetCalendar.get(Calendar.WEEK_OF_YEAR));
 
-			// We need to roll the week, if the target day
-			// is after the current day in that same week
-			if (targetCalendar.get(Calendar.WEEK_OF_YEAR) == baseCalendar
-					.get(Calendar.WEEK_OF_YEAR)
-					&& targetCalendar.get(Calendar.DAY_OF_WEEK) > baseCalendar
-							.get(Calendar.DAY_OF_WEEK)) {
-				baseCalendar.add(Calendar.WEEK_OF_YEAR, 1);
-			}
-			// baseCalendar.set(Calendar.DAY_OF_WEEK,
-			// targetCalendar.get(Calendar.DAY_OF_WEEK));
-//		}
+		// CB 06-09-2011, removed date has to be later requirement.
+		// if (targetCalendar.compareTo(GregorianCalendar.getInstance()) > 0) {
+		baseCalendar.set(Calendar.YEAR, targetCalendar.get(Calendar.YEAR));
+		baseCalendar.set(Calendar.MONTH, targetCalendar.get(Calendar.MONTH));
+		baseCalendar.set(Calendar.WEEK_OF_YEAR,
+				targetCalendar.get(Calendar.WEEK_OF_YEAR));
+
+		// We need to roll the week, if the target day
+		// is after the current day in that same week
+		if (targetCalendar.get(Calendar.WEEK_OF_YEAR) == baseCalendar
+				.get(Calendar.WEEK_OF_YEAR)
+				&& targetCalendar.get(Calendar.DAY_OF_WEEK) > baseCalendar
+						.get(Calendar.DAY_OF_WEEK)) {
+			baseCalendar.add(Calendar.WEEK_OF_YEAR, 1);
+		}
+		// baseCalendar.set(Calendar.DAY_OF_WEEK,
+		// targetCalendar.get(Calendar.DAY_OF_WEEK));
+		// }
 		return baseCalendar.getTime();
 	}
 
@@ -499,7 +616,7 @@ public class ModelUtils {
 		cal.add(Calendar.MONTH, -1);
 		return cal.getTime();
 	}
-	
+
 	public Date twoMonthsAgo() {
 		final Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
@@ -513,7 +630,7 @@ public class ModelUtils {
 		cal.add(Calendar.MONTH, -3);
 		return cal.getTime();
 	}
-	
+
 	public Date todayAndNow() {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
@@ -545,23 +662,21 @@ public class ModelUtils {
 		};
 		return getFieldInSeconds.apply(field);
 	}
-	
-	
+
 	public String fromSeconds(int secs) {
 		final Function<Integer, String> getFieldInSeconds = new Function<Integer, String>() {
 			public String apply(Integer from) {
-				
-				
-				if (from.equals(ModelUtils.SECONDS_IN_A_WEEK)){ 
+
+				if (from.equals(ModelUtils.SECONDS_IN_A_WEEK)) {
 					return "Week";
 				}
-				if (from.equals(ModelUtils.SECONDS_IN_A_DAY)){ 
+				if (from.equals(ModelUtils.SECONDS_IN_A_DAY)) {
 					return "Day";
 				}
-				if (from.equals(ModelUtils.SECONDS_IN_AN_HOUR)){
-					return "Hour"; 
+				if (from.equals(ModelUtils.SECONDS_IN_AN_HOUR)) {
+					return "Hour";
 				}
-				if (from.equals(ModelUtils.SECONDS_IN_A_QUARTER)){
+				if (from.equals(ModelUtils.SECONDS_IN_A_QUARTER)) {
 					return "Quarter";
 				}
 				return new Integer(from).toString();
@@ -569,9 +684,6 @@ public class ModelUtils {
 		};
 		return getFieldInSeconds.apply(secs);
 	}
-	
-	
-	
 
 	public int inWeeks(String field) {
 		final Function<String, Integer> getFieldInSeconds = new Function<String, Integer>() {
@@ -632,7 +744,7 @@ public class ModelUtils {
 			}
 			return occurences;
 		}
-		if (repeat == 0 && interval >1) {
+		if (repeat == 0 && interval > 1) {
 			int i = 0;
 			while (i < maxEntries) {
 				occurenceDate = rollSeconds(occurenceDate, interval);
@@ -656,13 +768,15 @@ public class ModelUtils {
 			return c.getTime();
 		}
 		if (seconds / SECONDS_IN_AN_HOUR > 0) {
-			final int hours = new Double(seconds / SECONDS_IN_AN_HOUR).intValue();
+			final int hours = new Double(seconds / SECONDS_IN_AN_HOUR)
+					.intValue();
 			c.add(Calendar.HOUR_OF_DAY, hours);
 			return c.getTime();
 		}
 
 		if (seconds / SECONDS_IN_A_MINUTE > 0) {
-			final int minutes = new Double(seconds / SECONDS_IN_A_MINUTE).intValue();
+			final int minutes = new Double(seconds / SECONDS_IN_A_MINUTE)
+					.intValue();
 			c.add(Calendar.MINUTE, minutes);
 			return c.getTime();
 		}
@@ -716,8 +830,7 @@ public class ModelUtils {
 		};
 		return Lists.transform(values, valueToDouble);
 	}
-	
-	
+
 	public List<Date> transformValueToDate(List<Value> values) {
 		final Function<Value, Date> valueToDouble = new Function<Value, Date>() {
 			public Date apply(Value from) {
@@ -726,7 +839,6 @@ public class ModelUtils {
 		};
 		return Lists.transform(values, valueToDouble);
 	}
-	
 
 	/**
 	 * FIXME, No other way that iterator through.

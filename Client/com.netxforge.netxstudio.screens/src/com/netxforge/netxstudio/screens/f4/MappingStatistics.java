@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -16,10 +17,13 @@ import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -28,6 +32,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -37,6 +43,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -44,7 +52,12 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MappingRecord;
 import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricSource;
@@ -81,6 +94,7 @@ public class MappingStatistics extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -117,6 +131,70 @@ public class MappingStatistics extends AbstractScreen implements
 
 		statisticsListViewer = new ListViewer(composite_2, SWT.BORDER
 				| SWT.V_SCROLL);
+
+		Menu menu = new Menu(statisticsListViewer.getList());
+		statisticsListViewer.getList().setMenu(menu);
+
+		MenuItem mntmMore = new MenuItem(menu, SWT.NONE);
+		mntmMore.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Show the period etc..
+				ISelection selection = statisticsListViewer.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (o instanceof MappingStatistic) {
+
+						// Create a predicate for filtering the values within a
+						// range.
+						MappingStatistic mappingStatistics = (MappingStatistic) o;
+
+						DateTimeRange dtr = mappingStatistics
+								.getPeriodEstimate();
+						Predicate<Value> insideRange = modelUtils.new InsideRange(
+								dtr);
+						final int intervalHint = mappingStatistics
+								.getIntervalEstimate();
+
+						Resource metricResource = editingService
+								.getData(MetricsPackage.Literals.METRIC);
+						List<NetXResource> resourcesInMetricSource = modelUtils
+								.resourcesInMetricSource(
+										metricResource.getContents(),
+										metricSource);
+						if (resourcesInMetricSource.isEmpty()) {
+							System.out
+									.println("No resources for this metricsource");
+						}
+						for (NetXResource res : resourcesInMetricSource) {
+							System.out.println("values for resource: "
+									+ res.getShortName());
+							com.netxforge.netxstudio.metrics.MetricValueRange mvr = modelUtils
+									.valueRangeForInterval(res, intervalHint);
+							if (mvr != null) {
+								Iterable<Value> filterValues = Iterables
+										.filter(mvr.getMetricValues(),
+												insideRange);
+								System.out.println("number of values "
+										+ Iterables.size(filterValues));
+								for (Value v : filterValues) {
+									System.out.println(modelUtils.fromXMLDate(v
+											.getTimeStamp())
+											+ ":"
+											+ v.getValue());
+								}
+							}else{
+								System.out
+								.println("No value range for interval : " + intervalHint);
+								
+							}
+						}
+					}
+				}
+			}
+		});
+		mntmMore.setText("More...");
 
 		Section sctnSummary = toolkit.createSection(sashForm, Section.EXPANDED
 				| Section.TITLE_BAR);
@@ -266,8 +344,9 @@ public class MappingStatistics extends AbstractScreen implements
 						MetricsPackage.Literals.MAPPING_RECORD__ROW,
 						MetricsPackage.Literals.MAPPING_RECORD__COLUMN,
 						MetricsPackage.Literals.MAPPING_RECORD__MESSAGE, });
-		tblViewerRecords.setLabelProvider(new RecordsObservableMapLabelProvider(
-				recordsObserveMaps));
+		tblViewerRecords
+				.setLabelProvider(new RecordsObservableMapLabelProvider(
+						recordsObserveMaps));
 		IEMFListProperty recordsProperty = EMFProperties
 				.list(MetricsPackage.Literals.MAPPING_STATISTIC__FAILED_RECORDS);
 
@@ -360,7 +439,7 @@ public class MappingStatistics extends AbstractScreen implements
 		if (object instanceof MetricSource) {
 			metricSource = (MetricSource) object;
 		}
-		
+
 		buildUI();
 		this.initDataBindings_();
 	}
@@ -372,7 +451,7 @@ public class MappingStatistics extends AbstractScreen implements
 
 	@Override
 	public Viewer getViewer() {
-		return statisticsListViewer;
+		return null;
 	}
 
 	@Override

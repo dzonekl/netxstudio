@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.data.cdo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.cdo.eresource.CDOResource;
@@ -200,7 +201,7 @@ public abstract class CDODataProvider implements IDataProvider {
 				}
 			}
 		}
-		return null;
+		return Collections.emptyList();
 	}
 
 	private List<Resource> getResourcesFromNode(CDOResourceFolder cdoFolder) {

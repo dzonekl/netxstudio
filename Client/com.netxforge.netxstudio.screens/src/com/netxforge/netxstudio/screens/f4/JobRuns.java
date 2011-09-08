@@ -65,9 +65,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -181,29 +181,29 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		jobRunMenu = new Menu(table);
 		table.setMenu(jobRunMenu);
 
-//		MenuItem mntmShowLog = new MenuItem(jobRunMenu, SWT.NONE);
-//		mntmShowLog.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				ISelection selection = jobRunsTableViewer.getSelection();
-//				if (selection instanceof IStructuredSelection) {
-//					IStructuredSelection ss = (IStructuredSelection) selection;
-//					Object o = ss.getFirstElement();
-//					if (o instanceof WorkFlowRun) {
-//						String log = ((WorkFlowRun) o).getLog();
-//						if (log != null) {
-//							LogDialog ld = new LogDialog(JobRuns.this
-//									.getShell());
-//							ld.InjectData(log);
-//							ld.open();
-//						} else {
-//							// TODO, no log available user feedback.
-//						}
-//					}
-//				}
-//			}
-//		});
-//		mntmShowLog.setText("Show Log...");
+		// MenuItem mntmShowLog = new MenuItem(jobRunMenu, SWT.NONE);
+		// mntmShowLog.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		// ISelection selection = jobRunsTableViewer.getSelection();
+		// if (selection instanceof IStructuredSelection) {
+		// IStructuredSelection ss = (IStructuredSelection) selection;
+		// Object o = ss.getFirstElement();
+		// if (o instanceof WorkFlowRun) {
+		// String log = ((WorkFlowRun) o).getLog();
+		// if (log != null) {
+		// LogDialog ld = new LogDialog(JobRuns.this
+		// .getShell());
+		// ld.InjectData(log);
+		// ld.open();
+		// } else {
+		// // TODO, no log available user feedback.
+		// }
+		// }
+		// }
+		// }
+		// });
+		// mntmShowLog.setText("Show Log...");
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				jobRunsTableViewer, SWT.NONE);
@@ -216,8 +216,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 	private Form frmJobRuns;
 	private Job job;
 	private JobRunContainer currentJobContainer;
-	
-	
+
 	class ShowLogAction extends Action {
 
 		public ShowLogAction(String text, int style) {
@@ -233,8 +232,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				if (o instanceof WorkFlowRun) {
 					String log = ((WorkFlowRun) o).getLog();
 					if (log != null) {
-						LogDialog ld = new LogDialog(JobRuns.this
-								.getShell());
+						LogDialog ld = new LogDialog(JobRuns.this.getShell());
 						ld.InjectData(log);
 						ld.open();
 					} else {
@@ -245,8 +243,41 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		}
 	}
 
-	
-	
+	class ShowFailuresAction extends Action {
+
+		public ShowFailuresAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = jobRunsTableViewer.getSelection();
+			if (selection instanceof IStructuredSelection) {
+
+				IStructuredSelection ss = (IStructuredSelection) selection;
+				Object o = ss.getFirstElement();
+				if (o instanceof ComponentWorkFlowRun) {
+					ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
+					List<ComponentFailure> failures = wfRun.getFailureRefs();
+					int failurecount = 0;
+					for (ComponentFailure f : failures) {
+						failurecount++;
+						if (f instanceof ExpressionFailure) {
+							// TODO, show in some sort of dialog with links to
+							// expressions.
+							ExpressionFailure ef = (ExpressionFailure) f;
+							System.out.println(failurecount + ": Expression failed: "
+									+ ef.getExpressionRef().getName());
+							System.out.println("Msg: " + f.getMessage());
+							System.out.println("Component: "
+									+ f.getComponentRef().getName());
+						}
+					}
+				}
+			}
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -260,7 +291,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		if (object instanceof Job) {
 			job = (Job) object;
-			
+
 			buildUI();
 			this.getScreenForm().setText("Job:" + job.getName());
 
@@ -292,24 +323,37 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 			if (currentJobContainer != null
 					&& currentJobContainer.getWorkFlowRuns().size() > 0
-					&& currentJobContainer.getWorkFlowRuns().get(0) instanceof ExpressionWorkFlowRun) {
-				// This is a conditional menu, if the workflowrun is an ExpressionWorkflowrun. 
+					&& currentJobContainer.getWorkFlowRuns().get(0) instanceof ComponentWorkFlowRun) {
+				// This is a conditional menu, if the workflowrun is an
+				// ExpressionWorkflowrun.
 				MenuItem mntmExpressions = new MenuItem(jobRunMenu, SWT.NONE);
 				mntmExpressions.addSelectionListener(new SelectionAdapter() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						ISelection selection = jobRunsTableViewer.getSelection();
+						ISelection selection = jobRunsTableViewer
+								.getSelection();
 						if (selection instanceof IStructuredSelection) {
 							IStructuredSelection ss = (IStructuredSelection) selection;
 							Object o = ss.getFirstElement();
-							if (o instanceof ExpressionWorkFlowRun) {
-								ExpressionWorkFlowRun wfRun = (ExpressionWorkFlowRun)o;
-								List<ExpressionFailure> failures = wfRun.getFailureRefs();
-								for(ExpressionFailure f : failures){
-									if( f.getExpressionRef() instanceof Expression){
-										System.out.println("Expression failed: " + ((Expression)f.getExpressionRef()).getName());
-										System.out.println("Msg: " + f.getMessage());
-										System.out.println("Component: " + f.getComponentRef().getName());
+							if (o instanceof ComponentWorkFlowRun) {
+								ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
+								List<ComponentFailure> failures = wfRun
+										.getFailureRefs();
+								for (ComponentFailure f : failures) {
+									if (f instanceof ExpressionFailure) {
+										// TODO, show in some sort of dialog
+										// with links to expressions.
+										ExpressionFailure ef = (ExpressionFailure) f;
+										System.out
+												.println("Expression failed: "
+														+ ef.getExpressionRef()
+																.getName());
+										System.out.println("Msg: "
+												+ f.getMessage());
+										System.out
+												.println("Component: "
+														+ f.getComponentRef()
+																.getName());
 									}
 								}
 							}
@@ -320,7 +364,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 			}
 		}
 	}
-	
+
 	@Override
 	public IAction[] getActions() {
 		@SuppressWarnings("unused")
@@ -328,15 +372,13 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				: "Edit...";
 		List<IAction> actions = Lists.newArrayList();
 		actions.add(new ShowLogAction("Show Log...", SWT.PUSH));
-
+		actions.add(new ShowFailuresAction("Show Failures...", SWT.PUSH));
+		
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray);
 
 	}
 
-	
-	
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -408,7 +450,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 				switch (columnIndex) {
 				case 0: {
-					if (j instanceof ExpressionWorkFlowRun) {
+					if (j instanceof ComponentWorkFlowRun) {
 						return "Expression run";
 					} else {
 						return "Workflow run";

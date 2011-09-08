@@ -47,6 +47,15 @@ public interface NetxstudioFactory extends EFactory {
 	Netxstudio createNetxstudio();
 
 	/**
+	 * Returns a new object of class '<em>Server Settings</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Server Settings</em>'.
+	 * @generated
+	 */
+	ServerSettings createServerSettings();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -26,7 +26,8 @@ import com.netxforge.netxstudio.services.RFSService;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A job computing capacity and utilization for a service.
+ * A job computing capacity and utilization for a
+ * 				service.
  * <!-- end-model-doc -->
  *
  * <p>
@@ -46,7 +47,8 @@ public interface RFSServiceJob extends Job {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Reference to the RFSService for which the job runs.
+	 * Reference to the RFSService for which the job
+	 * 								runs.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>RFS Service</em>' reference.
 	 * @see #setRFSService(RFSService)

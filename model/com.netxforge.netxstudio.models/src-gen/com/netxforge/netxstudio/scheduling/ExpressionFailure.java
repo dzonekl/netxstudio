@@ -18,10 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
-import org.eclipse.emf.cdo.CDOObject;
-import org.eclipse.emf.ecore.EObject;
-
-import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Expression;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,23 +27,21 @@ import com.netxforge.netxstudio.library.Component;
  *
  * <!-- begin-model-doc -->
  * Gives information about a failed expression
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getExpressionRef <em>Expression Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getComponentRef <em>Component Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getMessage <em>Message</em>}</li>
  * </ul>
  * </p>
  *
  * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getExpressionFailure()
  * @model extendedMetaData="name='ExpressionFailure' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ExpressionFailure extends CDOObject {
+public interface ExpressionFailure extends ComponentFailure {
 	/**
 	 * Returns the value of the '<em><b>Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -55,12 +50,12 @@ public interface ExpressionFailure extends CDOObject {
 	 * The expression which failed.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expression Ref</em>' reference.
-	 * @see #setExpressionRef(EObject)
+	 * @see #setExpressionRef(Expression)
 	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getExpressionFailure_ExpressionRef()
 	 * @model extendedMetaData="kind='element' name='ExpressionRef'"
 	 * @generated
 	 */
-	EObject getExpressionRef();
+	Expression getExpressionRef();
 
 	/**
 	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getExpressionRef <em>Expression Ref</em>}' reference.
@@ -70,57 +65,6 @@ public interface ExpressionFailure extends CDOObject {
 	 * @see #getExpressionRef()
 	 * @generated
 	 */
-	void setExpressionRef(EObject value);
-
-	/**
-	 * Returns the value of the '<em><b>Component Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Reference to the component for which the computation failed.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Component Ref</em>' reference.
-	 * @see #setComponentRef(Component)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getExpressionFailure_ComponentRef()
-	 * @model extendedMetaData="kind='element' name='ComponentRef'"
-	 * @generated
-	 */
-	Component getComponentRef();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getComponentRef <em>Component Ref</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Component Ref</em>' reference.
-	 * @see #getComponentRef()
-	 * @generated
-	 */
-	void setComponentRef(Component value);
-
-	/**
-	 * Returns the value of the '<em><b>Message</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Message giving some extra information on the failure
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Message</em>' attribute.
-	 * @see #setMessage(String)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getExpressionFailure_Message()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        extendedMetaData="kind='element' name='Message'"
-	 * @generated
-	 */
-	String getMessage();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getMessage <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Message</em>' attribute.
-	 * @see #getMessage()
-	 * @generated
-	 */
-	void setMessage(String value);
+	void setExpressionRef(Expression value);
 
 } // ExpressionFailure

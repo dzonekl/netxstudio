@@ -39,6 +39,8 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getFailedRecords <em>Failed Records</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getMappingDuration <em>Mapping Duration</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getPeriodEstimate <em>Period Estimate</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getIntervalEstimate <em>Interval Estimate</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getMessage <em>Message</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.MappingStatistic#getTotalRecords <em>Total Records</em>}</li>
  * </ul>
@@ -94,6 +96,90 @@ public interface MappingStatistic extends Base {
 	 * @generated
 	 */
 	void setMappingDuration(DateTimeRange value);
+
+	/**
+	 * Returns the value of the '<em><b>Period Estimate</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The PeriodEstimate reference, refers to a
+	 * 								DateTimeRange type. It contains an estimate of the start till end date and time 
+	 * 								for a single mapping run.  
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Period Estimate</em>' containment reference.
+	 * @see #setPeriodEstimate(DateTimeRange)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingStatistic_PeriodEstimate()
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='PeriodEstimate'"
+	 * @generated
+	 */
+	DateTimeRange getPeriodEstimate();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingStatistic#getPeriodEstimate <em>Period Estimate</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Period Estimate</em>' containment reference.
+	 * @see #getPeriodEstimate()
+	 * @generated
+	 */
+	void setPeriodEstimate(DateTimeRange value);
+
+	/**
+	 * Returns the value of the '<em><b>Interval Estimate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The IntervalEstimate attribute contains a number in minutes for 
+	 * 						the mapping run. It also corresponds the MetricValueRange for the mapping run. 
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Interval Estimate</em>' attribute.
+	 * @see #isSetIntervalEstimate()
+	 * @see #unsetIntervalEstimate()
+	 * @see #setIntervalEstimate(int)
+	 * @see com.netxforge.netxstudio.metrics.MetricsPackage#getMappingStatistic_IntervalEstimate()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 *        extendedMetaData="kind='attribute' name='IntervalEstimate'"
+	 * @generated
+	 */
+	int getIntervalEstimate();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.metrics.MappingStatistic#getIntervalEstimate <em>Interval Estimate</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Interval Estimate</em>' attribute.
+	 * @see #isSetIntervalEstimate()
+	 * @see #unsetIntervalEstimate()
+	 * @see #getIntervalEstimate()
+	 * @generated
+	 */
+	void setIntervalEstimate(int value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.metrics.MappingStatistic#getIntervalEstimate <em>Interval Estimate</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetIntervalEstimate()
+	 * @see #getIntervalEstimate()
+	 * @see #setIntervalEstimate(int)
+	 * @generated
+	 */
+	void unsetIntervalEstimate();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.metrics.MappingStatistic#getIntervalEstimate <em>Interval Estimate</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Interval Estimate</em>' attribute is set.
+	 * @see #unsetIntervalEstimate()
+	 * @see #getIntervalEstimate()
+	 * @see #setIntervalEstimate(int)
+	 * @generated
+	 */
+	boolean isSetIntervalEstimate();
 
 	/**
 	 * Returns the value of the '<em><b>Message</b></em>' attribute.

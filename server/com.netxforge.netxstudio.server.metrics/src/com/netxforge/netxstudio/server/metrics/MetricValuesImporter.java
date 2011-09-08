@@ -25,6 +25,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -37,6 +39,7 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -90,12 +93,15 @@ public abstract class MetricValuesImporter {
 
 	private List<ImportWarning> warnings = new ArrayList<ImportWarning>();
 
-	
-
 	private Throwable throwable;
 
 	private int intervalHint = -1;
 	private Date timeStamp = null;
+
+	private DateTimeRange mappingPeriodEstimate = GenericsFactory.eINSTANCE
+			.createDateTimeRange();
+	private int intervalEstimate = -1;
+	
 	private List<IdentifierValue> headerIdentifiers = new ArrayList<NetworkElementLocator.IdentifierValue>();
 
 	public void process() {
@@ -103,6 +109,7 @@ public abstract class MetricValuesImporter {
 
 		final long startTime = System.currentTimeMillis();
 		long endTime = startTime;
+
 		boolean errorOccurred = false;
 		MappingStatistic mappingStatistic = null;
 		try {
@@ -122,8 +129,10 @@ public abstract class MetricValuesImporter {
 
 			String filterPattern = metricSource.getFilterPattern();
 			if (filterPattern == null && getFileExtension() != null) {
-//				filterPattern = "([^\\s]+(\\.(?i)(" + getFileExtension() + "))$)";
-				filterPattern = ".*" + getFileExtension(); // TODO, narrow down the pattern. 
+				// filterPattern = "([^\\s]+(\\.(?i)(" + getFileExtension() +
+				// "))$)";
+				filterPattern = ".*" + getFileExtension(); // TODO, narrow down
+															// the pattern.
 			}
 
 			if (!rootFile.exists()) {
@@ -188,7 +197,7 @@ public abstract class MetricValuesImporter {
 
 			endTime = System.currentTimeMillis();
 			mappingStatistic = createMappingStatistics(startTime, endTime,
-					totalRows, null);
+					totalRows, null, mappingPeriodEstimate, getMappingIntervalEstimate());
 			if (noFiles) {
 				mappingStatistic.setMessage("No files processed");
 			} else {
@@ -203,10 +212,14 @@ public abstract class MetricValuesImporter {
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 			t.printStackTrace(System.err);
 			mappingStatistic = createMappingStatistics(startTime, endTime, 0,
-					t.getMessage());
+					t.getMessage(), mappingPeriodEstimate, getMappingIntervalEstimate());
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
 		getDataProvider().commitTransaction();
+	}
+
+	protected int getMappingIntervalEstimate() {
+		return this.intervalEstimate;
 	}
 
 	protected abstract String getFileExtension();
@@ -234,7 +247,8 @@ public abstract class MetricValuesImporter {
 	// create the mapping statistics on the basis of the errors and
 	// warnings
 	protected MappingStatistic createMappingStatistics(long startTime,
-			long endTime, int totalRows, String message) {
+			long endTime, int totalRows, String message,
+			DateTimeRange periodEstimate, int intervalEstimate) {
 		final MappingStatistic statistic = MetricsFactory.eINSTANCE
 				.createMappingStatistic();
 		final DateTimeRange range = GenericsFactory.eINSTANCE
@@ -244,6 +258,8 @@ public abstract class MetricValuesImporter {
 		statistic.setMappingDuration(range);
 		statistic.setTotalRecords(totalRows);
 		statistic.setMessage(message);
+		statistic.setPeriodEstimate(periodEstimate);
+		statistic.setIntervalEstimate(intervalEstimate);
 
 		// now add the failed records
 		statistic.getFailedRecords().addAll(getFailedRecords());
@@ -257,6 +273,7 @@ public abstract class MetricValuesImporter {
 
 		if (getMapping().getIntervalHint() > 0) {
 			intervalHint = getMapping().getIntervalHint();
+			intervalEstimate = intervalHint;
 		}
 
 		jobMonitor.setMsg("Processing header row");
@@ -275,8 +292,11 @@ public abstract class MetricValuesImporter {
 						getMappingColumn(), rowNum);
 				final Date rowTimeStamp = getTimeStampValue(getMappingColumn(),
 						rowNum);
-				final int periodHint = getIntervalHint(rowNum);
 
+				final int intervalHintFromRow = getIntervalHint(rowNum);
+				// give preference to the intervalhint from a row mapping. 
+				this.intervalEstimate = intervalHintFromRow;
+				
 				for (final MappingColumn column : getMappingColumn()) {
 					if (isMetric(column)) {
 						final Component networkElement = getNetworkElementLocator()
@@ -296,7 +316,8 @@ public abstract class MetricValuesImporter {
 						final Double value = getNumericCellValue(rowNum,
 								column.getColumn());
 						addMetricValue(column, rowTimeStamp, networkElement,
-								value, periodHint);
+								value, intervalHintFromRow);
+						this.updatePeriodEstimate(rowTimeStamp);
 					}
 				}
 			} catch (final Exception e) {
@@ -306,6 +327,21 @@ public abstract class MetricValuesImporter {
 			}
 		}
 		return totalRows;
+	}
+
+	public DateTimeRange getMappingPeriodEstimate() {
+		return mappingPeriodEstimate;
+	}
+
+	private void updatePeriodEstimate(Date timestamp) {
+
+		// Assume chronological order of timestamps. Will fail otherwise.
+		XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(timestamp);
+		if (!mappingPeriodEstimate
+				.eIsSet(GenericsPackage.Literals.DATE_TIME_RANGE__BEGIN)) {
+			mappingPeriodEstimate.setBegin(xmlDate);
+		}
+		mappingPeriodEstimate.setEnd(xmlDate);
 	}
 
 	@SuppressWarnings("unused")
@@ -332,6 +368,7 @@ public abstract class MetricValuesImporter {
 				.getHeaderMappingColumns(), headerRow);
 		timeStamp = getTimeStampValue(getMapping().getHeaderMappingColumns(),
 				headerRow);
+		this.updatePeriodEstimate(timeStamp);
 	}
 
 	private void addMetricValue(MappingColumn column, Date timeStamp,
@@ -496,7 +533,8 @@ public abstract class MetricValuesImporter {
 					if (value.getFormat() != null) {
 						dateFormat = new SimpleDateFormat(value.getFormat());
 					} else {
-						dateFormat = new SimpleDateFormat(ModelUtils.DEFAULT_DATE_TIME_PATTERN);
+						dateFormat = new SimpleDateFormat(
+								ModelUtils.DEFAULT_DATE_TIME_PATTERN);
 					}
 
 					return dateFormat.parse(getStringCellValue(rowNum,

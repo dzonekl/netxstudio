@@ -53,4 +53,6 @@ public class NetxForgeServiceServlet extends HttpServlet {
         resp.getWriter().write(ret.toString());
     }
 
+	
+
 }

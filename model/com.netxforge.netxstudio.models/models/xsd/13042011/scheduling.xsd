@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns="http://www.netxforge.com/13042011/scheduling"
 	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:operators="http://www.netxforge.com/13042011/operators" 
-	xmlns:metrics="http://www.netxforge.com/13042011/metrics" 
-	xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:lib="http://www.netxforge.com/13042011/library" xmlns:services="http://www.netxforge.com/13042011/services"
+	xmlns:operators="http://www.netxforge.com/13042011/operators"
+	xmlns:metrics="http://www.netxforge.com/13042011/metrics" xmlns:gen="http://www.netxforge.com/13042011/generics"
+	xmlns:lib="http://www.netxforge.com/13042011/library" xmlns:services="http://www.netxforge.com/13042011/services"
 	id="scheduling" targetNamespace="http://www.netxforge.com/13042011/scheduling"
 	ecore:package="com.netxforge.netxstudio.scheduling">
-    <xs:import schemaLocation="generics.xsd"
+	<xs:import schemaLocation="generics.xsd"
 		namespace="http://www.netxforge.com/13042011/generics"></xs:import>
-    <xs:import schemaLocation="operators.xsd"
+	<xs:import schemaLocation="operators.xsd"
 		namespace="http://www.netxforge.com/13042011/operators"></xs:import>
-    <xs:import schemaLocation="library.xsd"
+	<xs:import schemaLocation="library.xsd"
 		namespace="http://www.netxforge.com/13042011/library"></xs:import>
 	<xs:import namespace="http://www.netxforge.com/13042011/metrics"
 		schemaLocation="metrics.xsd" />
 	<xs:import schemaLocation="services.xsd"
-		namespace="http://www.netxforge.com/13042011/services"/>
-	
-	
+		namespace="http://www.netxforge.com/13042011/services" />
+
+
 	<!--_____________________________ -->
-	<!--| JOB 						| -->
+	<!--| JOB | -->
 	<!--|___________________________| -->
 	<xs:complexType name="Job">
 		<xs:complexContent>
@@ -33,17 +33,19 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
+
 	<!--_____________________________ -->
-	<!--| JOBRun 						| -->
+	<!--| JOBRun | -->
 	<!--|___________________________| -->
 	<xs:complexType name="JobRunContainer">
 		<xs:sequence>
-			<xs:element ecore:reference="Job" name="Job" type="xs:anyURI" maxOccurs="1" minOccurs="1"></xs:element>
-			<xs:element name="WorkFlowRuns" type="WorkFlowRun" maxOccurs="unbounded" minOccurs="0"></xs:element>
+			<xs:element ecore:reference="Job" name="Job" type="xs:anyURI"
+				maxOccurs="1" minOccurs="1"></xs:element>
+			<xs:element name="WorkFlowRuns" type="WorkFlowRun"
+				maxOccurs="unbounded" minOccurs="0"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
-		
+
 	<!--_____________________________ -->
 	<!--| MetricSourceJob | -->
 	<!--|___________________________| -->
@@ -54,93 +56,112 @@
 		<xs:complexContent>
 			<xs:extension base="Job">
 				<xs:sequence>
-					<xs:element name="MetricSource" type="xs:anyURI" ecore:reference="metrics:MetricSource" minOccurs="1">
+					<xs:element name="MetricSource" type="xs:anyURI"
+						ecore:reference="metrics:MetricSource" minOccurs="1">
 						<xs:annotation>
-							<xs:documentation>Reference to the metric source being imported</xs:documentation>
-						</xs:annotation></xs:element>
+							<xs:documentation>Reference to the metric source being imported
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-		
+
 	<!--_____________________________ -->
 	<!--| AnalyzerJob | -->
 	<!--|___________________________| -->
 	<xs:complexType name="AnalyzerJob">
 		<xs:annotation>
-			<xs:documentation>A job performing post analysis for a service.</xs:documentation>
+			<xs:documentation>A job performing post analysis for a service.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Job">
 				<xs:sequence>
-					<xs:element name="RFSService" type="xs:anyURI" ecore:reference="services:RFSService" minOccurs="1">
+					<xs:element name="RFSService" type="xs:anyURI"
+						ecore:reference="services:RFSService" minOccurs="1">
 						<xs:annotation>
-							<xs:documentation>Reference to the RFSService for which the job runs.</xs:documentation>
-						</xs:annotation></xs:element>
+							<xs:documentation>Reference to the RFSService for which the job
+								runs.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-		
+
 	<!--_____________________________ -->
 	<!--| ReporterJob | -->
 	<!--|___________________________| -->
 	<xs:complexType name="ReporterJob">
 		<xs:annotation>
-			<xs:documentation>A job producing external format reports for a service.</xs:documentation>
+			<xs:documentation>A job producing external format reports for a
+				service.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Job">
 				<xs:sequence>
-					<xs:element name="RFSService" type="xs:anyURI" ecore:reference="services:RFSService" minOccurs="1">
+					<xs:element name="RFSService" type="xs:anyURI"
+						ecore:reference="services:RFSService" minOccurs="1">
 						<xs:annotation>
-							<xs:documentation>Reference to the RFSService for which the job runs.</xs:documentation>
-						</xs:annotation></xs:element>
+							<xs:documentation>Reference to the RFSService for which the job
+								runs.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
-	</xs:complexType>	
-		
+	</xs:complexType>
+
 	<!--_____________________________ -->
 	<!--| RFSServiceJob | -->
 	<!--|___________________________| -->
 	<xs:complexType name="RFSServiceJob">
 		<xs:annotation>
-			<xs:documentation>A job computing capacity and utilization for a service.</xs:documentation>
+			<xs:documentation>A job computing capacity and utilization for a
+				service.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Job">
 				<xs:sequence>
-					<xs:element name="RFSService" type="xs:anyURI" ecore:reference="services:RFSService" minOccurs="1">
+					<xs:element name="RFSService" type="xs:anyURI"
+						ecore:reference="services:RFSService" minOccurs="1">
 						<xs:annotation>
-							<xs:documentation>Reference to the RFSService for which the job runs.</xs:documentation>
-						</xs:annotation></xs:element>
+							<xs:documentation>Reference to the RFSService for which the job
+								runs.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-		
+
 	<!--_____________________________ -->
 	<!--| RFSServiceRetentionJob | -->
 	<!--|___________________________| -->
 	<xs:complexType name="RFSServiceRetentionJob">
 		<xs:annotation>
-			<xs:documentation>A job performing retention for a certain rfs service.</xs:documentation>
+			<xs:documentation>A job performing retention for a certain rfs
+				service.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Job">
 				<xs:sequence>
-					<xs:element name="RFSService" type="xs:anyURI" ecore:reference="services:RFSService" minOccurs="1">
+					<xs:element name="RFSService" type="xs:anyURI"
+						ecore:reference="services:RFSService" minOccurs="1">
 						<xs:annotation>
-							<xs:documentation>Reference to the RFSService for which the job runs.</xs:documentation>
-						</xs:annotation></xs:element>
+							<xs:documentation>Reference to the RFSService for which the job
+								runs.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
+
 	<!--_____________________________ -->
-	<!--| JOBRUN 						| -->
+	<!--| JOBRUN | -->
 	<!--|___________________________| -->
 	<xs:complexType name="WorkFlowRun">
 		<xs:attribute name="Started" type="xs:dateTime"></xs:attribute>
@@ -149,80 +170,108 @@
 		<xs:attribute name="Progress" type="xs:int"></xs:attribute>
 		<xs:attribute name="ProgressTask" type="xs:string"></xs:attribute>
 		<xs:attribute name="ProgressMessage" type="xs:string"></xs:attribute>
-		<xs:attribute name="Log" type="gen:LongText"></xs:attribute>		
+		<xs:attribute name="Log" type="gen:LongText"></xs:attribute>
 	</xs:complexType>
-		
+
 	<!--_____________________________ -->
-	<!--| RFSServiceJobRun | -->
+	<!--| ComponentWorkFlowRun | -->
 	<!--|___________________________| -->
-	<xs:complexType name="ExpressionWorkFlowRun">
+	<xs:complexType name="ComponentWorkFlowRun">
 		<xs:annotation>
-			<xs:documentation>A job run result with RFSService specific data.</xs:documentation>
+			<xs:documentation>A job run result with RFSService specific data.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="WorkFlowRun">
 				<xs:sequence>
-					<xs:element name="FailureRefs" type="ExpressionFailure" minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="FailureRefs" type="ComponentFailure"
+						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>Reference to information about failed expressions</xs:documentation>
-						</xs:annotation></xs:element>
+							<xs:documentation>Reference to information about failed
+								expressions</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-		
+
 	<!--_____________________________ -->
 	<!--| ExpressionFailure | -->
 	<!--|___________________________| -->
 	<xs:complexType name="ExpressionFailure">
 		<xs:annotation>
-			<xs:documentation>Gives information about a failed expression</xs:documentation>
+			<xs:documentation>Gives information about a failed expression
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComponentFailure">
+				<xs:sequence>
+					<xs:element ecore:reference="lib:Expression" minOccurs="0"
+						name="ExpressionRef" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The expression which failed.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<!--_____________________________ -->
+	<!--| ComponentFailure | -->
+	<!--|___________________________| -->
+	<xs:complexType name="ComponentFailure">
+		<xs:annotation>
+			<xs:documentation>Gives information about a failed component
+			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element ecore:reference="library:Expression" minOccurs="0"
-				name="ExpressionRef" type="xs:anyURI">
+			<xs:element name="ComponentRef" type="xs:anyURI"
+				ecore:reference="lib:Component" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The expression which failed.</xs:documentation>
+					<xs:documentation>Reference to the component for which the
+						computation failed.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ComponentRef" type="xs:anyURI" ecore:reference="lib:Component" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Reference to the component for which the computation failed.</xs:documentation>
-				</xs:annotation></xs:element>
 			<xs:element name="Message" type="xs:string" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Message giving some extra information on the failure</xs:documentation>
-				</xs:annotation></xs:element>
+					<xs:documentation>Message giving some extra information on the
+						failure</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
+
 	<!--_____________________________ -->
-	<!--| JOBSTATE 					| -->
+	<!--| JOBSTATE | -->
 	<!--|___________________________| -->
 	<xs:simpleType name="JobState">
-        <xs:annotation>
-        	<xs:documentation>A type representing the job states. 
+		<xs:annotation>
+			<xs:documentation>A type representing the job states.
 			</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
+		</xs:annotation>
+		<xs:restriction base="xs:string">
 			<xs:enumeration value="Active"></xs:enumeration>
 			<xs:enumeration value="InActive"></xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<!--_____________________________ -->
-	<!--| JOBRUNSTATE 					| -->
+	<!--| JOBRUNSTATE | -->
 	<!--|___________________________| -->
 	<xs:simpleType name="JobRunState">
-        <xs:annotation>
-        	<xs:documentation>A type representing the job states. 
+		<xs:annotation>
+			<xs:documentation>A type representing the job states.
 			</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
+		</xs:annotation>
+		<xs:restriction base="xs:string">
 			<xs:enumeration value="Running"></xs:enumeration>
 			<xs:enumeration value="FinishedSuccessfully"></xs:enumeration>
 			<xs:enumeration value="FinishedWithError"></xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 </xs:schema>

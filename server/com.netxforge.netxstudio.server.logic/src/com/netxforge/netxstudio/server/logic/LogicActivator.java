@@ -19,6 +19,8 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
 import com.netxforge.netxstudio.server.job.JobModule;
 import com.netxforge.netxstudio.server.logic.netxscript.NetxscriptServerModule;
+import com.netxforge.netxstudio.server.logic.reporting.RFSServiceReportingJobImplementation;
+import com.netxforge.netxstudio.server.logic.reporting.ReportingService;
 
 public class LogicActivator implements BundleActivator {
 
@@ -57,7 +59,7 @@ public class LogicActivator implements BundleActivator {
 		JobImplementation.REGISTRY.register(ReporterJob.class, new JobImplementationFactory() {
 			@Override
 			public JobImplementation create() {
-				return injector.getInstance(RFSServiceResourceReportingJobImplementation.class);
+				return injector.getInstance(RFSServiceReportingJobImplementation.class);
 			}
 		});
 		
@@ -76,6 +78,7 @@ public class LogicActivator implements BundleActivator {
 
 		bundleContext.registerService(ResourceMonitoringService.class, new ResourceMonitoringService(), new Hashtable<String, String>());
 		bundleContext.registerService(RetentionService.class, new RetentionService(), new Hashtable<String, String>());
+		bundleContext.registerService(ReportingService.class, new ReportingService(), new Hashtable<String, String>());
 	}
 
 	/*

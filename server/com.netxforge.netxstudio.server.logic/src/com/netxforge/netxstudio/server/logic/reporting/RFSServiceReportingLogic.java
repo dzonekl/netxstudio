@@ -16,40 +16,58 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.reporting;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.common.util.URI;
 
+import com.google.common.collect.ImmutableList;
+import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
-import com.netxforge.netxstudio.services.ServiceMonitor;
-import com.netxforge.netxstudio.services.ServicesFactory;
 
 /**
  * Performs the capacity logic execution for a RFSService.
  * 
- * @author Martin Taal
+ * @author Christophe Bouhier
  */
-public class RFSServiceResourceReportingLogic extends BaseResourceMonitoringLogic {
+public abstract class RFSServiceReportingLogic extends
+		BaseResourceReportingLogic {
 
 	private RFSService rfsService;
+	public static final String REPORT_PREFIX = "Cap";
 
-	private ServiceMonitor serviceMonitor;
+	public static final String REPORT_PREFIX_SM_EXEC = "Exec_Summary";
+	public static final String REPORT_PREFIX_SM_DASH = "DashBoard";
+	public static final String REPORT_PREFIX_SM_MATRIX = "Distribution";
+	public static final String REPORT_PREFIX_SM_USER = "Users";
+	public static final String REPORT_PREFIX_RM = "Details";
+	public static final String REPORT_PREFIX_RM_FORECAST = "Forecast";
+
+	public List<String> reports = ImmutableList.of(REPORT_PREFIX_SM_EXEC,
+			REPORT_PREFIX_SM_DASH, REPORT_PREFIX_SM_MATRIX,
+			REPORT_PREFIX_SM_USER, REPORT_PREFIX_RM, REPORT_PREFIX_RM_FORECAST);
 	
-	void initializeServiceMonitor() {
+
+	void initialize() {
 		Date startTime = getStartTime();
 		if (startTime == null) {
 			// TODO: make the period for the look back configurable
-			// TODO: note that a user can do a separate run which runs in the past
+			// TODO: note that a user can do a separate run which runs in the
+			// past
 			// creating new last service monitor with an end date in the past
 			// the system, should not pick the last servicemonitor in the list
 			// but should find the last end time of all service monitors.
-			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60 * 1000);
+			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60
+					* 1000);
 			if (!rfsService.getServiceMonitors().isEmpty()) {
 				final Date previousEndTime = rfsService.getServiceMonitors()
 						.get(rfsService.getServiceMonitors().size() - 1)
@@ -64,12 +82,39 @@ public class RFSServiceResourceReportingLogic extends BaseResourceMonitoringLogi
 			setEndTime(endTime);
 		}
 
-		serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
-		// what name should a servicemonitor have?
-		serviceMonitor.setName(rfsService.getServiceName());
-		serviceMonitor.setPeriod(getTimeRange());
-		rfsService.getServiceMonitors().add(serviceMonitor);
-		getEngine().setServiceMonitor(serviceMonitor);
+		this.initializeStream();
+
+		// TODO Remove later, we don't need a service monitor for reporting.
+		// serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
+		// // what name should a servicemonitor have?
+		// serviceMonitor.setName(rfsService.getServiceName());
+		// serviceMonitor.setPeriod(getTimeRange());
+		// rfsService.getServiceMonitors().add(serviceMonitor);
+		// getEngine().setServiceMonitor(serviceMonitor);
+		// this.getEngine().s
+	}
+
+	public void initializeStream() {
+		ServerSettings settings = getSettings();
+
+		if (settings != null
+				&& settings
+						.eIsSet(NetxstudioPackage.Literals.SERVER_SETTINGS__EXPORT_PATH)) {
+			try {
+
+				URI uri = URI.createFileURI(settings.getExportPath());
+				if (!uri.lastSegment().endsWith("/")) {
+					uri.appendFragment("/");
+				}
+				uri = uri.appendSegment(calculateFileName())
+						.appendFileExtension("xls");
+				FileOutputStream fileOut = new FileOutputStream(
+						uri.toFileString());
+				this.setStream(fileOut);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public RFSService getRfsService() {
@@ -78,7 +123,8 @@ public class RFSServiceResourceReportingLogic extends BaseResourceMonitoringLogi
 
 	public void setRfsService(CDOID cdoId) {
 		// read the rfsservice in the transaction of the run
-		this.rfsService = (RFSService)getDataProvider().getTransaction().getObject(cdoId);
+		this.rfsService = (RFSService) getDataProvider().getTransaction()
+				.getObject(cdoId);
 	}
 
 	@Override
@@ -98,5 +144,16 @@ public class RFSServiceResourceReportingLogic extends BaseResourceMonitoringLogi
 		}
 		return nodeTypes;
 	}
+
+	protected String calculateFileName() {
+		StringBuffer buf = new StringBuffer();
+		buf.append(getModelUtils().date(this.getStartTime()) + "_"
+				+ getModelUtils().date(this.getEndTime()));
+
+		return buf.toString();
+	}
+	
+	
+
 
 }

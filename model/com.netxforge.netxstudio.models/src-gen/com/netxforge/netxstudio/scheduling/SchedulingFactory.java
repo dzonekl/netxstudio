@@ -47,6 +47,24 @@ public interface SchedulingFactory extends EFactory {
 	AnalyzerJob createAnalyzerJob();
 
 	/**
+	 * Returns a new object of class '<em>Component Failure</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Component Failure</em>'.
+	 * @generated
+	 */
+	ComponentFailure createComponentFailure();
+
+	/**
+	 * Returns a new object of class '<em>Component Work Flow Run</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Component Work Flow Run</em>'.
+	 * @generated
+	 */
+	ComponentWorkFlowRun createComponentWorkFlowRun();
+
+	/**
 	 * Returns a new object of class '<em>Expression Failure</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -54,15 +72,6 @@ public interface SchedulingFactory extends EFactory {
 	 * @generated
 	 */
 	ExpressionFailure createExpressionFailure();
-
-	/**
-	 * Returns a new object of class '<em>Expression Work Flow Run</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Expression Work Flow Run</em>'.
-	 * @generated
-	 */
-	ExpressionWorkFlowRun createExpressionWorkFlowRun();
 
 	/**
 	 * Returns a new object of class '<em>Job</em>'.

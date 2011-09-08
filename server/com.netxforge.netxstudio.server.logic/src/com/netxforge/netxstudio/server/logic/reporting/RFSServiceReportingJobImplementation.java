@@ -16,10 +16,12 @@
  * Contributors: 
  * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.reporting;
 
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ReporterJob;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Activator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 
@@ -28,37 +30,48 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
  * 
  * @author Martin Taal
  */
-public class RFSServiceResourceReportingJobImplementation extends JobImplementation {
+public class RFSServiceReportingJobImplementation extends JobImplementation {
 
-//	private ExpressionWorkFlowRun workFlowRun;
+	private ComponentWorkFlowRun workFlowRun;
 
 	@Override
 	public void run() {
 		final ReporterJob reporterJob = (ReporterJob) getJob();
+
+		{
+			final RFSServiceReportingLogic logic = Activator
+					.getInstance().getInjector()
+					.getInstance(RFSServiceSummaryReportingLogic.class);
+
+			logic.setRfsService(reporterJob.getRFSService()
+					.cdoID());
+			logic.setJobMonitor(getRunMonitor());
+			logic.initialize();
+			logic.run();
+		}
 		
-		
-		final RFSServiceResourceReportingLogic resourceReportingLogic = Activator.getInstance()
-				.getInjector().getInstance(RFSServiceResourceReportingLogic.class);
-		
-		resourceReportingLogic.setRfsService(reporterJob.getRFSService().cdoID());
-		resourceReportingLogic.setJobMonitor(getRunMonitor());
-		resourceReportingLogic.initializeServiceMonitor();
-		resourceReportingLogic.run();
-		
-		
-		getDataProvider().commitTransaction();
+		{
+			final RFSServiceReportingLogic logic = Activator.getInstance().getInjector()
+					.getInstance(RFSServiceDashboardReportingLogic.class);
+
+			logic.setRfsService(reporterJob.getRFSService()
+					.cdoID());
+			logic.setJobMonitor(getRunMonitor());
+			logic.initialize();
+			logic.run();
+		}
+		// generateContent(resourceReportingLogic.getSettings().getExportPath());
+
+		// getDataProvider().commitTransaction();
 	}
-	
-	
-	// TODO, We likely don't need a specific run implementation. 
-	
-//	@Override
-//	public WorkFlowRun createWorkFlowRunInstance() {
-//		if (workFlowRun == null) {
-//			workFlowRun = SchedulingFactory.eINSTANCE
-//					.createExpressionWorkFlowRun();
-//		}
-//		return workFlowRun;
-//	}
+
+	@Override
+	public WorkFlowRun createWorkFlowRunInstance() {
+		if (workFlowRun == null) {
+			workFlowRun = SchedulingFactory.eINSTANCE
+					.createComponentWorkFlowRun();
+		}
+		return workFlowRun;
+	}
 
 }

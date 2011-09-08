@@ -5,7 +5,7 @@
     modelDirectory="/com.netxforge.netxstudio.models/src-gen" modelPluginID="com.netxforge.netxstudio.models"
     modelName="Netxstudio" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
     reflectiveDelegation="true" importerID="org.eclipse.xsd.ecore.importer" featureDelegation="Reflective"
-    complianceLevel="6.0" copyrightFields="false">
+    complianceLevel="6.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>../../xsd/13042011/netxstudio.xsd</foreignModel>
   <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
   <genPackages prefix="Scheduling" basePackage="com.netxforge.netxstudio" resource="XML"
@@ -24,13 +24,15 @@
     <genClasses ecoreClass="scheduling.ecore#//AnalyzerJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//AnalyzerJob/rFSService"/>
     </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//ComponentFailure">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ComponentFailure/componentRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//ComponentFailure/message"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//ComponentWorkFlowRun">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//ComponentWorkFlowRun/failureRefs"/>
+    </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//ExpressionFailure">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionFailure/expressionRef"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionFailure/componentRef"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//ExpressionFailure/message"/>
-    </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//ExpressionWorkFlowRun">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionWorkFlowRun/failureRefs"/>
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//Job">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/endTime"/>
@@ -455,6 +457,8 @@
     <genClasses ecoreClass="metrics.ecore#//MappingStatistic">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingStatistic/failedRecords"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingStatistic/mappingDuration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metrics.ecore#//MappingStatistic/periodEstimate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingStatistic/intervalEstimate"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingStatistic/message"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metrics.ecore#//MappingStatistic/totalRecords"/>
     </genClasses>
@@ -653,6 +657,10 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/roles"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/countries"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/jobs"/>
+    </genClasses>
+    <genClasses ecoreClass="netxstudio.ecore#//ServerSettings">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute netxstudio.ecore#//ServerSettings/exportPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute netxstudio.ecore#//ServerSettings/importPath"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

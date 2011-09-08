@@ -20,6 +20,7 @@ package com.netxforge.netxstudio.scheduling.provider;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 
 /**
  * This is the central singleton for the Netxstudio edit plugin.
@@ -53,6 +54,7 @@ public final class NetxstudioEditPlugin extends EMFPlugin {
 	public NetxstudioEditPlugin() {
 		super
 		  (new ResourceLocator [] {
+		     EcoreEditPlugin.INSTANCE,
 		   });
 	}
 

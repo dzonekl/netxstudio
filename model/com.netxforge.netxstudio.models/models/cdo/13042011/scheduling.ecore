@@ -13,7 +13,7 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="AnalyzerJob" eSuperTypes="#//Job">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A job performing post analysis for a service."/>
+      <details key="documentation" value="A job performing post analysis for a service.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="AnalyzerJob"/>
@@ -22,7 +22,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="rFSService" lowerBound="1"
         eType="ecore:EClass services.ecore#//RFSService">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Reference to the RFSService for which the job runs."/>
+        <details key="documentation" value="Reference to the RFSService for which the job&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;runs."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -30,26 +30,17 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExpressionFailure">
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentFailure">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Gives information about a failed expression"/>
+      <details key="documentation" value="Gives information about a failed component&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="ExpressionFailure"/>
+      <details key="name" value="ComponentFailure"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expressionRef" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The expression which failed."/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="ExpressionRef"/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="componentRef" eType="ecore:EClass library.ecore#//Component">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Reference to the component for which the computation failed."/>
+        <details key="documentation" value="Reference to the component for which the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;computation failed."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -58,7 +49,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Message giving some extra information on the failure"/>
+        <details key="documentation" value="Message giving some extra information on the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;failure"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -66,22 +57,40 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExpressionWorkFlowRun" eSuperTypes="#//WorkFlowRun">
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentWorkFlowRun" eSuperTypes="#//WorkFlowRun">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A job run result with RFSService specific data."/>
+      <details key="documentation" value="A job run result with RFSService specific data.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-      <details key="name" value="ExpressionWorkFlowRun"/>
+      <details key="name" value="ComponentWorkFlowRun"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="failureRefs" upperBound="-1"
-        eType="#//ExpressionFailure" containment="true" resolveProxies="false">
+        eType="#//ComponentFailure" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Reference to information about failed expressions"/>
+        <details key="documentation" value="Reference to information about failed&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;expressions"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="FailureRefs"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpressionFailure" eSuperTypes="#//ComponentFailure">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Gives information about a failed expression&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="ExpressionFailure"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressionRef" eType="ecore:EClass library.ecore#//Expression">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The expression which failed."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="ExpressionRef"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -151,7 +160,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="JobRunState">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the job states. &#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing the job states.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="JobRunState"/>
@@ -168,7 +177,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="JobState">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the job states. &#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing the job states.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="JobState"/>
@@ -193,7 +202,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="metricSource" lowerBound="1"
         eType="ecore:EClass metrics.ecore#//MetricSource">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Reference to the metric source being imported"/>
+        <details key="documentation" value="Reference to the metric source being imported&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -203,7 +212,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReporterJob" eSuperTypes="#//Job">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A job producing external format reports for a service."/>
+      <details key="documentation" value="A job producing external format reports for a&#xA;&#x9;&#x9;&#x9;&#x9;service."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ReporterJob"/>
@@ -212,7 +221,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="rFSService" lowerBound="1"
         eType="ecore:EClass services.ecore#//RFSService">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Reference to the RFSService for which the job runs."/>
+        <details key="documentation" value="Reference to the RFSService for which the job&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;runs."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -222,7 +231,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RFSServiceJob" eSuperTypes="#//Job">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A job computing capacity and utilization for a service."/>
+      <details key="documentation" value="A job computing capacity and utilization for a&#xA;&#x9;&#x9;&#x9;&#x9;service."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="RFSServiceJob"/>
@@ -231,7 +240,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="rFSService" lowerBound="1"
         eType="ecore:EClass services.ecore#//RFSService">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Reference to the RFSService for which the job runs."/>
+        <details key="documentation" value="Reference to the RFSService for which the job&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;runs."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -241,7 +250,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RFSServiceRetentionJob" eSuperTypes="#//Job">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A job performing retention for a certain rfs service."/>
+      <details key="documentation" value="A job performing retention for a certain rfs&#xA;&#x9;&#x9;&#x9;&#x9;service."/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="RFSServiceRetentionJob"/>
@@ -250,7 +259,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="rFSService" lowerBound="1"
         eType="ecore:EClass services.ecore#//RFSService">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Reference to the RFSService for which the job runs."/>
+        <details key="documentation" value="Reference to the RFSService for which the job&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;runs."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>

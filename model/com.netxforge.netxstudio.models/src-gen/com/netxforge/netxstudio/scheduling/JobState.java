@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
- * A type representing the job states. 
+ * A type representing the job states.
  * 			
  * <!-- end-model-doc -->
  * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getJobState()

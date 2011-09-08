@@ -29,6 +29,9 @@ import org.eclipse.net4j.util.transaction.TransactionException;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.netxforge.netxstudio.NetxstudioFactory;
+import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -104,9 +107,22 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
 	
 	// FIXME, move this to the test data. 
 	public void loadFixtures(){
+		loadSettings();
 		loadRoles();
 //		loadLibrary();
 	}
+	
+	private void loadSettings() {
+		final CDOResource settingsResource = (CDOResource) getResource(NetxstudioPackage.Literals.SERVER_SETTINGS);
+		if(settingsResource.getContents().size() > 0){
+			return;
+		}
+		ServerSettings serverSettings = NetxstudioFactory.eINSTANCE.createServerSettings();
+		serverSettings.setExportPath("/Users/dzonekl/Documents/Projects/NetXStudio/Reports");
+		serverSettings.setImportPath("/Users/dzonekl/Documents/Projects/NetXStudio/TestData");
+		settingsResource.getContents().add(serverSettings);
+	}
+
 	private void loadRoles() {
 		final CDOResource rolesResource = (CDOResource) getResource(GenericsPackage.Literals.ROLE);
 		if(rolesResource.getContents().size() > 0){

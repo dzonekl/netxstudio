@@ -536,6 +536,14 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="PeriodEstimate" type="gen:DateTimeRange">
+						<xs:annotation>
+							<xs:documentation>The PeriodEstimate reference, refers to a
+								DateTimeRange type. It contains an estimate of the start till end date and time 
+								for a single mapping run.  
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 				<xs:attribute name="TotalRecords" type="xs:int">
 					<xs:annotation>
@@ -547,6 +555,13 @@
 				<xs:attribute name="Message" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>A global error or information message
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="IntervalEstimate" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>The IntervalEstimate attribute contains a number in minutes for 
+						the mapping run. It also corresponds the MetricValueRange for the mapping run. 
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>

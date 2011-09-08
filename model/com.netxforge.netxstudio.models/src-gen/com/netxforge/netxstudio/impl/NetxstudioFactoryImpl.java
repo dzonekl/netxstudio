@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.ServerSettings;
 
 /**
  * <!-- begin-user-doc -->
@@ -73,6 +74,7 @@ public class NetxstudioFactoryImpl extends EFactoryImpl implements NetxstudioFac
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case NetxstudioPackage.NETXSTUDIO: return (EObject)createNetxstudio();
+			case NetxstudioPackage.SERVER_SETTINGS: return (EObject)createServerSettings();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -86,6 +88,16 @@ public class NetxstudioFactoryImpl extends EFactoryImpl implements NetxstudioFac
 	public Netxstudio createNetxstudio() {
 		NetxstudioImpl netxstudio = new NetxstudioImpl();
 		return netxstudio;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ServerSettings createServerSettings() {
+		ServerSettingsImpl serverSettings = new ServerSettingsImpl();
+		return serverSettings;
 	}
 
 	/**

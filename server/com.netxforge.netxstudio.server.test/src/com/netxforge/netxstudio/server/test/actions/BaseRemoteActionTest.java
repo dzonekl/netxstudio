@@ -42,7 +42,7 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
@@ -142,7 +142,8 @@ public abstract class BaseRemoteActionTest extends AbstractDataProviderTest {
 			final WorkFlowRun workFlowRun = (WorkFlowRun) anotherDataProvider
 					.getTransaction().getObject(wfRun.cdoID());
 			System.err.println(workFlowRun.getState());
-			final Object failures = ((ExpressionWorkFlowRun)workFlowRun).getFailureRefs();
+			@SuppressWarnings("unused")
+			final Object failures = ((ComponentWorkFlowRun)workFlowRun).getFailureRefs();
 			if (workFlowRun.getState() == JobRunState.FINISHED_SUCCESSFULLY) {
 				break;
 			}

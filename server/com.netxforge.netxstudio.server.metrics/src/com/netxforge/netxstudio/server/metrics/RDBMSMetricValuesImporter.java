@@ -49,13 +49,13 @@ public class RDBMSMetricValuesImporter extends MetricValuesImporter {
 
 	private Date start;
 	private Date end;
-	
+
 	@Override
 	public void process() {
 		// TODO: Make configurable
 		start = new Date(System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000);
 		end = new Date();
-		
+
 		setData();
 
 		// force that the same dataprovider is used
@@ -71,7 +71,8 @@ public class RDBMSMetricValuesImporter extends MetricValuesImporter {
 			getJobMonitor().setTask(
 					"Processing metricsource " + getMetricSource().getName());
 
-			final String msLocation = getMetricSource().getMetricLocation();
+			// CB TODO, Remove later.
+			// final String msLocation = getMetricSource().getMetricLocation();
 			final boolean noData = data.length == 0;
 
 			final int totalRows = getTotalRows();
@@ -87,7 +88,8 @@ public class RDBMSMetricValuesImporter extends MetricValuesImporter {
 
 			endTime = System.currentTimeMillis();
 			mappingStatistic = createMappingStatistics(startTime, endTime,
-					totalRows, null);
+					totalRows, null, getMappingPeriodEstimate(),
+					getMappingIntervalEstimate());
 			if (noData) {
 				mappingStatistic.setMessage("No files processed");
 			} else {
@@ -105,7 +107,8 @@ public class RDBMSMetricValuesImporter extends MetricValuesImporter {
 			getJobMonitor().setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 			t.printStackTrace(System.err);
 			mappingStatistic = createMappingStatistics(startTime, endTime, 0,
-					t.getMessage());
+					t.getMessage(), getMappingPeriodEstimate(),
+					getMappingIntervalEstimate());
 		}
 		getMetricSource().getStatistics().add(mappingStatistic);
 		getDataProvider().commitTransaction();
@@ -126,10 +129,10 @@ public class RDBMSMetricValuesImporter extends MetricValuesImporter {
 				final ResultSet rs = stmt.executeQuery(createQuery());
 				return rs;
 			} finally {
-//				if (stmt != null)
-//					stmt.close();
-//				if (conn != null)
-//					conn.close();
+				// if (stmt != null)
+				// stmt.close();
+				// if (conn != null)
+				// conn.close();
 			}
 		} catch (final SQLException e) {
 			throw new IllegalStateException(e);
@@ -142,13 +145,16 @@ public class RDBMSMetricValuesImporter extends MetricValuesImporter {
 		qry = substitute(qry, "endDate", end, getMapping().getDateFormat());
 		qry = substitute(qry, "startTime", start, getMapping().getTimeFormat());
 		qry = substitute(qry, "endTime", end, getMapping().getTimeFormat());
-		qry = substitute(qry, "startDateTime", start, getMapping().getDateTimeFormat());
-		qry = substitute(qry, "endDateTime", end, getMapping().getDateTimeFormat());
+		qry = substitute(qry, "startDateTime", start, getMapping()
+				.getDateTimeFormat());
+		qry = substitute(qry, "endDateTime", end, getMapping()
+				.getDateTimeFormat());
 		System.err.println(qry);
 		return qry;
 	}
-	
-	private String substitute(String qry, String name, Date value, String formatPattern) {
+
+	private String substitute(String qry, String name, Date value,
+			String formatPattern) {
 		if (formatPattern == null) {
 			return qry;
 		}
@@ -156,17 +162,18 @@ public class RDBMSMetricValuesImporter extends MetricValuesImporter {
 		final String sub = format.format(value);
 		return qry.replace("${" + name + "}", sub);
 	}
-	
+
 	public Connection getConnection() {
 		try {
 			final Driver driver;
-			
+
 			if (getMapping().getDatabaseType() == DatabaseTypeType.ORACLE) {
-				 driver = OracleDriver.class.newInstance();	
+				driver = OracleDriver.class.newInstance();
 			} else if (getMapping().getDatabaseType() == DatabaseTypeType.POSTGRES) {
 				driver = org.postgresql.Driver.class.newInstance();
 			} else {
-				throw new IllegalStateException("Database type " + getMapping().getDatabaseType() + " not supported");
+				throw new IllegalStateException("Database type "
+						+ getMapping().getDatabaseType() + " not supported");
 			}
 			final Properties info = new Properties();
 			info.put("user", getMapping().getUser());
@@ -188,16 +195,16 @@ public class RDBMSMetricValuesImporter extends MetricValuesImporter {
 				for (int i = 1; i <= numberOfColumns; i++) {
 					final Object colValue = rs.getObject(i);
 					if (rs.wasNull()) {
-						rowData[i-1] = null;
+						rowData[i - 1] = null;
 					} else {
-						rowData[i-1] = colValue.toString();
+						rowData[i - 1] = colValue.toString();
 					}
 				}
 				localData.add(rowData);
 			}
 			data = localData.toArray(new String[localData.size()][]);
 			rs.getStatement().close();
-//			rs.getStatement().getConnection().close();
+			// rs.getStatement().getConnection().close();
 		} catch (final SQLException e) {
 			throw new IllegalStateException(e);
 		}

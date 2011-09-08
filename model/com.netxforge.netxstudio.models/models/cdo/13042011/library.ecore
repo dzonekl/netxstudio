@@ -451,9 +451,6 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A type representing the results of an expression&#xA;&#x9;&#x9;&#x9;&#x9;run.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
-    <eAnnotations source="teneo.jpa">
-      <details key="appinfo" value="@Transient"/>
-    </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ExpressionResult"/>
       <details key="kind" value="elementOnly"/>

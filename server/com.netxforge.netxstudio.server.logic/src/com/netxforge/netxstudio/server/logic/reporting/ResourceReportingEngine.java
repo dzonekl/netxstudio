@@ -16,9 +16,10 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.reporting;
 
-import com.netxforge.netxstudio.services.ServiceMonitor;
+import com.netxforge.netxstudio.server.logic.BaseEngine;
+
 
 /**
  * Performs the resource reporting execution for an equipment or function.
@@ -28,12 +29,9 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  */
 
 
-
-// TODO, adapt to reporting, do not extend the base engine.  
-
 public class ResourceReportingEngine extends BaseEngine {
 
-	private ServiceMonitor serviceMonitor;
+//	private ServiceMonitor serviceMonitor;
 	
 	@Override
 	public void doExecute() {
@@ -113,11 +111,11 @@ public class ResourceReportingEngine extends BaseEngine {
 //		}
 	}
 
-	public ServiceMonitor getServiceMonitor() {
-		return serviceMonitor;
-	}
-
-	public void setServiceMonitor(ServiceMonitor serviceMonitor) {
-		this.serviceMonitor = serviceMonitor;
-	}
+//	public ServiceMonitor getServiceMonitor() {
+//		return serviceMonitor;
+//	}
+//
+//	public void setServiceMonitor(ServiceMonitor serviceMonitor) {
+//		this.serviceMonitor = serviceMonitor;
+//	}
 }

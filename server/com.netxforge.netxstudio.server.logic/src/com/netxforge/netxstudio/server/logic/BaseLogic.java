@@ -22,7 +22,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.emf.ecore.resource.Resource;
+
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -32,8 +36,8 @@ import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
@@ -59,7 +63,7 @@ public abstract class BaseLogic {
 
 	private DateTimeRange timeRange;
 
-	private List<ExpressionFailure> failures = new ArrayList<ExpressionFailure>();
+	private List<ComponentFailure> failures = new ArrayList<ComponentFailure>();
 
 	public void run() {
 		try {
@@ -91,7 +95,7 @@ public abstract class BaseLogic {
 			processNode(nodeType);
 		}
 		if (!getFailures().isEmpty()) {
-			final ExpressionWorkFlowRun run = (ExpressionWorkFlowRun) dataProvider
+			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) dataProvider
 					.getTransaction().getObject(jobMonitor.getWorkFlowRunId());
 			run.getFailureRefs().addAll(getFailures());
 		}
@@ -128,7 +132,7 @@ public abstract class BaseLogic {
 		engine.setRange(getTimeRange());
 		engine.execute();
 		if (engine.getFailures().size() > 0) {
-			for (final ExpressionFailure failure : engine.getFailures()) {
+			for (final ComponentFailure failure : engine.getFailures()) {
 				failure.setComponentRef(component);
 				failures.add(failure);
 			}
@@ -171,7 +175,7 @@ public abstract class BaseLogic {
 		this.endTime = endTime;
 	}
 
-	public List<ExpressionFailure> getFailures() {
+	public List<ComponentFailure> getFailures() {
 		return failures;
 	}
 
@@ -225,5 +229,16 @@ public abstract class BaseLogic {
 			getComponents(childFunction, result);
 		}
 	}
-
+	
+	public ServerSettings getSettings() {
+		// This piece goes in commons somewhere.
+		Resource settingsResource = this.getDataProvider().getResource(
+				NetxstudioPackage.Literals.SERVER_SETTINGS);
+		ServerSettings settings = null;
+		if (settingsResource != null
+				&& settingsResource.getContents().size() == 1) {
+			settings = (ServerSettings) settingsResource.getContents().get(0);
+		}
+		return settings;
+	}
 }

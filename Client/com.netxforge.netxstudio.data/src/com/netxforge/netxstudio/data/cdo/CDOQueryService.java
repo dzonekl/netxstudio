@@ -186,7 +186,6 @@ public class CDOQueryService implements IQueryService {
 		return values;
 	}
 
-	
 	public List<Value> getCapacityFromResource(String expressionName,
 			XMLGregorianCalendar from, XMLGregorianCalendar to) {
 		final CDOTransaction transaction = provider.getTransaction();

@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.Netxstudio;
 import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.ServerSettings;
 
 /**
  * <!-- begin-user-doc -->
@@ -88,6 +89,12 @@ public class NetxstudioSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case NetxstudioPackage.SERVER_SETTINGS: {
+				ServerSettings serverSettings = (ServerSettings)theEObject;
+				T result = caseServerSettings(serverSettings);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -104,6 +111,21 @@ public class NetxstudioSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseNetxstudio(Netxstudio object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Server Settings</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Server Settings</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseServerSettings(ServerSettings object) {
 		return null;
 	}
 

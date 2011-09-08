@@ -526,9 +526,10 @@ public class ResourceMonitor extends AbstractScreen implements
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
-
+		
 		// Set the series from the resource.
 		// Re-use the TS range.
+		// TODO, select on the interval, hourly etc... 
 		List<Value> values = this.createDateSeries(netXResource.getMetricValueRanges().get(0).getMetricValues());
 
 		List<Date> dates = modelUtils.transformValueToDate(values);

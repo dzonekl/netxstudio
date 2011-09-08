@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic;
 
-import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.RFSServiceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
@@ -32,7 +32,7 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
  */
 public class RFSServiceResourceMonitoringJobImplementation extends JobImplementation {
 
-	private ExpressionWorkFlowRun workFlowRun;
+	private ComponentWorkFlowRun workFlowRun;
 
 	@Override
 	public void run() {
@@ -50,7 +50,7 @@ public class RFSServiceResourceMonitoringJobImplementation extends JobImplementa
 	public WorkFlowRun createWorkFlowRunInstance() {
 		if (workFlowRun == null) {
 			workFlowRun = SchedulingFactory.eINSTANCE
-					.createExpressionWorkFlowRun();
+					.createComponentWorkFlowRun();
 		}
 		return workFlowRun;
 	}

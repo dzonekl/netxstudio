@@ -22,39 +22,41 @@ import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Expression Work Flow Run</b></em>'.
+ * A representation of the model object '<em><b>Component Work Flow Run</b></em>'.
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
  * A job run result with RFSService specific data.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun#getFailureRefs <em>Failure Refs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun#getFailureRefs <em>Failure Refs</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getExpressionWorkFlowRun()
- * @model extendedMetaData="name='ExpressionWorkFlowRun' kind='elementOnly'"
+ * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getComponentWorkFlowRun()
+ * @model extendedMetaData="name='ComponentWorkFlowRun' kind='elementOnly'"
  * @generated
  */
-public interface ExpressionWorkFlowRun extends WorkFlowRun {
+public interface ComponentWorkFlowRun extends WorkFlowRun {
 	/**
 	 * Returns the value of the '<em><b>Failure Refs</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.scheduling.ExpressionFailure}.
+	 * The list contents are of type {@link com.netxforge.netxstudio.scheduling.ComponentFailure}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Reference to information about failed expressions
+	 * Reference to information about failed
+	 * 								expressions
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Failure Refs</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getExpressionWorkFlowRun_FailureRefs()
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getComponentWorkFlowRun_FailureRefs()
 	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='FailureRefs'"
 	 * @generated
 	 */
-	EList<ExpressionFailure> getFailureRefs();
+	EList<ComponentFailure> getFailureRefs();
 
-} // ExpressionWorkFlowRun
+} // ComponentWorkFlowRun

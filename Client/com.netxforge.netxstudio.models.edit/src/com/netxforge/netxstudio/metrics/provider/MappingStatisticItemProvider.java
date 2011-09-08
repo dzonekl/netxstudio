@@ -78,10 +78,33 @@ public class MappingStatisticItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addIntervalEstimatePropertyDescriptor(object);
 			addMessagePropertyDescriptor(object);
 			addTotalRecordsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Interval Estimate feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addIntervalEstimatePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MappingStatistic_intervalEstimate_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MappingStatistic_intervalEstimate_feature", "_UI_MappingStatistic_type"),
+				 MetricsPackage.Literals.MAPPING_STATISTIC__INTERVAL_ESTIMATE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -142,6 +165,7 @@ public class MappingStatisticItemProvider
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(MetricsPackage.Literals.MAPPING_STATISTIC__FAILED_RECORDS);
 			childrenFeatures.add(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION);
+			childrenFeatures.add(MetricsPackage.Literals.MAPPING_STATISTIC__PERIOD_ESTIMATE);
 		}
 		return childrenFeatures;
 	}
@@ -194,12 +218,14 @@ public class MappingStatisticItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(MappingStatistic.class)) {
+			case MetricsPackage.MAPPING_STATISTIC__INTERVAL_ESTIMATE:
 			case MetricsPackage.MAPPING_STATISTIC__MESSAGE:
 			case MetricsPackage.MAPPING_STATISTIC__TOTAL_RECORDS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case MetricsPackage.MAPPING_STATISTIC__FAILED_RECORDS:
 			case MetricsPackage.MAPPING_STATISTIC__MAPPING_DURATION:
+			case MetricsPackage.MAPPING_STATISTIC__PERIOD_ESTIMATE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -226,6 +252,34 @@ public class MappingStatisticItemProvider
 			(createChildParameter
 				(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION,
 				 GenericsFactory.eINSTANCE.createDateTimeRange()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(MetricsPackage.Literals.MAPPING_STATISTIC__PERIOD_ESTIMATE,
+				 GenericsFactory.eINSTANCE.createDateTimeRange()));
+	}
+
+	/**
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify =
+			childFeature == MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION ||
+			childFeature == MetricsPackage.Literals.MAPPING_STATISTIC__PERIOD_ESTIMATE;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 	/**

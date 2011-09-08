@@ -21,30 +21,30 @@ package com.netxforge.netxstudio.scheduling.impl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
-import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Expression Work Flow Run</b></em>'.
+ * An implementation of the model object '<em><b>Component Work Flow Run</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.ExpressionWorkFlowRunImpl#getFailureRefs <em>Failure Refs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.ComponentWorkFlowRunImpl#getFailureRefs <em>Failure Refs</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ExpressionWorkFlowRunImpl extends WorkFlowRunImpl implements ExpressionWorkFlowRun {
+public class ComponentWorkFlowRunImpl extends WorkFlowRunImpl implements ComponentWorkFlowRun {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ExpressionWorkFlowRunImpl() {
+	protected ComponentWorkFlowRunImpl() {
 		super();
 	}
 
@@ -55,7 +55,7 @@ public class ExpressionWorkFlowRunImpl extends WorkFlowRunImpl implements Expres
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SchedulingPackage.Literals.EXPRESSION_WORK_FLOW_RUN;
+		return SchedulingPackage.Literals.COMPONENT_WORK_FLOW_RUN;
 	}
 
 	/**
@@ -64,8 +64,8 @@ public class ExpressionWorkFlowRunImpl extends WorkFlowRunImpl implements Expres
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<ExpressionFailure> getFailureRefs() {
-		return (EList<ExpressionFailure>)eGet(SchedulingPackage.Literals.EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS, true);
+	public EList<ComponentFailure> getFailureRefs() {
+		return (EList<ComponentFailure>)eGet(SchedulingPackage.Literals.COMPONENT_WORK_FLOW_RUN__FAILURE_REFS, true);
 	}
 
-} //ExpressionWorkFlowRunImpl
+} //ComponentWorkFlowRunImpl

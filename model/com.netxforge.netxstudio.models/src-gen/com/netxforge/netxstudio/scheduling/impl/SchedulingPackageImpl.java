@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -42,8 +43,9 @@ import com.netxforge.netxstudio.operators.impl.OperatorsPackageImpl;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.protocols.impl.ProtocolsPackageImpl;
 import com.netxforge.netxstudio.scheduling.AnalyzerJob;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
@@ -77,14 +79,21 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass expressionFailureEClass = null;
+	private EClass componentFailureEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass expressionWorkFlowRunEClass = null;
+	private EClass componentWorkFlowRunEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass expressionFailureEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -210,6 +219,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
@@ -276,6 +286,51 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getComponentFailure() {
+		return componentFailureEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponentFailure_ComponentRef() {
+		return (EReference)componentFailureEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComponentFailure_Message() {
+		return (EAttribute)componentFailureEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getComponentWorkFlowRun() {
+		return componentWorkFlowRunEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponentWorkFlowRun_FailureRefs() {
+		return (EReference)componentWorkFlowRunEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getExpressionFailure() {
 		return expressionFailureEClass;
 	}
@@ -287,42 +342,6 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 */
 	public EReference getExpressionFailure_ExpressionRef() {
 		return (EReference)expressionFailureEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExpressionFailure_ComponentRef() {
-		return (EReference)expressionFailureEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getExpressionFailure_Message() {
-		return (EAttribute)expressionFailureEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getExpressionWorkFlowRun() {
-		return expressionWorkFlowRunEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExpressionWorkFlowRun_FailureRefs() {
-		return (EReference)expressionWorkFlowRunEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -626,13 +645,15 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		analyzerJobEClass = createEClass(ANALYZER_JOB);
 		createEReference(analyzerJobEClass, ANALYZER_JOB__RFS_SERVICE);
 
+		componentFailureEClass = createEClass(COMPONENT_FAILURE);
+		createEReference(componentFailureEClass, COMPONENT_FAILURE__COMPONENT_REF);
+		createEAttribute(componentFailureEClass, COMPONENT_FAILURE__MESSAGE);
+
+		componentWorkFlowRunEClass = createEClass(COMPONENT_WORK_FLOW_RUN);
+		createEReference(componentWorkFlowRunEClass, COMPONENT_WORK_FLOW_RUN__FAILURE_REFS);
+
 		expressionFailureEClass = createEClass(EXPRESSION_FAILURE);
 		createEReference(expressionFailureEClass, EXPRESSION_FAILURE__EXPRESSION_REF);
-		createEReference(expressionFailureEClass, EXPRESSION_FAILURE__COMPONENT_REF);
-		createEAttribute(expressionFailureEClass, EXPRESSION_FAILURE__MESSAGE);
-
-		expressionWorkFlowRunEClass = createEClass(EXPRESSION_WORK_FLOW_RUN);
-		createEReference(expressionWorkFlowRunEClass, EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS);
 
 		jobEClass = createEClass(JOB);
 		createEAttribute(jobEClass, JOB__END_TIME);
@@ -712,7 +733,8 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		// Add supertypes to classes
 		analyzerJobEClass.getESuperTypes().add(this.getJob());
-		expressionWorkFlowRunEClass.getESuperTypes().add(this.getWorkFlowRun());
+		componentWorkFlowRunEClass.getESuperTypes().add(this.getWorkFlowRun());
+		expressionFailureEClass.getESuperTypes().add(this.getComponentFailure());
 		jobEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		metricSourceJobEClass.getESuperTypes().add(this.getJob());
 		reporterJobEClass.getESuperTypes().add(this.getJob());
@@ -723,13 +745,15 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		initEClass(analyzerJobEClass, AnalyzerJob.class, "AnalyzerJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAnalyzerJob_RFSService(), theServicesPackage.getRFSService(), null, "rFSService", null, 1, 1, AnalyzerJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(expressionFailureEClass, ExpressionFailure.class, "ExpressionFailure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExpressionFailure_ExpressionRef(), ecorePackage.getEObject(), null, "expressionRef", null, 0, 1, ExpressionFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExpressionFailure_ComponentRef(), theLibraryPackage.getComponent(), null, "componentRef", null, 0, 1, ExpressionFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExpressionFailure_Message(), theXMLTypePackage.getString(), "message", null, 0, 1, ExpressionFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(componentFailureEClass, ComponentFailure.class, "ComponentFailure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getComponentFailure_ComponentRef(), theLibraryPackage.getComponent(), null, "componentRef", null, 0, 1, ComponentFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponentFailure_Message(), theXMLTypePackage.getString(), "message", null, 0, 1, ComponentFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(expressionWorkFlowRunEClass, ExpressionWorkFlowRun.class, "ExpressionWorkFlowRun", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExpressionWorkFlowRun_FailureRefs(), this.getExpressionFailure(), null, "failureRefs", null, 0, -1, ExpressionWorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(componentWorkFlowRunEClass, ComponentWorkFlowRun.class, "ComponentWorkFlowRun", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getComponentWorkFlowRun_FailureRefs(), this.getComponentFailure(), null, "failureRefs", null, 0, -1, ComponentWorkFlowRun.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(expressionFailureEClass, ExpressionFailure.class, "ExpressionFailure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExpressionFailure_ExpressionRef(), theLibraryPackage.getExpression(), null, "expressionRef", null, 0, 1, ExpressionFailure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(jobEClass, Job.class, "Job", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getJob_EndTime(), theXMLTypePackage.getDateTime(), "endTime", null, 0, 1, Job.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -803,7 +827,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																								
+		   });																																																										
 	}
 
 	/**
@@ -829,6 +853,41 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "name", "RFSService"
 		   });			
 		addAnnotation
+		  (componentFailureEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ComponentFailure",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getComponentFailure_ComponentRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ComponentRef"
+		   });			
+		addAnnotation
+		  (getComponentFailure_Message(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Message"
+		   });			
+		addAnnotation
+		  (componentWorkFlowRunEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ComponentWorkFlowRun",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getComponentWorkFlowRun_FailureRefs(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "FailureRefs"
+		   });			
+		addAnnotation
 		  (expressionFailureEClass, 
 		   source, 
 		   new String[] {
@@ -841,34 +900,6 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   new String[] {
 			 "kind", "element",
 			 "name", "ExpressionRef"
-		   });			
-		addAnnotation
-		  (getExpressionFailure_ComponentRef(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "ComponentRef"
-		   });			
-		addAnnotation
-		  (getExpressionFailure_Message(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "Message"
-		   });			
-		addAnnotation
-		  (expressionWorkFlowRunEClass, 
-		   source, 
-		   new String[] {
-			 "name", "ExpressionWorkFlowRun",
-			 "kind", "elementOnly"
-		   });			
-		addAnnotation
-		  (getExpressionWorkFlowRun_FailureRefs(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "FailureRefs"
 		   });		
 		addAnnotation
 		  (jobEClass, 

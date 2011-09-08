@@ -47,6 +47,7 @@ public interface MetricSourceJob extends Job {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Reference to the metric source being imported
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Metric Source</em>' reference.
 	 * @see #setMetricSource(MetricSource)

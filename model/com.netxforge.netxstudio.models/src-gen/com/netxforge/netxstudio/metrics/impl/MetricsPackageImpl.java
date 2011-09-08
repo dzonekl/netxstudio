@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -295,6 +296,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
@@ -622,8 +624,26 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getMappingStatistic_PeriodEstimate() {
+		return (EReference)mappingStatisticEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMappingStatistic_IntervalEstimate() {
+		return (EAttribute)mappingStatisticEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getMappingStatistic_Message() {
-		return (EAttribute)mappingStatisticEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)mappingStatisticEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -632,7 +652,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 	 * @generated
 	 */
 	public EAttribute getMappingStatistic_TotalRecords() {
-		return (EAttribute)mappingStatisticEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)mappingStatisticEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1088,6 +1108,8 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		mappingStatisticEClass = createEClass(MAPPING_STATISTIC);
 		createEReference(mappingStatisticEClass, MAPPING_STATISTIC__FAILED_RECORDS);
 		createEReference(mappingStatisticEClass, MAPPING_STATISTIC__MAPPING_DURATION);
+		createEReference(mappingStatisticEClass, MAPPING_STATISTIC__PERIOD_ESTIMATE);
+		createEAttribute(mappingStatisticEClass, MAPPING_STATISTIC__INTERVAL_ESTIMATE);
 		createEAttribute(mappingStatisticEClass, MAPPING_STATISTIC__MESSAGE);
 		createEAttribute(mappingStatisticEClass, MAPPING_STATISTIC__TOTAL_RECORDS);
 
@@ -1230,6 +1252,8 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		initEClass(mappingStatisticEClass, MappingStatistic.class, "MappingStatistic", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMappingStatistic_FailedRecords(), this.getMappingRecord(), null, "failedRecords", null, 0, -1, MappingStatistic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMappingStatistic_MappingDuration(), theGenericsPackage.getDateTimeRange(), null, "mappingDuration", null, 1, 1, MappingStatistic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMappingStatistic_PeriodEstimate(), theGenericsPackage.getDateTimeRange(), null, "periodEstimate", null, 1, 1, MappingStatistic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMappingStatistic_IntervalEstimate(), theXMLTypePackage.getInt(), "intervalEstimate", null, 0, 1, MappingStatistic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMappingStatistic_Message(), theXMLTypePackage.getString(), "message", null, 0, 1, MappingStatistic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMappingStatistic_TotalRecords(), theXMLTypePackage.getInt(), "totalRecords", null, 0, 1, MappingStatistic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1334,7 +1358,7 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																																																							
+		   });																																																																																																																																											
 	}
 
 	/**
@@ -1587,6 +1611,20 @@ public class MetricsPackageImpl extends EPackageImpl implements MetricsPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "MappingDuration"
+		   });			
+		addAnnotation
+		  (getMappingStatistic_PeriodEstimate(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "PeriodEstimate"
+		   });			
+		addAnnotation
+		  (getMappingStatistic_IntervalEstimate(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "IntervalEstimate"
 		   });			
 		addAnnotation
 		  (getMappingStatistic_Message(), 

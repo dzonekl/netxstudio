@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -274,6 +275,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
@@ -1805,8 +1807,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createExtendedMetaDataAnnotations();
 		// http://www.eclipse.org/emf/2002/Ecore/OCL
 		createOCLAnnotations();
-		// teneo.jpa
-		createTeneoAnnotations();
 	}
 
 	/**
@@ -1824,7 +1824,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																							
+		   });																																																																																																						
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -2147,7 +2147,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Name"
-		   });				
+		   });			
 		addAnnotation
 		  (expressionResultEClass, 
 		   source, 
@@ -2735,7 +2735,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self.equipments->size()\n\t\t\t\t\t\t"
-		   });																													
+		   });																												
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -2754,22 +2754,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "ValidNodeID", "\n\t\t\t\tnot self.nodeID.oclIsUndefined()\n\t\t\t"
 		   });																																																																				
-	}
-
-	/**
-	 * Initializes the annotations for <b>teneo.jpa</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createTeneoAnnotations() {
-		String source = "teneo.jpa";																																																																																																	
-		addAnnotation
-		  (expressionResultEClass, 
-		   source, 
-		   new String[] {
-			 "appinfo", "@Transient"
-		   });																																																																																																																																																		
 	}
 
 } //LibraryPackageImpl

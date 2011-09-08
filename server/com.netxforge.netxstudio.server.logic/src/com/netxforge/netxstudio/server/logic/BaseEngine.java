@@ -27,13 +27,9 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.ExpressionResult;
-import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.server.CommonLogic;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
-import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 
 /**
  * Common code for the engine implementations.
@@ -54,8 +50,8 @@ public abstract class BaseEngine {
 
 	private Component component;
 
-	@Inject
-	private IExpressionEngine expressionEngine;
+//	@Inject
+//	private IExpressionEngine expressionEngine;
 
 	@Inject
 	private CommonLogic commonLogic;
@@ -67,49 +63,49 @@ public abstract class BaseEngine {
 	private Date start;
 	private Date end;
 
-	private List<ExpressionFailure> failures = new ArrayList<ExpressionFailure>();
+	private List<ComponentFailure> failures = new ArrayList<ComponentFailure>();
 	
 	public void execute() {
-		failures.clear();
+//		failures.clear();
 		doExecute();
 	}
 	
 	public abstract void doExecute();
 
-	protected void runForExpression(Expression expression) {
-		try {
-			if (expression == null) {
-				return;
-			}
-			expressionEngine.setExpression(expression);
-			
-			expressionEngine.run();
-			if (expressionEngine.errorOccurred()) {
-				// stop here will be logged
-				throw new IllegalStateException(expressionEngine.getThrowable());
-			}
-			final List<ExpressionResult> result = expressionEngine
-					.getExpressionResult();
-			
-			if (result.isEmpty() && jobMonitor != null) {
-				throw new IllegalStateException(engineContextInfo
-						+ " expression returns no results for expression " + expression.getName());
-			} else {
-				final List<Object> currentContext = expressionEngine
-						.getContext();
-
-				// process the result
-				commonLogic.processResult(currentContext, result, start, end);
-			}
-		} catch (final Throwable t) {
-			t.printStackTrace(System.err);
-			final ExpressionFailure failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
-			failure.setExpressionRef(expression);
-			failure.setMessage(t.getMessage());
-			failure.setComponentRef(component);
-			failures.add(failure);
-		}
-	}
+//	protected void runForExpression(Expression expression) {
+//		try {
+//			if (expression == null) {
+//				return;
+//			}
+//			expressionEngine.setExpression(expression);
+//			
+//			expressionEngine.run();
+//			if (expressionEngine.errorOccurred()) {
+//				// stop here will be logged
+//				throw new IllegalStateException(expressionEngine.getThrowable());
+//			}
+//			final List<ExpressionResult> result = expressionEngine
+//					.getExpressionResult();
+//			
+//			if (result.isEmpty() && jobMonitor != null) {
+//				throw new IllegalStateException(engineContextInfo
+//						+ " expression returns no results for expression " + expression.getName());
+//			} else {
+//				final List<Object> currentContext = expressionEngine
+//						.getContext();
+//
+//				// process the result
+//				commonLogic.processResult(currentContext, result, start, end);
+//			}
+//		} catch (final Throwable t) {
+//			t.printStackTrace(System.err);
+//			final ExpressionFailure failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
+//			failure.setExpressionRef(expression);
+//			failure.setMessage(t.getMessage());
+//			failure.setComponentRef(component);
+//			failures.add(failure);
+//		}
+//	}
 
 	public IDataProvider getDataProvider() {
 		return dataProvider;
@@ -140,13 +136,13 @@ public abstract class BaseEngine {
 		this.component = component;
 	}
 
-	public List<ExpressionFailure> getFailures() {
+	public List<ComponentFailure> getFailures() {
 		return failures;
 	}
 
-	public IExpressionEngine getExpressionEngine() {
-		return expressionEngine;
-	}
+//	public IExpressionEngine getExpressionEngine() {
+//		return expressionEngine;
+//	}
 
 	public CommonLogic getCommonLogic() {
 		return commonLogic;

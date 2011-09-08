@@ -26,8 +26,9 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import com.netxforge.netxstudio.scheduling.AnalyzerJob;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
@@ -85,8 +86,9 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case SchedulingPackage.ANALYZER_JOB: return (EObject)createAnalyzerJob();
+			case SchedulingPackage.COMPONENT_FAILURE: return (EObject)createComponentFailure();
+			case SchedulingPackage.COMPONENT_WORK_FLOW_RUN: return (EObject)createComponentWorkFlowRun();
 			case SchedulingPackage.EXPRESSION_FAILURE: return (EObject)createExpressionFailure();
-			case SchedulingPackage.EXPRESSION_WORK_FLOW_RUN: return (EObject)createExpressionWorkFlowRun();
 			case SchedulingPackage.JOB: return (EObject)createJob();
 			case SchedulingPackage.JOB_RUN_CONTAINER: return (EObject)createJobRunContainer();
 			case SchedulingPackage.METRIC_SOURCE_JOB: return (EObject)createMetricSourceJob();
@@ -156,9 +158,9 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExpressionFailure createExpressionFailure() {
-		ExpressionFailureImpl expressionFailure = new ExpressionFailureImpl();
-		return expressionFailure;
+	public ComponentFailure createComponentFailure() {
+		ComponentFailureImpl componentFailure = new ComponentFailureImpl();
+		return componentFailure;
 	}
 
 	/**
@@ -166,9 +168,19 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExpressionWorkFlowRun createExpressionWorkFlowRun() {
-		ExpressionWorkFlowRunImpl expressionWorkFlowRun = new ExpressionWorkFlowRunImpl();
-		return expressionWorkFlowRun;
+	public ComponentWorkFlowRun createComponentWorkFlowRun() {
+		ComponentWorkFlowRunImpl componentWorkFlowRun = new ComponentWorkFlowRunImpl();
+		return componentWorkFlowRun;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExpressionFailure createExpressionFailure() {
+		ExpressionFailureImpl expressionFailure = new ExpressionFailureImpl();
+		return expressionFailure;
 	}
 
 	/**

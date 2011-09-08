@@ -110,6 +110,52 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.ComponentFailure} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ComponentFailureItemProvider componentFailureItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.ComponentFailure}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createComponentFailureAdapter() {
+		if (componentFailureItemProvider == null) {
+			componentFailureItemProvider = new ComponentFailureItemProvider(this);
+		}
+
+		return componentFailureItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ComponentWorkFlowRunItemProvider componentWorkFlowRunItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createComponentWorkFlowRunAdapter() {
+		if (componentWorkFlowRunItemProvider == null) {
+			componentWorkFlowRunItemProvider = new ComponentWorkFlowRunItemProvider(this);
+		}
+
+		return componentWorkFlowRunItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.ExpressionFailure} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -130,29 +176,6 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		}
 
 		return expressionFailureItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ExpressionWorkFlowRunItemProvider expressionWorkFlowRunItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createExpressionWorkFlowRunAdapter() {
-		if (expressionWorkFlowRunItemProvider == null) {
-			expressionWorkFlowRunItemProvider = new ExpressionWorkFlowRunItemProvider(this);
-		}
-
-		return expressionWorkFlowRunItemProvider;
 	}
 
 	/**
@@ -416,8 +439,9 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	 */
 	public void dispose() {
 		if (analyzerJobItemProvider != null) analyzerJobItemProvider.dispose();
+		if (componentFailureItemProvider != null) componentFailureItemProvider.dispose();
+		if (componentWorkFlowRunItemProvider != null) componentWorkFlowRunItemProvider.dispose();
 		if (expressionFailureItemProvider != null) expressionFailureItemProvider.dispose();
-		if (expressionWorkFlowRunItemProvider != null) expressionWorkFlowRunItemProvider.dispose();
 		if (jobItemProvider != null) jobItemProvider.dispose();
 		if (jobRunContainerItemProvider != null) jobRunContainerItemProvider.dispose();
 		if (metricSourceJobItemProvider != null) metricSourceJobItemProvider.dispose();

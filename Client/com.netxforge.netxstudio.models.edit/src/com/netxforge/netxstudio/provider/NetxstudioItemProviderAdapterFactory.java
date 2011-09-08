@@ -110,6 +110,29 @@ public class NetxstudioItemProviderAdapterFactory extends NetxstudioAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.ServerSettings} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ServerSettingsItemProvider serverSettingsItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.ServerSettings}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createServerSettingsAdapter() {
+		if (serverSettingsItemProvider == null) {
+			serverSettingsItemProvider = new ServerSettingsItemProvider(this);
+		}
+
+		return serverSettingsItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -209,6 +232,7 @@ public class NetxstudioItemProviderAdapterFactory extends NetxstudioAdapterFacto
 	 */
 	public void dispose() {
 		if (netxstudioItemProvider != null) netxstudioItemProvider.dispose();
+		if (serverSettingsItemProvider != null) serverSettingsItemProvider.dispose();
 	}
 
 }

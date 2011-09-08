@@ -215,7 +215,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 				Object o = ((IStructuredSelection) selection)
 						.getFirstElement();
 				if (o instanceof Service) {
-					Service ms = (Service) o;
+					Service service = (Service) o;
 					try {
 						serverActions
 								.setServer(editingService.getDataService()
@@ -229,7 +229,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 						
 						@SuppressWarnings("unused")
 						String result = serverActions
-								.callMonitorAction(ms, fromDate, toDate);
+								.callMonitorAction(service, fromDate, toDate);
 						// TODO, We get the workflow run ID back, which
 						// could be used
 						// to link back to the screen showing the running
@@ -240,7 +240,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 								Services.this.getShell(),
 								"Monitor now succeeded:",
 								"Monitoring of service: "
-										+ ms.getServiceName()
+										+ service.getServiceName()
 										+ "\n has been initiated on the server.");
 
 					} catch (Exception e1) {
@@ -249,7 +249,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 								Services.this.getShell(),
 								"Monitor now failed:",
 								"Monitoring of service: "
-										+ ms.getServiceName()
+										+ service.getServiceName()
 										+ "\n failed. Consult the log for information on the failure");
 
 					}
@@ -260,6 +260,62 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 	}
 	
 
+	class ReportNowAction extends Action {
+		public ReportNowAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = getViewer().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object o = ((IStructuredSelection) selection)
+						.getFirstElement();
+				if (o instanceof Service) {
+					Service service = (Service) o;
+					try {
+						serverActions
+								.setServer(editingService.getDataService()
+										.getProvider().getServer());
+							
+						
+						// TODO, provide a dialog for monitoring period selection. 
+						
+						Date fromDate = null;
+						Date toDate = null;
+						
+						@SuppressWarnings("unused")
+						String result = serverActions
+								.callReportingAction(service, fromDate, toDate);
+						// TODO, We get the workflow run ID back, which
+						// could be used
+						// to link back to the screen showing the running
+						// workflows.
+
+						
+						MessageDialog.openInformation(
+								Services.this.getShell(),
+								"Reporting now succeeded:",
+								"Reporting of service: "
+										+ service.getServiceName()
+										+ "\n has been initiated on the server.");
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						MessageDialog.openError(
+								Services.this.getShell(),
+								"Reporting now failed:",
+								"Reporting of service: "
+										+ service.getServiceName()
+										+ "\n failed. Consult the log for information on the failure");
+
+					}
+
+				}
+			}
+		}
+	}
+	
 	class ScheduleMonitorJobAction extends Action {
 		public ScheduleMonitorJobAction(String text, int style) {
 			super(text, style);
@@ -527,6 +583,8 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 			
 			actions.add(new ScheduleReportingJobAction(
 					"Schedule Reporting Job...", SWT.PUSH));
+			
+			actions.add(new ReportNowAction("Report Now...", SWT.PUSH));
 		}
 
 		IAction[] actionArray = new IAction[actions.size()];

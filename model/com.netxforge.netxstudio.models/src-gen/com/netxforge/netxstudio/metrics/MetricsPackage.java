@@ -629,13 +629,31 @@ public interface MetricsPackage extends EPackage {
 	int MAPPING_STATISTIC__MAPPING_DURATION = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Period Estimate</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_STATISTIC__PERIOD_ESTIMATE = GenericsPackage.BASE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Interval Estimate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_STATISTIC__INTERVAL_ESTIMATE = GenericsPackage.BASE_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Message</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_STATISTIC__MESSAGE = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int MAPPING_STATISTIC__MESSAGE = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Total Records</b></em>' attribute.
@@ -644,7 +662,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_STATISTIC__TOTAL_RECORDS = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int MAPPING_STATISTIC__TOTAL_RECORDS = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Mapping Statistic</em>' class.
@@ -653,7 +671,7 @@ public interface MetricsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAPPING_STATISTIC_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int MAPPING_STATISTIC_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.metrics.impl.MappingXLSImpl <em>Mapping XLS</em>}' class.
@@ -1529,6 +1547,28 @@ public interface MetricsPackage extends EPackage {
 	EReference getMappingStatistic_MappingDuration();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.metrics.MappingStatistic#getPeriodEstimate <em>Period Estimate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Period Estimate</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingStatistic#getPeriodEstimate()
+	 * @see #getMappingStatistic()
+	 * @generated
+	 */
+	EReference getMappingStatistic_PeriodEstimate();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingStatistic#getIntervalEstimate <em>Interval Estimate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Interval Estimate</em>'.
+	 * @see com.netxforge.netxstudio.metrics.MappingStatistic#getIntervalEstimate()
+	 * @see #getMappingStatistic()
+	 * @generated
+	 */
+	EAttribute getMappingStatistic_IntervalEstimate();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.metrics.MappingStatistic#getMessage <em>Message</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2301,6 +2341,22 @@ public interface MetricsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MAPPING_STATISTIC__MAPPING_DURATION = eINSTANCE.getMappingStatistic_MappingDuration();
+
+		/**
+		 * The meta object literal for the '<em><b>Period Estimate</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MAPPING_STATISTIC__PERIOD_ESTIMATE = eINSTANCE.getMappingStatistic_PeriodEstimate();
+
+		/**
+		 * The meta object literal for the '<em><b>Interval Estimate</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MAPPING_STATISTIC__INTERVAL_ESTIMATE = eINSTANCE.getMappingStatistic_IntervalEstimate();
 
 		/**
 		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.

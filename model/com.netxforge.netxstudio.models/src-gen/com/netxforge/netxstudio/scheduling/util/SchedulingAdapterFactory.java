@@ -25,8 +25,9 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.scheduling.AnalyzerJob;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
@@ -97,12 +98,16 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 				return createAnalyzerJobAdapter();
 			}
 			@Override
-			public Adapter caseExpressionFailure(ExpressionFailure object) {
-				return createExpressionFailureAdapter();
+			public Adapter caseComponentFailure(ComponentFailure object) {
+				return createComponentFailureAdapter();
 			}
 			@Override
-			public Adapter caseExpressionWorkFlowRun(ExpressionWorkFlowRun object) {
-				return createExpressionWorkFlowRunAdapter();
+			public Adapter caseComponentWorkFlowRun(ComponentWorkFlowRun object) {
+				return createComponentWorkFlowRunAdapter();
+			}
+			@Override
+			public Adapter caseExpressionFailure(ExpressionFailure object) {
+				return createExpressionFailureAdapter();
 			}
 			@Override
 			public Adapter caseJob(Job object) {
@@ -171,6 +176,34 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.ComponentFailure <em>Component Failure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.ComponentFailure
+	 * @generated
+	 */
+	public Adapter createComponentFailureAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun <em>Component Work Flow Run</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun
+	 * @generated
+	 */
+	public Adapter createComponentWorkFlowRunAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure <em>Expression Failure</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -181,20 +214,6 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createExpressionFailureAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun <em>Expression Work Flow Run</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun
-	 * @generated
-	 */
-	public Adapter createExpressionWorkFlowRunAdapter() {
 		return null;
 	}
 

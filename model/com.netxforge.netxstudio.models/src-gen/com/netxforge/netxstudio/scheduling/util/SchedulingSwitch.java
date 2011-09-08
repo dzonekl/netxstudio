@@ -24,8 +24,9 @@ import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.scheduling.AnalyzerJob;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
@@ -100,16 +101,23 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SchedulingPackage.EXPRESSION_FAILURE: {
-				ExpressionFailure expressionFailure = (ExpressionFailure)theEObject;
-				T result = caseExpressionFailure(expressionFailure);
+			case SchedulingPackage.COMPONENT_FAILURE: {
+				ComponentFailure componentFailure = (ComponentFailure)theEObject;
+				T result = caseComponentFailure(componentFailure);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SchedulingPackage.EXPRESSION_WORK_FLOW_RUN: {
-				ExpressionWorkFlowRun expressionWorkFlowRun = (ExpressionWorkFlowRun)theEObject;
-				T result = caseExpressionWorkFlowRun(expressionWorkFlowRun);
-				if (result == null) result = caseWorkFlowRun(expressionWorkFlowRun);
+			case SchedulingPackage.COMPONENT_WORK_FLOW_RUN: {
+				ComponentWorkFlowRun componentWorkFlowRun = (ComponentWorkFlowRun)theEObject;
+				T result = caseComponentWorkFlowRun(componentWorkFlowRun);
+				if (result == null) result = caseWorkFlowRun(componentWorkFlowRun);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SchedulingPackage.EXPRESSION_FAILURE: {
+				ExpressionFailure expressionFailure = (ExpressionFailure)theEObject;
+				T result = caseExpressionFailure(expressionFailure);
+				if (result == null) result = caseComponentFailure(expressionFailure);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -184,6 +192,36 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Component Failure</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Component Failure</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseComponentFailure(ComponentFailure object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Component Work Flow Run</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Component Work Flow Run</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseComponentWorkFlowRun(ComponentWorkFlowRun object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Expression Failure</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -195,21 +233,6 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseExpressionFailure(ExpressionFailure object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Expression Work Flow Run</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Expression Work Flow Run</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseExpressionWorkFlowRun(ExpressionWorkFlowRun object) {
 		return null;
 	}
 

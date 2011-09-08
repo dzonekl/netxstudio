@@ -56,6 +56,7 @@ private String server;
 	public static final String METRIC_IMPORT_SERVICE = "com.netxforge.netxstudio.server.metrics.MetricSourceImportService";
 	public static final String MONITOR_SERVICE = "com.netxforge.netxstudio.server.logic.CapacityService";
 	public static final String RETENTION_SERVICE = "com.netxforge.netxstudio.server.logic.RetentionService";
+	public static final String REPORTING_SERVICE = "com.netxforge.netxstudio.server.logic.reporting.ReportingService";
 	
 	
 	public static final String MS_PARAM = "metricSource";
@@ -72,10 +73,14 @@ private String server;
 	
 	
 	public String callMonitorAction(CDOObject cdoObject, Date fromDate, Date toDate) throws Exception{
-		return callMonitorAction(MONITOR_SERVICE, SERVICE_PARAM, cdoObject.cdoID(), fromDate, toDate);
+		return callPeriodAction(MONITOR_SERVICE, SERVICE_PARAM, cdoObject.cdoID(), fromDate, toDate);
 	}
 	
-	
+
+	public String callReportingAction(CDOObject cdoObject, Date fromDate, Date toDate) throws Exception{
+		return callPeriodAction(REPORTING_SERVICE, SERVICE_PARAM, cdoObject.cdoID(), fromDate, toDate);
+	}
+
 	public String callRetentionAction()
 			throws Exception {
 		// Retention can deal with RFSService, Node, Nodetype etc..). 
@@ -119,11 +124,24 @@ private String server;
 		return result;
 	}
 	
-	public String callMonitorAction(String serviceName, String parameterName, CDOID cdoId, Date from, Date to)
+	public String callPeriodAction(String serviceName, String parameterName, CDOID cdoId, Date from, Date to)
 			throws Exception {
 
 		if(server == null){
 			server = NETXSTUDIO_SERVER;	
+		}else{
+			if(server.startsWith("localhost")){
+				server = NETXSTUDIO_SERVER;
+			}else{
+				// Change the port, if any specified. 
+				int portIndex = server.indexOf(':');
+				if(portIndex != -1){
+				server = server.substring(0, portIndex);
+				}else{
+					server = "http://" + server + ":8080";
+				}
+				
+			}
 		}
 		
 		if(from == null){
@@ -140,9 +158,9 @@ private String server;
 				+ serviceName);
 		
 		url.append("&" + START_TIME_PARAM + "="
-				+ getDateParamValue(from.getTime()));
+				+ getDateParamValue(from));
 		url.append("&" + END_TIME_PARAM + "="
-				+ getDateParamValue(to.getTime()));
+				+ getDateParamValue(to));
 		
 		url.append("&" + parameterName + "="
 				+ ((AbstractCDOIDLong) cdoId).getLongValue());
@@ -168,9 +186,9 @@ private String server;
 				+ serviceName);
 		
 		url.append("&" + START_TIME_PARAM + "="
-				+ getDateParamValue(from.getTime()));
+				+ getDateParamValue(from));
 		url.append("&" + END_TIME_PARAM + "="
-				+ getDateParamValue(to.getTime()));
+				+ getDateParamValue(to));
 		
 		url.append("&" + parameterName + "="
 				+ ((AbstractCDOIDLong) cdoId).getLongValue());
@@ -216,6 +234,12 @@ private String server;
 		}
 	}
 	
+	private String getDateParamValue(Date d) {
+		final XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(d);
+		return XMLTypeFactory.eINSTANCE.convertDateTime(xmlDate);
+	}
+	
+	@SuppressWarnings("unused")
 	private String getDateParamValue(long offset) {
 		final XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(new Date(
 				System.currentTimeMillis() + offset));

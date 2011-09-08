@@ -33,7 +33,7 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * 
  * @author Martin Taal
  */
-public class ResourceMonitoringEngine extends BaseEngine {
+public class ResourceMonitoringEngine extends BaseExpressionEngine {
 
 	private ServiceMonitor serviceMonitor;
 	

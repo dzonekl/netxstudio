@@ -25,7 +25,7 @@ import com.netxforge.netxstudio.library.NetXResource;
  * 
  * @author Martin Taal
  */
-public class RetentionEngine extends BaseEngine {
+public class RetentionEngine extends BaseExpressionEngine {
 
 	@Override
 	public void doExecute() {

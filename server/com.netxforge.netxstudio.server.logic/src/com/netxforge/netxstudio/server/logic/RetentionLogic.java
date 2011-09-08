@@ -38,7 +38,7 @@ public class RetentionLogic extends BaseLogic {
 
 	private RFSService rfsService;
 	private NodeType nodeType;
-	private BaseEngine engine;
+	private BaseExpressionEngine engine;
 
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor() {
@@ -55,7 +55,7 @@ public class RetentionLogic extends BaseLogic {
 	}
 
 	@Override
-	protected BaseEngine getEngine() {
+	protected BaseExpressionEngine getEngine() {
 		if (engine == null) {
 			engine = LogicActivator.getInstance().getInjector()
 					.getInstance(RetentionEngine.class);

@@ -140,7 +140,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getExpressionFailure()
 	 * @generated
 	 */
-	int EXPRESSION_FAILURE = 1;
+	int EXPRESSION_FAILURE = 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.WorkFlowRunImpl <em>Work Flow Run</em>}' class.
@@ -150,17 +150,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getWorkFlowRun()
 	 * @generated
 	 */
-	int WORK_FLOW_RUN = 9;
-
-	/**
-	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.ExpressionWorkFlowRunImpl <em>Expression Work Flow Run</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see com.netxforge.netxstudio.scheduling.impl.ExpressionWorkFlowRunImpl
-	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getExpressionWorkFlowRun()
-	 * @generated
-	 */
-	int EXPRESSION_WORK_FLOW_RUN = 2;
+	int WORK_FLOW_RUN = 10;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.JobImpl <em>Job</em>}' class.
@@ -170,7 +160,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJob()
 	 * @generated
 	 */
-	int JOB = 3;
+	int JOB = 4;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -336,13 +326,14 @@ public interface SchedulingPackage extends EPackage {
 	int ANALYZER_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Expression Ref</b></em>' reference.
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.ComponentFailureImpl <em>Component Failure</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.ComponentFailureImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getComponentFailure()
 	 * @generated
-	 * @ordered
 	 */
-	int EXPRESSION_FAILURE__EXPRESSION_REF = 0;
+	int COMPONENT_FAILURE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Component Ref</b></em>' reference.
@@ -351,7 +342,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_FAILURE__COMPONENT_REF = 1;
+	int COMPONENT_FAILURE__COMPONENT_REF = 0;
 
 	/**
 	 * The feature id for the '<em><b>Message</b></em>' attribute.
@@ -360,16 +351,16 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_FAILURE__MESSAGE = 2;
+	int COMPONENT_FAILURE__MESSAGE = 1;
 
 	/**
-	 * The number of structural features of the '<em>Expression Failure</em>' class.
+	 * The number of structural features of the '<em>Component Failure</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_FAILURE_FEATURE_COUNT = 3;
+	int COMPONENT_FAILURE_FEATURE_COUNT = 2;
 
 	/**
 	 * The feature id for the '<em><b>Ended</b></em>' attribute.
@@ -444,13 +435,23 @@ public interface SchedulingPackage extends EPackage {
 	int WORK_FLOW_RUN_FEATURE_COUNT = 7;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.ComponentWorkFlowRunImpl <em>Component Work Flow Run</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.ComponentWorkFlowRunImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getComponentWorkFlowRun()
+	 * @generated
+	 */
+	int COMPONENT_WORK_FLOW_RUN = 2;
+
+	/**
 	 * The feature id for the '<em><b>Ended</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_WORK_FLOW_RUN__ENDED = WORK_FLOW_RUN__ENDED;
+	int COMPONENT_WORK_FLOW_RUN__ENDED = WORK_FLOW_RUN__ENDED;
 
 	/**
 	 * The feature id for the '<em><b>Log</b></em>' attribute.
@@ -459,7 +460,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_WORK_FLOW_RUN__LOG = WORK_FLOW_RUN__LOG;
+	int COMPONENT_WORK_FLOW_RUN__LOG = WORK_FLOW_RUN__LOG;
 
 	/**
 	 * The feature id for the '<em><b>Progress</b></em>' attribute.
@@ -468,7 +469,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_WORK_FLOW_RUN__PROGRESS = WORK_FLOW_RUN__PROGRESS;
+	int COMPONENT_WORK_FLOW_RUN__PROGRESS = WORK_FLOW_RUN__PROGRESS;
 
 	/**
 	 * The feature id for the '<em><b>Progress Message</b></em>' attribute.
@@ -477,7 +478,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_WORK_FLOW_RUN__PROGRESS_MESSAGE = WORK_FLOW_RUN__PROGRESS_MESSAGE;
+	int COMPONENT_WORK_FLOW_RUN__PROGRESS_MESSAGE = WORK_FLOW_RUN__PROGRESS_MESSAGE;
 
 	/**
 	 * The feature id for the '<em><b>Progress Task</b></em>' attribute.
@@ -486,7 +487,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_WORK_FLOW_RUN__PROGRESS_TASK = WORK_FLOW_RUN__PROGRESS_TASK;
+	int COMPONENT_WORK_FLOW_RUN__PROGRESS_TASK = WORK_FLOW_RUN__PROGRESS_TASK;
 
 	/**
 	 * The feature id for the '<em><b>Started</b></em>' attribute.
@@ -495,7 +496,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_WORK_FLOW_RUN__STARTED = WORK_FLOW_RUN__STARTED;
+	int COMPONENT_WORK_FLOW_RUN__STARTED = WORK_FLOW_RUN__STARTED;
 
 	/**
 	 * The feature id for the '<em><b>State</b></em>' attribute.
@@ -504,7 +505,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_WORK_FLOW_RUN__STATE = WORK_FLOW_RUN__STATE;
+	int COMPONENT_WORK_FLOW_RUN__STATE = WORK_FLOW_RUN__STATE;
 
 	/**
 	 * The feature id for the '<em><b>Failure Refs</b></em>' containment reference list.
@@ -513,16 +514,52 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS = WORK_FLOW_RUN_FEATURE_COUNT + 0;
+	int COMPONENT_WORK_FLOW_RUN__FAILURE_REFS = WORK_FLOW_RUN_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Expression Work Flow Run</em>' class.
+	 * The number of structural features of the '<em>Component Work Flow Run</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_WORK_FLOW_RUN_FEATURE_COUNT = WORK_FLOW_RUN_FEATURE_COUNT + 1;
+	int COMPONENT_WORK_FLOW_RUN_FEATURE_COUNT = WORK_FLOW_RUN_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Component Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_FAILURE__COMPONENT_REF = COMPONENT_FAILURE__COMPONENT_REF;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_FAILURE__MESSAGE = COMPONENT_FAILURE__MESSAGE;
+
+	/**
+	 * The feature id for the '<em><b>Expression Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_FAILURE__EXPRESSION_REF = COMPONENT_FAILURE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Expression Failure</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_FAILURE_FEATURE_COUNT = COMPONENT_FAILURE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.JobRunContainerImpl <em>Job Run Container</em>}' class.
@@ -532,7 +569,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunContainer()
 	 * @generated
 	 */
-	int JOB_RUN_CONTAINER = 4;
+	int JOB_RUN_CONTAINER = 5;
 
 	/**
 	 * The feature id for the '<em><b>Job</b></em>' reference.
@@ -569,7 +606,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getMetricSourceJob()
 	 * @generated
 	 */
-	int METRIC_SOURCE_JOB = 5;
+	int METRIC_SOURCE_JOB = 6;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -660,7 +697,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getReporterJob()
 	 * @generated
 	 */
-	int REPORTER_JOB = 6;
+	int REPORTER_JOB = 7;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -751,7 +788,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceJob()
 	 * @generated
 	 */
-	int RFS_SERVICE_JOB = 7;
+	int RFS_SERVICE_JOB = 8;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -842,7 +879,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceRetentionJob()
 	 * @generated
 	 */
-	int RFS_SERVICE_RETENTION_JOB = 8;
+	int RFS_SERVICE_RETENTION_JOB = 9;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -933,7 +970,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunState()
 	 * @generated
 	 */
-	int JOB_RUN_STATE = 10;
+	int JOB_RUN_STATE = 11;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobState <em>Job State</em>}' enum.
@@ -943,7 +980,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobState()
 	 * @generated
 	 */
-	int JOB_STATE = 11;
+	int JOB_STATE = 12;
 
 	/**
 	 * The meta object id for the '<em>Job Run State Object</em>' data type.
@@ -953,7 +990,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunStateObject()
 	 * @generated
 	 */
-	int JOB_RUN_STATE_OBJECT = 12;
+	int JOB_RUN_STATE_OBJECT = 13;
 
 	/**
 	 * The meta object id for the '<em>Job State Object</em>' data type.
@@ -963,7 +1000,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobStateObject()
 	 * @generated
 	 */
-	int JOB_STATE_OBJECT = 13;
+	int JOB_STATE_OBJECT = 14;
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.AnalyzerJob <em>Analyzer Job</em>}'.
@@ -987,6 +1024,59 @@ public interface SchedulingPackage extends EPackage {
 	EReference getAnalyzerJob_RFSService();
 
 	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.ComponentFailure <em>Component Failure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Component Failure</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ComponentFailure
+	 * @generated
+	 */
+	EClass getComponentFailure();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.ComponentFailure#getComponentRef <em>Component Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Component Ref</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ComponentFailure#getComponentRef()
+	 * @see #getComponentFailure()
+	 * @generated
+	 */
+	EReference getComponentFailure_ComponentRef();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.ComponentFailure#getMessage <em>Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Message</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ComponentFailure#getMessage()
+	 * @see #getComponentFailure()
+	 * @generated
+	 */
+	EAttribute getComponentFailure_Message();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun <em>Component Work Flow Run</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Component Work Flow Run</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun
+	 * @generated
+	 */
+	EClass getComponentWorkFlowRun();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun#getFailureRefs <em>Failure Refs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Failure Refs</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun#getFailureRefs()
+	 * @see #getComponentWorkFlowRun()
+	 * @generated
+	 */
+	EReference getComponentWorkFlowRun_FailureRefs();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure <em>Expression Failure</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1006,49 +1096,6 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getExpressionFailure_ExpressionRef();
-
-	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getComponentRef <em>Component Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Component Ref</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.ExpressionFailure#getComponentRef()
-	 * @see #getExpressionFailure()
-	 * @generated
-	 */
-	EReference getExpressionFailure_ComponentRef();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.scheduling.ExpressionFailure#getMessage <em>Message</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Message</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.ExpressionFailure#getMessage()
-	 * @see #getExpressionFailure()
-	 * @generated
-	 */
-	EAttribute getExpressionFailure_Message();
-
-	/**
-	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun <em>Expression Work Flow Run</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Expression Work Flow Run</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun
-	 * @generated
-	 */
-	EClass getExpressionWorkFlowRun();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun#getFailureRefs <em>Failure Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Failure Refs</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.ExpressionWorkFlowRun#getFailureRefs()
-	 * @see #getExpressionWorkFlowRun()
-	 * @generated
-	 */
-	EReference getExpressionWorkFlowRun_FailureRefs();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.Job <em>Job</em>}'.
@@ -1414,6 +1461,50 @@ public interface SchedulingPackage extends EPackage {
 		EReference ANALYZER_JOB__RFS_SERVICE = eINSTANCE.getAnalyzerJob_RFSService();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.ComponentFailureImpl <em>Component Failure</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.scheduling.impl.ComponentFailureImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getComponentFailure()
+		 * @generated
+		 */
+		EClass COMPONENT_FAILURE = eINSTANCE.getComponentFailure();
+
+		/**
+		 * The meta object literal for the '<em><b>Component Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT_FAILURE__COMPONENT_REF = eINSTANCE.getComponentFailure_ComponentRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT_FAILURE__MESSAGE = eINSTANCE.getComponentFailure_Message();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.ComponentWorkFlowRunImpl <em>Component Work Flow Run</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.scheduling.impl.ComponentWorkFlowRunImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getComponentWorkFlowRun()
+		 * @generated
+		 */
+		EClass COMPONENT_WORK_FLOW_RUN = eINSTANCE.getComponentWorkFlowRun();
+
+		/**
+		 * The meta object literal for the '<em><b>Failure Refs</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT_WORK_FLOW_RUN__FAILURE_REFS = eINSTANCE.getComponentWorkFlowRun_FailureRefs();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.ExpressionFailureImpl <em>Expression Failure</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1430,40 +1521,6 @@ public interface SchedulingPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EXPRESSION_FAILURE__EXPRESSION_REF = eINSTANCE.getExpressionFailure_ExpressionRef();
-
-		/**
-		 * The meta object literal for the '<em><b>Component Ref</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPRESSION_FAILURE__COMPONENT_REF = eINSTANCE.getExpressionFailure_ComponentRef();
-
-		/**
-		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EXPRESSION_FAILURE__MESSAGE = eINSTANCE.getExpressionFailure_Message();
-
-		/**
-		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.ExpressionWorkFlowRunImpl <em>Expression Work Flow Run</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see com.netxforge.netxstudio.scheduling.impl.ExpressionWorkFlowRunImpl
-		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getExpressionWorkFlowRun()
-		 * @generated
-		 */
-		EClass EXPRESSION_WORK_FLOW_RUN = eINSTANCE.getExpressionWorkFlowRun();
-
-		/**
-		 * The meta object literal for the '<em><b>Failure Refs</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPRESSION_WORK_FLOW_RUN__FAILURE_REFS = eINSTANCE.getExpressionWorkFlowRun_FailureRefs();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.JobImpl <em>Job</em>}' class.

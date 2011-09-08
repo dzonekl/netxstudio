@@ -47,8 +47,7 @@ import com.netxforge.netxstudio.metrics.KindHintType;
  * </p>
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult()
- * @model annotation="teneo.jpa appinfo='@Transient'"
- *        extendedMetaData="name='ExpressionResult' kind='elementOnly'"
+ * @model extendedMetaData="name='ExpressionResult' kind='elementOnly'"
  * @extends CDOObject
  * @generated
  */

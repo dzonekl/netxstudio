@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -268,6 +269,44 @@ public interface NetxstudioPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.impl.ServerSettingsImpl <em>Server Settings</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.impl.ServerSettingsImpl
+	 * @see com.netxforge.netxstudio.impl.NetxstudioPackageImpl#getServerSettings()
+	 * @generated
+	 */
+	int SERVER_SETTINGS = 1;
+
+	/**
+	 * The feature id for the '<em><b>Export Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVER_SETTINGS__EXPORT_PATH = 0;
+
+	/**
+	 * The feature id for the '<em><b>Import Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVER_SETTINGS__IMPORT_PATH = 1;
+
+	/**
+	 * The number of structural features of the '<em>Server Settings</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVER_SETTINGS_FEATURE_COUNT = 2;
+
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.Netxstudio <em>Netxstudio</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -366,6 +405,38 @@ public interface NetxstudioPackage extends EPackage {
 	EReference getNetxstudio_Jobs();
 
 	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.ServerSettings <em>Server Settings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Server Settings</em>'.
+	 * @see com.netxforge.netxstudio.ServerSettings
+	 * @generated
+	 */
+	EClass getServerSettings();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.ServerSettings#getExportPath <em>Export Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Export Path</em>'.
+	 * @see com.netxforge.netxstudio.ServerSettings#getExportPath()
+	 * @see #getServerSettings()
+	 * @generated
+	 */
+	EAttribute getServerSettings_ExportPath();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.ServerSettings#getImportPath <em>Import Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Import Path</em>'.
+	 * @see com.netxforge.netxstudio.ServerSettings#getImportPath()
+	 * @see #getServerSettings()
+	 * @generated
+	 */
+	EAttribute getServerSettings_ImportPath();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -460,6 +531,32 @@ public interface NetxstudioPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NETXSTUDIO__JOBS = eINSTANCE.getNetxstudio_Jobs();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.impl.ServerSettingsImpl <em>Server Settings</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.impl.ServerSettingsImpl
+		 * @see com.netxforge.netxstudio.impl.NetxstudioPackageImpl#getServerSettings()
+		 * @generated
+		 */
+		EClass SERVER_SETTINGS = eINSTANCE.getServerSettings();
+
+		/**
+		 * The meta object literal for the '<em><b>Export Path</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVER_SETTINGS__EXPORT_PATH = eINSTANCE.getServerSettings_ExportPath();
+
+		/**
+		 * The meta object literal for the '<em><b>Import Path</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVER_SETTINGS__IMPORT_PATH = eINSTANCE.getServerSettings_ImportPath();
 
 	}
 

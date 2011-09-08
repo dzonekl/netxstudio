@@ -36,6 +36,8 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getFailedRecords <em>Failed Records</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getMappingDuration <em>Mapping Duration</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getPeriodEstimate <em>Period Estimate</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getIntervalEstimate <em>Interval Estimate</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getMessage <em>Message</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.metrics.impl.MappingStatisticImpl#getTotalRecords <em>Total Records</em>}</li>
  * </ul>
@@ -89,6 +91,60 @@ public class MappingStatisticImpl extends BaseImpl implements MappingStatistic {
 	 */
 	public void setMappingDuration(DateTimeRange newMappingDuration) {
 		eSet(MetricsPackage.Literals.MAPPING_STATISTIC__MAPPING_DURATION, newMappingDuration);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DateTimeRange getPeriodEstimate() {
+		return (DateTimeRange)eGet(MetricsPackage.Literals.MAPPING_STATISTIC__PERIOD_ESTIMATE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPeriodEstimate(DateTimeRange newPeriodEstimate) {
+		eSet(MetricsPackage.Literals.MAPPING_STATISTIC__PERIOD_ESTIMATE, newPeriodEstimate);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getIntervalEstimate() {
+		return (Integer)eGet(MetricsPackage.Literals.MAPPING_STATISTIC__INTERVAL_ESTIMATE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIntervalEstimate(int newIntervalEstimate) {
+		eSet(MetricsPackage.Literals.MAPPING_STATISTIC__INTERVAL_ESTIMATE, newIntervalEstimate);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetIntervalEstimate() {
+		eUnset(MetricsPackage.Literals.MAPPING_STATISTIC__INTERVAL_ESTIMATE);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetIntervalEstimate() {
+		return eIsSet(MetricsPackage.Literals.MAPPING_STATISTIC__INTERVAL_ESTIMATE);
 	}
 
 	/**

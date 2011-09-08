@@ -28,10 +28,13 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 
 public class MasterDataExporter {
 
+	@SuppressWarnings("unused")
 	private IDataProvider dataProvider;
 	private EPackage[] ePackages;
 	private Object[] exportObjects = null;
+	@SuppressWarnings("unused")
 	private EStructuralFeature[] featureFilter;
+	@SuppressWarnings("unused")
 	private EClass[] classFilter;
 
 	HSSFWorkbook workBook;

@@ -113,7 +113,7 @@ public class MetricSourceImportService implements NetxForgeService {
 					.getResource(SchedulingPackage.Literals.WORK_FLOW_RUN);
 
 			final WorkFlowRun wfRun = SchedulingFactory.eINSTANCE
-					.createExpressionWorkFlowRun();
+					.createComponentWorkFlowRun();
 			res.getContents().add(wfRun);
 
 			dataProvider.commitTransaction();

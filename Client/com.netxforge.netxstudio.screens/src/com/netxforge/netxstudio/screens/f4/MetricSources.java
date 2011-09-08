@@ -46,6 +46,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -157,12 +158,14 @@ public class MetricSources extends AbstractScreen implements
 									.createMetricSourceJob();
 							job.setName(((MetricSource) o).getName());
 							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-							job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
-							
-							if(job instanceof MetricSourceJob){
-								((MetricSourceJob) job).setMetricSource((MetricSource) o);
+							job.setStartTime(modelUtils.toXMLDate(modelUtils
+									.todayAndNow()));
+
+							if (job instanceof MetricSourceJob) {
+								((MetricSourceJob) job)
+										.setMetricSource((MetricSource) o);
 							}
-							
+
 						}
 
 						NewEditJob newEditJob = new NewEditJob(
@@ -198,7 +201,6 @@ public class MetricSources extends AbstractScreen implements
 		}
 	}
 
-	
 	class CollectNowAction extends Action {
 		public CollectNowAction(String text, int style) {
 			super(text, style);
@@ -208,14 +210,12 @@ public class MetricSources extends AbstractScreen implements
 		public void run() {
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection)
-						.getFirstElement();
+				Object o = ((IStructuredSelection) selection).getFirstElement();
 				if (o instanceof MetricSource) {
 					MetricSource ms = (MetricSource) o;
 					try {
-						serverActions
-								.setServer(editingService.getDataService()
-										.getProvider().getServer());
+						serverActions.setServer(editingService.getDataService()
+								.getProvider().getServer());
 						// TODO, We get the workflow run ID back, which
 						// could be used
 						// to link back to the screen showing the running
@@ -224,21 +224,23 @@ public class MetricSources extends AbstractScreen implements
 						@SuppressWarnings("unused")
 						String result = serverActions
 								.callMetricImportAction(ms);
-						MessageDialog.openInformation(
-								MetricSources.this.getShell(),
-								"Collect now succeeded:",
-								"Collection of data from metric source: "
-										+ ms.getName()
-										+ "\n has been initiated on the server.");
+						MessageDialog
+								.openInformation(
+										MetricSources.this.getShell(),
+										"Collect now succeeded:",
+										"Collection of data from metric source: "
+												+ ms.getName()
+												+ "\n has been initiated on the server.");
 
 					} catch (Exception e1) {
 						e1.printStackTrace();
-						MessageDialog.openError(
-								MetricSources.this.getShell(),
-								"Collect now failed:",
-								"Collection of data from metric source: "
-										+ ms.getName()
-										+ "\n failed. Consult the log for information on the failure");
+						MessageDialog
+								.openError(
+										MetricSources.this.getShell(),
+										"Collect now failed:",
+										"Collection of data from metric source: "
+												+ ms.getName()
+												+ "\n failed. Consult the log for information on the failure");
 
 					}
 
@@ -246,7 +248,36 @@ public class MetricSources extends AbstractScreen implements
 			}
 		}
 	}
-	
+
+	class FindResourcesAction extends Action {
+		public FindResourcesAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = getViewer().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object o = ((IStructuredSelection) selection).getFirstElement();
+				if (o instanceof MetricSource) {
+					MetricSource ms = (MetricSource) o;
+					Resource metricResource = editingService
+							.getData(MetricsPackage.Literals.METRIC);
+					List<NetXResource> resourcesInMetricSource = modelUtils
+							.resourcesInMetricSource(
+									metricResource.getContents(), ms);
+					if (resourcesInMetricSource.isEmpty()) {
+						System.out
+								.println("No resources for this metricsource");
+					}
+					for (NetXResource res : resourcesInMetricSource) {
+						System.out.println("resource: " + res.getShortName());
+					}
+				}
+			}
+		}
+	}
+
 	private void buildUI() {
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
@@ -290,7 +321,7 @@ public class MetricSources extends AbstractScreen implements
 								screenService.getScreenContainer(), SWT.NONE);
 						msScreen.setOperation(Screens.OPERATION_NEW);
 						msScreen.setScreenService(screenService);
-						
+
 						msScreen.injectData(msResource,
 								MetricsFactory.eINSTANCE.createMetricSource());
 						screenService.setActiveScreen(msScreen);
@@ -382,13 +413,14 @@ public class MetricSources extends AbstractScreen implements
 		String actionText = readonly ? "View" : "Edit";
 		actions.add(new EditMetricSourceAction(actionText + "...", SWT.PUSH));
 		if (!readonly) {
-			
+
 			actions.add(new ScheduleCollectionJobAction(
 					"Schedule Collection Job...", SWT.PUSH));
 			actions.add(new CollectNowAction("Collect Now...", SWT.PUSH));
+			actions.add(new FindResourcesAction("Resources for...", SWT.PUSH));
 		}
 		actions.add(new StatisticsAction("Statistics...", SWT.PUSH));
-		
+
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray);
 	}

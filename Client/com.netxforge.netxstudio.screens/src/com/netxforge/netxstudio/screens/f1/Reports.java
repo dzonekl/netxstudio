@@ -21,6 +21,8 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -53,7 +55,7 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 
 	}
 
@@ -65,12 +67,14 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(frmServices);
 		frmServices.setText("Reports");
 		frmServices.getBody().setLayout(new GridLayout(2, false));
-		
-		ImageHyperlink mghprlnkReports = toolkit.createImageHyperlink(frmServices.getBody(), SWT.NONE);
-		mghprlnkReports.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+
+		ImageHyperlink mghprlnkReports = toolkit.createImageHyperlink(
+				frmServices.getBody(), SWT.NONE);
+		mghprlnkReports.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false,
+				false, 1, 1));
 		toolkit.paintBordersFor(mghprlnkReports);
 		mghprlnkReports.setText("Reports");
-		
+
 		browser = new Browser(frmServices.getBody(), SWT.NONE);
 		browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		toolkit.adapt(browser);
@@ -80,16 +84,31 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-		
+
 		// TODO, retrieve the server settings .....
 		browser.setUrl("http://localhost:8080/netxforge/service");
-		
+
 		return bindingContext;
 	}
 
 	public void injectData() {
 		rfsServiceResource = editingService
 				.getData(ServicesPackage.Literals.RFS_SERVICE);
+
+		// This piece goes in commons somewhere.
+		Resource settingsResource = editingService
+				.getData(NetxstudioPackage.Literals.SERVER_SETTINGS);
+		ServerSettings settings = null;
+		if (settingsResource != null
+				&& settingsResource.getContents().size() == 1) {
+			settings = (ServerSettings) settingsResource.getContents().get(0);
+		}
+
+		if (settings != null) {
+			settings.getExportPath();
+
+		}
+
 		buildUI();
 		initDataBindings_();
 	}

@@ -19,10 +19,8 @@
 package com.netxforge.netxstudio.scheduling.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
-import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
@@ -34,14 +32,12 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.ExpressionFailureImpl#getExpressionRef <em>Expression Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.ExpressionFailureImpl#getComponentRef <em>Component Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.ExpressionFailureImpl#getMessage <em>Message</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ExpressionFailureImpl extends CDOObjectImpl implements ExpressionFailure {
+public class ExpressionFailureImpl extends ComponentFailureImpl implements ExpressionFailure {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -66,9 +62,8 @@ public class ExpressionFailureImpl extends CDOObjectImpl implements ExpressionFa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
+	public Expression getExpressionRef() {
+		return (Expression)eGet(SchedulingPackage.Literals.EXPRESSION_FAILURE__EXPRESSION_REF, true);
 	}
 
 	/**
@@ -76,53 +71,8 @@ public class ExpressionFailureImpl extends CDOObjectImpl implements ExpressionFa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EObject getExpressionRef() {
-		return (EObject)eGet(SchedulingPackage.Literals.EXPRESSION_FAILURE__EXPRESSION_REF, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExpressionRef(EObject newExpressionRef) {
+	public void setExpressionRef(Expression newExpressionRef) {
 		eSet(SchedulingPackage.Literals.EXPRESSION_FAILURE__EXPRESSION_REF, newExpressionRef);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Component getComponentRef() {
-		return (Component)eGet(SchedulingPackage.Literals.EXPRESSION_FAILURE__COMPONENT_REF, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setComponentRef(Component newComponentRef) {
-		eSet(SchedulingPackage.Literals.EXPRESSION_FAILURE__COMPONENT_REF, newComponentRef);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getMessage() {
-		return (String)eGet(SchedulingPackage.Literals.EXPRESSION_FAILURE__MESSAGE, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMessage(String newMessage) {
-		eSet(SchedulingPackage.Literals.EXPRESSION_FAILURE__MESSAGE, newMessage);
 	}
 
 } //ExpressionFailureImpl

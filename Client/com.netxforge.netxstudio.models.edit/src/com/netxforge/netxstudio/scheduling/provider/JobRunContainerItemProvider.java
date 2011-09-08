@@ -193,7 +193,7 @@ public class JobRunContainerItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(SchedulingPackage.Literals.JOB_RUN_CONTAINER__WORK_FLOW_RUNS,
-				 SchedulingFactory.eINSTANCE.createExpressionWorkFlowRun()));
+				 SchedulingFactory.eINSTANCE.createComponentWorkFlowRun()));
 	}
 
 	/**

@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns="http://www.netxforge.com/13042011/netxstudio" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gen="http://www.netxforge.com/13042011/generics" xmlns:geo="http://www.netxforge.com/13042011/geo" xmlns:library="http://www.netxforge.com/13042011/library" xmlns:metrics="http://www.netxforge.com/13042011/metrics" xmlns:operators="http://www.netxforge.com/13042011/operators" xmlns:scheduling="http://www.netxforge.com/13042011/scheduling" xmlns:services="http://www.netxforge.com/13042011/services" xmlns:xs="http://www.w3.org/2001/XMLSchema" ecore:package="com.netxforge.netxstudio" id="NetXStudio" targetNamespace="http://www.netxforge.com/13042011/netxstudio">
-	
-	<xs:import namespace="http://www.netxforge.com/13042011/operators" schemaLocation="operators.xsd"/>
-	<xs:import namespace="http://www.netxforge.com/13042011/generics" schemaLocation="generics.xsd"/>
-	<xs:import namespace="http://www.netxforge.com/13042011/metrics" schemaLocation="metrics.xsd"/>
-	<xs:import namespace="http://www.netxforge.com/13042011/geo" schemaLocation="geo.xsd"/>
-	<xs:import namespace="http://www.netxforge.com/13042011/library" schemaLocation="library.xsd"/>
-	<xs:import namespace="http://www.netxforge.com/13042011/services" schemaLocation="services.xsd"/>	
-	<xs:import namespace="http://www.netxforge.com/13042011/scheduling" schemaLocation="scheduling.xsd"/>	
-	<xs:import namespace="http://www.eclipse.org/emf/2002/Ecore" schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xsd"/>
+<xs:schema xmlns="http://www.netxforge.com/13042011/netxstudio"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:gen="http://www.netxforge.com/13042011/generics"
+	xmlns:geo="http://www.netxforge.com/13042011/geo" xmlns:library="http://www.netxforge.com/13042011/library"
+	xmlns:metrics="http://www.netxforge.com/13042011/metrics"
+	xmlns:operators="http://www.netxforge.com/13042011/operators"
+	xmlns:scheduling="http://www.netxforge.com/13042011/scheduling"
+	xmlns:services="http://www.netxforge.com/13042011/services" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	ecore:package="com.netxforge.netxstudio" id="NetXStudio"
+	targetNamespace="http://www.netxforge.com/13042011/netxstudio">
+
+	<xs:import namespace="http://www.netxforge.com/13042011/operators"
+		schemaLocation="operators.xsd" />
+	<xs:import namespace="http://www.netxforge.com/13042011/generics"
+		schemaLocation="generics.xsd" />
+	<xs:import namespace="http://www.netxforge.com/13042011/metrics"
+		schemaLocation="metrics.xsd" />
+	<xs:import namespace="http://www.netxforge.com/13042011/geo"
+		schemaLocation="geo.xsd" />
+	<xs:import namespace="http://www.netxforge.com/13042011/library"
+		schemaLocation="library.xsd" />
+	<xs:import namespace="http://www.netxforge.com/13042011/services"
+		schemaLocation="services.xsd" />
+	<xs:import namespace="http://www.netxforge.com/13042011/scheduling"
+		schemaLocation="scheduling.xsd" />
+	<xs:import namespace="http://www.eclipse.org/emf/2002/Ecore"
+		schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.xsd" />
 	<xs:annotation>
 		<xs:documentation>
 			Network Data schema Copyright 2008 The schema uses
@@ -35,59 +51,88 @@
 	</xs:annotation>
 
 	<!--_______________________ -->
+	<!-- SERVERSETTINGS -->
+	<!--_______________________ -->
+	<xs:complexType name="ServerSettings">
+		<xs:annotation>
+			<xs:documentation>Contains Settings on the server</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="ImportPath" type="xs:string"></xs:attribute>
+		<xs:attribute name="ExportPath" type="xs:string"></xs:attribute>
+	</xs:complexType>
+	
+	<!--_______________________ -->
 	<!-- NETXSTUDIO -->
 	<!--_______________________ -->
 
 	<xs:complexType name="Netxstudio">
 		<xs:annotation>
-			<xs:appinfo ecore:key="operations" source="http://www.eclipse.org/emf/2002/Ecore">
+			<xs:appinfo ecore:key="operations"
+				source="http://www.eclipse.org/emf/2002/Ecore">
 				<operation name="test" type="xs:int">
 				</operation>
 			</xs:appinfo>
-			<xs:documentation>Netxstudio is a container which groups all main other types. It is the root object.</xs:documentation>
+			<xs:documentation>Netxstudio is a container which groups all main
+				other types. It is the root object.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Operators" type="operators:Operator">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Operators"
+				type="operators:Operator">
 				<xs:annotation>
-					<xs:documentation>The Operators reference, contains 0 or more Operator type.</xs:documentation>
+					<xs:documentation>The Operators reference, contains 0 or more
+						Operator type.</xs:documentation>
 				</xs:annotation>
-      </xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Libraries" type="library:Library">
-				<xs:annotation>
-					<xs:documentation>The Libraries reference, contains 0 or more Library type.</xs:documentation>
-				</xs:annotation>
-      </xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Companies" type="gen:Company">
-				<xs:annotation>
-					<xs:documentation>The Companies reference, contains 0 or more Company type.</xs:documentation>
-				</xs:annotation>
-      </xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Vendors" type="library:Vendor">
-				<xs:annotation>
-					<xs:documentation>The Companies reference, contains 0 or more Company type.</xs:documentation>
-				</xs:annotation>
-      </xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Users" type="gen:Person">
-				<xs:annotation>
-					<xs:documentation>The Users reference, contains 0 or more User type.</xs:documentation>
-				</xs:annotation>
-      </xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Roles" type="gen:Role">
-				<xs:annotation>
-					<xs:documentation>The Roles reference, contains 0 or more Role type.</xs:documentation>
-				</xs:annotation>
-      </xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Countries" type="geo:Country">
-                <xs:annotation>
-                	<xs:documentation>The Countries reference, contains 0 or more Country type.</xs:documentation>
-                </xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="Jobs" type="scheduling:Job">
-                <xs:annotation>
-                	<xs:documentation>The Jobs reference, contains 0 or more Job type.</xs:documentation>
-                </xs:annotation>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Libraries"
+				type="library:Library">
+				<xs:annotation>
+					<xs:documentation>The Libraries reference, contains 0 or more
+						Library type.</xs:documentation>
+				</xs:annotation>
 			</xs:element>
-			
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Companies"
+				type="gen:Company">
+				<xs:annotation>
+					<xs:documentation>The Companies reference, contains 0 or more
+						Company type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Vendors"
+				type="library:Vendor">
+				<xs:annotation>
+					<xs:documentation>The Companies reference, contains 0 or more
+						Company type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Users"
+				type="gen:Person">
+				<xs:annotation>
+					<xs:documentation>The Users reference, contains 0 or more User
+						type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Roles"
+				type="gen:Role">
+				<xs:annotation>
+					<xs:documentation>The Roles reference, contains 0 or more Role
+						type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Countries"
+				type="geo:Country">
+				<xs:annotation>
+					<xs:documentation>The Countries reference, contains 0 or more
+						Country type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Jobs"
+				type="scheduling:Job">
+				<xs:annotation>
+					<xs:documentation>The Jobs reference, contains 0 or more Job type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
