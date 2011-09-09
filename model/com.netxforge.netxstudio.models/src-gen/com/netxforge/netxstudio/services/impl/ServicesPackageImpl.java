@@ -53,6 +53,7 @@ import com.netxforge.netxstudio.services.ServiceForecast;
 import com.netxforge.netxstudio.services.ServiceForecastUsers;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServiceProfile;
+import com.netxforge.netxstudio.services.ServiceProfileResource;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -132,6 +133,13 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass serviceProfileResourceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass serviceUserEClass = null;
 
 	/**
@@ -202,10 +210,10 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		SchedulingPackageImpl theSchedulingPackage = (SchedulingPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SchedulingPackage.eNS_URI) instanceof SchedulingPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SchedulingPackage.eNS_URI) : SchedulingPackage.eINSTANCE);
 		GenericsPackageImpl theGenericsPackage = (GenericsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI) instanceof GenericsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI) : GenericsPackage.eINSTANCE);
 		LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
-		MetricsPackageImpl theMetricsPackage = (MetricsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) instanceof MetricsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) : MetricsPackage.eINSTANCE);
 		OperatorsPackageImpl theOperatorsPackage = (OperatorsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) instanceof OperatorsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) : OperatorsPackage.eINSTANCE);
-		GeoPackageImpl theGeoPackage = (GeoPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) instanceof GeoPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) : GeoPackage.eINSTANCE);
+		MetricsPackageImpl theMetricsPackage = (MetricsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) instanceof MetricsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) : MetricsPackage.eINSTANCE);
 		ProtocolsPackageImpl theProtocolsPackage = (ProtocolsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) instanceof ProtocolsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) : ProtocolsPackage.eINSTANCE);
+		GeoPackageImpl theGeoPackage = (GeoPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) instanceof GeoPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) : GeoPackage.eINSTANCE);
 		NetxstudioPackageImpl theNetxstudioPackage = (NetxstudioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) instanceof NetxstudioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) : NetxstudioPackage.eINSTANCE);
 
 		// Create package meta-data objects
@@ -213,10 +221,10 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		theSchedulingPackage.createPackageContents();
 		theGenericsPackage.createPackageContents();
 		theLibraryPackage.createPackageContents();
-		theMetricsPackage.createPackageContents();
 		theOperatorsPackage.createPackageContents();
-		theGeoPackage.createPackageContents();
+		theMetricsPackage.createPackageContents();
 		theProtocolsPackage.createPackageContents();
+		theGeoPackage.createPackageContents();
 		theNetxstudioPackage.createPackageContents();
 
 		// Initialize created meta-data
@@ -224,10 +232,10 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		theSchedulingPackage.initializePackageContents();
 		theGenericsPackage.initializePackageContents();
 		theLibraryPackage.initializePackageContents();
-		theMetricsPackage.initializePackageContents();
 		theOperatorsPackage.initializePackageContents();
-		theGeoPackage.initializePackageContents();
+		theMetricsPackage.initializePackageContents();
 		theProtocolsPackage.initializePackageContents();
+		theGeoPackage.initializePackageContents();
 		theNetxstudioPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
@@ -613,6 +621,42 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getServiceProfileResource() {
+		return serviceProfileResourceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getServiceProfileResource_ProfileValues() {
+		return (EReference)serviceProfileResourceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getServiceProfileResource_ForecastValues() {
+		return (EReference)serviceProfileResourceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getServiceProfileResource_TrendedValues() {
+		return (EReference)serviceProfileResourceEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getServiceUser() {
 		return serviceUserEClass;
 	}
@@ -631,7 +675,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getServiceUser_ExpressionRefs() {
+	public EReference getServiceUser_ExpressionRef() {
 		return (EReference)serviceUserEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -740,9 +784,14 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		createEReference(serviceProfileEClass, SERVICE_PROFILE__PROFILE_RESOURCES);
 		createEAttribute(serviceProfileEClass, SERVICE_PROFILE__NAME);
 
+		serviceProfileResourceEClass = createEClass(SERVICE_PROFILE_RESOURCE);
+		createEReference(serviceProfileResourceEClass, SERVICE_PROFILE_RESOURCE__PROFILE_VALUES);
+		createEReference(serviceProfileResourceEClass, SERVICE_PROFILE_RESOURCE__FORECAST_VALUES);
+		createEReference(serviceProfileResourceEClass, SERVICE_PROFILE_RESOURCE__TRENDED_VALUES);
+
 		serviceUserEClass = createEClass(SERVICE_USER);
 		createEReference(serviceUserEClass, SERVICE_USER__SERVICE_PROFILE);
-		createEReference(serviceUserEClass, SERVICE_USER__EXPRESSION_REFS);
+		createEReference(serviceUserEClass, SERVICE_USER__EXPRESSION_REF);
 		createEAttribute(serviceUserEClass, SERVICE_USER__NAME);
 
 		// Create enums
@@ -795,6 +844,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		serviceForecastUsersEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		serviceMonitorEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		serviceProfileEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		serviceProfileResourceEClass.getESuperTypes().add(theLibraryPackage.getBaseResource());
 		serviceUserEClass.getESuperTypes().add(theGenericsPackage.getBase());
 
 		// Initialize classes and features; add operations and parameters
@@ -845,12 +895,17 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		initEAttribute(getServiceMonitor_Revision(), theGenericsPackage.getName255(), "revision", null, 0, 1, ServiceMonitor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceProfileEClass, ServiceProfile.class, "ServiceProfile", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getServiceProfile_ProfileResources(), theLibraryPackage.getNetXResource(), null, "profileResources", null, 0, -1, ServiceProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getServiceProfile_ProfileResources(), this.getServiceProfileResource(), null, "profileResources", null, 0, -1, ServiceProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServiceProfile_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, ServiceProfile.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(serviceProfileResourceEClass, ServiceProfileResource.class, "ServiceProfileResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getServiceProfileResource_ProfileValues(), theGenericsPackage.getValue(), null, "profileValues", null, 0, -1, ServiceProfileResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getServiceProfileResource_ForecastValues(), theGenericsPackage.getValue(), null, "forecastValues", null, 0, -1, ServiceProfileResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getServiceProfileResource_TrendedValues(), theGenericsPackage.getValue(), null, "trendedValues", null, 0, -1, ServiceProfileResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceUserEClass, ServiceUser.class, "ServiceUser", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getServiceUser_ServiceProfile(), this.getServiceProfile(), null, "serviceProfile", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getServiceUser_ExpressionRefs(), theLibraryPackage.getExpression(), null, "expressionRefs", null, 0, -1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getServiceUser_ExpressionRef(), theLibraryPackage.getExpression(), null, "expressionRef", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServiceUser_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
@@ -887,7 +942,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																												
+		   });																																																																																																				
 	}
 
 	/**
@@ -1199,6 +1254,34 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 			 "name", "Name"
 		   });			
 		addAnnotation
+		  (serviceProfileResourceEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ServiceProfileResource",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getServiceProfileResource_ProfileValues(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ProfileValues"
+		   });			
+		addAnnotation
+		  (getServiceProfileResource_ForecastValues(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ForecastValues"
+		   });			
+		addAnnotation
+		  (getServiceProfileResource_TrendedValues(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "TrendedValues"
+		   });			
+		addAnnotation
 		  (serviceUserEClass, 
 		   source, 
 		   new String[] {
@@ -1213,11 +1296,11 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 			 "name", "ServiceProfile"
 		   });			
 		addAnnotation
-		  (getServiceUser_ExpressionRefs(), 
+		  (getServiceUser_ExpressionRef(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "ExpressionRefs"
+			 "name", "ExpressionRef"
 		   });			
 		addAnnotation
 		  (getServiceUser_Name(), 

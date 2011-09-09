@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.details;
+package com.netxforge.netxstudio.screens.f2.details;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -9,39 +9,55 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.operators.Network;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
-public class NewEditFunction extends NewEditComponent implements
-		IScreen  {
+public class NewEditNetwork extends AbstractDetailsScreen implements
+		IScreen, IDataScreenInjection {
 
+	private Network network;
+	private FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Text txtName;
 	private Text txtDescription;
+	private IEditingService editingService;
 
-	public NewEditFunction(Composite parent, int style,
+	public NewEditNetwork(Composite parent, int style,
 			final IEditingService editingService) {
-		super(parent, style, editingService);
+		super(parent, style);
+		this.editingService = editingService;
+		toolkit.adapt(this);
+		toolkit.paintBordersFor(this);
+//		buildUI();
+	}
+
+	public void injectData(Object owner, Object object) {
+		if (object instanceof Network) {
+			this.network = (Network) object;
+		} else {
+			return;
+		}
+		buildUI();
+		this.initDataBindings_();
 	}
 
 	public boolean isValid() {
 		return false;
 	}
 
-	public void buildUI() {
-
-		// Readonlyness.
-		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
-		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
+	private void buildUI() {
 
 		Section scnInfo = toolkit.createSection(this, Section.EXPANDED
 				| Section.TITLE_BAR);
-		
 		toolkit.paintBordersFor(scnInfo);
 		scnInfo.setText("Info");
 
@@ -57,8 +73,7 @@ public class NewEditFunction extends NewEditComponent implements
 		gd_lblName.widthHint = 70;
 		lblName.setLayoutData(gd_lblName);
 
-		txtName = toolkit.createText(composite, "New Text", SWT.NONE
-				| widgetStyle);
+		txtName = toolkit.createText(composite, "New Text", SWT.NONE);
 		txtName.setText("");
 		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
 				1, 1);
@@ -72,47 +87,37 @@ public class NewEditFunction extends NewEditComponent implements
 		lblDescription.setAlignment(SWT.RIGHT);
 
 		txtDescription = toolkit.createText(composite, "New Text", SWT.BORDER
-				| SWT.WRAP | SWT.MULTI | widgetStyle);
+				| SWT.WRAP | SWT.MULTI);
 		txtDescription.setText("");
 		GridData gd_text = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		gd_text.heightHint = 62;
+		gd_text.heightHint = 100;
 		gd_text.widthHint = 200;
 		txtDescription.setLayoutData(gd_text);
-		buildResourceSection( readonly);
-		buildMetricSection(readonly);
-		buildToleranceSection( readonly);
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
-		EMFDataBindingContext context = super.initDataBindings_();
-		
-		super.bindResourcesSection(context);
-		super.bindToleranceSection();
-		super.bindMetricSection();
-		
+		EMFDataBindingContext context = new EMFDataBindingContext();
+
 		// Binding of name and Description
+
 		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtName, SWT.Modify));
-
 		IObservableValue descriptionObservable = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtDescription, SWT.Modify));
 
-
-		IEMFValueProperty componentNameProperty = EMFEditProperties.value(
+		IEMFValueProperty nameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
-				LibraryPackage.Literals.COMPONENT__NAME);
+				OperatorsPackage.Literals.NETWORK__NAME);
 
 		IEMFValueProperty componentDescriptionProperty = EMFEditProperties
 				.value(editingService.getEditingDomain(),
-						LibraryPackage.Literals.COMPONENT__DESCRIPTION);
+						OperatorsPackage.Literals.NETWORK__DESCRIPTION);
 
-
-		context.bindValue(nameObservable, componentNameProperty.observe(comp),
-				null, null);
-
+		context.bindValue(nameObservable, nameProperty.observe(network), null,
+				null);
 		context.bindValue(descriptionObservable,
-				componentDescriptionProperty.observe(comp), null, null);
+				componentDescriptionProperty.observe(network), null, null);
 
 		return context;
 	}

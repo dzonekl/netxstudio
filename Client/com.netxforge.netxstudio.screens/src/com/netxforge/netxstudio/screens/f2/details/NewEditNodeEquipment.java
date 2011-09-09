@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.details;
+package com.netxforge.netxstudio.screens.f2.details;
 
 import java.util.Date;
 

@@ -71,13 +71,14 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
-import com.netxforge.netxstudio.screens.details.NewEditEquipment;
-import com.netxforge.netxstudio.screens.details.NewEditFunction;
-import com.netxforge.netxstudio.screens.details.NewEditNodeType;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f2.details.NewEditEquipment;
+import com.netxforge.netxstudio.screens.f2.details.NewEditFunction;
+import com.netxforge.netxstudio.screens.f2.details.NewEditNodeType;
+import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeFactoryImpl;
 import com.netxforge.netxstudio.screens.f2.support.NodeTypeTreeLabelProvider;
 
 /**

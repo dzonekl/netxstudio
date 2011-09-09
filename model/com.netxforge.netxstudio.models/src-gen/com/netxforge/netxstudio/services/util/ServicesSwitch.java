@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.RFSService;
@@ -32,6 +33,7 @@ import com.netxforge.netxstudio.services.ServiceForecast;
 import com.netxforge.netxstudio.services.ServiceForecastUsers;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServiceProfile;
+import com.netxforge.netxstudio.services.ServiceProfileResource;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -154,6 +156,14 @@ public class ServicesSwitch<T> extends Switch<T> {
 				ServiceProfile serviceProfile = (ServiceProfile)theEObject;
 				T result = caseServiceProfile(serviceProfile);
 				if (result == null) result = caseBase(serviceProfile);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ServicesPackage.SERVICE_PROFILE_RESOURCE: {
+				ServiceProfileResource serviceProfileResource = (ServiceProfileResource)theEObject;
+				T result = caseServiceProfileResource(serviceProfileResource);
+				if (result == null) result = caseBaseResource(serviceProfileResource);
+				if (result == null) result = caseBase(serviceProfileResource);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -304,6 +314,21 @@ public class ServicesSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Service Profile Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Service Profile Resource</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseServiceProfileResource(ServiceProfileResource object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Service User</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -330,6 +355,21 @@ public class ServicesSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseBase(Base object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base Resource</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBaseResource(BaseResource object) {
 		return null;
 	}
 

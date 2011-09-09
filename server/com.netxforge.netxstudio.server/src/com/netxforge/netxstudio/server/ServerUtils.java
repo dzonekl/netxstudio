@@ -104,14 +104,25 @@ public class ServerUtils {
 	}
 
 	public Object runService(Map<String, String> parameters) {
+
 		if (!parameters.containsKey(NetxForgeService.SERVICE_PARAM_NAME)) {
 			throw new IllegalStateException(
 					"Missing mandatory service name parameter: "
 							+ NetxForgeService.SERVICE_PARAM_NAME);
 		}
+
+		String serviceKey = parameters.get(NetxForgeService.SERVICE_PARAM_NAME);
+
 		final ServiceReference<?> serviceReference = Activator.getContext()
-				.getServiceReference(
-						parameters.get(NetxForgeService.SERVICE_PARAM_NAME));
+				.getServiceReference(serviceKey);
+
+		if (serviceReference == null) {
+			throw new IllegalStateException(
+					"Service not defined for key:"
+							+ serviceKey
+							+ "\nSee service definitions in Activators of the server plugins");
+
+		}
 		final Object service = Activator.getContext().getService(
 				serviceReference);
 		if (!(service instanceof NetxForgeService)) {
@@ -127,9 +138,10 @@ public class ServerUtils {
 					+ repository.getName() + " it must be " + REPO_NAME);
 		}
 	}
-	
+
 	public CDOSession openJVMSession() {
-		final CDOSession cdoSession = createSessionConfiguration().openSession();
+		final CDOSession cdoSession = createSessionConfiguration()
+				.openSession();
 
 		// add the epackages
 		cdoSession.getPackageRegistry().putEPackage(GeoPackage.eINSTANCE);
@@ -143,7 +155,8 @@ public class ServerUtils {
 		cdoSession.getPackageRegistry()
 				.putEPackage(SchedulingPackage.eINSTANCE);
 		cdoSession.getPackageRegistry().putEPackage(ServicesPackage.eINSTANCE);
-		((org.eclipse.emf.cdo.net4j.CDOSession.Options)cdoSession.options()).setCommitTimeout(CDODataProvider.COMMIT_TIMEOUT);
+		((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession.options())
+				.setCommitTimeout(CDODataProvider.COMMIT_TIMEOUT);
 
 		return cdoSession;
 	}
@@ -164,7 +177,8 @@ public class ServerUtils {
 		connector = JVMUtil.getConnector(container, "default");
 
 		// Create configuration
-		final CDOSessionConfiguration sessionConfiguration = CDONet4jUtil.createSessionConfiguration();
+		final CDOSessionConfiguration sessionConfiguration = CDONet4jUtil
+				.createSessionConfiguration();
 		sessionConfiguration.setConnector(connector);
 		sessionConfiguration.setRepositoryName(REPO_NAME);
 
@@ -208,18 +222,21 @@ public class ServerUtils {
 			return;
 		}
 		isInitializing = true;
-		
-        repository.getSessionManager().addListener(new IListener() {
-            public void notifyEvent(IEvent event) {
-                if (event instanceof SingleDeltaContainerEvent<?>) {
-                    final SingleDeltaContainerEvent<?> e = (SingleDeltaContainerEvent<?>) event;
-                    if (e.getSource() instanceof InternalSessionManager && e.getDeltaKind() == IContainerDelta.Kind.ADDED) {
-                        final InternalSession s = (InternalSession) e.getDelta().getElement();
-                        ((SignalProtocol<?>) s.getProtocol()).setTimeout(IDataProvider.SIGNAL_TIME_OUT);
-                    }
-                }
-            }
-        });
+
+		repository.getSessionManager().addListener(new IListener() {
+			public void notifyEvent(IEvent event) {
+				if (event instanceof SingleDeltaContainerEvent<?>) {
+					final SingleDeltaContainerEvent<?> e = (SingleDeltaContainerEvent<?>) event;
+					if (e.getSource() instanceof InternalSessionManager
+							&& e.getDeltaKind() == IContainerDelta.Kind.ADDED) {
+						final InternalSession s = (InternalSession) e
+								.getDelta().getElement();
+						((SignalProtocol<?>) s.getProtocol())
+								.setTimeout(IDataProvider.SIGNAL_TIME_OUT);
+					}
+				}
+			}
+		});
 
 		final ServerInitializer resourceInitializer = Activator.getInstance()
 				.getInjector().getInstance(ServerInitializer.class);
@@ -229,8 +246,7 @@ public class ServerUtils {
 		final AsyncCommitInfoHandler asyncCommitInfoHandler = new AsyncCommitInfoHandler(
 				new NetxForgeCommitInfoHandler());
 		asyncCommitInfoHandler.activate();
-		repository
-				.addCommitInfoHandler(asyncCommitInfoHandler);
+		repository.addCommitInfoHandler(asyncCommitInfoHandler);
 
 		initServerDone = true;
 		isInitializing = false;

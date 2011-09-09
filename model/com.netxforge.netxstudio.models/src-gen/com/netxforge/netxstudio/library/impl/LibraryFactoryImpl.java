@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
@@ -90,6 +91,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case LibraryPackage.BASE_RESOURCE: return (EObject)createBaseResource();
 			case LibraryPackage.COMPONENT: return (EObject)createComponent();
 			case LibraryPackage.EQUIPMENT: return (EObject)createEquipment();
 			case LibraryPackage.EQUIPMENT_GROUP: return (EObject)createEquipmentGroup();
@@ -165,6 +167,16 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BaseResource createBaseResource() {
+		BaseResourceImpl baseResource = new BaseResourceImpl();
+		return baseResource;
 	}
 
 	/**

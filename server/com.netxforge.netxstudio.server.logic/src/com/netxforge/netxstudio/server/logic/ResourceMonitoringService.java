@@ -71,31 +71,32 @@ public class ResourceMonitoringService implements NetxForgeService {
 
 		private CDOID run() {
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
-			final BaseResourceMonitoringLogic capacityLogic;
+			final BaseResourceMonitoringLogic monitoringLogic;
 			if (parameters.containsKey(SERVICE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
 						ServicesPackage.Literals.RFS_SERVICE);
-				capacityLogic = LogicActivator.getInstance().getInjector()
+				monitoringLogic = LogicActivator.getInstance().getInjector()
 						.getInstance(RFSServiceResourceMonitoringLogic.class);
-				((RFSServiceResourceMonitoringLogic) capacityLogic).setRfsService(id);
+				((RFSServiceResourceMonitoringLogic) monitoringLogic).setRfsService(id);
 			} else if (parameters.containsKey(NODE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(NODE_PARAM),
 						OperatorsPackage.Literals.NODE);
-				capacityLogic = LogicActivator.getInstance().getInjector()
+				monitoringLogic = LogicActivator.getInstance().getInjector()
 						.getInstance(NodeResourceMonitoringLogic.class);
-				((NodeResourceMonitoringLogic) capacityLogic).setNode(id);
+				((NodeResourceMonitoringLogic) monitoringLogic).setNode(id);
 			} else if (parameters.containsKey(NODETYPE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
 						LibraryPackage.Literals.NODE_TYPE);
-				capacityLogic = LogicActivator.getInstance().getInjector()
+				monitoringLogic = LogicActivator.getInstance().getInjector()
 						.getInstance(NodeResourceMonitoringLogic.class);
-				((NodeResourceMonitoringLogic) capacityLogic).setNodeType(id);
+				((NodeResourceMonitoringLogic) monitoringLogic).setNodeType(id);
 			} else {
 				throw new IllegalArgumentException("No valid parameters found");
 			}
-			capacityLogic.setJobMonitor(monitor);
-			capacityLogic.setStartTime(getStartTime(parameters));
-			capacityLogic.setEndTime(getEndTime(parameters));
+			monitoringLogic.setJobMonitor(monitor);
+			monitoringLogic.setStartTime(getStartTime(parameters));
+			monitoringLogic.setEndTime(getEndTime(parameters));
+			
 			// run in a separate thread
 			new Thread() {
 				@Override
@@ -107,7 +108,7 @@ public class ResourceMonitoringService implements NetxForgeService {
 					} catch (final Exception e) {
 						// do nothing, ignore
 					}
-					capacityLogic.run();
+					monitoringLogic.run();
 				};
 			}.start();
 			return monitor.getWorkFlowRunId();

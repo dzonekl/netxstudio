@@ -102,6 +102,29 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.library.BaseResource} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected BaseResourceItemProvider baseResourceItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.library.BaseResource}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createBaseResourceAdapter() {
+		if (baseResourceItemProvider == null) {
+			baseResourceItemProvider = new BaseResourceItemProvider(this);
+		}
+
+		return baseResourceItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.library.Component} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -549,6 +572,7 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 	 * @generated
 	 */
 	public void dispose() {
+		if (baseResourceItemProvider != null) baseResourceItemProvider.dispose();
 		if (componentItemProvider != null) componentItemProvider.dispose();
 		if (equipmentItemProvider != null) equipmentItemProvider.dispose();
 		if (equipmentGroupItemProvider != null) equipmentGroupItemProvider.dispose();

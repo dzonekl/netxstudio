@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.services.impl;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
@@ -35,7 +34,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getServiceProfile <em>Service Profile</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getExpressionRefs <em>Expression Refs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getExpressionRef <em>Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
@@ -85,9 +84,17 @@ public class ServiceUserImpl extends BaseImpl implements ServiceUser {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	public EList<Expression> getExpressionRefs() {
-		return (EList<Expression>)eGet(ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REFS, true);
+	public Expression getExpressionRef() {
+		return (Expression)eGet(ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExpressionRef(Expression newExpressionRef) {
+		eSet(ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF, newExpressionRef);
 	}
 
 	/**

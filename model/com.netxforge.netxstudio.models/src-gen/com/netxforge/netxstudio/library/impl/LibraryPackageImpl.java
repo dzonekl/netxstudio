@@ -35,6 +35,7 @@ import com.netxforge.netxstudio.generics.impl.GenericsPackageImpl;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.impl.GeoPackageImpl;
 import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
@@ -74,6 +75,13 @@ import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
  * @generated
  */
 public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass baseResourceEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -282,10 +290,10 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		SchedulingPackageImpl theSchedulingPackage = (SchedulingPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SchedulingPackage.eNS_URI) instanceof SchedulingPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SchedulingPackage.eNS_URI) : SchedulingPackage.eINSTANCE);
 		GenericsPackageImpl theGenericsPackage = (GenericsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI) instanceof GenericsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI) : GenericsPackage.eINSTANCE);
 		ServicesPackageImpl theServicesPackage = (ServicesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) instanceof ServicesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI) : ServicesPackage.eINSTANCE);
-		MetricsPackageImpl theMetricsPackage = (MetricsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) instanceof MetricsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) : MetricsPackage.eINSTANCE);
 		OperatorsPackageImpl theOperatorsPackage = (OperatorsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) instanceof OperatorsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI) : OperatorsPackage.eINSTANCE);
-		GeoPackageImpl theGeoPackage = (GeoPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) instanceof GeoPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) : GeoPackage.eINSTANCE);
+		MetricsPackageImpl theMetricsPackage = (MetricsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) instanceof MetricsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI) : MetricsPackage.eINSTANCE);
 		ProtocolsPackageImpl theProtocolsPackage = (ProtocolsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) instanceof ProtocolsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI) : ProtocolsPackage.eINSTANCE);
+		GeoPackageImpl theGeoPackage = (GeoPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) instanceof GeoPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GeoPackage.eNS_URI) : GeoPackage.eINSTANCE);
 		NetxstudioPackageImpl theNetxstudioPackage = (NetxstudioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) instanceof NetxstudioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(NetxstudioPackage.eNS_URI) : NetxstudioPackage.eINSTANCE);
 
 		// Create package meta-data objects
@@ -293,10 +301,10 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		theSchedulingPackage.createPackageContents();
 		theGenericsPackage.createPackageContents();
 		theServicesPackage.createPackageContents();
-		theMetricsPackage.createPackageContents();
 		theOperatorsPackage.createPackageContents();
-		theGeoPackage.createPackageContents();
+		theMetricsPackage.createPackageContents();
 		theProtocolsPackage.createPackageContents();
+		theGeoPackage.createPackageContents();
 		theNetxstudioPackage.createPackageContents();
 
 		// Initialize created meta-data
@@ -304,10 +312,10 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		theSchedulingPackage.initializePackageContents();
 		theGenericsPackage.initializePackageContents();
 		theServicesPackage.initializePackageContents();
-		theMetricsPackage.initializePackageContents();
 		theOperatorsPackage.initializePackageContents();
-		theGeoPackage.initializePackageContents();
+		theMetricsPackage.initializePackageContents();
 		theProtocolsPackage.initializePackageContents();
+		theGeoPackage.initializePackageContents();
 		theNetxstudioPackage.initializePackageContents();
 
 		// Register package validator
@@ -326,6 +334,69 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(LibraryPackage.eNS_URI, theLibraryPackage);
 		return theLibraryPackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBaseResource() {
+		return baseResourceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBaseResource_DetailDisplay() {
+		return (EAttribute)baseResourceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBaseResource_ExpressionName() {
+		return (EAttribute)baseResourceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBaseResource_LongName() {
+		return (EAttribute)baseResourceEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBaseResource_ShortName() {
+		return (EAttribute)baseResourceEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBaseResource_SummaryDisplay() {
+		return (EAttribute)baseResourceEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBaseResource_UnitRef() {
+		return (EReference)baseResourceEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -693,26 +764,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExpression_EquipmentGroupRefs() {
-		return (EReference)expressionEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExpression_ServiceProfileRefs() {
-		return (EReference)expressionEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getExpression_Name() {
-		return (EAttribute)expressionEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)expressionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1001,60 +1054,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 */
 	public EReference getNetXResource_TrendedValues() {
 		return (EReference)netXResourceEClass.getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getNetXResource_DetailDisplay() {
-		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getNetXResource_ExpressionName() {
-		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(9);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getNetXResource_LongName() {
-		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(10);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getNetXResource_ShortName() {
-		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(11);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getNetXResource_SummaryDisplay() {
-		return (EAttribute)netXResourceEClass.getEStructuralFeatures().get(12);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNetXResource_UnitRef() {
-		return (EReference)netXResourceEClass.getEStructuralFeatures().get(13);
 	}
 
 	/**
@@ -1445,6 +1444,14 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		isCreated = true;
 
 		// Create classes and their features
+		baseResourceEClass = createEClass(BASE_RESOURCE);
+		createEAttribute(baseResourceEClass, BASE_RESOURCE__DETAIL_DISPLAY);
+		createEAttribute(baseResourceEClass, BASE_RESOURCE__EXPRESSION_NAME);
+		createEAttribute(baseResourceEClass, BASE_RESOURCE__LONG_NAME);
+		createEAttribute(baseResourceEClass, BASE_RESOURCE__SHORT_NAME);
+		createEAttribute(baseResourceEClass, BASE_RESOURCE__SUMMARY_DISPLAY);
+		createEReference(baseResourceEClass, BASE_RESOURCE__UNIT_REF);
+
 		componentEClass = createEClass(COMPONENT);
 		createEReference(componentEClass, COMPONENT__RESOURCE_REFS);
 		createEReference(componentEClass, COMPONENT__METRIC_REFS);
@@ -1488,8 +1495,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		expressionEClass = createEClass(EXPRESSION);
 		createEAttribute(expressionEClass, EXPRESSION__EXPRESSION_LINES);
 		createEReference(expressionEClass, EXPRESSION__EVALUATION_OBJECT);
-		createEReference(expressionEClass, EXPRESSION__EQUIPMENT_GROUP_REFS);
-		createEReference(expressionEClass, EXPRESSION__SERVICE_PROFILE_REFS);
 		createEAttribute(expressionEClass, EXPRESSION__NAME);
 
 		expressionResultEClass = createEClass(EXPRESSION_RESULT);
@@ -1527,12 +1532,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(netXResourceEClass, NET_XRESOURCE__FORECAST_CAPACITY_VALUES);
 		createEReference(netXResourceEClass, NET_XRESOURCE__FORECAST_VALUES);
 		createEReference(netXResourceEClass, NET_XRESOURCE__TRENDED_VALUES);
-		createEAttribute(netXResourceEClass, NET_XRESOURCE__DETAIL_DISPLAY);
-		createEAttribute(netXResourceEClass, NET_XRESOURCE__EXPRESSION_NAME);
-		createEAttribute(netXResourceEClass, NET_XRESOURCE__LONG_NAME);
-		createEAttribute(netXResourceEClass, NET_XRESOURCE__SHORT_NAME);
-		createEAttribute(netXResourceEClass, NET_XRESOURCE__SUMMARY_DISPLAY);
-		createEReference(netXResourceEClass, NET_XRESOURCE__UNIT_REF);
 
 		nodeTypeEClass = createEClass(NODE_TYPE);
 		createEReference(nodeTypeEClass, NODE_TYPE__FUNCTIONS);
@@ -1610,23 +1609,23 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 
 		// Obtain other dependent packages
 		GenericsPackage theGenericsPackage = (GenericsPackage)EPackage.Registry.INSTANCE.getEPackage(GenericsPackage.eNS_URI);
+		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 		MetricsPackage theMetricsPackage = (MetricsPackage)EPackage.Registry.INSTANCE.getEPackage(MetricsPackage.eNS_URI);
 		ProtocolsPackage theProtocolsPackage = (ProtocolsPackage)EPackage.Registry.INSTANCE.getEPackage(ProtocolsPackage.eNS_URI);
 		OperatorsPackage theOperatorsPackage = (OperatorsPackage)EPackage.Registry.INSTANCE.getEPackage(OperatorsPackage.eNS_URI);
-		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
-		ServicesPackage theServicesPackage = (ServicesPackage)EPackage.Registry.INSTANCE.getEPackage(ServicesPackage.eNS_URI);
 
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		baseResourceEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		componentEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		equipmentEClass.getESuperTypes().add(this.getComponent());
 		equipmentGroupEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		expressionEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		functionEClass.getESuperTypes().add(this.getComponent());
-		netXResourceEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		netXResourceEClass.getESuperTypes().add(this.getBaseResource());
 		nodeTypeEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		parameterEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		productInfoEClass.getESuperTypes().add(theGenericsPackage.getBase());
@@ -1635,6 +1634,14 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		vendorEClass.getESuperTypes().add(theGenericsPackage.getCompany());
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(baseResourceEClass, BaseResource.class, "BaseResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getBaseResource_DetailDisplay(), theXMLTypePackage.getBoolean(), "detailDisplay", null, 0, 1, BaseResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBaseResource_ExpressionName(), theGenericsPackage.getName255(), "expressionName", null, 0, 1, BaseResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBaseResource_LongName(), theGenericsPackage.getDescription2000(), "longName", null, 0, 1, BaseResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBaseResource_ShortName(), theGenericsPackage.getName255(), "shortName", null, 0, 1, BaseResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBaseResource_SummaryDisplay(), theXMLTypePackage.getBoolean(), "summaryDisplay", null, 0, 1, BaseResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBaseResource_UnitRef(), this.getUnit(), null, "unitRef", null, 0, 1, BaseResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponent_ResourceRefs(), this.getNetXResource(), this.getNetXResource_ComponentRef(), "resourceRefs", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_MetricRefs(), theMetricsPackage.getMetric(), null, "metricRefs", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1666,7 +1673,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEClass(equipmentGroupEClass, EquipmentGroup.class, "EquipmentGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEquipmentGroup_Diagrams(), theGenericsPackage.getDiagramInfo(), null, "diagrams", null, 0, -1, EquipmentGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipmentGroup_EquipmentGroupResources(), this.getNetXResource(), null, "equipmentGroupResources", null, 0, -1, EquipmentGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEquipmentGroup_ExpressionRefs(), this.getExpression(), this.getExpression_EquipmentGroupRefs(), "expressionRefs", null, 0, -1, EquipmentGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEquipmentGroup_ExpressionRefs(), this.getExpression(), null, "expressionRefs", null, 0, -1, EquipmentGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipmentGroup_EquipmentRefs(), this.getEquipment(), null, "equipmentRefs", null, 0, -1, EquipmentGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipmentGroup_ParameterRefs(), this.getParameter(), null, "parameterRefs", null, 0, -1, EquipmentGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipmentGroup_AllEquipmentResources(), this.getNetXResource(), null, "allEquipmentResources", null, 0, -1, EquipmentGroup.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -1678,8 +1685,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEClass(expressionEClass, Expression.class, "Expression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExpression_ExpressionLines(), theGenericsPackage.getExpressionLine(), "expressionLines", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExpression_EvaluationObject(), ecorePackage.getEObject(), null, "evaluationObject", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExpression_EquipmentGroupRefs(), this.getEquipmentGroup(), this.getEquipmentGroup_ExpressionRefs(), "equipmentGroupRefs", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExpression_ServiceProfileRefs(), theServicesPackage.getServiceProfile(), null, "serviceProfileRefs", null, 0, -1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExpression_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(expressionResultEClass, ExpressionResult.class, "ExpressionResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1717,12 +1722,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getNetXResource_ForecastCapacityValues(), theGenericsPackage.getValue(), null, "forecastCapacityValues", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_ForecastValues(), theGenericsPackage.getValue(), null, "forecastValues", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNetXResource_TrendedValues(), theGenericsPackage.getValue(), null, "trendedValues", null, 0, -1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNetXResource_DetailDisplay(), theXMLTypePackage.getBoolean(), "detailDisplay", null, 0, 1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNetXResource_ExpressionName(), theGenericsPackage.getName255(), "expressionName", null, 0, 1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNetXResource_LongName(), theGenericsPackage.getDescription2000(), "longName", null, 0, 1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNetXResource_ShortName(), theGenericsPackage.getName255(), "shortName", null, 0, 1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNetXResource_SummaryDisplay(), theXMLTypePackage.getBoolean(), "summaryDisplay", null, 0, 1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNetXResource_UnitRef(), this.getUnit(), null, "unitRef", null, 0, 1, NetXResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nodeTypeEClass, NodeType.class, "NodeType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNodeType_Functions(), this.getFunction(), null, "functions", null, 0, -1, NodeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1824,13 +1823,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																						
+		   });																																																																																																																
 		addAnnotation
 		  (functionEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidFunctionName\n\t\t\t"
-		   });																																																																						
+		   });																																																										
 		addAnnotation
 		  (nodeTypeEClass, 
 		   source, 
@@ -1847,6 +1846,55 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 */
 	protected void createExtendedMetaDataAnnotations() {
 		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";					
+		addAnnotation
+		  (baseResourceEClass, 
+		   source, 
+		   new String[] {
+			 "name", "BaseResource",
+			 "kind", "empty"
+		   });			
+		addAnnotation
+		  (getBaseResource_DetailDisplay(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "DetailDisplay"
+		   });			
+		addAnnotation
+		  (getBaseResource_ExpressionName(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "ExpressionName"
+		   });			
+		addAnnotation
+		  (getBaseResource_LongName(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "LongName"
+		   });			
+		addAnnotation
+		  (getBaseResource_ShortName(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "ShortName"
+		   });			
+		addAnnotation
+		  (getBaseResource_SummaryDisplay(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "SummaryDisplay"
+		   });			
+		addAnnotation
+		  (getBaseResource_UnitRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "UnitRef"
+		   });			
 		addAnnotation
 		  (componentEClass, 
 		   source, 
@@ -2128,20 +2176,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "EvaluationObject"
 		   });			
 		addAnnotation
-		  (getExpression_EquipmentGroupRefs(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "EquipmentGroupRefs"
-		   });			
-		addAnnotation
-		  (getExpression_ServiceProfileRefs(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "ServiceProfileRefs"
-		   });			
-		addAnnotation
 		  (getExpression_Name(), 
 		   source, 
 		   new String[] {
@@ -2384,48 +2418,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "TrendedValues"
-		   });			
-		addAnnotation
-		  (getNetXResource_DetailDisplay(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "DetailDisplay"
-		   });			
-		addAnnotation
-		  (getNetXResource_ExpressionName(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "ExpressionName"
-		   });			
-		addAnnotation
-		  (getNetXResource_LongName(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "LongName"
-		   });			
-		addAnnotation
-		  (getNetXResource_ShortName(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "ShortName"
-		   });			
-		addAnnotation
-		  (getNetXResource_SummaryDisplay(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "SummaryDisplay"
-		   });			
-		addAnnotation
-		  (getNetXResource_UnitRef(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "UnitRef"
 		   });					
 		addAnnotation
 		  (nodeTypeEClass, 
@@ -2699,7 +2691,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	protected void createOCLAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																							
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																																					
 		addAnnotation
 		  (getComponent_AllResources(), 
 		   source, 
@@ -2735,7 +2727,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self.equipments->size()\n\t\t\t\t\t\t"
-		   });																												
+		   });																								
 		addAnnotation
 		  (functionEClass, 
 		   source, 
@@ -2747,7 +2739,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self->closure(functions)->asOrderedSet()\n\t\t\t\t\t\t\t"
-		   });																																																															
+		   });																																																			
 		addAnnotation
 		  (nodeTypeEClass, 
 		   source, 

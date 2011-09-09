@@ -21,7 +21,6 @@ package com.netxforge.netxstudio.services;
 import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.library.NetXResource;
 
 /**
  * <!-- begin-user-doc -->
@@ -52,7 +51,7 @@ import com.netxforge.netxstudio.library.NetXResource;
 public interface ServiceProfile extends Base {
 	/**
 	 * Returns the value of the '<em><b>Profile Resources</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.library.NetXResource}.
+	 * The list contents are of type {@link com.netxforge.netxstudio.services.ServiceProfileResource}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -66,7 +65,7 @@ public interface ServiceProfile extends Base {
 	 *        extendedMetaData="kind='element' name='ProfileResources'"
 	 * @generated
 	 */
-	EList<NetXResource> getProfileResources();
+	EList<ServiceProfileResource> getProfileResources();
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.

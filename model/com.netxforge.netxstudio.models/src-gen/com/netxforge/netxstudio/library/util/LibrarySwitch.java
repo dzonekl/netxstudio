@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
@@ -97,6 +98,13 @@ public class LibrarySwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case LibraryPackage.BASE_RESOURCE: {
+				BaseResource baseResource = (BaseResource)theEObject;
+				T result = caseBaseResource(baseResource);
+				if (result == null) result = caseBase(baseResource);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case LibraryPackage.COMPONENT: {
 				Component component = (Component)theEObject;
 				T result = caseComponent(component);
@@ -149,6 +157,7 @@ public class LibrarySwitch<T> extends Switch<T> {
 			case LibraryPackage.NET_XRESOURCE: {
 				NetXResource netXResource = (NetXResource)theEObject;
 				T result = caseNetXResource(netXResource);
+				if (result == null) result = caseBaseResource(netXResource);
 				if (result == null) result = caseBase(netXResource);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -198,6 +207,21 @@ public class LibrarySwitch<T> extends Switch<T> {
 			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base Resource</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBaseResource(BaseResource object) {
+		return null;
 	}
 
 	/**

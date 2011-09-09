@@ -22,8 +22,8 @@ import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.Activator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
+import com.netxforge.netxstudio.server.logic.LogicActivator;
 
 /**
  * Implements a job runner for a metric source.
@@ -39,23 +39,22 @@ public class RFSServiceReportingJobImplementation extends JobImplementation {
 		final ReporterJob reporterJob = (ReporterJob) getJob();
 
 		{
-			final RFSServiceReportingLogic logic = Activator
-					.getInstance().getInjector()
+			final RFSServiceReportingLogic logic = LogicActivator.getInstance()
+					.getInjector()
 					.getInstance(RFSServiceSummaryReportingLogic.class);
 
-			logic.setRfsService(reporterJob.getRFSService()
-					.cdoID());
+			logic.setRfsService(reporterJob.getRFSService().cdoID());
 			logic.setJobMonitor(getRunMonitor());
 			logic.initialize();
 			logic.run();
 		}
-		
+
 		{
-			final RFSServiceReportingLogic logic = Activator.getInstance().getInjector()
+			final RFSServiceReportingLogic logic = LogicActivator.getInstance()
+					.getInjector()
 					.getInstance(RFSServiceDashboardReportingLogic.class);
 
-			logic.setRfsService(reporterJob.getRFSService()
-					.cdoID());
+			logic.setRfsService(reporterJob.getRFSService().cdoID());
 			logic.setJobMonitor(getRunMonitor());
 			logic.initialize();
 			logic.run();

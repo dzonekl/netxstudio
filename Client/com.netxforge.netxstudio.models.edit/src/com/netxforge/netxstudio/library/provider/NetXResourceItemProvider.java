@@ -24,21 +24,17 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IChildCreationExtender;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.GenericsFactory;
-import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -50,7 +46,7 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
  * @generated
  */
 public class NetXResourceItemProvider
-	extends BaseItemProvider
+	extends BaseResourceItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -80,12 +76,6 @@ public class NetXResourceItemProvider
 
 			addComponentRefPropertyDescriptor(object);
 			addMetricRefPropertyDescriptor(object);
-			addDetailDisplayPropertyDescriptor(object);
-			addExpressionNamePropertyDescriptor(object);
-			addLongNamePropertyDescriptor(object);
-			addShortNamePropertyDescriptor(object);
-			addSummaryDisplayPropertyDescriptor(object);
-			addUnitRefPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -126,138 +116,6 @@ public class NetXResourceItemProvider
 				 getString("_UI_NetXResource_metricRef_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NetXResource_metricRef_feature", "_UI_NetXResource_type"),
 				 LibraryPackage.Literals.NET_XRESOURCE__METRIC_REF,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Detail Display feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addDetailDisplayPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NetXResource_detailDisplay_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NetXResource_detailDisplay_feature", "_UI_NetXResource_type"),
-				 LibraryPackage.Literals.NET_XRESOURCE__DETAIL_DISPLAY,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Expression Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addExpressionNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NetXResource_expressionName_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NetXResource_expressionName_feature", "_UI_NetXResource_type"),
-				 LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Long Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addLongNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NetXResource_longName_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NetXResource_longName_feature", "_UI_NetXResource_type"),
-				 LibraryPackage.Literals.NET_XRESOURCE__LONG_NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Short Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addShortNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NetXResource_shortName_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NetXResource_shortName_feature", "_UI_NetXResource_type"),
-				 LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Summary Display feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addSummaryDisplayPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NetXResource_summaryDisplay_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NetXResource_summaryDisplay_feature", "_UI_NetXResource_type"),
-				 LibraryPackage.Literals.NET_XRESOURCE__SUMMARY_DISPLAY,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Unit Ref feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addUnitRefPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NetXResource_unitRef_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NetXResource_unitRef_feature", "_UI_NetXResource_type"),
-				 LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF,
 				 true,
 				 false,
 				 true,
@@ -338,13 +196,6 @@ public class NetXResourceItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(NetXResource.class)) {
-			case LibraryPackage.NET_XRESOURCE__DETAIL_DISPLAY:
-			case LibraryPackage.NET_XRESOURCE__EXPRESSION_NAME:
-			case LibraryPackage.NET_XRESOURCE__LONG_NAME:
-			case LibraryPackage.NET_XRESOURCE__SHORT_NAME:
-			case LibraryPackage.NET_XRESOURCE__SUMMARY_DISPLAY:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
 			case LibraryPackage.NET_XRESOURCE__METRIC_VALUE_RANGES:
 			case LibraryPackage.NET_XRESOURCE__CAPACITY_VALUES:
 			case LibraryPackage.NET_XRESOURCE__UTILIZATION_VALUES:
@@ -423,17 +274,6 @@ public class NetXResourceItemProvider
 				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
 		}
 		return super.getCreateChildText(owner, feature, child, selection);
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return ((IChildCreationExtender)adapterFactory).getResourceLocator();
 	}
 
 }

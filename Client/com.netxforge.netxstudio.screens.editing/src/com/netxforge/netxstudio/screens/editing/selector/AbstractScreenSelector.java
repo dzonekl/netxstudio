@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
@@ -35,6 +36,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.AbstractScreensViewPart;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.actions.ActionHandlerDescriptor;
+import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -61,7 +63,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	public ScreenFormService getScreenFormService() {
 		return screenFormService;
 	}
-	
+
 	public IEditingService getEditingService() {
 		return screenFormService.getEditingService();
 	}
@@ -148,7 +150,7 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 	public void screenChanged(IScreen screen) {
 		// Some screens won't have a viewer, in this case
 		// the current viewer will be null, and an empty selection will be set.
-		if (screen != null ) {
+		if (screen != null) {
 			activeScreen = screen;
 			Viewer viewer = screen.getViewer();
 			setCurrentViewer(viewer);
@@ -191,7 +193,11 @@ public abstract class AbstractScreenSelector extends AbstractScreensViewPart
 			Object[] actions = reverse(this.getCurrentScreen().getActions());
 			for (int i = 0; i < actions.length; i++) {
 				IAction a = (IAction) actions[i];
-				menuManager.insertAfter("screen", a);
+				if (a instanceof SeparatorAction) {
+					menuManager.insertAfter("screen", new Separator());
+				} else {
+					menuManager.insertAfter("screen", a);
+				}
 			}
 		}
 	}

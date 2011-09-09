@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.f2;
+package com.netxforge.netxstudio.screens.f2.support;
 
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.observable.IObservable;
@@ -13,7 +13,7 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 
-class NodeTypeTreeFactoryImpl implements IObservableFactory {
+public class NodeTypeTreeFactoryImpl implements IObservableFactory {
 
 	EditingDomain domain;
 	@SuppressWarnings("unused")
@@ -32,7 +32,7 @@ class NodeTypeTreeFactoryImpl implements IObservableFactory {
 			.list(domain,
 					LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
 
-	NodeTypeTreeFactoryImpl(EditingDomain domain) {
+	public NodeTypeTreeFactoryImpl(EditingDomain domain) {
 		this.domain = domain;
 	}
 

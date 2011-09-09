@@ -289,46 +289,46 @@ public class ServiceItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(ServicesPackage.Literals.SERVICE__CIID,
-				 ServicesFactory.eINSTANCE.createCIID()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(ServicesPackage.Literals.SERVICE__CIID,
+//				 ServicesFactory.eINSTANCE.createCIID()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(ServicesPackage.Literals.SERVICE__SERVICES,
-				 ServicesFactory.eINSTANCE.createService()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(ServicesPackage.Literals.SERVICE__SERVICES,
+//				 ServicesFactory.eINSTANCE.createService()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(ServicesPackage.Literals.SERVICE__SERVICES,
-				 ServicesFactory.eINSTANCE.createCFSService()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(ServicesPackage.Literals.SERVICE__SERVICES,
+//				 ServicesFactory.eINSTANCE.createCFSService()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ServicesPackage.Literals.SERVICE__SERVICES,
 				 ServicesFactory.eINSTANCE.createRFSService()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(ServicesPackage.Literals.SERVICE__SERVICE_FORECASTS,
-				 ServicesFactory.eINSTANCE.createServiceForecast()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(ServicesPackage.Literals.SERVICE__SERVICE_FORECASTS,
+//				 ServicesFactory.eINSTANCE.createServiceForecast()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(ServicesPackage.Literals.SERVICE__SERVICE_MONITORS,
-				 ServicesFactory.eINSTANCE.createServiceMonitor()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(ServicesPackage.Literals.SERVICE__SERVICE_MONITORS,
+//				 ServicesFactory.eINSTANCE.createServiceMonitor()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(ServicesPackage.Literals.SERVICE__SERVICE_DISTRIBUTION,
-				 ServicesFactory.eINSTANCE.createServiceDistribution()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(ServicesPackage.Literals.SERVICE__SERVICE_DISTRIBUTION,
+//				 ServicesFactory.eINSTANCE.createServiceDistribution()));
 	}
 
 	/**

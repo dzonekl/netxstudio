@@ -37,9 +37,9 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
-import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
-import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.services.ServiceProfile;
+import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
@@ -195,7 +195,7 @@ public class ServiceProfileItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ServicesPackage.Literals.SERVICE_PROFILE__PROFILE_RESOURCES,
-				 LibraryFactory.eINSTANCE.createNetXResource()));
+				 ServicesFactory.eINSTANCE.createServiceProfileResource()));
 	}
 
 	/**

@@ -22,7 +22,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
-import com.netxforge.netxstudio.services.ServiceProfile;
 
 /**
  * <!-- begin-user-doc -->
@@ -50,8 +49,6 @@ import com.netxforge.netxstudio.services.ServiceProfile;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getExpressionLines <em>Expression Lines</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getEvaluationObject <em>Evaluation Object</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.Expression#getEquipmentGroupRefs <em>Equipment Group Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.Expression#getServiceProfileRefs <em>Service Profile Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Expression#getName <em>Name</em>}</li>
  * </ul>
  * </p>
@@ -106,43 +103,6 @@ public interface Expression extends Base {
 	 * @generated
 	 */
 	void setEvaluationObject(EObject value);
-
-	/**
-	 * Returns the value of the '<em><b>Equipment Group Refs</b></em>' reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.library.EquipmentGroup}.
-	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.library.EquipmentGroup#getExpressionRefs <em>Expression Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The EquipmentGroupExpressionRefs reference,
-	 * 								references 0 or more EquipmentGroup types.
-	 * 							
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Equipment Group Refs</em>' reference list.
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpression_EquipmentGroupRefs()
-	 * @see com.netxforge.netxstudio.library.EquipmentGroup#getExpressionRefs
-	 * @model opposite="expressionRefs"
-	 *        extendedMetaData="kind='element' name='EquipmentGroupRefs'"
-	 * @generated
-	 */
-	EList<EquipmentGroup> getEquipmentGroupRefs();
-
-	/**
-	 * Returns the value of the '<em><b>Service Profile Refs</b></em>' reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.services.ServiceProfile}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The ServiceProfileExpressionRefs reference,
-	 * 								references 0 or more ServiceProfile types.
-	 * 							
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Service Profile Refs</em>' reference list.
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpression_ServiceProfileRefs()
-	 * @model extendedMetaData="kind='element' name='ServiceProfileRefs'"
-	 * @generated
-	 */
-	EList<ServiceProfile> getServiceProfileRefs();
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.

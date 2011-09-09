@@ -201,7 +201,6 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 	
-	
 
 	class MonitorNowAction extends Action {
 		public MonitorNowAction(String text, int style) {

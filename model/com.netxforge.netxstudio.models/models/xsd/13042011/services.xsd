@@ -107,7 +107,7 @@
 			<xs:extension base="gen:Base">
 				<xs:sequence>
 					<xs:element name="ProfileResources" minOccurs="0"
-						maxOccurs="unbounded" type="library:NetXResource">
+						maxOccurs="unbounded" type="ServiceProfileResource">
 						<xs:annotation>
 							<xs:documentation>The ProfileResource reference, contains 0 or
 								more Resource types.
@@ -309,12 +309,11 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ecore:opposite="ServiceProfileExpressionRefs"
-						ecore:reference="library:Expression" maxOccurs="unbounded"
-						minOccurs="0" name="ExpressionRefs" type="xs:anyURI">
+					<xs:element ecore:reference="library:Expression" maxOccurs="1"
+						minOccurs="0" name="ExpressionRef" type="xs:anyURI">
 						<xs:annotation>
-							<xs:documentation>The ExpressionRefs reference, refers to 0 or
-								more
+							<xs:documentation>The ExpressionRef reference, refers to 0 or
+								1
 								Expression types.
 							</xs:documentation>
 						</xs:annotation>
@@ -485,6 +484,53 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| SERVICEPROFILERESOURCE | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="ServiceProfileResource">
+		<xs:annotation>
+			<xs:documentation>
+			TODO
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="library:BaseResource">
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>
+						</xs:documentation>
+					</xs:annotation>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ProfileValues" type="gen:Value">
+						<xs:annotation>
+							<xs:documentation>The ProfileValues reference, contains
+								profile values. Profile values are populated with expressions.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ForecastValues" type="gen:Value">
+						<xs:annotation>
+							<xs:documentation>The ForecastValues reference, contains forecast
+								values. Forecast values are populated with
+								expressions, imported
+								or
+								entered manually.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="TrendedValues" type="gen:Value">
+						<xs:annotation>
+							<xs:documentation>The TrendedValues reference, contains trended
+								values. Trended values are populated with
+								expressions.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

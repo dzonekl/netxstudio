@@ -14,7 +14,7 @@
  * 
  * Contributors: Christophe Bouhier - initial API and implementation and/or
  * initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.data.actions;
 
 import java.io.BufferedReader;
@@ -35,30 +35,40 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 
 
+/**
+ * Returns CDO Object ID, to follow the processing. 
+ * 
+ * final String result = doRequest(url.toString());
+		final CDOID resultCDOID = CDOIDUtil.createLongWithClassifier(
+				new CDOClassifierRef(SchedulingPackage.Literals.WORK_FLOW_RUN),
+				Long.parseLong(result));
+		return (WorkFlowRun) dataProvider.getTransaction().getObject(
+				resultCDOID);
+ * 
+ * @author dzonekl
+ *
+ */
 public class ServerRequest {
-	
-	
-//	final String IMPORT_REQUEST = "http://localhost:8080/netxforge/service?service=com.netxforge.netxstudio.server.metrics.MetricSourceImportService&metricSource=7246";
-	
-	
+
+	// final String IMPORT_REQUEST =
+	// "http://localhost:8080/netxforge/service?service=com.netxforge.netxstudio.server.metrics.MetricSourceImportService&metricSource=7246";
+
 	@Inject
 	ModelUtils modelUtils;
 
-private String server;
-	
+	private String server;
+
 	public static final String NETXSTUDIO_SERVER = "http://localhost:8080";
-	
+
 	public static final String COMMAND_PARAM_NAME = "command";
 	public static final String SERVICE_PARAM_NAME = "service";
 	public static final String DEFAULT_SUCCESS_RESULT = "success";
-	
-	
+
 	public static final String METRIC_IMPORT_SERVICE = "com.netxforge.netxstudio.server.metrics.MetricSourceImportService";
-	public static final String MONITOR_SERVICE = "com.netxforge.netxstudio.server.logic.CapacityService";
+	public static final String MONITOR_SERVICE = "com.netxforge.netxstudio.server.logic.ResourceMonitoringService";
 	public static final String RETENTION_SERVICE = "com.netxforge.netxstudio.server.logic.RetentionService";
 	public static final String REPORTING_SERVICE = "com.netxforge.netxstudio.server.logic.reporting.ReportingService";
-	
-	
+
 	public static final String MS_PARAM = "metricSource";
 	public static final String SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
@@ -66,102 +76,99 @@ private String server;
 	public static final String START_TIME_PARAM = "startTime";
 	public static final String END_TIME_PARAM = "endTime";
 
-	
-	public String callMetricImportAction(CDOObject cdoObject) throws Exception{
-		return callMetricAction(METRIC_IMPORT_SERVICE, MS_PARAM, cdoObject.cdoID());
-	}
-	
-	
-	public String callMonitorAction(CDOObject cdoObject, Date fromDate, Date toDate) throws Exception{
-		return callPeriodAction(MONITOR_SERVICE, SERVICE_PARAM, cdoObject.cdoID(), fromDate, toDate);
-	}
-	
-
-	public String callReportingAction(CDOObject cdoObject, Date fromDate, Date toDate) throws Exception{
-		return callPeriodAction(REPORTING_SERVICE, SERVICE_PARAM, cdoObject.cdoID(), fromDate, toDate);
+	public String callMetricImportAction(CDOObject cdoObject) throws Exception {
+		return callMetricAction(METRIC_IMPORT_SERVICE, MS_PARAM,
+				cdoObject.cdoID());
 	}
 
-	public String callRetentionAction()
-			throws Exception {
-		// Retention can deal with RFSService, Node, Nodetype etc..). 
-		// Get all services. 
-		
-		
-//		return this.callRetentionAction(RETENTION_SERVICE, parameterName, cdoId, from, to)
-		return "TODO Not implemented yet."; 
+	public String callMonitorAction(CDOObject cdoObject, Date fromDate,
+			Date toDate) throws Exception {
+		return callPeriodAction(MONITOR_SERVICE, SERVICE_PARAM,
+				cdoObject.cdoID(), fromDate, toDate);
 	}
-	
-	
-	private String callMetricAction(String serviceName, String parameterName, CDOID cdoId) throws Exception{
-		
-		if(server == null){
-			server = NETXSTUDIO_SERVER;	
-		}else{
-			if(server.startsWith("localhost")){
+
+	public String callReportingAction(CDOObject cdoObject, Date fromDate,
+			Date toDate) throws Exception {
+		return callPeriodAction(REPORTING_SERVICE, SERVICE_PARAM,
+				cdoObject.cdoID(), fromDate, toDate);
+	}
+
+	public String callRetentionAction() throws Exception {
+		// Retention can deal with RFSService, Node, Nodetype etc..).
+		// Get all services.
+
+		// return this.callRetentionAction(RETENTION_SERVICE, parameterName,
+		// cdoId, from, to)
+		return "TODO Not implemented yet.";
+	}
+
+	private String callMetricAction(String serviceName, String parameterName,
+			CDOID cdoId) throws Exception {
+
+		if (server == null) {
+			server = NETXSTUDIO_SERVER;
+		} else {
+			if (server.startsWith("localhost")) {
 				server = NETXSTUDIO_SERVER;
-			}else{
-				// Change the port, if any specified. 
+			} else {
+				// Change the port, if any specified.
 				int portIndex = server.indexOf(':');
-				if(portIndex != -1){
-				server = server.substring(0, portIndex);
-				}else{
+				if (portIndex != -1) {
+					server = server.substring(0, portIndex);
+				} else {
 					server = "http://" + server + ":8080";
 				}
-				
+
 			}
 		}
 
 		final StringBuilder url = new StringBuilder();
 		url.append(server + "/netxforge/service");
-		url.append("?" + SERVICE_PARAM_NAME + "="
-				+ serviceName);
+		url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
 		url.append("&" + parameterName + "="
 				+ ((AbstractCDOIDLong) cdoId).getLongValue());
-		
+
 		System.err.println(url.toString());
 		final String result = doRequest(url.toString());
 		System.err.println(result);
 		return result;
 	}
-	
-	public String callPeriodAction(String serviceName, String parameterName, CDOID cdoId, Date from, Date to)
-			throws Exception {
 
-		if(server == null){
-			server = NETXSTUDIO_SERVER;	
-		}else{
-			if(server.startsWith("localhost")){
+	public String callPeriodAction(String serviceName, String parameterName,
+			CDOID cdoId, Date from, Date to) throws Exception {
+
+		if (server == null) {
+			server = NETXSTUDIO_SERVER;
+		} else {
+			if (server.startsWith("localhost")) {
 				server = NETXSTUDIO_SERVER;
-			}else{
-				// Change the port, if any specified. 
+			} else {
+				// Change the port, if any specified.
 				int portIndex = server.indexOf(':');
-				if(portIndex != -1){
-				server = server.substring(0, portIndex);
-				}else{
+				if (portIndex != -1) {
+					server = server.substring(0, portIndex);
+				} else {
 					server = "http://" + server + ":8080";
 				}
-				
+
 			}
 		}
-		
-		if(from == null){
+
+		if (from == null) {
 			from = modelUtils.oneMonthAgo();
 		}
-		
-		if(to == null){
+
+		if (to == null) {
 			to = modelUtils.todayAndNow();
 		}
-		
+
 		final StringBuilder url = new StringBuilder();
 		url.append(server + "/netxforge/service");
-		url.append("?" + SERVICE_PARAM_NAME + "="
-				+ serviceName);
-		
-		url.append("&" + START_TIME_PARAM + "="
-				+ getDateParamValue(from));
-		url.append("&" + END_TIME_PARAM + "="
-				+ getDateParamValue(to));
-		
+		url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
+
+		url.append("&" + START_TIME_PARAM + "=" + getDateParamValue(from));
+		url.append("&" + END_TIME_PARAM + "=" + getDateParamValue(to));
+
 		url.append("&" + parameterName + "="
 				+ ((AbstractCDOIDLong) cdoId).getLongValue());
 
@@ -170,26 +177,21 @@ private String server;
 		System.err.println(result);
 		return result;
 	}
-	
-	
-	
-	public String callRetentionAction(String serviceName, String parameterName, CDOID cdoId, Date from, Date to)
-			throws Exception {
 
-		if(server == null){
-			server = NETXSTUDIO_SERVER;	
+	public String callRetentionAction(String serviceName, String parameterName,
+			CDOID cdoId, Date from, Date to) throws Exception {
+
+		if (server == null) {
+			server = NETXSTUDIO_SERVER;
 		}
-		
+
 		final StringBuilder url = new StringBuilder();
 		url.append(server + "/netxforge/service");
-		url.append("?" + SERVICE_PARAM_NAME + "="
-				+ serviceName);
-		
-		url.append("&" + START_TIME_PARAM + "="
-				+ getDateParamValue(from));
-		url.append("&" + END_TIME_PARAM + "="
-				+ getDateParamValue(to));
-		
+		url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
+
+		url.append("&" + START_TIME_PARAM + "=" + getDateParamValue(from));
+		url.append("&" + END_TIME_PARAM + "=" + getDateParamValue(to));
+
 		url.append("&" + parameterName + "="
 				+ ((AbstractCDOIDLong) cdoId).getLongValue());
 
@@ -198,9 +200,7 @@ private String server;
 		System.err.println(result);
 		return result;
 	}
-	
-	
-	
+
 	private String doRequest(String address) {
 		try {
 			final URL url = new URL(address);
@@ -233,21 +233,21 @@ private String server;
 					+ address, e);
 		}
 	}
-	
+
 	private String getDateParamValue(Date d) {
 		final XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(d);
 		return XMLTypeFactory.eINSTANCE.convertDateTime(xmlDate);
 	}
-	
+
 	@SuppressWarnings("unused")
 	private String getDateParamValue(long offset) {
 		final XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(new Date(
 				System.currentTimeMillis() + offset));
 		return XMLTypeFactory.eINSTANCE.convertDateTime(xmlDate);
 	}
-	
-	public void setServer(String server){
+
+	public void setServer(String server) {
 		this.server = server;
 	}
-	
+
 }

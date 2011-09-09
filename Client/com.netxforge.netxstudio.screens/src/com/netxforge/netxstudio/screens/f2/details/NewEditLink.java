@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.details;
+package com.netxforge.netxstudio.screens.f2.details;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
@@ -34,6 +34,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.screens.NodeFilterDialog;
 import com.netxforge.netxstudio.screens.ProtocolFilterDialog;
+import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.IScreen;

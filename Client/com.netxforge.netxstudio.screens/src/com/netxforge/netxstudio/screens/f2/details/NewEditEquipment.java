@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.details;
+package com.netxforge.netxstudio.screens.f2.details;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.value.IValueProperty;

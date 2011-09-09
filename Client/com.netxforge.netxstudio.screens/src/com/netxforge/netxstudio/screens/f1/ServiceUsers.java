@@ -42,6 +42,7 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -71,7 +72,7 @@ public class ServiceUsers extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		buildUI();
+		// buildUI();
 
 	}
 
@@ -104,12 +105,15 @@ public class ServiceUsers extends AbstractScreen implements
 		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				if (screenService != null) {
-					NewEditServiceUser smScreen = new NewEditServiceUser(screenService
-							.getScreenContainer(), SWT.NONE);
-					smScreen.setOperation(getOperation());
+					NewEditServiceUser smScreen = new NewEditServiceUser(
+							screenService.getScreenContainer(), SWT.NONE);
+					smScreen.setOperation(Screens.OPERATION_NEW);
 					smScreen.setScreenService(screenService);
-					smScreen.injectData(serviceUserResource,
-							ServicesFactory.eINSTANCE.createServiceUser());
+					ServiceUser su = ServicesFactory.eINSTANCE
+							.createServiceUser();
+					su.setServiceProfile(ServicesFactory.eINSTANCE
+							.createServiceProfile());
+					smScreen.injectData(serviceUserResource, su);
 					screenService.setActiveScreen(smScreen);
 				}
 			}
@@ -120,14 +124,16 @@ public class ServiceUsers extends AbstractScreen implements
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
-		mghprlnkNew.setImage(ResourceManager.getPluginImage("com.netxforge.netxstudio.models.edit", "icons/full/ctool16/ServiceUserProfile_E.png"));
+		mghprlnkNew.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/ctool16/ServiceUserProfile_E.png"));
 		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 		toolkit.paintBordersFor(mghprlnkNew);
 		mghprlnkNew.setText("New");
 
-		serviceUsers = new TableViewer(frmServiceUsers.getBody(),
-				SWT.BORDER | SWT.FULL_SELECTION);
+		serviceUsers = new TableViewer(frmServiceUsers.getBody(), SWT.BORDER
+				| SWT.FULL_SELECTION);
 		table = serviceUsers.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -141,7 +147,6 @@ public class ServiceUsers extends AbstractScreen implements
 		tblclmnName.setText("Name");
 
 	}
-
 
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
@@ -186,11 +191,9 @@ public class ServiceUsers extends AbstractScreen implements
 		IObservableMap[] observeMaps = EMFObservables
 				.observeMaps(
 						listContentProvider.getKnownElements(),
-						new EStructuralFeature[] {
-								ServicesPackage.Literals.SERVICE_USER__NAME});
-		serviceUsers
-				.setLabelProvider(new ObservableMapLabelProvider(
-						observeMaps));
+						new EStructuralFeature[] { ServicesPackage.Literals.SERVICE_USER__NAME });
+		serviceUsers.setLabelProvider(new ObservableMapLabelProvider(
+				observeMaps));
 
 		IEMFListProperty serviceProperty = EMFEditProperties
 				.resource(editingService.getEditingDomain());
@@ -202,53 +205,53 @@ public class ServiceUsers extends AbstractScreen implements
 		return bindingContext;
 	}
 
-//	class ServiceMonitorsObervableMapLabelProvider extends
-//			ObservableMapLabelProvider {
-//
-//		public ServiceMonitorsObervableMapLabelProvider(
-//				IObservableMap[] attributeMaps) {
-//			super(attributeMaps);
-//		}
-//
-//		@Override
-//		public Image getColumnImage(Object element, int columnIndex) {
-//			return super.getColumnImage(element, columnIndex);
-//		}
-//
-//		@Override
-//		public String getColumnText(Object element, int columnIndex) {
-//			if (element instanceof ServiceMonitor) {
-//				ServiceMonitor sm = (ServiceMonitor) element;
-//				switch (columnIndex) {
-//				case 0:
-//					if (sm.getName() != null) {
-//						return sm.getName();
-//					}
-//					break;
-//				case 1:
-//					if (sm.getRevision() != null) {
-//						return sm.getRevision();
-//					}
-//					break;
-//				case 2:
-//					if (sm.getPeriod() != null) {
-//						Date begin = modelUtils.fromXMLDate(sm.getPeriod()
-//								.getBegin());
-//						return modelUtils.date(begin) + modelUtils.time(begin);
-//					}
-//					break;
-//				case 3:
-//					if (sm.getPeriod() != null) {
-//						Date end = modelUtils.fromXMLDate(sm.getPeriod()
-//								.getEnd());
-//						return modelUtils.date(end) + modelUtils.time(end);
-//					}
-//					break;
-//				}
-//			}
-//			return super.getColumnText(element, columnIndex);
-//		}
-//	}
+	// class ServiceMonitorsObervableMapLabelProvider extends
+	// ObservableMapLabelProvider {
+	//
+	// public ServiceMonitorsObervableMapLabelProvider(
+	// IObservableMap[] attributeMaps) {
+	// super(attributeMaps);
+	// }
+	//
+	// @Override
+	// public Image getColumnImage(Object element, int columnIndex) {
+	// return super.getColumnImage(element, columnIndex);
+	// }
+	//
+	// @Override
+	// public String getColumnText(Object element, int columnIndex) {
+	// if (element instanceof ServiceMonitor) {
+	// ServiceMonitor sm = (ServiceMonitor) element;
+	// switch (columnIndex) {
+	// case 0:
+	// if (sm.getName() != null) {
+	// return sm.getName();
+	// }
+	// break;
+	// case 1:
+	// if (sm.getRevision() != null) {
+	// return sm.getRevision();
+	// }
+	// break;
+	// case 2:
+	// if (sm.getPeriod() != null) {
+	// Date begin = modelUtils.fromXMLDate(sm.getPeriod()
+	// .getBegin());
+	// return modelUtils.date(begin) + modelUtils.time(begin);
+	// }
+	// break;
+	// case 3:
+	// if (sm.getPeriod() != null) {
+	// Date end = modelUtils.fromXMLDate(sm.getPeriod()
+	// .getEnd());
+	// return modelUtils.date(end) + modelUtils.time(end);
+	// }
+	// break;
+	// }
+	// }
+	// return super.getColumnText(element, columnIndex);
+	// }
+	// }
 
 	public void injectData() {
 		serviceUserResource = editingService
@@ -292,7 +295,7 @@ public class ServiceUsers extends AbstractScreen implements
 
 		actions.add(new EditServiceAction(actionText + "...", SWT.PUSH));
 
-//		actions.add(new ServiceMonitoringAction("Monitor...", SWT.PUSH));
+		// actions.add(new ServiceMonitoringAction("Monitor...", SWT.PUSH));
 
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray);

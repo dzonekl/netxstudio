@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
@@ -119,6 +120,8 @@ public class LibraryValidator extends EObjectValidator {
 	@Override
 	protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		switch (classifierID) {
+			case LibraryPackage.BASE_RESOURCE:
+				return validateBaseResource((BaseResource)value, diagnostics, context);
 			case LibraryPackage.COMPONENT:
 				return validateComponent((Component)value, diagnostics, context);
 			case LibraryPackage.EQUIPMENT:
@@ -166,6 +169,15 @@ public class LibraryValidator extends EObjectValidator {
 			default:
 				return true;
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateBaseResource(BaseResource baseResource, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint((EObject)baseResource, diagnostics, context);
 	}
 
 	/**

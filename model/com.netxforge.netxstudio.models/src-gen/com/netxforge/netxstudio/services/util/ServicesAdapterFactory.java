@@ -24,6 +24,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.RFSService;
@@ -33,6 +34,7 @@ import com.netxforge.netxstudio.services.ServiceForecast;
 import com.netxforge.netxstudio.services.ServiceForecastUsers;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServiceProfile;
+import com.netxforge.netxstudio.services.ServiceProfileResource;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -129,12 +131,20 @@ public class ServicesAdapterFactory extends AdapterFactoryImpl {
 				return createServiceProfileAdapter();
 			}
 			@Override
+			public Adapter caseServiceProfileResource(ServiceProfileResource object) {
+				return createServiceProfileResourceAdapter();
+			}
+			@Override
 			public Adapter caseServiceUser(ServiceUser object) {
 				return createServiceUserAdapter();
 			}
 			@Override
 			public Adapter caseBase(Base object) {
 				return createBaseAdapter();
+			}
+			@Override
+			public Adapter caseBaseResource(BaseResource object) {
+				return createBaseResourceAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -283,6 +293,20 @@ public class ServicesAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.services.ServiceProfileResource <em>Service Profile Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.services.ServiceProfileResource
+	 * @generated
+	 */
+	public Adapter createServiceProfileResourceAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.services.ServiceUser <em>Service User</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -307,6 +331,20 @@ public class ServicesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createBaseAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.library.BaseResource <em>Base Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.library.BaseResource
+	 * @generated
+	 */
+	public Adapter createBaseResourceAdapter() {
 		return null;
 	}
 

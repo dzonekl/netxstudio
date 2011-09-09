@@ -294,6 +294,29 @@ public class ServicesItemProviderAdapterFactory extends ServicesAdapterFactory i
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.services.ServiceProfileResource} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ServiceProfileResourceItemProvider serviceProfileResourceItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.services.ServiceProfileResource}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createServiceProfileResourceAdapter() {
+		if (serviceProfileResourceItemProvider == null) {
+			serviceProfileResourceItemProvider = new ServiceProfileResourceItemProvider(this);
+		}
+
+		return serviceProfileResourceItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.services.ServiceUser} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -424,6 +447,7 @@ public class ServicesItemProviderAdapterFactory extends ServicesAdapterFactory i
 		if (serviceForecastUsersItemProvider != null) serviceForecastUsersItemProvider.dispose();
 		if (serviceMonitorItemProvider != null) serviceMonitorItemProvider.dispose();
 		if (serviceProfileItemProvider != null) serviceProfileItemProvider.dispose();
+		if (serviceProfileResourceItemProvider != null) serviceProfileResourceItemProvider.dispose();
 		if (serviceUserItemProvider != null) serviceUserItemProvider.dispose();
 	}
 

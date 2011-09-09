@@ -265,19 +265,19 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 
 		observeMaps.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME)
+				LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME)
 				.observeDetail(set));
 		observeMaps.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME)
+				LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME)
 				.observeDetail(set));
 		observeMaps.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__LONG_NAME)
+				LibraryPackage.Literals.BASE_RESOURCE__LONG_NAME)
 				.observeDetail(set));
 		observeMaps.add(EMFEditProperties.value(
 				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF).observeDetail(
+				LibraryPackage.Literals.BASE_RESOURCE__UNIT_REF).observeDetail(
 				set));
 
 		IObservableMap[] map = new IObservableMap[observeMaps.size()];

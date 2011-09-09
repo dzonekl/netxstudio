@@ -1,4 +1,4 @@
-#Wed Jun 22 16:31:57 CEST 2011
+#Fri Sep 09 15:45:37 CEST 2011
 eclipse.preferences.version=1
 encoding//models/emf/05012011/generics.ecorediag=UTF-8
 encoding//models/emf/05012011/geo.ecorediag=UTF-8
@@ -17,4 +17,5 @@ encoding//models/xsd/13042011/metrics.xsd=UTF8
 encoding//models/xsd/13042011/netxstudio.xsd=UTF8
 encoding//models/xsd/13042011/operators.xsd=UTF8
 encoding//models/xsd/13042011/scheduling.xsd=UTF8
+encoding//models/xsd/13042011/services.xsd=UTF8
 encoding//models/xsd/15072010/generics.xsd=UTF8

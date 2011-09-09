@@ -78,14 +78,14 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
-import com.netxforge.netxstudio.screens.details.NewEditNodeEquipment;
-import com.netxforge.netxstudio.screens.details.NewEditFunction;
-import com.netxforge.netxstudio.screens.details.NewEditLink;
-import com.netxforge.netxstudio.screens.details.NewEditNetwork;
-import com.netxforge.netxstudio.screens.details.NewEditNode;
-import com.netxforge.netxstudio.screens.details.NewEditNodeType;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f2.details.NewEditFunction;
+import com.netxforge.netxstudio.screens.f2.details.NewEditLink;
+import com.netxforge.netxstudio.screens.f2.details.NewEditNetwork;
+import com.netxforge.netxstudio.screens.f2.details.NewEditNode;
+import com.netxforge.netxstudio.screens.f2.details.NewEditNodeEquipment;
+import com.netxforge.netxstudio.screens.f2.details.NewEditNodeType;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
 
 /**

@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.library.LibraryPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -853,6 +854,115 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_PROFILE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.ServiceProfileResourceImpl <em>Service Profile Resource</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.services.impl.ServiceProfileResourceImpl
+	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceProfileResource()
+	 * @generated
+	 */
+	int SERVICE_PROFILE_RESOURCE = 9;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE__DELETED = LibraryPackage.BASE_RESOURCE__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Detail Display</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE__DETAIL_DISPLAY = LibraryPackage.BASE_RESOURCE__DETAIL_DISPLAY;
+
+	/**
+	 * The feature id for the '<em><b>Expression Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE__EXPRESSION_NAME = LibraryPackage.BASE_RESOURCE__EXPRESSION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Long Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE__LONG_NAME = LibraryPackage.BASE_RESOURCE__LONG_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE__SHORT_NAME = LibraryPackage.BASE_RESOURCE__SHORT_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Summary Display</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE__SUMMARY_DISPLAY = LibraryPackage.BASE_RESOURCE__SUMMARY_DISPLAY;
+
+	/**
+	 * The feature id for the '<em><b>Unit Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE__UNIT_REF = LibraryPackage.BASE_RESOURCE__UNIT_REF;
+
+	/**
+	 * The feature id for the '<em><b>Profile Values</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE__PROFILE_VALUES = LibraryPackage.BASE_RESOURCE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Forecast Values</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE__FORECAST_VALUES = LibraryPackage.BASE_RESOURCE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Trended Values</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE__TRENDED_VALUES = LibraryPackage.BASE_RESOURCE_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Service Profile Resource</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_PROFILE_RESOURCE_FEATURE_COUNT = LibraryPackage.BASE_RESOURCE_FEATURE_COUNT + 3;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl <em>Service User</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -860,7 +970,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceUser()
 	 * @generated
 	 */
-	int SERVICE_USER = 9;
+	int SERVICE_USER = 10;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -881,13 +991,13 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_USER__SERVICE_PROFILE = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Expression Refs</b></em>' reference list.
+	 * The feature id for the '<em><b>Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER__EXPRESSION_REFS = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int SERVICE_USER__EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -915,7 +1025,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceClassType()
 	 * @generated
 	 */
-	int SERVICE_CLASS_TYPE = 10;
+	int SERVICE_CLASS_TYPE = 11;
 
 	/**
 	 * The meta object id for the '<em>Service Class Type Object</em>' data type.
@@ -925,7 +1035,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceClassTypeObject()
 	 * @generated
 	 */
-	int SERVICE_CLASS_TYPE_OBJECT = 11;
+	int SERVICE_CLASS_TYPE_OBJECT = 12;
 
 
 	/**
@@ -1371,6 +1481,49 @@ public interface ServicesPackage extends EPackage {
 	EAttribute getServiceProfile_Name();
 
 	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.services.ServiceProfileResource <em>Service Profile Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Service Profile Resource</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceProfileResource
+	 * @generated
+	 */
+	EClass getServiceProfileResource();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.services.ServiceProfileResource#getProfileValues <em>Profile Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Profile Values</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceProfileResource#getProfileValues()
+	 * @see #getServiceProfileResource()
+	 * @generated
+	 */
+	EReference getServiceProfileResource_ProfileValues();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.services.ServiceProfileResource#getForecastValues <em>Forecast Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Forecast Values</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceProfileResource#getForecastValues()
+	 * @see #getServiceProfileResource()
+	 * @generated
+	 */
+	EReference getServiceProfileResource_ForecastValues();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.services.ServiceProfileResource#getTrendedValues <em>Trended Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Trended Values</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceProfileResource#getTrendedValues()
+	 * @see #getServiceProfileResource()
+	 * @generated
+	 */
+	EReference getServiceProfileResource_TrendedValues();
+
+	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.services.ServiceUser <em>Service User</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1392,15 +1545,15 @@ public interface ServicesPackage extends EPackage {
 	EReference getServiceUser_ServiceProfile();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.services.ServiceUser#getExpressionRefs <em>Expression Refs</em>}'.
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.services.ServiceUser#getExpressionRef <em>Expression Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Expression Refs</em>'.
-	 * @see com.netxforge.netxstudio.services.ServiceUser#getExpressionRefs()
+	 * @return the meta object for the reference '<em>Expression Ref</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceUser#getExpressionRef()
 	 * @see #getServiceUser()
 	 * @generated
 	 */
-	EReference getServiceUser_ExpressionRefs();
+	EReference getServiceUser_ExpressionRef();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.services.ServiceUser#getName <em>Name</em>}'.
@@ -1804,6 +1957,40 @@ public interface ServicesPackage extends EPackage {
 		EAttribute SERVICE_PROFILE__NAME = eINSTANCE.getServiceProfile_Name();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.services.impl.ServiceProfileResourceImpl <em>Service Profile Resource</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.services.impl.ServiceProfileResourceImpl
+		 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceProfileResource()
+		 * @generated
+		 */
+		EClass SERVICE_PROFILE_RESOURCE = eINSTANCE.getServiceProfileResource();
+
+		/**
+		 * The meta object literal for the '<em><b>Profile Values</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVICE_PROFILE_RESOURCE__PROFILE_VALUES = eINSTANCE.getServiceProfileResource_ProfileValues();
+
+		/**
+		 * The meta object literal for the '<em><b>Forecast Values</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVICE_PROFILE_RESOURCE__FORECAST_VALUES = eINSTANCE.getServiceProfileResource_ForecastValues();
+
+		/**
+		 * The meta object literal for the '<em><b>Trended Values</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVICE_PROFILE_RESOURCE__TRENDED_VALUES = eINSTANCE.getServiceProfileResource_TrendedValues();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl <em>Service User</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1822,12 +2009,12 @@ public interface ServicesPackage extends EPackage {
 		EReference SERVICE_USER__SERVICE_PROFILE = eINSTANCE.getServiceUser_ServiceProfile();
 
 		/**
-		 * The meta object literal for the '<em><b>Expression Refs</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Expression Ref</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SERVICE_USER__EXPRESSION_REFS = eINSTANCE.getServiceUser_ExpressionRefs();
+		EReference SERVICE_USER__EXPRESSION_REF = eINSTANCE.getServiceUser_ExpressionRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.

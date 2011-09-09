@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -34,6 +35,7 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
@@ -44,7 +46,13 @@ import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
+import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
+import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
+import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServiceMonitor;
 
 public class ModelUtils {
 
@@ -72,7 +80,8 @@ public class ModelUtils {
 			Date begin = fromXMLDate(dtr.getBegin());
 			Date end = fromXMLDate(dtr.getEnd());
 			Date target = fromXMLDate(v.getTimeStamp());
-			return ( target == begin || target == end ) || begin.before(target) && end.after(target);
+			return (target == begin || target == end) || begin.before(target)
+					&& end.after(target);
 		}
 	}
 
@@ -169,6 +178,82 @@ public class ModelUtils {
 		} else {
 			return null;
 		}
+	}
+
+	public ServiceMonitor lastServiceMonitor(Service service) {
+		if(service.getServiceMonitors().isEmpty()){
+			return null;
+		}
+		int size = service.getServiceMonitors().size();
+		ServiceMonitor sm = service.getServiceMonitors().get(size - 1);
+		return sm;
+	}
+
+	public int[] ragStatus(ServiceMonitor sm) {
+
+		int red = 0, amber = 0, green = 0;
+
+		for (ResourceMonitor rm : sm.getResourceMonitors()) {
+			Marker[] markerArray = new Marker[rm.getMarkers().size()];
+			ToleranceMarker tm = lastToleranceMarker(rm.getMarkers().toArray(
+					markerArray));
+			switch (tm.getLevel().getValue()) {
+			case LevelKind.RED_VALUE: {
+				red++;
+			}
+				break;
+			case LevelKind.AMBER_VALUE: {
+				red++;
+			}
+				break;
+			case LevelKind.GREEN_VALUE: {
+				red++;
+			}
+				break;
+
+			}
+		}
+		
+		return new int[]{red,amber,green};
+
+	}
+
+	public ToleranceMarker lastToleranceMarker(Marker... markers) {
+		ToleranceMarker tm = null;
+		List<Marker> markerList = Lists.newArrayList(markers);
+
+		// TODO, We are not sure the list is sorted by marker value's timestamp,
+		// here we simply reverse the list, but this could well be wrong.
+		// Otherwise, use a Comparator, to sort first. (See ResourceMonitor).
+
+		Collections.reverse(markerList);
+		for (Marker m : markerList) {
+			if (m instanceof ToleranceMarker) {
+				ToleranceMarker tempMarker = (ToleranceMarker) m;
+				if (tempMarker.getDirection() == ToleranceMarkerDirectionKind.UP
+						|| tempMarker.getDirection() == ToleranceMarkerDirectionKind.START) {
+					tm = tempMarker;
+					return tm;
+				}
+			}
+		}
+		return tm;
+	}
+
+	public String formatLastMonitorDate(ServiceMonitor sm) {
+		DateTimeRange dtr = sm.getPeriod();
+		StringBuilder sb = new StringBuilder();
+		Date begin = fromXMLDate(dtr.getBegin());
+		Date end = fromXMLDate(dtr.getEnd());
+		sb.append("From: ");
+		sb.append(date(begin));
+		sb.append(" @ ");
+		sb.append(time(begin));
+		sb.append(" To: ");
+		sb.append(date(end));
+		sb.append(" @ ");
+		sb.append(time(end));
+		return sb.toString();
 	}
 
 	public List<NetXResource> resourcesInMetricSource(
@@ -330,17 +415,18 @@ public class ModelUtils {
 
 		return newName;
 	}
-	
+
 	/**
-	 * Iterate through the ranges, and find for this interval. 
+	 * Iterate through the ranges, and find for this interval.
 	 * 
 	 * @param resource
 	 * @param targetInterval
 	 * @return
 	 */
-	public MetricValueRange valueRangeForInterval(NetXResource resource, int targetInterval){
-		for( MetricValueRange mvr : resource.getMetricValueRanges()){
-			if(mvr.getIntervalHint() == targetInterval){
+	public MetricValueRange valueRangeForInterval(NetXResource resource,
+			int targetInterval) {
+		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
+			if (mvr.getIntervalHint() == targetInterval) {
 				return mvr;
 			}
 		}

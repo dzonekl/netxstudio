@@ -18,8 +18,6 @@
  */
 package com.netxforge.netxstudio.services;
 
-import org.eclipse.emf.common.util.EList;
-
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.library.Expression;
 
@@ -46,7 +44,7 @@ import com.netxforge.netxstudio.library.Expression;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getServiceProfile <em>Service Profile</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getExpressionRefs <em>Expression Refs</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getExpressionRef <em>Expression Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getName <em>Name</em>}</li>
  * </ul>
  * </p>
@@ -85,22 +83,32 @@ public interface ServiceUser extends Base {
 	void setServiceProfile(ServiceProfile value);
 
 	/**
-	 * Returns the value of the '<em><b>Expression Refs</b></em>' reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.library.Expression}.
+	 * Returns the value of the '<em><b>Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ExpressionRefs reference, refers to 0 or
-	 * 								more
+	 * The ExpressionRef reference, refers to 0 or
+	 * 								1
 	 * 								Expression types.
 	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Expression Refs</em>' reference list.
-	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceUser_ExpressionRefs()
-	 * @model extendedMetaData="kind='element' name='ExpressionRefs'"
+	 * @return the value of the '<em>Expression Ref</em>' reference.
+	 * @see #setExpressionRef(Expression)
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceUser_ExpressionRef()
+	 * @model extendedMetaData="kind='element' name='ExpressionRef'"
 	 * @generated
 	 */
-	EList<Expression> getExpressionRefs();
+	Expression getExpressionRef();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.services.ServiceUser#getExpressionRef <em>Expression Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Expression Ref</em>' reference.
+	 * @see #getExpressionRef()
+	 * @generated
+	 */
+	void setExpressionRef(Expression value);
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.

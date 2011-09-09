@@ -20,7 +20,6 @@ package com.netxforge.netxstudio.library;
 
 import org.eclipse.emf.common.util.EList;
 
-import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
@@ -76,12 +75,6 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getForecastCapacityValues <em>Forecast Capacity Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getForecastValues <em>Forecast Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getTrendedValues <em>Trended Values</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.NetXResource#isDetailDisplay <em>Detail Display</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getExpressionName <em>Expression Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getLongName <em>Long Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getShortName <em>Short Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.NetXResource#isSummaryDisplay <em>Summary Display</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.NetXResource#getUnitRef <em>Unit Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -89,7 +82,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  * @model extendedMetaData="name='NetXResource' kind='elementOnly'"
  * @generated
  */
-public interface NetXResource extends Base {
+public interface NetXResource extends BaseResource {
 	/**
 	 * Returns the value of the '<em><b>Component Ref</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.library.Component#getResourceRefs <em>Resource Refs</em>}'.
@@ -270,235 +263,5 @@ public interface NetXResource extends Base {
 	 * @generated
 	 */
 	EList<Value> getTrendedValues();
-
-	/**
-	 * Returns the value of the '<em><b>Detail Display</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The DetailDisplay attribute is a flag specifiy
-	 * 							if
-	 * 							the resource should be displayed in a detailed presentation.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Detail Display</em>' attribute.
-	 * @see #isSetDetailDisplay()
-	 * @see #unsetDetailDisplay()
-	 * @see #setDetailDisplay(boolean)
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_DetailDisplay()
-	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
-	 *        extendedMetaData="kind='attribute' name='DetailDisplay'"
-	 * @generated
-	 */
-	boolean isDetailDisplay();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.library.NetXResource#isDetailDisplay <em>Detail Display</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Detail Display</em>' attribute.
-	 * @see #isSetDetailDisplay()
-	 * @see #unsetDetailDisplay()
-	 * @see #isDetailDisplay()
-	 * @generated
-	 */
-	void setDetailDisplay(boolean value);
-
-	/**
-	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.NetXResource#isDetailDisplay <em>Detail Display</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetDetailDisplay()
-	 * @see #isDetailDisplay()
-	 * @see #setDetailDisplay(boolean)
-	 * @generated
-	 */
-	void unsetDetailDisplay();
-
-	/**
-	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.NetXResource#isDetailDisplay <em>Detail Display</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Detail Display</em>' attribute is set.
-	 * @see #unsetDetailDisplay()
-	 * @see #isDetailDisplay()
-	 * @see #setDetailDisplay(boolean)
-	 * @generated
-	 */
-	boolean isSetDetailDisplay();
-
-	/**
-	 * Returns the value of the '<em><b>Expression Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The ExpressionName attribute holds a name which
-	 * 							is
-	 * 							used in the expressions referencing
-	 * 							the resource.
-	 * 
-	 * 							See: The
-	 * 							NetXScript
-	 * 							specification.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Expression Name</em>' attribute.
-	 * @see #setExpressionName(String)
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_ExpressionName()
-	 * @model dataType="com.netxforge.netxstudio.generics.Name255"
-	 *        extendedMetaData="kind='attribute' name='ExpressionName'"
-	 * @generated
-	 */
-	String getExpressionName();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.library.NetXResource#getExpressionName <em>Expression Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Expression Name</em>' attribute.
-	 * @see #getExpressionName()
-	 * @generated
-	 */
-	void setExpressionName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Long Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The LongName attribute holds a long name which
-	 * 							is
-	 * 							used for presentation of the resource.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Long Name</em>' attribute.
-	 * @see #setLongName(String)
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_LongName()
-	 * @model dataType="com.netxforge.netxstudio.generics.Description2000"
-	 *        extendedMetaData="kind='attribute' name='LongName'"
-	 * @generated
-	 */
-	String getLongName();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.library.NetXResource#getLongName <em>Long Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Long Name</em>' attribute.
-	 * @see #getLongName()
-	 * @generated
-	 */
-	void setLongName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Short Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The ShortName attribute holds a short name which
-	 * 							is used for presentation of the resource.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Short Name</em>' attribute.
-	 * @see #setShortName(String)
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_ShortName()
-	 * @model dataType="com.netxforge.netxstudio.generics.Name255"
-	 *        extendedMetaData="kind='attribute' name='ShortName'"
-	 * @generated
-	 */
-	String getShortName();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.library.NetXResource#getShortName <em>Short Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Short Name</em>' attribute.
-	 * @see #getShortName()
-	 * @generated
-	 */
-	void setShortName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Summary Display</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The SummaryDisplay attribute is a flag specifiy
-	 * 							if
-	 * 							the resource should be displayed in a summary presentation.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Summary Display</em>' attribute.
-	 * @see #isSetSummaryDisplay()
-	 * @see #unsetSummaryDisplay()
-	 * @see #setSummaryDisplay(boolean)
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_SummaryDisplay()
-	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
-	 *        extendedMetaData="kind='attribute' name='SummaryDisplay'"
-	 * @generated
-	 */
-	boolean isSummaryDisplay();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.library.NetXResource#isSummaryDisplay <em>Summary Display</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Summary Display</em>' attribute.
-	 * @see #isSetSummaryDisplay()
-	 * @see #unsetSummaryDisplay()
-	 * @see #isSummaryDisplay()
-	 * @generated
-	 */
-	void setSummaryDisplay(boolean value);
-
-	/**
-	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.NetXResource#isSummaryDisplay <em>Summary Display</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetSummaryDisplay()
-	 * @see #isSummaryDisplay()
-	 * @see #setSummaryDisplay(boolean)
-	 * @generated
-	 */
-	void unsetSummaryDisplay();
-
-	/**
-	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.NetXResource#isSummaryDisplay <em>Summary Display</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Summary Display</em>' attribute is set.
-	 * @see #unsetSummaryDisplay()
-	 * @see #isSummaryDisplay()
-	 * @see #setSummaryDisplay(boolean)
-	 * @generated
-	 */
-	boolean isSetSummaryDisplay();
-
-	/**
-	 * Returns the value of the '<em><b>Unit Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The UnitRef reference, refers to 0 or 1 Unit
-	 * 							type.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Unit Ref</em>' reference.
-	 * @see #setUnitRef(Unit)
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getNetXResource_UnitRef()
-	 * @model extendedMetaData="kind='attribute' name='UnitRef'"
-	 * @generated
-	 */
-	Unit getUnitRef();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.library.NetXResource#getUnitRef <em>Unit Ref</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Unit Ref</em>' reference.
-	 * @see #getUnitRef()
-	 * @generated
-	 */
-	void setUnitRef(Unit value);
 
 } // NetXResource

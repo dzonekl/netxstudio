@@ -530,17 +530,17 @@ public class NewEditResource extends AbstractScreen implements
 
 		IEMFValueProperty shortNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME);
+				LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME);
 		IEMFValueProperty longNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__LONG_NAME);
+				LibraryPackage.Literals.BASE_RESOURCE__LONG_NAME);
 		IEMFValueProperty expressionNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
-				LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME);
+				LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME);
 
 		IEMFValueProperty unitProperty = EMFEditProperties.value(editingService
 				.getEditingDomain(), FeaturePath.fromList(
-				LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF,
+				LibraryPackage.Literals.BASE_RESOURCE__UNIT_REF,
 				LibraryPackage.Literals.UNIT__CODE));
 
 		context.bindValue(shortNameTargetObservable,

@@ -77,26 +77,26 @@ public class ServiceUserItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addExpressionRefsPropertyDescriptor(object);
+			addExpressionRefPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Expression Refs feature.
+	 * This adds a property descriptor for the Expression Ref feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addExpressionRefsPropertyDescriptor(Object object) {
+	protected void addExpressionRefPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ServiceUser_expressionRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ServiceUser_expressionRefs_feature", "_UI_ServiceUser_type"),
-				 ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REFS,
+				 getString("_UI_ServiceUser_expressionRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ServiceUser_expressionRef_feature", "_UI_ServiceUser_type"),
+				 ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF,
 				 true,
 				 false,
 				 true,

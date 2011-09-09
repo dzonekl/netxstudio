@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.server.logic.reporting;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -30,6 +31,7 @@ import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -69,65 +71,87 @@ public class ReportingService implements NetxForgeService {
 		private Map<String, String> parameters;
 
 		private CDOID run() {
+
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
-
-			final RFSServiceReportingLogic reportingLogic;
-
+			CDOID id = null;
 			if (parameters.containsKey(SERVICE_PARAM)) {
-				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
+				 id = getCDOID(parameters.get(SERVICE_PARAM),
 						ServicesPackage.Literals.RFS_SERVICE);
-
-				reportingLogic = LogicActivator.getInstance().getInjector()
-						.getInstance(RFSServiceSummaryReportingLogic.class);
-
-				((RFSServiceSummaryReportingLogic) reportingLogic)
-						.setRfsService(id);
+				
 			} else if (parameters.containsKey(NODE_PARAM)) {
 				// TODO, Not implemented yet.
-				reportingLogic = null;
+				// reportingLogic = null;
 
 				// final CDOID id = getCDOID(parameters.get(NODE_PARAM),
 				// OperatorsPackage.Literals.NODE);
-				// reportingLogic = LogicActivator.getInstance().getInjector()
+				// reportingLogic =
+				// LogicActivator.getInstance().getInjector()
 				// .getInstance(NodeResourceMonitoringLogic.class);
-				// ((NodeResourceMonitoringLogic) reportingLogic).setNode(id);
+				// ((NodeResourceMonitoringLogic)
+				// reportingLogic).setNode(id);
 			} else if (parameters.containsKey(NODETYPE_PARAM)) {
 				// TODO, Not implemented yet.
-				reportingLogic = null;
-				
+				// reportingLogic = null;
 
 				// final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
 				// LibraryPackage.Literals.NODE_TYPE);
-				// reportingLogic = LogicActivator.getInstance().getInjector()
+				// reportingLogic =
+				// LogicActivator.getInstance().getInjector()
 				// .getInstance(NodeResourceMonitoringLogic.class);
 				// ((NodeResourceMonitoringLogic)
 				// reportingLogic).setNodeType(id);
 			} else {
 				throw new IllegalArgumentException("No valid parameters found");
 			}
-			if (reportingLogic != null) {
+			
+			final CDOID finalID = id != null ? id : null;
+			
+			// run in a separate thread
+			new Thread() {
+				@Override
+				public void run() {
+					// sleep to give the system
+					// time to return
+					try {
+						sleep(100);
+					} catch (final Exception e) {
+						// do nothing, ignore
+					}
 
-				reportingLogic.setJobMonitor(monitor);
-				reportingLogic.setStartTime(getStartTime(parameters));
-				reportingLogic.setEndTime(getEndTime(parameters));
-				reportingLogic.initializeStream();
-
-				// run in a separate thread
-				new Thread() {
-					@Override
-					public void run() {
-						// sleep to give the system
-						// time to return
-						try {
-							sleep(100);
-						} catch (final Exception e) {
-							// do nothing, ignore
-						}
+					for (final RFSServiceReportingLogic reportingLogic : getReportingLogos()) {
+						
+						reportingLogic.setRfsService(finalID);
+						reportingLogic.setJobMonitor(monitor);
+						reportingLogic.setStartTime(getStartTime(parameters));
+						reportingLogic.setEndTime(getEndTime(parameters));
+						reportingLogic.initializeStream();
 						reportingLogic.run();
-					};
-				}.start();
-			}
+
+					}
+				};
+			}.start();
+
 			return monitor.getWorkFlowRunId();
+		}
+
+		/*
+		 * 
+		 * Possibly extract to a more generic place.
+		 * 
+		 * @return
+		 */
+		public List<RFSServiceReportingLogic> getReportingLogos() {
+			List<RFSServiceReportingLogic> logos = Lists.newArrayList();
+
+			logos.add(LogicActivator.getInstance().getInjector()
+					.getInstance(RFSServiceSummaryReportingLogic.class));
+			logos.add(LogicActivator.getInstance().getInjector()
+					.getInstance(RFSServiceDashboardReportingLogic.class));
+			logos.add(LogicActivator.getInstance().getInjector()
+					.getInstance(RFSServiceDistributionReportingLogic.class));
+			logos.add(LogicActivator.getInstance().getInjector()
+					.getInstance(RFSServiceUserReportingLogic.class));
+			return logos;
 		}
 
 		private Date getStartTime(Map<String, String> parameters) {

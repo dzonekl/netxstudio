@@ -109,7 +109,6 @@ public interface EquipmentGroup extends Base {
 	/**
 	 * Returns the value of the '<em><b>Expression Refs</b></em>' reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.Expression}.
-	 * It is bidirectional and its opposite is '{@link com.netxforge.netxstudio.library.Expression#getEquipmentGroupRefs <em>Equipment Group Refs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -120,9 +119,7 @@ public interface EquipmentGroup extends Base {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Expression Refs</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipmentGroup_ExpressionRefs()
-	 * @see com.netxforge.netxstudio.library.Expression#getEquipmentGroupRefs
-	 * @model opposite="equipmentGroupRefs"
-	 *        extendedMetaData="kind='element' name='ExpressionRefs'"
+	 * @model extendedMetaData="kind='element' name='ExpressionRefs'"
 	 * @generated
 	 */
 	EList<Expression> getExpressionRefs();

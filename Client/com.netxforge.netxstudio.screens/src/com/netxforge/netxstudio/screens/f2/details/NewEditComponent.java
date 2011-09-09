@@ -1,4 +1,4 @@
-package com.netxforge.netxstudio.screens.details;
+package com.netxforge.netxstudio.screens.f2.details;
 
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -52,6 +52,7 @@ import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.MetricFilterDialog;
 import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
+import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -754,8 +755,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 				.observeMaps(
 						resourceListContentProvider.getKnownElements(),
 						new EStructuralFeature[] {
-								LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME,
-								LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME });
+								LibraryPackage.Literals.BASE_RESOURCE__SHORT_NAME,
+								LibraryPackage.Literals.BASE_RESOURCE__EXPRESSION_NAME });
 		resourceTableViewer.setLabelProvider(new ObservableMapLabelProvider(
 				observeResourceMaps));
 		IEMFListProperty resourcesListProperty = EMFEditProperties.list(

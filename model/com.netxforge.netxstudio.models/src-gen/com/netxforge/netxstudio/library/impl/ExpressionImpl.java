@@ -23,10 +23,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
-import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.services.ServiceProfile;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,8 +35,6 @@ import com.netxforge.netxstudio.services.ServiceProfile;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getExpressionLines <em>Expression Lines</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getEvaluationObject <em>Evaluation Object</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getEquipmentGroupRefs <em>Equipment Group Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getServiceProfileRefs <em>Service Profile Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ExpressionImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
@@ -91,26 +87,6 @@ public class ExpressionImpl extends BaseImpl implements Expression {
 	 */
 	public void setEvaluationObject(EObject newEvaluationObject) {
 		eSet(LibraryPackage.Literals.EXPRESSION__EVALUATION_OBJECT, newEvaluationObject);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<EquipmentGroup> getEquipmentGroupRefs() {
-		return (EList<EquipmentGroup>)eGet(LibraryPackage.Literals.EXPRESSION__EQUIPMENT_GROUP_REFS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<ServiceProfile> getServiceProfileRefs() {
-		return (EList<ServiceProfile>)eGet(LibraryPackage.Literals.EXPRESSION__SERVICE_PROFILE_REFS, true);
 	}
 
 	/**

@@ -846,6 +846,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+
 	<!--_____________________________ -->
 	<!--| RESOURCE | -->
 	<!--|___________________________| -->
@@ -886,19 +887,19 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="gen:Base">
+			<xs:extension base="BaseResource">
 				<xs:sequence>
 					<xs:annotation>
 						<xs:documentation>
 						</xs:documentation>
 					</xs:annotation>
+					
 					<xs:element minOccurs="1" name="ComponentRef" type="xs:anyURI" ecore:reference="Component" ecore:opposite="ResourceRefs">
 						<xs:annotation>
 							<xs:documentation>Reference to the component for which this netx resource was created.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-
 					<xs:element ecore:reference="metrics:Metric" maxOccurs="1" minOccurs="0" name="MetricRef" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The MetricRef reference, refers to zero or one
@@ -966,6 +967,21 @@
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| BASERESOURCE | -->
+	<!--|___________________________| -->
+
+	<xs:complexType name="BaseResource">
+		<xs:annotation>
+			<xs:documentation>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gen:Base">
 				<xs:attribute name="ShortName" type="gen:Name255">
 					<xs:annotation>
 						<xs:documentation>The ShortName attribute holds a short name which
@@ -1224,20 +1240,6 @@
 						</xs:annotation>
 					</xs:element>
 					<!-- Non-Contained -->
-					<xs:element ecore:opposite="ExpressionRefs" ecore:reference="EquipmentGroup" maxOccurs="unbounded" minOccurs="0" name="EquipmentGroupRefs" type="xs:anyURI">
-						<xs:annotation>
-							<xs:documentation>The EquipmentGroupExpressionRefs reference,
-								references 0 or more EquipmentGroup types.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element ecore:opposite="ServiceProfileExpressionRefs" ecore:reference="services:ServiceProfile" maxOccurs="unbounded" minOccurs="0" name="ServiceProfileRefs" type="xs:anyURI">
-						<xs:annotation>
-							<xs:documentation>The ServiceProfileExpressionRefs reference,
-								references 0 or more ServiceProfile types.
-							</xs:documentation>
-						</xs:annotation>
-					</xs:element>
 				</xs:sequence>
 				<xs:attribute name="Name" type="gen:Name255">
 					<xs:annotation>

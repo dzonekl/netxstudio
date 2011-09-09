@@ -119,6 +119,15 @@ public interface ServicesFactory extends EFactory {
 	ServiceProfile createServiceProfile();
 
 	/**
+	 * Returns a new object of class '<em>Service Profile Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Service Profile Resource</em>'.
+	 * @generated
+	 */
+	ServiceProfileResource createServiceProfileResource();
+
+	/**
 	 * Returns a new object of class '<em>Service User</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

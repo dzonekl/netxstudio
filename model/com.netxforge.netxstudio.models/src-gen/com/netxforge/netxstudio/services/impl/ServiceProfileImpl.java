@@ -22,8 +22,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
-import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.services.ServiceProfile;
+import com.netxforge.netxstudio.services.ServiceProfileResource;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
@@ -66,8 +66,8 @@ public class ServiceProfileImpl extends BaseImpl implements ServiceProfile {
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<NetXResource> getProfileResources() {
-		return (EList<NetXResource>)eGet(ServicesPackage.Literals.SERVICE_PROFILE__PROFILE_RESOURCES, true);
+	public EList<ServiceProfileResource> getProfileResources() {
+		return (EList<ServiceProfileResource>)eGet(ServicesPackage.Literals.SERVICE_PROFILE__PROFILE_RESOURCES, true);
 	}
 
 	/**

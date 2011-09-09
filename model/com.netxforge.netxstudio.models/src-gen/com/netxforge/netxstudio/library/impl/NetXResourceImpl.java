@@ -22,11 +22,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.Value;
-import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 
@@ -45,18 +43,12 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getForecastCapacityValues <em>Forecast Capacity Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getForecastValues <em>Forecast Values</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getTrendedValues <em>Trended Values</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#isDetailDisplay <em>Detail Display</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getExpressionName <em>Expression Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getLongName <em>Long Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getShortName <em>Short Name</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#isSummaryDisplay <em>Summary Display</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.impl.NetXResourceImpl#getUnitRef <em>Unit Ref</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class NetXResourceImpl extends BaseImpl implements NetXResource {
+public class NetXResourceImpl extends BaseResourceImpl implements NetXResource {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -170,150 +162,6 @@ public class NetXResourceImpl extends BaseImpl implements NetXResource {
 	@SuppressWarnings("unchecked")
 	public EList<Value> getTrendedValues() {
 		return (EList<Value>)eGet(LibraryPackage.Literals.NET_XRESOURCE__TRENDED_VALUES, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isDetailDisplay() {
-		return (Boolean)eGet(LibraryPackage.Literals.NET_XRESOURCE__DETAIL_DISPLAY, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDetailDisplay(boolean newDetailDisplay) {
-		eSet(LibraryPackage.Literals.NET_XRESOURCE__DETAIL_DISPLAY, newDetailDisplay);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetDetailDisplay() {
-		eUnset(LibraryPackage.Literals.NET_XRESOURCE__DETAIL_DISPLAY);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetDetailDisplay() {
-		return eIsSet(LibraryPackage.Literals.NET_XRESOURCE__DETAIL_DISPLAY);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getExpressionName() {
-		return (String)eGet(LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExpressionName(String newExpressionName) {
-		eSet(LibraryPackage.Literals.NET_XRESOURCE__EXPRESSION_NAME, newExpressionName);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getLongName() {
-		return (String)eGet(LibraryPackage.Literals.NET_XRESOURCE__LONG_NAME, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLongName(String newLongName) {
-		eSet(LibraryPackage.Literals.NET_XRESOURCE__LONG_NAME, newLongName);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getShortName() {
-		return (String)eGet(LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setShortName(String newShortName) {
-		eSet(LibraryPackage.Literals.NET_XRESOURCE__SHORT_NAME, newShortName);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSummaryDisplay() {
-		return (Boolean)eGet(LibraryPackage.Literals.NET_XRESOURCE__SUMMARY_DISPLAY, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSummaryDisplay(boolean newSummaryDisplay) {
-		eSet(LibraryPackage.Literals.NET_XRESOURCE__SUMMARY_DISPLAY, newSummaryDisplay);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void unsetSummaryDisplay() {
-		eUnset(LibraryPackage.Literals.NET_XRESOURCE__SUMMARY_DISPLAY);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isSetSummaryDisplay() {
-		return eIsSet(LibraryPackage.Literals.NET_XRESOURCE__SUMMARY_DISPLAY);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Unit getUnitRef() {
-		return (Unit)eGet(LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setUnitRef(Unit newUnitRef) {
-		eSet(LibraryPackage.Literals.NET_XRESOURCE__UNIT_REF, newUnitRef);
 	}
 
 } //NetXResourceImpl

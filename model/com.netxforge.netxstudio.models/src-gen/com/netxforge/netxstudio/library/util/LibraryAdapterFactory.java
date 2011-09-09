@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.EquipmentGroup;
@@ -97,6 +98,10 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 	 */
 	protected LibrarySwitch<Adapter> modelSwitch =
 		new LibrarySwitch<Adapter>() {
+			@Override
+			public Adapter caseBaseResource(BaseResource object) {
+				return createBaseResourceAdapter();
+			}
 			@Override
 			public Adapter caseComponent(Component object) {
 				return createComponentAdapter();
@@ -180,6 +185,20 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.library.BaseResource <em>Base Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.library.BaseResource
+	 * @generated
+	 */
+	public Adapter createBaseResourceAdapter() {
+		return null;
+	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.library.Component <em>Component</em>}'.

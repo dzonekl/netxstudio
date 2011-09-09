@@ -135,6 +135,88 @@ public interface LibraryPackage extends EPackage {
 	LibraryPackage eINSTANCE = com.netxforge.netxstudio.library.impl.LibraryPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.BaseResourceImpl <em>Base Resource</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.library.impl.BaseResourceImpl
+	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getBaseResource()
+	 * @generated
+	 */
+	int BASE_RESOURCE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE_RESOURCE__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Detail Display</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE_RESOURCE__DETAIL_DISPLAY = GenericsPackage.BASE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Expression Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE_RESOURCE__EXPRESSION_NAME = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Long Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE_RESOURCE__LONG_NAME = GenericsPackage.BASE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE_RESOURCE__SHORT_NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Summary Display</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE_RESOURCE__SUMMARY_DISPLAY = GenericsPackage.BASE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Unit Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE_RESOURCE__UNIT_REF = GenericsPackage.BASE_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of structural features of the '<em>Base Resource</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE_RESOURCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 6;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.ComponentImpl <em>Component</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -142,7 +224,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getComponent()
 	 * @generated
 	 */
-	int COMPONENT = 0;
+	int COMPONENT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -287,7 +369,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getEquipment()
 	 * @generated
 	 */
-	int EQUIPMENT = 1;
+	int EQUIPMENT = 2;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -531,7 +613,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getEquipmentGroup()
 	 * @generated
 	 */
-	int EQUIPMENT_GROUP = 2;
+	int EQUIPMENT_GROUP = 3;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -649,7 +731,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getExpression()
 	 * @generated
 	 */
-	int EXPRESSION = 3;
+	int EXPRESSION = 4;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -679,31 +761,13 @@ public interface LibraryPackage extends EPackage {
 	int EXPRESSION__EVALUATION_OBJECT = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Equipment Group Refs</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPRESSION__EQUIPMENT_GROUP_REFS = GenericsPackage.BASE_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Service Profile Refs</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPRESSION__SERVICE_PROFILE_REFS = GenericsPackage.BASE_FEATURE_COUNT + 3;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION__NAME = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int EXPRESSION__NAME = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Expression</em>' class.
@@ -712,7 +776,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
+	int EXPRESSION_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.ExpressionResultImpl <em>Expression Result</em>}' class.
@@ -722,7 +786,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getExpressionResult()
 	 * @generated
 	 */
-	int EXPRESSION_RESULT = 4;
+	int EXPRESSION_RESULT = 5;
 
 	/**
 	 * The feature id for the '<em><b>Target Resource</b></em>' reference.
@@ -786,7 +850,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getFunction()
 	 * @generated
 	 */
-	int FUNCTION = 5;
+	int FUNCTION = 6;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -958,7 +1022,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLibrary()
 	 * @generated
 	 */
-	int LIBRARY = 6;
+	int LIBRARY = 7;
 
 	/**
 	 * The feature id for the '<em><b>Functions</b></em>' containment reference list.
@@ -1085,7 +1149,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getNetXResource()
 	 * @generated
 	 */
-	int NET_XRESOURCE = 7;
+	int NET_XRESOURCE = 8;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1094,79 +1158,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__DELETED = GenericsPackage.BASE__DELETED;
-
-	/**
-	 * The feature id for the '<em><b>Component Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NET_XRESOURCE__COMPONENT_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Metric Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NET_XRESOURCE__METRIC_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Metric Value Ranges</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NET_XRESOURCE__METRIC_VALUE_RANGES = GenericsPackage.BASE_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Capacity Values</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NET_XRESOURCE__CAPACITY_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Utilization Values</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NET_XRESOURCE__UTILIZATION_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Forecast Capacity Values</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NET_XRESOURCE__FORECAST_CAPACITY_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 5;
-
-	/**
-	 * The feature id for the '<em><b>Forecast Values</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NET_XRESOURCE__FORECAST_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 6;
-
-	/**
-	 * The feature id for the '<em><b>Trended Values</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NET_XRESOURCE__TRENDED_VALUES = GenericsPackage.BASE_FEATURE_COUNT + 7;
+	int NET_XRESOURCE__DELETED = BASE_RESOURCE__DELETED;
 
 	/**
 	 * The feature id for the '<em><b>Detail Display</b></em>' attribute.
@@ -1175,7 +1167,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__DETAIL_DISPLAY = GenericsPackage.BASE_FEATURE_COUNT + 8;
+	int NET_XRESOURCE__DETAIL_DISPLAY = BASE_RESOURCE__DETAIL_DISPLAY;
 
 	/**
 	 * The feature id for the '<em><b>Expression Name</b></em>' attribute.
@@ -1184,7 +1176,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__EXPRESSION_NAME = GenericsPackage.BASE_FEATURE_COUNT + 9;
+	int NET_XRESOURCE__EXPRESSION_NAME = BASE_RESOURCE__EXPRESSION_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Long Name</b></em>' attribute.
@@ -1193,7 +1185,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__LONG_NAME = GenericsPackage.BASE_FEATURE_COUNT + 10;
+	int NET_XRESOURCE__LONG_NAME = BASE_RESOURCE__LONG_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Short Name</b></em>' attribute.
@@ -1202,7 +1194,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__SHORT_NAME = GenericsPackage.BASE_FEATURE_COUNT + 11;
+	int NET_XRESOURCE__SHORT_NAME = BASE_RESOURCE__SHORT_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Summary Display</b></em>' attribute.
@@ -1211,7 +1203,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__SUMMARY_DISPLAY = GenericsPackage.BASE_FEATURE_COUNT + 12;
+	int NET_XRESOURCE__SUMMARY_DISPLAY = BASE_RESOURCE__SUMMARY_DISPLAY;
 
 	/**
 	 * The feature id for the '<em><b>Unit Ref</b></em>' reference.
@@ -1220,7 +1212,79 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE__UNIT_REF = GenericsPackage.BASE_FEATURE_COUNT + 13;
+	int NET_XRESOURCE__UNIT_REF = BASE_RESOURCE__UNIT_REF;
+
+	/**
+	 * The feature id for the '<em><b>Component Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NET_XRESOURCE__COMPONENT_REF = BASE_RESOURCE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Metric Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NET_XRESOURCE__METRIC_REF = BASE_RESOURCE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Metric Value Ranges</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NET_XRESOURCE__METRIC_VALUE_RANGES = BASE_RESOURCE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Capacity Values</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NET_XRESOURCE__CAPACITY_VALUES = BASE_RESOURCE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Utilization Values</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NET_XRESOURCE__UTILIZATION_VALUES = BASE_RESOURCE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Forecast Capacity Values</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NET_XRESOURCE__FORECAST_CAPACITY_VALUES = BASE_RESOURCE_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Forecast Values</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NET_XRESOURCE__FORECAST_VALUES = BASE_RESOURCE_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Trended Values</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NET_XRESOURCE__TRENDED_VALUES = BASE_RESOURCE_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Net XResource</em>' class.
@@ -1229,7 +1293,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NET_XRESOURCE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 14;
+	int NET_XRESOURCE_FEATURE_COUNT = BASE_RESOURCE_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl <em>Node Type</em>}' class.
@@ -1239,7 +1303,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getNodeType()
 	 * @generated
 	 */
-	int NODE_TYPE = 8;
+	int NODE_TYPE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1303,7 +1367,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getParameter()
 	 * @generated
 	 */
-	int PARAMETER = 9;
+	int PARAMETER = 10;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1376,7 +1440,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getProductInfo()
 	 * @generated
 	 */
-	int PRODUCT_INFO = 10;
+	int PRODUCT_INFO = 11;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1485,7 +1549,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getTolerance()
 	 * @generated
 	 */
-	int TOLERANCE = 11;
+	int TOLERANCE = 12;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1540,7 +1604,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getUnit()
 	 * @generated
 	 */
-	int UNIT = 12;
+	int UNIT = 13;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1604,7 +1668,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getVendor()
 	 * @generated
 	 */
-	int VENDOR = 13;
+	int VENDOR = 14;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1695,7 +1759,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelKind()
 	 * @generated
 	 */
-	int LEVEL_KIND = 14;
+	int LEVEL_KIND = 15;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.RangeKind <em>Range Kind</em>}' enum.
@@ -1705,7 +1769,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRangeKind()
 	 * @generated
 	 */
-	int RANGE_KIND = 15;
+	int RANGE_KIND = 16;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.RedundancyType <em>Redundancy Type</em>}' enum.
@@ -1715,7 +1779,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRedundancyType()
 	 * @generated
 	 */
-	int REDUNDANCY_TYPE = 16;
+	int REDUNDANCY_TYPE = 17;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.StateType <em>State Type</em>}' enum.
@@ -1725,7 +1789,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getStateType()
 	 * @generated
 	 */
-	int STATE_TYPE = 17;
+	int STATE_TYPE = 18;
 
 	/**
 	 * The meta object id for the '<em>Level Kind Object</em>' data type.
@@ -1735,7 +1799,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelKindObject()
 	 * @generated
 	 */
-	int LEVEL_KIND_OBJECT = 18;
+	int LEVEL_KIND_OBJECT = 19;
 
 	/**
 	 * The meta object id for the '<em>Range Kind Object</em>' data type.
@@ -1745,7 +1809,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRangeKindObject()
 	 * @generated
 	 */
-	int RANGE_KIND_OBJECT = 19;
+	int RANGE_KIND_OBJECT = 20;
 
 	/**
 	 * The meta object id for the '<em>Redundancy Type Object</em>' data type.
@@ -1755,7 +1819,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRedundancyTypeObject()
 	 * @generated
 	 */
-	int REDUNDANCY_TYPE_OBJECT = 20;
+	int REDUNDANCY_TYPE_OBJECT = 21;
 
 	/**
 	 * The meta object id for the '<em>State Type Object</em>' data type.
@@ -1765,8 +1829,84 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getStateTypeObject()
 	 * @generated
 	 */
-	int STATE_TYPE_OBJECT = 21;
+	int STATE_TYPE_OBJECT = 22;
 
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.BaseResource <em>Base Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Base Resource</em>'.
+	 * @see com.netxforge.netxstudio.library.BaseResource
+	 * @generated
+	 */
+	EClass getBaseResource();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.BaseResource#isDetailDisplay <em>Detail Display</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Detail Display</em>'.
+	 * @see com.netxforge.netxstudio.library.BaseResource#isDetailDisplay()
+	 * @see #getBaseResource()
+	 * @generated
+	 */
+	EAttribute getBaseResource_DetailDisplay();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.BaseResource#getExpressionName <em>Expression Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Expression Name</em>'.
+	 * @see com.netxforge.netxstudio.library.BaseResource#getExpressionName()
+	 * @see #getBaseResource()
+	 * @generated
+	 */
+	EAttribute getBaseResource_ExpressionName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.BaseResource#getLongName <em>Long Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Long Name</em>'.
+	 * @see com.netxforge.netxstudio.library.BaseResource#getLongName()
+	 * @see #getBaseResource()
+	 * @generated
+	 */
+	EAttribute getBaseResource_LongName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.BaseResource#getShortName <em>Short Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Short Name</em>'.
+	 * @see com.netxforge.netxstudio.library.BaseResource#getShortName()
+	 * @see #getBaseResource()
+	 * @generated
+	 */
+	EAttribute getBaseResource_ShortName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.BaseResource#isSummaryDisplay <em>Summary Display</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Summary Display</em>'.
+	 * @see com.netxforge.netxstudio.library.BaseResource#isSummaryDisplay()
+	 * @see #getBaseResource()
+	 * @generated
+	 */
+	EAttribute getBaseResource_SummaryDisplay();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.BaseResource#getUnitRef <em>Unit Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Unit Ref</em>'.
+	 * @see com.netxforge.netxstudio.library.BaseResource#getUnitRef()
+	 * @see #getBaseResource()
+	 * @generated
+	 */
+	EReference getBaseResource_UnitRef();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.Component <em>Component</em>}'.
@@ -2205,28 +2345,6 @@ public interface LibraryPackage extends EPackage {
 	EReference getExpression_EvaluationObject();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Expression#getEquipmentGroupRefs <em>Equipment Group Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Equipment Group Refs</em>'.
-	 * @see com.netxforge.netxstudio.library.Expression#getEquipmentGroupRefs()
-	 * @see #getExpression()
-	 * @generated
-	 */
-	EReference getExpression_EquipmentGroupRefs();
-
-	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Expression#getServiceProfileRefs <em>Service Profile Refs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Service Profile Refs</em>'.
-	 * @see com.netxforge.netxstudio.library.Expression#getServiceProfileRefs()
-	 * @see #getExpression()
-	 * @generated
-	 */
-	EReference getExpression_ServiceProfileRefs();
-
-	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Expression#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2584,72 +2702,6 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getNetXResource_TrendedValues();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.NetXResource#isDetailDisplay <em>Detail Display</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Detail Display</em>'.
-	 * @see com.netxforge.netxstudio.library.NetXResource#isDetailDisplay()
-	 * @see #getNetXResource()
-	 * @generated
-	 */
-	EAttribute getNetXResource_DetailDisplay();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.NetXResource#getExpressionName <em>Expression Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Expression Name</em>'.
-	 * @see com.netxforge.netxstudio.library.NetXResource#getExpressionName()
-	 * @see #getNetXResource()
-	 * @generated
-	 */
-	EAttribute getNetXResource_ExpressionName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.NetXResource#getLongName <em>Long Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Long Name</em>'.
-	 * @see com.netxforge.netxstudio.library.NetXResource#getLongName()
-	 * @see #getNetXResource()
-	 * @generated
-	 */
-	EAttribute getNetXResource_LongName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.NetXResource#getShortName <em>Short Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Short Name</em>'.
-	 * @see com.netxforge.netxstudio.library.NetXResource#getShortName()
-	 * @see #getNetXResource()
-	 * @generated
-	 */
-	EAttribute getNetXResource_ShortName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.NetXResource#isSummaryDisplay <em>Summary Display</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Summary Display</em>'.
-	 * @see com.netxforge.netxstudio.library.NetXResource#isSummaryDisplay()
-	 * @see #getNetXResource()
-	 * @generated
-	 */
-	EAttribute getNetXResource_SummaryDisplay();
-
-	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.NetXResource#getUnitRef <em>Unit Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Unit Ref</em>'.
-	 * @see com.netxforge.netxstudio.library.NetXResource#getUnitRef()
-	 * @see #getNetXResource()
-	 * @generated
-	 */
-	EReference getNetXResource_UnitRef();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.NodeType <em>Node Type</em>}'.
@@ -3108,6 +3160,64 @@ public interface LibraryPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.BaseResourceImpl <em>Base Resource</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.library.impl.BaseResourceImpl
+		 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getBaseResource()
+		 * @generated
+		 */
+		EClass BASE_RESOURCE = eINSTANCE.getBaseResource();
+
+		/**
+		 * The meta object literal for the '<em><b>Detail Display</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BASE_RESOURCE__DETAIL_DISPLAY = eINSTANCE.getBaseResource_DetailDisplay();
+
+		/**
+		 * The meta object literal for the '<em><b>Expression Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BASE_RESOURCE__EXPRESSION_NAME = eINSTANCE.getBaseResource_ExpressionName();
+
+		/**
+		 * The meta object literal for the '<em><b>Long Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BASE_RESOURCE__LONG_NAME = eINSTANCE.getBaseResource_LongName();
+
+		/**
+		 * The meta object literal for the '<em><b>Short Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BASE_RESOURCE__SHORT_NAME = eINSTANCE.getBaseResource_ShortName();
+
+		/**
+		 * The meta object literal for the '<em><b>Summary Display</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BASE_RESOURCE__SUMMARY_DISPLAY = eINSTANCE.getBaseResource_SummaryDisplay();
+
+		/**
+		 * The meta object literal for the '<em><b>Unit Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BASE_RESOURCE__UNIT_REF = eINSTANCE.getBaseResource_UnitRef();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.ComponentImpl <em>Component</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3436,22 +3546,6 @@ public interface LibraryPackage extends EPackage {
 		EReference EXPRESSION__EVALUATION_OBJECT = eINSTANCE.getExpression_EvaluationObject();
 
 		/**
-		 * The meta object literal for the '<em><b>Equipment Group Refs</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPRESSION__EQUIPMENT_GROUP_REFS = eINSTANCE.getExpression_EquipmentGroupRefs();
-
-		/**
-		 * The meta object literal for the '<em><b>Service Profile Refs</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPRESSION__SERVICE_PROFILE_REFS = eINSTANCE.getExpression_ServiceProfileRefs();
-
-		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3722,54 +3816,6 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NET_XRESOURCE__TRENDED_VALUES = eINSTANCE.getNetXResource_TrendedValues();
-
-		/**
-		 * The meta object literal for the '<em><b>Detail Display</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute NET_XRESOURCE__DETAIL_DISPLAY = eINSTANCE.getNetXResource_DetailDisplay();
-
-		/**
-		 * The meta object literal for the '<em><b>Expression Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute NET_XRESOURCE__EXPRESSION_NAME = eINSTANCE.getNetXResource_ExpressionName();
-
-		/**
-		 * The meta object literal for the '<em><b>Long Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute NET_XRESOURCE__LONG_NAME = eINSTANCE.getNetXResource_LongName();
-
-		/**
-		 * The meta object literal for the '<em><b>Short Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute NET_XRESOURCE__SHORT_NAME = eINSTANCE.getNetXResource_ShortName();
-
-		/**
-		 * The meta object literal for the '<em><b>Summary Display</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute NET_XRESOURCE__SUMMARY_DISPLAY = eINSTANCE.getNetXResource_SummaryDisplay();
-
-		/**
-		 * The meta object literal for the '<em><b>Unit Ref</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NET_XRESOURCE__UNIT_REF = eINSTANCE.getNetXResource_UnitRef();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.NodeTypeImpl <em>Node Type</em>}' class.
