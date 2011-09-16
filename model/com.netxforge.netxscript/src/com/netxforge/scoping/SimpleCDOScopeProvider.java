@@ -53,8 +53,11 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.NODE_TYPE);
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.EQUIPMENT);
 		uniqueReferencesEClasses.add(LibraryPackage.Literals.FUNCTION);
+		uniqueReferencesEClasses.add(ServicesPackage.Literals.SERVICE_USER);
+		
+		// CB NetXResource object, have their own CDO Resources, See ModelUtils for the naming convention. 
 //		uniqueReferencesEClasses.add(LibraryPackage.Literals.NET_XRESOURCE);
-		uniqueReferencesEClasses.add(ServicesPackage.Literals.RFS_SERVICE);
+		uniqueReferencesEClasses.add(OperatorsPackage.Literals.OPERATOR);
 		uniqueReferencesEClasses.add(OperatorsPackage.Literals.NETWORK);
 		uniqueReferencesEClasses.add(OperatorsPackage.Literals.NODE);
 		

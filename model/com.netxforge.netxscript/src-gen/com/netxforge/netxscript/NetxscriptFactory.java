@@ -431,6 +431,15 @@ public interface NetxscriptFactory extends EFactory
   ResourceRef createResourceRef();
 
   /**
+   * Returns a new object of class '<em>Status Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Status Ref</em>'.
+   * @generated
+   */
+  StatusRef createStatusRef();
+
+  /**
    * Returns a new object of class '<em>Link Ref</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

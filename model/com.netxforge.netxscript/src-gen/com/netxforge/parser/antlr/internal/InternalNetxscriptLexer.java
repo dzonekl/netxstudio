@@ -72,14 +72,21 @@ public class InternalNetxscriptLexer extends Lexer {
     public static final int T__32=32;
     public static final int RULE_STRING=5;
     public static final int T__33=33;
+    public static final int T__71=71;
     public static final int T__34=34;
+    public static final int T__72=72;
     public static final int T__35=35;
     public static final int T__36=36;
     public static final int T__70=70;
     public static final int T__37=37;
     public static final int T__38=38;
     public static final int T__39=39;
+    public static final int T__76=76;
     public static final int RULE_WS=10;
+    public static final int T__75=75;
+    public static final int T__74=74;
+    public static final int T__73=73;
+    public static final int T__77=77;
 
     // delegates
     // delegators
@@ -816,10 +823,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__47;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:46:7: ( 'NODE' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:46:9: 'NODE'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:46:7: ( 'NODETYPE' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:46:9: 'NODETYPE'
             {
-            match("NODE"); 
+            match("NODETYPE"); 
 
 
             }
@@ -921,10 +928,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__52;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:51:7: ( 'RESOURCE' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:51:9: 'RESOURCE'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:51:7: ( 'PROFILE' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:51:9: 'PROFILE'
             {
-            match("RESOURCE"); 
+            match("PROFILE"); 
 
 
             }
@@ -942,10 +949,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__53;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:52:7: ( 'ALL' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:52:9: 'ALL'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:52:7: ( 'STATUS' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:52:9: 'STATUS'
             {
-            match("ALL"); 
+            match("STATUS"); 
 
 
             }
@@ -963,10 +970,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__54;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:53:7: ( 'LINK' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:53:9: 'LINK'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:53:7: ( 'RESOURCE' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:53:9: 'RESOURCE'
             {
-            match("LINK"); 
+            match("RESOURCE"); 
 
 
             }
@@ -984,10 +991,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__55;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:54:7: ( 'count()' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:54:9: 'count()'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:54:7: ( 'ALL' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:54:9: 'ALL'
             {
-            match("count()"); 
+            match("ALL"); 
 
 
             }
@@ -1005,10 +1012,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__56;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:55:7: ( 'sum()' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:55:9: 'sum()'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:55:7: ( 'LINK' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:55:9: 'LINK'
             {
-            match("sum()"); 
+            match("LINK"); 
 
 
             }
@@ -1026,10 +1033,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__57;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:56:7: ( 'min()' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:56:9: 'min()'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:56:7: ( 'count()' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:56:9: 'count()'
             {
-            match("min()"); 
+            match("count()"); 
 
 
             }
@@ -1047,10 +1054,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__58;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:57:7: ( 'max()' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:57:9: 'max()'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:57:7: ( 'sum()' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:57:9: 'sum()'
             {
-            match("max()"); 
+            match("sum()"); 
 
 
             }
@@ -1068,10 +1075,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__59;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:58:7: ( 'mean()' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:58:9: 'mean()'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:58:7: ( 'min()' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:58:9: 'min()'
             {
-            match("mean()"); 
+            match("min()"); 
 
 
             }
@@ -1089,10 +1096,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__60;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:59:7: ( 'deviation()' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:59:9: 'deviation()'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:59:7: ( 'max()' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:59:9: 'max()'
             {
-            match("deviation()"); 
+            match("max()"); 
 
 
             }
@@ -1110,10 +1117,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__61;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:60:7: ( 'erlangB()' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:60:9: 'erlangB()'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:60:7: ( 'mean()' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:60:9: 'mean()'
             {
-            match("erlangB()"); 
+            match("mean()"); 
 
 
             }
@@ -1131,10 +1138,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__62;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:61:7: ( 'METRIC' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:61:9: 'METRIC'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:61:7: ( 'deviation()' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:61:9: 'deviation()'
             {
-            match("METRIC"); 
+            match("deviation()"); 
 
 
             }
@@ -1152,10 +1159,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__63;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:62:7: ( 'CAP' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:62:9: 'CAP'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:62:7: ( 'erlangB()' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:62:9: 'erlangB()'
             {
-            match("CAP"); 
+            match("erlangB()"); 
 
 
             }
@@ -1173,10 +1180,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__64;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:63:7: ( 'FORECAST' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:63:9: 'FORECAST'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:63:7: ( 'RED' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:63:9: 'RED'
             {
-            match("FORECAST"); 
+            match("RED"); 
 
 
             }
@@ -1194,10 +1201,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__65;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:64:7: ( 'FORECAST_CAP' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:64:9: 'FORECAST_CAP'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:64:7: ( 'AMBER' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:64:9: 'AMBER'
             {
-            match("FORECAST_CAP"); 
+            match("AMBER"); 
 
 
             }
@@ -1215,10 +1222,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__66;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:65:7: ( 'TRENDED' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:65:9: 'TRENDED'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:65:7: ( 'GREEN' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:65:9: 'GREEN'
             {
-            match("TRENDED"); 
+            match("GREEN"); 
 
 
             }
@@ -1236,10 +1243,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__67;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:66:7: ( 'UTILIZATION' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:66:9: 'UTILIZATION'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:66:7: ( 'YELLOW' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:66:9: 'YELLOW'
             {
-            match("UTILIZATION"); 
+            match("YELLOW"); 
 
 
             }
@@ -1257,10 +1264,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__68;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:67:7: ( 'TOLERANCE' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:67:9: 'TOLERANCE'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:67:7: ( 'METRIC' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:67:9: 'METRIC'
             {
-            match("TOLERANCE"); 
+            match("METRIC"); 
 
 
             }
@@ -1278,10 +1285,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__69;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:68:7: ( 'AVG' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:68:9: 'AVG'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:68:7: ( 'CAP' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:68:9: 'CAP'
             {
-            match("AVG"); 
+            match("CAP"); 
 
 
             }
@@ -1299,10 +1306,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = T__70;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:69:7: ( 'BH' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:69:9: 'BH'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:69:7: ( 'FORECAST' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:69:9: 'FORECAST'
             {
-            match("BH"); 
+            match("FORECAST"); 
 
 
             }
@@ -1315,15 +1322,162 @@ public class InternalNetxscriptLexer extends Lexer {
     }
     // $ANTLR end "T__70"
 
+    // $ANTLR start "T__71"
+    public final void mT__71() throws RecognitionException {
+        try {
+            int _type = T__71;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:70:7: ( 'FORECAST_CAP' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:70:9: 'FORECAST_CAP'
+            {
+            match("FORECAST_CAP"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__71"
+
+    // $ANTLR start "T__72"
+    public final void mT__72() throws RecognitionException {
+        try {
+            int _type = T__72;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:71:7: ( 'TRENDED' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:71:9: 'TRENDED'
+            {
+            match("TRENDED"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__72"
+
+    // $ANTLR start "T__73"
+    public final void mT__73() throws RecognitionException {
+        try {
+            int _type = T__73;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:72:7: ( 'UTILIZATION' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:72:9: 'UTILIZATION'
+            {
+            match("UTILIZATION"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__73"
+
+    // $ANTLR start "T__74"
+    public final void mT__74() throws RecognitionException {
+        try {
+            int _type = T__74;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:73:7: ( 'TOLERANCE' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:73:9: 'TOLERANCE'
+            {
+            match("TOLERANCE"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__74"
+
+    // $ANTLR start "T__75"
+    public final void mT__75() throws RecognitionException {
+        try {
+            int _type = T__75;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:74:7: ( 'DERIVED' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:74:9: 'DERIVED'
+            {
+            match("DERIVED"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__75"
+
+    // $ANTLR start "T__76"
+    public final void mT__76() throws RecognitionException {
+        try {
+            int _type = T__76;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:75:7: ( 'AVG' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:75:9: 'AVG'
+            {
+            match("AVG"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__76"
+
+    // $ANTLR start "T__77"
+    public final void mT__77() throws RecognitionException {
+        try {
+            int _type = T__77;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:76:7: ( 'BH' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:76:9: 'BH'
+            {
+            match("BH"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__77"
+
     // $ANTLR start "RULE_NUMBER"
     public final void mRULE_NUMBER() throws RecognitionException {
         try {
             int _type = RULE_NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2838:13: ( ( '0' .. '9' )* ( '.' ( '0' .. '9' )+ )? )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2838:15: ( '0' .. '9' )* ( '.' ( '0' .. '9' )+ )?
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:13: ( ( '0' .. '9' )* ( '.' ( '0' .. '9' )+ )? )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:15: ( '0' .. '9' )* ( '.' ( '0' .. '9' )+ )?
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2838:15: ( '0' .. '9' )*
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:15: ( '0' .. '9' )*
             loop1:
             do {
                 int alt1=2;
@@ -1336,7 +1490,7 @@ public class InternalNetxscriptLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2838:16: '0' .. '9'
+            	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:16: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -1348,7 +1502,7 @@ public class InternalNetxscriptLexer extends Lexer {
                 }
             } while (true);
 
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2838:27: ( '.' ( '0' .. '9' )+ )?
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:27: ( '.' ( '0' .. '9' )+ )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -1357,10 +1511,10 @@ public class InternalNetxscriptLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2838:28: '.' ( '0' .. '9' )+
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:28: '.' ( '0' .. '9' )+
                     {
                     match('.'); 
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2838:32: ( '0' .. '9' )+
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:32: ( '0' .. '9' )+
                     int cnt2=0;
                     loop2:
                     do {
@@ -1374,7 +1528,7 @@ public class InternalNetxscriptLexer extends Lexer {
 
                         switch (alt2) {
                     	case 1 :
-                    	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2838:33: '0' .. '9'
+                    	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:33: '0' .. '9'
                     	    {
                     	    matchRange('0','9'); 
 
@@ -1412,8 +1566,8 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2840:10: ( 'zzzzzzzzz' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2840:12: 'zzzzzzzzz'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2942:10: ( 'zzzzzzzzz' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2942:12: 'zzzzzzzzz'
             {
             match("zzzzzzzzz"); 
 
@@ -1433,10 +1587,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2842:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2842:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2944:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2944:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2842:11: ( '^' )?
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2944:11: ( '^' )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -1445,7 +1599,7 @@ public class InternalNetxscriptLexer extends Lexer {
             }
             switch (alt4) {
                 case 1 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2842:11: '^'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2944:11: '^'
                     {
                     match('^'); 
 
@@ -1463,7 +1617,7 @@ public class InternalNetxscriptLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2842:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2944:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop5:
             do {
                 int alt5=2;
@@ -1512,10 +1666,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:13: ( ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:13: ( ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1533,10 +1687,10 @@ public class InternalNetxscriptLexer extends Lexer {
             }
             switch (alt8) {
                 case 1 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:16: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:16: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:20: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:20: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop6:
                     do {
                         int alt6=3;
@@ -1552,7 +1706,7 @@ public class InternalNetxscriptLexer extends Lexer {
 
                         switch (alt6) {
                     	case 1 :
-                    	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:21: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+                    	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:21: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
                     	    {
                     	    match('\\'); 
                     	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -1568,7 +1722,7 @@ public class InternalNetxscriptLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:66: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:66: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1593,10 +1747,10 @@ public class InternalNetxscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:86: '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:86: '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:91: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:91: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop7:
                     do {
                         int alt7=3;
@@ -1612,7 +1766,7 @@ public class InternalNetxscriptLexer extends Lexer {
 
                         switch (alt7) {
                     	case 1 :
-                    	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:92: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+                    	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:92: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
                     	    {
                     	    match('\\'); 
                     	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -1628,7 +1782,7 @@ public class InternalNetxscriptLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2844:137: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:137: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1671,12 +1825,12 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2846:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2846:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2948:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2948:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2846:24: ( options {greedy=false; } : . )*
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2948:24: ( options {greedy=false; } : . )*
             loop9:
             do {
                 int alt9=2;
@@ -1701,7 +1855,7 @@ public class InternalNetxscriptLexer extends Lexer {
 
                 switch (alt9) {
             	case 1 :
-            	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2846:52: .
+            	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2948:52: .
             	    {
             	    matchAny(); 
 
@@ -1731,12 +1885,12 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2950:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2950:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2950:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop10:
             do {
                 int alt10=2;
@@ -1749,7 +1903,7 @@ public class InternalNetxscriptLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2950:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -1769,7 +1923,7 @@ public class InternalNetxscriptLexer extends Lexer {
                 }
             } while (true);
 
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:40: ( ( '\\r' )? '\\n' )?
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2950:40: ( ( '\\r' )? '\\n' )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -1778,9 +1932,9 @@ public class InternalNetxscriptLexer extends Lexer {
             }
             switch (alt12) {
                 case 1 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:41: ( '\\r' )? '\\n'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2950:41: ( '\\r' )? '\\n'
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:41: ( '\\r' )?
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2950:41: ( '\\r' )?
                     int alt11=2;
                     int LA11_0 = input.LA(1);
 
@@ -1789,7 +1943,7 @@ public class InternalNetxscriptLexer extends Lexer {
                     }
                     switch (alt11) {
                         case 1 :
-                            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:41: '\\r'
+                            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2950:41: '\\r'
                             {
                             match('\r'); 
 
@@ -1821,10 +1975,10 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2850:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2850:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2952:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2952:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2850:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2952:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt13=0;
             loop13:
             do {
@@ -1878,8 +2032,8 @@ public class InternalNetxscriptLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2852:16: ( . )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2852:18: .
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2954:16: ( . )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2954:18: .
             {
             matchAny(); 
 
@@ -1894,8 +2048,8 @@ public class InternalNetxscriptLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:8: ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | RULE_NUMBER | RULE_INT | RULE_ID | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
-        int alt14=67;
+        // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:8: ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | RULE_NUMBER | RULE_INT | RULE_ID | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        int alt14=74;
         alt14 = dfa14.predict(input);
         switch (alt14) {
             case 1 :
@@ -2312,56 +2466,105 @@ public class InternalNetxscriptLexer extends Lexer {
                 }
                 break;
             case 60 :
-                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:364: RULE_NUMBER
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:364: T__71
+                {
+                mT__71(); 
+
+                }
+                break;
+            case 61 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:370: T__72
+                {
+                mT__72(); 
+
+                }
+                break;
+            case 62 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:376: T__73
+                {
+                mT__73(); 
+
+                }
+                break;
+            case 63 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:382: T__74
+                {
+                mT__74(); 
+
+                }
+                break;
+            case 64 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:388: T__75
+                {
+                mT__75(); 
+
+                }
+                break;
+            case 65 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:394: T__76
+                {
+                mT__76(); 
+
+                }
+                break;
+            case 66 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:400: T__77
+                {
+                mT__77(); 
+
+                }
+                break;
+            case 67 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:406: RULE_NUMBER
                 {
                 mRULE_NUMBER(); 
 
                 }
                 break;
-            case 61 :
-                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:376: RULE_INT
+            case 68 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:418: RULE_INT
                 {
                 mRULE_INT(); 
 
                 }
                 break;
-            case 62 :
-                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:385: RULE_ID
+            case 69 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:427: RULE_ID
                 {
                 mRULE_ID(); 
 
                 }
                 break;
-            case 63 :
-                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:393: RULE_STRING
+            case 70 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:435: RULE_STRING
                 {
                 mRULE_STRING(); 
 
                 }
                 break;
-            case 64 :
-                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:405: RULE_ML_COMMENT
+            case 71 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:447: RULE_ML_COMMENT
                 {
                 mRULE_ML_COMMENT(); 
 
                 }
                 break;
-            case 65 :
-                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:421: RULE_SL_COMMENT
+            case 72 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:463: RULE_SL_COMMENT
                 {
                 mRULE_SL_COMMENT(); 
 
                 }
                 break;
-            case 66 :
-                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:437: RULE_WS
+            case 73 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:479: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
-            case 67 :
-                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:445: RULE_ANY_OTHER
+            case 74 :
+                // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:1:487: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -2375,343 +2578,401 @@ public class InternalNetxscriptLexer extends Lexer {
 
     protected DFA14 dfa14 = new DFA14(this);
     static final String DFA14_eotS =
-        "\1\54\3\70\6\uffff\4\70\1\110\1\112\2\63\1\116\1\120\1\122\1\124"+
-        "\1\uffff\1\130\1\uffff\2\70\2\uffff\1\137\15\70\2\uffff\1\70\1\63"+
-        "\1\uffff\2\63\2\uffff\4\70\1\uffff\1\70\1\170\1\70\6\uffff\5\70"+
-        "\23\uffff\3\70\3\uffff\17\70\1\u0092\1\70\2\uffff\1\u0094\4\70\1"+
-        "\uffff\1\u0099\5\70\1\u009f\10\70\1\u00a8\1\u00a9\4\70\1\u00ae\3"+
-        "\70\1\uffff\1\70\3\uffff\2\70\1\uffff\2\70\1\u00b7\2\70\1\uffff"+
-        "\1\u00ba\1\u00bb\1\70\1\u00bd\4\70\2\uffff\1\u00c2\1\70\1\uffff"+
-        "\1\70\1\uffff\4\70\1\uffff\3\70\1\uffff\1\70\1\u00cd\2\uffff\1\u00ce"+
-        "\1\uffff\4\70\1\uffff\6\70\1\u00d9\1\70\1\u00db\1\70\2\uffff\4\70"+
-        "\1\uffff\1\u00e1\4\70\1\uffff\1\70\1\uffff\5\70\1\uffff\1\u00ec"+
-        "\4\70\1\uffff\1\u00f1\1\u00f3\1\70\1\u00f5\1\uffff\4\70\1\uffff"+
-        "\1\70\1\uffff\1\u00fb\1\uffff\1\u00fc\1\70\1\u00fe\1\uffff\1\70"+
-        "\2\uffff\1\70\1\uffff\1\70\1\u0102\1\u0103\2\uffff";
+        "\1\61\3\75\6\uffff\4\75\1\115\1\117\2\70\1\123\1\125\1\127\1\131"+
+        "\1\uffff\1\135\1\uffff\2\75\2\uffff\1\144\22\75\2\uffff\1\75\1\70"+
+        "\1\uffff\2\70\2\uffff\4\75\1\uffff\1\75\1\u0083\1\75\6\uffff\5\75"+
+        "\23\uffff\3\75\3\uffff\25\75\1\u00a4\1\75\2\uffff\1\u00a6\4\75\1"+
+        "\uffff\1\u00ab\5\75\1\u00b1\12\75\1\u00bc\1\u00bd\1\75\1\u00bf\6"+
+        "\75\1\u00c6\4\75\1\uffff\1\75\3\uffff\2\75\1\uffff\2\75\1\u00d0"+
+        "\2\75\1\uffff\1\u00d3\1\u00d4\10\75\2\uffff\1\75\1\uffff\1\u00de"+
+        "\1\75\1\uffff\3\75\1\uffff\5\75\1\uffff\3\75\1\uffff\1\75\1\u00ec"+
+        "\2\uffff\1\u00ed\7\75\1\u00f5\1\uffff\1\75\1\u00f7\7\75\1\u00ff"+
+        "\1\75\1\u0101\1\75\2\uffff\5\75\1\u0108\1\75\3\uffff\1\u010a\1\u010b"+
+        "\5\75\1\uffff\1\75\1\uffff\5\75\1\u0117\1\uffff\1\75\2\uffff\1\u0119"+
+        "\2\75\1\u011c\2\75\1\uffff\1\u011f\1\u0120\1\u0122\1\75\1\uffff"+
+        "\1\u0124\1\uffff\2\75\1\uffff\2\75\2\uffff\1\75\1\uffff\1\u012a"+
+        "\1\uffff\1\u012b\1\75\1\u012d\1\uffff\1\75\2\uffff\1\75\1\uffff"+
+        "\1\75\1\u0131\1\u0132\2\uffff";
     static final String DFA14_eofS =
-        "\u0104\uffff";
+        "\u0133\uffff";
     static final String DFA14_minS =
         "\1\0\1\141\1\146\1\145\6\uffff\1\145\1\154\1\150\1\141\2\75\1\46"+
         "\1\174\3\75\1\76\1\uffff\1\52\1\uffff\1\150\1\141\2\uffff\1\60\2"+
-        "\117\1\121\1\105\1\114\1\111\1\157\1\165\1\105\1\101\1\117\1\124"+
-        "\1\110\2\uffff\1\172\1\101\1\uffff\2\0\2\uffff\1\144\1\156\1\170"+
-        "\1\141\1\uffff\1\160\1\60\1\146\6\uffff\1\164\1\163\1\154\1\151"+
-        "\1\162\23\uffff\1\165\1\151\1\154\3\uffff\1\104\1\116\1\122\1\125"+
-        "\1\123\1\114\1\107\1\116\1\165\1\155\1\124\1\120\1\105\1\114\1\111"+
-        "\1\60\1\172\2\uffff\1\60\2\50\1\156\1\157\1\uffff\1\60\1\151\1\165"+
-        "\1\145\1\141\1\154\1\60\1\145\2\163\1\105\1\103\1\105\1\111\1\117"+
-        "\2\60\1\113\1\156\1\50\1\122\1\60\1\116\1\105\1\114\1\uffff\1\172"+
-        "\3\uffff\1\50\1\162\1\uffff\1\141\1\162\1\60\1\156\1\145\1\uffff"+
-        "\2\60\1\145\1\60\1\124\1\103\1\120\1\125\2\uffff\1\60\1\164\1\uffff"+
-        "\1\111\1\uffff\1\104\1\122\1\111\1\172\1\uffff\2\164\1\156\1\uffff"+
-        "\1\147\1\60\2\uffff\1\60\1\uffff\1\111\1\101\1\115\1\122\1\uffff"+
-        "\1\50\1\103\1\105\1\101\1\132\1\172\1\60\1\151\1\60\1\102\2\uffff"+
-        "\1\117\1\123\1\105\1\103\1\uffff\1\60\1\104\1\116\1\101\1\172\1"+
-        "\uffff\1\157\1\uffff\1\50\1\116\1\124\1\116\1\105\1\uffff\1\60\1"+
-        "\103\1\124\1\172\1\156\1\uffff\2\60\1\124\1\60\1\uffff\1\105\1\111"+
-        "\1\172\1\50\1\uffff\1\103\1\uffff\1\60\1\uffff\1\60\1\117\1\60\1"+
-        "\uffff\1\101\2\uffff\1\116\1\uffff\1\120\2\60\2\uffff";
+        "\117\1\121\1\122\1\124\1\105\1\114\1\111\1\157\1\165\1\122\2\105"+
+        "\1\101\1\117\1\124\1\105\1\110\2\uffff\1\172\1\101\1\uffff\2\0\2"+
+        "\uffff\1\144\1\156\1\170\1\141\1\uffff\1\160\1\60\1\146\6\uffff"+
+        "\1\164\1\163\1\154\1\151\1\162\23\uffff\1\165\1\151\1\154\3\uffff"+
+        "\1\104\1\116\1\122\1\125\1\117\1\101\1\104\1\114\1\102\1\107\1\116"+
+        "\1\165\1\155\1\105\1\114\1\124\1\120\1\105\1\114\1\111\1\122\1\60"+
+        "\1\172\2\uffff\1\60\2\50\1\156\1\157\1\uffff\1\60\1\151\1\165\1"+
+        "\145\1\141\1\154\1\60\1\145\2\163\1\105\1\103\1\105\1\111\1\106"+
+        "\1\124\1\117\2\60\1\105\1\60\1\113\1\156\1\50\1\105\1\114\1\122"+
+        "\1\60\1\116\1\105\1\114\1\111\1\uffff\1\172\3\uffff\1\50\1\162\1"+
+        "\uffff\1\141\1\162\1\60\1\156\1\145\1\uffff\2\60\1\145\2\124\1\103"+
+        "\1\120\1\111\2\125\2\uffff\1\122\1\uffff\1\60\1\164\1\uffff\1\116"+
+        "\1\117\1\111\1\uffff\1\104\1\122\1\111\1\126\1\172\1\uffff\2\164"+
+        "\1\156\1\uffff\1\147\1\60\2\uffff\1\60\1\131\1\111\1\101\1\115\1"+
+        "\114\1\123\1\122\1\60\1\uffff\1\50\1\60\1\127\1\103\1\105\1\101"+
+        "\1\132\1\105\1\172\1\60\1\151\1\60\1\102\2\uffff\1\120\1\117\1\123"+
+        "\2\105\1\60\1\103\3\uffff\2\60\1\104\1\116\1\101\1\104\1\172\1\uffff"+
+        "\1\157\1\uffff\1\50\1\105\1\116\1\124\1\116\1\60\1\uffff\1\105\2"+
+        "\uffff\1\60\1\103\1\124\1\60\1\172\1\156\1\uffff\3\60\1\124\1\uffff"+
+        "\1\60\1\uffff\1\105\1\111\1\uffff\1\172\1\50\2\uffff\1\103\1\uffff"+
+        "\1\60\1\uffff\1\60\1\117\1\60\1\uffff\1\101\2\uffff\1\116\1\uffff"+
+        "\1\120\2\60\2\uffff";
     static final String DFA14_maxS =
         "\1\uffff\1\157\1\155\1\145\6\uffff\1\145\1\162\1\150\1\141\2\75"+
         "\1\46\1\174\3\75\1\76\1\uffff\1\57\1\uffff\1\162\1\141\2\uffff\1"+
-        "\71\1\117\1\125\1\121\1\105\1\126\1\111\1\157\1\165\1\105\1\101"+
-        "\1\122\1\124\1\110\2\uffff\2\172\1\uffff\2\uffff\2\uffff\1\144\1"+
-        "\156\1\170\1\141\1\uffff\1\160\1\172\1\166\6\uffff\1\164\1\163\1"+
-        "\154\1\151\1\162\23\uffff\1\165\1\151\1\154\3\uffff\1\104\1\116"+
-        "\1\122\1\125\1\123\1\114\1\107\1\116\1\165\1\155\1\124\1\120\1\105"+
-        "\1\114\1\111\2\172\2\uffff\1\172\2\50\1\156\1\157\1\uffff\1\172"+
-        "\1\151\1\165\1\145\1\141\1\154\1\172\1\145\2\163\1\105\1\103\1\105"+
-        "\1\111\1\117\2\172\1\113\1\156\1\50\1\122\1\172\1\116\1\105\1\114"+
-        "\1\uffff\1\172\3\uffff\1\50\1\162\1\uffff\1\141\1\162\1\172\1\156"+
-        "\1\145\1\uffff\2\172\1\145\1\172\1\124\1\103\1\120\1\125\2\uffff"+
-        "\1\172\1\164\1\uffff\1\111\1\uffff\1\104\1\122\1\111\1\172\1\uffff"+
-        "\2\164\1\156\1\uffff\1\147\1\172\2\uffff\1\172\1\uffff\1\111\1\101"+
-        "\1\115\1\122\1\uffff\1\50\1\103\1\105\1\101\1\132\2\172\1\151\1"+
-        "\172\1\102\2\uffff\1\117\1\123\1\105\1\103\1\uffff\1\172\1\104\1"+
-        "\116\1\101\1\172\1\uffff\1\157\1\uffff\1\50\1\116\1\124\1\116\1"+
-        "\105\1\uffff\1\172\1\103\1\124\1\172\1\156\1\uffff\2\172\1\124\1"+
-        "\172\1\uffff\1\105\1\111\1\172\1\50\1\uffff\1\103\1\uffff\1\172"+
-        "\1\uffff\1\172\1\117\1\172\1\uffff\1\101\2\uffff\1\116\1\uffff\1"+
-        "\120\2\172\2\uffff";
+        "\71\1\117\1\125\1\121\1\122\1\124\1\105\1\126\1\111\1\157\1\165"+
+        "\1\122\2\105\1\101\1\122\1\124\1\105\1\110\2\uffff\2\172\1\uffff"+
+        "\2\uffff\2\uffff\1\144\1\156\1\170\1\141\1\uffff\1\160\1\172\1\166"+
+        "\6\uffff\1\164\1\163\1\154\1\151\1\162\23\uffff\1\165\1\151\1\154"+
+        "\3\uffff\1\104\1\116\1\122\1\125\1\117\1\101\1\123\1\114\1\102\1"+
+        "\107\1\116\1\165\1\155\1\105\1\114\1\124\1\120\1\105\1\114\1\111"+
+        "\1\122\2\172\2\uffff\1\172\2\50\1\156\1\157\1\uffff\1\172\1\151"+
+        "\1\165\1\145\1\141\1\154\1\172\1\145\2\163\1\105\1\103\1\105\1\111"+
+        "\1\106\1\124\1\117\2\172\1\105\1\172\1\113\1\156\1\50\1\105\1\114"+
+        "\1\122\1\172\1\116\1\105\1\114\1\111\1\uffff\1\172\3\uffff\1\50"+
+        "\1\162\1\uffff\1\141\1\162\1\172\1\156\1\145\1\uffff\2\172\1\145"+
+        "\2\124\1\103\1\120\1\111\2\125\2\uffff\1\122\1\uffff\1\172\1\164"+
+        "\1\uffff\1\116\1\117\1\111\1\uffff\1\104\1\122\1\111\1\126\1\172"+
+        "\1\uffff\2\164\1\156\1\uffff\1\147\1\172\2\uffff\1\172\1\131\1\111"+
+        "\1\101\1\115\1\114\1\123\1\122\1\172\1\uffff\1\50\1\172\1\127\1"+
+        "\103\1\105\1\101\1\132\1\105\2\172\1\151\1\172\1\102\2\uffff\1\120"+
+        "\1\117\1\123\2\105\1\172\1\103\3\uffff\2\172\1\104\1\116\1\101\1"+
+        "\104\1\172\1\uffff\1\157\1\uffff\1\50\1\105\1\116\1\124\1\116\1"+
+        "\172\1\uffff\1\105\2\uffff\1\172\1\103\1\124\2\172\1\156\1\uffff"+
+        "\3\172\1\124\1\uffff\1\172\1\uffff\1\105\1\111\1\uffff\1\172\1\50"+
+        "\2\uffff\1\103\1\uffff\1\172\1\uffff\1\172\1\117\1\172\1\uffff\1"+
+        "\101\2\uffff\1\116\1\uffff\1\120\2\172\2\uffff";
     static final String DFA14_acceptS =
         "\4\uffff\1\4\1\5\1\6\1\7\1\10\1\11\14\uffff\1\33\1\uffff\1\35\2"+
-        "\uffff\1\41\1\42\16\uffff\2\74\2\uffff\1\76\2\uffff\1\102\1\103"+
-        "\4\uffff\1\76\3\uffff\1\4\1\5\1\6\1\7\1\10\1\11\5\uffff\1\23\1\17"+
-        "\1\20\1\31\1\21\1\22\1\24\1\36\1\26\1\25\1\30\1\27\1\46\1\32\1\33"+
-        "\1\100\1\101\1\34\1\35\3\uffff\1\41\1\42\1\43\21\uffff\1\77\1\102"+
-        "\5\uffff\1\13\31\uffff\1\73\1\uffff\1\1\1\56\1\57\2\uffff\1\3\5"+
-        "\uffff\1\16\10\uffff\1\52\1\72\2\uffff\1\55\1\uffff\1\64\4\uffff"+
-        "\1\60\3\uffff\1\14\2\uffff\1\37\1\45\1\uffff\1\44\4\uffff\1\53\12"+
-        "\uffff\1\15\1\40\4\uffff\1\54\5\uffff\1\2\1\uffff\1\12\5\uffff\1"+
-        "\63\5\uffff\1\62\4\uffff\1\67\4\uffff\1\47\1\uffff\1\65\1\uffff"+
-        "\1\51\3\uffff\1\61\1\uffff\1\50\1\71\1\uffff\1\75\3\uffff\1\70\1"+
-        "\66";
+        "\uffff\1\41\1\42\23\uffff\2\103\2\uffff\1\105\2\uffff\1\111\1\112"+
+        "\4\uffff\1\105\3\uffff\1\4\1\5\1\6\1\7\1\10\1\11\5\uffff\1\23\1"+
+        "\17\1\20\1\31\1\21\1\22\1\24\1\36\1\26\1\25\1\30\1\27\1\46\1\32"+
+        "\1\33\1\107\1\110\1\34\1\35\3\uffff\1\41\1\42\1\43\27\uffff\1\106"+
+        "\1\111\5\uffff\1\13\40\uffff\1\102\1\uffff\1\1\1\60\1\61\2\uffff"+
+        "\1\3\5\uffff\1\16\12\uffff\1\65\1\54\1\uffff\1\101\2\uffff\1\57"+
+        "\3\uffff\1\72\5\uffff\1\62\3\uffff\1\14\2\uffff\1\37\1\45\11\uffff"+
+        "\1\55\15\uffff\1\15\1\40\7\uffff\1\66\1\56\1\67\7\uffff\1\2\1\uffff"+
+        "\1\12\6\uffff\1\52\1\uffff\1\70\1\71\6\uffff\1\64\4\uffff\1\51\1"+
+        "\uffff\1\75\2\uffff\1\100\2\uffff\1\44\1\47\1\uffff\1\73\1\uffff"+
+        "\1\53\3\uffff\1\63\1\uffff\1\50\1\77\1\uffff\1\104\3\uffff\1\76"+
+        "\1\74";
     static final String DFA14_specialS =
-        "\1\2\57\uffff\1\1\1\0\u00d2\uffff}>";
+        "\1\0\64\uffff\1\1\1\2\u00fc\uffff}>";
     static final String[] DFA14_transitionS = {
-            "\11\63\2\62\2\63\1\62\22\63\1\62\1\22\1\60\2\63\1\30\1\20\1"+
-            "\61\1\4\1\6\1\26\1\17\1\5\1\25\1\35\1\27\12\53\1\63\1\11\1\23"+
-            "\1\16\1\24\2\63\1\42\1\52\1\47\1\57\1\40\1\37\5\57\1\43\1\46"+
-            "\1\36\3\57\1\41\1\57\1\50\1\51\5\57\1\33\1\63\1\34\1\56\1\57"+
-            "\1\63\2\57\1\44\1\3\1\13\1\32\2\57\1\2\3\57\1\1\4\57\1\12\1"+
-            "\45\1\31\1\57\1\15\1\14\2\57\1\55\1\7\1\21\1\10\uff82\63",
-            "\1\66\3\uffff\1\67\3\uffff\1\65\5\uffff\1\64",
-            "\1\72\6\uffff\1\71",
-            "\1\73",
+            "\11\70\2\67\2\70\1\67\22\70\1\67\1\22\1\65\2\70\1\30\1\20\1"+
+            "\66\1\4\1\6\1\26\1\17\1\5\1\25\1\35\1\27\12\60\1\70\1\11\1\23"+
+            "\1\16\1\24\2\70\1\44\1\57\1\53\1\56\1\40\1\37\1\50\4\64\1\45"+
+            "\1\52\1\36\1\64\1\41\1\64\1\43\1\42\1\54\1\55\3\64\1\51\1\64"+
+            "\1\33\1\70\1\34\1\63\1\64\1\70\2\64\1\46\1\3\1\13\1\32\2\64"+
+            "\1\2\3\64\1\1\4\64\1\12\1\47\1\31\1\64\1\15\1\14\2\64\1\62\1"+
+            "\7\1\21\1\10\uff82\70",
+            "\1\73\3\uffff\1\74\3\uffff\1\72\5\uffff\1\71",
+            "\1\77\6\uffff\1\76",
+            "\1\100",
             "",
             "",
             "",
             "",
             "",
             "",
-            "\1\102",
-            "\1\103\5\uffff\1\104",
-            "\1\105",
-            "\1\106",
             "\1\107",
-            "\1\111",
+            "\1\110\5\uffff\1\111",
+            "\1\112",
             "\1\113",
             "\1\114",
-            "\1\115",
-            "\1\117",
+            "\1\116",
+            "\1\120",
             "\1\121",
-            "\1\123",
+            "\1\122",
+            "\1\124",
+            "\1\126",
+            "\1\130",
             "",
-            "\1\126\4\uffff\1\127",
+            "\1\133\4\uffff\1\134",
             "",
-            "\1\133\11\uffff\1\132",
-            "\1\134",
+            "\1\140\11\uffff\1\137",
+            "\1\141",
             "",
             "",
-            "\12\54",
-            "\1\140",
-            "\1\142\5\uffff\1\141",
-            "\1\143",
-            "\1\144",
-            "\1\145\11\uffff\1\146",
-            "\1\147",
+            "\12\61",
+            "\1\145",
+            "\1\147\5\uffff\1\146",
             "\1\150",
             "\1\151",
             "\1\152",
             "\1\153",
-            "\1\155\2\uffff\1\154",
-            "\1\156",
+            "\1\154\1\155\10\uffff\1\156",
             "\1\157",
-            "",
-            "",
             "\1\160",
-            "\32\70\4\uffff\1\70\1\uffff\32\70",
-            "",
-            "\0\161",
-            "\0\161",
-            "",
-            "",
+            "\1\161",
+            "\1\162",
             "\1\163",
             "\1\164",
             "\1\165",
-            "\1\166",
-            "",
-            "\1\167",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "\1\171\17\uffff\1\172",
-            "",
-            "",
-            "",
-            "",
+            "\1\167\2\uffff\1\166",
+            "\1\170",
+            "\1\171",
+            "\1\172",
             "",
             "",
             "\1\173",
-            "\1\174",
-            "\1\175",
+            "\32\75\4\uffff\1\75\1\uffff\32\75",
+            "",
+            "\0\174",
+            "\0\174",
+            "",
+            "",
             "\1\176",
             "\1\177",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
             "\1\u0080",
             "\1\u0081",
+            "",
             "\1\u0082",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\1\u0084\17\uffff\1\u0085",
             "",
             "",
             "",
-            "\1\u0083",
-            "\1\u0084",
-            "\1\u0085",
+            "",
+            "",
+            "",
             "\1\u0086",
             "\1\u0087",
             "\1\u0088",
             "\1\u0089",
             "\1\u008a",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\1\u008b",
             "\1\u008c",
             "\1\u008d",
+            "",
+            "",
+            "",
             "\1\u008e",
             "\1\u008f",
             "\1\u0090",
             "\1\u0091",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u0092",
             "\1\u0093",
-            "",
-            "",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "\1\u0095",
+            "\1\u0095\16\uffff\1\u0094",
             "\1\u0096",
             "\1\u0097",
             "\1\u0098",
-            "",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u0099",
             "\1\u009a",
             "\1\u009b",
             "\1\u009c",
             "\1\u009d",
             "\1\u009e",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u009f",
             "\1\u00a0",
             "\1\u00a1",
             "\1\u00a2",
             "\1\u00a3",
-            "\1\u00a4",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00a5",
-            "\1\u00a6",
+            "",
+            "",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00a7",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u00a8",
+            "\1\u00a9",
             "\1\u00aa",
-            "\1\u00ab",
+            "",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00ac",
             "\1\u00ad",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u00ae",
             "\1\u00af",
             "\1\u00b0",
-            "\1\u00b1",
-            "",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00b2",
-            "",
-            "",
-            "",
             "\1\u00b3",
             "\1\u00b4",
-            "",
             "\1\u00b5",
             "\1\u00b6",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u00b7",
             "\1\u00b8",
             "\1\u00b9",
-            "",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "\1\u00bc",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u00ba",
+            "\1\u00bb",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00be",
-            "\1\u00bf",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00c0",
             "\1\u00c1",
-            "",
-            "",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u00c2",
             "\1\u00c3",
-            "",
             "\1\u00c4",
-            "",
             "\1\u00c5",
-            "\1\u00c6",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00c7",
             "\1\u00c8",
-            "",
             "\1\u00c9",
             "\1\u00ca",
+            "",
             "\1\u00cb",
             "",
+            "",
+            "",
             "\1\u00cc",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u00cd",
             "",
-            "",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "",
+            "\1\u00ce",
             "\1\u00cf",
-            "\1\u00d0",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00d1",
             "\1\u00d2",
             "",
-            "\1\u00d3",
-            "\1\u00d4",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00d5",
             "\1\u00d6",
             "\1\u00d7",
             "\1\u00d8",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u00d9",
             "\1\u00da",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u00db",
             "\1\u00dc",
             "",
             "",
             "\1\u00dd",
-            "\1\u00de",
-            "\1\u00df",
-            "\1\u00e0",
             "",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\1\u00df",
+            "",
+            "\1\u00e0",
+            "\1\u00e1",
             "\1\u00e2",
+            "",
             "\1\u00e3",
             "\1\u00e4",
             "\1\u00e5",
-            "",
             "\1\u00e6",
-            "",
             "\1\u00e7",
+            "",
             "\1\u00e8",
             "\1\u00e9",
             "\1\u00ea",
-            "\1\u00eb",
             "",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "\1\u00ed",
+            "\1\u00eb",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "",
+            "",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00ee",
             "\1\u00ef",
             "\1\u00f0",
-            "",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "\12\70\7\uffff\32\70\4\uffff\1\u00f2\1\uffff\32\70",
+            "\1\u00f1",
+            "\1\u00f2",
+            "\1\u00f3",
             "\1\u00f4",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "",
             "\1\u00f6",
-            "\1\u00f7",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u00f8",
             "\1\u00f9",
-            "",
             "\1\u00fa",
-            "",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "\1\u00fb",
+            "\1\u00fc",
             "\1\u00fd",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "",
-            "\1\u00ff",
-            "",
-            "",
+            "\1\u00fe",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "\1\u0100",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\1\u0102",
             "",
-            "\1\u0101",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
-            "\12\70\7\uffff\32\70\4\uffff\1\70\1\uffff\32\70",
+            "",
+            "\1\u0103",
+            "\1\u0104",
+            "\1\u0105",
+            "\1\u0106",
+            "\1\u0107",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\1\u0109",
+            "",
+            "",
+            "",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\1\u010c",
+            "\1\u010d",
+            "\1\u010e",
+            "\1\u010f",
+            "\1\u0110",
+            "",
+            "\1\u0111",
+            "",
+            "\1\u0112",
+            "\1\u0113",
+            "\1\u0114",
+            "\1\u0115",
+            "\1\u0116",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "",
+            "\1\u0118",
+            "",
+            "",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\1\u011a",
+            "\1\u011b",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\1\u011d",
+            "\1\u011e",
+            "",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\12\75\7\uffff\32\75\4\uffff\1\u0121\1\uffff\32\75",
+            "\1\u0123",
+            "",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "",
+            "\1\u0125",
+            "\1\u0126",
+            "",
+            "\1\u0127",
+            "\1\u0128",
+            "",
+            "",
+            "\1\u0129",
+            "",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\1\u012c",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "",
+            "\1\u012e",
+            "",
+            "",
+            "\1\u012f",
+            "",
+            "\1\u0130",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
+            "\12\75\7\uffff\32\75\4\uffff\1\75\1\uffff\32\75",
             "",
             ""
     };
@@ -2746,33 +3007,13 @@ public class InternalNetxscriptLexer extends Lexer {
             this.transition = DFA14_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | RULE_NUMBER | RULE_INT | RULE_ID | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
+            return "1:1: Tokens : ( T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | T__18 | T__19 | T__20 | T__21 | T__22 | T__23 | T__24 | T__25 | T__26 | T__27 | T__28 | T__29 | T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | T__71 | T__72 | T__73 | T__74 | T__75 | T__76 | T__77 | RULE_NUMBER | RULE_INT | RULE_ID | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA14_49 = input.LA(1);
-
-                        s = -1;
-                        if ( ((LA14_49>='\u0000' && LA14_49<='\uFFFF')) ) {s = 113;}
-
-                        else s = 51;
-
-                        if ( s>=0 ) return s;
-                        break;
-                    case 1 : 
-                        int LA14_48 = input.LA(1);
-
-                        s = -1;
-                        if ( ((LA14_48>='\u0000' && LA14_48<='\uFFFF')) ) {s = 113;}
-
-                        else s = 51;
-
-                        if ( s>=0 ) return s;
-                        break;
-                    case 2 : 
                         int LA14_0 = input.LA(1);
 
                         s = -1;
@@ -2840,43 +3081,73 @@ public class InternalNetxscriptLexer extends Lexer {
 
                         else if ( (LA14_0=='E') ) {s = 32;}
 
-                        else if ( (LA14_0=='R') ) {s = 33;}
+                        else if ( (LA14_0=='P') ) {s = 33;}
 
-                        else if ( (LA14_0=='A') ) {s = 34;}
+                        else if ( (LA14_0=='S') ) {s = 34;}
 
-                        else if ( (LA14_0=='L') ) {s = 35;}
+                        else if ( (LA14_0=='R') ) {s = 35;}
 
-                        else if ( (LA14_0=='c') ) {s = 36;}
+                        else if ( (LA14_0=='A') ) {s = 36;}
 
-                        else if ( (LA14_0=='s') ) {s = 37;}
+                        else if ( (LA14_0=='L') ) {s = 37;}
 
-                        else if ( (LA14_0=='M') ) {s = 38;}
+                        else if ( (LA14_0=='c') ) {s = 38;}
 
-                        else if ( (LA14_0=='C') ) {s = 39;}
+                        else if ( (LA14_0=='s') ) {s = 39;}
 
-                        else if ( (LA14_0=='T') ) {s = 40;}
+                        else if ( (LA14_0=='G') ) {s = 40;}
 
-                        else if ( (LA14_0=='U') ) {s = 41;}
+                        else if ( (LA14_0=='Y') ) {s = 41;}
 
-                        else if ( (LA14_0=='B') ) {s = 42;}
+                        else if ( (LA14_0=='M') ) {s = 42;}
 
-                        else if ( ((LA14_0>='0' && LA14_0<='9')) ) {s = 43;}
+                        else if ( (LA14_0=='C') ) {s = 43;}
 
-                        else if ( (LA14_0=='z') ) {s = 45;}
+                        else if ( (LA14_0=='T') ) {s = 44;}
 
-                        else if ( (LA14_0=='^') ) {s = 46;}
+                        else if ( (LA14_0=='U') ) {s = 45;}
 
-                        else if ( (LA14_0=='D'||(LA14_0>='G' && LA14_0<='K')||(LA14_0>='O' && LA14_0<='Q')||LA14_0=='S'||(LA14_0>='V' && LA14_0<='Z')||LA14_0=='_'||(LA14_0>='a' && LA14_0<='b')||(LA14_0>='g' && LA14_0<='h')||(LA14_0>='j' && LA14_0<='l')||(LA14_0>='n' && LA14_0<='q')||LA14_0=='u'||(LA14_0>='x' && LA14_0<='y')) ) {s = 47;}
+                        else if ( (LA14_0=='D') ) {s = 46;}
 
-                        else if ( (LA14_0=='\"') ) {s = 48;}
+                        else if ( (LA14_0=='B') ) {s = 47;}
 
-                        else if ( (LA14_0=='\'') ) {s = 49;}
+                        else if ( ((LA14_0>='0' && LA14_0<='9')) ) {s = 48;}
 
-                        else if ( ((LA14_0>='\t' && LA14_0<='\n')||LA14_0=='\r'||LA14_0==' ') ) {s = 50;}
+                        else if ( (LA14_0=='z') ) {s = 50;}
 
-                        else if ( ((LA14_0>='\u0000' && LA14_0<='\b')||(LA14_0>='\u000B' && LA14_0<='\f')||(LA14_0>='\u000E' && LA14_0<='\u001F')||(LA14_0>='#' && LA14_0<='$')||LA14_0==':'||(LA14_0>='?' && LA14_0<='@')||LA14_0=='\\'||LA14_0=='`'||(LA14_0>='~' && LA14_0<='\uFFFF')) ) {s = 51;}
+                        else if ( (LA14_0=='^') ) {s = 51;}
 
-                        else s = 44;
+                        else if ( ((LA14_0>='H' && LA14_0<='K')||LA14_0=='O'||LA14_0=='Q'||(LA14_0>='V' && LA14_0<='X')||LA14_0=='Z'||LA14_0=='_'||(LA14_0>='a' && LA14_0<='b')||(LA14_0>='g' && LA14_0<='h')||(LA14_0>='j' && LA14_0<='l')||(LA14_0>='n' && LA14_0<='q')||LA14_0=='u'||(LA14_0>='x' && LA14_0<='y')) ) {s = 52;}
+
+                        else if ( (LA14_0=='\"') ) {s = 53;}
+
+                        else if ( (LA14_0=='\'') ) {s = 54;}
+
+                        else if ( ((LA14_0>='\t' && LA14_0<='\n')||LA14_0=='\r'||LA14_0==' ') ) {s = 55;}
+
+                        else if ( ((LA14_0>='\u0000' && LA14_0<='\b')||(LA14_0>='\u000B' && LA14_0<='\f')||(LA14_0>='\u000E' && LA14_0<='\u001F')||(LA14_0>='#' && LA14_0<='$')||LA14_0==':'||(LA14_0>='?' && LA14_0<='@')||LA14_0=='\\'||LA14_0=='`'||(LA14_0>='~' && LA14_0<='\uFFFF')) ) {s = 56;}
+
+                        else s = 49;
+
+                        if ( s>=0 ) return s;
+                        break;
+                    case 1 : 
+                        int LA14_53 = input.LA(1);
+
+                        s = -1;
+                        if ( ((LA14_53>='\u0000' && LA14_53<='\uFFFF')) ) {s = 124;}
+
+                        else s = 56;
+
+                        if ( s>=0 ) return s;
+                        break;
+                    case 2 : 
+                        int LA14_54 = input.LA(1);
+
+                        s = -1;
+                        if ( ((LA14_54>='\u0000' && LA14_54<='\uFFFF')) ) {s = 124;}
+
+                        else s = 56;
 
                         if ( s>=0 ) return s;
                         break;

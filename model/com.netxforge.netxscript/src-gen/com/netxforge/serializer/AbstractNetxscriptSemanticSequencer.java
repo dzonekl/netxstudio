@@ -39,6 +39,7 @@ import com.netxforge.netxscript.Reference;
 import com.netxforge.netxscript.ResourceRef;
 import com.netxforge.netxscript.Return;
 import com.netxforge.netxscript.Statement;
+import com.netxforge.netxscript.StatusRef;
 import com.netxforge.netxscript.UnaryPlusMinus;
 import com.netxforge.netxscript.Unequal;
 import com.netxforge.netxscript.VarOrArgumentCall;
@@ -742,6 +743,13 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 					return; 
 				}
 				else break;
+			case NetxscriptPackage.STATUS_REF:
+				if(context == grammarAccess.getLeafReferenceRule() ||
+				   context == grammarAccess.getStatusRefRule()) {
+					sequence_StatusRef_StatusRef(context, (StatusRef) semanticObject); 
+					return; 
+				}
+				else break;
 			case NetxscriptPackage.UNARY_PLUS_MINUS:
 				if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
@@ -797,11 +805,7 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				}
 				else break;
 			case NetxscriptPackage.VAR_OR_ARGUMENT_CALL:
-				if(context == grammarAccess.getVarOrArgumentCallRule()) {
-					sequence_VarOrArgumentCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
-					return; 
-				}
-				else if(context == grammarAccess.getExpressionRule() ||
+				if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
 				   context == grammarAccess.getLogicalAccess().getAndLeftAction_1_0_0_0() ||
 				   context == grammarAccess.getLogicalAccess().getOrLeftAction_1_0_1_0() ||
@@ -827,6 +831,10 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 					sequence_IndexedCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
 					return; 
 				}
+				else if(context == grammarAccess.getVarOrArgumentCallRule()) {
+					sequence_VarOrArgumentCall_VarOrArgumentCall(context, (VarOrArgumentCall) semanticObject); 
+					return; 
+				}
 				else break;
 			case NetxscriptPackage.VARIABLE:
 				if(context == grammarAccess.getAbstractVarOrArgumentRule() ||
@@ -849,10 +857,10 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (node=[NodeType|ID] primaryRef=PrimaryRef)
+	 *     (nodetype=[NodeType|ID] primaryRef=PrimaryRef)
 	 *
 	 * Features:
-	 *    node[1, 1]
+	 *    nodetype[1, 1]
 	 *    primaryRef[1, 1]
 	 */
 	protected void sequence_AbsoluteRef_AbsoluteRef(EObject context, AbsoluteRef semanticObject) {
@@ -994,7 +1002,7 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (function=[Function|ID] | equipment=[Equipment|ID])
+	 *     ((function=[Function|ID] | equipment=[Equipment|ID])?)
 	 *
 	 * Features:
 	 *    function[0, 1]
@@ -1317,12 +1325,12 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (valuerange=ValueRange kind=ValueKind? period=NUMBER)
+	 *     (valuerange=ValueRange kind=ValueKind? period=NUMBER?)
 	 *
 	 * Features:
 	 *    valuerange[1, 1]
 	 *    kind[0, 1]
-	 *    period[1, 1]
+	 *    period[0, 1]
 	 */
 	protected void sequence_RangeRef_RangeRef(EObject context, RangeRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1344,7 +1352,7 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (resource=[NetXResource|ID]? rangeRef=RangeRef)
+	 *     (resource=[BaseResource|ID]? rangeRef=RangeRef)
 	 *
 	 * Features:
 	 *    resource[0, 1]
@@ -1382,6 +1390,25 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
 		feeder.accept(grammarAccess.getStatementAccess().getExpressionExpressionParserRuleCall_0_0_4_0(), semanticObject.getExpression());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     tolerancelevel=ToleranceLevel
+	 *
+	 * Features:
+	 *    tolerancelevel[1, 1]
+	 */
+	protected void sequence_StatusRef_StatusRef(EObject context, StatusRef semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, NetxscriptPackage.Literals.STATUS_REF__TOLERANCELEVEL) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, NetxscriptPackage.Literals.STATUS_REF__TOLERANCELEVEL));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getStatusRefAccess().getTolerancelevelToleranceLevelEnumRuleCall_1_0(), semanticObject.getTolerancelevel());
 		feeder.finish();
 	}
 	

@@ -440,6 +440,14 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case NetxscriptPackage.STATUS_REF:
+      {
+        StatusRef statusRef = (StatusRef)theEObject;
+        T result = caseStatusRef(statusRef);
+        if (result == null) result = caseLeafReference(statusRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case NetxscriptPackage.LINK_REF:
       {
         LinkRef linkRef = (LinkRef)theEObject;
@@ -1168,6 +1176,22 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseResourceRef(ResourceRef object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Status Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Status Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseStatusRef(StatusRef object)
   {
     return null;
   }

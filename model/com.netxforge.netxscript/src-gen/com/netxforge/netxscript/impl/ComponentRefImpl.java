@@ -14,6 +14,7 @@ import com.netxforge.netxstudio.library.Function;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -82,7 +83,7 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
    */
   public Function getFunction()
   {
-    if (function != null && function.eIsProxy())
+    if (function != null && ((EObject)function).eIsProxy())
     {
       InternalEObject oldFunction = (InternalEObject)function;
       function = (Function)eResolveProxy(oldFunction);
@@ -125,7 +126,7 @@ public class ComponentRefImpl extends ReferenceImpl implements ComponentRef
    */
   public Equipment getEquipment()
   {
-    if (equipment != null && equipment.eIsProxy())
+    if (equipment != null && ((EObject)equipment).eIsProxy())
     {
       InternalEObject oldEquipment = (InternalEObject)equipment;
       equipment = (Equipment)eResolveProxy(oldEquipment);

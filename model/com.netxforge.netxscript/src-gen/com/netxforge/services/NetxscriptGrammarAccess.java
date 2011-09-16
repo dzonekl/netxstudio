@@ -1446,36 +1446,36 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "AbsoluteRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cAbsoluteRefAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cNODEKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cNodeAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final CrossReference cNodeNodeTypeCrossReference_2_0 = (CrossReference)cNodeAssignment_2.eContents().get(0);
-		private final RuleCall cNodeNodeTypeIDTerminalRuleCall_2_0_1 = (RuleCall)cNodeNodeTypeCrossReference_2_0.eContents().get(1);
+		private final Keyword cNODETYPEKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cNodetypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cNodetypeNodeTypeCrossReference_2_0 = (CrossReference)cNodetypeAssignment_2.eContents().get(0);
+		private final RuleCall cNodetypeNodeTypeIDTerminalRuleCall_2_0_1 = (RuleCall)cNodetypeNodeTypeCrossReference_2_0.eContents().get(1);
 		private final Assignment cPrimaryRefAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cPrimaryRefPrimaryRefParserRuleCall_3_0 = (RuleCall)cPrimaryRefAssignment_3.eContents().get(0);
 		
 		/// **
 		// * The Node context can be found with NODE if available.
 		// * / AbsoluteRef returns Reference:
-		//	{AbsoluteRef} "NODE" node=[library::NodeType] primaryRef=PrimaryRef;
+		//	{AbsoluteRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef;
 		public ParserRule getRule() { return rule; }
 
-		//{AbsoluteRef} "NODE" node=[library::NodeType] primaryRef=PrimaryRef
+		//{AbsoluteRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef
 		public Group getGroup() { return cGroup; }
 
 		//{AbsoluteRef}
 		public Action getAbsoluteRefAction_0() { return cAbsoluteRefAction_0; }
 
-		//"NODE"
-		public Keyword getNODEKeyword_1() { return cNODEKeyword_1; }
+		//"NODETYPE"
+		public Keyword getNODETYPEKeyword_1() { return cNODETYPEKeyword_1; }
 
-		//node=[library::NodeType]
-		public Assignment getNodeAssignment_2() { return cNodeAssignment_2; }
+		//nodetype=[library::NodeType]
+		public Assignment getNodetypeAssignment_2() { return cNodetypeAssignment_2; }
 
 		//[library::NodeType]
-		public CrossReference getNodeNodeTypeCrossReference_2_0() { return cNodeNodeTypeCrossReference_2_0; }
+		public CrossReference getNodetypeNodeTypeCrossReference_2_0() { return cNodetypeNodeTypeCrossReference_2_0; }
 
 		//ID
-		public RuleCall getNodeNodeTypeIDTerminalRuleCall_2_0_1() { return cNodeNodeTypeIDTerminalRuleCall_2_0_1; }
+		public RuleCall getNodetypeNodeTypeIDTerminalRuleCall_2_0_1() { return cNodetypeNodeTypeIDTerminalRuleCall_2_0_1; }
 
 		//primaryRef=PrimaryRef
 		public Assignment getPrimaryRefAssignment_3() { return cPrimaryRefAssignment_3; }
@@ -1582,12 +1582,16 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cEquipmentAssignment_2_1_1 = (Assignment)cGroup_2_1.eContents().get(1);
 		private final CrossReference cEquipmentEquipmentCrossReference_2_1_1_0 = (CrossReference)cEquipmentAssignment_2_1_1.eContents().get(0);
 		private final RuleCall cEquipmentEquipmentIDTerminalRuleCall_2_1_1_0_1 = (RuleCall)cEquipmentEquipmentCrossReference_2_1_1_0.eContents().get(1);
+		private final Keyword cPROFILEKeyword_2_2 = (Keyword)cAlternatives_2.eContents().get(2);
+		private final Keyword cSTATUSKeyword_2_3 = (Keyword)cAlternatives_2.eContents().get(3);
 		
 		//ComponentRef returns Reference:
-		//	{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment]);
+		//	{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
+		//	"STATUS");
 		public ParserRule getRule() { return rule; }
 
-		//{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment])
+		//{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
+		//"STATUS")
 		public Group getGroup() { return cGroup; }
 
 		//{ComponentRef}
@@ -1596,7 +1600,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//"."
 		public Keyword getFullStopKeyword_1() { return cFullStopKeyword_1; }
 
-		//"FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment]
+		//"FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" | "STATUS"
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
 		//"FUNCTION" function=[library::Function]
@@ -1628,6 +1632,12 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//ID
 		public RuleCall getEquipmentEquipmentIDTerminalRuleCall_2_1_1_0_1() { return cEquipmentEquipmentIDTerminalRuleCall_2_1_1_0_1; }
+
+		//"PROFILE"
+		public Keyword getPROFILEKeyword_2_2() { return cPROFILEKeyword_2_2; }
+
+		//"STATUS"
+		public Keyword getSTATUSKeyword_2_3() { return cSTATUSKeyword_2_3; }
 	}
 
 	public class LeafReferenceElements extends AbstractParserRuleElementFinder {
@@ -1635,12 +1645,13 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cResourceRefParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cLinkRefParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cStatusRefParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//LeafReference:
-		//	ResourceRef | LinkRef;
+		//	ResourceRef | LinkRef | StatusRef;
 		public ParserRule getRule() { return rule; }
 
-		//ResourceRef | LinkRef
+		//ResourceRef | LinkRef | StatusRef
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//ResourceRef
@@ -1648,6 +1659,9 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//LinkRef
 		public RuleCall getLinkRefParserRuleCall_1() { return cLinkRefParserRuleCall_1; }
+
+		//StatusRef
+		public RuleCall getStatusRefParserRuleCall_2() { return cStatusRefParserRuleCall_2; }
 	}
 
 	public class ResourceRefElements extends AbstractParserRuleElementFinder {
@@ -1657,17 +1671,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRESOURCEKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
 		private final Assignment cResourceAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
-		private final CrossReference cResourceNetXResourceCrossReference_2_0_0 = (CrossReference)cResourceAssignment_2_0.eContents().get(0);
-		private final RuleCall cResourceNetXResourceIDTerminalRuleCall_2_0_0_1 = (RuleCall)cResourceNetXResourceCrossReference_2_0_0.eContents().get(1);
+		private final CrossReference cResourceBaseResourceCrossReference_2_0_0 = (CrossReference)cResourceAssignment_2_0.eContents().get(0);
+		private final RuleCall cResourceBaseResourceIDTerminalRuleCall_2_0_0_1 = (RuleCall)cResourceBaseResourceCrossReference_2_0_0.eContents().get(1);
 		private final Keyword cALLKeyword_2_1 = (Keyword)cAlternatives_2.eContents().get(1);
 		private final Assignment cRangeRefAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cRangeRefRangeRefParserRuleCall_3_0 = (RuleCall)cRangeRefAssignment_3.eContents().get(0);
 		
 		//ResourceRef returns LeafReference:
-		//	{ResourceRef} "RESOURCE" (resource=[library::NetXResource] | "ALL") rangeRef=RangeRef;
+		//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource] | "ALL") rangeRef=RangeRef;
 		public ParserRule getRule() { return rule; }
 
-		//{ResourceRef} "RESOURCE" (resource=[library::NetXResource] | "ALL") rangeRef=RangeRef
+		//{ResourceRef} "RESOURCE" (resource=[library::BaseResource] | "ALL") rangeRef=RangeRef
 		public Group getGroup() { return cGroup; }
 
 		//{ResourceRef}
@@ -1676,17 +1690,17 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//"RESOURCE"
 		public Keyword getRESOURCEKeyword_1() { return cRESOURCEKeyword_1; }
 
-		//resource=[library::NetXResource] | "ALL"
+		//resource=[library::BaseResource] | "ALL"
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
-		//resource=[library::NetXResource]
+		//resource=[library::BaseResource]
 		public Assignment getResourceAssignment_2_0() { return cResourceAssignment_2_0; }
 
-		//[library::NetXResource]
-		public CrossReference getResourceNetXResourceCrossReference_2_0_0() { return cResourceNetXResourceCrossReference_2_0_0; }
+		//[library::BaseResource]
+		public CrossReference getResourceBaseResourceCrossReference_2_0_0() { return cResourceBaseResourceCrossReference_2_0_0; }
 
 		//ID
-		public RuleCall getResourceNetXResourceIDTerminalRuleCall_2_0_0_1() { return cResourceNetXResourceIDTerminalRuleCall_2_0_0_1; }
+		public RuleCall getResourceBaseResourceIDTerminalRuleCall_2_0_0_1() { return cResourceBaseResourceIDTerminalRuleCall_2_0_0_1; }
 
 		//"ALL"
 		public Keyword getALLKeyword_2_1() { return cALLKeyword_2_1; }
@@ -1696,6 +1710,30 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//RangeRef
 		public RuleCall getRangeRefRangeRefParserRuleCall_3_0() { return cRangeRefRangeRefParserRuleCall_3_0; }
+	}
+
+	public class StatusRefElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "StatusRef");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cStatusRefAction_0 = (Action)cGroup.eContents().get(0);
+		private final Assignment cTolerancelevelAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cTolerancelevelToleranceLevelEnumRuleCall_1_0 = (RuleCall)cTolerancelevelAssignment_1.eContents().get(0);
+		
+		//StatusRef returns LeafReference:
+		//	{StatusRef} tolerancelevel=ToleranceLevel;
+		public ParserRule getRule() { return rule; }
+
+		//{StatusRef} tolerancelevel=ToleranceLevel
+		public Group getGroup() { return cGroup; }
+
+		//{StatusRef}
+		public Action getStatusRefAction_0() { return cStatusRefAction_0; }
+
+		//tolerancelevel=ToleranceLevel
+		public Assignment getTolerancelevelAssignment_1() { return cTolerancelevelAssignment_1; }
+
+		//ToleranceLevel
+		public RuleCall getTolerancelevelToleranceLevelEnumRuleCall_1_0() { return cTolerancelevelToleranceLevelEnumRuleCall_1_0; }
 	}
 
 	public class RangeRefElements extends AbstractParserRuleElementFinder {
@@ -1708,11 +1746,15 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cPeriodAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cPeriodNUMBERTerminalRuleCall_2_0 = (RuleCall)cPeriodAssignment_2.eContents().get(0);
 		
-		//RangeRef:
-		//	valuerange=ValueRange kind=ValueKind? period=NUMBER;
+		/// **
+		// * Optional value kind AVG / BH
+		// * Optional Number value (In minutes like 60, etc..)
+		// * 
+		// * / RangeRef:
+		//	valuerange=ValueRange kind=ValueKind? period=NUMBER?;
 		public ParserRule getRule() { return rule; }
 
-		//valuerange=ValueRange kind=ValueKind? period=NUMBER
+		//valuerange=ValueRange kind=ValueKind? period=NUMBER?
 		public Group getGroup() { return cGroup; }
 
 		//valuerange=ValueRange
@@ -1727,7 +1769,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//ValueKind
 		public RuleCall getKindValueKindEnumRuleCall_1_0() { return cKindValueKindEnumRuleCall_1_0; }
 
-		//period=NUMBER
+		//period=NUMBER?
 		public Assignment getPeriodAssignment_2() { return cPeriodAssignment_2; }
 
 		//NUMBER
@@ -1841,6 +1883,50 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getERLANGBErlangBKeyword_6_0() { return cERLANGBErlangBKeyword_6_0; }
 	}
 
+	public class ToleranceLevelElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "ToleranceLevel");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cREDEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cREDREDKeyword_0_0 = (Keyword)cREDEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cAMBEREnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cAMBERAMBERKeyword_1_0 = (Keyword)cAMBEREnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cGREENEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cGREENGREENKeyword_2_0 = (Keyword)cGREENEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cYELLOWEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cYELLOWYELLOWKeyword_3_0 = (Keyword)cYELLOWEnumLiteralDeclaration_3.eContents().get(0);
+		
+		//enum ToleranceLevel:
+		//	RED | AMBER | GREEN | YELLOW;
+		public EnumRule getRule() { return rule; }
+
+		//RED | AMBER | GREEN | YELLOW
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//RED
+		public EnumLiteralDeclaration getREDEnumLiteralDeclaration_0() { return cREDEnumLiteralDeclaration_0; }
+
+		//"RED"
+		public Keyword getREDREDKeyword_0_0() { return cREDREDKeyword_0_0; }
+
+		//AMBER
+		public EnumLiteralDeclaration getAMBEREnumLiteralDeclaration_1() { return cAMBEREnumLiteralDeclaration_1; }
+
+		//"AMBER"
+		public Keyword getAMBERAMBERKeyword_1_0() { return cAMBERAMBERKeyword_1_0; }
+
+		//GREEN
+		public EnumLiteralDeclaration getGREENEnumLiteralDeclaration_2() { return cGREENEnumLiteralDeclaration_2; }
+
+		//"GREEN"
+		public Keyword getGREENGREENKeyword_2_0() { return cGREENGREENKeyword_2_0; }
+
+		//YELLOW
+		public EnumLiteralDeclaration getYELLOWEnumLiteralDeclaration_3() { return cYELLOWEnumLiteralDeclaration_3; }
+
+		//"YELLOW"
+		public Keyword getYELLOWYELLOWKeyword_3_0() { return cYELLOWYELLOWKeyword_3_0; }
+	}
+
 	public class ValueRangeElements extends AbstractEnumRuleElementFinder {
 		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "ValueRange");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -1858,12 +1944,14 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cUTILIZATIONUTILIZATIONKeyword_5_0 = (Keyword)cUTILIZATIONEnumLiteralDeclaration_5.eContents().get(0);
 		private final EnumLiteralDeclaration cTOLERANCEEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
 		private final Keyword cTOLERANCETOLERANCEKeyword_6_0 = (Keyword)cTOLERANCEEnumLiteralDeclaration_6.eContents().get(0);
+		private final EnumLiteralDeclaration cDERIVEDEnumLiteralDeclaration_7 = (EnumLiteralDeclaration)cAlternatives.eContents().get(7);
+		private final Keyword cDERIVEDDERIVEDKeyword_7_0 = (Keyword)cDERIVEDEnumLiteralDeclaration_7.eContents().get(0);
 		
 		//enum ValueRange:
-		//	METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION | TOLERANCE;
+		//	METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION | TOLERANCE | DERIVED;
 		public EnumRule getRule() { return rule; }
 
-		//METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION | TOLERANCE
+		//METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION | TOLERANCE | DERIVED
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//METRIC
@@ -1907,6 +1995,12 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//"TOLERANCE"
 		public Keyword getTOLERANCETOLERANCEKeyword_6_0() { return cTOLERANCETOLERANCEKeyword_6_0; }
+
+		//DERIVED
+		public EnumLiteralDeclaration getDERIVEDEnumLiteralDeclaration_7() { return cDERIVEDEnumLiteralDeclaration_7; }
+
+		//"DERIVED"
+		public Keyword getDERIVEDDERIVEDKeyword_7_0() { return cDERIVEDDERIVEDKeyword_7_0; }
 	}
 
 	public class ValueKindElements extends AbstractEnumRuleElementFinder {
@@ -1978,7 +2072,9 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private ComponentRefElements pComponentRef;
 	private LeafReferenceElements pLeafReference;
 	private ResourceRefElements pResourceRef;
+	private StatusRefElements pStatusRef;
 	private RangeRefElements pRangeRef;
+	private ToleranceLevelElements unknownRuleToleranceLevel;
 	private ValueRangeElements unknownRuleValueRange;
 	private ValueKindElements unknownRuleValueKind;
 	private LinkRefElements pLinkRef;
@@ -2379,7 +2475,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	/// **
 	// * The Node context can be found with NODE if available.
 	// * / AbsoluteRef returns Reference:
-	//	{AbsoluteRef} "NODE" node=[library::NodeType] primaryRef=PrimaryRef;
+	//	{AbsoluteRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef;
 	public AbsoluteRefElements getAbsoluteRefAccess() {
 		return (pAbsoluteRef != null) ? pAbsoluteRef : (pAbsoluteRef = new AbsoluteRefElements());
 	}
@@ -2415,7 +2511,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ComponentRef returns Reference:
-	//	{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment]);
+	//	{ComponentRef} "." ("FUNCTION" function=[library::Function] | "EQUIPMENT" equipment=[library::Equipment] | "PROFILE" |
+	//	"STATUS");
 	public ComponentRefElements getComponentRefAccess() {
 		return (pComponentRef != null) ? pComponentRef : (pComponentRef = new ComponentRefElements());
 	}
@@ -2425,7 +2522,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//LeafReference:
-	//	ResourceRef | LinkRef;
+	//	ResourceRef | LinkRef | StatusRef;
 	public LeafReferenceElements getLeafReferenceAccess() {
 		return (pLeafReference != null) ? pLeafReference : (pLeafReference = new LeafReferenceElements());
 	}
@@ -2435,7 +2532,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ResourceRef returns LeafReference:
-	//	{ResourceRef} "RESOURCE" (resource=[library::NetXResource] | "ALL") rangeRef=RangeRef;
+	//	{ResourceRef} "RESOURCE" (resource=[library::BaseResource] | "ALL") rangeRef=RangeRef;
 	public ResourceRefElements getResourceRefAccess() {
 		return (pResourceRef != null) ? pResourceRef : (pResourceRef = new ResourceRefElements());
 	}
@@ -2444,8 +2541,22 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getResourceRefAccess().getRule();
 	}
 
-	//RangeRef:
-	//	valuerange=ValueRange kind=ValueKind? period=NUMBER;
+	//StatusRef returns LeafReference:
+	//	{StatusRef} tolerancelevel=ToleranceLevel;
+	public StatusRefElements getStatusRefAccess() {
+		return (pStatusRef != null) ? pStatusRef : (pStatusRef = new StatusRefElements());
+	}
+	
+	public ParserRule getStatusRefRule() {
+		return getStatusRefAccess().getRule();
+	}
+
+	/// **
+	// * Optional value kind AVG / BH
+	// * Optional Number value (In minutes like 60, etc..)
+	// * 
+	// * / RangeRef:
+	//	valuerange=ValueRange kind=ValueKind? period=NUMBER?;
 	public RangeRefElements getRangeRefAccess() {
 		return (pRangeRef != null) ? pRangeRef : (pRangeRef = new RangeRefElements());
 	}
@@ -2454,8 +2565,18 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getRangeRefAccess().getRule();
 	}
 
+	//enum ToleranceLevel:
+	//	RED | AMBER | GREEN | YELLOW;
+	public ToleranceLevelElements getToleranceLevelAccess() {
+		return (unknownRuleToleranceLevel != null) ? unknownRuleToleranceLevel : (unknownRuleToleranceLevel = new ToleranceLevelElements());
+	}
+	
+	public EnumRule getToleranceLevelRule() {
+		return getToleranceLevelAccess().getRule();
+	}
+
 	//enum ValueRange:
-	//	METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION | TOLERANCE;
+	//	METRIC | CAP | FORECAST | FORECAST_CAP | TRENDED | UTILIZATION | TOLERANCE | DERIVED;
 	public ValueRangeElements getValueRangeAccess() {
 		return (unknownRuleValueRange != null) ? unknownRuleValueRange : (unknownRuleValueRange = new ValueRangeElements());
 	}

@@ -113,6 +113,7 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.CONTEXT_REF: return createContextRef();
       case NetxscriptPackage.COMPONENT_REF: return createComponentRef();
       case NetxscriptPackage.RESOURCE_REF: return createResourceRef();
+      case NetxscriptPackage.STATUS_REF: return createStatusRef();
       case NetxscriptPackage.LINK_REF: return createLinkRef();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -131,6 +132,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
     {
       case NetxscriptPackage.NATIVE_FUNCTION:
         return createNativeFunctionFromString(eDataType, initialValue);
+      case NetxscriptPackage.TOLERANCE_LEVEL:
+        return createToleranceLevelFromString(eDataType, initialValue);
       case NetxscriptPackage.VALUE_RANGE:
         return createValueRangeFromString(eDataType, initialValue);
       case NetxscriptPackage.VALUE_KIND:
@@ -152,6 +155,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
     {
       case NetxscriptPackage.NATIVE_FUNCTION:
         return convertNativeFunctionToString(eDataType, instanceValue);
+      case NetxscriptPackage.TOLERANCE_LEVEL:
+        return convertToleranceLevelToString(eDataType, instanceValue);
       case NetxscriptPackage.VALUE_RANGE:
         return convertValueRangeToString(eDataType, instanceValue);
       case NetxscriptPackage.VALUE_KIND:
@@ -661,6 +666,17 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
+  public StatusRef createStatusRef()
+  {
+    StatusRefImpl statusRef = new StatusRefImpl();
+    return statusRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public LinkRef createLinkRef()
   {
     LinkRefImpl linkRef = new LinkRefImpl();
@@ -685,6 +701,28 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * @generated
    */
   public String convertNativeFunctionToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ToleranceLevel createToleranceLevelFromString(EDataType eDataType, String initialValue)
+  {
+    ToleranceLevel result = ToleranceLevel.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertToleranceLevelToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

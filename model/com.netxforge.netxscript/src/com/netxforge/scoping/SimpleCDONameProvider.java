@@ -6,8 +6,8 @@ import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.naming.SimpleNameProvider;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 
 public class SimpleCDONameProvider extends SimpleNameProvider {
@@ -32,8 +32,8 @@ public class SimpleCDONameProvider extends SimpleNameProvider {
 			}
 		}
 
-		if (obj instanceof NetXResource) {
-			final NetXResource r = (NetXResource) obj;
+		if (obj instanceof BaseResource) {
+			final BaseResource r = (BaseResource) obj;
 			name = r.getExpressionName();
 		}
 

@@ -66,6 +66,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EEnum platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueKind"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ToleranceLevel">
+    <eLiterals name="RED" literal="RED"/>
+    <eLiterals name="AMBER" value="1" literal="AMBER"/>
+    <eLiterals name="GREEN" value="2" literal="GREEN"/>
+    <eLiterals name="YELLOW" value="3" literal="YELLOW"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ValueRange">
     <eLiterals name="METRIC" literal="METRIC"/>
     <eLiterals name="CAP" value="1" literal="CAP"/>
@@ -74,6 +80,7 @@
     <eLiterals name="TRENDED" value="4" literal="TRENDED"/>
     <eLiterals name="UTILIZATION" value="5" literal="UTILIZATION"/>
     <eLiterals name="TOLERANCE" value="6" literal="TOLERANCE"/>
+    <eLiterals name="DERIVED" value="7" literal="DERIVED"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ValueKind">
     <eLiterals name="AVG" literal="AVG"/>
@@ -223,7 +230,7 @@
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbsoluteRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="node" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore#//NodeType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodetype" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/library.ecore#//NodeType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="primaryRef" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference"
         containment="true"/>
   </eClassifiers>
@@ -234,15 +241,18 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="function" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore#//Function"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="equipment" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore#//Equipment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="function" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/library.ecore#//Function"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equipment" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/library.ecore#//Equipment"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResourceRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="resource" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore#//NetXResource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resource" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/library.ecore#//BaseResource"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rangeRef" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//RangeRef"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatusRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tolerancelevel" eType="ecore:EEnum platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ToleranceLevel"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LinkRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//LeafReference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="link" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/operators.ecore#//Relationship"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="link" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/operators.ecore#//Relationship"/>
   </eClassifiers>
 </ecore:EPackage>

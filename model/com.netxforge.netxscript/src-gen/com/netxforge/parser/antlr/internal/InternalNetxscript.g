@@ -2255,9 +2255,9 @@ ruleAbsoluteRef returns [EObject current=null]
             grammarAccess.getAbsoluteRefAccess().getAbsoluteRefAction_0(),
             $current);
     }
-)	otherlv_1='NODE' 
+)	otherlv_1='NODETYPE' 
     {
-    	newLeafNode(otherlv_1, grammarAccess.getAbsoluteRefAccess().getNODEKeyword_1());
+    	newLeafNode(otherlv_1, grammarAccess.getAbsoluteRefAccess().getNODETYPEKeyword_1());
     }
 (
 (
@@ -2268,7 +2268,7 @@ ruleAbsoluteRef returns [EObject current=null]
         }
 	otherlv_2=RULE_ID
 	{
-		newLeafNode(otherlv_2, grammarAccess.getAbsoluteRefAccess().getNodeNodeTypeCrossReference_2_0()); 
+		newLeafNode(otherlv_2, grammarAccess.getAbsoluteRefAccess().getNodetypeNodeTypeCrossReference_2_0()); 
 	}
 
 )
@@ -2485,7 +2485,17 @@ ruleComponentRef returns [EObject current=null]
 	}
 
 )
-))))
+))
+    |	otherlv_6='PROFILE' 
+    {
+    	newLeafNode(otherlv_6, grammarAccess.getComponentRefAccess().getPROFILEKeyword_2_2());
+    }
+
+    |	otherlv_7='STATUS' 
+    {
+    	newLeafNode(otherlv_7, grammarAccess.getComponentRefAccess().getSTATUSKeyword_2_3());
+    }
+))
 ;
 
 
@@ -2523,6 +2533,16 @@ ruleLeafReference returns [EObject current=null]
     this_LinkRef_1=ruleLinkRef
     { 
         $current = $this_LinkRef_1.current; 
+        afterParserOrEnumRuleCall();
+    }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getLeafReferenceAccess().getStatusRefParserRuleCall_2()); 
+    }
+    this_StatusRef_2=ruleStatusRef
+    { 
+        $current = $this_StatusRef_2.current; 
         afterParserOrEnumRuleCall();
     }
 )
@@ -2565,7 +2585,7 @@ ruleResourceRef returns [EObject current=null]
         }
 	otherlv_2=RULE_ID
 	{
-		newLeafNode(otherlv_2, grammarAccess.getResourceRefAccess().getResourceNetXResourceCrossReference_2_0_0()); 
+		newLeafNode(otherlv_2, grammarAccess.getResourceRefAccess().getResourceBaseResourceCrossReference_2_0_0()); 
 	}
 
 )
@@ -2588,6 +2608,51 @@ ruleResourceRef returns [EObject current=null]
        			"rangeRef",
         		lv_rangeRef_4_0, 
         		"RangeRef");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))
+;
+
+
+
+
+
+// Entry rule entryRuleStatusRef
+entryRuleStatusRef returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getStatusRefRule()); }
+	 iv_ruleStatusRef=ruleStatusRef 
+	 { $current=$iv_ruleStatusRef.current; } 
+	 EOF 
+;
+
+// Rule StatusRef
+ruleStatusRef returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+    {
+        $current = forceCreateModelElement(
+            grammarAccess.getStatusRefAccess().getStatusRefAction_0(),
+            $current);
+    }
+)(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getStatusRefAccess().getTolerancelevelToleranceLevelEnumRuleCall_1_0()); 
+	    }
+		lv_tolerancelevel_1_0=ruleToleranceLevel		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getStatusRefRule());
+	        }
+       		set(
+       			$current, 
+       			"tolerancelevel",
+        		lv_tolerancelevel_1_0, 
+        		"ToleranceLevel");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2667,7 +2732,7 @@ ruleRangeRef returns [EObject current=null]
 	    }
 
 )
-))
+)?)
 ;
 
 
@@ -2767,6 +2832,37 @@ ruleNativeFunction returns [Enumerator current=null]
 
 
 
+// Rule ToleranceLevel
+ruleToleranceLevel returns [Enumerator current=null] 
+    @init { enterRule(); }
+    @after { leaveRule(); }:
+((	enumLiteral_0='RED' 
+	{
+        $current = grammarAccess.getToleranceLevelAccess().getREDEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_0, grammarAccess.getToleranceLevelAccess().getREDEnumLiteralDeclaration_0()); 
+    }
+)
+    |(	enumLiteral_1='AMBER' 
+	{
+        $current = grammarAccess.getToleranceLevelAccess().getAMBEREnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_1, grammarAccess.getToleranceLevelAccess().getAMBEREnumLiteralDeclaration_1()); 
+    }
+)
+    |(	enumLiteral_2='GREEN' 
+	{
+        $current = grammarAccess.getToleranceLevelAccess().getGREENEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_2, grammarAccess.getToleranceLevelAccess().getGREENEnumLiteralDeclaration_2()); 
+    }
+)
+    |(	enumLiteral_3='YELLOW' 
+	{
+        $current = grammarAccess.getToleranceLevelAccess().getYELLOWEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_3, grammarAccess.getToleranceLevelAccess().getYELLOWEnumLiteralDeclaration_3()); 
+    }
+));
+
+
+
 // Rule ValueRange
 ruleValueRange returns [Enumerator current=null] 
     @init { enterRule(); }
@@ -2811,6 +2907,12 @@ ruleValueRange returns [Enumerator current=null]
 	{
         $current = grammarAccess.getValueRangeAccess().getTOLERANCEEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
         newLeafNode(enumLiteral_6, grammarAccess.getValueRangeAccess().getTOLERANCEEnumLiteralDeclaration_6()); 
+    }
+)
+    |(	enumLiteral_7='DERIVED' 
+	{
+        $current = grammarAccess.getValueRangeAccess().getDERIVEDEnumLiteralDeclaration_7().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_7, grammarAccess.getValueRangeAccess().getDERIVEDEnumLiteralDeclaration_7()); 
     }
 ));
 

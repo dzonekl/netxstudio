@@ -49,6 +49,8 @@ import com.netxforge.netxscript.Reference;
 import com.netxforge.netxscript.ResourceRef;
 import com.netxforge.netxscript.Return;
 import com.netxforge.netxscript.Statement;
+import com.netxforge.netxscript.StatusRef;
+import com.netxforge.netxscript.ToleranceLevel;
 import com.netxforge.netxscript.UnaryPlusMinus;
 import com.netxforge.netxscript.Unequal;
 import com.netxforge.netxscript.ValueKind;
@@ -407,6 +409,13 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass statusRefEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass linkRefEClass = null;
 
   /**
@@ -415,6 +424,13 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * @generated
    */
   private EEnum nativeFunctionEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum toleranceLevelEEnum = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -484,8 +500,8 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     GenericsPackage.eINSTANCE.eClass();
     MetricsPackage.eINSTANCE.eClass();
     ProtocolsPackage.eINSTANCE.eClass();
-    ServicesPackage.eINSTANCE.eClass();
     GeoPackage.eINSTANCE.eClass();
+    ServicesPackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theNetxscriptPackage.createPackageContents();
@@ -1587,7 +1603,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getAbsoluteRef_Node()
+  public EReference getAbsoluteRef_Nodetype()
   {
     return (EReference)absoluteRefEClass.getEStructuralFeatures().get(0);
   }
@@ -1697,6 +1713,26 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getStatusRef()
+  {
+    return statusRefEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getStatusRef_Tolerancelevel()
+  {
+    return (EAttribute)statusRefEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getLinkRef()
   {
     return linkRefEClass;
@@ -1720,6 +1756,16 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
   public EEnum getNativeFunction()
   {
     return nativeFunctionEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EEnum getToleranceLevel()
+  {
+    return toleranceLevelEEnum;
   }
 
   /**
@@ -1921,7 +1967,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     createEAttribute(rangeLiteralEClass, RANGE_LITERAL__VALUES);
 
     absoluteRefEClass = createEClass(ABSOLUTE_REF);
-    createEReference(absoluteRefEClass, ABSOLUTE_REF__NODE);
+    createEReference(absoluteRefEClass, ABSOLUTE_REF__NODETYPE);
     createEReference(absoluteRefEClass, ABSOLUTE_REF__PRIMARY_REF);
 
     contextRefEClass = createEClass(CONTEXT_REF);
@@ -1936,11 +1982,15 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     createEReference(resourceRefEClass, RESOURCE_REF__RESOURCE);
     createEReference(resourceRefEClass, RESOURCE_REF__RANGE_REF);
 
+    statusRefEClass = createEClass(STATUS_REF);
+    createEAttribute(statusRefEClass, STATUS_REF__TOLERANCELEVEL);
+
     linkRefEClass = createEClass(LINK_REF);
     createEReference(linkRefEClass, LINK_REF__LINK);
 
     // Create enums
     nativeFunctionEEnum = createEEnum(NATIVE_FUNCTION);
+    toleranceLevelEEnum = createEEnum(TOLERANCE_LEVEL);
     valueRangeEEnum = createEEnum(VALUE_RANGE);
     valueKindEEnum = createEEnum(VALUE_KIND);
   }
@@ -2016,6 +2066,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     contextRefEClass.getESuperTypes().add(this.getReference());
     componentRefEClass.getESuperTypes().add(this.getReference());
     resourceRefEClass.getESuperTypes().add(this.getLeafReference());
+    statusRefEClass.getESuperTypes().add(this.getLeafReference());
     linkRefEClass.getESuperTypes().add(this.getLeafReference());
 
     // Initialize classes and features; add operations and parameters
@@ -2168,7 +2219,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEAttribute(getRangeLiteral_Values(), ecorePackage.getEBigDecimal(), "values", null, 0, -1, RangeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(absoluteRefEClass, AbsoluteRef.class, "AbsoluteRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getAbsoluteRef_Node(), theLibraryPackage.getNodeType(), null, "node", null, 0, 1, AbsoluteRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getAbsoluteRef_Nodetype(), theLibraryPackage.getNodeType(), null, "nodetype", null, 0, 1, AbsoluteRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getAbsoluteRef_PrimaryRef(), this.getReference(), null, "primaryRef", null, 0, 1, AbsoluteRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(contextRefEClass, ContextRef.class, "ContextRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2180,8 +2231,11 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEReference(getComponentRef_Equipment(), theLibraryPackage.getEquipment(), null, "equipment", null, 0, 1, ComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(resourceRefEClass, ResourceRef.class, "ResourceRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getResourceRef_Resource(), theLibraryPackage.getNetXResource(), null, "resource", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getResourceRef_Resource(), theLibraryPackage.getBaseResource(), null, "resource", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getResourceRef_RangeRef(), this.getRangeRef(), null, "rangeRef", null, 0, 1, ResourceRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(statusRefEClass, StatusRef.class, "StatusRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getStatusRef_Tolerancelevel(), this.getToleranceLevel(), "tolerancelevel", null, 0, 1, StatusRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(linkRefEClass, LinkRef.class, "LinkRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getLinkRef_Link(), theOperatorsPackage.getRelationship(), null, "link", null, 0, 1, LinkRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2196,6 +2250,12 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     addEEnumLiteral(nativeFunctionEEnum, NativeFunction.DEVIATION);
     addEEnumLiteral(nativeFunctionEEnum, NativeFunction.ERLANGB);
 
+    initEEnum(toleranceLevelEEnum, ToleranceLevel.class, "ToleranceLevel");
+    addEEnumLiteral(toleranceLevelEEnum, ToleranceLevel.RED);
+    addEEnumLiteral(toleranceLevelEEnum, ToleranceLevel.AMBER);
+    addEEnumLiteral(toleranceLevelEEnum, ToleranceLevel.GREEN);
+    addEEnumLiteral(toleranceLevelEEnum, ToleranceLevel.YELLOW);
+
     initEEnum(valueRangeEEnum, ValueRange.class, "ValueRange");
     addEEnumLiteral(valueRangeEEnum, ValueRange.METRIC);
     addEEnumLiteral(valueRangeEEnum, ValueRange.CAP);
@@ -2204,6 +2264,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     addEEnumLiteral(valueRangeEEnum, ValueRange.TRENDED);
     addEEnumLiteral(valueRangeEEnum, ValueRange.UTILIZATION);
     addEEnumLiteral(valueRangeEEnum, ValueRange.TOLERANCE);
+    addEEnumLiteral(valueRangeEEnum, ValueRange.DERIVED);
 
     initEEnum(valueKindEEnum, ValueKind.class, "ValueKind");
     addEEnumLiteral(valueKindEEnum, ValueKind.AVG);

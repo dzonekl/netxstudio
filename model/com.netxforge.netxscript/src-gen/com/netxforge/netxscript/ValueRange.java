@@ -90,7 +90,17 @@ public enum ValueRange implements Enumerator
    * @generated
    * @ordered
    */
-  TOLERANCE(6, "TOLERANCE", "TOLERANCE");
+  TOLERANCE(6, "TOLERANCE", "TOLERANCE"),
+
+  /**
+   * The '<em><b>DERIVED</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #DERIVED_VALUE
+   * @generated
+   * @ordered
+   */
+  DERIVED(7, "DERIVED", "DERIVED");
 
   /**
    * The '<em><b>METRIC</b></em>' literal value.
@@ -198,6 +208,21 @@ public enum ValueRange implements Enumerator
   public static final int TOLERANCE_VALUE = 6;
 
   /**
+   * The '<em><b>DERIVED</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>DERIVED</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #DERIVED
+   * @model
+   * @generated
+   * @ordered
+   */
+  public static final int DERIVED_VALUE = 7;
+
+  /**
    * An array of all the '<em><b>Value Range</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -213,6 +238,7 @@ public enum ValueRange implements Enumerator
       TRENDED,
       UTILIZATION,
       TOLERANCE,
+      DERIVED,
     };
 
   /**
@@ -278,6 +304,7 @@ public enum ValueRange implements Enumerator
       case TRENDED_VALUE: return TRENDED;
       case UTILIZATION_VALUE: return UTILIZATION;
       case TOLERANCE_VALUE: return TOLERANCE;
+      case DERIVED_VALUE: return DERIVED;
     }
     return null;
   }

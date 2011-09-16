@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.util.PolymorphicDispatcher;
 
@@ -73,6 +74,8 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.generics.impl.DateTimeRangeImpl;
+import com.netxforge.netxstudio.library.BaseExpressionResult;
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -83,6 +86,9 @@ import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.impl.NodeImpl;
+import com.netxforge.netxstudio.services.DerivedResource;
+import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.impl.ServiceImpl;
 
 /**
  * An interpreter for instances of EClasses of the {@link NetxscriptPackage}.
@@ -90,8 +96,8 @@ import com.netxforge.netxstudio.operators.impl.NodeImpl;
  * It internally uses a polymorphic dispatcher to dispatch between the
  * implementations for the different EClasses.
  * 
- * We now perform type specific evaluations which ought to succeed
- * with a post evaluation type check.
+ * We now perform type specific evaluations which ought to succeed with a post
+ * evaluation type check.
  * 
  * Has a context index, used by the eval-snippets.
  * 
@@ -121,7 +127,7 @@ public class InterpreterTypeless implements IInterpreter {
 	/**
 	 * The result of our expression.
 	 */
-	private List<ExpressionResult> result = Lists.newArrayList();
+	private List<BaseExpressionResult> result = Lists.newArrayList();
 
 	/**
 	 * Construct without a root object constraint.
@@ -188,6 +194,17 @@ public class InterpreterTypeless implements IInterpreter {
 		} else {
 			throw new java.lang.UnsupportedOperationException(
 					"Resource context unset, it was however requested for this evaluation");
+		}
+	}
+	
+	
+	private Service getContextualService() {
+		IInterpreterContext serviceContext = getContextFor(ServiceImpl.class);
+		if (serviceContext != null) {
+			return (Service) serviceContext.getContext();
+		} else {
+			throw new java.lang.UnsupportedOperationException(
+					"Service context unset, it was however requested for this evaluation");
 		}
 	}
 
@@ -442,8 +459,8 @@ public class InterpreterTypeless implements IInterpreter {
 
 					}
 				}
-				// TODO, We also need other types of Assignments like : 
-				// *= /= -= 
+				// TODO, We also need other types of Assignments like :
+				// *= /= -=
 				if (statement instanceof PlusAssignment) {
 					PlusAssignment pa = (PlusAssignment) statement;
 					AbstractVarOrArgument var = pa.getVar();
@@ -473,7 +490,7 @@ public class InterpreterTypeless implements IInterpreter {
 
 				}
 
-				// REFERENCE ASSIGNEMENT (Returns an Expression result). 
+				// REFERENCE ASSIGNEMENT (Returns an Expression result).
 				if (statement instanceof RefAssignment) {
 					RefAssignment refa = (RefAssignment) statement;
 					if (refa.getExpression() != null) {
@@ -486,7 +503,7 @@ public class InterpreterTypeless implements IInterpreter {
 						// the
 						// leaf reference, so we use a recursive way to get it.
 						Reference assignmentReference = refa.getAssignmentRef();
-						NetXResource targetResource = null;
+						BaseResource targetResource = null;
 						RangeRef targetRangeReference = null;
 						if (assignmentReference instanceof AbsoluteRef) {
 							LeafReference leafReference = ((AbsoluteRef) assignmentReference)
@@ -502,28 +519,48 @@ public class InterpreterTypeless implements IInterpreter {
 
 							ContextRef cRef = (ContextRef) assignmentReference;
 							if (cRef.getPrimaryRef() != null) {
-								
-								
+
 								LeafReference leafReference = cRef
 										.getPrimaryRef().getLeafRef();
 								if (leafReference instanceof ResourceRef) {
 									Node n = this.getContextualNode();
 									ResourceRef resourceRef = (ResourceRef) leafReference;
-									NetXResource tmpResource = resourceRef.getResource();
-									if(tmpResource.getExpressionName()  != null){
-										List<NetXResource> resources = modelUtils.resourcesWithName(n,
-												tmpResource.getExpressionName());
-										if(resources.size() > 0 ){
-											// We dhave this resource in the context node, so we should
-											// set the target and range.  
-											targetResource = resources.get(0);
-											targetRangeReference = resourceRef
-													.getRangeRef();
-										} 
+									try {
+										
+										BaseResource tmpResource = resourceRef
+												.getResource();
+
+										if (tmpResource.getExpressionName() != null) {
+
+											// Find matching resources with this
+											// name.
+
+											List<NetXResource> resources = modelUtils
+													.resourcesWithName(
+															n,
+															tmpResource
+																	.getExpressionName());
+											if (resources.size() > 0) {
+												// We dhave this resource in the
+												// context node, so we should
+												// set the target and range.
+												targetResource = resources.get(0);
+												targetRangeReference = resourceRef
+														.getRangeRef();
+											}
+										} else {
+											// We shall have an error here.
+											// We can't possibly process resources
+											// without an expression name.
+										}
+									} catch (Exception e) {
+										throw new IllegalStateException(processException(e, resourceRef));
 									}
 								}
 
 							}
+
+							// Here we assume the context is a ..Resource.
 							if (cRef.getRangeRef() != null) {
 								targetResource = this.getContextualResource();
 								targetRangeReference = cRef.getRangeRef();
@@ -653,6 +690,19 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 		}
 		return localVarsAndArguments;
+	}
+
+	private InterpreterException processException(Exception e, EObject expressionObject) {
+		
+		String msg = "";
+		
+		if(e instanceof IndexOutOfBoundsException){
+			msg = "Refering to non existing: "  + " ...."; // TODO. 
+		}
+		
+		InterpreterException ie = new InterpreterException(msg);
+		ie.setFailedWhileEvaluationMe(expressionObject);
+		return ie;
 	}
 
 	/**
@@ -922,15 +972,16 @@ public class InterpreterTypeless implements IInterpreter {
 					ComponentRef cr = (ComponentRef) lastRef;
 					if (cr.getEquipment() != null) {
 						String eCode = cr.getEquipment().getEquipmentCode();
-						
-						if(eCode != null){
-						List<Equipment> equipments = modelUtils
-								.equimentsWithCode(node.getNodeType()
-										.getEquipments(), eCode);
-						return equipments;
-						}else{
-							// We can't find the equipment by it's code, as it's not set. 
-							// so we return null. 
+
+						if (eCode != null) {
+							List<Equipment> equipments = modelUtils
+									.equimentsWithCode(node.getNodeType()
+											.getEquipments(), eCode);
+							return equipments;
+						} else {
+							// We can't find the equipment by it's code, as it's
+							// not set.
+							// so we return null.
 						}
 
 					}
@@ -966,24 +1017,42 @@ public class InterpreterTypeless implements IInterpreter {
 		pLog.log("Found a link reference", e.getLink());
 	}
 
-	protected List<?> internalEvaluate(ResourceRef e,
+	protected List<?> internalEvaluate(ResourceRef resourceRef,
 			ImmutableMap<String, Object> values) {
 
 		Node n = (Node) values.get("node");
 		// Check if we have a single node.
 		if (n != null) {
-			
-			NetXResource resource = e.getResource();
-			String expressionName = resource.getExpressionName();
-			List<NetXResource> resources = modelUtils.resourcesWithName(n,
-					expressionName);
 
-			if (resources.size() == 1) {
-				return internalEvaluate(e.getRangeRef(),
-						ImmutableMap.of("resource", resources.get(0)));
-			} else {
-				throw new UnsupportedOperationException(
-						"The name of a resource must be unique for a Node");
+			try {
+				BaseResource resource = resourceRef.getResource();
+
+				String expressionName = resource.getExpressionName();
+
+				if (resource instanceof NetXResource) {
+					List<NetXResource> resources = modelUtils
+							.resourcesWithName(n, expressionName);
+
+					if (resources.size() == 1) {
+						return internalEvaluate(resourceRef.getRangeRef(),
+								ImmutableMap.of("resource", resources.get(0)));
+					} else {
+						throw new UnsupportedOperationException(
+								"The name of a resource must be unique for a Node");
+					}
+				} else {
+					if (resource instanceof DerivedResource) {
+						// TODO, lookup the derived resource from other objects
+						// owning derived resources.
+						throw new UnsupportedOperationException(
+								"TODO, implement DERIVED RESOURCES");
+					}
+					throw new UnsupportedOperationException(
+							"RESOURCE TYPE not recognized"
+									+ resource.toString());
+				}
+			} catch (Exception exception) {
+				throw new IllegalStateException(processException(exception, resourceRef));
 			}
 		} else {
 			// .
@@ -1055,11 +1124,11 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
-				
-				// For capcity calculations, we likely 
-				// get a single value. To calculate the utilization, 
-				// it would be needed to make it a complete range. 
-				
+
+				// For capcity calculations, we likely
+				// get a single value. To calculate the utilization,
+				// it would be needed to make it a complete range.
+
 				v = qService.getCapacityFromResource(
 						resource.getExpressionName(), dtr.getBegin(),
 						dtr.getEnd());
@@ -1580,7 +1649,7 @@ public class InterpreterTypeless implements IInterpreter {
 		return Joiner.on(",").join(contextList);
 	}
 
-	public List<ExpressionResult> getResult() {
+	public List<BaseExpressionResult> getResult() {
 		return result;
 	}
 

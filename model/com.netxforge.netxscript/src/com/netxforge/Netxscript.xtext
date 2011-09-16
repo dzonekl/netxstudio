@@ -17,9 +17,9 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 // Note we can't use the nsURI, as it won't be found in development time. On the other hand the resource
 // uri won't be found in runtime??? 
 //import "platform:/resource/com.netxforge.model.a/model/library.ecore" as library
-import "platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/library.ecore" as library
-import "platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/operators.ecore" as operator
-import "platform:/resource/com.netxforge.netxstudio.models/models/emf/13042011/metrics.ecore" as metric
+import "platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/library.ecore" as library
+import "platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/operators.ecore" as operator
+import "platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/metrics.ecore" as metric
 
 Mod:
 	('mod' name=ID)?
@@ -156,12 +156,11 @@ Reference returns Expression:
 	ContextRef | AbsoluteRef
 ;
 
-
 /**
  * The Node context can be found with NODE if available.
  */
 AbsoluteRef returns Reference:
-	{AbsoluteRef} 'NODE' node=[library::NodeType] primaryRef=PrimaryRef
+	{AbsoluteRef} 'NODETYPE' nodetype=[library::NodeType] primaryRef=PrimaryRef
 ;
 
 /**
@@ -181,23 +180,34 @@ PrimaryRef returns Reference:
 	(components+=ComponentRef)+ ('->' leafRef=LeafReference)?;
 
 ComponentRef returns Reference:
-	{ComponentRef} '.' ( 'FUNCTION' function=[library::Function] | 'EQUIPMENT' equipment=[library::Equipment])
+	{ComponentRef} '.' ( 'FUNCTION' function=[library::Function] | 'EQUIPMENT' equipment=[library::Equipment] | 'PROFILE' | 'STATUS'  )
 ;
 
 LeafReference returns LeafReference:
-	ResourceRef | LinkRef ;
+	ResourceRef | LinkRef | StatusRef;
 
 ResourceRef returns LeafReference:
-	{ResourceRef} 'RESOURCE' (resource=[library::NetXResource] | 'ALL') rangeRef=RangeRef;
+	{ResourceRef} 'RESOURCE' (resource=[library::BaseResource] | 'ALL') rangeRef=RangeRef;
 
+StatusRef returns LeafReference:
+	{StatusRef} tolerancelevel=ToleranceLevel;
 
+/**
+ * Optional value kind AVG / BH
+ * Optional Number value (In minutes like 60, etc..)
+ * 
+ */
 RangeRef:
-	valuerange=ValueRange (kind=ValueKind)? period=NUMBER
+	valuerange=ValueRange (kind=ValueKind)? (period=NUMBER)?
+;
+
+enum ToleranceLevel:
+	RED='RED' | AMBER='AMBER' | GREEN='GREEN' | YELLOW='YELLOW'
 ;
 
 
 enum ValueRange: 
-	METRIC='METRIC' | CAP='CAP' | FORECAST='FORECAST' | FORECAST_CAP='FORECAST_CAP' | TRENDED='TRENDED' | UTILIZATION='UTILIZATION'	| TOLERANCE='TOLERANCE'
+	METRIC='METRIC' | CAP='CAP' | FORECAST='FORECAST' | FORECAST_CAP='FORECAST_CAP' | TRENDED='TRENDED' | UTILIZATION='UTILIZATION'	| TOLERANCE='TOLERANCE' | DERIVED="DERIVED"
 ;
 
 enum ValueKind: 

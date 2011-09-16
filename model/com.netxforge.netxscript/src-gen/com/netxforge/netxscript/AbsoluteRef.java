@@ -15,7 +15,7 @@ import com.netxforge.netxstudio.library.NodeType;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.AbsoluteRef#getNode <em>Node</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.AbsoluteRef#getNodetype <em>Nodetype</em>}</li>
  *   <li>{@link com.netxforge.netxscript.AbsoluteRef#getPrimaryRef <em>Primary Ref</em>}</li>
  * </ul>
  * </p>
@@ -27,30 +27,30 @@ import com.netxforge.netxstudio.library.NodeType;
 public interface AbsoluteRef extends Reference
 {
   /**
-   * Returns the value of the '<em><b>Node</b></em>' reference.
+   * Returns the value of the '<em><b>Nodetype</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Node</em>' reference isn't clear,
+   * If the meaning of the '<em>Nodetype</em>' reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Node</em>' reference.
-   * @see #setNode(NodeType)
-   * @see com.netxforge.netxscript.NetxscriptPackage#getAbsoluteRef_Node()
+   * @return the value of the '<em>Nodetype</em>' reference.
+   * @see #setNodetype(NodeType)
+   * @see com.netxforge.netxscript.NetxscriptPackage#getAbsoluteRef_Nodetype()
    * @model
    * @generated
    */
-  NodeType getNode();
+  NodeType getNodetype();
 
   /**
-   * Sets the value of the '{@link com.netxforge.netxscript.AbsoluteRef#getNode <em>Node</em>}' reference.
+   * Sets the value of the '{@link com.netxforge.netxscript.AbsoluteRef#getNodetype <em>Nodetype</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Node</em>' reference.
-   * @see #getNode()
+   * @param value the new value of the '<em>Nodetype</em>' reference.
+   * @see #getNodetype()
    * @generated
    */
-  void setNode(NodeType value);
+  void setNodetype(NodeType value);
 
   /**
    * Returns the value of the '<em><b>Primary Ref</b></em>' containment reference.

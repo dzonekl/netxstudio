@@ -5,7 +5,7 @@
  */
 package com.netxforge.netxscript;
 
-import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.BaseResource;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,12 +35,12 @@ public interface ResourceRef extends LeafReference
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Resource</em>' reference.
-   * @see #setResource(NetXResource)
+   * @see #setResource(BaseResource)
    * @see com.netxforge.netxscript.NetxscriptPackage#getResourceRef_Resource()
    * @model
    * @generated
    */
-  NetXResource getResource();
+  BaseResource getResource();
 
   /**
    * Sets the value of the '{@link com.netxforge.netxscript.ResourceRef#getResource <em>Resource</em>}' reference.
@@ -50,7 +50,7 @@ public interface ResourceRef extends LeafReference
    * @see #getResource()
    * @generated
    */
-  void setResource(NetXResource value);
+  void setResource(BaseResource value);
 
   /**
    * Returns the value of the '<em><b>Range Ref</b></em>' containment reference.

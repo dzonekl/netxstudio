@@ -13,6 +13,7 @@ import com.netxforge.netxstudio.operators.Relationship;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -70,7 +71,7 @@ public class LinkRefImpl extends LeafReferenceImpl implements LinkRef
    */
   public Relationship getLink()
   {
-    if (link != null && link.eIsProxy())
+    if (link != null && ((EObject)link).eIsProxy())
     {
       InternalEObject oldLink = (InternalEObject)link;
       link = (Relationship)eResolveProxy(oldLink);

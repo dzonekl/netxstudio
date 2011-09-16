@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.netxforge.netxscript.Expression;
 import com.netxforge.netxscript.Function;
 import com.netxforge.netxscript.Mod;
-import com.netxforge.netxstudio.library.ExpressionResult;
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 
 public interface IInterpreter {
 
@@ -64,7 +64,7 @@ public interface IInterpreter {
 	 * Get the expression result. 
 	 * @return
 	 */
-	public abstract List<ExpressionResult> getResult();
+	public abstract List<BaseExpressionResult> getResult();
 
 	
 	/**

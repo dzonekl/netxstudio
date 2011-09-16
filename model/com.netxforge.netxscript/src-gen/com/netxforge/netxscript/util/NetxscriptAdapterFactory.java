@@ -303,6 +303,11 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createResourceRefAdapter();
       }
       @Override
+      public Adapter caseStatusRef(StatusRef object)
+      {
+        return createStatusRefAdapter();
+      }
+      @Override
       public Adapter caseLinkRef(LinkRef object)
       {
         return createLinkRefAdapter();
@@ -1000,6 +1005,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createResourceRefAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.StatusRef <em>Status Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.StatusRef
+   * @generated
+   */
+  public Adapter createStatusRefAdapter()
   {
     return null;
   }

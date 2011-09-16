@@ -1750,13 +1750,13 @@ public interface NetxscriptPackage extends EPackage
   int ABSOLUTE_REF__LEAF_REF = REFERENCE__LEAF_REF;
 
   /**
-   * The feature id for the '<em><b>Node</b></em>' reference.
+   * The feature id for the '<em><b>Nodetype</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ABSOLUTE_REF__NODE = REFERENCE_FEATURE_COUNT + 0;
+  int ABSOLUTE_REF__NODETYPE = REFERENCE_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Primary Ref</b></em>' containment reference.
@@ -1942,6 +1942,34 @@ public interface NetxscriptPackage extends EPackage
   int RESOURCE_REF_FEATURE_COUNT = LEAF_REFERENCE_FEATURE_COUNT + 2;
 
   /**
+   * The meta object id for the '{@link com.netxforge.netxscript.impl.StatusRefImpl <em>Status Ref</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.impl.StatusRefImpl
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getStatusRef()
+   * @generated
+   */
+  int STATUS_REF = 45;
+
+  /**
+   * The feature id for the '<em><b>Tolerancelevel</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int STATUS_REF__TOLERANCELEVEL = LEAF_REFERENCE_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Status Ref</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int STATUS_REF_FEATURE_COUNT = LEAF_REFERENCE_FEATURE_COUNT + 1;
+
+  /**
    * The meta object id for the '{@link com.netxforge.netxscript.impl.LinkRefImpl <em>Link Ref</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1949,7 +1977,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getLinkRef()
    * @generated
    */
-  int LINK_REF = 45;
+  int LINK_REF = 46;
 
   /**
    * The feature id for the '<em><b>Link</b></em>' reference.
@@ -1977,7 +2005,17 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getNativeFunction()
    * @generated
    */
-  int NATIVE_FUNCTION = 46;
+  int NATIVE_FUNCTION = 47;
+
+  /**
+   * The meta object id for the '{@link com.netxforge.netxscript.ToleranceLevel <em>Tolerance Level</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see com.netxforge.netxscript.ToleranceLevel
+   * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getToleranceLevel()
+   * @generated
+   */
+  int TOLERANCE_LEVEL = 48;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.ValueRange <em>Value Range</em>}' enum.
@@ -1987,7 +2025,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getValueRange()
    * @generated
    */
-  int VALUE_RANGE = 47;
+  int VALUE_RANGE = 49;
 
   /**
    * The meta object id for the '{@link com.netxforge.netxscript.ValueKind <em>Value Kind</em>}' enum.
@@ -1997,7 +2035,7 @@ public interface NetxscriptPackage extends EPackage
    * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getValueKind()
    * @generated
    */
-  int VALUE_KIND = 48;
+  int VALUE_KIND = 50;
 
 
   /**
@@ -3147,15 +3185,15 @@ public interface NetxscriptPackage extends EPackage
   EClass getAbsoluteRef();
 
   /**
-   * Returns the meta object for the reference '{@link com.netxforge.netxscript.AbsoluteRef#getNode <em>Node</em>}'.
+   * Returns the meta object for the reference '{@link com.netxforge.netxscript.AbsoluteRef#getNodetype <em>Nodetype</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Node</em>'.
-   * @see com.netxforge.netxscript.AbsoluteRef#getNode()
+   * @return the meta object for the reference '<em>Nodetype</em>'.
+   * @see com.netxforge.netxscript.AbsoluteRef#getNodetype()
    * @see #getAbsoluteRef()
    * @generated
    */
-  EReference getAbsoluteRef_Node();
+  EReference getAbsoluteRef_Nodetype();
 
   /**
    * Returns the meta object for the containment reference '{@link com.netxforge.netxscript.AbsoluteRef#getPrimaryRef <em>Primary Ref</em>}'.
@@ -3265,6 +3303,27 @@ public interface NetxscriptPackage extends EPackage
   EReference getResourceRef_RangeRef();
 
   /**
+   * Returns the meta object for class '{@link com.netxforge.netxscript.StatusRef <em>Status Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Status Ref</em>'.
+   * @see com.netxforge.netxscript.StatusRef
+   * @generated
+   */
+  EClass getStatusRef();
+
+  /**
+   * Returns the meta object for the attribute '{@link com.netxforge.netxscript.StatusRef#getTolerancelevel <em>Tolerancelevel</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Tolerancelevel</em>'.
+   * @see com.netxforge.netxscript.StatusRef#getTolerancelevel()
+   * @see #getStatusRef()
+   * @generated
+   */
+  EAttribute getStatusRef_Tolerancelevel();
+
+  /**
    * Returns the meta object for class '{@link com.netxforge.netxscript.LinkRef <em>Link Ref</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3294,6 +3353,16 @@ public interface NetxscriptPackage extends EPackage
    * @generated
    */
   EEnum getNativeFunction();
+
+  /**
+   * Returns the meta object for enum '{@link com.netxforge.netxscript.ToleranceLevel <em>Tolerance Level</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Tolerance Level</em>'.
+   * @see com.netxforge.netxscript.ToleranceLevel
+   * @generated
+   */
+  EEnum getToleranceLevel();
 
   /**
    * Returns the meta object for enum '{@link com.netxforge.netxscript.ValueRange <em>Value Range</em>}'.
@@ -4287,12 +4356,12 @@ public interface NetxscriptPackage extends EPackage
     EClass ABSOLUTE_REF = eINSTANCE.getAbsoluteRef();
 
     /**
-     * The meta object literal for the '<em><b>Node</b></em>' reference feature.
+     * The meta object literal for the '<em><b>Nodetype</b></em>' reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference ABSOLUTE_REF__NODE = eINSTANCE.getAbsoluteRef_Node();
+    EReference ABSOLUTE_REF__NODETYPE = eINSTANCE.getAbsoluteRef_Nodetype();
 
     /**
      * The meta object literal for the '<em><b>Primary Ref</b></em>' containment reference feature.
@@ -4381,6 +4450,24 @@ public interface NetxscriptPackage extends EPackage
     EReference RESOURCE_REF__RANGE_REF = eINSTANCE.getResourceRef_RangeRef();
 
     /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.impl.StatusRefImpl <em>Status Ref</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.impl.StatusRefImpl
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getStatusRef()
+     * @generated
+     */
+    EClass STATUS_REF = eINSTANCE.getStatusRef();
+
+    /**
+     * The meta object literal for the '<em><b>Tolerancelevel</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute STATUS_REF__TOLERANCELEVEL = eINSTANCE.getStatusRef_Tolerancelevel();
+
+    /**
      * The meta object literal for the '{@link com.netxforge.netxscript.impl.LinkRefImpl <em>Link Ref</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4407,6 +4494,16 @@ public interface NetxscriptPackage extends EPackage
      * @generated
      */
     EEnum NATIVE_FUNCTION = eINSTANCE.getNativeFunction();
+
+    /**
+     * The meta object literal for the '{@link com.netxforge.netxscript.ToleranceLevel <em>Tolerance Level</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see com.netxforge.netxscript.ToleranceLevel
+     * @see com.netxforge.netxscript.impl.NetxscriptPackageImpl#getToleranceLevel()
+     * @generated
+     */
+    EEnum TOLERANCE_LEVEL = eINSTANCE.getToleranceLevel();
 
     /**
      * The meta object literal for the '{@link com.netxforge.netxscript.ValueRange <em>Value Range</em>}' enum.
