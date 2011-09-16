@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.test.actions;
 
-import com.netxforge.netxstudio.server.logic.ResourceMonitoringService;
+import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
 
 /**
  * Calls the capacity actions using a http get request. Need the server side to
@@ -30,6 +30,6 @@ public class TestResourceMonitoringAction extends BaseRemoteActionTest {
 
 	@Override
 	protected String getServiceName() {
-		return ResourceMonitoringService.class.getName();
+		return MonitoringService.class.getName();
 	}
 }

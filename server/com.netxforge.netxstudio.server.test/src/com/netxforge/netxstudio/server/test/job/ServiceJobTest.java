@@ -30,14 +30,16 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServicesFactory;
-import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * FIXME, Should target test repository.
@@ -48,6 +50,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
 public class ServiceJobTest extends AbstractDataProviderTest {
 
 	private static final String RFS_NAME = "Speech";
+	private static final String OPERATOR_NAME = "tmnl";
 
 	@Inject
 	private IDataProvider dataProvider;
@@ -77,31 +80,48 @@ public class ServiceJobTest extends AbstractDataProviderTest {
 	}
 
 	private RFSService createModelData() throws Exception {
-		final Resource serviceResource = dataProvider
-				.getResource(ServicesPackage.Literals.RFS_SERVICE);
-		for (final EObject eObject : serviceResource.getContents()) {
-			if (eObject instanceof RFSService
-					&& ((RFSService) eObject).getServiceName().equals(RFS_NAME)) {
-				return (RFSService) eObject;
+		
+		final Resource operatorsResource = dataProvider
+				.getResource(OperatorsPackage.Literals.OPERATOR);
+		
+		
+		
+		Operator op = null;
+		for (final EObject eObject : operatorsResource.getContents()) {
+			if (eObject instanceof Operator && ((Operator) eObject).getName().equals(OPERATOR_NAME)){
+				op = (Operator) eObject;
 			}
 		}
 
+		if( op == null){
+			op = OperatorsFactory.eINSTANCE.createOperator();
+			op.setName(OPERATOR_NAME);
+			operatorsResource.getContents().add(op);
+		}
+		
+		for( Service s : op.getServices()){
+			if( ((RFSService) s).getServiceName().equals(RFS_NAME)) {
+				return (RFSService)s;
+			}
+		}
+		
 		final RFSService rfsService = ServicesFactory.eINSTANCE.createRFSService();
 		rfsService.setServiceName(RFS_NAME);
 		
 		final Node node = OperatorsFactory.eINSTANCE.createNode();
 		rfsService.getNodes().add(node);
 		
-		serviceResource.getContents().add(rfsService);
+		op.getServices().add(rfsService);
 		
 		// Add some objects, which are referable from our xtext model.
-		final Resource res = dataProvider
+		final Resource libraryResource = dataProvider
 				.getResource(LibraryPackage.Literals.LIBRARY);
-		if (res.getContents().isEmpty()) {
+		
+		if (libraryResource.getContents().isEmpty()) {
 			final Library lib = LibraryFactory.eINSTANCE.createLibrary();
-			res.getContents().add(lib);
+			libraryResource.getContents().add(lib);
 		}
-		final Library lib = (Library) res.getContents().get(0);
+		final Library lib = (Library) libraryResource.getContents().get(0);
 		
 		final NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
 		node.setOriginalNodeTypeRef(sgsnType);
@@ -119,14 +139,7 @@ public class ServiceJobTest extends AbstractDataProviderTest {
 		network.setName("test");
 		network.getNodes().add(node);
 		
-//		final Resource networkRes = dataProvider
-//				.getResource(OperatorsPackage.Literals.NODE);
-//		networkRes.getContents().add(network);
-//		networkRes.save(Collections.emptyMap());
-		res.getContents().add(network);
-		res.save(Collections.emptyMap());
-
-		serviceResource.save(Collections.emptyMap());
+		op.getNetworks().add(network);
 
 		final NetXResource sgsnRes = LibraryFactory.eINSTANCE
 				.createNetXResource();
@@ -150,9 +163,8 @@ public class ServiceJobTest extends AbstractDataProviderTest {
 
 		range.getMetricValues().addAll(ImmutableList.of(v, v1, v2));
 
-		res.save(Collections.emptyMap());
 
-		final RFSServiceJob job = SchedulingFactory.eINSTANCE.createRFSServiceJob();
+		final RFSServiceMonitoringJob job = SchedulingFactory.eINSTANCE.createRFSServiceMonitoringJob();
 		job.setRFSService(rfsService);
 		job.setStartTime(modelUtils.toXMLDate(new Date(System.currentTimeMillis() + 6000)));
 		job.setInterval(60);
@@ -160,8 +172,12 @@ public class ServiceJobTest extends AbstractDataProviderTest {
 		
 		final Resource serviceJob = dataProvider.getResource(SchedulingPackage.Literals.JOB);
 		serviceJob.getContents().add(job);
+		
+		// Save the resources. 
+		libraryResource.save(Collections.emptyMap());
+		operatorsResource.save(Collections.emptyMap());
 		serviceJob.save(Collections.emptyMap());
+		
 		return rfsService;
 	}
-
 }

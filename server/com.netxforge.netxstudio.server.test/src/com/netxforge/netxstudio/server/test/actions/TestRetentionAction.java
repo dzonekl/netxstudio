@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.test.actions;
 
-import com.netxforge.netxstudio.server.logic.RetentionService;
+import com.netxforge.netxstudio.server.logic.retention.RetentionService;
 
 /**
  * Calls the retention actions using a http get request. Need the server side to

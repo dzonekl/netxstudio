@@ -72,7 +72,7 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.protocols.ProtocolsPackage;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -80,7 +80,10 @@ import com.netxforge.netxstudio.server.dataimport.MasterDataImporter;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 import com.netxforge.netxstudio.server.test.base.TestModule;
 import com.netxforge.netxstudio.server.test.dataprovider.NonStatic;
+import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.ServiceProfile;
+import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -113,11 +116,14 @@ public class TestDataCreator implements NetxForgeService {
 	private ModelUtils modelUtils;
 
 	private List<Tolerance> tl = Lists.newArrayList();
+	private List<Tolerance> serviceTolerances = Lists.newArrayList();
 	private Expression utilizationExpression = null;
 	private Expression retentionExpression = null;
 	private Expression capacityExpression = null;
-
+	private Expression serviceUserExpression = null;
+	
 	private List<FunctionRelationship> functionRelationships = new ArrayList<FunctionRelationship>();
+	
 
 	public Object run(Map<String, String> parameters) {
 		try {
@@ -176,7 +182,7 @@ public class TestDataCreator implements NetxForgeService {
 	}
 
 	private void createRFSService() {
-
+		// OPERATOR, NODE and SERVICE definitions. 
 		Operator tmnl = OperatorsFactory.eINSTANCE.createOperator();
 		tmnl.setName("T-Mobile Netherlands");
 		tmnl.setWebsite("http://www.t-mobile.nl");
@@ -189,15 +195,39 @@ public class TestDataCreator implements NetxForgeService {
 		final RFSService rfsService = ServicesFactory.eINSTANCE
 				.createRFSService();
 		rfsService.setServiceName(RFS_NAME);
-		addToResource(rfsService);
+		tmnl.getServices().add(rfsService);
+		
 		rfsService.getNodes().add(createNode("YPSGSN3"));
 		rfsService.getNodes().add(createNode("RTSGSN3"));
 		rfsService.getNodes().add(createARNSTPNode());
+		
+		rfsService.getToleranceRefs().addAll(this.createOrGetServicesTolerances());
+		
+		
+		// SERVICE USER AND PROFILE DEFINITION. 
+		ServiceUser su = ServicesFactory.eINSTANCE.createServiceUser();
+		su.setName("Mobile Internet User");
+		ServiceProfile sp = ServicesFactory.eINSTANCE.createServiceProfile();
+		DerivedResource dr = ServicesFactory.eINSTANCE.createDerivedResource();
+		
+		dr.setExpressionName("mob_internet_user");
+		dr.setShortName("mob_internet_user");
+		dr.setLongName("mob_internet_user");
+		
+		sp.getProfileResources().add(dr);
+		su.setServiceProfile(sp);
+		
+		Expression serviceProfileExpression = createOrGetProfileExpression();
+		su.setExpressionRef(serviceProfileExpression);
+		
+		rfsService.getServiceUserRefs().add(su);
+		addToResource(su);
+		
 		network.getNodes().addAll(rfsService.getNodes());
 		network.getFunctionRelationships().addAll(functionRelationships);
 
-		final RFSServiceJob job = SchedulingFactory.eINSTANCE
-				.createRFSServiceJob();
+		final RFSServiceMonitoringJob job = SchedulingFactory.eINSTANCE
+				.createRFSServiceMonitoringJob();
 		job.setRFSService(rfsService);
 		job.setJobState(JobState.IN_ACTIVE);
 		job.setStartTime(modelUtils.toXMLDate(new Date(System
@@ -221,6 +251,21 @@ public class TestDataCreator implements NetxForgeService {
 		// add to the job resource, that one is watched by the jobhandler
 		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
 				.add(retentionJob);
+	}
+
+	private Expression createOrGetProfileExpression() {
+		if (serviceUserExpression != null) {
+			return serviceUserExpression;
+		}
+
+		serviceUserExpression = LibraryFactory.eINSTANCE.createExpression();
+		serviceUserExpression.setName("Mobile Internet User Expression");
+
+		final String eAsString = "this.PROFILE -> RESOURCE mob_internet_user DERIVED = NODETYPE SGSN .FUNCTION YPSGSN3 -> RESOURCE Gb_mode_max_attached_users_number_ METRIC 60.sum();";
+		serviceUserExpression.getExpressionLines().addAll(
+				getExpressionLines(eAsString));
+		addToResource(serviceUserExpression);
+		return serviceUserExpression;
 	}
 
 	private void addToResource(CDOObject cdoObject) {
@@ -415,6 +460,7 @@ public class TestDataCreator implements NetxForgeService {
 		return utilizationExpression;
 	}
 
+	
 	private Expression createOrGetRetentionExpression() {
 
 		if (retentionExpression != null) {
@@ -647,6 +693,7 @@ public class TestDataCreator implements NetxForgeService {
 
 	private Node createNode(String id) {
 		final NodeType nodeType = LibraryFactory.eINSTANCE.createNodeType();
+		nodeType.setName(id);
 		nodeType.getFunctions().addAll(createFunctions(id, 0));
 		nodeType.getEquipments().addAll(createEquipments(id, 0));
 
@@ -741,6 +788,98 @@ public class TestDataCreator implements NetxForgeService {
 		return functions;
 	}
 
+	
+	/**
+	 * Create various tolerance levels, with each an own expression.
+	 * 
+	 * 
+	 * 
+	 * @return
+	 */
+	private List<Tolerance> createOrGetServicesTolerances() {
+
+		if (serviceTolerances.size() != 0) {
+			return serviceTolerances;
+		}
+
+		{
+			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			t.setLevel(LevelKind.RED);
+			t.setName("Service Tolerance Red");
+
+			final Expression te = LibraryFactory.eINSTANCE.createExpression();
+			te.setName("Service Tolerance Red");
+
+			// Context is a NetXResource
+			// Takes the capacity range and multiplies it by a factor someting.
+			// No expression result will be created, as we don't assign the
+			// result to a range.
+			// you could use the result set of the last scope (this is what the
+			// evaluation returns).
+
+			final String eAsString = "this.STATUS -> RED.count() > 5;";
+			te.getExpressionLines().addAll(getExpressionLines(eAsString));
+			addToResource(te);
+			t.setExpressionRef(te);
+
+			// Context is a Node
+			serviceTolerances.add(t);
+			this.addToResource(t);
+		}
+		{
+			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			t.setLevel(LevelKind.AMBER);
+			t.setName("Service Tolerance Amber");
+
+			final Expression te = LibraryFactory.eINSTANCE.createExpression();
+			te.setName("Service Tolerance Amber");
+			// Context is a Node
+			final String eAsString = "this.STATUS -> AMBER.count() > 3;";
+			te.getExpressionLines().addAll(getExpressionLines(eAsString));
+			addToResource(te);
+			t.setExpressionRef(te);
+
+			serviceTolerances.add(t);
+			this.addToResource(t);
+		}
+		{
+			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			t.setLevel(LevelKind.GREEN);
+			t.setName("Service Tolerance Green");
+
+			final Expression te = LibraryFactory.eINSTANCE.createExpression();
+			te.setName("Service Tolerance Green");
+			
+			// TODO, the expression for green should be relative to the number of nodes. 
+			final String eAsString = "this.STATUS -> GREEN.count() > 5;";
+			te.getExpressionLines().addAll(getExpressionLines(eAsString));
+
+			addToResource(te);
+			t.setExpressionRef(te);
+
+			serviceTolerances.add(t);
+			this.addToResource(t);
+		}
+		{
+			final Tolerance t = LibraryFactory.eINSTANCE.createTolerance();
+			t.setLevel(LevelKind.YELLOW);
+			t.setName("Service Tolerance Yellow");
+
+			final Expression te = LibraryFactory.eINSTANCE.createExpression();
+			te.setName("Service Tolerance Yellow");
+			// Context is a Node
+			final String eAsString = "this.STATUS -> YELLOW.count() > 5;";
+			te.getExpressionLines().addAll(getExpressionLines(eAsString));
+			this.addToResource(te);
+
+			t.setExpressionRef(te);
+
+			serviceTolerances.add(t);
+			this.addToResource(t);
+		}
+		return serviceTolerances;
+	}
+	
 	/**
 	 * Create various tolerance levels, with each an own expression.
 	 * 

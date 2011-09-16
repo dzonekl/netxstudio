@@ -41,17 +41,19 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.logic.ResourceMonitoringService;
-import com.netxforge.netxstudio.server.logic.RetentionService;
+import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
+import com.netxforge.netxstudio.server.logic.retention.RetentionService;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 import com.netxforge.netxstudio.server.test.dataprovider.AbstractDataProviderTest;
 import com.netxforge.netxstudio.server.test.dataprovider.NonStatic;
-import com.netxforge.netxstudio.services.ServicesPackage;
+import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.Service;
 
 /**
  * Calls actions using a http get request. Need the server side to
@@ -91,10 +93,19 @@ public abstract class BaseRemoteActionTest extends AbstractDataProviderTest {
 	public void testCallActionRfsService() throws Exception {
 		dataProvider.getTransaction();
 		final Resource res = dataProvider
-				.getResource(ServicesPackage.Literals.RFS_SERVICE);
+				.getResource(OperatorsPackage.Literals.OPERATOR);
 		for (final EObject eObject : res.getContents()) {
-			final CDOObject cdoObject = (CDOObject) eObject;
-			callServerAction(ResourceMonitoringService.SERVICE_PARAM, cdoObject);
+			
+			if( eObject instanceof Operator ){
+				
+				for(Service s:  ((Operator) eObject).getServices()){
+					
+					if( s instanceof RFSService){
+						final CDOObject cdoObject = (CDOObject) s;
+						callServerAction(MonitoringService.SERVICE_PARAM, cdoObject);
+					}
+				}
+			}
 		}
 		dataProvider.commitTransaction();
 	}
@@ -106,7 +117,7 @@ public abstract class BaseRemoteActionTest extends AbstractDataProviderTest {
 		for (final EObject eObject : res.getContents()) {
 			final Network network = (Network) eObject;
 			for (final Node node : network.getNodes()) {
-				callServerAction(ResourceMonitoringService.NODE_PARAM, node);
+				callServerAction(MonitoringService.NODE_PARAM, node);
 			}
 		}
 		dataProvider.commitTransaction();
@@ -119,7 +130,7 @@ public abstract class BaseRemoteActionTest extends AbstractDataProviderTest {
 		for (final EObject eObject : res.getContents()) {
 			final Network network = (Network) eObject;
 			for (final Node node : network.getNodes()) {
-				callServerAction(ResourceMonitoringService.NODETYPE_PARAM, node.getNodeType());
+				callServerAction(MonitoringService.NODETYPE_PARAM, node.getNodeType());
 			}
 		}
 		dataProvider.commitTransaction();
