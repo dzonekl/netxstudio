@@ -45,9 +45,10 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
-import com.netxforge.netxstudio.scheduling.ReporterJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
@@ -69,9 +70,8 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 
 	private TableViewer servicesTableViewer;
 	private Form frmServices;
-	private Resource rfsServiceResource;
-	
-	
+	private Resource operatorsResource;
+
 	@Inject
 	ServerRequest serverActions;
 
@@ -128,7 +128,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 							.getScreenContainer(), SWT.NONE);
 					smScreen.setOperation(getOperation());
 					smScreen.setScreenService(screenService);
-					smScreen.injectData(rfsServiceResource,
+					smScreen.injectData(operatorsResource,
 							ServicesFactory.eINSTANCE.createRFSService());
 					screenService.setActiveScreen(smScreen);
 				}
@@ -200,7 +200,6 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
-	
 
 	class MonitorNowAction extends Action {
 		public MonitorNowAction(String text, int style) {
@@ -211,45 +210,44 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 		public void run() {
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection)
-						.getFirstElement();
+				Object o = ((IStructuredSelection) selection).getFirstElement();
 				if (o instanceof Service) {
 					Service service = (Service) o;
 					try {
-						serverActions
-								.setServer(editingService.getDataService()
-										.getProvider().getServer());
-							
-						
-						// TODO, provide a dialog for monitoring period selection. 
-						
+						serverActions.setServer(editingService.getDataService()
+								.getProvider().getServer());
+
+						// TODO, provide a dialog for monitoring period
+						// selection.
+
 						Date fromDate = null;
 						Date toDate = null;
-						
+
 						@SuppressWarnings("unused")
-						String result = serverActions
-								.callMonitorAction(service, fromDate, toDate);
+						String result = serverActions.callMonitorAction(
+								service, fromDate, toDate);
 						// TODO, We get the workflow run ID back, which
 						// could be used
 						// to link back to the screen showing the running
 						// workflows.
 
-						
-						MessageDialog.openInformation(
-								Services.this.getShell(),
-								"Monitor now succeeded:",
-								"Monitoring of service: "
-										+ service.getServiceName()
-										+ "\n has been initiated on the server.");
+						MessageDialog
+								.openInformation(
+										Services.this.getShell(),
+										"Monitor now succeeded:",
+										"Monitoring of service: "
+												+ service.getServiceName()
+												+ "\n has been initiated on the server.");
 
 					} catch (Exception e1) {
 						e1.printStackTrace();
-						MessageDialog.openError(
-								Services.this.getShell(),
-								"Monitor now failed:",
-								"Monitoring of service: "
-										+ service.getServiceName()
-										+ "\n failed. Consult the log for information on the failure");
+						MessageDialog
+								.openError(
+										Services.this.getShell(),
+										"Monitor now failed:",
+										"Monitoring of service: "
+												+ service.getServiceName()
+												+ "\n failed. Consult the log for information on the failure");
 
 					}
 
@@ -257,7 +255,6 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
-	
 
 	class ReportNowAction extends Action {
 		public ReportNowAction(String text, int style) {
@@ -268,45 +265,44 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 		public void run() {
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection)
-						.getFirstElement();
+				Object o = ((IStructuredSelection) selection).getFirstElement();
 				if (o instanceof Service) {
 					Service service = (Service) o;
 					try {
-						serverActions
-								.setServer(editingService.getDataService()
-										.getProvider().getServer());
-							
-						
-						// TODO, provide a dialog for monitoring period selection. 
-						
+						serverActions.setServer(editingService.getDataService()
+								.getProvider().getServer());
+
+						// TODO, provide a dialog for monitoring period
+						// selection.
+
 						Date fromDate = null;
 						Date toDate = null;
-						
+
 						@SuppressWarnings("unused")
-						String result = serverActions
-								.callReportingAction(service, fromDate, toDate);
+						String result = serverActions.callReportingAction(
+								service, fromDate, toDate);
 						// TODO, We get the workflow run ID back, which
 						// could be used
 						// to link back to the screen showing the running
 						// workflows.
 
-						
-						MessageDialog.openInformation(
-								Services.this.getShell(),
-								"Reporting now succeeded:",
-								"Reporting of service: "
-										+ service.getServiceName()
-										+ "\n has been initiated on the server.");
+						MessageDialog
+								.openInformation(
+										Services.this.getShell(),
+										"Reporting now succeeded:",
+										"Reporting of service: "
+												+ service.getServiceName()
+												+ "\n has been initiated on the server.");
 
 					} catch (Exception e1) {
 						e1.printStackTrace();
-						MessageDialog.openError(
-								Services.this.getShell(),
-								"Reporting now failed:",
-								"Reporting of service: "
-										+ service.getServiceName()
-										+ "\n failed. Consult the log for information on the failure");
+						MessageDialog
+								.openError(
+										Services.this.getShell(),
+										"Reporting now failed:",
+										"Reporting of service: "
+												+ service.getServiceName()
+												+ "\n failed. Consult the log for information on the failure");
 
 					}
 
@@ -314,7 +310,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
-	
+
 	class ScheduleMonitorJobAction extends Action {
 		public ScheduleMonitorJobAction(String text, int style) {
 			super(text, style);
@@ -345,13 +341,15 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 						} else {
 							operation = Screens.OPERATION_NEW;
 							job = SchedulingFactory.eINSTANCE
-									.createRFSServiceJob();
+									.createRFSServiceMonitoringJob();
 							job.setName(((Service) o).getServiceName());
 							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-							job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
-							
-							if(job instanceof RFSServiceJob){
-								((RFSServiceJob) job).setRFSService((RFSService) o);
+							job.setStartTime(modelUtils.toXMLDate(modelUtils
+									.todayAndNow()));
+
+							if (job instanceof RFSServiceMonitoringJob) {
+								((RFSServiceMonitoringJob) job)
+										.setRFSService((RFSService) o);
 							}
 						}
 
@@ -366,8 +364,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
-	
-	
+
 	class ScheduleReportingJobAction extends Action {
 		public ScheduleReportingJobAction(String text, int style) {
 			super(text, style);
@@ -387,7 +384,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 						List<Job> matchingJobs = editingService
 								.getDataService().getQueryService()
 								.getJobWithServiceReporting((Service) o);
-						
+
 						Resource jobResource = editingService
 								.getData(SchedulingPackage.Literals.JOB);
 						Job job = null;
@@ -399,12 +396,14 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 						} else {
 							operation = Screens.OPERATION_NEW;
 							job = SchedulingFactory.eINSTANCE
-									.createReporterJob();
+									.createRFSServiceReporterJob();
 							job.setName(((Service) o).getServiceName());
 							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-							job.setStartTime(modelUtils.toXMLDate(modelUtils.todayAndNow()));
-							if(job instanceof ReporterJob){
-								((ReporterJob) job).setRFSService((RFSService) o);
+							job.setStartTime(modelUtils.toXMLDate(modelUtils
+									.todayAndNow()));
+							if (job instanceof RFSServiceReporterJob) {
+								((RFSServiceReporterJob) job)
+										.setRFSService((RFSService) o);
 							}
 						}
 
@@ -444,7 +443,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 							screenService.getScreenContainer(), SWT.NONE);
 					smScreen.setOperation(getOperation());
 					smScreen.setScreenService(screenService);
-					smScreen.injectData(rfsServiceResource, o);
+					smScreen.injectData(operatorsResource, o);
 					screenService.setActiveScreen(smScreen);
 				}
 			}
@@ -473,7 +472,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 		IEMFListProperty serviceProperty = EMFEditProperties
 				.resource(editingService.getEditingDomain());
 		IObservableList rfsServicesObservableList = serviceProperty
-				.observe(rfsServiceResource);
+				.observe(operatorsResource);
 		// obm.addObservable(rfsServicesObservableList);
 		servicesTableViewer.setInput(rfsServicesObservableList);
 
@@ -529,14 +528,14 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	public void injectData() {
-		rfsServiceResource = editingService
-				.getData(ServicesPackage.Literals.RFS_SERVICE);
+		operatorsResource = editingService
+				.getData(OperatorsPackage.Literals.OPERATOR);
 		buildUI();
 		initDataBindings_();
 	}
 
 	public void disposeData() {
-		editingService.disposeData(rfsServiceResource);
+		editingService.disposeData(operatorsResource);
 	}
 
 	@Override
@@ -577,12 +576,12 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 		if (!readonly) {
 			actions.add(new ScheduleMonitorJobAction(
 					"Schedule Monitoring Job...", SWT.PUSH));
-			
+
 			actions.add(new MonitorNowAction("Monitor Now...", SWT.PUSH));
-			
+
 			actions.add(new ScheduleReportingJobAction(
 					"Schedule Reporting Job...", SWT.PUSH));
-			
+
 			actions.add(new ReportNowAction("Report Now...", SWT.PUSH));
 		}
 

@@ -16,7 +16,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.monitoring;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,13 +35,13 @@ import com.netxforge.netxstudio.services.ServicesFactory;
  * 
  * @author Martin Taal
  */
-public class RFSServiceResourceMonitoringLogic extends BaseResourceMonitoringLogic {
+public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 
 	private RFSService rfsService;
 
 	private ServiceMonitor serviceMonitor;
 	
-	void initializeServiceMonitor() {
+	void initializeMonitoringLogic() {
 		Date startTime = getStartTime();
 		if (startTime == null) {
 			// TODO: make the period for the look back configurable
@@ -86,17 +86,17 @@ public class RFSServiceResourceMonitoringLogic extends BaseResourceMonitoringLog
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		// first go through the leave nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (isValidNode(node) && node.getNodeType().isLeafNode()) {
+			if (getModelUtils().isValidNode(node) && node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (isValidNode(node) && !node.getNodeType().isLeafNode()) {
+			if (getModelUtils().isValidNode(node) && !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		return nodeTypes;
 	}
-
+	
 }

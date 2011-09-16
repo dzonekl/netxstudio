@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -44,10 +43,6 @@ import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
 import org.swtchart.LineStyle;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -61,7 +56,7 @@ public class ResourceMonitor extends AbstractScreen implements
 	private Chart chart;
 	private Table table;
 	private Form frmFunction;
-//	private Resource monitorResource;
+	// private Resource monitorResource;
 	private NetXResource netXResource;
 	private DateTimeRange dtr;
 
@@ -75,8 +70,8 @@ public class ResourceMonitor extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		
-//		buildUI();
+
+		// buildUI();
 
 	}
 
@@ -375,65 +370,43 @@ public class ResourceMonitor extends AbstractScreen implements
 			yToleranceSeries[i] = 0.9;
 		}
 	}
-	
-	
+
 	int expectedValueQuantity = -1;
 
 	public List<Value> createDateSeries(EList<Value> values) {
-		
-		int size = values.size();
-		
-		// Sort and reverse the values. 
-		System.out.println("ResourceMonitor: sorting entries:" + size + new Date(System.currentTimeMillis()));
-		List<Value> sortedCopy = Ordering.from(byTimeStamp).reverse().sortedCopy(values);
-		System.out.println("ResourceMonitor: done sorting entries:" + size + new Date(System.currentTimeMillis()));
-		
-		// Filter within the range. 
-		Predicate<Value> insideRange = modelUtils.new InsideRange(dtr);
-		Iterable<Value> filterValues = Iterables.filter(sortedCopy, insideRange);
-		return(Lists.newArrayList(filterValues));
+		List<Value> sortedCopy = modelUtils.sortByTimeStampAndReverse(values);
+		return modelUtils.filterInRange(sortedCopy, dtr);
 	}
-	
-	
-	
-	
-	/**
-	 * Compare two dates. 
-	 */
-	Comparator<Value> byTimeStamp = new Comparator<Value>() {
-	    public int compare(final Value v1, final Value v2) {
-	        return v1.getTimeStamp().compare(v2.getTimeStamp());
-	    }
-	};
-	
+
 	/**
 	 * Get a Chart Lineseries from a Resource.
-	 * @param doubleArray 
+	 * 
+	 * @param metricValues
 	 * 
 	 * @param chart
 	 * @param resource
 	 * @return
 	 */
-	private ILineSeries seriesFromMetric(Date[] dateArray, double[] doubleArray, Chart chart, NetXResource resource) {
+	private ILineSeries seriesFromMetric(Date[] dateArray,
+			double[] metricValues, Chart chart, NetXResource resource) {
 
 		ILineSeries metricLineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "Metric");
 
 		metricLineSeries.setXDateSeries(dateArray);
-		metricLineSeries.setYSeries(doubleArray);
+		metricLineSeries.setYSeries(metricValues);
 		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
 		return metricLineSeries;
 	}
 
-	private ILineSeries seriesFromCapacity(Chart chart, NetXResource resource) {
-
-		Date[] xSeries = new Date[1]; // TODO Set from resource
-		double[] ySeries = new double[1]; // TODO Set from resource.
+	private ILineSeries seriesFromCapacity(Date[] dateArray,
+			double[] capacityValues, Chart chart) {
 
 		ILineSeries capLineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "Capacity");
-		capLineSeries.setXDateSeries(xSeries);
-		capLineSeries.setYSeries(ySeries);
+
+		capLineSeries.setXDateSeries(dateArray);
+		capLineSeries.setYSeries(capacityValues);
 		capLineSeries.enableStep(true);
 		capLineSeries.setLineColor(Display.getDefault().getSystemColor(
 				SWT.COLOR_DARK_YELLOW));
@@ -442,16 +415,13 @@ public class ResourceMonitor extends AbstractScreen implements
 
 	}
 
-	private IBarSeries seriesFromUtilization(Chart chart,
-			NetXResource resource, int yAxisID) {
-
-		Date[] xSeries = new Date[1]; // TODO Set from resource
-		double[] ySeries = new double[1]; // TODO Set from resource.
+	private IBarSeries seriesFromUtilization(Date[] dateArray,
+			double[] utilizationValues, Chart chart, int yAxisID) {
 
 		IBarSeries utilLineSeries = (IBarSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.BAR, "Utilization");
-		utilLineSeries.setXDateSeries(xSeries);
-		utilLineSeries.setYSeries(ySeries);
+		utilLineSeries.setXDateSeries(dateArray);
+		utilLineSeries.setYSeries(utilizationValues);
 		utilLineSeries.setYAxisId(yAxisID); // Connect a series to the
 											// Y-Axis.
 		utilLineSeries.setBarColor(Display.getDefault().getSystemColor(
@@ -460,16 +430,14 @@ public class ResourceMonitor extends AbstractScreen implements
 		return utilLineSeries;
 	}
 
-	private ILineSeries seriesFromTolerance(Chart chart, NetXResource resource,
-			int yAxisID) {
-
-		Date[] xSeries = new Date[1]; // TODO Set from resource
-		double[] ySeries = new double[1]; // TODO Set from resource.
+	@SuppressWarnings("unused")
+	private ILineSeries seriesFromTolerance(Date[] dateArray,
+			double[] toleranceValues, Chart chart, int yAxisID) {
 
 		ILineSeries toleranceLineSeries = (ILineSeries) chart.getSeriesSet()
 				.createSeries(ISeries.SeriesType.LINE, "Tolerance");
-		toleranceLineSeries.setXDateSeries(xSeries);
-		toleranceLineSeries.setYSeries(ySeries);
+		toleranceLineSeries.setXDateSeries(dateArray);
+		toleranceLineSeries.setYSeries(toleranceValues);
 		toleranceLineSeries.setYAxisId(yAxisID);
 		toleranceLineSeries.setLineStyle(LineStyle.DASHDOTDOT);
 		toleranceLineSeries.setLineColor(Display.getDefault().getSystemColor(
@@ -504,14 +472,13 @@ public class ResourceMonitor extends AbstractScreen implements
 					"The target object is expected to be a NetXResource");
 		}
 
-		if (dtr != null){
+		if (dtr != null) {
 			this.dtr = dtr;
 		}
-		
+
 		buildUI();
-		
-			frmFunction.setText("Resource Monitor "
-					+ netXResource.getShortName());
+
+		frmFunction.setText("Resource Monitor " + netXResource.getShortName());
 		initDataBindings_();
 	}
 
@@ -526,28 +493,31 @@ public class ResourceMonitor extends AbstractScreen implements
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
-		
+
 		// Set the series from the resource.
 		// Re-use the TS range.
-		// TODO, select on the interval, hourly etc... 
-		List<Value> values = this.createDateSeries(netXResource.getMetricValueRanges().get(0).getMetricValues());
-
+		// TODO, select on the interval, hourly etc...
+		List<Value> values = this.createDateSeries(netXResource
+				.getMetricValueRanges().get(0).getMetricValues());
 		List<Date> dates = modelUtils.transformValueToDate(values);
-		
 		Date[] dateArray = new Date[dates.size()];
 		dates.toArray(dateArray);
+
+		double[] metricValues = modelUtils.transformValueToDoubleArray(values);
 		
-		List<Double> doubles = modelUtils.transformValueToDouble(values);
-		double[] doubleArray = new double[doubles.size()];
-		for(int i = 0; i < doubles.size(); i++){
-			doubleArray[i] = doubles.get(i).doubleValue();
-		}
+		// TODO, Apply Period Filter. 
+		double[] capValues = modelUtils.transformValueToDoubleArray(netXResource.getCapacityValues());
+		double[] utilValues = modelUtils.transformValueToDoubleArray(netXResource.getUtilizationValues());
+//		double[] tolValues = modelUtils.transformValueToDouble(netXResource.gettgetUtilizationValues());
+		
+		this.seriesFromMetric(dateArray, metricValues, chart, netXResource);
+		this.seriesFromCapacity(dateArray, capValues, chart);
+		this.seriesFromUtilization(dateArray, utilValues, chart, 1);
 		
 		
-		this.seriesFromMetric(dateArray, doubleArray, chart, netXResource);
-//		this.seriesFromCapacity(chart, netXResource);
-//		this.seriesFromTolerance(chart, netXResource, 1);
-//		this.seriesFromUtilization(chart, netXResource, 1);
+		// Tolerances are not stored.....
+//		this.seriesFromTolerance(chart, 1);
+		
 
 		// Setup data binding.
 		// adjust the axis range

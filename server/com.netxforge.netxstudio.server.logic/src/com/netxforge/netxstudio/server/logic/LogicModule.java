@@ -1,14 +1,22 @@
 package com.netxforge.netxstudio.server.logic;
 
 import com.google.inject.AbstractModule;
-import com.netxforge.netxstudio.server.logic.ResourceMonitoringService.ResourceMonitoringRunner;
 import com.netxforge.netxstudio.server.logic.expression.ExpressionEngine;
 import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
+import com.netxforge.netxstudio.server.logic.monitoring.MonitoringEngine;
+import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService.ResourceMonitoringRunner;
+import com.netxforge.netxstudio.server.logic.monitoring.NodeMonitoringLogic;
+import com.netxforge.netxstudio.server.logic.monitoring.RFSServiceMonitoringJobImplementation;
+import com.netxforge.netxstudio.server.logic.monitoring.RFSServiceMonitoringLogic;
+import com.netxforge.netxstudio.server.logic.profile.ProfileEngine;
+import com.netxforge.netxstudio.server.logic.reporting.OperatorReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceDashboardReportingLogic;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceDistributionReportingLogic;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceSummaryReportingLogic;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceUserReportingLogic;
+import com.netxforge.netxstudio.server.logic.retention.RetentionEngine;
+import com.netxforge.netxstudio.server.logic.retention.RetentionLogic;
 
 public class LogicModule extends AbstractModule {
 
@@ -17,9 +25,10 @@ public class LogicModule extends AbstractModule {
 	protected void configure() {
 		this.bind(IExpressionEngine.class).to(ExpressionEngine.class);
 		
-		this.bind(RFSServiceResourceMonitoringLogic.class);
-		this.bind(RFSServiceResourceMonitoringJobImplementation.class);
-
+		this.bind(RFSServiceMonitoringLogic.class);
+		this.bind(RFSServiceMonitoringJobImplementation.class);
+		
+		this.bind(OperatorReportingJobImplementation.class);
 		this.bind(RFSServiceSummaryReportingLogic.class);
 		this.bind(RFSServiceDashboardReportingLogic.class);
 		this.bind(RFSServiceDistributionReportingLogic.class);
@@ -27,8 +36,9 @@ public class LogicModule extends AbstractModule {
 		
 		this.bind(RFSServiceReportingJobImplementation.class);
 		
-		this.bind(ResourceMonitoringEngine.class);
-		this.bind(NodeResourceMonitoringLogic.class);
+		this.bind(MonitoringEngine.class);
+		this.bind(ProfileEngine.class);
+		this.bind(NodeMonitoringLogic.class);
 		this.bind(ResourceMonitoringRunner.class);
 		this.bind(RetentionEngine.class);
 		this.bind(RetentionLogic.class);

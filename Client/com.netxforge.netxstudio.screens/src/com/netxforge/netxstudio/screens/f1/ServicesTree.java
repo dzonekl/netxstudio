@@ -25,6 +25,7 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
@@ -44,6 +45,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.DisposeEvent;
@@ -69,12 +71,17 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.Job;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
-import com.netxforge.netxstudio.scheduling.ReporterJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.OperatorFilterDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -87,6 +94,7 @@ import com.netxforge.netxstudio.screens.f4.NewEditJob;
 import com.netxforge.netxstudio.screens.f4.ServiceMonitors;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -105,7 +113,8 @@ public class ServicesTree extends AbstractScreen implements
 	private TreeViewer serviceTreeViewer;
 	private Composite cmpDetails;
 	private SashForm sashForm;
-	private Resource rfsServiceResource;
+	// private Resource rfsServiceResource;
+	private Resource operatorsResource;
 
 	@Inject
 	ServerRequest serverActions;
@@ -135,8 +144,11 @@ public class ServicesTree extends AbstractScreen implements
 	 * @see com.netxforge.netxstudio.data.IDataServiceInjection#injectData()
 	 */
 	public void injectData() {
-		rfsServiceResource = editingService
-				.getData(ServicesPackage.Literals.RFS_SERVICE);
+
+		operatorsResource = editingService
+				.getData(OperatorsPackage.Literals.OPERATOR);
+		// rfsServiceResource = editingService
+		// .getData(ServicesPackage.Literals.RFS_SERVICE);
 		buildUI();
 		initDataBindings_();
 	}
@@ -200,14 +212,25 @@ public class ServicesTree extends AbstractScreen implements
 				"icons/full/ctool16/Service_E.png"));
 		hypLnkNewRFSService.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				// Create a new top level nodetype.
-				RFSService newRFSService = ServicesFactory.eINSTANCE
-						.createRFSService();
-				newRFSService.setServiceName("<new Resource Facing Service>");
-				Command add = new AddCommand(editingService.getEditingDomain(),
-						rfsServiceResource.getContents(), newRFSService);
-				editingService.getEditingDomain().getCommandStack()
-						.execute(add);
+
+				OperatorFilterDialog dialog = new OperatorFilterDialog(
+						ServicesTree.this.getShell(), operatorsResource);
+				int result = dialog.open();
+
+				if (result == Window.OK) {
+					Operator operator = (Operator) dialog.getFirstResult();
+
+					// Create a new top level nodetype.
+					RFSService newRFSService = ServicesFactory.eINSTANCE
+							.createRFSService();
+					newRFSService
+							.setServiceName("<new Resource Facing Service>");
+					Command add = new AddCommand(editingService
+							.getEditingDomain(), operator.getServices(),
+							newRFSService);
+					editingService.getEditingDomain().getCommandStack()
+							.execute(add);
+				}
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -359,6 +382,9 @@ public class ServicesTree extends AbstractScreen implements
 		List<IObservableMap> mapList = Lists.newArrayList();
 
 		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
+				GenericsPackage.Literals.COMPANY__NAME).observeDetail(set));
+
+		mapList.add(EMFEditProperties.value(editingService.getEditingDomain(),
 				ServicesPackage.Literals.SERVICE__SERVICE_NAME).observeDetail(
 				set));
 
@@ -374,7 +400,7 @@ public class ServicesTree extends AbstractScreen implements
 				.getEditingDomain());
 
 		IObservableList servicesObservableList = projects
-				.observe(rfsServiceResource);
+				.observe(operatorsResource);
 		serviceTreeViewer.setInput(servicesObservableList);
 
 		return bindingContext;
@@ -393,6 +419,10 @@ public class ServicesTree extends AbstractScreen implements
 
 		@Override
 		public Boolean hasChildren(Object element) {
+			if (element instanceof Operator
+					&& (((Operator) element).getServices().size() > 0)) {
+				return Boolean.TRUE;
+			}
 			if (element instanceof RFSService
 					&& (((RFSService) element).getServices().size() > 0)) {
 				return Boolean.TRUE;
@@ -555,8 +585,15 @@ public class ServicesTree extends AbstractScreen implements
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
 				Object o = ((IStructuredSelection) selection).getFirstElement();
-				if (o instanceof Service) {
-					Service service = (Service) o;
+				if (o instanceof Service || o instanceof Operator) {
+
+					CDOObject target = null;
+					String identifier = "";
+
+					if (o instanceof CDOObject) {
+						target = (CDOObject) o;
+
+					}
 					try {
 						serverActions.setServer(editingService.getDataService()
 								.getProvider().getServer());
@@ -567,20 +604,44 @@ public class ServicesTree extends AbstractScreen implements
 						Date fromDate = null;
 						Date toDate = null;
 
-						@SuppressWarnings("unused")
-						String result = serverActions.callReportingAction(
-								service, fromDate, toDate);
 						// TODO, We get the workflow run ID back, which
 						// could be used
 						// to link back to the screen showing the running
 						// workflows.
 
+						if (target instanceof Service) {
+							
+							// Set the period to the last service monitor, 
+							// if we don't have a manually entered period. 
+							if (fromDate == null && toDate == null) {
+								ServiceMonitor sm = modelUtils
+										.lastServiceMonitor((Service) target);
+								if (sm != null) {
+									DateTimeRange period = sm.getPeriod();
+									fromDate = modelUtils.start(period);
+									toDate = modelUtils.end(period);
+								}
+							}
+
+							@SuppressWarnings("unused")
+							String result = serverActions.callReportingAction(
+									target, fromDate, toDate);
+							identifier = ((Service) target).getServiceName();
+						}
+						if (target instanceof Operator) {
+							@SuppressWarnings("unused")
+							String result = serverActions
+									.callOperatorReportingAction(target,
+											fromDate, toDate);
+							identifier = ((Operator) target).getName();
+						}
+
 						MessageDialog
 								.openInformation(
 										ServicesTree.this.getShell(),
 										"Reporting now succeeded:",
-										"Reporting of service: "
-												+ service.getServiceName()
+										"Reporting for: "
+												+ identifier
 												+ "\n has been initiated on the server.");
 
 					} catch (Exception e1) {
@@ -589,8 +650,8 @@ public class ServicesTree extends AbstractScreen implements
 								.openError(
 										ServicesTree.this.getShell(),
 										"Reporting now failed:",
-										"Reporting of service: "
-												+ service.getServiceName()
+										"Reporting for : "
+												+ identifier
 												+ "\n failed. Consult the log for information on the failure");
 
 					}
@@ -611,15 +672,15 @@ public class ServicesTree extends AbstractScreen implements
 			if (selection instanceof IStructuredSelection) {
 				Object o = ((IStructuredSelection) selection).getFirstElement();
 				if (o instanceof Service) {
+					@SuppressWarnings("unused")
 					Service service = (Service) o;
-					
-					// Show service distribution. 
+
+					// Show service distribution.
 				}
 			}
 		}
 	}
-	
-	
+
 	class ScheduleMonitorJobAction extends Action {
 		public ScheduleMonitorJobAction(String text, int style) {
 			super(text, style);
@@ -650,14 +711,14 @@ public class ServicesTree extends AbstractScreen implements
 						} else {
 							operation = Screens.OPERATION_NEW;
 							job = SchedulingFactory.eINSTANCE
-									.createRFSServiceJob();
+									.createRFSServiceMonitoringJob();
 							job.setName(((Service) o).getServiceName());
 							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
 							job.setStartTime(modelUtils.toXMLDate(modelUtils
 									.todayAndNow()));
 
-							if (job instanceof RFSServiceJob) {
-								((RFSServiceJob) job)
+							if (job instanceof RFSServiceMonitoringJob) {
+								((RFSServiceMonitoringJob) job)
 										.setRFSService((RFSService) o);
 							}
 						}
@@ -705,13 +766,13 @@ public class ServicesTree extends AbstractScreen implements
 						} else {
 							operation = Screens.OPERATION_NEW;
 							job = SchedulingFactory.eINSTANCE
-									.createReporterJob();
+									.createRFSServiceReporterJob();
 							job.setName(((Service) o).getServiceName());
 							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
 							job.setStartTime(modelUtils.toXMLDate(modelUtils
 									.todayAndNow()));
-							if (job instanceof ReporterJob) {
-								((ReporterJob) job)
+							if (job instanceof RFSServiceReporterJob) {
+								((RFSServiceReporterJob) job)
 										.setRFSService((RFSService) o);
 							}
 						}

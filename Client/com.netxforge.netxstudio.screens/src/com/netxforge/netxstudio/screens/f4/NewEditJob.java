@@ -66,9 +66,9 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
-import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.CDateTimeObservableValue;
@@ -950,18 +950,18 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		bindingContext = initDataBindings_();
 
 		jobTypes = new String[] { "Metric Import", "Monitoring",
-				"Data retention", "Reporting" };
+				"Data retention", "Reporting", "Operator Reporting" };
 		int type = 0;
 		if (job instanceof MetricSourceJob) {
 			type = 0;
 		}
-		if (job instanceof RFSServiceJob) {
+		if (job instanceof RFSServiceMonitoringJob) {
 			type = 1;
 		}
 		if (job instanceof RFSServiceRetentionJob) {
 			type = 2;
 		}
-		if (job instanceof ReporterJob) {
+		if (job instanceof OperatorReporterJob) {
 			type = 3;
 		}
 

@@ -43,6 +43,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -68,6 +69,7 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
@@ -181,30 +183,6 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		jobRunMenu = new Menu(table);
 		table.setMenu(jobRunMenu);
 
-		// MenuItem mntmShowLog = new MenuItem(jobRunMenu, SWT.NONE);
-		// mntmShowLog.addSelectionListener(new SelectionAdapter() {
-		// @Override
-		// public void widgetSelected(SelectionEvent e) {
-		// ISelection selection = jobRunsTableViewer.getSelection();
-		// if (selection instanceof IStructuredSelection) {
-		// IStructuredSelection ss = (IStructuredSelection) selection;
-		// Object o = ss.getFirstElement();
-		// if (o instanceof WorkFlowRun) {
-		// String log = ((WorkFlowRun) o).getLog();
-		// if (log != null) {
-		// LogDialog ld = new LogDialog(JobRuns.this
-		// .getShell());
-		// ld.InjectData(log);
-		// ld.open();
-		// } else {
-		// // TODO, no log available user feedback.
-		// }
-		// }
-		// }
-		// }
-		// });
-		// mntmShowLog.setText("Show Log...");
-
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				jobRunsTableViewer, SWT.NONE);
 		TableColumn tblclmnLog = tableViewerColumn_3.getColumn();
@@ -257,22 +235,39 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				IStructuredSelection ss = (IStructuredSelection) selection;
 				Object o = ss.getFirstElement();
 				if (o instanceof ComponentWorkFlowRun) {
-					ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
-					List<ComponentFailure> failures = wfRun.getFailureRefs();
-					int failurecount = 0;
-					for (ComponentFailure f : failures) {
-						failurecount++;
-						if (f instanceof ExpressionFailure) {
-							// TODO, show in some sort of dialog with links to
-							// expressions.
-							ExpressionFailure ef = (ExpressionFailure) f;
-							System.out.println(failurecount + ": Expression failed: "
-									+ ef.getExpressionRef().getName());
-							System.out.println("Msg: " + f.getMessage());
-							System.out.println("Component: "
-									+ f.getComponentRef().getName());
-						}
+					
+					JobFailures jf = new JobFailures(JobRuns.this.getShell());
+					jf.setBlockOnOpen(true);
+					int result = jf.open(o);
+					if(result == Window.OK){
+						
+						
 					}
+					
+					
+//					ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
+//					List<Failure> failures = wfRun.getFailureRefs();
+//					int failurecount = 0;
+//					for (Failure f : failures) {
+//						failurecount++;
+//						if (f instanceof ExpressionFailure) {
+//							// TODO, show in some sort of dialog with links to
+//							// expressions.
+//							ExpressionFailure ef = (ExpressionFailure) f;
+//							System.out.println(failurecount
+//									+ ": Expression failed: "
+//									+ ef.getExpressionRef().getName());
+//							System.out.println("Msg: " + f.getMessage());
+//						}
+//
+//						if (f instanceof ComponentFailure) {
+//							System.out.println("Component: "
+//									+ ((ComponentFailure) f).getComponentRef()
+//											.getName());
+//
+//						}
+//
+//					}
 				}
 			}
 		}
@@ -337,12 +332,9 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 							Object o = ss.getFirstElement();
 							if (o instanceof ComponentWorkFlowRun) {
 								ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
-								List<ComponentFailure> failures = wfRun
-										.getFailureRefs();
-								for (ComponentFailure f : failures) {
+								List<Failure> failures = wfRun.getFailureRefs();
+								for (Failure f : failures) {
 									if (f instanceof ExpressionFailure) {
-										// TODO, show in some sort of dialog
-										// with links to expressions.
 										ExpressionFailure ef = (ExpressionFailure) f;
 										System.out
 												.println("Expression failed: "
@@ -350,10 +342,12 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 																.getName());
 										System.out.println("Msg: "
 												+ f.getMessage());
-										System.out
-												.println("Component: "
-														+ f.getComponentRef()
-																.getName());
+									}
+									if (f instanceof ComponentFailure) {
+										System.out.println("Component: "
+												+ ((ComponentFailure) f)
+														.getComponentRef()
+														.getName());
 									}
 								}
 							}
@@ -373,7 +367,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 		List<IAction> actions = Lists.newArrayList();
 		actions.add(new ShowLogAction("Show Log...", SWT.PUSH));
 		actions.add(new ShowFailuresAction("Show Failures...", SWT.PUSH));
-		
+
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray);
 

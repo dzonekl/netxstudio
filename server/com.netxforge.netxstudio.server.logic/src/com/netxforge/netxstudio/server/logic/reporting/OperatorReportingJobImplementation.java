@@ -16,33 +16,49 @@
  * Contributors: 
  * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.reporting;
 
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
-import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
+import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.Activator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
+import com.netxforge.netxstudio.server.logic.LogicActivator;
 
 /**
  * Implements a job runner for a metric source.
  * 
  * @author Martin Taal
  */
-public class RetentionJobImplementation extends JobImplementation {
+public class OperatorReportingJobImplementation extends JobImplementation {
 
 	private ComponentWorkFlowRun workFlowRun;
 
 	@Override
 	public void run() {
-		final RFSServiceRetentionJob serviceJob = (RFSServiceRetentionJob) getJob();
-		final RetentionLogic retentionLogic = Activator.getInstance()
-				.getInjector().getInstance(RetentionLogic.class);
-		retentionLogic.setRfsService(serviceJob.getRFSService().cdoID());
-		retentionLogic.setJobMonitor(getRunMonitor());
-		retentionLogic.run();
-		getDataProvider().commitTransaction();
+		final OperatorReporterJob reporterJob = (OperatorReporterJob) getJob();
+
+		{
+			final OperatorReportingLogic logic = LogicActivator.getInstance()
+					.getInjector()
+					.getInstance(RFSServiceSummaryReportingLogic.class);
+
+			logic.setServices(reporterJob.getOperator().getServices());
+			logic.setJobMonitor(getRunMonitor());
+			logic.initializeReportingLogic();
+			logic.run();
+		}
+		{
+			final OperatorReportingLogic logic = LogicActivator.getInstance()
+					.getInjector()
+					.getInstance(RFSServiceDashboardReportingLogic.class);
+			logic.setServices(reporterJob.getOperator().getServices());
+			logic.setJobMonitor(getRunMonitor());
+			logic.initializeReportingLogic();
+			logic.run();
+		}
+
+		// getDataProvider().commitTransaction();
 	}
 
 	@Override

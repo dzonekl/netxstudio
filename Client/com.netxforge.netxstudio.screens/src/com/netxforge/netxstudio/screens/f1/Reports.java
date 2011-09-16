@@ -24,16 +24,16 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class Reports extends AbstractScreen implements IDataServiceInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Form frmServices;
-	private Resource rfsServiceResource;
+	private Resource operatorsResource;
 
 	@Inject
 	ServerRequest serverActions;
@@ -86,14 +86,15 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 
 		// TODO, retrieve the server settings .....
-		browser.setUrl("http://localhost:8080/netxforge/service");
+		browser.setUrl("http://localhost:8080/netxforge/reports/");
 
 		return bindingContext;
 	}
 
 	public void injectData() {
-		rfsServiceResource = editingService
-				.getData(ServicesPackage.Literals.RFS_SERVICE);
+		
+		operatorsResource = editingService
+				.getData(OperatorsPackage.Literals.OPERATOR);
 
 		// This piece goes in commons somewhere.
 		Resource settingsResource = editingService
@@ -114,7 +115,7 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 	}
 
 	public void disposeData() {
-		editingService.disposeData(rfsServiceResource);
+		editingService.disposeData(operatorsResource);
 	}
 
 	@Override

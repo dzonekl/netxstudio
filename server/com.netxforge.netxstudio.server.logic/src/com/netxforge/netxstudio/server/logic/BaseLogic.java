@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.server.logic;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -29,15 +28,7 @@ import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.generics.GenericsFactory;
-import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
-import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.operators.Node;
-import com.netxforge.netxstudio.scheduling.ComponentFailure;
-import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
@@ -55,15 +46,11 @@ public abstract class BaseLogic {
 	@Server
 	private IDataProvider dataProvider;
 
-	private Date startTime;
-	private Date endTime;
 
 	@Inject
 	private ModelUtils modelUtils;
 
-	private DateTimeRange timeRange;
-
-	private List<ComponentFailure> failures = new ArrayList<ComponentFailure>();
+	private List<Failure> failures = new ArrayList<Failure>();
 
 	public void run() {
 		try {
@@ -77,71 +64,73 @@ public abstract class BaseLogic {
 			jobMonitor.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
 		}
 	}
-
+	
+	
+	// Implementers should override. 
 	protected void doRun() {
 		// start a transaction
-		dataProvider.getTransaction();
-		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
-
-		jobMonitor.setTotalWork(countComponents(nodeTypes));
-		jobMonitor.setTask("Performing resource monitoring");
-
-		for (final NodeType nodeType : nodeTypes) {
-
-			jobMonitor.appendToLog("Computing for node (type) "
-					+ ((Node) nodeType.eContainer()).getNodeID());
-
-			jobMonitor.setTask("Resource monitoring Data for nodeType");
-			processNode(nodeType);
-		}
-		if (!getFailures().isEmpty()) {
-			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) dataProvider
-					.getTransaction().getObject(jobMonitor.getWorkFlowRunId());
-			run.getFailureRefs().addAll(getFailures());
-		}
-		dataProvider.commitTransaction();
+//		dataProvider.getTransaction();
+//		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
+//
+//		jobMonitor.setTotalWork(countComponents(nodeTypes));
+//		jobMonitor.setTask("Performing resource monitoring");
+//
+//		for (final NodeType nodeType : nodeTypes) {
+//
+//			jobMonitor.appendToLog("Computing for node (type) "
+//					+ ((Node) nodeType.eContainer()).getNodeID());
+//
+//			jobMonitor.setTask("Resource monitoring Data for nodeType");
+//			processNode(nodeType);
+//		}
+//		if (!getFailures().isEmpty()) {
+//			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) dataProvider
+//					.getTransaction().getObject(jobMonitor.getWorkFlowRunId());
+//			run.getFailureRefs().addAll(getFailures());
+//		}
+//		dataProvider.commitTransaction();
 	}
 
-	protected abstract List<NodeType> getNodeTypesToExecuteFor();
+//	protected abstract List<NodeType> getNodeTypesToExecuteFor();
 
-	protected DateTimeRange getTimeRange() {
-		if (timeRange != null) {
-			return timeRange;
-		}
-		timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
-		timeRange.setBegin(getModelUtils().toXMLDate(getStartTime()));
-		timeRange.setEnd(getModelUtils().toXMLDate(getEndTime()));
-		return timeRange;
-	}
+//	protected DateTimeRange getTimeRange() {
+//		if (timeRange != null) {
+//			return timeRange;
+//		}
+//		timeRange = GenericsFactory.eINSTANCE.createDateTimeRange();
+//		timeRange.setBegin(getModelUtils().toXMLDate(getStartTime()));
+//		timeRange.setEnd(getModelUtils().toXMLDate(getEndTime()));
+//		return timeRange;
+//	}
 
-	protected int countComponents(List<NodeType> nodeTypes) {
-		int cnt = 0;
-		for (final NodeType nodeType : nodeTypes) {
-			cnt += getComponents(nodeType).size();
-		}
-		return cnt;
-	}
+//	protected int countComponents(List<NodeType> nodeTypes) {
+//		int cnt = 0;
+//		for (final NodeType nodeType : nodeTypes) {
+//			cnt += getComponents(nodeType).size();
+//		}
+//		return cnt;
+//	}
 
-	protected void executeFor(Component component) {
-		jobMonitor.setTask("Computing for " + component.getName());
-		jobMonitor.incrementProgress(1, false);
-		final BaseEngine engine = getEngine();
-		engine.setJobMonitor(getJobMonitor());
-		engine.setComponent(component);
-		engine.setDataProvider(dataProvider);
-		engine.setRange(getTimeRange());
-		engine.execute();
-		if (engine.getFailures().size() > 0) {
-			for (final ComponentFailure failure : engine.getFailures()) {
-				failure.setComponentRef(component);
-				failures.add(failure);
-			}
-		}
-	}
+//	protected void executeFor(Component component) {
+//		jobMonitor.setTask("Computing for " + component.getName());
+//		jobMonitor.incrementProgress(1, false);
+//		final BaseComponentEngine engine = getEngine();
+//		engine.setJobMonitor(getJobMonitor());
+//		engine.setComponent(component);
+//		engine.setDataProvider(dataProvider);
+//		engine.setRange(getTimeRange());
+//		engine.execute();
+//		if (engine.getFailures().size() > 0) {
+//			for (final ComponentFailure failure : engine.getFailures()) {
+//				failure.setComponentRef(component);
+//				failures.add(failure);
+//			}
+//		}
+//	}
 
-	protected abstract BaseEngine getEngine();
+	protected abstract BasePeriodEngine getEngine();
 
-	protected abstract void processNode(NodeType nodeType);
+//	protected abstract void processNode(NodeType nodeType);
 
 	public ServerWorkFlowRunMonitor getJobMonitor() {
 		return jobMonitor;
@@ -158,24 +147,24 @@ public abstract class BaseLogic {
 	public void setDataProvider(IDataProvider dataProvider) {
 		this.dataProvider = dataProvider;
 	}
+//
+//	public Date getStartTime() {
+//		return startTime;
+//	}
+//
+//	public void setStartTime(Date startTime) {
+//		this.startTime = startTime;
+//	}
+//
+//	public Date getEndTime() {
+//		return endTime;
+//	}
+//
+//	public void setEndTime(Date endTime) {
+//		this.endTime = endTime;
+//	}
 
-	public Date getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-
-	public List<ComponentFailure> getFailures() {
+	public List<Failure> getFailures() {
 		return failures;
 	}
 
@@ -187,48 +176,48 @@ public abstract class BaseLogic {
 		this.modelUtils = modelUtils;
 	}
 
-	protected boolean isValidNode(Node node) {
-		if (node.getLifecycle() == null) {
-			return true;
-		}
-		final long time = System.currentTimeMillis();
-		if (node.getLifecycle().getInServiceDate() != null
-				&& node.getLifecycle().getInServiceDate().toGregorianCalendar()
-						.getTimeInMillis() > time) {
-			return false;
-		}
-		if (node.getLifecycle().getOutOfServiceDate() != null
-				&& node.getLifecycle().getOutOfServiceDate()
-						.toGregorianCalendar().getTimeInMillis() < time) {
-			return false;
-		}
-		return true;
-	}
+//	protected boolean isValidNode(Node node) {
+//		if (node.getLifecycle() == null) {
+//			return true;
+//		}
+//		final long time = System.currentTimeMillis();
+//		if (node.getLifecycle().getInServiceDate() != null
+//				&& node.getLifecycle().getInServiceDate().toGregorianCalendar()
+//						.getTimeInMillis() > time) {
+//			return false;
+//		}
+//		if (node.getLifecycle().getOutOfServiceDate() != null
+//				&& node.getLifecycle().getOutOfServiceDate()
+//						.toGregorianCalendar().getTimeInMillis() < time) {
+//			return false;
+//		}
+//		return true;
+//	}
 
-	protected List<Component> getComponents(NodeType nodeType) {
-		final List<Component> result = new ArrayList<Component>();
-		for (final Equipment equipment : nodeType.getEquipments()) {
-			getComponents(equipment, result);
-		}
-		for (final Function function : nodeType.getFunctions()) {
-			getComponents(function, result);
-		}
-		return result;
-	}
-
-	private void getComponents(Equipment equipment, List<Component> result) {
-		result.add(equipment);
-		for (final Equipment childEquipment : equipment.getEquipments()) {
-			getComponents(childEquipment, result);
-		}
-	}
-
-	private void getComponents(Function function, List<Component> result) {
-		result.add(function);
-		for (final Function childFunction : function.getFunctions()) {
-			getComponents(childFunction, result);
-		}
-	}
+//	protected List<Component> getComponents(NodeType nodeType) {
+//		final List<Component> result = new ArrayList<Component>();
+//		for (final Equipment equipment : nodeType.getEquipments()) {
+//			getComponents(equipment, result);
+//		}
+//		for (final Function function : nodeType.getFunctions()) {
+//			getComponents(function, result);
+//		}
+//		return result;
+//	}
+//
+//	private void getComponents(Equipment equipment, List<Component> result) {
+//		result.add(equipment);
+//		for (final Equipment childEquipment : equipment.getEquipments()) {
+//			getComponents(childEquipment, result);
+//		}
+//	}
+//
+//	private void getComponents(Function function, List<Component> result) {
+//		result.add(function);
+//		for (final Function childFunction : function.getFunctions()) {
+//			getComponents(childFunction, result);
+//		}
+//	}
 	
 	public ServerSettings getSettings() {
 		// This piece goes in commons somewhere.

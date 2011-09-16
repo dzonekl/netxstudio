@@ -29,11 +29,8 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.library.Equipment;
-import com.netxforge.netxstudio.library.Function;
-import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.screens.f2.support.Totals;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.services.RFSService;
 
 public class RFSServiceTreeLabelProvider extends StyledCellLabelProvider {
@@ -65,15 +62,33 @@ public class RFSServiceTreeLabelProvider extends StyledCellLabelProvider {
 
 		Object element = cell.getElement();
 
+		if (element instanceof Operator) {
+			Operator o = (Operator) element;
+
+			StyledString styledString = new StyledString(
+					o.eIsSet(GenericsPackage.Literals.COMPANY__NAME) ? o.getName()
+							: "?", null);
+			// String decoration = " (" + tt.getFunctions() + " Functions)"
+			// + " (" + tt.getEquipments() + " Equipments)";
+			// styledString.append(decoration, StyledString.COUNTER_STYLER);
+			cell.setText(styledString.getString());
+			Image img = ResourceManager.getPluginImage(
+					"com.netxforge.netxstudio.models.edit",
+					"icons/full/obj16/Company_H.png");
+			cell.setImage(img);
+			cell.setStyleRanges(styledString.getStyleRanges());
+
+		}
 		if (element instanceof RFSService) {
 
 			RFSService nt = (RFSService) element;
 
 			StyledString styledString = new StyledString(
-					nt.getServiceName() != null ? nt.getServiceName() : "?", null);
-//			String decoration = " (" + tt.getFunctions() + " Functions)"
-//					+ " (" + tt.getEquipments() + " Equipments)";
-//			styledString.append(decoration, StyledString.COUNTER_STYLER);
+					nt.getServiceName() != null ? nt.getServiceName() : "?",
+					null);
+			// String decoration = " (" + tt.getFunctions() + " Functions)"
+			// + " (" + tt.getEquipments() + " Equipments)";
+			// styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",

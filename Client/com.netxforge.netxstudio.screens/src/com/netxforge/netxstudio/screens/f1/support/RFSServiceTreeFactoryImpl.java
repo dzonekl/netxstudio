@@ -8,6 +8,8 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -16,6 +18,9 @@ public class RFSServiceTreeFactoryImpl implements IObservableFactory {
 	EditingDomain domain;
 	@SuppressWarnings("unused")
 	private ObservablesManager obm;
+
+	private IEMFListProperty operatorObservableProperty = EMFEditProperties
+			.list(domain, OperatorsPackage.Literals.OPERATOR__SERVICES);
 
 	private IEMFListProperty rfsServiceObservableProperty = EMFEditProperties
 			.list(domain, ServicesPackage.Literals.SERVICE__SERVICES);
@@ -30,6 +35,8 @@ public class RFSServiceTreeFactoryImpl implements IObservableFactory {
 
 		if (target instanceof IObservableList) {
 			ol = (IObservable) target;
+		} else if (target instanceof Operator) {
+			ol = operatorObservableProperty.observe(target);
 		} else if (target instanceof Service) {
 			ol = rfsServiceObservableProperty.observe(target);
 		}

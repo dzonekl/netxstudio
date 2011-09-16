@@ -74,8 +74,8 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.UnitFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.ServiceProfile;
-import com.netxforge.netxstudio.services.ServiceProfileResource;
 
 public class NewEditServiceProfileResource extends AbstractScreen implements
 		IDataScreenInjection {
@@ -85,7 +85,7 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 	private Text txtLongName;
 	private Text txtExpressionName;
 	private Text txtUnit;
-	private ServiceProfileResource profileResource;
+	private DerivedResource derivedResource;
 	private Form frmResource;
 	private ServiceProfile owner;
 	private Table table;
@@ -229,7 +229,7 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 						unitResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Unit u = (Unit) dialog.getFirstResult();
-					profileResource.setUnitRef(u); // Should now show with
+					derivedResource.setUnitRef(u); // Should now show with
 													// databinding.
 				}
 			}
@@ -408,7 +408,7 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 						targetInterval));
 		valuesTableViewer
 				.setLabelProvider(new NetXResourceValueLabelProvider());
-		valuesTableViewer.setInput(profileResource);
+		valuesTableViewer.setInput(derivedResource);
 
 	}
 
@@ -419,7 +419,7 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 						CAPACITIES));
 		valuesTableViewer
 				.setLabelProvider(new NetXResourceValueLabelProvider());
-		valuesTableViewer.setInput(profileResource);
+		valuesTableViewer.setInput(derivedResource);
 
 	}
 
@@ -430,7 +430,7 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 						UTILIZATION));
 		valuesTableViewer
 				.setLabelProvider(new NetXResourceValueLabelProvider());
-		valuesTableViewer.setInput(profileResource);
+		valuesTableViewer.setInput(derivedResource);
 
 	}
 
@@ -549,13 +549,13 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 				LibraryPackage.Literals.UNIT__CODE));
 
 		context.bindValue(shortNameTargetObservable,
-				shortNameProperty.observe(profileResource), null, null);
+				shortNameProperty.observe(derivedResource), null, null);
 		context.bindValue(longNameTargetObservable,
-				longNameProperty.observe(profileResource), null, null);
+				longNameProperty.observe(derivedResource), null, null);
 		context.bindValue(expressionNameTargetObservable,
-				expressionNameProperty.observe(profileResource), null, null);
+				expressionNameProperty.observe(derivedResource), null, null);
 		context.bindValue(unitTargetObservable,
-				unitProperty.observe(profileResource), null, null);
+				unitProperty.observe(derivedResource), null, null);
 
 		// Set enablement for interval links.
 
@@ -580,8 +580,8 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 			throw new java.lang.IllegalArgumentException("wrong argument or this screen");
 			
 		}
-		if (object instanceof ServiceProfileResource) {
-			profileResource = (ServiceProfileResource) object;
+		if (object instanceof DerivedResource) {
+			derivedResource = (DerivedResource) object;
 		}
 
 		buildUI();
@@ -594,7 +594,7 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 			// We also set the reference to this expression, we need to
 			// referee and a feature for this.
 			Command ac = new AddCommand(editingService.getEditingDomain(),
-					owner.getProfileResources(), this.profileResource);
+					owner.getProfileResources(), this.derivedResource);
 
 			editingService.getEditingDomain().getCommandStack().execute(ac);
 
@@ -606,15 +606,15 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (profileResource.cdoInvalid()) {
+			if (derivedResource.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-			System.out.println(profileResource.cdoID() + ""
-					+ profileResource.cdoState());
+			System.out.println(derivedResource.cdoID() + ""
+					+ derivedResource.cdoState());
 
 		}
 		// After our edit, we shall be dirty

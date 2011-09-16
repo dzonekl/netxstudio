@@ -177,7 +177,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 				resourceScreen.setScreenService(screenService);
 				resourceScreen.injectData(serviceUser.getServiceProfile(),
 						ServicesFactory.eINSTANCE
-								.createServiceProfileResource());
+								.createDerivedResource());
 				screenService.setActiveScreen(resourceScreen);
 			}
 		});

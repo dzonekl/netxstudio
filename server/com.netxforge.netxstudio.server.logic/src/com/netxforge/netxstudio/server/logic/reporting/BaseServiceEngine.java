@@ -16,40 +16,36 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.reporting;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.eclipse.emf.cdo.common.id.CDOID;
-
-import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.common.model.RFSServiceSummary;
+import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
+import com.netxforge.netxstudio.services.Service;
 
 /**
- * Performs the capacity logic execution for a Node.
+ * Adds a component context to the expression engine. 
  * 
- * @author Martin Taal
+ * @author Christophe Bouhier
  */
-public class NodeResourceMonitoringLogic extends BaseResourceMonitoringLogic {
-	
-	private Node node;
+public abstract class BaseServiceEngine extends BaseExpressionEngine {
 
-	@Override
-	protected List<NodeType> getNodeTypesToExecuteFor() {
-		return Collections.singletonList(node.getNodeType());
-	}
+	private Service Service;
+	private RFSServiceSummary summary;
 
-	public Node getNode() {
-		return node;
+	public Service getService() {
+		return Service;
 	}
 
-	public void setNode(CDOID cdoId) {
-		this.node = (Node)getDataProvider().getTransaction().getObject(cdoId);
+	public void setService(Service service) {
+		Service = service;
 	}
-	
-	public void setNodeType(CDOID cdoId) {
-		final NodeType nodeType = (NodeType)getDataProvider().getTransaction().getObject(cdoId);
-		node = (Node)nodeType.eContainer();
+
+	public RFSServiceSummary getServiceSummary() {
+		return summary;
 	}
+
+	public void setServiceSummary(RFSServiceSummary summary) {
+		this.summary = summary;
+	}
+
 }

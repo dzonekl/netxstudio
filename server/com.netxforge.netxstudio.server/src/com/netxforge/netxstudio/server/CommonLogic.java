@@ -34,8 +34,11 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.BaseExpressionResult;
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.ExpressionResult;
+import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.RangeKind;
@@ -50,6 +53,7 @@ import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
+import com.netxforge.netxstudio.services.DerivedResource;
 
 /**
  * Implements common logic used by several other plugins.
@@ -69,26 +73,74 @@ public class CommonLogic {
 	private Date start;
 	private Date end;
 
-	public void processResult(List<Object> currentContext,
-			List<ExpressionResult> expressionResults, Date start, Date end) {
-
-		for (final ExpressionResult expressionResult : expressionResults) {
+	public void processServiceProfileResult(List<Object> currentContext,
+			List<BaseExpressionResult> expressionResults, Date start, Date end) {
+		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
+			
+			ExpressionResult expressionResult = (ExpressionResult) baseExpressionResult; 
+			
 			System.out.println("--Writing expression result: resource="
 					+ expressionResult.getTargetResource().getShortName()
 					+ " target=" + expressionResult.getTargetRange().getName()
 					+ " values=" + expressionResult.getTargetValues().size());
-			
+
 			// FIXME: We could want to write to a resource, where the node
 			// doesn't match the context.
-			final NetXResource resource = expressionResult.getTargetResource();
+			final BaseResource baseResource = expressionResult
+					.getTargetResource();
+
+			// Process a DerivedResource
+
+			if (baseResource instanceof DerivedResource) {
+				DerivedResource resource = (DerivedResource) baseResource;
+				if (expressionResult.getTargetRange().getValue() == RangeKind.DERIVED_VALUE) {
+
+					// TODO Decide, what to do with the existing values.
+					addToValues(resource.getValues(),
+							expressionResult.getTargetValues(),
+							expressionResult.getTargetIntervalHint());
+				} else {
+					throw new IllegalStateException("Range kind "
+							+ expressionResult.getTargetRange()
+							+ " not supported");
+				}
+			}
+		}
+	}
+
+	public void processMonitoringResult(List<Object> currentContext,
+			List<BaseExpressionResult> expressionResults, Date start, Date end) {
+		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
+			if (baseExpressionResult instanceof ExpressionResult) {
+				ExpressionResult expressionResult = (ExpressionResult) baseExpressionResult;
+				processMonitoringExpressionResult(start, end, expressionResult);
+			}
+		}
+	}
+
+	private void processMonitoringExpressionResult(Date start, Date end,
+			final ExpressionResult expressionResult) {
+
+		System.out.println("--Writing expression result: resource="
+				+ expressionResult.getTargetResource().getShortName()
+				+ " target=" + expressionResult.getTargetRange().getName()
+				+ " values=" + expressionResult.getTargetValues().size());
+
+		// FIXME: We could want to write to a resource, where the node
+		// doesn't match the context.
+		final BaseResource baseResource = expressionResult.getTargetResource();
+
+		// Process a NetXResource
+		if (baseResource instanceof NetXResource) {
+			NetXResource resource = (NetXResource) baseResource;
 			final Node n = this.getNode(resource.getComponentRef());
 			if (n != null) {
 				System.out.println("--Writing to resource in Node: "
 						+ n.getNodeID());
-//				for (final Object context : currentContext) {
-					// IInterpreterContext c = (IInterpreterContext)context;
-//				}
-//				System.out.println("--Current context =: ");
+				// for (final Object context : currentContext) {
+				// IInterpreterContext c = (IInterpreterContext)context;
+				// }
+				// System.out.println("--Current context =: ");
 			}
 
 			switch (expressionResult.getTargetRange().getValue()) {
@@ -114,6 +166,8 @@ public class CommonLogic {
 						expressionResult.getTargetValues(),
 						expressionResult.getTargetIntervalHint());
 				break;
+				
+			// TODO, THIS RANGE KIND WOULD NEED TO BE SUPPORTED. 	
 			case RangeKind.METRICREMOVE_VALUE:
 				final MetricValueRange mvr = getValueRange(resource,
 						expressionResult.getTargetKindHint(),
@@ -132,10 +186,12 @@ public class CommonLogic {
 	private void createMarkers(ExpressionResult expressionResult, Date start,
 			Date end) {
 
+		NetXResource resource = (NetXResource) expressionResult
+				.getTargetResource();
+
 		// now compute the capacity in order
 		final List<Value> usageValues = new ArrayList<Value>();
-		for (final MetricValueRange mvr : expressionResult.getTargetResource()
-				.getMetricValueRanges()) {
+		for (final MetricValueRange mvr : resource.getMetricValueRanges()) {
 			usageValues.addAll(mvr.getMetricValues());
 		}
 		// get rid of everything before and after start time
@@ -415,4 +471,5 @@ public class CommonLogic {
 	public void setTolerance(Tolerance tolerance) {
 		this.tolerance = tolerance;
 	}
+
 }

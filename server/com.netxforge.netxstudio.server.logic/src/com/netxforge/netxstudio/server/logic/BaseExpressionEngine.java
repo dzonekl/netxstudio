@@ -18,13 +18,14 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic;
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
-import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
 
 /**
@@ -32,41 +33,45 @@ import com.netxforge.netxstudio.server.logic.expression.IExpressionEngine;
  * 
  * @author Martin Taal
  */
-public abstract class BaseExpressionEngine extends BaseEngine{
+public abstract class BaseExpressionEngine extends BasePeriodEngine {
 
-//	private ServerWorkFlowRunMonitor jobMonitor;
-		
+	// private ServerWorkFlowRunMonitor jobMonitor;
+
 	// contains context information to use when adding an error message to the
 	// log
-//	private String engineContextInfo = "";
+	// private String engineContextInfo = "";
 
 	// on purpose no @Inject as we need the same instance
 	// as used in the job implementation
-//	private IDataProvider dataProvider;
+	// private IDataProvider dataProvider;
 
-//	private Component component;
+	// private Component component;
 
 	@Inject
 	private IExpressionEngine expressionEngine;
 
-//	@Inject
-//	private CommonLogic commonLogic;
+	// @Inject
+	// private CommonLogic commonLogic;
 
-//	@Inject
-//	private ModelUtils modelUtils;
+	// @Inject
+	// private ModelUtils modelUtils;
 
-//	private DateTimeRange range;
-//	private Date start;
-//	private Date end;
+	// private DateTimeRange range;
+	// private Date start;
+	// private Date end;
 
-//	private List<ExpressionFailure> failures = new ArrayList<ExpressionFailure>();
-	
+	// private List<ExpressionFailure> failures = new
+	// ArrayList<ExpressionFailure>();
+
 	public void execute() {
 		this.getFailures().clear();
 		doExecute();
 	}
-	
-//	public abstract void doExecute();
+
+	// public abstract void doExecute();
+
+	protected abstract void processResult(List<Object> currentContext,
+			List<BaseExpressionResult> expressionResults, Date start, Date end);
 
 	protected void runForExpression(Expression expression) {
 		try {
@@ -74,102 +79,114 @@ public abstract class BaseExpressionEngine extends BaseEngine{
 				return;
 			}
 			expressionEngine.setExpression(expression);
-			
+
 			expressionEngine.run();
 			if (expressionEngine.errorOccurred()) {
 				// stop here will be logged
 				throw new IllegalStateException(expressionEngine.getThrowable());
 			}
-			final List<ExpressionResult> result = expressionEngine
+			final List<BaseExpressionResult> result = expressionEngine
 					.getExpressionResult();
-			
+
 			if (result.isEmpty() && this.getJobMonitor() != null) {
 				throw new IllegalStateException(this.getEngineContextInfo()
-						+ " expression returns no results for expression " + expression.getName());
+						+ " expression returns no results for expression "
+						+ expression.getName());
 			} else {
 				final List<Object> currentContext = expressionEngine
 						.getContext();
 
-				// process the result
-				getCommonLogic().processResult(currentContext, result, this.getStart(), this.getEnd());
+				processResult(currentContext, result, this.getStart(),
+						this.getEnd());
 			}
 		} catch (final Throwable t) {
+
+			// TODO, Perhaps hide this stack trace....
 			t.printStackTrace(System.err);
-			final ExpressionFailure failure = SchedulingFactory.eINSTANCE.createExpressionFailure();
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(t.getMessage());
+
+			if (t.getCause() != null) {
+				sb.append(t.getCause().getMessage());
+			}
+
+			ExpressionFailure failure = (ExpressionFailure) getFailure();
 			failure.setExpressionRef(expression);
-			failure.setMessage(t.getMessage());
-			failure.setComponentRef(getComponent());
+			failure.setMessage(sb.toString());
 			getFailures().add(failure);
 		}
 	}
 
-//	public IDataProvider getDataProvider() {
-//		return dataProvider;
-//	}
+	public abstract Failure getFailure();
 
-//	public void setDataProvider(IDataProvider dataProvider) {
-//		this.dataProvider = dataProvider;
-//		commonLogic.setDataProvider(dataProvider);		
-//	}
+	// public IDataProvider getDataProvider() {
+	// return dataProvider;
+	// }
 
-//	public DateTimeRange getRange() {
-//		return range;
-//	}
+	// public void setDataProvider(IDataProvider dataProvider) {
+	// this.dataProvider = dataProvider;
+	// commonLogic.setDataProvider(dataProvider);
+	// }
 
-//	public void setRange(DateTimeRange range) {
-//		this.range = range;
-//		start = modelUtils.fromXMLDate(range.getBegin());
-//		end = modelUtils.fromXMLDate(range.getEnd());
-//		commonLogic.setStart(start);
-//		commonLogic.setEnd(end);
-//	}
+	// public DateTimeRange getRange() {
+	// return range;
+	// }
 
-//	public Component getComponent() {
-//		return component;
-//	}
+	// public void setRange(DateTimeRange range) {
+	// this.range = range;
+	// start = modelUtils.fromXMLDate(range.getBegin());
+	// end = modelUtils.fromXMLDate(range.getEnd());
+	// commonLogic.setStart(start);
+	// commonLogic.setEnd(end);
+	// }
 
-//	public void setComponent(Component component) {
-//		this.component = component;
-//	}
+	// public Component getComponent() {
+	// return component;
+	// }
 
-//	public List<ExpressionFailure> getFailures() {
-//		return failures;
-//	}
+	// public void setComponent(Component component) {
+	// this.component = component;
+	// }
+
+	// public List<ExpressionFailure> getFailures() {
+	// return failures;
+	// }
 
 	public IExpressionEngine getExpressionEngine() {
 		return expressionEngine;
 	}
 
-//	public CommonLogic getCommonLogic() {
-//		return commonLogic;
-//	}
+	// public CommonLogic getCommonLogic() {
+	// return commonLogic;
+	// }
 
-//	public ModelUtils getModelUtils() {
-//		return modelUtils;
-//	}
+	// public ModelUtils getModelUtils() {
+	// return modelUtils;
+	// }
 
-//	public Date getStart() {
-//		return start;
-//	}
+	// public Date getStart() {
+	// return start;
+	// }
 
-//	public Date getEnd() {
-//		return end;
-//	}
-//
-//	public ServerWorkFlowRunMonitor getJobMonitor() {
-//		return jobMonitor;
-//	}
-//
-//	public void setJobMonitor(ServerWorkFlowRunMonitor jobMonitor) {
-//		this.jobMonitor = jobMonitor;
-//	}
-//
-//	public String getEngineContextInfo() {
-//		return engineContextInfo;
-//	}
-//
-//	public void setEngineContextInfo(String engineContextInfo) {
-//		this.engineContextInfo = engineContextInfo;
-//	}
+	// public Date getEnd() {
+	// return end;
+	// }
+	//
+	// public ServerWorkFlowRunMonitor getJobMonitor() {
+	// return jobMonitor;
+	// }
+	//
+	// public void setJobMonitor(ServerWorkFlowRunMonitor jobMonitor) {
+	// this.jobMonitor = jobMonitor;
+	// }
+	//
+	// public String getEngineContextInfo() {
+	// return engineContextInfo;
+	// }
+	//
+	// public void setEngineContextInfo(String engineContextInfo) {
+	// this.engineContextInfo = engineContextInfo;
+	// }
 
 }

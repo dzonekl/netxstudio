@@ -26,8 +26,7 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
-import com.netxforge.netxstudio.library.Component;
-import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.CommonLogic;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 
@@ -36,7 +35,7 @@ import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
  * 
  * @author Martin Taal
  */
-public abstract class BaseEngine {
+public abstract class BasePeriodEngine {
 
 	private ServerWorkFlowRunMonitor jobMonitor;
 		
@@ -48,7 +47,7 @@ public abstract class BaseEngine {
 	// as used in the job implementation
 	private IDataProvider dataProvider;
 
-	private Component component;
+//	private Component component;
 
 //	@Inject
 //	private IExpressionEngine expressionEngine;
@@ -59,11 +58,11 @@ public abstract class BaseEngine {
 	@Inject
 	private ModelUtils modelUtils;
 
-	private DateTimeRange range;
+	private DateTimeRange period;
 	private Date start;
 	private Date end;
 
-	private List<ComponentFailure> failures = new ArrayList<ComponentFailure>();
+	private List<Failure> failures = new ArrayList<Failure>();
 	
 	public void execute() {
 //		failures.clear();
@@ -116,27 +115,27 @@ public abstract class BaseEngine {
 		commonLogic.setDataProvider(dataProvider);		
 	}
 
-	public DateTimeRange getRange() {
-		return range;
+	public DateTimeRange getPeriod() {
+		return period;
 	}
 
-	public void setRange(DateTimeRange range) {
-		this.range = range;
+	public void setPeriod(DateTimeRange range) {
+		this.period = range;
 		start = modelUtils.fromXMLDate(range.getBegin());
 		end = modelUtils.fromXMLDate(range.getEnd());
 		commonLogic.setStart(start);
 		commonLogic.setEnd(end);
 	}
 
-	public Component getComponent() {
-		return component;
-	}
+//	public Component getComponent() {
+//		return component;
+//	}
 
-	public void setComponent(Component component) {
-		this.component = component;
-	}
+//	public void setComponent(Component component) {
+//		this.component = component;
+//	}
 
-	public List<ComponentFailure> getFailures() {
+	public List<Failure> getFailures() {
 		return failures;
 	}
 

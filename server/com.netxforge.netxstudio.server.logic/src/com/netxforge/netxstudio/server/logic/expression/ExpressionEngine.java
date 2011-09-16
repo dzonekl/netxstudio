@@ -44,6 +44,7 @@ import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.netxscript.Mod;
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.server.logic.LogicActivator;
@@ -64,7 +65,7 @@ import com.netxforge.netxstudio.server.logic.LogicActivator;
  */
 public class ExpressionEngine implements IExpressionEngine {
 	private Expression expression;
-	private List<ExpressionResult> expressionResult =  new ArrayList<ExpressionResult>();
+	private List<BaseExpressionResult> expressionResult =  new ArrayList<BaseExpressionResult>();
 
 	private XtextResource xResource;
 	
@@ -115,7 +116,10 @@ public class ExpressionEngine implements IExpressionEngine {
 			// What is returned from the evaluation are temporary variables from the last scope.
 			
 			@SuppressWarnings("unused")
-			Object tempVars = xInterpreter.evaluate(m);
+			Object result = xInterpreter.evaluate(m);
+			// TODO, Store the last eval result also in an expression result. 
+			// Model change, for last eval result. 
+			
 			setExpressionResult(xInterpreter.getResult());
 			xResource.unload();
 		} catch (final Throwable t) {
@@ -144,14 +148,14 @@ public class ExpressionEngine implements IExpressionEngine {
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#getExpressionResult()
 	 */
-	public List<ExpressionResult> getExpressionResult() {
+	public List<BaseExpressionResult> getExpressionResult() {
 		return expressionResult;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#setExpressionResult(java.util.List)
 	 */
-	public void setExpressionResult(List<ExpressionResult> expressionResult) {
+	public void setExpressionResult(List<BaseExpressionResult> expressionResult) {
 		this.expressionResult = expressionResult;
 	}
 	

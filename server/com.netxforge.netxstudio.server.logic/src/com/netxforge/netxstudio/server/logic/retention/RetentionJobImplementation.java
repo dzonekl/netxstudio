@@ -16,10 +16,10 @@
  * Contributors: 
  * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.retention;
 
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Activator;
@@ -30,19 +30,18 @@ import com.netxforge.netxstudio.server.job.JobImplementation;
  * 
  * @author Martin Taal
  */
-public class RFSServiceResourceMonitoringJobImplementation extends JobImplementation {
+public class RetentionJobImplementation extends JobImplementation {
 
 	private ComponentWorkFlowRun workFlowRun;
 
 	@Override
 	public void run() {
-		final RFSServiceJob serviceJob = (RFSServiceJob) getJob();
-		final RFSServiceResourceMonitoringLogic resourceMonitoringLogic = Activator.getInstance()
-				.getInjector().getInstance(RFSServiceResourceMonitoringLogic.class);
-		resourceMonitoringLogic.setRfsService(serviceJob.getRFSService().cdoID());
-		resourceMonitoringLogic.setJobMonitor(getRunMonitor());
-		resourceMonitoringLogic.initializeServiceMonitor();
-		resourceMonitoringLogic.run();
+		final RFSServiceRetentionJob serviceJob = (RFSServiceRetentionJob) getJob();
+		final RetentionLogic retentionLogic = Activator.getInstance()
+				.getInjector().getInstance(RetentionLogic.class);
+		retentionLogic.setRfsService(serviceJob.getRFSService().cdoID());
+		retentionLogic.setJobMonitor(getRunMonitor());
+		retentionLogic.run();
 		getDataProvider().commitTransaction();
 	}
 

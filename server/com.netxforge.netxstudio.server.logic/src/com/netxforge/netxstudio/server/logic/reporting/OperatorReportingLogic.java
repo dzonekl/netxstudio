@@ -21,9 +21,9 @@ package com.netxforge.netxstudio.server.logic.reporting;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.common.util.URI;
 
 import com.google.common.collect.ImmutableList;
@@ -32,22 +32,25 @@ import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.Service;
 
 /**
  * Performs the capacity logic execution for a RFSService.
  * 
  * @author Christophe Bouhier
  */
-public abstract class RFSServiceReportingLogic extends
-		BaseComponentReportingLogic {
+public abstract class OperatorReportingLogic extends
+		BaseServiceReportingLogic {
 
-	private RFSService rfsService;
+	private List<Service> services;
+	
 	public static final String REPORT_PREFIX = "Cap";
 
 	public static final String REPORT_PREFIX_SM_EXEC = "Exec_Summary";
 	public static final String REPORT_PREFIX_SM_DASH = "DashBoard";
 	public static final String REPORT_PREFIX_SM_MATRIX = "Distribution";
 	public static final String REPORT_PREFIX_SM_USER = "Users";
+	public static final String REPORT_PREFIX_SM_RESOURCE = "Resources";
 	public static final String REPORT_PREFIX_RM = "Details";
 	public static final String REPORT_PREFIX_RM_FORECAST = "Forecast";
 
@@ -57,50 +60,7 @@ public abstract class RFSServiceReportingLogic extends
 	
 
 	void initializeReportingLogic() {
-		
-//		ServiceMonitor sm = this.getModelUtils().lastServiceMonitor(this.getRfsService());
-		
-//		if(sm != null){
-//			this.setStartTime(this.getModelUtils().fromXMLDate(sm.getPeriod().getBegin()));
-//			this.setEndTime(this.getModelUtils().fromXMLDate(sm.getPeriod().getEnd()));
-//			this.setServiceMonitor(sm);
-//		}
-		
-	//		
-//		Date startTime = getStartTime();
-//		if (startTime == null) {
-//			// TODO: make the period for the look back configurable
-//			// TODO: note that a user can do a separate run which runs in the
-//			// past
-//			// creating new last service monitor with an end date in the past
-//			// the system, should not pick the last servicemonitor in the list
-//			// but should find the last end time of all service monitors.
-//			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60
-//					* 1000);
-//			if (!rfsService.getServiceMonitors().isEmpty()) {
-//				final Date previousEndTime = rfsService.getServiceMonitors()
-//						.get(rfsService.getServiceMonitors().size() - 1)
-//						.getPeriod().getEnd().toGregorianCalendar().getTime();
-//				startTime = new Date(previousEndTime.getTime() + 1);
-//			}
-//			setStartTime(startTime);
-//		}
-//		Date endTime = getEndTime();
-//		if (endTime == null) {
-//			endTime = new Date(System.currentTimeMillis());
-//			setEndTime(endTime);
-//		}
-
 		this.initializeStream();
-
-		// TODO Remove later, we don't need a service monitor for reporting.
-		// serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
-		// // what name should a servicemonitor have?
-		// serviceMonitor.setName(rfsService.getServiceName());
-		// serviceMonitor.setPeriod(getTimeRange());
-		// rfsService.getServiceMonitors().add(serviceMonitor);
-		// getEngine().setServiceMonitor(serviceMonitor);
-		// this.getEngine().s
 	}
 
 	public void initializeStream() {
@@ -129,47 +89,54 @@ public abstract class RFSServiceReportingLogic extends
 		}
 	}
 
-	public RFSService getRfsService() {
-		return rfsService;
+	public List<Service> getServices() {
+		return services;
 	}
 
-	public void setRfsService(CDOID cdoId) {
-		// read the rfsservice in the transaction of the run
-		this.rfsService = (RFSService) getDataProvider().getTransaction()
-				.getObject(cdoId);
+	public void setServices(List<Service> services) {
+		this.services = services;
 	}
 
 	@Override
-	protected List<NodeType> getNodeTypesToExecuteFor() {
+	protected List<NodeType> getNodeTypesToExecuteFor(RFSService service) {
 		
 		
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		
 		
 		// first go through the leave nodes
-		for (final Node node : rfsService.getNodes()) {
+		for (final Node node : service.getNodes()) {
 			if (getModelUtils().isValidNode(node) && node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
-		for (final Node node : rfsService.getNodes()) {
+		for (final Node node : service.getNodes()) {
 			if (getModelUtils().isValidNode(node) && !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
+		
+		
 		return nodeTypes;
 	}
 
 	protected String calculateFileName() {
 		StringBuffer buf = new StringBuffer();
-		buf.append(getModelUtils().date(this.getStartTime()) + "_"
-				+ getModelUtils().date(this.getEndTime()));
-
+		
+		
+//		buf.append(getModelUtils().date(this.getStartTime()) + "_"
+//				+ getModelUtils().date(this.getEndTime()));
+		
+		Date todayAndNow = getModelUtils().todayAndNow();
+		buf.append(this.getModelUtils().dateAndTime(todayAndNow));
+		
 		return buf.toString();
 	}
-	
-	
 
+	@Override
+	protected List<Service> getServicesToExecuteFor() {
+		return services;
+	}
 
 }

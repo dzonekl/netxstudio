@@ -16,16 +16,24 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.retention;
 
+import java.util.Date;
+import java.util.List;
+
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.Failure;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentEngine;
 
 /**
  * Performs the retention action for a component.
  * 
  * @author Martin Taal
  */
-public class RetentionEngine extends BaseExpressionEngine {
+public class RetentionEngine extends BaseComponentEngine {
 
 	@Override
 	public void doExecute() {
@@ -33,9 +41,10 @@ public class RetentionEngine extends BaseExpressionEngine {
 		if (getComponent().getRetentionExpressionRef() == null) {
 			return;
 		}
-		
-		getExpressionEngine().getContext().add(getRange());
-		getExpressionEngine().getContext().add(getCommonLogic().getNode(getComponent()));
+
+		getExpressionEngine().getContext().add(getPeriod());
+		getExpressionEngine().getContext().add(
+				getCommonLogic().getNode(getComponent()));
 
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
 			// remove the last entry
@@ -46,10 +55,26 @@ public class RetentionEngine extends BaseExpressionEngine {
 			}
 			getExpressionEngine().getContext().add(netXResource);
 			runForExpression(getComponent().getRetentionExpressionRef());
-			if (getFailures().size()  > 0) {
+			if (getFailures().size() > 0) {
 				return;
 			}
 		}
+	}
+
+	@Override
+	public Failure getFailure() {
+		ComponentFailure f = SchedulingFactory.eINSTANCE
+				.createComponentFailure();
+		f.setComponentRef(this.getComponent());
+		return f;
+	}
+
+	@Override
+	protected void processResult(List<Object> currentContext,
+			List<BaseExpressionResult> expressionResults, Date start, Date end) {
+		this.getCommonLogic().processMonitoringResult(currentContext,
+				expressionResults, start, end);
+
 	}
 
 }

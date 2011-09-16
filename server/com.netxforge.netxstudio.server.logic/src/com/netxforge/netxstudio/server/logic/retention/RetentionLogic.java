@@ -16,7 +16,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.retention;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +27,9 @@ import org.eclipse.emf.cdo.common.id.CDOID;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
+import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentLogic;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
@@ -34,7 +37,7 @@ import com.netxforge.netxstudio.services.RFSService;
  * 
  * @author Martin Taal
  */
-public class RetentionLogic extends BaseLogic {
+public class RetentionLogic extends BaseComponentLogic {
 
 	private RFSService rfsService;
 	private NodeType nodeType;
@@ -46,7 +49,7 @@ public class RetentionLogic extends BaseLogic {
 		if (rfsService != null) {
 			// first go through the leave nodes
 			for (final Node node : rfsService.getNodes()) {
-				if (isValidNode(node)) {
+				if (getModelUtils().isValidNode(node)) {
 					nodeTypes.add(node.getNodeType());
 				}
 			}

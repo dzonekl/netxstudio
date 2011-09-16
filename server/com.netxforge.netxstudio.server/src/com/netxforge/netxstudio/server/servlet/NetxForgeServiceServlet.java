@@ -33,26 +33,36 @@ import com.netxforge.netxstudio.server.ServerUtils;
 
 public class NetxForgeServiceServlet extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-    }
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+	}
 
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-    	final Map<String, String> parameters = new HashMap<String, String>();
-    	final Enumeration<?> enumeration = req.getParameterNames();
-    	while (enumeration.hasMoreElements()) {
-    		final String name = (String)enumeration.nextElement();
-    		parameters.put(name, req.getParameter(name));
-    	}
-		final Object ret = ServerUtils.getInstance().runService(parameters);    	
-        resp.getWriter().write(ret.toString());
-    }
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 
-	
+		String pathInfo = req.getPathInfo();
+		if (pathInfo.equals("/reports/")) {
+			writeReports(resp);
+		} else {
+
+			final Map<String, String> parameters = new HashMap<String, String>();
+			final Enumeration<?> enumeration = req.getParameterNames();
+			while (enumeration.hasMoreElements()) {
+				final String name = (String) enumeration.nextElement();
+				parameters.put(name, req.getParameter(name));
+			}
+			final Object ret = ServerUtils.getInstance().runService(parameters);
+			resp.getWriter().write(ret.toString());
+		}
+	}
+
+	private void writeReports(HttpServletResponse resp) throws IOException {
+		resp.getWriter().write(
+				"<html><body><h1>Reports Dude!</h1></body></html>");
+	}
 
 }

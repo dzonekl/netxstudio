@@ -34,29 +34,35 @@ import org.apache.poi.ss.util.CellRangeAddress;
 
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
-import com.netxforge.netxstudio.server.logic.BaseLogic;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentLogic;
 
 /**
  * Performs the resource monitoring logic execution for a RFSService.
  * 
  * @author Martin Taal
  */
-public abstract class BaseResourceReportingLogic extends BaseLogic {
+public abstract class BaseComponentReportingLogic extends BaseComponentLogic {
 
-
-//	@Override
-//	protected abstract List<NodeType> getNodeTypesToExecuteFor();
-
-	private ResourceReportingEngine engine;
+	// @Override
+	// protected abstract List<NodeType> getNodeTypesToExecuteFor();
 	
+//	private ServiceMonitor serviceMonitor;
+	
+	private static final int HEADER_CELL_SIZE = 10;
+	
+	private ReportingEngine engine;
+
 	private HSSFWorkbook workBook;
-	
+	protected HSSFSheet sheet;
+
 	private OutputStream stream;
-	
+
 	public OutputStream getStream() {
 		return stream;
 	}
@@ -66,66 +72,110 @@ public abstract class BaseResourceReportingLogic extends BaseLogic {
 	}
 
 	@Override
-	protected ResourceReportingEngine getEngine() {
+	protected ReportingEngine getEngine() {
 		if (engine == null) {
 			engine = LogicActivator.getInstance().getInjector()
-					.getInstance(ResourceReportingEngine.class);
+					.getInstance(ReportingEngine.class);
 		}
 		return engine;
 	}
-	
+
 	protected void doRun() {
-		
+
 		// start a transaction
 		this.getDataProvider().getTransaction();
-		
-		final List<NodeType> nodeTypes = getNodeTypesToExecuteFor();
 
-		getJobMonitor().setTotalWork(countComponents(nodeTypes));
+		final List<NodeType> allNodes = getNodeTypesToExecuteFor();
+
+		getJobMonitor().setTotalWork(countComponents(allNodes));
 		getJobMonitor().setTask("Performing reporting");
-			
+		
+		
+		// EXCEL WRITE
 		setWorkBook(new HSSFWorkbook());
 		
-		createReportTemplate();
-		
-		for (final NodeType nodeType : nodeTypes) {
+		writeReportTemplate();
 
-			getJobMonitor().appendToLog("reporting for node (type) "
-					+ ((Node) nodeType.eContainer()).getNodeID());
+		List<NodeType> uniqueNodeTypes = this.getModelUtils().uniqueNodeTypes(
+				allNodes);
+
+		int nodeTypeCount = 0;
+		for (final NodeType nodeType : uniqueNodeTypes) {
+
+			getJobMonitor().appendToLog(
+					"reporting for node type" + nodeType.getName());
 
 			getJobMonitor().setTask("Resource reporting Data for nodeType");
-			processNode(nodeType);
+
+			// EXCEL WRITE
+			this.writeContent(sheet, nodeType);
+
+			if (nodeType.eIsSet(LibraryPackage.Literals.NODE_TYPE__NAME)) {
+				// Output only the one matching nt.
+				int nodeCount = 0;
+				for (NodeType nt : allNodes) {
+
+					if (nt.eIsSet(LibraryPackage.Literals.NODE_TYPE__NAME)) {
+						if (nt.getName().equals(nodeType.getName())) {
+							// EXCEL WRITE
+							writeContent(sheet, (Node) nt.eContainer(),
+									nodeCount++, nodeTypeCount);
+							
+							// EXCEL WRITE, DELEGATED TO ENGINE 
+							// OPTIONAL FOR SOME REPORTS....
+							processNode(nt);
+							 
+						}
+					}
+				}
+			}else{
+				getJobMonitor().appendToLog(
+						"skipping node type" + nodeType.getName() + ", Node Type name is not set!" );
+			}
+			
+			nodeTypeCount++;
 		}
 		if (!getFailures().isEmpty()) {
-			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) this.getDataProvider()
-					.getTransaction().getObject(this.getJobMonitor().getWorkFlowRunId());
-			run.getFailureRefs().addAll(getFailures());
+			final ComponentWorkFlowRun run = (ComponentWorkFlowRun) this
+					.getDataProvider().getTransaction()
+					.getObject(this.getJobMonitor().getWorkFlowRunId());
+
+			for (Failure f : this.getFailures()) {
+				run.getFailureRefs().add(f);
+			}
 		}
-		
-		
+
 		try {
 			workBook.write(this.getStream());
 		} catch (IOException e) {
 			e.printStackTrace();
-			// TODO, Perhaps add another failure? 
+			// TODO, Perhaps add another failure?
 		}
-		
-//		dataProvider.commitTransaction();
-	}
-	
-	private void createReportTemplate() {
-		HSSFSheet sheet = this.getWorkBook().createSheet();
-		createHeader(sheet);
-		createContent(sheet);
+
+		// dataProvider.commitTransaction();
 	}
 
-	protected abstract void createHeader(HSSFSheet sheet);
-	
-	protected abstract void createContent(HSSFSheet sheet);
-	
-	
-	// TODO, We likely don't need to walk the tree by  leaf first. 
-	
+	// TODO, We likely don't need to walk the tree by leaf first.
+
+//	protected void executeFor(Component component) {
+//		this.getJobMonitor().setTask("Reporting for " + component.getName());
+//		this.getJobMonitor().incrementProgress(1, false);
+//		final ReportingEngine engine = (ReportingEngine) getEngine();
+//		engine.setJobMonitor(getJobMonitor());
+//		engine.setComponent(component);
+//		engine.setDataProvider(this.getDataProvider());
+//		engine.setPeriod(getTimeRange());
+//		engine.execute();
+//		if (engine.getFailures().size() > 0) {
+//			for (final Failure failure : engine.getFailures()) {
+//				if (failure instanceof ComponentFailure) {
+//					((ComponentFailure) failure).setComponentRef(component);
+//				}
+//				this.getFailures().add(failure);
+//			}
+//		}
+//	}
+
 	@Override
 	protected void processNode(NodeType nodeType) {
 		int cnt = 0;
@@ -186,82 +236,100 @@ public abstract class BaseResourceReportingLogic extends BaseLogic {
 			}
 		}
 	}
-	
-	
+
+	// /// WRITING SECTION.
+
+	protected abstract void writeHeader(HSSFSheet sheet);
+
+	protected abstract void writeContent(HSSFSheet sheet, NodeType nodeType);
+
+	protected abstract void writeContent(HSSFSheet sheet, Node node, int index,
+			int nodeTypeCount);
+
+	protected void writeReportTemplate() {
+		sheet = this.getWorkBook().createSheet();
+		writeHeader(sheet);
+	}
+
 	public HSSFWorkbook getWorkBook() {
 		return workBook;
 	}
 
-
 	public void setWorkBook(HSSFWorkbook workBook) {
 		this.workBook = workBook;
 	}
-	
-	
+
+	// Formated Header cells, to be filled by clients.
 	protected HSSFCell typeCell;
 	protected HSSFCell titleCell;
 	protected HSSFCell periodCell;
-	
+
 	public void createHeaderStructure(HSSFSheet sheet) {
 
-		CellStyle typeStyle = this.getWorkBook().createCellStyle();
+		
+		CellStyle baseStyle = this.getWorkBook().createCellStyle();
+		baseStyle.setBorderTop(CellStyle.BORDER_MEDIUM);
+		baseStyle.setBorderBottom(CellStyle.BORDER_MEDIUM);
+		baseStyle.setBorderLeft(CellStyle.BORDER_MEDIUM);
+		baseStyle.setBorderRight(CellStyle.BORDER_MEDIUM);
+		baseStyle.setAlignment(CellStyle.ALIGN_LEFT);
 
+		CellStyle typeStyle = this.getWorkBook().createCellStyle();
+		typeStyle.cloneStyleFrom(baseStyle);
+		
 		Font typeFont = getWorkBook().createFont();
 		typeFont.setFontHeightInPoints((short) 24);
 		typeStyle.setFont(typeFont);
-		
-		typeStyle.setBorderTop(CellStyle.BORDER_MEDIUM);
-		typeStyle.setBorderBottom(CellStyle.BORDER_MEDIUM);
-		typeStyle.setBorderLeft(CellStyle.BORDER_MEDIUM);
-		typeStyle.setBorderRight(CellStyle.BORDER_MEDIUM);
-		typeStyle.setAlignment(CellStyle.ALIGN_CENTER);
-		
-		
+
+
 		HSSFRow typeRow = sheet.createRow(0);
 		typeCell = typeRow.createCell(0);
 		typeCell.setCellValue("<Service Type>");
 		typeCell.setCellStyle(typeStyle);
 		
-		typeRow.createCell(1).setCellStyle(typeStyle);
-		typeRow.createCell(2).setCellStyle(typeStyle);
-		typeRow.createCell(3).setCellStyle(typeStyle);
+		for( int i = 1 ;i < HEADER_CELL_SIZE ; i++){
+			typeRow.createCell(i).setCellStyle(typeStyle);	
+		}
 		
 		CellStyle titleStyle = this.getWorkBook().createCellStyle();
-
+		titleStyle.cloneStyleFrom(baseStyle);
+		
 		Font titleFont = getWorkBook().createFont();
 		titleFont.setFontHeightInPoints((short) 16);
 		titleStyle.setFont(titleFont);
-		
-		titleStyle.setBorderTop(CellStyle.BORDER_MEDIUM);
-		titleStyle.setBorderBottom(CellStyle.BORDER_MEDIUM);
-		titleStyle.setBorderLeft(CellStyle.BORDER_MEDIUM);
-		titleStyle.setBorderRight(CellStyle.BORDER_MEDIUM);
-		titleStyle.setAlignment(CellStyle.ALIGN_CENTER);
-		
+
+
 		HSSFRow titleRow = sheet.createRow(1);
 		titleCell = titleRow.createCell(0);
 		titleCell.setCellValue("<Report title>");
 		titleCell.setCellStyle(titleStyle);
-		
-		titleRow.createCell(1).setCellStyle(typeStyle);
-		titleRow.createCell(2).setCellStyle(typeStyle);
-		titleRow.createCell(3).setCellStyle(typeStyle);
+
+		for( int i = 1 ;i < HEADER_CELL_SIZE ; i++){
+			titleRow.createCell(i).setCellStyle(titleStyle);	
+		}
 
 		HSSFRow periodRow = sheet.createRow(2);
 		periodCell = periodRow.createCell(0);
 		periodCell.setCellValue("<Period>");
 		periodCell.setCellStyle(titleStyle);
 
-		
-		periodRow.createCell(1).setCellStyle(typeStyle);
-		periodRow.createCell(2).setCellStyle(typeStyle);
-		periodRow.createCell(3).setCellStyle(typeStyle);
-		
-		// Merge
-		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));
-		sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 3));
-		sheet.addMergedRegion(new CellRangeAddress(2, 2, 0, 3));
+		for( int i = 1 ;i < HEADER_CELL_SIZE ; i++){
+			periodRow.createCell(i).setCellStyle(typeStyle);	
+		}
 
-	}
+		// Merge
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, HEADER_CELL_SIZE-1));
+		sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, HEADER_CELL_SIZE-1));
+		sheet.addMergedRegion(new CellRangeAddress(2, 2, 0, HEADER_CELL_SIZE-1));
+
+	}	
+	
+//	public ServiceMonitor getServiceMonitor() {
+//		return serviceMonitor;
+//	}
+//
+//	public void setServiceMonitor(ServiceMonitor serviceMonitor) {
+//		this.serviceMonitor = serviceMonitor;
+//	}
 
 }

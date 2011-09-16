@@ -48,6 +48,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.Tolerance;
@@ -61,9 +62,9 @@ import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f1.support.RFSServiceSummary;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -545,17 +546,22 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		RFSServiceSummary summary = new RFSServiceSummary(modelUtils, service);
+		RFSServiceSummary summary = new RFSServiceSummary(this.modelUtils, service);
+		
+		// TODO, It would be nice to make it interactive and be able to browse the Service Monitors! 
+		ServiceMonitor sm = modelUtils.lastServiceMonitor(service);
+		summary.setRagCountNodes(modelUtils.ragCount(sm));
+		summary.setPeriodFormattedString(modelUtils.formatLastMonitorDate(sm));
 
-		formTextLastMonitor.setText(summary.getLastMonitorFormattedString(),
+		formTextLastMonitor.setText(summary.getPeriodFormattedString(),
 				false, false);
 		formTextNumberOfNodes.setText(
-				new Integer(summary.getNodes()).toString(), false, false);
-		formTextRed.setText(new Integer(summary.getRedStatus()).toString(),
+				new Integer(summary.getNodeCount()).toString(), false, false);
+		formTextRed.setText(new Integer(summary.getRedCountNodes()).toString(),
 				false, false);
-		formTextAmber.setText(new Integer(summary.getAmberStatus()).toString(),
+		formTextAmber.setText(new Integer(summary.getAmberCountNodes()).toString(),
 				false, false);
-		formTextGreen.setText(new Integer(summary.getGreenStatus()).toString(),
+		formTextGreen.setText(new Integer(summary.getGreenCountNodes()).toString(),
 				false, false);
 
 		bindInfoSection(context);

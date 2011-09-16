@@ -16,16 +16,23 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.monitoring;
+
+import java.util.Date;
+import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.Failure;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
@@ -33,30 +40,35 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * 
  * @author Martin Taal
  */
-public class ResourceMonitoringEngine extends BaseExpressionEngine {
+public class MonitoringEngine extends BaseComponentEngine {
 
 	private ServiceMonitor serviceMonitor;
-	
+
 	@Override
 	public void doExecute() {
-		getExpressionEngine().getContext().add(getRange());
+		getExpressionEngine().getContext().add(getPeriod());
 		final Node node = getCommonLogic().getNode(getComponent());
 		getExpressionEngine().getContext().add(node);
-		setEngineContextInfo("Node: " + node.getNodeID()
-				+ " - capacity expression -");
+		setEngineContextInfo("Node: " + node.getNodeID() + ", Comp: "
+				+ getComponent().getName() + " - capacity expression -");
 
-		System.err.println("Run capacity expression for Node: "
-				+ this.getCommonLogic().getNode(getComponent()).getNodeID()
-				+ " with component " + this.getComponent().getName());
+		// System.err.println("Run capacity expression for Node: "
+		// + this.getCommonLogic().getNode(getComponent()).getNodeID()
+		// + " with component " + this.getComponent().getName());
 		runForExpression(getComponent().getCapacityExpressionRef());
-		System.err.println("Done capacity expression for Node: "
-				+ this.getCommonLogic().getNode(getComponent()).getNodeID());
+		// System.err.println("Done capacity expression for Node: "
+		// + this.getCommonLogic().getNode(getComponent()).getNodeID());
 		if (getFailures().size() > 0) {
 			return;
 		}
 
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
-			// remove the last entry
+			// remove the last entry, (Keep the date time and node context).
+
+			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// NOTE: We only have one single Identifier context in the
+			// interpreter, so why keep the Node context!!!!!!!
+
 			if (getExpressionEngine().getContext().get(
 					getExpressionEngine().getContext().size() - 1) instanceof NetXResource) {
 				getExpressionEngine().getContext().remove(
@@ -83,22 +95,22 @@ public class ResourceMonitoringEngine extends BaseExpressionEngine {
 			resourceMonitor.setStart(getModelUtils().toXMLDate(getStart()));
 			resourceMonitor.setEnd(getModelUtils().toXMLDate(getEnd()));
 			if (getServiceMonitor() == null) {
-				final Resource emfResource = getDataProvider()
-						.getResource(OperatorsPackage.eINSTANCE
-								.getResourceMonitor());
+				final Resource emfResource = getDataProvider().getResource(
+						OperatorsPackage.eINSTANCE.getResourceMonitor());
 				emfResource.getContents().add(resourceMonitor);
 			} else {
 				serviceMonitor.getResourceMonitors().add(resourceMonitor);
 			}
 			getCommonLogic().setResourceMonitor(resourceMonitor);
-			
+
 			for (final Tolerance tolerance : getComponent().getToleranceRefs()) {
 				getCommonLogic().setTolerance(tolerance);
-				
+
 				// resultaat van de tolerance is een percentage
 				// loop door de capacity/utilization heen
 				// genereer markers per nieuwe overschrijding
-				setEngineContextInfo("NetXResource: " + netXResource.getShortName()
+				setEngineContextInfo("NetXResource: "
+						+ netXResource.getShortName()
 						+ " - tolerance expression -");
 				runForExpression(tolerance.getExpressionRef());
 				if (getFailures().size() > 0) {
@@ -107,6 +119,10 @@ public class ResourceMonitoringEngine extends BaseExpressionEngine {
 			}
 			System.err.println("Done tolerance expression(s) for resource: "
 					+ netXResource.getShortName());
+
+			// TODO Service distribution and service profile expressions.
+			// The profile information is in ServiceUsers/ Service Profile.
+
 		}
 	}
 
@@ -116,5 +132,21 @@ public class ResourceMonitoringEngine extends BaseExpressionEngine {
 
 	public void setServiceMonitor(ServiceMonitor serviceMonitor) {
 		this.serviceMonitor = serviceMonitor;
+	}
+
+	@Override
+	public Failure getFailure() {
+		final ComponentFailure failure = SchedulingFactory.eINSTANCE
+				.createComponentFailure();
+		failure.setComponentRef(getComponent());
+		return failure;
+	}
+
+	@Override
+	protected void processResult(List<Object> currentContext,
+			List<BaseExpressionResult> expressionResults, Date start, Date end) {
+		this.getCommonLogic().processMonitoringResult(currentContext, expressionResults,
+				start, end);
+
 	}
 }

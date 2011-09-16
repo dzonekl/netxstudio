@@ -18,4 +18,9 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.server.logic,
- com.netxforge.netxstudio.server.logic.expression
+ com.netxforge.netxstudio.server.logic.expression,
+ com.netxforge.netxstudio.server.logic.monitoring,
+ com.netxforge.netxstudio.server.logic.netxscript,
+ com.netxforge.netxstudio.server.logic.profile,
+ com.netxforge.netxstudio.server.logic.reporting,
+ com.netxforge.netxstudio.server.logic.retention

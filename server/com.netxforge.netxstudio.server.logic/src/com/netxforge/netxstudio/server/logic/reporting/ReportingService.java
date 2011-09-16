@@ -34,13 +34,18 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
+import com.netxforge.netxstudio.server.logic.BaseLogic;
+import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
 import com.netxforge.netxstudio.server.logic.LogicActivator;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
+import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
@@ -50,6 +55,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  */
 public class ReportingService implements NetxForgeService {
 
+	public static final String OPERATOR_PARAM = "operator";
 	public static final String SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
 	public static final String NODETYPE_PARAM = "nodeType";
@@ -57,13 +63,13 @@ public class ReportingService implements NetxForgeService {
 	public static final String END_TIME_PARAM = "endTime";
 
 	public Object run(Map<String, String> parameters) {
-		final ResourceMonitoringRunner runner = LogicActivator.getInstance()
-				.getInjector().getInstance(ResourceMonitoringRunner.class);
+		final ResourceReportingRunner runner = LogicActivator.getInstance()
+				.getInjector().getInstance(ResourceReportingRunner.class);
 		runner.setParameters(parameters);
 		return ((AbstractCDOIDLong) runner.run()).getLongValue();
 	}
 
-	public static class ResourceMonitoringRunner {
+	public static class ResourceReportingRunner {
 		@Inject
 		@Server
 		private IDataProvider dataProvider;
@@ -74,10 +80,21 @@ public class ReportingService implements NetxForgeService {
 
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
 			CDOID id = null;
-			if (parameters.containsKey(SERVICE_PARAM)) {
-				 id = getCDOID(parameters.get(SERVICE_PARAM),
+			if (parameters.containsKey(OPERATOR_PARAM)) {
+				id = getCDOID(parameters.get(OPERATOR_PARAM),
+						OperatorsPackage.Literals.OPERATOR);
+
+				final CDOID finalID = id != null ? id : null;
+				runOperatorService(monitor, finalID,
+						this.getOperatorReportingLogos());
+
+			} else if (parameters.containsKey(SERVICE_PARAM)) {
+				id = getCDOID(parameters.get(SERVICE_PARAM),
 						ServicesPackage.Literals.RFS_SERVICE);
-				
+
+				final CDOID finalID = id != null ? id : null;
+				runService(monitor, finalID, this.getOperatorReportingLogos());
+
 			} else if (parameters.containsKey(NODE_PARAM)) {
 				// TODO, Not implemented yet.
 				// reportingLogic = null;
@@ -103,9 +120,12 @@ public class ReportingService implements NetxForgeService {
 			} else {
 				throw new IllegalArgumentException("No valid parameters found");
 			}
-			
-			final CDOID finalID = id != null ? id : null;
-			
+
+			return monitor.getWorkFlowRunId();
+		}
+
+		private void runService(final ServerWorkFlowRunMonitor monitor,
+				final CDOID finalID, final List<? extends BaseLogic> logos) {
 			// run in a separate thread
 			new Thread() {
 				@Override
@@ -118,39 +138,101 @@ public class ReportingService implements NetxForgeService {
 						// do nothing, ignore
 					}
 
-					for (final RFSServiceReportingLogic reportingLogic : getReportingLogos()) {
-						
-						reportingLogic.setRfsService(finalID);
+					for (final BaseLogic reportingLogic : logos) {
+
 						reportingLogic.setJobMonitor(monitor);
-						reportingLogic.setStartTime(getStartTime(parameters));
-						reportingLogic.setEndTime(getEndTime(parameters));
-						reportingLogic.initializeStream();
+
+						if (reportingLogic instanceof BasePeriodLogic) {
+							setPeriod(reportingLogic);
+						}
+
+						// Set Operator specific.
+						if (reportingLogic instanceof OperatorReportingLogic) {
+
+							Service service = (Service) reportingLogic
+									.getDataProvider().getTransaction()
+									.getObject(finalID);
+							((OperatorReportingLogic) reportingLogic)
+									.setServices(Lists.newArrayList(service));
+							((OperatorReportingLogic) reportingLogic)
+									.initializeStream();
+						}
+
 						reportingLogic.run();
 
 					}
 				};
 			}.start();
-
-			return monitor.getWorkFlowRunId();
 		}
 
+		private void runOperatorService(final ServerWorkFlowRunMonitor monitor,
+				final CDOID finalID, final List<? extends BaseLogic> logos) {
+			// run in a separate thread
+			new Thread() {
+				@Override
+				public void run() {
+					// sleep to give the system
+					// time to return
+					try {
+						sleep(100);
+					} catch (final Exception e) {
+						// do nothing, ignore
+					}
+
+					for (final BaseLogic reportingLogic : logos) {
+
+						reportingLogic.setJobMonitor(monitor);
+
+						if (reportingLogic instanceof BasePeriodLogic) {
+							setPeriod(reportingLogic);
+						}
+
+						// Set Operator specific.
+						if (reportingLogic instanceof OperatorReportingLogic) {
+
+							Operator operator = (Operator) reportingLogic
+									.getDataProvider().getTransaction()
+									.getObject(finalID);
+							((OperatorReportingLogic) reportingLogic)
+									.setServices(operator.getServices());
+							((OperatorReportingLogic) reportingLogic)
+									.initializeStream();
+						}
+						reportingLogic.run();
+					}
+				}
+			}.start();
+		}
+
+		
+		private void setPeriod(final BaseLogic reportingLogic) {
+			Date start = getStartTime(parameters);
+			Date end = getEndTime(parameters);
+			((BasePeriodLogic) reportingLogic)
+					.setStartTime(start);
+			((BasePeriodLogic) reportingLogic).setEndTime(end);
+		};
+		
 		/*
 		 * 
 		 * Possibly extract to a more generic place.
 		 * 
 		 * @return
 		 */
-		public List<RFSServiceReportingLogic> getReportingLogos() {
-			List<RFSServiceReportingLogic> logos = Lists.newArrayList();
+		public List<OperatorReportingLogic> getOperatorReportingLogos() {
+			List<OperatorReportingLogic> logos = Lists.newArrayList();
 
 			logos.add(LogicActivator.getInstance().getInjector()
 					.getInstance(RFSServiceSummaryReportingLogic.class));
 			logos.add(LogicActivator.getInstance().getInjector()
 					.getInstance(RFSServiceDashboardReportingLogic.class));
 			logos.add(LogicActivator.getInstance().getInjector()
-					.getInstance(RFSServiceDistributionReportingLogic.class));
-			logos.add(LogicActivator.getInstance().getInjector()
 					.getInstance(RFSServiceUserReportingLogic.class));
+			logos.add(LogicActivator.getInstance().getInjector()
+					.getInstance(RFSServiceResourceReportingLogic.class));
+
+			// logos.add(LogicActivator.getInstance().getInjector()
+			// .getInstance(RFSServiceDistributionReportingLogic.class));
 			return logos;
 		}
 
@@ -199,6 +281,7 @@ public class ReportingService implements NetxForgeService {
 		public void setParameters(Map<String, String> parameters) {
 			this.parameters = parameters;
 		}
+
 	}
 
 }

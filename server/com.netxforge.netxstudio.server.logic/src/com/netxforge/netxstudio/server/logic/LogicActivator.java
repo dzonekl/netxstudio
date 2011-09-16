@@ -11,16 +11,22 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
-import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.server.ServerModule;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.job.JobImplementation.JobImplementationFactory;
 import com.netxforge.netxstudio.server.job.JobModule;
+import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
+import com.netxforge.netxstudio.server.logic.monitoring.RFSServiceMonitoringJobImplementation;
 import com.netxforge.netxstudio.server.logic.netxscript.NetxscriptServerModule;
+import com.netxforge.netxstudio.server.logic.reporting.OperatorReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.ReportingService;
+import com.netxforge.netxstudio.server.logic.retention.RetentionJobImplementation;
+import com.netxforge.netxstudio.server.logic.retention.RetentionService;
 
 public class LogicActivator implements BundleActivator {
 
@@ -49,17 +55,24 @@ public class LogicActivator implements BundleActivator {
 		INSTANCE = this;
 		LogicActivator.context = bundleContext;
 		
-		JobImplementation.REGISTRY.register(RFSServiceJob.class, new JobImplementationFactory() {
+		JobImplementation.REGISTRY.register(RFSServiceMonitoringJob.class, new JobImplementationFactory() {
 			@Override
 			public JobImplementation create() {
-				return injector.getInstance(RFSServiceResourceMonitoringJobImplementation.class);
+				return injector.getInstance(RFSServiceMonitoringJobImplementation.class);
 			}
 		});
 		
-		JobImplementation.REGISTRY.register(ReporterJob.class, new JobImplementationFactory() {
+		JobImplementation.REGISTRY.register(RFSServiceReporterJob.class, new JobImplementationFactory() {
 			@Override
 			public JobImplementation create() {
 				return injector.getInstance(RFSServiceReportingJobImplementation.class);
+			}
+		});
+		
+		JobImplementation.REGISTRY.register(OperatorReporterJob.class, new JobImplementationFactory() {
+			@Override
+			public JobImplementation create() {
+				return injector.getInstance(OperatorReportingJobImplementation.class);
 			}
 		});
 		
@@ -76,7 +89,7 @@ public class LogicActivator implements BundleActivator {
 		om = override(om).with(new CommonModule());
 		injector = createInjector(om);
 
-		bundleContext.registerService(ResourceMonitoringService.class, new ResourceMonitoringService(), new Hashtable<String, String>());
+		bundleContext.registerService(MonitoringService.class, new MonitoringService(), new Hashtable<String, String>());
 		bundleContext.registerService(RetentionService.class, new RetentionService(), new Hashtable<String, String>());
 		bundleContext.registerService(ReportingService.class, new ReportingService(), new Hashtable<String, String>());
 	}

@@ -16,54 +16,47 @@
  * Contributors: 
  * 	Martin Taal - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic.reporting;
+package com.netxforge.netxstudio.server.logic.monitoring;
 
-import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
-import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
+import com.netxforge.netxstudio.server.Activator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
-import com.netxforge.netxstudio.server.logic.LogicActivator;
-import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.server.logic.profile.RFSServiceProfileLogic;
 
 /**
  * Implements a job runner for a metric source.
  * 
  * @author Martin Taal
  */
-public class RFSServiceReportingJobImplementation extends JobImplementation {
+public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 
 	private ComponentWorkFlowRun workFlowRun;
 
 	@Override
 	public void run() {
-		final RFSServiceReporterJob reporterJob = (RFSServiceReporterJob) getJob();
-
-		{
-			final OperatorReportingLogic logic = LogicActivator.getInstance()
-					.getInjector()
-					.getInstance(RFSServiceSummaryReportingLogic.class);
-
-			logic.setServices(Lists.newArrayList((Service)reporterJob.getRFSService()));
-			logic.setJobMonitor(getRunMonitor());
-			logic.initializeReportingLogic();
-			logic.run();
-		}
-
-		{
-			final OperatorReportingLogic logic = LogicActivator.getInstance()
-					.getInjector()
-					.getInstance(RFSServiceDashboardReportingLogic.class);
-
-			logic.setServices(Lists.newArrayList((Service)reporterJob.getRFSService()));
-			logic.setJobMonitor(getRunMonitor());
-			logic.initializeReportingLogic();
-			logic.run();
-		}
-		// generateContent(resourceReportingLogic.getSettings().getExportPath());
-
-		// getDataProvider().commitTransaction();
+		final RFSServiceMonitoringJob serviceJob = (RFSServiceMonitoringJob) getJob();
+			
+		
+		// Iterates over Nodes (By NodeType). 
+		final RFSServiceMonitoringLogic resourceMonitoringLogic = Activator.getInstance()
+				.getInjector().getInstance(RFSServiceMonitoringLogic.class);
+		resourceMonitoringLogic.setRfsService(serviceJob.getRFSService().cdoID());
+		resourceMonitoringLogic.setJobMonitor(getRunMonitor());
+		resourceMonitoringLogic.initializeMonitoringLogic();
+		resourceMonitoringLogic.run();
+		
+		// Iterates over Service Users 
+		final RFSServiceProfileLogic resourceProfileLogic = Activator.getInstance()
+				.getInjector().getInstance(RFSServiceProfileLogic.class);
+		resourceProfileLogic.setRfsService(serviceJob.getRFSService().cdoID());
+		resourceProfileLogic.setJobMonitor(getRunMonitor());
+		resourceProfileLogic.initializeProfileLogic();
+		resourceProfileLogic.run();
+		
+		getDataProvider().commitTransaction();
 	}
 
 	@Override

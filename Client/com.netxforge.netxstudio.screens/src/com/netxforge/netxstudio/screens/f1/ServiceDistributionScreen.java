@@ -47,6 +47,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
+import org.eclipse.ui.forms.widgets.ColumnLayoutData;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
@@ -61,24 +62,21 @@ import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.services.ServiceUser;
-import com.netxforge.netxstudio.services.ServicesFactory;
+import com.netxforge.netxstudio.services.ServiceDistribution;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
-public class ServiceDistribution extends AbstractScreen implements
+public class ServiceDistributionScreen extends AbstractScreen implements
 		IDataScreenInjection {
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
-	private Text txtName;
-	private Text txtDescription;
 	private Form frmService;
-	private ServiceUser serviceUser;
+	private ServiceDistribution serviceDistribution;
 	private Resource owner;
 	private Table table;
 	private Text txtProfileExpression;
 	private TableViewer resourcesTableViewer;
 
-	public ServiceDistribution(Composite parent, int style) {
+	public ServiceDistributionScreen(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -88,7 +86,7 @@ public class ServiceDistribution extends AbstractScreen implements
 		formToolkit.adapt(this);
 		formToolkit.paintBordersFor(this);
 
-		buildUI();
+//		buildUI();
 	}
 
 	private void buildUI() {
@@ -96,7 +94,10 @@ public class ServiceDistribution extends AbstractScreen implements
 
 		// Readonlyness.
 		boolean readonly = Screens.isReadOnlyOperation(this.getOperation());
+		
+		@SuppressWarnings("unused")
 		String actionText = readonly ? "View: " : "Edit: ";
+		@SuppressWarnings("unused")
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
 		frmService = formToolkit.createForm(this);
@@ -107,50 +108,10 @@ public class ServiceDistribution extends AbstractScreen implements
 		cl.maxNumColumns = 2;
 		frmService.getBody().setLayout(cl);
 
-		Section sctnInfo = formToolkit.createSection(frmService.getBody(),
-				Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
-		formToolkit.paintBordersFor(sctnInfo);
-		sctnInfo.setText("Info");
-		sctnInfo.setExpanded(true);
-
-		Composite composite = formToolkit.createComposite(sctnInfo, SWT.NONE);
-		formToolkit.paintBordersFor(composite);
-		sctnInfo.setClient(composite);
-		composite.setLayout(new GridLayout(2, false));
-
-		Label lblName = formToolkit.createLabel(composite, " Name:", SWT.NONE);
-		lblName.setAlignment(SWT.RIGHT);
-		GridData gd_lblName = new GridData(SWT.RIGHT, SWT.CENTER, false, false,
-				1, 1);
-		gd_lblName.widthHint = 70;
-		lblName.setLayoutData(gd_lblName);
-		lblName.setBounds(0, 0, 59, 14);
-
-		txtName = formToolkit.createText(composite, "New Text", widgetStyle);
-		txtName.setText("");
-		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
-				1, 1);
-		gd_txtName.widthHint = 150;
-		txtName.setLayoutData(gd_txtName);
-
-		Label lblDescription = formToolkit.createLabel(composite,
-				"Description:", SWT.NONE);
-		lblDescription.setAlignment(SWT.RIGHT);
-		lblDescription.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false,
-				false, 1, 1));
-
-		txtDescription = formToolkit.createText(composite, "New Text", SWT.WRAP
-				| SWT.MULTI);
-		txtDescription.setText("");
-		GridData gd_txtDescription = new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 1, 1);
-		gd_txtDescription.heightHint = 133;
-		txtDescription.setLayoutData(gd_txtDescription);
-
 		Section sctnResourceProfiles = formToolkit.createSection(
 				frmService.getBody(), Section.TWISTIE | Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnResourceProfiles);
-		sctnResourceProfiles.setText("Profile");
+		sctnResourceProfiles.setText("Distribution Resources");
 		sctnResourceProfiles.setExpanded(true);
 
 		Composite composite_2 = formToolkit.createComposite(
@@ -171,20 +132,28 @@ public class ServiceDistribution extends AbstractScreen implements
 			}
 
 			public void linkActivated(HyperlinkEvent e) {
-				NewEditServiceProfileResource resourceScreen = new NewEditServiceProfileResource(
-						screenService.getScreenContainer(), SWT.NONE);
-				resourceScreen.setOperation(Screens.OPERATION_NEW);
-				resourceScreen.setScreenService(screenService);
-				resourceScreen.injectData(serviceUser.getServiceProfile(),
-						ServicesFactory.eINSTANCE
-								.createServiceProfileResource());
-				screenService.setActiveScreen(resourceScreen);
+				
+				// TODO, Add resources from an existing Node. 
+				// The resources are linked to, for each resource, we 
+				// keep a shadow resource which we populate. 
+				
+				
+				
+				
+//				NewEditServiceProfileResource resourceScreen = new NewEditServiceProfileResource(
+//						screenService.getScreenContainer(), SWT.NONE);
+//				resourceScreen.setOperation(Screens.OPERATION_NEW);
+//				resourceScreen.setScreenService(screenService);
+//				resourceScreen.injectData(serviceDistribution.getServiceProfile(),
+//						ServicesFactory.eINSTANCE
+//								.createServiceProfileResource());
+//				screenService.setActiveScreen(resourceScreen);
 			}
 		});
 		mghprlnkAdd.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true,
 				false, 5, 1));
 		formToolkit.paintBordersFor(mghprlnkAdd);
-		mghprlnkAdd.setText("New");
+		mghprlnkAdd.setText("Add");
 
 		resourcesTableViewer = new TableViewer(composite_2, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.MULTI);
@@ -195,6 +164,11 @@ public class ServiceDistribution extends AbstractScreen implements
 		gd_table.heightHint = 112;
 		table.setLayoutData(gd_table);
 		formToolkit.paintBordersFor(table);
+		
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(resourcesTableViewer, SWT.NONE);
+		TableColumn tblclmnNode = tableViewerColumn_1.getColumn();
+		tblclmnNode.setWidth(100);
+		tblclmnNode.setText("Node");
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				resourcesTableViewer, SWT.NONE);
@@ -204,27 +178,6 @@ public class ServiceDistribution extends AbstractScreen implements
 
 		Menu resourcesMenu = new Menu(table);
 		table.setMenu(resourcesMenu);
-
-		MenuItem mntmEditResource = new MenuItem(resourcesMenu, SWT.NONE);
-		mntmEditResource.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ISelection s = resourcesTableViewer.getSelection();
-				if (s instanceof IStructuredSelection) {
-					Object object = ((IStructuredSelection) s)
-							.getFirstElement();
-					NewEditServiceProfileResource editResourceScreen = new NewEditServiceProfileResource(
-							screenService.getScreenContainer(), SWT.NONE);
-					editResourceScreen.setScreenService(screenService);
-					editResourceScreen.setOperation(getOperation());
-					// We can probably get away without the resource....
-					editResourceScreen.injectData(
-							serviceUser.getServiceProfile(), object);
-					screenService.setActiveScreen(editResourceScreen);
-				}
-			}
-		});
-		mntmEditResource.setText("Edit...");
 
 		MenuItem mntmRemoveResource = new MenuItem(resourcesMenu, SWT.NONE);
 		mntmRemoveResource.addSelectionListener(new SelectionAdapter() {
@@ -265,7 +218,7 @@ public class ServiceDistribution extends AbstractScreen implements
 
 		@SuppressWarnings("unused")
 		Label lblCapacityExpression = formToolkit.createLabel(composite_2,
-				"Profile", SWT.NONE);
+				"Distribution", SWT.NONE);
 
 		txtProfileExpression = formToolkit.createText(composite_2, "New Text",
 				SWT.READ_ONLY);
@@ -280,10 +233,10 @@ public class ServiceDistribution extends AbstractScreen implements
 		imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 
-				if (serviceUser.getExpressionRef() != null) {
+				if (serviceDistribution.getExpressionRefs() != null) {
 					Command c = new SetCommand(
 							editingService.getEditingDomain(),
-							serviceUser,
+							serviceDistribution,
 							ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF,
 							null);
 					editingService.getEditingDomain().getCommandStack()
@@ -304,20 +257,32 @@ public class ServiceDistribution extends AbstractScreen implements
 
 		Button btnSelectCapExpression = formToolkit.createButton(composite_2,
 				"Select", SWT.NONE);
+		
+		Section sctnMatrix = formToolkit.createSection(frmService.getBody(), Section.TWISTIE | Section.TITLE_BAR);
+		ColumnLayoutData cld_sctnMatrix = new ColumnLayoutData();
+		cld_sctnMatrix.heightHint = 230;
+		sctnMatrix.setLayoutData(cld_sctnMatrix);
+		formToolkit.paintBordersFor(sctnMatrix);
+		sctnMatrix.setText("Matrix Definition");
+		sctnMatrix.setExpanded(true);
+		
+		Composite composite = formToolkit.createComposite(sctnMatrix, SWT.NONE);
+		formToolkit.paintBordersFor(composite);
+		sctnMatrix.setClient(composite);
 		btnSelectCapExpression.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Resource expressionResource = editingService
 						.getData(LibraryPackage.Literals.EXPRESSION);
 				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
-						ServiceDistribution.this.getShell(), expressionResource);
+						ServiceDistributionScreen.this.getShell(), expressionResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Expression expression = (Expression) dialog
 							.getFirstResult();
 					Command c = new SetCommand(
 							editingService.getEditingDomain(),
-							serviceUser,
-							ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF,
+							serviceDistribution,
+							ServicesPackage.Literals.SERVICE_DISTRIBUTION__EXPRESSION_REFS,
 							expression);
 					editingService.getEditingDomain().getCommandStack()
 							.execute(c);
@@ -337,32 +302,9 @@ public class ServiceDistribution extends AbstractScreen implements
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		bindInfoSection(context);
 		bindResourcesSection(context);
 
 		return context;
-	}
-
-	private void bindInfoSection(EMFDataBindingContext context) {
-		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
-				400, SWTObservables.observeText(txtName, SWT.Modify));
-
-		// IObservableValue descriptionObservable = SWTObservables
-		// .observeDelayedValue(400,
-		// SWTObservables.observeText(txtDescription, SWT.Modify));
-
-		IEMFValueProperty nameProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(),
-				ServicesPackage.Literals.SERVICE_USER__NAME);
-
-		// IEMFValueProperty descriptionProperty = EMFEditProperties.value(
-		// editingService.getEditingDomain(),
-		// ServicesPackage.Literals.SERVICE__SERVICE_DESCRIPTION);
-
-		context.bindValue(nameObservable, nameProperty.observe(serviceUser),
-				null, null);
-		// context.bindValue(descriptionObservable,
-		// descriptionProperty.observe(service), null, null);
 	}
 
 	public void bindResourcesSection(EMFDataBindingContext context) {
@@ -377,7 +319,7 @@ public class ServiceDistribution extends AbstractScreen implements
 										LibraryPackage.Literals.EXPRESSION__NAME));
 
 		context.bindValue(capExpressionObservable,
-				profileExpressionProperty.observe(serviceUser), null, null);
+				profileExpressionProperty.observe(serviceDistribution), null, null);
 		
 		// binding of resources
 
@@ -393,8 +335,8 @@ public class ServiceDistribution extends AbstractScreen implements
 				observeResourceMaps));
 		IEMFListProperty resourcesListProperty = EMFEditProperties.list(
 				editingService.getEditingDomain(),
-				ServicesPackage.Literals.SERVICE_PROFILE__PROFILE_RESOURCES);
-		resourcesTableViewer.setInput(resourcesListProperty.observe(serviceUser.getServiceProfile()));
+				ServicesPackage.Literals.SERVICE_DISTRIBUTION__DISTRIBUTION_REFS);
+		resourcesTableViewer.setInput(resourcesListProperty.observe(serviceDistribution));
 	}
 
 	
@@ -461,8 +403,8 @@ public class ServiceDistribution extends AbstractScreen implements
 					"Data injection for screen invalid");
 		}
 
-		if (object != null && object instanceof ServiceUser) {
-			serviceUser = (ServiceUser) object;
+		if (object != null && object instanceof ServiceDistribution) {
+			serviceDistribution = (ServiceDistribution) object;
 		} else {
 			throw new java.lang.IllegalArgumentException(
 					"Data injection for screen invalid");
@@ -478,7 +420,7 @@ public class ServiceDistribution extends AbstractScreen implements
 			// If new, we have been operating on an object not added yet.
 
 			AddCommand ac = new AddCommand(editingService.getEditingDomain(),
-					owner.getContents(), serviceUser);
+					owner.getContents(), serviceDistribution);
 			editingService.getEditingDomain().getCommandStack().execute(ac);
 
 			// We can't add this resource now, we need a referee.
@@ -489,15 +431,15 @@ public class ServiceDistribution extends AbstractScreen implements
 			// cause invalidity, so the action will not occure in case the
 			// original is
 			// invalid, and we should cancel the action and warn the user.
-			if (serviceUser.cdoInvalid()) {
+			if (serviceDistribution.cdoInvalid()) {
 				MessageDialog
 						.openWarning(Display.getDefault().getActiveShell(),
 								"Conflict",
 								"There is a conflict with another user. Your changes can't be saved.");
 				return;
 			}
-			System.out.println(serviceUser.cdoID() + ""
-					+ serviceUser.cdoState());
+			System.out.println(serviceDistribution.cdoID() + ""
+					+ serviceDistribution.cdoState());
 
 		}
 		// After our edit, we shall be dirty

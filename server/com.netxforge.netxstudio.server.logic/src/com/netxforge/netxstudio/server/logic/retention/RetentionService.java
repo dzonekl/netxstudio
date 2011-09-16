@@ -16,7 +16,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.retention;
 
 import java.util.Date;
 import java.util.Map;
@@ -39,15 +39,16 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
+import com.netxforge.netxstudio.server.logic.LogicActivator;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
- * Starts a netxforge service
+ * Starts a netxforge retention service
  * 
  * @author Martin Taal
  */
-public class ResourceMonitoringService implements NetxForgeService {
+public class RetentionService implements NetxForgeService {
 
 	public static final String SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
@@ -56,13 +57,13 @@ public class ResourceMonitoringService implements NetxForgeService {
 	public static final String END_TIME_PARAM = "endTime";
 
 	public Object run(Map<String, String> parameters) {
-		final ResourceMonitoringRunner runner = LogicActivator.getInstance()
-				.getInjector().getInstance(ResourceMonitoringRunner.class);
+		final RetentionServiceRunner runner = LogicActivator.getInstance()
+				.getInjector().getInstance(RetentionServiceRunner.class);
 		runner.setParameters(parameters);
 		return ((AbstractCDOIDLong)runner.run()).getLongValue();
 	}
 
-	public static class ResourceMonitoringRunner {
+	public static class RetentionServiceRunner {
 		@Inject
 		@Server
 		private IDataProvider dataProvider;
@@ -71,32 +72,26 @@ public class ResourceMonitoringService implements NetxForgeService {
 
 		private CDOID run() {
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
-			final BaseResourceMonitoringLogic monitoringLogic;
+			final RetentionLogic logic = LogicActivator.getInstance().getInjector()
+					.getInstance(RetentionLogic.class);
 			if (parameters.containsKey(SERVICE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
 						ServicesPackage.Literals.RFS_SERVICE);
-				monitoringLogic = LogicActivator.getInstance().getInjector()
-						.getInstance(RFSServiceResourceMonitoringLogic.class);
-				((RFSServiceResourceMonitoringLogic) monitoringLogic).setRfsService(id);
+				logic.setRfsService(id);
 			} else if (parameters.containsKey(NODE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(NODE_PARAM),
 						OperatorsPackage.Literals.NODE);
-				monitoringLogic = LogicActivator.getInstance().getInjector()
-						.getInstance(NodeResourceMonitoringLogic.class);
-				((NodeResourceMonitoringLogic) monitoringLogic).setNode(id);
+				logic.setNode(id);
 			} else if (parameters.containsKey(NODETYPE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
 						LibraryPackage.Literals.NODE_TYPE);
-				monitoringLogic = LogicActivator.getInstance().getInjector()
-						.getInstance(NodeResourceMonitoringLogic.class);
-				((NodeResourceMonitoringLogic) monitoringLogic).setNodeType(id);
+				logic.setNodeType(id);
 			} else {
 				throw new IllegalArgumentException("No valid parameters found");
 			}
-			monitoringLogic.setJobMonitor(monitor);
-			monitoringLogic.setStartTime(getStartTime(parameters));
-			monitoringLogic.setEndTime(getEndTime(parameters));
-			
+			logic.setJobMonitor(monitor);
+			logic.setStartTime(getStartTime(parameters));
+			logic.setEndTime(getEndTime(parameters));
 			// run in a separate thread
 			new Thread() {
 				@Override
@@ -108,7 +103,7 @@ public class ResourceMonitoringService implements NetxForgeService {
 					} catch (final Exception e) {
 						// do nothing, ignore
 					}
-					monitoringLogic.run();
+					logic.run();
 				};
 			}.start();
 			return monitor.getWorkFlowRunId();

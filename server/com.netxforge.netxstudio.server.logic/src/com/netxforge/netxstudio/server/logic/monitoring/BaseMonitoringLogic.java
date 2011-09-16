@@ -16,7 +16,7 @@
  * Contributors: Martin Taal - initial API and implementation and/or
  * initial documentation
  *******************************************************************************/
-package com.netxforge.netxstudio.server.logic;
+package com.netxforge.netxstudio.server.logic.monitoring;
 
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +25,7 @@ import java.util.Set;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.server.logic.LogicActivator;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 
 /**
@@ -32,20 +33,20 @@ import com.netxforge.netxstudio.services.ServiceMonitor;
  * 
  * @author Martin Taal
  */
-public abstract class BaseResourceMonitoringLogic extends BaseLogic {
+public abstract class BaseMonitoringLogic extends BaseComponentLogic {
 
 	private ServiceMonitor serviceMonitor;
 
 	@Override
 	protected abstract List<NodeType> getNodeTypesToExecuteFor();
 
-	private ResourceMonitoringEngine engine;
+	private MonitoringEngine engine;
 
 	@Override
-	protected ResourceMonitoringEngine getEngine() {
+	protected MonitoringEngine getEngine() {
 		if (engine == null) {
 			engine = LogicActivator.getInstance().getInjector()
-					.getInstance(ResourceMonitoringEngine.class);
+					.getInstance(MonitoringEngine.class);
 		}
 		return engine;
 	}

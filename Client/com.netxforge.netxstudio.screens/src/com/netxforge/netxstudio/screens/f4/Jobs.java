@@ -51,9 +51,10 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
-import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -357,7 +358,7 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 //								+ ((MetricSourceJob) j).getMetricSource()
 //										.getName();
 					}
-					if (j instanceof RFSServiceJob) {
+					if (j instanceof RFSServiceMonitoringJob) {
 						return "Monitoring";
 //								+ ((RFSServiceJob) j).getRFSService()
 //										.getServiceName();
@@ -367,8 +368,13 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 //								+ ((RFSServiceRetentionJob) j).getRFSService()
 //										.getServiceName();
 					}
-					if(j instanceof ReporterJob){
-						return "Reporting";
+					if(j instanceof RFSServiceReporterJob){
+						return "Service Reporting";
+//								+ ((ReporterJob) j).getRFSService()
+//										.getServiceName();
+					}
+					if(j instanceof OperatorReporterJob){
+						return "Operator Reporting";
 //								+ ((ReporterJob) j).getRFSService()
 //										.getServiceName();
 					}

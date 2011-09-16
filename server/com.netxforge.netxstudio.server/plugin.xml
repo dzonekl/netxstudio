@@ -12,7 +12,7 @@
     <extension
           point="org.eclipse.equinox.http.registry.servlets">
           <servlet
-      alias="/netxforge/service"
+      alias="/netxforge"
       class="com.netxforge.netxstudio.server.servlet.NetxForgeServiceServlet"/>
     </extension>
     <extension
