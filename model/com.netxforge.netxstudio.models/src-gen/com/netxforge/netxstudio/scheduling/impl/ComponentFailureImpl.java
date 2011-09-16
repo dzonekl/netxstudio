@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.scheduling.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
@@ -33,13 +32,12 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.impl.ComponentFailureImpl#getComponentRef <em>Component Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.ComponentFailureImpl#getMessage <em>Message</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ComponentFailureImpl extends CDOObjectImpl implements ComponentFailure {
+public class ComponentFailureImpl extends ExpressionFailureImpl implements ComponentFailure {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -64,16 +62,6 @@ public class ComponentFailureImpl extends CDOObjectImpl implements ComponentFail
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Component getComponentRef() {
 		return (Component)eGet(SchedulingPackage.Literals.COMPONENT_FAILURE__COMPONENT_REF, true);
 	}
@@ -85,24 +73,6 @@ public class ComponentFailureImpl extends CDOObjectImpl implements ComponentFail
 	 */
 	public void setComponentRef(Component newComponentRef) {
 		eSet(SchedulingPackage.Literals.COMPONENT_FAILURE__COMPONENT_REF, newComponentRef);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getMessage() {
-		return (String)eGet(SchedulingPackage.Literals.COMPONENT_FAILURE__MESSAGE, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMessage(String newMessage) {
-		eSet(SchedulingPackage.Literals.COMPONENT_FAILURE__MESSAGE, newMessage);
 	}
 
 } //ComponentFailureImpl

@@ -121,6 +121,13 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
 		serverSettings.setExportPath("/Users/dzonekl/Documents/Projects/NetXStudio/Reports");
 		serverSettings.setImportPath("/Users/dzonekl/Documents/Projects/NetXStudio/TestData");
 		settingsResource.getContents().add(serverSettings);
+		try {
+			settingsResource.save(null);
+		} catch (final TransactionException e) {
+			e.printStackTrace();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void loadRoles() {

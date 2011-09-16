@@ -36,9 +36,9 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
-import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
-import com.netxforge.netxstudio.library.LibraryFactory;
+import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.services.ServiceDistribution;
+import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
@@ -76,9 +76,32 @@ public class ServiceDistributionItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addDistributionRefsPropertyDescriptor(object);
 			addExpressionRefsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Distribution Refs feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDistributionRefsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ServiceDistribution_distributionRefs_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ServiceDistribution_distributionRefs_feature", "_UI_ServiceDistribution_type"),
+				 ServicesPackage.Literals.SERVICE_DISTRIBUTION__DISTRIBUTION_REFS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -115,7 +138,7 @@ public class ServiceDistributionItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ServicesPackage.Literals.SERVICE_DISTRIBUTION__SERVICE_RESOURCES);
+			childrenFeatures.add(ServicesPackage.Literals.SERVICE_DISTRIBUTION__DISTRIBUTION);
 		}
 		return childrenFeatures;
 	}
@@ -168,7 +191,7 @@ public class ServiceDistributionItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ServiceDistribution.class)) {
-			case ServicesPackage.SERVICE_DISTRIBUTION__SERVICE_RESOURCES:
+			case ServicesPackage.SERVICE_DISTRIBUTION__DISTRIBUTION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -188,8 +211,8 @@ public class ServiceDistributionItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ServicesPackage.Literals.SERVICE_DISTRIBUTION__SERVICE_RESOURCES,
-				 LibraryFactory.eINSTANCE.createNetXResource()));
+				(ServicesPackage.Literals.SERVICE_DISTRIBUTION__DISTRIBUTION,
+				 ServicesFactory.eINSTANCE.createDerivedResource()));
 	}
 
 	/**

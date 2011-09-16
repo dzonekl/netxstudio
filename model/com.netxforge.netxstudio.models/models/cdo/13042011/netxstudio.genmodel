@@ -5,7 +5,7 @@
     modelDirectory="/com.netxforge.netxstudio.models/src-gen" modelPluginID="com.netxforge.netxstudio.models"
     modelName="Netxstudio" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
     reflectiveDelegation="true" importerID="org.eclipse.xsd.ecore.importer" featureDelegation="Reflective"
-    complianceLevel="6.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    complianceLevel="6.0" copyrightFields="false">
   <foreignModel>../../xsd/13042011/netxstudio.xsd</foreignModel>
   <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
   <genPackages prefix="Scheduling" basePackage="com.netxforge.netxstudio" resource="XML"
@@ -26,13 +26,15 @@
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//ComponentFailure">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ComponentFailure/componentRef"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//ComponentFailure/message"/>
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//ComponentWorkFlowRun">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduling.ecore#//ComponentWorkFlowRun/failureRefs"/>
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//ExpressionFailure">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ExpressionFailure/expressionRef"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//Failure">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Failure/message"/>
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//Job">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//Job/endTime"/>
@@ -49,14 +51,20 @@
     <genClasses ecoreClass="scheduling.ecore#//MetricSourceJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//MetricSourceJob/metricSource"/>
     </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//ReporterJob">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ReporterJob/rFSService"/>
+    <genClasses ecoreClass="scheduling.ecore#//OperatorReporterJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//OperatorReporterJob/operator"/>
     </genClasses>
-    <genClasses ecoreClass="scheduling.ecore#//RFSServiceJob">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceJob/rFSService"/>
+    <genClasses ecoreClass="scheduling.ecore#//RFSServiceMonitoringJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceMonitoringJob/rFSService"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//RFSServiceReporterJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceReporterJob/rFSService"/>
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//RFSServiceRetentionJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//RFSServiceRetentionJob/rFSService"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//ServiceUserFailure">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//ServiceUserFailure/serviceUserRef"/>
     </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//WorkFlowRun">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduling.ecore#//WorkFlowRun/ended"/>
@@ -175,6 +183,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CIID/commonCIID"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CIID/localCIID"/>
     </genClasses>
+    <genClasses ecoreClass="services.ecore#//DerivedResource">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DerivedResource/values"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DerivedResource/forecastValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DerivedResource/trendedValues"/>
+    </genClasses>
     <genClasses ecoreClass="services.ecore#//RFSService">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//RFSService/nodes"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//RFSService/toleranceRefs"/>
@@ -193,7 +206,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//Service/serviceName"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ServiceDistribution">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/serviceResources"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/distributionRefs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/distribution"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/expressionRefs"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ServiceForecast">
@@ -217,11 +231,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceProfile/profileResources"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceProfile/name"/>
     </genClasses>
-    <genClasses ecoreClass="services.ecore#//ServiceProfileResource">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceProfileResource/profileValues"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceProfileResource/forecastValues"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceProfileResource/trendedValues"/>
-    </genClasses>
     <genClasses ecoreClass="services.ecore#//ServiceUser">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceUser/serviceProfile"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceUser/expressionRef"/>
@@ -240,6 +249,7 @@
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/METRIC"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/METRICREMOVE"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/CAP"/>
+      <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/DERIVED"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECAST"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/FORECASTCAP"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//RangeKind/TRENDED"/>
@@ -262,6 +272,7 @@
     <genDataTypes ecoreDataType="library.ecore#//RangeKindObject"/>
     <genDataTypes ecoreDataType="library.ecore#//RedundancyTypeObject"/>
     <genDataTypes ecoreDataType="library.ecore#//StateTypeObject"/>
+    <genClasses ecoreClass="library.ecore#//BaseExpressionResult"/>
     <genClasses ecoreClass="library.ecore#//BaseResource">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//BaseResource/detailDisplay"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//BaseResource/expressionName"/>
@@ -326,6 +337,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Function/functions"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/functionRelationshipRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Function/allFunctions"/>
+    </genClasses>
+    <genClasses ecoreClass="library.ecore#//LastEvaluationExpressionResult">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//LastEvaluationExpressionResult/lastEvalResult"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Library">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/functions"/>

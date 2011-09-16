@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -32,6 +33,7 @@ import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -99,6 +101,10 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 	protected LibrarySwitch<Adapter> modelSwitch =
 		new LibrarySwitch<Adapter>() {
 			@Override
+			public Adapter caseBaseExpressionResult(BaseExpressionResult object) {
+				return createBaseExpressionResultAdapter();
+			}
+			@Override
 			public Adapter caseBaseResource(BaseResource object) {
 				return createBaseResourceAdapter();
 			}
@@ -125,6 +131,10 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseFunction(Function object) {
 				return createFunctionAdapter();
+			}
+			@Override
+			public Adapter caseLastEvaluationExpressionResult(LastEvaluationExpressionResult object) {
+				return createLastEvaluationExpressionResultAdapter();
 			}
 			@Override
 			public Adapter caseLibrary(Library object) {
@@ -185,6 +195,20 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.library.BaseExpressionResult <em>Base Expression Result</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.library.BaseExpressionResult
+	 * @generated
+	 */
+	public Adapter createBaseExpressionResultAdapter() {
+		return null;
+	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.library.BaseResource <em>Base Resource</em>}'.
@@ -281,6 +305,20 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFunctionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.library.LastEvaluationExpressionResult <em>Last Evaluation Expression Result</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.library.LastEvaluationExpressionResult
+	 * @generated
+	 */
+	public Adapter createLastEvaluationExpressionResultAdapter() {
 		return null;
 	}
 

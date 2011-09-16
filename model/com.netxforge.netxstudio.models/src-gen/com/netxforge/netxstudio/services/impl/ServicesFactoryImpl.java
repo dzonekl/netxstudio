@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.CIID;
+import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceClassType;
@@ -35,7 +36,6 @@ import com.netxforge.netxstudio.services.ServiceForecast;
 import com.netxforge.netxstudio.services.ServiceForecastUsers;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServiceProfile;
-import com.netxforge.netxstudio.services.ServiceProfileResource;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
@@ -86,6 +86,7 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 		switch (eClass.getClassifierID()) {
 			case ServicesPackage.CFS_SERVICE: return (EObject)createCFSService();
 			case ServicesPackage.CIID: return (EObject)createCIID();
+			case ServicesPackage.DERIVED_RESOURCE: return (EObject)createDerivedResource();
 			case ServicesPackage.RFS_SERVICE: return (EObject)createRFSService();
 			case ServicesPackage.SERVICE: return (EObject)createService();
 			case ServicesPackage.SERVICE_DISTRIBUTION: return (EObject)createServiceDistribution();
@@ -93,7 +94,6 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 			case ServicesPackage.SERVICE_FORECAST_USERS: return (EObject)createServiceForecastUsers();
 			case ServicesPackage.SERVICE_MONITOR: return (EObject)createServiceMonitor();
 			case ServicesPackage.SERVICE_PROFILE: return (EObject)createServiceProfile();
-			case ServicesPackage.SERVICE_PROFILE_RESOURCE: return (EObject)createServiceProfileResource();
 			case ServicesPackage.SERVICE_USER: return (EObject)createServiceUser();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -152,6 +152,16 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 	public CIID createCIID() {
 		CIIDImpl ciid = new CIIDImpl();
 		return ciid;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DerivedResource createDerivedResource() {
+		DerivedResourceImpl derivedResource = new DerivedResourceImpl();
+		return derivedResource;
 	}
 
 	/**
@@ -222,16 +232,6 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 	public ServiceProfile createServiceProfile() {
 		ServiceProfileImpl serviceProfile = new ServiceProfileImpl();
 		return serviceProfile;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ServiceProfileResource createServiceProfileResource() {
-		ServiceProfileResourceImpl serviceProfileResource = new ServiceProfileResourceImpl();
-		return serviceProfileResource;
 	}
 
 	/**

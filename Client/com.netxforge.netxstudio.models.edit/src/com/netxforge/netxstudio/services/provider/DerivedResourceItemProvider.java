@@ -37,16 +37,16 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.provider.BaseResourceItemProvider;
 import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
-import com.netxforge.netxstudio.services.ServiceProfileResource;
+import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.services.ServiceProfileResource} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.services.DerivedResource} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ServiceProfileResourceItemProvider
+public class DerivedResourceItemProvider
 	extends BaseResourceItemProvider
 	implements
 		IEditingDomainItemProvider,
@@ -60,7 +60,7 @@ public class ServiceProfileResourceItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ServiceProfileResourceItemProvider(AdapterFactory adapterFactory) {
+	public DerivedResourceItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -91,9 +91,9 @@ public class ServiceProfileResourceItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__PROFILE_VALUES);
-			childrenFeatures.add(ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__FORECAST_VALUES);
-			childrenFeatures.add(ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__TRENDED_VALUES);
+			childrenFeatures.add(ServicesPackage.Literals.DERIVED_RESOURCE__VALUES);
+			childrenFeatures.add(ServicesPackage.Literals.DERIVED_RESOURCE__FORECAST_VALUES);
+			childrenFeatures.add(ServicesPackage.Literals.DERIVED_RESOURCE__TRENDED_VALUES);
 		}
 		return childrenFeatures;
 	}
@@ -112,14 +112,14 @@ public class ServiceProfileResourceItemProvider
 	}
 
 	/**
-	 * This returns ServiceProfileResource.gif.
+	 * This returns DerivedResource.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ServiceProfileResource"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/DerivedResource"));
 	}
 
 	/**
@@ -130,10 +130,10 @@ public class ServiceProfileResourceItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ServiceProfileResource)object).getExpressionName();
+		String label = ((DerivedResource)object).getExpressionName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_ServiceProfileResource_type") :
-			getString("_UI_ServiceProfileResource_type") + " " + label;
+			getString("_UI_DerivedResource_type") :
+			getString("_UI_DerivedResource_type") + " " + label;
 	}
 
 	/**
@@ -147,10 +147,10 @@ public class ServiceProfileResourceItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(ServiceProfileResource.class)) {
-			case ServicesPackage.SERVICE_PROFILE_RESOURCE__PROFILE_VALUES:
-			case ServicesPackage.SERVICE_PROFILE_RESOURCE__FORECAST_VALUES:
-			case ServicesPackage.SERVICE_PROFILE_RESOURCE__TRENDED_VALUES:
+		switch (notification.getFeatureID(DerivedResource.class)) {
+			case ServicesPackage.DERIVED_RESOURCE__VALUES:
+			case ServicesPackage.DERIVED_RESOURCE__FORECAST_VALUES:
+			case ServicesPackage.DERIVED_RESOURCE__TRENDED_VALUES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -170,17 +170,17 @@ public class ServiceProfileResourceItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__PROFILE_VALUES,
+				(ServicesPackage.Literals.DERIVED_RESOURCE__VALUES,
 				 GenericsFactory.eINSTANCE.createValue()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__FORECAST_VALUES,
+				(ServicesPackage.Literals.DERIVED_RESOURCE__FORECAST_VALUES,
 				 GenericsFactory.eINSTANCE.createValue()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__TRENDED_VALUES,
+				(ServicesPackage.Literals.DERIVED_RESOURCE__TRENDED_VALUES,
 				 GenericsFactory.eINSTANCE.createValue()));
 	}
 
@@ -196,9 +196,9 @@ public class ServiceProfileResourceItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__PROFILE_VALUES ||
-			childFeature == ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__FORECAST_VALUES ||
-			childFeature == ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__TRENDED_VALUES;
+			childFeature == ServicesPackage.Literals.DERIVED_RESOURCE__VALUES ||
+			childFeature == ServicesPackage.Literals.DERIVED_RESOURCE__FORECAST_VALUES ||
+			childFeature == ServicesPackage.Literals.DERIVED_RESOURCE__TRENDED_VALUES;
 
 		if (qualify) {
 			return getString

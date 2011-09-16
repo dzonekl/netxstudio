@@ -20,30 +20,30 @@ package com.netxforge.netxstudio.scheduling.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
-import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.scheduling.ServiceUserFailure;
+import com.netxforge.netxstudio.services.ServiceUser;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Reporter Job</b></em>'.
+ * An implementation of the model object '<em><b>Service User Failure</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.ReporterJobImpl#getRFSService <em>RFS Service</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.ServiceUserFailureImpl#getServiceUserRef <em>Service User Ref</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ReporterJobImpl extends JobImpl implements ReporterJob {
+public class ServiceUserFailureImpl extends ExpressionFailureImpl implements ServiceUserFailure {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ReporterJobImpl() {
+	protected ServiceUserFailureImpl() {
 		super();
 	}
 
@@ -54,7 +54,7 @@ public class ReporterJobImpl extends JobImpl implements ReporterJob {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SchedulingPackage.Literals.REPORTER_JOB;
+		return SchedulingPackage.Literals.SERVICE_USER_FAILURE;
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class ReporterJobImpl extends JobImpl implements ReporterJob {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RFSService getRFSService() {
-		return (RFSService)eGet(SchedulingPackage.Literals.REPORTER_JOB__RFS_SERVICE, true);
+	public ServiceUser getServiceUserRef() {
+		return (ServiceUser)eGet(SchedulingPackage.Literals.SERVICE_USER_FAILURE__SERVICE_USER_REF, true);
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class ReporterJobImpl extends JobImpl implements ReporterJob {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRFSService(RFSService newRFSService) {
-		eSet(SchedulingPackage.Literals.REPORTER_JOB__RFS_SERVICE, newRFSService);
+	public void setServiceUserRef(ServiceUser newServiceUserRef) {
+		eSet(SchedulingPackage.Literals.SERVICE_USER_FAILURE__SERVICE_USER_REF, newServiceUserRef);
 	}
 
-} //ReporterJobImpl
+} //ServiceUserFailureImpl

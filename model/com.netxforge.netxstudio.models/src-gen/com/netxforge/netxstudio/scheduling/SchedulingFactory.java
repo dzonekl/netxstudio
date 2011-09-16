@@ -74,6 +74,15 @@ public interface SchedulingFactory extends EFactory {
 	ExpressionFailure createExpressionFailure();
 
 	/**
+	 * Returns a new object of class '<em>Failure</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Failure</em>'.
+	 * @generated
+	 */
+	Failure createFailure();
+
+	/**
 	 * Returns a new object of class '<em>Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -101,22 +110,31 @@ public interface SchedulingFactory extends EFactory {
 	MetricSourceJob createMetricSourceJob();
 
 	/**
-	 * Returns a new object of class '<em>Reporter Job</em>'.
+	 * Returns a new object of class '<em>Operator Reporter Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Reporter Job</em>'.
+	 * @return a new object of class '<em>Operator Reporter Job</em>'.
 	 * @generated
 	 */
-	ReporterJob createReporterJob();
+	OperatorReporterJob createOperatorReporterJob();
 
 	/**
-	 * Returns a new object of class '<em>RFS Service Job</em>'.
+	 * Returns a new object of class '<em>RFS Service Monitoring Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>RFS Service Job</em>'.
+	 * @return a new object of class '<em>RFS Service Monitoring Job</em>'.
 	 * @generated
 	 */
-	RFSServiceJob createRFSServiceJob();
+	RFSServiceMonitoringJob createRFSServiceMonitoringJob();
+
+	/**
+	 * Returns a new object of class '<em>RFS Service Reporter Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>RFS Service Reporter Job</em>'.
+	 * @generated
+	 */
+	RFSServiceReporterJob createRFSServiceReporterJob();
 
 	/**
 	 * Returns a new object of class '<em>RFS Service Retention Job</em>'.
@@ -126,6 +144,15 @@ public interface SchedulingFactory extends EFactory {
 	 * @generated
 	 */
 	RFSServiceRetentionJob createRFSServiceRetentionJob();
+
+	/**
+	 * Returns a new object of class '<em>Service User Failure</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Service User Failure</em>'.
+	 * @generated
+	 */
+	ServiceUserFailure createServiceUserFailure();
 
 	/**
 	 * Returns a new object of class '<em>Work Flow Run</em>'.

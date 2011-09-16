@@ -27,6 +27,7 @@ import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.CIID;
+import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceDistribution;
@@ -34,7 +35,6 @@ import com.netxforge.netxstudio.services.ServiceForecast;
 import com.netxforge.netxstudio.services.ServiceForecastUsers;
 import com.netxforge.netxstudio.services.ServiceMonitor;
 import com.netxforge.netxstudio.services.ServiceProfile;
-import com.netxforge.netxstudio.services.ServiceProfileResource;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -103,6 +103,10 @@ public class ServicesAdapterFactory extends AdapterFactoryImpl {
 				return createCIIDAdapter();
 			}
 			@Override
+			public Adapter caseDerivedResource(DerivedResource object) {
+				return createDerivedResourceAdapter();
+			}
+			@Override
 			public Adapter caseRFSService(RFSService object) {
 				return createRFSServiceAdapter();
 			}
@@ -129,10 +133,6 @@ public class ServicesAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseServiceProfile(ServiceProfile object) {
 				return createServiceProfileAdapter();
-			}
-			@Override
-			public Adapter caseServiceProfileResource(ServiceProfileResource object) {
-				return createServiceProfileResourceAdapter();
 			}
 			@Override
 			public Adapter caseServiceUser(ServiceUser object) {
@@ -191,6 +191,20 @@ public class ServicesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCIIDAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.services.DerivedResource <em>Derived Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.services.DerivedResource
+	 * @generated
+	 */
+	public Adapter createDerivedResourceAdapter() {
 		return null;
 	}
 
@@ -289,20 +303,6 @@ public class ServicesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createServiceProfileAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.services.ServiceProfileResource <em>Service Profile Resource</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.services.ServiceProfileResource
-	 * @generated
-	 */
-	public Adapter createServiceProfileResourceAdapter() {
 		return null;
 	}
 

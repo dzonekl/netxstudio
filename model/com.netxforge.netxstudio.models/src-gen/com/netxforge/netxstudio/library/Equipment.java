@@ -49,9 +49,11 @@ import com.netxforge.netxstudio.operators.EquipmentRelationship;
  * 				Examples:
  * 				1. The Equipment
  * 				type typical structure is: Cabinets -> Rack -> Slots
- * 				-> Boards ->
+ * 				->
+ * 				Boards ->
  * 				Ports -> Cabling
- * 				2. The Equipment type can be constructed with a
+ * 				2. The Equipment type can be
+ * 				constructed with a
  * 				specif UI widget like
  * 				a Node Editor.
  * 			
@@ -377,17 +379,21 @@ public interface Equipment extends Component {
 	 * 
 	 * 							The following options are possible:
 	 * 
-	 * 							n =>
+	 * 							n
+	 * 							=>
 	 * 							The
 	 * 							equipment is not operating in any redundancy schema
-	 * 							n+1 => The
+	 * 							n+1
+	 * 							=> The
 	 * 							equipment is part of an n+1 schema. (1 stand-by for n
 	 * 							number of
 	 * 							active equipment).
-	 * 							1+1 => The equipment is paired with another
+	 * 							1+1 => The equipment is paired with
+	 * 							another
 	 * 							equipment.
 	 * 
-	 * 							It should be considered, that the permitted load and
+	 * 							It should be considered, that the permitted load
+	 * 							and
 	 * 							consequently the
 	 * 							Tolerance will depend on the
 	 * 							redundancy schema.
@@ -477,30 +483,39 @@ public interface Equipment extends Component {
 	 * 							equipment is operating.
 	 * 							Stand-by => The equipment is Stand-by.
 	 * 							Idle
-	 * 							=> The equipment is not configured and does not participate
+	 * 							=> The equipment is not configured and does not
+	 * 							participate
 	 * 							in
-	 * 							Active nor Stand-by and there for in the redudancy schema. An
+	 * 							Active nor Stand-by and there for in the redudancy
+	 * 							schema. An
 	 * 							Idle
 	 * 							e
 	 * 							Equipment can however be reserved.
-	 * 							Defect => The equipment is
+	 * 							Defect => The
+	 * 							equipment is
 	 * 							defect and does not participate in Active nor
 	 * 							Stand-by and there
 	 * 							for
 	 * 							in the redudancy schema.
-	 * 							Reserved => The equipment is reserved
+	 * 							Reserved => The
+	 * 							equipment is reserved
 	 * 							for
 	 * 							future use.
 	 * 
 	 * 							Examples
-	 * 							1. The state of the equipment could be
+	 * 							1. The state of the
+	 * 							equipment could be
 	 * 							considered to corelate with a
-	 * 							Metric of the Equipment. A Stand-by
-	 * 							equipment should not be considered when calculating the average
+	 * 							Metric of the
+	 * 							Equipment. A Stand-by
+	 * 							equipment should not be considered when
+	 * 							calculating the average
 	 * 							load for a
-	 * 							group of equipments. It will however depend
+	 * 							group of equipments. It will
+	 * 							however depend
 	 * 							on the
-	 * 							Equipment Manufacturer if measurements are reported for
+	 * 							Equipment Manufacturer if measurements are
+	 * 							reported for
 	 * 							non-Active
 	 * 							equipments.
 	 * 						

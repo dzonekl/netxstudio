@@ -49,6 +49,7 @@ public interface AnalyzerJob extends Job {
 	 * <!-- begin-model-doc -->
 	 * Reference to the RFSService for which the job
 	 * 								runs.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>RFS Service</em>' reference.
 	 * @see #setRFSService(RFSService)

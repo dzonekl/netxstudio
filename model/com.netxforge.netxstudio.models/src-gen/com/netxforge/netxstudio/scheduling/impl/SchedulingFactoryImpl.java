@@ -29,16 +29,19 @@ import com.netxforge.netxstudio.scheduling.AnalyzerJob;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
-import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.ServiceUserFailure;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
 /**
@@ -89,12 +92,15 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 			case SchedulingPackage.COMPONENT_FAILURE: return (EObject)createComponentFailure();
 			case SchedulingPackage.COMPONENT_WORK_FLOW_RUN: return (EObject)createComponentWorkFlowRun();
 			case SchedulingPackage.EXPRESSION_FAILURE: return (EObject)createExpressionFailure();
+			case SchedulingPackage.FAILURE: return (EObject)createFailure();
 			case SchedulingPackage.JOB: return (EObject)createJob();
 			case SchedulingPackage.JOB_RUN_CONTAINER: return (EObject)createJobRunContainer();
 			case SchedulingPackage.METRIC_SOURCE_JOB: return (EObject)createMetricSourceJob();
-			case SchedulingPackage.REPORTER_JOB: return (EObject)createReporterJob();
-			case SchedulingPackage.RFS_SERVICE_JOB: return (EObject)createRFSServiceJob();
+			case SchedulingPackage.OPERATOR_REPORTER_JOB: return (EObject)createOperatorReporterJob();
+			case SchedulingPackage.RFS_SERVICE_MONITORING_JOB: return (EObject)createRFSServiceMonitoringJob();
+			case SchedulingPackage.RFS_SERVICE_REPORTER_JOB: return (EObject)createRFSServiceReporterJob();
 			case SchedulingPackage.RFS_SERVICE_RETENTION_JOB: return (EObject)createRFSServiceRetentionJob();
+			case SchedulingPackage.SERVICE_USER_FAILURE: return (EObject)createServiceUserFailure();
 			case SchedulingPackage.WORK_FLOW_RUN: return (EObject)createWorkFlowRun();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -188,6 +194,16 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Failure createFailure() {
+		FailureImpl failure = new FailureImpl();
+		return failure;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Job createJob() {
 		JobImpl job = new JobImpl();
 		return job;
@@ -218,9 +234,9 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ReporterJob createReporterJob() {
-		ReporterJobImpl reporterJob = new ReporterJobImpl();
-		return reporterJob;
+	public OperatorReporterJob createOperatorReporterJob() {
+		OperatorReporterJobImpl operatorReporterJob = new OperatorReporterJobImpl();
+		return operatorReporterJob;
 	}
 
 	/**
@@ -228,9 +244,19 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RFSServiceJob createRFSServiceJob() {
-		RFSServiceJobImpl rfsServiceJob = new RFSServiceJobImpl();
-		return rfsServiceJob;
+	public RFSServiceMonitoringJob createRFSServiceMonitoringJob() {
+		RFSServiceMonitoringJobImpl rfsServiceMonitoringJob = new RFSServiceMonitoringJobImpl();
+		return rfsServiceMonitoringJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RFSServiceReporterJob createRFSServiceReporterJob() {
+		RFSServiceReporterJobImpl rfsServiceReporterJob = new RFSServiceReporterJobImpl();
+		return rfsServiceReporterJob;
 	}
 
 	/**
@@ -241,6 +267,16 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	public RFSServiceRetentionJob createRFSServiceRetentionJob() {
 		RFSServiceRetentionJobImpl rfsServiceRetentionJob = new RFSServiceRetentionJobImpl();
 		return rfsServiceRetentionJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ServiceUserFailure createServiceUserFailure() {
+		ServiceUserFailureImpl serviceUserFailure = new ServiceUserFailureImpl();
+		return serviceUserFailure;
 	}
 
 	/**

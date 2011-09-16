@@ -179,6 +179,29 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.Failure} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected FailureItemProvider failureItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.Failure}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createFailureAdapter() {
+		if (failureItemProvider == null) {
+			failureItemProvider = new FailureItemProvider(this);
+		}
+
+		return failureItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.Job} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -248,49 +271,72 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.ReporterJob} instances.
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.OperatorReporterJob} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ReporterJobItemProvider reporterJobItemProvider;
+	protected OperatorReporterJobItemProvider operatorReporterJobItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.ReporterJob}.
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.OperatorReporterJob}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createReporterJobAdapter() {
-		if (reporterJobItemProvider == null) {
-			reporterJobItemProvider = new ReporterJobItemProvider(this);
+	public Adapter createOperatorReporterJobAdapter() {
+		if (operatorReporterJobItemProvider == null) {
+			operatorReporterJobItemProvider = new OperatorReporterJobItemProvider(this);
 		}
 
-		return reporterJobItemProvider;
+		return operatorReporterJobItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.RFSServiceJob} instances.
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RFSServiceJobItemProvider rfsServiceJobItemProvider;
+	protected RFSServiceMonitoringJobItemProvider rfsServiceMonitoringJobItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceJob}.
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createRFSServiceJobAdapter() {
-		if (rfsServiceJobItemProvider == null) {
-			rfsServiceJobItemProvider = new RFSServiceJobItemProvider(this);
+	public Adapter createRFSServiceMonitoringJobAdapter() {
+		if (rfsServiceMonitoringJobItemProvider == null) {
+			rfsServiceMonitoringJobItemProvider = new RFSServiceMonitoringJobItemProvider(this);
 		}
 
-		return rfsServiceJobItemProvider;
+		return rfsServiceMonitoringJobItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.RFSServiceReporterJob} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected RFSServiceReporterJobItemProvider rfsServiceReporterJobItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.RFSServiceReporterJob}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createRFSServiceReporterJobAdapter() {
+		if (rfsServiceReporterJobItemProvider == null) {
+			rfsServiceReporterJobItemProvider = new RFSServiceReporterJobItemProvider(this);
+		}
+
+		return rfsServiceReporterJobItemProvider;
 	}
 
 	/**
@@ -314,6 +360,29 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		}
 
 		return rfsServiceRetentionJobItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.ServiceUserFailure} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ServiceUserFailureItemProvider serviceUserFailureItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.ServiceUserFailure}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createServiceUserFailureAdapter() {
+		if (serviceUserFailureItemProvider == null) {
+			serviceUserFailureItemProvider = new ServiceUserFailureItemProvider(this);
+		}
+
+		return serviceUserFailureItemProvider;
 	}
 
 	/**
@@ -442,12 +511,15 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		if (componentFailureItemProvider != null) componentFailureItemProvider.dispose();
 		if (componentWorkFlowRunItemProvider != null) componentWorkFlowRunItemProvider.dispose();
 		if (expressionFailureItemProvider != null) expressionFailureItemProvider.dispose();
+		if (failureItemProvider != null) failureItemProvider.dispose();
 		if (jobItemProvider != null) jobItemProvider.dispose();
 		if (jobRunContainerItemProvider != null) jobRunContainerItemProvider.dispose();
 		if (metricSourceJobItemProvider != null) metricSourceJobItemProvider.dispose();
-		if (reporterJobItemProvider != null) reporterJobItemProvider.dispose();
-		if (rfsServiceJobItemProvider != null) rfsServiceJobItemProvider.dispose();
+		if (operatorReporterJobItemProvider != null) operatorReporterJobItemProvider.dispose();
+		if (rfsServiceMonitoringJobItemProvider != null) rfsServiceMonitoringJobItemProvider.dispose();
+		if (rfsServiceReporterJobItemProvider != null) rfsServiceReporterJobItemProvider.dispose();
 		if (rfsServiceRetentionJobItemProvider != null) rfsServiceRetentionJobItemProvider.dispose();
+		if (serviceUserFailureItemProvider != null) serviceUserFailureItemProvider.dispose();
 		if (workFlowRunItemProvider != null) workFlowRunItemProvider.dispose();
 	}
 

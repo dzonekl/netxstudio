@@ -28,13 +28,16 @@ import com.netxforge.netxstudio.scheduling.AnalyzerJob;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
-import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.ServiceUserFailure;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
 /**
@@ -110,6 +113,10 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 				return createExpressionFailureAdapter();
 			}
 			@Override
+			public Adapter caseFailure(Failure object) {
+				return createFailureAdapter();
+			}
+			@Override
 			public Adapter caseJob(Job object) {
 				return createJobAdapter();
 			}
@@ -122,16 +129,24 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 				return createMetricSourceJobAdapter();
 			}
 			@Override
-			public Adapter caseReporterJob(ReporterJob object) {
-				return createReporterJobAdapter();
+			public Adapter caseOperatorReporterJob(OperatorReporterJob object) {
+				return createOperatorReporterJobAdapter();
 			}
 			@Override
-			public Adapter caseRFSServiceJob(RFSServiceJob object) {
-				return createRFSServiceJobAdapter();
+			public Adapter caseRFSServiceMonitoringJob(RFSServiceMonitoringJob object) {
+				return createRFSServiceMonitoringJobAdapter();
+			}
+			@Override
+			public Adapter caseRFSServiceReporterJob(RFSServiceReporterJob object) {
+				return createRFSServiceReporterJobAdapter();
 			}
 			@Override
 			public Adapter caseRFSServiceRetentionJob(RFSServiceRetentionJob object) {
 				return createRFSServiceRetentionJobAdapter();
+			}
+			@Override
+			public Adapter caseServiceUserFailure(ServiceUserFailure object) {
+				return createServiceUserFailureAdapter();
 			}
 			@Override
 			public Adapter caseWorkFlowRun(WorkFlowRun object) {
@@ -218,6 +233,20 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.Failure <em>Failure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.Failure
+	 * @generated
+	 */
+	public Adapter createFailureAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.Job <em>Job</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -260,30 +289,44 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.ReporterJob <em>Reporter Job</em>}'.
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.OperatorReporterJob <em>Operator Reporter Job</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.scheduling.ReporterJob
+	 * @see com.netxforge.netxstudio.scheduling.OperatorReporterJob
 	 * @generated
 	 */
-	public Adapter createReporterJobAdapter() {
+	public Adapter createOperatorReporterJobAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.RFSServiceJob <em>RFS Service Job</em>}'.
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob <em>RFS Service Monitoring Job</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see com.netxforge.netxstudio.scheduling.RFSServiceJob
+	 * @see com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob
 	 * @generated
 	 */
-	public Adapter createRFSServiceJobAdapter() {
+	public Adapter createRFSServiceMonitoringJobAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.RFSServiceReporterJob <em>RFS Service Reporter Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.RFSServiceReporterJob
+	 * @generated
+	 */
+	public Adapter createRFSServiceReporterJobAdapter() {
 		return null;
 	}
 
@@ -298,6 +341,20 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createRFSServiceRetentionJobAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.ServiceUserFailure <em>Service User Failure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.ServiceUserFailure
+	 * @generated
+	 */
+	public Adapter createServiceUserFailureAdapter() {
 		return null;
 	}
 

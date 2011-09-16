@@ -37,7 +37,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  *
  * @generated
  */
-public class ExpressionFailureImpl extends ComponentFailureImpl implements ExpressionFailure {
+public class ExpressionFailureImpl extends FailureImpl implements ExpressionFailure {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

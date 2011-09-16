@@ -27,13 +27,16 @@ import com.netxforge.netxstudio.scheduling.AnalyzerJob;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.ExpressionFailure;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
-import com.netxforge.netxstudio.scheduling.ReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
+import com.netxforge.netxstudio.scheduling.ServiceUserFailure;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 
 /**
@@ -104,6 +107,8 @@ public class SchedulingSwitch<T> extends Switch<T> {
 			case SchedulingPackage.COMPONENT_FAILURE: {
 				ComponentFailure componentFailure = (ComponentFailure)theEObject;
 				T result = caseComponentFailure(componentFailure);
+				if (result == null) result = caseExpressionFailure(componentFailure);
+				if (result == null) result = caseFailure(componentFailure);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -117,7 +122,13 @@ public class SchedulingSwitch<T> extends Switch<T> {
 			case SchedulingPackage.EXPRESSION_FAILURE: {
 				ExpressionFailure expressionFailure = (ExpressionFailure)theEObject;
 				T result = caseExpressionFailure(expressionFailure);
-				if (result == null) result = caseComponentFailure(expressionFailure);
+				if (result == null) result = caseFailure(expressionFailure);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SchedulingPackage.FAILURE: {
+				Failure failure = (Failure)theEObject;
+				T result = caseFailure(failure);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -142,19 +153,27 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SchedulingPackage.REPORTER_JOB: {
-				ReporterJob reporterJob = (ReporterJob)theEObject;
-				T result = caseReporterJob(reporterJob);
-				if (result == null) result = caseJob(reporterJob);
-				if (result == null) result = caseBase(reporterJob);
+			case SchedulingPackage.OPERATOR_REPORTER_JOB: {
+				OperatorReporterJob operatorReporterJob = (OperatorReporterJob)theEObject;
+				T result = caseOperatorReporterJob(operatorReporterJob);
+				if (result == null) result = caseJob(operatorReporterJob);
+				if (result == null) result = caseBase(operatorReporterJob);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SchedulingPackage.RFS_SERVICE_JOB: {
-				RFSServiceJob rfsServiceJob = (RFSServiceJob)theEObject;
-				T result = caseRFSServiceJob(rfsServiceJob);
-				if (result == null) result = caseJob(rfsServiceJob);
-				if (result == null) result = caseBase(rfsServiceJob);
+			case SchedulingPackage.RFS_SERVICE_MONITORING_JOB: {
+				RFSServiceMonitoringJob rfsServiceMonitoringJob = (RFSServiceMonitoringJob)theEObject;
+				T result = caseRFSServiceMonitoringJob(rfsServiceMonitoringJob);
+				if (result == null) result = caseJob(rfsServiceMonitoringJob);
+				if (result == null) result = caseBase(rfsServiceMonitoringJob);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SchedulingPackage.RFS_SERVICE_REPORTER_JOB: {
+				RFSServiceReporterJob rfsServiceReporterJob = (RFSServiceReporterJob)theEObject;
+				T result = caseRFSServiceReporterJob(rfsServiceReporterJob);
+				if (result == null) result = caseJob(rfsServiceReporterJob);
+				if (result == null) result = caseBase(rfsServiceReporterJob);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -163,6 +182,14 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				T result = caseRFSServiceRetentionJob(rfsServiceRetentionJob);
 				if (result == null) result = caseJob(rfsServiceRetentionJob);
 				if (result == null) result = caseBase(rfsServiceRetentionJob);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SchedulingPackage.SERVICE_USER_FAILURE: {
+				ServiceUserFailure serviceUserFailure = (ServiceUserFailure)theEObject;
+				T result = caseServiceUserFailure(serviceUserFailure);
+				if (result == null) result = caseExpressionFailure(serviceUserFailure);
+				if (result == null) result = caseFailure(serviceUserFailure);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -237,6 +264,21 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Failure</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Failure</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFailure(Failure object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -282,32 +324,47 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Reporter Job</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Operator Reporter Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Reporter Job</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Operator Reporter Job</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseReporterJob(ReporterJob object) {
+	public T caseOperatorReporterJob(OperatorReporterJob object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>RFS Service Job</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>RFS Service Monitoring Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>RFS Service Job</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>RFS Service Monitoring Job</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseRFSServiceJob(RFSServiceJob object) {
+	public T caseRFSServiceMonitoringJob(RFSServiceMonitoringJob object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>RFS Service Reporter Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>RFS Service Reporter Job</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRFSServiceReporterJob(RFSServiceReporterJob object) {
 		return null;
 	}
 
@@ -323,6 +380,21 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseRFSServiceRetentionJob(RFSServiceRetentionJob object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Service User Failure</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Service User Failure</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseServiceUserFailure(ServiceUserFailure object) {
 		return null;
 	}
 

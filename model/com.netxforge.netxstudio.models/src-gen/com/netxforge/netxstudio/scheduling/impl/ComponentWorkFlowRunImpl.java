@@ -21,8 +21,8 @@ package com.netxforge.netxstudio.scheduling.impl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
-import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
 /**
@@ -64,8 +64,8 @@ public class ComponentWorkFlowRunImpl extends WorkFlowRunImpl implements Compone
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<ComponentFailure> getFailureRefs() {
-		return (EList<ComponentFailure>)eGet(SchedulingPackage.Literals.COMPONENT_WORK_FLOW_RUN__FAILURE_REFS, true);
+	public EList<Failure> getFailureRefs() {
+		return (EList<Failure>)eGet(SchedulingPackage.Literals.COMPONENT_WORK_FLOW_RUN__FAILURE_REFS, true);
 	}
 
 } //ComponentWorkFlowRunImpl

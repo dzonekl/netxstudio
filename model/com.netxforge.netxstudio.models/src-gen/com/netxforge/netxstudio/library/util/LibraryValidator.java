@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -34,6 +35,7 @@ import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryPackage;
@@ -120,6 +122,8 @@ public class LibraryValidator extends EObjectValidator {
 	@Override
 	protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		switch (classifierID) {
+			case LibraryPackage.BASE_EXPRESSION_RESULT:
+				return validateBaseExpressionResult((BaseExpressionResult)value, diagnostics, context);
 			case LibraryPackage.BASE_RESOURCE:
 				return validateBaseResource((BaseResource)value, diagnostics, context);
 			case LibraryPackage.COMPONENT:
@@ -134,6 +138,8 @@ public class LibraryValidator extends EObjectValidator {
 				return validateExpressionResult((ExpressionResult)value, diagnostics, context);
 			case LibraryPackage.FUNCTION:
 				return validateFunction((Function)value, diagnostics, context);
+			case LibraryPackage.LAST_EVALUATION_EXPRESSION_RESULT:
+				return validateLastEvaluationExpressionResult((LastEvaluationExpressionResult)value, diagnostics, context);
 			case LibraryPackage.LIBRARY:
 				return validateLibrary((Library)value, diagnostics, context);
 			case LibraryPackage.NET_XRESOURCE:
@@ -169,6 +175,15 @@ public class LibraryValidator extends EObjectValidator {
 			default:
 				return true;
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateBaseExpressionResult(BaseExpressionResult baseExpressionResult, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint((EObject)baseExpressionResult, diagnostics, context);
 	}
 
 	/**
@@ -273,6 +288,15 @@ public class LibraryValidator extends EObjectValidator {
 				 Diagnostic.ERROR,
 				 DIAGNOSTIC_SOURCE,
 				 0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateLastEvaluationExpressionResult(LastEvaluationExpressionResult lastEvaluationExpressionResult, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint((EObject)lastEvaluationExpressionResult, diagnostics, context);
 	}
 
 	/**

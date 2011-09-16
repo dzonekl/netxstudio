@@ -56,6 +56,15 @@ public interface ServicesFactory extends EFactory {
 	CIID createCIID();
 
 	/**
+	 * Returns a new object of class '<em>Derived Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Derived Resource</em>'.
+	 * @generated
+	 */
+	DerivedResource createDerivedResource();
+
+	/**
 	 * Returns a new object of class '<em>RFS Service</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -117,15 +126,6 @@ public interface ServicesFactory extends EFactory {
 	 * @generated
 	 */
 	ServiceProfile createServiceProfile();
-
-	/**
-	 * Returns a new object of class '<em>Service Profile Resource</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Service Profile Resource</em>'.
-	 * @generated
-	 */
-	ServiceProfileResource createServiceProfileResource();
 
 	/**
 	 * Returns a new object of class '<em>Service User</em>'.

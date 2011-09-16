@@ -70,6 +70,7 @@ public class ServerRequest {
 	public static final String REPORTING_SERVICE = "com.netxforge.netxstudio.server.logic.reporting.ReportingService";
 
 	public static final String MS_PARAM = "metricSource";
+	public static final String OPERATOR_PARAM = "operator";
 	public static final String SERVICE_PARAM = "rfsService";
 	public static final String NODE_PARAM = "node";
 	public static final String NODETYPE_PARAM = "nodeType";
@@ -93,6 +94,12 @@ public class ServerRequest {
 				cdoObject.cdoID(), fromDate, toDate);
 	}
 
+	public String callOperatorReportingAction(CDOObject cdoObject, Date fromDate,
+			Date toDate) throws Exception {
+		return callPeriodAction(REPORTING_SERVICE, OPERATOR_PARAM,
+				cdoObject.cdoID(), fromDate, toDate);
+	}
+	
 	public String callRetentionAction() throws Exception {
 		// Retention can deal with RFSService, Node, Nodetype etc..).
 		// Get all services.
@@ -105,22 +112,7 @@ public class ServerRequest {
 	private String callMetricAction(String serviceName, String parameterName,
 			CDOID cdoId) throws Exception {
 
-		if (server == null) {
-			server = NETXSTUDIO_SERVER;
-		} else {
-			if (server.startsWith("localhost")) {
-				server = NETXSTUDIO_SERVER;
-			} else {
-				// Change the port, if any specified.
-				int portIndex = server.indexOf(':');
-				if (portIndex != -1) {
-					server = server.substring(0, portIndex);
-				} else {
-					server = "http://" + server + ":8080";
-				}
-
-			}
-		}
+		setServer();
 
 		final StringBuilder url = new StringBuilder();
 		url.append(server + "/netxforge/service");
@@ -134,25 +126,11 @@ public class ServerRequest {
 		return result;
 	}
 
+	
 	public String callPeriodAction(String serviceName, String parameterName,
 			CDOID cdoId, Date from, Date to) throws Exception {
 
-		if (server == null) {
-			server = NETXSTUDIO_SERVER;
-		} else {
-			if (server.startsWith("localhost")) {
-				server = NETXSTUDIO_SERVER;
-			} else {
-				// Change the port, if any specified.
-				int portIndex = server.indexOf(':');
-				if (portIndex != -1) {
-					server = server.substring(0, portIndex);
-				} else {
-					server = "http://" + server + ":8080";
-				}
-
-			}
-		}
+		setServer();
 
 		if (from == null) {
 			from = modelUtils.oneMonthAgo();
@@ -180,10 +158,8 @@ public class ServerRequest {
 
 	public String callRetentionAction(String serviceName, String parameterName,
 			CDOID cdoId, Date from, Date to) throws Exception {
-
-		if (server == null) {
-			server = NETXSTUDIO_SERVER;
-		}
+		
+		setServer();
 
 		final StringBuilder url = new StringBuilder();
 		url.append(server + "/netxforge/service");
@@ -234,6 +210,26 @@ public class ServerRequest {
 		}
 	}
 
+	private void setServer() {
+		if (server == null) {
+			server = NETXSTUDIO_SERVER;
+		} else {
+			if (server.startsWith("localhost")) {
+				server = NETXSTUDIO_SERVER;
+			} else {
+				// Change the port, if any specified.
+				int portIndex = server.indexOf(':');
+				if (portIndex != -1) {
+					server = server.substring(0, portIndex);
+				} else {
+					server = "http://" + server + ":8080";
+				}
+
+			}
+		}
+	}
+
+	
 	private String getDateParamValue(Date d) {
 		final XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(d);
 		return XMLTypeFactory.eINSTANCE.convertDateTime(xmlDate);

@@ -133,6 +133,29 @@ public class ServicesItemProviderAdapterFactory extends ServicesAdapterFactory i
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.services.DerivedResource} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected DerivedResourceItemProvider derivedResourceItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.services.DerivedResource}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createDerivedResourceAdapter() {
+		if (derivedResourceItemProvider == null) {
+			derivedResourceItemProvider = new DerivedResourceItemProvider(this);
+		}
+
+		return derivedResourceItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.services.RFSService} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -294,29 +317,6 @@ public class ServicesItemProviderAdapterFactory extends ServicesAdapterFactory i
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.services.ServiceProfileResource} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ServiceProfileResourceItemProvider serviceProfileResourceItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link com.netxforge.netxstudio.services.ServiceProfileResource}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createServiceProfileResourceAdapter() {
-		if (serviceProfileResourceItemProvider == null) {
-			serviceProfileResourceItemProvider = new ServiceProfileResourceItemProvider(this);
-		}
-
-		return serviceProfileResourceItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.services.ServiceUser} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -440,6 +440,7 @@ public class ServicesItemProviderAdapterFactory extends ServicesAdapterFactory i
 	public void dispose() {
 		if (cfsServiceItemProvider != null) cfsServiceItemProvider.dispose();
 		if (ciidItemProvider != null) ciidItemProvider.dispose();
+		if (derivedResourceItemProvider != null) derivedResourceItemProvider.dispose();
 		if (rfsServiceItemProvider != null) rfsServiceItemProvider.dispose();
 		if (serviceItemProvider != null) serviceItemProvider.dispose();
 		if (serviceDistributionItemProvider != null) serviceDistributionItemProvider.dispose();
@@ -447,7 +448,6 @@ public class ServicesItemProviderAdapterFactory extends ServicesAdapterFactory i
 		if (serviceForecastUsersItemProvider != null) serviceForecastUsersItemProvider.dispose();
 		if (serviceMonitorItemProvider != null) serviceMonitorItemProvider.dispose();
 		if (serviceProfileItemProvider != null) serviceProfileItemProvider.dispose();
-		if (serviceProfileResourceItemProvider != null) serviceProfileResourceItemProvider.dispose();
 		if (serviceUserItemProvider != null) serviceUserItemProvider.dispose();
 	}
 

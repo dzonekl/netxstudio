@@ -41,7 +41,7 @@ import com.netxforge.netxstudio.library.Expression;
  * @model extendedMetaData="name='ExpressionFailure' kind='elementOnly'"
  * @generated
  */
-public interface ExpressionFailure extends ComponentFailure {
+public interface ExpressionFailure extends Failure {
 	/**
 	 * Returns the value of the '<em><b>Expression Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->

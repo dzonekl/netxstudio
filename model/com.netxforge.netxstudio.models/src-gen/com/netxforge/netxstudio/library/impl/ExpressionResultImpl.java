@@ -20,12 +20,11 @@ package com.netxforge.netxstudio.library.impl;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
 
@@ -46,7 +45,7 @@ import com.netxforge.netxstudio.metrics.KindHintType;
  *
  * @generated
  */
-public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionResult {
+public class ExpressionResultImpl extends BaseExpressionResultImpl implements ExpressionResult {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -71,9 +70,8 @@ public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionRes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	protected int eStaticFeatureCount() {
-		return 0;
+	public BaseResource getTargetResource() {
+		return (BaseResource)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_RESOURCE, true);
 	}
 
 	/**
@@ -81,16 +79,7 @@ public class ExpressionResultImpl extends CDOObjectImpl implements ExpressionRes
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NetXResource getTargetResource() {
-		return (NetXResource)eGet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_RESOURCE, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTargetResource(NetXResource newTargetResource) {
+	public void setTargetResource(BaseResource newTargetResource) {
 		eSet(LibraryPackage.Literals.EXPRESSION_RESULT__TARGET_RESOURCE, newTargetResource);
 	}
 

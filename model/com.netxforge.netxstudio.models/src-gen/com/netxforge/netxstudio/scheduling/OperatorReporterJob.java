@@ -18,55 +18,57 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
-import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.operators.Operator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>RFS Service Job</b></em>'.
+ * A representation of the model object '<em><b>Operator Reporter Job</b></em>'.
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A job computing capacity and utilization for a
+ * A job producing external format reports for a
  * 				service.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.RFSServiceJob#getRFSService <em>RFS Service</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.OperatorReporterJob#getOperator <em>Operator</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getRFSServiceJob()
- * @model extendedMetaData="name='RFSServiceJob' kind='elementOnly'"
+ * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getOperatorReporterJob()
+ * @model extendedMetaData="name='OperatorReporterJob' kind='elementOnly'"
  * @generated
  */
-public interface RFSServiceJob extends Job {
+public interface OperatorReporterJob extends Job {
 	/**
-	 * Returns the value of the '<em><b>RFS Service</b></em>' reference.
+	 * Returns the value of the '<em><b>Operator</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Reference to the RFSService for which the job
+	 * Reference to the Operator for which the job
 	 * 								runs.
+	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>RFS Service</em>' reference.
-	 * @see #setRFSService(RFSService)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getRFSServiceJob_RFSService()
+	 * @return the value of the '<em>Operator</em>' reference.
+	 * @see #setOperator(Operator)
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getOperatorReporterJob_Operator()
 	 * @model required="true"
-	 *        extendedMetaData="kind='element' name='RFSService'"
+	 *        extendedMetaData="kind='element' name='Operator'"
 	 * @generated
 	 */
-	RFSService getRFSService();
+	Operator getOperator();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.RFSServiceJob#getRFSService <em>RFS Service</em>}' reference.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.OperatorReporterJob#getOperator <em>Operator</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>RFS Service</em>' reference.
-	 * @see #getRFSService()
+	 * @param value the new value of the '<em>Operator</em>' reference.
+	 * @see #getOperator()
 	 * @generated
 	 */
-	void setRFSService(RFSService value);
+	void setOperator(Operator value);
 
-} // RFSServiceJob
+} // OperatorReporterJob

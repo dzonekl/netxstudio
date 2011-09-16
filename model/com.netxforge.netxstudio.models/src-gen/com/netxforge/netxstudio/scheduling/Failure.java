@@ -18,55 +18,57 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
-import com.netxforge.netxstudio.services.RFSService;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Reporter Job</b></em>'.
+ * A representation of the model object '<em><b>Failure</b></em>'.
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * A job producing external format reports for a
- * 				service.
+ * Gives information about a failure
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.ReporterJob#getRFSService <em>RFS Service</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.Failure#getMessage <em>Message</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getReporterJob()
- * @model extendedMetaData="name='ReporterJob' kind='elementOnly'"
+ * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getFailure()
+ * @model extendedMetaData="name='Failure' kind='elementOnly'"
+ * @extends CDOObject
  * @generated
  */
-public interface ReporterJob extends Job {
+public interface Failure extends CDOObject {
 	/**
-	 * Returns the value of the '<em><b>RFS Service</b></em>' reference.
+	 * Returns the value of the '<em><b>Message</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Reference to the RFSService for which the job
-	 * 								runs.
+	 * Message giving some extra information on the
+	 * 						failure
+	 * 					
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>RFS Service</em>' reference.
-	 * @see #setRFSService(RFSService)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getReporterJob_RFSService()
-	 * @model required="true"
-	 *        extendedMetaData="kind='element' name='RFSService'"
+	 * @return the value of the '<em>Message</em>' attribute.
+	 * @see #setMessage(String)
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getFailure_Message()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='element' name='Message'"
 	 * @generated
 	 */
-	RFSService getRFSService();
+	String getMessage();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.ReporterJob#getRFSService <em>RFS Service</em>}' reference.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.Failure#getMessage <em>Message</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>RFS Service</em>' reference.
-	 * @see #getRFSService()
+	 * @param value the new value of the '<em>Message</em>' attribute.
+	 * @see #getMessage()
 	 * @generated
 	 */
-	void setRFSService(RFSService value);
+	void setMessage(String value);
 
-} // ReporterJob
+} // Failure

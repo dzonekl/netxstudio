@@ -107,7 +107,7 @@
 			<xs:extension base="gen:Base">
 				<xs:sequence>
 					<xs:element name="ProfileResources" minOccurs="0"
-						maxOccurs="unbounded" type="ServiceProfileResource">
+						maxOccurs="unbounded" type="DerivedResource">
 						<xs:annotation>
 							<xs:documentation>The ProfileResource reference, contains 0 or
 								more Resource types.
@@ -489,10 +489,10 @@
 	</xs:complexType>
 
 	<!--_____________________________ -->
-	<!--| SERVICEPROFILERESOURCE | -->
+	<!--| DERIVEDRESOURCE | -->
 	<!--|___________________________| -->
 
-	<xs:complexType name="ServiceProfileResource">
+	<xs:complexType name="DerivedResource">
 		<xs:annotation>
 			<xs:documentation>
 			TODO
@@ -505,7 +505,7 @@
 						<xs:documentation>
 						</xs:documentation>
 					</xs:annotation>
-					<xs:element maxOccurs="unbounded" minOccurs="0" name="ProfileValues" type="gen:Value">
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="Values" type="gen:Value">
 						<xs:annotation>
 							<xs:documentation>The ProfileValues reference, contains
 								profile values. Profile values are populated with expressions.
@@ -579,8 +579,17 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
-					<xs:element name="ServiceResources" minOccurs="0"
-						maxOccurs="unbounded" type="library:NetXResource">
+					<xs:element name="DistributionRefs" minOccurs="0"
+						maxOccurs="unbounded" ecore:reference="library:NetXResource" type="xs:anyURI">
+						<xs:annotation>
+							<xs:documentation>The ServiceResource reference, contains 0 or
+								more
+								Resource types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Distribution" minOccurs="0"
+						maxOccurs="unbounded" type="DerivedResource">
 						<xs:annotation>
 							<xs:documentation>The ServiceResource reference, contains 0 or
 								more

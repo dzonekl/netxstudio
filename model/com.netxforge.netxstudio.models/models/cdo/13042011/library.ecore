@@ -11,6 +11,15 @@
     <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL&#xA;http://www.eclipse.org/emf/2002/Ecore/OCL&#xA;http://www.eclipse.org/emf/2002/Ecore/OCL"/>
     <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL&#xA;http://www.eclipse.org/emf/2002/Ecore/OCL&#xA;http://www.eclipse.org/emf/2002/Ecore/OCL"/>
   </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="BaseExpressionResult">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A type representing the base results of an&#xA;&#x9;&#x9;&#x9;&#x9;expression&#xA;&#x9;&#x9;&#x9;&#x9;run.&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="BaseExpressionResult"/>
+      <details key="kind" value="empty"/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BaseResource" eSuperTypes="generics.ecore#//Base">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;"/>
@@ -170,7 +179,7 @@
         <details key="documentation" value="OCL derived feature: Retrieves all resources&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL">
-        <details key="derivation" value="self->closure(equipments).resources->asOrderedSet()"/>
+        <details key="derivation" value="self->closure(equipments).resources->asOrderedSet()&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -218,7 +227,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Equipment" eSuperTypes="#//Component">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing the basic information points of&#xA;&#x9;&#x9;&#x9;&#x9;a real telecommunications equipment part.&#xA;&#x9;&#x9;&#x9;&#x9;Specifically it represents&#xA;&#x9;&#x9;&#x9;&#x9;the Hardware portion. (The Software or logic is&#xA;&#x9;&#x9;&#x9;&#x9;represented by the&#xA;&#x9;&#x9;&#x9;&#x9;Function type).&#xA;&#x9;&#x9;&#x9;&#x9;Equipment types can be nested to form a hiarchical&#xA;&#x9;&#x9;&#x9;&#x9;structure in similar&#xA;&#x9;&#x9;&#x9;&#x9;fashion to a real HW equipment.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;The Equipment&#xA;&#x9;&#x9;&#x9;&#x9;type (and/or it's children) is first part of the Library&#xA;&#x9;&#x9;&#x9;&#x9;type, and&#xA;&#x9;&#x9;&#x9;&#x9;then copied into a Node type when&#xA;&#x9;&#x9;&#x9;&#x9;created.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. The Equipment&#xA;&#x9;&#x9;&#x9;&#x9;type typical structure is: Cabinets -> Rack -> Slots&#xA;&#x9;&#x9;&#x9;&#x9;-> Boards ->&#xA;&#x9;&#x9;&#x9;&#x9;Ports -> Cabling&#xA;&#x9;&#x9;&#x9;&#x9;2. The Equipment type can be constructed with a&#xA;&#x9;&#x9;&#x9;&#x9;specif UI widget like&#xA;&#x9;&#x9;&#x9;&#x9;a Node Editor.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing the basic information points of&#xA;&#x9;&#x9;&#x9;&#x9;a real telecommunications equipment part.&#xA;&#x9;&#x9;&#x9;&#x9;Specifically it represents&#xA;&#x9;&#x9;&#x9;&#x9;the Hardware portion. (The Software or logic is&#xA;&#x9;&#x9;&#x9;&#x9;represented by the&#xA;&#x9;&#x9;&#x9;&#x9;Function type).&#xA;&#x9;&#x9;&#x9;&#x9;Equipment types can be nested to form a hiarchical&#xA;&#x9;&#x9;&#x9;&#x9;structure in similar&#xA;&#x9;&#x9;&#x9;&#x9;fashion to a real HW equipment.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;The Equipment&#xA;&#x9;&#x9;&#x9;&#x9;type (and/or it's children) is first part of the Library&#xA;&#x9;&#x9;&#x9;&#x9;type, and&#xA;&#x9;&#x9;&#x9;&#x9;then copied into a Node type when&#xA;&#x9;&#x9;&#x9;&#x9;created.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. The Equipment&#xA;&#x9;&#x9;&#x9;&#x9;type typical structure is: Cabinets -> Rack -> Slots&#xA;&#x9;&#x9;&#x9;&#x9;->&#xA;&#x9;&#x9;&#x9;&#x9;Boards ->&#xA;&#x9;&#x9;&#x9;&#x9;Ports -> Cabling&#xA;&#x9;&#x9;&#x9;&#x9;2. The Equipment type can be&#xA;&#x9;&#x9;&#x9;&#x9;constructed with a&#xA;&#x9;&#x9;&#x9;&#x9;specif UI widget like&#xA;&#x9;&#x9;&#x9;&#x9;a Node Editor.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Equipment"/>
@@ -321,7 +330,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="redundancy" eType="#//RedundancyType"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Redundancy attribute holds the expected&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;redundancy schema of an equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;An equipment is Active,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Stand-by,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Idle or Defect.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The following options are possible:&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;n =>&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment is not operating in any redundancy schema&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;n+1 => The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment is part of an n+1 schema. (1 stand-by for n&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;number of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;active equipment).&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1+1 => The equipment is paired with another&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;It should be considered, that the permitted load and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;consequently the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Tolerance will depend on the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;redundancy schema.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Closely related to the Redundancy schema is the Load&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Distribution.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1. A schema of n, means a failure of this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment will&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;not be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;covered by another equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;2. A Schema of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;n+1, means a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;failure of the equipment will be covered&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;by another&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;unless the stand-by equipment, is already&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;active.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;3. A&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;schema of 1+1,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;means the load on this equipment will be covered&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;by&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;another&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The Redundancy attribute holds the expected&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;redundancy schema of an equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;An equipment is Active,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Stand-by,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Idle or Defect.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The following options are possible:&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;n&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;=>&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment is not operating in any redundancy schema&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;n+1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;=> The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment is part of an n+1 schema. (1 stand-by for n&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;number of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;active equipment).&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1+1 => The equipment is paired with&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;another&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;It should be considered, that the permitted load&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;consequently the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Tolerance will depend on the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;redundancy schema.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Closely related to the Redundancy schema is the Load&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Distribution.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1. A schema of n, means a failure of this&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment will&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;not be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;covered by another equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;2. A Schema of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;n+1, means a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;failure of the equipment will be covered&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;by another&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;unless the stand-by equipment, is already&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;active.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;3. A&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;schema of 1+1,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;means the load on this equipment will be covered&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;by&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;another&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -331,7 +340,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="#//StateType"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The State attribute holds the life status of an&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The following options are possible:&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Active => The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment is operating.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Stand-by => The equipment is Stand-by.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Idle&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;=> The equipment is not configured and does not participate&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Active nor Stand-by and there for in the redudancy schema. An&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Idle&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;e&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Equipment can however be reserved.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defect => The equipment is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;defect and does not participate in Active nor&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Stand-by and there&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;in the redudancy schema.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Reserved => The equipment is reserved&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;future use.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1. The state of the equipment could be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;considered to corelate with a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Metric of the Equipment. A Stand-by&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment should not be considered when calculating the average&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;load for a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;group of equipments. It will however depend&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;on the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Equipment Manufacturer if measurements are reported for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;non-Active&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipments.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The State attribute holds the life status of an&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The following options are possible:&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Active => The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment is operating.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Stand-by => The equipment is Stand-by.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Idle&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;=> The equipment is not configured and does not&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;participate&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Active nor Stand-by and there for in the redudancy&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;schema. An&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Idle&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;e&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Equipment can however be reserved.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defect => The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;defect and does not participate in Active nor&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Stand-by and there&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;in the redudancy schema.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Reserved => The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment is reserved&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;future use.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Examples&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;1. The state of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment could be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;considered to corelate with a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Metric of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Equipment. A Stand-by&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment should not be considered when&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;calculating the average&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;load for a&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;group of equipments. It will&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;however depend&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;on the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Equipment Manufacturer if measurements are&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;reported for&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;non-Active&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipments.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -492,7 +501,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExpressionResult">
+  <eClassifiers xsi:type="ecore:EClass" name="ExpressionResult" eSuperTypes="#//BaseExpressionResult">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A type representing the results of an expression&#xA;&#x9;&#x9;&#x9;&#x9;run.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
@@ -500,7 +509,7 @@
       <details key="name" value="ExpressionResult"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetResource" eType="#//NetXResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetResource" eType="#//BaseResource">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="TargetResource"/>
@@ -537,7 +546,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Function" eSuperTypes="#//Component">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A type representing a function in an a telecom&#xA;&#x9;&#x9;&#x9;&#x9;equipment. This is often also referred to as a Application,&#xA;&#x9;&#x9;&#x9;&#x9;or a&#xA;&#x9;&#x9;&#x9;&#x9;Logical Function&#xA;&#x9;&#x9;&#x9;&#x9;Specifically it represents the Software portion.&#xA;&#x9;&#x9;&#x9;&#x9;(The Hardware is represented by&#xA;&#x9;&#x9;&#x9;&#x9;the Equipment type).&#xA;&#x9;&#x9;&#x9;&#x9;Function types&#xA;&#x9;&#x9;&#x9;&#x9;can be nested to form a hiarchical structure in similar&#xA;&#x9;&#x9;&#x9;&#x9;fashion to a&#xA;&#x9;&#x9;&#x9;&#x9;real Software anatomy.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;The Function type (and/or it's children) is&#xA;&#x9;&#x9;&#x9;&#x9;first part of the Library&#xA;&#x9;&#x9;&#x9;&#x9;type, and then copied into a Node type when&#xA;&#x9;&#x9;&#x9;&#x9;created.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. The Function type typical structure is: System&#xA;&#x9;&#x9;&#x9;&#x9;-> Subsystem ->&#xA;&#x9;&#x9;&#x9;&#x9;Module etc..&#xA;&#x9;&#x9;&#x9;&#x9;2. The Function type can be &quot;Mobility&#xA;&#x9;&#x9;&#x9;&#x9;Management&quot;.&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="A type representing a function in an a telecom&#xA;&#x9;&#x9;&#x9;&#x9;equipment. This is often also referred to as a Application,&#xA;&#x9;&#x9;&#x9;&#x9;or a&#xA;&#x9;&#x9;&#x9;&#x9;Logical Function&#xA;&#x9;&#x9;&#x9;&#x9;Specifically it represents the Software portion.&#xA;&#x9;&#x9;&#x9;&#x9;(The Hardware is represented by&#xA;&#x9;&#x9;&#x9;&#x9;the Equipment type).&#xA;&#x9;&#x9;&#x9;&#x9;Function types&#xA;&#x9;&#x9;&#x9;&#x9;can be nested to form a hiarchical structure in similar&#xA;&#x9;&#x9;&#x9;&#x9;fashion to a&#xA;&#x9;&#x9;&#x9;&#x9;real Software anatomy.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;The Function type (and/or it's children) is&#xA;&#x9;&#x9;&#x9;&#x9;first part of the Library&#xA;&#x9;&#x9;&#x9;&#x9;type, and then copied into a Node type when&#xA;&#x9;&#x9;&#x9;&#x9;created.&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;Examples:&#xA;&#x9;&#x9;&#x9;&#x9;1. The Function type typical structure is: System&#xA;&#x9;&#x9;&#x9;&#x9;-> Subsystem ->&#xA;&#x9;&#x9;&#x9;&#x9;Module etc..&#xA;&#x9;&#x9;&#x9;&#x9;2. The Function type can be&#xA;&#x9;&#x9;&#x9;&#x9;&quot;Mobility&#xA;&#x9;&#x9;&#x9;&#x9;Management&quot;.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="&#xA;&#x9;&#x9;&#x9;&#x9;ValidFunctionName&#xA;&#x9;&#x9;&#x9;"/>
@@ -580,6 +589,21 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="AllFunctions"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LastEvaluationExpressionResult" eSuperTypes="#//BaseExpressionResult">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A type representing the result of th of an expression&#xA;&#x9;&#x9;&#x9;&#x9;run.&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="LastEvaluationExpressionResult"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastEvalResult" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="LastEvalResult"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -738,7 +762,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="componentRef" lowerBound="1"
         eType="#//Component" eOpposite="#//Component/resourceRefs">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Reference to the component for which this netx resource was created.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Reference to the component for which this netx&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;resource was created.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -1023,11 +1047,12 @@
     <eLiterals name="METRIC"/>
     <eLiterals name="METRICREMOVE" value="1" literal="METRIC_REMOVE"/>
     <eLiterals name="CAP" value="2"/>
-    <eLiterals name="FORECAST" value="3"/>
-    <eLiterals name="FORECASTCAP" value="4" literal="FORECAST_CAP"/>
-    <eLiterals name="TRENDED" value="5"/>
-    <eLiterals name="UTILIZATION" value="6"/>
-    <eLiterals name="TOLERANCE" value="7"/>
+    <eLiterals name="DERIVED" value="3"/>
+    <eLiterals name="FORECAST" value="4"/>
+    <eLiterals name="FORECASTCAP" value="5" literal="FORECAST_CAP"/>
+    <eLiterals name="TRENDED" value="6"/>
+    <eLiterals name="UTILIZATION" value="7"/>
+    <eLiterals name="TOLERANCE" value="8"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="RangeKindObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

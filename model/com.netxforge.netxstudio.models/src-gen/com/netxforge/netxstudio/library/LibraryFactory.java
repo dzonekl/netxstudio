@@ -38,6 +38,15 @@ public interface LibraryFactory extends EFactory {
 	LibraryFactory eINSTANCE = com.netxforge.netxstudio.library.impl.LibraryFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Base Expression Result</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Base Expression Result</em>'.
+	 * @generated
+	 */
+	BaseExpressionResult createBaseExpressionResult();
+
+	/**
 	 * Returns a new object of class '<em>Base Resource</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -99,6 +108,15 @@ public interface LibraryFactory extends EFactory {
 	 * @generated
 	 */
 	Function createFunction();
+
+	/**
+	 * Returns a new object of class '<em>Last Evaluation Expression Result</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Last Evaluation Expression Result</em>'.
+	 * @generated
+	 */
+	LastEvaluationExpressionResult createLastEvaluationExpressionResult();
 
 	/**
 	 * Returns a new object of class '<em>Library</em>'.

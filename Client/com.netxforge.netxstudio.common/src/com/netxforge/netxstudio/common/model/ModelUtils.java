@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.CDOObjectReference;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -29,9 +31,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -48,6 +53,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
@@ -65,9 +71,34 @@ public class ModelUtils {
 	public static final String TIME_PATTERN_3 = "hh:mm:ss"; // AM PM
 	public static final String TIME_PATTERN_4 = "hh:mm"; // AM PM
 
-	public static final String TIM_PATTERN_5 = "a" // AM PM marker.
-	;
+	public static final String TIM_PATTERN_5 = "a"; // AM PM marker.
 	public static final String DEFAULT_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss";
+
+	public static final int SECONDS_IN_A_MINUTE = 60;
+	public static final int SECONDS_IN_A_QUARTER = SECONDS_IN_A_MINUTE * 15;
+	public static final int SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
+	public static final int SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;
+	public static final int SECONDS_IN_A_WEEK = SECONDS_IN_A_DAY * 7;
+
+	public static final int MINUTES_IN_AN_HOUR = 60;
+	public static final int MINUTES_IN_A_DAY = 60 * 24;
+	public static final int MINUTES_IN_A_WEEK = MINUTES_IN_A_DAY * 4;
+
+	// Note! For months, we better use a calendar function.
+	public static final int MINUTES_IN_A_MONTH = MINUTES_IN_A_DAY * 30;
+
+	/**
+	 * Compare two dates.
+	 */
+	public class TimeStampComparator implements Comparator<Value> {
+		public int compare(final Value v1, final Value v2) {
+			return v1.getTimeStamp().compare(v2.getTimeStamp());
+		}
+	};
+
+	public TimeStampComparator tsCompare() {
+		return new TimeStampComparator();
+	}
 
 	public class InsideRange implements Predicate<Value> {
 		private final DateTimeRange dtr;
@@ -83,6 +114,28 @@ public class ModelUtils {
 			return (target == begin || target == end) || begin.before(target)
 					&& end.after(target);
 		}
+	}
+
+	public InsideRange insideRange(DateTimeRange dtr) {
+		return new InsideRange(dtr);
+	}
+
+	public boolean isValidNode(Node node) {
+		if (node.getLifecycle() == null) {
+			return true;
+		}
+		final long time = System.currentTimeMillis();
+		if (node.getLifecycle().getInServiceDate() != null
+				&& node.getLifecycle().getInServiceDate().toGregorianCalendar()
+						.getTimeInMillis() > time) {
+			return false;
+		}
+		if (node.getLifecycle().getOutOfServiceDate() != null
+				&& node.getLifecycle().getOutOfServiceDate()
+						.toGregorianCalendar().getTimeInMillis() < time) {
+			return false;
+		}
+		return true;
 	}
 
 	@Inject
@@ -135,11 +188,42 @@ public class ModelUtils {
 		return el;
 	}
 
+	public List<NetXResource> allResources(Node node) {
+		List<NetXResource> resources = Lists.newArrayList();
+		TreeIterator<EObject> iterator = node.eAllContents();
+		while (iterator.hasNext()) {
+			EObject eo = iterator.next();
+			if (eo instanceof NetXResource) {
+				resources.add((NetXResource) eo);
+			}
+		}
+		return resources;
+	}
+
 	public List<NetXResource> resourcesWithName(Node n, String expressionName) {
 		final List<Component> cl = Lists.newArrayList();
 		cl.addAll(n.getNodeType().getEquipments());
 		cl.addAll(n.getNodeType().getFunctions());
 		return this.resourcesWithExpressionName(cl, expressionName);
+	}
+
+	public List<Value> sortByTimeStampAndReverse(List<Value> values) {
+		System.out.println("ResourceMonitor: sorting entries:" + values.size()
+				+ new Date(System.currentTimeMillis()));
+
+		List<Value> sortedCopy = Ordering.from(tsCompare()).reverse()
+				.sortedCopy(values);
+
+		System.out.println("ResourceMonitor: done sorting entries:"
+				+ new Date(System.currentTimeMillis()));
+		return sortedCopy;
+
+	}
+
+	public List<Value> filterInRange(List<Value> unfiltered, DateTimeRange dtr) {
+		Iterable<Value> filterValues = Iterables.filter(unfiltered,
+				this.insideRange(dtr));
+		return (Lists.newArrayList(filterValues));
 	}
 
 	/**
@@ -181,7 +265,7 @@ public class ModelUtils {
 	}
 
 	public ServiceMonitor lastServiceMonitor(Service service) {
-		if(service.getServiceMonitors().isEmpty()){
+		if (service.getServiceMonitors().isEmpty()) {
 			return null;
 		}
 		int size = service.getServiceMonitors().size();
@@ -189,7 +273,56 @@ public class ModelUtils {
 		return sm;
 	}
 
-	public int[] ragStatus(ServiceMonitor sm) {
+	// public class HasNodeType implements Predicate<NodeType> {
+	//
+	// private List<NodeType> baseList;
+	//
+	// public HasNodeType(List<NodeType> baseList) {
+	// this.baseList = baseList;
+	// }
+	// public boolean apply(final NodeType toApply) {
+	// for(NodeType nt : baseList){
+	// if(nt.getName().equals(toApply)){
+	// return true;
+	// }
+	// }
+	// return false;
+	// }
+	// }
+	//
+	// public Predicate<NodeType> hasNodeType(List<NodeType> nodeTypes){
+	// return new HasNodeType(nodeTypes);
+	// }
+
+	public List<NodeType> uniqueNodeTypes(List<NodeType> unfiltered) {
+		List<NodeType> uniques = Lists.newArrayList();
+		for (NodeType nt : unfiltered) {
+			ImmutableList<NodeType> uniquesCopy = ImmutableList.copyOf(uniques);
+			boolean found = false;
+			for (NodeType u : uniquesCopy) {
+				if (nt.eIsSet(LibraryPackage.Literals.NODE_TYPE__NAME)
+						&& u.eIsSet(LibraryPackage.Literals.NODE_TYPE__NAME)) {
+					if (u.getName().equals(nt.getName())) {
+						found = true;
+					}
+				} else {
+					continue;
+				}
+			}
+			if (!found) {
+				uniques.add(nt);
+			}
+		}
+		return uniques;
+	}
+
+	/**
+	 * Overall RAG Status.
+	 * 
+	 * @param sm
+	 * @return
+	 */
+	public int[] ragCount(ServiceMonitor sm) {
 
 		int red = 0, amber = 0, green = 0;
 
@@ -213,9 +346,90 @@ public class ModelUtils {
 
 			}
 		}
-		
-		return new int[]{red,amber,green};
 
+		return new int[] { red, amber, green };
+
+	}
+
+	public boolean ragShouldReport(int[] ragStatus) {
+		if (ragStatus.length != 3) {
+			return false;
+		}
+
+		if (ragStatus[0] > 0) {
+			return true;
+		}
+
+		if (ragStatus[1] > 0) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	
+	public int[] ragCount(Service service, Node n, DateTimeRange dtr) {
+
+		// FIXME Implement getting markers for a time range.
+		// So should iterator over service monitors inside this range and
+		// return the markers for this node (Within the range).
+		return new int[] { 0, 0, 0 };
+	}
+
+	public int[] ragCount(Node n, ServiceMonitor sm) {
+
+		if (sm == null) {
+			return new int[] { 0, 0, 0 };
+		}
+
+		int red = 0, amber = 0, green = 0;
+
+		for (ResourceMonitor rm : sm.getResourceMonitors()) {
+
+			Marker[] markerArray = new Marker[rm.getMarkers().size()];
+			List<Marker> markersForNodeList = this.markersForNode(n,
+					markerArray);
+
+			Marker[] markerForNodeArray = new Marker[markersForNodeList.size()];
+			ToleranceMarker tm = lastToleranceMarker(markersForNodeList
+					.toArray(markerForNodeArray));
+
+			switch (tm.getLevel().getValue()) {
+			case LevelKind.RED_VALUE: {
+				red++;
+			}
+				break;
+			case LevelKind.AMBER_VALUE: {
+				red++;
+			}
+				break;
+			case LevelKind.GREEN_VALUE: {
+				red++;
+			}
+				break;
+			}
+		}
+		return new int[] { red, amber, green };
+	}
+
+	public List<Marker> markersForNode(Node n, Marker... markers) {
+		List<Marker> resultList = Lists.newArrayList();
+		List<Marker> markerList = Lists.newArrayList(markers);
+		for (Marker m : markerList) {
+			if (m instanceof ToleranceMarker) {
+				ToleranceMarker tempMarker = (ToleranceMarker) m;
+
+				if (tempMarker
+						.eIsSet(OperatorsPackage.Literals.MARKER__COMPONENT_REF)) {
+					Node resolvedNode = this.resolveParentNode(tempMarker
+							.getComponentRef());
+					if (resolvedNode.getNodeID().equals(n.getNodeID())) {
+						resultList.add(tempMarker);
+					}
+				}
+			}
+		}
+		return resultList;
 	}
 
 	public ToleranceMarker lastToleranceMarker(Marker... markers) {
@@ -240,6 +454,22 @@ public class ModelUtils {
 		return tm;
 	}
 
+	public DateTimeRange lastMonthPeriod() {
+		DateTimeRange dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
+		dtr.setBegin(this.toXMLDate(oneMonthAgo()));
+		dtr.setEnd(this.toXMLDate(todayAndNow()));
+		return dtr;
+	}
+
+	
+	public Date start(DateTimeRange dtr) {
+		return this.fromXMLDate(dtr.getBegin());
+	}
+	
+	public Date end(DateTimeRange dtr) {
+		return this.fromXMLDate(dtr.getEnd());
+	}
+	
 	public String formatLastMonitorDate(ServiceMonitor sm) {
 		DateTimeRange dtr = sm.getPeriod();
 		StringBuilder sb = new StringBuilder();
@@ -463,12 +693,6 @@ public class ModelUtils {
 		return rl;
 	}
 
-	public static final int SECONDS_IN_A_MINUTE = 60;
-	public static final int SECONDS_IN_A_QUARTER = SECONDS_IN_A_MINUTE * 15;
-	public static final int SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
-	public static final int SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;
-	public static final int SECONDS_IN_A_WEEK = SECONDS_IN_A_DAY * 7;
-
 	/**
 	 * Merge the time from a date into a given base date.
 	 * 
@@ -541,6 +765,21 @@ public class ModelUtils {
 			}
 		};
 		return getDateString.apply(d);
+	}
+
+	public String dateAndTime(Date d) {
+
+		StringBuilder sb = new StringBuilder();
+
+		final Function<Date, String> getDateString = new Function<Date, String>() {
+			public String apply(Date from) {
+				final SimpleDateFormat df = new SimpleDateFormat("HHmm");
+				return df.format(from);
+			}
+		};
+		sb.append(date(d) + "_");
+		sb.append(getDateString.apply(d));
+		return sb.toString();
 	}
 
 	/**
@@ -652,6 +891,29 @@ public class ModelUtils {
 
 	public Date fromXMLDate(XMLGregorianCalendar date) {
 		return date.toGregorianCalendar().getTime();
+	}
+
+	public int daysInJanuary(int year) {
+		return daysInMonth(year, Calendar.JANUARY);
+	}
+
+	public int daysInFebruari(int year) {
+		return daysInMonth(year, Calendar.FEBRUARY);
+	}
+
+	public int daysInMarch(int year) {
+		return daysInMonth(year, Calendar.MARCH);
+	}
+
+	public int daysInApril(int year) {
+		return daysInMonth(year, Calendar.APRIL);
+	}
+
+	// .... etc...
+
+	public int daysInMonth(int year, int month) {
+		final Calendar cal = new GregorianCalendar(year, month, 1);
+		return cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 	}
 
 	public Date lastWeek() {
@@ -906,6 +1168,20 @@ public class ModelUtils {
 			}
 		};
 		return Lists.transform(values, valueToBigDecimal);
+	}
+
+	public double[] transformValueToDoubleArray(List<Value> values) {
+		final Function<Value, Double> valueToDouble = new Function<Value, Double>() {
+			public Double apply(Value from) {
+				return from.getValue();
+			}
+		};
+		List<Double> doubles = Lists.transform(values, valueToDouble);
+		double[] doubleArray = new double[doubles.size()];
+		for (int i = 0; i < doubles.size(); i++) {
+			doubleArray[i] = doubles.get(i).doubleValue();
+		}
+		return doubleArray;
 	}
 
 	public List<Double> transformValueToDouble(List<Value> values) {

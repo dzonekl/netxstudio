@@ -167,12 +167,22 @@ public class ComponentWorkFlowRunItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(SchedulingPackage.Literals.COMPONENT_WORK_FLOW_RUN__FAILURE_REFS,
-				 SchedulingFactory.eINSTANCE.createComponentFailure()));
+				 SchedulingFactory.eINSTANCE.createFailure()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(SchedulingPackage.Literals.COMPONENT_WORK_FLOW_RUN__FAILURE_REFS,
 				 SchedulingFactory.eINSTANCE.createExpressionFailure()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(SchedulingPackage.Literals.COMPONENT_WORK_FLOW_RUN__FAILURE_REFS,
+				 SchedulingFactory.eINSTANCE.createComponentFailure()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(SchedulingPackage.Literals.COMPONENT_WORK_FLOW_RUN__FAILURE_REFS,
+				 SchedulingFactory.eINSTANCE.createServiceUserFailure()));
 	}
 
 }

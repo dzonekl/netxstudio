@@ -30,6 +30,7 @@ import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.ExpressionResult;
@@ -49,9 +50,8 @@ import com.netxforge.netxstudio.operators.OperatorsFactory;
  * FIXME, Should target test repository.
  * 
  * 
- * From xText Documentation on Linking
- * ====================================
- * the LazyLinker (src) first creates an EMF proxy and assigns it to the
+ * From xText Documentation on Linking ==================================== the
+ * LazyLinker (src) first creates an EMF proxy and assigns it to the
  * corresponding EReference. In EMF a proxy is described by a URI, which points
  * to the real EObject. In the case of lazy linking the stored URI comprises of
  * the context information given at parse time, which is the EObject containing
@@ -138,7 +138,8 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			@SuppressWarnings("unused")
 			Object result = interpreter.evaluate(m); // Returns the intermediate
 														// results.
-			List<ExpressionResult> expressionResults = interpreter.getResult(); // Returns
+			List<BaseExpressionResult> expressionResults = interpreter
+					.getResult(); // Returns
 			printExpressionResult(expressionResults);
 		}
 		// CONTEXTUAL REFERENCES
@@ -159,7 +160,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				@SuppressWarnings("unused")
 				Object result = interpreter.evaluate(m); // Returns the
 															// intermediate
-				List<ExpressionResult> expressionResults = interpreter
+				List<BaseExpressionResult> expressionResults = interpreter
 						.getResult(); // Returns
 				printExpressionResult(expressionResults); // Should print all
 															// values.
@@ -181,7 +182,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				@SuppressWarnings("unused")
 				Object result = interpreter.evaluate(m); // Returns the
 															// intermediate
-				List<ExpressionResult> expressionResults = interpreter
+				List<BaseExpressionResult> expressionResults = interpreter
 						.getResult(); // Returns
 				printExpressionResult(expressionResults);
 
@@ -201,7 +202,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				@SuppressWarnings("unused")
 				Object result = interpreter.evaluate(m); // Returns the
 															// intermediate
-				List<ExpressionResult> expressionResults = interpreter
+				List<BaseExpressionResult> expressionResults = interpreter
 						.getResult(); // Returns
 				printExpressionResult(expressionResults);
 
@@ -218,7 +219,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				@SuppressWarnings("unused")
 				Object result = interpreter.evaluate(m); // Returns the
 															// intermediate
-				List<ExpressionResult> expressionResults = interpreter
+				List<BaseExpressionResult> expressionResults = interpreter
 						.getResult(); // Returns
 				printExpressionResult(expressionResults);
 			}
@@ -234,7 +235,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				@SuppressWarnings("unused")
 				Object result = interpreter.evaluate(m); // Returns the
 															// intermediate
-				List<ExpressionResult> expressionResults = interpreter
+				List<BaseExpressionResult> expressionResults = interpreter
 						.getResult(); // Returns
 				printExpressionResult(expressionResults);
 			}
@@ -253,7 +254,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				@SuppressWarnings("unused")
 				Object result = interpreter.evaluate(m); // Returns the
 															// intermediate
-				List<ExpressionResult> expressionResults = interpreter
+				List<BaseExpressionResult> expressionResults = interpreter
 						.getResult(); // Returns
 				printExpressionResult(expressionResults);
 
@@ -276,7 +277,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				@SuppressWarnings("unused")
 				Object result = interpreter.evaluate(m); // Returns the
 															// intermediate
-				List<ExpressionResult> expressionResults = interpreter
+				List<BaseExpressionResult> expressionResults = interpreter
 						.getResult(); // Returns
 				printExpressionResult(expressionResults);
 
@@ -294,7 +295,7 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				@SuppressWarnings("unused")
 				Object result = interpreter.evaluate(m); // Returns the
 															// intermediate
-				List<ExpressionResult> expressionResults = interpreter
+				List<BaseExpressionResult> expressionResults = interpreter
 						.getResult(); // Returns
 				printExpressionResult(expressionResults);
 			}
@@ -306,8 +307,8 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			List<Component> cl = Lists.newArrayList();
 			cl.addAll(node.getNodeType().getEquipments());
 			cl.addAll(node.getNodeType().getFunctions());
-			List<NetXResource> allResources = modelUtils.resourcesWithExpressionName(cl,
-					".*"); // All resources.
+			List<NetXResource> allResources = modelUtils
+					.resourcesWithExpressionName(cl, ".*"); // All resources.
 			for (NetXResource r : allResources) {
 				contextList.clear();
 				contextList.add(periodContext);
@@ -328,15 +329,13 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 					@SuppressWarnings("unused")
 					Object result = interpreter.evaluate(m); // Returns the
 																// intermediate
-					List<ExpressionResult> expressionResults = interpreter
+					List<BaseExpressionResult> expressionResults = interpreter
 							.getResult(); // Returns
 					printExpressionResult(expressionResults);
 
 				}
 			}
 		}
-		
-		
 
 		// Resource context expressions which calculates the tolerance. .
 		{
@@ -344,8 +343,8 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 			List<Component> cl = Lists.newArrayList();
 			cl.addAll(node.getNodeType().getEquipments());
 			cl.addAll(node.getNodeType().getFunctions());
-			List<NetXResource> allResources = modelUtils.resourcesWithExpressionName(cl,
-					".*"); // All resources.
+			List<NetXResource> allResources = modelUtils
+					.resourcesWithExpressionName(cl, ".*"); // All resources.
 			for (NetXResource r : allResources) {
 				contextList.clear();
 				contextList.add(periodContext);
@@ -366,35 +365,40 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 					@SuppressWarnings("unused")
 					Object result = interpreter.evaluate(m); // Returns the
 																// intermediate
-					List<ExpressionResult> expressionResults = interpreter
+					List<BaseExpressionResult> expressionResults = interpreter
 							.getResult(); // Returns
 					printExpressionResult(expressionResults);
 
 				}
 			}
 		}
-		
-		
-		
+
 	}
 
-	private void printExpressionResult(List<ExpressionResult> result) {
-		for (ExpressionResult er : result) {
-			System.out.println("On Resource:"
-					+ er.getTargetResource().getShortName());
-			System.out.println("In Range:" + er.getTargetRange().getName());
-			System.out.println("With values:");
-			for (Value v : er.getTargetValues()) {
+	private void printExpressionResult(List<BaseExpressionResult> results) {
+		for (BaseExpressionResult result : results) {
 
-				System.out.println("Value: " + v.getValue());
-				if(v.getTimeStamp() != null){
-					Date d = modelUtils.fromXMLDate(v.getTimeStamp());
-					System.out.println(modelUtils.date(d) + ", "
-							+ modelUtils.time(d));
-				}else{
-					System.out.println("No date in the result set");
+			if (result instanceof ExpressionResult) {
+				ExpressionResult er = (ExpressionResult) result;
+
+				System.out.println("On Resource:"
+						+ er.getTargetResource().getShortName());
+				System.out.println("In Range:" + er.getTargetRange().getName());
+				System.out.println("With values:");
+				for (Value v : er.getTargetValues()) {
+
+					System.out.println("Value: " + v.getValue());
+					if (v.getTimeStamp() != null) {
+						Date d = modelUtils.fromXMLDate(v.getTimeStamp());
+						System.out.println(modelUtils.date(d) + ", "
+								+ modelUtils.time(d));
+					} else {
+						System.out.println("No date in the result set");
+					}
 				}
+
 			}
+
 		}
 	}
 
@@ -494,15 +498,16 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				}
 
 				{
-					
+
 					final Value c = GenericsFactory.eINSTANCE.createValue();
 					c.setValue(5.0);
 					c.setTimeStamp(modelUtils.toXMLDate(modelUtils.yesterday()));
-					
+
 					// Create capacity values.
 					final Value c1 = GenericsFactory.eINSTANCE.createValue();
 					c1.setValue(5.0);
-					c1.setTimeStamp(modelUtils.toXMLDate(modelUtils.twoDaysAgo()));
+					c1.setTimeStamp(modelUtils.toXMLDate(modelUtils
+							.twoDaysAgo()));
 
 					final Value c2 = GenericsFactory.eINSTANCE.createValue();
 					c2.setValue(5.0);
@@ -527,9 +532,6 @@ public class ContextNetXScriptTest extends AbstractXtextTests {
 				sgsnRes.setExpressionName("RES2");
 				sgsnFunction.getResourceRefs().add(sgsnRes);
 			}
-			
-			
-			
 
 			// Create some equipment:
 			final Equipment board = LibraryFactory.eINSTANCE.createEquipment();

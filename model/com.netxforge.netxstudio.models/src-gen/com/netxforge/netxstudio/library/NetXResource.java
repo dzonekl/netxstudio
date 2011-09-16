@@ -89,7 +89,8 @@ public interface NetXResource extends BaseResource {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Reference to the component for which this netx resource was created.
+	 * Reference to the component for which this netx
+	 * 								resource was created.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Component Ref</em>' reference.

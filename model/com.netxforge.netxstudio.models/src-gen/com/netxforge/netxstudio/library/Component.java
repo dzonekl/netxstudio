@@ -244,7 +244,7 @@ public interface Component extends Base {
 	 * @return the value of the '<em>All Resources</em>' reference list.
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getComponent_AllResources()
 	 * @model transient="true" volatile="true" derived="true"
-	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL derivation='self->closure(equipments).resources->asOrderedSet()'"
+	 *        annotation="http://www.eclipse.org/emf/2002/Ecore/OCL derivation='self->closure(equipments).resources->asOrderedSet()\n\t\t\t\t\t\t\t'"
 	 *        extendedMetaData="kind='element' name='AllResources'"
 	 * @generated
 	 */

@@ -102,6 +102,29 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.library.BaseExpressionResult} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected BaseExpressionResultItemProvider baseExpressionResultItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.library.BaseExpressionResult}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createBaseExpressionResultAdapter() {
+		if (baseExpressionResultItemProvider == null) {
+			baseExpressionResultItemProvider = new BaseExpressionResultItemProvider(this);
+		}
+
+		return baseExpressionResultItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.library.BaseResource} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -260,6 +283,29 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 		}
 
 		return functionItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.library.LastEvaluationExpressionResult} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected LastEvaluationExpressionResultItemProvider lastEvaluationExpressionResultItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.library.LastEvaluationExpressionResult}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createLastEvaluationExpressionResultAdapter() {
+		if (lastEvaluationExpressionResultItemProvider == null) {
+			lastEvaluationExpressionResultItemProvider = new LastEvaluationExpressionResultItemProvider(this);
+		}
+
+		return lastEvaluationExpressionResultItemProvider;
 	}
 
 	/**
@@ -572,6 +618,7 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 	 * @generated
 	 */
 	public void dispose() {
+		if (baseExpressionResultItemProvider != null) baseExpressionResultItemProvider.dispose();
 		if (baseResourceItemProvider != null) baseResourceItemProvider.dispose();
 		if (componentItemProvider != null) componentItemProvider.dispose();
 		if (equipmentItemProvider != null) equipmentItemProvider.dispose();
@@ -579,6 +626,7 @@ public class LibraryItemProviderAdapterFactory extends LibraryAdapterFactory imp
 		if (expressionItemProvider != null) expressionItemProvider.dispose();
 		if (expressionResultItemProvider != null) expressionResultItemProvider.dispose();
 		if (functionItemProvider != null) functionItemProvider.dispose();
+		if (lastEvaluationExpressionResultItemProvider != null) lastEvaluationExpressionResultItemProvider.dispose();
 		if (libraryItemProvider != null) libraryItemProvider.dispose();
 		if (netXResourceItemProvider != null) netXResourceItemProvider.dispose();
 		if (nodeTypeItemProvider != null) nodeTypeItemProvider.dispose();

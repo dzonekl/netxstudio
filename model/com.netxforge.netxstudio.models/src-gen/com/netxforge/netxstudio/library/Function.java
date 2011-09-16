@@ -49,7 +49,8 @@ import com.netxforge.netxstudio.operators.FunctionRelationship;
  * 				1. The Function type typical structure is: System
  * 				-> Subsystem ->
  * 				Module etc..
- * 				2. The Function type can be "Mobility
+ * 				2. The Function type can be
+ * 				"Mobility
  * 				Management".
  * 			
  * <!-- end-model-doc -->

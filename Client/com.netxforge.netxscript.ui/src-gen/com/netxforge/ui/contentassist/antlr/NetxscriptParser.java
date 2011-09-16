@@ -60,6 +60,7 @@ public class NetxscriptParser extends AbstractContentAssistParser {
 					put(grammarAccess.getLeafReferenceAccess().getAlternatives(), "rule__LeafReference__Alternatives");
 					put(grammarAccess.getResourceRefAccess().getAlternatives_2(), "rule__ResourceRef__Alternatives_2");
 					put(grammarAccess.getNativeFunctionAccess().getAlternatives(), "rule__NativeFunction__Alternatives");
+					put(grammarAccess.getToleranceLevelAccess().getAlternatives(), "rule__ToleranceLevel__Alternatives");
 					put(grammarAccess.getValueRangeAccess().getAlternatives(), "rule__ValueRange__Alternatives");
 					put(grammarAccess.getValueKindAccess().getAlternatives(), "rule__ValueKind__Alternatives");
 					put(grammarAccess.getModAccess().getGroup(), "rule__Mod__Group__0");
@@ -126,6 +127,7 @@ public class NetxscriptParser extends AbstractContentAssistParser {
 					put(grammarAccess.getComponentRefAccess().getGroup_2_0(), "rule__ComponentRef__Group_2_0__0");
 					put(grammarAccess.getComponentRefAccess().getGroup_2_1(), "rule__ComponentRef__Group_2_1__0");
 					put(grammarAccess.getResourceRefAccess().getGroup(), "rule__ResourceRef__Group__0");
+					put(grammarAccess.getStatusRefAccess().getGroup(), "rule__StatusRef__Group__0");
 					put(grammarAccess.getRangeRefAccess().getGroup(), "rule__RangeRef__Group__0");
 					put(grammarAccess.getLinkRefAccess().getGroup(), "rule__LinkRef__Group__0");
 					put(grammarAccess.getModAccess().getNameAssignment_0_1(), "rule__Mod__NameAssignment_0_1");
@@ -175,7 +177,7 @@ public class NetxscriptParser extends AbstractContentAssistParser {
 					put(grammarAccess.getVarOrArgumentCallAccess().getCallAssignment_1(), "rule__VarOrArgumentCall__CallAssignment_1");
 					put(grammarAccess.getRangeLiteralAccess().getValuesAssignment_2_0(), "rule__RangeLiteral__ValuesAssignment_2_0");
 					put(grammarAccess.getRangeLiteralAccess().getValuesAssignment_2_1_1(), "rule__RangeLiteral__ValuesAssignment_2_1_1");
-					put(grammarAccess.getAbsoluteRefAccess().getNodeAssignment_2(), "rule__AbsoluteRef__NodeAssignment_2");
+					put(grammarAccess.getAbsoluteRefAccess().getNodetypeAssignment_2(), "rule__AbsoluteRef__NodetypeAssignment_2");
 					put(grammarAccess.getAbsoluteRefAccess().getPrimaryRefAssignment_3(), "rule__AbsoluteRef__PrimaryRefAssignment_3");
 					put(grammarAccess.getContextRefAccess().getPrimaryRefAssignment_2_0(), "rule__ContextRef__PrimaryRefAssignment_2_0");
 					put(grammarAccess.getContextRefAccess().getRangeRefAssignment_2_1(), "rule__ContextRef__RangeRefAssignment_2_1");
@@ -185,6 +187,7 @@ public class NetxscriptParser extends AbstractContentAssistParser {
 					put(grammarAccess.getComponentRefAccess().getEquipmentAssignment_2_1_1(), "rule__ComponentRef__EquipmentAssignment_2_1_1");
 					put(grammarAccess.getResourceRefAccess().getResourceAssignment_2_0(), "rule__ResourceRef__ResourceAssignment_2_0");
 					put(grammarAccess.getResourceRefAccess().getRangeRefAssignment_3(), "rule__ResourceRef__RangeRefAssignment_3");
+					put(grammarAccess.getStatusRefAccess().getTolerancelevelAssignment_1(), "rule__StatusRef__TolerancelevelAssignment_1");
 					put(grammarAccess.getRangeRefAccess().getValuerangeAssignment_0(), "rule__RangeRef__ValuerangeAssignment_0");
 					put(grammarAccess.getRangeRefAccess().getKindAssignment_1(), "rule__RangeRef__KindAssignment_1");
 					put(grammarAccess.getRangeRefAccess().getPeriodAssignment_2(), "rule__RangeRef__PeriodAssignment_2");

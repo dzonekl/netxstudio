@@ -242,12 +242,17 @@ public class NetxstudioItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
-				 SchedulingFactory.eINSTANCE.createReporterJob()));
+				 SchedulingFactory.eINSTANCE.createOperatorReporterJob()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
-				 SchedulingFactory.eINSTANCE.createRFSServiceJob()));
+				 SchedulingFactory.eINSTANCE.createRFSServiceMonitoringJob()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
+				 SchedulingFactory.eINSTANCE.createRFSServiceReporterJob()));
 
 		newChildDescriptors.add
 			(createChildParameter

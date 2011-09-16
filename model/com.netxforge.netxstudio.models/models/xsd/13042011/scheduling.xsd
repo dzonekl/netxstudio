@@ -83,44 +83,48 @@
 						ecore:reference="services:RFSService" minOccurs="1">
 						<xs:annotation>
 							<xs:documentation>Reference to the RFSService for which the job
-								runs.</xs:documentation>
+								runs.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
+	
 	<!--_____________________________ -->
-	<!--| ReporterJob | -->
+	<!--| OperatorReporterJob | -->
 	<!--|___________________________| -->
-	<xs:complexType name="ReporterJob">
+	<xs:complexType name="OperatorReporterJob">
 		<xs:annotation>
 			<xs:documentation>A job producing external format reports for a
-				service.</xs:documentation>
+				service.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Job">
 				<xs:sequence>
-					<xs:element name="RFSService" type="xs:anyURI"
-						ecore:reference="services:RFSService" minOccurs="1">
+					<xs:element name="Operator" type="xs:anyURI"
+						ecore:reference="operators:Operator" minOccurs="1">
 						<xs:annotation>
-							<xs:documentation>Reference to the RFSService for which the job
-								runs.</xs:documentation>
+							<xs:documentation>Reference to the Operator for which the job
+								runs.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
+	
 	<!--_____________________________ -->
-	<!--| RFSServiceJob | -->
+	<!--| RFSServiceReporterJob | -->
 	<!--|___________________________| -->
-	<xs:complexType name="RFSServiceJob">
+	<xs:complexType name="RFSServiceReporterJob">
 		<xs:annotation>
-			<xs:documentation>A job computing capacity and utilization for a
-				service.</xs:documentation>
+			<xs:documentation>A job producing external format reports for a
+				service.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Job">
@@ -129,7 +133,33 @@
 						ecore:reference="services:RFSService" minOccurs="1">
 						<xs:annotation>
 							<xs:documentation>Reference to the RFSService for which the job
-								runs.</xs:documentation>
+								runs.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!--_____________________________ -->
+	<!--| RFSServiceMonitoringJob | -->
+	<!--|___________________________| -->
+	<xs:complexType name="RFSServiceMonitoringJob">
+		<xs:annotation>
+			<xs:documentation>A job computing capacity and utilization for a
+				service.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Job">
+				<xs:sequence>
+					<xs:element name="RFSService" type="xs:anyURI"
+						ecore:reference="services:RFSService" minOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the RFSService for which the job
+								runs.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -143,7 +173,8 @@
 	<xs:complexType name="RFSServiceRetentionJob">
 		<xs:annotation>
 			<xs:documentation>A job performing retention for a certain rfs
-				service.</xs:documentation>
+				service.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Job">
@@ -152,7 +183,8 @@
 						ecore:reference="services:RFSService" minOccurs="1">
 						<xs:annotation>
 							<xs:documentation>Reference to the RFSService for which the job
-								runs.</xs:documentation>
+								runs.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -161,7 +193,7 @@
 	</xs:complexType>
 
 	<!--_____________________________ -->
-	<!--| JOBRUN | -->
+	<!--| WORKFLOWRUN | -->
 	<!--|___________________________| -->
 	<xs:complexType name="WorkFlowRun">
 		<xs:attribute name="Started" type="xs:dateTime"></xs:attribute>
@@ -174,7 +206,7 @@
 	</xs:complexType>
 
 	<!--_____________________________ -->
-	<!--| ComponentWorkFlowRun | -->
+	<!--| COMPONENTWORKFLOWRUN | -->
 	<!--|___________________________| -->
 	<xs:complexType name="ComponentWorkFlowRun">
 		<xs:annotation>
@@ -184,11 +216,12 @@
 		<xs:complexContent>
 			<xs:extension base="WorkFlowRun">
 				<xs:sequence>
-					<xs:element name="FailureRefs" type="ComponentFailure"
+					<xs:element name="FailureRefs" type="Failure"
 						minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Reference to information about failed
-								expressions</xs:documentation>
+								expressions
+							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -205,7 +238,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="ComponentFailure">
+			<xs:extension base="Failure">
 				<xs:sequence>
 					<xs:element ecore:reference="lib:Expression" minOccurs="0"
 						name="ExpressionRef" type="xs:anyURI">
@@ -220,30 +253,72 @@
 
 
 	<!--_____________________________ -->
-	<!--| ComponentFailure | -->
+	<!--| ServiceUserFailure | -->
+	<!--|___________________________| -->
+	<xs:complexType name="ServiceUserFailure">
+		<xs:annotation>
+			<xs:documentation>Gives information about a failed component
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ExpressionFailure">
+				<xs:sequence>
+					<xs:element name="ServiceUserRef" type="xs:anyURI"
+						ecore:reference="services:ServiceUser" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference to the ServiceUser for which the
+								computation failed.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<!--_____________________________ -->
+	<!--| COMPONENTFAILURE | -->
 	<!--|___________________________| -->
 	<xs:complexType name="ComponentFailure">
 		<xs:annotation>
 			<xs:documentation>Gives information about a failed component
 			</xs:documentation>
 		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ExpressionFailure">
+				<xs:sequence>
+					<xs:element name="ComponentRef" type="xs:anyURI"
+						ecore:reference="lib:Component" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference to the component for which the
+								computation failed.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_____________________________ -->
+	<!--| FAILURE | -->
+	<!--|___________________________| -->
+	<xs:complexType name="Failure">
+		<xs:annotation>
+			<xs:documentation>Gives information about a failure
+			</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ComponentRef" type="xs:anyURI"
-				ecore:reference="lib:Component" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Reference to the component for which the
-						computation failed.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="Message" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Message giving some extra information on the
-						failure</xs:documentation>
+						failure
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
 
 	<!--_____________________________ -->
 	<!--| JOBSTATE | -->

@@ -195,7 +195,7 @@ public class ServiceProfileItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ServicesPackage.Literals.SERVICE_PROFILE__PROFILE_RESOURCES,
-				 ServicesFactory.eINSTANCE.createServiceProfileResource()));
+				 ServicesFactory.eINSTANCE.createDerivedResource()));
 	}
 
 	/**

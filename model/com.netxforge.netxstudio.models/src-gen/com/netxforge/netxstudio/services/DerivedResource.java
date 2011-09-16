@@ -25,7 +25,7 @@ import com.netxforge.netxstudio.library.BaseResource;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Service Profile Resource</b></em>'.
+ * A representation of the model object '<em><b>Derived Resource</b></em>'.
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
@@ -37,19 +37,19 @@ import com.netxforge.netxstudio.library.BaseResource;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.services.ServiceProfileResource#getProfileValues <em>Profile Values</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.services.ServiceProfileResource#getForecastValues <em>Forecast Values</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.services.ServiceProfileResource#getTrendedValues <em>Trended Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.DerivedResource#getValues <em>Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.DerivedResource#getForecastValues <em>Forecast Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.DerivedResource#getTrendedValues <em>Trended Values</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceProfileResource()
- * @model extendedMetaData="name='ServiceProfileResource' kind='elementOnly'"
+ * @see com.netxforge.netxstudio.services.ServicesPackage#getDerivedResource()
+ * @model extendedMetaData="name='DerivedResource' kind='elementOnly'"
  * @generated
  */
-public interface ServiceProfileResource extends BaseResource {
+public interface DerivedResource extends BaseResource {
 	/**
-	 * Returns the value of the '<em><b>Profile Values</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Values</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.generics.Value}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -58,13 +58,13 @@ public interface ServiceProfileResource extends BaseResource {
 	 * 								profile values. Profile values are populated with expressions.
 	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Profile Values</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceProfileResource_ProfileValues()
+	 * @return the value of the '<em>Values</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getDerivedResource_Values()
 	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='ProfileValues'"
+	 *        extendedMetaData="kind='element' name='Values'"
 	 * @generated
 	 */
-	EList<Value> getProfileValues();
+	EList<Value> getValues();
 
 	/**
 	 * Returns the value of the '<em><b>Forecast Values</b></em>' containment reference list.
@@ -80,7 +80,7 @@ public interface ServiceProfileResource extends BaseResource {
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Forecast Values</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceProfileResource_ForecastValues()
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getDerivedResource_ForecastValues()
 	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='ForecastValues'"
 	 * @generated
@@ -99,11 +99,11 @@ public interface ServiceProfileResource extends BaseResource {
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Trended Values</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceProfileResource_TrendedValues()
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getDerivedResource_TrendedValues()
 	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='TrendedValues'"
 	 * @generated
 	 */
 	EList<Value> getTrendedValues();
 
-} // ServiceProfileResource
+} // DerivedResource

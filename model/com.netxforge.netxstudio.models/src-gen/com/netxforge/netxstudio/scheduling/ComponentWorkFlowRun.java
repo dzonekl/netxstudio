@@ -44,12 +44,13 @@ import org.eclipse.emf.common.util.EList;
 public interface ComponentWorkFlowRun extends WorkFlowRun {
 	/**
 	 * Returns the value of the '<em><b>Failure Refs</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.scheduling.ComponentFailure}.
+	 * The list contents are of type {@link com.netxforge.netxstudio.scheduling.Failure}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Reference to information about failed
 	 * 								expressions
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Failure Refs</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getComponentWorkFlowRun_FailureRefs()
@@ -57,6 +58,6 @@ public interface ComponentWorkFlowRun extends WorkFlowRun {
 	 *        extendedMetaData="kind='element' name='FailureRefs'"
 	 * @generated
 	 */
-	EList<ComponentFailure> getFailureRefs();
+	EList<Failure> getFailureRefs();
 
 } // ComponentWorkFlowRun

@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -35,6 +34,7 @@ import com.netxforge.netxstudio.generics.impl.GenericsPackageImpl;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.impl.GeoPackageImpl;
 import com.netxforge.netxstudio.impl.NetxstudioPackageImpl;
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -42,6 +42,7 @@ import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -75,6 +76,13 @@ import com.netxforge.netxstudio.services.impl.ServicesPackageImpl;
  * @generated
  */
 public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass baseExpressionResultEClass = null;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -123,6 +131,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	private EClass functionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass lastEvaluationExpressionResultEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -283,7 +298,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		EcorePackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
@@ -334,6 +348,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(LibraryPackage.eNS_URI, theLibraryPackage);
 		return theLibraryPackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBaseExpressionResult() {
+		return baseExpressionResultEClass;
 	}
 
 	/**
@@ -856,6 +879,24 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 */
 	public EReference getFunction_AllFunctions() {
 		return (EReference)functionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getLastEvaluationExpressionResult() {
+		return lastEvaluationExpressionResultEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLastEvaluationExpressionResult_LastEvalResult() {
+		return (EAttribute)lastEvaluationExpressionResultEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1444,6 +1485,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		isCreated = true;
 
 		// Create classes and their features
+		baseExpressionResultEClass = createEClass(BASE_EXPRESSION_RESULT);
+
 		baseResourceEClass = createEClass(BASE_RESOURCE);
 		createEAttribute(baseResourceEClass, BASE_RESOURCE__DETAIL_DISPLAY);
 		createEAttribute(baseResourceEClass, BASE_RESOURCE__EXPRESSION_NAME);
@@ -1508,6 +1551,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(functionEClass, FUNCTION__FUNCTIONS);
 		createEReference(functionEClass, FUNCTION__FUNCTION_RELATIONSHIP_REFS);
 		createEReference(functionEClass, FUNCTION__ALL_FUNCTIONS);
+
+		lastEvaluationExpressionResultEClass = createEClass(LAST_EVALUATION_EXPRESSION_RESULT);
+		createEAttribute(lastEvaluationExpressionResultEClass, LAST_EVALUATION_EXPRESSION_RESULT__LAST_EVAL_RESULT);
 
 		libraryEClass = createEClass(LIBRARY);
 		createEReference(libraryEClass, LIBRARY__FUNCTIONS);
@@ -1624,7 +1670,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		equipmentEClass.getESuperTypes().add(this.getComponent());
 		equipmentGroupEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		expressionEClass.getESuperTypes().add(theGenericsPackage.getBase());
+		expressionResultEClass.getESuperTypes().add(this.getBaseExpressionResult());
 		functionEClass.getESuperTypes().add(this.getComponent());
+		lastEvaluationExpressionResultEClass.getESuperTypes().add(this.getBaseExpressionResult());
 		netXResourceEClass.getESuperTypes().add(this.getBaseResource());
 		nodeTypeEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		parameterEClass.getESuperTypes().add(theGenericsPackage.getBase());
@@ -1634,6 +1682,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		vendorEClass.getESuperTypes().add(theGenericsPackage.getCompany());
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(baseExpressionResultEClass, BaseExpressionResult.class, "BaseExpressionResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		initEClass(baseResourceEClass, BaseResource.class, "BaseResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBaseResource_DetailDisplay(), theXMLTypePackage.getBoolean(), "detailDisplay", null, 0, 1, BaseResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBaseResource_ExpressionName(), theGenericsPackage.getName255(), "expressionName", null, 0, 1, BaseResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1688,7 +1738,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEAttribute(getExpression_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(expressionResultEClass, ExpressionResult.class, "ExpressionResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExpressionResult_TargetResource(), this.getNetXResource(), null, "targetResource", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExpressionResult_TargetResource(), this.getBaseResource(), null, "targetResource", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExpressionResult_TargetRange(), this.getRangeKind(), "targetRange", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExpressionResult_TargetValues(), theGenericsPackage.getValue(), null, "targetValues", null, 0, -1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExpressionResult_TargetIntervalHint(), theXMLTypePackage.getInt(), "targetIntervalHint", null, 0, 1, ExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1698,6 +1748,9 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getFunction_Functions(), this.getFunction(), null, "functions", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_FunctionRelationshipRefs(), theOperatorsPackage.getFunctionRelationship(), null, "functionRelationshipRefs", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunction_AllFunctions(), this.getFunction(), null, "allFunctions", null, 0, -1, Function.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+
+		initEClass(lastEvaluationExpressionResultEClass, LastEvaluationExpressionResult.class, "LastEvaluationExpressionResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLastEvaluationExpressionResult_LastEvalResult(), theXMLTypePackage.getAnySimpleType(), "lastEvalResult", null, 0, 1, LastEvaluationExpressionResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(libraryEClass, Library.class, "Library", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLibrary_Functions(), this.getFunction(), null, "functions", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1772,6 +1825,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		addEEnumLiteral(rangeKindEEnum, RangeKind.METRIC);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.METRICREMOVE);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.CAP);
+		addEEnumLiteral(rangeKindEEnum, RangeKind.DERIVED);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.FORECAST);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.FORECASTCAP);
 		addEEnumLiteral(rangeKindEEnum, RangeKind.TRENDED);
@@ -1823,13 +1877,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																																
+		   });																																																																																																																		
 		addAnnotation
 		  (functionEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "\n\t\t\t\tValidFunctionName\n\t\t\t"
-		   });																																																										
+		   });																																																													
 		addAnnotation
 		  (nodeTypeEClass, 
 		   source, 
@@ -1846,6 +1900,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 */
 	protected void createExtendedMetaDataAnnotations() {
 		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";					
+		addAnnotation
+		  (baseExpressionResultEClass, 
+		   source, 
+		   new String[] {
+			 "name", "BaseExpressionResult",
+			 "kind", "empty"
+		   });			
 		addAnnotation
 		  (baseResourceEClass, 
 		   source, 
@@ -2251,6 +2312,20 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "element",
 			 "name", "AllFunctions"
+		   });			
+		addAnnotation
+		  (lastEvaluationExpressionResultEClass, 
+		   source, 
+		   new String[] {
+			 "name", "LastEvaluationExpressionResult",
+			 "kind", "elementOnly"
+		   });		
+		addAnnotation
+		  (getLastEvaluationExpressionResult_LastEvalResult(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "LastEvalResult"
 		   });		
 		addAnnotation
 		  (levelKindEEnum, 
@@ -2691,12 +2766,12 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	protected void createOCLAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																																					
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																																							
 		addAnnotation
 		  (getComponent_AllResources(), 
 		   source, 
 		   new String[] {
-			 "derivation", "self->closure(equipments).resources->asOrderedSet()"
+			 "derivation", "self->closure(equipments).resources->asOrderedSet()\n\t\t\t\t\t\t\t"
 		   });																						
 		addAnnotation
 		  (getEquipment_AllEquipments(), 
@@ -2739,7 +2814,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self->closure(functions)->asOrderedSet()\n\t\t\t\t\t\t\t"
-		   });																																																			
+		   });																																																						
 		addAnnotation
 		  (nodeTypeEClass, 
 		   source, 

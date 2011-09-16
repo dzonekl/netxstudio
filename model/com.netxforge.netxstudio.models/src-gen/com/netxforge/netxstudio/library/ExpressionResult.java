@@ -18,7 +18,6 @@
  */
 package com.netxforge.netxstudio.library;
 
-import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Value;
@@ -48,10 +47,9 @@ import com.netxforge.netxstudio.metrics.KindHintType;
  *
  * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult()
  * @model extendedMetaData="name='ExpressionResult' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ExpressionResult extends CDOObject {
+public interface ExpressionResult extends BaseExpressionResult {
 
 	/**
 	 * Returns the value of the '<em><b>Target Resource</b></em>' reference.
@@ -62,12 +60,12 @@ public interface ExpressionResult extends CDOObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target Resource</em>' reference.
-	 * @see #setTargetResource(NetXResource)
+	 * @see #setTargetResource(BaseResource)
 	 * @see com.netxforge.netxstudio.library.LibraryPackage#getExpressionResult_TargetResource()
 	 * @model extendedMetaData="kind='element' name='TargetResource'"
 	 * @generated
 	 */
-	NetXResource getTargetResource();
+	BaseResource getTargetResource();
 
 	/**
 	 * Sets the value of the '{@link com.netxforge.netxstudio.library.ExpressionResult#getTargetResource <em>Target Resource</em>}' reference.
@@ -77,7 +75,7 @@ public interface ExpressionResult extends CDOObject {
 	 * @see #getTargetResource()
 	 * @generated
 	 */
-	void setTargetResource(NetXResource value);
+	void setTargetResource(BaseResource value);
 
 	/**
 	 * Returns the value of the '<em><b>Target Range</b></em>' attribute.

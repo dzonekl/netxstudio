@@ -18,8 +18,6 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
-import org.eclipse.emf.cdo.CDOObject;
-
 import com.netxforge.netxstudio.library.Component;
 
 /**
@@ -36,23 +34,22 @@ import com.netxforge.netxstudio.library.Component;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.scheduling.ComponentFailure#getComponentRef <em>Component Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.scheduling.ComponentFailure#getMessage <em>Message</em>}</li>
  * </ul>
  * </p>
  *
  * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getComponentFailure()
  * @model extendedMetaData="name='ComponentFailure' kind='elementOnly'"
- * @extends CDOObject
  * @generated
  */
-public interface ComponentFailure extends CDOObject {
+public interface ComponentFailure extends ExpressionFailure {
 	/**
 	 * Returns the value of the '<em><b>Component Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Reference to the component for which the
-	 * 						computation failed.
+	 * 								computation failed.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Component Ref</em>' reference.
 	 * @see #setComponentRef(Component)
@@ -71,32 +68,5 @@ public interface ComponentFailure extends CDOObject {
 	 * @generated
 	 */
 	void setComponentRef(Component value);
-
-	/**
-	 * Returns the value of the '<em><b>Message</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Message giving some extra information on the
-	 * 						failure
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Message</em>' attribute.
-	 * @see #setMessage(String)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getComponentFailure_Message()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
-	 *        extendedMetaData="kind='element' name='Message'"
-	 * @generated
-	 */
-	String getMessage();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.ComponentFailure#getMessage <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Message</em>' attribute.
-	 * @see #getMessage()
-	 * @generated
-	 */
-	void setMessage(String value);
 
 } // ComponentFailure

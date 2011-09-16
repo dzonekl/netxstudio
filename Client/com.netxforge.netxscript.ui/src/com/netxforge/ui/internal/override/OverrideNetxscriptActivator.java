@@ -33,7 +33,7 @@ import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
 
 /**
- * Ovverride from generated xstext activator. 
+ * Override from generated xtext activator. 
  */
 public class OverrideNetxscriptActivator extends AbstractUIPlugin {
 

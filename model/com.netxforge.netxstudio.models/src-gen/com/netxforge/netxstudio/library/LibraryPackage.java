@@ -135,6 +135,25 @@ public interface LibraryPackage extends EPackage {
 	LibraryPackage eINSTANCE = com.netxforge.netxstudio.library.impl.LibraryPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.BaseExpressionResultImpl <em>Base Expression Result</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.library.impl.BaseExpressionResultImpl
+	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getBaseExpressionResult()
+	 * @generated
+	 */
+	int BASE_EXPRESSION_RESULT = 0;
+
+	/**
+	 * The number of structural features of the '<em>Base Expression Result</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BASE_EXPRESSION_RESULT_FEATURE_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.BaseResourceImpl <em>Base Resource</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -142,7 +161,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getBaseResource()
 	 * @generated
 	 */
-	int BASE_RESOURCE = 0;
+	int BASE_RESOURCE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -224,7 +243,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getComponent()
 	 * @generated
 	 */
-	int COMPONENT = 1;
+	int COMPONENT = 2;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -369,7 +388,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getEquipment()
 	 * @generated
 	 */
-	int EQUIPMENT = 2;
+	int EQUIPMENT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -613,7 +632,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getEquipmentGroup()
 	 * @generated
 	 */
-	int EQUIPMENT_GROUP = 3;
+	int EQUIPMENT_GROUP = 4;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -731,7 +750,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getExpression()
 	 * @generated
 	 */
-	int EXPRESSION = 4;
+	int EXPRESSION = 5;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -786,7 +805,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getExpressionResult()
 	 * @generated
 	 */
-	int EXPRESSION_RESULT = 5;
+	int EXPRESSION_RESULT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Target Resource</b></em>' reference.
@@ -795,7 +814,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT__TARGET_RESOURCE = 0;
+	int EXPRESSION_RESULT__TARGET_RESOURCE = BASE_EXPRESSION_RESULT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target Range</b></em>' attribute.
@@ -804,7 +823,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT__TARGET_RANGE = 1;
+	int EXPRESSION_RESULT__TARGET_RANGE = BASE_EXPRESSION_RESULT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Target Values</b></em>' containment reference list.
@@ -813,7 +832,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT__TARGET_VALUES = 2;
+	int EXPRESSION_RESULT__TARGET_VALUES = BASE_EXPRESSION_RESULT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Target Interval Hint</b></em>' attribute.
@@ -822,7 +841,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT__TARGET_INTERVAL_HINT = 3;
+	int EXPRESSION_RESULT__TARGET_INTERVAL_HINT = BASE_EXPRESSION_RESULT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Target Kind Hint</b></em>' attribute.
@@ -831,7 +850,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT__TARGET_KIND_HINT = 4;
+	int EXPRESSION_RESULT__TARGET_KIND_HINT = BASE_EXPRESSION_RESULT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Expression Result</em>' class.
@@ -840,7 +859,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPRESSION_RESULT_FEATURE_COUNT = 5;
+	int EXPRESSION_RESULT_FEATURE_COUNT = BASE_EXPRESSION_RESULT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.FunctionImpl <em>Function</em>}' class.
@@ -850,7 +869,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getFunction()
 	 * @generated
 	 */
-	int FUNCTION = 6;
+	int FUNCTION = 7;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1015,6 +1034,34 @@ public interface LibraryPackage extends EPackage {
 	int FUNCTION_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.LastEvaluationExpressionResultImpl <em>Last Evaluation Expression Result</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.library.impl.LastEvaluationExpressionResultImpl
+	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLastEvaluationExpressionResult()
+	 * @generated
+	 */
+	int LAST_EVALUATION_EXPRESSION_RESULT = 8;
+
+	/**
+	 * The feature id for the '<em><b>Last Eval Result</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAST_EVALUATION_EXPRESSION_RESULT__LAST_EVAL_RESULT = BASE_EXPRESSION_RESULT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Last Evaluation Expression Result</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAST_EVALUATION_EXPRESSION_RESULT_FEATURE_COUNT = BASE_EXPRESSION_RESULT_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.LibraryImpl <em>Library</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1022,7 +1069,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLibrary()
 	 * @generated
 	 */
-	int LIBRARY = 7;
+	int LIBRARY = 9;
 
 	/**
 	 * The feature id for the '<em><b>Functions</b></em>' containment reference list.
@@ -1149,7 +1196,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getNetXResource()
 	 * @generated
 	 */
-	int NET_XRESOURCE = 8;
+	int NET_XRESOURCE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1303,7 +1350,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getNodeType()
 	 * @generated
 	 */
-	int NODE_TYPE = 9;
+	int NODE_TYPE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1367,7 +1414,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getParameter()
 	 * @generated
 	 */
-	int PARAMETER = 10;
+	int PARAMETER = 12;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1440,7 +1487,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getProductInfo()
 	 * @generated
 	 */
-	int PRODUCT_INFO = 11;
+	int PRODUCT_INFO = 13;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1549,7 +1596,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getTolerance()
 	 * @generated
 	 */
-	int TOLERANCE = 12;
+	int TOLERANCE = 14;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1604,7 +1651,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getUnit()
 	 * @generated
 	 */
-	int UNIT = 13;
+	int UNIT = 15;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1668,7 +1715,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getVendor()
 	 * @generated
 	 */
-	int VENDOR = 14;
+	int VENDOR = 16;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1759,7 +1806,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelKind()
 	 * @generated
 	 */
-	int LEVEL_KIND = 15;
+	int LEVEL_KIND = 17;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.RangeKind <em>Range Kind</em>}' enum.
@@ -1769,7 +1816,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRangeKind()
 	 * @generated
 	 */
-	int RANGE_KIND = 16;
+	int RANGE_KIND = 18;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.RedundancyType <em>Redundancy Type</em>}' enum.
@@ -1779,7 +1826,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRedundancyType()
 	 * @generated
 	 */
-	int REDUNDANCY_TYPE = 17;
+	int REDUNDANCY_TYPE = 19;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.StateType <em>State Type</em>}' enum.
@@ -1789,7 +1836,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getStateType()
 	 * @generated
 	 */
-	int STATE_TYPE = 18;
+	int STATE_TYPE = 20;
 
 	/**
 	 * The meta object id for the '<em>Level Kind Object</em>' data type.
@@ -1799,7 +1846,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLevelKindObject()
 	 * @generated
 	 */
-	int LEVEL_KIND_OBJECT = 19;
+	int LEVEL_KIND_OBJECT = 21;
 
 	/**
 	 * The meta object id for the '<em>Range Kind Object</em>' data type.
@@ -1809,7 +1856,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRangeKindObject()
 	 * @generated
 	 */
-	int RANGE_KIND_OBJECT = 20;
+	int RANGE_KIND_OBJECT = 22;
 
 	/**
 	 * The meta object id for the '<em>Redundancy Type Object</em>' data type.
@@ -1819,7 +1866,7 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getRedundancyTypeObject()
 	 * @generated
 	 */
-	int REDUNDANCY_TYPE_OBJECT = 21;
+	int REDUNDANCY_TYPE_OBJECT = 23;
 
 	/**
 	 * The meta object id for the '<em>State Type Object</em>' data type.
@@ -1829,8 +1876,18 @@ public interface LibraryPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getStateTypeObject()
 	 * @generated
 	 */
-	int STATE_TYPE_OBJECT = 22;
+	int STATE_TYPE_OBJECT = 24;
 
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.BaseExpressionResult <em>Base Expression Result</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Base Expression Result</em>'.
+	 * @see com.netxforge.netxstudio.library.BaseExpressionResult
+	 * @generated
+	 */
+	EClass getBaseExpressionResult();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.BaseResource <em>Base Resource</em>}'.
@@ -2462,6 +2519,27 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getFunction_AllFunctions();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.LastEvaluationExpressionResult <em>Last Evaluation Expression Result</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Last Evaluation Expression Result</em>'.
+	 * @see com.netxforge.netxstudio.library.LastEvaluationExpressionResult
+	 * @generated
+	 */
+	EClass getLastEvaluationExpressionResult();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.LastEvaluationExpressionResult#getLastEvalResult <em>Last Eval Result</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Last Eval Result</em>'.
+	 * @see com.netxforge.netxstudio.library.LastEvaluationExpressionResult#getLastEvalResult()
+	 * @see #getLastEvaluationExpressionResult()
+	 * @generated
+	 */
+	EAttribute getLastEvaluationExpressionResult_LastEvalResult();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.library.Library <em>Library</em>}'.
@@ -3160,6 +3238,16 @@ public interface LibraryPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.BaseExpressionResultImpl <em>Base Expression Result</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.library.impl.BaseExpressionResultImpl
+		 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getBaseExpressionResult()
+		 * @generated
+		 */
+		EClass BASE_EXPRESSION_RESULT = eINSTANCE.getBaseExpressionResult();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.BaseResourceImpl <em>Base Resource</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3636,6 +3724,24 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EReference FUNCTION__ALL_FUNCTIONS = eINSTANCE.getFunction_AllFunctions();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.LastEvaluationExpressionResultImpl <em>Last Evaluation Expression Result</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.library.impl.LastEvaluationExpressionResultImpl
+		 * @see com.netxforge.netxstudio.library.impl.LibraryPackageImpl#getLastEvaluationExpressionResult()
+		 * @generated
+		 */
+		EClass LAST_EVALUATION_EXPRESSION_RESULT = eINSTANCE.getLastEvaluationExpressionResult();
+
+		/**
+		 * The meta object literal for the '<em><b>Last Eval Result</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LAST_EVALUATION_EXPRESSION_RESULT__LAST_EVAL_RESULT = eINSTANCE.getLastEvaluationExpressionResult_LastEvalResult();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.library.impl.LibraryImpl <em>Library</em>}' class.

@@ -42,7 +42,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * @generated
  */
 public class ExpressionFailureItemProvider
-	extends ComponentFailureItemProvider
+	extends FailureItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

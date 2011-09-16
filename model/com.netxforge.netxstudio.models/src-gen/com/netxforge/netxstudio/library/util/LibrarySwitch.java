@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.util.Switch;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Company;
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -31,6 +32,7 @@ import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -98,6 +100,12 @@ public class LibrarySwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case LibraryPackage.BASE_EXPRESSION_RESULT: {
+				BaseExpressionResult baseExpressionResult = (BaseExpressionResult)theEObject;
+				T result = caseBaseExpressionResult(baseExpressionResult);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case LibraryPackage.BASE_RESOURCE: {
 				BaseResource baseResource = (BaseResource)theEObject;
 				T result = caseBaseResource(baseResource);
@@ -137,6 +145,7 @@ public class LibrarySwitch<T> extends Switch<T> {
 			case LibraryPackage.EXPRESSION_RESULT: {
 				ExpressionResult expressionResult = (ExpressionResult)theEObject;
 				T result = caseExpressionResult(expressionResult);
+				if (result == null) result = caseBaseExpressionResult(expressionResult);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -145,6 +154,13 @@ public class LibrarySwitch<T> extends Switch<T> {
 				T result = caseFunction(function);
 				if (result == null) result = caseComponent(function);
 				if (result == null) result = caseBase(function);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case LibraryPackage.LAST_EVALUATION_EXPRESSION_RESULT: {
+				LastEvaluationExpressionResult lastEvaluationExpressionResult = (LastEvaluationExpressionResult)theEObject;
+				T result = caseLastEvaluationExpressionResult(lastEvaluationExpressionResult);
+				if (result == null) result = caseBaseExpressionResult(lastEvaluationExpressionResult);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -207,6 +223,21 @@ public class LibrarySwitch<T> extends Switch<T> {
 			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Base Expression Result</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Base Expression Result</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBaseExpressionResult(BaseExpressionResult object) {
+		return null;
 	}
 
 	/**
@@ -311,6 +342,21 @@ public class LibrarySwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseFunction(Function object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Last Evaluation Expression Result</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Last Evaluation Expression Result</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLastEvaluationExpressionResult(LastEvaluationExpressionResult object) {
 		return null;
 	}
 

@@ -20,30 +20,30 @@ package com.netxforge.netxstudio.scheduling.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import com.netxforge.netxstudio.scheduling.RFSServiceJob;
+import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.RFSService;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>RFS Service Job</b></em>'.
+ * An implementation of the model object '<em><b>RFS Service Reporter Job</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceJobImpl#getRFSService <em>RFS Service</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.RFSServiceReporterJobImpl#getRFSService <em>RFS Service</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class RFSServiceJobImpl extends JobImpl implements RFSServiceJob {
+public class RFSServiceReporterJobImpl extends JobImpl implements RFSServiceReporterJob {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RFSServiceJobImpl() {
+	protected RFSServiceReporterJobImpl() {
 		super();
 	}
 
@@ -54,7 +54,7 @@ public class RFSServiceJobImpl extends JobImpl implements RFSServiceJob {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SchedulingPackage.Literals.RFS_SERVICE_JOB;
+		return SchedulingPackage.Literals.RFS_SERVICE_REPORTER_JOB;
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class RFSServiceJobImpl extends JobImpl implements RFSServiceJob {
 	 * @generated
 	 */
 	public RFSService getRFSService() {
-		return (RFSService)eGet(SchedulingPackage.Literals.RFS_SERVICE_JOB__RFS_SERVICE, true);
+		return (RFSService)eGet(SchedulingPackage.Literals.RFS_SERVICE_REPORTER_JOB__RFS_SERVICE, true);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class RFSServiceJobImpl extends JobImpl implements RFSServiceJob {
 	 * @generated
 	 */
 	public void setRFSService(RFSService newRFSService) {
-		eSet(SchedulingPackage.Literals.RFS_SERVICE_JOB__RFS_SERVICE, newRFSService);
+		eSet(SchedulingPackage.Literals.RFS_SERVICE_REPORTER_JOB__RFS_SERVICE, newRFSService);
 	}
 
-} //RFSServiceJobImpl
+} //RFSServiceReporterJobImpl

@@ -51,7 +51,7 @@ import com.netxforge.netxstudio.generics.Base;
 public interface ServiceProfile extends Base {
 	/**
 	 * Returns the value of the '<em><b>Profile Resources</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.services.ServiceProfileResource}.
+	 * The list contents are of type {@link com.netxforge.netxstudio.services.DerivedResource}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -65,7 +65,7 @@ public interface ServiceProfile extends Base {
 	 *        extendedMetaData="kind='element' name='ProfileResources'"
 	 * @generated
 	 */
-	EList<ServiceProfileResource> getProfileResources();
+	EList<DerivedResource> getProfileResources();
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.

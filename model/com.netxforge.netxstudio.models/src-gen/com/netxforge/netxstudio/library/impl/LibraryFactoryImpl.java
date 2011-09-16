@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -32,6 +33,7 @@ import com.netxforge.netxstudio.library.EquipmentGroup;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.Function;
+import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryFactory;
@@ -91,6 +93,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case LibraryPackage.BASE_EXPRESSION_RESULT: return (EObject)createBaseExpressionResult();
 			case LibraryPackage.BASE_RESOURCE: return (EObject)createBaseResource();
 			case LibraryPackage.COMPONENT: return (EObject)createComponent();
 			case LibraryPackage.EQUIPMENT: return (EObject)createEquipment();
@@ -98,6 +101,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 			case LibraryPackage.EXPRESSION: return (EObject)createExpression();
 			case LibraryPackage.EXPRESSION_RESULT: return (EObject)createExpressionResult();
 			case LibraryPackage.FUNCTION: return (EObject)createFunction();
+			case LibraryPackage.LAST_EVALUATION_EXPRESSION_RESULT: return (EObject)createLastEvaluationExpressionResult();
 			case LibraryPackage.LIBRARY: return (EObject)createLibrary();
 			case LibraryPackage.NET_XRESOURCE: return (EObject)createNetXResource();
 			case LibraryPackage.NODE_TYPE: return (EObject)createNodeType();
@@ -174,6 +178,16 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public BaseExpressionResult createBaseExpressionResult() {
+		BaseExpressionResultImpl baseExpressionResult = new BaseExpressionResultImpl();
+		return baseExpressionResult;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public BaseResource createBaseResource() {
 		BaseResourceImpl baseResource = new BaseResourceImpl();
 		return baseResource;
@@ -237,6 +251,16 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory {
 	public Function createFunction() {
 		FunctionImpl function = new FunctionImpl();
 		return function;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LastEvaluationExpressionResult createLastEvaluationExpressionResult() {
+		LastEvaluationExpressionResultImpl lastEvaluationExpressionResult = new LastEvaluationExpressionResultImpl();
+		return lastEvaluationExpressionResult;
 	}
 
 	/**

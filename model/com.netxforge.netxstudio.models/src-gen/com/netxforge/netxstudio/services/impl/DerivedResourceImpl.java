@@ -23,31 +23,31 @@ import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.impl.BaseResourceImpl;
-import com.netxforge.netxstudio.services.ServiceProfileResource;
+import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Service Profile Resource</b></em>'.
+ * An implementation of the model object '<em><b>Derived Resource</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceProfileResourceImpl#getProfileValues <em>Profile Values</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceProfileResourceImpl#getForecastValues <em>Forecast Values</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceProfileResourceImpl#getTrendedValues <em>Trended Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.impl.DerivedResourceImpl#getValues <em>Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.impl.DerivedResourceImpl#getForecastValues <em>Forecast Values</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.impl.DerivedResourceImpl#getTrendedValues <em>Trended Values</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ServiceProfileResourceImpl extends BaseResourceImpl implements ServiceProfileResource {
+public class DerivedResourceImpl extends BaseResourceImpl implements DerivedResource {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ServiceProfileResourceImpl() {
+	protected DerivedResourceImpl() {
 		super();
 	}
 
@@ -58,7 +58,7 @@ public class ServiceProfileResourceImpl extends BaseResourceImpl implements Serv
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE;
+		return ServicesPackage.Literals.DERIVED_RESOURCE;
 	}
 
 	/**
@@ -67,8 +67,8 @@ public class ServiceProfileResourceImpl extends BaseResourceImpl implements Serv
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<Value> getProfileValues() {
-		return (EList<Value>)eGet(ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__PROFILE_VALUES, true);
+	public EList<Value> getValues() {
+		return (EList<Value>)eGet(ServicesPackage.Literals.DERIVED_RESOURCE__VALUES, true);
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class ServiceProfileResourceImpl extends BaseResourceImpl implements Serv
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<Value> getForecastValues() {
-		return (EList<Value>)eGet(ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__FORECAST_VALUES, true);
+		return (EList<Value>)eGet(ServicesPackage.Literals.DERIVED_RESOURCE__FORECAST_VALUES, true);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class ServiceProfileResourceImpl extends BaseResourceImpl implements Serv
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<Value> getTrendedValues() {
-		return (EList<Value>)eGet(ServicesPackage.Literals.SERVICE_PROFILE_RESOURCE__TRENDED_VALUES, true);
+		return (EList<Value>)eGet(ServicesPackage.Literals.DERIVED_RESOURCE__TRENDED_VALUES, true);
 	}
 
-} //ServiceProfileResourceImpl
+} //DerivedResourceImpl
