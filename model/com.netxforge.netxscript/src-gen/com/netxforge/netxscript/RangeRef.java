@@ -5,8 +5,6 @@
  */
 package com.netxforge.netxscript;
 
-import java.math.BigDecimal;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -19,7 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link com.netxforge.netxscript.RangeRef#getValuerange <em>Valuerange</em>}</li>
  *   <li>{@link com.netxforge.netxscript.RangeRef#getKind <em>Kind</em>}</li>
- *   <li>{@link com.netxforge.netxscript.RangeRef#getPeriod <em>Period</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.RangeRef#getInterval <em>Interval</em>}</li>
  * </ul>
  * </p>
  *
@@ -88,29 +86,29 @@ public interface RangeRef extends EObject
   void setKind(ValueKind value);
 
   /**
-   * Returns the value of the '<em><b>Period</b></em>' attribute.
+   * Returns the value of the '<em><b>Interval</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Period</em>' attribute isn't clear,
+   * If the meaning of the '<em>Interval</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Period</em>' attribute.
-   * @see #setPeriod(BigDecimal)
-   * @see com.netxforge.netxscript.NetxscriptPackage#getRangeRef_Period()
-   * @model
+   * @return the value of the '<em>Interval</em>' containment reference.
+   * @see #setInterval(Interval)
+   * @see com.netxforge.netxscript.NetxscriptPackage#getRangeRef_Interval()
+   * @model containment="true"
    * @generated
    */
-  BigDecimal getPeriod();
+  Interval getInterval();
 
   /**
-   * Sets the value of the '{@link com.netxforge.netxscript.RangeRef#getPeriod <em>Period</em>}' attribute.
+   * Sets the value of the '{@link com.netxforge.netxscript.RangeRef#getInterval <em>Interval</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Period</em>' attribute.
-   * @see #getPeriod()
+   * @param value the new value of the '<em>Interval</em>' containment reference.
+   * @see #getInterval()
    * @generated
    */
-  void setPeriod(BigDecimal value);
+  void setInterval(Interval value);
 
 } // RangeRef

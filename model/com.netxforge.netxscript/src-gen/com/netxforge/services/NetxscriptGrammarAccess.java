@@ -582,7 +582,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cAssignmentRefAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final Alternatives cAssignmentRefAlternatives_1_0 = (Alternatives)cAssignmentRefAssignment_1.eContents().get(0);
 		private final RuleCall cAssignmentRefContextRefParserRuleCall_1_0_0 = (RuleCall)cAssignmentRefAlternatives_1_0.eContents().get(0);
-		private final RuleCall cAssignmentRefAbsoluteRefParserRuleCall_1_0_1 = (RuleCall)cAssignmentRefAlternatives_1_0.eContents().get(1);
+		private final RuleCall cAssignmentRefNodeTypeRefParserRuleCall_1_0_1 = (RuleCall)cAssignmentRefAlternatives_1_0.eContents().get(1);
 		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		private final Assignment cExpressionAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cExpressionExpressionParserRuleCall_3_0 = (RuleCall)cExpressionAssignment_3.eContents().get(0);
@@ -590,26 +590,26 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		////AssignmentStatement returns Statement:
 		////	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
 		//ReferenceAssignmentStatement returns Statement:
-		//	{RefAssignment} assignmentRef=(ContextRef | AbsoluteRef) "=" expression=Expression;
+		//	{RefAssignment} assignmentRef=(ContextRef | NodeTypeRef) "=" expression=Expression;
 		public ParserRule getRule() { return rule; }
 
-		//{RefAssignment} assignmentRef=(ContextRef | AbsoluteRef) "=" expression=Expression
+		//{RefAssignment} assignmentRef=(ContextRef | NodeTypeRef) "=" expression=Expression
 		public Group getGroup() { return cGroup; }
 
 		//{RefAssignment}
 		public Action getRefAssignmentAction_0() { return cRefAssignmentAction_0; }
 
-		//assignmentRef=(ContextRef | AbsoluteRef)
+		//assignmentRef=(ContextRef | NodeTypeRef)
 		public Assignment getAssignmentRefAssignment_1() { return cAssignmentRefAssignment_1; }
 
-		//ContextRef | AbsoluteRef
+		//ContextRef | NodeTypeRef
 		public Alternatives getAssignmentRefAlternatives_1_0() { return cAssignmentRefAlternatives_1_0; }
 
 		//ContextRef
 		public RuleCall getAssignmentRefContextRefParserRuleCall_1_0_0() { return cAssignmentRefContextRefParserRuleCall_1_0_0; }
 
-		//AbsoluteRef
-		public RuleCall getAssignmentRefAbsoluteRefParserRuleCall_1_0_1() { return cAssignmentRefAbsoluteRefParserRuleCall_1_0_1; }
+		//NodeTypeRef
+		public RuleCall getAssignmentRefNodeTypeRefParserRuleCall_1_0_1() { return cAssignmentRefNodeTypeRefParserRuleCall_1_0_1; }
 
 		//"="
 		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
@@ -1426,26 +1426,26 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Reference");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cContextRefParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cAbsoluteRefParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cNodeTypeRefParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		//Reference returns Expression:
-		//	ContextRef | AbsoluteRef;
+		//	ContextRef | NodeTypeRef;
 		public ParserRule getRule() { return rule; }
 
-		//ContextRef | AbsoluteRef
+		//ContextRef | NodeTypeRef
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//ContextRef
 		public RuleCall getContextRefParserRuleCall_0() { return cContextRefParserRuleCall_0; }
 
-		//AbsoluteRef
-		public RuleCall getAbsoluteRefParserRuleCall_1() { return cAbsoluteRefParserRuleCall_1; }
+		//NodeTypeRef
+		public RuleCall getNodeTypeRefParserRuleCall_1() { return cNodeTypeRefParserRuleCall_1; }
 	}
 
-	public class AbsoluteRefElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "AbsoluteRef");
+	public class NodeTypeRefElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "NodeTypeRef");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cAbsoluteRefAction_0 = (Action)cGroup.eContents().get(0);
+		private final Action cNodeTypeRefAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cNODETYPEKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cNodetypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final CrossReference cNodetypeNodeTypeCrossReference_2_0 = (CrossReference)cNodetypeAssignment_2.eContents().get(0);
@@ -1455,15 +1455,15 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		
 		/// **
 		// * The Node context can be found with NODE if available.
-		// * / AbsoluteRef returns Reference:
-		//	{AbsoluteRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef;
+		// * / NodeTypeRef returns Reference:
+		//	{NodeTypeRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef;
 		public ParserRule getRule() { return rule; }
 
-		//{AbsoluteRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef
+		//{NodeTypeRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef
 		public Group getGroup() { return cGroup; }
 
-		//{AbsoluteRef}
-		public Action getAbsoluteRefAction_0() { return cAbsoluteRefAction_0; }
+		//{NodeTypeRef}
+		public Action getNodeTypeRefAction_0() { return cNodeTypeRefAction_0; }
 
 		//"NODETYPE"
 		public Keyword getNODETYPEKeyword_1() { return cNODETYPEKeyword_1; }
@@ -1647,6 +1647,9 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cLinkRefParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cStatusRefParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
+		////ServiceRef returns Reference:
+		////	{ServiceRef} () 
+		////;
 		//LeafReference:
 		//	ResourceRef | LinkRef | StatusRef;
 		public ParserRule getRule() { return rule; }
@@ -1743,18 +1746,18 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cValuerangeValueRangeEnumRuleCall_0_0 = (RuleCall)cValuerangeAssignment_0.eContents().get(0);
 		private final Assignment cKindAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cKindValueKindEnumRuleCall_1_0 = (RuleCall)cKindAssignment_1.eContents().get(0);
-		private final Assignment cPeriodAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cPeriodNUMBERTerminalRuleCall_2_0 = (RuleCall)cPeriodAssignment_2.eContents().get(0);
+		private final Assignment cIntervalAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cIntervalIntervalParserRuleCall_2_0 = (RuleCall)cIntervalAssignment_2.eContents().get(0);
 		
 		/// **
 		// * Optional value kind AVG / BH
 		// * Optional Number value (In minutes like 60, etc..)
 		// * 
 		// * / RangeRef:
-		//	valuerange=ValueRange kind=ValueKind? period=NUMBER?;
+		//	valuerange=ValueRange kind=ValueKind? interval=Interval?;
 		public ParserRule getRule() { return rule; }
 
-		//valuerange=ValueRange kind=ValueKind? period=NUMBER?
+		//valuerange=ValueRange kind=ValueKind? interval=Interval?
 		public Group getGroup() { return cGroup; }
 
 		//valuerange=ValueRange
@@ -1769,11 +1772,39 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		//ValueKind
 		public RuleCall getKindValueKindEnumRuleCall_1_0() { return cKindValueKindEnumRuleCall_1_0; }
 
-		//period=NUMBER?
-		public Assignment getPeriodAssignment_2() { return cPeriodAssignment_2; }
+		//interval=Interval?
+		public Assignment getIntervalAssignment_2() { return cIntervalAssignment_2; }
+
+		//Interval
+		public RuleCall getIntervalIntervalParserRuleCall_2_0() { return cIntervalIntervalParserRuleCall_2_0; }
+	}
+
+	public class IntervalElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Interval");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Assignment cIntervalAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
+		private final RuleCall cIntervalNUMBERTerminalRuleCall_0_0 = (RuleCall)cIntervalAssignment_0.eContents().get(0);
+		private final Assignment cKindAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
+		private final RuleCall cKindIntervalKindEnumRuleCall_1_0 = (RuleCall)cKindAssignment_1.eContents().get(0);
+		
+		//Interval:
+		//	interval=NUMBER | kind=IntervalKind;
+		public ParserRule getRule() { return rule; }
+
+		//interval=NUMBER | kind=IntervalKind
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//interval=NUMBER
+		public Assignment getIntervalAssignment_0() { return cIntervalAssignment_0; }
 
 		//NUMBER
-		public RuleCall getPeriodNUMBERTerminalRuleCall_2_0() { return cPeriodNUMBERTerminalRuleCall_2_0; }
+		public RuleCall getIntervalNUMBERTerminalRuleCall_0_0() { return cIntervalNUMBERTerminalRuleCall_0_0; }
+
+		//kind=IntervalKind
+		public Assignment getKindAssignment_1() { return cKindAssignment_1; }
+
+		//IntervalKind
+		public RuleCall getKindIntervalKindEnumRuleCall_1_0() { return cKindIntervalKindEnumRuleCall_1_0; }
 	}
 
 	public class LinkRefElements extends AbstractParserRuleElementFinder {
@@ -1830,14 +1861,16 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cDEVIATIONDeviationKeyword_5_0 = (Keyword)cDEVIATIONEnumLiteralDeclaration_5.eContents().get(0);
 		private final EnumLiteralDeclaration cERLANGBEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
 		private final Keyword cERLANGBErlangBKeyword_6_0 = (Keyword)cERLANGBEnumLiteralDeclaration_6.eContents().get(0);
+		private final EnumLiteralDeclaration cCLEAREnumLiteralDeclaration_7 = (EnumLiteralDeclaration)cAlternatives.eContents().get(7);
+		private final Keyword cCLEARClearKeyword_7_0 = (Keyword)cCLEAREnumLiteralDeclaration_7.eContents().get(0);
 		
 		//enum NativeFunction:
 		//	COUNT="count()" | SUM="sum()" | MIN="min()" | MAX="max()" | MEAN="mean()" | DEVIATION="deviation()" |
-		//	ERLANGB="erlangB()";
+		//	ERLANGB="erlangB()" | CLEAR="clear()";
 		public EnumRule getRule() { return rule; }
 
 		//COUNT="count()" | SUM="sum()" | MIN="min()" | MAX="max()" | MEAN="mean()" | DEVIATION="deviation()" |
-		//ERLANGB="erlangB()"
+		//ERLANGB="erlangB()" | CLEAR="clear()"
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//COUNT="count()"
@@ -1881,6 +1914,56 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 		//"erlangB()"
 		public Keyword getERLANGBErlangBKeyword_6_0() { return cERLANGBErlangBKeyword_6_0; }
+
+		//CLEAR="clear()"
+		public EnumLiteralDeclaration getCLEAREnumLiteralDeclaration_7() { return cCLEAREnumLiteralDeclaration_7; }
+
+		//"clear()"
+		public Keyword getCLEARClearKeyword_7_0() { return cCLEARClearKeyword_7_0; }
+	}
+
+	public class IntervalKindElements extends AbstractEnumRuleElementFinder {
+		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "IntervalKind");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final EnumLiteralDeclaration cMONTHEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
+		private final Keyword cMONTHMONTHKeyword_0_0 = (Keyword)cMONTHEnumLiteralDeclaration_0.eContents().get(0);
+		private final EnumLiteralDeclaration cWEEKEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
+		private final Keyword cWEEKWEEKKeyword_1_0 = (Keyword)cWEEKEnumLiteralDeclaration_1.eContents().get(0);
+		private final EnumLiteralDeclaration cDAYEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
+		private final Keyword cDAYDAYKeyword_2_0 = (Keyword)cDAYEnumLiteralDeclaration_2.eContents().get(0);
+		private final EnumLiteralDeclaration cHOUREnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
+		private final Keyword cHOURHOURKeyword_3_0 = (Keyword)cHOUREnumLiteralDeclaration_3.eContents().get(0);
+		
+		//enum IntervalKind:
+		//	MONTH | WEEK | DAY | HOUR;
+		public EnumRule getRule() { return rule; }
+
+		//MONTH | WEEK | DAY | HOUR
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//MONTH
+		public EnumLiteralDeclaration getMONTHEnumLiteralDeclaration_0() { return cMONTHEnumLiteralDeclaration_0; }
+
+		//"MONTH"
+		public Keyword getMONTHMONTHKeyword_0_0() { return cMONTHMONTHKeyword_0_0; }
+
+		//WEEK
+		public EnumLiteralDeclaration getWEEKEnumLiteralDeclaration_1() { return cWEEKEnumLiteralDeclaration_1; }
+
+		//"WEEK"
+		public Keyword getWEEKWEEKKeyword_1_0() { return cWEEKWEEKKeyword_1_0; }
+
+		//DAY
+		public EnumLiteralDeclaration getDAYEnumLiteralDeclaration_2() { return cDAYEnumLiteralDeclaration_2; }
+
+		//"DAY"
+		public Keyword getDAYDAYKeyword_2_0() { return cDAYDAYKeyword_2_0; }
+
+		//HOUR
+		public EnumLiteralDeclaration getHOUREnumLiteralDeclaration_3() { return cHOUREnumLiteralDeclaration_3; }
+
+		//"HOUR"
+		public Keyword getHOURHOURKeyword_3_0() { return cHOURHOURKeyword_3_0; }
 	}
 
 	public class ToleranceLevelElements extends AbstractEnumRuleElementFinder {
@@ -2066,7 +2149,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private RangeLiteralElements pRangeLiteral;
 	private NativeFunctionElements unknownRuleNativeFunction;
 	private ReferenceElements pReference;
-	private AbsoluteRefElements pAbsoluteRef;
+	private NodeTypeRefElements pNodeTypeRef;
 	private ContextRefElements pContextRef;
 	private PrimaryRefElements pPrimaryRef;
 	private ComponentRefElements pComponentRef;
@@ -2074,6 +2157,8 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	private ResourceRefElements pResourceRef;
 	private StatusRefElements pStatusRef;
 	private RangeRefElements pRangeRef;
+	private IntervalElements pInterval;
+	private IntervalKindElements unknownRuleIntervalKind;
 	private ToleranceLevelElements unknownRuleToleranceLevel;
 	private ValueRangeElements unknownRuleValueRange;
 	private ValueKindElements unknownRuleValueKind;
@@ -2252,7 +2337,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	////AssignmentStatement returns Statement:
 	////	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
 	//ReferenceAssignmentStatement returns Statement:
-	//	{RefAssignment} assignmentRef=(ContextRef | AbsoluteRef) "=" expression=Expression;
+	//	{RefAssignment} assignmentRef=(ContextRef | NodeTypeRef) "=" expression=Expression;
 	public ReferenceAssignmentStatementElements getReferenceAssignmentStatementAccess() {
 		return (pReferenceAssignmentStatement != null) ? pReferenceAssignmentStatement : (pReferenceAssignmentStatement = new ReferenceAssignmentStatementElements());
 	}
@@ -2453,7 +2538,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 	//enum NativeFunction:
 	//	COUNT="count()" | SUM="sum()" | MIN="min()" | MAX="max()" | MEAN="mean()" | DEVIATION="deviation()" |
-	//	ERLANGB="erlangB()";
+	//	ERLANGB="erlangB()" | CLEAR="clear()";
 	public NativeFunctionElements getNativeFunctionAccess() {
 		return (unknownRuleNativeFunction != null) ? unknownRuleNativeFunction : (unknownRuleNativeFunction = new NativeFunctionElements());
 	}
@@ -2463,7 +2548,7 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Reference returns Expression:
-	//	ContextRef | AbsoluteRef;
+	//	ContextRef | NodeTypeRef;
 	public ReferenceElements getReferenceAccess() {
 		return (pReference != null) ? pReference : (pReference = new ReferenceElements());
 	}
@@ -2474,14 +2559,14 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 
 	/// **
 	// * The Node context can be found with NODE if available.
-	// * / AbsoluteRef returns Reference:
-	//	{AbsoluteRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef;
-	public AbsoluteRefElements getAbsoluteRefAccess() {
-		return (pAbsoluteRef != null) ? pAbsoluteRef : (pAbsoluteRef = new AbsoluteRefElements());
+	// * / NodeTypeRef returns Reference:
+	//	{NodeTypeRef} "NODETYPE" nodetype=[library::NodeType] primaryRef=PrimaryRef;
+	public NodeTypeRefElements getNodeTypeRefAccess() {
+		return (pNodeTypeRef != null) ? pNodeTypeRef : (pNodeTypeRef = new NodeTypeRefElements());
 	}
 	
-	public ParserRule getAbsoluteRefRule() {
-		return getAbsoluteRefAccess().getRule();
+	public ParserRule getNodeTypeRefRule() {
+		return getNodeTypeRefAccess().getRule();
 	}
 
 	/// **
@@ -2521,6 +2606,9 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 		return getComponentRefAccess().getRule();
 	}
 
+	////ServiceRef returns Reference:
+	////	{ServiceRef} () 
+	////;
 	//LeafReference:
 	//	ResourceRef | LinkRef | StatusRef;
 	public LeafReferenceElements getLeafReferenceAccess() {
@@ -2556,13 +2644,33 @@ public class NetxscriptGrammarAccess extends AbstractGrammarElementFinder {
 	// * Optional Number value (In minutes like 60, etc..)
 	// * 
 	// * / RangeRef:
-	//	valuerange=ValueRange kind=ValueKind? period=NUMBER?;
+	//	valuerange=ValueRange kind=ValueKind? interval=Interval?;
 	public RangeRefElements getRangeRefAccess() {
 		return (pRangeRef != null) ? pRangeRef : (pRangeRef = new RangeRefElements());
 	}
 	
 	public ParserRule getRangeRefRule() {
 		return getRangeRefAccess().getRule();
+	}
+
+	//Interval:
+	//	interval=NUMBER | kind=IntervalKind;
+	public IntervalElements getIntervalAccess() {
+		return (pInterval != null) ? pInterval : (pInterval = new IntervalElements());
+	}
+	
+	public ParserRule getIntervalRule() {
+		return getIntervalAccess().getRule();
+	}
+
+	//enum IntervalKind:
+	//	MONTH | WEEK | DAY | HOUR;
+	public IntervalKindElements getIntervalKindAccess() {
+		return (unknownRuleIntervalKind != null) ? unknownRuleIntervalKind : (unknownRuleIntervalKind = new IntervalKindElements());
+	}
+	
+	public EnumRule getIntervalKindRule() {
+		return getIntervalKindAccess().getRule();
 	}
 
 	//enum ToleranceLevel:

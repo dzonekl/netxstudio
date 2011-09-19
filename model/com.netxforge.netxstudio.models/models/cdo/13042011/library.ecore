@@ -133,16 +133,6 @@
         <details key="name" value="UtilizationExpressionRef"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="retentionExpressionRef"
-        eType="#//Expression">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The RetentionExpressionRef reference, used to&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;perform the retention computation.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="RetentionExpressionRef"/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="toleranceRefs" upperBound="-1"
         eType="#//Tolerance">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

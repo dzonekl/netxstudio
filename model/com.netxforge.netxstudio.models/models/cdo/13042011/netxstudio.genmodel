@@ -169,11 +169,17 @@
   </genPackages>
   <genPackages prefix="Services" basePackage="com.netxforge.netxstudio" resource="XML"
       disposableProviderFactory="true" ecorePackage="services.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="services.ecore#//ResourceOriginType">
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ResourceOriginType/InBound"/>
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ResourceOriginType/OutBound"/>
+      <genEnumLiterals ecoreEnumLiteral="services.ecore#//ResourceOriginType/Internal"/>
+    </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="services.ecore#//ServiceClassType">
       <genEnumLiterals ecoreEnumLiteral="services.ecore#//ServiceClassType/Gold"/>
       <genEnumLiterals ecoreEnumLiteral="services.ecore#//ServiceClassType/Silver"/>
       <genEnumLiterals ecoreEnumLiteral="services.ecore#//ServiceClassType/Bronze"/>
     </genEnums>
+    <genDataTypes ecoreDataType="services.ecore#//ResourceOriginTypeObject"/>
     <genDataTypes ecoreDataType="services.ecore#//ServiceClassTypeObject"/>
     <genClasses ecoreClass="services.ecore#//CFSService">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//CFSService/provider"/>
@@ -187,6 +193,11 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DerivedResource/values"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DerivedResource/forecastValues"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DerivedResource/trendedValues"/>
+    </genClasses>
+    <genClasses ecoreClass="services.ecore#//DistributionEntry">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//DistributionEntry/resourceRef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//DistributionEntry/distribution"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//DistributionEntry/resourceOrigin"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//RFSService">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//RFSService/nodes"/>
@@ -206,8 +217,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//Service/serviceName"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ServiceDistribution">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/distributionRefs"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/distribution"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/distributionEntries"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceDistribution/expressionRefs"/>
     </genClasses>
     <genClasses ecoreClass="services.ecore#//ServiceForecast">
@@ -286,7 +296,6 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/metricRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/capacityExpressionRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/utilizationExpressionRef"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/retentionExpressionRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/toleranceRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/protocolRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/parameterRefs"/>

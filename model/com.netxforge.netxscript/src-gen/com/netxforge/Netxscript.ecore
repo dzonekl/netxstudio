@@ -52,6 +52,7 @@
     <eLiterals name="MEAN" value="4" literal="mean()"/>
     <eLiterals name="DEVIATION" value="5" literal="deviation()"/>
     <eLiterals name="ERLANGB" value="6" literal="erlangB()"/>
+    <eLiterals name="CLEAR" value="7" literal="clear()"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Reference" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Expression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
@@ -64,7 +65,18 @@
   <eClassifiers xsi:type="ecore:EClass" name="RangeRef">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="valuerange" eType="ecore:EEnum platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueRange"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EEnum platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//ValueKind"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interval" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Interval"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Interval">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interval" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EEnum platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//IntervalKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="IntervalKind">
+    <eLiterals name="MONTH" literal="MONTH"/>
+    <eLiterals name="WEEK" value="1" literal="WEEK"/>
+    <eLiterals name="DAY" value="2" literal="DAY"/>
+    <eLiterals name="HOUR" value="3" literal="HOUR"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ToleranceLevel">
     <eLiterals name="RED" literal="RED"/>
@@ -229,7 +241,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AbsoluteRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference">
+  <eClassifiers xsi:type="ecore:EClass" name="NodeTypeRef" eSuperTypes="platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodetype" eType="ecore:EClass platform:/resource/com.netxforge.netxstudio.models/models/cdo/13042011/library.ecore#//NodeType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="primaryRef" eType="ecore:EClass platform:/resource/com.netxforge.netxscript/src-gen/com/netxforge/Netxscript.ecore#//Reference"
         containment="true"/>

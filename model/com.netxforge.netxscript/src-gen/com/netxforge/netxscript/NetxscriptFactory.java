@@ -143,6 +143,15 @@ public interface NetxscriptFactory extends EFactory
   RangeRef createRangeRef();
 
   /**
+   * Returns a new object of class '<em>Interval</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Interval</em>'.
+   * @generated
+   */
+  Interval createInterval();
+
+  /**
    * Returns a new object of class '<em>Return</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -395,13 +404,13 @@ public interface NetxscriptFactory extends EFactory
   RangeLiteral createRangeLiteral();
 
   /**
-   * Returns a new object of class '<em>Absolute Ref</em>'.
+   * Returns a new object of class '<em>Node Type Ref</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Absolute Ref</em>'.
+   * @return a new object of class '<em>Node Type Ref</em>'.
    * @generated
    */
-  AbsoluteRef createAbsoluteRef();
+  NodeTypeRef createNodeTypeRef();
 
   /**
    * Returns a new object of class '<em>Context Ref</em>'.

@@ -3,7 +3,6 @@ package com.netxforge.interpreter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.netxforge.netxscript.AbsoluteRef;
 import com.netxforge.netxscript.AbstractFunction;
 import com.netxforge.netxscript.AbstractVarOrArgument;
 import com.netxforge.netxscript.And;
@@ -36,6 +34,8 @@ import com.netxforge.netxscript.FunctionCall;
 import com.netxforge.netxscript.Greater;
 import com.netxforge.netxscript.GreaterEqual;
 import com.netxforge.netxscript.If;
+import com.netxforge.netxscript.Interval;
+import com.netxforge.netxscript.IntervalKind;
 import com.netxforge.netxscript.LeafReference;
 import com.netxforge.netxscript.Lesser;
 import com.netxforge.netxscript.LesserEqual;
@@ -49,6 +49,7 @@ import com.netxforge.netxscript.NativeFunction;
 import com.netxforge.netxscript.Negation;
 import com.netxforge.netxscript.NetxscriptFactory;
 import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.NodeTypeRef;
 import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.Plus;
@@ -60,6 +61,8 @@ import com.netxforge.netxscript.Reference;
 import com.netxforge.netxscript.ResourceRef;
 import com.netxforge.netxscript.Return;
 import com.netxforge.netxscript.Statement;
+import com.netxforge.netxscript.StatusRef;
+import com.netxforge.netxscript.ToleranceLevel;
 import com.netxforge.netxscript.UnaryPlusMinus;
 import com.netxforge.netxscript.Unequal;
 import com.netxforge.netxscript.ValueKind;
@@ -68,6 +71,7 @@ import com.netxforge.netxscript.VarOrArgumentCall;
 import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.common.model.RFSServiceSummary;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -76,10 +80,13 @@ import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.generics.impl.DateTimeRangeImpl;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.BaseResource;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.ExpressionResult;
+import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.impl.NetXResourceImpl;
 import com.netxforge.netxstudio.metrics.KindHintType;
@@ -87,6 +94,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.impl.NodeImpl;
 import com.netxforge.netxstudio.services.DerivedResource;
+import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.impl.ServiceImpl;
 
@@ -127,7 +135,7 @@ public class InterpreterTypeless implements IInterpreter {
 	/**
 	 * The result of our expression.
 	 */
-	private List<BaseExpressionResult> result = Lists.newArrayList();
+	private List<BaseExpressionResult> expressionResults = Lists.newArrayList();
 
 	/**
 	 * Construct without a root object constraint.
@@ -152,7 +160,7 @@ public class InterpreterTypeless implements IInterpreter {
 	 * Clear the interpreter if it's re-used.
 	 */
 	public void clear() {
-		result.clear();
+		expressionResults.clear();
 		contextIndex.clear();
 		contextList.clear();
 	}
@@ -196,15 +204,22 @@ public class InterpreterTypeless implements IInterpreter {
 					"Resource context unset, it was however requested for this evaluation");
 		}
 	}
-	
-	
+
 	private Service getContextualService() {
 		IInterpreterContext serviceContext = getContextFor(ServiceImpl.class);
 		if (serviceContext != null) {
 			return (Service) serviceContext.getContext();
 		} else {
-			throw new java.lang.UnsupportedOperationException(
-					"Service context unset, it was however requested for this evaluation");
+			return null;
+		}
+	}
+
+	private RFSServiceSummary getContextualServiceSummary() {
+		IInterpreterContext serviceContext = getContextFor(RFSServiceSummary.class);
+		if (serviceContext != null) {
+			return (RFSServiceSummary) serviceContext.getContext();
+		} else {
+			return null;
 		}
 	}
 
@@ -246,9 +261,14 @@ public class InterpreterTypeless implements IInterpreter {
 					+ (module.getFunctions().size() - 1));
 			return evaluate(f);
 		} else {
-			// Dispatch on single statements.
-			return dispatcher.invoke(module.getStatements(),
+			// Dispatch without functions.
+			Object result = dispatcher.invoke(module.getStatements(),
 					ImmutableMap.<String, Object> of());
+			LastEvaluationExpressionResult lastEvaluation = LibraryFactory.eINSTANCE
+					.createLastEvaluationExpressionResult();
+			lastEvaluation.setLastEvalResult(result);
+			this.expressionResults.add(lastEvaluation);
+			return result;
 		}
 	}
 
@@ -412,13 +432,48 @@ public class InterpreterTypeless implements IInterpreter {
 				return statement;
 			}
 
-			// FIXME, SHOULD REALLY SKIP EVALUATION, IF WE DEAL WITH AN
-			// ASSIGNEMNT
-			// TYPE STATEMENT.
-			Object eval = dispatcher.invoke(statement,
-					ImmutableMap.copyOf(localVarsAndArguments));
+			if (statement instanceof Argument
+					|| statement instanceof Assignment
+					|| statement instanceof Variable
+					|| statement instanceof PlusAssignment
+					|| statement instanceof RefAssignment) {
 
-			{
+				if (statement instanceof Argument) {
+					// We don't reassign values to arguments.
+				}
+
+				if (statement instanceof Variable) {
+					processStatementVariable(localVarsAndArguments, statement);
+				}
+				if (statement instanceof Assignment) {
+					processStatementAssignment(localVarsAndArguments, statement);
+				}
+				// TODO, We also need other types of Assignments like :
+				// *= /= -=
+				if (statement instanceof PlusAssignment) {
+					processStatementPlusAssignment(localVarsAndArguments,
+							statement);
+				}
+				if (statement instanceof RefAssignment) {
+					processStatementRefAssignment(localVarsAndArguments,
+							statement);
+				}
+
+			} else {
+
+				// For any other statement type, we execute the expression and
+				// return the result.
+				// In a block, the returned evaluation is merged with the
+				// localscope.
+
+				Object eval = dispatcher.invoke(statement,
+						ImmutableMap.copyOf(localVarsAndArguments));
+
+				// Print the evaluation result.
+				if (eval != null) {
+					pLog.log("Statement (" + index + ") result:", eval);
+				}
+
 				// Merge the returned locals.
 				if (eval instanceof Map<?, ?>) {
 					Map<String, Object> innerMap = (Map<String, Object>) eval;
@@ -430,276 +485,299 @@ public class InterpreterTypeless implements IInterpreter {
 					}
 				}
 			}
-
-			{ // Pre-evaluation of variables and assignments.
-
-				if (statement instanceof Argument) {
-					// We don't reassign values to arguments.
-				}
-
-				if (statement instanceof Variable) {
-					Variable v = (Variable) statement;
-					if (v.getExpression() != null) {
-						Object varEval = dispatcher.invoke(v.getExpression(),
-								ImmutableMap.copyOf(localVarsAndArguments));
-						localVarsAndArguments.put(v.getName(), varEval);
-					}
-				}
-				if (statement instanceof Assignment) {
-					Assignment a = (Assignment) statement;
-					// We now need to get 'left' as the expression will not have
-					// been assigned to this.
-
-					if (a.getExpression() != null) {
-
-						Object varEval = dispatcher.invoke(a.getExpression(),
-								ImmutableMap.copyOf(localVarsAndArguments));
-						localVarsAndArguments.put(
-								((Variable) a.getVar()).getName(), varEval);
-
-					}
-				}
-				// TODO, We also need other types of Assignments like :
-				// *= /= -=
-				if (statement instanceof PlusAssignment) {
-					PlusAssignment pa = (PlusAssignment) statement;
-					AbstractVarOrArgument var = pa.getVar();
-
-					// TODO, supportin indexed assignements.
-					// if (pa.getExpression().getIndex() != null) {
-					// }
-
-					VarOrArgumentCall call = NetxscriptFactory.eINSTANCE
-							.createVarOrArgumentCall();
-					call.setCall(var);
-
-					// Now we need to construct a new Plus expression.
-					// Left is our assigned variable made as a call.
-					Plus p = NetxscriptFactory.eINSTANCE.createPlus();
-
-					p.setLeft(call);
-					// Oops, make a copy.
-					Expression eCopy = EcoreUtil.copy(pa.getExpression());
-					p.setRight(eCopy);
-
-					Object varEval = dispatcher.invoke(p,
-							ImmutableMap.copyOf(localVarsAndArguments));
-
-					localVarsAndArguments.put(((Variable) var).getName(),
-							varEval);
-
-				}
-
-				// REFERENCE ASSIGNEMENT (Returns an Expression result).
-				if (statement instanceof RefAssignment) {
-					RefAssignment refa = (RefAssignment) statement;
-					if (refa.getExpression() != null) {
-						Object varEval = dispatcher.invoke(
-								refa.getExpression(),
-								ImmutableMap.copyOf(localVarsAndArguments));
-
-						// Notice:
-						// We unfortunately, can't use the dispatched to get to
-						// the
-						// leaf reference, so we use a recursive way to get it.
-						Reference assignmentReference = refa.getAssignmentRef();
-						BaseResource targetResource = null;
-						RangeRef targetRangeReference = null;
-						if (assignmentReference instanceof AbsoluteRef) {
-							LeafReference leafReference = ((AbsoluteRef) assignmentReference)
-									.getPrimaryRef().getLeafRef();
-							if (leafReference instanceof ResourceRef) {
-								ResourceRef resourceRef = (ResourceRef) leafReference;
-								targetResource = resourceRef.getResource();
-								targetRangeReference = resourceRef
-										.getRangeRef();
-							}
-						}
-						if (assignmentReference instanceof ContextRef) {
-
-							ContextRef cRef = (ContextRef) assignmentReference;
-							if (cRef.getPrimaryRef() != null) {
-
-								LeafReference leafReference = cRef
-										.getPrimaryRef().getLeafRef();
-								if (leafReference instanceof ResourceRef) {
-									Node n = this.getContextualNode();
-									ResourceRef resourceRef = (ResourceRef) leafReference;
-									try {
-										
-										BaseResource tmpResource = resourceRef
-												.getResource();
-
-										if (tmpResource.getExpressionName() != null) {
-
-											// Find matching resources with this
-											// name.
-
-											List<NetXResource> resources = modelUtils
-													.resourcesWithName(
-															n,
-															tmpResource
-																	.getExpressionName());
-											if (resources.size() > 0) {
-												// We dhave this resource in the
-												// context node, so we should
-												// set the target and range.
-												targetResource = resources.get(0);
-												targetRangeReference = resourceRef
-														.getRangeRef();
-											}
-										} else {
-											// We shall have an error here.
-											// We can't possibly process resources
-											// without an expression name.
-										}
-									} catch (Exception e) {
-										throw new IllegalStateException(processException(e, resourceRef));
-									}
-								}
-
-							}
-
-							// Here we assume the context is a ..Resource.
-							if (cRef.getRangeRef() != null) {
-								targetResource = this.getContextualResource();
-								targetRangeReference = cRef.getRangeRef();
-							}
-						}
-
-						if (targetResource != null
-								&& targetRangeReference != null) {
-
-							// Create the new result for this assignment.
-							ExpressionResult er = LibraryFactory.eINSTANCE
-									.createExpressionResult();
-
-							// Set the target resource to write.
-							er.setTargetResource(targetResource);
-
-							BigDecimal targetInterval = targetRangeReference
-									.getPeriod();
-
-							ValueKind vk = targetRangeReference.getKind();
-							if (vk != null) {
-								switch (vk.getValue()) {
-								case ValueKind.AVG_VALUE: {
-									er.setTargetKindHint(KindHintType.AVG);
-								}
-									break;
-								case ValueKind.BH_VALUE: {
-									er.setTargetKindHint(KindHintType.BH);
-								}
-									break;
-								}
-							}
-
-							if (targetInterval != null) {
-								er.setTargetIntervalHint(targetInterval
-										.intValue());
-							}
-
-							// Set the target range.
-							// FIXME Model optimization: to enums from
-							// NetXScript vs
-							// NetXStudio
-							// for the same type of info....
-							ValueRange range = targetRangeReference
-									.getValuerange();
-							switch (range.getValue()) {
-							case ValueRange.METRIC_VALUE: {
-								er.setTargetRange(RangeKind.METRIC);
-							}
-								break;
-							case ValueRange.TOLERANCE_VALUE: {
-								er.setTargetRange(RangeKind.TOLERANCE);
-							}
-								break;
-							case ValueRange.CAP_VALUE: {
-								er.setTargetRange(RangeKind.CAP);
-							}
-								break;
-							case ValueRange.FORECAST_VALUE: {
-								er.setTargetRange(RangeKind.FORECAST);
-							}
-								break;
-							case ValueRange.FORECAST_CAP_VALUE: {
-								er.setTargetRange(RangeKind.FORECASTCAP);
-							}
-								break;
-							case ValueRange.UTILIZATION_VALUE: {
-								er.setTargetRange(RangeKind.UTILIZATION);
-							}
-								break;
-							}
-
-							if (varEval instanceof BigDecimal) {
-								// We return a single value.
-								// Get the period context, and use the start
-								// date.
-								DateTimeRange dtr = this.getContextualPeriod();
-								Value singleValue = GenericsFactory.eINSTANCE
-										.createValue();
-
-								// Set the ts/value.
-								singleValue.setTimeStamp(dtr.getBegin());
-								singleValue.setValue(((BigDecimal) varEval)
-										.doubleValue());
-
-								er.getTargetValues().add(singleValue);
-								result.add(er);
-							}
-							if (varEval instanceof List<?>) {
-								// We return a list of values.
-								List<?> resultValues = (List<?>) varEval;
-								for (Object entry : resultValues) {
-									if (entry instanceof Value) {
-										// rather clumsy way to check the type
-										// of a
-										// list.
-										er.getTargetValues()
-												.addAll((Collection<? extends Value>) resultValues);
-										break;
-									}
-									if (entry instanceof BigDecimal) {
-										Value v = GenericsFactory.eINSTANCE
-												.createValue();
-										v.setValue(((BigDecimal) entry)
-												.doubleValue());
-										// FIXME, We don't set a timestamp!
-										er.getTargetValues().add(v);
-									}
-
-								}
-								result.add(er);
-							}
-							// Whatever was evaluated and should be assigned to
-							// a
-							// resource.
-							// is stored in an Expression result.
-						}
-
-					}
-
-				}
-			}
-
-			// Print the evaluation result.
-			if (eval != null) {
-				pLog.log("Statement (" + index + ") result:", eval);
-			}
 		}
 		return localVarsAndArguments;
 	}
 
-	private InterpreterException processException(Exception e, EObject expressionObject) {
-		
-		String msg = "";
-		
-		if(e instanceof IndexOutOfBoundsException){
-			msg = "Refering to non existing: "  + " ...."; // TODO. 
+	private void processStatementRefAssignment(
+			Map<String, Object> localVarsAndArguments, Statement statement) {
+		RefAssignment refa = (RefAssignment) statement;
+		if (refa.getExpression() != null) {
+			Object varEval = dispatcher.invoke(refa.getExpression(),
+					ImmutableMap.copyOf(localVarsAndArguments));
+
+			// Notice:
+			// We unfortunately, can't use the dispatched to get to
+			// the
+			// leaf reference, so we use a recursive way to get it.
+			Reference assignmentReference = refa.getAssignmentRef();
+			BaseResource targetResource = null;
+			RangeRef targetRangeReference = null;
+
+			if (assignmentReference instanceof NodeTypeRef) {
+				NodeTypeRef nodeTypeRef = (NodeTypeRef) assignmentReference;
+				if (nodeTypeRef.getLeafRef() != null) {
+					LeafReference leafReference = nodeTypeRef.getPrimaryRef()
+							.getLeafRef();
+					if (leafReference instanceof ResourceRef) {
+						ResourceRef resourceRef = (ResourceRef) leafReference;
+						targetResource = resourceRef.getResource();
+						targetRangeReference = resourceRef.getRangeRef();
+					}
+
+				}
+			}
+			if (assignmentReference instanceof ContextRef) {
+
+				ContextRef cRef = (ContextRef) assignmentReference;
+				if (cRef.getPrimaryRef() != null && cRef.getRangeRef() != null) {
+
+					LeafReference leafReference = cRef.getPrimaryRef()
+							.getLeafRef();
+					if (leafReference instanceof ResourceRef) {
+						ResourceRef resourceRef = (ResourceRef) leafReference;
+						targetResource = resourceRef.getResource();
+						targetRangeReference = resourceRef.getRangeRef();
+					}
+				}
+				// Here we assume the context is a ..Resource as there is no
+				// leaf.
+				if (cRef.getRangeRef() != null) {
+					targetResource = this.getContextualResource();
+					targetRangeReference = cRef.getRangeRef();
+				}
+			}
+			processExpressionResult(varEval, targetResource,
+					targetRangeReference);
+
 		}
-		
+	}
+
+	private void processContextRef(ContextRef cRef) {
+		BaseResource targetResource = null;
+		RangeRef targetRangeReference = null;
+
+		if (cRef.getPrimaryRef() != null && cRef.getRangeRef() != null) {
+
+			LeafReference leafReference = cRef.getPrimaryRef().getLeafRef();
+			if (leafReference instanceof ResourceRef) {
+				ResourceRef resourceRef = (ResourceRef) leafReference;
+				targetResource = resourceRef.getResource();
+				targetRangeReference = resourceRef.getRangeRef();
+			}
+		}
+		// Here we assume the context is a ..Resource as there is no
+		// leaf.
+		if (cRef.getRangeRef() != null) {
+			targetResource = this.getContextualResource();
+			targetRangeReference = cRef.getRangeRef();
+		}
+
+		if (targetResource != null && targetRangeReference != null) {
+			this.processExpressionResultRemoval(targetResource,
+					targetRangeReference);
+		}
+
+	}
+
+	// TODO Not used for now.
+
+	@SuppressWarnings("unused")
+	private List<NetXResource> resourcesByName(Node n, ResourceRef resourceRef) {
+
+		List<NetXResource> resources = Lists.newArrayList();
+		BaseResource tmpResource = resourceRef.getResource();
+		if (tmpResource.getExpressionName() != null) {
+			// Find matching resources with this
+			// name.
+			resources = modelUtils.resourcesWithExpressionName(n,
+					tmpResource.getExpressionName());
+		}
+		return resources;
+	}
+
+	private void processExpressionResultRemoval(BaseResource targetResource,
+			RangeRef targetRangeReference) {
+
+		if (targetResource != null && targetRangeReference != null) {
+
+			// Create the new result for this assignment.
+			ExpressionResult er = LibraryFactory.eINSTANCE
+					.createExpressionResult();
+
+			// Set the target resource to write.
+			er.setTargetResource(targetResource);
+
+			int targetInterval = this.extractInterval(targetRangeReference);
+			KindHintType type = this.extractKindHint(targetRangeReference);
+
+			er.setTargetKindHint(type);
+			er.setTargetIntervalHint(targetInterval);
+
+			// Set the target range.
+			ValueRange range = targetRangeReference.getValuerange();
+			if (range.getValue() == ValueRange.METRIC_VALUE) {
+				er.setTargetRange(RangeKind.METRICREMOVE);
+				expressionResults.add(er);
+			}
+
+		}
+	}
+
+	private void processExpressionResult(Object varEval,
+			BaseResource targetResource, RangeRef targetRangeReference) {
+		if (targetResource != null && targetRangeReference != null) {
+
+			// Create the new result for this assignment.
+			ExpressionResult er = LibraryFactory.eINSTANCE
+					.createExpressionResult();
+
+			// Set the target resource to write.
+			er.setTargetResource(targetResource);
+
+			// Note these are two optional paramters.
+			int targetInterval = this.extractInterval(targetRangeReference);
+			KindHintType type = this.extractKindHint(targetRangeReference);
+
+			if (targetInterval != -1) {
+				// Will return 60, if not specified.
+				er.setTargetIntervalHint(targetInterval);
+			}
+
+			if (type != null) {
+				er.setTargetKindHint(type);
+			}
+
+			// Set the target range.
+			ValueRange range = targetRangeReference.getValuerange();
+			switch (range.getValue()) {
+			case ValueRange.METRIC_VALUE: {
+				er.setTargetRange(RangeKind.METRIC);
+			}
+				break;
+			case ValueRange.TOLERANCE_VALUE: {
+				er.setTargetRange(RangeKind.TOLERANCE);
+			}
+				break;
+			case ValueRange.CAP_VALUE: {
+				er.setTargetRange(RangeKind.CAP);
+			}
+				break;
+			case ValueRange.FORECAST_VALUE: {
+				er.setTargetRange(RangeKind.FORECAST);
+			}
+				break;
+			case ValueRange.FORECAST_CAP_VALUE: {
+				er.setTargetRange(RangeKind.FORECASTCAP);
+			}
+				break;
+			case ValueRange.UTILIZATION_VALUE: {
+				er.setTargetRange(RangeKind.UTILIZATION);
+			}
+				break;
+			case ValueRange.DERIVED_VALUE: {
+				er.setTargetRange(RangeKind.DERIVED);
+			}
+				break;
+
+			}
+
+			if (varEval instanceof BigDecimal) {
+				// We return a single value.
+				// Get the period context, and use the start
+				// date.
+				DateTimeRange dtr = this.getContextualPeriod();
+				Value singleValue = GenericsFactory.eINSTANCE.createValue();
+
+				// Set the ts/value.
+				singleValue.setTimeStamp(dtr.getBegin());
+				singleValue.setValue(((BigDecimal) varEval).doubleValue());
+
+				er.getTargetValues().add(singleValue);
+				expressionResults.add(er);
+			}
+			if (varEval instanceof List<?>) {
+				// We return a list of values.
+				List<?> resultValues = (List<?>) varEval;
+				for (Object entry : resultValues) {
+					if (entry instanceof Value) {
+						// rather clumsy way to check the type
+						// of a
+						// list.
+						er.getTargetValues().addAll(
+								(Collection<? extends Value>) resultValues);
+						break;
+					}
+					if (entry instanceof BigDecimal) {
+						Value v = GenericsFactory.eINSTANCE.createValue();
+						v.setValue(((BigDecimal) entry).doubleValue());
+						// FIXME, We don't set a timestamp!
+						er.getTargetValues().add(v);
+					}
+
+				}
+				expressionResults.add(er);
+			}
+			// Whatever was evaluated and should be assigned to
+			// a
+			// resource.
+			// is stored in an Expression result.
+		}
+	}
+
+	private void processStatementPlusAssignment(
+			Map<String, Object> localVarsAndArguments, Statement statement) {
+		PlusAssignment pa = (PlusAssignment) statement;
+		AbstractVarOrArgument var = pa.getVar();
+
+		// TODO, supportin indexed assignements.
+		// if (pa.getExpression().getIndex() != null) {
+		// }
+
+		VarOrArgumentCall call = NetxscriptFactory.eINSTANCE
+				.createVarOrArgumentCall();
+		call.setCall(var);
+
+		// Now we need to construct a new Plus expression.
+		// Left is our assigned variable made as a call.
+		Plus p = NetxscriptFactory.eINSTANCE.createPlus();
+
+		p.setLeft(call);
+		// Oops, make a copy.
+		Expression eCopy = EcoreUtil.copy(pa.getExpression());
+		p.setRight(eCopy);
+
+		Object varEval = dispatcher.invoke(p,
+				ImmutableMap.copyOf(localVarsAndArguments));
+
+		localVarsAndArguments.put(((Variable) var).getName(), varEval);
+	}
+
+	private void processStatementAssignment(
+			Map<String, Object> localVarsAndArguments, Statement statement) {
+		Assignment a = (Assignment) statement;
+		// We now need to get 'left' as the expression will not have
+		// been assigned to this.
+
+		if (a.getExpression() != null) {
+
+			Object varEval = dispatcher.invoke(a.getExpression(),
+					ImmutableMap.copyOf(localVarsAndArguments));
+			localVarsAndArguments.put(((Variable) a.getVar()).getName(),
+					varEval);
+
+		}
+	}
+
+	private void processStatementVariable(
+			Map<String, Object> localVarsAndArguments, Statement statement) {
+		Variable v = (Variable) statement;
+		if (v.getExpression() != null) {
+			Object varEval = dispatcher.invoke(v.getExpression(),
+					ImmutableMap.copyOf(localVarsAndArguments));
+			localVarsAndArguments.put(v.getName(), varEval);
+		}
+	}
+
+	private InterpreterException processException(Exception e,
+			EObject expressionObject) {
+
+		String msg = "";
+
+		if (e instanceof IndexOutOfBoundsException) {
+			msg = "Refering to non existing: " + " ...."; // TODO.
+		}
+
 		InterpreterException ie = new InterpreterException(msg);
 		ie.setFailedWhileEvaluationMe(expressionObject);
 		return ie;
@@ -926,87 +1004,157 @@ public class InterpreterTypeless implements IInterpreter {
 		return eval;
 	}
 
-	protected Object internalEvaluate(AbsoluteRef absoluteReference,
+	/*
+	 * Note: The NodeTypeRef is always in the context of a service.
+	 * As from a node type, we have multiple Node references, Components and resources, 
+	 * the leaf reference result in evaluated.
+	 * 
+	 * 
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	protected Object internalEvaluate(NodeTypeRef nodeTypeReference,
 			ImmutableMap<String, Object> params) {
-		Object eval = null;
-		// What do we do here.
-		Reference ref = absoluteReference.getPrimaryRef();
-		eval = dispatcher.invoke(ref, ImmutableMap.copyOf(params));
-		if (eval == null && ref.getComponents() != null) {
-			// We get an empty evaluation, so we use the children to return
-			// an eval.
-			Reference lastRef = ref.getComponents().get(
-					ref.getComponents().size() - 1);
-			if (lastRef instanceof ComponentRef) {
-				// return either the functions or equipments.
-				ComponentRef cr = (ComponentRef) lastRef;
-				if (cr.getEquipment() != null) {
-					return cr.getEquipment();
-				}
-				if (cr.getFunction() != null) {
-					return cr.getFunction();
+		
+		
+		Service service = this.getContextualService();
+		if (service != null) {
+			Reference primaryRef = nodeTypeReference.getPrimaryRef();
+
+			NodeType nt = nodeTypeReference.getNodetype();
+			List<Node> nodes = modelUtils.nodesForNodeType(
+					(RFSService) service, nt);
+
+			List<Component> components = Lists.newArrayList();
+			for (Node n : nodes) {
+				Object result = extractLastComponent(primaryRef, n);
+				if (result != null && (result instanceof List<?>)) {
+					components.addAll((Collection<? extends Component>) result);
 				}
 			}
+
+			if (primaryRef.getLeafRef() == null
+					&& primaryRef.getComponents() != null) {
+				return components;
+			} else if (primaryRef.getLeafRef() != null) {
+
+				
+				List<Object> objects = Lists.newArrayList();
+				for( Node n : nodes){
+					
+					Map<String, Object> localVarsAndArguments = Maps.newHashMap();
+					localVarsAndArguments.putAll(ImmutableMap.copyOf(params));
+					localVarsAndArguments.put("node", n);
+					
+					Object eval =  dispatcher.invoke(primaryRef,
+							localVarsAndArguments);
+					objects.add(eval);
+				}
+				
+				// Problem how to process the result, it could be a range or a single value.
+				
+				
+				
+			}
+
 		}
 
-		return eval;
+		return null;
 	}
 
+	/*
+	 * A genric reference object, test the attributes to know which context is
+	 * relevant for further evaluation
+	 * 
+	 * @param contextReference
+	 * 
+	 * @param params
+	 * 
+	 * @return
+	 */
 	protected Object internalEvaluate(ContextRef contextReference,
 			ImmutableMap<String, Object> params) {
 		Object eval = null;
-		// We have a primary ref set, so the context should be a Node object.
+
+		Map<String, Object> localVarsAndArguments = Maps.newHashMap();
+		localVarsAndArguments.putAll(ImmutableMap.copyOf(params));
+
 		if (contextReference.getPrimaryRef() != null) {
-			Reference ref = contextReference.getPrimaryRef();
+			Reference primaryRef = contextReference.getPrimaryRef();
+
 			Node node = this.getContextualNode();
-			eval = dispatcher.invoke(ref, ImmutableMap.of("node", node));
-			if (eval == null && ref.getComponents() != null) {
-				// There is no leaf in this context reference,
-				// We need to find the components referenced by their name in
-				// the context "Node",
-				// Let's get the last component referenced.
-				Reference lastRef = ref.getComponents().get(
-						ref.getComponents().size() - 1);
-				if (lastRef instanceof ComponentRef) {
-					// return either the functions or equipments.
-					ComponentRef cr = (ComponentRef) lastRef;
-					if (cr.getEquipment() != null) {
-						String eCode = cr.getEquipment().getEquipmentCode();
 
-						if (eCode != null) {
-							List<Equipment> equipments = modelUtils
-									.equimentsWithCode(node.getNodeType()
-											.getEquipments(), eCode);
-							return equipments;
-						} else {
-							// We can't find the equipment by it's code, as it's
-							// not set.
-							// so we return null.
-						}
+			if (primaryRef.getLeafRef() == null
+					&& primaryRef.getComponents() != null && node != null) {
 
-					}
-					if (cr.getFunction() != null) {
+				return extractLastComponent(primaryRef, node);
+			} else {
 
-						String name = cr.getFunction().getName();
-						List<com.netxforge.netxstudio.library.Function> functions = modelUtils
-								.functionsWithName(node.getNodeType()
-										.getFunctions(), name);
-						return functions;
-
-						// dataService.getQueryService().getFunctions(
-						// node.getNodeID(), name);
-					}
+				if (node != null) {
+					// Evaluate for a Node.
+					localVarsAndArguments.put("node", node);
+				} else if (this.getContextualService() != null) {
+					// Applies to STATUS and PROFILE keywords.
+					Service service = this.getContextualService();
+					localVarsAndArguments.put("service", service);
 				}
+				eval = dispatcher.invoke(primaryRef,
+						ImmutableMap.copyOf(localVarsAndArguments));
 			}
+
 		}
 
 		// We have a range set, so the context should be a resource.
 		if (contextReference.getRangeRef() != null) {
 			NetXResource resource = getContextualResource();
-			return internalEvaluate(contextReference.getRangeRef(),
-					ImmutableMap.of("resource", resource));
+			
+			localVarsAndArguments.put("resource", resource);
+			return dispatcher.invoke(contextReference.getRangeRef(),
+					ImmutableMap.copyOf(localVarsAndArguments));
 		}
 		return eval;
+
+	}
+
+	private Object extractLastComponent(Reference primaryRef, Node node) {
+
+		Object result = null;
+
+		// There is no leaf in this context reference,
+		// We need to find the components referenced by their name in
+		// the context "Node",
+		// Let's get the last component referenced.
+		Reference lastRef = primaryRef.getComponents().get(
+				primaryRef.getComponents().size() - 1);
+
+		if (lastRef instanceof ComponentRef) {
+			// return either the functions or equipments.
+			ComponentRef cr = (ComponentRef) lastRef;
+
+			if (cr.getEquipment() != null) {
+
+				String eCode = cr.getEquipment().getEquipmentCode();
+
+				if (eCode != null) {
+					List<Equipment> equipments = modelUtils.equimentsWithCode(
+							node.getNodeType().getEquipments(), eCode);
+					result = equipments;
+				}
+
+			}
+			if (cr.getFunction() != null) {
+
+				String name = cr.getFunction().getName();
+				List<com.netxforge.netxstudio.library.Function> functions = modelUtils
+						.functionsWithName(node.getNodeType().getFunctions(),
+								name);
+				result = functions;
+
+				// dataService.getQueryService().getFunctions(
+				// node.getNodeID(), name);
+			}
+		}
+		return result;
 
 	}
 
@@ -1017,47 +1165,73 @@ public class InterpreterTypeless implements IInterpreter {
 		pLog.log("Found a link reference", e.getLink());
 	}
 
-	protected List<?> internalEvaluate(ResourceRef resourceRef,
+	protected Object internalEvaluate(StatusRef statusRef,
 			ImmutableMap<String, Object> values) {
 
-		Node n = (Node) values.get("node");
-		// Check if we have a single node.
-		if (n != null) {
-
-			try {
-				BaseResource resource = resourceRef.getResource();
-
-				String expressionName = resource.getExpressionName();
-
-				if (resource instanceof NetXResource) {
-					List<NetXResource> resources = modelUtils
-							.resourcesWithName(n, expressionName);
-
-					if (resources.size() == 1) {
-						return internalEvaluate(resourceRef.getRangeRef(),
-								ImmutableMap.of("resource", resources.get(0)));
-					} else {
-						throw new UnsupportedOperationException(
-								"The name of a resource must be unique for a Node");
-					}
-				} else {
-					if (resource instanceof DerivedResource) {
-						// TODO, lookup the derived resource from other objects
-						// owning derived resources.
-						throw new UnsupportedOperationException(
-								"TODO, implement DERIVED RESOURCES");
-					}
-					throw new UnsupportedOperationException(
-							"RESOURCE TYPE not recognized"
-									+ resource.toString());
+		Service s = (Service) values.get("service");
+		if (s != null) {
+			ToleranceLevel tolerancelevel = statusRef.getTolerancelevel();
+			// calculate the number of nodes meeting this tolerance level and
+			// return the
+			// count.
+			int count = 0;
+			RFSServiceSummary summary = this.getContextualServiceSummary();
+			if (summary != null) {
+				switch (tolerancelevel.getValue()) {
+				case ToleranceLevel.RED_VALUE: {
+					count = summary.getRedCountNodes();
 				}
-			} catch (Exception exception) {
-				throw new IllegalStateException(processException(exception, resourceRef));
+					break;
+				case ToleranceLevel.AMBER_VALUE: {
+					count = summary.getAmberCountNodes();
+				}
+					break;
+				case ToleranceLevel.GREEN_VALUE: {
+					count = summary.getGreenCountNodes();
+				}
+					break;
+				case ToleranceLevel.YELLOW_VALUE: {
+					// count = summary.getRedCountNodes();
+				}
+					break;
+				}
 			}
-		} else {
-			// .
-			throw new UnsupportedOperationException(
-					"TODO the referenced resource should be looked up for all nodes");
+			return new Integer(count);
+		}
+		return null;
+	}
+
+	protected Object internalEvaluate(ResourceRef resourceRef,
+			ImmutableMap<String, Object> params) {
+		
+
+		Map<String, Object> localVarsAndArguments = Maps.newHashMap();
+		localVarsAndArguments.putAll(ImmutableMap.copyOf(params));
+		
+		// FIXME, Solution for a contextual lookup.
+		// Casting null? 
+		Node n = null;
+		if( params.containsKey("node")){
+			n = (Node) params.get("node");	
+		}
+		
+		Component c = (Component) params.get("component");
+		Service s = (Service) params.get("service");
+
+		try {
+			BaseResource resource = resourceRef.getResource();
+			
+			
+
+			// We might want to check the state of the object.
+			// Why do we lookup a resource which we already have?
+			localVarsAndArguments.put("resource", resource);
+			return dispatcher.invoke(resourceRef.getRangeRef(),
+					ImmutableMap.copyOf(localVarsAndArguments));
+
+		} catch (Exception exception) {
+			throw new IllegalStateException(processException(exception,
+					resourceRef));
 		}
 	}
 
@@ -1069,58 +1243,41 @@ public class InterpreterTypeless implements IInterpreter {
 	 * @param values
 	 * @return
 	 */
-	protected List<?> internalEvaluate(RangeRef e,
-			ImmutableMap<String, NetXResource> values) {
-		boolean targetRangeAvailable = false;
+	protected List<?> internalEvaluate(RangeRef rangeRef,
+			ImmutableMap<String, Object> params) {
 
 		DateTimeRange dtr = this.getContextualPeriod();
+		BaseResource resource = (BaseResource) params.get("resource");
+		KindHintType targetKind = extractKindHint(rangeRef);
+		int targetInterval = extractInterval(rangeRef);
 
-		// The period hint is 60 Minutes, but should be able to return
-		// values for if this range is not available.
+		List<Value> v = null; // Will be populated with the ranges.
+		// FIXME, remove queries, use modelUtils instead.
+		IQueryService qService = dataService.getQueryService();
 
-		NetXResource resource = (NetXResource) values.get("resource");
-
-		// Feed the query with the kind hint.
-		KindHintType targetKind = null;
-		if (e.getKind() != null) {
-			if (e.getKind() == ValueKind.AVG) {
-				targetKind = KindHintType.AVG;
-			}
-			if (e.getKind() == ValueKind.BH) {
-				targetKind = KindHintType.BH;
-			}
-		}
-
-		int targetInterval;
-		if (e.getPeriod() != null) {
-			targetInterval = e.getPeriod().intValue();
-		} else {
-			// Use hour values?
-			// TODO MAKE THIS AN OPTIONAL PART, IN EXPRESSION AND APP WIDE>
-			targetInterval = 60;
-		}
-
-		// Loop the metric ranges, to find the correct range, doesn't apply to
-		// any other range
-		// than the CAP range.
-		for (MetricValueRange mvr : resource.getMetricValueRanges()) {
-			int interval = mvr.getIntervalHint();
-			KindHintType kht = mvr.getKindHint();
-			if (interval == targetInterval && kht == targetKind) {
-				targetRangeAvailable = true;
-				break;
-			}
-		}
-
-		// We can only get the range, if it's actually available.
-		if (targetRangeAvailable) {
-			List<Value> v = null; // Will be populated with the ranges.
-			IQueryService qService = dataService.getQueryService();
-			switch (e.getValuerange().getValue()) {
+		if (resource instanceof NetXResource) {
+			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.METRIC_VALUE: {
-				v = qService.getMetricsFromResource(
-						resource.getExpressionName(), dtr.getBegin(),
-						dtr.getEnd(), targetInterval, targetKind);
+				// Loop the metric ranges, to find the correct range, doesn't
+				// apply
+				// to
+				// any other range
+				// than the CAP range.
+				for (MetricValueRange mvr : ((NetXResource) resource)
+						.getMetricValueRanges()) {
+					int interval = mvr.getIntervalHint();
+					if (interval == targetInterval) {
+
+						v = qService.getMetricsFromResource(
+								resource.getExpressionName(), dtr.getBegin(),
+								dtr.getEnd(), targetInterval, targetKind);
+						// FIXME, Ignore the Kind hint, as we are not sure it's
+						// always set
+						// when creating the resource in import.
+						@SuppressWarnings("unused")
+						KindHintType kht = mvr.getKindHint();
+					}
+				}
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
@@ -1141,15 +1298,74 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 				break;
 			}
-
-			// We want the Value object without the timestamp, as we know the
-			// period
-			// context.
-			return v;
-		} else {
-			pLog.log("Target range is not available", new Object[] {});
-			return Collections.EMPTY_LIST;
 		}
+		if (resource instanceof DerivedResource) {
+			switch (rangeRef.getValuerange().getValue()) {
+			case ValueRange.DERIVED_VALUE: {
+				v = ((DerivedResource) resource).getValues();
+				v = modelUtils.filterValueInRange(v, dtr);
+			}
+			}
+		}
+
+		// We want the Value object without the timestamp, as we know the
+		// period
+		// context.
+		return v;
+	}
+
+	
+	protected Object internalEvaluate(Interval interval,
+			ImmutableMap<String, Object> params) {
+		
+		if(interval.getInterval() != null){
+			return interval.getInterval();
+		}else if(interval.getKind() != null){
+			switch(interval.getKind().getValue()){
+			case IntervalKind.MONTH_VALUE:{
+				return new BigDecimal(ModelUtils.MINUTES_IN_A_MONTH);
+			}
+			case IntervalKind.WEEK_VALUE:{
+				return new BigDecimal(ModelUtils.MINUTES_IN_A_WEEK);
+			}
+			case IntervalKind.DAY_VALUE:{
+				return new BigDecimal(ModelUtils.MINUTES_IN_A_DAY);
+			}
+			case IntervalKind.HOUR_VALUE:{
+				return new BigDecimal(ModelUtils.MINUTES_IN_AN_HOUR);
+			}
+			}
+		}
+		return new BigDecimal(60);
+	}
+	
+	
+	private int extractInterval(RangeRef rangeRef) {
+		int targetInterval;
+		if (rangeRef.getInterval() != null) {
+			
+			BigDecimal result = dispatcher.invoke(rangeRef.getInterval(),
+					ImmutableMap.<String, Object> of());
+			targetInterval = result.intValue();
+		} else {
+			// Use hour values?
+			targetInterval = 60;
+		}
+		return targetInterval;
+	}
+
+	private KindHintType extractKindHint(RangeRef rangeRef) {
+		// Feed the query with the kind hint.
+		KindHintType targetKind = null;
+		if (rangeRef.getKind() != null) {
+			if (rangeRef.getKind() == ValueKind.AVG) {
+				targetKind = KindHintType.AVG;
+			}
+			if (rangeRef.getKind() == ValueKind.BH) {
+				targetKind = KindHintType.BH;
+			}
+		}
+		return targetKind;
 	}
 
 	// /////////////////////////////////////
@@ -1203,9 +1419,19 @@ public class InterpreterTypeless implements IInterpreter {
 			case NativeFunction.MEAN_VALUE: {
 				return nativeFunctions.mean(range);
 			}
+			case NativeFunction.ERLANGB_VALUE: {
+				// TODO, Erlang B implementation.
+			}
 			case NativeFunction.DEVIATION_VALUE: {
 				return nativeFunctions.standardDeviation(range);
 			}
+			case NativeFunction.CLEAR_VALUE: {
+				// To a metric value range.
+				if (ne.getRef() instanceof ContextRef) {
+					this.processContextRef((ContextRef) ne.getRef());
+				}
+			}
+
 			}
 		}
 		return range;
@@ -1650,7 +1876,7 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	public List<BaseExpressionResult> getResult() {
-		return result;
+		return expressionResults;
 	}
 
 }

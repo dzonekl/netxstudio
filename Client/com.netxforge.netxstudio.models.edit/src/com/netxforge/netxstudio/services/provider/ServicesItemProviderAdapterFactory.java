@@ -156,6 +156,29 @@ public class ServicesItemProviderAdapterFactory extends ServicesAdapterFactory i
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.services.DistributionEntry} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected DistributionEntryItemProvider distributionEntryItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.services.DistributionEntry}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createDistributionEntryAdapter() {
+		if (distributionEntryItemProvider == null) {
+			distributionEntryItemProvider = new DistributionEntryItemProvider(this);
+		}
+
+		return distributionEntryItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.services.RFSService} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -441,6 +464,7 @@ public class ServicesItemProviderAdapterFactory extends ServicesAdapterFactory i
 		if (cfsServiceItemProvider != null) cfsServiceItemProvider.dispose();
 		if (ciidItemProvider != null) ciidItemProvider.dispose();
 		if (derivedResourceItemProvider != null) derivedResourceItemProvider.dispose();
+		if (distributionEntryItemProvider != null) distributionEntryItemProvider.dispose();
 		if (rfsServiceItemProvider != null) rfsServiceItemProvider.dispose();
 		if (serviceItemProvider != null) serviceItemProvider.dispose();
 		if (serviceDistributionItemProvider != null) serviceDistributionItemProvider.dispose();

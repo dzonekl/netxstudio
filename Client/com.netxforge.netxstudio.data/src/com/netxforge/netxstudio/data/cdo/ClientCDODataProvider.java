@@ -24,6 +24,9 @@ import org.eclipse.emf.cdo.eresource.CDOResource;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.view.CDOView;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.net4j.util.transaction.TransactionException;
 
 import com.google.common.collect.ImmutableList;
@@ -38,14 +41,19 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.generics.Role;
 import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.Library;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
+import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 
 /**
  * A CDO Data provider, for single threaded clients. The session and transaction
@@ -54,12 +62,11 @@ import com.netxforge.netxstudio.metrics.MetricsFactory;
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
 @Singleton
-public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
-	
-	
+public class ClientCDODataProvider extends CDODataProvider implements IFixtures {
+
 	@Inject
 	ModelUtils modelUtils;
-	
+
 	@Inject
 	public ClientCDODataProvider(ICDOConnection conn) {
 		super(conn);
@@ -104,22 +111,25 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
 	protected void setTransaction(CDOTransaction transaction) {
 		ClientCDODataProvider.transaction = transaction;
 	}
-	
-	// FIXME, move this to the test data. 
-	public void loadFixtures(){
+
+	// FIXME, move this to the test data.
+	public void loadFixtures() {
 		loadSettings();
 		loadRoles();
-//		loadLibrary();
+		loadRetentionRules();
 	}
-	
+
 	private void loadSettings() {
 		final CDOResource settingsResource = (CDOResource) getResource(NetxstudioPackage.Literals.SERVER_SETTINGS);
-		if(settingsResource.getContents().size() > 0){
+		if (settingsResource.getContents().size() > 0) {
 			return;
 		}
-		ServerSettings serverSettings = NetxstudioFactory.eINSTANCE.createServerSettings();
-		serverSettings.setExportPath("/Users/dzonekl/Documents/Projects/NetXStudio/Reports");
-		serverSettings.setImportPath("/Users/dzonekl/Documents/Projects/NetXStudio/TestData");
+		ServerSettings serverSettings = NetxstudioFactory.eINSTANCE
+				.createServerSettings();
+		serverSettings
+				.setExportPath("/Users/dzonekl/Documents/Projects/NetXStudio/Reports");
+		serverSettings
+				.setImportPath("/Users/dzonekl/Documents/Projects/NetXStudio/TestData");
 		settingsResource.getContents().add(serverSettings);
 		try {
 			settingsResource.save(null);
@@ -130,12 +140,119 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
 		}
 	}
 
+	private void loadRetentionRules() {
+
+		Resource retentionRulesResource = getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
+		Resource expressionResource = getResource(LibraryPackage.Literals.EXPRESSION);
+		
+		EList<EObject> contents = retentionRulesResource.getContents();
+		
+		Expression weeklyRetentionExpression;
+		Expression dailyRetentionExpression;
+		Expression hourlyRetentionExpression;
+		
+		if (contents.size() == 1) {
+			return;
+		} else {
+			MetricRetentionRules rules = MetricsFactory.eINSTANCE
+					.createMetricRetentionRules();
+			contents.add(rules);
+			{
+				// Add all expressions.
+				{
+					// Monthly expression
+					weeklyRetentionExpression = LibraryFactory.eINSTANCE.createExpression();
+					weeklyRetentionExpression.setName("Weekly retention rule");
+
+					// Gets the max value from a range and assigns it to another
+					// range, clears the original range.
+					final String eAsString = "this METRIC "
+							+ ModelUtils.MINUTES_IN_A_MONTH + " = this METRIC "
+							+ ModelUtils.MINUTES_IN_A_WEEK
+							+ " .max();this METRIC "
+							+ ModelUtils.MINUTES_IN_A_WEEK + " .clear();";
+					weeklyRetentionExpression.getExpressionLines().addAll(
+							modelUtils.expressionLines(eAsString));
+					expressionResource.getContents().add(weeklyRetentionExpression);
+				}
+				{
+					dailyRetentionExpression = LibraryFactory.eINSTANCE.createExpression();
+					dailyRetentionExpression.setName("Daily retention rule");
+
+					// Gets the max value from a range and assigns it to another
+					// range, clears the original range.
+					final String eAsString = "this METRIC "
+							+ ModelUtils.MINUTES_IN_A_WEEK + " = this METRIC "
+							+ ModelUtils.MINUTES_IN_A_DAY
+							+ " .max();this METRIC "
+							+ ModelUtils.MINUTES_IN_A_DAY + " .clear();";
+					dailyRetentionExpression.getExpressionLines().addAll(
+							modelUtils.expressionLines(eAsString));
+					expressionResource.getContents().add(dailyRetentionExpression);
+				}
+
+				{
+					hourlyRetentionExpression = LibraryFactory.eINSTANCE.createExpression();
+					hourlyRetentionExpression.setName("Hourly retention rule");
+
+					// Gets the max value from a range and assigns it to another
+					// range, clears the original range.
+					final String eAsString = "this METRIC DAY = this METRIC HOUR .max();\nthis METRIC HOUR .clear();";
+					hourlyRetentionExpression.getExpressionLines().addAll(
+							modelUtils.expressionLines(eAsString));
+					expressionResource.getContents().add(hourlyRetentionExpression);
+				}
+			}
+
+			if (rules.getMetricRetentionRules().size() == 0) {
+				{
+					MetricRetentionRule r = MetricsFactory.eINSTANCE
+							.createMetricRetentionRule();
+					r.setName("Monthly values");
+					r.setPeriod(MetricRetentionPeriod.ALWAYS);
+					rules.getMetricRetentionRules().add(r);
+				}
+				{
+					MetricRetentionRule r = MetricsFactory.eINSTANCE
+							.createMetricRetentionRule();
+					r.setName("Weekly values");
+					r.setPeriod(MetricRetentionPeriod.ALWAYS);
+					r.setRetentionExpression(weeklyRetentionExpression);
+					rules.getMetricRetentionRules().add(r);
+				}
+				{
+					MetricRetentionRule r = MetricsFactory.eINSTANCE
+							.createMetricRetentionRule();
+					r.setName("Daily values");
+					r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
+					r.setRetentionExpression(dailyRetentionExpression);
+					rules.getMetricRetentionRules().add(r);
+
+				}
+				{
+					MetricRetentionRule r = MetricsFactory.eINSTANCE
+							.createMetricRetentionRule();
+					r.setName("Hourly values");
+					r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
+					r.setRetentionExpression(hourlyRetentionExpression);
+					rules.getMetricRetentionRules().add(r);
+				}
+			}
+			try {
+				expressionResource.save(null);
+				retentionRulesResource.save(null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	private void loadRoles() {
 		final CDOResource rolesResource = (CDOResource) getResource(GenericsPackage.Literals.ROLE);
-		if(rolesResource.getContents().size() > 0){
+		if (rolesResource.getContents().size() > 0) {
 			return;
 		}
-		
+
 		final CDOResource userResource = (CDOResource) getResource(GenericsPackage.Literals.PERSON);
 		// Add the fixture roles.
 		{
@@ -174,31 +291,28 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	// FIXME Remove later, fixtures go elsewhere. 
+
+	// FIXME Remove later, fixtures go elsewhere.
 	@SuppressWarnings("unused")
 	private void loadLibrary() {
 
 		final CDOResource res = (CDOResource) getResource(LibraryPackage.Literals.LIBRARY);
 		final CDOView view = res.cdoView();
-		
+
 		Library lib = null;
 		// Should do some basic import data validation.
 		if (res.getContents() != null && (res.getContents().size() > 0)) {
 			if (res.getContents().get(0) instanceof Library) {
-				// Ok, proceed. 
+				// Ok, proceed.
 				lib = (Library) res.getContents().get(0);
 			}
-		}else{
+		} else {
 			lib = LibraryFactory.eINSTANCE.createLibrary();
 			res.getContents().add(lib);
 		}
-		
+
 		final NodeType sgsnType = LibraryFactory.eINSTANCE.createNodeType();
-		final Function sgsnFunction = LibraryFactory.eINSTANCE
-				.createFunction();
+		final Function sgsnFunction = LibraryFactory.eINSTANCE.createFunction();
 		sgsnFunction.setName("SGSN");
 		sgsnType.getFunctions().add(sgsnFunction);
 
@@ -233,7 +347,7 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures{
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 }

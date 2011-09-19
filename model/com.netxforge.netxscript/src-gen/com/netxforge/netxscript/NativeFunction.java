@@ -90,7 +90,17 @@ public enum NativeFunction implements Enumerator
    * @generated
    * @ordered
    */
-  ERLANGB(6, "ERLANGB", "erlangB()");
+  ERLANGB(6, "ERLANGB", "erlangB()"),
+
+  /**
+   * The '<em><b>CLEAR</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #CLEAR_VALUE
+   * @generated
+   * @ordered
+   */
+  CLEAR(7, "CLEAR", "clear()");
 
   /**
    * The '<em><b>COUNT</b></em>' literal value.
@@ -198,6 +208,21 @@ public enum NativeFunction implements Enumerator
   public static final int ERLANGB_VALUE = 6;
 
   /**
+   * The '<em><b>CLEAR</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>CLEAR</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #CLEAR
+   * @model literal="clear()"
+   * @generated
+   * @ordered
+   */
+  public static final int CLEAR_VALUE = 7;
+
+  /**
    * An array of all the '<em><b>Native Function</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -213,6 +238,7 @@ public enum NativeFunction implements Enumerator
       MEAN,
       DEVIATION,
       ERLANGB,
+      CLEAR,
     };
 
   /**
@@ -278,6 +304,7 @@ public enum NativeFunction implements Enumerator
       case MEAN_VALUE: return MEAN;
       case DEVIATION_VALUE: return DEVIATION;
       case ERLANGB_VALUE: return ERLANGB;
+      case CLEAR_VALUE: return CLEAR;
     }
     return null;
   }

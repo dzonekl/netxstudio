@@ -23,8 +23,7 @@ import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.services.DerivedResource;
+import com.netxforge.netxstudio.services.DistributionEntry;
 import com.netxforge.netxstudio.services.ServiceDistribution;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -35,8 +34,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceDistributionImpl#getDistributionRefs <em>Distribution Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceDistributionImpl#getDistribution <em>Distribution</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceDistributionImpl#getDistributionEntries <em>Distribution Entries</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceDistributionImpl#getExpressionRefs <em>Expression Refs</em>}</li>
  * </ul>
  * </p>
@@ -69,18 +67,8 @@ public class ServiceDistributionImpl extends BaseImpl implements ServiceDistribu
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<NetXResource> getDistributionRefs() {
-		return (EList<NetXResource>)eGet(ServicesPackage.Literals.SERVICE_DISTRIBUTION__DISTRIBUTION_REFS, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	public EList<DerivedResource> getDistribution() {
-		return (EList<DerivedResource>)eGet(ServicesPackage.Literals.SERVICE_DISTRIBUTION__DISTRIBUTION, true);
+	public EList<DistributionEntry> getDistributionEntries() {
+		return (EList<DistributionEntry>)eGet(ServicesPackage.Literals.SERVICE_DISTRIBUTION__DISTRIBUTION_ENTRIES, true);
 	}
 
 	/**

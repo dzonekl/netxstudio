@@ -291,22 +291,13 @@ public interface LibraryPackage extends EPackage {
 	int COMPONENT__UTILIZATION_EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Retention Expression Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT__RETENTION_EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 4;
-
-	/**
 	 * The feature id for the '<em><b>Tolerance Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__TOLERANCE_REFS = GenericsPackage.BASE_FEATURE_COUNT + 5;
+	int COMPONENT__TOLERANCE_REFS = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Protocol Refs</b></em>' reference list.
@@ -315,7 +306,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__PROTOCOL_REFS = GenericsPackage.BASE_FEATURE_COUNT + 6;
+	int COMPONENT__PROTOCOL_REFS = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Parameter Refs</b></em>' reference list.
@@ -324,7 +315,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__PARAMETER_REFS = GenericsPackage.BASE_FEATURE_COUNT + 7;
+	int COMPONENT__PARAMETER_REFS = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>All Resources</b></em>' reference list.
@@ -333,7 +324,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__ALL_RESOURCES = GenericsPackage.BASE_FEATURE_COUNT + 8;
+	int COMPONENT__ALL_RESOURCES = GenericsPackage.BASE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Diagrams</b></em>' containment reference list.
@@ -342,7 +333,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__DIAGRAMS = GenericsPackage.BASE_FEATURE_COUNT + 9;
+	int COMPONENT__DIAGRAMS = GenericsPackage.BASE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Icons</b></em>' containment reference.
@@ -351,7 +342,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__ICONS = GenericsPackage.BASE_FEATURE_COUNT + 10;
+	int COMPONENT__ICONS = GenericsPackage.BASE_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -360,7 +351,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 11;
+	int COMPONENT__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -369,7 +360,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__NAME = GenericsPackage.BASE_FEATURE_COUNT + 12;
+	int COMPONENT__NAME = GenericsPackage.BASE_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of structural features of the '<em>Component</em>' class.
@@ -378,7 +369,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 13;
+	int COMPONENT_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 12;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.EquipmentImpl <em>Equipment</em>}' class.
@@ -434,15 +425,6 @@ public interface LibraryPackage extends EPackage {
 	 * @ordered
 	 */
 	int EQUIPMENT__UTILIZATION_EXPRESSION_REF = COMPONENT__UTILIZATION_EXPRESSION_REF;
-
-	/**
-	 * The feature id for the '<em><b>Retention Expression Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EQUIPMENT__RETENTION_EXPRESSION_REF = COMPONENT__RETENTION_EXPRESSION_REF;
 
 	/**
 	 * The feature id for the '<em><b>Tolerance Refs</b></em>' reference list.
@@ -915,15 +897,6 @@ public interface LibraryPackage extends EPackage {
 	 * @ordered
 	 */
 	int FUNCTION__UTILIZATION_EXPRESSION_REF = COMPONENT__UTILIZATION_EXPRESSION_REF;
-
-	/**
-	 * The feature id for the '<em><b>Retention Expression Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FUNCTION__RETENTION_EXPRESSION_REF = COMPONENT__RETENTION_EXPRESSION_REF;
 
 	/**
 	 * The feature id for the '<em><b>Tolerance Refs</b></em>' reference list.
@@ -2018,17 +1991,6 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getComponent_UtilizationExpressionRef();
-
-	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.library.Component#getRetentionExpressionRef <em>Retention Expression Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Retention Expression Ref</em>'.
-	 * @see com.netxforge.netxstudio.library.Component#getRetentionExpressionRef()
-	 * @see #getComponent()
-	 * @generated
-	 */
-	EReference getComponent_RetentionExpressionRef();
 
 	/**
 	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Component#getToleranceRefs <em>Tolerance Refs</em>}'.
@@ -3346,14 +3308,6 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EReference COMPONENT__UTILIZATION_EXPRESSION_REF = eINSTANCE.getComponent_UtilizationExpressionRef();
-
-		/**
-		 * The meta object literal for the '<em><b>Retention Expression Ref</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference COMPONENT__RETENTION_EXPRESSION_REF = eINSTANCE.getComponent_RetentionExpressionRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Tolerance Refs</b></em>' reference list feature.

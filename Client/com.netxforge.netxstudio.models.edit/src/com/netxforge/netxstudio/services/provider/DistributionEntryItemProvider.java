@@ -1,5 +1,5 @@
 /**
- * Copyright (c) ${date} NetXForge
+ * Copyright (c) 2011 NetXForge
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -33,21 +33,22 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import com.netxforge.netxstudio.generics.provider.BaseItemProvider;
 import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
-import com.netxforge.netxstudio.services.ServiceDistribution;
+import com.netxforge.netxstudio.services.DistributionEntry;
 import com.netxforge.netxstudio.services.ServicesFactory;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
- * This is the item provider adapter for a {@link com.netxforge.netxstudio.services.ServiceDistribution} object.
+ * This is the item provider adapter for a {@link com.netxforge.netxstudio.services.DistributionEntry} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ServiceDistributionItemProvider
+public class DistributionEntryItemProvider
 	extends BaseItemProvider
 	implements
 		IEditingDomainItemProvider,
@@ -61,7 +62,7 @@ public class ServiceDistributionItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ServiceDistributionItemProvider(AdapterFactory adapterFactory) {
+	public DistributionEntryItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -76,29 +77,52 @@ public class ServiceDistributionItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addExpressionRefsPropertyDescriptor(object);
+			addResourceRefPropertyDescriptor(object);
+			addResourceOriginPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Expression Refs feature.
+	 * This adds a property descriptor for the Resource Ref feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addExpressionRefsPropertyDescriptor(Object object) {
+	protected void addResourceRefPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ServiceDistribution_expressionRefs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ServiceDistribution_expressionRefs_feature", "_UI_ServiceDistribution_type"),
-				 ServicesPackage.Literals.SERVICE_DISTRIBUTION__EXPRESSION_REFS,
+				 getString("_UI_DistributionEntry_resourceRef_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DistributionEntry_resourceRef_feature", "_UI_DistributionEntry_type"),
+				 ServicesPackage.Literals.DISTRIBUTION_ENTRY__RESOURCE_REF,
 				 true,
 				 false,
 				 true,
 				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Resource Origin feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addResourceOriginPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DistributionEntry_resourceOrigin_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DistributionEntry_resourceOrigin_feature", "_UI_DistributionEntry_type"),
+				 ServicesPackage.Literals.DISTRIBUTION_ENTRY__RESOURCE_ORIGIN,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -115,7 +139,7 @@ public class ServiceDistributionItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ServicesPackage.Literals.SERVICE_DISTRIBUTION__DISTRIBUTION_ENTRIES);
+			childrenFeatures.add(ServicesPackage.Literals.DISTRIBUTION_ENTRY__DISTRIBUTION);
 		}
 		return childrenFeatures;
 	}
@@ -134,14 +158,14 @@ public class ServiceDistributionItemProvider
 	}
 
 	/**
-	 * This returns ServiceDistribution.gif.
+	 * This returns DistributionEntry.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ServiceDistribution"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/DistributionEntry"));
 	}
 
 	/**
@@ -152,8 +176,8 @@ public class ServiceDistributionItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		ServiceDistribution serviceDistribution = (ServiceDistribution)object;
-		return getString("_UI_ServiceDistribution_type") + " " + serviceDistribution.isDeleted();
+		DistributionEntry distributionEntry = (DistributionEntry)object;
+		return getString("_UI_DistributionEntry_type") + " " + distributionEntry.isDeleted();
 	}
 
 	/**
@@ -167,8 +191,11 @@ public class ServiceDistributionItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(ServiceDistribution.class)) {
-			case ServicesPackage.SERVICE_DISTRIBUTION__DISTRIBUTION_ENTRIES:
+		switch (notification.getFeatureID(DistributionEntry.class)) {
+			case ServicesPackage.DISTRIBUTION_ENTRY__RESOURCE_ORIGIN:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case ServicesPackage.DISTRIBUTION_ENTRY__DISTRIBUTION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -188,8 +215,8 @@ public class ServiceDistributionItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ServicesPackage.Literals.SERVICE_DISTRIBUTION__DISTRIBUTION_ENTRIES,
-				 ServicesFactory.eINSTANCE.createDistributionEntry()));
+				(ServicesPackage.Literals.DISTRIBUTION_ENTRY__DISTRIBUTION,
+				 ServicesFactory.eINSTANCE.createDerivedResource()));
 	}
 
 	/**

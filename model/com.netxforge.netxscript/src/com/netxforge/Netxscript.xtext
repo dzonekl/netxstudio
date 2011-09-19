@@ -80,7 +80,7 @@ PlusAssignmentStatement returns Statement:
 //	VarOrArgumentCall ({IndexedAssignment.assignment=current})?  '=' expression=Expression;
 
 ReferenceAssignmentStatement returns Statement:
-	{RefAssignment} assignmentRef=(ContextRef | AbsoluteRef )'=' expression=Expression;
+	{RefAssignment} assignmentRef=(ContextRef | NodeTypeRef ) '=' expression=Expression;
 
 	// Expression, all operators extend this class. 
 Expression:
@@ -150,17 +150,17 @@ RangeLiteral returns Range:
 	{RangeLiteral} '[' (values+=NUMBER (',' values+=NUMBER)*)? ']';
 
 enum NativeFunction:
-	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()' | ERLANGB='erlangB()';
+	COUNT='count()' | SUM='sum()' | MIN='min()' | MAX='max()' | MEAN='mean()' | DEVIATION='deviation()' | ERLANGB='erlangB()' | CLEAR ='clear()';
 
 Reference returns Expression:
-	ContextRef | AbsoluteRef
+	ContextRef | NodeTypeRef
 ;
 
 /**
  * The Node context can be found with NODE if available.
  */
-AbsoluteRef returns Reference:
-	{AbsoluteRef} 'NODETYPE' nodetype=[library::NodeType] primaryRef=PrimaryRef
+NodeTypeRef returns Reference:
+	{NodeTypeRef} 'NODETYPE' nodetype=[library::NodeType] primaryRef=PrimaryRef
 ;
 
 /**
@@ -180,8 +180,13 @@ PrimaryRef returns Reference:
 	(components+=ComponentRef)+ ('->' leafRef=LeafReference)?;
 
 ComponentRef returns Reference:
-	{ComponentRef} '.' ( 'FUNCTION' function=[library::Function] | 'EQUIPMENT' equipment=[library::Equipment] | 'PROFILE' | 'STATUS'  )
+	{ComponentRef} '.' ( 'FUNCTION' function=[library::Function] | 'EQUIPMENT' equipment=[library::Equipment] | 'PROFILE' | 'STATUS')
 ;
+
+//ServiceRef returns Reference:
+//	{ServiceRef} () 
+//;
+
 
 LeafReference returns LeafReference:
 	ResourceRef | LinkRef | StatusRef;
@@ -198,7 +203,15 @@ StatusRef returns LeafReference:
  * 
  */
 RangeRef:
-	valuerange=ValueRange (kind=ValueKind)? (period=NUMBER)?
+	valuerange=ValueRange (kind=ValueKind)? (interval = Interval)?
+;
+
+Interval: 
+	interval=NUMBER | kind=IntervalKind
+	; 
+
+enum IntervalKind:
+	MONTH="MONTH" | WEEK="WEEK" |  DAY="DAY" | HOUR="HOUR"   
 ;
 
 enum ToleranceLevel:

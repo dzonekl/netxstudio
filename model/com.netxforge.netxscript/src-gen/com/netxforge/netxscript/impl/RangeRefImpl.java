@@ -5,16 +5,17 @@
  */
 package com.netxforge.netxscript.impl;
 
+import com.netxforge.netxscript.Interval;
 import com.netxforge.netxscript.NetxscriptPackage;
 import com.netxforge.netxscript.RangeRef;
 import com.netxforge.netxscript.ValueKind;
 import com.netxforge.netxscript.ValueRange;
 
-import java.math.BigDecimal;
-
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
@@ -28,7 +29,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <ul>
  *   <li>{@link com.netxforge.netxscript.impl.RangeRefImpl#getValuerange <em>Valuerange</em>}</li>
  *   <li>{@link com.netxforge.netxscript.impl.RangeRefImpl#getKind <em>Kind</em>}</li>
- *   <li>{@link com.netxforge.netxscript.impl.RangeRefImpl#getPeriod <em>Period</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.impl.RangeRefImpl#getInterval <em>Interval</em>}</li>
  * </ul>
  * </p>
  *
@@ -77,24 +78,14 @@ public class RangeRefImpl extends MinimalEObjectImpl.Container implements RangeR
   protected ValueKind kind = KIND_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getPeriod() <em>Period</em>}' attribute.
+   * The cached value of the '{@link #getInterval() <em>Interval</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getPeriod()
+   * @see #getInterval()
    * @generated
    * @ordered
    */
-  protected static final BigDecimal PERIOD_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getPeriod() <em>Period</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getPeriod()
-   * @generated
-   * @ordered
-   */
-  protected BigDecimal period = PERIOD_EDEFAULT;
+  protected Interval interval;
 
   /**
    * <!-- begin-user-doc -->
@@ -168,9 +159,9 @@ public class RangeRefImpl extends MinimalEObjectImpl.Container implements RangeR
    * <!-- end-user-doc -->
    * @generated
    */
-  public BigDecimal getPeriod()
+  public Interval getInterval()
   {
-    return period;
+    return interval;
   }
 
   /**
@@ -178,12 +169,53 @@ public class RangeRefImpl extends MinimalEObjectImpl.Container implements RangeR
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setPeriod(BigDecimal newPeriod)
+  public NotificationChain basicSetInterval(Interval newInterval, NotificationChain msgs)
   {
-    BigDecimal oldPeriod = period;
-    period = newPeriod;
+    Interval oldInterval = interval;
+    interval = newInterval;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.RANGE_REF__PERIOD, oldPeriod, period));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetxscriptPackage.RANGE_REF__INTERVAL, oldInterval, newInterval);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setInterval(Interval newInterval)
+  {
+    if (newInterval != interval)
+    {
+      NotificationChain msgs = null;
+      if (interval != null)
+        msgs = ((InternalEObject)interval).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.RANGE_REF__INTERVAL, null, msgs);
+      if (newInterval != null)
+        msgs = ((InternalEObject)newInterval).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetxscriptPackage.RANGE_REF__INTERVAL, null, msgs);
+      msgs = basicSetInterval(newInterval, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, NetxscriptPackage.RANGE_REF__INTERVAL, newInterval, newInterval));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case NetxscriptPackage.RANGE_REF__INTERVAL:
+        return basicSetInterval(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -200,8 +232,8 @@ public class RangeRefImpl extends MinimalEObjectImpl.Container implements RangeR
         return getValuerange();
       case NetxscriptPackage.RANGE_REF__KIND:
         return getKind();
-      case NetxscriptPackage.RANGE_REF__PERIOD:
-        return getPeriod();
+      case NetxscriptPackage.RANGE_REF__INTERVAL:
+        return getInterval();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -222,8 +254,8 @@ public class RangeRefImpl extends MinimalEObjectImpl.Container implements RangeR
       case NetxscriptPackage.RANGE_REF__KIND:
         setKind((ValueKind)newValue);
         return;
-      case NetxscriptPackage.RANGE_REF__PERIOD:
-        setPeriod((BigDecimal)newValue);
+      case NetxscriptPackage.RANGE_REF__INTERVAL:
+        setInterval((Interval)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -245,8 +277,8 @@ public class RangeRefImpl extends MinimalEObjectImpl.Container implements RangeR
       case NetxscriptPackage.RANGE_REF__KIND:
         setKind(KIND_EDEFAULT);
         return;
-      case NetxscriptPackage.RANGE_REF__PERIOD:
-        setPeriod(PERIOD_EDEFAULT);
+      case NetxscriptPackage.RANGE_REF__INTERVAL:
+        setInterval((Interval)null);
         return;
     }
     super.eUnset(featureID);
@@ -266,8 +298,8 @@ public class RangeRefImpl extends MinimalEObjectImpl.Container implements RangeR
         return valuerange != VALUERANGE_EDEFAULT;
       case NetxscriptPackage.RANGE_REF__KIND:
         return kind != KIND_EDEFAULT;
-      case NetxscriptPackage.RANGE_REF__PERIOD:
-        return PERIOD_EDEFAULT == null ? period != null : !PERIOD_EDEFAULT.equals(period);
+      case NetxscriptPackage.RANGE_REF__INTERVAL:
+        return interval != null;
     }
     return super.eIsSet(featureID);
   }
@@ -287,8 +319,6 @@ public class RangeRefImpl extends MinimalEObjectImpl.Container implements RangeR
     result.append(valuerange);
     result.append(", kind: ");
     result.append(kind);
-    result.append(", period: ");
-    result.append(period);
     result.append(')');
     return result.toString();
   }

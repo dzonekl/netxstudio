@@ -20,10 +20,12 @@ Expressions are evaluated by the expression engine depending on the job being pe
 
 * Service Monitoring
 * Resource Monitoring
+* Data retention
 
 h2. Expressions in Service Monitoring
 
-[TBD]
+* Service Tolerance Expressions
+* Service Profile Expressions
 
 h2. Expressions in Resource Monitoring
 
@@ -35,6 +37,11 @@ The following expressions exist
 * Capacity Expressions
 * Utilization Expressions
 * Tolerance Expressions
+
+
+h2. Expressions in Data Retention 
+
+In data retention, the expression is applied when the retention job, executes the extension rules. and attached expression 
 
 
 h2. Applicable objects

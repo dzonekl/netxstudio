@@ -45,7 +45,9 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl;
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.DerivedResource;
+import com.netxforge.netxstudio.services.DistributionEntry;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.ResourceOriginType;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceClassType;
 import com.netxforge.netxstudio.services.ServiceDistribution;
@@ -84,6 +86,13 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * @generated
 	 */
 	private EClass derivedResourceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass distributionEntryEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -146,7 +155,21 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EEnum resourceOriginTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum serviceClassTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType resourceOriginTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -340,6 +363,42 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getDistributionEntry() {
+		return distributionEntryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDistributionEntry_ResourceRef() {
+		return (EReference)distributionEntryEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDistributionEntry_Distribution() {
+		return (EReference)distributionEntryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDistributionEntry_ResourceOrigin() {
+		return (EAttribute)distributionEntryEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRFSService() {
 		return rfsServiceEClass;
 	}
@@ -484,7 +543,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getServiceDistribution_DistributionRefs() {
+	public EReference getServiceDistribution_DistributionEntries() {
 		return (EReference)serviceDistributionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -493,17 +552,8 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getServiceDistribution_Distribution() {
-		return (EReference)serviceDistributionEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getServiceDistribution_ExpressionRefs() {
-		return (EReference)serviceDistributionEClass.getEStructuralFeatures().get(2);
+		return (EReference)serviceDistributionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -700,8 +750,26 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getResourceOriginType() {
+		return resourceOriginTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getServiceClassType() {
 		return serviceClassTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getResourceOriginTypeObject() {
+		return resourceOriginTypeObjectEDataType;
 	}
 
 	/**
@@ -754,6 +822,11 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		createEReference(derivedResourceEClass, DERIVED_RESOURCE__FORECAST_VALUES);
 		createEReference(derivedResourceEClass, DERIVED_RESOURCE__TRENDED_VALUES);
 
+		distributionEntryEClass = createEClass(DISTRIBUTION_ENTRY);
+		createEReference(distributionEntryEClass, DISTRIBUTION_ENTRY__RESOURCE_REF);
+		createEReference(distributionEntryEClass, DISTRIBUTION_ENTRY__DISTRIBUTION);
+		createEAttribute(distributionEntryEClass, DISTRIBUTION_ENTRY__RESOURCE_ORIGIN);
+
 		rfsServiceEClass = createEClass(RFS_SERVICE);
 		createEReference(rfsServiceEClass, RFS_SERVICE__NODES);
 		createEReference(rfsServiceEClass, RFS_SERVICE__TOLERANCE_REFS);
@@ -772,8 +845,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		createEAttribute(serviceEClass, SERVICE__SERVICE_NAME);
 
 		serviceDistributionEClass = createEClass(SERVICE_DISTRIBUTION);
-		createEReference(serviceDistributionEClass, SERVICE_DISTRIBUTION__DISTRIBUTION_REFS);
-		createEReference(serviceDistributionEClass, SERVICE_DISTRIBUTION__DISTRIBUTION);
+		createEReference(serviceDistributionEClass, SERVICE_DISTRIBUTION__DISTRIBUTION_ENTRIES);
 		createEReference(serviceDistributionEClass, SERVICE_DISTRIBUTION__EXPRESSION_REFS);
 
 		serviceForecastEClass = createEClass(SERVICE_FORECAST);
@@ -803,9 +875,11 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		createEAttribute(serviceUserEClass, SERVICE_USER__NAME);
 
 		// Create enums
+		resourceOriginTypeEEnum = createEEnum(RESOURCE_ORIGIN_TYPE);
 		serviceClassTypeEEnum = createEEnum(SERVICE_CLASS_TYPE);
 
 		// Create data types
+		resourceOriginTypeObjectEDataType = createEDataType(RESOURCE_ORIGIN_TYPE_OBJECT);
 		serviceClassTypeObjectEDataType = createEDataType(SERVICE_CLASS_TYPE_OBJECT);
 	}
 
@@ -846,6 +920,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		cfsServiceEClass.getESuperTypes().add(this.getService());
 		ciidEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		derivedResourceEClass.getESuperTypes().add(theLibraryPackage.getBaseResource());
+		distributionEntryEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		rfsServiceEClass.getESuperTypes().add(this.getService());
 		serviceEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		serviceDistributionEClass.getESuperTypes().add(theGenericsPackage.getBase());
@@ -869,6 +944,11 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		initEReference(getDerivedResource_ForecastValues(), theGenericsPackage.getValue(), null, "forecastValues", null, 0, -1, DerivedResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDerivedResource_TrendedValues(), theGenericsPackage.getValue(), null, "trendedValues", null, 0, -1, DerivedResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(distributionEntryEClass, DistributionEntry.class, "DistributionEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDistributionEntry_ResourceRef(), theLibraryPackage.getNetXResource(), null, "resourceRef", null, 0, 1, DistributionEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDistributionEntry_Distribution(), this.getDerivedResource(), null, "distribution", null, 0, 1, DistributionEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDistributionEntry_ResourceOrigin(), this.getResourceOriginType(), "resourceOrigin", null, 0, 1, DistributionEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(rfsServiceEClass, RFSService.class, "RFSService", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRFSService_Nodes(), theOperatorsPackage.getNode(), null, "nodes", null, 0, -1, RFSService.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRFSService_ToleranceRefs(), theLibraryPackage.getTolerance(), null, "toleranceRefs", null, 0, -1, RFSService.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -887,8 +967,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		initEAttribute(getService_ServiceName(), theGenericsPackage.getName255(), "serviceName", null, 0, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceDistributionEClass, ServiceDistribution.class, "ServiceDistribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getServiceDistribution_DistributionRefs(), theLibraryPackage.getNetXResource(), null, "distributionRefs", null, 0, -1, ServiceDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getServiceDistribution_Distribution(), this.getDerivedResource(), null, "distribution", null, 0, -1, ServiceDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getServiceDistribution_DistributionEntries(), this.getDistributionEntry(), null, "distributionEntries", null, 0, -1, ServiceDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getServiceDistribution_ExpressionRefs(), theLibraryPackage.getExpression(), null, "expressionRefs", null, 0, -1, ServiceDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serviceForecastEClass, ServiceForecast.class, "ServiceForecast", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -918,12 +997,18 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		initEAttribute(getServiceUser_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
+		initEEnum(resourceOriginTypeEEnum, ResourceOriginType.class, "ResourceOriginType");
+		addEEnumLiteral(resourceOriginTypeEEnum, ResourceOriginType.IN_BOUND);
+		addEEnumLiteral(resourceOriginTypeEEnum, ResourceOriginType.OUT_BOUND);
+		addEEnumLiteral(resourceOriginTypeEEnum, ResourceOriginType.INTERNAL);
+
 		initEEnum(serviceClassTypeEEnum, ServiceClassType.class, "ServiceClassType");
 		addEEnumLiteral(serviceClassTypeEEnum, ServiceClassType.GOLD);
 		addEEnumLiteral(serviceClassTypeEEnum, ServiceClassType.SILVER);
 		addEEnumLiteral(serviceClassTypeEEnum, ServiceClassType.BRONZE);
 
 		// Initialize data types
+		initEDataType(resourceOriginTypeObjectEDataType, ResourceOriginType.class, "ResourceOriginTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(serviceClassTypeObjectEDataType, ServiceClassType.class, "ServiceClassTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
@@ -951,7 +1036,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																						
+		   });																																																																																																													
 	}
 
 	/**
@@ -1031,6 +1116,47 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		   new String[] {
 			 "kind", "element",
 			 "name", "TrendedValues"
+		   });			
+		addAnnotation
+		  (distributionEntryEClass, 
+		   source, 
+		   new String[] {
+			 "name", "DistributionEntry",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getDistributionEntry_ResourceRef(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ResourceRef"
+		   });			
+		addAnnotation
+		  (getDistributionEntry_Distribution(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Distribution"
+		   });		
+		addAnnotation
+		  (getDistributionEntry_ResourceOrigin(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "ResourceOrigin"
+		   });		
+		addAnnotation
+		  (resourceOriginTypeEEnum, 
+		   source, 
+		   new String[] {
+			 "name", "ResourceOrigin_._type"
+		   });		
+		addAnnotation
+		  (resourceOriginTypeObjectEDataType, 
+		   source, 
+		   new String[] {
+			 "name", "ResourceOrigin_._type:Object",
+			 "baseType", "ResourceOrigin_._type"
 		   });			
 		addAnnotation
 		  (rfsServiceEClass, 
@@ -1158,18 +1284,11 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 			 "kind", "elementOnly"
 		   });			
 		addAnnotation
-		  (getServiceDistribution_DistributionRefs(), 
+		  (getServiceDistribution_DistributionEntries(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "DistributionRefs"
-		   });			
-		addAnnotation
-		  (getServiceDistribution_Distribution(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "Distribution"
+			 "name", "DistributionEntries"
 		   });			
 		addAnnotation
 		  (getServiceDistribution_ExpressionRefs(), 

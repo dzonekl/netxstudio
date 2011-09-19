@@ -9,22 +9,22 @@ import com.netxforge.netxstudio.library.NodeType;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Absolute Ref</b></em>'.
+ * A representation of the model object '<em><b>Node Type Ref</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxscript.AbsoluteRef#getNodetype <em>Nodetype</em>}</li>
- *   <li>{@link com.netxforge.netxscript.AbsoluteRef#getPrimaryRef <em>Primary Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.NodeTypeRef#getNodetype <em>Nodetype</em>}</li>
+ *   <li>{@link com.netxforge.netxscript.NodeTypeRef#getPrimaryRef <em>Primary Ref</em>}</li>
  * </ul>
  * </p>
  *
- * @see com.netxforge.netxscript.NetxscriptPackage#getAbsoluteRef()
+ * @see com.netxforge.netxscript.NetxscriptPackage#getNodeTypeRef()
  * @model
  * @generated
  */
-public interface AbsoluteRef extends Reference
+public interface NodeTypeRef extends Reference
 {
   /**
    * Returns the value of the '<em><b>Nodetype</b></em>' reference.
@@ -36,14 +36,14 @@ public interface AbsoluteRef extends Reference
    * <!-- end-user-doc -->
    * @return the value of the '<em>Nodetype</em>' reference.
    * @see #setNodetype(NodeType)
-   * @see com.netxforge.netxscript.NetxscriptPackage#getAbsoluteRef_Nodetype()
+   * @see com.netxforge.netxscript.NetxscriptPackage#getNodeTypeRef_Nodetype()
    * @model
    * @generated
    */
   NodeType getNodetype();
 
   /**
-   * Sets the value of the '{@link com.netxforge.netxscript.AbsoluteRef#getNodetype <em>Nodetype</em>}' reference.
+   * Sets the value of the '{@link com.netxforge.netxscript.NodeTypeRef#getNodetype <em>Nodetype</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Nodetype</em>' reference.
@@ -62,14 +62,14 @@ public interface AbsoluteRef extends Reference
    * <!-- end-user-doc -->
    * @return the value of the '<em>Primary Ref</em>' containment reference.
    * @see #setPrimaryRef(Reference)
-   * @see com.netxforge.netxscript.NetxscriptPackage#getAbsoluteRef_PrimaryRef()
+   * @see com.netxforge.netxscript.NetxscriptPackage#getNodeTypeRef_PrimaryRef()
    * @model containment="true"
    * @generated
    */
   Reference getPrimaryRef();
 
   /**
-   * Sets the value of the '{@link com.netxforge.netxscript.AbsoluteRef#getPrimaryRef <em>Primary Ref</em>}' containment reference.
+   * Sets the value of the '{@link com.netxforge.netxscript.NodeTypeRef#getPrimaryRef <em>Primary Ref</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Primary Ref</em>' containment reference.
@@ -78,4 +78,4 @@ public interface AbsoluteRef extends Reference
    */
   void setPrimaryRef(Reference value);
 
-} // AbsoluteRef
+} // NodeTypeRef

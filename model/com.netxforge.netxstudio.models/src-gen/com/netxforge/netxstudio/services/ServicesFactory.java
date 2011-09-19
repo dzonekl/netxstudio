@@ -65,6 +65,15 @@ public interface ServicesFactory extends EFactory {
 	DerivedResource createDerivedResource();
 
 	/**
+	 * Returns a new object of class '<em>Distribution Entry</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Distribution Entry</em>'.
+	 * @generated
+	 */
+	DistributionEntry createDistributionEntry();
+
+	/**
 	 * Returns a new object of class '<em>RFS Service</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -5,7 +5,6 @@
  */
 package com.netxforge.netxscript.impl;
 
-import com.netxforge.netxscript.AbsoluteRef;
 import com.netxforge.netxscript.AbstractFunction;
 import com.netxforge.netxscript.AbstractVarOrArgument;
 import com.netxforge.netxscript.And;
@@ -24,6 +23,8 @@ import com.netxforge.netxscript.Greater;
 import com.netxforge.netxscript.GreaterEqual;
 import com.netxforge.netxscript.If;
 import com.netxforge.netxscript.Import;
+import com.netxforge.netxscript.Interval;
+import com.netxforge.netxscript.IntervalKind;
 import com.netxforge.netxscript.LeafReference;
 import com.netxforge.netxscript.Lesser;
 import com.netxforge.netxscript.LesserEqual;
@@ -37,6 +38,7 @@ import com.netxforge.netxscript.NativeFunction;
 import com.netxforge.netxscript.Negation;
 import com.netxforge.netxscript.NetxscriptFactory;
 import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.NodeTypeRef;
 import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.Plus;
@@ -179,6 +181,13 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * @generated
    */
   private EClass rangeRefEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass intervalEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -381,7 +390,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass absoluteRefEClass = null;
+  private EClass nodeTypeRefEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -424,6 +433,13 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * @generated
    */
   private EEnum nativeFunctionEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EEnum intervalKindEEnum = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -813,9 +829,39 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getRangeRef_Period()
+  public EReference getRangeRef_Interval()
   {
-    return (EAttribute)rangeRefEClass.getEStructuralFeatures().get(2);
+    return (EReference)rangeRefEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getInterval()
+  {
+    return intervalEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getInterval_Interval()
+  {
+    return (EAttribute)intervalEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getInterval_Kind()
+  {
+    return (EAttribute)intervalEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -1593,9 +1639,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getAbsoluteRef()
+  public EClass getNodeTypeRef()
   {
-    return absoluteRefEClass;
+    return nodeTypeRefEClass;
   }
 
   /**
@@ -1603,9 +1649,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getAbsoluteRef_Nodetype()
+  public EReference getNodeTypeRef_Nodetype()
   {
-    return (EReference)absoluteRefEClass.getEStructuralFeatures().get(0);
+    return (EReference)nodeTypeRefEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1613,9 +1659,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getAbsoluteRef_PrimaryRef()
+  public EReference getNodeTypeRef_PrimaryRef()
   {
-    return (EReference)absoluteRefEClass.getEStructuralFeatures().get(1);
+    return (EReference)nodeTypeRefEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -1763,6 +1809,16 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
    * <!-- end-user-doc -->
    * @generated
    */
+  public EEnum getIntervalKind()
+  {
+    return intervalKindEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EEnum getToleranceLevel()
   {
     return toleranceLevelEEnum;
@@ -1859,7 +1915,11 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     rangeRefEClass = createEClass(RANGE_REF);
     createEAttribute(rangeRefEClass, RANGE_REF__VALUERANGE);
     createEAttribute(rangeRefEClass, RANGE_REF__KIND);
-    createEAttribute(rangeRefEClass, RANGE_REF__PERIOD);
+    createEReference(rangeRefEClass, RANGE_REF__INTERVAL);
+
+    intervalEClass = createEClass(INTERVAL);
+    createEAttribute(intervalEClass, INTERVAL__INTERVAL);
+    createEAttribute(intervalEClass, INTERVAL__KIND);
 
     returnEClass = createEClass(RETURN);
 
@@ -1966,9 +2026,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     rangeLiteralEClass = createEClass(RANGE_LITERAL);
     createEAttribute(rangeLiteralEClass, RANGE_LITERAL__VALUES);
 
-    absoluteRefEClass = createEClass(ABSOLUTE_REF);
-    createEReference(absoluteRefEClass, ABSOLUTE_REF__NODETYPE);
-    createEReference(absoluteRefEClass, ABSOLUTE_REF__PRIMARY_REF);
+    nodeTypeRefEClass = createEClass(NODE_TYPE_REF);
+    createEReference(nodeTypeRefEClass, NODE_TYPE_REF__NODETYPE);
+    createEReference(nodeTypeRefEClass, NODE_TYPE_REF__PRIMARY_REF);
 
     contextRefEClass = createEClass(CONTEXT_REF);
     createEReference(contextRefEClass, CONTEXT_REF__PRIMARY_REF);
@@ -1990,6 +2050,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
 
     // Create enums
     nativeFunctionEEnum = createEEnum(NATIVE_FUNCTION);
+    intervalKindEEnum = createEEnum(INTERVAL_KIND);
     toleranceLevelEEnum = createEEnum(TOLERANCE_LEVEL);
     valueRangeEEnum = createEEnum(VALUE_RANGE);
     valueKindEEnum = createEEnum(VALUE_KIND);
@@ -2062,7 +2123,7 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     nativeExpressionEClass.getESuperTypes().add(this.getExpression());
     varOrArgumentCallEClass.getESuperTypes().add(this.getExpression());
     rangeLiteralEClass.getESuperTypes().add(this.getRange());
-    absoluteRefEClass.getESuperTypes().add(this.getReference());
+    nodeTypeRefEClass.getESuperTypes().add(this.getReference());
     contextRefEClass.getESuperTypes().add(this.getReference());
     componentRefEClass.getESuperTypes().add(this.getReference());
     resourceRefEClass.getESuperTypes().add(this.getLeafReference());
@@ -2111,7 +2172,11 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEClass(rangeRefEClass, RangeRef.class, "RangeRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getRangeRef_Valuerange(), this.getValueRange(), "valuerange", null, 0, 1, RangeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getRangeRef_Kind(), this.getValueKind(), "kind", null, 0, 1, RangeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getRangeRef_Period(), ecorePackage.getEBigDecimal(), "period", null, 0, 1, RangeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getRangeRef_Interval(), this.getInterval(), null, "interval", null, 0, 1, RangeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(intervalEClass, Interval.class, "Interval", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getInterval_Interval(), ecorePackage.getEBigDecimal(), "interval", null, 0, 1, Interval.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getInterval_Kind(), this.getIntervalKind(), "kind", null, 0, 1, Interval.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(returnEClass, Return.class, "Return", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2218,9 +2283,9 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     initEClass(rangeLiteralEClass, RangeLiteral.class, "RangeLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getRangeLiteral_Values(), ecorePackage.getEBigDecimal(), "values", null, 0, -1, RangeLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(absoluteRefEClass, AbsoluteRef.class, "AbsoluteRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getAbsoluteRef_Nodetype(), theLibraryPackage.getNodeType(), null, "nodetype", null, 0, 1, AbsoluteRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getAbsoluteRef_PrimaryRef(), this.getReference(), null, "primaryRef", null, 0, 1, AbsoluteRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(nodeTypeRefEClass, NodeTypeRef.class, "NodeTypeRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getNodeTypeRef_Nodetype(), theLibraryPackage.getNodeType(), null, "nodetype", null, 0, 1, NodeTypeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getNodeTypeRef_PrimaryRef(), this.getReference(), null, "primaryRef", null, 0, 1, NodeTypeRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(contextRefEClass, ContextRef.class, "ContextRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getContextRef_PrimaryRef(), this.getReference(), null, "primaryRef", null, 0, 1, ContextRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2249,6 +2314,13 @@ public class NetxscriptPackageImpl extends EPackageImpl implements NetxscriptPac
     addEEnumLiteral(nativeFunctionEEnum, NativeFunction.MEAN);
     addEEnumLiteral(nativeFunctionEEnum, NativeFunction.DEVIATION);
     addEEnumLiteral(nativeFunctionEEnum, NativeFunction.ERLANGB);
+    addEEnumLiteral(nativeFunctionEEnum, NativeFunction.CLEAR);
+
+    initEEnum(intervalKindEEnum, IntervalKind.class, "IntervalKind");
+    addEEnumLiteral(intervalKindEEnum, IntervalKind.MONTH);
+    addEEnumLiteral(intervalKindEEnum, IntervalKind.WEEK);
+    addEEnumLiteral(intervalKindEEnum, IntervalKind.DAY);
+    addEEnumLiteral(intervalKindEEnum, IntervalKind.HOUR);
 
     initEEnum(toleranceLevelEEnum, ToleranceLevel.class, "ToleranceLevel");
     addEEnumLiteral(toleranceLevelEEnum, ToleranceLevel.RED);

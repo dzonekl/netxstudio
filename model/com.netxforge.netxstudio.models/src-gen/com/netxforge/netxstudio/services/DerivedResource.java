@@ -30,7 +30,7 @@ import com.netxforge.netxstudio.library.BaseResource;
  *
  * <!-- begin-model-doc -->
  * 
- * 			TODO
+ * 				TODO
  * 			
  * <!-- end-model-doc -->
  *
@@ -55,7 +55,8 @@ public interface DerivedResource extends BaseResource {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The ProfileValues reference, contains
-	 * 								profile values. Profile values are populated with expressions.
+	 * 								profile
+	 * 								values. Profile values are populated with expressions.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Values</em>' containment reference list.

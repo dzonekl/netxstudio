@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -45,20 +46,29 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.DataKind;
+import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
+import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
+import com.netxforge.netxstudio.services.DerivedResource;
+import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServiceDistribution;
 import com.netxforge.netxstudio.services.ServiceMonitor;
+import com.netxforge.netxstudio.services.ServiceUser;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class ModelUtils {
 
@@ -96,14 +106,47 @@ public class ModelUtils {
 		}
 	};
 
-	public TimeStampComparator tsCompare() {
+	public TimeStampComparator valueTimeStampCompare() {
 		return new TimeStampComparator();
 	}
 
-	public class InsideRange implements Predicate<Value> {
+	public class ServiceMonitorComparator implements Comparator<ServiceMonitor> {
+		public int compare(final ServiceMonitor sm1, ServiceMonitor sm2) {
+			// Simply compare the begin of the period, we do not check for
+			// potential
+			// overlap with the end of the period.
+			return sm1.getPeriod().getBegin()
+					.compare(sm2.getPeriod().getBegin());
+		}
+	};
+
+	public ServiceMonitorComparator serviceMonitorCompare() {
+		return new ServiceMonitorComparator();
+	}
+
+	public class NodeTypeIsLeafComparator implements Comparator<NodeType> {
+		public int compare(final NodeType nt1, NodeType nt2) {
+			if (nt1.isLeafNode() && nt2.isLeafNode()) {
+				return 0;
+			}
+			if (nt1.isLeafNode() && !nt2.isLeafNode()) {
+				return 1;
+			}
+			if (!nt1.isLeafNode() && nt2.isLeafNode()) {
+				return -1;
+			}
+			return 0;
+		}
+	};
+
+	public NodeTypeIsLeafComparator nodeTypeIsLeafComparator() {
+		return new NodeTypeIsLeafComparator();
+	}
+
+	public class ValuerInsideRange implements Predicate<Value> {
 		private final DateTimeRange dtr;
 
-		public InsideRange(final DateTimeRange dtr) {
+		public ValuerInsideRange(final DateTimeRange dtr) {
 			this.dtr = dtr;
 		}
 
@@ -116,8 +159,103 @@ public class ModelUtils {
 		}
 	}
 
-	public InsideRange insideRange(DateTimeRange dtr) {
-		return new InsideRange(dtr);
+	public ValuerInsideRange valueInsideRange(DateTimeRange dtr) {
+		return new ValuerInsideRange(dtr);
+	}
+
+	public class NodeOfType implements Predicate<Node> {
+		private final NodeType nt;
+
+		public NodeOfType(final NodeType nt) {
+			this.nt = nt;
+		}
+
+		public boolean apply(final Node node) {
+			if (node.eIsSet(OperatorsPackage.Literals.NODE__NODE_TYPE)) {
+				if (node.getNodeType().eIsSet(
+						LibraryPackage.Literals.NODE_TYPE__NAME)) {
+					return node.getNodeType().getName().equals(nt.getName());
+				}
+			}
+			return false;
+		}
+	}
+
+	public NodeOfType nodeOfType(NodeType nodeType) {
+		return new NodeOfType(nodeType);
+	}
+
+	public class NodeInRelationship implements Predicate<Node> {
+		private final Relationship r;
+
+		public NodeInRelationship(final Relationship r) {
+			this.r = r;
+		}
+
+		public boolean apply(final Node n) {
+			return r.getNodeID1Ref() == n;
+		}
+	}
+
+	public class SourceRelationshipForNode implements Predicate<Relationship> {
+		private final Node n;
+
+		public SourceRelationshipForNode(final Node n) {
+			this.n = n;
+		}
+
+		public boolean apply(final Relationship r) {
+			return r.getNodeID1Ref() == n;
+		}
+	}
+
+	public NodeInRelationship nodeInRelationship(Relationship r) {
+		return new NodeInRelationship(r);
+	}
+
+	public SourceRelationshipForNode sourceRelationshipInNode(Node n) {
+		return new SourceRelationshipForNode(n);
+	}
+
+	/*
+	 * Note will not provide the ServiceMonitors for which the period is partly
+	 * in range. targetBegin <= begin && targetEnd <= end. (Example of an
+	 * overlapping).
+	 */
+	public class ServiceMonitorInsideRange implements Predicate<ServiceMonitor> {
+		private final DateTimeRange dtr;
+
+		public ServiceMonitorInsideRange(final DateTimeRange dtr) {
+			this.dtr = dtr;
+		}
+
+		public boolean apply(final ServiceMonitor s) {
+			Date begin = fromXMLDate(dtr.getBegin());
+			Date end = fromXMLDate(dtr.getEnd());
+
+			Date targetBegin = fromXMLDate(s.getPeriod().getBegin());
+			Date targetEnd = fromXMLDate(s.getPeriod().getEnd());
+
+			// begin => targetBegin && end <= targetEnd
+			return (begin == targetBegin && end == targetEnd)
+					|| (begin == targetBegin && end.after(targetEnd))
+					|| (begin.before(targetBegin) && end == targetEnd)
+					|| (begin.before(targetBegin) && end.after(targetEnd));
+		}
+	}
+
+	public ServiceMonitorInsideRange serviceMonitorinsideRange(DateTimeRange dtr) {
+		return new ServiceMonitorInsideRange(dtr);
+	}
+
+	public class IsRelationship implements Predicate<EObject> {
+		public boolean apply(final EObject eo) {
+			return eo instanceof Relationship;
+		}
+	}
+
+	public IsRelationship isRelationship() {
+		return new IsRelationship();
 	}
 
 	public boolean isValidNode(Node node) {
@@ -188,6 +326,13 @@ public class ModelUtils {
 		return el;
 	}
 
+	public Collection<String> expressionLines(String Expression) {
+		final String[] splitByNewLine = Expression.split("\n");
+		final Collection<String> collection = Lists
+				.newArrayList(splitByNewLine);
+		return collection;
+	}
+
 	public List<NetXResource> allResources(Node node) {
 		List<NetXResource> resources = Lists.newArrayList();
 		TreeIterator<EObject> iterator = node.eAllContents();
@@ -200,7 +345,34 @@ public class ModelUtils {
 		return resources;
 	}
 
-	public List<NetXResource> resourcesWithName(Node n, String expressionName) {
+	public List<DerivedResource> derivedResourcesWithName(Service s,
+			String expressionName) {
+
+		final List<DerivedResource> drL = Lists.newArrayList();
+
+		for (ServiceUser su : s.getServiceUserRefs()) {
+			if (su.eIsSet(ServicesPackage.Literals.SERVICE_USER__SERVICE_PROFILE)) {
+				for (DerivedResource dr : su.getServiceProfile()
+						.getProfileResources()) {
+					if (dr.getExpressionName().equals(expressionName)) {
+						drL.add(dr);
+					}
+				}
+			}
+		}
+		return drL;
+	}
+
+	public List<NetXResource> resourcesWithExpressionName(NodeType nt,
+			String expressionName) {
+		final List<Component> cl = Lists.newArrayList();
+		cl.addAll(nt.getEquipments());
+		cl.addAll(nt.getFunctions());
+		return this.resourcesWithExpressionName(cl, expressionName);
+	}
+
+	public List<NetXResource> resourcesWithExpressionName(Node n,
+			String expressionName) {
 		final List<Component> cl = Lists.newArrayList();
 		cl.addAll(n.getNodeType().getEquipments());
 		cl.addAll(n.getNodeType().getFunctions());
@@ -211,7 +383,20 @@ public class ModelUtils {
 		System.out.println("ResourceMonitor: sorting entries:" + values.size()
 				+ new Date(System.currentTimeMillis()));
 
-		List<Value> sortedCopy = Ordering.from(tsCompare()).reverse()
+		List<Value> sortedCopy = Ordering.from(valueTimeStampCompare())
+				.reverse().sortedCopy(values);
+
+		System.out.println("ResourceMonitor: done sorting entries:"
+				+ new Date(System.currentTimeMillis()));
+		return sortedCopy;
+
+	}
+
+	public List<Value> sortByTimeStamp(List<Value> values) {
+		System.out.println("ResourceMonitor: sorting entries:" + values.size()
+				+ new Date(System.currentTimeMillis()));
+
+		List<Value> sortedCopy = Ordering.from(valueTimeStampCompare())
 				.sortedCopy(values);
 
 		System.out.println("ResourceMonitor: done sorting entries:"
@@ -220,9 +405,17 @@ public class ModelUtils {
 
 	}
 
-	public List<Value> filterInRange(List<Value> unfiltered, DateTimeRange dtr) {
+	public List<ServiceMonitor> filterSerciceMonitorInRange(
+			List<ServiceMonitor> unfiltered, DateTimeRange dtr) {
+		Iterable<ServiceMonitor> filterValues = Iterables.filter(unfiltered,
+				this.serviceMonitorinsideRange(dtr));
+		return (Lists.newArrayList(filterValues));
+	}
+
+	public List<Value> filterValueInRange(List<Value> unfiltered,
+			DateTimeRange dtr) {
 		Iterable<Value> filterValues = Iterables.filter(unfiltered,
-				this.insideRange(dtr));
+				this.valueInsideRange(dtr));
 		return (Lists.newArrayList(filterValues));
 	}
 
@@ -316,6 +509,13 @@ public class ModelUtils {
 		return uniques;
 	}
 
+	public List<Node> nodesForNodeType(RFSService service,
+			NodeType targetNodeType) {
+		Iterable<Node> filtered = Iterables.filter(service.getNodes(),
+				this.nodeOfType(targetNodeType));
+		return Lists.newArrayList(filtered);
+	}
+
 	/**
 	 * Overall RAG Status.
 	 * 
@@ -366,14 +566,44 @@ public class ModelUtils {
 
 		return false;
 	}
-	
-	
+
 	public int[] ragCount(Service service, Node n, DateTimeRange dtr) {
 
-		// FIXME Implement getting markers for a time range.
-		// So should iterator over service monitors inside this range and
-		// return the markers for this node (Within the range).
-		return new int[] { 0, 0, 0 };
+		// Sort and reverse the Service Monitors.
+		List<ServiceMonitor> sortedCopy = Ordering
+				.from(this.serviceMonitorCompare()).reverse()
+				.sortedCopy(service.getServiceMonitors());
+
+		// Filter on the time range.
+		List<ServiceMonitor> filtered = this.filterSerciceMonitorInRange(
+				sortedCopy, dtr);
+
+		List<Marker> withinRange = Lists.newArrayList();
+		for (ServiceMonitor sm : filtered) {
+			List<Marker> withinRangeForSM = markersWithinRange(sm, n, dtr);
+			if (withinRangeForSM.size() > 0) {
+				withinRange.addAll(withinRangeForSM);
+			}
+		}
+
+		return this.ragForMarkers(withinRange);
+	}
+
+	public List<Marker> markersWithinRange(ServiceMonitor sm, Node n,
+			DateTimeRange dtr) {
+		// Process a ServiceMonitor for which the period is somehow within the
+		// range.
+		List<Marker> filtered = Lists.newArrayList();
+		for (ResourceMonitor rm : sm.getResourceMonitors()) {
+			Marker[] markerArray = new Marker[rm.getMarkers().size()];
+			List<Marker> markersForNodeList = this.toleranceMarkersForNode(n,
+					markerArray);
+			if (markersForNodeList.size() > 0) {
+				filtered.addAll(markersForNodeList);
+			}
+		}
+
+		return filtered;
 	}
 
 	public int[] ragCount(Node n, ServiceMonitor sm) {
@@ -387,34 +617,44 @@ public class ModelUtils {
 		for (ResourceMonitor rm : sm.getResourceMonitors()) {
 
 			Marker[] markerArray = new Marker[rm.getMarkers().size()];
-			List<Marker> markersForNodeList = this.markersForNode(n,
+			List<Marker> markersForNodeList = this.toleranceMarkersForNode(n,
 					markerArray);
+			int[] analyzed = ragForMarkers(markersForNodeList);
+			red += analyzed[0];
+			amber += analyzed[1];
+			green += analyzed[2];
 
-			Marker[] markerForNodeArray = new Marker[markersForNodeList.size()];
-			ToleranceMarker tm = lastToleranceMarker(markersForNodeList
-					.toArray(markerForNodeArray));
-
-			switch (tm.getLevel().getValue()) {
-			case LevelKind.RED_VALUE: {
-				red++;
-			}
-				break;
-			case LevelKind.AMBER_VALUE: {
-				red++;
-			}
-				break;
-			case LevelKind.GREEN_VALUE: {
-				red++;
-			}
-				break;
-			}
 		}
 		return new int[] { red, amber, green };
 	}
 
-	public List<Marker> markersForNode(Node n, Marker... markers) {
+	public int[] ragForMarkers(List<Marker> markersForNodeList) {
+
+		int red = 0, amber = 0, green = 0;
+		Marker[] markerForNodeArray = new Marker[markersForNodeList.size()];
+		ToleranceMarker tm = lastToleranceMarker(markersForNodeList
+				.toArray(markerForNodeArray));
+
+		switch (tm.getLevel().getValue()) {
+		case LevelKind.RED_VALUE: {
+			red++;
+		}
+			break;
+		case LevelKind.AMBER_VALUE: {
+			amber++;
+		}
+			break;
+		case LevelKind.GREEN_VALUE: {
+			green++;
+		}
+			break;
+		}
+		return new int[] { red, amber, green };
+	}
+
+	public List<Marker> toleranceMarkersForNode(Node n, Marker... unfiltered) {
 		List<Marker> resultList = Lists.newArrayList();
-		List<Marker> markerList = Lists.newArrayList(markers);
+		List<Marker> markerList = Lists.newArrayList(unfiltered);
 		for (Marker m : markerList) {
 			if (m instanceof ToleranceMarker) {
 				ToleranceMarker tempMarker = (ToleranceMarker) m;
@@ -461,15 +701,14 @@ public class ModelUtils {
 		return dtr;
 	}
 
-	
 	public Date start(DateTimeRange dtr) {
 		return this.fromXMLDate(dtr.getBegin());
 	}
-	
+
 	public Date end(DateTimeRange dtr) {
 		return this.fromXMLDate(dtr.getEnd());
 	}
-	
+
 	public String formatLastMonitorDate(ServiceMonitor sm) {
 		DateTimeRange dtr = sm.getPeriod();
 		StringBuilder sb = new StringBuilder();
@@ -662,6 +901,170 @@ public class ModelUtils {
 		}
 		return null;
 	}
+
+	/*
+	 * Note, side effect of creating the value range if the range doesn't exist.
+	 */
+	public MetricValueRange valueRangeForIntervalAndKind(
+			NetXResource foundNetXResource, KindHintType kindHintType,
+			int periodHint) {
+		MetricValueRange foundMvr = null;
+		for (final MetricValueRange mvr : foundNetXResource
+				.getMetricValueRanges()) {
+			if (mvr.getKindHint() == kindHintType
+					&& mvr.getIntervalHint() == periodHint) {
+				foundMvr = mvr;
+				break;
+			}
+		}
+
+		if (foundMvr == null) {
+			foundMvr = MetricsFactory.eINSTANCE.createMetricValueRange();
+			foundMvr.setKindHint(kindHintType);
+			foundMvr.setIntervalHint(periodHint);
+			foundNetXResource.getMetricValueRanges().add(foundMvr);
+		}
+		return foundMvr;
+	}
+
+	public List<NetXResource> resourcesFromNodeTypes(List<NodeType> nodeTypes) {
+
+		List<NetXResource> allResources = Lists.newArrayList();
+		for (NodeType nt : nodeTypes) {
+			TreeIterator<EObject> eAllContents = nt.eAllContents();
+			while (eAllContents.hasNext()) {
+				EObject next = eAllContents.next();
+				if (next instanceof NetXResource) {
+					allResources.add((NetXResource) next);
+				}
+			}
+		}
+		return allResources;
+	}
+
+	public List<NetXResource> resourcesWithExpressionNameFromNodeTypes(
+			List<NodeType> nodeTypes, NetXResource resource) {
+
+		List<NetXResource> allResources = Lists.newArrayList();
+		for (NodeType nt : nodeTypes) {
+			List<NetXResource> resources = resourcesWithExpressionName(nt,
+					resource.getExpressionName());
+			allResources.addAll(resources);
+		}
+		return allResources;
+	}
+
+	public void deriveValues(ServiceDistribution distribution, List<Node> nodes) {
+
+		// Sequence of the nodes is by Leaf first, and then follow the
+		// relationships.
+		// Need an algo, to build a matrix of sorted nodes.
+
+	}
+
+	public void printMatrix(Node[][] matrix) {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				Node n = matrix[i][j];
+				if (n != null) {
+					System.out.print(n.getNodeID() + ",");
+				}
+			}
+			System.out.println("\n");
+		}
+	}
+
+	public Node[][] matrix(List<Node> nodes) {
+
+		// Node[][] emptyMatrix = new Node[0][0];
+
+		List<NodeType> nts = this.transformNodeToNodeType(nodes);
+		List<NodeType> unique = this.uniqueNodeTypes(nts);
+		List<NodeType> sortedByIsLeafCopy = Ordering
+				.from(this.nodeTypeIsLeafComparator()).reverse()
+				.sortedCopy(unique);
+
+		int ntCount = sortedByIsLeafCopy.size();
+		int nodeDepth = 0;
+
+		// We need a two pass, to determine the array size first.
+		// Is there another trick?
+
+		for (NodeType nt : sortedByIsLeafCopy) {
+			Iterable<Node> filtered = Iterables.filter(nodes,
+					this.nodeOfType(nt));
+			if (Iterables.size(filtered) > nodeDepth) {
+				nodeDepth = Iterables.size(filtered);
+			}
+		}
+
+		Node[][] matrix = new Node[ntCount][nodeDepth];
+
+		for (int i = 0; i < ntCount; i++) {
+			NodeType nt = sortedByIsLeafCopy.get(i);
+			Iterable<Node> filtered = Iterables.filter(nodes,
+					this.nodeOfType(nt));
+			for (int j = 0; j < Iterables.size(filtered); j++) {
+				Node n = Iterables.get(filtered, j);
+				matrix[i][j] = n;
+			}
+		}
+
+		return matrix;
+	}
+
+	public List<Relationship> connections(RFSService service, Node n) {
+
+		if (service.eContainer() instanceof Operator) {
+			Operator op = (Operator) service.eContainer();
+
+			List<Relationship> relationships = Lists.newArrayList();
+			TreeIterator<EObject> eAllContents = op.eAllContents();
+			while (eAllContents.hasNext()) {
+				EObject eo = eAllContents.next();
+				if (eo instanceof Relationship) {
+					relationships.add((Relationship) eo);
+				}
+			}
+
+			List<Relationship> filteredRelationships = Lists.newArrayList();
+			Iterable<Relationship> filtered = Iterables.filter(relationships,
+					this.sourceRelationshipInNode(n));
+			if (Iterables.size(filtered) > 0) {
+				filteredRelationships.addAll(Lists.newArrayList(filtered));
+			}
+			return filteredRelationships;
+		}
+		return null;
+	};
+
+	public List<Node> connectedNodes(RFSService service) {
+
+		if (service.eContainer() instanceof Operator) {
+			Operator op = (Operator) service.eContainer();
+
+			List<Relationship> relationships = Lists.newArrayList();
+			TreeIterator<EObject> eAllContents = op.eAllContents();
+			while (eAllContents.hasNext()) {
+				EObject eo = eAllContents.next();
+				if (eo instanceof Relationship) {
+					relationships.add((Relationship) eo);
+				}
+			}
+
+			List<Relationship> filteredRelationships = Lists.newArrayList();
+
+			for (Node n : service.getNodes()) {
+				Iterable<Relationship> filtered = Iterables.filter(
+						relationships, this.sourceRelationshipInNode(n));
+				if (Iterables.size(filtered) > 0) {
+					filteredRelationships.addAll(Lists.newArrayList(filtered));
+				}
+			}
+		}
+		return null;
+
+	};
 
 	/**
 	 * Resources with this name. Notice: Matching is on regular expression, i.e.
@@ -958,6 +1361,13 @@ public class ModelUtils {
 		return cal.getTime();
 	}
 
+	public Date oneWeekAgo() {
+		final Calendar cal = GregorianCalendar.getInstance();
+		cal.setTime(new Date(System.currentTimeMillis()));
+		cal.add(Calendar.WEEK_OF_YEAR, -1);
+		return cal.getTime();
+	}
+
 	public Date oneMonthAgo() {
 		final Calendar cal = GregorianCalendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
@@ -1143,6 +1553,15 @@ public class ModelUtils {
 
 		return refCal.compareTo(variantCal) < 0;
 
+	}
+
+	public List<NodeType> transformNodeToNodeType(List<Node> nodes) {
+		final Function<Node, NodeType> nodeTypeFromNode = new Function<Node, NodeType>() {
+			public NodeType apply(Node from) {
+				return from.getNodeType();
+			}
+		};
+		return Lists.transform(nodes, nodeTypeFromNode);
 	}
 
 	/**

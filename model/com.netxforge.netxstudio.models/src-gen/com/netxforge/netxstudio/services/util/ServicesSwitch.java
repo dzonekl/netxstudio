@@ -27,6 +27,7 @@ import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.DerivedResource;
+import com.netxforge.netxstudio.services.DistributionEntry;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceDistribution;
@@ -114,6 +115,13 @@ public class ServicesSwitch<T> extends Switch<T> {
 				T result = caseDerivedResource(derivedResource);
 				if (result == null) result = caseBaseResource(derivedResource);
 				if (result == null) result = caseBase(derivedResource);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ServicesPackage.DISTRIBUTION_ENTRY: {
+				DistributionEntry distributionEntry = (DistributionEntry)theEObject;
+				T result = caseDistributionEntry(distributionEntry);
+				if (result == null) result = caseBase(distributionEntry);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -220,6 +228,21 @@ public class ServicesSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseDerivedResource(DerivedResource object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Distribution Entry</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Distribution Entry</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDistributionEntry(DistributionEntry object) {
 		return null;
 	}
 

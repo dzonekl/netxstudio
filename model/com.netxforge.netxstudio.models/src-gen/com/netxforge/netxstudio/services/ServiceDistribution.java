@@ -22,7 +22,6 @@ import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.library.Expression;
-import com.netxforge.netxstudio.library.NetXResource;
 
 /**
  * <!-- begin-user-doc -->
@@ -69,8 +68,7 @@ import com.netxforge.netxstudio.library.NetXResource;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.services.ServiceDistribution#getDistributionRefs <em>Distribution Refs</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.services.ServiceDistribution#getDistribution <em>Distribution</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.ServiceDistribution#getDistributionEntries <em>Distribution Entries</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceDistribution#getExpressionRefs <em>Expression Refs</em>}</li>
  * </ul>
  * </p>
@@ -81,41 +79,22 @@ import com.netxforge.netxstudio.library.NetXResource;
  */
 public interface ServiceDistribution extends Base {
 	/**
-	 * Returns the value of the '<em><b>Distribution Refs</b></em>' reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.library.NetXResource}.
+	 * Returns the value of the '<em><b>Distribution Entries</b></em>' containment reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.services.DistributionEntry}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The ServiceResource reference, contains 0 or
-	 * 								more
-	 * 								Resource types.
+	 * The DistributionEntries reference, contains 0 or
+	 * 								more Entries.
 	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Distribution Refs</em>' reference list.
-	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceDistribution_DistributionRefs()
-	 * @model extendedMetaData="kind='element' name='DistributionRefs'"
-	 * @generated
-	 */
-	EList<NetXResource> getDistributionRefs();
-
-	/**
-	 * Returns the value of the '<em><b>Distribution</b></em>' containment reference list.
-	 * The list contents are of type {@link com.netxforge.netxstudio.services.DerivedResource}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The ServiceResource reference, contains 0 or
-	 * 								more
-	 * 								Resource types.
-	 * 							
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Distribution</em>' containment reference list.
-	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceDistribution_Distribution()
+	 * @return the value of the '<em>Distribution Entries</em>' containment reference list.
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceDistribution_DistributionEntries()
 	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='Distribution'"
+	 *        extendedMetaData="kind='element' name='DistributionEntries'"
 	 * @generated
 	 */
-	EList<DerivedResource> getDistribution();
+	EList<DistributionEntry> getDistributionEntries();
 
 	/**
 	 * Returns the value of the '<em><b>Expression Refs</b></em>' reference list.

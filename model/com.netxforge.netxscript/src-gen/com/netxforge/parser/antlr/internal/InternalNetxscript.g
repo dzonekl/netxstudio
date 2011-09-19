@@ -988,9 +988,9 @@ ruleReferenceAssignmentStatement returns [EObject current=null]
 	    }
 
     |		{ 
-	        newCompositeNode(grammarAccess.getReferenceAssignmentStatementAccess().getAssignmentRefAbsoluteRefParserRuleCall_1_0_1()); 
+	        newCompositeNode(grammarAccess.getReferenceAssignmentStatementAccess().getAssignmentRefNodeTypeRefParserRuleCall_1_0_1()); 
 	    }
-		lv_assignmentRef_1_2=ruleAbsoluteRef		{
+		lv_assignmentRef_1_2=ruleNodeTypeRef		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getReferenceAssignmentStatementRule());
 	        }
@@ -998,7 +998,7 @@ ruleReferenceAssignmentStatement returns [EObject current=null]
        			$current, 
        			"assignmentRef",
         		lv_assignmentRef_1_2, 
-        		"AbsoluteRef");
+        		"NodeTypeRef");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2221,11 +2221,11 @@ ruleReference returns [EObject current=null]
 
     |
     { 
-        newCompositeNode(grammarAccess.getReferenceAccess().getAbsoluteRefParserRuleCall_1()); 
+        newCompositeNode(grammarAccess.getReferenceAccess().getNodeTypeRefParserRuleCall_1()); 
     }
-    this_AbsoluteRef_1=ruleAbsoluteRef
+    this_NodeTypeRef_1=ruleNodeTypeRef
     { 
-        $current = $this_AbsoluteRef_1.current; 
+        $current = $this_NodeTypeRef_1.current; 
         afterParserOrEnumRuleCall();
     }
 )
@@ -2235,51 +2235,51 @@ ruleReference returns [EObject current=null]
 
 
 
-// Entry rule entryRuleAbsoluteRef
-entryRuleAbsoluteRef returns [EObject current=null] 
+// Entry rule entryRuleNodeTypeRef
+entryRuleNodeTypeRef returns [EObject current=null] 
 	:
-	{ newCompositeNode(grammarAccess.getAbsoluteRefRule()); }
-	 iv_ruleAbsoluteRef=ruleAbsoluteRef 
-	 { $current=$iv_ruleAbsoluteRef.current; } 
+	{ newCompositeNode(grammarAccess.getNodeTypeRefRule()); }
+	 iv_ruleNodeTypeRef=ruleNodeTypeRef 
+	 { $current=$iv_ruleNodeTypeRef.current; } 
 	 EOF 
 ;
 
-// Rule AbsoluteRef
-ruleAbsoluteRef returns [EObject current=null] 
+// Rule NodeTypeRef
+ruleNodeTypeRef returns [EObject current=null] 
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
 ((
     {
         $current = forceCreateModelElement(
-            grammarAccess.getAbsoluteRefAccess().getAbsoluteRefAction_0(),
+            grammarAccess.getNodeTypeRefAccess().getNodeTypeRefAction_0(),
             $current);
     }
 )	otherlv_1='NODETYPE' 
     {
-    	newLeafNode(otherlv_1, grammarAccess.getAbsoluteRefAccess().getNODETYPEKeyword_1());
+    	newLeafNode(otherlv_1, grammarAccess.getNodeTypeRefAccess().getNODETYPEKeyword_1());
     }
 (
 (
 		{
 			if ($current==null) {
-	            $current = createModelElement(grammarAccess.getAbsoluteRefRule());
+	            $current = createModelElement(grammarAccess.getNodeTypeRefRule());
 	        }
         }
 	otherlv_2=RULE_ID
 	{
-		newLeafNode(otherlv_2, grammarAccess.getAbsoluteRefAccess().getNodetypeNodeTypeCrossReference_2_0()); 
+		newLeafNode(otherlv_2, grammarAccess.getNodeTypeRefAccess().getNodetypeNodeTypeCrossReference_2_0()); 
 	}
 
 )
 )(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_3_0()); 
+	        newCompositeNode(grammarAccess.getNodeTypeRefAccess().getPrimaryRefPrimaryRefParserRuleCall_3_0()); 
 	    }
 		lv_primaryRef_3_0=rulePrimaryRef		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getAbsoluteRefRule());
+	            $current = createModelElementForParent(grammarAccess.getNodeTypeRefRule());
 	        }
        		set(
        			$current, 
@@ -2716,23 +2716,81 @@ ruleRangeRef returns [EObject current=null]
 )
 )?(
 (
-		lv_period_2_0=RULE_NUMBER
-		{
-			newLeafNode(lv_period_2_0, grammarAccess.getRangeRefAccess().getPeriodNUMBERTerminalRuleCall_2_0()); 
-		}
-		{
+		{ 
+	        newCompositeNode(grammarAccess.getRangeRefAccess().getIntervalIntervalParserRuleCall_2_0()); 
+	    }
+		lv_interval_2_0=ruleInterval		{
 	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getRangeRefRule());
+	            $current = createModelElementForParent(grammarAccess.getRangeRefRule());
 	        }
-       		setWithLastConsumed(
+       		set(
        			$current, 
-       			"period",
-        		lv_period_2_0, 
-        		"NUMBER");
+       			"interval",
+        		lv_interval_2_0, 
+        		"Interval");
+	        afterParserOrEnumRuleCall();
 	    }
 
 )
 )?)
+;
+
+
+
+
+
+// Entry rule entryRuleInterval
+entryRuleInterval returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getIntervalRule()); }
+	 iv_ruleInterval=ruleInterval 
+	 { $current=$iv_ruleInterval.current; } 
+	 EOF 
+;
+
+// Rule Interval
+ruleInterval returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+(
+		lv_interval_0_0=RULE_NUMBER
+		{
+			newLeafNode(lv_interval_0_0, grammarAccess.getIntervalAccess().getIntervalNUMBERTerminalRuleCall_0_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getIntervalRule());
+	        }
+       		setWithLastConsumed(
+       			$current, 
+       			"interval",
+        		lv_interval_0_0, 
+        		"NUMBER");
+	    }
+
+)
+)
+    |(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getIntervalAccess().getKindIntervalKindEnumRuleCall_1_0()); 
+	    }
+		lv_kind_1_0=ruleIntervalKind		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getIntervalRule());
+	        }
+       		set(
+       			$current, 
+       			"kind",
+        		lv_kind_1_0, 
+        		"IntervalKind");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))
 ;
 
 
@@ -2827,6 +2885,43 @@ ruleNativeFunction returns [Enumerator current=null]
 	{
         $current = grammarAccess.getNativeFunctionAccess().getERLANGBEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
         newLeafNode(enumLiteral_6, grammarAccess.getNativeFunctionAccess().getERLANGBEnumLiteralDeclaration_6()); 
+    }
+)
+    |(	enumLiteral_7='clear()' 
+	{
+        $current = grammarAccess.getNativeFunctionAccess().getCLEAREnumLiteralDeclaration_7().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_7, grammarAccess.getNativeFunctionAccess().getCLEAREnumLiteralDeclaration_7()); 
+    }
+));
+
+
+
+// Rule IntervalKind
+ruleIntervalKind returns [Enumerator current=null] 
+    @init { enterRule(); }
+    @after { leaveRule(); }:
+((	enumLiteral_0='MONTH' 
+	{
+        $current = grammarAccess.getIntervalKindAccess().getMONTHEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_0, grammarAccess.getIntervalKindAccess().getMONTHEnumLiteralDeclaration_0()); 
+    }
+)
+    |(	enumLiteral_1='WEEK' 
+	{
+        $current = grammarAccess.getIntervalKindAccess().getWEEKEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_1, grammarAccess.getIntervalKindAccess().getWEEKEnumLiteralDeclaration_1()); 
+    }
+)
+    |(	enumLiteral_2='DAY' 
+	{
+        $current = grammarAccess.getIntervalKindAccess().getDAYEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_2, grammarAccess.getIntervalKindAccess().getDAYEnumLiteralDeclaration_2()); 
+    }
+)
+    |(	enumLiteral_3='HOUR' 
+	{
+        $current = grammarAccess.getIntervalKindAccess().getHOUREnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+        newLeafNode(enumLiteral_3, grammarAccess.getIntervalKindAccess().getHOUREnumLiteralDeclaration_3()); 
     }
 ));
 

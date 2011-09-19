@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_NUMBER", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'mod'", "'import'", "'def'", "'('", "','", "')'", "'{'", "'}'", "';'", "'return'", "'if'", "'else'", "'while'", "'var'", "'='", "'+='", "'&&'", "'||'", "'=='", "'!='", "'<'", "'<='", "'>'", "'>='", "'+'", "'-'", "'*'", "'/'", "'%'", "'!'", "'true'", "'false'", "'['", "']'", "'.'", "'NODETYPE'", "'this'", "'->'", "'FUNCTION'", "'EQUIPMENT'", "'PROFILE'", "'STATUS'", "'RESOURCE'", "'ALL'", "'LINK'", "'count()'", "'sum()'", "'min()'", "'max()'", "'mean()'", "'deviation()'", "'erlangB()'", "'RED'", "'AMBER'", "'GREEN'", "'YELLOW'", "'METRIC'", "'CAP'", "'FORECAST'", "'FORECAST_CAP'", "'TRENDED'", "'UTILIZATION'", "'TOLERANCE'", "'DERIVED'", "'AVG'", "'BH'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_NUMBER", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'mod'", "'import'", "'def'", "'('", "','", "')'", "'{'", "'}'", "';'", "'return'", "'if'", "'else'", "'while'", "'var'", "'='", "'+='", "'&&'", "'||'", "'=='", "'!='", "'<'", "'<='", "'>'", "'>='", "'+'", "'-'", "'*'", "'/'", "'%'", "'!'", "'true'", "'false'", "'['", "']'", "'.'", "'NODETYPE'", "'this'", "'->'", "'FUNCTION'", "'EQUIPMENT'", "'PROFILE'", "'STATUS'", "'RESOURCE'", "'ALL'", "'LINK'", "'count()'", "'sum()'", "'min()'", "'max()'", "'mean()'", "'deviation()'", "'erlangB()'", "'clear()'", "'MONTH'", "'WEEK'", "'DAY'", "'HOUR'", "'RED'", "'AMBER'", "'GREEN'", "'YELLOW'", "'METRIC'", "'CAP'", "'FORECAST'", "'FORECAST_CAP'", "'TRENDED'", "'UTILIZATION'", "'TOLERANCE'", "'DERIVED'", "'AVG'", "'BH'"
     };
     public static final int T__68=68;
     public static final int T__69=69;
@@ -71,8 +71,11 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final int T__43=43;
     public static final int T__40=40;
     public static final int T__41=41;
+    public static final int T__80=80;
     public static final int T__46=46;
+    public static final int T__81=81;
     public static final int T__47=47;
+    public static final int T__82=82;
     public static final int T__44=44;
     public static final int T__45=45;
     public static final int T__48=48;
@@ -98,6 +101,8 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final int T__75=75;
     public static final int T__74=74;
     public static final int T__73=73;
+    public static final int T__79=79;
+    public static final int T__78=78;
     public static final int T__77=77;
 
     // delegates
@@ -2385,7 +2390,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReferenceAssignmentStatement"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:962:1: ruleReferenceAssignmentStatement returns [EObject current=null] : ( () ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleAbsoluteRef ) ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:962:1: ruleReferenceAssignmentStatement returns [EObject current=null] : ( () ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleNodeTypeRef ) ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) ;
     public final EObject ruleReferenceAssignmentStatement() throws RecognitionException {
         EObject current = null;
 
@@ -2400,11 +2405,11 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:965:28: ( ( () ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleAbsoluteRef ) ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:966:1: ( () ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleAbsoluteRef ) ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:965:28: ( ( () ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleNodeTypeRef ) ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:966:1: ( () ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleNodeTypeRef ) ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:966:1: ( () ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleAbsoluteRef ) ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:966:2: () ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleAbsoluteRef ) ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:966:1: ( () ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleNodeTypeRef ) ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:966:2: () ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleNodeTypeRef ) ) ) otherlv_2= '=' ( (lv_expression_3_0= ruleExpression ) )
             {
             // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:966:2: ()
             // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:967:5: 
@@ -2417,13 +2422,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:972:2: ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleAbsoluteRef ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:973:1: ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleAbsoluteRef ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:972:2: ( ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleNodeTypeRef ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:973:1: ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleNodeTypeRef ) )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:973:1: ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleAbsoluteRef ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:974:1: (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleAbsoluteRef )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:973:1: ( (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleNodeTypeRef ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:974:1: (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleNodeTypeRef )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:974:1: (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleAbsoluteRef )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:974:1: (lv_assignmentRef_1_1= ruleContextRef | lv_assignmentRef_1_2= ruleNodeTypeRef )
             int alt14=2;
             int LA14_0 = input.LA(1);
 
@@ -2466,13 +2471,13 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:990:8: lv_assignmentRef_1_2= ruleAbsoluteRef
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:990:8: lv_assignmentRef_1_2= ruleNodeTypeRef
                     {
                      
-                    	        newCompositeNode(grammarAccess.getReferenceAssignmentStatementAccess().getAssignmentRefAbsoluteRefParserRuleCall_1_0_1()); 
+                    	        newCompositeNode(grammarAccess.getReferenceAssignmentStatementAccess().getAssignmentRefNodeTypeRefParserRuleCall_1_0_1()); 
                     	    
-                    pushFollow(FOLLOW_ruleAbsoluteRef_in_ruleReferenceAssignmentStatement2085);
-                    lv_assignmentRef_1_2=ruleAbsoluteRef();
+                    pushFollow(FOLLOW_ruleNodeTypeRef_in_ruleReferenceAssignmentStatement2085);
+                    lv_assignmentRef_1_2=ruleNodeTypeRef();
 
                     state._fsp--;
 
@@ -2484,7 +2489,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                            			current, 
                            			"assignmentRef",
                             		lv_assignmentRef_1_2, 
-                            		"AbsoluteRef");
+                            		"NodeTypeRef");
                     	        afterParserOrEnumRuleCall();
                     	    
 
@@ -5864,22 +5869,22 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleReference"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2208:1: ruleReference returns [EObject current=null] : (this_ContextRef_0= ruleContextRef | this_AbsoluteRef_1= ruleAbsoluteRef ) ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2208:1: ruleReference returns [EObject current=null] : (this_ContextRef_0= ruleContextRef | this_NodeTypeRef_1= ruleNodeTypeRef ) ;
     public final EObject ruleReference() throws RecognitionException {
         EObject current = null;
 
         EObject this_ContextRef_0 = null;
 
-        EObject this_AbsoluteRef_1 = null;
+        EObject this_NodeTypeRef_1 = null;
 
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2211:28: ( (this_ContextRef_0= ruleContextRef | this_AbsoluteRef_1= ruleAbsoluteRef ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2212:1: (this_ContextRef_0= ruleContextRef | this_AbsoluteRef_1= ruleAbsoluteRef )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2211:28: ( (this_ContextRef_0= ruleContextRef | this_NodeTypeRef_1= ruleNodeTypeRef ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2212:1: (this_ContextRef_0= ruleContextRef | this_NodeTypeRef_1= ruleNodeTypeRef )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2212:1: (this_ContextRef_0= ruleContextRef | this_AbsoluteRef_1= ruleAbsoluteRef )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2212:1: (this_ContextRef_0= ruleContextRef | this_NodeTypeRef_1= ruleNodeTypeRef )
             int alt37=2;
             int LA37_0 = input.LA(1);
 
@@ -5915,18 +5920,18 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2223:5: this_AbsoluteRef_1= ruleAbsoluteRef
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2223:5: this_NodeTypeRef_1= ruleNodeTypeRef
                     {
                      
-                            newCompositeNode(grammarAccess.getReferenceAccess().getAbsoluteRefParserRuleCall_1()); 
+                            newCompositeNode(grammarAccess.getReferenceAccess().getNodeTypeRefParserRuleCall_1()); 
                         
-                    pushFollow(FOLLOW_ruleAbsoluteRef_in_ruleReference5082);
-                    this_AbsoluteRef_1=ruleAbsoluteRef();
+                    pushFollow(FOLLOW_ruleNodeTypeRef_in_ruleReference5082);
+                    this_NodeTypeRef_1=ruleNodeTypeRef();
 
                     state._fsp--;
 
                      
-                            current = this_AbsoluteRef_1; 
+                            current = this_NodeTypeRef_1; 
                             afterParserOrEnumRuleCall();
                         
 
@@ -5952,26 +5957,26 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleReference"
 
 
-    // $ANTLR start "entryRuleAbsoluteRef"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2239:1: entryRuleAbsoluteRef returns [EObject current=null] : iv_ruleAbsoluteRef= ruleAbsoluteRef EOF ;
-    public final EObject entryRuleAbsoluteRef() throws RecognitionException {
+    // $ANTLR start "entryRuleNodeTypeRef"
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2239:1: entryRuleNodeTypeRef returns [EObject current=null] : iv_ruleNodeTypeRef= ruleNodeTypeRef EOF ;
+    public final EObject entryRuleNodeTypeRef() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleAbsoluteRef = null;
+        EObject iv_ruleNodeTypeRef = null;
 
 
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2240:2: (iv_ruleAbsoluteRef= ruleAbsoluteRef EOF )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2241:2: iv_ruleAbsoluteRef= ruleAbsoluteRef EOF
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2240:2: (iv_ruleNodeTypeRef= ruleNodeTypeRef EOF )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2241:2: iv_ruleNodeTypeRef= ruleNodeTypeRef EOF
             {
-             newCompositeNode(grammarAccess.getAbsoluteRefRule()); 
-            pushFollow(FOLLOW_ruleAbsoluteRef_in_entryRuleAbsoluteRef5117);
-            iv_ruleAbsoluteRef=ruleAbsoluteRef();
+             newCompositeNode(grammarAccess.getNodeTypeRefRule()); 
+            pushFollow(FOLLOW_ruleNodeTypeRef_in_entryRuleNodeTypeRef5117);
+            iv_ruleNodeTypeRef=ruleNodeTypeRef();
 
             state._fsp--;
 
-             current =iv_ruleAbsoluteRef; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleAbsoluteRef5127); 
+             current =iv_ruleNodeTypeRef; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleNodeTypeRef5127); 
 
             }
 
@@ -5985,12 +5990,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleAbsoluteRef"
+    // $ANTLR end "entryRuleNodeTypeRef"
 
 
-    // $ANTLR start "ruleAbsoluteRef"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2248:1: ruleAbsoluteRef returns [EObject current=null] : ( () otherlv_1= 'NODETYPE' ( (otherlv_2= RULE_ID ) ) ( (lv_primaryRef_3_0= rulePrimaryRef ) ) ) ;
-    public final EObject ruleAbsoluteRef() throws RecognitionException {
+    // $ANTLR start "ruleNodeTypeRef"
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2248:1: ruleNodeTypeRef returns [EObject current=null] : ( () otherlv_1= 'NODETYPE' ( (otherlv_2= RULE_ID ) ) ( (lv_primaryRef_3_0= rulePrimaryRef ) ) ) ;
+    public final EObject ruleNodeTypeRef() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_1=null;
@@ -6012,15 +6017,15 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             {
 
                     current = forceCreateModelElement(
-                        grammarAccess.getAbsoluteRefAccess().getAbsoluteRefAction_0(),
+                        grammarAccess.getNodeTypeRefAccess().getNodeTypeRefAction_0(),
                         current);
                 
 
             }
 
-            otherlv_1=(Token)match(input,47,FOLLOW_47_in_ruleAbsoluteRef5173); 
+            otherlv_1=(Token)match(input,47,FOLLOW_47_in_ruleNodeTypeRef5173); 
 
-                	newLeafNode(otherlv_1, grammarAccess.getAbsoluteRefAccess().getNODETYPEKeyword_1());
+                	newLeafNode(otherlv_1, grammarAccess.getNodeTypeRefAccess().getNODETYPEKeyword_1());
                 
             // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2262:1: ( (otherlv_2= RULE_ID ) )
             // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2263:1: (otherlv_2= RULE_ID )
@@ -6030,12 +6035,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             {
 
             			if (current==null) {
-            	            current = createModelElement(grammarAccess.getAbsoluteRefRule());
+            	            current = createModelElement(grammarAccess.getNodeTypeRefRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleAbsoluteRef5193); 
+            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleNodeTypeRef5193); 
 
-            		newLeafNode(otherlv_2, grammarAccess.getAbsoluteRefAccess().getNodetypeNodeTypeCrossReference_2_0()); 
+            		newLeafNode(otherlv_2, grammarAccess.getNodeTypeRefAccess().getNodetypeNodeTypeCrossReference_2_0()); 
             	
 
             }
@@ -6050,16 +6055,16 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2277:3: lv_primaryRef_3_0= rulePrimaryRef
             {
              
-            	        newCompositeNode(grammarAccess.getAbsoluteRefAccess().getPrimaryRefPrimaryRefParserRuleCall_3_0()); 
+            	        newCompositeNode(grammarAccess.getNodeTypeRefAccess().getPrimaryRefPrimaryRefParserRuleCall_3_0()); 
             	    
-            pushFollow(FOLLOW_rulePrimaryRef_in_ruleAbsoluteRef5214);
+            pushFollow(FOLLOW_rulePrimaryRef_in_ruleNodeTypeRef5214);
             lv_primaryRef_3_0=rulePrimaryRef();
 
             state._fsp--;
 
 
             	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getAbsoluteRefRule());
+            	            current = createModelElementForParent(grammarAccess.getNodeTypeRefRule());
             	        }
                    		set(
                    			current, 
@@ -6091,7 +6096,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleAbsoluteRef"
+    // $ANTLR end "ruleNodeTypeRef"
 
 
     // $ANTLR start "entryRuleContextRef"
@@ -6172,7 +6177,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             if ( (LA38_0==46) ) {
                 alt38=1;
             }
-            else if ( ((LA38_0>=68 && LA38_0<=75)) ) {
+            else if ( ((LA38_0>=73 && LA38_0<=80)) ) {
                 alt38=2;
             }
             else {
@@ -6755,10 +6760,10 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                 alt42=2;
                 }
                 break;
-            case 64:
-            case 65:
-            case 66:
-            case 67:
+            case 69:
+            case 70:
+            case 71:
+            case 72:
                 {
                 alt42=3;
                 }
@@ -7176,24 +7181,25 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRangeRef"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2677:1: ruleRangeRef returns [EObject current=null] : ( ( (lv_valuerange_0_0= ruleValueRange ) ) ( (lv_kind_1_0= ruleValueKind ) )? ( (lv_period_2_0= RULE_NUMBER ) )? ) ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2677:1: ruleRangeRef returns [EObject current=null] : ( ( (lv_valuerange_0_0= ruleValueRange ) ) ( (lv_kind_1_0= ruleValueKind ) )? ( (lv_interval_2_0= ruleInterval ) )? ) ;
     public final EObject ruleRangeRef() throws RecognitionException {
         EObject current = null;
 
-        Token lv_period_2_0=null;
         Enumerator lv_valuerange_0_0 = null;
 
         Enumerator lv_kind_1_0 = null;
+
+        EObject lv_interval_2_0 = null;
 
 
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2680:28: ( ( ( (lv_valuerange_0_0= ruleValueRange ) ) ( (lv_kind_1_0= ruleValueKind ) )? ( (lv_period_2_0= RULE_NUMBER ) )? ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2681:1: ( ( (lv_valuerange_0_0= ruleValueRange ) ) ( (lv_kind_1_0= ruleValueKind ) )? ( (lv_period_2_0= RULE_NUMBER ) )? )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2680:28: ( ( ( (lv_valuerange_0_0= ruleValueRange ) ) ( (lv_kind_1_0= ruleValueKind ) )? ( (lv_interval_2_0= ruleInterval ) )? ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2681:1: ( ( (lv_valuerange_0_0= ruleValueRange ) ) ( (lv_kind_1_0= ruleValueKind ) )? ( (lv_interval_2_0= ruleInterval ) )? )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2681:1: ( ( (lv_valuerange_0_0= ruleValueRange ) ) ( (lv_kind_1_0= ruleValueKind ) )? ( (lv_period_2_0= RULE_NUMBER ) )? )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2681:2: ( (lv_valuerange_0_0= ruleValueRange ) ) ( (lv_kind_1_0= ruleValueKind ) )? ( (lv_period_2_0= RULE_NUMBER ) )?
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2681:1: ( ( (lv_valuerange_0_0= ruleValueRange ) ) ( (lv_kind_1_0= ruleValueKind ) )? ( (lv_interval_2_0= ruleInterval ) )? )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2681:2: ( (lv_valuerange_0_0= ruleValueRange ) ) ( (lv_kind_1_0= ruleValueKind ) )? ( (lv_interval_2_0= ruleInterval ) )?
             {
             // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2681:2: ( (lv_valuerange_0_0= ruleValueRange ) )
             // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2682:1: (lv_valuerange_0_0= ruleValueRange )
@@ -7230,7 +7236,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
             int alt44=2;
             int LA44_0 = input.LA(1);
 
-            if ( ((LA44_0>=76 && LA44_0<=77)) ) {
+            if ( ((LA44_0>=81 && LA44_0<=82)) ) {
                 alt44=1;
             }
             switch (alt44) {
@@ -7268,33 +7274,38 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2717:3: ( (lv_period_2_0= RULE_NUMBER ) )?
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2717:3: ( (lv_interval_2_0= ruleInterval ) )?
             int alt45=2;
             int LA45_0 = input.LA(1);
 
-            if ( (LA45_0==RULE_NUMBER) ) {
+            if ( (LA45_0==RULE_NUMBER||(LA45_0>=65 && LA45_0<=68)) ) {
                 alt45=1;
             }
             switch (alt45) {
                 case 1 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2718:1: (lv_period_2_0= RULE_NUMBER )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2718:1: (lv_interval_2_0= ruleInterval )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2718:1: (lv_period_2_0= RULE_NUMBER )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2719:3: lv_period_2_0= RULE_NUMBER
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2718:1: (lv_interval_2_0= ruleInterval )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2719:3: lv_interval_2_0= ruleInterval
                     {
-                    lv_period_2_0=(Token)match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_ruleRangeRef6220); 
+                     
+                    	        newCompositeNode(grammarAccess.getRangeRefAccess().getIntervalIntervalParserRuleCall_2_0()); 
+                    	    
+                    pushFollow(FOLLOW_ruleInterval_in_ruleRangeRef6224);
+                    lv_interval_2_0=ruleInterval();
 
-                    			newLeafNode(lv_period_2_0, grammarAccess.getRangeRefAccess().getPeriodNUMBERTerminalRuleCall_2_0()); 
-                    		
+                    state._fsp--;
+
 
                     	        if (current==null) {
-                    	            current = createModelElement(grammarAccess.getRangeRefRule());
+                    	            current = createModelElementForParent(grammarAccess.getRangeRefRule());
                     	        }
-                           		setWithLastConsumed(
+                           		set(
                            			current, 
-                           			"period",
-                            		lv_period_2_0, 
-                            		"NUMBER");
+                           			"interval",
+                            		lv_interval_2_0, 
+                            		"Interval");
+                    	        afterParserOrEnumRuleCall();
                     	    
 
                     }
@@ -7325,8 +7336,165 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleRangeRef"
 
 
+    // $ANTLR start "entryRuleInterval"
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2743:1: entryRuleInterval returns [EObject current=null] : iv_ruleInterval= ruleInterval EOF ;
+    public final EObject entryRuleInterval() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleInterval = null;
+
+
+        try {
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2744:2: (iv_ruleInterval= ruleInterval EOF )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2745:2: iv_ruleInterval= ruleInterval EOF
+            {
+             newCompositeNode(grammarAccess.getIntervalRule()); 
+            pushFollow(FOLLOW_ruleInterval_in_entryRuleInterval6261);
+            iv_ruleInterval=ruleInterval();
+
+            state._fsp--;
+
+             current =iv_ruleInterval; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleInterval6271); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleInterval"
+
+
+    // $ANTLR start "ruleInterval"
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2752:1: ruleInterval returns [EObject current=null] : ( ( (lv_interval_0_0= RULE_NUMBER ) ) | ( (lv_kind_1_0= ruleIntervalKind ) ) ) ;
+    public final EObject ruleInterval() throws RecognitionException {
+        EObject current = null;
+
+        Token lv_interval_0_0=null;
+        Enumerator lv_kind_1_0 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2755:28: ( ( ( (lv_interval_0_0= RULE_NUMBER ) ) | ( (lv_kind_1_0= ruleIntervalKind ) ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2756:1: ( ( (lv_interval_0_0= RULE_NUMBER ) ) | ( (lv_kind_1_0= ruleIntervalKind ) ) )
+            {
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2756:1: ( ( (lv_interval_0_0= RULE_NUMBER ) ) | ( (lv_kind_1_0= ruleIntervalKind ) ) )
+            int alt46=2;
+            int LA46_0 = input.LA(1);
+
+            if ( (LA46_0==RULE_NUMBER) ) {
+                alt46=1;
+            }
+            else if ( ((LA46_0>=65 && LA46_0<=68)) ) {
+                alt46=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 46, 0, input);
+
+                throw nvae;
+            }
+            switch (alt46) {
+                case 1 :
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2756:2: ( (lv_interval_0_0= RULE_NUMBER ) )
+                    {
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2756:2: ( (lv_interval_0_0= RULE_NUMBER ) )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2757:1: (lv_interval_0_0= RULE_NUMBER )
+                    {
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2757:1: (lv_interval_0_0= RULE_NUMBER )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2758:3: lv_interval_0_0= RULE_NUMBER
+                    {
+                    lv_interval_0_0=(Token)match(input,RULE_NUMBER,FOLLOW_RULE_NUMBER_in_ruleInterval6313); 
+
+                    			newLeafNode(lv_interval_0_0, grammarAccess.getIntervalAccess().getIntervalNUMBERTerminalRuleCall_0_0()); 
+                    		
+
+                    	        if (current==null) {
+                    	            current = createModelElement(grammarAccess.getIntervalRule());
+                    	        }
+                           		setWithLastConsumed(
+                           			current, 
+                           			"interval",
+                            		lv_interval_0_0, 
+                            		"NUMBER");
+                    	    
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
+                case 2 :
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2775:6: ( (lv_kind_1_0= ruleIntervalKind ) )
+                    {
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2775:6: ( (lv_kind_1_0= ruleIntervalKind ) )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2776:1: (lv_kind_1_0= ruleIntervalKind )
+                    {
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2776:1: (lv_kind_1_0= ruleIntervalKind )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2777:3: lv_kind_1_0= ruleIntervalKind
+                    {
+                     
+                    	        newCompositeNode(grammarAccess.getIntervalAccess().getKindIntervalKindEnumRuleCall_1_0()); 
+                    	    
+                    pushFollow(FOLLOW_ruleIntervalKind_in_ruleInterval6345);
+                    lv_kind_1_0=ruleIntervalKind();
+
+                    state._fsp--;
+
+
+                    	        if (current==null) {
+                    	            current = createModelElementForParent(grammarAccess.getIntervalRule());
+                    	        }
+                           		set(
+                           			current, 
+                           			"kind",
+                            		lv_kind_1_0, 
+                            		"IntervalKind");
+                    	        afterParserOrEnumRuleCall();
+                    	    
+
+                    }
+
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleInterval"
+
+
     // $ANTLR start "entryRuleLinkRef"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2743:1: entryRuleLinkRef returns [EObject current=null] : iv_ruleLinkRef= ruleLinkRef EOF ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2801:1: entryRuleLinkRef returns [EObject current=null] : iv_ruleLinkRef= ruleLinkRef EOF ;
     public final EObject entryRuleLinkRef() throws RecognitionException {
         EObject current = null;
 
@@ -7334,17 +7502,17 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2744:2: (iv_ruleLinkRef= ruleLinkRef EOF )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2745:2: iv_ruleLinkRef= ruleLinkRef EOF
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2802:2: (iv_ruleLinkRef= ruleLinkRef EOF )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2803:2: iv_ruleLinkRef= ruleLinkRef EOF
             {
              newCompositeNode(grammarAccess.getLinkRefRule()); 
-            pushFollow(FOLLOW_ruleLinkRef_in_entryRuleLinkRef6262);
+            pushFollow(FOLLOW_ruleLinkRef_in_entryRuleLinkRef6381);
             iv_ruleLinkRef=ruleLinkRef();
 
             state._fsp--;
 
              current =iv_ruleLinkRef; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleLinkRef6272); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleLinkRef6391); 
 
             }
 
@@ -7362,7 +7530,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLinkRef"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2752:1: ruleLinkRef returns [EObject current=null] : ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) ) ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2810:1: ruleLinkRef returns [EObject current=null] : ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) ) ;
     public final EObject ruleLinkRef() throws RecognitionException {
         EObject current = null;
 
@@ -7372,14 +7540,14 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2755:28: ( ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2756:1: ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2813:28: ( ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2814:1: ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2756:1: ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2756:2: () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2814:1: ( () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2814:2: () otherlv_1= 'LINK' ( (otherlv_2= RULE_ID ) )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2756:2: ()
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2757:5: 
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2814:2: ()
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2815:5: 
             {
 
                     current = forceCreateModelElement(
@@ -7389,22 +7557,22 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,56,FOLLOW_56_in_ruleLinkRef6318); 
+            otherlv_1=(Token)match(input,56,FOLLOW_56_in_ruleLinkRef6437); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getLinkRefAccess().getLINKKeyword_1());
                 
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2766:1: ( (otherlv_2= RULE_ID ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2767:1: (otherlv_2= RULE_ID )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2824:1: ( (otherlv_2= RULE_ID ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2825:1: (otherlv_2= RULE_ID )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2767:1: (otherlv_2= RULE_ID )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2768:3: otherlv_2= RULE_ID
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2825:1: (otherlv_2= RULE_ID )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2826:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getLinkRefRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleLinkRef6338); 
+            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleLinkRef6457); 
 
             		newLeafNode(otherlv_2, grammarAccess.getLinkRefAccess().getLinkRelationshipCrossReference_2_0()); 
             	
@@ -7435,7 +7603,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleNativeFunction"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2787:1: ruleNativeFunction returns [Enumerator current=null] : ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) | (enumLiteral_6= 'erlangB()' ) ) ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2845:1: ruleNativeFunction returns [Enumerator current=null] : ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) | (enumLiteral_6= 'erlangB()' ) | (enumLiteral_7= 'clear()' ) ) ;
     public final Enumerator ruleNativeFunction() throws RecognitionException {
         Enumerator current = null;
 
@@ -7446,65 +7614,71 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
         Token enumLiteral_4=null;
         Token enumLiteral_5=null;
         Token enumLiteral_6=null;
+        Token enumLiteral_7=null;
 
          enterRule(); 
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2789:28: ( ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) | (enumLiteral_6= 'erlangB()' ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2790:1: ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) | (enumLiteral_6= 'erlangB()' ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2847:28: ( ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) | (enumLiteral_6= 'erlangB()' ) | (enumLiteral_7= 'clear()' ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:1: ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) | (enumLiteral_6= 'erlangB()' ) | (enumLiteral_7= 'clear()' ) )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2790:1: ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) | (enumLiteral_6= 'erlangB()' ) )
-            int alt46=7;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:1: ( (enumLiteral_0= 'count()' ) | (enumLiteral_1= 'sum()' ) | (enumLiteral_2= 'min()' ) | (enumLiteral_3= 'max()' ) | (enumLiteral_4= 'mean()' ) | (enumLiteral_5= 'deviation()' ) | (enumLiteral_6= 'erlangB()' ) | (enumLiteral_7= 'clear()' ) )
+            int alt47=8;
             switch ( input.LA(1) ) {
             case 57:
                 {
-                alt46=1;
+                alt47=1;
                 }
                 break;
             case 58:
                 {
-                alt46=2;
+                alt47=2;
                 }
                 break;
             case 59:
                 {
-                alt46=3;
+                alt47=3;
                 }
                 break;
             case 60:
                 {
-                alt46=4;
+                alt47=4;
                 }
                 break;
             case 61:
                 {
-                alt46=5;
+                alt47=5;
                 }
                 break;
             case 62:
                 {
-                alt46=6;
+                alt47=6;
                 }
                 break;
             case 63:
                 {
-                alt46=7;
+                alt47=7;
+                }
+                break;
+            case 64:
+                {
+                alt47=8;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 46, 0, input);
+                    new NoViableAltException("", 47, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt46) {
+            switch (alt47) {
                 case 1 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2790:2: (enumLiteral_0= 'count()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:2: (enumLiteral_0= 'count()' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2790:2: (enumLiteral_0= 'count()' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2790:4: enumLiteral_0= 'count()'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:2: (enumLiteral_0= 'count()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2848:4: enumLiteral_0= 'count()'
                     {
-                    enumLiteral_0=(Token)match(input,57,FOLLOW_57_in_ruleNativeFunction6388); 
+                    enumLiteral_0=(Token)match(input,57,FOLLOW_57_in_ruleNativeFunction6507); 
 
                             current = grammarAccess.getNativeFunctionAccess().getCOUNTEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_0, grammarAccess.getNativeFunctionAccess().getCOUNTEnumLiteralDeclaration_0()); 
@@ -7516,12 +7690,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2796:6: (enumLiteral_1= 'sum()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2854:6: (enumLiteral_1= 'sum()' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2796:6: (enumLiteral_1= 'sum()' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2796:8: enumLiteral_1= 'sum()'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2854:6: (enumLiteral_1= 'sum()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2854:8: enumLiteral_1= 'sum()'
                     {
-                    enumLiteral_1=(Token)match(input,58,FOLLOW_58_in_ruleNativeFunction6405); 
+                    enumLiteral_1=(Token)match(input,58,FOLLOW_58_in_ruleNativeFunction6524); 
 
                             current = grammarAccess.getNativeFunctionAccess().getSUMEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_1, grammarAccess.getNativeFunctionAccess().getSUMEnumLiteralDeclaration_1()); 
@@ -7533,12 +7707,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2802:6: (enumLiteral_2= 'min()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2860:6: (enumLiteral_2= 'min()' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2802:6: (enumLiteral_2= 'min()' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2802:8: enumLiteral_2= 'min()'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2860:6: (enumLiteral_2= 'min()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2860:8: enumLiteral_2= 'min()'
                     {
-                    enumLiteral_2=(Token)match(input,59,FOLLOW_59_in_ruleNativeFunction6422); 
+                    enumLiteral_2=(Token)match(input,59,FOLLOW_59_in_ruleNativeFunction6541); 
 
                             current = grammarAccess.getNativeFunctionAccess().getMINEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_2, grammarAccess.getNativeFunctionAccess().getMINEnumLiteralDeclaration_2()); 
@@ -7550,12 +7724,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2808:6: (enumLiteral_3= 'max()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2866:6: (enumLiteral_3= 'max()' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2808:6: (enumLiteral_3= 'max()' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2808:8: enumLiteral_3= 'max()'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2866:6: (enumLiteral_3= 'max()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2866:8: enumLiteral_3= 'max()'
                     {
-                    enumLiteral_3=(Token)match(input,60,FOLLOW_60_in_ruleNativeFunction6439); 
+                    enumLiteral_3=(Token)match(input,60,FOLLOW_60_in_ruleNativeFunction6558); 
 
                             current = grammarAccess.getNativeFunctionAccess().getMAXEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_3, grammarAccess.getNativeFunctionAccess().getMAXEnumLiteralDeclaration_3()); 
@@ -7567,12 +7741,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2814:6: (enumLiteral_4= 'mean()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2872:6: (enumLiteral_4= 'mean()' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2814:6: (enumLiteral_4= 'mean()' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2814:8: enumLiteral_4= 'mean()'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2872:6: (enumLiteral_4= 'mean()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2872:8: enumLiteral_4= 'mean()'
                     {
-                    enumLiteral_4=(Token)match(input,61,FOLLOW_61_in_ruleNativeFunction6456); 
+                    enumLiteral_4=(Token)match(input,61,FOLLOW_61_in_ruleNativeFunction6575); 
 
                             current = grammarAccess.getNativeFunctionAccess().getMEANEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_4, grammarAccess.getNativeFunctionAccess().getMEANEnumLiteralDeclaration_4()); 
@@ -7584,12 +7758,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2820:6: (enumLiteral_5= 'deviation()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2878:6: (enumLiteral_5= 'deviation()' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2820:6: (enumLiteral_5= 'deviation()' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2820:8: enumLiteral_5= 'deviation()'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2878:6: (enumLiteral_5= 'deviation()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2878:8: enumLiteral_5= 'deviation()'
                     {
-                    enumLiteral_5=(Token)match(input,62,FOLLOW_62_in_ruleNativeFunction6473); 
+                    enumLiteral_5=(Token)match(input,62,FOLLOW_62_in_ruleNativeFunction6592); 
 
                             current = grammarAccess.getNativeFunctionAccess().getDEVIATIONEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_5, grammarAccess.getNativeFunctionAccess().getDEVIATIONEnumLiteralDeclaration_5()); 
@@ -7601,15 +7775,32 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2826:6: (enumLiteral_6= 'erlangB()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2884:6: (enumLiteral_6= 'erlangB()' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2826:6: (enumLiteral_6= 'erlangB()' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2826:8: enumLiteral_6= 'erlangB()'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2884:6: (enumLiteral_6= 'erlangB()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2884:8: enumLiteral_6= 'erlangB()'
                     {
-                    enumLiteral_6=(Token)match(input,63,FOLLOW_63_in_ruleNativeFunction6490); 
+                    enumLiteral_6=(Token)match(input,63,FOLLOW_63_in_ruleNativeFunction6609); 
 
                             current = grammarAccess.getNativeFunctionAccess().getERLANGBEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_6, grammarAccess.getNativeFunctionAccess().getERLANGBEnumLiteralDeclaration_6()); 
+                        
+
+                    }
+
+
+                    }
+                    break;
+                case 8 :
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2890:6: (enumLiteral_7= 'clear()' )
+                    {
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2890:6: (enumLiteral_7= 'clear()' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2890:8: enumLiteral_7= 'clear()'
+                    {
+                    enumLiteral_7=(Token)match(input,64,FOLLOW_64_in_ruleNativeFunction6626); 
+
+                            current = grammarAccess.getNativeFunctionAccess().getCLEAREnumLiteralDeclaration_7().getEnumLiteral().getInstance();
+                            newLeafNode(enumLiteral_7, grammarAccess.getNativeFunctionAccess().getCLEAREnumLiteralDeclaration_7()); 
                         
 
                     }
@@ -7637,8 +7828,142 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleNativeFunction"
 
 
+    // $ANTLR start "ruleIntervalKind"
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2900:1: ruleIntervalKind returns [Enumerator current=null] : ( (enumLiteral_0= 'MONTH' ) | (enumLiteral_1= 'WEEK' ) | (enumLiteral_2= 'DAY' ) | (enumLiteral_3= 'HOUR' ) ) ;
+    public final Enumerator ruleIntervalKind() throws RecognitionException {
+        Enumerator current = null;
+
+        Token enumLiteral_0=null;
+        Token enumLiteral_1=null;
+        Token enumLiteral_2=null;
+        Token enumLiteral_3=null;
+
+         enterRule(); 
+        try {
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2902:28: ( ( (enumLiteral_0= 'MONTH' ) | (enumLiteral_1= 'WEEK' ) | (enumLiteral_2= 'DAY' ) | (enumLiteral_3= 'HOUR' ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2903:1: ( (enumLiteral_0= 'MONTH' ) | (enumLiteral_1= 'WEEK' ) | (enumLiteral_2= 'DAY' ) | (enumLiteral_3= 'HOUR' ) )
+            {
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2903:1: ( (enumLiteral_0= 'MONTH' ) | (enumLiteral_1= 'WEEK' ) | (enumLiteral_2= 'DAY' ) | (enumLiteral_3= 'HOUR' ) )
+            int alt48=4;
+            switch ( input.LA(1) ) {
+            case 65:
+                {
+                alt48=1;
+                }
+                break;
+            case 66:
+                {
+                alt48=2;
+                }
+                break;
+            case 67:
+                {
+                alt48=3;
+                }
+                break;
+            case 68:
+                {
+                alt48=4;
+                }
+                break;
+            default:
+                NoViableAltException nvae =
+                    new NoViableAltException("", 48, 0, input);
+
+                throw nvae;
+            }
+
+            switch (alt48) {
+                case 1 :
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2903:2: (enumLiteral_0= 'MONTH' )
+                    {
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2903:2: (enumLiteral_0= 'MONTH' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2903:4: enumLiteral_0= 'MONTH'
+                    {
+                    enumLiteral_0=(Token)match(input,65,FOLLOW_65_in_ruleIntervalKind6671); 
+
+                            current = grammarAccess.getIntervalKindAccess().getMONTHEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+                            newLeafNode(enumLiteral_0, grammarAccess.getIntervalKindAccess().getMONTHEnumLiteralDeclaration_0()); 
+                        
+
+                    }
+
+
+                    }
+                    break;
+                case 2 :
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2909:6: (enumLiteral_1= 'WEEK' )
+                    {
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2909:6: (enumLiteral_1= 'WEEK' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2909:8: enumLiteral_1= 'WEEK'
+                    {
+                    enumLiteral_1=(Token)match(input,66,FOLLOW_66_in_ruleIntervalKind6688); 
+
+                            current = grammarAccess.getIntervalKindAccess().getWEEKEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+                            newLeafNode(enumLiteral_1, grammarAccess.getIntervalKindAccess().getWEEKEnumLiteralDeclaration_1()); 
+                        
+
+                    }
+
+
+                    }
+                    break;
+                case 3 :
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2915:6: (enumLiteral_2= 'DAY' )
+                    {
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2915:6: (enumLiteral_2= 'DAY' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2915:8: enumLiteral_2= 'DAY'
+                    {
+                    enumLiteral_2=(Token)match(input,67,FOLLOW_67_in_ruleIntervalKind6705); 
+
+                            current = grammarAccess.getIntervalKindAccess().getDAYEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+                            newLeafNode(enumLiteral_2, grammarAccess.getIntervalKindAccess().getDAYEnumLiteralDeclaration_2()); 
+                        
+
+                    }
+
+
+                    }
+                    break;
+                case 4 :
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2921:6: (enumLiteral_3= 'HOUR' )
+                    {
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2921:6: (enumLiteral_3= 'HOUR' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2921:8: enumLiteral_3= 'HOUR'
+                    {
+                    enumLiteral_3=(Token)match(input,68,FOLLOW_68_in_ruleIntervalKind6722); 
+
+                            current = grammarAccess.getIntervalKindAccess().getHOUREnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+                            newLeafNode(enumLiteral_3, grammarAccess.getIntervalKindAccess().getHOUREnumLiteralDeclaration_3()); 
+                        
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleIntervalKind"
+
+
     // $ANTLR start "ruleToleranceLevel"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2836:1: ruleToleranceLevel returns [Enumerator current=null] : ( (enumLiteral_0= 'RED' ) | (enumLiteral_1= 'AMBER' ) | (enumLiteral_2= 'GREEN' ) | (enumLiteral_3= 'YELLOW' ) ) ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2931:1: ruleToleranceLevel returns [Enumerator current=null] : ( (enumLiteral_0= 'RED' ) | (enumLiteral_1= 'AMBER' ) | (enumLiteral_2= 'GREEN' ) | (enumLiteral_3= 'YELLOW' ) ) ;
     public final Enumerator ruleToleranceLevel() throws RecognitionException {
         Enumerator current = null;
 
@@ -7649,47 +7974,47 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
          enterRule(); 
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2838:28: ( ( (enumLiteral_0= 'RED' ) | (enumLiteral_1= 'AMBER' ) | (enumLiteral_2= 'GREEN' ) | (enumLiteral_3= 'YELLOW' ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2839:1: ( (enumLiteral_0= 'RED' ) | (enumLiteral_1= 'AMBER' ) | (enumLiteral_2= 'GREEN' ) | (enumLiteral_3= 'YELLOW' ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2933:28: ( ( (enumLiteral_0= 'RED' ) | (enumLiteral_1= 'AMBER' ) | (enumLiteral_2= 'GREEN' ) | (enumLiteral_3= 'YELLOW' ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2934:1: ( (enumLiteral_0= 'RED' ) | (enumLiteral_1= 'AMBER' ) | (enumLiteral_2= 'GREEN' ) | (enumLiteral_3= 'YELLOW' ) )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2839:1: ( (enumLiteral_0= 'RED' ) | (enumLiteral_1= 'AMBER' ) | (enumLiteral_2= 'GREEN' ) | (enumLiteral_3= 'YELLOW' ) )
-            int alt47=4;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2934:1: ( (enumLiteral_0= 'RED' ) | (enumLiteral_1= 'AMBER' ) | (enumLiteral_2= 'GREEN' ) | (enumLiteral_3= 'YELLOW' ) )
+            int alt49=4;
             switch ( input.LA(1) ) {
-            case 64:
+            case 69:
                 {
-                alt47=1;
+                alt49=1;
                 }
                 break;
-            case 65:
+            case 70:
                 {
-                alt47=2;
+                alt49=2;
                 }
                 break;
-            case 66:
+            case 71:
                 {
-                alt47=3;
+                alt49=3;
                 }
                 break;
-            case 67:
+            case 72:
                 {
-                alt47=4;
+                alt49=4;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 47, 0, input);
+                    new NoViableAltException("", 49, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt47) {
+            switch (alt49) {
                 case 1 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2839:2: (enumLiteral_0= 'RED' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2934:2: (enumLiteral_0= 'RED' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2839:2: (enumLiteral_0= 'RED' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2839:4: enumLiteral_0= 'RED'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2934:2: (enumLiteral_0= 'RED' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2934:4: enumLiteral_0= 'RED'
                     {
-                    enumLiteral_0=(Token)match(input,64,FOLLOW_64_in_ruleToleranceLevel6535); 
+                    enumLiteral_0=(Token)match(input,69,FOLLOW_69_in_ruleToleranceLevel6767); 
 
                             current = grammarAccess.getToleranceLevelAccess().getREDEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_0, grammarAccess.getToleranceLevelAccess().getREDEnumLiteralDeclaration_0()); 
@@ -7701,12 +8026,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2845:6: (enumLiteral_1= 'AMBER' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:6: (enumLiteral_1= 'AMBER' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2845:6: (enumLiteral_1= 'AMBER' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2845:8: enumLiteral_1= 'AMBER'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:6: (enumLiteral_1= 'AMBER' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2940:8: enumLiteral_1= 'AMBER'
                     {
-                    enumLiteral_1=(Token)match(input,65,FOLLOW_65_in_ruleToleranceLevel6552); 
+                    enumLiteral_1=(Token)match(input,70,FOLLOW_70_in_ruleToleranceLevel6784); 
 
                             current = grammarAccess.getToleranceLevelAccess().getAMBEREnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_1, grammarAccess.getToleranceLevelAccess().getAMBEREnumLiteralDeclaration_1()); 
@@ -7718,12 +8043,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2851:6: (enumLiteral_2= 'GREEN' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:6: (enumLiteral_2= 'GREEN' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2851:6: (enumLiteral_2= 'GREEN' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2851:8: enumLiteral_2= 'GREEN'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:6: (enumLiteral_2= 'GREEN' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2946:8: enumLiteral_2= 'GREEN'
                     {
-                    enumLiteral_2=(Token)match(input,66,FOLLOW_66_in_ruleToleranceLevel6569); 
+                    enumLiteral_2=(Token)match(input,71,FOLLOW_71_in_ruleToleranceLevel6801); 
 
                             current = grammarAccess.getToleranceLevelAccess().getGREENEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_2, grammarAccess.getToleranceLevelAccess().getGREENEnumLiteralDeclaration_2()); 
@@ -7735,12 +8060,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2857:6: (enumLiteral_3= 'YELLOW' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2952:6: (enumLiteral_3= 'YELLOW' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2857:6: (enumLiteral_3= 'YELLOW' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2857:8: enumLiteral_3= 'YELLOW'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2952:6: (enumLiteral_3= 'YELLOW' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2952:8: enumLiteral_3= 'YELLOW'
                     {
-                    enumLiteral_3=(Token)match(input,67,FOLLOW_67_in_ruleToleranceLevel6586); 
+                    enumLiteral_3=(Token)match(input,72,FOLLOW_72_in_ruleToleranceLevel6818); 
 
                             current = grammarAccess.getToleranceLevelAccess().getYELLOWEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_3, grammarAccess.getToleranceLevelAccess().getYELLOWEnumLiteralDeclaration_3()); 
@@ -7772,7 +8097,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleValueRange"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2867:1: ruleValueRange returns [Enumerator current=null] : ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) | (enumLiteral_7= 'DERIVED' ) ) ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2962:1: ruleValueRange returns [Enumerator current=null] : ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) | (enumLiteral_7= 'DERIVED' ) ) ;
     public final Enumerator ruleValueRange() throws RecognitionException {
         Enumerator current = null;
 
@@ -7787,67 +8112,67 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
          enterRule(); 
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2869:28: ( ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) | (enumLiteral_7= 'DERIVED' ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2870:1: ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) | (enumLiteral_7= 'DERIVED' ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2964:28: ( ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) | (enumLiteral_7= 'DERIVED' ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2965:1: ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) | (enumLiteral_7= 'DERIVED' ) )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2870:1: ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) | (enumLiteral_7= 'DERIVED' ) )
-            int alt48=8;
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2965:1: ( (enumLiteral_0= 'METRIC' ) | (enumLiteral_1= 'CAP' ) | (enumLiteral_2= 'FORECAST' ) | (enumLiteral_3= 'FORECAST_CAP' ) | (enumLiteral_4= 'TRENDED' ) | (enumLiteral_5= 'UTILIZATION' ) | (enumLiteral_6= 'TOLERANCE' ) | (enumLiteral_7= 'DERIVED' ) )
+            int alt50=8;
             switch ( input.LA(1) ) {
-            case 68:
-                {
-                alt48=1;
-                }
-                break;
-            case 69:
-                {
-                alt48=2;
-                }
-                break;
-            case 70:
-                {
-                alt48=3;
-                }
-                break;
-            case 71:
-                {
-                alt48=4;
-                }
-                break;
-            case 72:
-                {
-                alt48=5;
-                }
-                break;
             case 73:
                 {
-                alt48=6;
+                alt50=1;
                 }
                 break;
             case 74:
                 {
-                alt48=7;
+                alt50=2;
                 }
                 break;
             case 75:
                 {
-                alt48=8;
+                alt50=3;
+                }
+                break;
+            case 76:
+                {
+                alt50=4;
+                }
+                break;
+            case 77:
+                {
+                alt50=5;
+                }
+                break;
+            case 78:
+                {
+                alt50=6;
+                }
+                break;
+            case 79:
+                {
+                alt50=7;
+                }
+                break;
+            case 80:
+                {
+                alt50=8;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 48, 0, input);
+                    new NoViableAltException("", 50, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt48) {
+            switch (alt50) {
                 case 1 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2870:2: (enumLiteral_0= 'METRIC' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2965:2: (enumLiteral_0= 'METRIC' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2870:2: (enumLiteral_0= 'METRIC' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2870:4: enumLiteral_0= 'METRIC'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2965:2: (enumLiteral_0= 'METRIC' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2965:4: enumLiteral_0= 'METRIC'
                     {
-                    enumLiteral_0=(Token)match(input,68,FOLLOW_68_in_ruleValueRange6631); 
+                    enumLiteral_0=(Token)match(input,73,FOLLOW_73_in_ruleValueRange6863); 
 
                             current = grammarAccess.getValueRangeAccess().getMETRICEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_0, grammarAccess.getValueRangeAccess().getMETRICEnumLiteralDeclaration_0()); 
@@ -7859,12 +8184,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2876:6: (enumLiteral_1= 'CAP' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2971:6: (enumLiteral_1= 'CAP' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2876:6: (enumLiteral_1= 'CAP' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2876:8: enumLiteral_1= 'CAP'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2971:6: (enumLiteral_1= 'CAP' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2971:8: enumLiteral_1= 'CAP'
                     {
-                    enumLiteral_1=(Token)match(input,69,FOLLOW_69_in_ruleValueRange6648); 
+                    enumLiteral_1=(Token)match(input,74,FOLLOW_74_in_ruleValueRange6880); 
 
                             current = grammarAccess.getValueRangeAccess().getCAPEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_1, grammarAccess.getValueRangeAccess().getCAPEnumLiteralDeclaration_1()); 
@@ -7876,12 +8201,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2882:6: (enumLiteral_2= 'FORECAST' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2977:6: (enumLiteral_2= 'FORECAST' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2882:6: (enumLiteral_2= 'FORECAST' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2882:8: enumLiteral_2= 'FORECAST'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2977:6: (enumLiteral_2= 'FORECAST' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2977:8: enumLiteral_2= 'FORECAST'
                     {
-                    enumLiteral_2=(Token)match(input,70,FOLLOW_70_in_ruleValueRange6665); 
+                    enumLiteral_2=(Token)match(input,75,FOLLOW_75_in_ruleValueRange6897); 
 
                             current = grammarAccess.getValueRangeAccess().getFORECASTEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_2, grammarAccess.getValueRangeAccess().getFORECASTEnumLiteralDeclaration_2()); 
@@ -7893,12 +8218,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2888:6: (enumLiteral_3= 'FORECAST_CAP' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2983:6: (enumLiteral_3= 'FORECAST_CAP' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2888:6: (enumLiteral_3= 'FORECAST_CAP' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2888:8: enumLiteral_3= 'FORECAST_CAP'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2983:6: (enumLiteral_3= 'FORECAST_CAP' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2983:8: enumLiteral_3= 'FORECAST_CAP'
                     {
-                    enumLiteral_3=(Token)match(input,71,FOLLOW_71_in_ruleValueRange6682); 
+                    enumLiteral_3=(Token)match(input,76,FOLLOW_76_in_ruleValueRange6914); 
 
                             current = grammarAccess.getValueRangeAccess().getFORECAST_CAPEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_3, grammarAccess.getValueRangeAccess().getFORECAST_CAPEnumLiteralDeclaration_3()); 
@@ -7910,12 +8235,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2894:6: (enumLiteral_4= 'TRENDED' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2989:6: (enumLiteral_4= 'TRENDED' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2894:6: (enumLiteral_4= 'TRENDED' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2894:8: enumLiteral_4= 'TRENDED'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2989:6: (enumLiteral_4= 'TRENDED' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2989:8: enumLiteral_4= 'TRENDED'
                     {
-                    enumLiteral_4=(Token)match(input,72,FOLLOW_72_in_ruleValueRange6699); 
+                    enumLiteral_4=(Token)match(input,77,FOLLOW_77_in_ruleValueRange6931); 
 
                             current = grammarAccess.getValueRangeAccess().getTRENDEDEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_4, grammarAccess.getValueRangeAccess().getTRENDEDEnumLiteralDeclaration_4()); 
@@ -7927,12 +8252,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2900:6: (enumLiteral_5= 'UTILIZATION' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2995:6: (enumLiteral_5= 'UTILIZATION' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2900:6: (enumLiteral_5= 'UTILIZATION' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2900:8: enumLiteral_5= 'UTILIZATION'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2995:6: (enumLiteral_5= 'UTILIZATION' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2995:8: enumLiteral_5= 'UTILIZATION'
                     {
-                    enumLiteral_5=(Token)match(input,73,FOLLOW_73_in_ruleValueRange6716); 
+                    enumLiteral_5=(Token)match(input,78,FOLLOW_78_in_ruleValueRange6948); 
 
                             current = grammarAccess.getValueRangeAccess().getUTILIZATIONEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_5, grammarAccess.getValueRangeAccess().getUTILIZATIONEnumLiteralDeclaration_5()); 
@@ -7944,12 +8269,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2906:6: (enumLiteral_6= 'TOLERANCE' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3001:6: (enumLiteral_6= 'TOLERANCE' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2906:6: (enumLiteral_6= 'TOLERANCE' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2906:8: enumLiteral_6= 'TOLERANCE'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3001:6: (enumLiteral_6= 'TOLERANCE' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3001:8: enumLiteral_6= 'TOLERANCE'
                     {
-                    enumLiteral_6=(Token)match(input,74,FOLLOW_74_in_ruleValueRange6733); 
+                    enumLiteral_6=(Token)match(input,79,FOLLOW_79_in_ruleValueRange6965); 
 
                             current = grammarAccess.getValueRangeAccess().getTOLERANCEEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_6, grammarAccess.getValueRangeAccess().getTOLERANCEEnumLiteralDeclaration_6()); 
@@ -7961,12 +8286,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 8 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2912:6: (enumLiteral_7= 'DERIVED' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3007:6: (enumLiteral_7= 'DERIVED' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2912:6: (enumLiteral_7= 'DERIVED' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2912:8: enumLiteral_7= 'DERIVED'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3007:6: (enumLiteral_7= 'DERIVED' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3007:8: enumLiteral_7= 'DERIVED'
                     {
-                    enumLiteral_7=(Token)match(input,75,FOLLOW_75_in_ruleValueRange6750); 
+                    enumLiteral_7=(Token)match(input,80,FOLLOW_80_in_ruleValueRange6982); 
 
                             current = grammarAccess.getValueRangeAccess().getDERIVEDEnumLiteralDeclaration_7().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_7, grammarAccess.getValueRangeAccess().getDERIVEDEnumLiteralDeclaration_7()); 
@@ -7998,7 +8323,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleValueKind"
-    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2922:1: ruleValueKind returns [Enumerator current=null] : ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) ) ;
+    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3017:1: ruleValueKind returns [Enumerator current=null] : ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) ) ;
     public final Enumerator ruleValueKind() throws RecognitionException {
         Enumerator current = null;
 
@@ -8007,33 +8332,33 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
 
          enterRule(); 
         try {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2924:28: ( ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) ) )
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2925:1: ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3019:28: ( ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) ) )
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3020:1: ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) )
             {
-            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2925:1: ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) )
-            int alt49=2;
-            int LA49_0 = input.LA(1);
+            // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3020:1: ( (enumLiteral_0= 'AVG' ) | (enumLiteral_1= 'BH' ) )
+            int alt51=2;
+            int LA51_0 = input.LA(1);
 
-            if ( (LA49_0==76) ) {
-                alt49=1;
+            if ( (LA51_0==81) ) {
+                alt51=1;
             }
-            else if ( (LA49_0==77) ) {
-                alt49=2;
+            else if ( (LA51_0==82) ) {
+                alt51=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 49, 0, input);
+                    new NoViableAltException("", 51, 0, input);
 
                 throw nvae;
             }
-            switch (alt49) {
+            switch (alt51) {
                 case 1 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2925:2: (enumLiteral_0= 'AVG' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3020:2: (enumLiteral_0= 'AVG' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2925:2: (enumLiteral_0= 'AVG' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2925:4: enumLiteral_0= 'AVG'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3020:2: (enumLiteral_0= 'AVG' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3020:4: enumLiteral_0= 'AVG'
                     {
-                    enumLiteral_0=(Token)match(input,76,FOLLOW_76_in_ruleValueKind6795); 
+                    enumLiteral_0=(Token)match(input,81,FOLLOW_81_in_ruleValueKind7027); 
 
                             current = grammarAccess.getValueKindAccess().getAVGEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_0, grammarAccess.getValueKindAccess().getAVGEnumLiteralDeclaration_0()); 
@@ -8045,12 +8370,12 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2931:6: (enumLiteral_1= 'BH' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3026:6: (enumLiteral_1= 'BH' )
                     {
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2931:6: (enumLiteral_1= 'BH' )
-                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:2931:8: enumLiteral_1= 'BH'
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3026:6: (enumLiteral_1= 'BH' )
+                    // ../com.netxforge.netxscript/src-gen/com/netxforge/parser/antlr/internal/InternalNetxscript.g:3026:8: enumLiteral_1= 'BH'
                     {
-                    enumLiteral_1=(Token)match(input,77,FOLLOW_77_in_ruleValueKind6812); 
+                    enumLiteral_1=(Token)match(input,82,FOLLOW_82_in_ruleValueKind7044); 
 
                             current = grammarAccess.getValueKindAccess().getBHEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
                             newLeafNode(enumLiteral_1, grammarAccess.getValueKindAccess().getBHEnumLiteralDeclaration_1()); 
@@ -8086,128 +8411,147 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     protected DFA9 dfa9 = new DFA9(this);
     protected DFA28 dfa28 = new DFA28(this);
     static final String DFA9_eotS =
-        "\120\uffff";
+        "\134\uffff";
     static final String DFA9_eofS =
-        "\120\uffff";
+        "\134\uffff";
     static final String DFA9_minS =
-        "\1\4\1\uffff\1\17\1\56\1\4\4\uffff\1\62\10\6\1\56\2\4\2\24\2\6\1"+
-        "\24\1\uffff\1\62\2\24\1\66\1\62\2\4\2\24\2\4\6\24\1\66\1\62\2\104"+
-        "\1\24\2\4\4\24\10\6\2\104\1\24\2\6\1\24\12\6\1\24";
+        "\1\4\1\uffff\1\17\1\56\1\4\4\uffff\1\62\10\6\1\56\2\4\2\24\2\6\5"+
+        "\24\1\uffff\1\62\2\24\1\66\1\62\2\4\2\24\2\4\6\24\1\66\1\62\2\111"+
+        "\1\24\2\4\4\24\10\6\2\111\1\24\2\6\5\24\12\6\5\24";
     static final String DFA9_maxS =
-        "\1\60\1\uffff\1\56\1\113\1\4\4\uffff\1\65\10\115\1\56\2\4\2\61\3"+
-        "\56\1\uffff\1\65\2\61\1\103\1\77\2\4\2\61\1\67\1\4\4\56\2\61\1\103"+
-        "\1\77\2\113\1\56\1\67\1\4\4\56\10\115\2\113\4\56\10\115\3\56";
+        "\1\60\1\uffff\1\56\1\120\1\4\4\uffff\1\65\10\122\1\56\2\4\2\61\2"+
+        "\104\5\56\1\uffff\1\65\2\61\1\110\1\100\2\4\2\61\1\67\1\4\4\56\2"+
+        "\61\1\110\1\100\2\120\1\56\1\67\1\4\4\56\10\122\2\120\1\56\2\104"+
+        "\5\56\10\122\2\104\5\56";
     static final String DFA9_acceptS =
-        "\1\uffff\1\1\3\uffff\1\5\1\6\1\3\1\2\21\uffff\1\4\65\uffff";
+        "\1\uffff\1\1\3\uffff\1\5\1\6\1\2\1\3\25\uffff\1\4\75\uffff";
     static final String DFA9_specialS =
-        "\120\uffff}>";
+        "\134\uffff}>";
     static final String[] DFA9_transitionS = {
             "\1\2\1\uffff\1\5\10\uffff\1\5\5\uffff\1\6\3\uffff\1\1\12\uffff"+
             "\2\5\3\uffff\4\5\2\uffff\1\4\1\3",
             "",
-            "\1\5\4\uffff\1\5\5\uffff\1\10\1\7\15\5\3\uffff\1\5\1\uffff"+
+            "\1\5\4\uffff\1\5\5\uffff\1\7\1\10\15\5\3\uffff\1\5\1\uffff"+
             "\1\5",
-            "\1\11\25\uffff\1\12\1\13\1\14\1\15\1\16\1\17\1\20\1\21",
+            "\1\11\32\uffff\1\12\1\13\1\14\1\15\1\16\1\17\1\20\1\21",
             "\1\22",
             "",
             "",
             "",
             "",
             "\1\23\1\24\1\25\1\26",
-            "\1\31\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\27\1\30",
-            "\1\31\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\27\1\30",
-            "\1\31\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\27\1\30",
-            "\1\31\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\27\1\30",
-            "\1\31\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\27\1\30",
-            "\1\31\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\27\1\30",
-            "\1\31\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\27\1\30",
-            "\1\31\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\27\1\30",
-            "\1\33",
-            "\1\34",
-            "\1\35",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\37\2\uffff\1\36",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\37\2\uffff\1\36",
-            "\1\31\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\31\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
+            "\1\31\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\32\1\33\1\34\1\35\14\uffff\1\27\1\30",
+            "\1\31\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\32\1\33\1\34\1\35\14\uffff\1\27\1\30",
+            "\1\31\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\32\1\33\1\34\1\35\14\uffff\1\27\1\30",
+            "\1\31\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\32\1\33\1\34\1\35\14\uffff\1\27\1\30",
+            "\1\31\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\32\1\33\1\34\1\35\14\uffff\1\27\1\30",
+            "\1\31\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\32\1\33\1\34\1\35\14\uffff\1\27\1\30",
+            "\1\31\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\32\1\33\1\34\1\35\14\uffff\1\27\1\30",
+            "\1\31\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\32\1\33\1\34\1\35\14\uffff\1\27\1\30",
+            "\1\37",
+            "\1\40",
+            "\1\41",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\43\2\uffff\1\42",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\43\2\uffff\1\42",
+            "\1\31\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\32\1\33\1\34\1\35",
+            "\1\31\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\32\1\33\1\34\1\35",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
             "",
-            "\1\40\1\41\1\42\1\43",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\37\2\uffff\1\36",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\37\2\uffff\1\36",
-            "\1\44\1\uffff\1\45\7\uffff\1\46\1\47\1\50\1\51",
-            "\1\23\1\24\1\25\1\26\3\uffff\7\5",
-            "\1\52",
-            "\1\53",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\55\2\uffff\1\54",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\55\2\uffff\1\54",
-            "\1\56\62\uffff\1\57",
-            "\1\60",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\55\2\uffff\1\54",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\55\2\uffff\1\54",
-            "\1\61\1\uffff\1\62\7\uffff\1\63\1\64\1\65\1\66",
-            "\1\40\1\41\1\42\1\43\3\uffff\7\5",
-            "\1\67\1\70\1\71\1\72\1\73\1\74\1\75\1\76",
-            "\1\67\1\70\1\71\1\72\1\73\1\74\1\75\1\76",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\77\62\uffff\1\100",
-            "\1\101",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\104\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\102\1\103",
-            "\1\104\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\102\1\103",
-            "\1\104\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\102\1\103",
-            "\1\104\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\102\1\103",
-            "\1\104\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\102\1\103",
-            "\1\104\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\102\1\103",
-            "\1\104\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\102\1\103",
-            "\1\104\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\102\1\103",
-            "\1\105\1\106\1\107\1\110\1\111\1\112\1\113\1\114",
-            "\1\105\1\106\1\107\1\110\1\111\1\112\1\113\1\114",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\104\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\104\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\117\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\115\1\116",
-            "\1\117\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\115\1\116",
-            "\1\117\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\115\1\116",
-            "\1\117\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\115\1\116",
-            "\1\117\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\115\1\116",
-            "\1\117\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\115\1\116",
-            "\1\117\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\115\1\116",
-            "\1\117\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5\35"+
-            "\uffff\1\115\1\116",
-            "\1\117\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\117\15\uffff\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5",
-            "\1\5\5\uffff\1\32\1\uffff\15\5\5\uffff\1\5"
+            "\1\44\1\45\1\46\1\47",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\43\2\uffff\1\42",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\43\2\uffff\1\42",
+            "\1\50\1\uffff\1\51\14\uffff\1\52\1\53\1\54\1\55",
+            "\1\23\1\24\1\25\1\26\3\uffff\10\5",
+            "\1\56",
+            "\1\57",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\61\2\uffff\1\60",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\61\2\uffff\1\60",
+            "\1\62\62\uffff\1\63",
+            "\1\64",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\61\2\uffff\1\60",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\61\2\uffff\1\60",
+            "\1\65\1\uffff\1\66\14\uffff\1\67\1\70\1\71\1\72",
+            "\1\44\1\45\1\46\1\47\3\uffff\10\5",
+            "\1\73\1\74\1\75\1\76\1\77\1\100\1\101\1\102",
+            "\1\73\1\74\1\75\1\76\1\77\1\100\1\101\1\102",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\103\62\uffff\1\104",
+            "\1\105",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\110\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\111\1\112\1\113\1\114\14\uffff\1\106\1\107",
+            "\1\110\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\111\1\112\1\113\1\114\14\uffff\1\106\1\107",
+            "\1\110\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\111\1\112\1\113\1\114\14\uffff\1\106\1\107",
+            "\1\110\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\111\1\112\1\113\1\114\14\uffff\1\106\1\107",
+            "\1\110\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\111\1\112\1\113\1\114\14\uffff\1\106\1\107",
+            "\1\110\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\111\1\112\1\113\1\114\14\uffff\1\106\1\107",
+            "\1\110\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\111\1\112\1\113\1\114\14\uffff\1\106\1\107",
+            "\1\110\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\111\1\112\1\113\1\114\14\uffff\1\106\1\107",
+            "\1\115\1\116\1\117\1\120\1\121\1\122\1\123\1\124",
+            "\1\115\1\116\1\117\1\120\1\121\1\122\1\123\1\124",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\110\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\111\1\112\1\113\1\114",
+            "\1\110\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\111\1\112\1\113\1\114",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\127\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\130\1\131\1\132\1\133\14\uffff\1\125\1\126",
+            "\1\127\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\130\1\131\1\132\1\133\14\uffff\1\125\1\126",
+            "\1\127\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\130\1\131\1\132\1\133\14\uffff\1\125\1\126",
+            "\1\127\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\130\1\131\1\132\1\133\14\uffff\1\125\1\126",
+            "\1\127\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\130\1\131\1\132\1\133\14\uffff\1\125\1\126",
+            "\1\127\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\130\1\131\1\132\1\133\14\uffff\1\125\1\126",
+            "\1\127\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\130\1\131\1\132\1\133\14\uffff\1\125\1\126",
+            "\1\127\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\130\1\131\1\132\1\133\14\uffff\1\125\1\126",
+            "\1\127\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\130\1\131\1\132\1\133",
+            "\1\127\15\uffff\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5\22"+
+            "\uffff\1\130\1\131\1\132\1\133",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5",
+            "\1\5\5\uffff\1\36\1\uffff\15\5\5\uffff\1\5"
     };
 
     static final short[] DFA9_eot = DFA.unpackEncodedString(DFA9_eotS);
@@ -8244,152 +8588,165 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
         }
     }
     static final String DFA28_eotS =
-        "\126\uffff";
+        "\142\uffff";
     static final String DFA28_eofS =
-        "\5\uffff\1\24\2\uffff\1\27\1\uffff\10\37\10\uffff\5\37\3\uffff\2"+
-        "\37\4\uffff\2\37\2\uffff\6\37\4\uffff\1\37\2\uffff\14\37\2\uffff"+
-        "\17\37";
+        "\5\uffff\1\23\2\uffff\1\27\1\uffff\10\43\10\uffff\11\43\3\uffff"+
+        "\2\43\4\uffff\2\43\2\uffff\6\43\4\uffff\1\43\2\uffff\14\43\2\uffff"+
+        "\27\43";
     static final String DFA28_minS =
         "\1\4\1\uffff\1\6\1\56\1\4\1\17\1\uffff\2\20\1\62\10\6\1\56\3\uffff"+
-        "\1\6\1\uffff\2\4\2\20\2\6\1\20\1\uffff\1\62\3\20\1\66\1\62\2\4\2"+
-        "\20\2\4\6\20\1\66\1\62\2\104\1\20\2\4\4\20\10\6\2\104\1\20\2\6\1"+
-        "\20\12\6\1\20";
+        "\1\6\1\uffff\2\4\2\20\2\6\5\20\1\uffff\1\62\3\20\1\66\1\62\2\4\2"+
+        "\20\2\4\6\20\1\66\1\62\2\111\1\20\2\4\4\20\10\6\2\111\1\20\2\6\5"+
+        "\20\12\6\5\20";
     static final String DFA28_maxS =
-        "\1\60\1\uffff\1\55\1\113\1\4\1\56\1\uffff\1\55\1\56\1\65\10\115"+
-        "\1\56\3\uffff\1\6\1\uffff\2\4\2\61\3\56\1\uffff\1\65\1\55\2\61\1"+
-        "\103\1\77\2\4\2\61\1\67\1\4\4\56\2\61\1\103\1\77\2\113\1\56\1\67"+
-        "\1\4\4\56\10\115\2\113\4\56\10\115\3\56";
+        "\1\60\1\uffff\1\55\1\120\1\4\1\56\1\uffff\1\55\1\56\1\65\10\122"+
+        "\1\56\3\uffff\1\6\1\uffff\2\4\2\61\2\104\5\56\1\uffff\1\65\1\55"+
+        "\2\61\1\110\1\100\2\4\2\61\1\67\1\4\4\56\2\61\1\110\1\100\2\120"+
+        "\1\56\1\67\1\4\4\56\10\122\2\120\1\56\2\104\5\56\10\122\2\104\5"+
+        "\56";
     static final String DFA28_acceptS =
-        "\1\uffff\1\1\4\uffff\1\7\14\uffff\1\3\1\6\1\5\1\uffff\1\2\7\uffff"+
-        "\1\4\66\uffff";
+        "\1\uffff\1\1\4\uffff\1\7\14\uffff\1\6\1\5\1\3\1\uffff\1\2\13\uffff"+
+        "\1\4\76\uffff";
     static final String DFA28_specialS =
-        "\126\uffff}>";
+        "\142\uffff}>";
     static final String[] DFA28_transitionS = {
             "\1\5\1\uffff\1\1\10\uffff\1\6\32\uffff\2\1\1\2\2\uffff\1\4\1"+
             "\3",
             "",
             "\1\7\46\uffff\1\10",
-            "\1\11\25\uffff\1\12\1\13\1\14\1\15\1\16\1\17\1\20\1\21",
+            "\1\11\32\uffff\1\12\1\13\1\14\1\15\1\16\1\17\1\20\1\21",
             "\1\22",
-            "\1\25\2\24\2\uffff\1\24\7\uffff\15\24\3\uffff\2\24\1\23",
+            "\1\24\2\23\2\uffff\1\23\7\uffff\15\23\3\uffff\2\23\1\25",
             "",
             "\1\26\34\uffff\1\10",
-            "\2\27\2\uffff\1\27\7\uffff\15\27\4\uffff\1\27\1\23",
+            "\2\27\2\uffff\1\27\7\uffff\15\27\4\uffff\1\27\1\25",
             "\1\30\1\31\1\32\1\33",
-            "\1\36\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\34\1\35",
-            "\1\36\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\34\1\35",
-            "\1\36\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\34\1\35",
-            "\1\36\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\34\1\35",
-            "\1\36\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\34\1\35",
-            "\1\36\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\34\1\35",
-            "\1\36\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\34\1\35",
-            "\1\36\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\34\1\35",
-            "\1\40",
-            "",
-            "",
-            "",
-            "\1\41",
-            "",
-            "\1\42",
-            "\1\43",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\45\2\uffff"+
+            "\1\36\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\37\1\40\1\41\1\42\14\uffff\1\34\1\35",
+            "\1\36\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\37\1\40\1\41\1\42\14\uffff\1\34\1\35",
+            "\1\36\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\37\1\40\1\41\1\42\14\uffff\1\34\1\35",
+            "\1\36\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\37\1\40\1\41\1\42\14\uffff\1\34\1\35",
+            "\1\36\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\37\1\40\1\41\1\42\14\uffff\1\34\1\35",
+            "\1\36\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\37\1\40\1\41\1\42\14\uffff\1\34\1\35",
+            "\1\36\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\37\1\40\1\41\1\42\14\uffff\1\34\1\35",
+            "\1\36\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\37\1\40\1\41\1\42\14\uffff\1\34\1\35",
             "\1\44",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\45\2\uffff"+
-            "\1\44",
-            "\1\36\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23",
-            "\1\36\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
             "",
-            "\1\46\1\47\1\50\1\51",
+            "",
+            "",
+            "\1\45",
+            "",
+            "\1\46",
+            "\1\47",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\51\2\uffff"+
+            "\1\50",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\51\2\uffff"+
+            "\1\50",
+            "\1\36\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\37\1\40\1\41\1\42",
+            "\1\36\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\37\1\40\1\41\1\42",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "",
+            "\1\52\1\53\1\54\1\55",
             "\1\26\34\uffff\1\10",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\45\2\uffff"+
-            "\1\44",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\45\2\uffff"+
-            "\1\44",
-            "\1\52\1\uffff\1\53\7\uffff\1\54\1\55\1\56\1\57",
-            "\1\30\1\31\1\32\1\33\3\uffff\7\23",
-            "\1\60",
-            "\1\61",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\63\2\uffff"+
-            "\1\62",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\63\2\uffff"+
-            "\1\62",
-            "\1\64\62\uffff\1\65",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\51\2\uffff"+
+            "\1\50",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\51\2\uffff"+
+            "\1\50",
+            "\1\56\1\uffff\1\57\14\uffff\1\60\1\61\1\62\1\63",
+            "\1\30\1\31\1\32\1\33\3\uffff\10\25",
+            "\1\64",
+            "\1\65",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\67\2\uffff"+
             "\1\66",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\63\2\uffff"+
-            "\1\62",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\63\2\uffff"+
-            "\1\62",
-            "\1\67\1\uffff\1\70\7\uffff\1\71\1\72\1\73\1\74",
-            "\1\46\1\47\1\50\1\51\3\uffff\7\23",
-            "\1\75\1\76\1\77\1\100\1\101\1\102\1\103\1\104",
-            "\1\75\1\76\1\77\1\100\1\101\1\102\1\103\1\104",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\1\105\62\uffff\1\106",
-            "\1\107",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\1\112\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\110\1\111",
-            "\1\112\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\110\1\111",
-            "\1\112\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\110\1\111",
-            "\1\112\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\110\1\111",
-            "\1\112\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\110\1\111",
-            "\1\112\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\110\1\111",
-            "\1\112\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\110\1\111",
-            "\1\112\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\110\1\111",
-            "\1\113\1\114\1\115\1\116\1\117\1\120\1\121\1\122",
-            "\1\113\1\114\1\115\1\116\1\117\1\120\1\121\1\122",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\1\112\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23",
-            "\1\112\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23",
-            "\1\125\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\123\1\124",
-            "\1\125\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\123\1\124",
-            "\1\125\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\123\1\124",
-            "\1\125\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\123\1\124",
-            "\1\125\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\123\1\124",
-            "\1\125\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\123\1\124",
-            "\1\125\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\123\1\124",
-            "\1\125\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23\35\uffff\1\123\1\124",
-            "\1\125\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23",
-            "\1\125\11\uffff\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37"+
-            "\1\23",
-            "\2\37\2\uffff\1\37\7\uffff\15\37\4\uffff\1\37\1\23"
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\67\2\uffff"+
+            "\1\66",
+            "\1\70\62\uffff\1\71",
+            "\1\72",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\67\2\uffff"+
+            "\1\66",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\67\2\uffff"+
+            "\1\66",
+            "\1\73\1\uffff\1\74\14\uffff\1\75\1\76\1\77\1\100",
+            "\1\52\1\53\1\54\1\55\3\uffff\10\25",
+            "\1\101\1\102\1\103\1\104\1\105\1\106\1\107\1\110",
+            "\1\101\1\102\1\103\1\104\1\105\1\106\1\107\1\110",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\1\111\62\uffff\1\112",
+            "\1\113",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\1\116\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\117\1\120\1\121\1\122\14\uffff\1\114\1\115",
+            "\1\116\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\117\1\120\1\121\1\122\14\uffff\1\114\1\115",
+            "\1\116\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\117\1\120\1\121\1\122\14\uffff\1\114\1\115",
+            "\1\116\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\117\1\120\1\121\1\122\14\uffff\1\114\1\115",
+            "\1\116\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\117\1\120\1\121\1\122\14\uffff\1\114\1\115",
+            "\1\116\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\117\1\120\1\121\1\122\14\uffff\1\114\1\115",
+            "\1\116\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\117\1\120\1\121\1\122\14\uffff\1\114\1\115",
+            "\1\116\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\117\1\120\1\121\1\122\14\uffff\1\114\1\115",
+            "\1\123\1\124\1\125\1\126\1\127\1\130\1\131\1\132",
+            "\1\123\1\124\1\125\1\126\1\127\1\130\1\131\1\132",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\1\116\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\117\1\120\1\121\1\122",
+            "\1\116\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\117\1\120\1\121\1\122",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\1\135\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\136\1\137\1\140\1\141\14\uffff\1\133\1\134",
+            "\1\135\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\136\1\137\1\140\1\141\14\uffff\1\133\1\134",
+            "\1\135\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\136\1\137\1\140\1\141\14\uffff\1\133\1\134",
+            "\1\135\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\136\1\137\1\140\1\141\14\uffff\1\133\1\134",
+            "\1\135\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\136\1\137\1\140\1\141\14\uffff\1\133\1\134",
+            "\1\135\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\136\1\137\1\140\1\141\14\uffff\1\133\1\134",
+            "\1\135\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\136\1\137\1\140\1\141\14\uffff\1\133\1\134",
+            "\1\135\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\136\1\137\1\140\1\141\14\uffff\1\133\1\134",
+            "\1\135\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\136\1\137\1\140\1\141",
+            "\1\135\11\uffff\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43"+
+            "\1\25\22\uffff\1\136\1\137\1\140\1\141",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25",
+            "\2\43\2\uffff\1\43\7\uffff\15\43\4\uffff\1\43\1\25"
     };
 
     static final short[] DFA28_eot = DFA.unpackEncodedString(DFA28_eotS);
@@ -8507,7 +8864,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_ruleReferenceAssignmentStatement_in_entryRuleReferenceAssignmentStatement1999 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleReferenceAssignmentStatement2009 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleContextRef_in_ruleReferenceAssignmentStatement2066 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_ruleAbsoluteRef_in_ruleReferenceAssignmentStatement2085 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_ruleNodeTypeRef_in_ruleReferenceAssignmentStatement2085 = new BitSet(new long[]{0x0000000004000000L});
     public static final BitSet FOLLOW_26_in_ruleReferenceAssignmentStatement2100 = new BitSet(new long[]{0x00019E3000008050L});
     public static final BitSet FOLLOW_ruleExpression_in_ruleReferenceAssignmentStatement2121 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleExpression_in_entryRuleExpression2157 = new BitSet(new long[]{0x0000000000000000L});
@@ -8597,7 +8954,7 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_ruleRangeLiteral_in_ruleNativeExpression4518 = new BitSet(new long[]{0x0000400000000000L});
     public static final BitSet FOLLOW_ruleReference_in_ruleNativeExpression4545 = new BitSet(new long[]{0x0000400000000000L});
     public static final BitSet FOLLOW_ruleVarOrArgumentCall_in_ruleNativeExpression4572 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_46_in_ruleNativeExpression4585 = new BitSet(new long[]{0xFE00000000000000L});
+    public static final BitSet FOLLOW_46_in_ruleNativeExpression4585 = new BitSet(new long[]{0xFE00000000000000L,0x0000000000000001L});
     public static final BitSet FOLLOW_ruleNativeFunction_in_ruleNativeExpression4606 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleVarOrArgumentCall_in_entryRuleVarOrArgumentCall4642 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleVarOrArgumentCall4652 = new BitSet(new long[]{0x0000000000000002L});
@@ -8615,21 +8972,21 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_ruleReference_in_entryRuleReference4998 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleReference5008 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleContextRef_in_ruleReference5055 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleAbsoluteRef_in_ruleReference5082 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleAbsoluteRef_in_entryRuleAbsoluteRef5117 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleAbsoluteRef5127 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_47_in_ruleAbsoluteRef5173 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleAbsoluteRef5193 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_rulePrimaryRef_in_ruleAbsoluteRef5214 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleNodeTypeRef_in_ruleReference5082 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleNodeTypeRef_in_entryRuleNodeTypeRef5117 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleNodeTypeRef5127 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_47_in_ruleNodeTypeRef5173 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleNodeTypeRef5193 = new BitSet(new long[]{0x0000400000000000L});
+    public static final BitSet FOLLOW_rulePrimaryRef_in_ruleNodeTypeRef5214 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleContextRef_in_entryRuleContextRef5250 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleContextRef5260 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_48_in_ruleContextRef5306 = new BitSet(new long[]{0x0000400000000000L,0x0000000000000FF0L});
+    public static final BitSet FOLLOW_48_in_ruleContextRef5306 = new BitSet(new long[]{0x0000400000000000L,0x000000000001FE00L});
     public static final BitSet FOLLOW_rulePrimaryRef_in_ruleContextRef5328 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleRangeRef_in_ruleContextRef5355 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rulePrimaryRef_in_entryRulePrimaryRef5392 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRulePrimaryRef5402 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleComponentRef_in_rulePrimaryRef5448 = new BitSet(new long[]{0x0002400000000002L});
-    public static final BitSet FOLLOW_49_in_rulePrimaryRef5462 = new BitSet(new long[]{0x0140000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_49_in_rulePrimaryRef5462 = new BitSet(new long[]{0x0140000000000000L,0x00000000000001E0L});
     public static final BitSet FOLLOW_ruleLeafReference_in_rulePrimaryRef5483 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleComponentRef_in_entryRuleComponentRef5521 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleComponentRef5531 = new BitSet(new long[]{0x0000000000000002L});
@@ -8648,41 +9005,50 @@ public class InternalNetxscriptParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_ruleResourceRef_in_entryRuleResourceRef5871 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleResourceRef5881 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_54_in_ruleResourceRef5927 = new BitSet(new long[]{0x0080000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleResourceRef5948 = new BitSet(new long[]{0x0000400000000000L,0x0000000000000FF0L});
-    public static final BitSet FOLLOW_55_in_ruleResourceRef5966 = new BitSet(new long[]{0x0000400000000000L,0x0000000000000FF0L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleResourceRef5948 = new BitSet(new long[]{0x0000400000000000L,0x000000000001FE00L});
+    public static final BitSet FOLLOW_55_in_ruleResourceRef5966 = new BitSet(new long[]{0x0000400000000000L,0x000000000001FE00L});
     public static final BitSet FOLLOW_ruleRangeRef_in_ruleResourceRef5988 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleStatusRef_in_entryRuleStatusRef6024 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleStatusRef6034 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleToleranceLevel_in_ruleStatusRef6089 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleRangeRef_in_entryRuleRangeRef6125 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleRangeRef6135 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleValueRange_in_ruleRangeRef6181 = new BitSet(new long[]{0x0000000000000042L,0x0000000000003000L});
-    public static final BitSet FOLLOW_ruleValueKind_in_ruleRangeRef6202 = new BitSet(new long[]{0x0000000000000042L});
-    public static final BitSet FOLLOW_RULE_NUMBER_in_ruleRangeRef6220 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLinkRef_in_entryRuleLinkRef6262 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleLinkRef6272 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_56_in_ruleLinkRef6318 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleLinkRef6338 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_57_in_ruleNativeFunction6388 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_58_in_ruleNativeFunction6405 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_59_in_ruleNativeFunction6422 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_60_in_ruleNativeFunction6439 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_61_in_ruleNativeFunction6456 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_62_in_ruleNativeFunction6473 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_63_in_ruleNativeFunction6490 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_64_in_ruleToleranceLevel6535 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_65_in_ruleToleranceLevel6552 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_66_in_ruleToleranceLevel6569 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_67_in_ruleToleranceLevel6586 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_68_in_ruleValueRange6631 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_69_in_ruleValueRange6648 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_70_in_ruleValueRange6665 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_71_in_ruleValueRange6682 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_72_in_ruleValueRange6699 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_73_in_ruleValueRange6716 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_74_in_ruleValueRange6733 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_75_in_ruleValueRange6750 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_76_in_ruleValueKind6795 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_77_in_ruleValueKind6812 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleValueRange_in_ruleRangeRef6181 = new BitSet(new long[]{0x0000000000000042L,0x000000000006001EL});
+    public static final BitSet FOLLOW_ruleValueKind_in_ruleRangeRef6202 = new BitSet(new long[]{0x0000000000000042L,0x000000000000001EL});
+    public static final BitSet FOLLOW_ruleInterval_in_ruleRangeRef6224 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleInterval_in_entryRuleInterval6261 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleInterval6271 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_NUMBER_in_ruleInterval6313 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleIntervalKind_in_ruleInterval6345 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleLinkRef_in_entryRuleLinkRef6381 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleLinkRef6391 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_56_in_ruleLinkRef6437 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleLinkRef6457 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_57_in_ruleNativeFunction6507 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_58_in_ruleNativeFunction6524 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_59_in_ruleNativeFunction6541 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_60_in_ruleNativeFunction6558 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_61_in_ruleNativeFunction6575 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_62_in_ruleNativeFunction6592 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_63_in_ruleNativeFunction6609 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_64_in_ruleNativeFunction6626 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_65_in_ruleIntervalKind6671 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_66_in_ruleIntervalKind6688 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_67_in_ruleIntervalKind6705 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_68_in_ruleIntervalKind6722 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_69_in_ruleToleranceLevel6767 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_70_in_ruleToleranceLevel6784 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_71_in_ruleToleranceLevel6801 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_72_in_ruleToleranceLevel6818 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_73_in_ruleValueRange6863 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_74_in_ruleValueRange6880 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_75_in_ruleValueRange6897 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_76_in_ruleValueRange6914 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_77_in_ruleValueRange6931 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_78_in_ruleValueRange6948 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_79_in_ruleValueRange6965 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_80_in_ruleValueRange6982 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_81_in_ruleValueKind7027 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_82_in_ruleValueKind7044 = new BitSet(new long[]{0x0000000000000002L});
 
 }

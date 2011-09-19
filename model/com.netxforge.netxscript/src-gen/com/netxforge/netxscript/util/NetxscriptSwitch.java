@@ -173,6 +173,13 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case NetxscriptPackage.INTERVAL:
+      {
+        Interval interval = (Interval)theEObject;
+        T result = caseInterval(interval);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case NetxscriptPackage.RETURN:
       {
         Return return_ = (Return)theEObject;
@@ -405,12 +412,12 @@ public class NetxscriptSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case NetxscriptPackage.ABSOLUTE_REF:
+      case NetxscriptPackage.NODE_TYPE_REF:
       {
-        AbsoluteRef absoluteRef = (AbsoluteRef)theEObject;
-        T result = caseAbsoluteRef(absoluteRef);
-        if (result == null) result = caseReference(absoluteRef);
-        if (result == null) result = caseExpression(absoluteRef);
+        NodeTypeRef nodeTypeRef = (NodeTypeRef)theEObject;
+        T result = caseNodeTypeRef(nodeTypeRef);
+        if (result == null) result = caseReference(nodeTypeRef);
+        if (result == null) result = caseExpression(nodeTypeRef);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -664,6 +671,22 @@ public class NetxscriptSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseRangeRef(RangeRef object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Interval</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Interval</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseInterval(Interval object)
   {
     return null;
   }
@@ -1117,17 +1140,17 @@ public class NetxscriptSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Absolute Ref</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Node Type Ref</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Absolute Ref</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Node Type Ref</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseAbsoluteRef(AbsoluteRef object)
+  public T caseNodeTypeRef(NodeTypeRef object)
   {
     return null;
   }

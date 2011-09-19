@@ -141,7 +141,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getService()
 	 * @generated
 	 */
-	int SERVICE = 4;
+	int SERVICE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -543,6 +543,61 @@ public interface ServicesPackage extends EPackage {
 	int DERIVED_RESOURCE_FEATURE_COUNT = LibraryPackage.BASE_RESOURCE_FEATURE_COUNT + 3;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.DistributionEntryImpl <em>Distribution Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.services.impl.DistributionEntryImpl
+	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getDistributionEntry()
+	 * @generated
+	 */
+	int DISTRIBUTION_ENTRY = 3;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DISTRIBUTION_ENTRY__DELETED = GenericsPackage.BASE__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Resource Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DISTRIBUTION_ENTRY__RESOURCE_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Distribution</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DISTRIBUTION_ENTRY__DISTRIBUTION = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Resource Origin</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DISTRIBUTION_ENTRY__RESOURCE_ORIGIN = GenericsPackage.BASE_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Distribution Entry</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DISTRIBUTION_ENTRY_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.RFSServiceImpl <em>RFS Service</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -550,7 +605,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getRFSService()
 	 * @generated
 	 */
-	int RFS_SERVICE = 3;
+	int RFS_SERVICE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -695,7 +750,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceDistribution()
 	 * @generated
 	 */
-	int SERVICE_DISTRIBUTION = 5;
+	int SERVICE_DISTRIBUTION = 6;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -707,22 +762,13 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_DISTRIBUTION__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Distribution Refs</b></em>' reference list.
+	 * The feature id for the '<em><b>Distribution Entries</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_DISTRIBUTION__DISTRIBUTION_REFS = GenericsPackage.BASE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Distribution</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SERVICE_DISTRIBUTION__DISTRIBUTION = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int SERVICE_DISTRIBUTION__DISTRIBUTION_ENTRIES = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Expression Refs</b></em>' reference list.
@@ -731,7 +777,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_DISTRIBUTION__EXPRESSION_REFS = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int SERVICE_DISTRIBUTION__EXPRESSION_REFS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Service Distribution</em>' class.
@@ -740,7 +786,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_DISTRIBUTION_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int SERVICE_DISTRIBUTION_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.ServiceForecastImpl <em>Service Forecast</em>}' class.
@@ -750,7 +796,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceForecast()
 	 * @generated
 	 */
-	int SERVICE_FORECAST = 6;
+	int SERVICE_FORECAST = 7;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -823,7 +869,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceForecastUsers()
 	 * @generated
 	 */
-	int SERVICE_FORECAST_USERS = 7;
+	int SERVICE_FORECAST_USERS = 8;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -869,7 +915,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceMonitor()
 	 * @generated
 	 */
-	int SERVICE_MONITOR = 8;
+	int SERVICE_MONITOR = 9;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -933,7 +979,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceProfile()
 	 * @generated
 	 */
-	int SERVICE_PROFILE = 9;
+	int SERVICE_PROFILE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -979,7 +1025,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceUser()
 	 * @generated
 	 */
-	int SERVICE_USER = 10;
+	int SERVICE_USER = 11;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1027,6 +1073,16 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_USER_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.services.ResourceOriginType <em>Resource Origin Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.services.ResourceOriginType
+	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getResourceOriginType()
+	 * @generated
+	 */
+	int RESOURCE_ORIGIN_TYPE = 12;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.ServiceClassType <em>Service Class Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1034,7 +1090,17 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceClassType()
 	 * @generated
 	 */
-	int SERVICE_CLASS_TYPE = 11;
+	int SERVICE_CLASS_TYPE = 13;
+
+	/**
+	 * The meta object id for the '<em>Resource Origin Type Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.services.ResourceOriginType
+	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getResourceOriginTypeObject()
+	 * @generated
+	 */
+	int RESOURCE_ORIGIN_TYPE_OBJECT = 14;
 
 	/**
 	 * The meta object id for the '<em>Service Class Type Object</em>' data type.
@@ -1044,7 +1110,7 @@ public interface ServicesPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getServiceClassTypeObject()
 	 * @generated
 	 */
-	int SERVICE_CLASS_TYPE_OBJECT = 12;
+	int SERVICE_CLASS_TYPE_OBJECT = 15;
 
 
 	/**
@@ -1153,6 +1219,49 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getDerivedResource_TrendedValues();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.services.DistributionEntry <em>Distribution Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Distribution Entry</em>'.
+	 * @see com.netxforge.netxstudio.services.DistributionEntry
+	 * @generated
+	 */
+	EClass getDistributionEntry();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.services.DistributionEntry#getResourceRef <em>Resource Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Resource Ref</em>'.
+	 * @see com.netxforge.netxstudio.services.DistributionEntry#getResourceRef()
+	 * @see #getDistributionEntry()
+	 * @generated
+	 */
+	EReference getDistributionEntry_ResourceRef();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.services.DistributionEntry#getDistribution <em>Distribution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Distribution</em>'.
+	 * @see com.netxforge.netxstudio.services.DistributionEntry#getDistribution()
+	 * @see #getDistributionEntry()
+	 * @generated
+	 */
+	EReference getDistributionEntry_Distribution();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.services.DistributionEntry#getResourceOrigin <em>Resource Origin</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Resource Origin</em>'.
+	 * @see com.netxforge.netxstudio.services.DistributionEntry#getResourceOrigin()
+	 * @see #getDistributionEntry()
+	 * @generated
+	 */
+	EAttribute getDistributionEntry_ResourceOrigin();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.services.RFSService <em>RFS Service</em>}'.
@@ -1328,26 +1437,15 @@ public interface ServicesPackage extends EPackage {
 	EClass getServiceDistribution();
 
 	/**
-	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.services.ServiceDistribution#getDistributionRefs <em>Distribution Refs</em>}'.
+	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.services.ServiceDistribution#getDistributionEntries <em>Distribution Entries</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Distribution Refs</em>'.
-	 * @see com.netxforge.netxstudio.services.ServiceDistribution#getDistributionRefs()
+	 * @return the meta object for the containment reference list '<em>Distribution Entries</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceDistribution#getDistributionEntries()
 	 * @see #getServiceDistribution()
 	 * @generated
 	 */
-	EReference getServiceDistribution_DistributionRefs();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.services.ServiceDistribution#getDistribution <em>Distribution</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Distribution</em>'.
-	 * @see com.netxforge.netxstudio.services.ServiceDistribution#getDistribution()
-	 * @see #getServiceDistribution()
-	 * @generated
-	 */
-	EReference getServiceDistribution_Distribution();
+	EReference getServiceDistribution_DistributionEntries();
 
 	/**
 	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.services.ServiceDistribution#getExpressionRefs <em>Expression Refs</em>}'.
@@ -1587,6 +1685,16 @@ public interface ServicesPackage extends EPackage {
 	EAttribute getServiceUser_Name();
 
 	/**
+	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.services.ResourceOriginType <em>Resource Origin Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Resource Origin Type</em>'.
+	 * @see com.netxforge.netxstudio.services.ResourceOriginType
+	 * @generated
+	 */
+	EEnum getResourceOriginType();
+
+	/**
 	 * Returns the meta object for enum '{@link com.netxforge.netxstudio.services.ServiceClassType <em>Service Class Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1595,6 +1703,18 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getServiceClassType();
+
+	/**
+	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.services.ResourceOriginType <em>Resource Origin Type Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Resource Origin Type Object</em>'.
+	 * @see com.netxforge.netxstudio.services.ResourceOriginType
+	 * @model instanceClass="com.netxforge.netxstudio.services.ResourceOriginType"
+	 *        extendedMetaData="name='ResourceOrigin_._type:Object' baseType='ResourceOrigin_._type'"
+	 * @generated
+	 */
+	EDataType getResourceOriginTypeObject();
 
 	/**
 	 * Returns the meta object for data type '{@link com.netxforge.netxstudio.services.ServiceClassType <em>Service Class Type Object</em>}'.
@@ -1715,6 +1835,40 @@ public interface ServicesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference DERIVED_RESOURCE__TRENDED_VALUES = eINSTANCE.getDerivedResource_TrendedValues();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.services.impl.DistributionEntryImpl <em>Distribution Entry</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.services.impl.DistributionEntryImpl
+		 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getDistributionEntry()
+		 * @generated
+		 */
+		EClass DISTRIBUTION_ENTRY = eINSTANCE.getDistributionEntry();
+
+		/**
+		 * The meta object literal for the '<em><b>Resource Ref</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DISTRIBUTION_ENTRY__RESOURCE_REF = eINSTANCE.getDistributionEntry_ResourceRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Distribution</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DISTRIBUTION_ENTRY__DISTRIBUTION = eINSTANCE.getDistributionEntry_Distribution();
+
+		/**
+		 * The meta object literal for the '<em><b>Resource Origin</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DISTRIBUTION_ENTRY__RESOURCE_ORIGIN = eINSTANCE.getDistributionEntry_ResourceOrigin();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.services.impl.RFSServiceImpl <em>RFS Service</em>}' class.
@@ -1851,20 +2005,12 @@ public interface ServicesPackage extends EPackage {
 		EClass SERVICE_DISTRIBUTION = eINSTANCE.getServiceDistribution();
 
 		/**
-		 * The meta object literal for the '<em><b>Distribution Refs</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Distribution Entries</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SERVICE_DISTRIBUTION__DISTRIBUTION_REFS = eINSTANCE.getServiceDistribution_DistributionRefs();
-
-		/**
-		 * The meta object literal for the '<em><b>Distribution</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SERVICE_DISTRIBUTION__DISTRIBUTION = eINSTANCE.getServiceDistribution_Distribution();
+		EReference SERVICE_DISTRIBUTION__DISTRIBUTION_ENTRIES = eINSTANCE.getServiceDistribution_DistributionEntries();
 
 		/**
 		 * The meta object literal for the '<em><b>Expression Refs</b></em>' reference list feature.
@@ -2053,6 +2199,16 @@ public interface ServicesPackage extends EPackage {
 		EAttribute SERVICE_USER__NAME = eINSTANCE.getServiceUser_Name();
 
 		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.services.ResourceOriginType <em>Resource Origin Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.services.ResourceOriginType
+		 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getResourceOriginType()
+		 * @generated
+		 */
+		EEnum RESOURCE_ORIGIN_TYPE = eINSTANCE.getResourceOriginType();
+
+		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.services.ServiceClassType <em>Service Class Type</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2061,6 +2217,16 @@ public interface ServicesPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum SERVICE_CLASS_TYPE = eINSTANCE.getServiceClassType();
+
+		/**
+		 * The meta object literal for the '<em>Resource Origin Type Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.services.ResourceOriginType
+		 * @see com.netxforge.netxstudio.services.impl.ServicesPackageImpl#getResourceOriginTypeObject()
+		 * @generated
+		 */
+		EDataType RESOURCE_ORIGIN_TYPE_OBJECT = eINSTANCE.getResourceOriginTypeObject();
 
 		/**
 		 * The meta object literal for the '<em>Service Class Type Object</em>' data type.

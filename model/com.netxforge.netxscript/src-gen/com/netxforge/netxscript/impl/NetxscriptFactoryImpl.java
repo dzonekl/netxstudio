@@ -81,6 +81,7 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.REFERENCE: return createReference();
       case NetxscriptPackage.LEAF_REFERENCE: return createLeafReference();
       case NetxscriptPackage.RANGE_REF: return createRangeRef();
+      case NetxscriptPackage.INTERVAL: return createInterval();
       case NetxscriptPackage.RETURN: return createReturn();
       case NetxscriptPackage.IF: return createIf();
       case NetxscriptPackage.WHILE: return createWhile();
@@ -109,7 +110,7 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
       case NetxscriptPackage.NATIVE_EXPRESSION: return createNativeExpression();
       case NetxscriptPackage.VAR_OR_ARGUMENT_CALL: return createVarOrArgumentCall();
       case NetxscriptPackage.RANGE_LITERAL: return createRangeLiteral();
-      case NetxscriptPackage.ABSOLUTE_REF: return createAbsoluteRef();
+      case NetxscriptPackage.NODE_TYPE_REF: return createNodeTypeRef();
       case NetxscriptPackage.CONTEXT_REF: return createContextRef();
       case NetxscriptPackage.COMPONENT_REF: return createComponentRef();
       case NetxscriptPackage.RESOURCE_REF: return createResourceRef();
@@ -132,6 +133,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
     {
       case NetxscriptPackage.NATIVE_FUNCTION:
         return createNativeFunctionFromString(eDataType, initialValue);
+      case NetxscriptPackage.INTERVAL_KIND:
+        return createIntervalKindFromString(eDataType, initialValue);
       case NetxscriptPackage.TOLERANCE_LEVEL:
         return createToleranceLevelFromString(eDataType, initialValue);
       case NetxscriptPackage.VALUE_RANGE:
@@ -155,6 +158,8 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
     {
       case NetxscriptPackage.NATIVE_FUNCTION:
         return convertNativeFunctionToString(eDataType, instanceValue);
+      case NetxscriptPackage.INTERVAL_KIND:
+        return convertIntervalKindToString(eDataType, instanceValue);
       case NetxscriptPackage.TOLERANCE_LEVEL:
         return convertToleranceLevelToString(eDataType, instanceValue);
       case NetxscriptPackage.VALUE_RANGE:
@@ -307,6 +312,17 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
   {
     RangeRefImpl rangeRef = new RangeRefImpl();
     return rangeRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Interval createInterval()
+  {
+    IntervalImpl interval = new IntervalImpl();
+    return interval;
   }
 
   /**
@@ -622,10 +638,10 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * <!-- end-user-doc -->
    * @generated
    */
-  public AbsoluteRef createAbsoluteRef()
+  public NodeTypeRef createNodeTypeRef()
   {
-    AbsoluteRefImpl absoluteRef = new AbsoluteRefImpl();
-    return absoluteRef;
+    NodeTypeRefImpl nodeTypeRef = new NodeTypeRefImpl();
+    return nodeTypeRef;
   }
 
   /**
@@ -701,6 +717,28 @@ public class NetxscriptFactoryImpl extends EFactoryImpl implements NetxscriptFac
    * @generated
    */
   public String convertNativeFunctionToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public IntervalKind createIntervalKindFromString(EDataType eDataType, String initialValue)
+  {
+    IntervalKind result = IntervalKind.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertIntervalKindToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

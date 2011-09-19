@@ -2,7 +2,6 @@ package com.netxforge.serializer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.netxforge.netxscript.AbsoluteRef;
 import com.netxforge.netxscript.And;
 import com.netxforge.netxscript.Argument;
 import com.netxforge.netxscript.Assignment;
@@ -18,6 +17,7 @@ import com.netxforge.netxscript.Greater;
 import com.netxforge.netxscript.GreaterEqual;
 import com.netxforge.netxscript.If;
 import com.netxforge.netxscript.Import;
+import com.netxforge.netxscript.Interval;
 import com.netxforge.netxscript.Lesser;
 import com.netxforge.netxscript.LesserEqual;
 import com.netxforge.netxscript.LinkRef;
@@ -28,6 +28,7 @@ import com.netxforge.netxscript.Multi;
 import com.netxforge.netxscript.NativeExpression;
 import com.netxforge.netxscript.Negation;
 import com.netxforge.netxscript.NetxscriptPackage;
+import com.netxforge.netxscript.NodeTypeRef;
 import com.netxforge.netxscript.NumberLiteral;
 import com.netxforge.netxscript.Or;
 import com.netxforge.netxscript.Plus;
@@ -86,35 +87,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	public void createSequence(EObject context, EObject semanticObject) {
 		if(semanticObject.eClass().getEPackage() == NetxscriptPackage.eINSTANCE) switch(semanticObject.eClass().getClassifierID()) {
-			case NetxscriptPackage.ABSOLUTE_REF:
-				if(context == grammarAccess.getExpressionRule() ||
-				   context == grammarAccess.getLogicalRule() ||
-				   context == grammarAccess.getLogicalAccess().getAndLeftAction_1_0_0_0() ||
-				   context == grammarAccess.getLogicalAccess().getOrLeftAction_1_0_1_0() ||
-				   context == grammarAccess.getEqualityRule() ||
-				   context == grammarAccess.getEqualityAccess().getEqualLeftAction_1_0_0_0() ||
-				   context == grammarAccess.getEqualityAccess().getUnequalLeftAction_1_0_1_0() ||
-				   context == grammarAccess.getComparisonRule() ||
-				   context == grammarAccess.getComparisonAccess().getLesserLeftAction_1_0_0_0() ||
-				   context == grammarAccess.getComparisonAccess().getLesserEqualLeftAction_1_0_1_0() ||
-				   context == grammarAccess.getComparisonAccess().getGreaterLeftAction_1_0_2_0() ||
-				   context == grammarAccess.getComparisonAccess().getGreaterEqualLeftAction_1_0_3_0() ||
-				   context == grammarAccess.getAdditionRule() ||
-				   context == grammarAccess.getAdditionAccess().getPlusLeftAction_1_0_0_0() ||
-				   context == grammarAccess.getAdditionAccess().getMinusLeftAction_1_0_1_0() ||
-				   context == grammarAccess.getMultiplicationRule() ||
-				   context == grammarAccess.getMultiplicationAccess().getMultiLeftAction_1_0_0_0() ||
-				   context == grammarAccess.getMultiplicationAccess().getDivLeftAction_1_0_1_0() ||
-				   context == grammarAccess.getMultiplicationAccess().getModuloLeftAction_1_0_2_0() ||
-				   context == grammarAccess.getUnaryRule() ||
-				   context == grammarAccess.getPrimaryExpressionRule() ||
-				   context == grammarAccess.getParenthesizedExpressionRule() ||
-				   context == grammarAccess.getReferenceRule() ||
-				   context == grammarAccess.getAbsoluteRefRule()) {
-					sequence_AbsoluteRef_AbsoluteRef(context, (AbsoluteRef) semanticObject); 
-					return; 
-				}
-				else break;
 			case NetxscriptPackage.AND:
 				if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
@@ -382,6 +354,12 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 					return; 
 				}
 				else break;
+			case NetxscriptPackage.INTERVAL:
+				if(context == grammarAccess.getIntervalRule()) {
+					sequence_Interval_Interval(context, (Interval) semanticObject); 
+					return; 
+				}
+				else break;
 			case NetxscriptPackage.LESSER:
 				if(context == grammarAccess.getExpressionRule() ||
 				   context == grammarAccess.getLogicalRule() ||
@@ -582,6 +560,35 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 				   context == grammarAccess.getPrimaryExpressionRule() ||
 				   context == grammarAccess.getParenthesizedExpressionRule()) {
 					sequence_Unary_Negation(context, (Negation) semanticObject); 
+					return; 
+				}
+				else break;
+			case NetxscriptPackage.NODE_TYPE_REF:
+				if(context == grammarAccess.getExpressionRule() ||
+				   context == grammarAccess.getLogicalRule() ||
+				   context == grammarAccess.getLogicalAccess().getAndLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getLogicalAccess().getOrLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getEqualityRule() ||
+				   context == grammarAccess.getEqualityAccess().getEqualLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getEqualityAccess().getUnequalLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getComparisonRule() ||
+				   context == grammarAccess.getComparisonAccess().getLesserLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getComparisonAccess().getLesserEqualLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getComparisonAccess().getGreaterLeftAction_1_0_2_0() ||
+				   context == grammarAccess.getComparisonAccess().getGreaterEqualLeftAction_1_0_3_0() ||
+				   context == grammarAccess.getAdditionRule() ||
+				   context == grammarAccess.getAdditionAccess().getPlusLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getAdditionAccess().getMinusLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getMultiplicationRule() ||
+				   context == grammarAccess.getMultiplicationAccess().getMultiLeftAction_1_0_0_0() ||
+				   context == grammarAccess.getMultiplicationAccess().getDivLeftAction_1_0_1_0() ||
+				   context == grammarAccess.getMultiplicationAccess().getModuloLeftAction_1_0_2_0() ||
+				   context == grammarAccess.getUnaryRule() ||
+				   context == grammarAccess.getPrimaryExpressionRule() ||
+				   context == grammarAccess.getParenthesizedExpressionRule() ||
+				   context == grammarAccess.getReferenceRule() ||
+				   context == grammarAccess.getNodeTypeRefRule()) {
+					sequence_NodeTypeRef_NodeTypeRef(context, (NodeTypeRef) semanticObject); 
 					return; 
 				}
 				else break;
@@ -857,19 +864,6 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (nodetype=[NodeType|ID] primaryRef=PrimaryRef)
-	 *
-	 * Features:
-	 *    nodetype[1, 1]
-	 *    primaryRef[1, 1]
-	 */
-	protected void sequence_AbsoluteRef_AbsoluteRef(EObject context, AbsoluteRef semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
 	 *     (left=Addition_Minus_1_0_1_0 right=Multiplication)
 	 *
 	 * Features:
@@ -1131,6 +1125,21 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
+	 *     (interval=NUMBER | kind=IntervalKind)
+	 *
+	 * Features:
+	 *    interval[0, 1]
+	 *         EXCLUDE_IF_SET kind
+	 *    kind[0, 1]
+	 *         EXCLUDE_IF_SET interval
+	 */
+	protected void sequence_Interval_Interval(EObject context, Interval semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     link=[Relationship|ID]
 	 *
 	 * Features:
@@ -1265,6 +1274,19 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
+	 *     (nodetype=[NodeType|ID] primaryRef=PrimaryRef)
+	 *
+	 * Features:
+	 *    nodetype[1, 1]
+	 *    primaryRef[1, 1]
+	 */
+	protected void sequence_NodeTypeRef_NodeTypeRef(EObject context, NodeTypeRef semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     value=NUMBER
 	 *
 	 * Features:
@@ -1325,12 +1347,12 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     (valuerange=ValueRange kind=ValueKind? period=NUMBER?)
+	 *     (valuerange=ValueRange kind=ValueKind? interval=Interval?)
 	 *
 	 * Features:
 	 *    valuerange[1, 1]
 	 *    kind[0, 1]
-	 *    period[0, 1]
+	 *    interval[0, 1]
 	 */
 	protected void sequence_RangeRef_RangeRef(EObject context, RangeRef semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -1339,7 +1361,7 @@ public class AbstractNetxscriptSemanticSequencer extends AbstractSemanticSequenc
 	
 	/**
 	 * Constraint:
-	 *     ((assignmentRef=ContextRef | assignmentRef=AbsoluteRef) expression=Expression)
+	 *     ((assignmentRef=ContextRef | assignmentRef=NodeTypeRef) expression=Expression)
 	 *
 	 * Features:
 	 *    expression[1, 1]

@@ -28,7 +28,9 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.DerivedResource;
+import com.netxforge.netxstudio.services.DistributionEntry;
 import com.netxforge.netxstudio.services.RFSService;
+import com.netxforge.netxstudio.services.ResourceOriginType;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceClassType;
 import com.netxforge.netxstudio.services.ServiceDistribution;
@@ -87,6 +89,7 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 			case ServicesPackage.CFS_SERVICE: return (EObject)createCFSService();
 			case ServicesPackage.CIID: return (EObject)createCIID();
 			case ServicesPackage.DERIVED_RESOURCE: return (EObject)createDerivedResource();
+			case ServicesPackage.DISTRIBUTION_ENTRY: return (EObject)createDistributionEntry();
 			case ServicesPackage.RFS_SERVICE: return (EObject)createRFSService();
 			case ServicesPackage.SERVICE: return (EObject)createService();
 			case ServicesPackage.SERVICE_DISTRIBUTION: return (EObject)createServiceDistribution();
@@ -108,8 +111,12 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
+			case ServicesPackage.RESOURCE_ORIGIN_TYPE:
+				return createResourceOriginTypeFromString(eDataType, initialValue);
 			case ServicesPackage.SERVICE_CLASS_TYPE:
 				return createServiceClassTypeFromString(eDataType, initialValue);
+			case ServicesPackage.RESOURCE_ORIGIN_TYPE_OBJECT:
+				return createResourceOriginTypeObjectFromString(eDataType, initialValue);
 			case ServicesPackage.SERVICE_CLASS_TYPE_OBJECT:
 				return createServiceClassTypeObjectFromString(eDataType, initialValue);
 			default:
@@ -125,8 +132,12 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
+			case ServicesPackage.RESOURCE_ORIGIN_TYPE:
+				return convertResourceOriginTypeToString(eDataType, instanceValue);
 			case ServicesPackage.SERVICE_CLASS_TYPE:
 				return convertServiceClassTypeToString(eDataType, instanceValue);
+			case ServicesPackage.RESOURCE_ORIGIN_TYPE_OBJECT:
+				return convertResourceOriginTypeObjectToString(eDataType, instanceValue);
 			case ServicesPackage.SERVICE_CLASS_TYPE_OBJECT:
 				return convertServiceClassTypeObjectToString(eDataType, instanceValue);
 			default:
@@ -162,6 +173,16 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 	public DerivedResource createDerivedResource() {
 		DerivedResourceImpl derivedResource = new DerivedResourceImpl();
 		return derivedResource;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DistributionEntry createDistributionEntry() {
+		DistributionEntryImpl distributionEntry = new DistributionEntryImpl();
+		return distributionEntry;
 	}
 
 	/**
@@ -249,6 +270,26 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ResourceOriginType createResourceOriginTypeFromString(EDataType eDataType, String initialValue) {
+		ResourceOriginType result = ResourceOriginType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertResourceOriginTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ServiceClassType createServiceClassTypeFromString(EDataType eDataType, String initialValue) {
 		ServiceClassType result = ServiceClassType.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -262,6 +303,24 @@ public class ServicesFactoryImpl extends EFactoryImpl implements ServicesFactory
 	 */
 	public String convertServiceClassTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ResourceOriginType createResourceOriginTypeObjectFromString(EDataType eDataType, String initialValue) {
+		return createResourceOriginTypeFromString(ServicesPackage.Literals.RESOURCE_ORIGIN_TYPE, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertResourceOriginTypeObjectToString(EDataType eDataType, Object instanceValue) {
+		return convertResourceOriginTypeToString(ServicesPackage.Literals.RESOURCE_ORIGIN_TYPE, instanceValue);
 	}
 
 	/**

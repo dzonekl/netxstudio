@@ -143,6 +143,11 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createRangeRefAdapter();
       }
       @Override
+      public Adapter caseInterval(Interval object)
+      {
+        return createIntervalAdapter();
+      }
+      @Override
       public Adapter caseReturn(Return object)
       {
         return createReturnAdapter();
@@ -283,9 +288,9 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
         return createRangeLiteralAdapter();
       }
       @Override
-      public Adapter caseAbsoluteRef(AbsoluteRef object)
+      public Adapter caseNodeTypeRef(NodeTypeRef object)
       {
-        return createAbsoluteRefAdapter();
+        return createNodeTypeRefAdapter();
       }
       @Override
       public Adapter caseContextRef(ContextRef object)
@@ -525,6 +530,21 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createRangeRefAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.Interval <em>Interval</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see com.netxforge.netxscript.Interval
+   * @generated
+   */
+  public Adapter createIntervalAdapter()
   {
     return null;
   }
@@ -950,16 +970,16 @@ public class NetxscriptAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.AbsoluteRef <em>Absolute Ref</em>}'.
+   * Creates a new adapter for an object of class '{@link com.netxforge.netxscript.NodeTypeRef <em>Node Type Ref</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see com.netxforge.netxscript.AbsoluteRef
+   * @see com.netxforge.netxscript.NodeTypeRef
    * @generated
    */
-  public Adapter createAbsoluteRefAdapter()
+  public Adapter createNodeTypeRefAdapter()
   {
     return null;
   }

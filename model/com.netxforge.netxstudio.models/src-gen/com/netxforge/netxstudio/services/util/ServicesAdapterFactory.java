@@ -28,6 +28,7 @@ import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.services.CFSService;
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.DerivedResource;
+import com.netxforge.netxstudio.services.DistributionEntry;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceDistribution;
@@ -105,6 +106,10 @@ public class ServicesAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseDerivedResource(DerivedResource object) {
 				return createDerivedResourceAdapter();
+			}
+			@Override
+			public Adapter caseDistributionEntry(DistributionEntry object) {
+				return createDistributionEntryAdapter();
 			}
 			@Override
 			public Adapter caseRFSService(RFSService object) {
@@ -205,6 +210,20 @@ public class ServicesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDerivedResourceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.services.DistributionEntry <em>Distribution Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.services.DistributionEntry
+	 * @generated
+	 */
+	public Adapter createDistributionEntryAdapter() {
 		return null;
 	}
 
