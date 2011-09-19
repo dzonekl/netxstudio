@@ -120,8 +120,9 @@ public class MetricValueQueryTest extends AbstractDataProviderTest {
 	}
 	
 	private RFSService createModelData() throws Exception {
-		final Resource serviceResource = dataProvider
-				.getResource(ServicesPackage.Literals.RFS_SERVICE);
+		
+//		final Resource serviceResource = dataProvider
+//				.getResource(ServicesPackage.Literals.RFS_SERVICE);
 		for (final EObject eObject : serviceResource.getContents()) {
 			if (eObject instanceof RFSService
 					&& ((RFSService) eObject).getServiceName().equals(RFS_NAME)) {

@@ -54,6 +54,7 @@
       <feature id="org.hibernate"/>
       <feature id="org.apache.artifacts.server.feature" version="1.0.0.qualifier"/>
       <feature id="oracle.jdbc.driver" version="1.0.0.qualifier"/>
+      <feature id="org.eclipse.equinox.jsp.example.artifacts.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>

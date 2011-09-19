@@ -53,6 +53,8 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 //		this.buildUI();
+//		this.showHierachy(cmpHierachy);
+//		cmpHierachy.setLayout(null);
 	}
 
 	public void injectData(Object owner, Object object) {
@@ -161,7 +163,7 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		Section sctnHierachy = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		ColumnLayoutData cld_sctnHierachy = new ColumnLayoutData();
-		cld_sctnHierachy.heightHint = 300;
+		cld_sctnHierachy.heightHint = 100;
 		sctnHierachy.setLayoutData(cld_sctnHierachy);
 		
 		toolkit.paintBordersFor(sctnHierachy);
@@ -172,6 +174,7 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		toolkit.adapt(cmpHierachy);
 		toolkit.paintBordersFor(cmpHierachy);
 		sctnHierachy.setClient(cmpHierachy);
+		cmpHierachy.setLayout(new FillLayout());
 		
 		if(readonly){
 			btnLeafNode.setEnabled(false);
@@ -214,7 +217,7 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 	private Text txtName;
 
 	private void showHierachy(Composite c) {
-		c.setLayout(new FillLayout());
+		
 		// Do some gef here.
 		ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
 		graphicalViewer = new ScrollingGraphicalViewer();

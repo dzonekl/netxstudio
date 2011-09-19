@@ -38,14 +38,12 @@ import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.BaseResource;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.ExpressionResult;
-import com.netxforge.netxstudio.library.LastEvaluationExpressionResult;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
-import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.MarkerKind;
 import com.netxforge.netxstudio.operators.Node;
@@ -117,6 +115,7 @@ public class CommonLogic {
 			}
 		}
 	}
+	
 
 	private void processMonitoringExpressionResult(Date start, Date end,
 			final ExpressionResult expressionResult) {
@@ -169,7 +168,7 @@ public class CommonLogic {
 				
 			// TODO, THIS RANGE KIND WOULD NEED TO BE SUPPORTED. 	
 			case RangeKind.METRICREMOVE_VALUE:
-				final MetricValueRange mvr = getValueRange(resource,
+				final MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(resource,
 						expressionResult.getTargetKindHint(),
 						expressionResult.getTargetIntervalHint());
 				if (start != null) {
@@ -314,6 +313,8 @@ public class CommonLogic {
 				toRemove.add(value);
 			}
 		}
+		
+		// Note, how to deal with references to the values? (ResourceMonitor etc..). 
 		values.removeAll(toRemove);
 	}
 
@@ -357,7 +358,7 @@ public class CommonLogic {
 	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
 			KindHintType kindHintType, List<Value> newValues, Date start,
 			Date end) {
-		final MetricValueRange mvr = getValueRange(foundNetXResource,
+		final MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(foundNetXResource,
 				kindHintType, periodHint);
 		if (start != null) {
 			removeValues(mvr.getMetricValues(), start, end);
@@ -366,39 +367,24 @@ public class CommonLogic {
 	}
 
 	public void addToValues(EList<Value> values, List<Value> newValues,
-			int periodHint) {
+			int intervalHint) {
 		for (final Value newValue : new ArrayList<Value>(newValues)) {
-			addToValues(values, newValue, periodHint);
+			addToValues(values, newValue, intervalHint);
 		}
 	}
 
-	private MetricValueRange getValueRange(NetXResource foundNetXResource,
-			KindHintType kindHintType, int periodHint) {
-		MetricValueRange foundMvr = null;
-		for (final MetricValueRange mvr : foundNetXResource
-				.getMetricValueRanges()) {
-			if (mvr.getKindHint() == kindHintType
-					&& mvr.getIntervalHint() == periodHint) {
-				foundMvr = mvr;
-				break;
-			}
-		}
-		if (foundMvr == null) {
-			foundMvr = MetricsFactory.eINSTANCE.createMetricValueRange();
-			foundMvr.setKindHint(kindHintType);
-			foundMvr.setIntervalHint(periodHint);
-			foundNetXResource.getMetricValueRanges().add(foundMvr);
-		}
-		return foundMvr;
-	}
+	
+	/*
+	 * If this method is used to 
+	 */
 
-	public void addToValues(EList<Value> values, Value value, int periodHint) {
+	public void addToValues(EList<Value> values, Value value, int intervalHint) {
 
 		final long timeInMillis = value.getTimeStamp().toGregorianCalendar()
 				.getTimeInMillis();
 		Value foundValue = null;
 		for (final Value lookValue : values) {
-			if (isSameTime(periodHint, timeInMillis, lookValue.getTimeStamp())) {
+			if (isSameTime(intervalHint, timeInMillis, lookValue.getTimeStamp())) {
 				foundValue = lookValue;
 				break;
 			}
@@ -409,14 +395,23 @@ public class CommonLogic {
 			values.add(value);
 		}
 	}
-
-	private boolean isSameTime(int period, long time1,
+	
+	/**
+	 * The IntervalHint is required if to compare the difference
+	 * is less than the interval.  
+	 * 
+	 * @param intervalHint
+	 * @param time1
+	 * @param time2
+	 * @return
+	 */
+	private boolean isSameTime(int intervalHint, long time1,
 			XMLGregorianCalendar time2) {
 		long diff = time1 - time2.toGregorianCalendar().getTimeInMillis();
 		if (diff < 0) {
 			diff = diff * -1;
 		}
-		return diff < (period * 60 * 1000 - 1);
+		return diff < (intervalHint * 60 * 1000 - 1);
 	}
 
 	public Node getNode(EObject eObject) {

@@ -43,6 +43,7 @@ import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import com.google.common.base.Predicate;
@@ -62,6 +63,7 @@ import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
+import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceMonitor;
@@ -72,8 +74,7 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		IDataScreenInjection {
 
 	final IEditingService editingService;
-	
-	
+
 	private final FormToolkit formToolkit = new FormToolkit(
 			Display.getDefault());
 	private Text txtName;
@@ -431,13 +432,49 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				}
 			}
 		});
-		
+
 		mntmRemove.setText("Remove");
 
 		Section sctnHiarchy = formToolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnHiarchy);
 		sctnHiarchy.setText("Hierarchy");
+
+		Section sctnDistribution = formToolkit.createSection(this,
+				Section.TWISTIE | Section.TITLE_BAR);
+		formToolkit.paintBordersFor(sctnDistribution);
+		sctnDistribution.setText("Distribution");
+		sctnDistribution.setExpanded(true);
+
+		Composite composite_4 = formToolkit.createComposite(sctnDistribution,
+				SWT.NONE);
+		formToolkit.paintBordersFor(composite_4);
+		sctnDistribution.setClient(composite_4);
+		composite_4.setLayout(new GridLayout(1, false));
+
+		ImageHyperlink mghprlnkEdit = formToolkit.createImageHyperlink(
+				composite_4, SWT.NONE);
+		mghprlnkEdit.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				ServiceDistributionScreen screen = new ServiceDistributionScreen(
+						screenService.getScreenContainer(), SWT.NONE);
+				screen.setScreenService(screenService);
+				screen.setOperation(getOperation());
+				screen.injectData(null, service);
+				screenService.setActiveScreen(screen);
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		mghprlnkEdit.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/obj16/Servicedistribution_H.png"));
+		formToolkit.paintBordersFor(mghprlnkEdit);
+		mghprlnkEdit.setText("Edit");
 
 		Section sctnTolerances = formToolkit.createSection(this,
 				Section.TWISTIE | Section.TITLE_BAR);
@@ -546,23 +583,30 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		RFSServiceSummary summary = new RFSServiceSummary(this.modelUtils, service);
-		
-		// TODO, It would be nice to make it interactive and be able to browse the Service Monitors! 
-		ServiceMonitor sm = modelUtils.lastServiceMonitor(service);
-		summary.setRagCountNodes(modelUtils.ragCount(sm));
-		summary.setPeriodFormattedString(modelUtils.formatLastMonitorDate(sm));
+		RFSServiceSummary summary = new RFSServiceSummary(this.modelUtils,
+				service);
 
-		formTextLastMonitor.setText(summary.getPeriodFormattedString(),
-				false, false);
+		// TODO, It would be nice to make it interactive and be able to browse
+		// the Service Monitors!
+		ServiceMonitor sm = modelUtils.lastServiceMonitor(service);
+		if (sm != null) {
+			summary.setRagCountNodes(modelUtils.ragCount(sm));
+			summary.setPeriodFormattedString(modelUtils
+					.formatLastMonitorDate(sm));
+		}
+
+		formTextLastMonitor.setText(summary.getPeriodFormattedString(), false,
+				false);
 		formTextNumberOfNodes.setText(
 				new Integer(summary.getNodeCount()).toString(), false, false);
 		formTextRed.setText(new Integer(summary.getRedCountNodes()).toString(),
 				false, false);
-		formTextAmber.setText(new Integer(summary.getAmberCountNodes()).toString(),
-				false, false);
-		formTextGreen.setText(new Integer(summary.getGreenCountNodes()).toString(),
-				false, false);
+		formTextAmber.setText(
+				new Integer(summary.getAmberCountNodes()).toString(), false,
+				false);
+		formTextGreen.setText(
+				new Integer(summary.getGreenCountNodes()).toString(), false,
+				false);
 
 		bindInfoSection(context);
 		bindNetworkElementSection();

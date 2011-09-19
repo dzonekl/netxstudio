@@ -23,7 +23,8 @@ import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.job.JobImplementation;
-import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.server.logic.BaseLogic;
+import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
 
 /**
  * Implements a job runner for a metric source.
@@ -38,26 +39,33 @@ public class OperatorReportingJobImplementation extends JobImplementation {
 	public void run() {
 		final OperatorReporterJob reporterJob = (OperatorReporterJob) getJob();
 
-		{
-			final OperatorReportingLogic logic = LogicActivator.getInstance()
-					.getInjector()
-					.getInstance(RFSServiceSummaryReportingLogic.class);
+		for (final BaseLogic reportingLogic : ReportingService
+				.getOperatorReportingLogos()) {
 
-			logic.setServices(reporterJob.getOperator().getServices());
-			logic.setJobMonitor(getRunMonitor());
-			logic.initializeReportingLogic();
-			logic.run();
-		}
-		{
-			final OperatorReportingLogic logic = LogicActivator.getInstance()
-					.getInjector()
-					.getInstance(RFSServiceDashboardReportingLogic.class);
-			logic.setServices(reporterJob.getOperator().getServices());
-			logic.setJobMonitor(getRunMonitor());
-			logic.initializeReportingLogic();
-			logic.run();
-		}
+			reportingLogic.setJobMonitor(getRunMonitor());
 
+			if (reportingLogic instanceof BasePeriodLogic) {
+
+				// The period should be calculated, but which service to use as 
+				// the service monitor will vary for different periods.
+				// FIXME, We use the first service, there is no additional criteria to use here..
+				// SHOULD BE SETTING SOMEWHERE. 
+				if( reporterJob.getOperator().getServices().size() > 0) {
+					((BasePeriodLogic) reportingLogic).calculatePeriod(reporterJob.getOperator().getServices().get(0));
+				}
+			}
+
+			// Set Operator specific.
+			if (reportingLogic instanceof OperatorReportingLogic) {
+
+				((OperatorReportingLogic) reportingLogic)
+						.setServices(reporterJob.getOperator().getServices());
+				((OperatorReportingLogic) reportingLogic).initializeStream();
+			}
+
+			reportingLogic.run();
+
+		}
 		// getDataProvider().commitTransaction();
 	}
 

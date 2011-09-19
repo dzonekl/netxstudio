@@ -1,7 +1,5 @@
 package com.netxforge.netxstudio.screens.nf3;
 
-import java.io.IOException;
-
 import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -43,7 +41,6 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
 import com.netxforge.netxstudio.metrics.MetricRetentionRule;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
-import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.ch9.NewEditExpression;
@@ -258,61 +255,15 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 
 	}
 
-	// FIXME, move this to initial data loading.
 	public void injectData() {
 		retentionRulesResource = editingService
 				.getData(MetricsPackage.Literals.METRIC_RETENTION_RULES);
 		EList<EObject> contents = retentionRulesResource.getContents();
 		if (contents.size() == 1) {
 			rules = (MetricRetentionRules) contents.get(0);
-		} else {
-			rules = MetricsFactory.eINSTANCE.createMetricRetentionRules();
-			contents.add(rules);
-			try {
-				retentionRulesResource.save(null);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			buildUI();
+			initDataBindings_();
 		}
-
-		if (rules.getMetricRetentionRules().size() == 0) {
-			{
-				MetricRetentionRule r = MetricsFactory.eINSTANCE
-						.createMetricRetentionRule();
-				r.setName("Monthly values");
-				r.setPeriod(MetricRetentionPeriod.ALWAYS);
-				// r.setRetentionExpression(value);
-				rules.getMetricRetentionRules().add(r);
-			}
-			{
-				MetricRetentionRule r = MetricsFactory.eINSTANCE
-						.createMetricRetentionRule();
-				r.setName("Weekly values");
-				r.setPeriod(MetricRetentionPeriod.ALWAYS);
-				// r.setRetentionExpression(value);
-				rules.getMetricRetentionRules().add(r);
-			}
-			{
-				MetricRetentionRule r = MetricsFactory.eINSTANCE
-						.createMetricRetentionRule();
-				r.setName("Daily values");
-				r.setPeriod(MetricRetentionPeriod.ONE_MONTH);
-				// r.setRetentionExpression(value);
-				rules.getMetricRetentionRules().add(r);
-
-			}
-			{
-				MetricRetentionRule r = MetricsFactory.eINSTANCE
-						.createMetricRetentionRule();
-				r.setName("Hourly values");
-				r.setPeriod(MetricRetentionPeriod.ONE_WEEK);
-				// r.setRetentionExpression(value);
-				rules.getMetricRetentionRules().add(r);
-			}
-
-		}
-		buildUI();
-		initDataBindings_();
 	}
 
 	public void disposeData() {

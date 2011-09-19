@@ -63,13 +63,13 @@ public class ReportingService implements NetxForgeService {
 	public static final String END_TIME_PARAM = "endTime";
 
 	public Object run(Map<String, String> parameters) {
-		final ResourceReportingRunner runner = LogicActivator.getInstance()
-				.getInjector().getInstance(ResourceReportingRunner.class);
+		final ReportingRunner runner = LogicActivator.getInstance()
+				.getInjector().getInstance(ReportingRunner.class);
 		runner.setParameters(parameters);
 		return ((AbstractCDOIDLong) runner.run()).getLongValue();
 	}
 
-	public static class ResourceReportingRunner {
+	public static class ReportingRunner {
 		@Inject
 		@Server
 		private IDataProvider dataProvider;
@@ -86,14 +86,14 @@ public class ReportingService implements NetxForgeService {
 
 				final CDOID finalID = id != null ? id : null;
 				runOperatorService(monitor, finalID,
-						this.getOperatorReportingLogos());
+						getOperatorReportingLogos());
 
 			} else if (parameters.containsKey(SERVICE_PARAM)) {
 				id = getCDOID(parameters.get(SERVICE_PARAM),
 						ServicesPackage.Literals.RFS_SERVICE);
 
 				final CDOID finalID = id != null ? id : null;
-				runService(monitor, finalID, this.getOperatorReportingLogos());
+				runService(monitor, finalID, getOperatorReportingLogos());
 
 			} else if (parameters.containsKey(NODE_PARAM)) {
 				// TODO, Not implemented yet.
@@ -219,22 +219,7 @@ public class ReportingService implements NetxForgeService {
 		 * 
 		 * @return
 		 */
-		public List<OperatorReportingLogic> getOperatorReportingLogos() {
-			List<OperatorReportingLogic> logos = Lists.newArrayList();
-
-			logos.add(LogicActivator.getInstance().getInjector()
-					.getInstance(RFSServiceSummaryReportingLogic.class));
-			logos.add(LogicActivator.getInstance().getInjector()
-					.getInstance(RFSServiceDashboardReportingLogic.class));
-			logos.add(LogicActivator.getInstance().getInjector()
-					.getInstance(RFSServiceUserReportingLogic.class));
-			logos.add(LogicActivator.getInstance().getInjector()
-					.getInstance(RFSServiceResourceReportingLogic.class));
-
-			// logos.add(LogicActivator.getInstance().getInjector()
-			// .getInstance(RFSServiceDistributionReportingLogic.class));
-			return logos;
-		}
+		
 
 		private Date getStartTime(Map<String, String> parameters) {
 			final XMLGregorianCalendar xmlDate = XMLTypeFactory.eINSTANCE
@@ -282,6 +267,23 @@ public class ReportingService implements NetxForgeService {
 			this.parameters = parameters;
 		}
 
+	}
+	
+	public static List<OperatorReportingLogic> getOperatorReportingLogos() {
+		List<OperatorReportingLogic> logos = Lists.newArrayList();
+
+		logos.add(LogicActivator.getInstance().getInjector()
+				.getInstance(RFSServiceSummaryReportingLogic.class));
+		logos.add(LogicActivator.getInstance().getInjector()
+				.getInstance(RFSServiceDashboardReportingLogic.class));
+		logos.add(LogicActivator.getInstance().getInjector()
+				.getInstance(RFSServiceUserReportingLogic.class));
+		logos.add(LogicActivator.getInstance().getInjector()
+				.getInstance(RFSServiceResourceReportingLogic.class));
+
+		// logos.add(LogicActivator.getInstance().getInjector()
+		// .getInstance(RFSServiceDistributionReportingLogic.class));
+		return logos;
 	}
 
 }

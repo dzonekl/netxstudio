@@ -19,16 +19,19 @@
 package com.netxforge.netxstudio.server.logic.retention;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
 
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.scheduling.ComponentFailure;
+import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
 import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentEngine;
 import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentLogic;
 import com.netxforge.netxstudio.services.RFSService;
 
@@ -41,7 +44,14 @@ public class RetentionLogic extends BaseComponentLogic {
 
 	private RFSService rfsService;
 	private NodeType nodeType;
+	private MetricRetentionRules rules;
+	
+	public void setRules(MetricRetentionRules rules) {
+		this.rules = rules;
+	}
+
 	private BaseExpressionEngine engine;
+	
 
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor() {
@@ -72,6 +82,28 @@ public class RetentionLogic extends BaseComponentLogic {
 		for (final Component component : getComponents(nodeType)) {
 			executeFor(component);
 			getJobMonitor().incrementProgress(0, (cnt++ % 10) == 0);
+		}
+	}
+	
+	protected void executeFor(Component component) {
+		this.getJobMonitor().setTask("Cleaning for " + component.getName());
+		this.getJobMonitor().incrementProgress(1, false);
+		final BaseComponentEngine engine = (BaseComponentEngine) getEngine();
+		engine.setJobMonitor(getJobMonitor());
+		engine.setComponent(component);
+		engine.setDataProvider(this.getDataProvider());
+		if(engine instanceof RetentionEngine){
+			((RetentionEngine) engine).setRetentionRules(rules);
+		}
+		
+		engine.execute();
+		if (engine.getFailures().size() > 0) {
+			for (final Failure failure : engine.getFailures()) {
+				if (failure instanceof ComponentFailure) {
+					((ComponentFailure) failure).setComponentRef(component);
+				}
+				this.getFailures().add(failure);
+			}
 		}
 	}
 
@@ -109,20 +141,27 @@ public class RetentionLogic extends BaseComponentLogic {
 
 	@Override
 	public void run() {
-		Date startTime = getStartTime();
-		if (startTime == null) {
-			// as a default start 30 days in the past
-			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60
-					* 1000);
-			setStartTime(startTime);
-		}
-		Date endTime = getEndTime();
-		if (endTime == null) {
-			// and run until one week in the past
-			endTime = new Date(System.currentTimeMillis() - 7 * 24 * 60 * 60
-					* 1000);
-			setEndTime(endTime);
-		}
+		
+		// Remove later, start / end is set in the engine and depengin on the retention rule. 
+		
+//		// get from the retention rules. 
+//		
+//		
+//		
+//		Date startTime = getStartTime();
+//		if (startTime == null) {
+//			// as a default start 30 days in the past
+//			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60
+//					* 1000);
+//			setStartTime(startTime);
+//		}
+//		Date endTime = getEndTime();
+//		if (endTime == null) {
+//			// and run until one week in the past
+//			endTime = new Date(System.currentTimeMillis() - 7 * 24 * 60 * 60
+//					* 1000);
+//			setEndTime(endTime);
+//		}
 		super.run();
 	}
 }

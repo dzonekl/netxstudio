@@ -375,7 +375,7 @@ public class ResourceMonitor extends AbstractScreen implements
 
 	public List<Value> createDateSeries(EList<Value> values) {
 		List<Value> sortedCopy = modelUtils.sortByTimeStampAndReverse(values);
-		return modelUtils.filterInRange(sortedCopy, dtr);
+		return modelUtils.filterValueInRange(sortedCopy, dtr);
 	}
 
 	/**

@@ -22,6 +22,7 @@ import java.util.Date;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.services.Service;
 
 /**
  * Common code for all logic implementations.
@@ -60,5 +61,31 @@ public abstract class BasePeriodLogic extends BaseLogic {
 
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+	
+	public void calculatePeriod(Service service) {
+		Date startTime = getStartTime();
+		if (startTime == null) {
+			// TODO: make the period for the look back configurable
+			// TODO: note that a user can do a separate run which runs in the
+			// past
+			// creating new last service monitor with an end date in the past
+			// the system, should not pick the last servicemonitor in the list
+			// but should find the last end time of all service monitors.
+			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60
+					* 1000);
+			if (!service.getServiceMonitors().isEmpty()) {
+				final Date previousEndTime = service.getServiceMonitors()
+						.get(service.getServiceMonitors().size() - 1)
+						.getPeriod().getEnd().toGregorianCalendar().getTime();
+				startTime = new Date(previousEndTime.getTime() + 1);
+			}
+			setStartTime(startTime);
+		}
+		Date endTime = getEndTime();
+		if (endTime == null) {
+			endTime = new Date(System.currentTimeMillis());
+			setEndTime(endTime);
+		}
 	}
 }

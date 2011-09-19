@@ -24,8 +24,8 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 	private static final int NODE_COLUMN = 2;
 	private static final int NODE_ROW = 9;
 	private static final int RESOURCE_HEIGHT = 14;
-	
-	// FIXME, This should be outputed somehow aswell. 
+
+	// FIXME, This should be outputed somehow aswell.
 	private int nodesNotReported = 0;
 
 	@Override
@@ -71,7 +71,7 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 			nodeCell.setCellValue(node.getNodeID());
 
 		} else {
-			
+
 			nodesNotReported++;
 		}
 	}
@@ -134,13 +134,11 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 	}
 
 	private void writeValues(HSSFRow resourceRow, MetricValueRange mvr) {
-		
-		
-		// TODO, why reverse? 
-		List<Value> range = getModelUtils().sortByTimeStampAndReverse(
+
+		List<Value> range = getModelUtils().sortByTimeStamp(
 				mvr.getMetricValues());
 
-		range = getModelUtils().filterInRange(range, this.getTimeRange());
+		range = getModelUtils().filterValueInRange(range, this.getTimeRange());
 
 		// Write the values.
 		int valueIndex = NODE_COLUMN + 3;

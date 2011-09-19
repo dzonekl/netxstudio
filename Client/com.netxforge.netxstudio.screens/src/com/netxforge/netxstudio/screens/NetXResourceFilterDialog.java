@@ -18,13 +18,13 @@
 package com.netxforge.netxstudio.screens;
 
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Composite;
@@ -36,7 +36,8 @@ import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
 public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
-	private final Resource resource;
+
+	private List<NetXResource> netXResources;
 
 	/**
 	 * Create a new dialog
@@ -46,10 +47,10 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 	 * @param resource
 	 *            the model resource
 	 */
-	public NetXResourceFilterDialog(Shell shell, Resource resource) {
+	public NetXResourceFilterDialog(Shell shell, List<NetXResource> netXResources) {
 		super(shell);
 		this.setTitle("Select an existing Resource");
-		this.resource = resource;
+		this.netXResources = netXResources;
 
 		setListLabelProvider(new LabelProvider() {
 			@Override
@@ -118,12 +119,11 @@ public class NetXResourceFilterDialog extends FilteredItemsSelectionDialog {
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
 		
-		for (EObject p : resource.getContents()) {
+		for (EObject netxResource : netXResources) {
 			if (progressMonitor.isCanceled()) {
 				return;
 			}
-
-			contentProvider.add(p, itemsFilter);
+			contentProvider.add(netxResource, itemsFilter);
 		}
 	}
 

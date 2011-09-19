@@ -19,7 +19,6 @@
 package com.netxforge.netxstudio.server.logic.monitoring;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
@@ -40,29 +39,10 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 	private RFSService rfsService;
 
 	private ServiceMonitor serviceMonitor;
-	
+
 	void initializeMonitoringLogic() {
-		Date startTime = getStartTime();
-		if (startTime == null) {
-			// TODO: make the period for the look back configurable
-			// TODO: note that a user can do a separate run which runs in the past
-			// creating new last service monitor with an end date in the past
-			// the system, should not pick the last servicemonitor in the list
-			// but should find the last end time of all service monitors.
-			startTime = new Date(System.currentTimeMillis() - 30 * 24 * 60 * 60 * 1000);
-			if (!rfsService.getServiceMonitors().isEmpty()) {
-				final Date previousEndTime = rfsService.getServiceMonitors()
-						.get(rfsService.getServiceMonitors().size() - 1)
-						.getPeriod().getEnd().toGregorianCalendar().getTime();
-				startTime = new Date(previousEndTime.getTime() + 1);
-			}
-			setStartTime(startTime);
-		}
-		Date endTime = getEndTime();
-		if (endTime == null) {
-			endTime = new Date(System.currentTimeMillis());
-			setEndTime(endTime);
-		}
+
+		this.calculatePeriod(rfsService);
 
 		serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
 		// what name should a servicemonitor have?
@@ -78,7 +58,8 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 
 	public void setRfsService(CDOID cdoId) {
 		// read the rfsservice in the transaction of the run
-		this.rfsService = (RFSService)getDataProvider().getTransaction().getObject(cdoId);
+		this.rfsService = (RFSService) getDataProvider().getTransaction()
+				.getObject(cdoId);
 	}
 
 	@Override
@@ -86,17 +67,19 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		// first go through the leave nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (getModelUtils().isValidNode(node) && node.getNodeType().isLeafNode()) {
+			if (getModelUtils().isValidNode(node)
+					&& node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (getModelUtils().isValidNode(node) && !node.getNodeType().isLeafNode()) {
+			if (getModelUtils().isValidNode(node)
+					&& !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		return nodeTypes;
 	}
-	
+
 }

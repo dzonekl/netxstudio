@@ -118,7 +118,6 @@ public class TestDataCreator implements NetxForgeService {
 	private List<Tolerance> tl = Lists.newArrayList();
 	private List<Tolerance> serviceTolerances = Lists.newArrayList();
 	private Expression utilizationExpression = null;
-	private Expression retentionExpression = null;
 	private Expression capacityExpression = null;
 	private Expression serviceUserExpression = null;
 	
@@ -239,6 +238,9 @@ public class TestDataCreator implements NetxForgeService {
 		dataProvider.getResource(SchedulingPackage.Literals.JOB).getContents()
 				.add(job);
 
+		
+		
+		
 		final RFSServiceRetentionJob retentionJob = SchedulingFactory.eINSTANCE
 				.createRFSServiceRetentionJob();
 		retentionJob.setRFSService(rfsService);
@@ -458,29 +460,6 @@ public class TestDataCreator implements NetxForgeService {
 				getExpressionLines(eAsString));
 		addToResource(utilizationExpression);
 		return utilizationExpression;
-	}
-
-	
-	private Expression createOrGetRetentionExpression() {
-
-		if (retentionExpression != null) {
-			return retentionExpression;
-		}
-
-		// Utilization expression.
-		retentionExpression = LibraryFactory.eINSTANCE.createExpression();
-		retentionExpression.setName("Retention Expression");
-
-		// 1st Context is a NetXResource
-		// 2nd Context is the Resource monitoring period.
-		// This returns an expressionresult with a list of values dividing the
-		// metrics values by the capacity values.
-		// The Timestamp of the result is not set at the moment.
-		final String eAsString = "this METRIC 1440 = this METRIC 60.max();";
-		retentionExpression.getExpressionLines().addAll(
-				getExpressionLines(eAsString));
-		addToResource(retentionExpression);
-		return retentionExpression;
 	}
 
 	private Expression createOrGetCapacityExpression() {
@@ -731,10 +710,6 @@ public class TestDataCreator implements NetxForgeService {
 				{// Add various tolerance refs.
 					equipment.getToleranceRefs().addAll(tls);
 				}
-				{// Add various retention refs.
-					final Expression e = createOrGetRetentionExpression();
-					equipment.setRetentionExpressionRef(e);
-				}
 			} else {
 				equipment.setName(id + "_" + level + "_" + i);
 			}
@@ -773,11 +748,6 @@ public class TestDataCreator implements NetxForgeService {
 				{// Add various tolerance refs.
 					function.getToleranceRefs().addAll(tls);
 				}
-				{// Add various tolerance refs.
-					final Expression e = this.createOrGetRetentionExpression();
-					function.setRetentionExpressionRef(e);
-				}
-
 			} else {
 				function.setName(id + "_" + level + "_" + i);
 			}

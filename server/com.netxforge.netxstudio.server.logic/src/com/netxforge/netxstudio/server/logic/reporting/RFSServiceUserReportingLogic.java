@@ -78,7 +78,7 @@ public class RFSServiceUserReportingLogic extends OperatorReportingLogic {
 				List<Value> range = getModelUtils().sortByTimeStampAndReverse(
 						dr.getValues());
 
-				range = getModelUtils().filterInRange(range,
+				range = getModelUtils().filterValueInRange(range,
 						this.getTimeRange());
 
 				// Write the values.

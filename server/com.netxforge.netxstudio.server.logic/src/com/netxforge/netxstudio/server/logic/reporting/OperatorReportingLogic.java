@@ -39,11 +39,10 @@ import com.netxforge.netxstudio.services.Service;
  * 
  * @author Christophe Bouhier
  */
-public abstract class OperatorReportingLogic extends
-		BaseServiceReportingLogic {
+public abstract class OperatorReportingLogic extends BaseServiceReportingLogic {
 
 	private List<Service> services;
-	
+
 	public static final String REPORT_PREFIX = "Cap";
 
 	public static final String REPORT_PREFIX_SM_EXEC = "Exec_Summary";
@@ -57,7 +56,6 @@ public abstract class OperatorReportingLogic extends
 	public List<String> reports = ImmutableList.of(REPORT_PREFIX_SM_EXEC,
 			REPORT_PREFIX_SM_DASH, REPORT_PREFIX_SM_MATRIX,
 			REPORT_PREFIX_SM_USER, REPORT_PREFIX_RM, REPORT_PREFIX_RM_FORECAST);
-	
 
 	void initializeReportingLogic() {
 		this.initializeStream();
@@ -77,9 +75,9 @@ public abstract class OperatorReportingLogic extends
 				}
 				uri = uri.appendSegment(calculateFileName())
 						.appendFileExtension("xls");
-				
-				// FIXME, What if the file exists.  
-				
+
+				// FIXME, What if the file exists.
+
 				FileOutputStream fileOut = new FileOutputStream(
 						uri.toFileString());
 				this.setStream(fileOut);
@@ -99,38 +97,36 @@ public abstract class OperatorReportingLogic extends
 
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor(RFSService service) {
-		
-		
+
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
-		
-		
+
 		// first go through the leave nodes
 		for (final Node node : service.getNodes()) {
-			if (getModelUtils().isValidNode(node) && node.getNodeType().isLeafNode()) {
+			if (getModelUtils().isValidNode(node)
+					&& node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
 		for (final Node node : service.getNodes()) {
-			if (getModelUtils().isValidNode(node) && !node.getNodeType().isLeafNode()) {
+			if (getModelUtils().isValidNode(node)
+					&& !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
-		
-		
+
 		return nodeTypes;
 	}
 
 	protected String calculateFileName() {
 		StringBuffer buf = new StringBuffer();
-		
-		
-//		buf.append(getModelUtils().date(this.getStartTime()) + "_"
-//				+ getModelUtils().date(this.getEndTime()));
-		
+
+		// buf.append(getModelUtils().date(this.getStartTime()) + "_"
+		// + getModelUtils().date(this.getEndTime()));
+
 		Date todayAndNow = getModelUtils().todayAndNow();
 		buf.append(this.getModelUtils().dateAndTime(todayAndNow));
-		
+
 		return buf.toString();
 	}
 

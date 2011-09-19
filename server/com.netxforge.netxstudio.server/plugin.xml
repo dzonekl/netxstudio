@@ -15,6 +15,16 @@
       alias="/netxforge"
       class="com.netxforge.netxstudio.server.servlet.NetxForgeServiceServlet"/>
     </extension>
+    
+    
+<!--    
+    <extension
+          point="org.eclipse.equinox.http.registry.servlets">
+          <servlet
+      alias="/reports"
+      class="com.netxforge.netxstudio.server.servlet.ContentServlet"/>
+    </extension>
+-->    
     <extension
           id="product"
           point="org.eclipse.core.runtime.products">

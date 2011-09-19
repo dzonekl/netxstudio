@@ -21,8 +21,14 @@ package com.netxforge.netxstudio.server.logic.retention;
 import java.util.Date;
 import java.util.List;
 
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
+import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.metrics.MetricRetentionPeriod;
+import com.netxforge.netxstudio.metrics.MetricRetentionRule;
+import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -35,29 +41,50 @@ import com.netxforge.netxstudio.server.logic.monitoring.BaseComponentEngine;
  */
 public class RetentionEngine extends BaseComponentEngine {
 
+	private MetricRetentionRules rules;
+
 	@Override
 	public void doExecute() {
-		// nothing todo, go away
-		if (getComponent().getRetentionExpressionRef() == null) {
-			return;
-		}
-
-		getExpressionEngine().getContext().add(getPeriod());
-		getExpressionEngine().getContext().add(
-				getCommonLogic().getNode(getComponent()));
-
+		// Run for each resource, each retention rule. 
 		for (final NetXResource netXResource : getComponent().getResourceRefs()) {
-			// remove the last entry
-			if (getExpressionEngine().getContext().get(
-					getExpressionEngine().getContext().size() - 1) instanceof NetXResource) {
-				getExpressionEngine().getContext().remove(
-						getExpressionEngine().getContext().size() - 1);
+
+			for (MetricRetentionRule rule : rules.getMetricRetentionRules()) {
+
+				Expression expression = rule.getRetentionExpression();
+				DateTimeRange dtr = null;
+				switch (rule.getPeriod().getValue()) {
+				case MetricRetentionPeriod.ALWAYS_VALUE: {
+				}
+					break;
+				case MetricRetentionPeriod.ONE_MONTH_VALUE: {
+					dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
+					dtr.setBegin(this.getModelUtils().toXMLDate(this.getModelUtils().oneWeekAgo()));
+					dtr.setEnd(this.getModelUtils().toXMLDate(this.getModelUtils().todayAndNow()));
+				}
+					break;
+				case MetricRetentionPeriod.ONE_WEEK_VALUE: {
+				}
+				dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
+				dtr.setBegin(this.getModelUtils().toXMLDate(this.getModelUtils().oneMonthAgo()));
+				dtr.setEnd(this.getModelUtils().toXMLDate(this.getModelUtils().todayAndNow()));
+
+				break;
+
+				}
+				
+				if(dtr != null && expression != null){
+					getExpressionEngine().getContext().clear();
+					getExpressionEngine().getContext().add(getPeriod());
+					getExpressionEngine().getContext().add(
+							getCommonLogic().getNode(getComponent()));
+					getExpressionEngine().getContext().add(netXResource);
+
+					runForExpression(expression);
+				}
 			}
-			getExpressionEngine().getContext().add(netXResource);
-			runForExpression(getComponent().getRetentionExpressionRef());
-			if (getFailures().size() > 0) {
-				return;
-			}
+
+			
+
 		}
 	}
 
@@ -72,9 +99,19 @@ public class RetentionEngine extends BaseComponentEngine {
 	@Override
 	protected void processResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, Date start, Date end) {
+
+		// Note: For retention expressions, the order for which the expression
+		// result is processed,
+		// is relevant, as data is deleted after a while.
+
 		this.getCommonLogic().processMonitoringResult(currentContext,
 				expressionResults, start, end);
 
 	}
+	
+	public void setRetentionRules(MetricRetentionRules rules){
+		this.rules = rules;
+	}
+	
 
 }

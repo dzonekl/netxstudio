@@ -54,6 +54,7 @@ public class ReportingEngine extends BaseServiceEngine {
 
 			getExpressionEngine().getContext().add(getPeriod());
 			getExpressionEngine().getContext().add(service);
+			getExpressionEngine().getContext().add(getServiceSummary());
 
 			for (final Tolerance tolerance : service.getToleranceRefs()) {
 				this.tolerance = tolerance;

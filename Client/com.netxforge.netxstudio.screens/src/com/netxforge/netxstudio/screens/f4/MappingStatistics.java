@@ -152,7 +152,7 @@ public class MappingStatistics extends AbstractScreen implements
 
 						DateTimeRange dtr = mappingStatistics
 								.getPeriodEstimate();
-						Predicate<Value> insideRange = modelUtils.new InsideRange(
+						Predicate<Value> insideRange = modelUtils.new ValuerInsideRange(
 								dtr);
 						final int intervalHint = mappingStatistics
 								.getIntervalEstimate();

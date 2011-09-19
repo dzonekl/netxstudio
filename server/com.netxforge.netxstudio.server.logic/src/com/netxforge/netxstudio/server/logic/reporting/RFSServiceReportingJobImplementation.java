@@ -24,7 +24,8 @@ import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.job.JobImplementation;
-import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.server.logic.BaseLogic;
+import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
 import com.netxforge.netxstudio.services.Service;
 
 /**
@@ -39,30 +40,25 @@ public class RFSServiceReportingJobImplementation extends JobImplementation {
 	@Override
 	public void run() {
 		final RFSServiceReporterJob reporterJob = (RFSServiceReporterJob) getJob();
+		for (final BaseLogic reportingLogic : ReportingService.getOperatorReportingLogos()) {
 
-		{
-			final OperatorReportingLogic logic = LogicActivator.getInstance()
-					.getInjector()
-					.getInstance(RFSServiceSummaryReportingLogic.class);
+			reportingLogic.setJobMonitor(getRunMonitor());
 
-			logic.setServices(Lists.newArrayList((Service)reporterJob.getRFSService()));
-			logic.setJobMonitor(getRunMonitor());
-			logic.initializeReportingLogic();
-			logic.run();
+			if (reportingLogic instanceof BasePeriodLogic) {
+				((BasePeriodLogic) reportingLogic).calculatePeriod(reporterJob.getRFSService());
+			}
+
+			// Set Operator specific.
+			if (reportingLogic instanceof OperatorReportingLogic) {
+				((OperatorReportingLogic) reportingLogic)
+						.setServices(Lists.newArrayList((Service)reporterJob.getRFSService()));
+				((OperatorReportingLogic) reportingLogic)
+						.initializeStream();
+			}
+
+			reportingLogic.run();
 		}
-
-		{
-			final OperatorReportingLogic logic = LogicActivator.getInstance()
-					.getInjector()
-					.getInstance(RFSServiceDashboardReportingLogic.class);
-
-			logic.setServices(Lists.newArrayList((Service)reporterJob.getRFSService()));
-			logic.setJobMonitor(getRunMonitor());
-			logic.initializeReportingLogic();
-			logic.run();
-		}
-		// generateContent(resourceReportingLogic.getSettings().getExportPath());
-
+		
 		// getDataProvider().commitTransaction();
 	}
 
