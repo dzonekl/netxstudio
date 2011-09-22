@@ -148,7 +148,6 @@ public class ReportingService implements NetxForgeService {
 
 						// Set Operator specific.
 						if (reportingLogic instanceof OperatorReportingLogic) {
-
 							Service service = (Service) reportingLogic
 									.getDataProvider().getTransaction()
 									.getObject(finalID);

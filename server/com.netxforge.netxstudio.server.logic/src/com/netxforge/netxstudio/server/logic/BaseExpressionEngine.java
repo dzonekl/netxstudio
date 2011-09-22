@@ -103,6 +103,9 @@ public abstract class BaseExpressionEngine extends BasePeriodEngine {
 
 			// TODO, Perhaps hide this stack trace....
 			t.printStackTrace(System.err);
+			
+			// TODO, We need some smarter interpretation of the throwables, 
+			// to give instant feedback on the expression failures. 
 
 			StringBuilder sb = new StringBuilder();
 			sb.append(t.getMessage());

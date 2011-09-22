@@ -29,6 +29,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -67,13 +68,13 @@ public class NodeTypeTreeLabelProvider extends StyledCellLabelProvider {
 
 			NodeType nt = (NodeType) element;
 
-			Totals tt = new Totals(nt);
+			NodeTypeSummary tt = new NodeTypeSummary(nt);
 			
 			
 			StyledString styledString = new StyledString(
 					nt.getName() != null ? nt.getName() : "?", null);
-			String decoration = " (" + tt.getFunctions() + " Functions)"
-					+ " (" + tt.getEquipments() + " Equipments)";
+			String decoration = " (" + tt.getFunctionCountAsString() + " Functions)"
+					+ " (" + tt.getEquipmentCountAsString() + " Equipments)";
 			styledString.append(decoration, StyledString.COUNTER_STYLER);
 			cell.setText(styledString.getString());
 			Image img = ResourceManager.getPluginImage(

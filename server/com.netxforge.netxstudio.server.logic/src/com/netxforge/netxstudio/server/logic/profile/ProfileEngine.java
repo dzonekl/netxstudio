@@ -42,7 +42,7 @@ public class ProfileEngine extends BaseExpressionEngine {
 
 	@Override
 	public void doExecute() {
-
+		getExpressionEngine().getContext().clear();
 		getExpressionEngine().getContext().add(getPeriod());
 		System.err.println("Executing engine for" + serviceUser.getName());
 		getExpressionEngine().getContext().add(this.getServiceUser());

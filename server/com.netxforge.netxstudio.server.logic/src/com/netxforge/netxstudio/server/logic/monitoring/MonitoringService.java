@@ -73,6 +73,9 @@ public class MonitoringService implements NetxForgeService {
 		private CDOID run() {
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
 			final BaseMonitoringLogic monitoringLogic;
+			
+			// TODO Also for Operator monitoring all services? 
+			
 			if (parameters.containsKey(SERVICE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
 						ServicesPackage.Literals.RFS_SERVICE);
@@ -97,6 +100,13 @@ public class MonitoringService implements NetxForgeService {
 			monitoringLogic.setJobMonitor(monitor);
 			monitoringLogic.setStartTime(getStartTime(parameters));
 			monitoringLogic.setEndTime(getEndTime(parameters));
+			
+			
+			// Set the monitor for specific logic. 
+			if(monitoringLogic instanceof RFSServiceMonitoringLogic){
+				((RFSServiceMonitoringLogic) monitoringLogic).initServiceMonitor(monitoringLogic.getPeriod());
+				
+			}
 			
 			// run in a separate thread
 			new Thread() {

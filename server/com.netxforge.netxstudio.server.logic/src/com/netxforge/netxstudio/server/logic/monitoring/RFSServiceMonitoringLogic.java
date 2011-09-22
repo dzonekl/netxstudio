@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
 
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
@@ -41,16 +42,19 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 	private ServiceMonitor serviceMonitor;
 
 	void initializeMonitoringLogic() {
-
 		this.calculatePeriod(rfsService);
-
+		this.initServiceMonitor(this.getPeriod());
+	}
+	
+	public void initServiceMonitor(DateTimeRange dtr){
 		serviceMonitor = ServicesFactory.eINSTANCE.createServiceMonitor();
 		// what name should a servicemonitor have?
 		serviceMonitor.setName(rfsService.getServiceName());
-		serviceMonitor.setPeriod(getTimeRange());
+		serviceMonitor.setPeriod(dtr);
 		rfsService.getServiceMonitors().add(serviceMonitor);
 		getEngine().setServiceMonitor(serviceMonitor);
 	}
+	
 
 	public RFSService getRfsService() {
 		return rfsService;

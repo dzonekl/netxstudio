@@ -1,8 +1,8 @@
 package com.netxforge.netxstudio.common.model;
 
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
+import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
@@ -12,15 +12,14 @@ public class RFSServiceSummary {
 	// Generated values.
 	int subServices = 0;
 	
-	int nodes = 0;
-	int resources = 0;
-
 	int[] ragCountNodes = new int[] { 0, 0, 0 };
 	int[] ragCountResources = new int[] { 0, 0, 0 };
 	
 	boolean[] ragStatus = new boolean[] { false, false, false };
 
 	String periodFormattedString = "";
+
+	private List<NodeTypeSummary> nodeSummaries = Lists.newArrayList();
 
 	public void setPeriodFormattedString(String periodFormattedString) {
 		this.periodFormattedString = periodFormattedString;
@@ -80,9 +79,8 @@ public class RFSServiceSummary {
 	}
 
 	public int getNodeCount() {
-		return nodes;
+		return nodeSummaries.size();
 	}
-	
 	
 	public int getRedCountResources() {
 		return ragCountResources[0];
@@ -97,24 +95,38 @@ public class RFSServiceSummary {
 	}
 	
 	public int getResourcesCount() {
-		return resources;
+		int resourceCount = 0;
+		for(NodeTypeSummary ns : nodeSummaries){
+			resourceCount += ns.getResourCount();
+		}
+		return resourceCount;
 	}
 
 	public int getSubServicesCount() {
 		return subServices;
 	}
 
-	public RFSServiceSummary(ModelUtils modelUtils, RFSService service) {
-		TreeIterator<EObject> iterator = service.eAllContents();
-		while (iterator.hasNext()) {
-			EObject next = iterator.next();
-			if (next instanceof Service) {
-				subServices += 1;
-				nodes += service.getNodes().size();
-				for (Node node : service.getNodes()) {
-					resources += modelUtils.allResources(node).size();
-				}
+	public RFSServiceSummary(RFSService service) {
+		this.countServices(service);
+	}
+	
+	private void countServices(Service service){
+		this.countNodes(service);
+		for(Service s : service.getServices()){
+			subServices += 1;
+			if(s.getServices().size() > 0 ){
+				countServices(s);
+			}
+		}
+		
+	}
+
+	private void countNodes(Service service) {
+		if(service instanceof RFSService){
+			for(Node n : ((RFSService) service).getNodes()){
+				nodeSummaries.add(new NodeTypeSummary(n.getNodeType()));
 			}
 		}
 	}
+	
 }

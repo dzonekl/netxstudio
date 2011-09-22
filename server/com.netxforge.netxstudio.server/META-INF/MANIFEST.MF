@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: NetXStudio Server
 Bundle-SymbolicName: com.netxforge.netxstudio.server;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.netxforge.netxstudio.server.Activator
+Bundle-Activator: com.netxforge.netxstudio.server.ServerActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
  org.hsqldb;bundle-version="1.8.1",
@@ -26,7 +26,8 @@ Require-Bundle: org.eclipse.core.runtime,
  javax.servlet;bundle-version="2.5.0",
  org.eclipse.equinox.http.registry;bundle-version="1.1.100",
  com.netxforge.netxstudio.common;bundle-version="1.0.0",
- org.eclipse.equinox.jsp.jasper;bundle-version="1.0.300"
+ org.eclipse.equinox.jsp.jasper;bundle-version="1.0.300",
+ org.eclipse.equinox.http.helper;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: com.netxforge.netxstudio.server,

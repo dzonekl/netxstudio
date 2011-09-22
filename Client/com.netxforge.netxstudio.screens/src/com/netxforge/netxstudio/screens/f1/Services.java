@@ -214,7 +214,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 				if (o instanceof Service) {
 					Service service = (Service) o;
 					try {
-						serverActions.setServer(editingService.getDataService()
+						serverActions.setCDOServer(editingService.getDataService()
 								.getProvider().getServer());
 
 						// TODO, provide a dialog for monitoring period
@@ -269,7 +269,7 @@ public class Services extends AbstractScreen implements IDataServiceInjection {
 				if (o instanceof Service) {
 					Service service = (Service) o;
 					try {
-						serverActions.setServer(editingService.getDataService()
+						serverActions.setCDOServer(editingService.getDataService()
 								.getProvider().getServer());
 
 						// TODO, provide a dialog for monitoring period

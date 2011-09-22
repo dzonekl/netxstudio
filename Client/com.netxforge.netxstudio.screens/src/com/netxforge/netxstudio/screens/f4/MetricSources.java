@@ -56,6 +56,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.SearchFilter;
+import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -214,7 +215,7 @@ public class MetricSources extends AbstractScreen implements
 				if (o instanceof MetricSource) {
 					MetricSource ms = (MetricSource) o;
 					try {
-						serverActions.setServer(editingService.getDataService()
+						serverActions.setCDOServer(editingService.getDataService()
 								.getProvider().getServer());
 						// TODO, We get the workflow run ID back, which
 						// could be used
@@ -412,15 +413,17 @@ public class MetricSources extends AbstractScreen implements
 		boolean readonly = Screens.isReadOnlyOperation(getOperation());
 		String actionText = readonly ? "View" : "Edit";
 		actions.add(new EditMetricSourceAction(actionText + "...", SWT.PUSH));
+		actions.add(new SeparatorAction());
 		if (!readonly) {
 
 			actions.add(new ScheduleCollectionJobAction(
 					"Schedule Collection Job...", SWT.PUSH));
 			actions.add(new CollectNowAction("Collect Now...", SWT.PUSH));
-			actions.add(new FindResourcesAction("Resources for...", SWT.PUSH));
+			
 		}
 		actions.add(new StatisticsAction("Statistics...", SWT.PUSH));
-
+		actions.add(new SeparatorAction());
+		actions.add(new FindResourcesAction("Resources for...", SWT.PUSH));
 		IAction[] actionArray = new IAction[actions.size()];
 		return actions.toArray(actionArray);
 	}

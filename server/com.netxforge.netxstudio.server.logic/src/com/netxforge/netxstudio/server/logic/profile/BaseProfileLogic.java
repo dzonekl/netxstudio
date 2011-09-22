@@ -100,7 +100,7 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 		engine.setJobMonitor(getJobMonitor());
 		engine.setServiceUser(serviceUser);
 		engine.setDataProvider(this.getDataProvider());
-		engine.setPeriod(getTimeRange());
+		engine.setPeriod(getPeriod());
 		engine.execute();
 		if (engine.getFailures().size() > 0) {
 			for (final Failure failure : engine.getFailures()) {

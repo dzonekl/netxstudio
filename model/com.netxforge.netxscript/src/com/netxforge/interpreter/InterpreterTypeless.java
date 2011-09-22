@@ -72,8 +72,6 @@ import com.netxforge.netxscript.Variable;
 import com.netxforge.netxscript.While;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.common.model.RFSServiceSummary;
-import com.netxforge.netxstudio.data.IDataService;
-import com.netxforge.netxstudio.data.IQueryService;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -90,13 +88,14 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.library.RangeKind;
 import com.netxforge.netxstudio.library.impl.NetXResourceImpl;
 import com.netxforge.netxstudio.metrics.KindHintType;
-import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.impl.NodeImpl;
 import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.impl.ServiceImpl;
+import com.netxforge.netxstudio.services.impl.ServiceUserImpl;
 
 /**
  * An interpreter for instances of EClasses of the {@link NetxscriptPackage}.
@@ -108,6 +107,12 @@ import com.netxforge.netxstudio.services.impl.ServiceImpl;
  * evaluation type check.
  * 
  * Has a context index, used by the eval-snippets.
+ * 
+ * Note: All external references, are to be referenced by name and not use the
+ * actual reference object. The AST is constructed with an arbitrary reference
+ * when writing the expression.
+ * 
+ * 
  * 
  * @author Sven Efftinge - initial contribution and API
  * @author dzonekl - Extended the grammar, see NetXScript.
@@ -123,8 +128,8 @@ public class InterpreterTypeless implements IInterpreter {
 	@Inject
 	ModelUtils modelUtils;// = new ModelUtils();
 
-	@Inject
-	IDataService dataService;
+	// @Inject
+	// IDataService dataService;
 
 	private PolymorphicDispatcher<BigDecimal> dispatcher = PolymorphicDispatcher
 			.createForSingleTarget("internalEvaluate", 2, 2, this);
@@ -189,10 +194,8 @@ public class InterpreterTypeless implements IInterpreter {
 		IInterpreterContext periodContext = getContextFor(NodeImpl.class);
 		if (periodContext != null) {
 			return (Node) periodContext.getContext();
-		} else {
-			throw new java.lang.UnsupportedOperationException(
-					"Node context unset,  it was however requested for this evaluation");
 		}
+		return null;
 	}
 
 	private NetXResource getContextualResource() {
@@ -209,6 +212,15 @@ public class InterpreterTypeless implements IInterpreter {
 		IInterpreterContext serviceContext = getContextFor(ServiceImpl.class);
 		if (serviceContext != null) {
 			return (Service) serviceContext.getContext();
+		} else {
+			return null;
+		}
+	}
+
+	private ServiceUser getContextualServiceUser() {
+		IInterpreterContext serviceContext = getContextFor(ServiceUserImpl.class);
+		if (serviceContext != null) {
+			return (ServiceUser) serviceContext.getContext();
 		} else {
 			return null;
 		}
@@ -510,8 +522,12 @@ public class InterpreterTypeless implements IInterpreter {
 					LeafReference leafReference = nodeTypeRef.getPrimaryRef()
 							.getLeafRef();
 					if (leafReference instanceof ResourceRef) {
+						Node n = this.getContextualNode();
 						ResourceRef resourceRef = (ResourceRef) leafReference;
-						targetResource = resourceRef.getResource();
+						List<NetXResource> netxResources = this
+								.resourcesByName(n, resourceRef);
+						targetResource = netxResources.size() > 0 ? netxResources
+								.get(0) : null;
 						targetRangeReference = resourceRef.getRangeRef();
 					}
 
@@ -520,15 +536,45 @@ public class InterpreterTypeless implements IInterpreter {
 			if (assignmentReference instanceof ContextRef) {
 
 				ContextRef cRef = (ContextRef) assignmentReference;
-				if (cRef.getPrimaryRef() != null && cRef.getRangeRef() != null) {
+				if (cRef.getPrimaryRef() != null) {
 
 					LeafReference leafReference = cRef.getPrimaryRef()
 							.getLeafRef();
+
 					if (leafReference instanceof ResourceRef) {
+
 						ResourceRef resourceRef = (ResourceRef) leafReference;
-						targetResource = resourceRef.getResource();
+						if (resourceRef.getResource() instanceof NetXResource) {
+							Node n = this.getContextualNode();
+							if (n != null) {
+								List<NetXResource> netxResources = this
+										.resourcesByName(n, resourceRef);
+
+								targetResource = netxResources.size() > 0 ? netxResources
+										.get(0) : null;
+							}
+						} else if (resourceRef.getResource() instanceof DerivedResource) {
+							ServiceUser su = this.getContextualServiceUser();
+							if (su != null) {
+								for (DerivedResource dr : su
+										.getServiceProfile()
+										.getProfileResources()) {
+									if (dr.getExpressionName().equals(
+											resourceRef.getResource()
+													.getExpressionName())) {
+										targetResource = dr;
+									}
+								}
+							}
+						}
+
 						targetRangeReference = resourceRef.getRangeRef();
 					}
+
+					if (leafReference instanceof StatusRef) {
+						// Can we assign a status?
+					}
+
 				}
 				// Here we assume the context is a ..Resource as there is no
 				// leaf.
@@ -674,16 +720,23 @@ public class InterpreterTypeless implements IInterpreter {
 
 			if (varEval instanceof BigDecimal) {
 				// We return a single value.
+
 				// Get the period context, and use the start
-				// date.
+				// and end date.
 				DateTimeRange dtr = this.getContextualPeriod();
-				Value singleValue = GenericsFactory.eINSTANCE.createValue();
+				Value beginValue = GenericsFactory.eINSTANCE.createValue();
+				// Set the ts/value.
+				beginValue.setTimeStamp(dtr.getBegin());
+				beginValue.setValue(((BigDecimal) varEval).doubleValue());
+
+				Value endValue = GenericsFactory.eINSTANCE.createValue();
 
 				// Set the ts/value.
-				singleValue.setTimeStamp(dtr.getBegin());
-				singleValue.setValue(((BigDecimal) varEval).doubleValue());
+				endValue.setTimeStamp(dtr.getEnd());
+				endValue.setValue(((BigDecimal) varEval).doubleValue());
 
-				er.getTargetValues().add(singleValue);
+				er.getTargetValues().add(endValue);
+				er.getTargetValues().add(beginValue);
 				expressionResults.add(er);
 			}
 			if (varEval instanceof List<?>) {
@@ -691,14 +744,8 @@ public class InterpreterTypeless implements IInterpreter {
 				List<?> resultValues = (List<?>) varEval;
 				for (Object entry : resultValues) {
 					if (entry instanceof Value) {
-						// rather clumsy way to check the type
-						// of a
-						// list.
-						er.getTargetValues().addAll(
-								(Collection<? extends Value>) resultValues);
-						break;
-					}
-					if (entry instanceof BigDecimal) {
+						er.getTargetValues().add((Value) entry);
+					} else if (entry instanceof BigDecimal) {
 						Value v = GenericsFactory.eINSTANCE.createValue();
 						v.setValue(((BigDecimal) entry).doubleValue());
 						// FIXME, We don't set a timestamp!
@@ -1005,18 +1052,14 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	/*
-	 * Note: The NodeTypeRef is always in the context of a service.
-	 * As from a node type, we have multiple Node references, Components and resources, 
+	 * Note: The NodeTypeRef is always in the context of a service. As from a
+	 * node type, we have multiple Node references, Components and resources,
 	 * the leaf reference result in evaluated.
-	 * 
-	 * 
-	 * 
 	 */
 	@SuppressWarnings("unchecked")
 	protected Object internalEvaluate(NodeTypeRef nodeTypeReference,
 			ImmutableMap<String, Object> params) {
-		
-		
+
 		Service service = this.getContextualService();
 		if (service != null) {
 			Reference primaryRef = nodeTypeReference.getPrimaryRef();
@@ -1038,23 +1081,22 @@ public class InterpreterTypeless implements IInterpreter {
 				return components;
 			} else if (primaryRef.getLeafRef() != null) {
 
-				
 				List<Object> objects = Lists.newArrayList();
-				for( Node n : nodes){
-					
-					Map<String, Object> localVarsAndArguments = Maps.newHashMap();
+				for (Node n : nodes) {
+
+					Map<String, Object> localVarsAndArguments = Maps
+							.newHashMap();
 					localVarsAndArguments.putAll(ImmutableMap.copyOf(params));
 					localVarsAndArguments.put("node", n);
-					
-					Object eval =  dispatcher.invoke(primaryRef,
+
+					Object eval = dispatcher.invoke(primaryRef,
 							localVarsAndArguments);
 					objects.add(eval);
 				}
-				
-				// Problem how to process the result, it could be a range or a single value.
-				
-				
-				
+
+				// Problem how to process the result, it could be a range or a
+				// single value.
+
 			}
 
 		}
@@ -1107,7 +1149,7 @@ public class InterpreterTypeless implements IInterpreter {
 		// We have a range set, so the context should be a resource.
 		if (contextReference.getRangeRef() != null) {
 			NetXResource resource = getContextualResource();
-			
+
 			localVarsAndArguments.put("resource", resource);
 			return dispatcher.invoke(contextReference.getRangeRef(),
 					ImmutableMap.copyOf(localVarsAndArguments));
@@ -1203,36 +1245,50 @@ public class InterpreterTypeless implements IInterpreter {
 
 	protected Object internalEvaluate(ResourceRef resourceRef,
 			ImmutableMap<String, Object> params) {
-		
 
 		Map<String, Object> localVarsAndArguments = Maps.newHashMap();
 		localVarsAndArguments.putAll(ImmutableMap.copyOf(params));
-		
-		// FIXME, Solution for a contextual lookup.
-		// Casting null? 
+
 		Node n = null;
-		if( params.containsKey("node")){
-			n = (Node) params.get("node");	
+		if (params.containsKey("node")) {
+			n = (Node) params.get("node");
 		}
-		
-		Component c = (Component) params.get("component");
-		Service s = (Service) params.get("service");
+
+		Service s = null;
+		if (params.containsKey("service")) {
+			s = (Service) params.get("service");
+		}
 
 		try {
-			BaseResource resource = resourceRef.getResource();
-			
-			
 
-			// We might want to check the state of the object.
-			// Why do we lookup a resource which we already have?
-			localVarsAndArguments.put("resource", resource);
-			return dispatcher.invoke(resourceRef.getRangeRef(),
-					ImmutableMap.copyOf(localVarsAndArguments));
+			BaseResource resource = null;
+
+			if (n != null) {
+				List<NetXResource> netxResources = this.resourcesByName(n,
+						resourceRef);
+				resource = netxResources.size() > 0 ? netxResources.get(0)
+						: null;
+			}
+			if (s != null) {
+				for (ServiceUser su : s.getServiceUserRefs()) {
+
+				}
+
+			}
+			if (resource != null) {
+
+				localVarsAndArguments.put("resource", resource);
+				return dispatcher.invoke(resourceRef.getRangeRef(),
+						ImmutableMap.copyOf(localVarsAndArguments));
+			}
 
 		} catch (Exception exception) {
 			throw new IllegalStateException(processException(exception,
 					resourceRef));
 		}
+
+		return null;
+
 	}
 
 	/**
@@ -1252,49 +1308,47 @@ public class InterpreterTypeless implements IInterpreter {
 		int targetInterval = extractInterval(rangeRef);
 
 		List<Value> v = null; // Will be populated with the ranges.
-		// FIXME, remove queries, use modelUtils instead.
-		IQueryService qService = dataService.getQueryService();
 
 		if (resource instanceof NetXResource) {
 			switch (rangeRef.getValuerange().getValue()) {
 			case ValueRange.METRIC_VALUE: {
+
+				v = modelUtils.metricValuesInRange((NetXResource) resource,
+						targetInterval, targetKind, dtr);
+
 				// Loop the metric ranges, to find the correct range, doesn't
 				// apply
 				// to
 				// any other range
 				// than the CAP range.
-				for (MetricValueRange mvr : ((NetXResource) resource)
-						.getMetricValueRanges()) {
-					int interval = mvr.getIntervalHint();
-					if (interval == targetInterval) {
-
-						v = qService.getMetricsFromResource(
-								resource.getExpressionName(), dtr.getBegin(),
-								dtr.getEnd(), targetInterval, targetKind);
-						// FIXME, Ignore the Kind hint, as we are not sure it's
-						// always set
-						// when creating the resource in import.
-						@SuppressWarnings("unused")
-						KindHintType kht = mvr.getKindHint();
-					}
-				}
+				// for (MetricValueRange mvr : ((NetXResource) resource)
+				// .getMetricValueRanges()) {
+				// int interval = mvr.getIntervalHint();
+				// if (interval == targetInterval) {
+				//
+				// v = qService.getMetricsFromResource(
+				// resource.getExpressionName(), dtr.getBegin(),
+				// dtr.getEnd(), targetInterval, targetKind);
+				// // FIXME, Ignore the Kind hint, as we are not sure it's
+				// // always set
+				// // when creating the resource in import.
+				// @SuppressWarnings("unused")
+				// KindHintType kht = mvr.getKindHint();
+				// }
+				// }
 			}
 				break;
 			case ValueRange.CAP_VALUE: {
-
 				// For capcity calculations, we likely
 				// get a single value. To calculate the utilization,
 				// it would be needed to make it a complete range.
-
-				v = qService.getCapacityFromResource(
-						resource.getExpressionName(), dtr.getBegin(),
-						dtr.getEnd());
+				v = modelUtils.valuesInRange(
+						((NetXResource) resource).getCapacityValues(), dtr);
 			}
 				break;
 			case ValueRange.UTILIZATION_VALUE: {
-				v = qService.getUtilizationFromResource(
-						resource.getExpressionName(), dtr.getBegin(),
-						dtr.getEnd());
+				v = modelUtils.valuesInRange(
+						((NetXResource) resource).getUtilizationValues(), dtr);
 			}
 				break;
 			}
@@ -1314,36 +1368,34 @@ public class InterpreterTypeless implements IInterpreter {
 		return v;
 	}
 
-	
 	protected Object internalEvaluate(Interval interval,
 			ImmutableMap<String, Object> params) {
-		
-		if(interval.getInterval() != null){
+
+		if (interval.getInterval() != null) {
 			return interval.getInterval();
-		}else if(interval.getKind() != null){
-			switch(interval.getKind().getValue()){
-			case IntervalKind.MONTH_VALUE:{
+		} else if (interval.getKind() != null) {
+			switch (interval.getKind().getValue()) {
+			case IntervalKind.MONTH_VALUE: {
 				return new BigDecimal(ModelUtils.MINUTES_IN_A_MONTH);
 			}
-			case IntervalKind.WEEK_VALUE:{
+			case IntervalKind.WEEK_VALUE: {
 				return new BigDecimal(ModelUtils.MINUTES_IN_A_WEEK);
 			}
-			case IntervalKind.DAY_VALUE:{
+			case IntervalKind.DAY_VALUE: {
 				return new BigDecimal(ModelUtils.MINUTES_IN_A_DAY);
 			}
-			case IntervalKind.HOUR_VALUE:{
+			case IntervalKind.HOUR_VALUE: {
 				return new BigDecimal(ModelUtils.MINUTES_IN_AN_HOUR);
 			}
 			}
 		}
 		return new BigDecimal(60);
 	}
-	
-	
+
 	private int extractInterval(RangeRef rangeRef) {
 		int targetInterval;
 		if (rangeRef.getInterval() != null) {
-			
+
 			BigDecimal result = dispatcher.invoke(rangeRef.getInterval(),
 					ImmutableMap.<String, Object> of());
 			targetInterval = result.intValue();
@@ -1356,6 +1408,8 @@ public class InterpreterTypeless implements IInterpreter {
 
 	private KindHintType extractKindHint(RangeRef rangeRef) {
 		// Feed the query with the kind hint.
+		// Note: the KindHintType comes with a default value (xtext generated
+		// model for ValueKind).
 		KindHintType targetKind = null;
 		if (rangeRef.getKind() != null) {
 			if (rangeRef.getKind() == ValueKind.AVG) {
@@ -1535,7 +1589,9 @@ public class InterpreterTypeless implements IInterpreter {
 						BigDecimal dValue = new BigDecimal(v.getValue());
 						BigDecimal d = dValue.divide((BigDecimal) rightEval,
 								20, RoundingMode.HALF_UP);
-						resultList.add(d);
+						Value copy = EcoreUtil.copy(v);
+						copy.setValue(d.doubleValue());
+						resultList.add(copy);
 						continue;
 					}
 				}
@@ -1561,7 +1617,9 @@ public class InterpreterTypeless implements IInterpreter {
 						BigDecimal dValue = new BigDecimal(v.getValue());
 						BigDecimal d = dValue.divide(rightDividor, 20,
 								RoundingMode.HALF_UP);
-						resultList.add(d);
+						Value copy = EcoreUtil.copy(v);
+						copy.setValue(d.doubleValue());
+						resultList.add(copy);
 						continue;
 					}
 				}
@@ -1573,31 +1631,49 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 			if (assertCollection(rightEval)) {
 				// divide two collections.
-				assert ((List<?>) leftEval).size() == ((List<?>) rightEval)
-						.size() : new UnsupportedOperationException(
-						"Dividing computation error, left and right range are not equal size");
-
+				// assert ((List<?>) leftEval).size() == ((List<?>) rightEval)
+				// .size() : new UnsupportedOperationException(
+				// "Dividing computation error, left and right range are not equal size");
+				
+				if(((List<?>) rightEval).isEmpty() ){
+					return Lists.newArrayList();
+				}
+				
+				
+				// Use the left as the iterator, so make sure we never retrieve
+				// more than size from right,
+				// If we are over, take the last value.
 				for (int j = 0; j < ((List<?>) leftEval).size(); j++) {
 					Object leftVal = ((List<?>) leftEval).get(j);
-					Object rightVal = ((List<?>) rightEval).get(j);
+					Object rightVal;
+					if (j < ((List<?>) rightEval).size()) {
+						rightVal = ((List<?>) rightEval).get(j);
+					} else {
+						rightVal = ((List<?>) rightEval)
+								.get(((List<?>) rightEval).size() - 1);
+					}
 					if (assertNumeric(leftVal) && assertNumeric(rightVal)) {
 						BigDecimal d = ((BigDecimal) leftVal)
 								.divide((BigDecimal) rightVal, 20,
 										RoundingMode.HALF_UP);
 						resultList.add(d);
+						continue;
 					}
 					if (assertValue(leftVal) && assertValue(rightVal)) {
-						BigDecimal d = new BigDecimal(
-								((Value) leftVal).getValue()).divide(
-								new BigDecimal(((Value) rightVal).getValue()),
-								20, RoundingMode.HALF_UP);
-						resultList.add(d);
+						Value vl = (Value) leftVal;
+						Value vr = (Value) rightVal;
+						BigDecimal d = new BigDecimal(vl.getValue()).divide(
+								new BigDecimal(vr.getValue()), 20,
+								RoundingMode.HALF_UP);
+						Value copy = EcoreUtil.copy(vl);
+						copy.setValue(d.doubleValue());
+						resultList.add(copy);
 					}
 				}
 				return ImmutableList.copyOf(resultList);
 			}
 		}
-
+		
 		throw new UnsupportedOperationException(
 				"Div expression for invalid types, i.e. This could be dividing a Number by a Range.");
 	}

@@ -58,7 +58,7 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 
 		// We skip reporting for this node, using a static check.
 		if (getModelUtils().ragShouldReport(
-				getModelUtils().ragCount(service, node, this.getTimeRange()))) {
+				getModelUtils().ragCount(service, node, this.getPeriod()))) {
 
 			int newRow = rowIndex == 0 ? NODE_ROW : sheet.getLastRowNum() + 1;
 
@@ -138,7 +138,7 @@ public class RFSServiceResourceReportingLogic extends OperatorReportingLogic {
 		List<Value> range = getModelUtils().sortByTimeStamp(
 				mvr.getMetricValues());
 
-		range = getModelUtils().filterValueInRange(range, this.getTimeRange());
+		range = getModelUtils().filterValueInRange(range, this.getPeriod());
 
 		// Write the values.
 		int valueIndex = NODE_COLUMN + 3;

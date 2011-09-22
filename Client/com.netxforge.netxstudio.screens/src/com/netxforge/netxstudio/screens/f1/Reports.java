@@ -2,6 +2,7 @@ package com.netxforge.netxstudio.screens.f1;
 
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.IAction;
@@ -11,13 +12,10 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -50,13 +48,11 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
-				// obm.dispose();
 			}
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-		// buildUI();
-
+//		 buildUI();
 	}
 
 	private void buildUI() {
@@ -66,28 +62,27 @@ public class Reports extends AbstractScreen implements IDataServiceInjection {
 		frmServices.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmServices);
 		frmServices.setText("Reports");
-		frmServices.getBody().setLayout(new GridLayout(2, false));
-
-		ImageHyperlink mghprlnkReports = toolkit.createImageHyperlink(
-				frmServices.getBody(), SWT.NONE);
-		mghprlnkReports.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false,
-				false, 1, 1));
-		toolkit.paintBordersFor(mghprlnkReports);
-		mghprlnkReports.setText("Reports");
+		frmServices.getBody().setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		browser = new Browser(frmServices.getBody(), SWT.NONE);
-		browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		toolkit.adapt(browser);
 		toolkit.paintBordersFor(browser);
 
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
+		
+		String current = browser.getUrl();
+		
+		String serverPath = serverActions.calcFromCDOServer();
+		URI uri = URI.createURI(serverPath + "/reports/monitors/monitors.jsp");
+		if(uri.toString().equals(current)){
+			browser.refresh();
+		}else{
+			browser.setUrl(uri.toString());
+		}
+		
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
-
-		// TODO, retrieve the server settings .....
-		browser.setUrl("http://localhost:8080/netxforge/reports/");
-
 		return bindingContext;
 	}
 

@@ -26,7 +26,7 @@ import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.Activator;
+import com.netxforge.netxstudio.server.ServerActivator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 
 /**
@@ -43,7 +43,7 @@ public class RetentionJobImplementation extends JobImplementation {
 		Resource res = this.getDataProvider().getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
 		if(res.getContents().size() == 1){
 			final RFSServiceRetentionJob retentionJob = (RFSServiceRetentionJob) getJob();
-			final RetentionLogic retentionLogic = Activator.getInstance()
+			final RetentionLogic retentionLogic = ServerActivator.getInstance()
 					.getInjector().getInstance(RetentionLogic.class);
 			retentionLogic.setRfsService(retentionJob.getRFSService().cdoID());
 			retentionLogic.setJobMonitor(getRunMonitor());

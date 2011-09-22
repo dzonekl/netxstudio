@@ -1,14 +1,20 @@
 package com.netxforge.netxstudio.screens.f4;
 
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -18,6 +24,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -30,7 +37,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -43,24 +49,29 @@ import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
 import org.swtchart.LineStyle;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
+import com.netxforge.netxstudio.operators.Marker;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
-public class ResourceMonitor extends AbstractScreen implements
+public class ResourceMonitorScreen extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 	private Chart chart;
 	private Table table;
 	private Form frmFunction;
-	// private Resource monitorResource;
+	private ResourceMonitor resMonitor;
 	private NetXResource netXResource;
 	private DateTimeRange dtr;
+	private TableViewer markersTableViewer;
 
-	public ResourceMonitor(Composite parent, int style) {
+	public ResourceMonitorScreen(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -79,6 +90,7 @@ public class ResourceMonitor extends AbstractScreen implements
 		setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		frmFunction = toolkit.createForm(this);
+		frmFunction.setText("Resource Monitor " + netXResource.getShortName());
 		frmFunction.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmFunction);
 
@@ -236,8 +248,8 @@ public class ResourceMonitor extends AbstractScreen implements
 				.getTick()
 				.setForeground(
 						Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		chart.getAxisSet().getYAxis(utilizationAxisID).getTick()
-				.setFormat(NumberFormat.getPercentInstance());
+		// chart.getAxisSet().getYAxis(utilizationAxisID).getTick()
+		// .setFormat(new DecimalFormat("##%"));
 
 		// ZOOM etc... buttons.
 
@@ -291,40 +303,41 @@ public class ResourceMonitor extends AbstractScreen implements
 		sctnMarkers.setClient(composite);
 		composite.setLayout(new GridLayout(1, false));
 
-		TableViewer tableViewer = new TableViewer(composite, SWT.BORDER
+		markersTableViewer = new TableViewer(composite, SWT.BORDER
 				| SWT.FULL_SELECTION);
-		table = tableViewer.getTable();
+
+		table = markersTableViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		toolkit.paintBordersFor(table);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				markersTableViewer, SWT.NONE);
 		TableColumn tblclmnType = tableViewerColumn.getColumn();
 		tblclmnType.setWidth(125);
 		tblclmnType.setText("Type");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				markersTableViewer, SWT.NONE);
 		TableColumn tblclmnDescription = tableViewerColumn_1.getColumn();
 		tblclmnDescription.setWidth(446);
 		tblclmnDescription.setText("Description");
 
-		TableItem tableItem = new TableItem(table, SWT.NONE);
-		tableItem
-				.setText(new String[] {
-						"Threshold Breached,",
-						"The Threshold for this resource has been crossed. The resource is not within tolerance. " });
+//		TableItem tableItem = new TableItem(table, SWT.NONE);
+//		tableItem
+//				.setText(new String[] {
+//						"Threshold Breached,",
+//						"The Threshold for this resource has been crossed. The resource is not within tolerance. " });
 
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				markersTableViewer, SWT.NONE);
 		TableColumn tblclmnTimestamp = tableViewerColumn_3.getColumn();
 		tblclmnTimestamp.setWidth(100);
 		tblclmnTimestamp.setText("TimeStamp");
 
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
-				tableViewer, SWT.NONE);
+				markersTableViewer, SWT.NONE);
 		TableColumn tblclmnValue = tableViewerColumn_2.getColumn();
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
@@ -394,6 +407,10 @@ public class ResourceMonitor extends AbstractScreen implements
 				.createSeries(ISeries.SeriesType.LINE, "Metric");
 
 		metricLineSeries.setXDateSeries(dateArray);
+		DateFormat format = new SimpleDateFormat("ddMM HH:mm");
+		IAxisTick xTick = chart.getAxisSet().getXAxis(0).getTick();
+		xTick.setFormat(format);
+
 		metricLineSeries.setYSeries(metricValues);
 		metricLineSeries.setSymbolType(ILineSeries.PlotSymbolType.TRIANGLE);
 		return metricLineSeries;
@@ -458,7 +475,17 @@ public class ResourceMonitor extends AbstractScreen implements
 	 * Use with additional parameter DateTimeRange.
 	 */
 	public void injectData(Object owner, Object object) {
-		throw new java.lang.IllegalStateException();
+		
+		if( object != null && object instanceof ResourceMonitor){
+			resMonitor = (ResourceMonitor) object;
+			netXResource = resMonitor.getResourceRef();
+			dtr = resMonitor.getPeriod();
+			buildUI();
+
+			frmFunction.setText("Resource Monitor " + netXResource.getShortName());
+			initDataBindings_();
+		}
+		
 	}
 
 	public void injectData(Object owner, Object object, DateTimeRange dtr) {
@@ -478,7 +505,7 @@ public class ResourceMonitor extends AbstractScreen implements
 
 		buildUI();
 
-		frmFunction.setText("Resource Monitor " + netXResource.getShortName());
+		
 		initDataBindings_();
 	}
 
@@ -494,38 +521,116 @@ public class ResourceMonitor extends AbstractScreen implements
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
+		initChartBinding();
+
+		if (resMonitor != null) {
+
+			ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
+			markersTableViewer.setContentProvider(listContentProvider);
+
+			IObservableMap[] observeMaps = EMFObservables
+					.observeMaps(
+							listContentProvider.getKnownElements(),
+							new EStructuralFeature[] {
+									OperatorsPackage.Literals.MARKER__KIND,
+									OperatorsPackage.Literals.MARKER__DESCRIPTION,
+									OperatorsPackage.Literals.MARKER__VALUE_REF});
+			
+			markersTableViewer
+					.setLabelProvider(new MarkersObervableMapLabelProvider(
+							observeMaps));
+			
+			IEMFListProperty resourceMonitorObservableList = EMFEditProperties
+					.list(editingService.getEditingDomain(),
+							OperatorsPackage.Literals.RESOURCE_MONITOR__MARKERS);
+
+			markersTableViewer.setInput(resourceMonitorObservableList.observe(resMonitor));
+		}
+		return context;
+	}
+
+	private void initChartBinding() {
+		
 		// Set the series from the resource.
 		// Re-use the TS range.
 		// TODO, select on the interval, hourly etc...
+		
 		List<Value> values = this.createDateSeries(netXResource
 				.getMetricValueRanges().get(0).getMetricValues());
+
 		List<Date> dates = modelUtils.transformValueToDate(values);
 		Date[] dateArray = new Date[dates.size()];
 		dates.toArray(dateArray);
 
 		double[] metricValues = modelUtils.transformValueToDoubleArray(values);
-		
-		// TODO, Apply Period Filter. 
-		double[] capValues = modelUtils.transformValueToDoubleArray(netXResource.getCapacityValues());
-		double[] utilValues = modelUtils.transformValueToDoubleArray(netXResource.getUtilizationValues());
-//		double[] tolValues = modelUtils.transformValueToDouble(netXResource.gettgetUtilizationValues());
-		
 		this.seriesFromMetric(dateArray, metricValues, chart, netXResource);
-		this.seriesFromCapacity(dateArray, capValues, chart);
+		
+		
+		// TODO, Apply Period Filter.
+
+		List<Value> capacities = netXResource.getCapacityValues();
+		List<Value> capMatchingDates = Lists.newArrayList(capacities);
+		int capSize = capMatchingDates.size();
+		int delta = dates.size() - capSize;
+		if (capSize > 0 && delta > 0) {
+			Value lastVal = capMatchingDates.get(capSize - 1);
+			for (int i = capSize; i < dates.size(); i++) {
+				capMatchingDates.add(i, lastVal);
+			}
+			double[] capValues = modelUtils
+					.transformValueToDoubleArray(capMatchingDates);
+			this.seriesFromCapacity(dateArray, capValues, chart);
+		}
+
+		
+		
+		double[] utilValues = modelUtils
+				.transformValueToDoubleArray(netXResource
+						.getUtilizationValues());
 		this.seriesFromUtilization(dateArray, utilValues, chart, 1);
-		
-		
+
 		// Tolerances are not stored.....
-//		this.seriesFromTolerance(chart, 1);
-		
+		// this.seriesFromTolerance(chart, 1);
 
 		// Setup data binding.
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
-
-		return context;
 	}
 
+	
+
+	public class MarkersObervableMapLabelProvider extends
+			ObservableMapLabelProvider {
+
+		public MarkersObervableMapLabelProvider(
+				IObservableMap[] attributeMaps) {
+			super(attributeMaps);
+		}
+
+		@Override
+		public Image getColumnImage(Object element, int columnIndex) {
+			return super.getColumnImage(element, columnIndex);
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			if (element instanceof Marker) {
+				Marker rm = (Marker) element;
+				switch (columnIndex) {
+				case 0:
+					return rm.getKind().getName();
+				case 1:
+					return rm.getDescription();
+				case 2:
+					return new Double(rm.getValueRef().getValue()).toString();
+				case 3:
+					return modelUtils.dateAndTime(rm.getValueRef().getTimeStamp());
+				}
+			}
+			return super.getColumnText(element, columnIndex);
+		}
+	}
+	
 	@Override
 	public Form getScreenForm() {
 		return this.frmFunction;

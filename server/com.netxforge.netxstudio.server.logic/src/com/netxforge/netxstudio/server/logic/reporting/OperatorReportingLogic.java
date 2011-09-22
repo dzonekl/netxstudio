@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.reporting;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -70,14 +71,40 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingLogic {
 			try {
 
 				URI uri = URI.createFileURI(settings.getExportPath());
-				if (!uri.lastSegment().endsWith("/")) {
-					uri.appendFragment("/");
+//				if (!uri.lastSegment().endsWith("/")) {
+//					uri = uri.appendFragment("/");
+//				}
+
+				// append the folder for this run.
+				uri = uri.appendSegment(calculateFolderName());
+				{
+					File f = new File(uri.toFileString());
+					if (!f.exists() && !f.isDirectory()) {
+						f.mkdir();
+					}
 				}
-				uri = uri.appendSegment(calculateFileName())
-						.appendFileExtension("xls");
-
-				// FIXME, What if the file exists.
-
+				
+				// append the file name without the extension, for this run, try until we have a new one. 
+				uri = uri.appendSegment(calculateFileName());
+				uri = uri.appendFileExtension("xls");
+				{
+					boolean absent = true;
+					int tries = 1;
+					while (absent) {
+						File f = new File(uri.toFileString());
+						if (f.exists()) {
+							uri.trimFileExtension();
+							uri.appendSegment(new Integer(tries).toString());
+							uri.appendFileExtension("xls");
+							tries++;
+							continue;
+						} else {
+							absent = false;
+						}
+					}
+				}
+				
+				
 				FileOutputStream fileOut = new FileOutputStream(
 						uri.toFileString());
 				this.setStream(fileOut);
@@ -118,7 +145,7 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingLogic {
 		return nodeTypes;
 	}
 
-	protected String calculateFileName() {
+	protected String calculateFolderName() {
 		StringBuffer buf = new StringBuffer();
 
 		// buf.append(getModelUtils().date(this.getStartTime()) + "_"
@@ -126,6 +153,16 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingLogic {
 
 		Date todayAndNow = getModelUtils().todayAndNow();
 		buf.append(this.getModelUtils().dateAndTime(todayAndNow));
+
+		return buf.toString();
+	}
+
+	protected String calculateFileName() {
+		StringBuffer buf = new StringBuffer();
+		
+		// Use the reporting period as a file name. 
+		 buf.append(getModelUtils().date(this.getStartTime()) + "_"
+		 + getModelUtils().date(this.getEndTime()));
 
 		return buf.toString();
 	}

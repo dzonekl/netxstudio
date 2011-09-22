@@ -489,8 +489,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/markers"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/nodeRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/resourceRef"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ResourceMonitor/end"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ResourceMonitor/start"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference operators.ecore#//ResourceMonitor/period"/>
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//ToleranceMarker">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//ToleranceMarker/direction"/>

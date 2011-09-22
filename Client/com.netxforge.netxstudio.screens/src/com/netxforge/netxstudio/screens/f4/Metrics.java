@@ -57,8 +57,14 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.DateTimeRange;
+import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.Value;
+import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
@@ -208,7 +214,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		mghprlnkNewMetric.setText("New");
 
 		metricsTreeViewer = new TreeViewer(frmMetrics.getBody(), SWT.BORDER
-				| SWT.VIRTUAL);
+				| SWT.VIRTUAL | SWT.MULTI);
 		metricsTreeViewer.setUseHashlookup(true);
 		Tree tree = metricsTreeViewer.getTree();
 		tree.setLinesVisible(true);
@@ -273,7 +279,67 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
+	
+	
+	/**
+	 * Wrap in an action, to contribute to a menu manager.
+	 * @author dzonekl
+	 * 
+	 */
+	class ValuesForMetricAction extends Action {
 
+		public ValuesForMetricAction(String text, int style) {
+			super(text, style);
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public void run() {
+			super.run();
+			if (screenService != null) {
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					
+					List<Metric> metrics = Lists.newArrayList(((IStructuredSelection) selection).iterator());
+					List<NetXResource> resources = modelUtils.resourcesForMetrics(metrics);
+					
+					
+					// TODO, Invoke a dialog to select a DTR and Interval. 
+					
+					DateTimeRange dtr  = GenericsFactory.eINSTANCE.createDateTimeRange();
+					int targetIntervalHint = ModelUtils.MINUTES_IN_AN_HOUR; 
+							
+					System.out.println("VALUES FOR PERIOD:");
+					
+					System.out.println("FROM="+ modelUtils.dateAndTime(dtr.getBegin()));
+					System.out.println("TO="+ modelUtils.dateAndTime(dtr.getEnd()));
+					
+					int valueCount = 0;
+					for (NetXResource res : resources) {
+						System.out.println("values for resource: "
+								+ res.getShortName() + "on Component" + res.getComponentRef().getName());
+
+						List<Value> values = modelUtils.metricValuesInRange(res,
+								targetIntervalHint, null, dtr);
+						if (values.size() > 0) {
+							valueCount += values.size();
+							System.out.println("number of values "
+									+ Iterables.size(values));
+							for (Value v : values) {
+								System.out.println(modelUtils.fromXMLDate(v
+										.getTimeStamp())
+										+ ":"
+										+ v.getValue());
+							}
+						}
+					}
+					System.out.println("total values for this import = " + valueCount);
+				}
+			}
+		}
+	}
+	
+	
 	/**
 	 * Wrap in an action, to contribute to a menu manager.
 	 * 

@@ -79,7 +79,7 @@ public class RFSServiceUserReportingLogic extends OperatorReportingLogic {
 						dr.getValues());
 
 				range = getModelUtils().filterValueInRange(range,
-						this.getTimeRange());
+						this.getPeriod());
 
 				// Write the values.
 				int valueIndex = SERVICEUSER_COLUMN + 2;

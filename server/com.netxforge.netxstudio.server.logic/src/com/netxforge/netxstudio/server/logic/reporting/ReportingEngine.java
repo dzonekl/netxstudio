@@ -51,7 +51,8 @@ public class ReportingEngine extends BaseServiceEngine {
 		if (this.getService() instanceof RFSService) {
 
 			RFSService service = (RFSService) this.getService();
-
+			
+			getExpressionEngine().getContext().clear();
 			getExpressionEngine().getContext().add(getPeriod());
 			getExpressionEngine().getContext().add(service);
 			getExpressionEngine().getContext().add(getServiceSummary());

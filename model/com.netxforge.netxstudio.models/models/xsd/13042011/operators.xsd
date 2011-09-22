@@ -312,7 +312,8 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="OriginalNodeTypeRef" type="xs:anyURI" ecore:reference="library:NodeType">
+				<xs:attribute name="OriginalNodeTypeRef" type="xs:anyURI"
+					ecore:reference="library:NodeType">
 					<xs:annotation>
 						<xs:documentation>The OriginalNodeTypeRef reference, refers to the
 							original NodeType type from the library.
@@ -621,23 +622,20 @@
 						type="xs:anyURI" maxOccurs="1" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The Resource reference, references 1
-								Resource type.
+								Resource
+								type.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Period" type="gen:DateTimeRange"
+						maxOccurs="1" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The Period reference, contains 0 or 1
+								DatetimeRange types.
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
-				<xs:attribute name="Start" type="xs:dateTime">
-					<xs:annotation>
-						<xs:documentation>The start of the period for this resource monitor.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
-				<xs:attribute name="End" type="xs:dateTime">
-					<xs:annotation>
-						<xs:documentation>The end of the period for this resource monitor.
-						</xs:documentation>
-					</xs:annotation>
-				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -705,7 +703,8 @@
 	<xs:complexType name="ToleranceMarker">
 		<xs:annotation>
 			<xs:documentation>
-				A marker which specifically marks tolerance treshold crossings.
+				A marker which specifically marks tolerance
+				treshold crossings.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
@@ -713,7 +712,7 @@
 				<xs:attribute name="Direction" type="ToleranceMarkerDirectionKind">
 					<xs:annotation>
 						<xs:documentation>In which direction the marker is crossed,
-						up or down.
+							up or down.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>

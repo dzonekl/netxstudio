@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.data.IDataProvider;
 
 
 /**
@@ -56,17 +57,20 @@ public class ServerRequest {
 	@Inject
 	ModelUtils modelUtils;
 
+	IDataProvider provider;
+	
 	private String server;
 
-	public static final String NETXSTUDIO_SERVER = "http://localhost:8080";
+	
+	public static final String LOCAL_HTTP_SERVER = "http://localhost:8080";
 
 	public static final String COMMAND_PARAM_NAME = "command";
 	public static final String SERVICE_PARAM_NAME = "service";
 	public static final String DEFAULT_SUCCESS_RESULT = "success";
 
 	public static final String METRIC_IMPORT_SERVICE = "com.netxforge.netxstudio.server.metrics.MetricSourceImportService";
-	public static final String MONITOR_SERVICE = "com.netxforge.netxstudio.server.logic.ResourceMonitoringService";
-	public static final String RETENTION_SERVICE = "com.netxforge.netxstudio.server.logic.RetentionService";
+	public static final String MONITOR_SERVICE = "com.netxforge.netxstudio.server.logic.monitoring.MonitoringService";
+	public static final String RETENTION_SERVICE = "com.netxforge.netxstudio.server.logic.retention.RetentionService";
 	public static final String REPORTING_SERVICE = "com.netxforge.netxstudio.server.logic.reporting.ReportingService";
 
 	public static final String MS_PARAM = "metricSource";
@@ -77,6 +81,13 @@ public class ServerRequest {
 	public static final String START_TIME_PARAM = "startTime";
 	public static final String END_TIME_PARAM = "endTime";
 
+	@Inject
+	public ServerRequest(IDataProvider provider){
+		this.provider = provider;
+		server = provider.getServer();
+	}
+	
+	
 	public String callMetricImportAction(CDOObject cdoObject) throws Exception {
 		return callMetricAction(METRIC_IMPORT_SERVICE, MS_PARAM,
 				cdoObject.cdoID());
@@ -112,7 +123,7 @@ public class ServerRequest {
 	private String callMetricAction(String serviceName, String parameterName,
 			CDOID cdoId) throws Exception {
 
-		setServer();
+		calcFromCDOServer();
 
 		final StringBuilder url = new StringBuilder();
 		url.append(server + "/netxforge/service");
@@ -130,7 +141,7 @@ public class ServerRequest {
 	public String callPeriodAction(String serviceName, String parameterName,
 			CDOID cdoId, Date from, Date to) throws Exception {
 
-		setServer();
+		calcFromCDOServer();
 
 		if (from == null) {
 			from = modelUtils.oneMonthAgo();
@@ -159,7 +170,7 @@ public class ServerRequest {
 	public String callRetentionAction(String serviceName, String parameterName,
 			CDOID cdoId, Date from, Date to) throws Exception {
 		
-		setServer();
+		calcFromCDOServer();
 
 		final StringBuilder url = new StringBuilder();
 		url.append(server + "/netxforge/service");
@@ -210,12 +221,15 @@ public class ServerRequest {
 		}
 	}
 
-	private void setServer() {
+	public String calcFromCDOServer() {
 		if (server == null) {
-			server = NETXSTUDIO_SERVER;
+			server = LOCAL_HTTP_SERVER;
 		} else {
+			if( server.startsWith("http")){
+				return server;
+			}
 			if (server.startsWith("localhost")) {
-				server = NETXSTUDIO_SERVER;
+				server = LOCAL_HTTP_SERVER;
 			} else {
 				// Change the port, if any specified.
 				int portIndex = server.indexOf(':');
@@ -227,6 +241,7 @@ public class ServerRequest {
 
 			}
 		}
+		return server;
 	}
 
 	
@@ -242,7 +257,7 @@ public class ServerRequest {
 		return XMLTypeFactory.eINSTANCE.convertDateTime(xmlDate);
 	}
 
-	public void setServer(String server) {
+	public void setCDOServer(String server) {
 		this.server = server;
 	}
 

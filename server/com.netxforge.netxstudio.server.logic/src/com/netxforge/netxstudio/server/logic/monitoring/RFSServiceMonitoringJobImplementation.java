@@ -22,7 +22,7 @@ import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
-import com.netxforge.netxstudio.server.Activator;
+import com.netxforge.netxstudio.server.ServerActivator;
 import com.netxforge.netxstudio.server.job.JobImplementation;
 import com.netxforge.netxstudio.server.logic.profile.RFSServiceProfileLogic;
 
@@ -41,7 +41,7 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 			
 		
 		// Iterates over Nodes (By NodeType). 
-		final RFSServiceMonitoringLogic resourceMonitoringLogic = Activator.getInstance()
+		final RFSServiceMonitoringLogic resourceMonitoringLogic = ServerActivator.getInstance()
 				.getInjector().getInstance(RFSServiceMonitoringLogic.class);
 		resourceMonitoringLogic.setRfsService(serviceJob.getRFSService().cdoID());
 		resourceMonitoringLogic.setJobMonitor(getRunMonitor());
@@ -49,7 +49,7 @@ public class RFSServiceMonitoringJobImplementation extends JobImplementation {
 		resourceMonitoringLogic.run();
 		
 		// Iterates over Service Users 
-		final RFSServiceProfileLogic resourceProfileLogic = Activator.getInstance()
+		final RFSServiceProfileLogic resourceProfileLogic = ServerActivator.getInstance()
 				.getInjector().getInstance(RFSServiceProfileLogic.class);
 		resourceProfileLogic.setRfsService(serviceJob.getRFSService().cdoID());
 		resourceProfileLogic.setJobMonitor(getRunMonitor());

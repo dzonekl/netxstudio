@@ -44,20 +44,26 @@ import com.netxforge.interpreter.IInterpreter;
 import com.netxforge.interpreter.IInterpreterContext;
 import com.netxforge.interpreter.IInterpreterContextFactory;
 import com.netxforge.netxscript.Mod;
+import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
+import com.netxforge.netxstudio.library.BaseResource;
+import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.ExpressionResult;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.services.Service;
 
 /**
  * Runs an expression and collects the results in a list of
  * {@link ExpressionResult} objects.
  * 
- * This Engine, has the following potential errors: 
+ * This Engine, has the following potential errors:
  * <ul>
- * 		<li>The expression might not load, because of syntax issues.</li>
- * 		<li>Linking (resolve) could fail, CDO connection is required</li>
- * 		<li>Expression results not be written out</li>
+ * <li>The expression might not load, because of syntax issues.</li>
+ * <li>Linking (resolve) could fail, CDO connection is required</li>
+ * <li>Expression results not be written out</li>
  * </ul>
  * 
  * @author Martin Taal
@@ -65,61 +71,68 @@ import com.netxforge.netxstudio.server.logic.LogicActivator;
  */
 public class ExpressionEngine implements IExpressionEngine {
 	private Expression expression;
-	private List<BaseExpressionResult> expressionResult =  new ArrayList<BaseExpressionResult>();
+	private List<BaseExpressionResult> expressionResult = new ArrayList<BaseExpressionResult>();
 
 	private XtextResource xResource;
-	
+
 	@Inject
 	private XtextResourceSet xResourceSet;
-	
+
 	@Inject
 	private IResourceFactory xResourceFactory;
-	
+
 	@Inject
 	private IInterpreterContextFactory xInterpreterContextFactory;
-	
+
 	@Inject
 	private IInterpreter xInterpreter;
-	
-	
+
+	@Inject
+	private ModelUtils modelUtils;
+
 	private List<Object> context = new ArrayList<Object>();
-	
+
 	private Throwable throwable;
-	
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#run()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#run()
 	 */
 	public void run() {
-		
+
 		throwable = null;
 		getExpressionResult().clear();
-		
+
 		final String asString = this.asString(expression);
 		try {
-			System.out.println("Parsing expression: " + asString );
+			System.out.println("Parsing expression: " + asString);
 			xResource = getResourceFromString(asString);
-			// Get the parse tree. 
+			// Get the parse tree.
 			final Mod m = (Mod) this.getModel(xResource);
 			System.out.println("Done parsing expression: ");
-			
+
 			final List<IInterpreterContext> contextList = new ArrayList<IInterpreterContext>();
 			for (final Object o : context) {
 				contextList.add(xInterpreterContextFactory.createContext(o));
 			}
-			final IInterpreterContext[] contextArray = new IInterpreterContext[contextList.size()];
+			final IInterpreterContext[] contextArray = new IInterpreterContext[contextList
+					.size()];
 			contextList.toArray(contextArray);
-			
-			// Clear the interpreter and Set the context. 
+
+			// print the context.
+			this.printInterpreterContext(contextList);
+
+			// Clear the interpreter and Set the context.
 			xInterpreter.clear();
 			xInterpreter.setContext(contextArray);
-			
-			// What is returned from the evaluation are temporary variables from the last scope.
-			
+
+			// What is returned from the evaluation are temporary variables from
+			// the last scope.
+
 			@SuppressWarnings("unused")
 			Object result = xInterpreter.evaluate(m);
-			// TODO, Store the last eval result also in an expression result. 
-			// Model change, for last eval result. 
-			
 			setExpressionResult(xInterpreter.getResult());
 			xResource.unload();
 		} catch (final Throwable t) {
@@ -130,92 +143,114 @@ public class ExpressionEngine implements IExpressionEngine {
 	public boolean errorOccurred() {
 		return throwable != null;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#getExpression()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#
+	 * getExpression()
 	 */
 	public Expression getExpression() {
 		return expression;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#setExpression(com.netxforge.netxstudio.library.Expression)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#
+	 * setExpression(com.netxforge.netxstudio.library.Expression)
 	 */
 	public void setExpression(Expression expression) {
 		this.expression = expression;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#getExpressionResult()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#
+	 * getExpressionResult()
 	 */
 	public List<BaseExpressionResult> getExpressionResult() {
 		return expressionResult;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#setExpressionResult(java.util.List)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.server.logic.expression.IExpressionEngine#
+	 * setExpressionResult(java.util.List)
 	 */
 	public void setExpressionResult(List<BaseExpressionResult> expressionResult) {
 		this.expressionResult = expressionResult;
 	}
-	
+
 	private EObject getModel(XtextResource resource) {
 		return resource.getParseResult().getRootASTElement();
 	}
-	
-	private String asString(Expression expression){
-		// TODO, check if the line feed is stored. 
+
+	private String asString(Expression expression) {
+		// TODO, check if the line feed is stored.
 		final Collection<String> lines = expression.getExpressionLines();
 		return Joiner.on("\n").join(lines);
 	}
-	
-	private final XtextResource getResourceFromString(String model) throws Exception {
+
+	private final XtextResource getResourceFromString(String model)
+			throws Exception {
 		return getResource(getAsStream(model));
 	}
-	
+
 	private InputStream getAsStream(String model) {
 		return new StringInputStream(model);
 	}
-	
+
 	private final XtextResource getResource(InputStream in) throws Exception {
-		
-		// TODO, consider some algorithm for URI generation, could be usefull for troubleshooting?
-		return getResource(in, URI.createURI("mytestmodel."+getCurrentFileExtension()));
+
+		// TODO, consider some algorithm for URI generation, could be usefull
+		// for troubleshooting?
+		return getResource(in,
+				URI.createURI("mytestmodel." + getCurrentFileExtension()));
 	}
-	
+
 	private String getCurrentFileExtension() {
-		final String instance = LogicActivator.getInstance().getInjector().getInstance(Key.get(String.class,Names.named(Constants.FILE_EXTENSIONS)));
-		if (instance.indexOf(',')==-1)
+		final String instance = LogicActivator
+				.getInstance()
+				.getInjector()
+				.getInstance(
+						Key.get(String.class,
+								Names.named(Constants.FILE_EXTENSIONS)));
+		if (instance.indexOf(',') == -1)
 			return instance;
 		return instance.split(",")[0];
 	}
-		
-	private final XtextResource getResource(InputStream in, URI uri) throws Exception {
+
+	private final XtextResource getResource(InputStream in, URI uri)
+			throws Exception {
 		final XtextResource resource = doGetResource(in, uri);
-		for(final Diagnostic d: resource.getErrors()) {
-			if (d instanceof ExceptionDiagnostic){
-					// TODO Do something with the resource erros. 
+		for (final Diagnostic d : resource.getErrors()) {
+			if (d instanceof ExceptionDiagnostic) {
+				// TODO Do something with the resource erros.
 			}
 		}
-		for(final Diagnostic d: resource.getWarnings())
-			System.out.println("Resource Warning: "+d);
+		for (final Diagnostic d : resource.getWarnings())
+			System.out.println("Resource Warning: " + d);
 		return resource;
 	}
-	
-	protected XtextResource doGetResource(InputStream in, URI uri) throws Exception {
+
+	protected XtextResource doGetResource(InputStream in, URI uri)
+			throws Exception {
 		xResourceSet.setClasspathURIContext(getClass());
-		final XtextResource resource = (XtextResource)xResourceFactory.createResource(uri);
+		final XtextResource resource = (XtextResource) xResourceFactory
+				.createResource(uri);
 		xResourceSet.getResources().add(resource);
 		resource.load(in, null);
 		if (resource instanceof LazyLinkingResource) {
-			// Linking process here. 
-			((LazyLinkingResource) resource).resolveLazyCrossReferences(CancelIndicator.NullImpl);
+			// Linking process here.
+			((LazyLinkingResource) resource)
+					.resolveLazyCrossReferences(CancelIndicator.NullImpl);
 		} else {
 			EcoreUtil.resolveAll(resource);
 		}
-		
-		
-		
+
 		return resource;
 	}
 
@@ -230,5 +265,32 @@ public class ExpressionEngine implements IExpressionEngine {
 	public void setContext(List<Object> context) {
 		this.context = context;
 	}
-	
+
+	private void printInterpreterContext(List<IInterpreterContext> contexts) {
+		System.out.println("# context= " + contexts.size());
+		for (IInterpreterContext c : contexts) {
+			Object context = c.getContext();
+			if (context instanceof DateTimeRange) {
+				System.out.println("Context DTR:"
+						+ modelUtils.formatPeriod((DateTimeRange) context));
+			}
+			if (context instanceof Node) {
+				System.out.println("Context Node:" + ((Node) context).getNodeID());
+			}
+			if (context instanceof Component) {
+				System.out
+						.println("Context Component:" + ((Component) context).getName());
+			}
+			if (context instanceof Service) {
+				System.out.println("Context Service:"
+						+ ((Service) context).getServiceName());
+			}
+			if (context instanceof BaseResource) {
+				System.out.println("Context Resource:"
+						+ ((BaseResource) context).getExpressionName());
+			}
+		}
+
+	}
+
 }

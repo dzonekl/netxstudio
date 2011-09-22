@@ -105,7 +105,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 					public void linkActivated(HyperlinkEvent e) {
 						try {
 							serverActions
-									.setServer(editingService.getDataService()
+									.setCDOServer(editingService.getDataService()
 											.getProvider().getServer());
 							// TODO, We get the workflow run ID back, which
 							// could be used

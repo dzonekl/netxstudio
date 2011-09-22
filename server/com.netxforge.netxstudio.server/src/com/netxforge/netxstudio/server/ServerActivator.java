@@ -26,17 +26,17 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-public class Activator implements BundleActivator {
+public class ServerActivator implements BundleActivator {
 
 	private static BundleContext context;
 
-	private static Activator INSTANCE;
+	private static ServerActivator INSTANCE;
 	
 	static BundleContext getContext() {
 		return context;
 	}
 
-	public static Activator getInstance() {
+	public static ServerActivator getInstance() {
 		return INSTANCE;
 	}
 	
@@ -48,7 +48,7 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		INSTANCE = this;
-		Activator.context = bundleContext;
+		ServerActivator.context = bundleContext;
 		injector = Guice.createInjector(ServerModule.getModule());
 		
 		Locale currentLocal = Locale.getDefault();
@@ -63,7 +63,7 @@ public class Activator implements BundleActivator {
 	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
-		Activator.context = null;
+		ServerActivator.context = null;
 		ServerUtils.getInstance().deActivate();
 	}
 

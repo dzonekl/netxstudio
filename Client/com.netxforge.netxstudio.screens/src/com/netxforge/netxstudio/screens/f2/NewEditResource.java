@@ -99,8 +99,8 @@ public class NewEditResource extends AbstractScreen implements
 	private static final int UTILIZATION = -200;
 	private Hyperlink hprlnkCapcity;
 	private Hyperlink hprlnkUtilization;
-	
-	
+	private Text txtComponent;
+
 	/**
 	 * Create the composite.
 	 * 
@@ -116,7 +116,7 @@ public class NewEditResource extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
-//		 buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -172,6 +172,20 @@ public class NewEditResource extends AbstractScreen implements
 		toolkit.paintBordersFor(composite);
 		sctnInfo.setClient(composite);
 		composite.setLayout(new GridLayout(3, false));
+
+		Label lblComponent = toolkit.createLabel(composite, "Component:",
+				SWT.NONE);
+		lblComponent.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		lblComponent.setAlignment(SWT.RIGHT);
+
+		txtComponent = toolkit.createText(composite, "New Text", SWT.READ_ONLY);
+		GridData gd_txtComponent = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_txtComponent.widthHint = 300;
+		txtComponent.setLayoutData(gd_txtComponent);
+		txtComponent.setText("");
+		new Label(composite, SWT.NONE);
 
 		Label lblShortName = toolkit.createLabel(composite, "Short Name:",
 				SWT.NONE);
@@ -288,7 +302,7 @@ public class NewEditResource extends AbstractScreen implements
 		hprlnkDaily = toolkit.createHyperlink(composite_2, "Daily", SWT.NONE);
 		hprlnkDaily.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				updateValues(60*24);
+				updateValues(60 * 24);
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -301,7 +315,7 @@ public class NewEditResource extends AbstractScreen implements
 		hprlnkWeekly = toolkit.createHyperlink(composite_2, "Weekly", SWT.NONE);
 		hprlnkWeekly.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				updateValues(60*24*7);
+				updateValues(60 * 24 * 7);
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -315,7 +329,7 @@ public class NewEditResource extends AbstractScreen implements
 				SWT.NONE);
 		hprlnkMonthly.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				updateValues(60*24*30);
+				updateValues(60 * 24 * 30);
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -325,32 +339,39 @@ public class NewEditResource extends AbstractScreen implements
 			}
 		});
 		toolkit.paintBordersFor(hprlnkMonthly);
-		
+
 		Composite composite = toolkit.createComposite(composite_2, SWT.NONE);
-		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
 		gd_composite.heightHint = 10;
 		composite.setLayoutData(gd_composite);
 		toolkit.paintBordersFor(composite);
-		
-		hprlnkCapcity = toolkit.createHyperlink(composite_2, "Capacity", SWT.NONE);
+
+		hprlnkCapcity = toolkit.createHyperlink(composite_2, "Capacity",
+				SWT.NONE);
 		hprlnkCapcity.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				updateCapacityValues();
 			}
+
 			public void linkEntered(HyperlinkEvent e) {
 			}
+
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
 		toolkit.paintBordersFor(hprlnkCapcity);
-		
-		hprlnkUtilization = toolkit.createHyperlink(composite_2, "Utilization", SWT.NONE);
+
+		hprlnkUtilization = toolkit.createHyperlink(composite_2, "Utilization",
+				SWT.NONE);
 		hprlnkUtilization.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
 				updateUtilizationValues();
 			}
+
 			public void linkEntered(HyperlinkEvent e) {
 			}
+
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
@@ -417,7 +438,6 @@ public class NewEditResource extends AbstractScreen implements
 
 	}
 
-	
 	private void updateUtilizationValues() {
 
 		valuesTableViewer
@@ -428,7 +448,7 @@ public class NewEditResource extends AbstractScreen implements
 		valuesTableViewer.setInput(netxResource);
 
 	}
-	
+
 	class NetXResourceValueLabelProvider extends StyledCellLabelProvider {
 
 		@Override
@@ -479,15 +499,15 @@ public class NewEditResource extends AbstractScreen implements
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof NetXResource) {
 				NetXResource resource = (NetXResource) inputElement;
-				
-				if(targetRange == CAPACITIES){
+
+				if (targetRange == CAPACITIES) {
 					return resource.getCapacityValues().toArray();
 				}
-				
-				if(targetRange == UTILIZATION){
+
+				if (targetRange == UTILIZATION) {
 					return resource.getUtilizationValues().toArray();
 				}
-				
+
 				for (MetricValueRange mvr : resource.getMetricValueRanges()) {
 
 					if (mvr.getIntervalHint() == this.targetRange) {
@@ -515,6 +535,11 @@ public class NewEditResource extends AbstractScreen implements
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
 		// Widget observables.
+
+		IObservableValue componentTargetObservable = SWTObservables
+				.observeDelayedValue(400, SWTObservables.observeText(
+						this.txtComponent, SWT.Modify));
+
 		IObservableValue shortNameTargetObservable = SWTObservables
 				.observeDelayedValue(400, SWTObservables.observeText(
 						this.txtShortName, SWT.Modify));
@@ -527,6 +552,12 @@ public class NewEditResource extends AbstractScreen implements
 		IObservableValue unitTargetObservable = SWTObservables
 				.observeDelayedValue(400,
 						SWTObservables.observeText(this.txtUnit, SWT.Modify));
+		
+		
+		IEMFValueProperty componentProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(), FeaturePath.fromList(
+						LibraryPackage.Literals.NET_XRESOURCE__COMPONENT_REF,
+						LibraryPackage.Literals.COMPONENT__NAME));
 
 		IEMFValueProperty shortNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
@@ -542,6 +573,9 @@ public class NewEditResource extends AbstractScreen implements
 				.getEditingDomain(), FeaturePath.fromList(
 				LibraryPackage.Literals.BASE_RESOURCE__UNIT_REF,
 				LibraryPackage.Literals.UNIT__CODE));
+
+		context.bindValue(componentTargetObservable,
+				componentProperty.observe(netxResource), null, null);
 
 		context.bindValue(shortNameTargetObservable,
 				shortNameProperty.observe(netxResource), null, null);
@@ -560,46 +594,55 @@ public class NewEditResource extends AbstractScreen implements
 		hprlnkHourly.setEnabled(false);
 		hprlnkCapcity.setEnabled(false);
 		hprlnkUtilization.setEnabled(false);
-		
-		if( netxResource.getCapacityValues().size() > 0){
+
+		if (netxResource.getCapacityValues().size() > 0) {
 			hprlnkCapcity.setEnabled(true);
-			hprlnkCapcity.setText(hprlnkCapcity.getText() + " (" + netxResource.getCapacityValues().size() + ")");
+			hprlnkCapcity.setText(hprlnkCapcity.getText() + " ("
+					+ netxResource.getCapacityValues().size() + ")");
 		}
-		
-		if( netxResource.getUtilizationValues().size() > 0){
+
+		if (netxResource.getUtilizationValues().size() > 0) {
 			hprlnkUtilization.setEnabled(true);
-			hprlnkUtilization.setText(hprlnkUtilization.getText() + " (" + netxResource.getUtilizationValues().size() + ")");
+			hprlnkUtilization.setText(hprlnkUtilization.getText() + " ("
+					+ netxResource.getUtilizationValues().size() + ")");
 		}
 
 		for (MetricValueRange mvr : netxResource.getMetricValueRanges()) {
 			switch (mvr.getIntervalHint()) {
-			
+
 			case 60: {
 				hprlnkHourly.setEnabled(true);
-				hprlnkHourly.setText(hprlnkHourly.getText() + " (" + mvr.getMetricValues().size() + ")");
-			}break;
+				hprlnkHourly.setText(hprlnkHourly.getText() + " ("
+						+ mvr.getMetricValues().size() + ")");
+			}
+				break;
 			case 60 * 24: {
 				hprlnkDaily.setEnabled(true);
-				hprlnkDaily.setText(hprlnkDaily.getText() + " (" + mvr.getMetricValues().size() + ")");
-			}break;
+				hprlnkDaily.setText(hprlnkDaily.getText() + " ("
+						+ mvr.getMetricValues().size() + ")");
+			}
+				break;
 			case 60 * 24 * 7: {
 				hprlnkWeekly.setEnabled(true);
-				hprlnkWeekly.setText(hprlnkWeekly.getText() + " (" + mvr.getMetricValues().size() + ")");
-			}break;
+				hprlnkWeekly.setText(hprlnkWeekly.getText() + " ("
+						+ mvr.getMetricValues().size() + ")");
+			}
+				break;
 			case 60 * 24 * 30: {
 				hprlnkMonthly.setEnabled(true);
-				hprlnkMonthly.setText(hprlnkMonthly.getText() + " (" + mvr.getMetricValues().size() + ")");
-			}break;
+				hprlnkMonthly.setText(hprlnkMonthly.getText() + " ("
+						+ mvr.getMetricValues().size() + ")");
+			}
+				break;
 			default: {
 				System.out.println("Unknown range found with interval: "
 						+ mvr.getIntervalHint());
-				// TODO, perhaps add other hyperlinks for non-predefined intervals???
-				
+				// TODO, perhaps add other hyperlinks for non-predefined
+				// intervals???
+
 			}
 			}
 		}
-
-
 
 		return context;
 	}

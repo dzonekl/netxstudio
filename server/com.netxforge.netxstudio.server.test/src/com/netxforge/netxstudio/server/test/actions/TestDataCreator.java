@@ -146,7 +146,7 @@ public class TestDataCreator implements NetxForgeService {
 		// clearData();
 
 		dataProvider.getTransaction();
-		importMetrics();
+//		importMetrics();
 		createRFSService();
 		createXLSMetricSource();
 		createCVSMetricSource();

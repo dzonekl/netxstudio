@@ -22,7 +22,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Tolerance;
@@ -46,6 +48,9 @@ public class MonitoringEngine extends BaseComponentEngine {
 
 	@Override
 	public void doExecute() {
+		
+		// Clear the context first. 
+		getExpressionEngine().getContext().clear();
 		getExpressionEngine().getContext().add(getPeriod());
 		final Node node = getCommonLogic().getNode(getComponent());
 		getExpressionEngine().getContext().add(node);
@@ -92,8 +97,9 @@ public class MonitoringEngine extends BaseComponentEngine {
 					.createResourceMonitor();
 			resourceMonitor.setNodeRef(node);
 			resourceMonitor.setResourceRef(netXResource);
-			resourceMonitor.setStart(getModelUtils().toXMLDate(getStart()));
-			resourceMonitor.setEnd(getModelUtils().toXMLDate(getEnd()));
+			// CB 21-09 make a copy of the DTR. 
+			DateTimeRange dtr = EcoreUtil.copy(getPeriod());
+			resourceMonitor.setPeriod(dtr);
 			if (getServiceMonitor() == null) {
 				final Resource emfResource = getDataProvider().getResource(
 						OperatorsPackage.eINSTANCE.getResourceMonitor());

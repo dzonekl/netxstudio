@@ -23,6 +23,7 @@ import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.netxforge.netxstudio.common.model.NodeTypeSummary;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.screens.details.AbstractDetailsScreen;
@@ -32,7 +33,6 @@ import com.netxforge.netxstudio.screens.editing.selector.IScreen;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f2.model.WrappedNodeType;
 import com.netxforge.netxstudio.screens.f2.parts.NodeTypeEditPartsFactory;
-import com.netxforge.netxstudio.screens.f2.support.Totals;
 
 public class NewEditNodeType extends AbstractDetailsScreen implements
 		IScreen, IDataScreenInjection {
@@ -203,12 +203,12 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		context.bindValue(leafObservable, leafProperty.observe(nodeType), null,
 				null);
 
-		Totals totals = new Totals(nodeType);
-		this.frmTextNumberOfFunctions.setText(totals.getFunctions(),
+		NodeTypeSummary totals = new NodeTypeSummary(nodeType);
+		this.frmTextNumberOfFunctions.setText(totals.getFunctionCountAsString(),
 				false, false);
-		this.frmTextNumberOfEquipments.setText(totals.getEquipments(),
+		this.frmTextNumberOfEquipments.setText(totals.getEquipmentCountAsString(),
 				false, false);
-		this.frmTextNumberOfResources.setText(totals.getResources(),
+		this.frmTextNumberOfResources.setText(totals.getResourCountAsString(),
 				false, false);
 		return context;
 	}

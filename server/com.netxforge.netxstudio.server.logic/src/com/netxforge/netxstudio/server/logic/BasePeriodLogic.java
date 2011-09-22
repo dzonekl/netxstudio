@@ -36,7 +36,7 @@ public abstract class BasePeriodLogic extends BaseLogic {
 
 	private DateTimeRange timeRange;
 
-	protected DateTimeRange getTimeRange() {
+	public DateTimeRange getPeriod() {
 		if (timeRange != null) {
 			return timeRange;
 		}

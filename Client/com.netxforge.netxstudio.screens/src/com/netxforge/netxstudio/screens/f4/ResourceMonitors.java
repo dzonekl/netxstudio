@@ -1,5 +1,7 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import java.util.Date;
+
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -128,28 +130,41 @@ public class ResourceMonitors extends AbstractScreen implements
 		tblclmnMarkers.setWidth(207);
 		tblclmnMarkers.setText("Markers");
 
-//		Menu menu = new Menu(table);
-//		table.setMenu(menu);
-//
-//		MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
-//		mntmEdit.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//
-//				ISelection selection = getViewer().getSelection();
-//				if (selection instanceof IStructuredSelection) {
-//					Object o = ((IStructuredSelection) selection)
-//							.getFirstElement();
-//					com.netxforge.netxstudio.screens.f4.ResourceMonitor rmScreen = new com.netxforge.netxstudio.screens.f4.ResourceMonitor(
-//							screenService.getScreenContainer(), SWT.NONE);
-//					rmScreen.setScreenService(screenService);
-//					rmScreen.setOperation(getOperation());
-//					rmScreen.injectData(null, o);
-//					screenService.setActiveScreen(rmScreen);
-//				}
-//			}
-//		});
-//		mntmEdit.setText("View...");
+		TableViewerColumn tblViewerClmnStart = new TableViewerColumn(
+				resourceMonitorsTableViewer, SWT.NONE);
+		TableColumn tblclmnStart = tblViewerClmnStart.getColumn();
+		tblclmnStart.setWidth(150);
+		tblclmnStart.setText("Start");
+
+		TableViewerColumn tblViewerClmnEnd = new TableViewerColumn(
+				resourceMonitorsTableViewer, SWT.NONE);
+		TableColumn tblclmnEnd = tblViewerClmnEnd.getColumn();
+		tblclmnEnd.setWidth(150);
+		tblclmnEnd.setText("End");
+
+		// Menu menu = new Menu(table);
+		// table.setMenu(menu);
+		//
+		// MenuItem mntmEdit = new MenuItem(menu, SWT.NONE);
+		// mntmEdit.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		//
+		// ISelection selection = getViewer().getSelection();
+		// if (selection instanceof IStructuredSelection) {
+		// Object o = ((IStructuredSelection) selection)
+		// .getFirstElement();
+		// com.netxforge.netxstudio.screens.f4.ResourceMonitor rmScreen = new
+		// com.netxforge.netxstudio.screens.f4.ResourceMonitor(
+		// screenService.getScreenContainer(), SWT.NONE);
+		// rmScreen.setScreenService(screenService);
+		// rmScreen.setOperation(getOperation());
+		// rmScreen.injectData(null, o);
+		// screenService.setActiveScreen(rmScreen);
+		// }
+		// }
+		// });
+		// mntmEdit.setText("View...");
 	}
 
 	/**
@@ -172,12 +187,16 @@ public class ResourceMonitors extends AbstractScreen implements
 				if (selection instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					com.netxforge.netxstudio.screens.f4.ResourceMonitor rmScreen = new com.netxforge.netxstudio.screens.f4.ResourceMonitor(
-							screenService.getScreenContainer(), SWT.NONE);
-					rmScreen.setScreenService(screenService);
-					rmScreen.setOperation(getOperation());
-					rmScreen.injectData(null, o);
-					screenService.setActiveScreen(rmScreen);
+
+					if (o instanceof ResourceMonitor) {
+
+						ResourceMonitorScreen rmScreen = new ResourceMonitorScreen(
+								screenService.getScreenContainer(), SWT.NONE);
+						rmScreen.setScreenService(screenService);
+						rmScreen.setOperation(getOperation());
+						rmScreen.injectData(null,o);
+						screenService.setActiveScreen(rmScreen);
+					}
 				}
 			}
 		}
@@ -247,6 +266,20 @@ public class ResourceMonitors extends AbstractScreen implements
 					break;
 				case 2:
 					return new Integer(rm.getMarkers().size()).toString();
+				case 3:
+					if (rm.getPeriod() != null) {
+						Date begin = modelUtils.fromXMLDate(rm.getPeriod()
+								.getBegin());
+						return modelUtils.date(begin) + " @ " + modelUtils.time(begin);
+					}
+					break;
+				case 4:
+					if (rm.getPeriod() != null) {
+						Date end = modelUtils.fromXMLDate(rm.getPeriod()
+								.getEnd());
+						return modelUtils.date(end)  + " @ " +  modelUtils.time(end);
+					}
+					break;
 				}
 			}
 			return super.getColumnText(element, columnIndex);

@@ -16,6 +16,7 @@ import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -495,10 +496,10 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		// SWTObservables.observeText(
 		// txtFirstHeaderRow, SWT.Modify);
 
-		IEMFValueProperty sheetNumberProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
-		IEMFValueProperty firstDataRowProperty = EMFProperties
-				.value(MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
+		IEMFValueProperty sheetNumberProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), MetricsPackage.Literals.MAPPING_XLS__SHEET_NUMBER);
+		IEMFValueProperty firstDataRowProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(), MetricsPackage.Literals.MAPPING__FIRST_DATA_ROW);
 
 		// IEMFValueProperty headerRowProperty = EMFProperties
 		// .value(MetricsPackage.Literals.MAPPING__HEADER_ROW);

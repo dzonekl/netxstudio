@@ -268,7 +268,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	
 	private RFSServiceSummary processService(Service service) {
 		// Build a service summary, to be passed to the engine.
-		RFSServiceSummary serviceSummary = new RFSServiceSummary(this.getModelUtils(),
+		RFSServiceSummary serviceSummary = new RFSServiceSummary(
 				(RFSService) service);
 		
 		// FIXME, We need to set Node and Resource RAG count using the model utils. 
@@ -281,7 +281,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		engine.setServiceSummary(serviceSummary);
 		engine.setJobMonitor(getJobMonitor());
 		engine.setDataProvider(this.getDataProvider());
-		engine.setPeriod(getTimeRange());
+		engine.setPeriod(getPeriod());
 		engine.execute();
 		if (engine.getFailures().size() > 0) {
 			// Don't add anmy

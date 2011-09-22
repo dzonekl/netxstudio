@@ -18,11 +18,10 @@
  */
 package com.netxforge.netxstudio.operators;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.library.NetXResource;
 
 /**
@@ -45,8 +44,7 @@ import com.netxforge.netxstudio.library.NetXResource;
  *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getMarkers <em>Markers</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getNodeRef <em>Node Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getResourceRef <em>Resource Ref</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getEnd <em>End</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getStart <em>Start</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.operators.ResourceMonitor#getPeriod <em>Period</em>}</li>
  * </ul>
  * </p>
  *
@@ -107,7 +105,8 @@ public interface ResourceMonitor extends Base {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The Resource reference, references 1
-	 * 								Resource type.
+	 * 								Resource
+	 * 								type.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Resource Ref</em>' reference.
@@ -129,57 +128,31 @@ public interface ResourceMonitor extends Base {
 	void setResourceRef(NetXResource value);
 
 	/**
-	 * Returns the value of the '<em><b>End</b></em>' attribute.
+	 * Returns the value of the '<em><b>Period</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The end of the period for this resource monitor.
-	 * 						
+	 * The Period reference, contains 0 or 1
+	 * 								DatetimeRange types.
+	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>End</em>' attribute.
-	 * @see #setEnd(XMLGregorianCalendar)
-	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceMonitor_End()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
-	 *        extendedMetaData="kind='attribute' name='End'"
+	 * @return the value of the '<em>Period</em>' containment reference.
+	 * @see #setPeriod(DateTimeRange)
+	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceMonitor_Period()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Period'"
 	 * @generated
 	 */
-	XMLGregorianCalendar getEnd();
+	DateTimeRange getPeriod();
 
 	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getEnd <em>End</em>}' attribute.
+	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getPeriod <em>Period</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>End</em>' attribute.
-	 * @see #getEnd()
+	 * @param value the new value of the '<em>Period</em>' containment reference.
+	 * @see #getPeriod()
 	 * @generated
 	 */
-	void setEnd(XMLGregorianCalendar value);
-
-	/**
-	 * Returns the value of the '<em><b>Start</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The start of the period for this resource monitor.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Start</em>' attribute.
-	 * @see #setStart(XMLGregorianCalendar)
-	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getResourceMonitor_Start()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.DateTime"
-	 *        extendedMetaData="kind='attribute' name='Start'"
-	 * @generated
-	 */
-	XMLGregorianCalendar getStart();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.ResourceMonitor#getStart <em>Start</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Start</em>' attribute.
-	 * @see #getStart()
-	 * @generated
-	 */
-	void setStart(XMLGregorianCalendar value);
+	void setPeriod(DateTimeRange value);
 
 } // ResourceMonitor

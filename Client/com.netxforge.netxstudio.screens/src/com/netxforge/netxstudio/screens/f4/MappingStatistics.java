@@ -18,6 +18,7 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
@@ -52,7 +53,6 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -150,11 +150,7 @@ public class MappingStatistics extends AbstractScreen implements
 						// range.
 						MappingStatistic mappingStatistics = (MappingStatistic) o;
 
-						DateTimeRange dtr = mappingStatistics
-								.getPeriodEstimate();
-						Predicate<Value> insideRange = modelUtils.new ValuerInsideRange(
-								dtr);
-						final int intervalHint = mappingStatistics
+						final int targetIntervalHint = mappingStatistics
 								.getIntervalEstimate();
 
 						Resource metricResource = editingService
@@ -166,35 +162,79 @@ public class MappingStatistics extends AbstractScreen implements
 						if (resourcesInMetricSource.isEmpty()) {
 							System.out
 									.println("No resources for this metricsource");
+							return;
 						}
+
+						DateTimeRange dtr = mappingStatistics
+								.getPeriodEstimate();
+						
+						System.out.println("VALUES FOR PERIOD:");
+						
+						System.out.println("FROM="+ modelUtils.dateAndTime(dtr.getBegin()));
+						System.out.println("TO="+ modelUtils.dateAndTime(dtr.getEnd()));
+						
+						int valueCount = 0;
 						for (NetXResource res : resourcesInMetricSource) {
 							System.out.println("values for resource: "
-									+ res.getShortName());
-							com.netxforge.netxstudio.metrics.MetricValueRange mvr = modelUtils
-									.valueRangeForInterval(res, intervalHint);
-							if (mvr != null) {
-								Iterable<Value> filterValues = Iterables
-										.filter(mvr.getMetricValues(),
-												insideRange);
+									+ res.getShortName() + "on Component" + res.getComponentRef().getName());
+
+							List<Value> values = modelUtils.metricValuesInRange(res,
+									targetIntervalHint, null, dtr);
+							if (values.size() > 0) {
+								valueCount += values.size();
 								System.out.println("number of values "
-										+ Iterables.size(filterValues));
-								for (Value v : filterValues) {
+										+ Iterables.size(values));
+								for (Value v : values) {
 									System.out.println(modelUtils.fromXMLDate(v
 											.getTimeStamp())
 											+ ":"
 											+ v.getValue());
 								}
-							}else{
-								System.out
-								.println("No value range for interval : " + intervalHint);
-								
+							}
+						}
+						System.out.println("total values for this import = " + valueCount);
+						
+					}
+				}
+			}
+		});
+		mntmMore.setText("Values...");
+
+		MenuItem mntmDelete = new MenuItem(menu, SWT.NONE);
+		mntmDelete.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Show the period etc..
+				ISelection selection = statisticsListViewer.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (o instanceof MappingStatistic) {
+						MappingStatistic mappingStatistics = (MappingStatistic) o;
+						final int targetIntervalHint = mappingStatistics
+								.getIntervalEstimate();
+						Resource metricResource = editingService
+								.getData(MetricsPackage.Literals.METRIC);
+						List<NetXResource> resourcesInMetricSource = modelUtils
+								.resourcesInMetricSource(
+										metricResource.getContents(),
+										metricSource);
+						DateTimeRange dtr = mappingStatistics
+								.getPeriodEstimate();
+
+						for (NetXResource res : resourcesInMetricSource) {
+							List<Value> values = modelUtils.metricValuesInRange(res,
+									targetIntervalHint, null, dtr);
+							if (values.size() > 0) {
+								DeleteCommand dc = new DeleteCommand(editingService.getEditingDomain(), values);
+								editingService.getEditingDomain().getCommandStack().execute(dc);
 							}
 						}
 					}
 				}
 			}
 		});
-		mntmMore.setText("More...");
+		mntmDelete.setText("Purge import...");
 
 		Section sctnSummary = toolkit.createSection(sashForm, Section.EXPANDED
 				| Section.TITLE_BAR);

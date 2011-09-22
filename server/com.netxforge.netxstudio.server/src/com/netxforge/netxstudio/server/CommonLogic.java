@@ -196,7 +196,7 @@ public class CommonLogic {
 		// get rid of everything before and after start time
 		final List<Value> toRemoveUsageValues = new ArrayList<Value>();
 		for (final Value usageValue : usageValues) {
-			System.err.println(usageValue.getTimeStamp());
+//			System.err.println("CommonLogic" + usageValue.getTimeStamp());
 			final long timeMillis = usageValue.getTimeStamp()
 					.toGregorianCalendar().getTimeInMillis();
 			if (timeMillis < start.getTime() || timeMillis > end.getTime()) {

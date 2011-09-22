@@ -103,7 +103,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 				HSSFSheet sheet = getSheet(service.getServiceName());
 				
 				// WRITE EXCEL.
-				writeHeader(sheet, this.getTimeRange());
+				writeHeader(sheet, getPeriod());
 				processServiceUser(service, sheet);
 
 				// PROCESS NODES BY NODE TYPE.

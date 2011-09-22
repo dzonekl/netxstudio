@@ -82,7 +82,7 @@ public class ModelUtils {
 	public static final String TIME_PATTERN_4 = "hh:mm"; // AM PM
 
 	public static final String TIM_PATTERN_5 = "a"; // AM PM marker.
-	public static final String DEFAULT_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss";
+	public static final String DEFAULT_DATE_TIME_PATTERN = "MM/dd/yyyy HH:mm:ss";
 
 	public static final int SECONDS_IN_A_MINUTE = 60;
 	public static final int SECONDS_IN_A_QUARTER = SECONDS_IN_A_MINUTE * 15;
@@ -151,11 +151,12 @@ public class ModelUtils {
 		}
 
 		public boolean apply(final Value v) {
-			Date begin = fromXMLDate(dtr.getBegin());
-			Date end = fromXMLDate(dtr.getEnd());
-			Date target = fromXMLDate(v.getTimeStamp());
-			return (target == begin || target == end) || begin.before(target)
-					&& end.after(target);
+
+			long begin = dtr.getBegin().toGregorianCalendar().getTimeInMillis();
+			long end = dtr.getEnd().toGregorianCalendar().getTimeInMillis();
+			long target = v.getTimeStamp().toGregorianCalendar()
+					.getTimeInMillis();
+			return begin <= target && end >= target;
 		}
 	}
 
@@ -345,6 +346,10 @@ public class ModelUtils {
 		return resources;
 	}
 
+	
+	
+	
+	
 	public List<DerivedResource> derivedResourcesWithName(Service s,
 			String expressionName) {
 
@@ -522,7 +527,7 @@ public class ModelUtils {
 	 * @param sm
 	 * @return
 	 */
-	public int[] ragCount(ServiceMonitor sm) {
+	public int[] ragCountResources(ServiceMonitor sm) {
 
 		int red = 0, amber = 0, green = 0;
 
@@ -530,20 +535,23 @@ public class ModelUtils {
 			Marker[] markerArray = new Marker[rm.getMarkers().size()];
 			ToleranceMarker tm = lastToleranceMarker(rm.getMarkers().toArray(
 					markerArray));
-			switch (tm.getLevel().getValue()) {
-			case LevelKind.RED_VALUE: {
-				red++;
-			}
-				break;
-			case LevelKind.AMBER_VALUE: {
-				red++;
-			}
-				break;
-			case LevelKind.GREEN_VALUE: {
-				red++;
-			}
-				break;
-
+			if (tm != null) {
+				switch (tm.getLevel().getValue()) {
+				case LevelKind.RED_VALUE: {
+					red++;
+				}
+					break;
+				case LevelKind.AMBER_VALUE: {
+					amber++;
+				}
+					break;
+				case LevelKind.GREEN_VALUE: {
+					green++;
+				}
+					break;
+				}
+			}else{
+				green++;
 			}
 		}
 
@@ -709,8 +717,19 @@ public class ModelUtils {
 		return this.fromXMLDate(dtr.getEnd());
 	}
 
+	public DateTimeRange period(Date start, Date end) {
+		DateTimeRange dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
+		dtr.setBegin(this.toXMLDate(start));
+		dtr.setEnd(this.toXMLDate(end));
+		return dtr;
+	}
+
 	public String formatLastMonitorDate(ServiceMonitor sm) {
 		DateTimeRange dtr = sm.getPeriod();
+		return formatPeriod(dtr);
+	}
+	
+	public String formatPeriod(DateTimeRange dtr) {
 		StringBuilder sb = new StringBuilder();
 		Date begin = fromXMLDate(dtr.getBegin());
 		Date end = fromXMLDate(dtr.getEnd());
@@ -771,12 +790,17 @@ public class ModelUtils {
 			}
 		}
 
+		return resourcesForMetrics(targetListInMetricSource);
+	}
+
+	public List<NetXResource> resourcesForMetrics(
+			List<Metric> targetListInMetricSource) {
 		List<NetXResource> targetListNetXResources = Lists.newArrayList();
 
 		// Cross reference the metrics from the target MetricSource.
 		for (EObject o : targetListInMetricSource) {
 
-			System.out.println("Look for NetXResource referencing : "
+			System.out.println("Look for NetXResource referencing metric: "
 					+ ((Metric) o).getName());
 
 			if (o instanceof CDOObject) {
@@ -900,6 +924,32 @@ public class ModelUtils {
 			}
 		}
 		return null;
+	}
+
+	public List<Value> valuesInRange(Iterable<Value> unfiltered,
+			DateTimeRange dtr) {
+
+		Iterable<Value> filterValues = Iterables.filter(unfiltered,
+				valueInsideRange(dtr));
+		return Lists.newArrayList(filterValues);
+	}
+
+	public List<Value> metricValuesInRange(NetXResource res, int intervalHint,
+			KindHintType kh, DateTimeRange dtr) {
+
+		MetricValueRange mvr;
+		if (kh == null) {
+			mvr = valueRangeForInterval(res, intervalHint);
+		} else {
+			mvr = valueRangeForIntervalAndKind(res, kh, intervalHint);
+		}
+
+		if (mvr != null) {
+			Iterable<Value> filterValues = Iterables.filter(
+					mvr.getMetricValues(), valueInsideRange(dtr));
+			return Lists.newArrayList(filterValues);
+		}
+		return Lists.newArrayList();
 	}
 
 	/*
@@ -1097,7 +1147,7 @@ public class ModelUtils {
 	}
 
 	/**
-	 * Merge the time from a date into a given base date.
+	 * Merge the time from a date into a given base date and return the result.
 	 * 
 	 * @param baseDate
 	 * @param dateWithTime
@@ -1160,6 +1210,16 @@ public class ModelUtils {
 		return getDateString.apply(d);
 	}
 
+	public String folderDate(Date d) {
+		final Function<Date, String> getDateString = new Function<Date, String>() {
+			public String apply(Date from) {
+				final SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
+				return df.format(from);
+			}
+		};
+		return getDateString.apply(d);
+	}
+
 	public String time(Date d) {
 		final Function<Date, String> getDateString = new Function<Date, String>() {
 			public String apply(Date from) {
@@ -1168,6 +1228,11 @@ public class ModelUtils {
 			}
 		};
 		return getDateString.apply(d);
+	}
+
+	public String dateAndTime(XMLGregorianCalendar d) {
+		Date date = fromXMLDate(d);
+		return dateAndTime(date);
 	}
 
 	public String dateAndTime(Date d) {
@@ -1180,7 +1245,7 @@ public class ModelUtils {
 				return df.format(from);
 			}
 		};
-		sb.append(date(d) + "_");
+		sb.append(folderDate(d) + "_");
 		sb.append(getDateString.apply(d));
 		return sb.toString();
 	}
@@ -1636,5 +1701,6 @@ public class ModelUtils {
 		}
 		return doubles;
 	}
-
+	
+	
 }

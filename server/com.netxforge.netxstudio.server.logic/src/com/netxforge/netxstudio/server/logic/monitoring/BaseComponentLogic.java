@@ -127,7 +127,7 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		engine.setJobMonitor(getJobMonitor());
 		engine.setComponent(component);
 		engine.setDataProvider(this.getDataProvider());
-		engine.setPeriod(getTimeRange());
+		engine.setPeriod(getPeriod());
 		engine.execute();
 		if (engine.getFailures().size() > 0) {
 			for (final Failure failure : engine.getFailures()) {

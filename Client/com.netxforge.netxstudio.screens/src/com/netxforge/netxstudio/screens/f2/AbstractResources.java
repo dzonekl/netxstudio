@@ -51,7 +51,7 @@ import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f4.ResourceMonitor;
+import com.netxforge.netxstudio.screens.f4.ResourceMonitorScreen;
 
 public abstract class AbstractResources extends AbstractScreen implements IDataServiceInjection {
 
@@ -233,7 +233,7 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 					timerange.setBegin(start);
 					timerange.setEnd(end);
 					
-					ResourceMonitor monitorScreen = new ResourceMonitor(
+					ResourceMonitorScreen monitorScreen = new ResourceMonitorScreen(
 							screenService.getScreenContainer(), SWT.NONE);
 					monitorScreen.setOperation(Screens.OPERATION_READ_ONLY);
 					monitorScreen.setScreenService(screenService);

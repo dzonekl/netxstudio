@@ -113,7 +113,7 @@ public class ServerUtils {
 
 		String serviceKey = parameters.get(NetxForgeService.SERVICE_PARAM_NAME);
 
-		final ServiceReference<?> serviceReference = Activator.getContext()
+		final ServiceReference<?> serviceReference = ServerActivator.getContext()
 				.getServiceReference(serviceKey);
 
 		if (serviceReference == null) {
@@ -123,7 +123,7 @@ public class ServerUtils {
 							+ "\nSee service definitions in Activators of the server plugins");
 
 		}
-		final Object service = Activator.getContext().getService(
+		final Object service = ServerActivator.getContext().getService(
 				serviceReference);
 		if (!(service instanceof NetxForgeService)) {
 			throw new IllegalStateException("Can not run service "
@@ -238,7 +238,7 @@ public class ServerUtils {
 			}
 		});
 
-		final ServerInitializer resourceInitializer = Activator.getInstance()
+		final ServerInitializer resourceInitializer = ServerActivator.getInstance()
 				.getInjector().getInstance(ServerInitializer.class);
 		resourceInitializer.initialize();
 

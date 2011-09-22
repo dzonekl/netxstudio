@@ -95,6 +95,8 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 	private FormText formTextGreen;
 
+	private FormText formTextNumberOfResources;
+
 	public NewEditServiceTree(Composite parent, int style,
 			final IEditingService editingService) {
 		super(parent, style);
@@ -165,10 +167,10 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false,
 				1, 1));
 		formTextLastMonitor = formToolkit.createFormText(composite_2, false);
+		formTextLastMonitor.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 3, 1));
 		formToolkit.paintBordersFor(formTextLastMonitor);
 		formTextLastMonitor.setText("", false, false);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
 
 		Label lblMonitoredNodes = formToolkit.createLabel(composite_2,
 				"# Monitored NE's:", SWT.NONE);
@@ -176,10 +178,23 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				false, false, 1, 1));
 
 		formTextNumberOfNodes = formToolkit.createFormText(composite_2, false);
+		formTextNumberOfNodes.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 3, 1));
 		formToolkit.paintBordersFor(formTextNumberOfNodes);
 		formTextNumberOfNodes.setText("", false, false);
-		new Label(composite_2, SWT.NONE);
-		new Label(composite_2, SWT.NONE);
+
+		Label lblMonitoredRess = new Label(composite_2, SWT.NONE);
+		lblMonitoredRess.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+		formToolkit.adapt(lblMonitoredRess, true, true);
+		lblMonitoredRess.setText("# Monitored RES's:");
+
+		formTextNumberOfResources = formToolkit.createFormText(composite_2,
+				false);
+		formTextNumberOfResources.setLayoutData(new GridData(SWT.LEFT,
+				SWT.CENTER, false, false, 3, 1));
+		formToolkit.paintBordersFor(formTextNumberOfResources);
+		formTextNumberOfResources.setText("", false, false);
 
 		Composite separator = formToolkit.createCompositeSeparator(composite_2);
 		GridData gd_separator = new GridData(SWT.FILL, SWT.CENTER, true, false,
@@ -583,14 +598,13 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		RFSServiceSummary summary = new RFSServiceSummary(this.modelUtils,
-				service);
+		RFSServiceSummary summary = new RFSServiceSummary(service);
 
 		// TODO, It would be nice to make it interactive and be able to browse
 		// the Service Monitors!
 		ServiceMonitor sm = modelUtils.lastServiceMonitor(service);
 		if (sm != null) {
-			summary.setRagCountNodes(modelUtils.ragCount(sm));
+			summary.setRagCountResources(modelUtils.ragCountResources(sm));
 			summary.setPeriodFormattedString(modelUtils
 					.formatLastMonitorDate(sm));
 		}
@@ -599,13 +613,17 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 				false);
 		formTextNumberOfNodes.setText(
 				new Integer(summary.getNodeCount()).toString(), false, false);
-		formTextRed.setText(new Integer(summary.getRedCountNodes()).toString(),
+		formTextNumberOfResources.setText(
+				new Integer(summary.getResourcesCount()).toString(), false,
+				false);
+
+		formTextRed.setText(new Integer(summary.getRedCountResources()).toString(),
 				false, false);
 		formTextAmber.setText(
-				new Integer(summary.getAmberCountNodes()).toString(), false,
+				new Integer(summary.getAmberCountResources()).toString(), false,
 				false);
 		formTextGreen.setText(
-				new Integer(summary.getGreenCountNodes()).toString(), false,
+				new Integer(summary.getGreenCountResources()).toString(), false,
 				false);
 
 		bindInfoSection(context);

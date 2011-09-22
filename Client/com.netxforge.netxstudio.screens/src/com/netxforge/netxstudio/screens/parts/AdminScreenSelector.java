@@ -25,6 +25,7 @@ import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.Jobs;
 import com.netxforge.netxstudio.screens.f4.MetricSources;
+import com.netxforge.netxstudio.screens.f4.Settings;
 import com.netxforge.netxstudio.screens.nf3.Retention;
 import com.netxforge.netxstudio.screens.nf4.UsersAndRoles;
 
@@ -56,6 +57,7 @@ public class AdminScreenSelector extends AbstractScreenSelector {
 		result = screenFormService.addScreenSelector(result, "Jobs", "icons/full/obj16/Function_H.png",  Jobs.class, Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Metric Sources", "icons/full/obj16/MetricSource_H.png",  MetricSources.class, Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Value retention", "icons/full/obj16/Retention_H.png",  Retention.class, Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Settings", "icons/full/obj16/Settings_H.png",  Settings.class, Screens.OPERATION_EDIT);
 	}
 	
 	public void dispose() {

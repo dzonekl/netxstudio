@@ -27,7 +27,8 @@ import com.netxforge.netxstudio.library.LevelKind;
  *
  * <!-- begin-model-doc -->
  * 
- * 				A marker which specifically marks tolerance treshold crossings.
+ * 				A marker which specifically marks tolerance
+ * 				treshold crossings.
  * 			
  * <!-- end-model-doc -->
  *
@@ -51,7 +52,7 @@ public interface ToleranceMarker extends Marker {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * In which direction the marker is crossed,
-	 * 						up or down.
+	 * 							up or down.
 	 * 						
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Direction</em>' attribute.

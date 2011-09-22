@@ -73,6 +73,7 @@ public class SimpleCDOScopeProvider extends AbstractGlobalScopeProvider {
 		
 		List<URI> urisAsList = Lists.newArrayList();
 		urisAsList.addAll(fixedUrisAsList);
+		
 		// add adiditional uri's from the NET_XRESOURCE class type. 
 		urisAsList.add(URI.createURI("cdo://repo1/Node_"));
 		urisAsList.add(URI.createURI("cdo://repo1/NodeType_"));
