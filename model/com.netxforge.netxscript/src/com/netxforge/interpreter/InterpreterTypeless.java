@@ -94,7 +94,7 @@ import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
 import com.netxforge.netxstudio.services.ServiceUser;
-import com.netxforge.netxstudio.services.impl.ServiceImpl;
+import com.netxforge.netxstudio.services.impl.RFSServiceImpl;
 import com.netxforge.netxstudio.services.impl.ServiceUserImpl;
 
 /**
@@ -209,7 +209,7 @@ public class InterpreterTypeless implements IInterpreter {
 	}
 
 	private Service getContextualService() {
-		IInterpreterContext serviceContext = getContextFor(ServiceImpl.class);
+		IInterpreterContext serviceContext = getContextFor(RFSServiceImpl.class);
 		if (serviceContext != null) {
 			return (Service) serviceContext.getContext();
 		} else {
@@ -1145,6 +1145,7 @@ public class InterpreterTypeless implements IInterpreter {
 			}
 
 		}
+		
 
 		// We have a range set, so the context should be a resource.
 		if (contextReference.getRangeRef() != null) {
@@ -1705,7 +1706,9 @@ public class InterpreterTypeless implements IInterpreter {
 						Value v = (Value) leftO;
 						BigDecimal dValue = new BigDecimal(v.getValue());
 						BigDecimal d = dValue.multiply((BigDecimal) rightEval);
-						resultList.add(d);
+						Value copyOf = EcoreUtil.copy(v);
+						copyOf.setValue(d.doubleValue());
+						resultList.add(copyOf);
 						continue;
 					}
 				}
@@ -1729,7 +1732,9 @@ public class InterpreterTypeless implements IInterpreter {
 						Value v = (Value) leftO;
 						BigDecimal dValue = new BigDecimal(v.getValue());
 						BigDecimal d = dValue.multiply(rightMultiplier);
-						resultList.add(d);
+						Value copyOf = EcoreUtil.copy(v);
+						copyOf.setValue(d.doubleValue());
+						resultList.add(copyOf);
 						continue;
 					}
 				}

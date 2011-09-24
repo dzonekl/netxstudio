@@ -39,14 +39,14 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
+import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.services.Service;
 
 /**
- * Imports metrics and units from an excel sheet.
- * 
  * @author Martin Taal
  * @author Christophe Bouhier
  */
@@ -81,11 +81,15 @@ public class MasterDataImporter {
 					}
 				}
 			}
+			
+			printResult();
+			
 
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		}
 	}
+
 
 	public List<EObject> getResolvedObjects() {
 		return structuredResult;
@@ -108,10 +112,11 @@ public class MasterDataImporter {
 
 		/**
 		 * Process an .xls worksheet, each worksheet should match an EClass or
-		 * an EClass multiplicity references. For each row an object, with the
-		 * matching EClass is created or looked up. EAttributes are set
-		 * immidiatly, while for EReferences, row results, which are later used
-		 * are produced to be further processed later on (Resolving the
+		 * an EClass multiplicity references. From the EClass we generate the EFeatures 
+		 * (EAttribute and EReference) which should correspond to the columns of the sheet.  
+		 * 
+		 * Next for each row an object, with the matching EClass is created or looked up. Single ref sheets
+		 * are populated and cached, while for multi ref - sheets the object is looked 
 		 * EReferences).
 		 * 
 		 * @param index
@@ -163,7 +168,6 @@ public class MasterDataImporter {
 					System.out.println("Setting last root object: "
 							+ printObject(lastRootObject));
 				}
-
 			}
 		}
 
@@ -204,7 +208,10 @@ public class MasterDataImporter {
 		}
 
 		/**
-		 * Create an object for each non-empty row, then
+		 * Create an object for each non-empty row, then populate 
+		 * the attributes and single refs using the features (Which 
+		 * have been set previously). Note: we also consider the 
+		 * max length of the value which can be stored.  
 		 * 
 		 * @param row
 		 * @return
@@ -259,7 +266,7 @@ public class MasterDataImporter {
 
 			// The identifier is the first column for a MultiRef row.
 			String identifier = row.getCell(0).getStringCellValue();
-			System.out.println("Resolving object: ");
+			System.out.println("Resolving object: " + identifier);
 			final EObject result = getResultObject(parent, eClassToImport,
 					identifier);
 
@@ -397,9 +404,9 @@ public class MasterDataImporter {
 	}
 
 	/**
-	 * Should find an object within this hierarchy root, if not produce a new
-	 * node from the cache, the eContainer of the root should not be set,
-	 * otherwise we would be fishing on a branch.
+	 * Should find an object within this hierarchy root,  the eContainer of the root should not be set,
+	 * otherwise we would be fishing on a branch. if there is no root, look in the total set, and finally 
+	 * produce a new node from the cache.
 	 * 
 	 * @param root
 	 * @param eClass
@@ -410,6 +417,8 @@ public class MasterDataImporter {
 			String identifier) {
 
 		EObject result = null;
+		
+		
 
 		if (root != null && root.eContainer() == null) {
 			Iterator<EObject> it = null;
@@ -420,43 +429,31 @@ public class MasterDataImporter {
 			it = root.eAllContents();
 			while (it.hasNext()) {
 				final EObject eObject = it.next();
-				if (eObject.eClass() == eClass) {
-					for (final EAttribute eAttribute : eObject.eClass()
-							.getEAllAttributes()) {
-						final Object value = eObject.eGet(eAttribute);
-						if (value instanceof String
-								&& ((String) value)
-										.compareToIgnoreCase(identifier) == 0) {
-							result = eObject;
-							System.out.println("  Found object for : "
-									+ identifier + " object: "
-									+ printObject(eObject));
-							return result;
-						}
+				if (isAnyOfTheSuperTypes(eObject, eClass)) {
+					if( matchesAnyAttribute(identifier,eObject)){
+						return eObject;
 					}
+					
 				}
 			}
 		}
 		System.out.println(" Looking for object: " + identifier
 				+ " in complete result set: ");
 		// If we don't have a root object, we look in the full result set
-		// for the occurence.
+		// for the occurence. (the object will already have hierarchy). 
+		//
 		Iterator<EObject> it = null;
 		it = this.structuredResult.iterator();
 		while (it.hasNext()) {
 			final EObject eObject = it.next();
-			if (eObject.eClass() == eClass) {
-				for (final EAttribute eAttribute : eObject.eClass()
-						.getEAllAttributes()) {
-					final Object value = eObject.eGet(eAttribute);
-					if (value instanceof String
-							&& ((String) value).compareToIgnoreCase(identifier) == 0) {
-						result = eObject;
-						System.out.println("  Found object for : " + identifier
-								+ " object: " + printObject(eObject));
-						return result;
-					}
+			
+			if( isAnyOfTheSuperTypes(eObject, eClass)){
+				if( matchesAnyAttribute(identifier, eObject)){
+					return eObject;
 				}
+			}
+			
+			if (eObject.eClass() == eClass ) {
 			}
 		}
 
@@ -464,26 +461,53 @@ public class MasterDataImporter {
 				.println(" No object can be found in the result set, get a copy from cache: "
 						+ identifier + " with class: " + eClass.getName());
 
-		// It's not in our structure, so get a copy of the cached version.
+		// It's not in our structure, so get a copy of the cached version, with no hierarchy
 		for (final EObject eObject : cachedObjects) {
-			if (eObject.eClass() == eClass) {
-				for (final EAttribute eAttribute : eObject.eClass()
-						.getEAllAttributes()) {
-					final Object value = eObject.eGet(eAttribute);
-					if (value instanceof String
-							&& ((String) value).compareToIgnoreCase(identifier) == 0) {
-						System.out.println("  Copy object for : " + identifier
-								+ " object: " + printObject(eObject));
-						result = EcoreUtil.copy(eObject);
-						break;
-					}
+			
+			if( isAnyOfTheSuperTypes(eObject, eClass)){
+				if(matchesAnyAttribute(identifier, eObject)){
+					System.out.println("  Copy object for : " + identifier
+							+ " object: " + printObject(eObject));
+					result = EcoreUtil.copy(eObject);
+					break;
 				}
 			}
 		}
 
-		 unresolvedReferences.add(eClass.getName() + " using " + identifier);
+		unresolvedReferences.add(eClass.getName() + " using " + identifier);
 		 
 		return result;
+	}
+
+
+	private boolean isAnyOfTheSuperTypes(EObject eObject, EClass eClass) {
+		
+		List<EClass> classes = Lists.newArrayList(eObject.eClass());
+		classes.addAll(eObject.eClass().getEAllSuperTypes());
+		for(EClass c : classes){
+			if(eClass.getName().equals(c.getName())){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	private boolean matchesAnyAttribute(String identifier,
+			final EObject eObject) {
+		for (final EAttribute eAttribute : eObject.eClass()
+				.getEAllAttributes()) {
+			final Object value = eObject.eGet(eAttribute);
+			if (value instanceof String
+					&& ((String) value)
+							.compareToIgnoreCase(identifier) == 0) {
+				System.out.println("  Found object for : "
+						+ identifier + " object: "
+						+ printObject(eObject));
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static class RowResult {
@@ -506,22 +530,67 @@ public class MasterDataImporter {
 			this.eObject = eObject;
 		}
 	}
+	
+
+	private void printResult() {
+		System.out.println( "The STRUCTURED result" );
+		for(EObject rr : structuredResult){
+			String print = this.printObject(0, rr);
+			System.out.println(print);
+		}
+		System.out.println( "The UNRESOLVED references " );
+		for( String s : unresolvedReferences){
+			System.out.println(" Unresolved identifier : " + s);
+		}
+	}
 
 	private String printObject(EObject o) {
-		String result = "";
+		return printObject(0,o);
+	}
+	
+	private String printObject(int depth, EObject o) {
+		depth++;
+		StringBuilder result = new StringBuilder();
 		if (o instanceof Equipment) {
-			result = ((Equipment) o).getEquipmentCode();
-
+			result.append(depth(depth) + ((Equipment) o).getEquipmentCode() + "\n");
+			for(Equipment e: ((Equipment) o).getEquipments()){
+				printObject(depth, e);
+			}
 		}
 		if (o instanceof Function) {
-			result = ((Function) o).getName();
+			result.append(depth(depth) + (((Function) o).getName()) + "\n");
+			for(Function e: ((Function) o).getFunctions()){
+				printObject(depth, e);
+			}
 		}
 		if (o instanceof NodeType) {
 			NodeType nt = (NodeType) o;
-			result = nt.getName() + "{" + nt.getFunctions().size() + "} " + "{"
-					+ nt.getEquipments().size() + "} ";
+			result.append( depth(depth) + nt.getName() + "\n");
+			
+			for(Function e: ((NodeType) nt).getFunctions()){
+				printObject(depth, e);
+			}
+
+			for(Equipment e: ((NodeType) nt).getEquipments()){
+				printObject(depth, e);
+			}
 		}
-		return result;
+		if (o instanceof Service) {
+			Service nt = (Service) o;
+			result.append(nt.getServiceName() + "\n");
+			for(Service s: nt.getServices()){
+				result.append(this.printObject(depth, s));
+			}
+		}
+		return result.toString();
+	}
+	
+	String depth(int depth){
+		char[] chars =  new char[depth];
+		for(int i = 0; i < chars.length; i++){
+			chars[i] = '-';
+		}
+		return chars.toString();
 	}
 
 }

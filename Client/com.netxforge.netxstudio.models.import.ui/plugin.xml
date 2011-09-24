@@ -27,5 +27,11 @@
                 id="com.netxforge.netxstudio.models.import.metric"
                 name="Import Metric objects">
         </wizard>
+        <wizard
+              category="com.netxforge.netxstudio.ui.category.import"
+              class="com.netxforge.netxstudio.models.importer.ui.internal.ImportEExtensionFactory:com.netxforge.netxstudio.models.importer.ui.ImportServicesWizard"
+              id="com.netxforge.netxstudio.models.import.services"
+              name="Import Services objects">
+        </wizard>
  </extension>
  </plugin>

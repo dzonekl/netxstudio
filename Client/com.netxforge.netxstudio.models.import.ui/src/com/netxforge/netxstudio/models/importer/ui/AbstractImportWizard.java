@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -41,7 +42,10 @@ import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.models.importer.MasterDataImporterJob;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Operator;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
+import com.netxforge.netxstudio.services.Service;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 public abstract class AbstractImportWizard extends Wizard implements
 		IImportWizard {
@@ -123,9 +127,10 @@ public abstract class AbstractImportWizard extends Wizard implements
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void storeForSameEClass(Object[] selection) {
 
-//		PrintObject po = new PrintObject(editingService.getAdapterFactory());
+		// PrintObject po = new PrintObject(editingService.getAdapterFactory());
 
 		System.out
 				.println("Storing objects, check if contained in the set to store. ");
@@ -133,57 +138,89 @@ public abstract class AbstractImportWizard extends Wizard implements
 		List<Object> originalList = ImmutableList.of(selection);
 		List<EObject> listToStore = Lists.newArrayList();
 
+		// De-flat, by checking if an object is contained in another
+		// from the same list.
+
 		for (Object o : originalList) {
 			if (o instanceof EClassImpl) {
 				listToStore.add((EObject) o);
 				continue;
 			}
-			
+
 			boolean contained = false;
 			for (Object original : originalList) {
-				if(original.equals(o)){
+				if (original.equals(o)) {
 					continue;
 				}
 				if (contains(o, original)) {
 					contained = true;
 					break;
-				} 
+				}
 			}
-			if(!contained) {
+			if (!contained) {
 				listToStore.add((EObject) o);
 			}
 		}
 
-		Map<String, List<EObject>> map = Maps.newHashMap();
+		// Create a map from the tree, with the class name as a key. and a list
+		// of objects as the content for each key.
+		Map<EClass, List<EObject>> map = Maps.newHashMap();
 		for (EObject current : listToStore) {
 			if (current instanceof EClassImpl) {
 				continue;
 			}
-			List<EObject> currentList = map.get(current.eClass().getName());
+			List<EObject> currentList = map.get(current.eClass());
 			if (currentList == null) {
 				currentList = Lists.newArrayList();
-				map.put(current.eClass().getName(), currentList);
+				map.put(current.eClass(), currentList);
 			}
 			currentList.add(current);
 		}
 
-		Iterator<String> keys = map.keySet().iterator();
+		// Store in the EClass CDO store, minding exceptions...
+		Iterator<EClass> keys = map.keySet().iterator();
 		while (keys.hasNext()) {
-			List<EObject> list = map.get(keys.next());
-			Resource res = null;
+			EClass key = keys.next();
+			List<EObject> list = map.get(key);
+			EList<EObject> parentList = null;
 			// CompoundCommand c = new CompoundCommand();
 			for (EObject object : list) {
-				if (res == null) {
-					res = dataProvider.getResource((object).eClass());
+				if (parentList == null) {
+					parentList = (EList<EObject>) getParentList(object.eClass());
 				}
-				res.getContents().add(object);
+				parentList.add(object);
 			}
 			try {
+				Resource res = getResource(key);
 				res.save(null);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private List<?> getParentList(EClass key) {
+
+		Resource res = getResource(key);
+
+		// RFSService objects are stored in an Operator.
+		if (key.equals(ServicesPackage.eINSTANCE.getRFSService())) {
+			if (res.getContents().size() > 0) {
+				// Store in the first one.
+				Operator op = (Operator) res.getContents().get(0);
+				return op.getServices();
+			}
+		}
+
+		return res.getContents();
+	}
+
+	private Resource getResource(EClass eClass) {
+		if (eClass.equals(ServicesPackage.eINSTANCE.getRFSService())) {
+			return dataProvider.getResource(OperatorsPackage.eINSTANCE
+					.getOperator());
+		}
+		return dataProvider.getResource(eClass);
 	}
 
 	private boolean contains(Object targetObject, Object original) {
@@ -269,42 +306,32 @@ public abstract class AbstractImportWizard extends Wizard implements
 						children.add(o);
 					}
 				}
-			}
-			
-			if (parentElement instanceof Country) {
+			} else if (parentElement instanceof Service) {
+				children.addAll(((Service) parentElement).getServices());
+			} else if (parentElement instanceof Country) {
 				children.addAll(((Country) parentElement).getSites());
-			}
-			
-			if (parentElement instanceof Site) {
+			} else if (parentElement instanceof Site) {
 				children.addAll(((Site) parentElement).getRooms());
-			}
-			
-			if (parentElement instanceof Operator) {
+			} else if (parentElement instanceof Operator) {
 				children.addAll(((Operator) parentElement).getNetworks());
 				children.addAll(((Operator) parentElement).getServices());
 				children.addAll(((Operator) parentElement).getServiceUsers());
 				children.addAll(((Operator) parentElement).getWarehouses());
-			}
-			if (parentElement instanceof Network) {
+			} else if (parentElement instanceof Network) {
 				children.addAll(((Network) parentElement).getNetworks());
 				children.addAll(((Network) parentElement).getNodes());
 				children.addAll(((Network) parentElement)
 						.getEquipmentRelationships());
 				children.addAll(((Network) parentElement)
 						.getFunctionRelationships());
-			}
-
-			if (parentElement instanceof NodeType) {
+			} else if (parentElement instanceof NodeType) {
 				children.addAll(((NodeType) parentElement).getFunctions());
 				children.addAll(((NodeType) parentElement).getEquipments());
-			}
-			if (parentElement instanceof Function) {
+			} else if (parentElement instanceof Function) {
 				children.addAll(((Function) parentElement).getFunctions());
-			}
-			if (parentElement instanceof Equipment) {
+			} else if (parentElement instanceof Equipment) {
 				children.addAll(((Equipment) parentElement).getEquipments());
-			}
-			if (parentElement instanceof Component) {
+			} else if (parentElement instanceof Component) {
 				children.addAll(((Component) parentElement).getResourceRefs());
 			}
 			return children.toArray();

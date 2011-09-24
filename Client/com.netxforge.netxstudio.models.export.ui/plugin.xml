@@ -13,7 +13,7 @@
         "Create an import template for Library data"
        </description>
     </wizard>
-        <wizard
+    <wizard
           category="com.netxforge.netxstudio.ui.category.export"
           class="com.netxforge.netxstudio.models.export.ui.OperatorXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
@@ -23,7 +23,17 @@
          "Create an import template for Operator data"
        </description>
     </wizard>
-        <wizard
+    <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.ServicesXLSTemplateWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.import"
+          name="Create a Services import template">
+       <description>
+         "Create an import template for Service data"
+       </description>
+    </wizard>
+    <wizard
           category="com.netxforge.netxstudio.ui.category.export"
           class="com.netxforge.netxstudio.models.export.ui.GeoXLSTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
