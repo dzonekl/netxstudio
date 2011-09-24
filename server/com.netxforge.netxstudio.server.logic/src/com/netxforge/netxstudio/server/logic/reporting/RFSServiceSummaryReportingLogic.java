@@ -76,7 +76,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		// EXCEL WRITE
 		setWorkBook(new HSSFWorkbook());
 		HSSFSheet sheet = this.getSheet("Summary");
-		this.writeHeader(sheet, null);
+		this.writeHeader(sheet, this.getPeriod());
 
 		// Execute the tolerance expressions, which returns a summary for each service. 
 		// The summary 
@@ -272,7 +272,14 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 				(RFSService) service);
 		
 		// FIXME, We need to set Node and Resource RAG count using the model utils. 
-
+		// Set the ragCount for each node. 
+		if(service instanceof RFSService){
+			for(Node n : ((RFSService) service).getNodes()){
+				this.getModelUtils().ragCount(service, n, this.getPeriod());
+			}
+		}
+		
+		
 		serviceSummary.setRagCountNodes(null);
 		serviceSummary.setRagCountResources(null);
 		

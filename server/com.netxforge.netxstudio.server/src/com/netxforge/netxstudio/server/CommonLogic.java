@@ -190,9 +190,16 @@ public class CommonLogic {
 
 		// now compute the capacity in order
 		final List<Value> usageValues = new ArrayList<Value>();
+		
+
 		for (final MetricValueRange mvr : resource.getMetricValueRanges()) {
 			usageValues.addAll(mvr.getMetricValues());
 		}
+		
+		// TODO, replace with ModelUtils function
+//		modelUtils.filterValueInRange(unfiltered, this.ge)
+
+		
 		// get rid of everything before and after start time
 		final List<Value> toRemoveUsageValues = new ArrayList<Value>();
 		for (final Value usageValue : usageValues) {

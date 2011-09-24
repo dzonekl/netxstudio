@@ -22,6 +22,9 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+import com.google.common.collect.Lists;
+
+
 public class WarningDeleteCommand extends CompoundCommand {
 
 	/**
@@ -154,13 +157,20 @@ public class WarningDeleteCommand extends CompoundCommand {
 
 	private List<CDOObjectReference> findReferencesGlobally(
 			Collection<EObject> eObjects) {
+		List<CDOObjectReference> queryXRefs = Lists.newArrayList();
 		for (EObject o : eObjects) {
 			if (o instanceof CDOObject) {
 				CDOView cdoView = ((CDOObject) o).cdoView();
 				try {
-					List<CDOObjectReference> queryXRefs = cdoView.queryXRefs(
+					List<CDOObjectReference> runRefs = cdoView.queryXRefs(
 							(CDOObject) o, new EReference[] {});
-					return queryXRefs;
+					
+					for(CDOObjectReference runRef : runRefs){
+						if(!queryXRefs.contains(runRef)){
+							queryXRefs.add(runRef);
+						}
+					}
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 					// The query sometimes throws exeception, if i.e an entity
@@ -170,7 +180,7 @@ public class WarningDeleteCommand extends CompoundCommand {
 				}
 			}
 		}
-		return null;
+		return queryXRefs;
 	}
 
 }

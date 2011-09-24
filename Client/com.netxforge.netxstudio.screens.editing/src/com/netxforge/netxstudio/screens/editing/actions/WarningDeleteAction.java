@@ -56,7 +56,7 @@ public class WarningDeleteAction extends DeleteAction {
 			boolean questionResult = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
 					"Delete object of type: " + first.eClass().getName(), "Are you sure you want to delete \""
 							+ editingService.getDelegator().getText(first) 
-							+ "\" and all contained objects ("
+							+ "\". Related objects ("
 							+ (eObjects.size() - 1) + ")");
 			if(questionResult){
 				List<CDOObjectReference> xRefs = ((WarningDeleteCommand) command)
