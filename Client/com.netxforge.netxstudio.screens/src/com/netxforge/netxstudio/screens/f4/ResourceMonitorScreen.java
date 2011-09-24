@@ -53,9 +53,9 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.NetXResource;
-import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
+import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
@@ -312,6 +312,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		toolkit.paintBordersFor(table);
 
+		
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				markersTableViewer, SWT.NONE);
 		TableColumn tblclmnType = tableViewerColumn.getColumn();
@@ -341,6 +342,19 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		TableColumn tblclmnValue = tableViewerColumn_2.getColumn();
 		tblclmnValue.setWidth(100);
 		tblclmnValue.setText("Value");
+		
+		TableViewerColumn tableViewerColumnDirection = new TableViewerColumn(
+				markersTableViewer, SWT.NONE);
+		TableColumn tblclmnDirection = tableViewerColumnDirection.getColumn();
+		tblclmnDirection.setWidth(100);
+		tblclmnDirection.setText("Direction");
+		
+		TableViewerColumn tableViewerColumnLevel = new TableViewerColumn(
+				markersTableViewer, SWT.NONE);
+		TableColumn tblclmnLevel = tableViewerColumnLevel.getColumn();
+		tblclmnLevel.setWidth(100);
+		tblclmnLevel.setText("Level");
+		
 	}
 
 	public void loadDummyData() {
@@ -534,7 +548,9 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 							new EStructuralFeature[] {
 									OperatorsPackage.Literals.MARKER__KIND,
 									OperatorsPackage.Literals.MARKER__DESCRIPTION,
-									OperatorsPackage.Literals.MARKER__VALUE_REF});
+									OperatorsPackage.Literals.MARKER__VALUE_REF,
+									OperatorsPackage.Literals.TOLERANCE_MARKER__DIRECTION, 
+									OperatorsPackage.Literals.TOLERANCE_MARKER__LEVEL});
 			
 			markersTableViewer
 					.setLabelProvider(new MarkersObervableMapLabelProvider(
@@ -614,17 +630,21 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
-			if (element instanceof Marker) {
-				Marker rm = (Marker) element;
+			if (element instanceof ToleranceMarker) {
+				ToleranceMarker rm = (ToleranceMarker) element;
 				switch (columnIndex) {
 				case 0:
 					return rm.getKind().getName();
 				case 1:
 					return rm.getDescription();
 				case 2:
-					return new Double(rm.getValueRef().getValue()).toString();
-				case 3:
 					return modelUtils.dateAndTime(rm.getValueRef().getTimeStamp());
+				case 3:
+					return new Double(rm.getValueRef().getValue()).toString();
+				case 4:
+					return rm.getDirection().getLiteral();
+				case 5:
+					return rm.getLevel().getLiteral();
 				}
 			}
 			return super.getColumnText(element, columnIndex);
