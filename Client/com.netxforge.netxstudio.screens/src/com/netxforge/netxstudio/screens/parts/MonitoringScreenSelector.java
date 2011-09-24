@@ -56,7 +56,7 @@ public class MonitoringScreenSelector extends AbstractScreenSelector {
 		result = screenFormService.addScreenSelector("Metrics","icons/full/obj16/Metric_H.png", Metrics.class, 1, Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Services", "icons/full/obj16/Service_H.png",  ServicesTree.class, Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Service Users", "icons/full/obj16/ServiceProfile_H.png",  ServiceUsers.class, Screens.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Reporting", "icons/full/obj16/Report_H.png",  Reports.class, Screens.OPERATION_READ_ONLY);
+		result = screenFormService.addScreenSelector(result, "Reports", "icons/full/obj16/Reports_H.png",  Reports.class, Screens.OPERATION_READ_ONLY);
 	}
 	
 	public void dispose() {
