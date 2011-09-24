@@ -82,6 +82,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.OperatorFilterDialog;
+import com.netxforge.netxstudio.screens.PeriodDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -511,7 +512,7 @@ public class ServicesTree extends AbstractScreen implements
 							.getFirstElement();
 					ServiceMonitors smScreen = new ServiceMonitors(
 							screenService.getScreenContainer(), SWT.NONE);
-					smScreen.setOperation(getOperation());
+					smScreen.setOperation(Screens.OPERATION_EDIT);
 					smScreen.setScreenService(screenService);
 					smScreen.injectData(null, o);
 					screenService.setActiveScreen(smScreen);
@@ -533,14 +534,15 @@ public class ServicesTree extends AbstractScreen implements
 				if (o instanceof Service) {
 					Service service = (Service) o;
 					try {
-						serverActions.setServer(editingService.getDataService()
+						serverActions.setCDOServer(editingService.getDataService()
 								.getProvider().getServer());
 
-						// TODO, provide a dialog for monitoring period
-						// selection.
+						PeriodDialog pr = new PeriodDialog(ServicesTree.this.getShell(), modelUtils);
+						pr.open();
+						DateTimeRange dtr = pr.period();
 
-						Date fromDate = null;
-						Date toDate = null;
+						Date fromDate = modelUtils.start(dtr);
+						Date toDate = modelUtils.end(dtr);
 
 						@SuppressWarnings("unused")
 						String result = serverActions.callMonitorAction(
@@ -595,14 +597,15 @@ public class ServicesTree extends AbstractScreen implements
 
 					}
 					try {
-						serverActions.setServer(editingService.getDataService()
+						serverActions.setCDOServer(editingService.getDataService()
 								.getProvider().getServer());
 
-						// TODO, provide a dialog for monitoring period
-						// selection.
+						PeriodDialog pr = new PeriodDialog(ServicesTree.this.getShell(), modelUtils);
+						pr.open();
+						DateTimeRange dtr = pr.period();
 
-						Date fromDate = null;
-						Date toDate = null;
+						Date fromDate = modelUtils.start(dtr);
+						Date toDate = modelUtils.end(dtr);
 
 						// TODO, We get the workflow run ID back, which
 						// could be used
