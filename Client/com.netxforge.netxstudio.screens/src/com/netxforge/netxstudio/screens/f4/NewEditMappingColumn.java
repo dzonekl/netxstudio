@@ -25,19 +25,16 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
-import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -49,7 +46,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
-import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -61,7 +57,6 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.metrics.DataKind;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
-import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -119,9 +114,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private ISWTObservableValue identifierPatternObservable;
 	private ISWTObservableValue metricObservable;
 	private ISWTObservableValue valuePatternObservable;
-	private Combo combo;
-	private ComboViewer comboViewerMetricKindHint;
-	private IViewerObservableValue metricKindHintObservable;
 
 	/**
 	 * Create the composite.
@@ -138,11 +130,15 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		});
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
+<<<<<<< .mine
 
 		// Remove when runtime,.
-//		buildUI();
-//		buildHeaderMappingOptions(cmpColumnMapping);
-//		buildDataMappingOptions(cmpColumnMapping);
+		// buildUI();
+		// buildHeaderMappingOptions(cmpColumnMapping);
+		// buildDataMappingOptions(cmpColumnMapping);
+=======
+		// buildUI();
+>>>>>>> .r761
 	}
 
 	private void buildUI() {
@@ -158,16 +154,16 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 		frmNewMappingColumn.setText(actionText + "Mapping Column");
 
-		frmNewMappingColumn.getBody().setLayout(new ColumnLayout());
+		frmNewMappingColumn.getBody().setLayout(new FormLayout());
 
 		Section sctnMappings = toolkit.createSection(
 				frmNewMappingColumn.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
-		// FormData fd_sctnMappings = new FormData();
-		// fd_sctnMappings.top = new FormAttachment(0, 10);
-		// fd_sctnMappings.right = new FormAttachment(100, -12);
-		// fd_sctnMappings.left = new FormAttachment(0, 12);
-		// sctnMappings.setLayoutData(fd_sctnMappings);
+		FormData fd_sctnMappings = new FormData();
+		fd_sctnMappings.top = new FormAttachment(0, 10);
+		fd_sctnMappings.right = new FormAttachment(100, -12);
+		fd_sctnMappings.left = new FormAttachment(0, 12);
+		sctnMappings.setLayoutData(fd_sctnMappings);
 		toolkit.paintBordersFor(sctnMappings);
 		sctnMappings.setText("Info");
 
@@ -190,13 +186,13 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		Section sctnDataKind = toolkit.createSection(
 				frmNewMappingColumn.getBody(), Section.EXPANDED
 						| Section.TITLE_BAR);
-		// fd_sctnMappings.bottom = new FormAttachment(sctnDataKind, -6);
-		// FormData fd_sctnNewSection = new FormData();
-		// fd_sctnNewSection.bottom = new FormAttachment(100, -12);
-		// fd_sctnNewSection.top = new FormAttachment(0, 88);
-		// fd_sctnNewSection.left = new FormAttachment(0, 12);
-		// fd_sctnNewSection.right = new FormAttachment(100, -12);
-		// sctnDataKind.setLayoutData(fd_sctnNewSection);
+		fd_sctnMappings.bottom = new FormAttachment(sctnDataKind, -6);
+		FormData fd_sctnNewSection = new FormData();
+		fd_sctnNewSection.bottom = new FormAttachment(100, -12);
+		fd_sctnNewSection.top = new FormAttachment(0, 88);
+		fd_sctnNewSection.left = new FormAttachment(0, 12);
+		fd_sctnNewSection.right = new FormAttachment(100, -12);
+		sctnDataKind.setLayoutData(fd_sctnNewSection);
 		toolkit.paintBordersFor(sctnDataKind);
 		sctnDataKind.setText("Mapping");
 		sctnDataKind.setExpanded(true);
@@ -272,12 +268,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		txtMetric.setText("");
 		txtMetric.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1));
-
-		comboViewerMetricKindHint = new ComboViewer(cmpColumnMapping, SWT.NONE);
-		combo = comboViewerMetricKindHint.getCombo();
-		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
-				1));
-		toolkit.paintBordersFor(combo);
+		new Label(cmpColumnMapping, SWT.NONE);
 
 	}
 
@@ -495,9 +486,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				editingService.getEditingDomain(),
 				MetricsPackage.Literals.MAPPING_COLUMN__DATA_TYPE);
 
-		initDataBindingHeaderMappingColumn(context);
+		initDataBindingHeaderMappingColumn(context, aggregate);
 		if (showDataMapping) {
-			initDataBindingDataMappingColumn(context, dataKindProperty);
+			initDataBindingDataMappingColumn(context, aggregate,
+					dataKindProperty);
 		}
 
 		// Should occure before the aggregator is enabled.
@@ -520,7 +512,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	 * bind the part of the UI which deals with header mapping.
 	 */
 	private void initDataBindingHeaderMappingColumn(
-			EMFDataBindingContext context) {
+			EMFDataBindingContext context, DatakindAggregate aggregate) {
 
 		// ///////////////////////////
 		// WRITABLE OBSERVABLES MAPPING COLUMN KIND
@@ -607,16 +599,19 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	}
 
 	private void enableDataAggregate(DatakindAggregate aggregate) {
+		// Kind observable. 
 		metricObservable.addValueChangeListener(aggregate);
+		
+		// Value observables. 
 		valuePatternObservable.addValueChangeListener(aggregate);
-		metricKindHintObservable.addValueChangeListener(aggregate);
 	}
 
 	/*
 	 * bind the part of the UI which deals with data mapping.
 	 */
 	private void initDataBindingDataMappingColumn(
-			EMFDataBindingContext context, IEMFValueProperty dataKindProperty) {
+			EMFDataBindingContext context, DatakindAggregate aggregate,
+			IEMFValueProperty dataKindProperty) {
 
 		btnMetricWritableValue = new WritableValue();
 
@@ -642,20 +637,22 @@ public class NewEditMappingColumn extends AbstractScreen implements
 						return null;
 					}
 				});
-
 		context.bindValue(metricValueObservable,
 				dataKindProperty.observe(mxlsColumn), null,
 				metricModelToTargetStrategy);
-
 		context.bindValue(metricObservable, btnMetricWritableValue, null, null);
+<<<<<<< .mine
 
 		comboViewerMetricKindHint
 				.setContentProvider(new ArrayContentProvider());
 		comboViewerMetricKindHint.setLabelProvider(new LabelProvider());
 		comboViewerMetricKindHint.setInput(KindHintType.VALUES);
 
-		metricKindHintObservable = ViewerProperties.singleSelection().observe(comboViewerMetricKindHint);
+		metricKindHintObservable = ViewerProperties.singleSelection().observe(
+				comboViewerMetricKindHint);
 
+=======
+>>>>>>> .r761
 	}
 
 	abstract class DataKindModelToTargetConverter implements IConverter {
@@ -709,12 +706,21 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					cmbTimePattern.setText(vdk.getFormat());
 				}
 			}
-//			if (vkt == ValueKindType.METRIC) {
-//				this.btnMetricWritableValue.setValue(true);
-//				if (vdk.getFormat() != null) {
-//					this.txtMetricValuePattern.setText(vdk.getFormat());
-//				}
-//			}
+<<<<<<< .mine
+			// if (vkt == ValueKindType.METRIC) {
+			// this.btnMetricWritableValue.setValue(true);
+			// if (vdk.getFormat() != null) {
+			// this.txtMetricValuePattern.setText(vdk.getFormat());
+			// }
+			// }
+=======
+			if (vkt == ValueKindType.METRIC) {
+				this.btnMetricWritableValue.setValue(true);
+				if (vdk.getFormat() != null) {
+					this.txtMetricValuePattern.setText(vdk.getFormat());
+				}
+			}
+>>>>>>> .r761
 		}
 		if (value instanceof IdentifierDataKind) {
 			this.btnIdentifierWritableValue.setValue(true);
@@ -735,10 +741,14 @@ public class NewEditMappingColumn extends AbstractScreen implements
 				if (vdk.getFormat() != null) {
 					this.txtMetricValuePattern.setText(vdk.getFormat());
 				}
-				if(vdk.eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT)){
+<<<<<<< .mine
+				if (vdk.eIsSet(MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT)) {
 					KindHintType kindHint = vdk.getKindHint();
-					comboViewerMetricKindHint.setSelection(new StructuredSelection(kindHint));
+					comboViewerMetricKindHint
+							.setSelection(new StructuredSelection(kindHint));
 				}
+=======
+>>>>>>> .r761
 			}
 		}
 	}
@@ -748,16 +758,18 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		private IObservableValue dataKindObservable;
 
 		private String pattern; // stores the pattern for the datakind.
+<<<<<<< .mine
 		private int metricKindHint = -1;
-		
-		
+
+=======
+
+>>>>>>> .r761
 		boolean datetime = false;
 		boolean date = false;
 		boolean time = false;
 		boolean identifier = false;
 		boolean value = false;
 		boolean interval = false;
-		
 
 		DatakindAggregate(IObservableValue dataKindObservable) {
 			this.dataKindObservable = dataKindObservable;
@@ -816,14 +828,17 @@ public class NewEditMappingColumn extends AbstractScreen implements
 					modelUpdate();
 				}
 			}
-			
-			if( event.getObservable() instanceof IViewerObservableValue){
-				if( newValue instanceof KindHintType ){
+<<<<<<< .mine
+
+			if (event.getObservable() instanceof IViewerObservableValue) {
+				if (newValue instanceof KindHintType) {
 					metricKindHint = ((KindHintType) newValue).getValue();
 					modelUpdate();
 				}
 			}
-			
+
+=======
+>>>>>>> .r761
 		}
 
 		private boolean modelUpdate() {
@@ -861,9 +876,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			}
 			if (value) {
 				((ValueDataKind) dk).setValueKind(ValueKindType.METRIC);
-				if(metricKindHint != -1){
-					((ValueDataKind) dk).setKindHint(KindHintType.get(metricKindHint));
-				}
 			}
 			if (datetime) {
 				((ValueDataKind) dk).setValueKind(ValueKindType.DATETIME);
@@ -874,16 +886,35 @@ public class NewEditMappingColumn extends AbstractScreen implements
 			if (time) {
 				((ValueDataKind) dk).setValueKind(ValueKindType.TIME);
 			}
+			
+			// Write the DataKind with attributes. 
 
 			if (dk instanceof ValueDataKind) {
+				ValueDataKind vdk = (ValueDataKind) dk;
+				{
 
-				SetCommand sc = new SetCommand(
-						editingService.getEditingDomain(), dk,
-						MetricsPackage.Literals.VALUE_DATA_KIND__FORMAT,
-						pattern);
-				cc.append(sc);
-				// Note: Interval don't have patterns.
-				// ((ValueDataKind) dk).setFormat(pattern);
+					// Note: Interval don't have patterns.
+					// ((ValueDataKind) dk).setFormat(pattern);
+
+					SetCommand sc = new SetCommand(
+							editingService.getEditingDomain(), dk,
+							MetricsPackage.Literals.VALUE_DATA_KIND__FORMAT,
+							pattern);
+					cc.append(sc);
+				}
+				{
+					if (metricKindHint != -1
+							&& vdk.getValueKind() == ValueKindType.METRIC) {
+						SetCommand sc = new SetCommand(
+								editingService.getEditingDomain(),
+								dk,
+								MetricsPackage.Literals.VALUE_DATA_KIND__KIND_HINT,
+								KindHintType.get(metricKindHint));
+						cc.append(sc);
+					}
+
+				}
+
 			}
 			if (dk instanceof IdentifierDataKind) {
 				SetCommand sc = new SetCommand(
@@ -891,7 +922,6 @@ public class NewEditMappingColumn extends AbstractScreen implements
 						MetricsPackage.Literals.IDENTIFIER_DATA_KIND__PATTERN,
 						pattern);
 				cc.append(sc);
-				// ((IdentifierDataKind) dk).setPattern(pattern);
 			}
 			editingService.getEditingDomain().getCommandStack().execute(cc);
 			dataKindObservable.setValue(dk);
