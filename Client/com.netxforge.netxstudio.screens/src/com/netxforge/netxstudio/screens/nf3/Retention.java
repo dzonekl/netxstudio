@@ -104,6 +104,9 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 				.addHyperlinkListener(new IHyperlinkListener() {
 					public void linkActivated(HyperlinkEvent e) {
 						try {
+//							serverActions
+//									.setServer(editingService.getDataService()
+//											.getProvider().getServer());
 							serverActions
 									.setCDOServer(editingService.getDataService()
 											.getProvider().getServer());
