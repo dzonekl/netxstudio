@@ -30,12 +30,11 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	private static final int NODES_ROW = 10;
 	private static final int RESOURCES_ROW = 11;
 	private OperatorSummary opSummary = new OperatorSummary();
-	
-	
+
 	@Override
 	protected void writeHeader(HSSFSheet sheet, DateTimeRange dtr) {
 		super.createHeaderStructure(sheet);
-		
+
 		super.typeCell.setCellValue("Service Monitoring");
 		super.titleCell.setCellValue("Management Sheet");
 
@@ -78,15 +77,16 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		HSSFSheet sheet = this.getSheet("Summary");
 		this.writeHeader(sheet, this.getPeriod());
 
-		// Execute the tolerance expressions, which returns a summary for each service. 
-		// The summary 
-		for(Service service : allServices){
-			if(service instanceof RFSService){
+		// Execute the tolerance expressions, which returns a summary for each
+		// service.
+		// The summary
+		for (Service service : allServices) {
+			if (service instanceof RFSService) {
 				RFSServiceSummary summary = this.processService(service);
 				opSummary.addSummary(summary);
 			}
 		}
-		
+
 		writeSummary(sheet);
 
 		if (!getFailures().isEmpty()) {
@@ -110,8 +110,7 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	}
 
 	private void writeSummary(HSSFSheet sheet) {
-		
-		
+
 		// Title
 		HSSFRow summaryRow = sheet.createRow(CONTENT_ROW);
 		HSSFCell summaryCell = summaryRow.createCell(2);
@@ -165,28 +164,28 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		{
 			HSSFCell c1 = servicesRow.createCell(2);
 			c1.setCellValue("#Services");
-			
+
 		}
-		{	// QUANTITY
+		{ // QUANTITY
 			HSSFCell c1 = servicesRow.createCell(4);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalServices());
 			this.getServices().size();
 		}
 
-		{  // RED
+		{ // RED
 			HSSFCell c1 = servicesRow.createCell(5);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalRedServices());
 		}
 
-		{   // AMBER
+		{ // AMBER
 			HSSFCell c1 = servicesRow.createCell(6);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalAmberServices());
 		}
 
-		{   // GREEN
+		{ // GREEN
 			HSSFCell c1 = servicesRow.createCell(7);
 			c1.setCellStyle(borderStyle);
 			c1.setCellValue(opSummary.totalGreenServices());
@@ -265,24 +264,12 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 	@Override
 	protected void writeContent(HSSFSheet sheet, Component component) {
 	}
-	
+
 	private RFSServiceSummary processService(Service service) {
 		// Build a service summary, to be passed to the engine.
-		RFSServiceSummary serviceSummary = new RFSServiceSummary(
-				(RFSService) service);
-		
-		// FIXME, We need to set Node and Resource RAG count using the model utils. 
-		// Set the ragCount for each node. 
-		if(service instanceof RFSService){
-			for(Node n : ((RFSService) service).getNodes()){
-				this.getModelUtils().ragCount(service, n, this.getPeriod());
-			}
-		}
-		
-		
-		serviceSummary.setRagCountNodes(null);
-		serviceSummary.setRagCountResources(null);
-		
+		RFSServiceSummary serviceSummary = this.getModelUtils()
+				.serviceSummaryForService(service, this.getPeriod());
+
 		final ReportingEngine engine = (ReportingEngine) getEngine();
 		engine.setService(service);
 		engine.setServiceSummary(serviceSummary);
@@ -297,6 +284,8 @@ public class RFSServiceSummaryReportingLogic extends OperatorReportingLogic {
 		return serviceSummary;
 	}
 
-	
+	@Override
+	protected void processServiceUser(Service service, HSSFSheet sheet) {
+	}
 
 }

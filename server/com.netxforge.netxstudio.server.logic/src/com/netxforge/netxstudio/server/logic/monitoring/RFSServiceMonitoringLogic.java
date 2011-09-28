@@ -71,14 +71,14 @@ public class RFSServiceMonitoringLogic extends BaseMonitoringLogic {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 		// first go through the leave nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (getModelUtils().isValidNode(node)
+			if (getModelUtils().isInService(node)
 					&& node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
 		for (final Node node : rfsService.getNodes()) {
-			if (getModelUtils().isValidNode(node)
+			if (getModelUtils().isInService(node)
 					&& !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}

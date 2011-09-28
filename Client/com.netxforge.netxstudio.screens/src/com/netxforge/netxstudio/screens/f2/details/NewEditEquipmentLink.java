@@ -264,7 +264,7 @@ public class NewEditEquipmentLink extends NewEditLink implements IScreen {
 						OperatorsPackage.Literals.EQUIPMENT_RELATIONSHIP__EQUIPMENT2_REF);
 
 		EMFUpdateValueStrategy equipmentToTarget = new EMFUpdateValueStrategy();
-		equipmentToTarget.convert(new IConverter() {
+		equipmentToTarget.setConverter(new IConverter() {
 
 			public Object getFromType() {
 				return Equipment.class;
@@ -285,7 +285,7 @@ public class NewEditEquipmentLink extends NewEditLink implements IScreen {
 					buf.append(" -  ");
 					if (((Equipment) fromObject)
 							.eIsSet(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_CODE)) {
-						buf.append(((Equipment) fromObject).getName());
+						buf.append(((Equipment) fromObject).getEquipmentCode());
 					}
 					return buf.toString();
 				}

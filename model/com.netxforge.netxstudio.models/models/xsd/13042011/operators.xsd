@@ -654,6 +654,7 @@
 		<xs:complexContent>
 			<xs:extension base="gen:Base">
 				<xs:sequence>
+<!-- 				
 					<xs:element name="ComponentRef" type="xs:anyURI"
 						ecore:reference="library:Component" maxOccurs="1" minOccurs="0">
 						<xs:annotation>
@@ -662,6 +663,7 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+-->
 					<xs:element name="ValueRef" type="xs:anyURI"
 						ecore:reference="gen:Value" maxOccurs="1" minOccurs="0">
 						<xs:annotation>

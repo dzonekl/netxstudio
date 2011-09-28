@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 
+import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.screens.internal.ScreensActivator;
 
@@ -76,7 +77,11 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 	}
 
 	private String getText(Unit p) {
-		return p.getName() + "[" + p.getCode() + "] -" + p.getDescription();
+		StringBuilder sb = new StringBuilder();
+		sb.append(p.eIsSet(LibraryPackage.Literals.UNIT__NAME)? p.getName():"");
+		sb.append(p.eIsSet(LibraryPackage.Literals.UNIT__CODE)? "[" + p.getCode() + "]": "");
+		sb.append(p.eIsSet(LibraryPackage.Literals.UNIT__DESCRIPTION)? "-" + p.getDescription():"");
+		return sb.toString();
 	}
 
 	@Override

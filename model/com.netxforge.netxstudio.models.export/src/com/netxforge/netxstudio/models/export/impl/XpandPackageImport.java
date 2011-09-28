@@ -6,16 +6,19 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.xpand2.XpandFacade;
 import org.eclipse.xpand2.output.Output;
 
+import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.models.export.internal.Activator;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class XpandPackageImport extends XpandTemplateImpl {
 
 	public static String XPAND_IMPORT = "templates::import::Root";
-		
 	
-	
-	private EPackage[] metaModels = new EPackage[]{EcorePackage.eINSTANCE, LibraryPackage.eINSTANCE};
+	private EPackage[] metaModels = new EPackage[]{EcorePackage.eINSTANCE, LibraryPackage.eINSTANCE, MetricsPackage.eINSTANCE,
+			OperatorsPackage.eINSTANCE, GeoPackage.eINSTANCE, ServicesPackage.eINSTANCE};
 	
 	public XpandPackageImport() {
 	}

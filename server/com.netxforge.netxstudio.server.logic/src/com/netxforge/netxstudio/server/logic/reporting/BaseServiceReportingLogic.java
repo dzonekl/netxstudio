@@ -101,7 +101,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 			if (service instanceof RFSService) {
 
 				HSSFSheet sheet = getSheet(service.getServiceName());
-				
+
 				// WRITE EXCEL.
 				writeHeader(sheet, getPeriod());
 				processServiceUser(service, sheet);
@@ -132,12 +132,7 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		// dataProvider.commitTransaction();
 	}
 
-	protected void processServiceUser(Service service, HSSFSheet sheet) {
-		int rowIndex = 0;
-		for (ServiceUser su : service.getServiceUserRefs()) {
-			this.writeContent(sheet, service, su, rowIndex++, -1);
-		}
-	}
+	protected abstract void processServiceUser(Service service, HSSFSheet sheet);
 
 	protected void processNodesByNodeType(Service service, HSSFSheet sheet) {
 		List<NodeType> nodeTypes = this
@@ -162,20 +157,19 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 				int nodeCount = 0;
 				for (NodeType nt : nodeTypes) {
 
-					if (nt.eIsSet(LibraryPackage.Literals.NODE_TYPE__NAME)) {
-						if (nt.getName().equals(nodeType.getName())) {
-							// EXCEL WRITE
-							writeContent(sheet, service,
-									(Node) nt.eContainer(), nodeCount,
-									nodeTypeCount);
+					if (nt.eIsSet(LibraryPackage.Literals.NODE_TYPE__NAME)
+							&& nt.getName().equals(nodeType.getName())) {
+						// EXCEL WRITE
+						// nodeCount = row, nodeTypeCount = column.
+						writeContent(sheet, service, (Node) nt.eContainer(),
+								nodeCount, nodeTypeCount);
 
-							// EXCEL WRITE, DELEGATED TO ENGINE
-							// OPTIONAL FOR SOME REPORTS....
-							processNode(sheet, nt);
-
-						}
+						// EXCEL WRITE, DELEGATED TO ENGINE
+						// OPTIONAL FOR SOME REPORTS....
+						processNode(sheet, nt);
+						nodeCount++;
 					}
-					nodeCount++;
+
 				}
 			} else {
 				getJobMonitor().appendToLog(
@@ -210,6 +204,13 @@ public abstract class BaseServiceReportingLogic extends BasePeriodLogic {
 		// }
 	}
 
+	/**
+	 * Clients should override to avoid walking the NodeType Hierarchy if not
+	 * required.
+	 * 
+	 * @param sheet
+	 * @param nodeType
+	 */
 	protected void processNode(HSSFSheet sheet, NodeType nodeType) {
 		int cnt = 0;
 

@@ -247,7 +247,12 @@ public class NetworkElementLocator {
 	private boolean matches(String dataValue, String componentValue, String extractionPattern) {
 		// PATTERN: if extractionPattern != null then use it to extract the to-compare value
 		// from the componentValue or the dataValue, the dataValue is read from the excel
-		return dataValue.equals(componentValue);
+		if(extractionPattern != null && extractionPattern.length() > 0){
+			// TODO Implement.
+			return dataValue.equals(componentValue);
+		}else{
+			return dataValue.equals(componentValue);
+		}
 	}
 	
 	public static class IdentifierValue {

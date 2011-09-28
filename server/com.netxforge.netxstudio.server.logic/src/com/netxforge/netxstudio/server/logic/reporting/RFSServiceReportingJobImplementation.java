@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.reporting;
 
+import org.eclipse.emf.common.util.URI;
+
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
@@ -39,9 +41,14 @@ public class RFSServiceReportingJobImplementation extends JobImplementation {
 
 	@Override
 	public void run() {
+		
+		
+		URI folderURI = null;
 		final RFSServiceReporterJob reporterJob = (RFSServiceReporterJob) getJob();
 		for (final BaseLogic reportingLogic : ReportingService.getOperatorReportingLogos()) {
-
+			if(folderURI == null){
+				folderURI = ((OperatorReportingLogic) reportingLogic).folderURI();
+			}
 			reportingLogic.setJobMonitor(getRunMonitor());
 
 			if (reportingLogic instanceof BasePeriodLogic) {
@@ -53,7 +60,7 @@ public class RFSServiceReportingJobImplementation extends JobImplementation {
 				((OperatorReportingLogic) reportingLogic)
 						.setServices(Lists.newArrayList((Service)reporterJob.getRFSService()));
 				((OperatorReportingLogic) reportingLogic)
-						.initializeStream();
+						.initializeStream(folderURI);
 			}
 
 			reportingLogic.run();

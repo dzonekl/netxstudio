@@ -348,7 +348,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMarker_ComponentRef() {
+	public EReference getMarker_ValueRef() {
 		return (EReference)markerEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -357,7 +357,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMarker_ValueRef() {
+	public EReference getMarker_MarkerResourceRef() {
 		return (EReference)markerEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -366,17 +366,8 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMarker_MarkerResourceRef() {
-		return (EReference)markerEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getMarker_Description() {
-		return (EAttribute)markerEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)markerEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -385,7 +376,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * @generated
 	 */
 	public EAttribute getMarker_Kind() {
-		return (EAttribute)markerEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)markerEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -893,7 +884,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		createEReference(functionRelationshipEClass, FUNCTION_RELATIONSHIP__FUNCTION2_REF);
 
 		markerEClass = createEClass(MARKER);
-		createEReference(markerEClass, MARKER__COMPONENT_REF);
 		createEReference(markerEClass, MARKER__VALUE_REF);
 		createEReference(markerEClass, MARKER__MARKER_RESOURCE_REF);
 		createEAttribute(markerEClass, MARKER__DESCRIPTION);
@@ -1025,7 +1015,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		initEReference(getFunctionRelationship_Function2Ref(), theLibraryPackage.getFunction(), null, "function2Ref", null, 0, 1, FunctionRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(markerEClass, Marker.class, "Marker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMarker_ComponentRef(), theLibraryPackage.getComponent(), null, "componentRef", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMarker_ValueRef(), theGenericsPackage.getValue(), null, "valueRef", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMarker_MarkerResourceRef(), theLibraryPackage.getNetXResource(), null, "markerResourceRef", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMarker_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1132,7 +1121,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																				
+		   });																																																		
 		addAnnotation
 		  (nodeEClass, 
 		   source, 
@@ -1197,13 +1186,6 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 		   new String[] {
 			 "name", "Marker",
 			 "kind", "elementOnly"
-		   });			
-		addAnnotation
-		  (getMarker_ComponentRef(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "ComponentRef"
 		   });			
 		addAnnotation
 		  (getMarker_ValueRef(), 
@@ -1604,7 +1586,7 @@ public class OperatorsPackageImpl extends EPackageImpl implements OperatorsPacka
 	 * @generated
 	 */
 	protected void createOCLAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																																																							
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																																																					
 		addAnnotation
 		  (nodeEClass, 
 		   source, 

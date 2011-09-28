@@ -76,6 +76,7 @@ import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -345,20 +346,20 @@ public class ServicesTree extends AbstractScreen implements
 		String actionText = Screens.isReadOnlyOperation(getOperation()) ? "View"
 				: "Edit";
 
-		actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
-		actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
-		actions.add(new SeparatorAction());
+//		actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
+//		actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
+//		actions.add(new SeparatorAction());
 		actions.add(new ServiceMonitoringAction("Monitor...", SWT.PUSH));
 
 		if (!readonly) {
 			actions.add(new ScheduleMonitorJobAction(
 					"Schedule Monitoring Job...", SWT.PUSH));
-			actions.add(new MonitorNowAction("Monitor Now...", SWT.PUSH));
+			actions.add(new MonitorNowAction("Monitor Now", SWT.PUSH));
 
 			actions.add(new SeparatorAction());
 			actions.add(new ScheduleReportingJobAction(
 					"Schedule Reporting Job...", SWT.PUSH));
-			actions.add(new ReportNowAction("Report Now...", SWT.PUSH));
+			actions.add(new ReportNowAction("Report Now", SWT.PUSH));
 			actions.add(new SeparatorAction());
 		}
 
@@ -534,10 +535,11 @@ public class ServicesTree extends AbstractScreen implements
 				if (o instanceof Service) {
 					Service service = (Service) o;
 					try {
-						serverActions.setCDOServer(editingService.getDataService()
-								.getProvider().getServer());
+						serverActions.setCDOServer(editingService
+								.getDataService().getProvider().getServer());
 
-						PeriodDialog pr = new PeriodDialog(ServicesTree.this.getShell(), modelUtils);
+						PeriodDialog pr = new PeriodDialog(
+								ServicesTree.this.getShell(), modelUtils);
 						pr.open();
 						DateTimeRange dtr = pr.period();
 
@@ -597,10 +599,11 @@ public class ServicesTree extends AbstractScreen implements
 
 					}
 					try {
-						serverActions.setCDOServer(editingService.getDataService()
-								.getProvider().getServer());
+						serverActions.setCDOServer(editingService
+								.getDataService().getProvider().getServer());
 
-						PeriodDialog pr = new PeriodDialog(ServicesTree.this.getShell(), modelUtils);
+						PeriodDialog pr = new PeriodDialog(
+								ServicesTree.this.getShell(), modelUtils);
 						pr.open();
 						DateTimeRange dtr = pr.period();
 
@@ -613,9 +616,9 @@ public class ServicesTree extends AbstractScreen implements
 						// workflows.
 
 						if (target instanceof Service) {
-							
-							// Set the period to the last service monitor, 
-							// if we don't have a manually entered period. 
+
+							// Set the period to the last service monitor,
+							// if we don't have a manually entered period.
 							if (fromDate == null && toDate == null) {
 								ServiceMonitor sm = modelUtils
 										.lastServiceMonitor((Service) target);
@@ -777,6 +780,43 @@ public class ServicesTree extends AbstractScreen implements
 							if (job instanceof RFSServiceReporterJob) {
 								((RFSServiceReporterJob) job)
 										.setRFSService((RFSService) o);
+							}
+						}
+
+						NewEditJob newEditJob = new NewEditJob(
+								screenService.getScreenContainer(), SWT.NONE);
+						newEditJob.setOperation(operation);
+						newEditJob.setScreenService(screenService);
+						newEditJob.injectData(jobResource, job);
+						screenService.setActiveScreen(newEditJob);
+					}
+					if (o instanceof Operator) {
+
+						int operation = -1;
+
+						List<Job> matchingJobs = editingService
+								.getDataService().getQueryService()
+								.getJobWithOperatorReporting((Operator) o);
+
+						Resource jobResource = editingService
+								.getData(SchedulingPackage.Literals.JOB);
+						Job job = null;
+
+						// Edit or New if the Service has a job or not.
+						if (matchingJobs.size() == 1) {
+							operation = Screens.OPERATION_EDIT;
+							job = matchingJobs.get(0);
+						} else {
+							operation = Screens.OPERATION_NEW;
+							job = SchedulingFactory.eINSTANCE
+									.createOperatorReporterJob();
+							job.setName(((Operator) o).getName());
+							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
+							job.setStartTime(modelUtils.toXMLDate(modelUtils
+									.todayAndNow()));
+							if (job instanceof OperatorReporterJob) {
+								((OperatorReporterJob) job)
+										.setOperator((Operator) o);
 							}
 						}
 

@@ -85,7 +85,7 @@ public class EmbeddedXtextScreen extends Composite implements IDataScreenInjecti
 				.getInjector("com.netxforge.Netxscript");
 		
 		
-		editor = new EmbeddedXtextEditor(parent, injector, SWT.BORDER);
+		editor = new EmbeddedXtextEditor(parent, injector, SWT.NONE);
 
 		// TODO, deal with the dirty state @see our super.
 		editor.getViewer().getTextWidget()

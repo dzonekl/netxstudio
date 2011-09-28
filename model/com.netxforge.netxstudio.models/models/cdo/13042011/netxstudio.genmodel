@@ -438,7 +438,6 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//FunctionRelationship/function2Ref"/>
     </genClasses>
     <genClasses ecoreClass="operators.ecore#//Marker">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Marker/componentRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Marker/valueRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference operators.ecore#//Marker/markerResourceRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute operators.ecore#//Marker/description"/>

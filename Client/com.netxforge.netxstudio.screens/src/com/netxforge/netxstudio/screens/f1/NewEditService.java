@@ -84,7 +84,6 @@ public class NewEditService extends AbstractScreen implements
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				formToolkit.dispose();
-				// obm.dispose();
 			}
 		});
 		formToolkit.adapt(this);
@@ -188,22 +187,22 @@ public class NewEditService extends AbstractScreen implements
 
 						Resource operatorResource = editingService
 								.getData(OperatorsPackage.Literals.OPERATOR);
-						
-						 NodeFilterDialog dialog = new
-								 NodeFilterDialog(
-						 NewEditService.this.getShell(), operatorResource);
-						
-						 if (dialog.open() == IDialogConstants.OK_ID) {
-						 ServiceUser u = (ServiceUser)
-						 dialog.getFirstResult();
-						 if (!service.getNodes().contains(u)) {
-						 Command c = new AddCommand(editingService
-						 .getEditingDomain(), service
-						 .getNodes(), u);
-						 editingService.getEditingDomain().getCommandStack()
-						 .execute(c);
-						 }
-						 }
+
+						NodeFilterDialog dialog = new NodeFilterDialog(
+								NewEditService.this.getShell(),
+								operatorResource);
+
+						if (dialog.open() == IDialogConstants.OK_ID) {
+							ServiceUser u = (ServiceUser) dialog
+									.getFirstResult();
+							if (!service.getNodes().contains(u)) {
+								Command c = new AddCommand(editingService
+										.getEditingDomain(),
+										service.getNodes(), u);
+								editingService.getEditingDomain()
+										.getCommandStack().execute(c);
+							}
+						}
 
 					}
 
@@ -258,6 +257,39 @@ public class NewEditService extends AbstractScreen implements
 			}
 		});
 		mntmRemoveNetworkElement.setText("Remove");
+
+		Section sctnHiarchy = formToolkit.createSection(frmService.getBody(),
+				Section.TWISTIE | Section.TITLE_BAR);
+		formToolkit.paintBordersFor(sctnHiarchy);
+		sctnHiarchy.setText("Hierarchy");
+		sctnHiarchy.setExpanded(true);
+
+		Composite composite_4 = formToolkit.createComposite(sctnHiarchy,
+				SWT.NONE);
+		formToolkit.paintBordersFor(composite_4);
+		sctnHiarchy.setClient(composite_4);
+		composite_4.setLayout(new GridLayout(1, false));
+
+		ImageHyperlink mghprlnkShowHiararchy = formToolkit
+				.createImageHyperlink(composite_4, SWT.NONE);
+		mghprlnkShowHiararchy.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+
+				ServiceHierarchy sh = new ServiceHierarchy(screenService.getScreenContainer(), SWT.NONE);
+				sh.setScreenService(screenService);
+				sh.setOperation(getOperation());
+				sh.injectData(null,service);
+				screenService.setActiveScreen(sh);
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		formToolkit.paintBordersFor(mghprlnkShowHiararchy);
+		mghprlnkShowHiararchy.setText("Show Hierarchy");
 
 		Section sctnServiceUsers = formToolkit.createSection(
 				frmService.getBody(), Section.EXPANDED | Section.TWISTIE
@@ -330,11 +362,6 @@ public class NewEditService extends AbstractScreen implements
 
 		MenuItem mntmRemove = new MenuItem(menu_1, SWT.NONE);
 		mntmRemove.setText("Remove");
-
-		Section sctnHiarchy = formToolkit.createSection(frmService.getBody(),
-				Section.TWISTIE | Section.TITLE_BAR);
-		formToolkit.paintBordersFor(sctnHiarchy);
-		sctnHiarchy.setText("Hierarchy");
 
 		Section sctnTolerances = formToolkit.createSection(
 				frmService.getBody(), Section.TWISTIE | Section.TITLE_BAR);
@@ -429,13 +456,12 @@ public class NewEditService extends AbstractScreen implements
 		mntmRemoveTolerance.setText("Remove");
 
 		if (readonly) {
-			
-			
+
 			hypLnkAddTolerance.setEnabled(false);
 			mntmRemoveTolerance.setEnabled(false);
-			
-			// TODO, add other actions here. 
-			
+
+			// TODO, add other actions here.
+
 		}
 
 	}
@@ -515,21 +541,19 @@ public class NewEditService extends AbstractScreen implements
 
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		serviceUserTableViewer.setContentProvider(listContentProvider);
-		IObservableMap[] observeMaps = EMFObservables.observeMaps(
-				listContentProvider.getKnownElements(),
-				new EStructuralFeature[] {
-						ServicesPackage.Literals.SERVICE_USER__NAME});
-		serviceUserTableViewer
-				.setLabelProvider(new ObservableMapLabelProvider(
-						observeMaps));
+		IObservableMap[] observeMaps = EMFObservables
+				.observeMaps(
+						listContentProvider.getKnownElements(),
+						new EStructuralFeature[] { ServicesPackage.Literals.SERVICE_USER__NAME });
+		serviceUserTableViewer.setLabelProvider(new ObservableMapLabelProvider(
+				observeMaps));
 		IEMFListProperty l = EMFEditProperties.list(
 				editingService.getEditingDomain(),
 				ServicesPackage.Literals.SERVICE__SERVICE_USER_REFS);
 
 		serviceUserTableViewer.setInput(l.observe(service));
 	}
-	
-	
+
 	public class NodeInServiceObservableMapLabelProvider extends
 			ObservableMapLabelProvider {
 

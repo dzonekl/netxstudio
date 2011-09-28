@@ -59,16 +59,13 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
-import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.library.Unit;
-import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.UnitFilterDialog;
@@ -77,7 +74,7 @@ import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.ServiceProfile;
 
-public class NewEditServiceProfileResource extends AbstractScreen implements
+public class NewEditDerivedResource extends AbstractScreen implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -90,14 +87,14 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 	private ServiceProfile owner;
 	private Table table;
 	private TableViewer valuesTableViewer;
-	private Hyperlink hprlnkDaily;
-	private Hyperlink hprlnkWeekly;
-	private Hyperlink hprlnkMonthly;
-	private Hyperlink hprlnkHourly;
-	private static final int CAPACITIES = -100;
-	private static final int UTILIZATION = -200;
-	private Hyperlink hprlnkCapcity;
-	private Hyperlink hprlnkUtilization;
+//	private Hyperlink hprlnkDaily;
+//	private Hyperlink hprlnkWeekly;
+//	private Hyperlink hprlnkMonthly;
+	private Hyperlink hprlnkValues;
+//	private static final int CAPACITIES = -100;
+//	private static final int UTILIZATION = -200;
+//	private Hyperlink hprlnkCapcity;
+//	private Hyperlink hprlnkUtilization;
 
 	/**
 	 * Create the composite.
@@ -105,7 +102,7 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 	 * @param parent
 	 * @param style
 	 */
-	public NewEditServiceProfileResource(Composite parent, int style) {
+	public NewEditDerivedResource(Composite parent, int style) {
 		super(parent, style);
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
@@ -132,23 +129,23 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 		frmResource.setText(actionText + "Resource");
 		frmResource.getBody().setLayout(new FormLayout());
 
-		FormText formText = toolkit
-				.createFormText(frmResource.getBody(), false);
-		FormData fd_formText = new FormData();
-		fd_formText.right = new FormAttachment(0, 820);
-		fd_formText.top = new FormAttachment(0, 5);
-		fd_formText.left = new FormAttachment(0, 5);
-		formText.setLayoutData(fd_formText);
-		// FormData fd_formText = new FormData();
-		// fd_formText.bottom = new FormAttachment(0, 46);
-		// fd_formText.right = new FormAttachment(100, -12);
-		// fd_formText.top = new FormAttachment(0, 12);
-		// fd_formText.left = new FormAttachment(0, 12);
-		// formText.setLayoutData(fd_formText);
-		toolkit.paintBordersFor(formText);
-		formText.setText(
-				"<form><p> A resource is either created from a Metric by the <b>M</b>etric <b>C</b>ollection <b>E</b>ngine or a resource is defined manually and populated by an Expression</p></form>",
-				true, false);
+////		FormText formText = toolkit
+////				.createFormText(frmResource.getBody(), false);
+////		FormData fd_formText = new FormData();
+////		fd_formText.right = new FormAttachment(0, 820);
+////		fd_formText.top = new FormAttachment(0, 5);
+////		fd_formText.left = new FormAttachment(0, 5);
+////		formText.setLayoutData(fd_formText);
+//		// FormData fd_formText = new FormData();
+//		// fd_formText.bottom = new FormAttachment(0, 46);
+//		// fd_formText.right = new FormAttachment(100, -12);
+//		// fd_formText.top = new FormAttachment(0, 12);
+//		// fd_formText.left = new FormAttachment(0, 12);
+//		// formText.setLayoutData(fd_formText);
+//		toolkit.paintBordersFor(formText);
+//		formText.setText(
+//				"<form><p> A resource is either created from a Metric by the <b>M</b>etric <b>C</b>ollection <b>E</b>ngine or a resource is defined manually and populated by an Expression</p></form>",
+//				true, false);
 
 		Section sctnInfo = toolkit.createSection(frmResource.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
@@ -225,7 +222,7 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 				Resource unitResource = editingService
 						.getData(LibraryPackage.Literals.UNIT);
 				UnitFilterDialog dialog = new UnitFilterDialog(
-						NewEditServiceProfileResource.this.getShell(),
+						NewEditDerivedResource.this.getShell(),
 						unitResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
 					Unit u = (Unit) dialog.getFirstResult();
@@ -270,10 +267,10 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 		sctnContents.setClient(composite_2);
 		composite_2.setLayout(new GridLayout(7, false));
 
-		hprlnkHourly = toolkit.createHyperlink(composite_2, "Hourly", SWT.NONE);
-		hprlnkHourly.addHyperlinkListener(new IHyperlinkListener() {
+		hprlnkValues = toolkit.createHyperlink(composite_2, "Values", SWT.NONE);
+		hprlnkValues.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				updateValues(60);
+				updateValues();
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
@@ -282,85 +279,88 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 			public void linkExited(HyperlinkEvent e) {
 			}
 		});
-		toolkit.paintBordersFor(hprlnkHourly);
-
-		hprlnkDaily = toolkit.createHyperlink(composite_2, "Daily", SWT.NONE);
-		hprlnkDaily.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				updateValues(60 * 24);
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		toolkit.paintBordersFor(hprlnkDaily);
-		hprlnkWeekly = toolkit.createHyperlink(composite_2, "Weekly", SWT.NONE);
-		hprlnkWeekly.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				updateValues(60 * 24 * 7);
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		toolkit.paintBordersFor(hprlnkWeekly);
-		hprlnkMonthly = toolkit.createHyperlink(composite_2, "Monthly",
-				SWT.NONE);
-		hprlnkMonthly.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				updateValues(60 * 24 * 30);
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		toolkit.paintBordersFor(hprlnkMonthly);
-
-		Composite composite = toolkit.createComposite(composite_2, SWT.NONE);
-		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_composite.heightHint = 10;
-		composite.setLayoutData(gd_composite);
-		toolkit.paintBordersFor(composite);
-
-		hprlnkCapcity = toolkit.createHyperlink(composite_2, "Capacity",
-				SWT.NONE);
-		hprlnkCapcity.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				updateCapacityValues();
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		toolkit.paintBordersFor(hprlnkCapcity);
-
-		hprlnkUtilization = toolkit.createHyperlink(composite_2, "Utilization",
-				SWT.NONE);
-		hprlnkUtilization.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				updateUtilizationValues();
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		toolkit.paintBordersFor(hprlnkUtilization);
+		toolkit.paintBordersFor(hprlnkValues);
+//
+//		hprlnkDaily = toolkit.createHyperlink(composite_2, "Daily", SWT.NONE);
+//		hprlnkDaily.addHyperlinkListener(new IHyperlinkListener() {
+//			public void linkActivated(HyperlinkEvent e) {
+//				updateValues(60 * 24);
+//			}
+//
+//			public void linkEntered(HyperlinkEvent e) {
+//			}
+//
+//			public void linkExited(HyperlinkEvent e) {
+//			}
+//		});
+//		toolkit.paintBordersFor(hprlnkDaily);
+//		hprlnkWeekly = toolkit.createHyperlink(composite_2, "Weekly", SWT.NONE);
+//		hprlnkWeekly.addHyperlinkListener(new IHyperlinkListener() {
+//			public void linkActivated(HyperlinkEvent e) {
+//				updateValues(60 * 24 * 7);
+//			}
+//
+//			public void linkEntered(HyperlinkEvent e) {
+//			}
+//
+//			public void linkExited(HyperlinkEvent e) {
+//			}
+//		});
+		
+		
+		
+//		toolkit.paintBordersFor(hprlnkWeekly);
+//		hprlnkMonthly = toolkit.createHyperlink(composite_2, "Monthly",
+//				SWT.NONE);
+//		hprlnkMonthly.addHyperlinkListener(new IHyperlinkListener() {
+//			public void linkActivated(HyperlinkEvent e) {
+//				updateValues(60 * 24 * 30);
+//			}
+//
+//			public void linkEntered(HyperlinkEvent e) {
+//			}
+//
+//			public void linkExited(HyperlinkEvent e) {
+//			}
+//		});
+//		toolkit.paintBordersFor(hprlnkMonthly);
+//
+//		Composite composite = toolkit.createComposite(composite_2, SWT.NONE);
+//		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, false,
+//				false, 1, 1);
+//		gd_composite.heightHint = 10;
+//		composite.setLayoutData(gd_composite);
+//		toolkit.paintBordersFor(composite);
+//
+//		hprlnkCapcity = toolkit.createHyperlink(composite_2, "Capacity",
+//				SWT.NONE);
+//		hprlnkCapcity.addHyperlinkListener(new IHyperlinkListener() {
+//			public void linkActivated(HyperlinkEvent e) {
+//				updateCapacityValues();
+//			}
+//
+//			public void linkEntered(HyperlinkEvent e) {
+//			}
+//
+//			public void linkExited(HyperlinkEvent e) {
+//			}
+//		});
+//		toolkit.paintBordersFor(hprlnkCapcity);
+//
+//		hprlnkUtilization = toolkit.createHyperlink(composite_2, "Utilization",
+//				SWT.NONE);
+//		hprlnkUtilization.addHyperlinkListener(new IHyperlinkListener() {
+//			public void linkActivated(HyperlinkEvent e) {
+//				updateUtilizationValues();
+//			}
+//
+//			public void linkEntered(HyperlinkEvent e) {
+//			}
+//
+//			public void linkExited(HyperlinkEvent e) {
+//			}
+//		});
+//		toolkit.paintBordersFor(hprlnkUtilization);
 
 		valuesTableViewer = new TableViewer(composite_2, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.VIRTUAL);
@@ -401,38 +401,38 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 		new Label(composite_2, SWT.NONE);
 	}
 
-	private void updateValues(int targetInterval) {
+	private void updateValues() {
 
 		valuesTableViewer
-				.setContentProvider(new NetXResourceValueContentProvider(
-						targetInterval));
-		valuesTableViewer
-				.setLabelProvider(new NetXResourceValueLabelProvider());
-		valuesTableViewer.setInput(derivedResource);
-
-	}
-
-	private void updateCapacityValues() {
-
-		valuesTableViewer
-				.setContentProvider(new NetXResourceValueContentProvider(
-						CAPACITIES));
+				.setContentProvider(new DerivedResourceValueContentProvider(
+						));
 		valuesTableViewer
 				.setLabelProvider(new NetXResourceValueLabelProvider());
 		valuesTableViewer.setInput(derivedResource);
 
 	}
 
-	private void updateUtilizationValues() {
+//	private void updateCapacityValues() {
+//
+//		valuesTableViewer
+//				.setContentProvider(new NetXResourceValueContentProvider(
+//						CAPACITIES));
+//		valuesTableViewer
+//				.setLabelProvider(new NetXResourceValueLabelProvider());
+//		valuesTableViewer.setInput(derivedResource);
+//
+//	}
 
-		valuesTableViewer
-				.setContentProvider(new NetXResourceValueContentProvider(
-						UTILIZATION));
-		valuesTableViewer
-				.setLabelProvider(new NetXResourceValueLabelProvider());
-		valuesTableViewer.setInput(derivedResource);
-
-	}
+//	private void updateUtilizationValues() {
+//
+//		valuesTableViewer
+//				.setContentProvider(new NetXResourceValueContentProvider(
+//						UTILIZATION));
+//		valuesTableViewer
+//				.setLabelProvider(new NetXResourceValueLabelProvider());
+//		valuesTableViewer.setInput(derivedResource);
+//
+//	}
 
 	class NetXResourceValueLabelProvider extends StyledCellLabelProvider {
 
@@ -461,16 +461,10 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 
 	}
 
-	class NetXResourceValueContentProvider implements
+	class DerivedResourceValueContentProvider implements
 			IStructuredContentProvider {
 
-		/**
-		 * The target range.
-		 */
-		private int targetRange;
-
-		NetXResourceValueContentProvider(int targetRange) {
-			this.targetRange = targetRange;
+		DerivedResourceValueContentProvider() {
 		}
 
 		public void dispose() {
@@ -482,36 +476,14 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 		}
 
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof NetXResource) {
-				NetXResource resource = (NetXResource) inputElement;
-
-				if (targetRange == CAPACITIES) {
-					return resource.getCapacityValues().toArray();
-				}
-
-				if (targetRange == UTILIZATION) {
-					return resource.getUtilizationValues().toArray();
-				}
-
-				for (MetricValueRange mvr : resource.getMetricValueRanges()) {
-
-					if (mvr.getIntervalHint() == this.targetRange) {
-						// ! Match.
-						// Apply a window.
-						return mvr.getMetricValues().toArray();
-					}
-				}
-				// DEBUG.
-				System.out
-						.println("Target interval: " + this.targetRange
-								+ " not found for resource: "
-								+ resource.getShortName());
+			if (inputElement instanceof DerivedResource) {
+				DerivedResource resource = (DerivedResource) inputElement;
+				return resource.getValues().toArray();
 
 			} else {
 				throw new java.lang.IllegalArgumentException(
-						"Expected a NetXResource");
+						"Expected a Derived Resource");
 			}
-			return null;
 		}
 
 	}
@@ -559,13 +531,20 @@ public class NewEditServiceProfileResource extends AbstractScreen implements
 
 		// Set enablement for interval links.
 
-		hprlnkDaily.setEnabled(false);
-		hprlnkWeekly.setEnabled(false);
-		hprlnkMonthly.setEnabled(false);
-		hprlnkHourly.setEnabled(false);
-		hprlnkCapcity.setEnabled(false);
-		hprlnkUtilization.setEnabled(false);
+//		hprlnkDaily.setEnabled(false);
+//		hprlnkWeekly.setEnabled(false);
+//		hprlnkMonthly.setEnabled(false);
+		hprlnkValues.setEnabled(false);
+//		hprlnkCapcity.setEnabled(false);
+//		hprlnkUtilization.setEnabled(false);
 
+		
+		if (derivedResource.getValues().size() > 0) {
+			hprlnkValues.setEnabled(true);
+			hprlnkValues.setText(hprlnkValues.getText() + " ("
+					+ derivedResource.getValues().size() + ")");
+		}
+		
 		return context;
 	}
 

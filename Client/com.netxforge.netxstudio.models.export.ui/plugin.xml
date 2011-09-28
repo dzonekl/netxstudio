@@ -72,9 +72,9 @@
           class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.NodeHTMLTemplateWizard"
           icon="icons/full/wizban/export_wiz.png"
           id="com.netxforge.netxstudio.models.export.wizard.ui.node.html"
-          name="Export a Network Element  to HTML">
+          name="Export a Network Element instance to HTML">
        <description>
-         Export a Network Element to HTML
+         Export a Network Element instance to HTML
        </description>
        <selection
              class="com.netxforge.netxstudio.library.NodeType">

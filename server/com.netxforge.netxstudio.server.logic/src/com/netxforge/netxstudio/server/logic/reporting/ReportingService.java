@@ -24,16 +24,20 @@ import java.util.Map;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.id.CDOID;
 import org.eclipse.emf.cdo.common.id.CDOIDUtil;
 import org.eclipse.emf.cdo.common.model.CDOClassifierRef;
 import org.eclipse.emf.cdo.spi.common.id.AbstractCDOIDLong;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -96,27 +100,20 @@ public class ReportingService implements NetxForgeService {
 				runService(monitor, finalID, getOperatorReportingLogos());
 
 			} else if (parameters.containsKey(NODE_PARAM)) {
-				// TODO, Not implemented yet.
-				// reportingLogic = null;
-
-				// final CDOID id = getCDOID(parameters.get(NODE_PARAM),
-				// OperatorsPackage.Literals.NODE);
-				// reportingLogic =
-				// LogicActivator.getInstance().getInjector()
-				// .getInstance(NodeResourceMonitoringLogic.class);
-				// ((NodeResourceMonitoringLogic)
-				// reportingLogic).setNode(id);
+				id = getCDOID(parameters.get(NODE_PARAM),
+						OperatorsPackage.Literals.NODE);
+				NodeResourceReportingLogic reportingLogic = LogicActivator
+						.getInstance().getInjector()
+						.getInstance(NodeResourceReportingLogic.class);
+				final CDOID finalID = id != null ? id : null;
+				runForNodeOrNodeType(monitor, finalID, reportingLogic);
 			} else if (parameters.containsKey(NODETYPE_PARAM)) {
-				// TODO, Not implemented yet.
-				// reportingLogic = null;
-
-				// final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
-				// LibraryPackage.Literals.NODE_TYPE);
-				// reportingLogic =
-				// LogicActivator.getInstance().getInjector()
-				// .getInstance(NodeResourceMonitoringLogic.class);
-				// ((NodeResourceMonitoringLogic)
-				// reportingLogic).setNodeType(id);
+				 id = getCDOID(parameters.get(NODETYPE_PARAM),LibraryPackage.Literals.NODE_TYPE);
+				 NodeResourceReportingLogic reportingLogic = LogicActivator
+							.getInstance().getInjector()
+							.getInstance(NodeResourceReportingLogic.class);
+					final CDOID finalID = id != null ? id : null;
+					runForNodeOrNodeType(monitor, finalID, reportingLogic);
 			} else {
 				throw new IllegalArgumentException("No valid parameters found");
 			}
@@ -138,6 +135,7 @@ public class ReportingService implements NetxForgeService {
 						// do nothing, ignore
 					}
 
+					URI path = null;
 					for (final BaseLogic reportingLogic : logos) {
 
 						reportingLogic.setJobMonitor(monitor);
@@ -148,18 +146,63 @@ public class ReportingService implements NetxForgeService {
 
 						// Set Operator specific.
 						if (reportingLogic instanceof OperatorReportingLogic) {
+							if (path == null) {
+								path = ((OperatorReportingLogic) reportingLogic)
+										.folderURI();
+							}
 							Service service = (Service) reportingLogic
 									.getDataProvider().getTransaction()
 									.getObject(finalID);
 							((OperatorReportingLogic) reportingLogic)
 									.setServices(Lists.newArrayList(service));
 							((OperatorReportingLogic) reportingLogic)
-									.initializeStream();
+									.initializeStream(path);
 						}
 
 						reportingLogic.run();
 
 					}
+				};
+			}.start();
+		}
+
+		private void runForNodeOrNodeType(final ServerWorkFlowRunMonitor monitor,
+				final CDOID finalID,
+				final NodeResourceReportingLogic reportingLogic) {
+			// run in a separate thread
+			new Thread() {
+				@Override
+				public void run() {
+					// sleep to give the system
+					// time to return
+					try {
+						sleep(100);
+					} catch (final Exception e) {
+						// do nothing, ignore
+					}
+
+					URI path = null;
+
+					reportingLogic.setJobMonitor(monitor);
+					if (reportingLogic instanceof BasePeriodLogic) {
+						setPeriod(reportingLogic);
+					}
+					
+					CDOObject o = reportingLogic
+							.getDataProvider().getTransaction()
+							.getObject(finalID);
+					
+					if( o instanceof Node){
+						List<Node> nodes = Lists.newArrayList((Node)o);
+						reportingLogic.setNodes(nodes);
+					}
+
+					// Set Operator specific.
+					if (path == null) {
+						path = reportingLogic.folderURI();
+					}
+					reportingLogic.initializeStream(path);
+					reportingLogic.run();
 				};
 			}.start();
 		}
@@ -177,7 +220,7 @@ public class ReportingService implements NetxForgeService {
 					} catch (final Exception e) {
 						// do nothing, ignore
 					}
-
+					URI path = null;
 					for (final BaseLogic reportingLogic : logos) {
 
 						reportingLogic.setJobMonitor(monitor);
@@ -188,6 +231,10 @@ public class ReportingService implements NetxForgeService {
 
 						// Set Operator specific.
 						if (reportingLogic instanceof OperatorReportingLogic) {
+							if (path == null) {
+								path = ((OperatorReportingLogic) reportingLogic)
+										.folderURI();
+							}
 
 							Operator operator = (Operator) reportingLogic
 									.getDataProvider().getTransaction()
@@ -195,7 +242,7 @@ public class ReportingService implements NetxForgeService {
 							((OperatorReportingLogic) reportingLogic)
 									.setServices(operator.getServices());
 							((OperatorReportingLogic) reportingLogic)
-									.initializeStream();
+									.initializeStream(path);
 						}
 						reportingLogic.run();
 					}
@@ -203,22 +250,19 @@ public class ReportingService implements NetxForgeService {
 			}.start();
 		}
 
-		
 		private void setPeriod(final BaseLogic reportingLogic) {
 			Date start = getStartTime(parameters);
 			Date end = getEndTime(parameters);
-			((BasePeriodLogic) reportingLogic)
-					.setStartTime(start);
+			((BasePeriodLogic) reportingLogic).setStartTime(start);
 			((BasePeriodLogic) reportingLogic).setEndTime(end);
 		};
-		
+
 		/*
 		 * 
 		 * Possibly extract to a more generic place.
 		 * 
 		 * @return
 		 */
-		
 
 		private Date getStartTime(Map<String, String> parameters) {
 			final XMLGregorianCalendar xmlDate = XMLTypeFactory.eINSTANCE
@@ -267,7 +311,7 @@ public class ReportingService implements NetxForgeService {
 		}
 
 	}
-	
+
 	public static List<OperatorReportingLogic> getOperatorReportingLogos() {
 		List<OperatorReportingLogic> logos = Lists.newArrayList();
 

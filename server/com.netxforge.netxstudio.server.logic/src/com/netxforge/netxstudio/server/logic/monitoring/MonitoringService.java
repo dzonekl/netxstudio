@@ -38,8 +38,10 @@ import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.server.Server;
+import com.netxforge.netxstudio.server.ServerActivator;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.server.logic.profile.RFSServiceProfileLogic;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -73,27 +75,38 @@ public class MonitoringService implements NetxForgeService {
 		private CDOID run() {
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
 			final BaseMonitoringLogic monitoringLogic;
+			final RFSServiceProfileLogic resourceProfileLogic;
 			
 			// TODO Also for Operator monitoring all services? 
-			
 			if (parameters.containsKey(SERVICE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
 						ServicesPackage.Literals.RFS_SERVICE);
 				monitoringLogic = LogicActivator.getInstance().getInjector()
 						.getInstance(RFSServiceMonitoringLogic.class);
 				((RFSServiceMonitoringLogic) monitoringLogic).setRfsService(id);
+				
+				resourceProfileLogic = ServerActivator.getInstance()
+						.getInjector().getInstance(RFSServiceProfileLogic.class);
+				resourceProfileLogic.setRfsService(id);
+				resourceProfileLogic.setJobMonitor(monitor);
+				resourceProfileLogic.initializeProfileLogic();
+				resourceProfileLogic.setStartTime(getStartTime(parameters));
+				resourceProfileLogic.setEndTime(getEndTime(parameters));
+				
 			} else if (parameters.containsKey(NODE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(NODE_PARAM),
 						OperatorsPackage.Literals.NODE);
 				monitoringLogic = LogicActivator.getInstance().getInjector()
 						.getInstance(NodeMonitoringLogic.class);
 				((NodeMonitoringLogic) monitoringLogic).setNode(id);
+				resourceProfileLogic = null;
 			} else if (parameters.containsKey(NODETYPE_PARAM)) {
 				final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
 						LibraryPackage.Literals.NODE_TYPE);
 				monitoringLogic = LogicActivator.getInstance().getInjector()
 						.getInstance(NodeMonitoringLogic.class);
 				((NodeMonitoringLogic) monitoringLogic).setNodeType(id);
+				resourceProfileLogic = null;
 			} else {
 				throw new IllegalArgumentException("No valid parameters found");
 			}
@@ -101,11 +114,9 @@ public class MonitoringService implements NetxForgeService {
 			monitoringLogic.setStartTime(getStartTime(parameters));
 			monitoringLogic.setEndTime(getEndTime(parameters));
 			
-			
 			// Set the monitor for specific logic. 
 			if(monitoringLogic instanceof RFSServiceMonitoringLogic){
 				((RFSServiceMonitoringLogic) monitoringLogic).initServiceMonitor(monitoringLogic.getPeriod());
-				
 			}
 			
 			// run in a separate thread
@@ -120,6 +131,9 @@ public class MonitoringService implements NetxForgeService {
 						// do nothing, ignore
 					}
 					monitoringLogic.run();
+					if( resourceProfileLogic != null){
+						resourceProfileLogic.run();
+					}
 				};
 			}.start();
 			return monitor.getWorkFlowRunId();

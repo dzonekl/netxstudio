@@ -105,6 +105,12 @@ public class ServerRequest {
 				cdoObject.cdoID(), fromDate, toDate);
 	}
 
+	public String callNodeReportingAction(CDOObject cdoObject, Date fromDate,
+			Date toDate) throws Exception {
+		return callPeriodAction(REPORTING_SERVICE, NODE_PARAM,
+				cdoObject.cdoID(), fromDate, toDate);
+	}
+	
 	public String callOperatorReportingAction(CDOObject cdoObject, Date fromDate,
 			Date toDate) throws Exception {
 		return callPeriodAction(REPORTING_SERVICE, OPERATOR_PARAM,

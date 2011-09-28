@@ -171,7 +171,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 			}
 
 			public void linkActivated(HyperlinkEvent e) {
-				NewEditServiceProfileResource resourceScreen = new NewEditServiceProfileResource(
+				NewEditDerivedResource resourceScreen = new NewEditDerivedResource(
 						screenService.getScreenContainer(), SWT.NONE);
 				resourceScreen.setOperation(Screens.OPERATION_NEW);
 				resourceScreen.setScreenService(screenService);
@@ -213,7 +213,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 				if (s instanceof IStructuredSelection) {
 					Object object = ((IStructuredSelection) s)
 							.getFirstElement();
-					NewEditServiceProfileResource editResourceScreen = new NewEditServiceProfileResource(
+					NewEditDerivedResource editResourceScreen = new NewEditDerivedResource(
 							screenService.getScreenContainer(), SWT.NONE);
 					editResourceScreen.setScreenService(screenService);
 					editResourceScreen.setOperation(getOperation());

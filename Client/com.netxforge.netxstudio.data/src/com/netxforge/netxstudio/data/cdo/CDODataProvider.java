@@ -100,10 +100,18 @@ public abstract class CDODataProvider implements IDataProvider {
 
 	public void openSession(String uid, String passwd, String server)
 			throws SecurityException {
+		this.openSession(uid, passwd, server, false);
+	}
+
+	public void openSession(String uid, String passwd, String server,
+			boolean reset) throws SecurityException {
 
 		if (connection.getConfig() == null) {
 			connection.initialize(server);
+		} else if (reset) {
+			connection.initialize(server);
 		}
+
 		connection.getConfig().setSignalTimeout(SIGNAL_TIME_OUT);
 
 		// Session Config and Sessions go hand in hand.

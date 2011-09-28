@@ -59,7 +59,7 @@ public class RetentionLogic extends BaseComponentLogic {
 		if (rfsService != null) {
 			// first go through the leave nodes
 			for (final Node node : rfsService.getNodes()) {
-				if (getModelUtils().isValidNode(node)) {
+				if (getModelUtils().isInService(node)) {
 					nodeTypes.add(node.getNodeType());
 				}
 			}

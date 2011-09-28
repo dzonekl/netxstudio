@@ -264,7 +264,7 @@ public class NewEditResource extends AbstractScreen implements
 		// if( netxResource.getComponentRef() != null && (node =
 		// modelUtils.resolveParentNode(netxResource.getComponentRef())) !=
 		// null) {
-		buildValuesUI();
+		
 		// }
 	}
 
@@ -668,6 +668,7 @@ public class NewEditResource extends AbstractScreen implements
 		}
 
 		buildUI();
+		buildValuesUI();
 		this.initDataBindings_();
 	}
 

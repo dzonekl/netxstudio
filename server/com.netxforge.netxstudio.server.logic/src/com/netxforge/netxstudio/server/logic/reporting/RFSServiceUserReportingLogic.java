@@ -3,8 +3,10 @@ package com.netxforge.netxstudio.server.logic.reporting;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.CreationHelper;
 
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.Value;
@@ -69,29 +71,36 @@ public class RFSServiceUserReportingLogic extends OperatorReportingLogic {
 			int resourceIndex = newRow + 1;
 			for (DerivedResource dr : serviceUser.getServiceProfile()
 					.getProfileResources()) {
-				HSSFRow resourceRow = sheet.createRow(resourceIndex);
-				resourceIndex += 2;
+				HSSFRow resourceRow = sheet.createRow(resourceIndex++);
 				HSSFCell resourceCell = resourceRow
 						.createCell(SERVICEUSER_COLUMN + 1);
 				resourceCell.setCellValue(dr.getLongName());
-
-				List<Value> range = getModelUtils().sortByTimeStampAndReverse(
+				
+				List<Value> range = getModelUtils().sortValuesByTimeStamp(
 						dr.getValues());
-
 				range = getModelUtils().filterValueInRange(range,
 						this.getPeriod());
 
+				CreationHelper createHelper = this.getWorkBook().getCreationHelper();
+				HSSFCellStyle cellStyle = this.getWorkBook().createCellStyle();
+				cellStyle.setDataFormat(createHelper.createDataFormat().getFormat(
+						"m-d-yy h:mm"));
+				
+				HSSFRow tsRow = sheet.createRow(resourceIndex++);
+				HSSFRow valueRow = sheet.createRow(resourceIndex++);
+				
 				// Write the values.
-				int valueIndex = SERVICEUSER_COLUMN + 2;
+				int valueIndex = SERVICEUSER_COLUMN + 3;
 
 				for (Value v : range) {
 
-					HSSFCell tsCell = resourceRow.createCell(valueIndex);
+					HSSFCell tsCell = tsRow.createCell(valueIndex);
 					tsCell.setCellValue(getModelUtils().fromXMLDate(
 							v.getTimeStamp()));
-
+					tsCell.setCellStyle(cellStyle);
+					
 					// TODO, Perhaps some formatting for a double.
-					HSSFCell valueCell = resourceRow.createCell(valueIndex++);
+					HSSFCell valueCell = valueRow.createCell(valueIndex++);
 					valueCell.setCellValue(v.getValue());
 
 				}
@@ -103,4 +112,10 @@ public class RFSServiceUserReportingLogic extends OperatorReportingLogic {
 	protected void writeContent(HSSFSheet sheet, Component component) {
 	}
 
+	protected void processServiceUser(Service service, HSSFSheet sheet) {
+		int rowIndex = 0;
+		for (ServiceUser su : service.getServiceUserRefs()) {
+			this.writeContent(sheet, service, su, rowIndex++, -1);
+		}
+	}
 }

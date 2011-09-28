@@ -20,11 +20,13 @@ package com.netxforge.netxstudio.server.logic.profile;
 
 import java.util.List;
 
+import org.eclipse.emf.cdo.common.id.CDOID;
+
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.Failure;
-import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.server.logic.BasePeriodLogic;
 import com.netxforge.netxstudio.server.logic.LogicActivator;
+import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceUser;
 
 /**
@@ -35,7 +37,9 @@ import com.netxforge.netxstudio.services.ServiceUser;
 public abstract class BaseProfileLogic extends BasePeriodLogic {
 
 	private ProfileEngine engine;
-
+	
+	private RFSService rfsService;
+	
 	@Override
 	protected ProfileEngine getEngine() {
 		if (engine == null) {
@@ -45,21 +49,21 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 		return engine;
 	}
 
-	public void run() {
-		try {
-			doRun();
-			if (getFailures().isEmpty()) {
-				this.getJobMonitor().setFinished(
-						JobRunState.FINISHED_SUCCESSFULLY, null);
-			} else {
-				this.getJobMonitor().setFinished(
-						JobRunState.FINISHED_WITH_ERROR, null);
-			}
-		} catch (final Throwable t) {
-			this.getJobMonitor()
-					.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
-		}
-	}
+//	public void run() {
+//		try {
+//			doRun();
+//			if (getFailures().isEmpty()) {
+//				this.getJobMonitor().setFinished(
+//						JobRunState.FINISHED_SUCCESSFULLY, null);
+//			} else {
+//				this.getJobMonitor().setFinished(
+//						JobRunState.FINISHED_WITH_ERROR, null);
+//			}
+//		} catch (final Throwable t) {
+//			this.getJobMonitor()
+//					.setFinished(JobRunState.FINISHED_WITH_ERROR, t);
+//		}
+//	}
 
 	protected void doRun() {
 		// start a transaction
@@ -67,7 +71,7 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 		final List<ServiceUser> serviceUsers = this.getServiceUsersToExecuteFor();
 
 		this.getJobMonitor().setTotalWork(serviceUsers.size());
-		this.getJobMonitor().setTask("Performing resource monitoring");
+		this.getJobMonitor().setTask("Performing service user profiling");
 
 		for (final ServiceUser su : serviceUsers) {
 
@@ -101,6 +105,7 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 		engine.setServiceUser(serviceUser);
 		engine.setDataProvider(this.getDataProvider());
 		engine.setPeriod(getPeriod());
+		engine.setService(this.getRfsService());
 		engine.execute();
 		if (engine.getFailures().size() > 0) {
 			for (final Failure failure : engine.getFailures()) {
@@ -110,6 +115,17 @@ public abstract class BaseProfileLogic extends BasePeriodLogic {
 				this.getFailures().add(failure);
 			}
 		}
+	}
+	
+
+	public RFSService getRfsService() {
+		return rfsService;
+	}
+
+	public void setRfsService(CDOID cdoId) {
+		// read the rfsservice in the transaction of the run
+		this.rfsService = (RFSService) getDataProvider().getTransaction()
+				.getObject(cdoId);
 	}
 	
 }

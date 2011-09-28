@@ -18,6 +18,8 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.server.logic.reporting;
 
+import org.eclipse.emf.common.util.URI;
+
 import com.netxforge.netxstudio.scheduling.ComponentWorkFlowRun;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
@@ -37,8 +39,9 @@ public class OperatorReportingJobImplementation extends JobImplementation {
 
 	@Override
 	public void run() {
-		final OperatorReporterJob reporterJob = (OperatorReporterJob) getJob();
 
+		URI folderURI = null;
+		final OperatorReporterJob reporterJob = (OperatorReporterJob) getJob();
 		for (final BaseLogic reportingLogic : ReportingService
 				.getOperatorReportingLogos()) {
 
@@ -46,21 +49,28 @@ public class OperatorReportingJobImplementation extends JobImplementation {
 
 			if (reportingLogic instanceof BasePeriodLogic) {
 
-				// The period should be calculated, but which service to use as 
+				// The period should be calculated, but which service to use as
 				// the service monitor will vary for different periods.
-				// FIXME, We use the first service, there is no additional criteria to use here..
-				// SHOULD BE SETTING SOMEWHERE. 
-				if( reporterJob.getOperator().getServices().size() > 0) {
-					((BasePeriodLogic) reportingLogic).calculatePeriod(reporterJob.getOperator().getServices().get(0));
+				// FIXME, We use the first service, there is no additional
+				// criteria to use here..
+				// SHOULD BE SETTING SOMEWHERE.
+				if (reporterJob.getOperator().getServices().size() > 0) {
+					((BasePeriodLogic) reportingLogic)
+							.calculatePeriod(reporterJob.getOperator()
+									.getServices().get(0));
 				}
 			}
 
 			// Set Operator specific.
 			if (reportingLogic instanceof OperatorReportingLogic) {
-
+				if (folderURI == null) {
+					folderURI = ((OperatorReportingLogic) reportingLogic)
+							.folderURI();
+				}
 				((OperatorReportingLogic) reportingLogic)
 						.setServices(reporterJob.getOperator().getServices());
-				((OperatorReportingLogic) reportingLogic).initializeStream();
+				((OperatorReportingLogic) reportingLogic)
+						.initializeStream(folderURI);
 			}
 
 			reportingLogic.run();

@@ -29,6 +29,7 @@ import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MetricSource;
+import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.services.Service;
 
@@ -77,6 +78,14 @@ public interface IQueryService {
 	 * @return
 	 */
 	public List<Job> getJobWithServiceReporting(Service service);
+	
+	
+	/**
+	 * Get a list o reporting job for a specified operator.
+	 * @param operator
+	 * @return
+	 */
+	public List<Job> getJobWithOperatorReporting(Operator operator);
 	
 	/**
 	 * Get the metric values for a period from a resource. 

@@ -20,16 +20,13 @@ public class SimpleCDONameProvider extends SimpleNameProvider {
 		
 		String name = null;
 
-		// TODO, a Nodetype should be identifiable by it's first function name.
 		if (obj instanceof Equipment) {
 				name = ((Equipment)obj).getEquipmentCode();
 		}
 
 		if (obj instanceof NodeType) {
 			final NodeType nt = (NodeType) obj;
-			if (nt.getFunctions().size() > 0) {
-				name = nt.getFunctions().get(0).getName();
-			}
+			name = nt.getName();
 		}
 
 		if (obj instanceof BaseResource) {

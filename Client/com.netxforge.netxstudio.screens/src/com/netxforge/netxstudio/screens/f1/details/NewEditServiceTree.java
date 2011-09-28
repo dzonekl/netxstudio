@@ -64,6 +64,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f1.ServiceDistributionScreen;
+import com.netxforge.netxstudio.screens.f1.ServiceHierarchy;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceMonitor;
@@ -455,6 +456,34 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 		formToolkit.paintBordersFor(sctnHiarchy);
 		sctnHiarchy.setText("Hierarchy");
 
+		Composite hierarchyComposite = formToolkit.createComposite(sctnHiarchy,
+				SWT.NONE);
+		formToolkit.paintBordersFor(hierarchyComposite);
+		sctnHiarchy.setClient(hierarchyComposite);
+		hierarchyComposite.setLayout(new GridLayout(1, false));
+
+		ImageHyperlink mghprlnkShowHiararchy = formToolkit
+				.createImageHyperlink(hierarchyComposite, SWT.NONE);
+		mghprlnkShowHiararchy.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+
+				ServiceHierarchy sh = new ServiceHierarchy(screenService
+						.getScreenContainer(), SWT.NONE);
+				sh.setScreenService(screenService);
+				sh.setOperation(Screens.OPERATION_READ_ONLY);
+				sh.injectData(null, service);
+				screenService.setActiveScreen(sh);
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		formToolkit.paintBordersFor(mghprlnkShowHiararchy);
+		mghprlnkShowHiararchy.setText("Show Hierarchy");
+
 		Section sctnDistribution = formToolkit.createSection(this,
 				Section.TWISTIE | Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnDistribution);
@@ -598,34 +627,32 @@ public class NewEditServiceTree extends AbstractDetailsScreen implements
 
 		EMFDataBindingContext context = new EMFDataBindingContext();
 
-		RFSServiceSummary summary = new RFSServiceSummary(service);
-
-		// TODO, It would be nice to make it interactive and be able to browse
-		// the Service Monitors!
 		ServiceMonitor sm = modelUtils.lastServiceMonitor(service);
+
 		if (sm != null) {
-			summary.setRagCountResources(modelUtils.ragCountResources(sm));
-			summary.setPeriodFormattedString(modelUtils
-					.formatLastMonitorDate(sm));
+			RFSServiceSummary summary = modelUtils.serviceSummaryForService(
+					service, sm.getPeriod());
+
+			formTextLastMonitor.setText(summary.getPeriodFormattedString(),
+					false, false);
+			formTextNumberOfNodes.setText(
+					new Integer(summary.getNodeCount()).toString(), false,
+					false);
+			formTextNumberOfResources.setText(
+					new Integer(summary.getResourcesCount()).toString(), false,
+					false);
+
+			formTextRed.setText(
+					new Integer(summary.getRedCountResources()).toString(),
+					false, false);
+			formTextAmber.setText(
+					new Integer(summary.getAmberCountResources()).toString(),
+					false, false);
+			formTextGreen.setText(
+					new Integer(summary.getGreenCountResources()).toString(),
+					false, false);
 		}
-
-		formTextLastMonitor.setText(summary.getPeriodFormattedString(), false,
-				false);
-		formTextNumberOfNodes.setText(
-				new Integer(summary.getNodeCount()).toString(), false, false);
-		formTextNumberOfResources.setText(
-				new Integer(summary.getResourcesCount()).toString(), false,
-				false);
-
-		formTextRed.setText(new Integer(summary.getRedCountResources()).toString(),
-				false, false);
-		formTextAmber.setText(
-				new Integer(summary.getAmberCountResources()).toString(), false,
-				false);
-		formTextGreen.setText(
-				new Integer(summary.getGreenCountResources()).toString(), false,
-				false);
-
+		
 		bindInfoSection(context);
 		bindNetworkElementSection();
 		bindServiceUserSection();

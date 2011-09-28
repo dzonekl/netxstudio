@@ -25,6 +25,7 @@ import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
+import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceUser;
 
 /**
@@ -34,16 +35,18 @@ import com.netxforge.netxstudio.services.ServiceUser;
  * Expression should calculate for all resources of the ServiceUser profile.
  * 
  * 
- * @author Martin Taal
+ * @author Christophe Bouhier
  */
 public class ProfileEngine extends BaseExpressionEngine {
 
 	private ServiceUser serviceUser;
+	private RFSService service;
 
 	@Override
 	public void doExecute() {
 		getExpressionEngine().getContext().clear();
 		getExpressionEngine().getContext().add(getPeriod());
+		getExpressionEngine().getContext().add(getService());
 		System.err.println("Executing engine for" + serviceUser.getName());
 		getExpressionEngine().getContext().add(this.getServiceUser());
 		setEngineContextInfo("DerivedResource: " + serviceUser.getName()
@@ -75,4 +78,16 @@ public class ProfileEngine extends BaseExpressionEngine {
 		this.getCommonLogic().processServiceProfileResult(currentContext,
 				expressionResults, start, end);
 	}
+
+	public RFSService getService() {
+		return service;
+	}
+
+	public void setService(RFSService service) {
+		this.service = service;
+	}
+	
+	
+	
+	
 }

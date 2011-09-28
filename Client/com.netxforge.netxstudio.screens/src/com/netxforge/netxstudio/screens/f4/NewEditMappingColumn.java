@@ -140,9 +140,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		toolkit.paintBordersFor(this);
 
 		// Remove when runtime,.
-		// buildUI();
-		// buildHeaderMappingOptions(cmpColumnMapping);
-		// buildDataMappingOptions(cmpColumnMapping);
+//		 buildUI();
+//		 buildHeaderMappingOptions(cmpColumnMapping);
+//		 buildDataMappingOptions(cmpColumnMapping);
 	}
 
 	private void buildUI() {
@@ -236,7 +236,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 
 		txtMetricValuePattern = toolkit.createText(cmpColumnMapping,
 				"New Text", SWT.NONE);
-		txtMetricValuePattern.setLayoutData(new GridData(SWT.LEFT, SWT.TOP,
+		txtMetricValuePattern.setLayoutData(new GridData(SWT.FILL, SWT.TOP,
 				false, false, 1, 1));
 		txtMetricValuePattern.setText("");
 
@@ -290,7 +290,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		cmbDateTimePattern = new Combo(parent, SWT.NONE);
 		GridData gd_cmbDateTimePattern = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
-		gd_cmbDateTimePattern.widthHint = 150;
+		gd_cmbDateTimePattern.widthHint = 200;
 		cmbDateTimePattern.setLayoutData(gd_cmbDateTimePattern);
 		toolkit.adapt(cmbDateTimePattern);
 		toolkit.paintBordersFor(cmbDateTimePattern);
@@ -306,9 +306,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		new Label(parent, SWT.NONE);
 
 		cmbDatePattern = new Combo(parent, SWT.NONE);
-		GridData gd_cmbDatePattern = new GridData(SWT.LEFT, SWT.CENTER, false,
+		GridData gd_cmbDatePattern = new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1);
-		gd_cmbDatePattern.widthHint = 100;
+		gd_cmbDatePattern.widthHint = 150;
 		cmbDatePattern.setLayoutData(gd_cmbDatePattern);
 		cmbDatePattern.setText("");
 		toolkit.adapt(cmbDatePattern);
@@ -323,9 +323,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		new Label(parent, SWT.NONE);
 
 		cmbTimePattern = new Combo(parent, SWT.NONE);
-		GridData gd_cmbTimePattern = new GridData(SWT.LEFT, SWT.CENTER, false,
+		GridData gd_cmbTimePattern = new GridData(SWT.FILL, SWT.CENTER, false,
 				false, 1, 1);
-		gd_cmbTimePattern.widthHint = 100;
+		gd_cmbTimePattern.widthHint = 150;
 		cmbTimePattern.setLayoutData(gd_cmbTimePattern);
 		toolkit.adapt(cmbTimePattern);
 		toolkit.paintBordersFor(cmbTimePattern);
@@ -337,6 +337,9 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		new Label(parent, SWT.NONE);
 
 		txtIdentifierPattern = toolkit.createText(parent, "New Text", SWT.NONE);
+		GridData gd_txtIdentifierPattern = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_txtIdentifierPattern.widthHint = 100;
+		txtIdentifierPattern.setLayoutData(gd_txtIdentifierPattern);
 		txtIdentifierPattern.setText("");
 
 		Hyperlink hprlnkSelectIdentifier = toolkit.createHyperlink(parent,

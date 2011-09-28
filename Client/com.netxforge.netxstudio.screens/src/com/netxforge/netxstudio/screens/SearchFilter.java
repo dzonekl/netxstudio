@@ -10,6 +10,13 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
+
+/**
+ * The matching text, will be from the ItemProvider of the EObject.
+ * Notice: Make sure the type name is not returned from the ItemProvider. 
+ * @author dzonekl
+ *
+ */
 public class SearchFilter extends ViewerFilter {
 
 	IEditingService editingService;

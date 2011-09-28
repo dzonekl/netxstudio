@@ -408,22 +408,13 @@ public interface OperatorsPackage extends EPackage {
 	int MARKER__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Component Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MARKER__COMPONENT_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Value Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__VALUE_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int MARKER__VALUE_REF = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Marker Resource Ref</b></em>' reference.
@@ -432,7 +423,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__MARKER_RESOURCE_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int MARKER__MARKER_RESOURCE_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -441,7 +432,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int MARKER__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -450,7 +441,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER__KIND = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int MARKER__KIND = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Marker</em>' class.
@@ -459,7 +450,7 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 5;
+	int MARKER_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.operators.impl.NetworkImpl <em>Network</em>}' class.
@@ -964,15 +955,6 @@ public interface OperatorsPackage extends EPackage {
 	int TOLERANCE_MARKER__DELETED = MARKER__DELETED;
 
 	/**
-	 * The feature id for the '<em><b>Component Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TOLERANCE_MARKER__COMPONENT_REF = MARKER__COMPONENT_REF;
-
-	/**
 	 * The feature id for the '<em><b>Value Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1214,17 +1196,6 @@ public interface OperatorsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getMarker();
-
-	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Marker#getComponentRef <em>Component Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Component Ref</em>'.
-	 * @see com.netxforge.netxstudio.operators.Marker#getComponentRef()
-	 * @see #getMarker()
-	 * @generated
-	 */
-	EReference getMarker_ComponentRef();
 
 	/**
 	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.operators.Marker#getValueRef <em>Value Ref</em>}'.
@@ -1916,14 +1887,6 @@ public interface OperatorsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass MARKER = eINSTANCE.getMarker();
-
-		/**
-		 * The meta object literal for the '<em><b>Component Ref</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MARKER__COMPONENT_REF = eINSTANCE.getMarker_ComponentRef();
 
 		/**
 		 * The meta object literal for the '<em><b>Value Ref</b></em>' reference feature.

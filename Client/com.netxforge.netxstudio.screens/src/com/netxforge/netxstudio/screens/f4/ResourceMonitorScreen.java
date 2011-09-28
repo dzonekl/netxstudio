@@ -38,7 +38,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.Form;
-import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.swtchart.Chart;
@@ -70,6 +69,8 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 	private NetXResource netXResource;
 	private DateTimeRange dtr;
 	private TableViewer markersTableViewer;
+	private DateChooserCombo dccFrom;
+	private DateChooserCombo dccTo;
 
 	public ResourceMonitorScreen(Composite parent, int style) {
 		super(parent, style);
@@ -96,25 +97,25 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 		frmFunction.getBody().setLayout(new FormLayout());
 
-		FormText formText = toolkit
-				.createFormText(frmFunction.getBody(), false);
-		FormData fd_formText = new FormData();
-		fd_formText.bottom = new FormAttachment(0, 50);
-		fd_formText.right = new FormAttachment(100, -12);
-		fd_formText.top = new FormAttachment(0, 12);
-		fd_formText.left = new FormAttachment(0, 12);
-		formText.setLayoutData(fd_formText);
-		toolkit.paintBordersFor(formText);
-		formText.setText(
-				"<form><p>A Resource Monitor maps, capacity with utilization from metrics, and applies markers where needed.</p></form>",
-				true, false);
+//		FormText formText = toolkit
+//				.createFormText(frmFunction.getBody(), false);
+//		FormData fd_formText = new FormData();
+//		fd_formText.bottom = new FormAttachment(0, 50);
+//		fd_formText.right = new FormAttachment(100, -12);
+//		fd_formText.top = new FormAttachment(0, 12);
+//		fd_formText.left = new FormAttachment(0, 12);
+//		formText.setLayoutData(fd_formText);
+//		toolkit.paintBordersFor(formText);
+//		formText.setText(
+//				"<form><p>A Resource Monitor maps, capacity with utilization from metrics, and applies markers where needed.</p></form>",
+//				true, false);
 
 		Section sctnPeriod = toolkit.createSection(frmFunction.getBody(),
 				Section.EXPANDED | Section.TREE_NODE | Section.TITLE_BAR);
 		FormData fd_sctnPeriod = new FormData();
 		fd_sctnPeriod.bottom = new FormAttachment(100, -165);
 		fd_sctnPeriod.right = new FormAttachment(100, -12);
-		fd_sctnPeriod.top = new FormAttachment(formText, 12);
+		fd_sctnPeriod.top = new FormAttachment(0, 12);
 		fd_sctnPeriod.left = new FormAttachment(0, 12);
 		sctnPeriod.setLayoutData(fd_sctnPeriod);
 		toolkit.paintBordersFor(sctnPeriod);
@@ -128,15 +129,15 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		@SuppressWarnings("unused")
 		Label lblFromDate = toolkit.createLabel(composite_2, "From:", SWT.NONE);
 
-		DateChooserCombo dateChooserCombo = new DateChooserCombo(composite_2,
-				SWT.BORDER | SWT.FLAT);
-		dateChooserCombo.setWeeksVisible(true);
+		dccFrom = new DateChooserCombo(composite_2,
+				SWT.BORDER | SWT.FLAT | SWT.READ_ONLY);
+		dccFrom.setWeeksVisible(true);
 		GridData gd_dateChooserCombo = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
 		gd_dateChooserCombo.heightHint = 19;
-		dateChooserCombo.setLayoutData(gd_dateChooserCombo);
-		toolkit.adapt(dateChooserCombo);
-		toolkit.paintBordersFor(dateChooserCombo);
+		dccFrom.setLayoutData(gd_dateChooserCombo);
+		toolkit.adapt(dccFrom);
+		toolkit.paintBordersFor(dccFrom);
 
 		Composite compositeScrollStick = toolkit.createComposite(composite_2,
 				SWT.NO_BACKGROUND);
@@ -199,15 +200,16 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		lblToDate.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
 				false, 1, 1));
 
-		DateChooserCombo dateChooserCombo_1 = new DateChooserCombo(composite_2,
-				SWT.BORDER | SWT.FLAT);
-		dateChooserCombo_1.setWeeksVisible(true);
+		dccTo = new DateChooserCombo(composite_2,
+				SWT.BORDER | SWT.FLAT | SWT.READ_ONLY);
+		dccTo.setWeeksVisible(true);
 		GridData gd_dateChooserCombo_1 = new GridData(SWT.LEFT, SWT.CENTER,
 				false, false, 1, 1);
 		gd_dateChooserCombo_1.heightHint = 19;
-		dateChooserCombo_1.setLayoutData(gd_dateChooserCombo_1);
-		toolkit.adapt(dateChooserCombo_1);
-		toolkit.paintBordersFor(dateChooserCombo_1);
+		dccTo.setLayoutData(gd_dateChooserCombo_1);
+		
+		toolkit.adapt(dccTo);
+		toolkit.paintBordersFor(dccTo);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
@@ -288,6 +290,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 		Section sctnMarkers = toolkit.createSection(frmFunction.getBody(),
 				Section.TREE_NODE | Section.TITLE_BAR);
+		
 		FormData fd_sctnMarkers = new FormData();
 		fd_sctnMarkers.top = new FormAttachment(sctnPeriod, 12);
 		fd_sctnMarkers.bottom = new FormAttachment(100, -12);
@@ -322,7 +325,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				markersTableViewer, SWT.NONE);
 		TableColumn tblclmnDescription = tableViewerColumn_1.getColumn();
-		tblclmnDescription.setWidth(446);
+		tblclmnDescription.setWidth(200);
 		tblclmnDescription.setText("Description");
 
 //		TableItem tableItem = new TableItem(table, SWT.NONE);
@@ -334,7 +337,7 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(
 				markersTableViewer, SWT.NONE);
 		TableColumn tblclmnTimestamp = tableViewerColumn_3.getColumn();
-		tblclmnTimestamp.setWidth(100);
+		tblclmnTimestamp.setWidth(140);
 		tblclmnTimestamp.setText("TimeStamp");
 
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(
@@ -534,7 +537,12 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
-
+		
+		if(dtr != null){
+			dccFrom.setValue(modelUtils.start(dtr));
+			dccTo.setValue(modelUtils.end(dtr));
+		}
+		
 		initChartBinding();
 
 		if (resMonitor != null) {
@@ -638,7 +646,9 @@ public class ResourceMonitorScreen extends AbstractScreen implements
 				case 1:
 					return rm.getDescription();
 				case 2:
-					return modelUtils.dateAndTime(rm.getValueRef().getTimeStamp());
+					
+					return modelUtils.date(modelUtils.fromXMLDate(rm.getValueRef().getTimeStamp())) + "@" + 
+					 modelUtils.time(modelUtils.fromXMLDate(rm.getValueRef().getTimeStamp()));
 				case 3:
 					return new Double(rm.getValueRef().getValue()).toString();
 				case 4:

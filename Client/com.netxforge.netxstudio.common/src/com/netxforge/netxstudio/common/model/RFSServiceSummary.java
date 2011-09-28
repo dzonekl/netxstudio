@@ -49,6 +49,18 @@ public class RFSServiceSummary {
 		ragStatus[2] = status;
 	}
 
+	public boolean getRedStatus() {
+		return ragStatus[0];
+	}
+
+	public boolean getAmberStatus() {
+		return ragStatus[1];
+	}
+
+	public boolean getGreenStatus() {
+		return ragStatus[2];
+	}
+	
 	public int[] getRagCountNodes() {
 		return ragCountNodes;
 	}

@@ -263,7 +263,7 @@ public class TestDataCreator implements NetxForgeService {
 		serviceUserExpression = LibraryFactory.eINSTANCE.createExpression();
 		serviceUserExpression.setName("Mobile Internet User Expression");
 
-		final String eAsString = "this.PROFILE -> RESOURCE mob_internet_user DERIVED = NODETYPE SGSN .FUNCTION YPSGSN3 -> RESOURCE Gb_mode_max_attached_users_number_ METRIC 60.sum();";
+		final String eAsString = "this.PROFILE -> RESOURCE mob_internet_user DERIVED = NODETYPE YPSGSN3 .FUNCTION YPSGSN3 -> RESOURCE Gb_mode_max_attached_users_number_ METRIC BH 60 .max();";
 		serviceUserExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(serviceUserExpression);
@@ -455,7 +455,7 @@ public class TestDataCreator implements NetxForgeService {
 		// This returns an expressionresult with a list of values dividing the
 		// metrics values by the capacity values.
 		// The Timestamp of the result is not set at the moment.
-		final String eAsString = "this UTILIZATION 60 = this METRIC 60 / this CAP 60;";
+		final String eAsString = "this UTILIZATION = this METRIC BH 60 / this CAP;";
 		utilizationExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(utilizationExpression);
@@ -479,7 +479,7 @@ public class TestDataCreator implements NetxForgeService {
 		// expression name of the resource.
 		// Note II: The expression result, will return a single value, which
 		// should be populated accross the whole period context.
-		final String eAsString = "this.FUNCTION YPSGSN3 -> RESOURCE Gb_mode_max_attached_users_number_ CAP 60 = this.EQUIPMENT BOARD.count() * 5;";
+		final String eAsString = "this.FUNCTION YPSGSN3 -> RESOURCE Gb_mode_max_attached_users_number_ CAP 60 = this.EQUIPMENT BOARD.count() * 8000;";
 		capacityExpression.getExpressionLines().addAll(
 				getExpressionLines(eAsString));
 		addToResource(capacityExpression);
@@ -494,7 +494,7 @@ public class TestDataCreator implements NetxForgeService {
 	}
 
 	private void setXLSMapping(MappingXLS mappingXLS) {
-		mappingXLS.setFirstDataRow(11);
+		mappingXLS.setFirstDataRow(10);
 		mappingXLS.setHeaderRow(0);
 		mappingXLS.setSheetNumber(0);
 
@@ -502,7 +502,7 @@ public class TestDataCreator implements NetxForgeService {
 				ValueKindType.DATETIME);
 		mappingXLS.getDataMappingColumns().add(dateColumn);
 		((ValueDataKind) dateColumn.getDataType())
-				.setFormat("MM/dd/yyyy hh:mm:ss");
+				.setFormat("MM-dd-yyyy HH:mm:ss");
 
 		mappingXLS.getDataMappingColumns().add(
 				createValueColumn("Period", 1, ValueKindType.INTERVAL));
@@ -787,7 +787,7 @@ public class TestDataCreator implements NetxForgeService {
 			// you could use the result set of the last scope (this is what the
 			// evaluation returns).
 
-			final String eAsString = "this.STATUS -> RED.count() > 5;";
+			final String eAsString = "this.STATUS -> RED.count() >= 2;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			addToResource(te);
 			t.setExpressionRef(te);
@@ -804,7 +804,7 @@ public class TestDataCreator implements NetxForgeService {
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			te.setName("Service Tolerance Amber");
 			// Context is a Node
-			final String eAsString = "this.STATUS -> AMBER.count() > 3;";
+			final String eAsString = "this.STATUS -> AMBER.count() > 1;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			addToResource(te);
 			t.setExpressionRef(te);
@@ -821,7 +821,7 @@ public class TestDataCreator implements NetxForgeService {
 			te.setName("Service Tolerance Green");
 			
 			// TODO, the expression for green should be relative to the number of nodes. 
-			final String eAsString = "this.STATUS -> GREEN.count() > 5;";
+			final String eAsString = "this.STATUS -> GREEN.count() >= 0;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 
 			addToResource(te);
@@ -838,7 +838,7 @@ public class TestDataCreator implements NetxForgeService {
 			final Expression te = LibraryFactory.eINSTANCE.createExpression();
 			te.setName("Service Tolerance Yellow");
 			// Context is a Node
-			final String eAsString = "this.STATUS -> YELLOW.count() > 5;";
+			final String eAsString = "this.STATUS -> YELLOW.count() = 5;";
 			te.getExpressionLines().addAll(getExpressionLines(eAsString));
 			this.addToResource(te);
 

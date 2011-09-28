@@ -55,7 +55,7 @@ public class AdminScreenSelector extends AbstractScreenSelector {
 		Composite result;
 		result = screenFormService.addScreenSelector("Users","icons/full/obj16/User_H.png", UsersAndRoles.class, 1, Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Jobs", "icons/full/obj16/Function_H.png",  Jobs.class, Screens.OPERATION_EDIT);
-		result = screenFormService.addScreenSelector(result, "Metric Sources", "icons/full/obj16/MetricSource_H.png",  MetricSources.class, Screens.OPERATION_EDIT);
+		result = screenFormService.addScreenSelector(result, "Metric Sources", "icons/full/obj16/Metricsource_H.png",  MetricSources.class, Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Value retention", "icons/full/obj16/Retention_H.png",  Retention.class, Screens.OPERATION_EDIT);
 		result = screenFormService.addScreenSelector(result, "Settings", "icons/full/obj16/Settings_H.png",  Settings.class, Screens.OPERATION_EDIT);
 	}

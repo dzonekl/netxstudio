@@ -27,7 +27,6 @@ public class RFSServiceDistributionReportingLogic extends OperatorReportingLogic
 
 	@Override
 	protected void writeContent(HSSFSheet sheet, NodeType nodeType) {
-		// TODO Auto-generated method stub
 	}
 
 	protected String calculateFileName() {
@@ -40,21 +39,22 @@ public class RFSServiceDistributionReportingLogic extends OperatorReportingLogic
 	@Override
 	protected void writeContent(HSSFSheet sheet, Service service, Node node,
 			int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void writeContent(HSSFSheet sheet, Service service,
 			ServiceUser serviceUser, int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void writeContent(HSSFSheet sheet, Component component) {
-		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	protected void processServiceUser(Service service, HSSFSheet sheet) {
 	}
 
 }

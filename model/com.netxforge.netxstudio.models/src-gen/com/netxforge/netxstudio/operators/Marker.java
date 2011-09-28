@@ -20,7 +20,6 @@ package com.netxforge.netxstudio.operators;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.Value;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 
 /**
@@ -38,7 +37,6 @@ import com.netxforge.netxstudio.library.NetXResource;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.operators.Marker#getComponentRef <em>Component Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Marker#getValueRef <em>Value Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Marker#getMarkerResourceRef <em>Marker Resource Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.Marker#getDescription <em>Description</em>}</li>
@@ -51,33 +49,6 @@ import com.netxforge.netxstudio.library.NetXResource;
  * @generated
  */
 public interface Marker extends Base {
-	/**
-	 * Returns the value of the '<em><b>Component Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The ComponentRef reference, references 0 or 1
-	 * 								Equipment/Function types.
-	 * 							
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Component Ref</em>' reference.
-	 * @see #setComponentRef(Component)
-	 * @see com.netxforge.netxstudio.operators.OperatorsPackage#getMarker_ComponentRef()
-	 * @model extendedMetaData="kind='element' name='ComponentRef'"
-	 * @generated
-	 */
-	Component getComponentRef();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.operators.Marker#getComponentRef <em>Component Ref</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Component Ref</em>' reference.
-	 * @see #getComponentRef()
-	 * @generated
-	 */
-	void setComponentRef(Component value);
-
 	/**
 	 * Returns the value of the '<em><b>Value Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->

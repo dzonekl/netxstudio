@@ -36,7 +36,12 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 						getModelUtils().fromXMLDate(dtr.getEnd())));
 		}
 	}
-
+	
+	
+	/**
+	 * Write each NodeType into a separate column, starting from the 
+	 * <code>NODETYPE_ROW</code>
+	 */
 	@Override
 	protected void writeContent(HSSFSheet sheet, NodeType nodeType) {
 
@@ -57,7 +62,10 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 			ntCell.setCellValue(nodeType.getName());
 		}
 	}
-
+	
+	/**
+	 * Write each Node per NodeType column, starting 
+	 */
 	@Override
 	protected void writeContent(HSSFSheet sheet, Service service, Node node, int row, int column) {
 
@@ -121,8 +129,10 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 
 		int ragColumn = nodeColumn + 2;
 		sheet.setColumnWidth(ragColumn, 2 * 256);
-		int[] rag = this.getModelUtils().ragCount(node,
-				getModelUtils().lastServiceMonitor(service));
+		
+		
+		
+		int[] rag = this.getModelUtils().ragCountResourcesForNode(service, node, this.getPeriod());
 
 		{
 			HSSFRow cellRow = sheet.getRow(newRow);
@@ -194,8 +204,15 @@ public class RFSServiceDashboardReportingLogic extends OperatorReportingLogic {
 
 	@Override
 	protected void writeContent(HSSFSheet sheet, Component component) {
-		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	protected void processServiceUser(Service service, HSSFSheet sheet) {
+	}
+	
+	@Override
+	protected void processNode(HSSFSheet sheet, NodeType nodeType) {
 	}
 
 }

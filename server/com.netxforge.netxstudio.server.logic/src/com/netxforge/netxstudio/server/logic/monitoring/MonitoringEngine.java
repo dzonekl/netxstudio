@@ -125,11 +125,9 @@ public class MonitoringEngine extends BaseComponentEngine {
 			}
 			System.err.println("Done tolerance expression(s) for resource: "
 					+ netXResource.getShortName());
-
-			// TODO Service distribution and service profile expressions.
-			// The profile information is in ServiceUsers/ Service Profile.
-
 		}
+		System.out.println("Done Monitoring for" + this.getComponent().getName());
+		
 	}
 
 	public ServiceMonitor getServiceMonitor() {

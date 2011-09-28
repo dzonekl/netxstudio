@@ -9,6 +9,7 @@ import com.netxforge.netxstudio.server.logic.monitoring.NodeMonitoringLogic;
 import com.netxforge.netxstudio.server.logic.monitoring.RFSServiceMonitoringJobImplementation;
 import com.netxforge.netxstudio.server.logic.monitoring.RFSServiceMonitoringLogic;
 import com.netxforge.netxstudio.server.logic.profile.ProfileEngine;
+import com.netxforge.netxstudio.server.logic.reporting.NodeResourceReportingLogic;
 import com.netxforge.netxstudio.server.logic.reporting.OperatorReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceDashboardReportingLogic;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceDistributionReportingLogic;
@@ -33,6 +34,7 @@ public class LogicModule extends AbstractModule {
 		this.bind(RFSServiceDashboardReportingLogic.class);
 		this.bind(RFSServiceDistributionReportingLogic.class);
 		this.bind(RFSServiceUserReportingLogic.class);
+		this.bind(NodeResourceReportingLogic.class);
 		
 		this.bind(RFSServiceReportingJobImplementation.class);
 		

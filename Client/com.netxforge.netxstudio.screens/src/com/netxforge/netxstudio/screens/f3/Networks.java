@@ -19,6 +19,7 @@
 package com.netxforge.netxstudio.screens.f3;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -27,6 +28,7 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -42,6 +44,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -72,6 +75,9 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
+import com.netxforge.netxstudio.data.actions.ServerRequest;
+import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
@@ -88,8 +94,10 @@ import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.Warehouse;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.OperatorFilterDialog;
+import com.netxforge.netxstudio.screens.PeriodDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.WarehouseFilterDialog;
+import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.actions.WizardUtil;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -119,6 +127,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	private TreeViewer networkTreeViewer;
 	private Composite cmpDetails;
 	private SashForm sashForm;
+
+	@Inject
+	ServerRequest serverActions;
 
 	/**
 	 * Create the composite.
@@ -280,11 +291,25 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 	@Override
 	public IAction[] getActions() {
 
-		return new IAction[] { new ExportHTMLAction("Export to HTML", SWT.PUSH),
-				new ExportXLSAction("Export to XLS", SWT.PUSH),new MoveToWarehouseAction("Decommission",
-				SWT.PUSH) , new HistoryAction("History...", SWT.PUSH) };
+		boolean readonly = Screens.isReadOnlyOperation(getOperation());
+
+		List<IAction> actions = Lists.newArrayList();
+		actions.add(new HistoryAction("History...", SWT.PUSH));
+		actions.add(new SeparatorAction());
+		if (!readonly) {
+			actions.add(new MoveToWarehouseAction("Decommission", SWT.PUSH));
+			actions.add(new SeparatorAction());
+		}
+		// actions.add(new ScheduleReportingJobAction(
+		// "Schedule Reporting Job...", SWT.PUSH));
+		actions.add(new ReportNowAction("Report Now", SWT.PUSH));
+		actions.add(new SeparatorAction());
+		actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
+		actions.add(new ExportXLSAction("Export to XLS", SWT.PUSH));
+		IAction[] actionArray = new IAction[actions.size()];
+		return actions.toArray(actionArray);
 	}
-	
+
 	class HistoryAction extends Action {
 
 		public HistoryAction(String text, int style) {
@@ -300,8 +325,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 					NodeHistory nodeHistoryScreen = new NodeHistory(
 							screenService.getScreenContainer(), SWT.NONE);
 					nodeHistoryScreen.setScreenService(screenService);
-					nodeHistoryScreen
-							.setOperation(Screens.OPERATION_READ_ONLY);
+					nodeHistoryScreen.setOperation(Screens.OPERATION_READ_ONLY);
 					nodeHistoryScreen.injectData(null, object);
 					screenService.setActiveScreen(nodeHistoryScreen);
 				}
@@ -309,7 +333,75 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 	}
 
-	
+	class ReportNowAction extends Action {
+		public ReportNowAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			ISelection selection = getViewer().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object o = ((IStructuredSelection) selection).getFirstElement();
+				if (o instanceof Node) {
+
+					CDOObject target = null;
+					String identifier = "";
+
+					if (o instanceof CDOObject) {
+						target = (CDOObject) o;
+
+					}
+					try {
+						serverActions.setCDOServer(editingService
+								.getDataService().getProvider().getServer());
+
+						PeriodDialog pr = new PeriodDialog(
+								Networks.this.getShell(), modelUtils);
+						pr.open();
+						DateTimeRange dtr = pr.period();
+
+						Date fromDate = modelUtils.start(dtr);
+						Date toDate = modelUtils.end(dtr);
+
+						// TODO, We get the workflow run ID back, which
+						// could be used
+						// to link back to the screen showing the running
+						// workflows.
+
+						if (target instanceof Node) {
+							@SuppressWarnings("unused")
+							String result = serverActions
+									.callNodeReportingAction(target, fromDate,
+											toDate);
+							identifier = ((Node) target).getNodeID();
+						}
+
+						MessageDialog
+								.openInformation(
+										Networks.this.getShell(),
+										"Reporting now succeeded:",
+										"Reporting for: "
+												+ identifier
+												+ "\n has been initiated on the server.");
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						MessageDialog
+								.openError(
+										Networks.this.getShell(),
+										"Reporting now failed:",
+										"Reporting for : "
+												+ identifier
+												+ "\n failed. Consult the log for information on the failure");
+
+					}
+
+				}
+			}
+		}
+	}
+
 	/**
 	 * @author dzonekl
 	 */
@@ -351,7 +443,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 			}
 		}
 	}
-	
+
 	/**
 	 * Action to move objects to the ware house.
 	 * 
@@ -362,7 +454,6 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		public MoveToWarehouseAction(String text, int style) {
 			super(text, style);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override

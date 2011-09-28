@@ -94,14 +94,20 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	}
 
 	private void setInitialValues() {
-		if( ProductActivator.getDefault().getProperties().containsKey(ProductActivator.NETXSTUDIO_LASTUSER)){
-			this.fTextUsername.setText(ProductActivator.getDefault().getProperties().getProperty(ProductActivator.NETXSTUDIO_LASTUSER));
-		} 
-		if( ProductActivator.getDefault().getProperties().containsKey(ProductActivator.NETXSTUDIO_SERVER)){
-			this.fTextServer.setText(ProductActivator.getDefault().getProperties().getProperty(ProductActivator.NETXSTUDIO_SERVER));
-		} 
-		
- 	}
+		if (ProductActivator.getDefault().getProperties()
+				.containsKey(ProductActivator.NETXSTUDIO_LASTUSER)) {
+			this.fTextUsername.setText(ProductActivator.getDefault()
+					.getProperties()
+					.getProperty(ProductActivator.NETXSTUDIO_LASTUSER));
+		}
+		if (ProductActivator.getDefault().getProperties()
+				.containsKey(ProductActivator.NETXSTUDIO_SERVER)) {
+			this.fTextServer.setText(ProductActivator.getDefault()
+					.getProperties()
+					.getProperty(ProductActivator.NETXSTUDIO_SERVER));
+		}
+
+	}
 
 	/**
 	 * 
@@ -163,7 +169,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		String server = fTextServer.getText();
 		String username = fTextUsername.getText();
 		String password = fTextPassword.getText();
-		
+
 		// Aunthentication is successful if a user provides any username and
 		// any password
 		if ((username.length() > 0) && (password.length() > 0)) {
@@ -183,22 +189,40 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 						throw new java.lang.IllegalAccessException();
 					}
 				}
-				
-				dataService.getProvider().openSession(username, password, server);
+
+				dataService.getProvider().openSession(username, password,
+						server, true);
 				fAuthenticated = true;
 				// Store the last user value.
-				ProductActivator.getDefault().getProperties().setProperty(ProductActivator.NETXSTUDIO_LASTUSER, username);
-				ProductActivator.getDefault().getProperties().setProperty(ProductActivator.NETXSTUDIO_SERVER, this.fTextServer.getText());
-				
-			} catch (SecurityException se) {
-				fAuthenticated = false;
-				MessageDialog.openError(getSplash(), "Authentication Failed",
-						"The user ID and/or password is wrong");
+				ProductActivator
+						.getDefault()
+						.getProperties()
+						.setProperty(ProductActivator.NETXSTUDIO_LASTUSER,
+								username);
+				ProductActivator
+						.getDefault()
+						.getProperties()
+						.setProperty(ProductActivator.NETXSTUDIO_SERVER,
+								this.fTextServer.getText());
+
 			} catch (Exception se) {
 				fAuthenticated = false;
-				MessageDialog
-						.openError(getSplash(), "Error", //$NON-NLS-1$
-								"The service is not available, contact the service admin"); //$NON-NLS-1$
+				if (se.getCause() != null) {
+
+					if (se.getCause().getClass()
+							.equals(SecurityException.class)) {
+						MessageDialog.openError(getSplash(),
+								"Authentication Failed",
+								"The user ID and/or password is wrong");
+
+					}
+				} else {
+					MessageDialog
+							.openError(getSplash(), "Error", //$NON-NLS-1$
+									"The service is not available, contact the service admin"); //$NON-NLS-1$
+
+				}
+
 			}
 
 		} else {
@@ -217,7 +241,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		createUICompositeLogin();
 		// Create the blank spanner
 		createUICompositeBlank();
-		
+
 		createUIServer();
 		// Create the user name label
 		createUILabelUserName();
@@ -233,6 +257,8 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		createUIButtonOK();
 		// Create the cancel button
 		createUIButtonCancel();
+		
+		this.getSplash().setDefaultButton(fButtonOK);
 	}
 
 	/**
@@ -262,7 +288,7 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 		data.verticalIndent = 10;
 		fButtonOK.setLayoutData(data);
 		// We explicity request focus.
-		fButtonOK.setFocus();
+		
 	}
 
 	/**
@@ -318,8 +344,6 @@ public class InteractiveSplashHandler extends AbstractSplashHandler {
 	 * 
 	 */
 	private void createUILabelUserName() {
-
-		
 
 		// Create the label
 		Label label = new Label(fCompositeLogin_1, SWT.NONE);

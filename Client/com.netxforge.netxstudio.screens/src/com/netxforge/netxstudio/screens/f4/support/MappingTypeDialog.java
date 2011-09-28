@@ -58,7 +58,7 @@ public class MappingTypeDialog extends Dialog {
 		fd_sctnNewSection.right = new FormAttachment(0, 395);
 		sctnNewSection.setLayoutData(fd_sctnNewSection);
 		formToolkit.paintBordersFor(sctnNewSection);
-		sctnNewSection.setText("Mappint type");
+		sctnNewSection.setText("Mapping type");
 		
 		Composite composite_1 = formToolkit.createComposite(sctnNewSection, SWT.NONE);
 		formToolkit.paintBordersFor(composite_1);

@@ -58,62 +58,63 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingLogic {
 			REPORT_PREFIX_SM_DASH, REPORT_PREFIX_SM_MATRIX,
 			REPORT_PREFIX_SM_USER, REPORT_PREFIX_RM, REPORT_PREFIX_RM_FORECAST);
 
-	void initializeReportingLogic() {
-		this.initializeStream();
+	public void initializeStream(URI uri) {
+
+		// append the file name without the extension, for this run, try until
+		// we have a new one.
+		uri = uri.appendSegment(calculateFileName());
+		uri = uri.appendFileExtension("xls");
+		{
+			boolean absent = true;
+			int tries = 1;
+			while (absent) {
+				File f = new File(uri.toFileString());
+				if (f.exists()) {
+					uri.trimFileExtension();
+					uri.appendSegment(new Integer(tries).toString());
+					uri.appendFileExtension("xls");
+					tries++;
+					continue;
+				} else {
+					absent = false;
+				}
+			}
+		}
+
+		FileOutputStream fileOut;
+		try {
+			fileOut = new FileOutputStream(uri.toFileString());
+			this.setStream(fileOut);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
 	}
 
-	public void initializeStream() {
-		ServerSettings settings = getSettings();
+	public URI folderURI() {
 
+		ServerSettings settings = getSettings();
 		if (settings != null
 				&& settings
 						.eIsSet(NetxstudioPackage.Literals.SERVER_SETTINGS__EXPORT_PATH)) {
-			try {
 
-				URI uri = URI.createFileURI(settings.getExportPath());
-//				if (!uri.lastSegment().endsWith("/")) {
-//					uri = uri.appendFragment("/");
-//				}
+			URI uri = URI.createFileURI(settings.getExportPath());
 
-				// append the folder for this run.
-				uri = uri.appendSegment(calculateFolderName());
-				{
-					File f = new File(uri.toFileString());
-					if (!f.exists() && !f.isDirectory()) {
-						f.mkdir();
-					}
+			// append the folder for this run.
+			uri = uri.appendSegment(calculateFolderName());
+			{
+				File f = new File(uri.toFileString());
+				if (!f.exists() && !f.isDirectory()) {
+					f.mkdir();
 				}
-				
-				// append the file name without the extension, for this run, try until we have a new one. 
-				uri = uri.appendSegment(calculateFileName());
-				uri = uri.appendFileExtension("xls");
-				{
-					boolean absent = true;
-					int tries = 1;
-					while (absent) {
-						File f = new File(uri.toFileString());
-						if (f.exists()) {
-							uri.trimFileExtension();
-							uri.appendSegment(new Integer(tries).toString());
-							uri.appendFileExtension("xls");
-							tries++;
-							continue;
-						} else {
-							absent = false;
-						}
-					}
-				}
-				
-				
-				FileOutputStream fileOut = new FileOutputStream(
-						uri.toFileString());
-				this.setStream(fileOut);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
 			}
+			return uri;
+
 		}
+		return null;
 	}
 
+	
 	public List<Service> getServices() {
 		return services;
 	}
@@ -129,14 +130,14 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingLogic {
 
 		// first go through the leave nodes
 		for (final Node node : service.getNodes()) {
-			if (getModelUtils().isValidNode(node)
+			if (getModelUtils().isInService(node)
 					&& node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
 		}
 		// and then the other nodes
 		for (final Node node : service.getNodes()) {
-			if (getModelUtils().isValidNode(node)
+			if (getModelUtils().isInService(node)
 					&& !node.getNodeType().isLeafNode()) {
 				nodeTypes.add(node.getNodeType());
 			}
@@ -159,10 +160,10 @@ public abstract class OperatorReportingLogic extends BaseServiceReportingLogic {
 
 	protected String calculateFileName() {
 		StringBuffer buf = new StringBuffer();
-		
-		// Use the reporting period as a file name. 
-		 buf.append(getModelUtils().date(this.getStartTime()) + "_"
-		 + getModelUtils().date(this.getEndTime()));
+
+		// Use the reporting period as a file name.
+		buf.append(getModelUtils().date(this.getStartTime()) + "_"
+				+ getModelUtils().date(this.getEndTime()));
 
 		return buf.toString();
 	}

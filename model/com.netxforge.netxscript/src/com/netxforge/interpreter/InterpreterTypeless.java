@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -495,6 +496,12 @@ public class InterpreterTypeless implements IInterpreter {
 							localVarsAndArguments.put(s, innerValue);
 						}
 					}
+				}else{
+					// The evaluation is likely a non-assigned value
+					// add it to the map with an arbitrary name.
+					Random r = new Random();
+					String randomName =new Long(r.nextLong()).toString();
+					localVarsAndArguments.put(randomName, eval);
 				}
 			}
 		}
@@ -1067,7 +1074,7 @@ public class InterpreterTypeless implements IInterpreter {
 			NodeType nt = nodeTypeReference.getNodetype();
 			List<Node> nodes = modelUtils.nodesForNodeType(
 					(RFSService) service, nt);
-
+			
 			List<Component> components = Lists.newArrayList();
 			for (Node n : nodes) {
 				Object result = extractLastComponent(primaryRef, n);
@@ -1090,15 +1097,15 @@ public class InterpreterTypeless implements IInterpreter {
 					localVarsAndArguments.put("node", n);
 
 					Object eval = dispatcher.invoke(primaryRef,
-							localVarsAndArguments);
-					objects.add(eval);
+							ImmutableMap.copyOf(localVarsAndArguments));
+					if(eval instanceof List<?>){
+						objects.addAll((List<?>) eval);
+					}else{
+						objects.add(eval);
+					}
 				}
-
-				// Problem how to process the result, it could be a range or a
-				// single value.
-
+				return objects;
 			}
-
 		}
 
 		return null;

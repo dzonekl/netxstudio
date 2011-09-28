@@ -101,7 +101,7 @@ public class ServiceMonitors extends AbstractScreen implements
 		new Label(frmServiceMonitors.getBody(), SWT.NONE);
 
 		serviceMonitorsTableViewer = new TableViewer(
-				frmServiceMonitors.getBody(), SWT.BORDER | SWT.FULL_SELECTION);
+				frmServiceMonitors.getBody(), SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 		table = serviceMonitorsTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);

@@ -139,7 +139,7 @@ public class EmbeddedExpression {
 		gl_editorComposite.marginWidth = 0;
 		editorComposite.setLayout(gl_editorComposite);
 		editor = new EmbeddedXtextEditor(editorComposite, netxScriptInjector,
-				SWT.BORDER | widgetStyle);
+				SWT.BORDER | widgetStyle | SWT.WRAP);
 		editor.getDocument().addModelListener(new IXtextModelListener() {
 			public void modelChanged(XtextResource resource) {
 				evaluationObject = xtextService.reconcileChangedModel(

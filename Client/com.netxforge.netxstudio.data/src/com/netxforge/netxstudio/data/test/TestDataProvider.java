@@ -186,4 +186,9 @@ public class TestDataProvider implements IDataProvider {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
+	public void openSession(String username, String password, String server,
+			boolean reset) {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
 }

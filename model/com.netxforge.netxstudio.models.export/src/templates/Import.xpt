@@ -1,13 +1,14 @@
-Â«REMÂ»
+ÇIMPORT ecoreÈ
+ÇREMÈ
    This templates outputs an ecore model to the Excel XML Spreadsheet format (2002). 
    The format is specified here: 
    http://msdn.microsoft.com/en-us/library/aa140066%28office.10%29.aspx
    
    We also add additional fields, for certain types. 
-Â«ENDREMÂ»
-Â«EXTENSION templates::importÂ»
-Â«DEFINE Root FOR ecore::EPackage-Â»
-  Â«FILE fileName() -Â»
+ÇENDREMÈ
+ÇEXTENSION templates::importÈ
+ÇDEFINE Root FOR ecore::EPackage-È
+  ÇFILE fileName() -È
   <?xml version="1.0"?>
 	<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
  		xmlns:o="urn:schemas-microsoft-com:office:office"
@@ -58,135 +59,135 @@
 	  </Style>
 	  
  </Styles>
- 	Â«EXPAND Class FOREACH toFillClasses(this)-Â»
- 	Â«EXPAND ClassRef FOREACH toFillClasses(this)-Â»
+ 	ÇEXPAND Class FOREACH toFillClasses(this)-È
+ 	ÇEXPAND ClassRef FOREACH toFillClasses(this)-È
 	</Workbook>
-   Â«ENDFILEÂ»
-Â«ENDDEFINEÂ»
+   ÇENDFILEÈ
+ÇENDDEFINEÈ
 
-Â«DEFINE Class FOR ecore::EClassÂ»
-	 <Worksheet ss:Name="Â«nameÂ»">
+ÇDEFINE Class FOR ecore::EClassÈ
+	 <Worksheet ss:Name="ÇnameÈ">
 	 <Table>
 	 	<Column/>
    		<Row>
-   		Â«EXPAND Content FOREACH nonDerivedAttributes(this) -Â»
-   		Â«EXPAND Content FOREACH filterUniReferences(nonDerivedReferences(this)) -Â»
-   		Â«EXPAND Content FOREACH supers(this) -Â»
+   		ÇEXPAND Content FOREACH nonDerivedAttributes(this) -È
+   		ÇEXPAND Content FOREACH filterUniReferences(nonDerivedReferences(this)) -È
+   		ÇEXPAND Content FOREACH supers(this) -È
 	 	</Row>
    		<Row>
-   		Â«EXPAND Type FOREACH nonDerivedAttributes(this) -Â»
-   		Â«EXPAND Type FOREACH filterUniReferences(nonDerivedReferences(this)) -Â»
+   		ÇEXPAND Type FOREACH nonDerivedAttributes(this) -È
+   		ÇEXPAND Type FOREACH filterUniReferences(nonDerivedReferences(this)) -È
 	 	</Row>
 	 </Table>
     </Worksheet>
-Â«ENDDEFINEÂ»
+ÇENDDEFINEÈ
 
-Â«DEFINE ClassRef FOR ecore::EClassÂ»
-    Â«IF filterMultiReferences(nonDerivedReferences(this)).size > 0 Â»
-    Â«REMÂ»
+ÇDEFINE ClassRef FOR ecore::EClassÈ
+    ÇIF filterMultiReferences(nonDerivedReferences(this)).size > 0 È
+    ÇREMÈ
     	TODO: Some multi-references are opposites only, how to filter those?
-	Â«ENDREMÂ»
-    <Worksheet ss:Name="Â«nameÂ»_refs">
+	ÇENDREMÈ
+    <Worksheet ss:Name="ÇnameÈ_refs">
 	 <Table>
 	 	<Column/>
    		<Row>
    			<Cell ss:StyleID="s20">
- 	 		<Data ss:Type="String">Â«this.name.toFirstUpper()Â»</Data>
+ 	 		<Data ss:Type="String">Çthis.name.toFirstUpper()È</Data>
  		 	</Cell>
-    		Â«EXPAND Content FOREACH filterMultiReferences(nonDerivedReferences(this)) Â»
+    		ÇEXPAND Content FOREACH filterMultiReferences(nonDerivedReferences(this)) È
     	</Row>
    		<Row>
    			<Cell ss:StyleID="s23">
- 	 		<Data ss:Type="String">Â«idFeature(nonDerivedAttributes(this)).name Â»</Data>
+ 	 		<Data ss:Type="String">ÇidFeature(nonDerivedAttributes(this)).name È</Data>
  		 	</Cell>
-   			Â«EXPAND Type FOREACH filterMultiReferences(nonDerivedReferences(this)) Â»
+   			ÇEXPAND Type FOREACH filterMultiReferences(nonDerivedReferences(this)) È
    		</Row>
 	 </Table>
    </Worksheet>
-   Â«ENDIFÂ»	
-Â«ENDDEFINEÂ»
+   ÇENDIFÈ	
+ÇENDDEFINEÈ
 
-Â«DEFINE Class FOR ecore::EClassifierÂ»
-Â«ENDDEFINEÂ»
+ÇDEFINE Class FOR ecore::EClassifierÈ
+ÇENDDEFINEÈ
 
-Â«DEFINE ClassRef FOR ecore::EClassifierÂ»
-Â«ENDDEFINEÂ»
+ÇDEFINE ClassRef FOR ecore::EClassifierÈ
+ÇENDDEFINEÈ
 
-Â«DEFINE Content FOR ecore::EClassifierÂ»
-	<Cell ss:StyleID="s21"><Data ss:Type="String">Â«this.nameÂ»</Data></Cell>
-Â«ENDDEFINEÂ»
+ÇDEFINE Content FOR ecore::EClassifierÈ
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Çthis.nameÈ</Data></Cell>
+ÇENDDEFINEÈ
 
-Â«DEFINE Addon FOR ecore::EClassifierÂ»
-	<Cell ss:StyleID="s21"><Data ss:Type="String">Â«this.nameÂ»</Data></Cell>
-Â«ENDDEFINEÂ»
+ÇDEFINE Addon FOR ecore::EClassifierÈ
+	<Cell ss:StyleID="s21"><Data ss:Type="String">Çthis.nameÈ</Data></Cell>
+ÇENDDEFINEÈ
 
 
-Â«DEFINE Class FOR ecore::EEnumÂ»
-Â«ENDDEFINEÂ»
+ÇDEFINE Class FOR ecore::EEnumÈ
+ÇENDDEFINEÈ
 
-Â«DEFINE Content FOR emf::EObjectÂ»
-Â«ENDDEFINEÂ»
+ÇDEFINE Content FOR emf::EObjectÈ
+ÇENDDEFINEÈ
 
-Â«REMÂ»
+ÇREMÈ
 	Differentiate the output for containments/noncontainments.
 	EReferences which is transient, volatile or derived are skipped. 
 	Also if the reference is plural or contained, we make a separate sheet. 
 
-Â«DEFINE MultiReferences FOR ecore::EReferenceÂ»
- <Worksheet ss:Name="Â«nameÂ»_refs">
+ÇDEFINE MultiReferences FOR ecore::EReferenceÈ
+ <Worksheet ss:Name="ÇnameÈ_refs">
 	 <Table>
 	 	<Column/>
    		<Row>
-   		Â«EXPAND Content FOR this Â»
+   		ÇEXPAND Content FOR this È
    		</Row>
    		<Row>
-   		Â«EXPAND Type FOR this Â»
+   		ÇEXPAND Type FOR this È
 	 	</Row>
 	 </Table>
    </Worksheet>
-Â«ENDDEFINEÂ»
-Â«ENDREMÂ»
+ÇENDDEFINEÈ
+ÇENDREMÈ
 
-Â«DEFINE Content FOR ecore::EReferenceÂ»
-		Â«IF this.containment Â»
-			<Cell ss:StyleID="s21"><Data ss:Type="String">Â«this.nameÂ»</Data></Cell>
-		Â«ELSEÂ»
-			<Cell ss:StyleID="s22"><Data ss:Type="String">Â«this.nameÂ»</Data></Cell>
-		Â«ENDIFÂ»
-Â«ENDDEFINEÂ»
+ÇDEFINE Content FOR ecore::EReferenceÈ
+		ÇIF this.containment È
+			<Cell ss:StyleID="s21"><Data ss:Type="String">Çthis.nameÈ</Data></Cell>
+		ÇELSEÈ
+			<Cell ss:StyleID="s22"><Data ss:Type="String">Çthis.nameÈ</Data></Cell>
+		ÇENDIFÈ
+ÇENDDEFINEÈ
 
-Â«REMÂ»
+ÇREMÈ
 	Output of the EAttribute type. The first letter is upper case.
-Â«ENDREMÂ»
-Â«DEFINE Content FOR ecore::EAttributeÂ»
+ÇENDREMÈ
+ÇDEFINE Content FOR ecore::EAttributeÈ
  	 <Cell ss:StyleID="s20">
- 	 	<Data ss:Type="String">Â«this.name.toFirstUpper()Â»</Data>
-		Â«EXPAND Annotation FOREACH this.eAnnotationsÂ»			 	 	
+ 	 	<Data ss:Type="String">Çthis.name.toFirstUpper()È</Data>
+		ÇEXPAND Annotation FOREACH this.eAnnotationsÈ			 	 	
  	 </Cell>
-Â«ENDDEFINEÂ»
+ÇENDDEFINEÈ
 
-Â«REMÂ»
+ÇREMÈ
 	Output of the EAttribute Data type
-Â«ENDREMÂ»
+ÇENDREMÈ
 
-Â«DEFINE Type FOR ecore::EAttributeÂ»
+ÇDEFINE Type FOR ecore::EAttributeÈ
  	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Â«this.eType.nameÂ»</Data>
+ 	 	<Data ss:Type="String">Çthis.eType.nameÈ</Data>
  	 </Cell>
-Â«ENDDEFINEÂ»
+ÇENDDEFINEÈ
 
 
-Â«DEFINE Type FOR ecore::EReferenceÂ»
+ÇDEFINE Type FOR ecore::EReferenceÈ
  	 <Cell ss:StyleID="s23">
- 	 	<Data ss:Type="String">Â«this.eType.nameÂ»</Data>
+ 	 	<Data ss:Type="String">Çthis.eType.nameÈ</Data>
  	 </Cell>
-Â«ENDDEFINEÂ»
+ÇENDDEFINEÈ
 
 
-Â«DEFINE Annotation FOR ecore::EAnnotationÂ»
- 	 Â«IF this.source.matches('http://www.eclipse.org/emf/2002/GenModel')Â»
+ÇDEFINE Annotation FOR ecore::EAnnotationÈ
+ 	 ÇIF this.source.matches('http://www.eclipse.org/emf/2002/GenModel')È
 		<Comment><Data>
-        Â«this.details.get(0).valueÂ»</Data>
+        Çthis.details.get(0).valueÈ</Data>
         </Comment>		
- 	 Â«ENDIFÂ»
-Â«ENDDEFINEÂ»
+ 	 ÇENDIFÈ
+ÇENDDEFINEÈ

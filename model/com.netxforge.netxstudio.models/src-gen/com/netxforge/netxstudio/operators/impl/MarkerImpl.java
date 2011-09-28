@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.operators.Marker;
 import com.netxforge.netxstudio.operators.MarkerKind;
@@ -35,7 +34,6 @@ import com.netxforge.netxstudio.operators.OperatorsPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getComponentRef <em>Component Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getValueRef <em>Value Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getMarkerResourceRef <em>Marker Resource Ref</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.operators.impl.MarkerImpl#getDescription <em>Description</em>}</li>
@@ -63,24 +61,6 @@ public class MarkerImpl extends BaseImpl implements Marker {
 	@Override
 	protected EClass eStaticClass() {
 		return OperatorsPackage.Literals.MARKER;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Component getComponentRef() {
-		return (Component)eGet(OperatorsPackage.Literals.MARKER__COMPONENT_REF, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setComponentRef(Component newComponentRef) {
-		eSet(OperatorsPackage.Literals.MARKER__COMPONENT_REF, newComponentRef);
 	}
 
 	/**

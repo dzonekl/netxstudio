@@ -18,7 +18,6 @@ import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
@@ -63,6 +62,7 @@ import com.netxforge.netxstudio.metrics.MappingStatistic;
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.editing.actions.WarningDeleteCommand;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 
 public class MappingStatistics extends AbstractScreen implements
@@ -226,7 +226,7 @@ public class MappingStatistics extends AbstractScreen implements
 							List<Value> values = modelUtils.metricValuesInRange(res,
 									targetIntervalHint, null, dtr);
 							if (values.size() > 0) {
-								DeleteCommand dc = new DeleteCommand(editingService.getEditingDomain(), values);
+								WarningDeleteCommand dc = new WarningDeleteCommand(editingService.getEditingDomain(), values);
 								editingService.getEditingDomain().getCommandStack().execute(dc);
 							}
 						}

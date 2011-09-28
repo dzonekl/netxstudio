@@ -148,6 +148,15 @@ public interface IDataProvider {
 	public void openSession(String username, String password, String server);
 	
 	/**
+	 * Open a session and capability to reset the session. 
+	 * 
+	 * @param username
+	 * @param password
+	 * @param server
+	 */
+	public void openSession(String username, String password, String server, boolean reset);
+	
+	/**
 	 * Gets the current transaction if no current transaction then a new one
 	 * will be opened.
 	 */

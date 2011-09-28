@@ -139,7 +139,7 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 		// mghprlnkNew.setText("New");
 
 		resourcesTableViewer = new TableViewer(frmResources.getBody(),
-				SWT.BORDER | SWT.FULL_SELECTION);
+				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 		table = resourcesTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -305,7 +305,6 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 				return result;
 			}
 		};
-		
 		
 		resourcesTableViewer.setInput(computedResourceList);
 

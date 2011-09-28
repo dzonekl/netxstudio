@@ -36,7 +36,6 @@ import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.BaseExpressionResult;
 import com.netxforge.netxstudio.library.BaseResource;
-import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.ExpressionResult;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.NetXResource;
@@ -74,33 +73,37 @@ public class CommonLogic {
 	public void processServiceProfileResult(List<Object> currentContext,
 			List<BaseExpressionResult> expressionResults, Date start, Date end) {
 		for (final BaseExpressionResult baseExpressionResult : expressionResults) {
-			
-			ExpressionResult expressionResult = (ExpressionResult) baseExpressionResult; 
-			
-			System.out.println("--Writing expression result: resource="
-					+ expressionResult.getTargetResource().getShortName()
-					+ " target=" + expressionResult.getTargetRange().getName()
-					+ " values=" + expressionResult.getTargetValues().size());
 
-			// FIXME: We could want to write to a resource, where the node
-			// doesn't match the context.
-			final BaseResource baseResource = expressionResult
-					.getTargetResource();
+			if (baseExpressionResult instanceof ExpressionResult) {
+				ExpressionResult expressionResult = (ExpressionResult) baseExpressionResult;
 
-			// Process a DerivedResource
+				System.out.println("--Writing expression result: resource="
+						+ expressionResult.getTargetResource().getShortName()
+						+ " target="
+						+ expressionResult.getTargetRange().getName()
+						+ " values="
+						+ expressionResult.getTargetValues().size());
 
-			if (baseResource instanceof DerivedResource) {
-				DerivedResource resource = (DerivedResource) baseResource;
-				if (expressionResult.getTargetRange().getValue() == RangeKind.DERIVED_VALUE) {
+				// FIXME: We could want to write to a resource, where the node
+				// doesn't match the context.
+				final BaseResource baseResource = expressionResult
+						.getTargetResource();
 
-					// TODO Decide, what to do with the existing values.
-					addToValues(resource.getValues(),
-							expressionResult.getTargetValues(),
-							expressionResult.getTargetIntervalHint());
-				} else {
-					throw new IllegalStateException("Range kind "
-							+ expressionResult.getTargetRange()
-							+ " not supported");
+				// Process a DerivedResource
+
+				if (baseResource instanceof DerivedResource) {
+					DerivedResource resource = (DerivedResource) baseResource;
+					if (expressionResult.getTargetRange().getValue() == RangeKind.DERIVED_VALUE) {
+
+						// TODO Decide, what to do with the existing values.
+						addToValues(resource.getValues(),
+								expressionResult.getTargetValues(),
+								expressionResult.getTargetIntervalHint());
+					} else {
+						throw new IllegalStateException("Range kind "
+								+ expressionResult.getTargetRange()
+								+ " not supported");
+					}
 				}
 			}
 		}
@@ -115,7 +118,6 @@ public class CommonLogic {
 			}
 		}
 	}
-	
 
 	private void processMonitoringExpressionResult(Date start, Date end,
 			final ExpressionResult expressionResult) {
@@ -165,12 +167,11 @@ public class CommonLogic {
 						expressionResult.getTargetValues(),
 						expressionResult.getTargetIntervalHint());
 				break;
-				
-			// TODO, THIS RANGE KIND WOULD NEED TO BE SUPPORTED. 	
 			case RangeKind.METRICREMOVE_VALUE:
-				final MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(resource,
-						expressionResult.getTargetKindHint(),
-						expressionResult.getTargetIntervalHint());
+				final MetricValueRange mvr = modelUtils
+						.valueRangeForIntervalAndKind(resource,
+								expressionResult.getTargetKindHint(),
+								expressionResult.getTargetIntervalHint());
 				if (start != null) {
 					removeValues(mvr.getMetricValues(), start, end);
 				}
@@ -180,6 +181,7 @@ public class CommonLogic {
 						+ expressionResult.getTargetRange() + " not supported");
 			}
 		}
+		System.out.println("--Done processing monitoring result");
 	}
 
 	private void createMarkers(ExpressionResult expressionResult, Date start,
@@ -190,20 +192,18 @@ public class CommonLogic {
 
 		// now compute the capacity in order
 		final List<Value> usageValues = new ArrayList<Value>();
-		
 
 		for (final MetricValueRange mvr : resource.getMetricValueRanges()) {
 			usageValues.addAll(mvr.getMetricValues());
 		}
-		
-		// TODO, replace with ModelUtils function
-//		modelUtils.filterValueInRange(unfiltered, this.ge)
 
-		
+		// TODO, replace with ModelUtils function
+		// modelUtils.filterValueInRange(unfiltered, this.ge)
+
 		// get rid of everything before and after start time
 		final List<Value> toRemoveUsageValues = new ArrayList<Value>();
 		for (final Value usageValue : usageValues) {
-//			System.err.println("CommonLogic" + usageValue.getTimeStamp());
+			// System.err.println("CommonLogic" + usageValue.getTimeStamp());
 			final long timeMillis = usageValue.getTimeStamp()
 					.toGregorianCalendar().getTimeInMillis();
 			if (timeMillis < start.getTime() || timeMillis > end.getTime()) {
@@ -215,6 +215,10 @@ public class CommonLogic {
 
 		// now get the tolerance computation
 		final List<Value> toleranceValues = expressionResult.getTargetValues();
+
+		// Potential duplicates error.
+		// java.lang.IllegalArgumentException: The 'no duplicates' constraint is
+		// violated
 		Collections.sort(toleranceValues, new ValueTimeComparator());
 
 		// now walk through the lists and find the occurences of overrides
@@ -267,8 +271,6 @@ public class CommonLogic {
 				if (direction != null) {
 					final ToleranceMarker marker = OperatorsFactory.eINSTANCE
 							.createToleranceMarker();
-					marker.setComponentRef((Component) expressionResult
-							.getTargetResource().eContainer());
 					marker.setValueRef(checkValue);
 					marker.setKind(MarkerKind.TOLERANCECROSSED);
 					marker.setLevel(getTolerance().getLevel());
@@ -320,8 +322,9 @@ public class CommonLogic {
 				toRemove.add(value);
 			}
 		}
-		
-		// Note, how to deal with references to the values? (ResourceMonitor etc..). 
+
+		// Note, how to deal with references to the values? (ResourceMonitor
+		// etc..).
 		values.removeAll(toRemove);
 	}
 
@@ -365,8 +368,8 @@ public class CommonLogic {
 	public void addToValueRange(NetXResource foundNetXResource, int periodHint,
 			KindHintType kindHintType, List<Value> newValues, Date start,
 			Date end) {
-		final MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(foundNetXResource,
-				kindHintType, periodHint);
+		final MetricValueRange mvr = modelUtils.valueRangeForIntervalAndKind(
+				foundNetXResource, kindHintType, periodHint);
 		if (start != null) {
 			removeValues(mvr.getMetricValues(), start, end);
 		}
@@ -380,9 +383,8 @@ public class CommonLogic {
 		}
 	}
 
-	
 	/*
-	 * If this method is used to 
+	 * If this method is used to
 	 */
 
 	public void addToValues(EList<Value> values, Value value, int intervalHint) {
@@ -402,10 +404,10 @@ public class CommonLogic {
 			values.add(value);
 		}
 	}
-	
+
 	/**
-	 * The IntervalHint is required if to compare the difference
-	 * is less than the interval.  
+	 * The IntervalHint is required if to compare the difference is less than
+	 * the interval.
 	 * 
 	 * @param intervalHint
 	 * @param time1

@@ -20,10 +20,7 @@ package com.netxforge.netxstudio.server.logic.profile;
 
 import java.util.List;
 
-import org.eclipse.emf.cdo.common.id.CDOID;
-
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -34,7 +31,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  */
 public class RFSServiceProfileLogic extends BaseProfileLogic {
 
-	private RFSService rfsService;
+	
 
 //	private ServiceMonitor serviceMonitor;
 
@@ -71,21 +68,12 @@ public class RFSServiceProfileLogic extends BaseProfileLogic {
 //		getEngine().setServiceMonitor(serviceMonitor);
 	}
 
-	public RFSService getRfsService() {
-		return rfsService;
-	}
-
-	public void setRfsService(CDOID cdoId) {
-		// read the rfsservice in the transaction of the run
-		this.rfsService = (RFSService) getDataProvider().getTransaction()
-				.getObject(cdoId);
-	}
 
 	@Override
 	protected List<ServiceUser> getServiceUsersToExecuteFor() {
 		final List<ServiceUser> serviceUsers = Lists.newArrayList();
 		//
-		for (final ServiceUser serviceUser : rfsService.getServiceUserRefs()) {
+		for (final ServiceUser serviceUser : this.getRfsService().getServiceUserRefs()) {
 			// 1) The Service User should have a profile.Ê
 			// 2) The Service Profile should have resources. 
 			if (serviceUser

@@ -35,6 +35,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.NetxstudioPackage;
+import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.generics.DateTimeRange;
@@ -117,10 +119,21 @@ public abstract class MetricValuesImporter {
 					+ metricSource.getName());
 
 			final String msLocation = metricSource.getMetricLocation();
+			
 			String rootUrl = System.getProperty(ROOT_SYSTEM_PROPERTY);
-			if (!rootUrl.endsWith("/") && !msLocation.startsWith("/")) {
-				rootUrl += "/";
+			// CB 27-09-2011 ROOT_SYSTEM_PROPERTY as fallback, on the server setting. 
+			Resource settingsResource = this.getDataProvider().getResource(NetxstudioPackage.Literals.SERVER_SETTINGS);
+			if(settingsResource != null && settingsResource.getContents().size() == 1){
+				ServerSettings settings = (ServerSettings) settingsResource.getContents().get(0);
+				rootUrl = settings.getImportPath();
 			}
+			
+			// CB 27-09-2011, 
+			if (!rootUrl.endsWith(File.separator) && !msLocation.startsWith(File.separator)) {
+				rootUrl += File.separator;
+			}
+			
+			
 			final String fileOrDirectory = rootUrl + msLocation;
 			int totalRows = 0;
 			boolean noFiles = true;
