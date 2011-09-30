@@ -63,7 +63,7 @@ public class WarningDeleteAction extends DeleteAction {
 						.getUsage(eObjects);
 				// Issue warning here.
 				if (xRefs != null && xRefs.size() > 0) {
-
+						
 					ListDialog ld = new ListDialog(Display.getCurrent()
 							.getActiveShell());
 					ld.setContentProvider(new ArrayContentProvider());
@@ -81,7 +81,7 @@ public class WarningDeleteAction extends DeleteAction {
 						
 					});
 					ld.setTitle("Object references :");
-					ld.setInput(xRefs.toArray());
+					ld.setInput(xRefs);
 					ld.setBlockOnOpen(true);
 					int result = ld.open();
 					if (result == Window.CANCEL) {

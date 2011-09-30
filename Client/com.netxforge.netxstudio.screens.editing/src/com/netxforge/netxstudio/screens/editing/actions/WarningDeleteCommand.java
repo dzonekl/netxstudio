@@ -24,7 +24,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.google.common.collect.Lists;
 
-
 public class WarningDeleteCommand extends CompoundCommand {
 
 	/**
@@ -164,13 +163,15 @@ public class WarningDeleteCommand extends CompoundCommand {
 				try {
 					List<CDOObjectReference> runRefs = cdoView.queryXRefs(
 							(CDOObject) o, new EReference[] {});
-					
-					for(CDOObjectReference runRef : runRefs){
-						if(!queryXRefs.contains(runRef)){
+
+					for (CDOObjectReference runRef : runRefs) {
+						// Iterate through the already found queryRefs, compare
+						// source
+						if(!exists(queryXRefs, runRef)){
 							queryXRefs.add(runRef);
 						}
 					}
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 					// The query sometimes throws exeception, if i.e an entity
@@ -181,6 +182,19 @@ public class WarningDeleteCommand extends CompoundCommand {
 			}
 		}
 		return queryXRefs;
+	}
+
+	boolean exists(List<CDOObjectReference> refList, CDOObjectReference ref) {
+		boolean found = false;
+		// and target.
+		for (CDOObjectReference qRef : refList) {
+			if ((ref.getSourceObject() == qRef.getSourceObject())
+					&& (ref.getTargetObject() == qRef.getTargetObject())) {
+				found = true;
+				break;
+			}
+		}
+		return found;
 	}
 
 }
