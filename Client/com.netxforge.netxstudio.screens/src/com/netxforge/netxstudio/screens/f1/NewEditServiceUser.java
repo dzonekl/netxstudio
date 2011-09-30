@@ -88,7 +88,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 		formToolkit.adapt(this);
 		formToolkit.paintBordersFor(this);
 
-//		buildUI();
+		// buildUI();
 	}
 
 	private void buildUI() {
@@ -163,7 +163,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 				composite_2, SWT.NONE);
 		mghprlnkAdd.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkEntered(HyperlinkEvent e) {
-				
+
 			}
 
 			public void linkExited(HyperlinkEvent e) {
@@ -176,8 +176,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 				resourceScreen.setOperation(Screens.OPERATION_NEW);
 				resourceScreen.setScreenService(screenService);
 				resourceScreen.injectData(serviceUser.getServiceProfile(),
-						ServicesFactory.eINSTANCE
-								.createDerivedResource());
+						ServicesFactory.eINSTANCE.createDerivedResource());
 				screenService.setActiveScreen(resourceScreen);
 			}
 		});
@@ -211,16 +210,23 @@ public class NewEditServiceUser extends AbstractScreen implements
 			public void widgetSelected(SelectionEvent e) {
 				ISelection s = resourcesTableViewer.getSelection();
 				if (s instanceof IStructuredSelection) {
-					Object object = ((IStructuredSelection) s)
+					final Object object = ((IStructuredSelection) s)
 							.getFirstElement();
-					NewEditDerivedResource editResourceScreen = new NewEditDerivedResource(
-							screenService.getScreenContainer(), SWT.NONE);
-					editResourceScreen.setScreenService(screenService);
-					editResourceScreen.setOperation(getOperation());
-					// We can probably get away without the resource....
-					editResourceScreen.injectData(
-							serviceUser.getServiceProfile(), object);
-					screenService.setActiveScreen(editResourceScreen);
+					Runnable activate = new Runnable() {
+						public void run() {
+							NewEditDerivedResource editResourceScreen = new NewEditDerivedResource(
+									screenService.getScreenContainer(),
+									SWT.NONE);
+							editResourceScreen.setScreenService(screenService);
+							editResourceScreen.setOperation(getOperation());
+							// We can probably get away without the resource....
+							editResourceScreen.injectData(
+									serviceUser.getServiceProfile(), object);
+							screenService.setActiveScreen(editResourceScreen);
+						}
+					};
+					screenService.activateInObservable(activate);
+					
 				}
 			}
 		});
@@ -347,38 +353,36 @@ public class NewEditServiceUser extends AbstractScreen implements
 		IObservableValue nameObservable = SWTObservables.observeDelayedValue(
 				400, SWTObservables.observeText(txtName, SWT.Modify));
 
-		// IObservableValue descriptionObservable = SWTObservables
-		// .observeDelayedValue(400,
-		// SWTObservables.observeText(txtDescription, SWT.Modify));
+		IObservableValue descriptionObservable = SWTObservables
+				.observeDelayedValue(400,
+						SWTObservables.observeText(txtDescription, SWT.Modify));
 
 		IEMFValueProperty nameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				ServicesPackage.Literals.SERVICE_USER__NAME);
 
-		// IEMFValueProperty descriptionProperty = EMFEditProperties.value(
-		// editingService.getEditingDomain(),
-		// ServicesPackage.Literals.SERVICE__SERVICE_DESCRIPTION);
+		IEMFValueProperty descriptionProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(),
+				ServicesPackage.Literals.SERVICE_USER__DESCRIPTION);
 
 		context.bindValue(nameObservable, nameProperty.observe(serviceUser),
 				null, null);
-		// context.bindValue(descriptionObservable,
-		// descriptionProperty.observe(service), null, null);
+		context.bindValue(descriptionObservable,
+				descriptionProperty.observe(serviceUser), null, null);
 	}
 
 	public void bindResourcesSection(EMFDataBindingContext context) {
 		IObservableValue capExpressionObservable = SWTObservables.observeText(
 				this.txtProfileExpression, SWT.Modify);
 
-		IEMFValueProperty profileExpressionProperty = EMFEditProperties
-				.value(editingService.getEditingDomain(),
-						FeaturePath
-								.fromList(
-										ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF,
-										LibraryPackage.Literals.EXPRESSION__NAME));
+		IEMFValueProperty profileExpressionProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(), FeaturePath.fromList(
+						ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF,
+						LibraryPackage.Literals.EXPRESSION__NAME));
 
 		context.bindValue(capExpressionObservable,
 				profileExpressionProperty.observe(serviceUser), null, null);
-		
+
 		// binding of resources
 
 		ObservableListContentProvider resourceListContentProvider = new ObservableListContentProvider();
@@ -394,10 +398,10 @@ public class NewEditServiceUser extends AbstractScreen implements
 		IEMFListProperty resourcesListProperty = EMFEditProperties.list(
 				editingService.getEditingDomain(),
 				ServicesPackage.Literals.SERVICE_PROFILE__PROFILE_RESOURCES);
-		resourcesTableViewer.setInput(resourcesListProperty.observe(serviceUser.getServiceProfile()));
+		resourcesTableViewer.setInput(resourcesListProperty.observe(serviceUser
+				.getServiceProfile()));
 	}
 
-	
 	public class NodeInServiceObservableMapLabelProvider extends
 			ObservableMapLabelProvider {
 

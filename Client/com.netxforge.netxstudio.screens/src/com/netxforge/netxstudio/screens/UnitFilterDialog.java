@@ -50,7 +50,8 @@ public class UnitFilterDialog extends FilteredItemsSelectionDialog {
 	public UnitFilterDialog(Shell shell, Resource resource) {
 		super(shell);
 		this.resource = resource;
-
+		this.setTitle("Select an existing Unit");
+		
 		setListLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {

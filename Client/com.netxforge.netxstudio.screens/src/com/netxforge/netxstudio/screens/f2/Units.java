@@ -222,7 +222,7 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 					false, false, 1, 1));
 			mghprlnkNew.setImage(ResourceManager.getPluginImage(
 					"com.netxforge.netxstudio.models.edit",
-					"icons/full/ctool16/Company_E.png"));
+					"icons/full/ctool16/Unit_E.png"));
 			mghprlnkNew.setBounds(0, 0, 114, 17);
 			toolkit.paintBordersFor(mghprlnkNew);
 			mghprlnkNew.setText("New");

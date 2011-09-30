@@ -193,9 +193,9 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 
 		txtFilterText = toolkit.createText(composite, "New Text", SWT.H_SCROLL
 				| SWT.SEARCH | SWT.CANCEL);
-		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, false,
+		GridData gd_txtFilterText = new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1);
-		gd_txtFilterText.widthHint = 200;
+//		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 		txtFilterText.setSize(64, 81);
 		txtFilterText.setText("");
@@ -284,7 +284,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		cmpDetails = toolkit.createComposite(sashForm, SWT.NONE);
 		toolkit.paintBordersFor(cmpDetails);
 		cmpDetails.setLayout(new FillLayout());
-		sashForm.setWeights(new int[] { 1, 1 });
+		sashForm.setWeights(new int[] { 3, 7 });
 
 	}
 

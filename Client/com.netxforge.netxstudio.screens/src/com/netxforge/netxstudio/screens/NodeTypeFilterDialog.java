@@ -49,7 +49,7 @@ public class NodeTypeFilterDialog extends FilteredItemsSelectionDialog {
 	public NodeTypeFilterDialog(Shell shell, Resource resource) {
 		super(shell);
 		this.resource = resource;
-
+		this.setTitle("Select an existing Network Element Type");
 		setListLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {

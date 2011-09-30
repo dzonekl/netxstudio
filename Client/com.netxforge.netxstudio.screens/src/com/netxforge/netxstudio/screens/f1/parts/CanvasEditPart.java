@@ -6,12 +6,9 @@ import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ShortestPathConnectionRouter;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.LayerConstants;
 
 import com.google.common.collect.Lists;
-import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.f1.model.WrappedRFSService;
 import com.netxforge.netxstudio.services.RFSService;
 

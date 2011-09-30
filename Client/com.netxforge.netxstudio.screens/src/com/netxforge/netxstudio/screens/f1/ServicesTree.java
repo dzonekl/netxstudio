@@ -188,9 +188,9 @@ public class ServicesTree extends AbstractScreen implements
 
 		txtFilterText = toolkit.createText(composite, "New Text", SWT.H_SCROLL
 				| SWT.SEARCH | SWT.CANCEL);
-		GridData gd_txtFilterText = new GridData(SWT.LEFT, SWT.CENTER, false,
+		GridData gd_txtFilterText = new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1);
-		gd_txtFilterText.widthHint = 200;
+//		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 		txtFilterText.setSize(64, 81);
 		txtFilterText.setText("");

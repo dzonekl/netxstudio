@@ -50,6 +50,7 @@ public class NewEditNodeEquipment extends NewEditComponent implements
 	private DateChooserCombo dcConstruction;
 	private DateChooserCombo dcInService;
 	private DateChooserCombo dcOutOfService;
+	private Text txtPosition;
 	
 	
 	public NewEditNodeEquipment(Composite parent, int style,
@@ -214,6 +215,20 @@ public class NewEditNodeEquipment extends NewEditComponent implements
 		cmbExpansionDuration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				false, false, 1, 1));
 		toolkit.paintBordersFor(cmbExpansionDuration);
+		
+		
+		Label lblPosition = toolkit.createLabel(composite, "Position:",
+				SWT.NONE);
+		lblPosition.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		
+		txtPosition = toolkit.createText(composite, "New Text", SWT.BORDER | widgetStyle);
+		txtPosition.setText("");
+		GridData gd_textPosition = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
+		gd_textPosition.widthHint = 200;
+		txtPosition.setLayoutData(gd_textPosition);
+		
+		
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -239,6 +254,11 @@ public class NewEditNodeEquipment extends NewEditComponent implements
 				.observeDelayedValue(400,
 						SWTObservables.observeText(txtDescription, SWT.Modify));
 
+		IObservableValue positionObservable = SWTObservables
+				.observeDelayedValue(400,
+						SWTObservables.observeText(txtPosition, SWT.Modify));
+		
+		
 		IEMFValueProperty componentNameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__NAME);
@@ -247,6 +267,10 @@ public class NewEditNodeEquipment extends NewEditComponent implements
 				.value(editingService.getEditingDomain(),
 						LibraryPackage.Literals.COMPONENT__DESCRIPTION);
 
+		IEMFValueProperty positionProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(),
+						LibraryPackage.Literals.EQUIPMENT__POSITION);
+		
 		// Expansion duration binding. 
 		cmbViewerExpansionDuration
 				.setContentProvider(new ArrayContentProvider());
@@ -259,13 +283,19 @@ public class NewEditNodeEquipment extends NewEditComponent implements
 		IValueProperty selectionProperty = ViewerProperties.singleSelection();
 		IObservableValue expansionDurationObservable = selectionProperty
 				.observe(cmbViewerExpansionDuration);
+		
 		context.bindValue(expansionDurationObservable,
 				durationProperty.observe(comp), null, null);
 
 		context.bindValue(nameObservable, componentNameProperty.observe(comp),
 				null, null);
-		context.bindValue(descriptionObservable,
+		
+		context.bindValue(positionObservable,
 				componentDescriptionProperty.observe(comp), null, null);
+		
+		context.bindValue(descriptionObservable,
+				positionProperty.observe(comp), null, null);
+		
 	}
 
 	private void bindLifeCycle(EMFDataBindingContext context) {

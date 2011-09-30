@@ -82,8 +82,6 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		toolkit.paintBordersFor(sctnInfo);
 		sctnInfo.setText("Info");
 
-		
-		
 		Composite cmpInfo = toolkit.createComposite(sctnInfo, SWT.NONE);
 		toolkit.paintBordersFor(cmpInfo);
 		sctnInfo.setClient(cmpInfo);
@@ -161,14 +159,14 @@ public class NewEditNodeType extends AbstractDetailsScreen implements
 		frmTextNumberOfResources.setText("", false, false);
 
 		Section sctnHierachy = toolkit.createSection(this, Section.TWISTIE
-				| Section.TITLE_BAR);
+				| Section.TITLE_BAR | Section.COMPACT );
 		ColumnLayoutData cld_sctnHierachy = new ColumnLayoutData();
 		cld_sctnHierachy.heightHint = 100;
 		sctnHierachy.setLayoutData(cld_sctnHierachy);
 		
 		toolkit.paintBordersFor(sctnHierachy);
 		sctnHierachy.setText("Hierachy");
-		sctnHierachy.setExpanded(true);
+		sctnHierachy.setExpanded(false);
 
 		cmpHierachy = new Composite(sctnHierachy, SWT.BORDER);
 		toolkit.adapt(cmpHierachy);

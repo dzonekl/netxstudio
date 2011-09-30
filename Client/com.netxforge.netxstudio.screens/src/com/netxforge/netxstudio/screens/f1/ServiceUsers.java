@@ -133,7 +133,7 @@ public class ServiceUsers extends AbstractScreen implements
 		mghprlnkNew.setText("New");
 
 		serviceUsers = new TableViewer(frmServiceUsers.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION);
+				| SWT.MULTI | SWT.FULL_SELECTION);
 		table = serviceUsers.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -143,7 +143,7 @@ public class ServiceUsers extends AbstractScreen implements
 		TableViewerColumn tblViewerClmType = new TableViewerColumn(
 				serviceUsers, SWT.NONE);
 		TableColumn tblclmnName = tblViewerClmType.getColumn();
-		tblclmnName.setWidth(106);
+		tblclmnName.setWidth(200);
 		tblclmnName.setText("Name");
 
 	}
@@ -166,14 +166,24 @@ public class ServiceUsers extends AbstractScreen implements
 			if (screenService != null) {
 				ISelection selection = getViewer().getSelection();
 				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
+					final Object o = ((IStructuredSelection) selection)
 							.getFirstElement();
-					NewEditServiceUser smScreen = new NewEditServiceUser(
-							screenService.getScreenContainer(), SWT.NONE);
-					smScreen.setOperation(getOperation());
-					smScreen.setScreenService(screenService);
-					smScreen.injectData(serviceUserResource, o);
-					screenService.setActiveScreen(smScreen);
+					
+					
+					Runnable activate = new Runnable() {
+						public void run() {
+							NewEditServiceUser smScreen = new NewEditServiceUser(
+									screenService.getScreenContainer(),
+									SWT.NONE);
+							smScreen.setOperation(getOperation());
+							smScreen.setScreenService(screenService);
+							smScreen.injectData(serviceUserResource, o);
+							screenService.setActiveScreen(smScreen);
+						}
+					};
+					
+					screenService.activateInObservable(activate);
+					
 				}
 			}
 		}
@@ -261,7 +271,6 @@ public class ServiceUsers extends AbstractScreen implements
 	}
 
 	public void disposeData() {
-		editingService.disposeData(serviceUserResource);
 	}
 
 	@Override
