@@ -133,10 +133,12 @@ public class ScreenFormService implements IScreenFormService {
 		Composite activeScreen = screen;
 		formToolkit.adapt(activeScreen);
 		formToolkit.paintBordersFor(activeScreen);
-		Control current = screenBody.getScreenDeck().topControl;
-		if (current != null && current.isDisposed()) {
-			current = null;
-		}
+		
+		// CB useless code. 
+//		Control current = screenBody.getScreenDeck().topControl;
+//		if (current != null && current.isDisposed()) {
+//			current = null;
+//		}
 		screenBody.getScreenDeck().topControl = activeScreen;
 
 		// screenBody.pack();
@@ -331,7 +333,15 @@ public class ScreenFormService implements IScreenFormService {
 	}
 
 	ObservablesManager obm = null;
-
+	
+	public void activateInObservable(Runnable rn){
+		if(obm == null){
+			obm = new ObservablesManager();
+		}
+		obm.runAndCollect(rn);
+	}
+	
+	
 	private void doSetScreen(final Class<?> finalScreen,
 			final Constructor<?> finalScreenConstructor,
 			final int finalOperation) {
@@ -342,6 +352,7 @@ public class ScreenFormService implements IScreenFormService {
 		// Warn for dirtyness.
 		dirtyWarning();
 
+		
 		// Reset the screen memory.
 		reset();
 
@@ -352,9 +363,12 @@ public class ScreenFormService implements IScreenFormService {
 			obm = null;
 		}
 
+		
 		// Now unload the data.
 		editingService.disposeData();
 
+	
+		
 		obm = new ObservablesManager();
 		obm.runAndCollect(new Runnable() {
 			public void run() {
@@ -461,7 +475,7 @@ public class ScreenFormService implements IScreenFormService {
 			try {
 				System.out.println("About to dispose : "
 						+ c.getClass().getSimpleName());
-//				c.dispose();
+				c.dispose();
 			} catch (Exception e) {
 				if (e instanceof IllegalStateException) {
 					System.out.println("observable exception: "

@@ -59,6 +59,12 @@ public interface IScreenFormService {
 	
 	
 	/**
+	 * 
+	 * @param rn
+	 */
+	public abstract void activateInObservable(Runnable rn);
+	
+	/**
 	 * Check if there is a previous screen.
 	 * @return
 	 */
