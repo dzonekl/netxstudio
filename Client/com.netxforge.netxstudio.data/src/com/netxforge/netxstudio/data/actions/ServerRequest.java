@@ -35,19 +35,17 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.IDataProvider;
 
-
 /**
- * Returns CDO Object ID, to follow the processing. 
+ * Returns CDO Object ID, to follow the processing.
  * 
- * final String result = doRequest(url.toString());
-		final CDOID resultCDOID = CDOIDUtil.createLongWithClassifier(
-				new CDOClassifierRef(SchedulingPackage.Literals.WORK_FLOW_RUN),
-				Long.parseLong(result));
-		return (WorkFlowRun) dataProvider.getTransaction().getObject(
-				resultCDOID);
+ * final String result = doRequest(url.toString()); final CDOID resultCDOID =
+ * CDOIDUtil.createLongWithClassifier( new
+ * CDOClassifierRef(SchedulingPackage.Literals.WORK_FLOW_RUN),
+ * Long.parseLong(result)); return (WorkFlowRun)
+ * dataProvider.getTransaction().getObject( resultCDOID);
  * 
  * @author dzonekl
- *
+ * 
  */
 public class ServerRequest {
 
@@ -58,10 +56,9 @@ public class ServerRequest {
 	ModelUtils modelUtils;
 
 	IDataProvider provider;
-	
+
 	private String server;
 
-	
 	public static final String LOCAL_HTTP_SERVER = "http://localhost:8080";
 
 	public static final String COMMAND_PARAM_NAME = "command";
@@ -82,12 +79,11 @@ public class ServerRequest {
 	public static final String END_TIME_PARAM = "endTime";
 
 	@Inject
-	public ServerRequest(IDataProvider provider){
+	public ServerRequest(IDataProvider provider) {
 		this.provider = provider;
 		server = provider.getServer();
 	}
-	
-	
+
 	public String callMetricImportAction(CDOObject cdoObject) throws Exception {
 		return callMetricAction(METRIC_IMPORT_SERVICE, MS_PARAM,
 				cdoObject.cdoID());
@@ -110,20 +106,15 @@ public class ServerRequest {
 		return callPeriodAction(REPORTING_SERVICE, NODE_PARAM,
 				cdoObject.cdoID(), fromDate, toDate);
 	}
-	
-	public String callOperatorReportingAction(CDOObject cdoObject, Date fromDate,
-			Date toDate) throws Exception {
+
+	public String callOperatorReportingAction(CDOObject cdoObject,
+			Date fromDate, Date toDate) throws Exception {
 		return callPeriodAction(REPORTING_SERVICE, OPERATOR_PARAM,
 				cdoObject.cdoID(), fromDate, toDate);
 	}
-	
-	public String callRetentionAction() throws Exception {
-		// Retention can deal with RFSService, Node, Nodetype etc..).
-		// Get all services.
 
-		// return this.callRetentionAction(RETENTION_SERVICE, parameterName,
-		// cdoId, from, to)
-		return "TODO Not implemented yet.";
+	public String callRetentionAction() throws Exception {
+		return this.callRetentionAction(RETENTION_SERVICE);
 	}
 
 	private String callMetricAction(String serviceName, String parameterName,
@@ -143,7 +134,6 @@ public class ServerRequest {
 		return result;
 	}
 
-	
 	public String callPeriodAction(String serviceName, String parameterName,
 			CDOID cdoId, Date from, Date to) throws Exception {
 
@@ -173,20 +163,36 @@ public class ServerRequest {
 		return result;
 	}
 
-	public String callRetentionAction(String serviceName, String parameterName,
-			CDOID cdoId, Date from, Date to) throws Exception {
-		
+	// Original with name etc....
+	// public String callRetentionAction(String serviceName, String
+	// parameterName,
+	// CDOID cdoId, Date from, Date to) throws Exception {
+	//
+	// calcFromCDOServer();
+	//
+	// final StringBuilder url = new StringBuilder();
+	// url.append(server + "/netxforge/service");
+	// url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
+	//
+	// url.append("&" + START_TIME_PARAM + "=" + getDateParamValue(from));
+	// url.append("&" + END_TIME_PARAM + "=" + getDateParamValue(to));
+	//
+	// url.append("&" + parameterName + "="
+	// + ((AbstractCDOIDLong) cdoId).getLongValue());
+	//
+	// System.err.println(url.toString());
+	// final String result = doRequest(url.toString());
+	// System.err.println(result);
+	// return result;
+	// }
+
+	public String callRetentionAction(String serviceName) throws Exception {
+
 		calcFromCDOServer();
 
 		final StringBuilder url = new StringBuilder();
 		url.append(server + "/netxforge/service");
 		url.append("?" + SERVICE_PARAM_NAME + "=" + serviceName);
-
-		url.append("&" + START_TIME_PARAM + "=" + getDateParamValue(from));
-		url.append("&" + END_TIME_PARAM + "=" + getDateParamValue(to));
-
-		url.append("&" + parameterName + "="
-				+ ((AbstractCDOIDLong) cdoId).getLongValue());
 
 		System.err.println(url.toString());
 		final String result = doRequest(url.toString());
@@ -231,7 +237,7 @@ public class ServerRequest {
 		if (server == null) {
 			server = LOCAL_HTTP_SERVER;
 		} else {
-			if( server.startsWith("http")){
+			if (server.startsWith("http")) {
 				return server;
 			}
 			if (server.startsWith("localhost")) {
@@ -250,7 +256,6 @@ public class ServerRequest {
 		return server;
 	}
 
-	
 	private String getDateParamValue(Date d) {
 		final XMLGregorianCalendar xmlDate = modelUtils.toXMLDate(d);
 		return XMLTypeFactory.eINSTANCE.convertDateTime(xmlDate);
