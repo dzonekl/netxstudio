@@ -104,9 +104,6 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 				.addHyperlinkListener(new IHyperlinkListener() {
 					public void linkActivated(HyperlinkEvent e) {
 						try {
-//							serverActions
-//									.setServer(editingService.getDataService()
-//											.getProvider().getServer());
 							serverActions
 									.setCDOServer(editingService.getDataService()
 											.getProvider().getServer());
@@ -125,7 +122,7 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 						} catch (Exception e1) {
 							e1.printStackTrace();
 							MessageDialog.openError(Retention.this.getShell(),
-									"Data retention action failed:", "...TODO");
+									"Data retention action failed:", "Remote service is not available");
 
 						}
 
@@ -185,13 +182,13 @@ public class Retention extends AbstractScreen implements IDataServiceInjection {
 				expressionScreen.setOperation(Screens.OPERATION_EDIT);
 			}
 			expressionScreen.setScreenService(screenService);
-			screenService.setActiveScreen(expressionScreen);
 			expressionScreen
 					.injectData(
 							null,
 							retention,
 							MetricsPackage.Literals.METRIC_RETENTION_RULE__RETENTION_EXPRESSION,
 							expression);
+			screenService.setActiveScreen(expressionScreen);
 		}
 	}
 
