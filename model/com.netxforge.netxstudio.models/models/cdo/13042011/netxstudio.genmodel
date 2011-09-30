@@ -244,6 +244,7 @@
     <genClasses ecoreClass="services.ecore#//ServiceUser">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//ServiceUser/serviceProfile"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference services.ecore#//ServiceUser/expressionRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceUser/description"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute services.ecore#//ServiceUser/name"/>
     </genClasses>
   </genPackages>

@@ -326,6 +326,13 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
+				<xs:attribute name="Description" type="gen:Description2000">
+					<xs:annotation>
+						<xs:documentation>The Description attribute, holds the
+							Description of the service User.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

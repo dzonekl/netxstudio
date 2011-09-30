@@ -529,6 +529,15 @@
         <details key="name" value="ExpressionRef"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType generics.ecore#//Description2000">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The Description attribute, holds the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Description of the service User.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="Description"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType generics.ecore#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The Name attribute holds the name of the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ServiceUser.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>

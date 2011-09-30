@@ -1055,13 +1055,22 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE_USER__EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE_USER__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER__NAME = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int SERVICE_USER__NAME = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Service User</em>' class.
@@ -1070,7 +1079,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_USER_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int SERVICE_USER_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.ResourceOriginType <em>Resource Origin Type</em>}' enum.
@@ -1674,6 +1683,17 @@ public interface ServicesPackage extends EPackage {
 	EReference getServiceUser_ExpressionRef();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.services.ServiceUser#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see com.netxforge.netxstudio.services.ServiceUser#getDescription()
+	 * @see #getServiceUser()
+	 * @generated
+	 */
+	EAttribute getServiceUser_Description();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.services.ServiceUser#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2189,6 +2209,14 @@ public interface ServicesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SERVICE_USER__EXPRESSION_REF = eINSTANCE.getServiceUser_ExpressionRef();
+
+		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVICE_USER__DESCRIPTION = eINSTANCE.getServiceUser_Description();
 
 		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.

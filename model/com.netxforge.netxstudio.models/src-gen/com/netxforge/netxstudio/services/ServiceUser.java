@@ -45,6 +45,7 @@ import com.netxforge.netxstudio.library.Expression;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getServiceProfile <em>Service Profile</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getExpressionRef <em>Expression Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getDescription <em>Description</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.ServiceUser#getName <em>Name</em>}</li>
  * </ul>
  * </p>
@@ -109,6 +110,34 @@ public interface ServiceUser extends Base {
 	 * @generated
 	 */
 	void setExpressionRef(Expression value);
+
+	/**
+	 * Returns the value of the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The Description attribute, holds the
+	 * 							Description of the service User.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Description</em>' attribute.
+	 * @see #setDescription(String)
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getServiceUser_Description()
+	 * @model dataType="com.netxforge.netxstudio.generics.Description2000"
+	 *        extendedMetaData="kind='attribute' name='Description'"
+	 * @generated
+	 */
+	String getDescription();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.services.ServiceUser#getDescription <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Description</em>' attribute.
+	 * @see #getDescription()
+	 * @generated
+	 */
+	void setDescription(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.

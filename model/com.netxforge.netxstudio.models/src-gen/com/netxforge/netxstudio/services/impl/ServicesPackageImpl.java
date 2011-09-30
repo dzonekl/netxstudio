@@ -741,8 +741,17 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getServiceUser_Name() {
+	public EAttribute getServiceUser_Description() {
 		return (EAttribute)serviceUserEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getServiceUser_Name() {
+		return (EAttribute)serviceUserEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -872,6 +881,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		serviceUserEClass = createEClass(SERVICE_USER);
 		createEReference(serviceUserEClass, SERVICE_USER__SERVICE_PROFILE);
 		createEReference(serviceUserEClass, SERVICE_USER__EXPRESSION_REF);
+		createEAttribute(serviceUserEClass, SERVICE_USER__DESCRIPTION);
 		createEAttribute(serviceUserEClass, SERVICE_USER__NAME);
 
 		// Create enums
@@ -994,6 +1004,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		initEClass(serviceUserEClass, ServiceUser.class, "ServiceUser", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getServiceUser_ServiceProfile(), this.getServiceProfile(), null, "serviceProfile", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getServiceUser_ExpressionRef(), theLibraryPackage.getExpression(), null, "expressionRef", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getServiceUser_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServiceUser_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, ServiceUser.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
@@ -1036,7 +1047,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																													
+		   });																																																																																																															
 	}
 
 	/**
@@ -1436,6 +1447,13 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		   new String[] {
 			 "kind", "element",
 			 "name", "ExpressionRef"
+		   });			
+		addAnnotation
+		  (getServiceUser_Description(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Description"
 		   });			
 		addAnnotation
 		  (getServiceUser_Name(), 

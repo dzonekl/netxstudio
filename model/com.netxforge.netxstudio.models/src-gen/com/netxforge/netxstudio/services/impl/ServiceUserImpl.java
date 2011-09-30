@@ -35,6 +35,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getServiceProfile <em>Service Profile</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getExpressionRef <em>Expression Ref</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceUserImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
@@ -95,6 +96,24 @@ public class ServiceUserImpl extends BaseImpl implements ServiceUser {
 	 */
 	public void setExpressionRef(Expression newExpressionRef) {
 		eSet(ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF, newExpressionRef);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDescription() {
+		return (String)eGet(ServicesPackage.Literals.SERVICE_USER__DESCRIPTION, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDescription(String newDescription) {
+		eSet(ServicesPackage.Literals.SERVICE_USER__DESCRIPTION, newDescription);
 	}
 
 	/**
