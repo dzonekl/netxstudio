@@ -62,7 +62,7 @@ public abstract class AbstractScreen extends Composite implements IScreen,
 	protected IScreenFormService screenService;
 
 	protected IValidationService validationService;
-	
+
 	@Inject
 	protected ModelUtils modelUtils;
 
@@ -138,11 +138,11 @@ public abstract class AbstractScreen extends Composite implements IScreen,
 	}
 
 	protected Collection<Object> selectedElements;
-	
+
 	@SuppressWarnings("unchecked")
 	public void widgetSelected(SelectionEvent e) {
 		ISelection selection = this.getViewer().getSelection();
-		if(selection instanceof IStructuredSelection ){
+		if (selection instanceof IStructuredSelection) {
 			selectedElements = ((IStructuredSelection) selection).toList();
 			this.doSetSelection(selectedElements);
 		}
@@ -150,16 +150,38 @@ public abstract class AbstractScreen extends Composite implements IScreen,
 
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
-	
-//	public abstract void doSetSelection(Collection<Object> selectedElements);
+
+	// public abstract void doSetSelection(Collection<Object> selectedElements);
 
 	/**
-	 * Clients should override. 
+	 * Clients should override.
+	 * 
 	 * @param selectedElements
 	 */
-	protected void doSetSelection(Collection<Object> selectedElements){
-		// do nothing. 
+	protected void doSetSelection(Collection<Object> selectedElements) {
+		// do nothing.
 	}
-	
-	
+
+	/**
+	 * Store the provided
+	 * 
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	protected boolean storePreference(String key, String value) {
+		if (!ScreensActivator.doGetPreferenceStore().contains(key)) {
+			ScreensActivator.doGetPreferenceStore().setValue(key, value);
+			return true;
+		}
+		return false;
+	}
+
+	protected String findPreference(String key) {
+		if (ScreensActivator.doGetPreferenceStore().contains(key)) {
+			return ScreensActivator.doGetPreferenceStore().getString(key);
+		}
+		return null;
+	}
+
 }

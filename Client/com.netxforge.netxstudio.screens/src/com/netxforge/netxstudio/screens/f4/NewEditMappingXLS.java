@@ -8,8 +8,6 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
@@ -84,16 +82,14 @@ import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
 import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
-import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu.MappingMenuListener;
 import com.netxforge.netxstudio.screens.f4.support.Tuple;
-import com.netxforge.netxstudio.screens.f4.support.XLSServiceJob;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
-public class NewEditMappingXLS extends AbstractScreen implements
+public class NewEditMappingXLS extends AbstractMapping implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -102,7 +98,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 	private Table table;
 	private Text txtSelectedXLSPath;
 	private Form frmXLSMappingForm;
-	private MetricSource owner;
+	private MetricSource metricSource;
 	private MappingXLS mapping;
 	private TableViewer mappingColumnsTableViewer;
 	private GridTableViewer gridTableViewer;
@@ -212,26 +208,12 @@ public class NewEditMappingXLS extends AbstractScreen implements
 				if (paths == null || paths.length == 0)
 					return;
 				// We only process the first selection.
-				IFile f = WorkspaceUtil.INSTANCE.createFileHandle(paths[0]);
+				final IFile f = WorkspaceUtil.INSTANCE.createFileHandle(paths[0]);
 				txtSelectedXLSPath.setText(f.getName());
-				final XLSServiceJob job = new XLSServiceJob();
-				job.addNotifier(new JobChangeAdapter() {
-					@Override
-					public void done(IJobChangeEvent event) {
-						super.done(event);
-						List<Map<Integer, Tuple>> records = job.getRecords();
-						if (records != null) {
-							Display.getDefault().asyncExec(new Runnable() {
-								public void run() {
-									fillGrid(job.getRecords());
-								}
-							});
-						}
-					}
-				});
-				job.setResourceToProcess(f);
-				job.go(); // Should spawn a job processing the xls.
+				loadSampleFile(metricSource, f);
 			}
+
+			
 		});
 
 		txtSelectedXLSPath = toolkit.createText(composite_2, "New Text",
@@ -397,6 +379,8 @@ public class NewEditMappingXLS extends AbstractScreen implements
 
 	}
 
+	
+	
 	/**
 	 * Aggregates the selection in the grid, used by column and the grid.
 	 * 
@@ -476,8 +460,9 @@ public class NewEditMappingXLS extends AbstractScreen implements
 		}
 		return alphabet;
 	}
+	
 
-	protected void fillGrid(List<Map<Integer, Tuple>> records) {
+	public void fillGrid(List<Map<Integer, Tuple>> records) {
 		this.gridTableViewer.setInput(records);
 	}
 
@@ -634,7 +619,7 @@ public class NewEditMappingXLS extends AbstractScreen implements
 
 	public void injectData(Object owner, Object object) {
 		if (owner instanceof MetricSource) {
-			this.owner = (MetricSource) owner;
+			this.metricSource = (MetricSource) owner;
 		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
@@ -647,14 +632,19 @@ public class NewEditMappingXLS extends AbstractScreen implements
 			throw new java.lang.IllegalArgumentException();
 		}
 		buildUI();
-		this.initDataBindings_();
+		initDataBindings_();
+		
+		IFile file = this.getMetricSourceSampleFile(metricSource);
+		if(file != null){
+			this.loadSampleFile(metricSource, file);
+		}
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && owner != null) {
+		if (Screens.isNewOperation(getOperation()) && metricSource != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new SetCommand(editingService.getEditingDomain(),
-					owner,
+					metricSource,
 					MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING,
 					mapping);
 			editingService.getEditingDomain().getCommandStack().execute(c);
