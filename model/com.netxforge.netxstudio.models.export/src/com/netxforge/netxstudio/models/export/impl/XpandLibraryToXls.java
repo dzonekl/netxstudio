@@ -6,12 +6,8 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.xpand2.XpandFacade;
 import org.eclipse.xpand2.output.Output;
 
-import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.models.export.internal.Activator;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
-import com.netxforge.netxstudio.services.ServicesPackage;
 
 public class XpandLibraryToXls extends XpandTemplateImpl {
 
