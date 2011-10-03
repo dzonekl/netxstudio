@@ -134,7 +134,7 @@ public class NewEditMappingXLS extends AbstractMapping implements
 		frmXLSMappingForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmXLSMappingForm);
 
-		frmXLSMappingForm.setText(actionText + " XLS Mapping");
+		frmXLSMappingForm.setText(actionText + " XLS Mapping: " + metricSource.getName());
 		frmXLSMappingForm.getBody().setLayout(new FormLayout());
 
 		Section sctnSummary = toolkit.createSection(
@@ -281,7 +281,7 @@ public class NewEditMappingXLS extends AbstractMapping implements
 						screenService.getScreenContainer(), SWT.NONE);
 				mappingColumnScreen.setOperation(Screens.OPERATION_NEW);
 				mappingColumnScreen.setScreenService(screenService);
-				mappingColumnScreen.injectData(true,
+				mappingColumnScreen.injectData(metricSource, true,
 						mapping.getDataMappingColumns(),
 						MetricsFactory.eINSTANCE.createMappingColumn());
 				screenService.setActiveScreen(mappingColumnScreen);
@@ -337,7 +337,7 @@ public class NewEditMappingXLS extends AbstractMapping implements
 							screenService.getScreenContainer(), SWT.NONE);
 					mappingColumnScreen.setOperation(Screens.OPERATION_EDIT);
 					mappingColumnScreen.setScreenService(screenService);
-					mappingColumnScreen.injectData(true,
+					mappingColumnScreen.injectData(metricSource, true,
 							mapping.getDataMappingColumns(), mappingColumn);
 					screenService.setActiveScreen(mappingColumnScreen);
 
@@ -636,6 +636,7 @@ public class NewEditMappingXLS extends AbstractMapping implements
 		
 		IFile file = this.getMetricSourceSampleFile(metricSource);
 		if(file != null){
+			this.txtSelectedXLSPath.setText(file.getName());
 			this.loadSampleFile(metricSource, file);
 		}
 	}

@@ -43,56 +43,6 @@ public abstract class AbstractConditionalChildCreationExtender implements IChild
 		return newChildDescriptors;
 	}
 	
-	// Remove later, moved to Model utils. 
-
-//	public void setSequenceNumber(Equipment targetEq, Equipment eqCopy) {
-//		int size = targetEq.getEquipments().size();
-//		String newName = null;
-//		if (size > 0) {
-//			Equipment lastChild = targetEq.getEquipments().get(size - 1);
-//			if (lastChild.eIsSet(LibraryPackage.Literals.COMPONENT__NAME)) {
-//				String lastName = lastChild.getName();
-//				// See if the last 2 chars are a digit.
-//				try {
-//
-//					Pattern MY_PATTERN = Pattern.compile("[0-9]*");
-//					Matcher m = MY_PATTERN.matcher(lastName);
-//					String lastDigits = null;
-//					while (m.find()) {
-//						String match = m.group();
-//						if (!match.isEmpty())
-//							lastDigits = match;
-//					}
-//					if (lastDigits != null) {
-//						String nameWithNoDigits = lastName.substring(0,
-//								lastName.indexOf(lastDigits));
-//						try {
-//							Integer ld = new Integer(lastDigits);
-//							ld++;
-//							// Perhaps format with 0...
-//							
-//							// Do a simple text format. 
-//							DecimalFormat format = new DecimalFormat();
-//							format.applyPattern("###");
-//							newName = nameWithNoDigits + format.format(ld);
-//
-//						} catch (NumberFormatException nfe) {
-//							System.err
-//									.println("ChildCreationExtender: Can't formart"
-//											+ lastDigits);
-//						}
-//					}
-//				} catch (PatternSyntaxException pse) {
-//					System.err.println("ChildCreationExtender: Wrong syntax");
-//				}
-//			}
-//		}
-//		if (newName == null) {
-//			newName = "1";
-//		}
-//		eqCopy.setName(newName);
-//	}
-
 	public ResourceLocator getResourceLocator() {
 		return EMFEditPlugin.INSTANCE;
 	}
@@ -100,20 +50,5 @@ public abstract class AbstractConditionalChildCreationExtender implements IChild
 	protected CommandParameter createChildParameter(Object feature, Object child) {
 		return new CommandParameter(null, feature, child);
 	}
-	
-	
-	// Remove later, moved to Model utils. 	
-
-//	public Node resolveParentNode(EObject current) {
-//		if (current != null && current.eContainer() != null) {
-//			if (current.eContainer() instanceof Node) {
-//				return (Node) current.eContainer();
-//			} else {
-//				return resolveParentNode(current.eContainer());
-//			}
-//		} else {
-//			return null;
-//		}
-//	}
 
 }

@@ -12,5 +12,9 @@ public class OperatorXLSTemplateWizard extends AbstractExportTempleWizard {
 		return super.doPerformFinish(currentTemplate);
 
 	}
-
+	
+	@Override
+	public String getHintFileName() {
+		return "operators-template";
+	}
 }

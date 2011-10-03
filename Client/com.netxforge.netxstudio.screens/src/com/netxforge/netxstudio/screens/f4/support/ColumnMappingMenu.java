@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Text;
 import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.Mapping;
 import com.netxforge.netxstudio.metrics.MappingColumn;
+import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
@@ -56,12 +57,18 @@ public class ColumnMappingMenu {
 		private Text txtFirstHeaderRow;
 		private Text txtFirstDataRow;
 
+		private MetricSource metricSource;
+
 		public MappingMenuListener(Menu gridMenu, Mapping mapping,
 				IScreenFormService screenService, Text txtFirstHeaderRow,
 				Text txtFirstDataRow) {
 			super();
 			this.gridMenu = gridMenu;
 			this.mapping = mapping;
+			if(mapping.eContainer() instanceof MetricSource){
+				this.metricSource = (MetricSource) mapping.eContainer();
+			}
+
 			this.screenService = screenService;
 			this.txtFirstHeaderRow = txtFirstHeaderRow;
 			this.txtFirstDataRow = txtFirstDataRow;
@@ -357,7 +364,7 @@ public class ColumnMappingMenu {
 					screenService.getScreenContainer(), SWT.NONE);
 			mappingColumnScreen.setOperation(op);
 			mappingColumnScreen.setScreenService(screenService);
-			mappingColumnScreen.injectData(showDataMapping, owner, target);
+			mappingColumnScreen.injectData(metricSource, showDataMapping, owner, target);
 			screenService.setActiveScreen(mappingColumnScreen);
 		}
 		

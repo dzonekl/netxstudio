@@ -128,6 +128,9 @@ public abstract class AbstractExportTempleWizard extends Wizard implements IExpo
 		xpandExportFilePage.setDescription(Messages.XPandExportWizard_12);
 		xpandExportFilePage.setContainerFullPath(WorkspaceUtil.INSTANCE
 				.getExportsPath());
+		xpandExportFilePage.setFileExtension(this.getTemplate().getExtension());
+		xpandExportFilePage.setFileName(this.getHintFileName() + ".xml"+ "." + this.getTemplate().getExtension());
+		
 		addPage(xpandExportFilePage);
 	}
 
@@ -135,4 +138,8 @@ public abstract class AbstractExportTempleWizard extends Wizard implements IExpo
 		return new XpandPackageImport();
 	}
 
+	public abstract String getHintFileName();
+	
+	
+	
 }

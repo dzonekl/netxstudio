@@ -98,7 +98,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 	private Table tblDataColumnMapping;
 	private Text txtSelectedCSVPath;
 	private Form frmCSVMappingForm;
-	private MetricSource owner;
+	private MetricSource metricSource;
 	private MappingCSV mapping;
 	private TableViewer tblViewerDataColumnMapping;
 	private GridTableViewer gridTableViewer;
@@ -133,7 +133,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		frmCSVMappingForm = toolkit.createForm(this);
 		frmCSVMappingForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmCSVMappingForm);
-		frmCSVMappingForm.setText(actionText + " CSV Mapping");
+		frmCSVMappingForm.setText(actionText + " CSV Mapping: " + metricSource.getName());
 		frmCSVMappingForm.getBody().setLayout(new FormLayout());
 
 		Section sctnSummary = toolkit.createSection(
@@ -547,7 +547,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 				screenService.getScreenContainer(), SWT.NONE);
 		mappingColumnScreen.setOperation(op);
 		mappingColumnScreen.setScreenService(screenService);
-		mappingColumnScreen.injectData(showDataMapping, owner, target);
+		mappingColumnScreen.injectData(metricSource, showDataMapping, owner, target);
 		screenService.setActiveScreen(mappingColumnScreen);
 	}
 
@@ -790,7 +790,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 
 	public void injectData(Object owner, Object object) {
 		if (owner instanceof MetricSource) {
-			this.owner = (MetricSource) owner;
+			this.metricSource = (MetricSource) owner;
 		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
@@ -804,10 +804,10 @@ public class NewEditMappingCSV extends AbstractScreen implements
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && owner != null) {
+		if (Screens.isNewOperation(getOperation()) && metricSource != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new SetCommand(editingService.getEditingDomain(),
-					owner,
+					metricSource,
 					MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING,
 					mapping);
 			editingService.getEditingDomain().getCommandStack().execute(c);

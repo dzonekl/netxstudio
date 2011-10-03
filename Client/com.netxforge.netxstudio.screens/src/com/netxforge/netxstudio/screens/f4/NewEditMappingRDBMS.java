@@ -102,7 +102,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 	private Table table;
 	private Text txtDBQuery;
 	private Form frmCSVMappingForm;
-	private MetricSource owner;
+	private MetricSource metricSource;
 	private MappingRDBMS mapping;
 	private TableViewer mappingColumnsTableViewer;
 	private GridTableViewer gridTableViewer;
@@ -138,7 +138,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		frmCSVMappingForm = toolkit.createForm(this);
 		frmCSVMappingForm.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmCSVMappingForm);
-		frmCSVMappingForm.setText(actionText + " RDBMS Mapping");
+		frmCSVMappingForm.setText(actionText + " RDBMS Mapping: " + metricSource.getName());
 		frmCSVMappingForm.getBody().setLayout(new FormLayout());
 
 		Section sctnSummary = toolkit.createSection(
@@ -274,7 +274,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 						}
 					}
 				});
-				job.setDetailsToProcess(owner, mapping);
+				job.setDetailsToProcess(metricSource, mapping);
 				job.go(); // Should spawn a job processing the xls.
 				// resetGridSelections();// Reset the selections.
 			}
@@ -362,7 +362,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 							screenService.getScreenContainer(), SWT.NONE);
 					mappingColumnScreen.setOperation(Screens.OPERATION_EDIT);
 					mappingColumnScreen.setScreenService(screenService);
-					mappingColumnScreen.injectData(true, mapping.getDataMappingColumns(), mappingColumn);
+					mappingColumnScreen.injectData(metricSource, true, mapping.getDataMappingColumns(), mappingColumn);
 					screenService.setActiveScreen(mappingColumnScreen);
 
 				}
@@ -658,7 +658,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 
 	public void injectData(Object owner, Object object) {
 		if (owner instanceof MetricSource) {
-			this.owner = (MetricSource) owner;
+			this.metricSource = (MetricSource) owner;
 		} else {
 			// We need the right type of object for this screen.
 			throw new java.lang.IllegalArgumentException();
@@ -676,10 +676,10 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && owner != null) {
+		if (Screens.isNewOperation(getOperation()) && metricSource != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new SetCommand(editingService.getEditingDomain(),
-					owner,
+					metricSource,
 					MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING,
 					mapping);
 			editingService.getEditingDomain().getCommandStack().execute(c);

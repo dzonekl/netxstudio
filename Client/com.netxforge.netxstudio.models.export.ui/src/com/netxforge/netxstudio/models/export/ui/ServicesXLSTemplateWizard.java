@@ -12,5 +12,10 @@ public class ServicesXLSTemplateWizard extends AbstractExportTempleWizard {
 		return super.doPerformFinish(currentTemplate);
 
 	}
-
+	
+	@Override
+	public String getHintFileName() {
+		return "services-template";
+	}
+	
 }

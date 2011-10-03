@@ -120,9 +120,8 @@ public class NewEditMetricSource extends AbstractScreen implements
 		lblName.setLayoutData(gd_lblName);
 
 		txtName = toolkit.createText(composite_1, "New Text", SWT.NONE);
-		GridData gd_txtName = new GridData(SWT.LEFT, SWT.CENTER, false, false,
+		GridData gd_txtName = new GridData(SWT.FILL, SWT.CENTER, true, false,
 				1, 1);
-		gd_txtName.widthHint = 200;
 		txtName.setLayoutData(gd_txtName);
 		txtName.setText("");
 
@@ -134,9 +133,8 @@ public class NewEditMetricSource extends AbstractScreen implements
 
 		txtLocationUrl = toolkit.createText(composite_1, "New Text", SWT.NONE);
 		txtLocationUrl.setText("");
-		GridData gd_txtLocationUrl = new GridData(SWT.LEFT, SWT.CENTER, true,
+		GridData gd_txtLocationUrl = new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1);
-		gd_txtLocationUrl.widthHint = 200;
 		txtLocationUrl.setLayoutData(gd_txtLocationUrl);
 
 		Label lblNewEditMapping = toolkit.createLabel(composite_1, "Mapping:",
@@ -149,6 +147,11 @@ public class NewEditMetricSource extends AbstractScreen implements
 				"Mapping", SWT.NONE);
 		hprlnkAddMapping.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
+				
+				if(!validationService.isValid()){
+					return;
+				}
+				
 				Mapping mapping = null;
 				int operation = Screens.OPERATION_NEW;
 				if (metricSource.getMetricMapping() == null) {

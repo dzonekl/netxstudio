@@ -64,6 +64,7 @@ import com.netxforge.netxstudio.metrics.IdentifierDataKind;
 import com.netxforge.netxstudio.metrics.KindHintType;
 import com.netxforge.netxstudio.metrics.MappingColumn;
 import com.netxforge.netxstudio.metrics.Metric;
+import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.metrics.ObjectKindType;
@@ -85,7 +86,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private Text txtMetricValuePattern;
 	private Text txtObject;
 	private Text txtMetric;
-	private EList<?> owner;
+	private EList<?> mappingColumns;
 	private MappingColumn mxlsColumn;
 	private Text txtColumn;
 	private Button btnDate;
@@ -122,6 +123,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	private Combo combo;
 	private ComboViewer comboViewerMetricKindHint;
 	private IViewerObservableValue metricKindHintObservable;
+	private MetricSource source;
 
 	/**
 	 * Create the composite.
@@ -156,7 +158,7 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		frmNewMappingColumn.setSeparatorVisible(true);
 		toolkit.paintBordersFor(frmNewMappingColumn);
 
-		frmNewMappingColumn.setText(actionText + "Mapping Column");
+		frmNewMappingColumn.setText(actionText + "Mapping Column: " + this.source.getName());
 
 		frmNewMappingColumn.getBody().setLayout(new ColumnLayout());
 
@@ -942,14 +944,15 @@ public class NewEditMappingColumn extends AbstractScreen implements
 		// N/A
 	}
 
-	public void injectData(boolean showDataMapping, Object owner, Object object) {
+	public void injectData(MetricSource source, boolean showDataMapping, Object owner, Object object) {
+		this.source = source;
 		this.showDataMapping = showDataMapping;
 		injectData(owner, object);
 	}
 
 	public void injectData(Object owner, Object object) {
 		if (owner instanceof EList<?>) {
-			this.owner = (EList<?>) owner;
+			this.mappingColumns = (EList<?>) owner;
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -971,10 +974,10 @@ public class NewEditMappingColumn extends AbstractScreen implements
 	}
 
 	public void addData() {
-		if (Screens.isNewOperation(getOperation()) && owner != null) {
+		if (Screens.isNewOperation(getOperation()) && mappingColumns != null) {
 			// If new, we have been operating on an object not added yet.
 			Command c = new AddCommand(editingService.getEditingDomain(),
-					owner, mxlsColumn);
+					mappingColumns, mxlsColumn);
 
 			editingService.getEditingDomain().getCommandStack().execute(c);
 		} else if (Screens.isEditOperation(getOperation())) {

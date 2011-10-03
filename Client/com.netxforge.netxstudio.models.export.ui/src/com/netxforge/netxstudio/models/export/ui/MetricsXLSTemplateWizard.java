@@ -11,5 +11,11 @@ public class MetricsXLSTemplateWizard extends AbstractExportTempleWizard {
 		currentTemplate.setTargetObject(MetricsPackage.eINSTANCE);
 		return super.doPerformFinish(currentTemplate);
 	}
+	
+	@Override
+	public String getHintFileName() {
+		return "metrics-template";
+	}
+
 
 }

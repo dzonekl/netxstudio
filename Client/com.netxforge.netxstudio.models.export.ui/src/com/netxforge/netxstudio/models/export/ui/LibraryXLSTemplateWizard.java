@@ -13,4 +13,9 @@ public class LibraryXLSTemplateWizard extends AbstractExportTempleWizard {
 
 	}
 
+	@Override
+	public String getHintFileName() {
+		return "library-template";
+	}
+
 }

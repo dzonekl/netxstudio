@@ -18,29 +18,29 @@ public class ExportNewFileWizardPage extends WizardNewFileCreationPage {
 
 	/**
 	 */
-	private String fileExtension;
+//	private String fileExtension;
 
 	/**
 	 */
 	public ExportNewFileWizardPage(String pageName,
 			IStructuredSelection selection, String fileExtension) {
 		super(pageName, selection);
-		this.fileExtension = fileExtension;
+//		this.fileExtension = fileExtension;
 	}
 
 	/**
 	 */
-	public void setExtension(String extension) {
-		fileExtension = extension;
-	}
+//	public void setExtension(String extension) {
+//		fileExtension = extension;
+//	}
 	
 	
 	
 	/**
 	 */
-	protected String getExtension() {
-		return fileExtension;
-	}
+//	protected String getExtension() {
+//		return fileExtension;
+//	}
 
 
 	/**
@@ -74,7 +74,7 @@ public class ExportNewFileWizardPage extends WizardNewFileCreationPage {
 		if (!super.validatePage()) {
 			return false;
 		}
-		String extension = getExtension();
+		String extension = super.getFileExtension();
 		if("*".equals(extension)) return true; //$NON-NLS-1$
 		if (extension != null
 				&& !getFilePath().toString().endsWith("." + extension)) { //$NON-NLS-1$

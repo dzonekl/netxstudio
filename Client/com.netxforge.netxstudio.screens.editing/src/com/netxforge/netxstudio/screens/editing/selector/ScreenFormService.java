@@ -425,19 +425,23 @@ public class ScreenFormService implements IScreenFormService {
 				}
 
 			} else {
-				// This will flush the stack, but not undo all the commands.
-				// We need to undo the executed editing commands.
-				while (editingService.getEditingDomain().getCommandStack()
-						.canUndo()) {
-					editingService.getEditingDomain().getCommandStack().undo();
-				}
-				editingService.getEditingDomain().getCommandStack().flush();
-				// The data should have been disposed by now.
+				undoAndFlush();
 			}
 		} else {
 			// Flush the stack anyway.
 			editingService.getEditingDomain().getCommandStack().flush();
 		}
+	}
+
+	private void undoAndFlush() {
+		// This will flush the stack, but not undo all the commands.
+		// We need to undo the executed editing commands.
+		while (editingService.getEditingDomain().getCommandStack()
+				.canUndo()) {
+			editingService.getEditingDomain().getCommandStack().undo();
+		}
+		editingService.getEditingDomain().getCommandStack().flush();
+		// The data should have been disposed by now.
 	}
 
 	public void reset() {
@@ -556,8 +560,25 @@ public class ScreenFormService implements IScreenFormService {
 		formToolkit.adapt(bckLnk);
 		bckLnk.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				dirtyWarning();
-				popScreen();
+				if(((IScreen) getActiveScreen()).isValid()) {
+					dirtyWarning();
+					popScreen();
+				}else{
+					if(editingService.isDirty()){
+						boolean result = MessageDialog
+								.openQuestion(Display.getCurrent().getActiveShell(),
+										"Save needed, but entry not valid",
+										"You have unsaved changes, which are not valid yet, discard?");
+						if(result){
+							// clean the service. 
+							undoAndFlush();
+							popScreen();
+						}else{
+							// Stay on this screen. 
+							
+						}
+					}
+				}
 			}
 
 			public void linkEntered(HyperlinkEvent e) {
