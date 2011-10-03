@@ -32,9 +32,9 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.edit.MotherOfAllItemProvider;
 import com.netxforge.netxstudio.generics.provider.NetxstudioEditPlugin;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
@@ -47,7 +47,7 @@ import com.netxforge.netxstudio.metrics.MetricsPackage;
  * @generated
  */
 public class MetricRetentionRulesItemProvider
-	extends ItemProviderAdapter
+	extends MotherOfAllItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

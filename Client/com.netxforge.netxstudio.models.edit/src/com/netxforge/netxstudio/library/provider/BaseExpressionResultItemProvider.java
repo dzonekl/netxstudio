@@ -32,7 +32,8 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+
+import com.netxforge.netxstudio.edit.MotherOfAllItemProvider;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.library.BaseExpressionResult} object.
@@ -41,7 +42,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
  * @generated
  */
 public class BaseExpressionResultItemProvider
-	extends ItemProviderAdapter
+	extends MotherOfAllItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

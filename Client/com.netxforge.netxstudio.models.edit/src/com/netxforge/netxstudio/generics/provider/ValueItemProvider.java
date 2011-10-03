@@ -35,9 +35,9 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.edit.MotherOfAllItemProvider;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
@@ -49,7 +49,7 @@ import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
  * @generated
  */
 public class ValueItemProvider
-	extends ItemProviderAdapter
+	extends MotherOfAllItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

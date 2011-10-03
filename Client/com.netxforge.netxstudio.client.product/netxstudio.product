@@ -87,10 +87,10 @@
       <feature id="org.eclipse.jdt.artifacts.feature"/>
       <feature id="org.apache.poi.artifacts.feature"/>
       <feature id="oracle.jdbc.driver"/>
-      <feature id="org.postgresql" version="9.0.0.801"/>
       <feature id="org.eclipse.gef" version="3.7.0.v20110425-2050-777D-81B2Bz0685C3A6E34272"/>
       <feature id="org.eclipse.draw2d" version="3.7.0.v20110425-2050-46-7w3122153603161"/>
       <feature id="org.eclipse.xtend.artifacts.feature"/>
+      <feature id="org.postgresql" version="9.0.0.801"/>
    </features>
 
    <configurations>

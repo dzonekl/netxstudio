@@ -1059,46 +1059,51 @@ public class ModelUtils {
 				if (lastChild.eIsSet(identityFeature)) {
 					final String lastName = (String) lastChild
 							.eGet(identityFeature);
-					// See if the last 2 chars are a digit.
-					try {
-
-						final Pattern MY_PATTERN = Pattern.compile("[0-9]*");
-						final Matcher m = MY_PATTERN.matcher(lastName);
-						String lastDigits = null;
-						while (m.find()) {
-							final String match = m.group();
-							if (!match.isEmpty())
-								lastDigits = match;
-						}
-						if (lastDigits != null) {
-							final String nameWithNoDigits = lastName.substring(
-									0, lastName.indexOf(lastDigits));
-							try {
-								Integer ld = new Integer(lastDigits);
-								ld++;
-								// Perhaps format with 0...
-
-								// Do a simple text format.
-								final DecimalFormat format = new DecimalFormat();
-								format.applyPattern("###");
-								newName = nameWithNoDigits + format.format(ld);
-
-							} catch (final NumberFormatException nfe) {
-								System.err.println("ModelUtils: Can't formart"
-										+ lastDigits);
-							}
-						}
-					} catch (final PatternSyntaxException pse) {
-						System.err.println("ModelUtils: Wrong syntax");
-					}
+					newName = nextIdentity(lastName);
 				}
 			}
 			if (newName == null) {
 				newName = "1";
 			}
-
 		}
 
+		return newName;
+	}
+
+	public String nextIdentity(final String lastName) {
+		String newName = new String();
+		// See if the last 2 chars are a digit.
+		try {
+
+			final Pattern MY_PATTERN = Pattern.compile("[0-9]*");
+			final Matcher m = MY_PATTERN.matcher(lastName);
+			String lastDigits = null;
+			while (m.find()) {
+				final String match = m.group();
+				if (!match.isEmpty())
+					lastDigits = match;
+			}
+			if (lastDigits != null) {
+				final String nameWithNoDigits = lastName.substring(
+						0, lastName.indexOf(lastDigits));
+				try {
+					Integer ld = new Integer(lastDigits);
+					ld++;
+					// Perhaps format with 0...
+
+					// Do a simple text format.
+					final DecimalFormat format = new DecimalFormat();
+					format.applyPattern("###");
+					newName = nameWithNoDigits + format.format(ld);
+
+				} catch (final NumberFormatException nfe) {
+					System.err.println("ModelUtils: Can't formart"
+							+ lastDigits);
+				}
+			}
+		} catch (final PatternSyntaxException pse) {
+			System.err.println("ModelUtils: Wrong syntax");
+		}
 		return newName;
 	}
 

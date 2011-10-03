@@ -78,6 +78,7 @@ public class ServiceUserItemProvider
 			super.getPropertyDescriptors(object);
 
 			addExpressionRefPropertyDescriptor(object);
+			addDescriptionPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -101,6 +102,28 @@ public class ServiceUserItemProvider
 				 false,
 				 true,
 				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Description feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDescriptionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ServiceUser_description_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ServiceUser_description_feature", "_UI_ServiceUser_type"),
+				 ServicesPackage.Literals.SERVICE_USER__DESCRIPTION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -194,6 +217,7 @@ public class ServiceUserItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ServiceUser.class)) {
+			case ServicesPackage.SERVICE_USER__DESCRIPTION:
 			case ServicesPackage.SERVICE_USER__NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

@@ -31,8 +31,8 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import com.netxforge.netxstudio.edit.MotherOfAllItemProvider;
 import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
 
 /**
@@ -42,7 +42,7 @@ import com.netxforge.netxstudio.scheduling.provider.NetxstudioEditPlugin;
  * @generated
  */
 public class DataKindItemProvider
-	extends ItemProviderAdapter
+	extends MotherOfAllItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

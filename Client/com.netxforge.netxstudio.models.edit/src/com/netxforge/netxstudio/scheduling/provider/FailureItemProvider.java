@@ -33,9 +33,9 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import com.netxforge.netxstudio.edit.MotherOfAllItemProvider;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 
@@ -46,7 +46,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * @generated
  */
 public class FailureItemProvider
-	extends ItemProviderAdapter
+	extends MotherOfAllItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
