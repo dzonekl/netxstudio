@@ -1905,4 +1905,16 @@ public class ModelUtils {
 		return doubles;
 	}
 
+	
+//	public Date lastContainmentDate(CDOObject object) {
+//		
+//		TreeIterator<EObject> eAllContents = object.eAllContents();
+//		while(eAllContents.hasNext()){
+//			EObject eo : eAllContents.next();
+//			
+//		}
+//		return null;
+//	}
+	
+	
 }

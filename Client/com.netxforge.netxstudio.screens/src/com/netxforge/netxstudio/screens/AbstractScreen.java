@@ -170,11 +170,11 @@ public abstract class AbstractScreen extends Composite implements IScreen,
 	 * @return
 	 */
 	protected boolean storePreference(String key, String value) {
-		if (!ScreensActivator.doGetPreferenceStore().contains(key)) {
-			ScreensActivator.doGetPreferenceStore().setValue(key, value);
-			return true;
-		}
-		return false;
+		// if (!ScreensActivator.doGetPreferenceStore().contains(key)) {
+		ScreensActivator.doGetPreferenceStore().setValue(key, value);
+		return true;
+		// }
+		// return false;
 	}
 
 	protected String findPreference(String key) {

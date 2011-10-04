@@ -1,13 +1,14 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
@@ -81,15 +82,14 @@ import com.netxforge.netxstudio.metrics.ValueDataKind;
 import com.netxforge.netxstudio.metrics.ValueKindType;
 import com.netxforge.netxstudio.metrics.impl.IdentifierDataKindImpl;
 import com.netxforge.netxstudio.metrics.impl.ValueDataKindImpl;
-import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
-import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu;
 import com.netxforge.netxstudio.screens.f4.support.ColumnMappingMenu.MappingMenuListener;
+import com.netxforge.netxstudio.screens.f4.support.Tuple;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
 
-public class NewEditMappingCSV extends AbstractScreen implements
+public class NewEditMappingCSV extends AbstractMapping implements
 		IDataScreenInjection {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
@@ -324,31 +324,14 @@ public class NewEditMappingCSV extends AbstractScreen implements
 					return;
 				// We only process the first selection.
 				IFile f = WorkspaceUtil.INSTANCE.createFileHandle(paths[0]);
+				
 				txtSelectedCSVPath.setText(f.getName());
-				final CSVServiceJob job = new CSVServiceJob();
-				job.addNotifier(new JobChangeAdapter() {
-					@Override
-					public void done(IJobChangeEvent event) {
-						super.done(event);
-
-						String[][] records = job.getRecords();
-						if (records != null) {
-							Display.getDefault().asyncExec(new Runnable() {
-								public void run() {
-									fillGrid(job.getRecords());
-								}
-							});
-						}
-					}
-				});
-				job.setResourceToProcess(f);
-				job.go(); // Should spawn a job processing the xls.
-//				resetGridSelections();// Reset the selections.
+				loadCSVSampleFile(metricSource, f);
 			}
 		});
 
 		txtSelectedCSVPath = toolkit.createText(composite_2, "New Text",
-				SWT.NONE);
+				SWT.READ_ONLY);
 		txtSelectedCSVPath.setText("<....>");
 		txtSelectedCSVPath.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 1, 1));
@@ -510,8 +493,6 @@ public class NewEditMappingCSV extends AbstractScreen implements
 			}
 		});
 		mntmRemove_1.setText("Remove");
-		
-		
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
 				tblViewerDataColumnMapping, SWT.NONE);
@@ -526,6 +507,8 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		mmListener = ColumnMappingMenu.getINSTANCE().new MappingMenuListener(
 				gridMenu, mapping, screenService, txtFirstHeaderRow,
 				txtFirstDataRow);
+		mmListener.setMetricSource(metricSource);
+		
 		gridMenu.addMenuListener(mmListener);
 		
 	}
@@ -597,9 +580,7 @@ public class NewEditMappingCSV extends AbstractScreen implements
 		}
 	}
 
-	protected void fillGrid(String[][] records) {
-		this.gridTableViewer.setInput(records);
-	}
+	
 
 	public EMFDataBindingContext initDataBindings_() {
 
@@ -801,6 +782,13 @@ public class NewEditMappingCSV extends AbstractScreen implements
 
 		buildUI();
 		this.initDataBindings_();
+		
+		IFile file = this.getMetricSourceSampleFile(metricSource);
+		if(file != null){
+			this.txtSelectedCSVPath.setText(file.getName());
+			this.loadCSVSampleFile(metricSource, file);
+		}
+		
 	}
 
 	public void addData() {
@@ -859,5 +847,15 @@ public class NewEditMappingCSV extends AbstractScreen implements
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
+	}
+
+	@Override
+	public void fillGrid(List<Map<Integer, Tuple>> records) {
+//		this.gridTableViewer.setInput(records);
+		// N/A
+	}
+
+	public void fillCSVGrid(String[][] records) {
+		this.gridTableViewer.setInput(records);
 	}
 }

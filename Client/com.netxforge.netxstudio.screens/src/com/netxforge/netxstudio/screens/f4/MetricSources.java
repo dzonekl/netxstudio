@@ -1,9 +1,11 @@
 package com.netxforge.netxstudio.screens.f4;
 
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -26,6 +28,8 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -215,8 +219,8 @@ public class MetricSources extends AbstractScreen implements
 				if (o instanceof MetricSource) {
 					MetricSource ms = (MetricSource) o;
 					try {
-						serverActions.setCDOServer(editingService.getDataService()
-								.getProvider().getServer());
+						serverActions.setCDOServer(editingService
+								.getDataService().getProvider().getServer());
 						// TODO, We get the workflow run ID back, which
 						// could be used
 						// to link back to the screen showing the running
@@ -349,12 +353,29 @@ public class MetricSources extends AbstractScreen implements
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
+		table.addSelectionListener(new SelectionAdapter(){
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
+				Object o = e.item.getData();
+				if(o instanceof MetricSource){
+					MetricSource ms = (MetricSource) o;
+					System.out.println(ms.getName() + "--" + ms.cdoState() );
+					
+				}
+				
+			}
+			
+		});
+		
+		
 		toolkit.paintBordersFor(table);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
 				metricSourceTableViewer, SWT.NONE);
 		TableColumn tblclmnNewColumn = tableViewerColumn.getColumn();
-		tblclmnNewColumn.setWidth(100);
+		tblclmnNewColumn.setWidth(300);
 		tblclmnNewColumn.setText("Name");
 
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(
@@ -364,6 +385,15 @@ public class MetricSources extends AbstractScreen implements
 		tblclmnLocationUrl.setText("Location URL");
 		metricSourceTableViewer.addFilter(new SearchFilter(editingService));
 
+		TableViewerColumn tableViewerColumnLastUpdate = new TableViewerColumn(
+				metricSourceTableViewer, SWT.NONE);
+		TableColumn tblclmnLocationLastUpdate = tableViewerColumnLastUpdate
+				.getColumn();
+		tblclmnLocationLastUpdate.setWidth(300);
+		tblclmnLocationLastUpdate.setText("Last update");
+
+		// Filter.
+		metricSourceTableViewer.addFilter(new SearchFilter(editingService));
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -371,6 +401,7 @@ public class MetricSources extends AbstractScreen implements
 		EMFDataBindingContext bindingContext = new EMFDataBindingContext();
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		metricSourceTableViewer.setContentProvider(listContentProvider);
+
 		IObservableMap[] observeMaps = EMFObservables
 				.observeMaps(
 						listContentProvider.getKnownElements(),
@@ -378,12 +409,54 @@ public class MetricSources extends AbstractScreen implements
 								MetricsPackage.Literals.METRIC_SOURCE__NAME,
 								MetricsPackage.Literals.METRIC_SOURCE__METRIC_LOCATION });
 		metricSourceTableViewer
-				.setLabelProvider(new ObservableMapLabelProvider(observeMaps));
+				.setLabelProvider(new MetricSourceObservableMapLabelProvider(
+						observeMaps));
+		
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 		IObservableList metricSourcesObservableList = l.observe(msResource);
 		metricSourceTableViewer.setInput(metricSourcesObservableList);
 		return bindingContext;
+	}
+
+	public class MetricSourceObservableMapLabelProvider extends
+			ObservableMapLabelProvider {
+
+		public MetricSourceObservableMapLabelProvider(
+				IObservableMap[] attributeMaps) {
+			super(attributeMaps);
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+
+			if (element instanceof MetricSource) {
+
+				MetricSource ms = (MetricSource) element;
+				switch (columnIndex) {
+				case 0: {
+					return ms.getName();
+				}
+				case 1: {
+					return ms.getMetricLocation();
+				}
+				case 2: {
+					CDORevision revision = ms.cdoRevision();
+					long ts = revision.getTimeStamp();
+					
+					if( ts == 0 ){
+						return "<unknown>";
+					}
+					Date d = new Date(ts);
+					return modelUtils.date(d) + " @ " + modelUtils.time(d);
+				}
+
+				}
+
+			}
+			return super.getColumnText(element, columnIndex);
+		}
+
 	}
 
 	public void disposeData() {
@@ -419,7 +492,7 @@ public class MetricSources extends AbstractScreen implements
 			actions.add(new ScheduleCollectionJobAction(
 					"Schedule Collection Job...", SWT.PUSH));
 			actions.add(new CollectNowAction("Collect Now...", SWT.PUSH));
-			
+
 		}
 		actions.add(new StatisticsAction("Statistics...", SWT.PUSH));
 		actions.add(new SeparatorAction());

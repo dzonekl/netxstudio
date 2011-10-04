@@ -8,7 +8,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
-import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
@@ -16,11 +15,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.DeleteCommand;
-import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -35,7 +32,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -51,14 +47,12 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.operators.Node;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
+import com.netxforge.netxstudio.screens.ch9.EmbeddedSelectionExpression;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.services.ServiceUser;
@@ -71,12 +65,13 @@ public class NewEditServiceUser extends AbstractScreen implements
 			Display.getDefault());
 	private Text txtName;
 	private Text txtDescription;
-	private Form frmService;
+	private Form frmServiceUser;
 	private ServiceUser serviceUser;
 	private Resource owner;
 	private Table table;
-	private Text txtProfileExpression;
+
 	private TableViewer resourcesTableViewer;
+	private EmbeddedSelectionExpression exp;
 
 	public NewEditServiceUser(Composite parent, int style) {
 		super(parent, style);
@@ -99,15 +94,15 @@ public class NewEditServiceUser extends AbstractScreen implements
 		String actionText = readonly ? "View: " : "Edit: ";
 		int widgetStyle = readonly ? SWT.READ_ONLY : SWT.NONE;
 
-		frmService = formToolkit.createForm(this);
-		formToolkit.paintBordersFor(frmService);
+		frmServiceUser = formToolkit.createForm(this);
+		formToolkit.paintBordersFor(frmServiceUser);
 
-		frmService.setText(actionText + "Service User");
+		frmServiceUser.setText(actionText + "Service User");
 		ColumnLayout cl = new ColumnLayout();
 		cl.maxNumColumns = 2;
-		frmService.getBody().setLayout(cl);
+		frmServiceUser.getBody().setLayout(cl);
 
-		Section sctnInfo = formToolkit.createSection(frmService.getBody(),
+		Section sctnInfo = formToolkit.createSection(frmServiceUser.getBody(),
 				Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnInfo);
 		sctnInfo.setText("Info");
@@ -148,7 +143,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 		txtDescription.setLayoutData(gd_txtDescription);
 
 		Section sctnResourceProfiles = formToolkit.createSection(
-				frmService.getBody(), Section.TWISTIE | Section.TITLE_BAR);
+				frmServiceUser.getBody(), Section.TWISTIE | Section.TITLE_BAR);
 		formToolkit.paintBordersFor(sctnResourceProfiles);
 		sctnResourceProfiles.setText("Profile");
 		sctnResourceProfiles.setExpanded(true);
@@ -226,7 +221,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 						}
 					};
 					screenService.activateInObservable(activate);
-					
+
 				}
 			}
 		});
@@ -257,86 +252,14 @@ public class NewEditServiceUser extends AbstractScreen implements
 		});
 		mntmRemoveResource.setText("Remove");
 
-		ImageHyperlink imageHyperlink_2 = formToolkit.createImageHyperlink(
-				composite_2, SWT.NONE);
-		GridData gd_imageHyperlink_2 = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_imageHyperlink_2.widthHint = 18;
-		imageHyperlink_2.setLayoutData(gd_imageHyperlink_2);
-		imageHyperlink_2.setImage(ResourceManager.getPluginImage(
-				"com.netxforge.netxstudio.models.edit",
-				"icons/full/obj16/Expression_H.png"));
-		formToolkit.paintBordersFor(imageHyperlink_2);
-		imageHyperlink_2.setText("");
-
-		@SuppressWarnings("unused")
-		Label lblCapacityExpression = formToolkit.createLabel(composite_2,
-				"Profile", SWT.NONE);
-
-		txtProfileExpression = formToolkit.createText(composite_2, "New Text",
-				SWT.READ_ONLY);
-		GridData gd_txtCapExpression = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_txtCapExpression.widthHint = 150;
-		txtProfileExpression.setLayoutData(gd_txtCapExpression);
-		txtProfileExpression.setText("");
-
-		ImageHyperlink imageHyperlink = formToolkit.createImageHyperlink(
-				composite_2, SWT.NONE);
-		imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-
-				if (serviceUser.getExpressionRef() != null) {
-					Command c = new SetCommand(
-							editingService.getEditingDomain(),
-							serviceUser,
-							ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF,
-							null);
-					editingService.getEditingDomain().getCommandStack()
-							.execute(c);
-				}
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		imageHyperlink.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		formToolkit.paintBordersFor(imageHyperlink);
-		imageHyperlink.setText("");
-
-		Button btnSelectCapExpression = formToolkit.createButton(composite_2,
-				"Select", SWT.NONE);
-		btnSelectCapExpression.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Resource expressionResource = editingService
-						.getData(LibraryPackage.Literals.EXPRESSION);
-				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
-						NewEditServiceUser.this.getShell(), expressionResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Expression expression = (Expression) dialog
-							.getFirstResult();
-					Command c = new SetCommand(
-							editingService.getEditingDomain(),
-							serviceUser,
-							ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF,
-							expression);
-					editingService.getEditingDomain().getCommandStack()
-							.execute(c);
-				}
-			}
-		});
-
+		exp = new EmbeddedSelectionExpression(this.editingService,
+				frmServiceUser.getBody(), null, getOperation());
+		exp.injectData("Profile", serviceUser,
+				ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF);
+		
 		if (readonly) {
-
 			// TODO, add other actions here.
-
 		}
-
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -345,7 +268,10 @@ public class NewEditServiceUser extends AbstractScreen implements
 
 		bindInfoSection(context);
 		bindResourcesSection(context);
-
+		
+		// Also bind the embedded expression. 
+		exp.bind(context);
+		
 		return context;
 	}
 
@@ -372,17 +298,6 @@ public class NewEditServiceUser extends AbstractScreen implements
 	}
 
 	public void bindResourcesSection(EMFDataBindingContext context) {
-		IObservableValue capExpressionObservable = SWTObservables.observeText(
-				this.txtProfileExpression, SWT.Modify);
-
-		IEMFValueProperty profileExpressionProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(), FeaturePath.fromList(
-						ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF,
-						LibraryPackage.Literals.EXPRESSION__NAME));
-
-		context.bindValue(capExpressionObservable,
-				profileExpressionProperty.observe(serviceUser), null, null);
-
 		// binding of resources
 
 		ObservableListContentProvider resourceListContentProvider = new ObservableListContentProvider();
@@ -453,7 +368,7 @@ public class NewEditServiceUser extends AbstractScreen implements
 
 	@Override
 	public Form getScreenForm() {
-		return frmService;
+		return frmServiceUser;
 	}
 
 	public void injectData(Object owner, Object object) {
@@ -473,6 +388,20 @@ public class NewEditServiceUser extends AbstractScreen implements
 		}
 
 		buildUI();
+
+		// FIXME also set the name when we have the name of the Service User.
+		// Note, creating the expression here, leads to other problems, don't do 
+		// for now. 
+//		if (!serviceUser
+//				.eIsSet(ServicesPackage.Literals.SERVICE_USER__EXPRESSION_REF)) {
+//			Expression expression = LibraryFactory.eINSTANCE.createExpression();
+//			expression.setName("Service User Profile" + modelUtils.dateAndTime(modelUtils.todayAndNow()));
+//			
+//			Resource expressionResource = editingService.getData(LibraryPackage.Literals.EXPRESSION);
+//			expressionResource.getContents().add(expression);
+//			serviceUser.setExpressionRef(expression);
+//		}
+//		exp.injectData(serviceUser.getExpressionRef());
 		this.initDataBindings_();
 
 	}

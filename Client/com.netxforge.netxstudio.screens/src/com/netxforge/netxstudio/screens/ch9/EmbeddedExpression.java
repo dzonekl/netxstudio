@@ -23,6 +23,8 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -36,8 +38,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.resource.XtextResource;
@@ -58,8 +65,9 @@ import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.library.Expression;
+import com.netxforge.netxstudio.library.LibraryPackage;
+import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
-import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.xtext.EmbeddedXtextService;
 import com.netxforge.netxstudio.screens.xtext.InjectorProxy;
 import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
@@ -69,7 +77,7 @@ import com.netxforge.netxstudio.screens.xtext.embedded.EmbeddedXtextEditor;
  * 
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
  */
-public class EmbeddedExpression {
+public abstract class EmbeddedExpression {
 
 	IInterpreterContextFactory interpreterContextFactory;
 
@@ -82,13 +90,21 @@ public class EmbeddedExpression {
 	private Expression expression;
 	private EObject evaluationObject = NetxscriptFactory.eINSTANCE.createMod();
 	private EmbeddedXtextService xtextService;
+	private Text txtExpressionName;
 
-	private final Injector netxScriptInjector;
+	public Text getTxtExpressionName() {
+		return txtExpressionName;
+	}
+
+	private Injector netxScriptInjector;
 
 	private int operation;
 
-	@SuppressWarnings("unused")
-	private IEditingService editingService;
+	protected IEditingService editingService;
+
+	private FormData fd;
+
+	private Composite parent;
 
 	/**
 	 * Create the composite.
@@ -98,23 +114,32 @@ public class EmbeddedExpression {
 	 */
 	public EmbeddedExpression(IEditingService editingService, Composite parent,
 			FormData fd, int operation) {
-
-		this.operation = operation;
-
 		this.editingService = editingService;
+		this.operation = operation;
+		this.fd = fd;
+		this.parent = parent;
+	}
+	
+	public void buildUI(){
+		this.buildUI(parent, fd);
+	}
+	
+	
+	public abstract void buildUI(Composite parent, FormData fd);
 
-		int widgetStyle = SWT.None;
-		if (Screens.isReadOnlyOperation(getOperation())) {
-			widgetStyle |= SWT.READ_ONLY;
+	public Composite buildSection(String sectionName, Composite parent, FormData fd) {
+		Section sctnNewSection = toolkit.createSection(parent, Section.TWISTIE
+				| Section.TITLE_BAR | Section.EXPANDED);
+
+		// Could be null for columnlayout.
+		if (fd != null) {
+			sctnNewSection.setLayoutData(fd);
 		}
 
-		Section sctnNewSection = toolkit.createSection(parent, Section.EXPANDED
-				| Section.TITLE_BAR);
-		sctnNewSection.setLayoutData(fd);
 		toolkit.paintBordersFor(sctnNewSection);
-		sctnNewSection.setText("NetXScript");
+		sctnNewSection.setText(sectionName);
 
-		Composite client = toolkit.createComposite(sctnNewSection);
+		Composite sectionClient = toolkit.createComposite(sctnNewSection);
 
 		GridLayout editorLayout = new GridLayout();
 		editorLayout.marginHeight = 0;
@@ -123,8 +148,90 @@ public class EmbeddedExpression {
 		editorLayout.marginLeft = 0;
 		editorLayout.marginRight = 0;
 
-		client.setLayout(editorLayout);
+		sectionClient.setLayout(editorLayout);
+		sctnNewSection.setClient(sectionClient);
+		return sectionClient;
+	}
 
+	public void buildExpressionSelector(int widgetStyle, Composite sectionClient) {
+
+		Composite selectionComposite = toolkit.createComposite(sectionClient);
+		selectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				true, false, 2, 1));
+		toolkit.adapt(selectionComposite);
+		GridLayout gl = new GridLayout();
+		gl.numColumns = 5;
+		selectionComposite.setLayout(gl);
+
+		ImageHyperlink imageHyperlink_2 = toolkit.createImageHyperlink(
+				selectionComposite, SWT.NONE);
+		GridData gd_imageHyperlink_2 = new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_imageHyperlink_2.widthHint = 18;
+		imageHyperlink_2.setLayoutData(gd_imageHyperlink_2);
+		imageHyperlink_2.setImage(ResourceManager.getPluginImage(
+				"com.netxforge.netxstudio.models.edit",
+				"icons/full/obj16/Expression_H.png"));
+		toolkit.paintBordersFor(imageHyperlink_2);
+		imageHyperlink_2.setText("");
+
+		@SuppressWarnings("unused")
+		Label lblExpression = toolkit.createLabel(selectionComposite,
+				"Expression", SWT.NONE);
+
+		txtExpressionName = toolkit.createText(selectionComposite, "New Text",
+				SWT.READ_ONLY);
+		GridData gd_txtCapExpression = new GridData(SWT.FILL, SWT.CENTER,
+				true, false, 1, 1);
+		gd_txtCapExpression.widthHint = 150;
+		txtExpressionName.setLayoutData(gd_txtCapExpression);
+		txtExpressionName.setText("");
+
+		ImageHyperlink imageHyperlink = toolkit.createImageHyperlink(
+				selectionComposite, SWT.NONE);
+		imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
+			public void linkActivated(HyperlinkEvent e) {
+				clearExpression(expression);
+				// Clear the editor as well and set inactive.
+				clearData();
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		imageHyperlink.setImage(ResourceManager.getPluginImage(
+				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+		toolkit.paintBordersFor(imageHyperlink);
+		imageHyperlink.setText("");
+
+		Button btnSelectCapExpression = toolkit.createButton(
+				selectionComposite, "Select", SWT.NONE);
+		btnSelectCapExpression.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Resource expressionResource = editingService
+						.getData(LibraryPackage.Literals.EXPRESSION);
+				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
+						Display.getDefault().getActiveShell(),
+						expressionResource);
+				if (dialog.open() == IDialogConstants.OK_ID) {
+					Expression expression = (Expression) dialog
+							.getFirstResult();
+					setExpression(expression);
+					injectData(expression);
+				}
+			}
+		});
+	}
+
+	protected abstract void setExpression(Expression exp);
+
+	protected abstract void clearExpression(Expression exp);
+
+	public void buildExpression(int widgetStyle, Composite sectionClient) {
 		netxScriptInjector = InjectorProxy
 				.getInjector("com.netxforge.Netxscript");
 
@@ -133,7 +240,8 @@ public class EmbeddedExpression {
 
 		// Injector injector =
 		// ArithmeticsActivator.getInstance().getInjector("org.eclipse.xtext.example.arithmetics.Arithmetics");
-		Composite editorComposite = toolkit.createComposite(client, SWT.BORDER);
+		Composite editorComposite = toolkit.createComposite(sectionClient,
+				SWT.BORDER);
 		GridLayout gl_editorComposite = new GridLayout();
 		gl_editorComposite.marginHeight = 0;
 		gl_editorComposite.marginWidth = 0;
@@ -146,35 +254,36 @@ public class EmbeddedExpression {
 						expression, editor);
 			}
 		});
+//		
 		editorComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
 				true));
-		this.createKeyPad(client);
-		sctnNewSection.setClient(client);
+		this.createKeyPad(sectionClient);
+	}
 
-//		ImageHyperlink mghprlnkTest = toolkit.createImageHyperlink(
-//				sctnNewSection, SWT.NONE);
-//		mghprlnkTest.addHyperlinkListener(new IHyperlinkListener() {
-//
-//			public void linkActivated(HyperlinkEvent e) {
-//				// Launch the interpreter, with a given context.
-//				testExpression();
-//
-//			}
-//
-//			public void linkEntered(HyperlinkEvent e) {
-//			}
-//
-//			public void linkExited(HyperlinkEvent e) {
-//			}
-//		});
-//		toolkit.paintBordersFor(mghprlnkTest);
-//		sctnNewSection.setTextClient(mghprlnkTest);
-//		mghprlnkTest.setText("Test Run");
-		xtextService = new EmbeddedXtextService(editingService);
+	public void buildExpressionTester(Section sctnNewSection) {
+
+		ImageHyperlink mghprlnkTest = toolkit.createImageHyperlink(
+				sctnNewSection, SWT.NONE);
+		mghprlnkTest.addHyperlinkListener(new IHyperlinkListener() {
+
+			public void linkActivated(HyperlinkEvent e) {
+				// Launch the interpreter, with a given context.
+				testExpression();
+			}
+
+			public void linkEntered(HyperlinkEvent e) {
+			}
+
+			public void linkExited(HyperlinkEvent e) {
+			}
+		});
+		toolkit.paintBordersFor(mghprlnkTest);
+		sctnNewSection.setTextClient(mghprlnkTest);
+		mghprlnkTest.setText("Test Run");
 	}
 
 	@SuppressWarnings("unused")
-	// Disable for now, we don't have a context in the expression screen. 
+	// Disable for now, we don't have a context in the expression screen.
 	private void testExpression() {
 		// NOTE, for testing, the period context is always last week.
 		DateTimeRange timeRange = GenericsFactory.eINSTANCE
@@ -230,9 +339,19 @@ public class EmbeddedExpression {
 	}
 
 	/**
-	 * Inject the expression to work with.
+	 * Inject the expression to work with. Do not use when enabling the
+	 * selector.
 	 */
 	public void injectData(Object object) {
+
+		if (xtextService == null) {
+			xtextService = new EmbeddedXtextService(editingService);
+		}
+
+		if (!editor.getViewer().isEditable()) {
+			editor.getViewer().setEditable(true);
+		}
+
 		if (object != null && object instanceof Expression) {
 			expression = (Expression) object;
 
@@ -240,6 +359,11 @@ public class EmbeddedExpression {
 			editor.update(this.evaluationObject, asString == null ? ""
 					: asString);
 		}
+	}
+
+	public void clearData() {
+		// Clear the editor.
+		editor.getViewer().setEditable(false);
 	}
 
 	/**

@@ -5,15 +5,12 @@ import org.eclipse.core.databinding.property.value.IValueProperty;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFValueProperty;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.viewers.ViewerProperties;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -22,34 +19,24 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.events.IHyperlinkListener;
+import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.wb.swt.ResourceManager;
 
-import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LevelKind;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.screens.AbstractScreen;
-import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
+import com.netxforge.netxstudio.screens.ch9.EmbeddedSelectionExpression;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -64,7 +51,8 @@ public class NewEditTolerance extends AbstractScreen implements
 	@SuppressWarnings("unused")
 	private EMFDataBindingContext m_bindingContext;
 	private ComboViewer cmbLevelViewer;
-	private Text txtExpression;
+//	private Text txtExpression;
+	private EmbeddedSelectionExpression exp;
 
 	/**
 	 * Create the composite.
@@ -97,16 +85,16 @@ public class NewEditTolerance extends AbstractScreen implements
 		toolkit.paintBordersFor(frmNewTolerance);
 
 		frmNewTolerance.setText(actionText + " Tolerance");
-		frmNewTolerance.getBody().setLayout(new FormLayout());
+		frmNewTolerance.getBody().setLayout(new ColumnLayout());
 
 		Section sctnMappings = toolkit.createSection(frmNewTolerance.getBody(),
 				Section.EXPANDED | Section.TITLE_BAR);
-		FormData fd_sctnMappings = new FormData();
-		fd_sctnMappings.bottom = new FormAttachment(100, -10);
-		fd_sctnMappings.left = new FormAttachment(0, 10);
-		fd_sctnMappings.top = new FormAttachment(0, 10);
-		fd_sctnMappings.right = new FormAttachment(100, -14);
-		sctnMappings.setLayoutData(fd_sctnMappings);
+//		FormData fd_sctnMappings = new FormData();
+//		fd_sctnMappings.bottom = new FormAttachment(100, -10);
+//		fd_sctnMappings.left = new FormAttachment(0, 10);
+//		fd_sctnMappings.top = new FormAttachment(0, 10);
+//		fd_sctnMappings.right = new FormAttachment(100, -14);
+//		sctnMappings.setLayoutData(fd_sctnMappings);
 		toolkit.paintBordersFor(sctnMappings);
 		sctnMappings.setText("Info");
 
@@ -143,68 +131,74 @@ public class NewEditTolerance extends AbstractScreen implements
 		new Label(composite_1, SWT.NONE);
 		new Label(composite_1, SWT.NONE);
 
-		Label lblExpression = toolkit.createLabel(composite_1, "Expression:",
-				SWT.NONE);
-		lblExpression.setAlignment(SWT.RIGHT);
-		lblExpression.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-				false, 1, 1));
-
-		txtExpression = toolkit.createText(composite_1, "New Text",
-				SWT.READ_ONLY);
-		txtExpression.setText("");
-		txtExpression.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-				false, 1, 1));
-
-		ImageHyperlink imageHyperlink = toolkit.createImageHyperlink(
-				composite_1, SWT.NONE);
-		imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
-			public void linkActivated(HyperlinkEvent e) {
-				Expression exp = tolerance.getExpressionRef();
-				if(exp != null){
-					// sort of history.
-					Command rc = new SetCommand(editingService.getEditingDomain(),
-							tolerance,
-							LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF, null);
-					editingService.getEditingDomain().getCommandStack().execute(rc);
-				}
-			}
-
-			public void linkEntered(HyperlinkEvent e) {
-			}
-
-			public void linkExited(HyperlinkEvent e) {
-			}
-		});
-		GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 1, 1);
-		gd_imageHyperlink.widthHint = 18;
-		imageHyperlink.setLayoutData(gd_imageHyperlink);
-		imageHyperlink.setImage(ResourceManager.getPluginImage(
-				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
-		toolkit.paintBordersFor(imageHyperlink);
-		imageHyperlink.setText("");
-
-		Button btnSelect = toolkit.createButton(composite_1, "Select...",
-				SWT.NONE);
-		btnSelect.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Resource expressionResource = editingService
-						.getData(LibraryPackage.Literals.EXPRESSION);
-				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
-						NewEditTolerance.this.getShell(), expressionResource);
-				if (dialog.open() == IDialogConstants.OK_ID) {
-					Expression expression = (Expression) dialog
-							.getFirstResult();
-					Command c = new SetCommand(editingService
-							.getEditingDomain(), tolerance,
-							LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF,
-							expression);
-					editingService.getEditingDomain().getCommandStack()
-							.execute(c);
-				}
-			}
-		});
+//		Label lblExpression = toolkit.createLabel(composite_1, "Expression:",
+//				SWT.NONE);
+//		lblExpression.setAlignment(SWT.RIGHT);
+//		lblExpression.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+//				false, 1, 1));
+		
+		
+		exp = new EmbeddedSelectionExpression(this.editingService,
+				frmNewTolerance.getBody(), null, getOperation());
+		exp.injectData("Tolerance", tolerance,
+				LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF);
+		
+//		txtExpression = toolkit.createText(composite_1, "New Text",
+//				SWT.READ_ONLY);
+//		txtExpression.setText("");
+//		txtExpression.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
+//				false, 1, 1));
+//
+//		ImageHyperlink imageHyperlink = toolkit.createImageHyperlink(
+//				composite_1, SWT.NONE);
+//		imageHyperlink.addHyperlinkListener(new IHyperlinkListener() {
+//			public void linkActivated(HyperlinkEvent e) {
+//				Expression exp = tolerance.getExpressionRef();
+//				if(exp != null){
+//					// sort of history.
+//					Command rc = new SetCommand(editingService.getEditingDomain(),
+//							tolerance,
+//							LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF, null);
+//					editingService.getEditingDomain().getCommandStack().execute(rc);
+//				}
+//			}
+//
+//			public void linkEntered(HyperlinkEvent e) {
+//			}
+//
+//			public void linkExited(HyperlinkEvent e) {
+//			}
+//		});
+//		GridData gd_imageHyperlink = new GridData(SWT.LEFT, SWT.CENTER, false,
+//				false, 1, 1);
+//		gd_imageHyperlink.widthHint = 18;
+//		imageHyperlink.setLayoutData(gd_imageHyperlink);
+//		imageHyperlink.setImage(ResourceManager.getPluginImage(
+//				"org.eclipse.ui", "/icons/full/etool16/delete.gif"));
+//		toolkit.paintBordersFor(imageHyperlink);
+//		imageHyperlink.setText("");
+//
+//		Button btnSelect = toolkit.createButton(composite_1, "Select...",
+//				SWT.NONE);
+//		btnSelect.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				Resource expressionResource = editingService
+//						.getData(LibraryPackage.Literals.EXPRESSION);
+//				ExpressionFilterDialog dialog = new ExpressionFilterDialog(
+//						NewEditTolerance.this.getShell(), expressionResource);
+//				if (dialog.open() == IDialogConstants.OK_ID) {
+//					Expression expression = (Expression) dialog
+//							.getFirstResult();
+//					Command c = new SetCommand(editingService
+//							.getEditingDomain(), tolerance,
+//							LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF,
+//							expression);
+//					editingService.getEditingDomain().getCommandStack()
+//							.execute(c);
+//				}
+//			}
+//		});
 	}
 
 	public EMFDataBindingContext initDataBindings_() {
@@ -213,24 +207,28 @@ public class NewEditTolerance extends AbstractScreen implements
 		IObservableValue nameObservable = SWTObservables.observeText(txtName,
 				SWT.Modify);
 
-		IObservableValue expressionObservable = SWTObservables.observeText(
-				this.txtExpression, SWT.Modify);
+//		IObservableValue expressionObservable = SWTObservables.observeText(
+//				this.txtExpression, SWT.Modify);
 
 		IEMFValueProperty nameProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.TOLERANCE__NAME);
 
-		IEMFValueProperty expressionProperty = EMFEditProperties.value(
-				editingService.getEditingDomain(), FeaturePath.fromList(
-						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF,
-						LibraryPackage.Literals.EXPRESSION__NAME));
+//		IEMFValueProperty expressionProperty = EMFEditProperties.value(
+//				editingService.getEditingDomain(), FeaturePath.fromList(
+//						LibraryPackage.Literals.TOLERANCE__EXPRESSION_REF,
+//						LibraryPackage.Literals.EXPRESSION__NAME));
 
 		context.bindValue(nameObservable, nameProperty.observe(tolerance),
 				null, null);
 
-		context.bindValue(expressionObservable,
-				expressionProperty.observe(tolerance), null, null);
+//		context.bindValue(expressionObservable,
+//				expressionProperty.observe(tolerance), null, null);
 
+		// Also bind the embedded expression. 
+		exp.bind(context);
+		
+		
 		cmbLevelViewer.setContentProvider(new ArrayContentProvider());
 		cmbLevelViewer.setLabelProvider(new LabelProvider());
 		cmbLevelViewer.setInput(LevelKind.VALUES);

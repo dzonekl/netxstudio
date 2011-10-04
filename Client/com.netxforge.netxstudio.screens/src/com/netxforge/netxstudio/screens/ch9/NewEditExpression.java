@@ -167,7 +167,7 @@ public class NewEditExpression extends AbstractScreen implements
 		fd_sctnNewSection.left = new FormAttachment(0, 12);
 		fd_sctnNewSection.right = new FormAttachment(100, -12);
 
-		exp = new EmbeddedExpression(this.editingService,
+		exp = new EmbeddedNonSelectionExpression(this.editingService,
 				frmExpression.getBody(), fd_sctnNewSection, getOperation());
 	}
 

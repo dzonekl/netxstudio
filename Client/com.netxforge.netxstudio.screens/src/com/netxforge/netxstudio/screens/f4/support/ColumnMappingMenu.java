@@ -65,15 +65,16 @@ public class ColumnMappingMenu {
 			super();
 			this.gridMenu = gridMenu;
 			this.mapping = mapping;
-			if(mapping.eContainer() instanceof MetricSource){
-				this.metricSource = (MetricSource) mapping.eContainer();
-			}
-
 			this.screenService = screenService;
 			this.txtFirstHeaderRow = txtFirstHeaderRow;
 			this.txtFirstDataRow = txtFirstDataRow;
 		}
 
+		public void setMetricSource(MetricSource metricSource){
+			this.metricSource = metricSource;
+		}
+
+		
 		public void menuHidden(MenuEvent e) {
 			System.out.println(e);
 		}

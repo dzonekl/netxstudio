@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Display;
 
 import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.f4.support.CSVServiceJob;
 import com.netxforge.netxstudio.screens.f4.support.Tuple;
 import com.netxforge.netxstudio.screens.f4.support.XLSServiceJob;
 import com.netxforge.netxstudio.workspace.WorkspaceUtil;
@@ -51,9 +52,10 @@ public abstract class AbstractMapping extends AbstractScreen {
 		}
 		return null;
 	}
-	
-	protected void loadSampleFile(final MetricSource metricSource, final IFile f) {
-		
+
+	protected void loadXLSSampleFile(final MetricSource metricSource,
+			final IFile f) {
+
 		final XLSServiceJob job = new XLSServiceJob();
 		job.addNotifier(new JobChangeAdapter() {
 			@Override
@@ -63,15 +65,18 @@ public abstract class AbstractMapping extends AbstractScreen {
 				if (records != null) {
 					Display.getDefault().asyncExec(new Runnable() {
 						public void run() {
-							if( AbstractMapping.this.storeMetricSourceSampleFile(metricSource, f)){
-								//Succesfully storing.
-							}else{
-								System.out.println("failed to store the sample file : " + f.toString());
+							if (AbstractMapping.this
+									.storeMetricSourceSampleFile(metricSource,
+											f)) {
+								// Succesfully storing.
+							} else {
+								System.out
+										.println("failed to store the sample file : "
+												+ f.toString());
 							}
 							fillGrid(job.getRecords());
 						}
 
-						
 					});
 				}
 			}
@@ -79,7 +84,41 @@ public abstract class AbstractMapping extends AbstractScreen {
 		job.setResourceToProcess(f);
 		job.go(); // Should spawn a job processing the xls.
 	}
-	
+
+	protected void loadCSVSampleFile(final MetricSource metricSource,
+			final IFile f) {
+
+		final CSVServiceJob job = new CSVServiceJob();
+		job.addNotifier(new JobChangeAdapter() {
+			@Override
+			public void done(IJobChangeEvent event) {
+				super.done(event);
+				String[][] records = job.getRecords();
+				if (records != null) {
+					Display.getDefault().asyncExec(new Runnable() {
+						public void run() {
+							if (AbstractMapping.this
+									.storeMetricSourceSampleFile(metricSource,
+											f)) {
+								// Succesfully storing.
+							} else {
+								System.out
+										.println("failed to store the sample file : "
+												+ f.toString());
+							}
+							fillCSVGrid(job.getRecords());
+						}
+
+					});
+				}
+			}
+		});
+		job.setResourceToProcess(f);
+		job.go(); // Should spawn a job processing the xls.
+	}
+
 	public abstract void fillGrid(List<Map<Integer, Tuple>> records);
+
+	public abstract void fillCSVGrid(String[][] records);
 
 }

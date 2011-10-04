@@ -436,6 +436,7 @@ public class NewEditMappingRDBMS extends AbstractScreen implements
 		// Delegate to a singleton holding the MappingMenuListener class.
 		mmListener = ColumnMappingMenu.getINSTANCE().new MappingMenuListener(
 				gridMenu, mapping, screenService, null, null);
+		mmListener.setMetricSource(metricSource);
 		gridMenu.addMenuListener(mmListener);
 
 	}

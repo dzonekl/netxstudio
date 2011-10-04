@@ -239,7 +239,7 @@ public class Expressions extends AbstractScreen implements
 		}
 
 		tableViewer = new TableViewer(frmExpressions.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | widgetStyle);
+				| SWT.FULL_SELECTION | SWT.MULTI | widgetStyle);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);

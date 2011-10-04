@@ -210,14 +210,14 @@ public class NewEditMappingXLS extends AbstractMapping implements
 				// We only process the first selection.
 				final IFile f = WorkspaceUtil.INSTANCE.createFileHandle(paths[0]);
 				txtSelectedXLSPath.setText(f.getName());
-				loadSampleFile(metricSource, f);
+				loadXLSSampleFile(metricSource, f);
 			}
 
 			
 		});
 
 		txtSelectedXLSPath = toolkit.createText(composite_2, "New Text",
-				SWT.NONE);
+				SWT.READ_ONLY);
 		txtSelectedXLSPath.setText("<....>");
 		txtSelectedXLSPath.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 1, 1));
@@ -374,6 +374,7 @@ public class NewEditMappingXLS extends AbstractMapping implements
 		// Delegate to a singleton holding the MappingMenuListener class.
 		mmListener = ColumnMappingMenu.getINSTANCE().new MappingMenuListener(
 				gridMenu, mapping, screenService, null, txtDataRow);
+		mmListener.setMetricSource(metricSource);
 		grid.setMenu(gridMenu);
 		gridMenu.addMenuListener(mmListener);
 
@@ -637,7 +638,7 @@ public class NewEditMappingXLS extends AbstractMapping implements
 		IFile file = this.getMetricSourceSampleFile(metricSource);
 		if(file != null){
 			this.txtSelectedXLSPath.setText(file.getName());
-			this.loadSampleFile(metricSource, file);
+			this.loadXLSSampleFile(metricSource, file);
 		}
 	}
 
@@ -697,5 +698,10 @@ public class NewEditMappingXLS extends AbstractMapping implements
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
+	}
+
+	@Override
+	public void fillCSVGrid(String[][] records) {
+		// N/A
 	}
 }
