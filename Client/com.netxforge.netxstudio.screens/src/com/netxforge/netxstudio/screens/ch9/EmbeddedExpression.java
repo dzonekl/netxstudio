@@ -137,7 +137,7 @@ public abstract class EmbeddedExpression {
 		}
 
 		toolkit.paintBordersFor(sctnNewSection);
-		sctnNewSection.setText(sectionName);
+		sctnNewSection.setText(sectionName != null ? sectionName : "NetXScript");
 
 		Composite sectionClient = toolkit.createComposite(sctnNewSection);
 

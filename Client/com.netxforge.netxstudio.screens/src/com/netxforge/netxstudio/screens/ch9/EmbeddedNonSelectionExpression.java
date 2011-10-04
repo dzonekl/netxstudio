@@ -27,6 +27,7 @@ public class EmbeddedNonSelectionExpression extends EmbeddedExpression {
 	public EmbeddedNonSelectionExpression(IEditingService editingService,
 			Composite parent, FormData fd, int operation) {
 		super(editingService, parent, fd, operation);
+		buildUI();
 	}
 
 	public void buildUI(Composite parent, FormData fd) {
@@ -60,11 +61,11 @@ public class EmbeddedNonSelectionExpression extends EmbeddedExpression {
 	/**
 	 * Inject the expression to work with.
 	 */
-	public void injectData(String identity, EObject owner, EStructuralFeature feature) {
-		this.expressionFeature = feature;
-		this.owner = owner;
-		this.identity = identity; 
-	}
+//	public void injectData(String identity, EObject owner, EStructuralFeature feature) {
+//		this.expressionFeature = feature;
+//		this.owner = owner;
+//		this.identity = identity; 
+//	}
 
 //	public void bind(EMFDataBindingContext context) {
 //		IObservableValue capExpressionObservable = SWTObservables.observeText(
