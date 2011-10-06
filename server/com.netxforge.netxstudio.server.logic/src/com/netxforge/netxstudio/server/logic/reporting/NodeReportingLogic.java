@@ -191,7 +191,7 @@ public abstract class NodeReportingLogic extends BaseNodeReportingLogic {
 		StringBuffer buf = new StringBuffer();
 
 		// Use the reporting period as a file name.
-		buf.append(getModelUtils().date(this.getStartTime()) + "_"
+		buf.append(getModelUtils().date(this.getBeginTime()) + "_"
 				+ getModelUtils().date(this.getEndTime()));
 
 		return buf.toString();

@@ -168,7 +168,7 @@ public class RFSServiceItemProvider extends ServiceItemProvider implements
 		String label = ((RFSService)object).getServiceName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_RFSService_type") :
-			getString("_UI_RFSService_type") + " " + label;
+			getString("_UI_RFSService_type") + " " + "\"" + label + "\"";
 	}
 
 	/**

@@ -35,6 +35,8 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.DiagramKindType;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
+import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
+import com.netxforge.netxstudio.generics.ExpansionDurationValue;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Meta;
@@ -134,6 +136,10 @@ public class GenericsValidator extends EObjectValidator {
 				return validateDateTimeRange((DateTimeRange)value, diagnostics, context);
 			case GenericsPackage.DIAGRAM_INFO:
 				return validateDiagramInfo((DiagramInfo)value, diagnostics, context);
+			case GenericsPackage.EXPANSION_DURATION_SETTING:
+				return validateExpansionDurationSetting((ExpansionDurationSetting)value, diagnostics, context);
+			case GenericsPackage.EXPANSION_DURATION_VALUE:
+				return validateExpansionDurationValue((ExpansionDurationValue)value, diagnostics, context);
 			case GenericsPackage.LIFECYCLE:
 				return validateLifecycle((Lifecycle)value, diagnostics, context);
 			case GenericsPackage.META:
@@ -216,6 +222,24 @@ public class GenericsValidator extends EObjectValidator {
 	 */
 	public boolean validateDiagramInfo(DiagramInfo diagramInfo, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return validate_EveryDefaultConstraint((EObject)diagramInfo, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateExpansionDurationSetting(ExpansionDurationSetting expansionDurationSetting, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint((EObject)expansionDurationSetting, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateExpansionDurationValue(ExpansionDurationValue expansionDurationValue, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint((EObject)expansionDurationValue, diagnostics, context);
 	}
 
 	/**

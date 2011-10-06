@@ -90,7 +90,7 @@ public class MonitoringService implements NetxForgeService {
 				resourceProfileLogic.setRfsService(id);
 				resourceProfileLogic.setJobMonitor(monitor);
 				resourceProfileLogic.initializeProfileLogic();
-				resourceProfileLogic.setStartTime(getStartTime(parameters));
+				resourceProfileLogic.setBeginTime(getStartTime(parameters));
 				resourceProfileLogic.setEndTime(getEndTime(parameters));
 				
 			} else if (parameters.containsKey(NODE_PARAM)) {
@@ -111,7 +111,7 @@ public class MonitoringService implements NetxForgeService {
 				throw new IllegalArgumentException("No valid parameters found");
 			}
 			monitoringLogic.setJobMonitor(monitor);
-			monitoringLogic.setStartTime(getStartTime(parameters));
+			monitoringLogic.setBeginTime(getStartTime(parameters));
 			monitoringLogic.setEndTime(getEndTime(parameters));
 			
 			// Set the monitor for specific logic. 

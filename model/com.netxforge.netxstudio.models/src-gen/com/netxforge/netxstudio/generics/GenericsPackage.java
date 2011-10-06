@@ -340,6 +340,116 @@ public interface GenericsPackage extends EPackage {
 	int DIAGRAM_INFO_FEATURE_COUNT = BASE_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.ExpansionDurationSettingImpl <em>Expansion Duration Setting</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.generics.impl.ExpansionDurationSettingImpl
+	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpansionDurationSetting()
+	 * @generated
+	 */
+	int EXPANSION_DURATION_SETTING = 5;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_DURATION_SETTING__DELETED = BASE__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Quick Duration</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_DURATION_SETTING__QUICK_DURATION = BASE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Short Duration</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_DURATION_SETTING__SHORT_DURATION = BASE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Medium Duration</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_DURATION_SETTING__MEDIUM_DURATION = BASE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Long Duration</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_DURATION_SETTING__LONG_DURATION = BASE_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Expansion Duration Setting</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_DURATION_SETTING_FEATURE_COUNT = BASE_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.ExpansionDurationValueImpl <em>Expansion Duration Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.generics.impl.ExpansionDurationValueImpl
+	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpansionDurationValue()
+	 * @generated
+	 */
+	int EXPANSION_DURATION_VALUE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_DURATION_VALUE__DELETED = BASE__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Expansion Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_DURATION_VALUE__EXPANSION_DURATION = BASE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_DURATION_VALUE__VALUE = BASE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Expansion Duration Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPANSION_DURATION_VALUE_FEATURE_COUNT = BASE_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.impl.LifecycleImpl <em>Lifecycle</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -347,7 +457,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getLifecycle()
 	 * @generated
 	 */
-	int LIFECYCLE = 5;
+	int LIFECYCLE = 7;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -420,7 +530,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getMeta()
 	 * @generated
 	 */
-	int META = 6;
+	int META = 8;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -475,7 +585,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getMultiImage()
 	 * @generated
 	 */
-	int MULTI_IMAGE = 7;
+	int MULTI_IMAGE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -548,7 +658,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getPerson()
 	 * @generated
 	 */
-	int PERSON = 8;
+	int PERSON = 10;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -648,7 +758,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getRole()
 	 * @generated
 	 */
-	int ROLE = 9;
+	int ROLE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -685,7 +795,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getValue()
 	 * @generated
 	 */
-	int VALUE = 10;
+	int VALUE = 12;
 
 	/**
 	 * The feature id for the '<em><b>Time Stamp</b></em>' attribute.
@@ -722,7 +832,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getActionType()
 	 * @generated
 	 */
-	int ACTION_TYPE = 11;
+	int ACTION_TYPE = 13;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.DiagramKindType <em>Diagram Kind Type</em>}' enum.
@@ -732,7 +842,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDiagramKindType()
 	 * @generated
 	 */
-	int DIAGRAM_KIND_TYPE = 12;
+	int DIAGRAM_KIND_TYPE = 14;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.generics.ExpansionDuration <em>Expansion Duration</em>}' enum.
@@ -742,7 +852,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpansionDuration()
 	 * @generated
 	 */
-	int EXPANSION_DURATION = 13;
+	int EXPANSION_DURATION = 15;
 
 	/**
 	 * The meta object id for the '<em>Action Type Object</em>' data type.
@@ -752,7 +862,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getActionTypeObject()
 	 * @generated
 	 */
-	int ACTION_TYPE_OBJECT = 14;
+	int ACTION_TYPE_OBJECT = 16;
 
 	/**
 	 * The meta object id for the '<em>Description2000</em>' data type.
@@ -762,7 +872,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDescription2000()
 	 * @generated
 	 */
-	int DESCRIPTION2000 = 15;
+	int DESCRIPTION2000 = 17;
 
 	/**
 	 * The meta object id for the '<em>Diagram Kind Type Object</em>' data type.
@@ -772,7 +882,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getDiagramKindTypeObject()
 	 * @generated
 	 */
-	int DIAGRAM_KIND_TYPE_OBJECT = 16;
+	int DIAGRAM_KIND_TYPE_OBJECT = 18;
 
 	/**
 	 * The meta object id for the '<em>Expansion Duration Object</em>' data type.
@@ -782,7 +892,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpansionDurationObject()
 	 * @generated
 	 */
-	int EXPANSION_DURATION_OBJECT = 17;
+	int EXPANSION_DURATION_OBJECT = 19;
 
 	/**
 	 * The meta object id for the '<em>Expression Line</em>' data type.
@@ -792,7 +902,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpressionLine()
 	 * @generated
 	 */
-	int EXPRESSION_LINE = 18;
+	int EXPRESSION_LINE = 20;
 
 	/**
 	 * The meta object id for the '<em>Long Text</em>' data type.
@@ -802,7 +912,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getLongText()
 	 * @generated
 	 */
-	int LONG_TEXT = 19;
+	int LONG_TEXT = 21;
 
 	/**
 	 * The meta object id for the '<em>Name255</em>' data type.
@@ -812,7 +922,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getName255()
 	 * @generated
 	 */
-	int NAME255 = 20;
+	int NAME255 = 22;
 
 	/**
 	 * The meta object id for the '<em>Unit Code</em>' data type.
@@ -822,7 +932,7 @@ public interface GenericsPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getUnitCode()
 	 * @generated
 	 */
-	int UNIT_CODE = 21;
+	int UNIT_CODE = 23;
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.generics.Base <em>Base</em>}'.
@@ -1049,6 +1159,92 @@ public interface GenericsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getDiagramInfo_Location();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.generics.ExpansionDurationSetting <em>Expansion Duration Setting</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Expansion Duration Setting</em>'.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDurationSetting
+	 * @generated
+	 */
+	EClass getExpansionDurationSetting();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.generics.ExpansionDurationSetting#getQuickDuration <em>Quick Duration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Quick Duration</em>'.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDurationSetting#getQuickDuration()
+	 * @see #getExpansionDurationSetting()
+	 * @generated
+	 */
+	EReference getExpansionDurationSetting_QuickDuration();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.generics.ExpansionDurationSetting#getShortDuration <em>Short Duration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Short Duration</em>'.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDurationSetting#getShortDuration()
+	 * @see #getExpansionDurationSetting()
+	 * @generated
+	 */
+	EReference getExpansionDurationSetting_ShortDuration();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.generics.ExpansionDurationSetting#getMediumDuration <em>Medium Duration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Medium Duration</em>'.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDurationSetting#getMediumDuration()
+	 * @see #getExpansionDurationSetting()
+	 * @generated
+	 */
+	EReference getExpansionDurationSetting_MediumDuration();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.generics.ExpansionDurationSetting#getLongDuration <em>Long Duration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Long Duration</em>'.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDurationSetting#getLongDuration()
+	 * @see #getExpansionDurationSetting()
+	 * @generated
+	 */
+	EReference getExpansionDurationSetting_LongDuration();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.generics.ExpansionDurationValue <em>Expansion Duration Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Expansion Duration Value</em>'.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDurationValue
+	 * @generated
+	 */
+	EClass getExpansionDurationValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.generics.ExpansionDurationValue#getExpansionDuration <em>Expansion Duration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Expansion Duration</em>'.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDurationValue#getExpansionDuration()
+	 * @see #getExpansionDurationValue()
+	 * @generated
+	 */
+	EAttribute getExpansionDurationValue_ExpansionDuration();
+
+	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.generics.ExpansionDurationValue#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDurationValue#getValue()
+	 * @see #getExpansionDurationValue()
+	 * @generated
+	 */
+	EAttribute getExpansionDurationValue_Value();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.generics.Lifecycle <em>Lifecycle</em>}'.
@@ -1699,6 +1895,74 @@ public interface GenericsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DIAGRAM_INFO__LOCATION = eINSTANCE.getDiagramInfo_Location();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.generics.impl.ExpansionDurationSettingImpl <em>Expansion Duration Setting</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.generics.impl.ExpansionDurationSettingImpl
+		 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpansionDurationSetting()
+		 * @generated
+		 */
+		EClass EXPANSION_DURATION_SETTING = eINSTANCE.getExpansionDurationSetting();
+
+		/**
+		 * The meta object literal for the '<em><b>Quick Duration</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPANSION_DURATION_SETTING__QUICK_DURATION = eINSTANCE.getExpansionDurationSetting_QuickDuration();
+
+		/**
+		 * The meta object literal for the '<em><b>Short Duration</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPANSION_DURATION_SETTING__SHORT_DURATION = eINSTANCE.getExpansionDurationSetting_ShortDuration();
+
+		/**
+		 * The meta object literal for the '<em><b>Medium Duration</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPANSION_DURATION_SETTING__MEDIUM_DURATION = eINSTANCE.getExpansionDurationSetting_MediumDuration();
+
+		/**
+		 * The meta object literal for the '<em><b>Long Duration</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXPANSION_DURATION_SETTING__LONG_DURATION = eINSTANCE.getExpansionDurationSetting_LongDuration();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.generics.impl.ExpansionDurationValueImpl <em>Expansion Duration Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.generics.impl.ExpansionDurationValueImpl
+		 * @see com.netxforge.netxstudio.generics.impl.GenericsPackageImpl#getExpansionDurationValue()
+		 * @generated
+		 */
+		EClass EXPANSION_DURATION_VALUE = eINSTANCE.getExpansionDurationValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Expansion Duration</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPANSION_DURATION_VALUE__EXPANSION_DURATION = eINSTANCE.getExpansionDurationValue_ExpansionDuration();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPANSION_DURATION_VALUE__VALUE = eINSTANCE.getExpansionDurationValue_Value();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.generics.impl.LifecycleImpl <em>Lifecycle</em>}' class.

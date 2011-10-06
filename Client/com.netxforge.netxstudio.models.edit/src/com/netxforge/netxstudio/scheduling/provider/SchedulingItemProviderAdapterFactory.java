@@ -271,6 +271,52 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.NodeReporterJob} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected NodeReporterJobItemProvider nodeReporterJobItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.NodeReporterJob}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createNodeReporterJobAdapter() {
+		if (nodeReporterJobItemProvider == null) {
+			nodeReporterJobItemProvider = new NodeReporterJobItemProvider(this);
+		}
+
+		return nodeReporterJobItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.NodeTypeReporterJob} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected NodeTypeReporterJobItemProvider nodeTypeReporterJobItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.scheduling.NodeTypeReporterJob}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createNodeTypeReporterJobAdapter() {
+		if (nodeTypeReporterJobItemProvider == null) {
+			nodeTypeReporterJobItemProvider = new NodeTypeReporterJobItemProvider(this);
+		}
+
+		return nodeTypeReporterJobItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.scheduling.OperatorReporterJob} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -515,6 +561,8 @@ public class SchedulingItemProviderAdapterFactory extends SchedulingAdapterFacto
 		if (jobItemProvider != null) jobItemProvider.dispose();
 		if (jobRunContainerItemProvider != null) jobRunContainerItemProvider.dispose();
 		if (metricSourceJobItemProvider != null) metricSourceJobItemProvider.dispose();
+		if (nodeReporterJobItemProvider != null) nodeReporterJobItemProvider.dispose();
+		if (nodeTypeReporterJobItemProvider != null) nodeTypeReporterJobItemProvider.dispose();
 		if (operatorReporterJobItemProvider != null) operatorReporterJobItemProvider.dispose();
 		if (rfsServiceMonitoringJobItemProvider != null) rfsServiceMonitoringJobItemProvider.dispose();
 		if (rfsServiceReporterJobItemProvider != null) rfsServiceReporterJobItemProvider.dispose();

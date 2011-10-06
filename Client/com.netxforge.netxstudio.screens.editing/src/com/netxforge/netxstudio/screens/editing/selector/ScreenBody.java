@@ -15,13 +15,14 @@
  *
  * Contributors:
  *    Christophe Bouhier - initial API and implementation and/or initial documentation
- *******************************************************************************/ 
+ *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing.selector;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -32,12 +33,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
- *
+ * 
  */
 public class ScreenBody extends Composite {
 
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
-	
+
 	/**
 	 * The container which fills the ViewPart. Clients should respect the
 	 * installed layout.
@@ -45,25 +46,33 @@ public class ScreenBody extends Composite {
 	 * @return
 	 */
 	private Composite screenContainer;
-	
-	
+
 	/**
-	 * The screen bar is a bar shown below the active screen.
-	 * It can be toggled on / off.
-	 * It shows a "Back" link to return to the previous screen.  
+	 * The screen bar is a bar shown below the active screen. It can be toggled
+	 * on / off. It shows a "Back" link to return to the previous screen.
 	 */
 	private Composite screenBar;
-	
-	
+
 	/**
-	 * The deck of screens which can be stacked in the body. 
+	 * The deck of screens which can be stacked in the body.
 	 */
 	private StackLayout screenDeck;
 
 	private FormData fd_screenContainer;
 
 	/**
+	 * Place holder for the path walked by the user.
+	 * 
+	 */
+	private Composite screenPath;
+
+	private FormData fd_screenPath;
+
+	private Composite clientScreenPath;
+
+	/**
 	 * Create the composite.
+	 * 
 	 * @param parent
 	 * @param style
 	 */
@@ -77,58 +86,117 @@ public class ScreenBody extends Composite {
 		toolkit.adapt(this);
 		toolkit.paintBordersFor(this);
 		setLayout(new FormLayout());
+
+		screenPath = toolkit.createComposite(this, SWT.BORDER);
+		screenPath.setLayout(new FillLayout());
+		fd_screenPath = new FormData();
+		fd_screenPath.top = new FormAttachment(0);
+		fd_screenPath.right = new FormAttachment(100);
+		fd_screenPath.left = new FormAttachment(0);
 		
+		screenPath.setLayoutData(fd_screenPath);
+		toolkit.paintBordersFor(screenPath);
+		
+		clearScreenPath();
+		
+		
+//		hprlnkHome = toolkit.createHyperlink(screenPath, "Home", SWT.NONE);
+//		toolkit.paintBordersFor(hprlnkHome);
+
 		screenContainer = toolkit.createComposite(this, SWT.NONE);
+
 		screenDeck = new StackLayout();
 		screenContainer.setLayout(screenDeck);
 		fd_screenContainer = new FormData();
 		fd_screenContainer.bottom = new FormAttachment(100, -25);
 		fd_screenContainer.right = new FormAttachment(100);
-		fd_screenContainer.top = new FormAttachment(0);
+		fd_screenContainer.top = new FormAttachment(0, 25);
 		fd_screenContainer.left = new FormAttachment(0);
 		screenContainer.setLayoutData(fd_screenContainer);
 		toolkit.paintBordersFor(screenContainer);
+
+		fd_screenPath.bottom = new FormAttachment(screenContainer);
+		
 		
 		screenBar = toolkit.createComposite(this, SWT.BORDER);
 		screenBar.setLayout(new RowLayout(SWT.HORIZONTAL));
 		FormData fd_screenBar = new FormData();
-		fd_screenBar.right = new FormAttachment(100);
-		fd_screenBar.bottom = new FormAttachment(100);
 		fd_screenBar.top = new FormAttachment(screenContainer);
-		fd_screenBar.left = new FormAttachment(screenContainer, 0, SWT.LEFT);
+		fd_screenBar.bottom = new FormAttachment(100);
+		fd_screenBar.left = new FormAttachment(0);
+		fd_screenBar.right = new FormAttachment(100);
 		screenBar.setLayoutData(fd_screenBar);
 		toolkit.paintBordersFor(screenBar);
 	}
+
 	public Composite getScreenContainer() {
 		return screenContainer;
 	}
+
 	public Composite getScreenBar() {
 		return screenBar;
 	}
-	
-	public void setScreenBarOn(){
-		if(!screenBar.getVisible()){
+
+	public void setScreenBarOn() {
+		if (!screenBar.getVisible()) {
 			screenBar.setVisible(true);
-			// Enlarge the screenContainer. 
+			// Enlarge the screenContainer.
 			fd_screenContainer.bottom.offset = -25;
 			this.layout(true);
 		}
 	}
-	
-	public void setScreenBarOff(){
-		if(screenBar.getVisible()){
+
+	public void setScreenBarOff() {
+		if (screenBar.getVisible()) {
 			screenBar.setVisible(false);
 			fd_screenContainer.bottom.offset = 0;
 			this.layout(true);
 		}
 	}
+
+	public void setScreenPathOn() {
+		if (!screenPath.getVisible()) {
+			screenPath.setVisible(true);
+			// Enlarge the screenContainer.
+			fd_screenContainer.top.offset = 25;
+			this.layout(true);
+		}
+	}
+
+	public void setScreenPathOff() {
+		if (screenPath.getVisible()) {
+			screenPath.setVisible(false);
+			// Enlarge the screenContainer.
+			fd_screenContainer.top.offset = 0;
+			this.layout(true);
+		}
+	}
+
+	public boolean isScreenPathOn() {
+		return screenPath.getVisible();
+	}
+
+	public void clearScreenPath() {
+		if(clientScreenPath  != null){
+			clientScreenPath.dispose();
+		}
+		clientScreenPath = toolkit.createComposite(screenPath);
+		clientScreenPath.setLayout(new RowLayout(SWT.HORIZONTAL));	
+		screenPath.layout(true);
+	}
+
 	
-	public StackLayout getScreenDeck(){
+	public Composite getScreenPath() {
+		return clientScreenPath;
+	}
+
+	public StackLayout getScreenDeck() {
 		return screenDeck;
 	}
+
 	@Override
 	public void dispose() {
 		super.dispose();
 	}
-	
+
 }

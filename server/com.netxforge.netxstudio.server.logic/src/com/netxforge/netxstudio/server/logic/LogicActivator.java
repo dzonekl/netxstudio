@@ -11,6 +11,7 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
+import com.netxforge.netxstudio.scheduling.NodeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
@@ -22,6 +23,7 @@ import com.netxforge.netxstudio.server.job.JobModule;
 import com.netxforge.netxstudio.server.logic.monitoring.MonitoringService;
 import com.netxforge.netxstudio.server.logic.monitoring.RFSServiceMonitoringJobImplementation;
 import com.netxforge.netxstudio.server.logic.netxscript.NetxscriptServerModule;
+import com.netxforge.netxstudio.server.logic.reporting.NodeReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.OperatorReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.RFSServiceReportingJobImplementation;
 import com.netxforge.netxstudio.server.logic.reporting.ReportingService;
@@ -69,6 +71,13 @@ public class LogicActivator implements BundleActivator {
 			}
 		});
 		
+		JobImplementation.REGISTRY.register(NodeReporterJob.class, new JobImplementationFactory() {
+			@Override
+			public JobImplementation create() {
+				return injector.getInstance(NodeReportingJobImplementation.class);
+			}
+		});
+		
 		JobImplementation.REGISTRY.register(OperatorReporterJob.class, new JobImplementationFactory() {
 			@Override
 			public JobImplementation create() {
@@ -82,6 +91,9 @@ public class LogicActivator implements BundleActivator {
 				return injector.getInstance(RetentionJobImplementation.class);
 			}
 		});
+		
+		
+		
 
 		Module om = override(new NetxscriptServerModule()).with(ServerModule.getModule());
 		om = override(om).with(new JobModule());

@@ -83,6 +83,24 @@ public interface GenericsFactory extends EFactory {
 	DiagramInfo createDiagramInfo();
 
 	/**
+	 * Returns a new object of class '<em>Expansion Duration Setting</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Expansion Duration Setting</em>'.
+	 * @generated
+	 */
+	ExpansionDurationSetting createExpansionDurationSetting();
+
+	/**
+	 * Returns a new object of class '<em>Expansion Duration Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Expansion Duration Value</em>'.
+	 * @generated
+	 */
+	ExpansionDurationValue createExpansionDurationValue();
+
+	/**
 	 * Returns a new object of class '<em>Lifecycle</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

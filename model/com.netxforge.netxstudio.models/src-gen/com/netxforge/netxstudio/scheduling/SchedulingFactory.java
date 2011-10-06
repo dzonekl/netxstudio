@@ -110,6 +110,24 @@ public interface SchedulingFactory extends EFactory {
 	MetricSourceJob createMetricSourceJob();
 
 	/**
+	 * Returns a new object of class '<em>Node Reporter Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Node Reporter Job</em>'.
+	 * @generated
+	 */
+	NodeReporterJob createNodeReporterJob();
+
+	/**
+	 * Returns a new object of class '<em>Node Type Reporter Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Node Type Reporter Job</em>'.
+	 * @generated
+	 */
+	NodeTypeReporterJob createNodeTypeReporterJob();
+
+	/**
 	 * Returns a new object of class '<em>Operator Reporter Job</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

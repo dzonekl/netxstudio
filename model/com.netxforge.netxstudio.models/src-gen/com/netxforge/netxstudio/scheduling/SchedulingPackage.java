@@ -150,7 +150,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getWorkFlowRun()
 	 * @generated
 	 */
-	int WORK_FLOW_RUN = 13;
+	int WORK_FLOW_RUN = 15;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.JobImpl <em>Job</em>}' class.
@@ -718,6 +718,188 @@ public interface SchedulingPackage extends EPackage {
 	int METRIC_SOURCE_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.NodeReporterJobImpl <em>Node Reporter Job</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.NodeReporterJobImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getNodeReporterJob()
+	 * @generated
+	 */
+	int NODE_REPORTER_JOB = 8;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_REPORTER_JOB__DELETED = JOB__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_REPORTER_JOB__END_TIME = JOB__END_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Interval</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_REPORTER_JOB__INTERVAL = JOB__INTERVAL;
+
+	/**
+	 * The feature id for the '<em><b>Job State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_REPORTER_JOB__JOB_STATE = JOB__JOB_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_REPORTER_JOB__NAME = JOB__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Repeat</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_REPORTER_JOB__REPEAT = JOB__REPEAT;
+
+	/**
+	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_REPORTER_JOB__START_TIME = JOB__START_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_REPORTER_JOB__NODE = JOB_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Node Reporter Job</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_REPORTER_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.NodeTypeReporterJobImpl <em>Node Type Reporter Job</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see com.netxforge.netxstudio.scheduling.impl.NodeTypeReporterJobImpl
+	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getNodeTypeReporterJob()
+	 * @generated
+	 */
+	int NODE_TYPE_REPORTER_JOB = 9;
+
+	/**
+	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_REPORTER_JOB__DELETED = JOB__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>End Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_REPORTER_JOB__END_TIME = JOB__END_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Interval</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_REPORTER_JOB__INTERVAL = JOB__INTERVAL;
+
+	/**
+	 * The feature id for the '<em><b>Job State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_REPORTER_JOB__JOB_STATE = JOB__JOB_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_REPORTER_JOB__NAME = JOB__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Repeat</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_REPORTER_JOB__REPEAT = JOB__REPEAT;
+
+	/**
+	 * The feature id for the '<em><b>Start Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_REPORTER_JOB__START_TIME = JOB__START_TIME;
+
+	/**
+	 * The feature id for the '<em><b>Node Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_REPORTER_JOB__NODE_TYPE = JOB_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Node Type Reporter Job</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE_TYPE_REPORTER_JOB_FEATURE_COUNT = JOB_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.impl.OperatorReporterJobImpl <em>Operator Reporter Job</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -725,7 +907,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getOperatorReporterJob()
 	 * @generated
 	 */
-	int OPERATOR_REPORTER_JOB = 8;
+	int OPERATOR_REPORTER_JOB = 10;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -816,7 +998,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceMonitoringJob()
 	 * @generated
 	 */
-	int RFS_SERVICE_MONITORING_JOB = 9;
+	int RFS_SERVICE_MONITORING_JOB = 11;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -907,7 +1089,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceReporterJob()
 	 * @generated
 	 */
-	int RFS_SERVICE_REPORTER_JOB = 10;
+	int RFS_SERVICE_REPORTER_JOB = 12;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -998,7 +1180,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getRFSServiceRetentionJob()
 	 * @generated
 	 */
-	int RFS_SERVICE_RETENTION_JOB = 11;
+	int RFS_SERVICE_RETENTION_JOB = 13;
 
 	/**
 	 * The feature id for the '<em><b>Deleted</b></em>' attribute.
@@ -1089,7 +1271,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getServiceUserFailure()
 	 * @generated
 	 */
-	int SERVICE_USER_FAILURE = 12;
+	int SERVICE_USER_FAILURE = 14;
 
 	/**
 	 * The feature id for the '<em><b>Message</b></em>' attribute.
@@ -1135,7 +1317,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunState()
 	 * @generated
 	 */
-	int JOB_RUN_STATE = 14;
+	int JOB_RUN_STATE = 16;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.scheduling.JobState <em>Job State</em>}' enum.
@@ -1145,7 +1327,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobState()
 	 * @generated
 	 */
-	int JOB_STATE = 15;
+	int JOB_STATE = 17;
 
 	/**
 	 * The meta object id for the '<em>Job Run State Object</em>' data type.
@@ -1155,7 +1337,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobRunStateObject()
 	 * @generated
 	 */
-	int JOB_RUN_STATE_OBJECT = 16;
+	int JOB_RUN_STATE_OBJECT = 18;
 
 	/**
 	 * The meta object id for the '<em>Job State Object</em>' data type.
@@ -1165,7 +1347,7 @@ public interface SchedulingPackage extends EPackage {
 	 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getJobStateObject()
 	 * @generated
 	 */
-	int JOB_STATE_OBJECT = 17;
+	int JOB_STATE_OBJECT = 19;
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.AnalyzerJob <em>Analyzer Job</em>}'.
@@ -1400,6 +1582,48 @@ public interface SchedulingPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getMetricSourceJob_MetricSource();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.NodeReporterJob <em>Node Reporter Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Node Reporter Job</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.NodeReporterJob
+	 * @generated
+	 */
+	EClass getNodeReporterJob();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.NodeReporterJob#getNode <em>Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Node</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.NodeReporterJob#getNode()
+	 * @see #getNodeReporterJob()
+	 * @generated
+	 */
+	EReference getNodeReporterJob_Node();
+
+	/**
+	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.NodeTypeReporterJob <em>Node Type Reporter Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Node Type Reporter Job</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.NodeTypeReporterJob
+	 * @generated
+	 */
+	EClass getNodeTypeReporterJob();
+
+	/**
+	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.NodeTypeReporterJob#getNodeType <em>Node Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Node Type</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.NodeTypeReporterJob#getNodeType()
+	 * @see #getNodeTypeReporterJob()
+	 * @generated
+	 */
+	EReference getNodeTypeReporterJob_NodeType();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.OperatorReporterJob <em>Operator Reporter Job</em>}'.
@@ -1850,6 +2074,42 @@ public interface SchedulingPackage extends EPackage {
 		 * @generated
 		 */
 		EReference METRIC_SOURCE_JOB__METRIC_SOURCE = eINSTANCE.getMetricSourceJob_MetricSource();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.NodeReporterJobImpl <em>Node Reporter Job</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.scheduling.impl.NodeReporterJobImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getNodeReporterJob()
+		 * @generated
+		 */
+		EClass NODE_REPORTER_JOB = eINSTANCE.getNodeReporterJob();
+
+		/**
+		 * The meta object literal for the '<em><b>Node</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE_REPORTER_JOB__NODE = eINSTANCE.getNodeReporterJob_Node();
+
+		/**
+		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.NodeTypeReporterJobImpl <em>Node Type Reporter Job</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see com.netxforge.netxstudio.scheduling.impl.NodeTypeReporterJobImpl
+		 * @see com.netxforge.netxstudio.scheduling.impl.SchedulingPackageImpl#getNodeTypeReporterJob()
+		 * @generated
+		 */
+		EClass NODE_TYPE_REPORTER_JOB = eINSTANCE.getNodeTypeReporterJob();
+
+		/**
+		 * The meta object literal for the '<em><b>Node Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE_TYPE_REPORTER_JOB__NODE_TYPE = eINSTANCE.getNodeTypeReporterJob_NodeType();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.OperatorReporterJobImpl <em>Operator Reporter Job</em>}' class.

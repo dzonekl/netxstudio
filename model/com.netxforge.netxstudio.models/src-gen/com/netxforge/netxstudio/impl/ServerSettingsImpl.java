@@ -23,6 +23,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
+import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,6 +32,7 @@ import com.netxforge.netxstudio.ServerSettings;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.impl.ServerSettingsImpl#getExpansionDurationSettings <em>Expansion Duration Settings</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.impl.ServerSettingsImpl#getExportPath <em>Export Path</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.impl.ServerSettingsImpl#getImportPath <em>Import Path</em>}</li>
  * </ul>
@@ -66,6 +68,24 @@ public class ServerSettingsImpl extends CDOObjectImpl implements ServerSettings 
 	@Override
 	protected int eStaticFeatureCount() {
 		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExpansionDurationSetting getExpansionDurationSettings() {
+		return (ExpansionDurationSetting)eGet(NetxstudioPackage.Literals.SERVER_SETTINGS__EXPANSION_DURATION_SETTINGS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExpansionDurationSettings(ExpansionDurationSetting newExpansionDurationSettings) {
+		eSet(NetxstudioPackage.Literals.SERVER_SETTINGS__EXPANSION_DURATION_SETTINGS, newExpansionDurationSettings);
 	}
 
 	/**

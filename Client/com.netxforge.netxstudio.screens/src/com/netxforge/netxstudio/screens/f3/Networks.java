@@ -76,6 +76,7 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.common.model.ModelUtils;
 import com.netxforge.netxstudio.data.actions.ServerRequest;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsPackage;
@@ -92,6 +93,10 @@ import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.Warehouse;
+import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.NodeReporterJob;
+import com.netxforge.netxstudio.scheduling.SchedulingFactory;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
 import com.netxforge.netxstudio.screens.OperatorFilterDialog;
 import com.netxforge.netxstudio.screens.PeriodDialog;
@@ -111,6 +116,7 @@ import com.netxforge.netxstudio.screens.f2.details.NewEditNode;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeEquipment;
 import com.netxforge.netxstudio.screens.f2.details.NewEditNodeType;
 import com.netxforge.netxstudio.screens.f3.support.NetworkTreeLabelProvider;
+import com.netxforge.netxstudio.screens.f4.NewEditJob;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
@@ -195,7 +201,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 				| SWT.SEARCH | SWT.CANCEL);
 		GridData gd_txtFilterText = new GridData(SWT.FILL, SWT.CENTER, true,
 				false, 1, 1);
-//		gd_txtFilterText.widthHint = 200;
+		// gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
 		txtFilterText.setSize(64, 81);
 		txtFilterText.setText("");
@@ -302,6 +308,8 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 		}
 		// actions.add(new ScheduleReportingJobAction(
 		// "Schedule Reporting Job...", SWT.PUSH));
+		actions.add(new ScheduleReportingJobAction(
+				"Schedule Reporting Job...", SWT.PUSH));
 		actions.add(new ReportNowAction("Report Now", SWT.PUSH));
 		actions.add(new SeparatorAction());
 		actions.add(new ExportHTMLAction("Export to HTML", SWT.PUSH));
@@ -328,6 +336,62 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 					nodeHistoryScreen.setOperation(Screens.OPERATION_READ_ONLY);
 					nodeHistoryScreen.injectData(null, object);
 					screenService.setActiveScreen(nodeHistoryScreen);
+				}
+			}
+		}
+	}
+
+	class ScheduleReportingJobAction extends Action {
+		public ScheduleReportingJobAction(String text, int style) {
+			super(text, style);
+		}
+
+		@Override
+		public void run() {
+			if (screenService != null) {
+				ISelection selection = getViewer().getSelection();
+				if (selection instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection) selection)
+							.getFirstElement();
+					if (o instanceof Node) {
+
+						Node n = (Node) o;
+
+						int operation = -1;
+
+						Resource jobResource = editingService
+								.getData(SchedulingPackage.Literals.JOB);
+
+						Job job = modelUtils
+								.jobFor(jobResource,
+										SchedulingPackage.Literals.NODE_REPORTER_JOB,
+										SchedulingPackage.Literals.NODE_REPORTER_JOB__NODE,
+										(Node) o);
+
+						// Edit or New if the Service has a job or not.
+						if (job != null) {
+							operation = Screens.OPERATION_EDIT;
+						} else {
+							operation = Screens.OPERATION_NEW;
+
+							job = SchedulingFactory.eINSTANCE
+									.createNodeReporterJob();
+							job.setName(((Node) o).getNodeID());
+							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
+							job.setStartTime(modelUtils.toXMLDate(modelUtils
+									.todayAndNow()));
+							if (job instanceof NodeReporterJob) {
+								((NodeReporterJob) job).setNode(n);
+							}
+						}
+
+						NewEditJob newEditJob = new NewEditJob(
+								screenService.getScreenContainer(), SWT.NONE);
+						newEditJob.setOperation(operation);
+						newEditJob.setScreenService(screenService);
+						newEditJob.injectData(jobResource, job);
+						screenService.setActiveScreen(newEditJob);
+					}
 				}
 			}
 		}

@@ -13,7 +13,7 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Netxstudio">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Netxstudio is a container which groups all main&#xA;&#x9;&#x9;&#x9;&#x9;other types. It is the root object."/>
+      <details key="documentation" value="Netxstudio is a container which groups all main&#xA;&#x9;&#x9;&#x9;&#x9;other types. It is the root object.&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Netxstudio"/>
@@ -22,7 +22,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="operators" upperBound="-1"
         eType="ecore:EClass operators.ecore#//Operator" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Operators reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Operator type."/>
+        <details key="documentation" value="The Operators reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Operator type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -32,7 +32,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="libraries" upperBound="-1"
         eType="ecore:EClass library.ecore#//Library" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Libraries reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Library type."/>
+        <details key="documentation" value="The Libraries reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Library type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -42,7 +42,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="companies" upperBound="-1"
         eType="ecore:EClass generics.ecore#//Company" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Companies reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Company type."/>
+        <details key="documentation" value="The Companies reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Company type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -52,7 +52,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="vendors" upperBound="-1"
         eType="ecore:EClass library.ecore#//Vendor" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Companies reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Company type."/>
+        <details key="documentation" value="The Companies reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Company type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -62,7 +62,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="users" upperBound="-1"
         eType="ecore:EClass generics.ecore#//Person" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Users reference, contains 0 or more User&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type."/>
+        <details key="documentation" value="The Users reference, contains 0 or more User&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -72,7 +72,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="roles" upperBound="-1"
         eType="ecore:EClass generics.ecore#//Role" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Roles reference, contains 0 or more Role&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type."/>
+        <details key="documentation" value="The Roles reference, contains 0 or more Role&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -82,7 +82,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="countries" upperBound="-1"
         eType="ecore:EClass geo.ecore#//Country" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Countries reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Country type."/>
+        <details key="documentation" value="The Countries reference, contains 0 or more&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Country type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -106,8 +106,16 @@
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ServerSettings"/>
-      <details key="kind" value="empty"/>
+      <details key="kind" value="elementOnly"/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expansionDurationSettings"
+        eType="ecore:EClass generics.ecore#//ExpansionDurationSetting" containment="true"
+        resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="ExpansionDurationSettings"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="exportPath" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>

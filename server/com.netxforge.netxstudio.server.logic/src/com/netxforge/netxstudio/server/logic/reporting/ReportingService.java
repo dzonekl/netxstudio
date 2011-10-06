@@ -253,7 +253,7 @@ public class ReportingService implements NetxForgeService {
 		private void setPeriod(final BaseLogic reportingLogic) {
 			Date start = getStartTime(parameters);
 			Date end = getEndTime(parameters);
-			((BasePeriodLogic) reportingLogic).setStartTime(start);
+			((BasePeriodLogic) reportingLogic).setBeginTime(start);
 			((BasePeriodLogic) reportingLogic).setEndTime(end);
 		};
 

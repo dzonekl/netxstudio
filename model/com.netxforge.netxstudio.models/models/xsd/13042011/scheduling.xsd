@@ -92,6 +92,57 @@
 		</xs:complexContent>
 	</xs:complexType>
 	
+	
+	<!--_____________________________ -->
+	<!--| NodeTypeReporterJob | -->
+	<!--|___________________________| -->
+	<xs:complexType name="NodeTypeReporterJob">
+		<xs:annotation>
+			<xs:documentation>A job producing external format reports for a
+				service.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Job">
+				<xs:sequence>
+					<xs:element name="NodeType" type="xs:anyURI"
+						ecore:reference="library:NodeType" minOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the NodeType for which the job
+								runs.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!--_____________________________ -->
+	<!--| NodeReporterJob | -->
+	<!--|___________________________| -->
+	<xs:complexType name="NodeReporterJob">
+		<xs:annotation>
+			<xs:documentation>A job producing external format reports for a
+				service.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Job">
+				<xs:sequence>
+					<xs:element name="Node" type="xs:anyURI"
+						ecore:reference="operators:Node" minOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Reference to the Node for which the job
+								runs.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
 	<!--_____________________________ -->
 	<!--| OperatorReporterJob | -->
 	<!--|___________________________| -->

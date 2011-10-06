@@ -202,6 +202,52 @@ public class GenericsItemProviderAdapterFactory extends GenericsAdapterFactory i
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.generics.ExpansionDurationSetting} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ExpansionDurationSettingItemProvider expansionDurationSettingItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.generics.ExpansionDurationSetting}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createExpansionDurationSettingAdapter() {
+		if (expansionDurationSettingItemProvider == null) {
+			expansionDurationSettingItemProvider = new ExpansionDurationSettingItemProvider(this);
+		}
+
+		return expansionDurationSettingItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.generics.ExpansionDurationValue} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ExpansionDurationValueItemProvider expansionDurationValueItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link com.netxforge.netxstudio.generics.ExpansionDurationValue}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createExpansionDurationValueAdapter() {
+		if (expansionDurationValueItemProvider == null) {
+			expansionDurationValueItemProvider = new ExpansionDurationValueItemProvider(this);
+		}
+
+		return expansionDurationValueItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link com.netxforge.netxstudio.generics.Lifecycle} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -443,6 +489,8 @@ public class GenericsItemProviderAdapterFactory extends GenericsAdapterFactory i
 		if (companyItemProvider != null) companyItemProvider.dispose();
 		if (dateTimeRangeItemProvider != null) dateTimeRangeItemProvider.dispose();
 		if (diagramInfoItemProvider != null) diagramInfoItemProvider.dispose();
+		if (expansionDurationSettingItemProvider != null) expansionDurationSettingItemProvider.dispose();
+		if (expansionDurationValueItemProvider != null) expansionDurationValueItemProvider.dispose();
 		if (lifecycleItemProvider != null) lifecycleItemProvider.dispose();
 		if (metaItemProvider != null) metaItemProvider.dispose();
 		if (multiImageItemProvider != null) multiImageItemProvider.dispose();

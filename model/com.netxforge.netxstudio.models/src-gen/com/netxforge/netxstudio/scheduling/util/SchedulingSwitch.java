@@ -31,6 +31,8 @@ import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.NodeReporterJob;
+import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
@@ -150,6 +152,22 @@ public class SchedulingSwitch<T> extends Switch<T> {
 				T result = caseMetricSourceJob(metricSourceJob);
 				if (result == null) result = caseJob(metricSourceJob);
 				if (result == null) result = caseBase(metricSourceJob);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SchedulingPackage.NODE_REPORTER_JOB: {
+				NodeReporterJob nodeReporterJob = (NodeReporterJob)theEObject;
+				T result = caseNodeReporterJob(nodeReporterJob);
+				if (result == null) result = caseJob(nodeReporterJob);
+				if (result == null) result = caseBase(nodeReporterJob);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SchedulingPackage.NODE_TYPE_REPORTER_JOB: {
+				NodeTypeReporterJob nodeTypeReporterJob = (NodeTypeReporterJob)theEObject;
+				T result = caseNodeTypeReporterJob(nodeTypeReporterJob);
+				if (result == null) result = caseJob(nodeTypeReporterJob);
+				if (result == null) result = caseBase(nodeTypeReporterJob);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -320,6 +338,36 @@ public class SchedulingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMetricSourceJob(MetricSourceJob object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Node Reporter Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Node Reporter Job</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNodeReporterJob(NodeReporterJob object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Node Type Reporter Job</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Node Type Reporter Job</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNodeTypeReporterJob(NodeTypeReporterJob object) {
 		return null;
 	}
 

@@ -28,6 +28,8 @@ import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.DiagramInfo;
+import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
+import com.netxforge.netxstudio.generics.ExpansionDurationValue;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Meta;
@@ -111,6 +113,14 @@ public class GenericsAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseDiagramInfo(DiagramInfo object) {
 				return createDiagramInfoAdapter();
+			}
+			@Override
+			public Adapter caseExpansionDurationSetting(ExpansionDurationSetting object) {
+				return createExpansionDurationSettingAdapter();
+			}
+			@Override
+			public Adapter caseExpansionDurationValue(ExpansionDurationValue object) {
+				return createExpansionDurationValueAdapter();
 			}
 			@Override
 			public Adapter caseLifecycle(Lifecycle object) {
@@ -223,6 +233,34 @@ public class GenericsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDiagramInfoAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.generics.ExpansionDurationSetting <em>Expansion Duration Setting</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDurationSetting
+	 * @generated
+	 */
+	public Adapter createExpansionDurationSettingAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.generics.ExpansionDurationValue <em>Expansion Duration Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDurationValue
+	 * @generated
+	 */
+	public Adapter createExpansionDurationValueAdapter() {
 		return null;
 	}
 

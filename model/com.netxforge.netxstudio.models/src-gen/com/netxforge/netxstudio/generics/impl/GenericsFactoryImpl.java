@@ -35,6 +35,8 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.DiagramKindType;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
+import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
+import com.netxforge.netxstudio.generics.ExpansionDurationValue;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -93,6 +95,8 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 			case GenericsPackage.COMPANY: return (EObject)createCompany();
 			case GenericsPackage.DATE_TIME_RANGE: return (EObject)createDateTimeRange();
 			case GenericsPackage.DIAGRAM_INFO: return (EObject)createDiagramInfo();
+			case GenericsPackage.EXPANSION_DURATION_SETTING: return (EObject)createExpansionDurationSetting();
+			case GenericsPackage.EXPANSION_DURATION_VALUE: return (EObject)createExpansionDurationValue();
 			case GenericsPackage.LIFECYCLE: return (EObject)createLifecycle();
 			case GenericsPackage.META: return (EObject)createMeta();
 			case GenericsPackage.MULTI_IMAGE: return (EObject)createMultiImage();
@@ -222,6 +226,26 @@ public class GenericsFactoryImpl extends EFactoryImpl implements GenericsFactory
 	public DiagramInfo createDiagramInfo() {
 		DiagramInfoImpl diagramInfo = new DiagramInfoImpl();
 		return diagramInfo;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExpansionDurationSetting createExpansionDurationSetting() {
+		ExpansionDurationSettingImpl expansionDurationSetting = new ExpansionDurationSettingImpl();
+		return expansionDurationSetting;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExpansionDurationValue createExpansionDurationValue() {
+		ExpansionDurationValueImpl expansionDurationValue = new ExpansionDurationValueImpl();
+		return expansionDurationValue;
 	}
 
 	/**

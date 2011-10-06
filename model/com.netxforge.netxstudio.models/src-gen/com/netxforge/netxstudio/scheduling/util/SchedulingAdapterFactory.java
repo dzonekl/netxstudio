@@ -32,6 +32,8 @@ import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.NodeReporterJob;
+import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
@@ -127,6 +129,14 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseMetricSourceJob(MetricSourceJob object) {
 				return createMetricSourceJobAdapter();
+			}
+			@Override
+			public Adapter caseNodeReporterJob(NodeReporterJob object) {
+				return createNodeReporterJobAdapter();
+			}
+			@Override
+			public Adapter caseNodeTypeReporterJob(NodeTypeReporterJob object) {
+				return createNodeTypeReporterJobAdapter();
 			}
 			@Override
 			public Adapter caseOperatorReporterJob(OperatorReporterJob object) {
@@ -285,6 +295,34 @@ public class SchedulingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMetricSourceJobAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.NodeReporterJob <em>Node Reporter Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.NodeReporterJob
+	 * @generated
+	 */
+	public Adapter createNodeReporterJobAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link com.netxforge.netxstudio.scheduling.NodeTypeReporterJob <em>Node Type Reporter Job</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see com.netxforge.netxstudio.scheduling.NodeTypeReporterJob
+	 * @generated
+	 */
+	public Adapter createNodeTypeReporterJobAdapter() {
 		return null;
 	}
 

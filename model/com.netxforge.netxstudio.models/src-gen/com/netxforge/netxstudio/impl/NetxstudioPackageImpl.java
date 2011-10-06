@@ -252,8 +252,17 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getServerSettings_ExpansionDurationSettings() {
+		return (EReference)serverSettingsEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getServerSettings_ExportPath() {
-		return (EAttribute)serverSettingsEClass.getEStructuralFeatures().get(0);
+		return (EAttribute)serverSettingsEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -262,7 +271,7 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 	 * @generated
 	 */
 	public EAttribute getServerSettings_ImportPath() {
-		return (EAttribute)serverSettingsEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)serverSettingsEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -304,6 +313,7 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 		createEReference(netxstudioEClass, NETXSTUDIO__JOBS);
 
 		serverSettingsEClass = createEClass(SERVER_SETTINGS);
+		createEReference(serverSettingsEClass, SERVER_SETTINGS__EXPANSION_DURATION_SETTINGS);
 		createEAttribute(serverSettingsEClass, SERVER_SETTINGS__EXPORT_PATH);
 		createEAttribute(serverSettingsEClass, SERVER_SETTINGS__IMPORT_PATH);
 	}
@@ -357,6 +367,7 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 		initEReference(getNetxstudio_Jobs(), theSchedulingPackage.getJob(), null, "jobs", null, 0, -1, Netxstudio.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serverSettingsEClass, ServerSettings.class, "ServerSettings", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getServerSettings_ExpansionDurationSettings(), theGenericsPackage.getExpansionDurationSetting(), null, "expansionDurationSettings", null, 0, 1, ServerSettings.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServerSettings_ExportPath(), theXMLTypePackage.getString(), "exportPath", null, 0, 1, ServerSettings.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServerSettings_ImportPath(), theXMLTypePackage.getString(), "importPath", null, 0, 1, ServerSettings.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -385,7 +396,7 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																						
+		   });																							
 	}
 
 	/**
@@ -464,7 +475,14 @@ public class NetxstudioPackageImpl extends EPackageImpl implements NetxstudioPac
 		   source, 
 		   new String[] {
 			 "name", "ServerSettings",
-			 "kind", "empty"
+			 "kind", "elementOnly"
+		   });		
+		addAnnotation
+		  (getServerSettings_ExpansionDurationSettings(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ExpansionDurationSettings"
 		   });		
 		addAnnotation
 		  (getServerSettings_ExportPath(), 

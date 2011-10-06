@@ -242,6 +242,16 @@ public class NetxstudioItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
+				 SchedulingFactory.eINSTANCE.createNodeReporterJob()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
+				 SchedulingFactory.eINSTANCE.createNodeTypeReporterJob()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(NetxstudioPackage.Literals.NETXSTUDIO__JOBS,
 				 SchedulingFactory.eINSTANCE.createOperatorReporterJob()));
 
 		newChildDescriptors.add

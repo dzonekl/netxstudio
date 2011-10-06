@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.screens.editing.selector;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -39,6 +40,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -47,6 +49,7 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataService;
 import com.netxforge.netxstudio.data.cdo.IFixtures;
@@ -133,15 +136,16 @@ public class ScreenFormService implements IScreenFormService {
 		Composite activeScreen = screen;
 		formToolkit.adapt(activeScreen);
 		formToolkit.paintBordersFor(activeScreen);
-		
-		// CB useless code. 
-//		Control current = screenBody.getScreenDeck().topControl;
-//		if (current != null && current.isDisposed()) {
-//			current = null;
-//		}
+
+		// CB useless code.
+		// Control current = screenBody.getScreenDeck().topControl;
+		// if (current != null && current.isDisposed()) {
+		// current = null;
+		// }
 		screenBody.getScreenDeck().topControl = activeScreen;
 
 		// screenBody.pack();
+		updateScreenPath();
 
 		try {
 			getScreenContainer().layout(true, true);
@@ -187,6 +191,9 @@ public class ScreenFormService implements IScreenFormService {
 			// Nothing to pop.
 			screenBody.setScreenBarOff();
 		}
+		
+		this.updateScreenPath();
+		
 	}
 
 	/*
@@ -221,12 +228,12 @@ public class ScreenFormService implements IScreenFormService {
 			sashForm = new SashForm(rootComposite, SWT.SMOOTH);
 			sashForm.setSashWidth(5);
 			{
-				Composite composite = formToolkit.createComposite(sashForm,
-						SWT.NONE);
-				formToolkit.paintBordersFor(composite);
-				composite.setLayout(new FillLayout(SWT.HORIZONTAL));
+				Composite selectorComposite = formToolkit.createComposite(
+						sashForm, SWT.NONE);
+				formToolkit.paintBordersFor(selectorComposite);
+				selectorComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 				{
-					selectorForm = formToolkit.createForm(composite);
+					selectorForm = formToolkit.createForm(selectorComposite);
 					selectorForm.setSeparatorVisible(true);
 					formToolkit.paintBordersFor(selectorForm);
 					selectorForm.setText("M");
@@ -240,6 +247,7 @@ public class ScreenFormService implements IScreenFormService {
 				this.createBackLink(screenBody.getScreenBar());
 				this.createSaveLink(screenBody.getScreenBar());
 				screenBody.setScreenBarOff();
+				screenBody.setScreenPathOff();
 			}
 			sashForm.setWeights(new int[] { 70, 491 });
 		}
@@ -333,15 +341,14 @@ public class ScreenFormService implements IScreenFormService {
 	}
 
 	ObservablesManager obm = null;
-	
-	public void activateInObservable(Runnable rn){
-		if(obm == null){
+
+	public void activateInObservable(Runnable rn) {
+		if (obm == null) {
 			obm = new ObservablesManager();
 		}
 		obm.runAndCollect(rn);
 	}
-	
-	
+
 	private void doSetScreen(final Class<?> finalScreen,
 			final Constructor<?> finalScreenConstructor,
 			final int finalOperation) {
@@ -352,7 +359,6 @@ public class ScreenFormService implements IScreenFormService {
 		// Warn for dirtyness.
 		dirtyWarning();
 
-		
 		// Reset the screen memory.
 		reset();
 
@@ -363,12 +369,9 @@ public class ScreenFormService implements IScreenFormService {
 			obm = null;
 		}
 
-		
 		// Now unload the data.
 		editingService.disposeData();
 
-	
-		
 		obm = new ObservablesManager();
 		obm.runAndCollect(new Runnable() {
 			public void run() {
@@ -436,8 +439,7 @@ public class ScreenFormService implements IScreenFormService {
 	private void undoAndFlush() {
 		// This will flush the stack, but not undo all the commands.
 		// We need to undo the executed editing commands.
-		while (editingService.getEditingDomain().getCommandStack()
-				.canUndo()) {
+		while (editingService.getEditingDomain().getCommandStack().canUndo()) {
 			editingService.getEditingDomain().getCommandStack().undo();
 		}
 		editingService.getEditingDomain().getCommandStack().flush();
@@ -560,22 +562,22 @@ public class ScreenFormService implements IScreenFormService {
 		formToolkit.adapt(bckLnk);
 		bckLnk.addHyperlinkListener(new IHyperlinkListener() {
 			public void linkActivated(HyperlinkEvent e) {
-				if(((IScreen) getActiveScreen()).isValid()) {
+				if (((IScreen) getActiveScreen()).isValid()) {
 					dirtyWarning();
 					popScreen();
-				}else{
-					if(editingService.isDirty()){
+				} else {
+					if (editingService.isDirty()) {
 						boolean result = MessageDialog
-								.openQuestion(Display.getCurrent().getActiveShell(),
+								.openQuestion(Display.getCurrent()
+										.getActiveShell(),
 										"Save needed, but entry not valid",
 										"You have unsaved changes, which are not valid yet, discard?");
-						if(result){
-							// clean the service. 
+						if (result) {
+							// clean the service.
 							undoAndFlush();
 							popScreen();
-						}else{
-							// Stay on this screen. 
-							
+						} else {
+							// Stay on this screen.
 						}
 					}
 				}
@@ -600,7 +602,7 @@ public class ScreenFormService implements IScreenFormService {
 						((IDataScreenInjection) getActiveScreen()).addData();
 						popScreen();
 					} else {
-
+						// The screen is not valid, save is not allowed. 
 					}
 				} else {
 					// Should not occure as the save lnk is not show, for
@@ -659,5 +661,52 @@ public class ScreenFormService implements IScreenFormService {
 	public IEditingService getEditingService() {
 		return editingService;
 	}
+	
+	
+	/**
+	 * Runs through the list of screens on the stack and adds
+	 * an entry on the screenpath composite. 
+	 */
+	private void updateScreenPath() {
 
+		Iterator<Composite> elements = screenStack.iterator();
+		int count = Iterators.size(elements);
+		elements  = screenStack.iterator();
+		this.screenBody.clearScreenPath();
+		if (count > 0) {
+			this.screenBody.setScreenPathOn();
+			while (elements.hasNext()) {
+				Composite composite = elements.next();
+				if (composite instanceof IScreen) {
+				}
+				createPathEntry(composite);
+				if (elements.hasNext()) {
+					formToolkit.createLabel(this.screenBody.getScreenPath(),
+							"->");
+				}
+			}
+
+			formToolkit.createLabel(this.screenBody.getScreenPath(), "->");
+
+			this.createPathEntry(this.getActiveScreen());
+
+			this.screenBody.getScreenPath().layout();
+		}else{
+			this.screenBody.setScreenPathOff();
+		}
+	}
+
+	private void createPathEntry(Composite composite) {
+		String entry = composite.getClass().getSimpleName();
+		Hyperlink pathLink = formToolkit.createHyperlink(
+				this.screenBody.getScreenPath(), entry, SWT.NONE);
+		// formToolkit.adapt(pathLink);
+
+		pathLink.addHyperlinkListener(new HyperlinkAdapter() {
+			public void linkActivated(HyperlinkEvent e) {
+				System.err.println("TODO implement switch back ");
+			}
+		});
+		formToolkit.paintBordersFor(pathLink);
+	}
 }

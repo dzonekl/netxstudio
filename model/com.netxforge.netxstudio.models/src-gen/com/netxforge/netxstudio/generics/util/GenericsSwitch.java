@@ -27,6 +27,8 @@ import com.netxforge.netxstudio.generics.CommitLogEntry;
 import com.netxforge.netxstudio.generics.Company;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.DiagramInfo;
+import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
+import com.netxforge.netxstudio.generics.ExpansionDurationValue;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Meta;
@@ -122,6 +124,20 @@ public class GenericsSwitch<T> extends Switch<T> {
 				DiagramInfo diagramInfo = (DiagramInfo)theEObject;
 				T result = caseDiagramInfo(diagramInfo);
 				if (result == null) result = caseBase(diagramInfo);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GenericsPackage.EXPANSION_DURATION_SETTING: {
+				ExpansionDurationSetting expansionDurationSetting = (ExpansionDurationSetting)theEObject;
+				T result = caseExpansionDurationSetting(expansionDurationSetting);
+				if (result == null) result = caseBase(expansionDurationSetting);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GenericsPackage.EXPANSION_DURATION_VALUE: {
+				ExpansionDurationValue expansionDurationValue = (ExpansionDurationValue)theEObject;
+				T result = caseExpansionDurationValue(expansionDurationValue);
+				if (result == null) result = caseBase(expansionDurationValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -242,6 +258,36 @@ public class GenericsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseDiagramInfo(DiagramInfo object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Expansion Duration Setting</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Expansion Duration Setting</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExpansionDurationSetting(ExpansionDurationSetting object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Expansion Duration Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Expansion Duration Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExpansionDurationValue(ExpansionDurationValue object) {
 		return null;
 	}
 

@@ -51,6 +51,12 @@
     <genClasses ecoreClass="scheduling.ecore#//MetricSourceJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//MetricSourceJob/metricSource"/>
     </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//NodeReporterJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//NodeReporterJob/node"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduling.ecore#//NodeTypeReporterJob">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//NodeTypeReporterJob/nodeType"/>
+    </genClasses>
     <genClasses ecoreClass="scheduling.ecore#//OperatorReporterJob">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduling.ecore#//OperatorReporterJob/operator"/>
     </genClasses>
@@ -129,6 +135,16 @@
     <genClasses ecoreClass="generics.ecore#//DiagramInfo">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//DiagramInfo/diagramKind"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//DiagramInfo/location"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//ExpansionDurationSetting">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//ExpansionDurationSetting/quickDuration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//ExpansionDurationSetting/shortDuration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//ExpansionDurationSetting/mediumDuration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference generics.ecore#//ExpansionDurationSetting/longDuration"/>
+    </genClasses>
+    <genClasses ecoreClass="generics.ecore#//ExpansionDurationValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//ExpansionDurationValue/expansionDuration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//ExpansionDurationValue/value"/>
     </genClasses>
     <genClasses ecoreClass="generics.ecore#//Lifecycle">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute generics.ecore#//Lifecycle/constructionDate"/>
@@ -686,6 +702,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//Netxstudio/jobs"/>
     </genClasses>
     <genClasses ecoreClass="netxstudio.ecore#//ServerSettings">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference netxstudio.ecore#//ServerSettings/expansionDurationSettings"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute netxstudio.ecore#//ServerSettings/exportPath"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute netxstudio.ecore#//ServerSettings/importPath"/>
     </genClasses>

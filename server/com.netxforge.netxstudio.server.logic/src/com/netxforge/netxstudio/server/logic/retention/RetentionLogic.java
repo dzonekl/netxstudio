@@ -22,11 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.ecore.resource.Resource;
 
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.NodeType;
 import com.netxforge.netxstudio.metrics.MetricRetentionRules;
 import com.netxforge.netxstudio.operators.Node;
+import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.ComponentFailure;
 import com.netxforge.netxstudio.scheduling.Failure;
 import com.netxforge.netxstudio.server.logic.BaseExpressionEngine;
@@ -55,18 +57,28 @@ public class RetentionLogic extends BaseComponentLogic {
 
 	@Override
 	protected List<NodeType> getNodeTypesToExecuteFor() {
-		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
+		
 		if (rfsService != null) {
 			// first go through the leave nodes
+			final List<NodeType> nodeTypes = new ArrayList<NodeType>();
 			for (final Node node : rfsService.getNodes()) {
 				if (getModelUtils().isInService(node)) {
 					nodeTypes.add(node.getNodeType());
 				}
 			}
+			return nodeTypes;
+		}else{
+			return this.allNodes();
 		}
-		return nodeTypes;
 	}
-
+	
+	
+	private List<NodeType> allNodes(){
+		Resource operatorResources = this.getDataProvider().getResource(OperatorsPackage.Literals.OPERATOR);
+		return this.getModelUtils().allNodeTypes(operatorResources);
+	}
+	
+	
 	@Override
 	protected BaseExpressionEngine getEngine() {
 		if (engine == null) {

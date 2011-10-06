@@ -76,7 +76,7 @@ public class NodeOrNetworkFilterDialog extends FilteredItemsSelectionDialog {
 
 	private String getText(Object e) {
 		if (e instanceof Node) {
-			return ((Node) e).getNodeID();
+			return "  " + ((Node) e).getNodeID();
 		}
 		if (e instanceof Network) {
 			return ((Network) e).getName();
@@ -122,10 +122,19 @@ public class NodeOrNetworkFilterDialog extends FilteredItemsSelectionDialog {
 
 		org.eclipse.emf.common.util.TreeIterator<EObject> ti = resource
 				.getAllContents();
+		
 		while (ti.hasNext()) {
 			EObject p = ti.next();
-			if (p.eClass().equals(OperatorsPackage.Literals.NODE)
-					|| p.eClass().equals(OperatorsPackage.Literals.NETWORK)) {
+			if (p.eClass().equals(OperatorsPackage.Literals.NETWORK)) {
+				contentProvider.add(p, itemsFilter);
+			}
+		}
+		
+		ti = resource.getAllContents();
+		
+		while (ti.hasNext()) {
+			EObject p = ti.next();
+			if (p.eClass().equals(OperatorsPackage.Literals.NODE)) {
 				contentProvider.add(p, itemsFilter);
 			}
 		}
@@ -142,17 +151,17 @@ public class NodeOrNetworkFilterDialog extends FilteredItemsSelectionDialog {
 
 			@Override
 			public boolean matchItem(Object item) {
-				
-				if(item instanceof Node){
+
+				if (item instanceof Node) {
 					Node p = (Node) item;
 					return matches(p.getNodeID());
 				}
-				if(item instanceof Network){
+				if (item instanceof Network) {
 					Network p = (Network) item;
 					return matches(p.getName());
 				}
 				return false;
-				
+
 			}
 		};
 	}

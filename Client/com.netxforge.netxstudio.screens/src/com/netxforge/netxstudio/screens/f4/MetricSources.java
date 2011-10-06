@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
-import org.eclipse.emf.cdo.common.revision.CDORevision;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -441,9 +440,8 @@ public class MetricSources extends AbstractScreen implements
 					return ms.getMetricLocation();
 				}
 				case 2: {
-					CDORevision revision = ms.cdoRevision();
-					long ts = revision.getTimeStamp();
 					
+					long ts = modelUtils.mostRecentContainedDated(ms);
 					if( ts == 0 ){
 						return "<unknown>";
 					}

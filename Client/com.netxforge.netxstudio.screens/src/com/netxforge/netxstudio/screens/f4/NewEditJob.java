@@ -66,6 +66,7 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.NodeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
@@ -951,7 +952,7 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		bindingContext = initDataBindings_();
 
 		jobTypes = new String[] { "Metric Import", "Monitoring",
-				"Data retention", "Service Reporting", "Operator Reporting" };
+				"Data retention", "Service Reporting", "Operator Reporting", "Node Reporting"};
 		int type = 0;
 		if (job instanceof MetricSourceJob) {
 			type = 0;
@@ -967,6 +968,9 @@ public class NewEditJob extends AbstractScreen implements IDataScreenInjection {
 		}
 		if (job instanceof OperatorReporterJob) {
 			type = 4;
+		}
+		if (job instanceof NodeReporterJob) {
+			type = 5;
 		}
 
 		String title = "";

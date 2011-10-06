@@ -20,6 +20,8 @@ package com.netxforge.netxstudio;
 
 import org.eclipse.emf.cdo.CDOObject;
 
+import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Server Settings</b></em>'.
@@ -32,17 +34,45 @@ import org.eclipse.emf.cdo.CDOObject;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.ServerSettings#getExpansionDurationSettings <em>Expansion Duration Settings</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.ServerSettings#getExportPath <em>Export Path</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.ServerSettings#getImportPath <em>Import Path</em>}</li>
  * </ul>
  * </p>
  *
  * @see com.netxforge.netxstudio.NetxstudioPackage#getServerSettings()
- * @model extendedMetaData="name='ServerSettings' kind='empty'"
+ * @model extendedMetaData="name='ServerSettings' kind='elementOnly'"
  * @extends CDOObject
  * @generated
  */
 public interface ServerSettings extends CDOObject {
+	/**
+	 * Returns the value of the '<em><b>Expansion Duration Settings</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Expansion Duration Settings</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Expansion Duration Settings</em>' containment reference.
+	 * @see #setExpansionDurationSettings(ExpansionDurationSetting)
+	 * @see com.netxforge.netxstudio.NetxstudioPackage#getServerSettings_ExpansionDurationSettings()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='ExpansionDurationSettings'"
+	 * @generated
+	 */
+	ExpansionDurationSetting getExpansionDurationSettings();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.ServerSettings#getExpansionDurationSettings <em>Expansion Duration Settings</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Expansion Duration Settings</em>' containment reference.
+	 * @see #getExpansionDurationSettings()
+	 * @generated
+	 */
+	void setExpansionDurationSettings(ExpansionDurationSetting value);
+
 	/**
 	 * Returns the value of the '<em><b>Export Path</b></em>' attribute.
 	 * <!-- begin-user-doc -->

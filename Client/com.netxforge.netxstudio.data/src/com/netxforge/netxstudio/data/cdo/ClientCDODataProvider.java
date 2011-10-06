@@ -36,6 +36,9 @@ import com.netxforge.netxstudio.NetxstudioFactory;
 import com.netxforge.netxstudio.NetxstudioPackage;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.ExpansionDuration;
+import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
+import com.netxforge.netxstudio.generics.ExpansionDurationValue;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
@@ -131,6 +134,40 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 		serverSettings
 				.setImportPath("/Users/dzonekl/Documents/Projects/NetXStudio/TestData");
 		settingsResource.getContents().add(serverSettings);
+
+		ExpansionDurationSetting eds = GenericsFactory.eINSTANCE
+				.createExpansionDurationSetting();
+		{
+			ExpansionDurationValue edv = GenericsFactory.eINSTANCE
+					.createExpansionDurationValue();
+			edv.setExpansionDuration(ExpansionDuration.QUICK);
+			edv.setValue(7);
+			eds.setQuickDuration(edv);
+		}
+		{
+			ExpansionDurationValue edv = GenericsFactory.eINSTANCE
+					.createExpansionDurationValue();
+			edv.setExpansionDuration(ExpansionDuration.SHORT);
+			edv.setValue(30);
+			eds.setShortDuration(edv);
+		}
+		{
+			ExpansionDurationValue edv = GenericsFactory.eINSTANCE
+					.createExpansionDurationValue();
+			edv.setExpansionDuration(ExpansionDuration.MEDIUM);
+			edv.setValue(90);
+			eds.setMediumDuration(edv);
+		}
+		{
+			ExpansionDurationValue edv = GenericsFactory.eINSTANCE
+					.createExpansionDurationValue();
+			edv.setExpansionDuration(ExpansionDuration.LONG);
+			edv.setValue(180);
+			eds.setLongDuration(edv);
+		}
+
+		serverSettings.setExpansionDurationSettings(eds);
+		
 		try {
 			settingsResource.save(null);
 		} catch (final TransactionException e) {
@@ -144,13 +181,13 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 
 		Resource retentionRulesResource = getResource(MetricsPackage.Literals.METRIC_RETENTION_RULES);
 		Resource expressionResource = getResource(LibraryPackage.Literals.EXPRESSION);
-		
+
 		EList<EObject> contents = retentionRulesResource.getContents();
-		
+
 		Expression weeklyRetentionExpression;
 		Expression dailyRetentionExpression;
 		Expression hourlyRetentionExpression;
-		
+
 		if (contents.size() == 1) {
 			return;
 		} else {
@@ -161,7 +198,8 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 				// Add all expressions.
 				{
 					// Monthly expression
-					weeklyRetentionExpression = LibraryFactory.eINSTANCE.createExpression();
+					weeklyRetentionExpression = LibraryFactory.eINSTANCE
+							.createExpression();
 					weeklyRetentionExpression.setName("Weekly retention rule");
 
 					// Gets the max value from a range and assigns it to another
@@ -173,10 +211,12 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 							+ ModelUtils.MINUTES_IN_A_WEEK + " .clear();";
 					weeklyRetentionExpression.getExpressionLines().addAll(
 							modelUtils.expressionLines(eAsString));
-					expressionResource.getContents().add(weeklyRetentionExpression);
+					expressionResource.getContents().add(
+							weeklyRetentionExpression);
 				}
 				{
-					dailyRetentionExpression = LibraryFactory.eINSTANCE.createExpression();
+					dailyRetentionExpression = LibraryFactory.eINSTANCE
+							.createExpression();
 					dailyRetentionExpression.setName("Daily retention rule");
 
 					// Gets the max value from a range and assigns it to another
@@ -188,11 +228,13 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 							+ ModelUtils.MINUTES_IN_A_DAY + " .clear();";
 					dailyRetentionExpression.getExpressionLines().addAll(
 							modelUtils.expressionLines(eAsString));
-					expressionResource.getContents().add(dailyRetentionExpression);
+					expressionResource.getContents().add(
+							dailyRetentionExpression);
 				}
 
 				{
-					hourlyRetentionExpression = LibraryFactory.eINSTANCE.createExpression();
+					hourlyRetentionExpression = LibraryFactory.eINSTANCE
+							.createExpression();
 					hourlyRetentionExpression.setName("Hourly retention rule");
 
 					// Gets the max value from a range and assigns it to another
@@ -200,7 +242,8 @@ public class ClientCDODataProvider extends CDODataProvider implements IFixtures 
 					final String eAsString = "this METRIC DAY = this METRIC HOUR .max();\nthis METRIC HOUR .clear();";
 					hourlyRetentionExpression.getExpressionLines().addAll(
 							modelUtils.expressionLines(eAsString));
-					expressionResource.getContents().add(hourlyRetentionExpression);
+					expressionResource.getContents().add(
+							hourlyRetentionExpression);
 				}
 			}
 

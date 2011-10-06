@@ -18,7 +18,6 @@ package com.netxforge.netxstudio.screens;
 
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.observable.IObservable;
-
 import org.eclipse.emf.databinding.IEMFObservable;
 
 

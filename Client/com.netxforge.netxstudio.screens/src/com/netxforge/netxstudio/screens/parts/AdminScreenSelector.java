@@ -25,8 +25,8 @@ import com.netxforge.netxstudio.screens.editing.selector.AbstractScreenSelector;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.Jobs;
 import com.netxforge.netxstudio.screens.f4.MetricSources;
-import com.netxforge.netxstudio.screens.f4.Settings;
 import com.netxforge.netxstudio.screens.nf3.Retention;
+import com.netxforge.netxstudio.screens.nf4.Settings;
 import com.netxforge.netxstudio.screens.nf4.UsersAndRoles;
 
 public class AdminScreenSelector extends AbstractScreenSelector {

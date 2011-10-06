@@ -279,13 +279,22 @@ public interface NetxstudioPackage extends EPackage {
 	int SERVER_SETTINGS = 1;
 
 	/**
+	 * The feature id for the '<em><b>Expansion Duration Settings</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVER_SETTINGS__EXPANSION_DURATION_SETTINGS = 0;
+
+	/**
 	 * The feature id for the '<em><b>Export Path</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVER_SETTINGS__EXPORT_PATH = 0;
+	int SERVER_SETTINGS__EXPORT_PATH = 1;
 
 	/**
 	 * The feature id for the '<em><b>Import Path</b></em>' attribute.
@@ -294,7 +303,7 @@ public interface NetxstudioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVER_SETTINGS__IMPORT_PATH = 1;
+	int SERVER_SETTINGS__IMPORT_PATH = 2;
 
 	/**
 	 * The number of structural features of the '<em>Server Settings</em>' class.
@@ -303,7 +312,7 @@ public interface NetxstudioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVER_SETTINGS_FEATURE_COUNT = 2;
+	int SERVER_SETTINGS_FEATURE_COUNT = 3;
 
 
 	/**
@@ -413,6 +422,17 @@ public interface NetxstudioPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getServerSettings();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.ServerSettings#getExpansionDurationSettings <em>Expansion Duration Settings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Expansion Duration Settings</em>'.
+	 * @see com.netxforge.netxstudio.ServerSettings#getExpansionDurationSettings()
+	 * @see #getServerSettings()
+	 * @generated
+	 */
+	EReference getServerSettings_ExpansionDurationSettings();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.ServerSettings#getExportPath <em>Export Path</em>}'.
@@ -541,6 +561,14 @@ public interface NetxstudioPackage extends EPackage {
 		 * @generated
 		 */
 		EClass SERVER_SETTINGS = eINSTANCE.getServerSettings();
+
+		/**
+		 * The meta object literal for the '<em><b>Expansion Duration Settings</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVER_SETTINGS__EXPANSION_DURATION_SETTINGS = eINSTANCE.getServerSettings_ExpansionDurationSettings();
 
 		/**
 		 * The meta object literal for the '<em><b>Export Path</b></em>' attribute feature.

@@ -38,6 +38,7 @@ import com.netxforge.netxstudio.scheduling.Job;
  * <!-- begin-model-doc -->
  * Netxstudio is a container which groups all main
  * 				other types. It is the root object.
+ * 			
  * <!-- end-model-doc -->
  *
  * <p>
@@ -68,6 +69,7 @@ public interface Netxstudio extends CDOObject {
 	 * <!-- begin-model-doc -->
 	 * The Operators reference, contains 0 or more
 	 * 						Operator type.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Operators</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.NetxstudioPackage#getNetxstudio_Operators()
@@ -85,6 +87,7 @@ public interface Netxstudio extends CDOObject {
 	 * <!-- begin-model-doc -->
 	 * The Libraries reference, contains 0 or more
 	 * 						Library type.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Libraries</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.NetxstudioPackage#getNetxstudio_Libraries()
@@ -102,6 +105,7 @@ public interface Netxstudio extends CDOObject {
 	 * <!-- begin-model-doc -->
 	 * The Companies reference, contains 0 or more
 	 * 						Company type.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Companies</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.NetxstudioPackage#getNetxstudio_Companies()
@@ -119,6 +123,7 @@ public interface Netxstudio extends CDOObject {
 	 * <!-- begin-model-doc -->
 	 * The Companies reference, contains 0 or more
 	 * 						Company type.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Vendors</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.NetxstudioPackage#getNetxstudio_Vendors()
@@ -136,6 +141,7 @@ public interface Netxstudio extends CDOObject {
 	 * <!-- begin-model-doc -->
 	 * The Users reference, contains 0 or more User
 	 * 						type.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Users</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.NetxstudioPackage#getNetxstudio_Users()
@@ -153,6 +159,7 @@ public interface Netxstudio extends CDOObject {
 	 * <!-- begin-model-doc -->
 	 * The Roles reference, contains 0 or more Role
 	 * 						type.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Roles</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.NetxstudioPackage#getNetxstudio_Roles()
@@ -170,6 +177,7 @@ public interface Netxstudio extends CDOObject {
 	 * <!-- begin-model-doc -->
 	 * The Countries reference, contains 0 or more
 	 * 						Country type.
+	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Countries</em>' containment reference list.
 	 * @see com.netxforge.netxstudio.NetxstudioPackage#getNetxstudio_Countries()

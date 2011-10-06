@@ -82,10 +82,10 @@ public abstract class BaseComponentLogic extends BasePeriodLogic {
 		for (final NodeType nodeType : nodeTypes) {
 
 			getJobMonitor().appendToLog(
-					"Computing for node (type) "
+					"processing node (type) "
 							+ ((Node) nodeType.eContainer()).getNodeID());
 
-			getJobMonitor().setTask("Resource monitoring Data for nodeType");
+			getJobMonitor().setTask("Processing for nodeType");
 			processNode(nodeType);
 		}
 		if (!getFailures().isEmpty()) {

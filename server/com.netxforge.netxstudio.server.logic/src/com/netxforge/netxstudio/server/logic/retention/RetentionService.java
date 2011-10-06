@@ -32,8 +32,6 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
-import com.netxforge.netxstudio.library.LibraryPackage;
-import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
@@ -41,7 +39,6 @@ import com.netxforge.netxstudio.server.Server;
 import com.netxforge.netxstudio.server.job.ServerWorkFlowRunMonitor;
 import com.netxforge.netxstudio.server.logic.LogicActivator;
 import com.netxforge.netxstudio.server.service.NetxForgeService;
-import com.netxforge.netxstudio.services.ServicesPackage;
 
 /**
  * Starts a netxforge retention service
@@ -74,24 +71,27 @@ public class RetentionService implements NetxForgeService {
 			final ServerWorkFlowRunMonitor monitor = createMonitor();
 			final RetentionLogic logic = LogicActivator.getInstance().getInjector()
 					.getInstance(RetentionLogic.class);
-			if (parameters.containsKey(SERVICE_PARAM)) {
-				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
-						ServicesPackage.Literals.RFS_SERVICE);
-				logic.setRfsService(id);
-			} else if (parameters.containsKey(NODE_PARAM)) {
-				final CDOID id = getCDOID(parameters.get(NODE_PARAM),
-						OperatorsPackage.Literals.NODE);
-				logic.setNode(id);
-			} else if (parameters.containsKey(NODETYPE_PARAM)) {
-				final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
-						LibraryPackage.Literals.NODE_TYPE);
-				logic.setNodeType(id);
-			} else {
-				throw new IllegalArgumentException("No valid parameters found");
-			}
+			
+//			if (parameters.containsKey(SERVICE_PARAM)) {
+//				final CDOID id = getCDOID(parameters.get(SERVICE_PARAM),
+//						ServicesPackage.Literals.RFS_SERVICE);
+//				logic.setRfsService(id);
+//			} else if (parameters.containsKey(NODE_PARAM)) {
+//				final CDOID id = getCDOID(parameters.get(NODE_PARAM),
+//						OperatorsPackage.Literals.NODE);
+//				logic.setNode(id);
+//			} else if (parameters.containsKey(NODETYPE_PARAM)) {
+//				final CDOID id = getCDOID(parameters.get(NODETYPE_PARAM),
+//						LibraryPackage.Literals.NODE_TYPE);
+//				logic.setNodeType(id);
+//			} else {
+//				throw new IllegalArgumentException("No valid parameters found");
+//			}
+			
 			logic.setJobMonitor(monitor);
-			logic.setStartTime(getStartTime(parameters));
-			logic.setEndTime(getEndTime(parameters));
+			
+//			logic.setBeginTime(getStartTime(parameters));
+//			logic.setEndTime(getEndTime(parameters));
 			// run in a separate thread
 			new Thread() {
 				@Override
@@ -109,12 +109,14 @@ public class RetentionService implements NetxForgeService {
 			return monitor.getWorkFlowRunId();
 		}
 
+		@SuppressWarnings("unused")
 		private Date getStartTime(Map<String, String> parameters) {
 			final XMLGregorianCalendar xmlDate = XMLTypeFactory.eINSTANCE
 					.createDateTime(parameters.get(START_TIME_PARAM));
 			return xmlDate.toGregorianCalendar().getTime();
 		}
 
+		@SuppressWarnings("unused")
 		private Date getEndTime(Map<String, String> parameters) {
 			final XMLGregorianCalendar xmlDate = XMLTypeFactory.eINSTANCE
 					.createDateTime(parameters.get(END_TIME_PARAM));
@@ -140,6 +142,7 @@ public class RetentionService implements NetxForgeService {
 			return runMonitor;
 		}
 
+		@SuppressWarnings("unused")
 		private CDOID getCDOID(String idString,
 				org.eclipse.emf.ecore.EClass eClass) {
 			return CDOIDUtil.createLongWithClassifier(new CDOClassifierRef(

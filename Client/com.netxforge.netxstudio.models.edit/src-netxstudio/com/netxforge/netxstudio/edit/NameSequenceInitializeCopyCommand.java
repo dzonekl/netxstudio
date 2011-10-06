@@ -13,6 +13,7 @@ import org.eclipse.emf.edit.command.InitializeCopyCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.ServiceUser;
 import com.netxforge.netxstudio.services.ServicesPackage;
 
@@ -99,6 +100,12 @@ public class NameSequenceInitializeCopyCommand extends InitializeCopyCommand {
 				return true;
 			}
 		}
+		if (owner instanceof RFSService) {
+			if (attribute == ServicesPackage.Literals.SERVICE__SERVICE_NAME) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 

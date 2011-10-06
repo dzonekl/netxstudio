@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,9 +27,11 @@ import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -38,6 +41,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
+import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.Value;
@@ -64,6 +68,8 @@ import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.operators.ResourceMonitor;
 import com.netxforge.netxstudio.operators.ToleranceMarker;
 import com.netxforge.netxstudio.operators.ToleranceMarkerDirectionKind;
+import com.netxforge.netxstudio.scheduling.Job;
+import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.services.DerivedResource;
 import com.netxforge.netxstudio.services.RFSService;
 import com.netxforge.netxstudio.services.Service;
@@ -132,6 +138,19 @@ public class ModelUtils {
 					.compare(sm2.getPeriod().getBegin());
 		}
 	};
+
+	public ServerSettings serverSettings(Resource serverSettingsResource) {
+
+		if (serverSettingsResource != null
+				&& serverSettingsResource.getContents().size() == 1) {
+			ServerSettings settings = (ServerSettings) serverSettingsResource.getContents().get(
+					0);
+			return settings;
+		}
+
+		return null;
+
+	}
 
 	public ServiceMonitorComparator serviceMonitorCompare() {
 		return new ServiceMonitorComparator();
@@ -271,29 +290,30 @@ public class ModelUtils {
 	public IsRelationship isRelationship() {
 		return new IsRelationship();
 	}
-	
-	
+
 	public class MarkerForValue implements Predicate<Marker> {
 		private final Value value;
+
 		public MarkerForValue(final Value value) {
 			this.value = value;
 		}
 
 		public boolean apply(final Marker m) {
 			Value mValue = m.getValueRef();
-			if(mValue != null){
+			if (mValue != null) {
 				return mValue == value;
 			}
-			return false; 
+			return false;
 		}
 	}
 
-	public MarkerForValue markerForValue(Value v){
+	public MarkerForValue markerForValue(Value v) {
 		return new MarkerForValue(v);
 	}
 
 	/**
-	 * Will be valid when the lifecycle is not set. 
+	 * Will be valid when the lifecycle is not set.
+	 * 
 	 * @param node
 	 * @return
 	 */
@@ -621,28 +641,26 @@ public class ModelUtils {
 
 		return false;
 	}
-	
-	
-	
+
 	/**
-	 * Get the first marker with this value otherwise null. 
+	 * Get the first marker with this value otherwise null.
 	 * 
 	 * @param markers
 	 * @param v
 	 * @return
 	 */
 	public Marker markerForValue(List<Marker> markers, Value v) {
-		
+
 		Iterable<Marker> filtered = Iterables.filter(markers,
 				this.markerForValue(v));
-		if(Iterables.size(filtered) > 0){
+		if (Iterables.size(filtered) > 0) {
 			return filtered.iterator().next();
 		}
 		return null;
 	}
-	
-	public Map<NetXResource, List<Marker>> markersForNode(Service service, Node n,
-			DateTimeRange dtr) {
+
+	public Map<NetXResource, List<Marker>> markersForNode(Service service,
+			Node n, DateTimeRange dtr) {
 
 		// Sort and reverse the Service Monitors.
 		List<ServiceMonitor> sortedCopy = Ordering
@@ -682,10 +700,8 @@ public class ModelUtils {
 
 		}
 		return markersPerResource;
-		
-	}
 
-	
+	}
 
 	/**
 	 * Provides a total list of markers for the Service Monitor, Node and Date
@@ -837,9 +853,9 @@ public class ModelUtils {
 					break;
 				}
 			}
-//				else {
-//				green++;
-//			}
+			// else {
+			// green++;
+			// }
 		}
 
 		// Clear the lower levels.
@@ -893,6 +909,37 @@ public class ModelUtils {
 			}
 		}
 		return tm;
+	}
+
+	/**
+	 * 
+	 * Get the Job of a certain type with a target value for the target feature.
+	 * 
+	 * @param jobResource
+	 * @param jobClass
+	 * @param feature
+	 * @param value
+	 * @return
+	 */
+	public Job jobFor(Resource jobResource, EClass jobClass,
+			EStructuralFeature feature, EObject value) {
+
+		// The job Class should extend the Job EClass.
+		if (!jobClass.getESuperTypes().contains(SchedulingPackage.Literals.JOB)) {
+			return null;
+		}
+
+		for (EObject eo : jobResource.getContents()) {
+			if (eo.eClass() == jobClass) {
+				if (eo.eIsSet(feature)) {
+					Object v = eo.eGet(feature);
+					if (v == value) {
+						return (Job) eo;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	public DateTimeRange lastMonthPeriod() {
@@ -1084,8 +1131,8 @@ public class ModelUtils {
 					lastDigits = match;
 			}
 			if (lastDigits != null) {
-				final String nameWithNoDigits = lastName.substring(
-						0, lastName.indexOf(lastDigits));
+				final String nameWithNoDigits = lastName.substring(0,
+						lastName.indexOf(lastDigits));
 				try {
 					Integer ld = new Integer(lastDigits);
 					ld++;
@@ -1097,8 +1144,8 @@ public class ModelUtils {
 					newName = nameWithNoDigits + format.format(ld);
 
 				} catch (final NumberFormatException nfe) {
-					System.err.println("ModelUtils: Can't formart"
-							+ lastDigits);
+					System.err
+							.println("ModelUtils: Can't formart" + lastDigits);
 				}
 			}
 		} catch (final PatternSyntaxException pse) {
@@ -1623,6 +1670,15 @@ public class ModelUtils {
 		cal.add(Calendar.DAY_OF_MONTH, -4);
 		return cal.getTime();
 	}
+	
+	
+	public Date daysAgo(int days){
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date(System.currentTimeMillis()));
+		cal.add(Calendar.DAY_OF_YEAR, days);
+		return cal.getTime();
+		
+	}
 
 	public Date oneWeekAgo() {
 		final Calendar cal = GregorianCalendar.getInstance();
@@ -1684,11 +1740,10 @@ public class ModelUtils {
 		return getFieldInSeconds.apply(field);
 	}
 
-	
 	public String fromMinutes(int minutes) {
-		return this.fromSeconds(minutes*60);
+		return this.fromSeconds(minutes * 60);
 	}
-	
+
 	public String fromSeconds(int secs) {
 		final Function<Integer, String> getFieldInSeconds = new Function<Integer, String>() {
 			public String apply(Integer from) {
@@ -1905,16 +1960,59 @@ public class ModelUtils {
 		return doubles;
 	}
 
+	/**
+	 * look down the containment tree, and find the most recenrt date.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public long mostRecentContainedDated(CDOObject object) {
+
+		long ts = object.cdoRevision().getTimeStamp();
+
+		TreeIterator<EObject> eAllContents = object.eAllContents();
+		while (eAllContents.hasNext()) {
+			EObject eo = eAllContents.next();
+			if (eo.eContainer() != null) {
+				// We are contained, so we might have been updated.
+				if (eo instanceof CDOObject) {
+					long leafTS = ((CDOObject) eo).cdoRevision().getTimeStamp();
+					if (leafTS > ts) {
+						ts = leafTS;
+					}
+				}
+
+			}
+		}
+		return ts;
+	}
+
+	public List<NodeType> allNodeTypes(Resource operatorsResource) {
+		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
+		for( EObject eo : operatorsResource.getContents()){
+			if(eo instanceof Operator){
+				Operator op = (Operator) eo;
+				for(Service service : op.getServices()){
+					nodeTypes.addAll(nodesForService(service));
+				}
+			}
+		}
+		return nodeTypes;
+	}
 	
-//	public Date lastContainmentDate(CDOObject object) {
-//		
-//		TreeIterator<EObject> eAllContents = object.eAllContents();
-//		while(eAllContents.hasNext()){
-//			EObject eo : eAllContents.next();
-//			
-//		}
-//		return null;
-//	}
+	public List<NodeType> nodesForService(Service service){
+		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
+		if(service instanceof RFSService){
+			for( Node n : ((RFSService) service).getNodes()){
+				nodeTypes.add(n.getNodeType());
+			}
+			for(Service subService : service.getServices()){
+				nodeTypes.addAll(nodesForService(subService));
+			}
+		}
+		return nodeTypes;
+	}
 	
 	
+
 }

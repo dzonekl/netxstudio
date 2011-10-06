@@ -32,6 +32,7 @@ import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
@@ -170,11 +171,22 @@ public abstract class EMFEditingService implements IEditingService {
 
 						} catch (Exception exception) {
 							exception.printStackTrace();
+
+							// Various reasons why save would fail...
+							// At least warn the user. 
+							// The DIRTY objects will still appear in the UI, so the editing
+							// should be undone, or DIRTY objects rolled back. 
+							MessageDialog.openError(Display.getDefault()
+									.getActiveShell(), "Error saving",
+									exception.getMessage());
+
 							// TODO, give user feedback, and undo of domain.
-//							Command cmd;
-//							while( ( cmd = domain.getCommandStack().getUndoCommand()) != null){
-//								cmd.undo();
-//							}
+							// Command cmd;
+							// while( ( cmd =
+							// domain.getCommandStack().getUndoCommand()) !=
+							// null){
+							// cmd.undo();
+							// }
 						}
 						first = false;
 					}
@@ -184,12 +196,11 @@ public abstract class EMFEditingService implements IEditingService {
 
 		return operation;
 	}
-	
-	public AdapterFactoryItemDelegator getDelegator(){
+
+	public AdapterFactoryItemDelegator getDelegator() {
 		return new AdapterFactoryItemDelegator(emfEditAdapterFactory);
 	}
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

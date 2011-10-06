@@ -51,6 +51,7 @@ import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.scheduling.Job;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.NodeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
@@ -378,6 +379,14 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 //								+ ((ReporterJob) j).getRFSService()
 //										.getServiceName();
 					}
+					if(j instanceof NodeReporterJob){
+						return "Node Reporting";
+//								+ ((ReporterJob) j).getRFSService()
+//										.getServiceName();
+					}
+
+					
+					
 				}
 				case 2: {
 					JobState state = j.getJobState();

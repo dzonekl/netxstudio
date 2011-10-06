@@ -57,10 +57,14 @@
 		<xs:annotation>
 			<xs:documentation>Contains Settings on the server</xs:documentation>
 		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ExpansionDurationSettings" type="gen:ExpansionDurationSetting"
+				minOccurs="0" maxOccurs="1"></xs:element>
+		</xs:sequence>
 		<xs:attribute name="ImportPath" type="xs:string"></xs:attribute>
 		<xs:attribute name="ExportPath" type="xs:string"></xs:attribute>
 	</xs:complexType>
-	
+
 	<!--_______________________ -->
 	<!-- NETXSTUDIO -->
 	<!--_______________________ -->
@@ -73,56 +77,64 @@
 				</operation>
 			</xs:appinfo>
 			<xs:documentation>Netxstudio is a container which groups all main
-				other types. It is the root object.</xs:documentation>
+				other types. It is the root object.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Operators"
 				type="operators:Operator">
 				<xs:annotation>
 					<xs:documentation>The Operators reference, contains 0 or more
-						Operator type.</xs:documentation>
+						Operator type.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Libraries"
 				type="library:Library">
 				<xs:annotation>
 					<xs:documentation>The Libraries reference, contains 0 or more
-						Library type.</xs:documentation>
+						Library type.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Companies"
 				type="gen:Company">
 				<xs:annotation>
 					<xs:documentation>The Companies reference, contains 0 or more
-						Company type.</xs:documentation>
+						Company type.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Vendors"
 				type="library:Vendor">
 				<xs:annotation>
 					<xs:documentation>The Companies reference, contains 0 or more
-						Company type.</xs:documentation>
+						Company type.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Users"
 				type="gen:Person">
 				<xs:annotation>
 					<xs:documentation>The Users reference, contains 0 or more User
-						type.</xs:documentation>
+						type.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Roles"
 				type="gen:Role">
 				<xs:annotation>
 					<xs:documentation>The Roles reference, contains 0 or more Role
-						type.</xs:documentation>
+						type.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Countries"
 				type="geo:Country">
 				<xs:annotation>
 					<xs:documentation>The Countries reference, contains 0 or more
-						Country type.</xs:documentation>
+						Country type.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Jobs"
@@ -132,7 +144,6 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>

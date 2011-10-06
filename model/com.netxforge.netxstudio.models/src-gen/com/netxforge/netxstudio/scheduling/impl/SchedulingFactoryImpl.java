@@ -35,6 +35,8 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.NodeReporterJob;
+import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
@@ -96,6 +98,8 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 			case SchedulingPackage.JOB: return (EObject)createJob();
 			case SchedulingPackage.JOB_RUN_CONTAINER: return (EObject)createJobRunContainer();
 			case SchedulingPackage.METRIC_SOURCE_JOB: return (EObject)createMetricSourceJob();
+			case SchedulingPackage.NODE_REPORTER_JOB: return (EObject)createNodeReporterJob();
+			case SchedulingPackage.NODE_TYPE_REPORTER_JOB: return (EObject)createNodeTypeReporterJob();
 			case SchedulingPackage.OPERATOR_REPORTER_JOB: return (EObject)createOperatorReporterJob();
 			case SchedulingPackage.RFS_SERVICE_MONITORING_JOB: return (EObject)createRFSServiceMonitoringJob();
 			case SchedulingPackage.RFS_SERVICE_REPORTER_JOB: return (EObject)createRFSServiceReporterJob();
@@ -227,6 +231,26 @@ public class SchedulingFactoryImpl extends EFactoryImpl implements SchedulingFac
 	public MetricSourceJob createMetricSourceJob() {
 		MetricSourceJobImpl metricSourceJob = new MetricSourceJobImpl();
 		return metricSourceJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NodeReporterJob createNodeReporterJob() {
+		NodeReporterJobImpl nodeReporterJob = new NodeReporterJobImpl();
+		return nodeReporterJob;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NodeTypeReporterJob createNodeTypeReporterJob() {
+		NodeTypeReporterJobImpl nodeTypeReporterJob = new NodeTypeReporterJobImpl();
+		return nodeTypeReporterJob;
 	}
 
 	/**

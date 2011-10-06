@@ -31,10 +31,5 @@
            id="com.netxforge.netxstudio.screens.selector.design"
            name="Design">
       </view>
-       <view
-           class="com.netxforge.netxstudio.screens.internal.ScreensEExtensionFactory:com.netxforge.netxstudio.screens.demo.DemoViewPartSelector"
-           id="com.netxforge.netxstudio.screens.demo.DemoViewPartSelector"
-           name="Demo">
-      </view>
    </extension>
 </plugin>

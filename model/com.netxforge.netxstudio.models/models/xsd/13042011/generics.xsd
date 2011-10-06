@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns="http://www.netxforge.com/13042011/generics" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema" ecore:package="com.netxforge.netxstudio.generics" id="generics" targetNamespace="http://www.netxforge.com/13042011/generics">
+<xs:schema xmlns="http://www.netxforge.com/13042011/generics"
+	xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	ecore:package="com.netxforge.netxstudio.generics" id="generics"
+	targetNamespace="http://www.netxforge.com/13042011/generics">
 	<!--_____________________________ -->
 	<!--| COMPANY | -->
 	<!--|___________________________| -->
@@ -33,7 +36,8 @@
 		<xs:complexContent>
 			<xs:extension base="Base">
 				<xs:sequence>
-					<xs:element maxOccurs="1" minOccurs="0" name="Icons" type="MultiImage">
+					<xs:element maxOccurs="1" minOccurs="0" name="Icons"
+						type="MultiImage">
 						<xs:annotation>
 							<xs:documentation>The Images reference, contains 0 or one
 								MultiImage type.
@@ -107,7 +111,7 @@
 	<xs:complexType name="Role">
 		<xs:complexContent>
 			<xs:extension base="Base">
-				<xs:attribute name="Name" type="Name255"/>
+				<xs:attribute name="Name" type="Name255" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -131,9 +135,11 @@
 		<xs:complexContent>
 			<xs:extension base="Base">
 				<xs:sequence>
-					<xs:element ecore:reference="Role" maxOccurs="1" minOccurs="0" name="Roles" type="xs:anyURI"/>
+					<xs:element ecore:reference="Role" maxOccurs="1"
+						minOccurs="0" name="Roles" type="xs:anyURI" />
 				</xs:sequence>
-				<xs:attribute ecore:reference="Company" name="CompanyRef" type="xs:anyURI">
+				<xs:attribute ecore:reference="Company" name="CompanyRef"
+					type="xs:anyURI">
 					<xs:annotation>
 						<xs:documentation>
 							The CompanyRef reference, refers to 0 or 1
@@ -186,7 +192,7 @@
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="Active" type="xs:boolean"/>
+				<xs:attribute name="Active" type="xs:boolean" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -253,7 +259,7 @@
 			<xs:documentation>A name type of 255 chars.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:maxLength value="255"/>
+			<xs:maxLength value="255" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -266,7 +272,7 @@
 			<xs:documentation>A description type of 2000 chars</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:maxLength value="2000"/>
+			<xs:maxLength value="2000" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -279,7 +285,7 @@
 			<xs:documentation>A long text used for logs etc.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:maxLength value="20000"/>
+			<xs:maxLength value="20000" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -296,7 +302,8 @@
 		<xs:complexContent>
 			<xs:extension base="Base">
 				<xs:sequence>
-					<xs:element ecore:reference="Person" maxOccurs="1" minOccurs="0" name="Author" type="xs:anyURI">
+					<xs:element ecore:reference="Person" maxOccurs="1"
+						minOccurs="0" name="Author" type="xs:anyURI">
 						<xs:annotation>
 							<xs:documentation>The Author reference, references 1 User type.
 							</xs:documentation>
@@ -388,7 +395,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:maxLength value="3"/>
+			<xs:maxLength value="3" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -400,9 +407,77 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:maxLength value="1000"/>
+			<xs:maxLength value="1000" />
 		</xs:restriction>
 	</xs:simpleType>
+
+	<!--_______________________ -->
+	<!-- ExpansionDurationSetting -->
+	<!--_______________________ -->
+	<xs:complexType name="ExpansionDurationSetting">
+		<xs:annotation>
+			<xs:documentation>A type representing the complete settings of an expansion duration. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Base">
+				<xs:sequence>
+					<xs:element name="QuickDuration" type="ExpansionDurationValue"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The value of the QUICK Duration
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ShortDuration" type="ExpansionDurationValue"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The value of the SHORT Duration
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<xs:element name="MediumDuration" type="ExpansionDurationValue"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The value of the MEDIUM Duration
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LongDuration" type="ExpansionDurationValue"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The value of the LONG Duration
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--_______________________ -->
+	<!-- EXPANSIONDURATIONVALUE -->
+	<!--_______________________ -->
+	<xs:complexType name="ExpansionDurationValue">
+		<xs:annotation>
+			<xs:documentation>A type representing a single expansion duration
+				value.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="Base">
+				<xs:attribute name="Value" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>The Value attribute is the number of days an
+							expansion will take before completed and in production.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="ExpansionDuration" type="ExpansionDuration"></xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
 	<!--_____________________________ -->
 	<!--| EXPANSIONDURATION | -->
@@ -419,10 +494,10 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="QUICK"/>
-			<xs:enumeration value="SHORT"/>
-			<xs:enumeration value="MEDIUM"/>
-			<xs:enumeration value="LONG"/>
+			<xs:enumeration value="QUICK" />
+			<xs:enumeration value="SHORT" />
+			<xs:enumeration value="MEDIUM" />
+			<xs:enumeration value="LONG" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -490,11 +565,11 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="NETWORK"/>
-							<xs:enumeration value="FUNCTION"/>
-							<xs:enumeration value="EQUIPMENT"/>
-							<xs:enumeration value="NODE"/>
-							<xs:enumeration value="WIRING"/>
+							<xs:enumeration value="NETWORK" />
+							<xs:enumeration value="FUNCTION" />
+							<xs:enumeration value="EQUIPMENT" />
+							<xs:enumeration value="NODE" />
+							<xs:enumeration value="WIRING" />
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
@@ -565,9 +640,9 @@
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
-							<xs:enumeration value="UPDATE"/>
-							<xs:enumeration value="ADD"/>
-							<xs:enumeration value="DELETE"/>
+							<xs:enumeration value="UPDATE" />
+							<xs:enumeration value="ADD" />
+							<xs:enumeration value="DELETE" />
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
@@ -590,7 +665,7 @@
 		<xs:annotation>
 			<xs:appinfo source="teneo.jpa">@MappedSuperclass</xs:appinfo>
 		</xs:annotation>
-		<xs:attribute name="Deleted" type="xs:boolean"/>
+		<xs:attribute name="Deleted" type="xs:boolean" />
 	</xs:complexType>
 
 </xs:schema>

@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.collect.Maps;
 import com.netxforge.netxstudio.services.RFSService;
-//import com.netxforge.netxstudio.library.NodeType;
 
 
 /**

@@ -51,6 +51,8 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.JobRunState;
 import com.netxforge.netxstudio.scheduling.JobState;
 import com.netxforge.netxstudio.scheduling.MetricSourceJob;
+import com.netxforge.netxstudio.scheduling.NodeReporterJob;
+import com.netxforge.netxstudio.scheduling.NodeTypeReporterJob;
 import com.netxforge.netxstudio.scheduling.OperatorReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceMonitoringJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
@@ -124,6 +126,20 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * @generated
 	 */
 	private EClass metricSourceJobEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass nodeReporterJobEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass nodeTypeReporterJobEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -488,6 +504,42 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getNodeReporterJob() {
+		return nodeReporterJobEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNodeReporterJob_Node() {
+		return (EReference)nodeReporterJobEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNodeTypeReporterJob() {
+		return nodeTypeReporterJobEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNodeTypeReporterJob_NodeType() {
+		return (EReference)nodeTypeReporterJobEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOperatorReporterJob() {
 		return operatorReporterJobEClass;
 	}
@@ -739,6 +791,12 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		metricSourceJobEClass = createEClass(METRIC_SOURCE_JOB);
 		createEReference(metricSourceJobEClass, METRIC_SOURCE_JOB__METRIC_SOURCE);
 
+		nodeReporterJobEClass = createEClass(NODE_REPORTER_JOB);
+		createEReference(nodeReporterJobEClass, NODE_REPORTER_JOB__NODE);
+
+		nodeTypeReporterJobEClass = createEClass(NODE_TYPE_REPORTER_JOB);
+		createEReference(nodeTypeReporterJobEClass, NODE_TYPE_REPORTER_JOB__NODE_TYPE);
+
 		operatorReporterJobEClass = createEClass(OPERATOR_REPORTER_JOB);
 		createEReference(operatorReporterJobEClass, OPERATOR_REPORTER_JOB__OPERATOR);
 
@@ -814,6 +872,8 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		expressionFailureEClass.getESuperTypes().add(this.getFailure());
 		jobEClass.getESuperTypes().add(theGenericsPackage.getBase());
 		metricSourceJobEClass.getESuperTypes().add(this.getJob());
+		nodeReporterJobEClass.getESuperTypes().add(this.getJob());
+		nodeTypeReporterJobEClass.getESuperTypes().add(this.getJob());
 		operatorReporterJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceMonitoringJobEClass.getESuperTypes().add(this.getJob());
 		rfsServiceReporterJobEClass.getESuperTypes().add(this.getJob());
@@ -850,6 +910,12 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 
 		initEClass(metricSourceJobEClass, MetricSourceJob.class, "MetricSourceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetricSourceJob_MetricSource(), theMetricsPackage.getMetricSource(), null, "metricSource", null, 1, 1, MetricSourceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(nodeReporterJobEClass, NodeReporterJob.class, "NodeReporterJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getNodeReporterJob_Node(), theOperatorsPackage.getNode(), null, "node", null, 1, 1, NodeReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(nodeTypeReporterJobEClass, NodeTypeReporterJob.class, "NodeTypeReporterJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getNodeTypeReporterJob_NodeType(), ecorePackage.getEObject(), null, "nodeType", null, 1, 1, NodeTypeReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operatorReporterJobEClass, OperatorReporterJob.class, "OperatorReporterJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOperatorReporterJob_Operator(), theOperatorsPackage.getOperator(), null, "operator", null, 1, 1, OperatorReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -914,7 +980,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																				
+		   });																																																																												
 	}
 
 	/**
@@ -1104,6 +1170,34 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		   new String[] {
 			 "kind", "element",
 			 "name", "MetricSource"
+		   });			
+		addAnnotation
+		  (nodeReporterJobEClass, 
+		   source, 
+		   new String[] {
+			 "name", "NodeReporterJob",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getNodeReporterJob_Node(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Node"
+		   });			
+		addAnnotation
+		  (nodeTypeReporterJobEClass, 
+		   source, 
+		   new String[] {
+			 "name", "NodeTypeReporterJob",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getNodeTypeReporterJob_NodeType(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "NodeType"
 		   });			
 		addAnnotation
 		  (operatorReporterJobEClass, 

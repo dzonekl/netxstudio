@@ -37,6 +37,8 @@ import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.DiagramInfo;
 import com.netxforge.netxstudio.generics.DiagramKindType;
 import com.netxforge.netxstudio.generics.ExpansionDuration;
+import com.netxforge.netxstudio.generics.ExpansionDurationSetting;
+import com.netxforge.netxstudio.generics.ExpansionDurationValue;
 import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Lifecycle;
@@ -103,6 +105,20 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 * @generated
 	 */
 	private EClass diagramInfoEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass expansionDurationSettingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass expansionDurationValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -509,6 +525,78 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 	 */
 	public EAttribute getDiagramInfo_Location() {
 		return (EAttribute)diagramInfoEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getExpansionDurationSetting() {
+		return expansionDurationSettingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpansionDurationSetting_QuickDuration() {
+		return (EReference)expansionDurationSettingEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpansionDurationSetting_ShortDuration() {
+		return (EReference)expansionDurationSettingEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpansionDurationSetting_MediumDuration() {
+		return (EReference)expansionDurationSettingEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExpansionDurationSetting_LongDuration() {
+		return (EReference)expansionDurationSettingEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getExpansionDurationValue() {
+		return expansionDurationValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getExpansionDurationValue_ExpansionDuration() {
+		return (EAttribute)expansionDurationValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getExpansionDurationValue_Value() {
+		return (EAttribute)expansionDurationValueEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -934,6 +1022,16 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		createEAttribute(diagramInfoEClass, DIAGRAM_INFO__DIAGRAM_KIND);
 		createEAttribute(diagramInfoEClass, DIAGRAM_INFO__LOCATION);
 
+		expansionDurationSettingEClass = createEClass(EXPANSION_DURATION_SETTING);
+		createEReference(expansionDurationSettingEClass, EXPANSION_DURATION_SETTING__QUICK_DURATION);
+		createEReference(expansionDurationSettingEClass, EXPANSION_DURATION_SETTING__SHORT_DURATION);
+		createEReference(expansionDurationSettingEClass, EXPANSION_DURATION_SETTING__MEDIUM_DURATION);
+		createEReference(expansionDurationSettingEClass, EXPANSION_DURATION_SETTING__LONG_DURATION);
+
+		expansionDurationValueEClass = createEClass(EXPANSION_DURATION_VALUE);
+		createEAttribute(expansionDurationValueEClass, EXPANSION_DURATION_VALUE__EXPANSION_DURATION);
+		createEAttribute(expansionDurationValueEClass, EXPANSION_DURATION_VALUE__VALUE);
+
 		lifecycleEClass = createEClass(LIFECYCLE);
 		createEAttribute(lifecycleEClass, LIFECYCLE__CONSTRUCTION_DATE);
 		createEAttribute(lifecycleEClass, LIFECYCLE__IN_SERVICE_DATE);
@@ -1020,6 +1118,8 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		commitLogEntryEClass.getESuperTypes().add(this.getBase());
 		companyEClass.getESuperTypes().add(this.getBase());
 		diagramInfoEClass.getESuperTypes().add(this.getBase());
+		expansionDurationSettingEClass.getESuperTypes().add(this.getBase());
+		expansionDurationValueEClass.getESuperTypes().add(this.getBase());
 		lifecycleEClass.getESuperTypes().add(this.getBase());
 		metaEClass.getESuperTypes().add(this.getBase());
 		multiImageEClass.getESuperTypes().add(this.getBase());
@@ -1052,6 +1152,16 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		initEClass(diagramInfoEClass, DiagramInfo.class, "DiagramInfo", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDiagramInfo_DiagramKind(), this.getDiagramKindType(), "diagramKind", null, 0, 1, DiagramInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDiagramInfo_Location(), theXMLTypePackage.getAnyURI(), "location", null, 0, 1, DiagramInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(expansionDurationSettingEClass, ExpansionDurationSetting.class, "ExpansionDurationSetting", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExpansionDurationSetting_QuickDuration(), this.getExpansionDurationValue(), null, "quickDuration", null, 0, 1, ExpansionDurationSetting.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExpansionDurationSetting_ShortDuration(), this.getExpansionDurationValue(), null, "shortDuration", null, 0, 1, ExpansionDurationSetting.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExpansionDurationSetting_MediumDuration(), this.getExpansionDurationValue(), null, "mediumDuration", null, 0, 1, ExpansionDurationSetting.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExpansionDurationSetting_LongDuration(), this.getExpansionDurationValue(), null, "longDuration", null, 0, 1, ExpansionDurationSetting.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(expansionDurationValueEClass, ExpansionDurationValue.class, "ExpansionDurationValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getExpansionDurationValue_ExpansionDuration(), this.getExpansionDuration(), "expansionDuration", null, 0, 1, ExpansionDurationValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExpansionDurationValue_Value(), theXMLTypePackage.getInt(), "value", null, 0, 1, ExpansionDurationValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(lifecycleEClass, Lifecycle.class, "Lifecycle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLifecycle_ConstructionDate(), theXMLTypePackage.getDateTime(), "constructionDate", null, 0, 1, Lifecycle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1331,6 +1441,62 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 			 "baseType", "ExpansionDuration"
 		   });			
 		addAnnotation
+		  (expansionDurationSettingEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ExpansionDurationSetting",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getExpansionDurationSetting_QuickDuration(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "QuickDuration"
+		   });			
+		addAnnotation
+		  (getExpansionDurationSetting_ShortDuration(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "ShortDuration"
+		   });			
+		addAnnotation
+		  (getExpansionDurationSetting_MediumDuration(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "MediumDuration"
+		   });			
+		addAnnotation
+		  (getExpansionDurationSetting_LongDuration(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "LongDuration"
+		   });			
+		addAnnotation
+		  (expansionDurationValueEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ExpansionDurationValue",
+			 "kind", "empty"
+		   });		
+		addAnnotation
+		  (getExpansionDurationValue_ExpansionDuration(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "ExpansionDuration"
+		   });			
+		addAnnotation
+		  (getExpansionDurationValue_Value(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Value"
+		   });			
+		addAnnotation
 		  (expressionLineEDataType, 
 		   source, 
 		   new String[] {
@@ -1587,7 +1753,7 @@ public class GenericsPackageImpl extends EPackageImpl implements GenericsPackage
 		   source, 
 		   new String[] {
 			 "appinfo", "@MappedSuperclass"
-		   });																																																																																																															
+		   });																																																																																																																														
 	}
 
 } //GenericsPackageImpl

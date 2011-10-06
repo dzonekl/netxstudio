@@ -54,6 +54,10 @@ public class OperatorReportingJobImplementation extends JobImplementation {
 				// FIXME, We use the first service, there is no additional
 				// criteria to use here..
 				// SHOULD BE SETTING SOMEWHERE.
+				
+				// Based on discussion with Willem, we should use the expansion time 
+				// of the resources to determine the period. 
+				
 				if (reporterJob.getOperator().getServices().size() > 0) {
 					((BasePeriodLogic) reportingLogic)
 							.calculatePeriod(reporterJob.getOperator()
