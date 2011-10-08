@@ -18,7 +18,10 @@
  *******************************************************************************/
 package com.netxforge.netxstudio.screens.editing;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.CDOObject;
@@ -114,8 +117,23 @@ public class CDOEditingService extends EMFEditingService implements
 					break;
 				}
 			} else {
-				this.doSaveHistory(monitor);
-				super.doSave(monitor);
+				// this.doSaveHistory(monitor);
+				IRunnableWithProgress operation = doGetSaveOperation(monitor);
+				if (operation == null)
+					return;
+				try {
+					// This runs the options, and shows progress.
+					new ProgressMonitorDialog(Display.getDefault()
+							.getActiveShell()).run(true, false, operation);
+
+					// Refresh the necessary state.
+					((BasicCommandStack) getEditingDomain().getCommandStack())
+							.saveIsDone();
+
+				} catch (Exception exception) {
+
+				
+				}
 			}
 		}
 	}
@@ -256,72 +274,126 @@ public class CDOEditingService extends EMFEditingService implements
 		dawnEditorSupport.setDirty(true);
 	}
 
+	// CB Remove later 6-10-2011
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.netxforge.netxstudio.screens.editing.IEditingService#doSave()
 	 */
-	public void doSaveHistory(IProgressMonitor monitor) {
-		IRunnableWithProgress operation = doGetSaveHistoryOperation(monitor);
-		if (operation == null)
-			return;
-		try {
-			// This runs the options, and shows progress.
-			new ProgressMonitorDialog(Display.getDefault().getActiveShell())
-					.run(true, false, operation);
+	// public void doSaveHistory(IProgressMonitor monitor) {
+	// IRunnableWithProgress operation = doGetSaveHistoryOperation(monitor);
+	// if (operation == null)
+	// return;
+	// try {
+	// // This runs the options, and shows progress.
+	// new ProgressMonitorDialog(Display.getDefault().getActiveShell())
+	// .run(true, false, operation);
+	//
+	// // Refresh the necessary state.
+	// ((BasicCommandStack) getEditingDomain().getCommandStack())
+	// .saveIsDone();
+	// } catch (Exception exception) {
+	// exception.printStackTrace();
+	// }
+	// }
 
-			// Refresh the necessary state.
-			((BasicCommandStack) getEditingDomain().getCommandStack())
-					.saveIsDone();
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.IEditingService#doSave(org.eclipse
+	 * .core.runtime.IProgressMonitor)
+	 */
+	public IRunnableWithProgress doGetSaveOperation(IProgressMonitor monitor) {
+		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
+				Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
 
-	public IRunnableWithProgress doGetSaveHistoryOperation(
-			IProgressMonitor monitor) {
 		// Do the work within an operation because this is a long running
+		// activity that modifies the workbench.
 		IRunnableWithProgress operation = new IRunnableWithProgress() {
 			// This is the method that gets invoked when the operation runs.
 			public void run(IProgressMonitor monitor) {
+				// Save the resources to the file system.
+				try {
+					monitor.beginTask("Saving history", 100);
+					saveHistory();
+					monitor.worked(50);
+					monitor.subTask("Saving regular");
+					saveRegular(saveOptions);
+					monitor.done();
+				} catch (Exception e) {
+					e.printStackTrace();
+					// List of possible exceptions.
 
-				ImmutableList<Resource> copyOf = ImmutableList
-						.copyOf(getEditingDomain().getResourceSet()
-								.getResources());
-				for (Resource resource : copyOf) {
-					try {
-
-						// Walk through the objects in the resource.
-						if (resource instanceof CDOResource) {
-							EClass hint;
-							if ((hint = shouldHaveHistory(resource)) != null) {
-								// Find all our dirty objects.
-								TreeIterator<EObject> it = resource
-										.getAllContents();
-								while (it.hasNext()) {
-									CDOObject cdoObject = (CDOObject) it.next();
-									CDOState state = cdoObject.cdoState();
-									// For State new, we won't be able to
-									// resolve the CDOID.
-									if (state.equals(CDOState.DIRTY)) {
-										if (hint == LibraryPackage.Literals.NODE_TYPE) {
-											doCopyNodeTypeToHistoryResource(cdoObject);
-										}
-										if (hint == OperatorsPackage.Literals.NODE) {
-											doCopyNodeToHistoryResource(cdoObject);
-										}
-									}
-
-								}
-							}
-						}
-					} catch (Exception exception) {
-						exception.printStackTrace();
-					}
+//					MessageDialog.openError(Display.getDefault()
+//							.getActiveShell(), "Error saving object",
+//							"Error saving, rolling back. ");
+					
+					System.out.println("Can't save, rolling back");
+					((IDawnEditor) CDOEditingService.this).getDawnEditorSupport().rollback();
 				}
 			}
 		};
+
 		return operation;
+	}
+
+	// TODO Remove later.
+	// public IRunnableWithProgress doGetSaveHistoryOperation(
+	// IProgressMonitor monitor) {
+	// // Do the work within an operation because this is a long running
+	// IRunnableWithProgress operation = new IRunnableWithProgress() {
+	// // This is the method that gets invoked when the operation runs.
+	// public void run(IProgressMonitor monitor) {
+	// saveHistory();
+	// }
+	// };
+	// return operation;
+	// }
+
+	private void saveRegular(final Map<Object, Object> saveOptions)
+			throws IOException {
+		boolean first = true;
+		for (Resource resource : getEditingDomain().getResourceSet()
+				.getResources()) {
+			if ((first || !resource.getContents().isEmpty())
+					&& !getEditingDomain().isReadOnly(resource)) {
+				resource.save(saveOptions);
+				first = false;
+			}
+		}
+	}
+
+	private void saveHistory() {
+		ImmutableList<Resource> copyOf = ImmutableList
+				.copyOf(getEditingDomain().getResourceSet().getResources());
+		for (Resource resource : copyOf) {
+
+			// Walk through the objects in the resource.
+			if (resource instanceof CDOResource) {
+				EClass hint;
+				if ((hint = shouldHaveHistory(resource)) != null) {
+					// Find all our dirty objects.
+					TreeIterator<EObject> it = resource.getAllContents();
+					while (it.hasNext()) {
+						CDOObject cdoObject = (CDOObject) it.next();
+						CDOState state = cdoObject.cdoState();
+						// For State new, we won't be able to
+						// resolve the CDOID.
+						if (state.equals(CDOState.DIRTY)) {
+							if (hint == LibraryPackage.Literals.NODE_TYPE) {
+								doCopyNodeTypeToHistoryResource(cdoObject);
+							}
+							if (hint == OperatorsPackage.Literals.NODE) {
+								doCopyNodeToHistoryResource(cdoObject);
+							}
+						}
+
+					}
+				}
+			}
+		}
 	}
 
 	/**

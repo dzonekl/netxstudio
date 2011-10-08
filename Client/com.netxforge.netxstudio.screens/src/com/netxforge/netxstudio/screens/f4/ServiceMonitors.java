@@ -37,6 +37,7 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.services.RFSService;
@@ -102,6 +103,8 @@ public class ServiceMonitors extends AbstractScreen implements
 
 		serviceMonitorsTableViewer = new TableViewer(
 				frmServiceMonitors.getBody(), SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		serviceMonitorsTableViewer.setComparer(new CDOElementComparer());
+		
 		table = serviceMonitorsTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);

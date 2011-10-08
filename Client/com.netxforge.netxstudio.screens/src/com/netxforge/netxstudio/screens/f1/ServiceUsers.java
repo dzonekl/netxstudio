@@ -40,6 +40,7 @@ import org.eclipse.wb.swt.ResourceManager;
 
 import com.google.common.collect.Lists;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.services.ServiceUser;
@@ -134,6 +135,7 @@ public class ServiceUsers extends AbstractScreen implements
 
 		serviceUsers = new TableViewer(frmServiceUsers.getBody(), SWT.BORDER
 				| SWT.MULTI | SWT.FULL_SELECTION);
+		serviceUsers.setComparer(new CDOElementComparer());
 		table = serviceUsers.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);

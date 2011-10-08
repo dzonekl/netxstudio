@@ -90,5 +90,7 @@ public class MetricTreeLabelProvider extends StyledCellLabelProvider {
 			// cell.setImage(projectImage);
 			cell.setStyleRanges(styledString.getStyleRanges());
 		}
+		super.update(cell);
+		
 	}
 }

@@ -1,10 +1,16 @@
 package com.netxforge.netxstudio.screens.f2.details;
 
+import java.util.Date;
+
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFObservables;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.databinding.IEMFValueProperty;
@@ -22,6 +28,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.nebula.widgets.datechooser.DateChooserCombo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,13 +48,18 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.wb.swt.ResourceManager;
 
+import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.library.Component;
+import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Expression;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Tolerance;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
+import com.netxforge.netxstudio.screens.DateChooserComboObservableValue;
 import com.netxforge.netxstudio.screens.ExpressionFilterDialog;
 import com.netxforge.netxstudio.screens.MetricFilterDialog;
 import com.netxforge.netxstudio.screens.ToleranceFilterDialog;
@@ -60,40 +72,42 @@ import com.netxforge.netxstudio.screens.f2.NewEditResource;
 import com.netxforge.netxstudio.screens.f2.support.ToleranceObservableMapLabelProvider;
 import com.netxforge.netxstudio.screens.f4.support.MetricTreeLabelProvider;
 
-
 /**
- * Abstract Component screen implementation, which can deliver various sections. 
+ * Abstract Component screen implementation, which can deliver various sections.
  * 
  * @author dzonekl
- *
+ * 
  */
-public abstract class NewEditComponent extends AbstractDetailsScreen implements IDataScreenInjection {
+public abstract class NewEditComponent extends AbstractDetailsScreen implements
+		IDataScreenInjection {
 
 	final IEditingService editingService;
-	
-	// Resource section. 
+
+	// Resource section.
 	private Text txtCapExpression;
 	private Text txtUtilExpression;
 	private TableViewer resourceTableViewer;
-	
-	// Tolerances section. 
+
+	// Tolerances section.
 	private TableViewer tolerancesTableViewer;
-	
+
 	// Metrics Section
 	private TableViewer metricsTableViewer;
-	
-	
+
+	private DateChooserCombo dcProposed;
+	private DateChooserCombo dcPlanned;
+	private DateChooserCombo dcConstruction;
+	private DateChooserCombo dcInService;
+	private DateChooserCombo dcOutOfService;
+
 	protected Component comp;
-	
-	
-	
-	public NewEditComponent(Composite parent, int style, final IEditingService editingService) {
+
+	public NewEditComponent(Composite parent, int style,
+			final IEditingService editingService) {
 		super(parent, style);
 		this.editingService = editingService;
-//		buildUI();
+		// buildUI();
 	}
-	
-	
 
 	@SuppressWarnings("unused")
 	private void editUtilizationExpression() {
@@ -145,19 +159,18 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		}
 		screenService.setActiveScreen(expressionScreen);
 	}
-	
-	
-	protected Section buildToleranceSection(boolean readonly){
-		
+
+	protected Section buildToleranceSection(boolean readonly) {
+
 		Section sctnTolerances = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
-		
+
 		toolkit.paintBordersFor(sctnTolerances);
 		sctnTolerances.setText("Tolerances");
 		sctnTolerances.setExpanded(false);
 
-		Composite cmpTolerances = toolkit
-				.createComposite(sctnTolerances, SWT.NONE);
+		Composite cmpTolerances = toolkit.createComposite(sctnTolerances,
+				SWT.NONE);
 		toolkit.paintBordersFor(cmpTolerances);
 		sctnTolerances.setClient(cmpTolerances);
 		cmpTolerances.setLayout(new GridLayout(1, false));
@@ -197,9 +210,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		Table metricsTable = tolerancesTableViewer.getTable();
 		metricsTable.setHeaderVisible(true);
 		metricsTable.setLinesVisible(true);
-		
-		GridData gd = new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 1);
+
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd.heightHint = 100;
 		metricsTable.setLayoutData(gd);
 		toolkit.paintBordersFor(metricsTable);
@@ -247,19 +259,106 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		}
 		return sctnTolerances;
 	}
-	
-	
-	protected Section buildMetricSection(boolean readonly){
-		
+
+	protected void buildLifeCycleSection(boolean readonly) {
+
+		Section sctnLifecycle = toolkit.createSection(this, Section.TITLE_BAR
+				| Section.TWISTIE);
+		toolkit.paintBordersFor(sctnLifecycle);
+		sctnLifecycle.setText("Lifecycle");
+
+		Composite cmpLifeCycle = toolkit.createComposite(sctnLifecycle,
+				SWT.NONE);
+		toolkit.paintBordersFor(cmpLifeCycle);
+		sctnLifecycle.setClient(cmpLifeCycle);
+		cmpLifeCycle.setLayout(new GridLayout(2, false));
+
+		Label lblProposed = toolkit.createLabel(cmpLifeCycle, "Proposed:",
+				SWT.NONE);
+		lblProposed.setAlignment(SWT.RIGHT);
+		GridData gd_lblProposed = new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_lblProposed.widthHint = 70;
+		lblProposed.setLayoutData(gd_lblProposed);
+
+		dcProposed = new DateChooserCombo(cmpLifeCycle, SWT.BORDER | SWT.FLAT);
+		GridData gd_dcProposed = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dcProposed.heightHint = 20;
+		dcProposed.setLayoutData(gd_dcProposed);
+		toolkit.adapt(dcProposed);
+		toolkit.paintBordersFor(dcProposed);
+
+		Label lblPlanned = toolkit.createLabel(cmpLifeCycle, "Planned:",
+				SWT.NONE);
+		lblPlanned.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		lblPlanned.setAlignment(SWT.RIGHT);
+
+		dcPlanned = new DateChooserCombo(cmpLifeCycle, SWT.BORDER | SWT.FLAT);
+		GridData gd_dcPlanned = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dcPlanned.heightHint = 20;
+		dcPlanned.setLayoutData(gd_dcPlanned);
+		toolkit.adapt(dcPlanned);
+		toolkit.paintBordersFor(dcPlanned);
+
+		Label lblConstruction = toolkit.createLabel(cmpLifeCycle,
+				"Construction:", SWT.NONE);
+		lblConstruction.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1));
+
+		dcConstruction = new DateChooserCombo(cmpLifeCycle, SWT.BORDER
+				| SWT.FLAT);
+		GridData gd_dcConstruction = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dcConstruction.heightHint = 20;
+		dcConstruction.setLayoutData(gd_dcConstruction);
+		toolkit.adapt(dcConstruction);
+		toolkit.paintBordersFor(dcConstruction);
+
+		Label lblInService = toolkit.createLabel(cmpLifeCycle, "In Service:",
+				SWT.NONE);
+		lblInService.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+				false, 1, 1));
+		lblInService.setAlignment(SWT.RIGHT);
+
+		dcInService = new DateChooserCombo(cmpLifeCycle, SWT.BORDER | SWT.FLAT);
+		GridData gd_dcInService = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dcInService.heightHint = 20;
+		dcInService.setLayoutData(gd_dcInService);
+		toolkit.adapt(dcInService);
+		toolkit.paintBordersFor(dcInService);
+
+		Label lblOutOfService = toolkit.createLabel(cmpLifeCycle,
+				"Out of Service:", SWT.NONE);
+		GridData gd_lblOutOfService = new GridData(SWT.RIGHT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_lblOutOfService.widthHint = 80;
+		lblOutOfService.setLayoutData(gd_lblOutOfService);
+
+		dcOutOfService = new DateChooserCombo(cmpLifeCycle, SWT.BORDER
+				| SWT.FLAT);
+		GridData gd_dcOutOfService = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1);
+		gd_dcOutOfService.heightHint = 20;
+		dcOutOfService.setLayoutData(gd_dcOutOfService);
+		dcOutOfService.setWeeksVisible(true);
+		toolkit.adapt(dcOutOfService);
+		toolkit.paintBordersFor(dcOutOfService);
+	}
+
+	protected Section buildMetricSection(boolean readonly) {
+
 		Section sctnMetrics = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 
 		toolkit.paintBordersFor(sctnMetrics);
 		sctnMetrics.setText("Metrics");
 		sctnMetrics.setExpanded(false);
-		
-		Composite cmpMetrics = toolkit
-				.createComposite(sctnMetrics, SWT.NONE);
+
+		Composite cmpMetrics = toolkit.createComposite(sctnMetrics, SWT.NONE);
 		toolkit.paintBordersFor(cmpMetrics);
 		sctnMetrics.setClient(cmpMetrics);
 		cmpMetrics.setLayout(new GridLayout(1, false));
@@ -270,7 +369,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 			public void linkActivated(HyperlinkEvent e) {
 				Resource metriceResource = editingService
 						.getData(MetricsPackage.Literals.METRIC);
-				
+
 				MetricFilterDialog dialog = new MetricFilterDialog(
 						NewEditComponent.this.getShell(), metriceResource);
 				if (dialog.open() == IDialogConstants.OK_ID) {
@@ -283,6 +382,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 					}
 				}
 			}
+
 			public void linkEntered(HyperlinkEvent e) {
 			}
 
@@ -294,43 +394,13 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		toolkit.paintBordersFor(hypLnkAddMetric);
 		hypLnkAddMetric.setText("Add");
 
-//		metricsTreeViewer = new TreeViewer(cmpMetrics, SWT.BORDER | SWT.VIRTUAL);
-//		metricsTreeViewer.setUseHashlookup(true);
-//		Tree tree = metricsTreeViewer.getTree();
-//		tree.setLinesVisible(true);
-//		tree.setHeaderVisible(true);
-//		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
-//		gd.heightHint = 100;
-//		tree.setLayoutData(gd);
-//		toolkit.paintBordersFor(tree);
-//
-//		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
-//				metricsTreeViewer, SWT.NONE);
-//		TreeColumn trclmnName = treeViewerColumn.getColumn();
-//		trclmnName.setWidth(100);
-//		trclmnName.setText("Name");
-//
-//		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(
-//				metricsTreeViewer, SWT.NONE);
-//		TreeColumn trclmnDescription = treeViewerColumn_1.getColumn();
-//		trclmnDescription.setWidth(270);
-//		trclmnDescription.setText("Description");
-//
-//		TreeViewerColumn treeViewerColumn_2 = new TreeViewerColumn(
-//				metricsTreeViewer, SWT.NONE);
-//		TreeColumn trclmnUnit = treeViewerColumn_2.getColumn();
-//		trclmnUnit.setWidth(84);
-//		trclmnUnit.setText("Unit");
-
-		
 		metricsTableViewer = new TableViewer(cmpMetrics, SWT.BORDER
 				| SWT.FULL_SELECTION);
 		Table metricsTable = metricsTableViewer.getTable();
 		metricsTable.setHeaderVisible(true);
 		metricsTable.setLinesVisible(true);
-		
-		GridData gd = new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 1);
+
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd.heightHint = 100;
 		metricsTable.setLayoutData(gd);
 		toolkit.paintBordersFor(metricsTable);
@@ -352,7 +422,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		TableColumn tblclmnExpression = tableViewerColumn_2.getColumn();
 		tblclmnExpression.setWidth(30);
 		tblclmnExpression.setText("Unit");
-		
+
 		Menu menu = new Menu(metricsTable);
 		metricsTable.setMenu(menu);
 
@@ -363,8 +433,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 				ISelection s = metricsTableViewer.getSelection();
 				if (s instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection) s).getFirstElement();
-					// FIXME, we can' delete a child metric. 
-					
+					// FIXME, we can' delete a child metric.
+
 					Command rc = new RemoveCommand(editingService
 							.getEditingDomain(), comp.getMetricRefs(), o);
 					editingService.getEditingDomain().getCommandStack()
@@ -380,10 +450,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		}
 		return sctnMetrics;
 	}
-	
-	
-	protected Section buildResourceSection(
-			boolean readonly) {
+
+	protected Section buildResourceSection(boolean readonly) {
 		Section sctnResources = toolkit.createSection(this, Section.TWISTIE
 				| Section.TITLE_BAR);
 		toolkit.paintBordersFor(sctnResources);
@@ -400,38 +468,38 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		new Label(composite_2, SWT.NONE);
 		new Label(composite_2, SWT.NONE);
 
-//		ImageHyperlink hypLnkAddResource = toolkit.createImageHyperlink(
-//				composite_2, SWT.NONE);
-//		hypLnkAddResource.addHyperlinkListener(new IHyperlinkListener() {
-//			public void linkActivated(HyperlinkEvent e) {
-//				
-////				Resource resourceResource = editingService
-////						.getData(LibraryPackage.Literals.NET_XRESOURCE);
-//				
-//				
-//				NetXResourceFilterDialog dialog = new NetXResourceFilterDialog(
-//						NewEditComponent.this.getShell(), resourceResource);
-//				if (dialog.open() == IDialogConstants.OK_ID) {
-//					NetXResource u = (NetXResource) dialog.getFirstResult();
-//					if (!comp.getResourceRefs().contains(u)) {
-//						Command c = new AddCommand(editingService
-//								.getEditingDomain(), comp.getResourceRefs(), u);
-//						editingService.getEditingDomain().getCommandStack()
-//								.execute(c);
-//					}
-//				}
-//			}
-//
-//			public void linkEntered(HyperlinkEvent e) {
-//			}
-//
-//			public void linkExited(HyperlinkEvent e) {
-//			}
-//		});
-//		hypLnkAddResource.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
-//				false, false, 1, 1));
-//		toolkit.paintBordersFor(hypLnkAddResource);
-//		hypLnkAddResource.setText("Add");
+		// ImageHyperlink hypLnkAddResource = toolkit.createImageHyperlink(
+		// composite_2, SWT.NONE);
+		// hypLnkAddResource.addHyperlinkListener(new IHyperlinkListener() {
+		// public void linkActivated(HyperlinkEvent e) {
+		//
+		// // Resource resourceResource = editingService
+		// // .getData(LibraryPackage.Literals.NET_XRESOURCE);
+		//
+		//
+		// NetXResourceFilterDialog dialog = new NetXResourceFilterDialog(
+		// NewEditComponent.this.getShell(), resourceResource);
+		// if (dialog.open() == IDialogConstants.OK_ID) {
+		// NetXResource u = (NetXResource) dialog.getFirstResult();
+		// if (!comp.getResourceRefs().contains(u)) {
+		// Command c = new AddCommand(editingService
+		// .getEditingDomain(), comp.getResourceRefs(), u);
+		// editingService.getEditingDomain().getCommandStack()
+		// .execute(c);
+		// }
+		// }
+		// }
+		//
+		// public void linkEntered(HyperlinkEvent e) {
+		// }
+		//
+		// public void linkExited(HyperlinkEvent e) {
+		// }
+		// });
+		// hypLnkAddResource.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER,
+		// false, false, 1, 1));
+		// toolkit.paintBordersFor(hypLnkAddResource);
+		// hypLnkAddResource.setText("Add");
 
 		ImageHyperlink mghprlnkNewImagehyperlink = toolkit
 				.createImageHyperlink(composite_2, SWT.NONE);
@@ -444,11 +512,12 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 								screenService.getScreenContainer(), SWT.NONE);
 						resourceScreen.setOperation(Screens.OPERATION_NEW);
 						resourceScreen.setScreenService(screenService);
-						
-						// The CDO Resource, will depend on the component path. 
-						final Resource resourcesResource = editingService.getDataService().getProvider().getResource(
-								modelUtils.getResourcePath(comp));
-						
+
+						// The CDO Resource, will depend on the component path.
+						final Resource resourcesResource = editingService
+								.getDataService().getProvider()
+								.getResource(modelUtils.getResourcePath(comp));
+
 						resourceScreen.injectData(resourcesResource, comp,
 								LibraryFactory.eINSTANCE.createNetXResource());
 						screenService.setActiveScreen(resourceScreen);
@@ -469,9 +538,8 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		Table resourcesTable = resourceTableViewer.getTable();
 		resourcesTable.setLinesVisible(true);
 		resourcesTable.setHeaderVisible(true);
-		
-		GridData gd = new GridData(SWT.FILL, SWT.FILL, true,
-				true, 8, 3);
+
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 8, 3);
 		gd.heightHint = 100;
 		resourcesTable.setLayoutData(gd);
 		toolkit.paintBordersFor(resourcesTable);
@@ -695,14 +763,14 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		if (readonly) {
 			btnSelectCapExpression.setEnabled(false);
 			btnSelectUtilExpression.setEnabled(false);
-//			hypLnkAddResource.setEnabled(false);
+			// hypLnkAddResource.setEnabled(false);
 
 			mntmEditResource.setEnabled(false);
 			mntmRemoveResource.setEnabled(false);
 		}
 		return sctnResources;
 	}
-	
+
 	public void injectData(Object owner, Object object) {
 		if (object instanceof Component) {
 			this.comp = (Component) object;
@@ -712,15 +780,13 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		buildUI();
 		initDataBindings_();
 	}
-	
+
 	public abstract void buildUI();
 
-	
 	public EMFDataBindingContext initDataBindings_() {
 		EMFDataBindingContext context = new EMFDataBindingContext();
 		return context;
 	}
-
 
 	public void bindResourcesSection(EMFDataBindingContext context) {
 		IObservableValue capExpressionObservable = SWTObservables.observeText(
@@ -746,7 +812,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 				capacityExpressionProperty.observe(comp), null, null);
 		context.bindValue(utilExpressionObservable,
 				utilExpressionProperty.observe(comp), null, null);
-		
+
 		// binding of resources
 
 		ObservableListContentProvider resourceListContentProvider = new ObservableListContentProvider();
@@ -765,7 +831,7 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 		resourceTableViewer.setInput(resourcesListProperty.observe(comp));
 	}
 
-
+	
 	public void bindToleranceSection() {
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		tolerancesTableViewer.setContentProvider(listContentProvider);
@@ -784,10 +850,111 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 
 		tolerancesTableViewer.setInput(l.observe(comp));
 	}
-	
-	
+
+	protected void bindLifeCycle(EMFDataBindingContext context) {
+		IObservableValue dcProposedObservable = new DateChooserComboObservableValue(
+				dcProposed, SWT.Modify);
+
+		IObservableValue dcPlannedObservable = new DateChooserComboObservableValue(
+				dcPlanned, SWT.Modify);
+
+		IObservableValue dcConstructionObservable = new DateChooserComboObservableValue(
+				dcConstruction, SWT.Modify);
+
+		IObservableValue dcInServiceObservable = new DateChooserComboObservableValue(
+				dcInService, SWT.Modify);
+
+		IObservableValue dcOutOfServiceObservable = new DateChooserComboObservableValue(
+				dcOutOfService, SWT.Modify);
+
+		IEMFValueProperty proposedProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(), FeaturePath.fromList(
+						LibraryPackage.Literals.COMPONENT__LIFECYCLE,
+						GenericsPackage.Literals.LIFECYCLE__PROPOSED));
+
+		IEMFValueProperty plannedProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(), FeaturePath.fromList(
+						LibraryPackage.Literals.COMPONENT__LIFECYCLE,
+						GenericsPackage.Literals.LIFECYCLE__PLANNED_DATE));
+
+		IEMFValueProperty constructionProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(), FeaturePath.fromList(
+						LibraryPackage.Literals.COMPONENT__LIFECYCLE,
+						GenericsPackage.Literals.LIFECYCLE__CONSTRUCTION_DATE));
+
+		IEMFValueProperty inServiceProperty = EMFEditProperties.value(
+				editingService.getEditingDomain(), FeaturePath.fromList(
+						LibraryPackage.Literals.COMPONENT__LIFECYCLE,
+						GenericsPackage.Literals.LIFECYCLE__IN_SERVICE_DATE));
+
+		IEMFValueProperty outOfServiceProperty = EMFEditProperties
+				.value(editingService.getEditingDomain(),
+						FeaturePath
+								.fromList(
+										LibraryPackage.Literals.COMPONENT__LIFECYCLE,
+										GenericsPackage.Literals.LIFECYCLE__OUT_OF_SERVICE_DATE));
+
+		EMFUpdateValueStrategy modelToTargetUpdateStrategy = new EMFUpdateValueStrategy();
+		modelToTargetUpdateStrategy.setConverter(new IConverter() {
+
+			public Object getFromType() {
+				return XMLGregorianCalendar.class;
+			}
+
+			public Object getToType() {
+				return Date.class;
+			}
+
+			public Object convert(Object fromObject) {
+				return modelUtils
+						.fromXMLDate((XMLGregorianCalendar) fromObject);
+			}
+		});
+
+		EMFUpdateValueStrategy targetToModelUpdateStrategy = new EMFUpdateValueStrategy();
+		targetToModelUpdateStrategy.setConverter(new IConverter() {
+
+			public Object getFromType() {
+				return Date.class;
+			}
+
+			public Object getToType() {
+
+				return XMLGregorianCalendar.class;
+			}
+
+			public Object convert(Object fromObject) {
+				return modelUtils.toXMLDate((Date) fromObject);
+			}
+		});
+
+		// Create a new lifecycle if non-existent.
+		if (((Equipment) comp).getLifecycle() == null) {
+			Lifecycle newLC = GenericsFactory.eINSTANCE.createLifecycle();
+			((Equipment) comp).setLifecycle(newLC);
+		}
+
+		context.bindValue(dcProposedObservable, proposedProperty.observe(comp),
+				targetToModelUpdateStrategy, modelToTargetUpdateStrategy);
+
+		context.bindValue(dcPlannedObservable, plannedProperty.observe(comp),
+				targetToModelUpdateStrategy, modelToTargetUpdateStrategy);
+
+		context.bindValue(dcConstructionObservable,
+				constructionProperty.observe(comp),
+				targetToModelUpdateStrategy, modelToTargetUpdateStrategy);
+
+		context.bindValue(dcInServiceObservable,
+				inServiceProperty.observe(comp), targetToModelUpdateStrategy,
+				modelToTargetUpdateStrategy);
+
+		context.bindValue(dcOutOfServiceObservable,
+				outOfServiceProperty.observe(comp),
+				targetToModelUpdateStrategy, modelToTargetUpdateStrategy);
+	}
+
 	public void bindMetricSection() {
-		
+
 		ObservableListContentProvider listContentProvider = new ObservableListContentProvider();
 		metricsTableViewer.setContentProvider(listContentProvider);
 		IObservableMap[] observeMaps = EMFObservables.observeMaps(
@@ -795,33 +962,37 @@ public abstract class NewEditComponent extends AbstractDetailsScreen implements 
 				new EStructuralFeature[] {
 						MetricsPackage.Literals.METRIC__NAME,
 						MetricsPackage.Literals.METRIC__DESCRIPTION,
-						MetricsPackage.Literals.METRIC__UNIT_REF});
-		metricsTableViewer
-				.setLabelProvider(new MetricTreeLabelProvider(observeMaps));
+						MetricsPackage.Literals.METRIC__UNIT_REF });
+		metricsTableViewer.setLabelProvider(new MetricTreeLabelProvider(
+				observeMaps));
 		IEMFListProperty l = EMFEditProperties.list(
 				editingService.getEditingDomain(),
 				LibraryPackage.Literals.COMPONENT__METRIC_REFS);
 
 		metricsTableViewer.setInput(l.observe(comp));
-		
-		
-//		ObservableListTreeContentProvider listTreeContentProvider = new ObservableListTreeContentProvider(
-//				new MetricTreeFactory(editingService.getEditingDomain()), new MetricTreeStructureAdvisor());
-//		metricsTreeViewer.setContentProvider(listTreeContentProvider);
-//		IObservableSet set = listTreeContentProvider.getKnownElements();
-//		
-//		IObservableMap[] map = new IObservableMap[2];
-//
-//		map[0] = EMFProperties.value(MetricsPackage.Literals.METRIC__NAME)
-//				.observeDetail(set);
-//
-//		map[1] = EMFProperties.value(
-//				MetricsPackage.Literals.METRIC__DESCRIPTION).observeDetail(set);
-//		metricsTreeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
-//
-//		IEMFListProperty metricsProperty = EMFEditProperties.list(editingService.getEditingDomain(), LibraryPackage.Literals.COMPONENT__METRIC_REFS);
-//		IObservableList metricsObservableList = metricsProperty.observe(comp);
-//		metricsTreeViewer.setInput(metricsObservableList);
+
+		// ObservableListTreeContentProvider listTreeContentProvider = new
+		// ObservableListTreeContentProvider(
+		// new MetricTreeFactory(editingService.getEditingDomain()), new
+		// MetricTreeStructureAdvisor());
+		// metricsTreeViewer.setContentProvider(listTreeContentProvider);
+		// IObservableSet set = listTreeContentProvider.getKnownElements();
+		//
+		// IObservableMap[] map = new IObservableMap[2];
+		//
+		// map[0] = EMFProperties.value(MetricsPackage.Literals.METRIC__NAME)
+		// .observeDetail(set);
+		//
+		// map[1] = EMFProperties.value(
+		// MetricsPackage.Literals.METRIC__DESCRIPTION).observeDetail(set);
+		// metricsTreeViewer.setLabelProvider(new MetricTreeLabelProvider(map));
+		//
+		// IEMFListProperty metricsProperty =
+		// EMFEditProperties.list(editingService.getEditingDomain(),
+		// LibraryPackage.Literals.COMPONENT__METRIC_REFS);
+		// IObservableList metricsObservableList =
+		// metricsProperty.observe(comp);
+		// metricsTreeViewer.setInput(metricsObservableList);
 	}
-	
+
 }

@@ -77,6 +77,7 @@ import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
 import com.netxforge.netxstudio.operators.Relationship;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -213,6 +214,7 @@ public class Warehouses extends AbstractScreen implements IDataServiceInjection 
 		mghprlnkNewImagehyperlink.setText("New");
 
 		warehouseTreeViewer = new TreeViewer(composite, SWT.BORDER | widgetStyle);
+		warehouseTreeViewer.setComparer(new CDOElementComparer());
 		warehouseTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {

@@ -39,6 +39,7 @@ import com.netxforge.netxstudio.generics.provider.CompanyItemProvider;
 import com.netxforge.netxstudio.operators.Operator;
 import com.netxforge.netxstudio.operators.OperatorsFactory;
 import com.netxforge.netxstudio.operators.OperatorsPackage;
+import com.netxforge.netxstudio.services.ServicesFactory;
 
 /**
  * This is the item provider adapter for a {@link com.netxforge.netxstudio.operators.Operator} object.
@@ -192,10 +193,10 @@ public class OperatorItemProvider
 //				(OperatorsPackage.Literals.OPERATOR__SERVICES,
 //				 ServicesFactory.eINSTANCE.createCFSService()));
 //
-//		newChildDescriptors.add
-//			(createChildParameter
-//				(OperatorsPackage.Literals.OPERATOR__SERVICES,
-//				 ServicesFactory.eINSTANCE.createRFSService()));
+		newChildDescriptors.add
+			(createChildParameter
+				(OperatorsPackage.Literals.OPERATOR__SERVICES,
+				 ServicesFactory.eINSTANCE.createRFSService()));
 
 //		newChildDescriptors.add
 //			(createChildParameter

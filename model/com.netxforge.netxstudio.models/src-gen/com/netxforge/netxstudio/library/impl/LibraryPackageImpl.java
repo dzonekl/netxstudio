@@ -436,7 +436,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_ResourceRefs() {
+	public EReference getComponent_Lifecycle() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -445,7 +445,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_MetricRefs() {
+	public EReference getComponent_ResourceRefs() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -454,7 +454,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_CapacityExpressionRef() {
+	public EReference getComponent_MetricRefs() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -463,7 +463,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_UtilizationExpressionRef() {
+	public EReference getComponent_CapacityExpressionRef() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -472,7 +472,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_ToleranceRefs() {
+	public EReference getComponent_UtilizationExpressionRef() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -481,7 +481,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_ProtocolRefs() {
+	public EReference getComponent_ToleranceRefs() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -490,7 +490,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_ParameterRefs() {
+	public EReference getComponent_ProtocolRefs() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -499,7 +499,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_AllResources() {
+	public EReference getComponent_ParameterRefs() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -508,7 +508,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_Diagrams() {
+	public EReference getComponent_AllResources() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -517,7 +517,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponent_Icons() {
+	public EReference getComponent_Diagrams() {
 		return (EReference)componentEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -526,8 +526,26 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getComponent_Icons() {
+		return (EReference)componentEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getComponent_Description() {
-		return (EAttribute)componentEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getComponent_Duration() {
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -536,7 +554,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	public EAttribute getComponent_Name() {
-		return (EAttribute)componentEClass.getEStructuralFeatures().get(11);
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(13);
 	}
 
 	/**
@@ -553,7 +571,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_Lifecycle() {
+	public EReference getEquipment_Equipments() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -562,7 +580,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_Equipments() {
+	public EReference getEquipment_EquipmentGroups() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -571,7 +589,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_EquipmentGroups() {
+	public EReference getEquipment_EquipmentRelationshipRefs() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -580,7 +598,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_EquipmentRelationshipRefs() {
+	public EReference getEquipment_AllEquipments() {
 		return (EReference)equipmentEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -589,26 +607,8 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEquipment_AllEquipments() {
-		return (EReference)equipmentEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getEquipment_Count() {
-		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEquipment_Duration() {
-		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -617,7 +617,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	public EAttribute getEquipment_EquipmentCode() {
-		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(7);
+		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -626,7 +626,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	public EAttribute getEquipment_Position() {
-		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(8);
+		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -635,7 +635,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	public EAttribute getEquipment_Redundancy() {
-		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -644,7 +644,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	public EAttribute getEquipment_State() {
-		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)equipmentEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -1487,6 +1487,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(baseResourceEClass, BASE_RESOURCE__UNIT_REF);
 
 		componentEClass = createEClass(COMPONENT);
+		createEReference(componentEClass, COMPONENT__LIFECYCLE);
 		createEReference(componentEClass, COMPONENT__RESOURCE_REFS);
 		createEReference(componentEClass, COMPONENT__METRIC_REFS);
 		createEReference(componentEClass, COMPONENT__CAPACITY_EXPRESSION_REF);
@@ -1498,16 +1499,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		createEReference(componentEClass, COMPONENT__DIAGRAMS);
 		createEReference(componentEClass, COMPONENT__ICONS);
 		createEAttribute(componentEClass, COMPONENT__DESCRIPTION);
+		createEAttribute(componentEClass, COMPONENT__DURATION);
 		createEAttribute(componentEClass, COMPONENT__NAME);
 
 		equipmentEClass = createEClass(EQUIPMENT);
-		createEReference(equipmentEClass, EQUIPMENT__LIFECYCLE);
 		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENTS);
 		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENT_GROUPS);
 		createEReference(equipmentEClass, EQUIPMENT__EQUIPMENT_RELATIONSHIP_REFS);
 		createEReference(equipmentEClass, EQUIPMENT__ALL_EQUIPMENTS);
 		createEAttribute(equipmentEClass, EQUIPMENT__COUNT);
-		createEAttribute(equipmentEClass, EQUIPMENT__DURATION);
 		createEAttribute(equipmentEClass, EQUIPMENT__EQUIPMENT_CODE);
 		createEAttribute(equipmentEClass, EQUIPMENT__POSITION);
 		createEAttribute(equipmentEClass, EQUIPMENT__REDUNDANCY);
@@ -1683,6 +1683,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getBaseResource_UnitRef(), this.getUnit(), null, "unitRef", null, 0, 1, BaseResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getComponent_Lifecycle(), theGenericsPackage.getLifecycle(), null, "lifecycle", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_ResourceRefs(), this.getNetXResource(), this.getNetXResource_ComponentRef(), "resourceRefs", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_MetricRefs(), theMetricsPackage.getMetric(), null, "metricRefs", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_CapacityExpressionRef(), this.getExpression(), null, "capacityExpressionRef", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1694,16 +1695,15 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		initEReference(getComponent_Diagrams(), theGenericsPackage.getDiagramInfo(), null, "diagrams", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponent_Icons(), theGenericsPackage.getMultiImage(), null, "icons", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_Description(), theGenericsPackage.getDescription2000(), "description", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponent_Duration(), theGenericsPackage.getExpansionDuration(), "duration", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponent_Name(), theGenericsPackage.getName255(), "name", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(equipmentEClass, Equipment.class, "Equipment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEquipment_Lifecycle(), theGenericsPackage.getLifecycle(), null, "lifecycle", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_Equipments(), this.getEquipment(), null, "equipments", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_EquipmentGroups(), this.getEquipmentGroup(), null, "equipmentGroups", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_EquipmentRelationshipRefs(), theOperatorsPackage.getEquipmentRelationship(), null, "equipmentRelationshipRefs", null, 0, -1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEquipment_AllEquipments(), this.getEquipment(), null, "allEquipments", null, 0, -1, Equipment.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEquipment_Count(), theXMLTypePackage.getInt(), "count", null, 0, 1, Equipment.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEquipment_Duration(), theGenericsPackage.getExpansionDuration(), "duration", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEquipment_EquipmentCode(), theGenericsPackage.getName255(), "equipmentCode", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEquipment_Position(), theGenericsPackage.getName255(), "position", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEquipment_Redundancy(), this.getRedundancyType(), "redundancy", null, 0, 1, Equipment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1953,6 +1953,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "kind", "elementOnly"
 		   });			
 		addAnnotation
+		  (getComponent_Lifecycle(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Lifecycle"
+		   });			
+		addAnnotation
 		  (getComponent_ResourceRefs(), 
 		   source, 
 		   new String[] {
@@ -2030,6 +2037,13 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 			 "name", "Description"
 		   });			
 		addAnnotation
+		  (getComponent_Duration(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "Duration"
+		   });			
+		addAnnotation
 		  (getComponent_Name(), 
 		   source, 
 		   new String[] {
@@ -2042,13 +2056,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "name", "Equipment",
 			 "kind", "elementOnly"
-		   });			
-		addAnnotation
-		  (getEquipment_Lifecycle(), 
-		   source, 
-		   new String[] {
-			 "kind", "element",
-			 "name", "Lifecycle"
 		   });			
 		addAnnotation
 		  (getEquipment_Equipments(), 
@@ -2084,13 +2091,6 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "Count"
-		   });			
-		addAnnotation
-		  (getEquipment_Duration(), 
-		   source, 
-		   new String[] {
-			 "kind", "attribute",
-			 "name", "Duration"
 		   });			
 		addAnnotation
 		  (getEquipment_EquipmentCode(), 
@@ -2748,7 +2748,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 	 * @generated
 	 */
 	protected void createOCLAnnotations() {
-		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																																					
+		String source = "http://www.eclipse.org/emf/2002/Ecore/OCL";																																							
 		addAnnotation
 		  (getComponent_AllResources(), 
 		   source, 
@@ -2766,7 +2766,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage {
 		   source, 
 		   new String[] {
 			 "derivation", "self.equipments->size()\n\t\t\t\t\t\t"
-		   });																										
+		   });																								
 		addAnnotation
 		  (getEquipmentGroup_AllEquipmentResources(), 
 		   source, 

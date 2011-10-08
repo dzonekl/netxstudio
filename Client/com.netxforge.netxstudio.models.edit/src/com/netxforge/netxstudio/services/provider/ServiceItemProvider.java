@@ -209,6 +209,7 @@ public class ServiceItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(ServicesPackage.Literals.SERVICE__CIID);
+			childrenFeatures.add(ServicesPackage.Literals.SERVICE__LIFECYCLE);
 			childrenFeatures.add(ServicesPackage.Literals.SERVICE__SERVICES);
 			childrenFeatures.add(ServicesPackage.Literals.SERVICE__SERVICE_FORECASTS);
 			childrenFeatures.add(ServicesPackage.Literals.SERVICE__SERVICE_MONITORS);
@@ -274,6 +275,7 @@ public class ServiceItemProvider
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ServicesPackage.SERVICE__CIID:
+			case ServicesPackage.SERVICE__LIFECYCLE:
 			case ServicesPackage.SERVICE__SERVICES:
 			case ServicesPackage.SERVICE__SERVICE_FORECASTS:
 			case ServicesPackage.SERVICE__SERVICE_MONITORS:

@@ -82,6 +82,7 @@ import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.OperatorFilterDialog;
 import com.netxforge.netxstudio.screens.PeriodDialog;
 import com.netxforge.netxstudio.screens.SearchFilter;
@@ -249,6 +250,7 @@ public class ServicesTree extends AbstractScreen implements
 		serviceTreeViewer = new TreeViewer(composite, SWT.BORDER | SWT.MULTI
 				| SWT.VIRTUAL | widgetStyle);
 		serviceTreeViewer.setUseHashlookup(true);
+		serviceTreeViewer.setComparer(new CDOElementComparer());
 
 		serviceTreeViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {

@@ -58,6 +58,7 @@ import com.netxforge.netxstudio.scheduling.RFSServiceReporterJob;
 import com.netxforge.netxstudio.scheduling.RFSServiceRetentionJob;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -115,45 +116,46 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				false, 1, 1);
 		gd_txtFilterText.widthHint = 200;
 		txtFilterText.setLayoutData(gd_txtFilterText);
-		
-		
-		// CB 06-09-2011, We can't create any arbitrary job from the JOB UI. 
-//		ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
-//				frmScheduledJobs.getBody(), SWT.NONE);
-//		mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
-//			public void linkActivated(HyperlinkEvent e) {
-//				if (screenService != null) {
-//					NewEditJob jobScreen = new NewEditJob(screenService
-//							.getScreenContainer(), SWT.NONE);
-//					jobScreen.setOperation(Screens.OPERATION_NEW);
-//					jobScreen.setScreenService(screenService);
-//					
-//					Job j = SchedulingFactory.eINSTANCE.createJob();
-//					
-//					
-//					jobScreen.injectData(jobsResource,
-//							j);
-//					screenService.setActiveScreen(jobScreen);
-//				}
-//
-//			}
-//
-//			public void linkEntered(HyperlinkEvent e) {
-//			}
-//
-//			public void linkExited(HyperlinkEvent e) {
-//			}
-//		});
-//		mghprlnkNew.setImage(ResourceManager.getPluginImage(
-//				"com.netxforge.netxstudio.models.edit",
-//				"icons/full/ctool16/Function_E.png"));
-//		mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
-//				false, 1, 1));
-//		toolkit.paintBordersFor(mghprlnkNew);
-//		mghprlnkNew.setText("New");
+
+		// CB 06-09-2011, We can't create any arbitrary job from the JOB UI.
+		// ImageHyperlink mghprlnkNew = toolkit.createImageHyperlink(
+		// frmScheduledJobs.getBody(), SWT.NONE);
+		// mghprlnkNew.addHyperlinkListener(new IHyperlinkListener() {
+		// public void linkActivated(HyperlinkEvent e) {
+		// if (screenService != null) {
+		// NewEditJob jobScreen = new NewEditJob(screenService
+		// .getScreenContainer(), SWT.NONE);
+		// jobScreen.setOperation(Screens.OPERATION_NEW);
+		// jobScreen.setScreenService(screenService);
+		//
+		// Job j = SchedulingFactory.eINSTANCE.createJob();
+		//
+		//
+		// jobScreen.injectData(jobsResource,
+		// j);
+		// screenService.setActiveScreen(jobScreen);
+		// }
+		//
+		// }
+		//
+		// public void linkEntered(HyperlinkEvent e) {
+		// }
+		//
+		// public void linkExited(HyperlinkEvent e) {
+		// }
+		// });
+		// mghprlnkNew.setImage(ResourceManager.getPluginImage(
+		// "com.netxforge.netxstudio.models.edit",
+		// "icons/full/ctool16/Function_E.png"));
+		// mghprlnkNew.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false,
+		// false, 1, 1));
+		// toolkit.paintBordersFor(mghprlnkNew);
+		// mghprlnkNew.setText("New");
 
 		jobsTableViewer = new TableViewer(frmScheduledJobs.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION);
+		jobsTableViewer.setComparer(new CDOElementComparer());
+
 		table = jobsTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -226,10 +228,9 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 		public void run() {
 			ISelection selection = getViewer().getSelection();
 			if (selection instanceof IStructuredSelection) {
-				Object o = ((IStructuredSelection) selection)
-						.getFirstElement();
-				NewEditJob job = new NewEditJob(screenService
-						.getScreenContainer(), SWT.NONE);
+				Object o = ((IStructuredSelection) selection).getFirstElement();
+				NewEditJob job = new NewEditJob(
+						screenService.getScreenContainer(), SWT.NONE);
 				job.setScreenService(screenService);
 				job.setOperation(Screens.OPERATION_EDIT);
 				job.injectData(jobsResource, o);
@@ -356,37 +357,35 @@ public class Jobs extends AbstractScreen implements IDataServiceInjection {
 				case 0: {
 					if (j instanceof MetricSourceJob) {
 						return "Metric Import";
-//								+ ((MetricSourceJob) j).getMetricSource()
-//										.getName();
+						// + ((MetricSourceJob) j).getMetricSource()
+						// .getName();
 					}
 					if (j instanceof RFSServiceMonitoringJob) {
 						return "Monitoring";
-//								+ ((RFSServiceJob) j).getRFSService()
-//										.getServiceName();
+						// + ((RFSServiceJob) j).getRFSService()
+						// .getServiceName();
 					}
 					if (j instanceof RFSServiceRetentionJob) {
 						return "Data Retention";
-//								+ ((RFSServiceRetentionJob) j).getRFSService()
-//										.getServiceName();
+						// + ((RFSServiceRetentionJob) j).getRFSService()
+						// .getServiceName();
 					}
-					if(j instanceof RFSServiceReporterJob){
+					if (j instanceof RFSServiceReporterJob) {
 						return "Service Reporting";
-//								+ ((ReporterJob) j).getRFSService()
-//										.getServiceName();
+						// + ((ReporterJob) j).getRFSService()
+						// .getServiceName();
 					}
-					if(j instanceof OperatorReporterJob){
+					if (j instanceof OperatorReporterJob) {
 						return "Operator Reporting";
-//								+ ((ReporterJob) j).getRFSService()
-//										.getServiceName();
+						// + ((ReporterJob) j).getRFSService()
+						// .getServiceName();
 					}
-					if(j instanceof NodeReporterJob){
+					if (j instanceof NodeReporterJob) {
 						return "Node Reporting";
-//								+ ((ReporterJob) j).getRFSService()
-//										.getServiceName();
+						// + ((ReporterJob) j).getRFSService()
+						// .getServiceName();
 					}
 
-					
-					
 				}
 				case 2: {
 					JobState state = j.getJobState();

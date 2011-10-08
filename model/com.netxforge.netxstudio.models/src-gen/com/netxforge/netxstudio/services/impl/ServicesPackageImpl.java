@@ -453,7 +453,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getService_Services() {
+	public EReference getService_Lifecycle() {
 		return (EReference)serviceEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -462,7 +462,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getService_ServiceForecasts() {
+	public EReference getService_Services() {
 		return (EReference)serviceEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -471,7 +471,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getService_ServiceMonitors() {
+	public EReference getService_ServiceForecasts() {
 		return (EReference)serviceEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -480,7 +480,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getService_ServiceUserRefs() {
+	public EReference getService_ServiceMonitors() {
 		return (EReference)serviceEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -489,7 +489,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getService_ServiceDistribution() {
+	public EReference getService_ServiceUserRefs() {
 		return (EReference)serviceEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -498,8 +498,8 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getService_ServiceCategory() {
-		return (EAttribute)serviceEClass.getEStructuralFeatures().get(6);
+	public EReference getService_ServiceDistribution() {
+		return (EReference)serviceEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -507,7 +507,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getService_ServiceClass() {
+	public EAttribute getService_ServiceCategory() {
 		return (EAttribute)serviceEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -516,7 +516,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getService_ServiceDescription() {
+	public EAttribute getService_ServiceClass() {
 		return (EAttribute)serviceEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -525,8 +525,17 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getService_ServiceName() {
+	public EAttribute getService_ServiceDescription() {
 		return (EAttribute)serviceEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getService_ServiceName() {
+		return (EAttribute)serviceEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -843,6 +852,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 
 		serviceEClass = createEClass(SERVICE);
 		createEReference(serviceEClass, SERVICE__CIID);
+		createEReference(serviceEClass, SERVICE__LIFECYCLE);
 		createEReference(serviceEClass, SERVICE__SERVICES);
 		createEReference(serviceEClass, SERVICE__SERVICE_FORECASTS);
 		createEReference(serviceEClass, SERVICE__SERVICE_MONITORS);
@@ -966,6 +976,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 
 		initEClass(serviceEClass, Service.class, "Service", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getService_CIID(), this.getCIID(), null, "cIID", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getService_Lifecycle(), theGenericsPackage.getLifecycle(), null, "lifecycle", null, 0, 1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getService_Services(), this.getService(), null, "services", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getService_ServiceForecasts(), this.getServiceForecast(), null, "serviceForecasts", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getService_ServiceMonitors(), this.getServiceMonitor(), null, "serviceMonitors", null, 0, -1, Service.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1047,7 +1058,7 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 			 "validationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "settingDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL",
 			 "invocationDelegates", "http://www.eclipse.org/emf/2002/Ecore/OCL\nhttp://www.eclipse.org/emf/2002/Ecore/OCL"
-		   });																																																																																																															
+		   });																																																																																																																	
 	}
 
 	/**
@@ -1210,6 +1221,13 @@ public class ServicesPackageImpl extends EPackageImpl implements ServicesPackage
 		   new String[] {
 			 "kind", "element",
 			 "name", "CIID"
+		   });			
+		addAnnotation
+		  (getService_Lifecycle(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "Lifecycle"
 		   });			
 		addAnnotation
 		  (getService_Services(), 

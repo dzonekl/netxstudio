@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.services;
 import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Base;
+import com.netxforge.netxstudio.generics.Lifecycle;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,6 +38,7 @@ import com.netxforge.netxstudio.generics.Base;
  * The following features are supported:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.services.Service#getCIID <em>CIID</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.Service#getLifecycle <em>Lifecycle</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.Service#getServices <em>Services</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.Service#getServiceForecasts <em>Service Forecasts</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.Service#getServiceMonitors <em>Service Monitors</em>}</li>
@@ -76,6 +78,34 @@ public interface Service extends Base {
 	 * @generated
 	 */
 	EList<CIID> getCIID();
+
+	/**
+	 * Returns the value of the '<em><b>Lifecycle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The Lifecycle reference, contains 0 or 1
+	 * 								Lifecycle types.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Lifecycle</em>' containment reference.
+	 * @see #setLifecycle(Lifecycle)
+	 * @see com.netxforge.netxstudio.services.ServicesPackage#getService_Lifecycle()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Lifecycle'"
+	 * @generated
+	 */
+	Lifecycle getLifecycle();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.services.Service#getLifecycle <em>Lifecycle</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Lifecycle</em>' containment reference.
+	 * @see #getLifecycle()
+	 * @generated
+	 */
+	void setLifecycle(Lifecycle value);
 
 	/**
 	 * Returns the value of the '<em><b>Services</b></em>' containment reference list.

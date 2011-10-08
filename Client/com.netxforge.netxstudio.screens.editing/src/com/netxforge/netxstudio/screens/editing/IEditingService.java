@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 
 import com.netxforge.netxstudio.data.IDataService;
 
@@ -61,7 +60,9 @@ public interface IEditingService {
 	 * @param monitor
 	 * @return
 	 */
-	public abstract IRunnableWithProgress doGetSaveHistoryOperation(IProgressMonitor monitor);
+	
+	// CB Remove later. 
+//	public abstract IRunnableWithProgress doGetSaveHistoryOperation(IProgressMonitor monitor);
 	
 	/**
 	 * Saves the data permanently.

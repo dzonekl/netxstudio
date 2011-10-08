@@ -69,6 +69,7 @@ import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.metrics.MetricsFactory;
 import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -214,8 +215,10 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		mghprlnkNewMetric.setText("New");
 
 		metricsTreeViewer = new TreeViewer(frmMetrics.getBody(), SWT.BORDER
-				| SWT.VIRTUAL | SWT.MULTI);
+				| SWT.VIRTUAL | SWT.MULTI  | SWT.FULL_SELECTION);
 		metricsTreeViewer.setUseHashlookup(true);
+		metricsTreeViewer.setComparer(new CDOElementComparer());
+		
 		Tree tree = metricsTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
@@ -225,7 +228,7 @@ public class Metrics extends AbstractScreen implements IDataServiceInjection {
 		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(
 				metricsTreeViewer, SWT.NONE);
 		TreeColumn trclmnName = treeViewerColumn.getColumn();
-		trclmnName.setWidth(100);
+		trclmnName.setWidth(300);
 		trclmnName.setText("Name");
 
 		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(

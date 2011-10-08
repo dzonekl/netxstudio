@@ -255,13 +255,22 @@ public interface LibraryPackage extends EPackage {
 	int COMPONENT__DELETED = GenericsPackage.BASE__DELETED;
 
 	/**
+	 * The feature id for the '<em><b>Lifecycle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__LIFECYCLE = GenericsPackage.BASE_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Resource Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__RESOURCE_REFS = GenericsPackage.BASE_FEATURE_COUNT + 0;
+	int COMPONENT__RESOURCE_REFS = GenericsPackage.BASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Metric Refs</b></em>' reference list.
@@ -270,7 +279,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__METRIC_REFS = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int COMPONENT__METRIC_REFS = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Capacity Expression Ref</b></em>' reference.
@@ -279,7 +288,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__CAPACITY_EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int COMPONENT__CAPACITY_EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Utilization Expression Ref</b></em>' reference.
@@ -288,7 +297,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__UTILIZATION_EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int COMPONENT__UTILIZATION_EXPRESSION_REF = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Tolerance Refs</b></em>' reference list.
@@ -297,7 +306,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__TOLERANCE_REFS = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int COMPONENT__TOLERANCE_REFS = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Protocol Refs</b></em>' reference list.
@@ -306,7 +315,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__PROTOCOL_REFS = GenericsPackage.BASE_FEATURE_COUNT + 5;
+	int COMPONENT__PROTOCOL_REFS = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Parameter Refs</b></em>' reference list.
@@ -315,7 +324,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__PARAMETER_REFS = GenericsPackage.BASE_FEATURE_COUNT + 6;
+	int COMPONENT__PARAMETER_REFS = GenericsPackage.BASE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>All Resources</b></em>' reference list.
@@ -324,7 +333,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__ALL_RESOURCES = GenericsPackage.BASE_FEATURE_COUNT + 7;
+	int COMPONENT__ALL_RESOURCES = GenericsPackage.BASE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Diagrams</b></em>' containment reference list.
@@ -333,7 +342,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__DIAGRAMS = GenericsPackage.BASE_FEATURE_COUNT + 8;
+	int COMPONENT__DIAGRAMS = GenericsPackage.BASE_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Icons</b></em>' containment reference.
@@ -342,7 +351,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__ICONS = GenericsPackage.BASE_FEATURE_COUNT + 9;
+	int COMPONENT__ICONS = GenericsPackage.BASE_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -351,7 +360,16 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 10;
+	int COMPONENT__DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 11;
+
+	/**
+	 * The feature id for the '<em><b>Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__DURATION = GenericsPackage.BASE_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -360,7 +378,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__NAME = GenericsPackage.BASE_FEATURE_COUNT + 11;
+	int COMPONENT__NAME = GenericsPackage.BASE_FEATURE_COUNT + 13;
 
 	/**
 	 * The number of structural features of the '<em>Component</em>' class.
@@ -369,7 +387,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 12;
+	int COMPONENT_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 14;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.EquipmentImpl <em>Equipment</em>}' class.
@@ -389,6 +407,15 @@ public interface LibraryPackage extends EPackage {
 	 * @ordered
 	 */
 	int EQUIPMENT__DELETED = COMPONENT__DELETED;
+
+	/**
+	 * The feature id for the '<em><b>Lifecycle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EQUIPMENT__LIFECYCLE = COMPONENT__LIFECYCLE;
 
 	/**
 	 * The feature id for the '<em><b>Resource Refs</b></em>' reference list.
@@ -490,6 +517,15 @@ public interface LibraryPackage extends EPackage {
 	int EQUIPMENT__DESCRIPTION = COMPONENT__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EQUIPMENT__DURATION = COMPONENT__DURATION;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -499,22 +535,13 @@ public interface LibraryPackage extends EPackage {
 	int EQUIPMENT__NAME = COMPONENT__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Lifecycle</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EQUIPMENT__LIFECYCLE = COMPONENT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Equipments</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__EQUIPMENTS = COMPONENT_FEATURE_COUNT + 1;
+	int EQUIPMENT__EQUIPMENTS = COMPONENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Equipment Groups</b></em>' containment reference list.
@@ -523,7 +550,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__EQUIPMENT_GROUPS = COMPONENT_FEATURE_COUNT + 2;
+	int EQUIPMENT__EQUIPMENT_GROUPS = COMPONENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Equipment Relationship Refs</b></em>' reference list.
@@ -532,7 +559,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__EQUIPMENT_RELATIONSHIP_REFS = COMPONENT_FEATURE_COUNT + 3;
+	int EQUIPMENT__EQUIPMENT_RELATIONSHIP_REFS = COMPONENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>All Equipments</b></em>' reference list.
@@ -541,7 +568,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__ALL_EQUIPMENTS = COMPONENT_FEATURE_COUNT + 4;
+	int EQUIPMENT__ALL_EQUIPMENTS = COMPONENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Count</b></em>' attribute.
@@ -550,16 +577,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__COUNT = COMPONENT_FEATURE_COUNT + 5;
-
-	/**
-	 * The feature id for the '<em><b>Duration</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EQUIPMENT__DURATION = COMPONENT_FEATURE_COUNT + 6;
+	int EQUIPMENT__COUNT = COMPONENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Equipment Code</b></em>' attribute.
@@ -568,7 +586,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__EQUIPMENT_CODE = COMPONENT_FEATURE_COUNT + 7;
+	int EQUIPMENT__EQUIPMENT_CODE = COMPONENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' attribute.
@@ -577,7 +595,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__POSITION = COMPONENT_FEATURE_COUNT + 8;
+	int EQUIPMENT__POSITION = COMPONENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Redundancy</b></em>' attribute.
@@ -586,7 +604,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__REDUNDANCY = COMPONENT_FEATURE_COUNT + 9;
+	int EQUIPMENT__REDUNDANCY = COMPONENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>State</b></em>' attribute.
@@ -595,7 +613,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT__STATE = COMPONENT_FEATURE_COUNT + 10;
+	int EQUIPMENT__STATE = COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Equipment</em>' class.
@@ -604,7 +622,7 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EQUIPMENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 11;
+	int EQUIPMENT_FEATURE_COUNT = COMPONENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.library.impl.EquipmentGroupImpl <em>Equipment Group</em>}' class.
@@ -863,6 +881,15 @@ public interface LibraryPackage extends EPackage {
 	int FUNCTION__DELETED = COMPONENT__DELETED;
 
 	/**
+	 * The feature id for the '<em><b>Lifecycle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTION__LIFECYCLE = COMPONENT__LIFECYCLE;
+
+	/**
 	 * The feature id for the '<em><b>Resource Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -960,6 +987,15 @@ public interface LibraryPackage extends EPackage {
 	 * @ordered
 	 */
 	int FUNCTION__DESCRIPTION = COMPONENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTION__DURATION = COMPONENT__DURATION;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1949,6 +1985,17 @@ public interface LibraryPackage extends EPackage {
 	EClass getComponent();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.library.Component#getLifecycle <em>Lifecycle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Lifecycle</em>'.
+	 * @see com.netxforge.netxstudio.library.Component#getLifecycle()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EReference getComponent_Lifecycle();
+
+	/**
 	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.library.Component#getResourceRefs <em>Resource Refs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2070,6 +2117,17 @@ public interface LibraryPackage extends EPackage {
 	EAttribute getComponent_Description();
 
 	/**
+	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Component#getDuration <em>Duration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Duration</em>'.
+	 * @see com.netxforge.netxstudio.library.Component#getDuration()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_Duration();
+
+	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Component#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2089,17 +2147,6 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getEquipment();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.library.Equipment#getLifecycle <em>Lifecycle</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Lifecycle</em>'.
-	 * @see com.netxforge.netxstudio.library.Equipment#getLifecycle()
-	 * @see #getEquipment()
-	 * @generated
-	 */
-	EReference getEquipment_Lifecycle();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.library.Equipment#getEquipments <em>Equipments</em>}'.
@@ -2155,17 +2202,6 @@ public interface LibraryPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getEquipment_Count();
-
-	/**
-	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Equipment#getDuration <em>Duration</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Duration</em>'.
-	 * @see com.netxforge.netxstudio.library.Equipment#getDuration()
-	 * @see #getEquipment()
-	 * @generated
-	 */
-	EAttribute getEquipment_Duration();
 
 	/**
 	 * Returns the meta object for the attribute '{@link com.netxforge.netxstudio.library.Equipment#getEquipmentCode <em>Equipment Code</em>}'.
@@ -3278,6 +3314,14 @@ public interface LibraryPackage extends EPackage {
 		EClass COMPONENT = eINSTANCE.getComponent();
 
 		/**
+		 * The meta object literal for the '<em><b>Lifecycle</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT__LIFECYCLE = eINSTANCE.getComponent_Lifecycle();
+
+		/**
 		 * The meta object literal for the '<em><b>Resource Refs</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3366,6 +3410,14 @@ public interface LibraryPackage extends EPackage {
 		EAttribute COMPONENT__DESCRIPTION = eINSTANCE.getComponent_Description();
 
 		/**
+		 * The meta object literal for the '<em><b>Duration</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__DURATION = eINSTANCE.getComponent_Duration();
+
+		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3382,14 +3434,6 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EClass EQUIPMENT = eINSTANCE.getEquipment();
-
-		/**
-		 * The meta object literal for the '<em><b>Lifecycle</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EQUIPMENT__LIFECYCLE = eINSTANCE.getEquipment_Lifecycle();
 
 		/**
 		 * The meta object literal for the '<em><b>Equipments</b></em>' containment reference list feature.
@@ -3430,14 +3474,6 @@ public interface LibraryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EQUIPMENT__COUNT = eINSTANCE.getEquipment_Count();
-
-		/**
-		 * The meta object literal for the '<em><b>Duration</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EQUIPMENT__DURATION = eINSTANCE.getEquipment_Duration();
 
 		/**
 		 * The meta object literal for the '<em><b>Equipment Code</b></em>' attribute feature.

@@ -46,6 +46,7 @@ import com.netxforge.netxstudio.generics.GenericsFactory;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.GenericsPackage.Literals;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -156,6 +157,8 @@ public class UsersAndRoles extends AbstractScreen implements
 
 		tableViewer = new TableViewer(frmUsersAndRoles.getBody(), SWT.BORDER
 				| SWT.FULL_SELECTION);
+		tableViewer.setComparer(new CDOElementComparer());
+		
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);

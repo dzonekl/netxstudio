@@ -49,6 +49,7 @@ import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NetXResource;
 import com.netxforge.netxstudio.metrics.MetricValueRange;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.ResourceMonitorScreen;
@@ -139,8 +140,11 @@ public abstract class AbstractResources extends AbstractScreen implements IDataS
 		// mghprlnkNew.setText("New");
 
 		resourcesTableViewer = new TableViewer(frmResources.getBody(),
-				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+				SWT.VIRTUAL | SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 		table = resourcesTableViewer.getTable();
+		resourcesTableViewer.setUseHashlookup(true);
+		resourcesTableViewer.setComparer(new CDOElementComparer());
+		
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));

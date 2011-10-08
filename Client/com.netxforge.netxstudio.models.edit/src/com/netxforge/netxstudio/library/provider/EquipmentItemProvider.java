@@ -71,7 +71,6 @@ public class EquipmentItemProvider extends ComponentItemProvider implements
 			addEquipmentRelationshipRefsPropertyDescriptor(object);
 			addAllEquipmentsPropertyDescriptor(object);
 			addCountPropertyDescriptor(object);
-			addDurationPropertyDescriptor(object);
 			addEquipmentCodePropertyDescriptor(object);
 			addPositionPropertyDescriptor(object);
 			addRedundancyPropertyDescriptor(object);
@@ -141,28 +140,6 @@ public class EquipmentItemProvider extends ComponentItemProvider implements
 				 false,
 				 false,
 				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Duration feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	protected void addDurationPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Equipment_duration_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Equipment_duration_feature", "_UI_Equipment_type"),
-				 LibraryPackage.Literals.EQUIPMENT__DURATION,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -267,7 +244,6 @@ public class EquipmentItemProvider extends ComponentItemProvider implements
 			Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(LibraryPackage.Literals.EQUIPMENT__LIFECYCLE);
 			childrenFeatures.add(LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS);
 			childrenFeatures.add(LibraryPackage.Literals.EQUIPMENT__EQUIPMENT_GROUPS);
 		}
@@ -323,14 +299,12 @@ public class EquipmentItemProvider extends ComponentItemProvider implements
 
 		switch (notification.getFeatureID(Equipment.class)) {
 			case LibraryPackage.EQUIPMENT__COUNT:
-			case LibraryPackage.EQUIPMENT__DURATION:
 			case LibraryPackage.EQUIPMENT__EQUIPMENT_CODE:
 			case LibraryPackage.EQUIPMENT__POSITION:
 			case LibraryPackage.EQUIPMENT__REDUNDANCY:
 			case LibraryPackage.EQUIPMENT__STATE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case LibraryPackage.EQUIPMENT__LIFECYCLE:
 			case LibraryPackage.EQUIPMENT__EQUIPMENTS:
 			case LibraryPackage.EQUIPMENT__EQUIPMENT_GROUPS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));

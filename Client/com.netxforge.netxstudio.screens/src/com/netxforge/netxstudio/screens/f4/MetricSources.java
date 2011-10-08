@@ -58,6 +58,7 @@ import com.netxforge.netxstudio.scheduling.MetricSourceJob;
 import com.netxforge.netxstudio.scheduling.SchedulingFactory;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.actions.SeparatorAction;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
@@ -348,6 +349,8 @@ public class MetricSources extends AbstractScreen implements
 
 		metricSourceTableViewer = new TableViewer(frmMetricSources.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		metricSourceTableViewer.setComparer(new CDOElementComparer());
+		
 		table = metricSourceTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);

@@ -21,6 +21,7 @@ package com.netxforge.netxstudio.services.impl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
+import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.services.CIID;
 import com.netxforge.netxstudio.services.Service;
@@ -39,6 +40,7 @@ import com.netxforge.netxstudio.services.ServicesPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceImpl#getCIID <em>CIID</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceImpl#getLifecycle <em>Lifecycle</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceImpl#getServices <em>Services</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceImpl#getServiceForecasts <em>Service Forecasts</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.services.impl.ServiceImpl#getServiceMonitors <em>Service Monitors</em>}</li>
@@ -81,6 +83,24 @@ public class ServiceImpl extends BaseImpl implements Service {
 	@SuppressWarnings("unchecked")
 	public EList<CIID> getCIID() {
 		return (EList<CIID>)eGet(ServicesPackage.Literals.SERVICE__CIID, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Lifecycle getLifecycle() {
+		return (Lifecycle)eGet(ServicesPackage.Literals.SERVICE__LIFECYCLE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLifecycle(Lifecycle newLifecycle) {
+		eSet(ServicesPackage.Literals.SERVICE__LIFECYCLE, newLifecycle);
 	}
 
 	/**

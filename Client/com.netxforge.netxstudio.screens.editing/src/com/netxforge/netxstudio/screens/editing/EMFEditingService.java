@@ -32,7 +32,6 @@ import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
@@ -170,16 +169,19 @@ public abstract class EMFEditingService implements IEditingService {
 							// Save a copy of the objects of certain resources.
 
 						} catch (Exception exception) {
-							exception.printStackTrace();
+//							exception.printStackTrace();
 
 							// Various reasons why save would fail...
 							// At least warn the user. 
 							// The DIRTY objects will still appear in the UI, so the editing
 							// should be undone, or DIRTY objects rolled back. 
-							MessageDialog.openError(Display.getDefault()
-									.getActiveShell(), "Error saving",
-									exception.getMessage());
-
+							
+							
+//							MessageDialog.openError(Display.getDefault()
+//									.getActiveShell(), "Error saving",
+//									exception.getMessage());
+							
+							
 							// TODO, give user feedback, and undo of domain.
 							// Command cmd;
 							// while( ( cmd =
@@ -219,7 +221,8 @@ public abstract class EMFEditingService implements IEditingService {
 			((BasicCommandStack) getEditingDomain().getCommandStack())
 					.saveIsDone();
 		} catch (Exception exception) {
-			exception.printStackTrace();
+//			exception.printStackTrace();
+			// Hide here will be caught higher up. 
 		}
 	}
 

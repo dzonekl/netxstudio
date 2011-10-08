@@ -85,6 +85,7 @@ public class ComponentItemProvider
 			addParameterRefsPropertyDescriptor(object);
 			addAllResourcesPropertyDescriptor(object);
 			addDescriptionPropertyDescriptor(object);
+			addDurationPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -289,6 +290,28 @@ public class ComponentItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Duration feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDurationPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Component_duration_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Component_duration_feature", "_UI_Component_type"),
+				 LibraryPackage.Literals.COMPONENT__DURATION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This adds a property descriptor for the Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -322,6 +345,7 @@ public class ComponentItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
+			childrenFeatures.add(LibraryPackage.Literals.COMPONENT__LIFECYCLE);
 			childrenFeatures.add(LibraryPackage.Literals.COMPONENT__DIAGRAMS);
 			childrenFeatures.add(LibraryPackage.Literals.COMPONENT__ICONS);
 		}
@@ -379,9 +403,11 @@ public class ComponentItemProvider
 
 		switch (notification.getFeatureID(Component.class)) {
 			case LibraryPackage.COMPONENT__DESCRIPTION:
+			case LibraryPackage.COMPONENT__DURATION:
 			case LibraryPackage.COMPONENT__NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
+			case LibraryPackage.COMPONENT__LIFECYCLE:
 			case LibraryPackage.COMPONENT__DIAGRAMS:
 			case LibraryPackage.COMPONENT__ICONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));

@@ -162,13 +162,22 @@ public interface ServicesPackage extends EPackage {
 	int SERVICE__CIID = GenericsPackage.BASE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Lifecycle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVICE__LIFECYCLE = GenericsPackage.BASE_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Services</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICES = GenericsPackage.BASE_FEATURE_COUNT + 1;
+	int SERVICE__SERVICES = GenericsPackage.BASE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Service Forecasts</b></em>' containment reference list.
@@ -177,7 +186,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_FORECASTS = GenericsPackage.BASE_FEATURE_COUNT + 2;
+	int SERVICE__SERVICE_FORECASTS = GenericsPackage.BASE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Service Monitors</b></em>' containment reference list.
@@ -186,7 +195,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_MONITORS = GenericsPackage.BASE_FEATURE_COUNT + 3;
+	int SERVICE__SERVICE_MONITORS = GenericsPackage.BASE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Service User Refs</b></em>' reference list.
@@ -195,7 +204,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_USER_REFS = GenericsPackage.BASE_FEATURE_COUNT + 4;
+	int SERVICE__SERVICE_USER_REFS = GenericsPackage.BASE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Service Distribution</b></em>' containment reference.
@@ -204,7 +213,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_DISTRIBUTION = GenericsPackage.BASE_FEATURE_COUNT + 5;
+	int SERVICE__SERVICE_DISTRIBUTION = GenericsPackage.BASE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Service Category</b></em>' attribute.
@@ -213,7 +222,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_CATEGORY = GenericsPackage.BASE_FEATURE_COUNT + 6;
+	int SERVICE__SERVICE_CATEGORY = GenericsPackage.BASE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Service Class</b></em>' attribute.
@@ -222,7 +231,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_CLASS = GenericsPackage.BASE_FEATURE_COUNT + 7;
+	int SERVICE__SERVICE_CLASS = GenericsPackage.BASE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Service Description</b></em>' attribute.
@@ -231,7 +240,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 8;
+	int SERVICE__SERVICE_DESCRIPTION = GenericsPackage.BASE_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Service Name</b></em>' attribute.
@@ -240,7 +249,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE__SERVICE_NAME = GenericsPackage.BASE_FEATURE_COUNT + 9;
+	int SERVICE__SERVICE_NAME = GenericsPackage.BASE_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Service</em>' class.
@@ -249,7 +258,7 @@ public interface ServicesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SERVICE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 10;
+	int SERVICE_FEATURE_COUNT = GenericsPackage.BASE_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '{@link com.netxforge.netxstudio.services.impl.CFSServiceImpl <em>CFS Service</em>}' class.
@@ -278,6 +287,15 @@ public interface ServicesPackage extends EPackage {
 	 * @ordered
 	 */
 	int CFS_SERVICE__CIID = SERVICE__CIID;
+
+	/**
+	 * The feature id for the '<em><b>Lifecycle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CFS_SERVICE__LIFECYCLE = SERVICE__LIFECYCLE;
 
 	/**
 	 * The feature id for the '<em><b>Services</b></em>' containment reference list.
@@ -624,6 +642,15 @@ public interface ServicesPackage extends EPackage {
 	 * @ordered
 	 */
 	int RFS_SERVICE__CIID = SERVICE__CIID;
+
+	/**
+	 * The feature id for the '<em><b>Lifecycle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RFS_SERVICE__LIFECYCLE = SERVICE__LIFECYCLE;
 
 	/**
 	 * The feature id for the '<em><b>Services</b></em>' containment reference list.
@@ -1337,6 +1364,17 @@ public interface ServicesPackage extends EPackage {
 	EReference getService_CIID();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link com.netxforge.netxstudio.services.Service#getLifecycle <em>Lifecycle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Lifecycle</em>'.
+	 * @see com.netxforge.netxstudio.services.Service#getLifecycle()
+	 * @see #getService()
+	 * @generated
+	 */
+	EReference getService_Lifecycle();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link com.netxforge.netxstudio.services.Service#getServices <em>Services</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1941,6 +1979,14 @@ public interface ServicesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SERVICE__CIID = eINSTANCE.getService_CIID();
+
+		/**
+		 * The meta object literal for the '<em><b>Lifecycle</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVICE__LIFECYCLE = eINSTANCE.getService_Lifecycle();
 
 		/**
 		 * The meta object literal for the '<em><b>Services</b></em>' containment reference list feature.

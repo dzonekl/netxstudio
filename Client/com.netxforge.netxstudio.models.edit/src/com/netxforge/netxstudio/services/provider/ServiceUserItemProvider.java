@@ -202,7 +202,7 @@ public class ServiceUserItemProvider
 		String label = ((ServiceUser)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ServiceUser_type") :
-			getString("_UI_ServiceUser_type") + " " + "\"" + label + "\"";
+			getString("_UI_ServiceUser_type") + " " + label;
 	}
 
 	/**

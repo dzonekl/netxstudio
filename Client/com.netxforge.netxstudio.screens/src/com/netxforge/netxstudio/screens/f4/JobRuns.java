@@ -75,6 +75,7 @@ import com.netxforge.netxstudio.scheduling.JobRunContainer;
 import com.netxforge.netxstudio.scheduling.SchedulingPackage;
 import com.netxforge.netxstudio.scheduling.WorkFlowRun;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 import com.netxforge.netxstudio.screens.f4.support.LogDialog;
@@ -132,6 +133,7 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 
 		jobRunsTableViewer = new TableViewer(composite_1, SWT.BORDER
 				| SWT.FULL_SELECTION);
+		jobRunsTableViewer.setComparer(new CDOElementComparer());
 		Table table = jobRunsTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -235,39 +237,37 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 				IStructuredSelection ss = (IStructuredSelection) selection;
 				Object o = ss.getFirstElement();
 				if (o instanceof ComponentWorkFlowRun) {
-					
+
 					JobFailures jf = new JobFailures(JobRuns.this.getShell());
 					jf.setBlockOnOpen(true);
 					int result = jf.open(o);
-					if(result == Window.OK){
-						
-						
+					if (result == Window.OK) {
+
 					}
-					
-					
-//					ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
-//					List<Failure> failures = wfRun.getFailureRefs();
-//					int failurecount = 0;
-//					for (Failure f : failures) {
-//						failurecount++;
-//						if (f instanceof ExpressionFailure) {
-//							// TODO, show in some sort of dialog with links to
-//							// expressions.
-//							ExpressionFailure ef = (ExpressionFailure) f;
-//							System.out.println(failurecount
-//									+ ": Expression failed: "
-//									+ ef.getExpressionRef().getName());
-//							System.out.println("Msg: " + f.getMessage());
-//						}
-//
-//						if (f instanceof ComponentFailure) {
-//							System.out.println("Component: "
-//									+ ((ComponentFailure) f).getComponentRef()
-//											.getName());
-//
-//						}
-//
-//					}
+
+					// ComponentWorkFlowRun wfRun = (ComponentWorkFlowRun) o;
+					// List<Failure> failures = wfRun.getFailureRefs();
+					// int failurecount = 0;
+					// for (Failure f : failures) {
+					// failurecount++;
+					// if (f instanceof ExpressionFailure) {
+					// // TODO, show in some sort of dialog with links to
+					// // expressions.
+					// ExpressionFailure ef = (ExpressionFailure) f;
+					// System.out.println(failurecount
+					// + ": Expression failed: "
+					// + ef.getExpressionRef().getName());
+					// System.out.println("Msg: " + f.getMessage());
+					// }
+					//
+					// if (f instanceof ComponentFailure) {
+					// System.out.println("Component: "
+					// + ((ComponentFailure) f).getComponentRef()
+					// .getName());
+					//
+					// }
+					//
+					// }
 				}
 			}
 		}

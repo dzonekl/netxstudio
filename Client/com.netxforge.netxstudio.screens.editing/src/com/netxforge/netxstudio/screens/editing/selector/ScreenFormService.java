@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Stack;
 
 import org.eclipse.core.databinding.ObservablesManager;
-import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
@@ -344,7 +343,7 @@ public class ScreenFormService implements IScreenFormService {
 
 	public void activateInObservable(Runnable rn) {
 		if (obm == null) {
-			obm = new ObservablesManager();
+			obm = new ObservablesManager("screenformservice");
 		}
 		obm.runAndCollect(rn);
 	}
@@ -372,7 +371,7 @@ public class ScreenFormService implements IScreenFormService {
 		// Now unload the data.
 		editingService.disposeData();
 
-		obm = new ObservablesManager();
+		obm = new ObservablesManager("screenformservice");
 		obm.runAndCollect(new Runnable() {
 			public void run() {
 				// We are a new screen, instantiate and set active.
@@ -451,24 +450,24 @@ public class ScreenFormService implements IScreenFormService {
 		// but it's better to dispose the complete list and restart.
 		while (!screenStack.empty()) {
 			Composite c = screenStack.pop();
-			try {
+//			try {
 				System.out.println("About to dispose : "
 						+ c.getClass().getSimpleName());
 
 				c.dispose();
-			} catch (Exception e) {
-				if (e instanceof IllegalStateException) {
-					System.out.println("observable exception" + e.getMessage());
-					// widget is disposed, but not properly unset from the
-					// parent.
-					c.setParent(null);
-				}
-				if (e instanceof AssertionFailedException) {
-					System.out.println("observable exception" + e.getMessage());
-				} else {
-					e.printStackTrace();
-				}
-			}
+//			} catch (Exception e) {
+//				if (e instanceof IllegalStateException) {
+//					System.out.println("observable exception" + e.getMessage());
+//					// widget is disposed, but not properly unset from the
+//					// parent.
+//					c.setParent(null);
+//				}
+//				if (e instanceof AssertionFailedException) {
+//					System.out.println("observable exception" + e.getMessage());
+//				} else {
+//					e.printStackTrace();
+//				}
+//			}
 			// FIXME, disposing previous composite through a CDO exception.
 			// as observables are being updated when disposed and ask for model
 			// data.
@@ -478,26 +477,26 @@ public class ScreenFormService implements IScreenFormService {
 
 		Control c = screenBody.getScreenDeck().topControl;
 		if (c instanceof IScreen) {
-			try {
+//			try {
 				System.out.println("About to dispose : "
 						+ c.getClass().getSimpleName());
 				c.dispose();
-			} catch (Exception e) {
-				if (e instanceof IllegalStateException) {
-					System.out.println("observable exception: "
-							+ e.getMessage());
-					// widget is disposed, but not properly unset from the
-					// parent.
-					// c.setParent(null);
-				} else if (e instanceof AssertionFailedException) {
-					System.out.println("observable exception: "
-							+ e.getMessage());
-					e.printStackTrace();
-				} else {
-					e.printStackTrace();
-				}
-
-			}
+//			} catch (Exception e) {
+//				if (e instanceof IllegalStateException) {
+//					System.out.println("observable exception: "
+//							+ e.getMessage());
+//					// widget is disposed, but not properly unset from the
+//					// parent.
+//					// c.setParent(null);
+//				} else if (e instanceof AssertionFailedException) {
+//					System.out.println("observable exception: "
+//							+ e.getMessage());
+//					e.printStackTrace();
+//				} else {
+//					e.printStackTrace();
+//				}
+//
+//			}
 		}
 
 	}

@@ -51,6 +51,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.netxforge.netxstudio.generics.GenericsPackage;
 import com.netxforge.netxstudio.generics.Person;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.editing.selector.IDataScreenInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
 
@@ -106,6 +107,7 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 		
 		tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.VIRTUAL | SWT.FULL_SELECTION);
 		tableViewer.setUseHashlookup(true);
+		tableViewer.setComparer(new CDOElementComparer());
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);

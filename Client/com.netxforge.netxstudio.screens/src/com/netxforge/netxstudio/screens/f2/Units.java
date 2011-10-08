@@ -61,6 +61,7 @@ import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.Unit;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -231,8 +232,9 @@ public class Units extends AbstractScreen implements IDataServiceInjection {
 //		new Label(frmUnits.getBody(), SWT.NONE);
 
 		tableViewer = new TableViewer(frmUnits.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | SWT.VIRTUAL | widgetStyle);
+				| SWT.FULL_SELECTION | SWT.MULTI | SWT.VIRTUAL | widgetStyle);
 		tableViewer.setUseHashlookup(true);
+		tableViewer.setComparer(new CDOElementComparer());
 		
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);

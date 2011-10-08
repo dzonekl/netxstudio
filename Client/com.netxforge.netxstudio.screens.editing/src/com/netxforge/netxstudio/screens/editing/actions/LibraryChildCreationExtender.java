@@ -28,8 +28,11 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.common.model.ModelUtils;
+import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
+import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.LibraryFactory;
 import com.netxforge.netxstudio.library.LibraryPackage;
 import com.netxforge.netxstudio.library.NodeType;
@@ -61,27 +64,45 @@ public class LibraryChildCreationExtender extends
 		if (object instanceof EObject) {
 			EObject target = (EObject) object;
 
-			if (target instanceof Component || target instanceof NodeType ) {
+			if (target instanceof Component || target instanceof NodeType) {
 				Node node = modelUtils.resolveParentNode(target);
 				if (node != null && node.getOriginalNodeTypeRef() != null) {
 					NodeType ntRef = node.getOriginalNodeTypeRef();
 					if (target.eClass() == LibraryPackage.Literals.NODE_TYPE) {
-						// we are dealing with the root, for now do not allow to
-						// add
-						// directly from the NodeType object.
-						// TODO: We shall enforce a single child on the
-						// NodeType.
+						// Handled by the Node child creation has NodeType is
+						// not visible in the Design view.
 					} else if (target.eClass() == LibraryPackage.Literals.EQUIPMENT) {
 						Equipment targetEq = (Equipment) target;
-						newChildDescriptors = newEquimentDescriptorsForTargetNodeType(ntRef, targetEq);
+						newChildDescriptors = newEquimentDescriptorsForTargetNodeType(
+								ntRef, targetEq);
+					} else if (target.eClass() == LibraryPackage.Literals.FUNCTION) {
+						Function function = LibraryFactory.eINSTANCE.createFunction();
+						
+						Lifecycle newLC = GenericsFactory.eINSTANCE
+								.createLifecycle();
+						newLC.setProposed(modelUtils.toXMLDate(modelUtils
+								.todayAndNow()));
+						function.setLifecycle(newLC);
+						
+						newChildDescriptors.add(createChildParameter(
+								LibraryPackage.Literals.FUNCTION__FUNCTIONS,function
+								));
+					}
+				} else {
+					if (target instanceof Equipment) {
+						newChildDescriptors.add(createChildParameter(
+								LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
+								LibraryFactory.eINSTANCE.createEquipment()));
+
+					} else if (target instanceof Function) {
+						newChildDescriptors.add(createChildParameter(
+								LibraryPackage.Literals.FUNCTION__FUNCTIONS,
+								LibraryFactory.eINSTANCE.createFunction()));
 					}
 				}
 			} else {
 				System.out
 						.println("CreateChildExtender: no parent Node object found");
-				newChildDescriptors.add(createChildParameter(
-						LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
-						LibraryFactory.eINSTANCE.createEquipment()));
 			}
 		}
 
@@ -120,6 +141,13 @@ public class LibraryChildCreationExtender extends
 											LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,
 											LibraryPackage.Literals.COMPONENT__NAME);
 							eqCopy.setName(newSequenceNumber);
+
+							Lifecycle newLC = GenericsFactory.eINSTANCE
+									.createLifecycle();
+							newLC.setProposed(modelUtils.toXMLDate(modelUtils
+									.todayAndNow()));
+							eqCopy.setLifecycle(newLC);
+
 							newChildDescriptors
 									.add(createChildParameter(
 											LibraryPackage.Literals.EQUIPMENT__EQUIPMENTS,

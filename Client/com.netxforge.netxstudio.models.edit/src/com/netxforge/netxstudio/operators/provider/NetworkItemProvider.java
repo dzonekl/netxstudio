@@ -278,10 +278,12 @@ public class NetworkItemProvider
 //				(OperatorsPackage.Literals.NETWORK__DIAGRAMS,
 //				 GenericsFactory.eINSTANCE.createDiagramInfo()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(OperatorsPackage.Literals.NETWORK__NODES,
-				 OperatorsFactory.eINSTANCE.createNode()));
+		
+		// SPECIALIZED SEE OperatorChildCreationExtender. 
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(OperatorsPackage.Literals.NETWORK__NODES,
+//				 OperatorsFactory.eINSTANCE.createNode()));
 
 		newChildDescriptors.add
 			(createChildParameter

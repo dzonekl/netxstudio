@@ -66,6 +66,7 @@ import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Room;
 import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -207,6 +208,8 @@ public class RoomsTree extends AbstractScreen implements IDataServiceInjection {
 
 		roomsTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER | SWT.VIRTUAL);
 		roomsTreeViewer.setUseHashlookup(true);
+		roomsTreeViewer.setComparer(new CDOElementComparer());
+		
 		Tree tree = roomsTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);

@@ -22,6 +22,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.generics.DiagramInfo;
+import com.netxforge.netxstudio.generics.ExpansionDuration;
+import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.MultiImage;
 import com.netxforge.netxstudio.generics.impl.BaseImpl;
 import com.netxforge.netxstudio.library.Component;
@@ -40,6 +42,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getLifecycle <em>Lifecycle</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getResourceRefs <em>Resource Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getMetricRefs <em>Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
@@ -51,6 +54,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getDiagrams <em>Diagrams</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getIcons <em>Icons</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getDuration <em>Duration</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.impl.ComponentImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
@@ -75,6 +79,24 @@ public class ComponentImpl extends BaseImpl implements Component {
 	@Override
 	protected EClass eStaticClass() {
 		return LibraryPackage.Literals.COMPONENT;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Lifecycle getLifecycle() {
+		return (Lifecycle)eGet(LibraryPackage.Literals.COMPONENT__LIFECYCLE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLifecycle(Lifecycle newLifecycle) {
+		eSet(LibraryPackage.Literals.COMPONENT__LIFECYCLE, newLifecycle);
 	}
 
 	/**
@@ -217,6 +239,42 @@ public class ComponentImpl extends BaseImpl implements Component {
 	 */
 	public void setDescription(String newDescription) {
 		eSet(LibraryPackage.Literals.COMPONENT__DESCRIPTION, newDescription);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExpansionDuration getDuration() {
+		return (ExpansionDuration)eGet(LibraryPackage.Literals.COMPONENT__DURATION, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDuration(ExpansionDuration newDuration) {
+		eSet(LibraryPackage.Literals.COMPONENT__DURATION, newDuration);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetDuration() {
+		eUnset(LibraryPackage.Literals.COMPONENT__DURATION);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetDuration() {
+		return eIsSet(LibraryPackage.Literals.COMPONENT__DURATION);
 	}
 
 	/**

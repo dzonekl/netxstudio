@@ -20,8 +20,6 @@ package com.netxforge.netxstudio.library;
 
 import org.eclipse.emf.common.util.EList;
 
-import com.netxforge.netxstudio.generics.ExpansionDuration;
-import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.operators.EquipmentRelationship;
 
 /**
@@ -62,13 +60,11 @@ import com.netxforge.netxstudio.operators.EquipmentRelationship;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.library.Equipment#getLifecycle <em>Lifecycle</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getEquipments <em>Equipments</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getEquipmentGroups <em>Equipment Groups</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getEquipmentRelationshipRefs <em>Equipment Relationship Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getAllEquipments <em>All Equipments</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getCount <em>Count</em>}</li>
- *   <li>{@link com.netxforge.netxstudio.library.Equipment#getDuration <em>Duration</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getEquipmentCode <em>Equipment Code</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getPosition <em>Position</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Equipment#getRedundancy <em>Redundancy</em>}</li>
@@ -81,34 +77,6 @@ import com.netxforge.netxstudio.operators.EquipmentRelationship;
  * @generated
  */
 public interface Equipment extends Component {
-	/**
-	 * Returns the value of the '<em><b>Lifecycle</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The Lifecycle reference, contains 0 or 1
-	 * 								Lifecycle types.
-	 * 							
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Lifecycle</em>' containment reference.
-	 * @see #setLifecycle(Lifecycle)
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipment_Lifecycle()
-	 * @model containment="true"
-	 *        extendedMetaData="kind='element' name='Lifecycle'"
-	 * @generated
-	 */
-	Lifecycle getLifecycle();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Equipment#getLifecycle <em>Lifecycle</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Lifecycle</em>' containment reference.
-	 * @see #getLifecycle()
-	 * @generated
-	 */
-	void setLifecycle(Lifecycle value);
-
 	/**
 	 * Returns the value of the '<em><b>Equipments</b></em>' containment reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.Equipment}.
@@ -237,65 +205,6 @@ public interface Equipment extends Component {
 	 * @generated
 	 */
 	boolean isSetCount();
-
-	/**
-	 * Returns the value of the '<em><b>Duration</b></em>' attribute.
-	 * The literals are from the enumeration {@link com.netxforge.netxstudio.generics.ExpansionDuration}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The Duration attribute, holds the typical
-	 * 							duration
-	 * 							for the expansion of an Equipment.
-	 * 						
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Duration</em>' attribute.
-	 * @see com.netxforge.netxstudio.generics.ExpansionDuration
-	 * @see #isSetDuration()
-	 * @see #unsetDuration()
-	 * @see #setDuration(ExpansionDuration)
-	 * @see com.netxforge.netxstudio.library.LibraryPackage#getEquipment_Duration()
-	 * @model unsettable="true"
-	 *        extendedMetaData="kind='attribute' name='Duration'"
-	 * @generated
-	 */
-	ExpansionDuration getDuration();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Equipment#getDuration <em>Duration</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Duration</em>' attribute.
-	 * @see com.netxforge.netxstudio.generics.ExpansionDuration
-	 * @see #isSetDuration()
-	 * @see #unsetDuration()
-	 * @see #getDuration()
-	 * @generated
-	 */
-	void setDuration(ExpansionDuration value);
-
-	/**
-	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.Equipment#getDuration <em>Duration</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isSetDuration()
-	 * @see #getDuration()
-	 * @see #setDuration(ExpansionDuration)
-	 * @generated
-	 */
-	void unsetDuration();
-
-	/**
-	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.Equipment#getDuration <em>Duration</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Duration</em>' attribute is set.
-	 * @see #unsetDuration()
-	 * @see #getDuration()
-	 * @see #setDuration(ExpansionDuration)
-	 * @generated
-	 */
-	boolean isSetDuration();
 
 	/**
 	 * Returns the value of the '<em><b>Equipment Code</b></em>' attribute.

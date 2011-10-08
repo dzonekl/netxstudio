@@ -222,6 +222,7 @@
     </genClasses>
     <genClasses ecoreClass="services.ecore#//Service">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/cIID"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/lifecycle"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/services"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/serviceForecasts"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference services.ecore#//Service/serviceMonitors"/>
@@ -309,6 +310,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//BaseResource/unitRef"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Component">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Component/lifecycle"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/resourceRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/metricRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Component/capacityExpressionRef"/>
@@ -320,16 +322,15 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Component/diagrams"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Component/icons"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Component/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Component/duration"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Component/name"/>
     </genClasses>
     <genClasses ecoreClass="library.ecore#//Equipment">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/lifecycle"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipments"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentGroups"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/equipmentRelationshipRefs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Equipment/allEquipments"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/count"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/duration"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/equipmentCode"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/position"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Equipment/redundancy"/>

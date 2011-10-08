@@ -1,5 +1,6 @@
 package com.netxforge.netxstudio.screens.editing.actions;
 
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.CopyAction;
 import org.eclipse.emf.edit.ui.action.CutAction;
@@ -13,6 +14,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -22,7 +25,6 @@ import org.eclipse.ui.actions.ActionFactory;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.screens.editing.IEditingService;
 
-
 /**
  * Views and editors, can register actions on the global action handlers. This
  * helper, retargets actions to the global handlers. (This code is originally
@@ -31,7 +33,7 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
  * @author dzonekl
  * 
  */
-public class EditingActionsHandler implements  IActionHandler {
+public class EditingActionsHandler implements IActionHandler {
 
 	/**
 	 * This style bit indicates that the "additions" separator should come after
@@ -75,17 +77,25 @@ public class EditingActionsHandler implements  IActionHandler {
 	 */
 	protected RedoAction redoAction;
 
+	/**
+	 * This is the aciton bladibla...
+	 */
+	private SelectAllAction selectAllAction;
+
 	private IEditingService editingService;
 
-	
 	@Inject
 	public EditingActionsHandler(IEditingService editingService) {
 		this.style = ADDITIONS_LAST_STYLE;
 		this.editingService = editingService;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.actions.IActionHandler#initActions(org.eclipse.ui.IActionBars)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.actions.IActionHandler#initActions
+	 * (org.eclipse.ui.IActionBars)
 	 */
 	public void initActions(IActionBars actionBars) {
 
@@ -127,17 +137,27 @@ public class EditingActionsHandler implements  IActionHandler {
 		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(),
 				redoAction);
 
+		selectAllAction = createSelectAllAction();
+		actionBars.setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(),
+				selectAllAction);
+
+	}
+
+	private SelectAllAction createSelectAllAction() {
+		return new SelectAllAction();
 	}
 
 	/**
 	 * Returns the action used to implement delete.
-	 * @param editingServices 
+	 * 
+	 * @param editingServices
 	 * 
 	 * @see #deleteAction
 	 * @since 2.6
 	 */
 	protected WarningDeleteAction createDeleteAction() {
-		return new WarningDeleteAction(removeAllReferencesOnDelete(), editingService);
+		return new WarningDeleteAction(removeAllReferencesOnDelete(),
+				editingService);
 	}
 
 	/**
@@ -196,8 +216,11 @@ public class EditingActionsHandler implements  IActionHandler {
 
 	protected IWorkbenchPart activePart;
 
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.actions.IActionHandler#setActiveEditor(org.eclipse.ui.IWorkbenchPart)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.netxforge.netxstudio.screens.editing.actions.IActionHandler#
+	 * setActiveEditor(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void setActivePart(IWorkbenchPart part) {
 		if (part != activePart) {
@@ -262,6 +285,15 @@ public class EditingActionsHandler implements  IActionHandler {
 			undoAction.update();
 			redoAction.update();
 		}
+
+		if (part instanceof IViewerProvider) {
+			Viewer v = ((IViewerProvider) part).getViewer();
+			if (v != null) {
+				assert v instanceof StructuredViewer;
+				selectAllAction.updateViewer((StructuredViewer) v);
+			}
+		}
+
 	}
 
 	public void deactivate() {
@@ -290,24 +322,26 @@ public class EditingActionsHandler implements  IActionHandler {
 	public void propertyChanged(Object source, int propId) {
 		update((IWorkbenchPart) source);
 	}
-	
-	
-	/* (non-Javadoc)
-	 * @see com.netxforge.netxstudio.screens.editing.actions.IActionHandler#showMenu(org.eclipse.jface.action.IMenuManager)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.netxforge.netxstudio.screens.editing.actions.IActionHandler#showMenu
+	 * (org.eclipse.jface.action.IMenuManager)
 	 */
 	public void showMenu(ActionHandlerDescriptor descriptor) {
 		IMenuManager menuManager = descriptor.getMenuManager();
 		enableMarkers(menuManager);
-		
-		if(descriptor.enableEditActions){
-			enableEditingActions(menuManager);	
+
+		if (descriptor.enableEditActions) {
+			enableEditingActions(menuManager);
 		}
-		
+
 		menuManager.add(new Separator("additions-end"));
 	}
 
-
-	private void enableMarkers(IMenuManager menuManager){
+	private void enableMarkers(IMenuManager menuManager) {
 		// Add our standard marker.
 		if ((style & ADDITIONS_LAST_STYLE) == 0) {
 			menuManager.add(new Separator("additions"));
@@ -318,8 +352,7 @@ public class EditingActionsHandler implements  IActionHandler {
 		// Add our other standard marker.
 	}
 
-	
-	private void enableEditingActions(IMenuManager menuManager){
+	private void enableEditingActions(IMenuManager menuManager) {
 		// Add the edit menu actions.
 		//
 		menuManager.add(new ActionContributionItem(undoAction));
@@ -336,8 +369,7 @@ public class EditingActionsHandler implements  IActionHandler {
 			menuManager.add(new Separator("additions"));
 			menuManager.add(new Separator());
 		}
-		
-		
+
 	}
-	
+
 }

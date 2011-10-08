@@ -362,6 +362,14 @@
 							</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="Lifecycle" type="gen:Lifecycle"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>The Lifecycle reference, contains 0 or 1
+								Lifecycle types.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element name="Services" type="Service" minOccurs="0"
 						maxOccurs="unbounded">
 						<xs:annotation>

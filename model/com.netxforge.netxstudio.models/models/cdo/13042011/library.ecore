@@ -93,6 +93,16 @@
       <details key="name" value="Component"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lifecycle" eType="ecore:EClass generics.ecore#//Lifecycle"
+        containment="true" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The Lifecycle reference, contains 0 or 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Lifecycle types.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Lifecycle"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="resourceRefs" upperBound="-1"
         eType="#//NetXResource" eOpposite="#//NetXResource/componentRef">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -205,6 +215,16 @@
         <details key="name" value="Description"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EEnum generics.ecore#//ExpansionDuration"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The Duration attribute, holds the typical&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;duration&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for the expansion of an Equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="Duration"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType generics.ecore#//Name255">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The EquipmentName attribute holds the name of&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;equipment when the equipment is configured in a Node type.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -223,16 +243,6 @@
       <details key="name" value="Equipment"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="lifecycle" eType="ecore:EClass generics.ecore#//Lifecycle"
-        containment="true" resolveProxies="false">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Lifecycle reference, contains 0 or 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Lifecycle types.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="element"/>
-        <details key="name" value="Lifecycle"/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="equipments" upperBound="-1"
         eType="#//Equipment" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -287,16 +297,6 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="Count"/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EEnum generics.ecore#//ExpansionDuration"
-        unsettable="true">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The Duration attribute, holds the typical&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;duration&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;for the expansion of an Equipment.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
-      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
-        <details key="kind" value="attribute"/>
-        <details key="name" value="Duration"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="equipmentCode" eType="ecore:EDataType generics.ecore#//Name255">

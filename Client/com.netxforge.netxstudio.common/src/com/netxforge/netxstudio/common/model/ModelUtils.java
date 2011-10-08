@@ -44,6 +44,8 @@ import com.google.inject.Inject;
 import com.netxforge.netxstudio.ServerSettings;
 import com.netxforge.netxstudio.generics.DateTimeRange;
 import com.netxforge.netxstudio.generics.GenericsFactory;
+import com.netxforge.netxstudio.generics.GenericsPackage;
+import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.Value;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
@@ -104,7 +106,9 @@ public class ModelUtils {
 
 	// Note! For months, we better use a calendar function.
 	public static final int MINUTES_IN_A_MONTH = MINUTES_IN_A_DAY * 30;
-
+	
+	
+	
 	/**
 	 * Compare two dates.
 	 */
@@ -143,8 +147,8 @@ public class ModelUtils {
 
 		if (serverSettingsResource != null
 				&& serverSettingsResource.getContents().size() == 1) {
-			ServerSettings settings = (ServerSettings) serverSettingsResource.getContents().get(
-					0);
+			ServerSettings settings = (ServerSettings) serverSettingsResource
+					.getContents().get(0);
 			return settings;
 		}
 
@@ -529,6 +533,45 @@ public class ModelUtils {
 		int size = service.getServiceMonitors().size();
 		ServiceMonitor sm = service.getServiceMonitors().get(size - 1);
 		return sm;
+	}
+
+	/**
+	 * Business Rule:
+	 * 
+	 * A Lifecycle is valid when the Lifecycle sequence are in chronological
+	 * order.
+	 * 
+	 * @param lf
+	 * @return
+	 */
+	public boolean lifeCycleValid(Lifecycle lf) {
+
+		long proposed = lf.getProposed().toGregorianCalendar()
+				.getTimeInMillis();
+		long planned = lf.getPlannedDate().toGregorianCalendar()
+				.getTimeInMillis();
+		long construction = lf.getConstructionDate().toGregorianCalendar()
+				.getTimeInMillis();
+		long inService = lf.getInServiceDate().toGregorianCalendar()
+				.getTimeInMillis();
+		long outOfService = lf.getOutOfServiceDate().toGregorianCalendar()
+				.getTimeInMillis();
+
+		boolean proposed_planned = lf
+				.eIsSet(GenericsPackage.Literals.LIFECYCLE__PLANNED_DATE) ? proposed <= planned
+				: true;
+		boolean planned_construction = lf
+				.eIsSet(GenericsPackage.Literals.LIFECYCLE__CONSTRUCTION_DATE) ? planned <= construction
+				: true;
+		boolean construcion_inService = lf
+				.eIsSet(GenericsPackage.Literals.LIFECYCLE__IN_SERVICE_DATE) ? construction <= inService
+				: true;
+		boolean inService_outOfService = lf
+				.eIsSet(GenericsPackage.Literals.LIFECYCLE__OUT_OF_SERVICE_DATE) ? inService <= outOfService
+				: true;
+
+		return proposed_planned && planned_construction
+				&& construcion_inService && inService_outOfService;
 	}
 
 	// public class HasNodeType implements Predicate<NodeType> {
@@ -1670,14 +1713,13 @@ public class ModelUtils {
 		cal.add(Calendar.DAY_OF_MONTH, -4);
 		return cal.getTime();
 	}
-	
-	
-	public Date daysAgo(int days){
+
+	public Date daysAgo(int days) {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(System.currentTimeMillis()));
 		cal.add(Calendar.DAY_OF_YEAR, days);
 		return cal.getTime();
-		
+
 	}
 
 	public Date oneWeekAgo() {
@@ -1989,30 +2031,28 @@ public class ModelUtils {
 
 	public List<NodeType> allNodeTypes(Resource operatorsResource) {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
-		for( EObject eo : operatorsResource.getContents()){
-			if(eo instanceof Operator){
+		for (EObject eo : operatorsResource.getContents()) {
+			if (eo instanceof Operator) {
 				Operator op = (Operator) eo;
-				for(Service service : op.getServices()){
+				for (Service service : op.getServices()) {
 					nodeTypes.addAll(nodesForService(service));
 				}
 			}
 		}
 		return nodeTypes;
 	}
-	
-	public List<NodeType> nodesForService(Service service){
+
+	public List<NodeType> nodesForService(Service service) {
 		final List<NodeType> nodeTypes = new ArrayList<NodeType>();
-		if(service instanceof RFSService){
-			for( Node n : ((RFSService) service).getNodes()){
+		if (service instanceof RFSService) {
+			for (Node n : ((RFSService) service).getNodes()) {
 				nodeTypes.add(n.getNodeType());
 			}
-			for(Service subService : service.getServices()){
+			for (Service subService : service.getServices()) {
 				nodeTypes.addAll(nodesForService(subService));
 			}
 		}
 		return nodeTypes;
 	}
-	
-	
 
 }

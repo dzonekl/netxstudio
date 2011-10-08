@@ -22,6 +22,8 @@ import org.eclipse.emf.common.util.EList;
 
 import com.netxforge.netxstudio.generics.Base;
 import com.netxforge.netxstudio.generics.DiagramInfo;
+import com.netxforge.netxstudio.generics.ExpansionDuration;
+import com.netxforge.netxstudio.generics.Lifecycle;
 import com.netxforge.netxstudio.generics.MultiImage;
 import com.netxforge.netxstudio.metrics.Metric;
 import com.netxforge.netxstudio.protocols.Protocol;
@@ -39,6 +41,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link com.netxforge.netxstudio.library.Component#getLifecycle <em>Lifecycle</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getResourceRefs <em>Resource Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getMetricRefs <em>Metric Refs</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getCapacityExpressionRef <em>Capacity Expression Ref</em>}</li>
@@ -50,6 +53,7 @@ import com.netxforge.netxstudio.protocols.Protocol;
  *   <li>{@link com.netxforge.netxstudio.library.Component#getDiagrams <em>Diagrams</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getIcons <em>Icons</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getDescription <em>Description</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.library.Component#getDuration <em>Duration</em>}</li>
  *   <li>{@link com.netxforge.netxstudio.library.Component#getName <em>Name</em>}</li>
  * </ul>
  * </p>
@@ -59,6 +63,34 @@ import com.netxforge.netxstudio.protocols.Protocol;
  * @generated
  */
 public interface Component extends Base {
+	/**
+	 * Returns the value of the '<em><b>Lifecycle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The Lifecycle reference, contains 0 or 1
+	 * 								Lifecycle types.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Lifecycle</em>' containment reference.
+	 * @see #setLifecycle(Lifecycle)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getComponent_Lifecycle()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='Lifecycle'"
+	 * @generated
+	 */
+	Lifecycle getLifecycle();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Component#getLifecycle <em>Lifecycle</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Lifecycle</em>' containment reference.
+	 * @see #getLifecycle()
+	 * @generated
+	 */
+	void setLifecycle(Lifecycle value);
+
 	/**
 	 * Returns the value of the '<em><b>Resource Refs</b></em>' reference list.
 	 * The list contents are of type {@link com.netxforge.netxstudio.library.NetXResource}.
@@ -296,6 +328,65 @@ public interface Component extends Base {
 	 * @generated
 	 */
 	void setDescription(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Duration</b></em>' attribute.
+	 * The literals are from the enumeration {@link com.netxforge.netxstudio.generics.ExpansionDuration}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The Duration attribute, holds the typical
+	 * 							duration
+	 * 							for the expansion of an Equipment.
+	 * 						
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Duration</em>' attribute.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDuration
+	 * @see #isSetDuration()
+	 * @see #unsetDuration()
+	 * @see #setDuration(ExpansionDuration)
+	 * @see com.netxforge.netxstudio.library.LibraryPackage#getComponent_Duration()
+	 * @model unsettable="true"
+	 *        extendedMetaData="kind='attribute' name='Duration'"
+	 * @generated
+	 */
+	ExpansionDuration getDuration();
+
+	/**
+	 * Sets the value of the '{@link com.netxforge.netxstudio.library.Component#getDuration <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Duration</em>' attribute.
+	 * @see com.netxforge.netxstudio.generics.ExpansionDuration
+	 * @see #isSetDuration()
+	 * @see #unsetDuration()
+	 * @see #getDuration()
+	 * @generated
+	 */
+	void setDuration(ExpansionDuration value);
+
+	/**
+	 * Unsets the value of the '{@link com.netxforge.netxstudio.library.Component#getDuration <em>Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetDuration()
+	 * @see #getDuration()
+	 * @see #setDuration(ExpansionDuration)
+	 * @generated
+	 */
+	void unsetDuration();
+
+	/**
+	 * Returns whether the value of the '{@link com.netxforge.netxstudio.library.Component#getDuration <em>Duration</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Duration</em>' attribute is set.
+	 * @see #unsetDuration()
+	 * @see #getDuration()
+	 * @see #setDuration(ExpansionDuration)
+	 * @generated
+	 */
+	boolean isSetDuration();
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.

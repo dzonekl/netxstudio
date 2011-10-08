@@ -125,6 +125,18 @@ public class NewEditEquipment extends NewEditComponent implements
 				.value(editingService.getEditingDomain(),
 						LibraryPackage.Literals.COMPONENT__DESCRIPTION);
 
+		context.bindValue(codeObservable, codeProperty.observe(comp), null,
+				null);
+		context.bindValue(descriptionObservable,
+				componentDescriptionProperty.observe(comp), null, null);
+
+		
+		bindDurationSection(context);
+
+		return context;
+	}
+
+	protected void bindDurationSection(EMFDataBindingContext context) {
 		// Expansion duration binding.
 		cmbViewerExpansionDuration
 				.setContentProvider(new ArrayContentProvider());
@@ -133,19 +145,11 @@ public class NewEditEquipment extends NewEditComponent implements
 
 		IEMFValueProperty durationProperty = EMFEditProperties.value(
 				editingService.getEditingDomain(),
-				LibraryPackage.Literals.EQUIPMENT__DURATION);
+				LibraryPackage.Literals.COMPONENT__DURATION);
 		IValueProperty selectionProperty = ViewerProperties.singleSelection();
 		IObservableValue expansionDurationObservable = selectionProperty
 				.observe(cmbViewerExpansionDuration);
 		context.bindValue(expansionDurationObservable,
 				durationProperty.observe(comp), null, null);
-
-		context.bindValue(codeObservable, codeProperty.observe(comp), null,
-				null);
-		context.bindValue(descriptionObservable,
-				componentDescriptionProperty.observe(comp), null, null);
-		
-
-		return context;
 	}
 }

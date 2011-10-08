@@ -233,7 +233,7 @@ public class Vendors extends AbstractScreen implements IDataServiceInjection {
 		}
 
 		tableViewer = new TableViewer(frmVendors.getBody(), SWT.BORDER
-				| SWT.FULL_SELECTION | widgetStyle);
+				| SWT.FULL_SELECTION | SWT.MULTI | widgetStyle);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);

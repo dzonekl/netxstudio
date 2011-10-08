@@ -66,6 +66,7 @@ import com.netxforge.netxstudio.geo.GeoFactory;
 import com.netxforge.netxstudio.geo.GeoPackage;
 import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.screens.AbstractScreen;
+import com.netxforge.netxstudio.screens.CDOElementComparer;
 import com.netxforge.netxstudio.screens.SearchFilter;
 import com.netxforge.netxstudio.screens.editing.selector.IDataServiceInjection;
 import com.netxforge.netxstudio.screens.editing.selector.Screens;
@@ -215,8 +216,10 @@ public class SitesTree extends AbstractScreen implements IDataServiceInjection {
 		toolkit.paintBordersFor(mghprlnkNewMetric);
 		mghprlnkNewMetric.setText("New");
 
-		sitesTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER | SWT.VIRTUAL);
+		sitesTreeViewer = new TreeViewer(frmSites.getBody(), SWT.BORDER | SWT.VIRTUAL | SWT.MULTI);
 		sitesTreeViewer.setUseHashlookup(true);
+		sitesTreeViewer.setComparer(new CDOElementComparer());
+		
 		Tree tree = sitesTreeViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);

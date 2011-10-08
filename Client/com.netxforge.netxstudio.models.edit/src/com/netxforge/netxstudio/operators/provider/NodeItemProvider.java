@@ -101,9 +101,9 @@ public class NodeItemProvider extends BaseItemProvider implements
 	}
 
 	/**
-	 * This adds a property descriptor for the Location Ref feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds a property descriptor for the Location Ref feature. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addLocationRefPropertyDescriptor(Object object) {
@@ -206,14 +206,14 @@ public class NodeItemProvider extends BaseItemProvider implements
 	}
 
 	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
+	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		Node node = (Node)object;
+		Node node = (Node) object;
 		return getString("_UI_Node_type") + " " + node.getNodeID();
 	}
 
@@ -273,5 +273,25 @@ public class NodeItemProvider extends BaseItemProvider implements
 	public ResourceLocator getResourceLocator() {
 		return ((IChildCreationExtender)adapterFactory).getResourceLocator();
 	}
+
+//	@Override
+//	protected Command createCreateChildCommand(EditingDomain domain,
+//			EObject owner, EStructuralFeature feature, Object value, int index,
+//			Collection<?> collection) {
+//		
+//		// Which it will be obviously
+//		if(owner instanceof Node){
+//			
+//			//Convert the command parameters to  
+//			NodeType nt = ((Node) owner).getOriginalNodeTypeRef();
+//			if(nt != null){
+//				 return new CreateChildCommand(domain, nt, feature, value, index, collection, this);
+//				
+//			}
+//		}
+//		return super.createCreateChildCommand(domain, owner, feature, value, index,
+//				collection);
+//		
+//	}
 
 }
