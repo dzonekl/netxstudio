@@ -18,7 +18,7 @@ public class NodeXLSPOIWizard extends AbstractExportPOIWizard {
 	
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
-		setWindowTitle("Export Network Element Instance (s) to XLS");
+		setWindowTitle("Export Metrics to XLS");
 		setNeedsProgressMonitor(true);
 	}
 

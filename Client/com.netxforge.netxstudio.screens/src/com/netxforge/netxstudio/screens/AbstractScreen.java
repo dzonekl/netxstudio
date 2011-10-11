@@ -183,5 +183,10 @@ public abstract class AbstractScreen extends Composite implements IScreen,
 		}
 		return null;
 	}
+	
+	/* Clients should override */
+	public String getScreenName() {
+		return "<TODO: Provide screenname>";
+	}
 
 }

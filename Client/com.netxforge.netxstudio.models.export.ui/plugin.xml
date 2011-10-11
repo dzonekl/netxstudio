@@ -100,5 +100,15 @@
          Export a Network Element instance to XLS
        </description>
     </wizard>
+    <wizard
+          category="com.netxforge.netxstudio.ui.category.export"
+          class="com.netxforge.netxstudio.models.export.ui.internal.ExportEExtensionFactory:com.netxforge.netxstudio.models.export.ui.poi.MetricsXLSPOIWizard"
+          icon="icons/full/wizban/export_wiz.png"
+          id="com.netxforge.netxstudio.models.export.wizard.ui.metrics.xls"
+          name="Export Metrics Data to XLS">
+       <description>
+         Export Metrics Data to XLS
+       </description>
+    </wizard>
  </extension>
 </plugin>

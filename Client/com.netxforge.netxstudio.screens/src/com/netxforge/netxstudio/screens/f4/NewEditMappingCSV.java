@@ -858,4 +858,9 @@ public class NewEditMappingCSV extends AbstractMapping implements
 	public void fillCSVGrid(String[][] records) {
 		this.gridTableViewer.setInput(records);
 	}
+	
+	public String getScreenName() {
+		return "Mapping CSV";
+	}
+
 }

@@ -124,5 +124,10 @@ public abstract class AbstractDetailsScreen extends Composite implements IScreen
 			}
 		}
 	}
-	
+
+	/* Clients should override */
+	public String getScreenName() {
+		return "Detailed screen";
+		
+	}
 }

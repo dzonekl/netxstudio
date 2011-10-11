@@ -713,4 +713,9 @@ public class NewEditResource extends AbstractScreen implements
 	public Form getScreenForm() {
 		return this.frmResource;
 	}
+	
+	public String getScreenName() {
+		return "Resource";
+	}
+
 }

@@ -622,4 +622,9 @@ public class NewEditDerivedResource extends AbstractScreen implements
 	public Form getScreenForm() {
 		return this.frmResource;
 	}
+	
+	public String getScreenName() {
+		return "Service User Profile";
+	}
+
 }

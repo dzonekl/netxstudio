@@ -704,4 +704,10 @@ public class NewEditMappingXLS extends AbstractMapping implements
 	public void fillCSVGrid(String[][] records) {
 		// N/A
 	}
+	
+	public String getScreenName() {
+		return "Mapping XLS";
+	}
+
+	
 }

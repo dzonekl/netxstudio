@@ -26,7 +26,7 @@ public abstract class AbstractExportPOIWizard extends Wizard implements
 	}
 
 	@Inject
-	private IDataProvider dataProvider;
+	protected IDataProvider dataProvider;
 
 	private ExportNewFileWizardPage exportNewFilePage;
 

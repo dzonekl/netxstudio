@@ -13,7 +13,9 @@ import com.netxforge.netxstudio.screens.editing.IEditingService;
 
 /**
  * The matching text, will be from the ItemProvider of the EObject.
- * Notice: Make sure the type name is not returned from the ItemProvider. 
+ * FIXME Make sure the type name is not returned from the ItemProvider.
+ * 
+ *  
  * @author dzonekl
  *
  */
@@ -41,7 +43,7 @@ public class SearchFilter extends ViewerFilter {
 		boolean result = true;
 		
 		if (element instanceof EObject) {
-
+			
 			String match = new AdapterFactoryItemDelegator(
 					editingService.getAdapterFactory()).getText(element);
 			try {

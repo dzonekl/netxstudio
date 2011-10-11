@@ -495,7 +495,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getMetricSourceJob_MetricSource() {
+	public EReference getMetricSourceJob_MetricSources() {
 		return (EReference)metricSourceJobEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -789,7 +789,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		createEReference(jobRunContainerEClass, JOB_RUN_CONTAINER__WORK_FLOW_RUNS);
 
 		metricSourceJobEClass = createEClass(METRIC_SOURCE_JOB);
-		createEReference(metricSourceJobEClass, METRIC_SOURCE_JOB__METRIC_SOURCE);
+		createEReference(metricSourceJobEClass, METRIC_SOURCE_JOB__METRIC_SOURCES);
 
 		nodeReporterJobEClass = createEClass(NODE_REPORTER_JOB);
 		createEReference(nodeReporterJobEClass, NODE_REPORTER_JOB__NODE);
@@ -909,7 +909,7 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 		initEReference(getJobRunContainer_WorkFlowRuns(), this.getWorkFlowRun(), null, "workFlowRuns", null, 0, -1, JobRunContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(metricSourceJobEClass, MetricSourceJob.class, "MetricSourceJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMetricSourceJob_MetricSource(), theMetricsPackage.getMetricSource(), null, "metricSource", null, 1, 1, MetricSourceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMetricSourceJob_MetricSources(), theMetricsPackage.getMetricSource(), null, "metricSources", null, 1, -1, MetricSourceJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nodeReporterJobEClass, NodeReporterJob.class, "NodeReporterJob", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNodeReporterJob_Node(), theOperatorsPackage.getNode(), null, "node", null, 1, 1, NodeReporterJob.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1165,11 +1165,11 @@ public class SchedulingPackageImpl extends EPackageImpl implements SchedulingPac
 			 "kind", "elementOnly"
 		   });			
 		addAnnotation
-		  (getMetricSourceJob_MetricSource(), 
+		  (getMetricSourceJob_MetricSources(), 
 		   source, 
 		   new String[] {
 			 "kind", "element",
-			 "name", "MetricSource"
+			 "name", "MetricSources"
 		   });			
 		addAnnotation
 		  (nodeReporterJobEClass, 

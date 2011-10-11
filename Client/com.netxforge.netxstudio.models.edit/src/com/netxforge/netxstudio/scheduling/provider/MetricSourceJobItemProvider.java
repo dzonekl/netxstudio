@@ -70,25 +70,25 @@ public class MetricSourceJobItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addMetricSourcePropertyDescriptor(object);
+			addMetricSourcesPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Metric Source feature.
+	 * This adds a property descriptor for the Metric Sources feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addMetricSourcePropertyDescriptor(Object object) {
+	protected void addMetricSourcesPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_MetricSourceJob_metricSource_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MetricSourceJob_metricSource_feature", "_UI_MetricSourceJob_type"),
-				 SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCE,
+				 getString("_UI_MetricSourceJob_metricSources_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MetricSourceJob_metricSources_feature", "_UI_MetricSourceJob_type"),
+				 SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCES,
 				 true,
 				 false,
 				 true,

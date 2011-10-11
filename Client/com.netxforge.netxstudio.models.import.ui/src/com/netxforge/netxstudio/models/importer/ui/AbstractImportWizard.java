@@ -1,6 +1,5 @@
 package com.netxforge.netxstudio.models.importer.ui;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -33,12 +33,16 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.netxforge.netxstudio.data.IDataProvider;
+import com.netxforge.netxstudio.data.cdo.NonStatic;
 import com.netxforge.netxstudio.geo.Country;
 import com.netxforge.netxstudio.geo.Site;
 import com.netxforge.netxstudio.library.Component;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
+import com.netxforge.netxstudio.metrics.Mapping;
+import com.netxforge.netxstudio.metrics.MappingColumn;
+import com.netxforge.netxstudio.metrics.MetricSource;
 import com.netxforge.netxstudio.models.importer.MasterDataImporterJob;
 import com.netxforge.netxstudio.operators.Network;
 import com.netxforge.netxstudio.operators.Operator;
@@ -57,12 +61,15 @@ public abstract class AbstractImportWizard extends Wizard implements
 	}
 
 	@Inject
+	@NonStatic
 	private IDataProvider dataProvider;
 
 	@Inject
 	private IEditingService editingService;
 
 	abstract EPackage[] getEPackages();
+	
+	abstract boolean useIndexed();
 
 	@Override
 	public boolean performFinish() {
@@ -108,6 +115,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 				});
 			}
 		});
+		job.setIndexed(this.useIndexed());
 		job.setIPathToProcess(inFilePath);
 		job.go(); // Should spawn a job processing the import file.
 		return true;
@@ -127,11 +135,25 @@ public abstract class AbstractImportWizard extends Wizard implements
 		}
 	}
 
+	
+	
+	/**
+	 * Store the selection of items. 
+	 * As each root object will be of type EClass, we deflat the 
+	 * 
+	 * 
+	 * @param selection
+	 */
 	@SuppressWarnings("unchecked")
 	private void storeForSameEClass(Object[] selection) {
 
-		// PrintObject po = new PrintObject(editingService.getAdapterFactory());
-
+		dataProvider.setDoGetResourceFromOwnTransaction(false);
+		
+		// FIXME THIS WILL OPEN WITH CURRENT CREDENTIALS, 
+		// REGARDLESS ALL IS PERMITTED NOW. 
+		dataProvider.openSession("admin", "admin");
+		dataProvider.getTransaction();
+		
 		System.out
 				.println("Storing objects, check if contained in the set to store. ");
 
@@ -139,8 +161,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 		List<EObject> listToStore = Lists.newArrayList();
 
 		// De-flat, by checking if an object is contained in another
-		// from the same list.
-
+		// from the same list. This should never be the case. 
 		for (Object o : originalList) {
 			if (o instanceof EClassImpl) {
 				listToStore.add((EObject) o);
@@ -161,6 +182,7 @@ public abstract class AbstractImportWizard extends Wizard implements
 				listToStore.add((EObject) o);
 			}
 		}
+		
 
 		// Create a map from the tree, with the class name as a key. and a list
 		// of objects as the content for each key.
@@ -181,27 +203,52 @@ public abstract class AbstractImportWizard extends Wizard implements
 		Iterator<EClass> keys = map.keySet().iterator();
 		while (keys.hasNext()) {
 			EClass key = keys.next();
-			List<EObject> list = map.get(key);
+			List<EObject> listOfObjectsToStore = map.get(key);
 			EList<EObject> parentList = null;
 			// CompoundCommand c = new CompoundCommand();
-			for (EObject object : list) {
+			for (EObject object : listOfObjectsToStore) {
 				if (parentList == null) {
 					parentList = (EList<EObject>) getParentList(object.eClass());
 				}
+				// Store when not equal. 
+//				if( !equalObject(parentList, object) ){
+//					
+//				}else{
+//					System.out.println("Skipping, already stored: " + object);
+//				}
+				
 				parentList.add(object);
 			}
-			try {
-				Resource res = getResource(key);
-				res.save(null);
-			} catch (IOException e) {
-				e.printStackTrace();
+		}
+		
+		dataProvider.commitTransaction();
+		dataProvider.setDoGetResourceFromOwnTransaction(true);
+		
+	}
+
+	
+	
+	@SuppressWarnings("unused")
+	private boolean equalObject(EList<EObject> parentList, EObject targetObject) {
+		
+		boolean already = false;
+		for(EObject object : parentList){
+			if(EcoreUtil.equals(object, targetObject)){
+				already = true;
+				break;
 			}
 		}
+		return already;
 	}
 
 	private List<?> getParentList(EClass key) {
 
 		Resource res = getResource(key);
+
+		ResourceSet set = res.getResourceSet();
+		if (set != null) {
+			System.out.println("importing in set" + set.toString());
+		}
 
 		// RFSService objects are stored in an Operator.
 		if (key.equals(ServicesPackage.eINSTANCE.getRFSService())) {
@@ -217,9 +264,14 @@ public abstract class AbstractImportWizard extends Wizard implements
 
 	private Resource getResource(EClass eClass) {
 		if (eClass.equals(ServicesPackage.eINSTANCE.getRFSService())) {
+			
+//			return dataProvider.getTransaction().createResource("/" + OperatorsPackage.eINSTANCE
+//					.getOperator().getName());
 			return dataProvider.getResource(OperatorsPackage.eINSTANCE
 					.getOperator());
 		}
+		
+//		return dataProvider.getTransaction().createResource("/" + eClass.getName());
 		return dataProvider.getResource(eClass);
 	}
 
@@ -256,6 +308,14 @@ public abstract class AbstractImportWizard extends Wizard implements
 		}
 	}
 
+	
+	/**
+	 * A tree content provider, which creates a root object of type EClass 
+	 * and places items under it having this EClass. 
+	 * 
+	 * @author dzonekl
+	 *
+	 */
 	class ImportResultTreeContentProvider implements ITreeContentProvider {
 
 		List<EObject> originalList;
@@ -333,7 +393,15 @@ public abstract class AbstractImportWizard extends Wizard implements
 				children.addAll(((Equipment) parentElement).getEquipments());
 			} else if (parentElement instanceof Component) {
 				children.addAll(((Component) parentElement).getResourceRefs());
+			} else if (parentElement instanceof MetricSource){
+				children.add(((MetricSource) parentElement).getMetricMapping());
+			} else if( parentElement instanceof Mapping){
+				children.addAll(((Mapping) parentElement).getHeaderMappingColumns());
+				children.addAll(((Mapping) parentElement).getDataMappingColumns());
+			}else if( parentElement instanceof MappingColumn){
+				children.add(((MappingColumn) parentElement).getDataType());
 			}
+			
 			return children.toArray();
 		}
 	}

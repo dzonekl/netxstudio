@@ -659,6 +659,10 @@ public class NewEditService extends AbstractScreen implements
 		if (editingService.isDirty()) {
 			editingService.doSave(new NullProgressMonitor());
 		}
-
 	}
+	
+	public String getScreenName() {
+		return "Service";
+	}
+
 }

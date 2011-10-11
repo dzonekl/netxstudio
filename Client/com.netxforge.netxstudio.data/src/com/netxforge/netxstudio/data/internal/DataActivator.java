@@ -15,15 +15,17 @@ public class DataActivator implements BundleActivator {
 
 	private static BundleContext context;
 	private static Injector injector;
-	
-	
+
 	static BundleContext getContext() {
 		return context;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		DataActivator.context = bundleContext;
@@ -32,9 +34,13 @@ public class DataActivator implements BundleActivator {
 		injector = Guice.createInjector(om);
 	}
 
+	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
 		DataActivator.context = null;
@@ -43,6 +49,5 @@ public class DataActivator implements BundleActivator {
 	public static Injector getInjector() {
 		return injector;
 	}
-	
 
 }

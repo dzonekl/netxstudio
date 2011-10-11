@@ -9,4 +9,9 @@ public class ImportGeoWizard extends AbstractImportWizard {
 	EPackage[] getEPackages(){
 		return new EPackage[] { GeoPackage.eINSTANCE };
 	}
+
+	@Override
+	boolean useIndexed() {
+		return false;
+	}
 }

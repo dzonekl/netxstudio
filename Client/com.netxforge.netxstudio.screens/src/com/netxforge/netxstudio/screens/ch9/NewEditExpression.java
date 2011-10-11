@@ -364,5 +364,10 @@ public class NewEditExpression extends AbstractScreen implements
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
+	
+	public String getScreenName() {
+		return "Expression";
+	}
+
 
 }

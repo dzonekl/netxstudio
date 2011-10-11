@@ -964,7 +964,7 @@ public class ModelUtils {
 	 * @param value
 	 * @return
 	 */
-	public Job jobFor(Resource jobResource, EClass jobClass,
+	public Job jobForSingleObject(Resource jobResource, EClass jobClass,
 			EStructuralFeature feature, EObject value) {
 
 		// The job Class should extend the Job EClass.
@@ -985,6 +985,53 @@ public class ModelUtils {
 		return null;
 	}
 
+	/**
+	 * 
+	 * Get the Job of a certain type with a target collection contained in the collection of the target feature.
+	 * 
+	 * @param jobResource
+	 * @param jobClass
+	 * @param feature
+	 * @param targetValues
+	 * @return
+	 */
+	public Job jobForMultipleObjects(Resource jobResource, EClass jobClass,
+			EStructuralFeature feature, Collection<?> targetValues) {
+		
+		assert feature.isMany();
+		
+		int shouldMatch = targetValues.size();
+		
+		// The job Class should extend the Job EClass.
+		if (!jobClass.getESuperTypes().contains(SchedulingPackage.Literals.JOB)) {
+			return null;
+		}
+
+		for (EObject eo : jobResource.getContents()) {
+			int actuallyMatches = 0;
+			if (eo.eClass() == jobClass) {
+				if (eo.eIsSet(feature)) {
+					Object v = eo.eGet(feature);
+					if(v instanceof List<?>){
+						for( Object listItem : (List<?>)v){
+							// Do we contain any of our objects? 
+							for(Object target :  targetValues){
+								if(listItem == target){
+									actuallyMatches++;
+								}
+							}
+						}
+					}
+				}
+			}
+			// Check if the number of entries are actually in the target job. 
+			if(actuallyMatches == shouldMatch){
+				return (Job) eo;
+			}
+		}
+		return null;
+	}
+	
 	public DateTimeRange lastMonthPeriod() {
 		DateTimeRange dtr = GenericsFactory.eINSTANCE.createDateTimeRange();
 		dtr.setBegin(this.toXMLDate(oneMonthAgo()));

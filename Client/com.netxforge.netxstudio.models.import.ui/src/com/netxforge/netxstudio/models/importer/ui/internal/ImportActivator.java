@@ -9,7 +9,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
-import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.netxstudio.data.cdo.NonStaticCDODataServiceModule;
 import com.netxforge.netxstudio.screens.editing.EditingServiceModule;
 
 /**
@@ -47,7 +47,8 @@ public class ImportActivator extends AbstractUIPlugin {
 		// Bind our modules.
 		Module om = new CommonModule();
 		om = override(om).with(new EditingServiceModule());
-		om = override(om).with(new CDODataServiceModule());
+		om = override(om).with(NonStaticCDODataServiceModule.getModule());
+//		om = override(om).with(new CDODataServiceModule());
 		injector = Guice.createInjector(om);
 	}
 

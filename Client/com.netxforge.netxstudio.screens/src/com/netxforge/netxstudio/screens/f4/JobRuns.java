@@ -503,4 +503,9 @@ public class JobRuns extends AbstractScreen implements IDataScreenInjection {
 	public void setOperation(int operation) {
 		this.operation = operation;
 	}
+	
+	public String getScreenName() {
+		return "Runs";
+	}
+
 }

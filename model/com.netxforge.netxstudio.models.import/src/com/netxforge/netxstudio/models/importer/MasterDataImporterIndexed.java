@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -46,75 +45,25 @@ import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.library.Equipment;
 import com.netxforge.netxstudio.library.Function;
 import com.netxforge.netxstudio.library.NodeType;
-import com.netxforge.netxstudio.metrics.DataKind;
-import com.netxforge.netxstudio.metrics.IdentifierDataKind;
-import com.netxforge.netxstudio.metrics.KindHintType;
-import com.netxforge.netxstudio.metrics.Mapping;
-import com.netxforge.netxstudio.metrics.MappingColumn;
-import com.netxforge.netxstudio.metrics.MetricSource;
-import com.netxforge.netxstudio.metrics.ObjectKindType;
-import com.netxforge.netxstudio.metrics.ValueDataKind;
-import com.netxforge.netxstudio.metrics.ValueKindType;
+import com.netxforge.netxstudio.metrics.MetricsPackage;
 import com.netxforge.netxstudio.services.Service;
 
 /**
  * @author Martin Taal
  * @author Christophe Bouhier
  */
-public class MasterDataImporter {
+public class MasterDataImporterIndexed {
 
 	private IDataProvider dataProvider;
 
 	private EClass eClassToImport;
 
-	// private List<EObject> cachedObjects = new ArrayList<EObject>();
-
-	private List<IndexedObject> structuredResult = new ArrayList<IndexedObject>();
-	// private Map<String, EObject> structuredMap = Maps.newHashMap();
+	private List<EObject> cachedObjects = new ArrayList<EObject>();
+	private List<EObject> structuredResult = new ArrayList<EObject>();
 
 	private List<String> unresolvedReferences = new ArrayList<String>();
 
 	private EPackage[] ePackagesToImport;
-
-	private boolean indexSupport;
-
-	public boolean isIndexSupport() {
-		return indexSupport;
-	}
-
-	public void setIndexSupport(boolean indexSupport) {
-		this.indexSupport = indexSupport;
-	}
-
-	class IndexedObject {
-
-		private EObject eo;
-		private String index;
-
-		// private List<IndexedObject> children;
-
-		public EObject getEObject() {
-			return eo;
-		}
-
-		public void setEObject(EObject eo) {
-			this.eo = eo;
-		}
-
-		public String getIndex() {
-			return index;
-		}
-
-		public void setIndex(String index) {
-			this.index = index;
-		}
-		// public List<IndexedObject> getChildren() {
-		// return children;
-		// }
-		// public void setChildren(List<IndexedObject> children) {
-		// this.children = children;
-		// }
-	}
 
 	public void process(InputStream is) {
 		HSSFWorkbook workBook;
@@ -127,20 +76,15 @@ public class MasterDataImporter {
 				List<RowResult> sheetResult = pw.getResult();
 				if (!pw.isMultiRefSheet()) {
 					for (final RowResult rowResult : sheetResult) {
+
 						EObject copyFromCache = EcoreUtil.copy(rowResult
 								.getEObject());
-
-						IndexedObject io = new IndexedObject();
-						io.setEObject(copyFromCache);
-						io.setIndex(rowResult.getIndex());
-
-						// structuredResult.add(copyFromCache);
-						structuredResult.add(io);
+						structuredResult.add(copyFromCache);
 					}
 				}
 			}
 
-			// printResult();
+			printResult();
 
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
@@ -148,13 +92,7 @@ public class MasterDataImporter {
 	}
 
 	public List<EObject> getResolvedObjects() {
-
-		List<EObject> result = Lists.newArrayList();
-
-		for (IndexedObject io : structuredResult) {
-			result.add(io.getEObject());
-		}
-		return result;
+		return structuredResult;
 	}
 
 	class ProcessWorkSheet {
@@ -198,49 +136,33 @@ public class MasterDataImporter {
 
 			// process non-empty rows, starting from 3nd row.
 			for (int i = 2; i <= sheet.getLastRowNum(); i++) {
-				HSSFRow row = sheet.getRow(i);
-				if (isEmptyRow(row)) {
+				if (isEmptyRow(sheet.getRow(i))) {
 					continue;
 				}
 				EObject eObject;
 				if (eClassToImport != null) {
 					if (!isMultiRefSheet) {
-						String objectIndex = null;
-						if (indexSupport) {
-							objectIndex = this.processIndex(row);
-						}
-						eObject = processAttributes(row, indexSupport);
+						eObject = processRow(sheet.getRow(i));
 						if (eObject != null) {
 							// result.add(eObject);
-							// cachedObjects.add(eObject);
+							cachedObjects.add(eObject);
 							final RowResult rowResult = new RowResult();
 							rowResult.setRow(sheet.getRow(i));
 							rowResult.setEObject(eObject);
-							if (objectIndex != null) {
-								rowResult.setIndex(objectIndex);
-							}
-							System.out.println("Creating: " + objectIndex);
-
 							sheetRowResults.add(rowResult);
 							eObject = processEReferences(
 									rowResult.getEObject(), rowResult.getRow());
 						}
 					} else {
-						eObject = getMultiRefRowIndex(lastRootObject, row);
-						System.out
-								.println("Processing multi-references for object:"
-										+ eObject);
+						eObject = processMultiRefRow(lastRootObject,
+								sheet.getRow(i));
 						if (eObject != null) {
-
-							// TODO, why a new result for a multiref row? No new
-							// object is created.
-							//
-							// final RowResult rowResult = new RowResult();
-							// rowResult.setRow(sheet.getRow(i));
-							// rowResult.setEObject(eObject);
-							// sheetRowResults.add(rowResult);
-
-							eObject = processEReferences(eObject, row);
+							final RowResult rowResult = new RowResult();
+							rowResult.setRow(sheet.getRow(i));
+							rowResult.setEObject(eObject);
+							sheetRowResults.add(rowResult);
+							eObject = processEReferences(
+									rowResult.getEObject(), rowResult.getRow());
 						}
 					}
 					if (eObject.eContainer() == null) {
@@ -291,17 +213,6 @@ public class MasterDataImporter {
 			return isMultiRefSheet;
 		}
 
-		private String processIndex(HSSFRow row) {
-			if (row == null) {
-				return null;
-			}
-			if (isEmptyRow(row)) {
-				return null;
-			}
-			String value = row.getCell(0).getStringCellValue();
-			return value;
-		}
-
 		/**
 		 * Create an object for each non-empty row, then populate the attributes
 		 * and single refs using the features (Which have been set previously).
@@ -311,7 +222,7 @@ public class MasterDataImporter {
 		 * @param row
 		 * @return
 		 */
-		private EObject processAttributes(HSSFRow row, boolean skipIndex) {
+		private EObject processRow(HSSFRow row) {
 			if (row == null) {
 				return null;
 			}
@@ -320,27 +231,20 @@ public class MasterDataImporter {
 			}
 
 			final EObject result = EcoreUtil.create(eClassToImport);
+
 			for (int i = 0; i < eFeatures.size(); i++) {
 				final EStructuralFeature eFeature = eFeatures.get(i);
-				// if (row.getCell(i) == null) {
-				// System.out.println("Skipping index=" +i);
-				// continue;
-				// }
+				if (row.getCell(i) == null) {
+					continue;
+				}
 				if (eFeature instanceof EReference) {
-					System.out.println(eFeature);
 					continue;
 				} else if (eFeature instanceof EAttribute) {
 					EAttribute eAttrib = (EAttribute) eFeature;
-					EDataType type = eAttrib.getEAttributeType();
-
-					HSSFCell cell = row.getCell(indexSupport ? i + 1 : i);
-					if (cell == null) {
-						continue;
-					}
-					String value = cell.getStringCellValue();
-
+					String value = row.getCell(i).getStringCellValue();
 					final int maxLength = ExtendedMetaData.INSTANCE
-							.getMaxLengthFacet(eAttrib.getEAttributeType());
+							.getMaxLengthFacet(eAttrib
+									.getEAttributeType());
 					if (value == null || value.trim().length() == 0) {
 						continue;
 					}
@@ -348,37 +252,16 @@ public class MasterDataImporter {
 							&& value.length() > maxLength) {
 						value = value.substring(0, maxLength);
 					}
-					if (type.getInstanceClass() == String.class) {
+					
+					EDataType type = eAttrib.getEAttributeType();
+					if( type.getInstanceClass() == String.class){
 						result.eSet(eFeature, value);
-					} else if (type.getInstanceClass() == boolean.class) {
+					}else if(type.getInstanceClass() == boolean.class ){
 						Boolean bValue = new Boolean(value);
 						result.eSet(eFeature, bValue);
-					} else if (type.getInstanceClass() == int.class) {
-						Integer iValue = new Integer(value);
-						result.eSet(eFeature, iValue);
-					} 
+					}
 					
-					/////// ENUMS WHICH ARE MODE SPECIFIC. 
- 					else if (type.getInstanceClass() == ObjectKindType.class) {
-						System.out.println("Objectkind found");
-						ObjectKindType ok = ObjectKindType.get(value);
-						result.eSet(eFeature, ok);
-					}
-					if (type.getInstanceClass() == ValueKindType.class) {
-						System.out.println("Valuekind found");
-						ValueKindType vk = ValueKindType.get(value);
-						result.eSet(eFeature, vk);
-					}
-					if (type.getInstanceClass() == KindHintType.class) {
-						KindHintType kht = KindHintType.get(value);
-						result.eSet(eFeature, kht);
-					}
-					System.out.println("index=" + i + ", Attribute of class: "
-							+ type.getInstanceClassName() + "value : " + value);
-				} else {
-					System.out.println("Some other structural feature");
 				}
-
 			}
 			return result;
 		}
@@ -388,7 +271,7 @@ public class MasterDataImporter {
 		 * @param row
 		 * @return
 		 */
-		private EObject getMultiRefRowIndex(EObject parent, HSSFRow row) {
+		private EObject processMultiRefRow(EObject parent, HSSFRow row) {
 			if (row == null) {
 				return null;
 			}
@@ -399,41 +282,43 @@ public class MasterDataImporter {
 			// The identifier is the first column for a MultiRef row.
 			String identifier = row.getCell(0).getStringCellValue();
 			System.out.println("Resolving object: " + identifier);
-
-			// // Some eclasses, don't not have an identifier, so we mapp to
-			// // another class.
-			// EClass eClassMapped = mapClass(eClassToImport);
-			//
-			// if (eClassToImport != eClassMapped) {
-			// EObject eo = getResultObject(parent, eClassMapped, identifier);
-			// EReference mappedReference = this.mapFeature(eClassToImport);
-			// return (EObject) eo.eGet(mappedReference);
-			//
-			// } else {
-			return getResultObject(parent, eClassToImport, identifier);
-			// }
+			
+			// Some eclasses, don't not have an identifier, so we mapp to another class. 
+			EClass eClassMapped = mapClass(eClassToImport);
+			
+			if(eClassToImport != eClassMapped){
+				EObject eo = getResultObject(parent, eClassMapped, identifier);
+				EReference mappedReference = this.mapFeature(eClassToImport);
+				return (EObject) eo.eGet(mappedReference);
+				
+			}else {
+				return getResultObject(parent, eClassToImport,
+						identifier);
+				
+			}
 
 		}
-
+		
+		
 		/**
-		 * Maps a class to another for a valid identifier.
-		 * 
+		 * Maps a class to another for a valid identifier. 
 		 * @param eClassToImport
 		 * @return
 		 */
-		// private EClass mapClass(EClass eClassToImport) {
-		// if (eClassToImport == MetricsPackage.Literals.MAPPING) {
-		// return MetricsPackage.Literals.METRIC_SOURCE;
-		// }
-		// return eClassToImport;
-		// }
-		//
-		// private EReference mapFeature(EClass eClassToImport) {
-		// if (eClassToImport == MetricsPackage.Literals.MAPPING) {
-		// return MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING;
-		// }
-		// return null;
-		// }
+		private EClass mapClass(EClass eClassToImport) {
+			if(eClassToImport == MetricsPackage.Literals.MAPPING){
+				return MetricsPackage.Literals.METRIC_SOURCE;
+			}
+			return eClassToImport;
+		}
+		
+		
+		private EReference mapFeature(EClass eClassToImport) {
+			if(eClassToImport == MetricsPackage.Literals.MAPPING){
+				return MetricsPackage.Literals.METRIC_SOURCE__METRIC_MAPPING;
+			}
+			return null;
+		}
 
 		private EObject processEReferences(EObject target, HSSFRow row) {
 			for (int i = 0; i < eFeatures.size(); i++) {
@@ -458,6 +343,7 @@ public class MasterDataImporter {
 						eReference.getEReferenceType(), value);
 
 				if (objectToSet != null) {
+
 					if (eReference.isMany()) {
 						// Process many values
 						EClassifier eType = eReference.getEType();
@@ -482,20 +368,16 @@ public class MasterDataImporter {
 									+ " with eRef: " + eReference.getName()
 									+ " , on object:" + printObject(target));
 
-							// // Find the object to set from the result set and
-							// // remove
-							// // it.
-							// int index =
-							// structuredResult.indexOf(objectToSet);
-							// if (index != -1) {
-							// structuredResult.remove(index);
-							// }
-
-							System.out.println(" Removing from result set: "
-									+ printObject(objectToSet));
-
-							RemoveObject(objectToSet);
-
+							// Find the object to set from the result set and
+							// remove
+							// it.
+							int index = structuredResult.indexOf(objectToSet);
+							if (index != -1) {
+								System.out
+										.println(" Removing from result set: "
+												+ printObject(objectToSet));
+								structuredResult.remove(index);
+							}
 							copyAll.add(copyOfObjectToSet);
 						} else {
 							System.out.println(" Setting non containment: "
@@ -506,9 +388,6 @@ public class MasterDataImporter {
 						}
 						target.eSet(eReference, copyAll);
 
-					} else if (eReference.isContainment()) {
-						target.eSet(eFeature, objectToSet);
-						RemoveObject(objectToSet);
 					} else {
 						target.eSet(eFeature, objectToSet);
 					}
@@ -523,17 +402,17 @@ public class MasterDataImporter {
 	}
 
 	private boolean matchEClassFromSheetName(HSSFSheet sheet) {
-		String name = sheet.getSheetName();
+
 		for (int i = 0; i < this.ePackagesToImport.length; i++) {
 			EPackage ePackage = ePackagesToImport[i];
 			for (EClassifier classifier : ePackage.getEClassifiers()) {
 				if (classifier instanceof EClass) {
 					String cName = ((EClass) classifier).getName();
-					if (cName.equalsIgnoreCase(name)) {
+					if (cName.equals(sheet.getSheetName())) {
 						eClassToImport = (EClass) classifier;
 					}
 					cName = cName + "_refs";
-					if (cName.equalsIgnoreCase(name)) {
+					if (cName.equals(sheet.getSheetName())) {
 						eClassToImport = (EClass) classifier;
 						return true;
 					}
@@ -608,78 +487,42 @@ public class MasterDataImporter {
 		// If we don't have a root object, we look in the full result set
 		// for the occurence. (the object will already have hierarchy).
 		//
-		IndexedObject io = null;
-		if (this.indexSupport) {
-			io = this.findObject(identifier);
-		} else {
-			io = this.findObject(eClass, identifier);
+		Iterator<EObject> it = null;
+		it = this.structuredResult.iterator();
+		while (it.hasNext()) {
+			final EObject eObject = it.next();
+
+			if (isAnyOfTheSuperTypes(eObject, eClass)) {
+				if (matchesAnyAttribute(identifier, eObject)) {
+					return eObject;
+				}
+			}
+
+			if (eObject.eClass() == eClass) {
+			}
 		}
 
-		if (io != null) {
-			System.out.println(" object found in the result set:"
-					+ io.getEObject());
-			return io.getEObject();
-		}
-
-		// System.out
-		// .println(" No object can be found in the result set, get a copy from cache: "
-		// + identifier + " with class: " + eClass.getName());
-
-		// FIXME Note, it's not in our structure it's also not in the cache!
+		System.out
+				.println(" No object can be found in the result set, get a copy from cache: "
+						+ identifier + " with class: " + eClass.getName());
 
 		// It's not in our structure, so get a copy of the cached version, with
 		// no hierarchy
-		// for (final EObject eObject : cachedObjects) {
-		//
-		// if (isAnyOfTheSuperTypes(eObject, eClass)) {
-		// if (matchesAnyAttribute(identifier, eObject)) {
-		// System.out.println("  Copy object for : " + identifier
-		// + " object: " + printObject(eObject));
-		// result = EcoreUtil.copy(eObject);
-		// break;
-		// }
-		// }
-		// }
+		for (final EObject eObject : cachedObjects) {
+
+			if (isAnyOfTheSuperTypes(eObject, eClass)) {
+				if (matchesAnyAttribute(identifier, eObject)) {
+					System.out.println("  Copy object for : " + identifier
+							+ " object: " + printObject(eObject));
+					result = EcoreUtil.copy(eObject);
+					break;
+				}
+			}
+		}
 
 		unresolvedReferences.add(eClass.getName() + " using " + identifier);
 
 		return result;
-	}
-
-	private IndexedObject findObject(String identifier) {
-		IndexedObject ioResult = null;
-		for (IndexedObject io : this.structuredResult) {
-			if (io.getIndex().equals(identifier)) {
-				ioResult = io;
-				break;
-			}
-		}
-		return ioResult;
-	}
-
-	private IndexedObject findObject(EClass eClass, String identifier) {
-		IndexedObject ioResult = null;
-		for (IndexedObject io : this.structuredResult) {
-			EObject eObject = io.getEObject();
-			if (isAnyOfTheSuperTypes(eObject, eClass)) {
-				if (matchesAnyAttribute(identifier, eObject)) {
-					return io;
-				}
-			}
-		}
-		return ioResult;
-	}
-
-	private void RemoveObject(EObject eo) {
-		int index = -1;
-		for (IndexedObject io : this.structuredResult) {
-			if (io.getEObject() == eo) {
-				index = this.structuredResult.indexOf(io);
-			}
-		}
-		if (index != -1) {
-			structuredResult.remove(index);
-		}
 	}
 
 	private boolean isAnyOfTheSuperTypes(EObject eObject, EClass eClass) {
@@ -707,10 +550,9 @@ public class MasterDataImporter {
 		return false;
 	}
 
-	public class RowResult {
+	private static class RowResult {
 		private HSSFRow row;
 		private EObject eObject;
-		private String index;
 
 		public HSSFRow getRow() {
 			return row;
@@ -727,21 +569,12 @@ public class MasterDataImporter {
 		public void setEObject(EObject eObject) {
 			this.eObject = eObject;
 		}
-
-		public String getIndex() {
-			return index;
-		}
-
-		public void setIndex(String index) {
-			this.index = index;
-		}
 	}
 
-	@SuppressWarnings("unused")
 	private void printResult() {
 		System.out.println("The STRUCTURED result");
-		for (IndexedObject io : structuredResult) {
-			String print = this.printObject(0, io.getEObject());
+		for (EObject rr : structuredResult) {
+			String print = this.printObject(0, rr);
 			System.out.println(print);
 		}
 		System.out.println("The UNRESOLVED references ");
@@ -789,36 +622,6 @@ public class MasterDataImporter {
 				result.append(this.printObject(depth, s));
 			}
 		}
-
-		if (o instanceof MetricSource) {
-			MetricSource ms = (MetricSource) o;
-			result.append(ms.getName() + "\n");
-			result.append(this.printObject(depth, ms.getMetricMapping()));
-		}
-		if (o instanceof Mapping) {
-			Mapping mapping = (Mapping) o;
-			result.append("mapping" + "\n");
-			for (MappingColumn mc : mapping.getDataMappingColumns()) {
-				result.append(this.printObject(depth, mc));
-			}
-		}
-		if (o instanceof MappingColumn) {
-			MappingColumn mc = (MappingColumn) o;
-			result.append("mapping column: " + mc.getColumn() + "\n");
-			result.append(printObject(depth, mc.getDataType()));
-		}
-		if (o instanceof DataKind) {
-			DataKind dk = (DataKind) o;
-			if (dk instanceof IdentifierDataKind) {
-				result.append("Identifier Datakind: "
-						+ ((IdentifierDataKind) dk).getObjectKind() + "\n");
-			}
-			if (dk instanceof ValueDataKind) {
-				result.append("Value Datakind: "
-						+ ((ValueDataKind) dk).getValueKind() + "\n");
-			}
-		}
-
 		return result.toString();
 	}
 

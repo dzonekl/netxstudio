@@ -9,4 +9,9 @@ public class ImportLibraryWizard extends AbstractImportWizard {
 	EPackage[] getEPackages(){
 		return new EPackage[] { LibraryPackage.eINSTANCE };
 	}
+
+	@Override
+	boolean useIndexed() {
+		return false;
+	}
 }

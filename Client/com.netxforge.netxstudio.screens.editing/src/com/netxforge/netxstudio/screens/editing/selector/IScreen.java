@@ -54,6 +54,17 @@ public interface IScreen extends IViewerProvider {
 	 */
 	public abstract Form getScreenForm();
 	
+	
+	/**
+	 * the name of the screen. 
+	 */
+	public abstract String getScreenName();
+
+	
+	/**
+	 * Set the screen service for this screen. 
+	 * @param screenService
+	 */
 	public abstract void setScreenService(IScreenFormService screenService);
 	
 	/**
@@ -70,6 +81,13 @@ public interface IScreen extends IViewerProvider {
 	 */
 	public abstract EStructuralFeature[] permittedCreationFeatures();
 	
+	
+	/**
+	 * An array of actions which will be populated on the context menu o the viewer. 
+	 * @return
+	 */
 	public abstract IAction[] getActions();
+	
+
 	
 }

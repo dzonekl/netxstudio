@@ -700,13 +700,13 @@ public interface SchedulingPackage extends EPackage {
 	int METRIC_SOURCE_JOB__START_TIME = JOB__START_TIME;
 
 	/**
-	 * The feature id for the '<em><b>Metric Source</b></em>' reference.
+	 * The feature id for the '<em><b>Metric Sources</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int METRIC_SOURCE_JOB__METRIC_SOURCE = JOB_FEATURE_COUNT + 0;
+	int METRIC_SOURCE_JOB__METRIC_SOURCES = JOB_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Metric Source Job</em>' class.
@@ -1573,15 +1573,15 @@ public interface SchedulingPackage extends EPackage {
 	EClass getMetricSourceJob();
 
 	/**
-	 * Returns the meta object for the reference '{@link com.netxforge.netxstudio.scheduling.MetricSourceJob#getMetricSource <em>Metric Source</em>}'.
+	 * Returns the meta object for the reference list '{@link com.netxforge.netxstudio.scheduling.MetricSourceJob#getMetricSources <em>Metric Sources</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Metric Source</em>'.
-	 * @see com.netxforge.netxstudio.scheduling.MetricSourceJob#getMetricSource()
+	 * @return the meta object for the reference list '<em>Metric Sources</em>'.
+	 * @see com.netxforge.netxstudio.scheduling.MetricSourceJob#getMetricSources()
 	 * @see #getMetricSourceJob()
 	 * @generated
 	 */
-	EReference getMetricSourceJob_MetricSource();
+	EReference getMetricSourceJob_MetricSources();
 
 	/**
 	 * Returns the meta object for class '{@link com.netxforge.netxstudio.scheduling.NodeReporterJob <em>Node Reporter Job</em>}'.
@@ -2068,12 +2068,12 @@ public interface SchedulingPackage extends EPackage {
 		EClass METRIC_SOURCE_JOB = eINSTANCE.getMetricSourceJob();
 
 		/**
-		 * The meta object literal for the '<em><b>Metric Source</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Metric Sources</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference METRIC_SOURCE_JOB__METRIC_SOURCE = eINSTANCE.getMetricSourceJob_MetricSource();
+		EReference METRIC_SOURCE_JOB__METRIC_SOURCES = eINSTANCE.getMetricSourceJob_MetricSources();
 
 		/**
 		 * The meta object literal for the '{@link com.netxforge.netxstudio.scheduling.impl.NodeReporterJobImpl <em>Node Reporter Job</em>}' class.

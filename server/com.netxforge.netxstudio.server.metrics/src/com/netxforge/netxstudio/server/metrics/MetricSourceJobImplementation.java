@@ -56,7 +56,7 @@ public class MetricSourceJobImplementation extends JobImplementation {
 	}
 
 	private MetricSource getMetricSource() {
-		return ((MetricSourceJob) getJob()).getMetricSource();
+		return ((MetricSourceJob) getJob()).getMetricSources().get(0);
 	}
 
 }

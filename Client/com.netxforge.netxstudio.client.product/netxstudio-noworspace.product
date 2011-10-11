@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="NetXStudio" uid="com.netxforge.netxstudio" id="com.netxforge.netxstudio.client.product.netxstudio" application="com.netxforge.netxstudio.ui.application" version="1.0.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/com.netxforge.netxstudio.client.product/icons/Logo about 250-330.png"/>
+      <text>
+         %aboutText
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-data @noDefault</programArgs>
+      <vmArgs>-Xmx1024m</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="icons/Logo X 16.gif" i32="icons/Logo X 32.gif" i48="icons/Logo X 48.gif" i64="icons/Logo X 64.gif" i128="icons/Logo X 128.gif"/>
+
+   <splash
+      location="com.netxforge.netxstudio.client.product"
+      handlerType="interactive" />
+   <launcher name="netxstudio">
+      <macosx icon="/com.netxforge.netxstudio.client.product/icons/netxstudio.icns"/>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="com.netxforge.netxstudio.client.product.intro"/>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/copyleft/lesser.html</url>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.netxforge.netxstudio.client.product.feature"/>
+      <feature id="com.netxforge.netxstudio.ui.feature"/>
+      <feature id="com.netxforge.netxstudio.console.feature"/>
+      <feature id="com.netxforge.netxstudio.help.feature"/>
+      <feature id="com.netxforge.netxstudio.screens.feature"/>
+      <feature id="com.netxforge.netxstudio.models.feature"/>
+      <feature id="com.netxforge.netxstudio.data.feature"/>
+      <feature id="com.netxforge.netxstudio.common.feature"/>
+      <feature id="com.netxforge.netxstudio.models.edit.feature"/>
+      <feature id="com.netxforge.netxstudio.models.export.feature"/>
+      <feature id="com.netxforge.netxstudio.models.export.ui.feature"/>
+      <feature id="com.netxforge.netxstudio.models.import.ui.feature"/>
+      <feature id="com.netxforge.netxstudio.models.import.feature"/>
+      <feature id="com.netxforge.netxscript.feature"/>
+      <feature id="com.netxforge.netxscript.ui.feature"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.emf.common.ui"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.emf.ecore.edit"/>
+      <feature id="org.eclipse.emf.edit"/>
+      <feature id="org.eclipse.emf.edit.ui"/>
+      <feature id="org.eclipse.emf.databinding"/>
+      <feature id="org.eclipse.emf.databinding.edit"/>
+      <feature id="org.eclipse.emf.compare.artifacts.feature"/>
+      <feature id="org.eclipse.platform.artifacts.feature"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.core.artifacts.feature"/>
+      <feature id="org.eclipse.ui.artifacts.feature"/>
+      <feature id="org.eclipse.equinox.artifacts.feature"/>
+      <feature id="org.eclipse.compare.artifacts.feature"/>
+      <feature id="org.eclipse.help.artifacts.feature"/>
+      <feature id="com.google.artifacts.feature"/>
+      <feature id="org.apache.artifacts.feature"/>
+      <feature id="org.mortbay.artifacts.feature"/>
+      <feature id="org.antlr.artifacts.feature"/>
+      <feature id="javax.servlet.artifacts.feature"/>
+      <feature id="org.swtchart.artifacts.feature"/>
+      <feature id="org.eclipse.nebula.artifacts.feature"/>
+      <feature id="org.eclipse.xtext.artifacts.feature"/>
+      <feature id="org.eclipse.xtext.ui.artifacts.feature"/>
+      <feature id="org.eclipse.emf.cdo.client.artifacts.feature"/>
+      <feature id="org.eclipse.jdt.artifacts.feature"/>
+      <feature id="org.apache.poi.artifacts.feature"/>
+      <feature id="oracle.jdbc.driver"/>
+      <feature id="org.eclipse.gef" version="3.7.0.v20110425-2050-777D-81B2Bz0685C3A6E34272"/>
+      <feature id="org.eclipse.draw2d" version="3.7.0.v20110425-2050-46-7w3122153603161"/>
+      <feature id="org.eclipse.xtend.artifacts.feature"/>
+      <feature id="org.postgresql" version="9.0.0.801"/>
+   </features>
+
+   <configurations>
+      <plugin id="com.netxforge.netxstudio.data" autoStart="false" startLevel="0" />
+      <plugin id="com.netxforge.netxstudio.data.fixtures" autoStart="false" startLevel="3" />
+      <plugin id="com.netxforge.netxstudio.ui.activities" autoStart="false" startLevel="0" />
+   </configurations>
+
+</product>

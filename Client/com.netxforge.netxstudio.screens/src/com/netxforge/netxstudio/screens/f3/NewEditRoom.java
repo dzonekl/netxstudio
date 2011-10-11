@@ -196,6 +196,10 @@ public class NewEditRoom extends AbstractScreen implements
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
-
 	}
+	
+	public String getScreenName() {
+		return "Room";
+	}
+
 }

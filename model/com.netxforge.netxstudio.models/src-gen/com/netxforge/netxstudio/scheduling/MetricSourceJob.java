@@ -18,6 +18,8 @@
  */
 package com.netxforge.netxstudio.scheduling;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.netxforge.netxstudio.metrics.MetricSource;
 
 /**
@@ -32,7 +34,7 @@ import com.netxforge.netxstudio.metrics.MetricSource;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.MetricSourceJob#getMetricSource <em>Metric Source</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.MetricSourceJob#getMetricSources <em>Metric Sources</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,30 +44,20 @@ import com.netxforge.netxstudio.metrics.MetricSource;
  */
 public interface MetricSourceJob extends Job {
 	/**
-	 * Returns the value of the '<em><b>Metric Source</b></em>' reference.
+	 * Returns the value of the '<em><b>Metric Sources</b></em>' reference list.
+	 * The list contents are of type {@link com.netxforge.netxstudio.metrics.MetricSource}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Reference to the metric source being imported
 	 * 							
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Metric Source</em>' reference.
-	 * @see #setMetricSource(MetricSource)
-	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getMetricSourceJob_MetricSource()
+	 * @return the value of the '<em>Metric Sources</em>' reference list.
+	 * @see com.netxforge.netxstudio.scheduling.SchedulingPackage#getMetricSourceJob_MetricSources()
 	 * @model required="true"
-	 *        extendedMetaData="kind='element' name='MetricSource'"
+	 *        extendedMetaData="kind='element' name='MetricSources'"
 	 * @generated
 	 */
-	MetricSource getMetricSource();
-
-	/**
-	 * Sets the value of the '{@link com.netxforge.netxstudio.scheduling.MetricSourceJob#getMetricSource <em>Metric Source</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Metric Source</em>' reference.
-	 * @see #getMetricSource()
-	 * @generated
-	 */
-	void setMetricSource(MetricSource value);
+	EList<MetricSource> getMetricSources();
 
 } // MetricSourceJob

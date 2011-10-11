@@ -365,7 +365,7 @@ public class Networks extends AbstractScreen implements IDataServiceInjection {
 								.getData(SchedulingPackage.Literals.JOB);
 
 						Job job = modelUtils
-								.jobFor(jobResource,
+								.jobForSingleObject(jobResource,
 										SchedulingPackage.Literals.NODE_REPORTER_JOB,
 										SchedulingPackage.Literals.NODE_REPORTER_JOB__NODE,
 										(Node) o);

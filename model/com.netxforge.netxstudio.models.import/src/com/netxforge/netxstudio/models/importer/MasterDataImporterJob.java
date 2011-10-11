@@ -52,6 +52,7 @@ public class MasterDataImporterJob implements IJobChangeListener {
 	
 	
 	private List<EObject> results;
+	private boolean indexed;
 
 	public List<EObject> getResults() {
 		return results;
@@ -102,6 +103,7 @@ public class MasterDataImporterJob implements IJobChangeListener {
 			masterDataImporter.setDataProvider(dataProvider);
 			masterDataImporter
 					.setEPackagesToImport(this.ePackages);
+			masterDataImporter.setIndexSupport(indexed);
 			masterDataImporter.process(is);
 			setResults(masterDataImporter.getResolvedObjects());
 			
@@ -133,6 +135,10 @@ public class MasterDataImporterJob implements IJobChangeListener {
 
 	public void sleeping(IJobChangeEvent event) {
 		System.out.println("Job zzzzzz: " + event.getJob().getName()); //$NON-NLS-1$
+	}
+
+	public void setIndexed(boolean useIndexed) {
+		this.indexed = useIndexed;
 	}
 
 }

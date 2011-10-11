@@ -132,7 +132,6 @@ public class CDOEditingService extends EMFEditingService implements
 
 				} catch (Exception exception) {
 
-				
 				}
 			}
 		}
@@ -262,6 +261,12 @@ public class CDOEditingService extends EMFEditingService implements
 	public boolean isDirty() {
 		boolean result = ((BasicCommandStack) getEditingDomain()
 				.getCommandStack()).isSaveNeeded();
+
+		if (this.getView() != null) {
+			boolean viewDirty = this.getView().isDirty();
+			return viewDirty || result;
+		}
+
 		return result;
 	}
 
@@ -326,12 +331,13 @@ public class CDOEditingService extends EMFEditingService implements
 					e.printStackTrace();
 					// List of possible exceptions.
 
-//					MessageDialog.openError(Display.getDefault()
-//							.getActiveShell(), "Error saving object",
-//							"Error saving, rolling back. ");
-					
+					// MessageDialog.openError(Display.getDefault()
+					// .getActiveShell(), "Error saving object",
+					// "Error saving, rolling back. ");
+
 					System.out.println("Can't save, rolling back");
-					((IDawnEditor) CDOEditingService.this).getDawnEditorSupport().rollback();
+					((IDawnEditor) CDOEditingService.this)
+							.getDawnEditorSupport().rollback();
 				}
 			}
 		};

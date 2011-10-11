@@ -437,6 +437,10 @@ public class NewEditServiceUser extends AbstractScreen implements
 		if (editingService.isDirty()) {
 			editingService.doSave(new NullProgressMonitor());
 		}
-
 	}
+	
+	public String getScreenName() {
+		return "Service User";
+	}
+
 }

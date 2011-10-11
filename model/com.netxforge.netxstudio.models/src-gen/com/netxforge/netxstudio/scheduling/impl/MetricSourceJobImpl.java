@@ -18,6 +18,7 @@
  */
 package com.netxforge.netxstudio.scheduling.impl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import com.netxforge.netxstudio.metrics.MetricSource;
@@ -31,7 +32,7 @@ import com.netxforge.netxstudio.scheduling.SchedulingPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.netxforge.netxstudio.scheduling.impl.MetricSourceJobImpl#getMetricSource <em>Metric Source</em>}</li>
+ *   <li>{@link com.netxforge.netxstudio.scheduling.impl.MetricSourceJobImpl#getMetricSources <em>Metric Sources</em>}</li>
  * </ul>
  * </p>
  *
@@ -62,17 +63,9 @@ public class MetricSourceJobImpl extends JobImpl implements MetricSourceJob {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public MetricSource getMetricSource() {
-		return (MetricSource)eGet(SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCE, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMetricSource(MetricSource newMetricSource) {
-		eSet(SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCE, newMetricSource);
+	@SuppressWarnings("unchecked")
+	public EList<MetricSource> getMetricSources() {
+		return (EList<MetricSource>)eGet(SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCES, true);
 	}
 
 } //MetricSourceJobImpl

@@ -9,4 +9,9 @@ public class ImportServicesWizard extends AbstractImportWizard {
 	EPackage[] getEPackages(){
 		return new EPackage[] { ServicesPackage.eINSTANCE };
 	}
+
+	@Override
+	boolean useIndexed() {
+		return false;
+	}
 }

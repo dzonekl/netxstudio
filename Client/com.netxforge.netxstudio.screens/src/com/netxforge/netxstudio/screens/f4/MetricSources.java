@@ -1,6 +1,7 @@
 package com.netxforge.netxstudio.screens.f4;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -139,46 +140,79 @@ public class MetricSources extends AbstractScreen implements
 			if (screenService != null) {
 				ISelection selection = getViewer().getSelection();
 				if (selection instanceof IStructuredSelection) {
-					Object o = ((IStructuredSelection) selection)
-							.getFirstElement();
-					if (o instanceof MetricSource) {
 
+					// Object o = ((IStructuredSelection) selection)
+					// .getFirstElement();
+
+					if (((IStructuredSelection) selection).size() > 0) {
+						@SuppressWarnings("unchecked")
+						Iterator<MetricSource> iterator = ((IStructuredSelection) selection)
+								.iterator();
+
+						List<MetricSource> metricSources = Lists
+								.newArrayList(iterator);
 						int operation = -1;
-
-						List<Job> matchingJobs = editingService
-								.getDataService().getQueryService()
-								.getJobWithMetricSource((MetricSource) o);
+						boolean showJobScreen = false;
+						// CB Replaced by model util.
+						// List<Job> matchingJobs = editingService
+						// .getDataService().getQueryService()
+						// .getJobWithMetricSource((MetricSource) o);
 
 						Resource jobResource = editingService
 								.getData(SchedulingPackage.Literals.JOB);
-						Job job = null;
+
+						Job job = modelUtils
+								.jobForMultipleObjects(
+										jobResource,
+										SchedulingPackage.Literals.METRIC_SOURCE_JOB,
+										SchedulingPackage.Literals.METRIC_SOURCE_JOB__METRIC_SOURCES,
+										metricSources);
 
 						// Edit or New if the MetricSource has a job or not.
-						if (matchingJobs.size() == 1) {
+						if (job != null) {
 							operation = Screens.OPERATION_EDIT;
-							job = matchingJobs.get(0);
+							showJobScreen = true;
 						} else {
-							operation = Screens.OPERATION_NEW;
-							job = SchedulingFactory.eINSTANCE
-									.createMetricSourceJob();
-							job.setName(((MetricSource) o).getName());
-							job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
-							job.setStartTime(modelUtils.toXMLDate(modelUtils
-									.todayAndNow()));
+							// We could be dealing with a partial match.
+							boolean yes = MessageDialog
+									.openQuestion(
+											MetricSources.this.getShell(),
+											"No existing job found ",
+											"No existing job was found for the selected Metric Sources\n"
+													+ "Do you wish to create a new job for these sources?");
 
-							if (job instanceof MetricSourceJob) {
-								((MetricSourceJob) job)
-										.setMetricSource((MetricSource) o);
+							if (yes) {
+								operation = Screens.OPERATION_NEW;
+								job = SchedulingFactory.eINSTANCE
+										.createMetricSourceJob();
+
+								MetricSource first = metricSources.get(0);
+								job.setName(first.getName()
+										+ (metricSources.size() > 1 ? ",..."
+												: ""));
+
+								job.setInterval(ModelUtils.SECONDS_IN_A_WEEK);
+								job.setStartTime(modelUtils
+										.toXMLDate(modelUtils.todayAndNow()));
+
+								if (job instanceof MetricSourceJob) {
+									((MetricSourceJob) job).getMetricSources()
+											.addAll(metricSources);
+								}
+								showJobScreen = true;
+							} else {
+								// Abort. 
 							}
-
 						}
-
-						NewEditJob newEditJob = new NewEditJob(
-								screenService.getScreenContainer(), SWT.NONE);
-						newEditJob.setOperation(operation);
-						newEditJob.setScreenService(screenService);
-						newEditJob.injectData(jobResource, job);
-						screenService.setActiveScreen(newEditJob);
+						if (showJobScreen) {
+							NewEditJob newEditJob = new NewEditJob(
+									screenService.getScreenContainer(),
+									SWT.NONE);
+							newEditJob.setOperation(operation);
+							newEditJob.setScreenService(screenService);
+							newEditJob.injectData(jobResource, job);
+							screenService.setActiveScreen(newEditJob);
+						}
 					}
 				}
 			}
@@ -350,28 +384,27 @@ public class MetricSources extends AbstractScreen implements
 		metricSourceTableViewer = new TableViewer(frmMetricSources.getBody(),
 				SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 		metricSourceTableViewer.setComparer(new CDOElementComparer());
-		
+
 		table = metricSourceTableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 4));
-		table.addSelectionListener(new SelectionAdapter(){
+		table.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				super.widgetSelected(e);
 				Object o = e.item.getData();
-				if(o instanceof MetricSource){
+				if (o instanceof MetricSource) {
 					MetricSource ms = (MetricSource) o;
-					System.out.println(ms.getName() + "--" + ms.cdoState() );
-					
+					System.out.println(ms.getName() + "--" + ms.cdoState());
+
 				}
-				
+
 			}
-			
+
 		});
-		
-		
+
 		toolkit.paintBordersFor(table);
 
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(
@@ -413,7 +446,7 @@ public class MetricSources extends AbstractScreen implements
 		metricSourceTableViewer
 				.setLabelProvider(new MetricSourceObservableMapLabelProvider(
 						observeMaps));
-		
+
 		IEMFListProperty l = EMFEditProperties.resource(editingService
 				.getEditingDomain());
 		IObservableList metricSourcesObservableList = l.observe(msResource);
@@ -443,9 +476,9 @@ public class MetricSources extends AbstractScreen implements
 					return ms.getMetricLocation();
 				}
 				case 2: {
-					
+
 					long ts = modelUtils.mostRecentContainedDated(ms);
-					if( ts == 0 ){
+					if (ts == 0) {
 						return "<unknown>";
 					}
 					Date d = new Date(ts);

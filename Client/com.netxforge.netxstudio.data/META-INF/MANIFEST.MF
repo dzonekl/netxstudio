@@ -7,7 +7,6 @@ Bundle-Activator: com.netxforge.netxstudio.data.internal.DataActivator
 Bundle-Vendor: NetXForge
 Require-Bundle: org.eclipse.core.runtime,
  com.google.inject;bundle-version="2.0.0",
- org.eclipse.emf.ecore;bundle-version="2.7.0",
  org.eclipse.emf.cdo.net4j;bundle-version="4.0.0",
  org.eclipse.net4j.tcp;bundle-version="4.0.0",
  com.netxforge.netxstudio.models;bundle-version="1.0.0";visibility:=reexport,

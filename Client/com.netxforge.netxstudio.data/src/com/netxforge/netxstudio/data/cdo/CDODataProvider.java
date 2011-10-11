@@ -129,7 +129,7 @@ public abstract class CDODataProvider implements IDataProvider {
 
 		connection.getConfig().getAuthenticator()
 				.setCredentialsProvider(credentialsProvider);
-
+		
 		try {
 			final CDOSession cdoSession = connection.getConfig().openSession();
 			((org.eclipse.emf.cdo.net4j.CDOSession.Options) cdoSession
@@ -242,6 +242,7 @@ public abstract class CDODataProvider implements IDataProvider {
 		for (int i = 0; i < views.length; i++) {
 			final CDOView view = views[i];
 			if (view.getResourceSet().equals(set)) {
+				
 				if (view.hasResource(resourcePath)) {
 					final CDOResource resource = view.getResource(resourcePath);
 					return resource;

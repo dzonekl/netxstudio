@@ -697,6 +697,11 @@ public class ScreenFormService implements IScreenFormService {
 
 	private void createPathEntry(Composite composite) {
 		String entry = composite.getClass().getSimpleName();
+		
+		if(composite instanceof IScreen){
+			entry = ((IScreen) composite).getScreenName();
+		}
+		
 		Hyperlink pathLink = formToolkit.createHyperlink(
 				this.screenBody.getScreenPath(), entry, SWT.NONE);
 		// formToolkit.adapt(pathLink);

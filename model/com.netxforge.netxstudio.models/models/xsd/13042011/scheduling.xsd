@@ -56,8 +56,8 @@
 		<xs:complexContent>
 			<xs:extension base="Job">
 				<xs:sequence>
-					<xs:element name="MetricSource" type="xs:anyURI"
-						ecore:reference="metrics:MetricSource" minOccurs="1">
+					<xs:element name="MetricSources" type="xs:anyURI"
+						ecore:reference="metrics:MetricSource" minOccurs="1" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Reference to the metric source being imported
 							</xs:documentation>

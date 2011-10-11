@@ -9,4 +9,9 @@ public class ImportOperatorWizard extends AbstractImportWizard {
 	EPackage[] getEPackages(){
 		return new EPackage[] { OperatorsPackage.eINSTANCE };
 	}
+
+	@Override
+	boolean useIndexed() {
+		return false;
+	}
 }

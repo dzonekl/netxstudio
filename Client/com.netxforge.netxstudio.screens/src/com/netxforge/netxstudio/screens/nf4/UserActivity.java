@@ -246,7 +246,11 @@ public class UserActivity extends AbstractScreen implements IDataScreenInjection
 	@Override
 	public void setOperation(int operation) {
 		this.operation = operation;
-		
 	}
 
+	public String getScreenName() {
+		return "Activity";
+	}
+
+	
 }
