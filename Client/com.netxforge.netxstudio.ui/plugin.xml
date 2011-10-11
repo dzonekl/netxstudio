@@ -230,4 +230,42 @@
             file="contexts.xml">
       </contexts>
    </extension>
+   <extension
+         point="org.eclipse.ui.activities">
+      <activity
+            description="Default activitities"
+            id="com.netxforge.netxstudio.ui.activity.ide"
+            name="admin">
+      </activity>
+      <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.ui.ide/org.eclipse.ui.views.ResourceNavigator">
+      </activityPatternBinding>
+       <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.ui.ide/org.eclipse.ui.views.BookmarkView">
+      </activityPatternBinding>
+       <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.ui.ide/org.eclipse.ui.views.TaskList">
+      </activityPatternBinding>
+       <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.ui.ide/org.eclipse.ui.views.AllMarkersView">
+      </activityPatternBinding>
+       <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.gef/org.eclipse.gef.ui.palette_view">
+      </activityPatternBinding>
+       <activityPatternBinding
+            activityId="com.netxforge.netxstudio.ui.activity.ide"
+            isEqualityPattern="true"
+            pattern="org.eclipse.ui.views/org.eclipse.ui.views.ContentOutline ">
+      </activityPatternBinding>
+   </extension>
 </plugin>

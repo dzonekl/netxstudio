@@ -45,6 +45,10 @@ import org.osgi.framework.Bundle;
  * We also expose various methods to deal with resources and our project
  * structure.
  * 
+ * Set the workspace manually. 
+ * 
+ * http://hexapixel.com/2009/01/12/rcp-workspaces
+ * 
  * @author dzonekl
  * 
  */
