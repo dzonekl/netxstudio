@@ -25,9 +25,9 @@ import com.google.inject.Module;
 import com.netxforge.netxstudio.common.CommonModule;
 import com.netxforge.netxstudio.data.IDataProvider;
 import com.netxforge.netxstudio.data.cdo.CDODataServiceModule;
+import com.netxforge.netxstudio.data.cdo.NonStatic;
+import com.netxforge.netxstudio.data.cdo.NonStaticCDODataProvider;
 import com.netxforge.netxstudio.server.test.actions.TestDataCreator;
-import com.netxforge.netxstudio.server.test.dataprovider.NonStatic;
-import com.netxforge.netxstudio.server.test.dataprovider.NonStaticCDODataProvider;
 
 /**
  * @author Christophe Bouhier christophe.bouhier@netxforge.com
